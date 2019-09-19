@@ -1,16 +1,3 @@
-# Frontend@Schaeffler
-
-![version](https://img.shields.io/badge/version-v0.0.0-green.svg)
-![Build](https://gitlab.schaeffler.com/strategic-software-factory/frontend/badges/feature/copy-files/pipeline.svg)
-![git-branch: 2.0.1](https://img.shields.io/badge/git--branch-.0.1-brightgreen)
-![markdown-include: 0.4.3](https://img.shields.io/badge/markdown--include-.4.3-brightgreen)
-
-<!-- AUTO-GENERATED-CONTENT:END -->
-
-Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
-
-🔎 **Nx is a set of Angular CLI power-ups for modern development.**
-
 ## Usage
 
 ### Quick Start & Documentation
@@ -64,29 +51,3 @@ Run `npm run prettier` to format all files.
 ### Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-# Contribute
-
-Check out our [contribution guidelines](CONTRIBUTING.md) as well as our [code of conduct](CODE_OF_CONDUCT.md) if you are interested in participating.
-
-# Changelogs
-
-An overview of the releases including the related changes can be found in our [changelogs](CHANGELOGS.md).
-
-## Update Strategy
-
-TBD
-
-## Exit Strategy
-
-TBD
-
-## Contributors
-
-Made with ❤️ by
-
-- [Fabian Kaupp](https://gitlab.schaeffler.com/kauppfbi) 🎮
-- [Robert Krause](https://gitlab.schaeffler.com/krausrbe)
-- [Christian Berndt](https://gitlab.schaeffler.com/berndcri)
-- [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
-
