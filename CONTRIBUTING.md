@@ -47,7 +47,7 @@ We decided to go with the so-called _Release Flow_ which is used and introduced 
 
 ## Reporting Bugs
 
-Before creating a bug report [check](https://gitlab.schaeffler.com/strategic-software-factory/frontend/issues) if a similar issue already exists.
+Before creating a bug report [check](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/issues) if a similar issue already exists.
 
 ## Requesting / Proposing Features
 
