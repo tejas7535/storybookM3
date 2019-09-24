@@ -1,7 +1,7 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v0.0.0-green.svg)
-![Build](https://gitlab.schaeffler.com/strategic-software-factory/frontend/badges/feature/copy-files/pipeline.svg)
+![Build](https://gitlab.schaeffler.com/schaeffler-frontend/frontend-schaeffler/badges/feature/lint-rules/pipeline.svg)
 ![git-branch: 2.0.1](https://img.shields.io/badge/git--branch-.0.1-brightgreen)
 ![markdown-include: 0.4.3](https://img.shields.io/badge/markdown--include-.4.3-brightgreen)
 
@@ -89,4 +89,3 @@ Made with ❤️ by
 - [Robert Krause](https://gitlab.schaeffler.com/krausrbe) 🎣
 - [Christian Berndt](https://gitlab.schaeffler.com/berndcri)
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
-
