@@ -1,0 +1,10 @@
+# Codeowners for schaeffler-frontend
+
+# Default codeowners for the whole monorepository
+* @kauppfbi @krausrbe @berndcri @herpisef
+
+# LTP
+apps/ltp @krausrbe @berndcri
+
+# LSP
+apps/lsp @kauppfbi @herpisef
