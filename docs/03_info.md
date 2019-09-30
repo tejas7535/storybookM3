@@ -4,4 +4,4 @@ Check out our [contribution guidelines](CONTRIBUTING.md) as well as our [code of
 
 # Changelogs
 
-An overview of the releases including the related changes can be found in our [changelogs](CHANGELOGS.md).
+An overview of the releases including the related changes can be found in our [changelogs](CHANGELOG.md).

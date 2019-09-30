@@ -43,7 +43,7 @@ We decided to go with the so-called _Release Flow_ which is used and introduced 
 
 ## Commit Message Guidelines
 
-[_coming soon_](https://jira.schaeffler.com/browse/FRON-26)
+[Commit Message Guidlines](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/wikis/Workspace/Commit-Message-Guidelines) in `schaeffler-frontend` Wiki
 
 ## Reporting Bugs
 
@@ -51,7 +51,7 @@ Before creating a bug report [check](https://gitlab.schaeffler.com/frontend-scha
 
 ## Requesting / Proposing Features
 
-Provide information why the proposed feature benefits multiple projects within the workspace or potenitally will do so in the future. Otherwise it might make sense to implement the feature within you project scope. We are happy to provide consultancy within our [Link to Communication Channel]()
+Provide information why the proposed feature benefits multiple projects within the workspace or potenitally will do so in the future. Otherwise it might make sense to implement the feature within you project scope. We are happy to provide consultancy within our [Teams Channel](https://teams.microsoft.com/l/team/19%3a2967d889ec6546729254b14c7f06c2b8%40thread.skype/conversations?groupId=a8039948-cbd2-4239-ba69-edbeefadeea2&tenantId=67416604-6509-4014-9859-45e709f53d3f)
 
 ## Code Quality
 

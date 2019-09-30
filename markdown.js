@@ -21,16 +21,17 @@ module.exports = {
       const pkg = require(pkgPath);
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
 
-      let badges = '';
+      const duplicateMinus = value => value.replace('-', '--');
 
-      targets.forEach(dep => {
-        badges += `![${dep}: ${
-          deps[dep]
-        }](https://img.shields.io/badge/${encodeURIComponent(dep).replace(
-          '-',
-          '--'
-        )}-${deps[dep].slice(1)}-brightgreen)\n`;
-      });
+      const badges = targets
+        .map(dep => {
+          return `![${dep}: ${
+            deps[dep]
+          }](https://img.shields.io/badge/${encodeURIComponent(
+            duplicateMinus(dep)
+          )}-${duplicateMinus(deps[dep])}-brightgreen)`;
+        })
+        .join('\n');
 
       return badges;
     }
