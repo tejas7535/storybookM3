@@ -1,9 +1,13 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v0.0.0-green.svg)
-![Build](https://gitlab.schaeffler.com/schaeffler-frontend/frontend-schaeffler/badges/feature/lint-rules/pipeline.svg)
-![git-branch: 2.0.1](https://img.shields.io/badge/git--branch-.0.1-brightgreen)
-![markdown-include: 0.4.3](https://img.shields.io/badge/markdown--include-.4.3-brightgreen)
+![Build](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/badges/master/pipeline.svg)
+![@angular/core: 8.2.7](https://img.shields.io/badge/%40angular%2Fcore-8.2.7-brightgreen)
+![@ngrx/store: 8.3.0](https://img.shields.io/badge/%40ngrx%2Fstore-8.3.0-brightgreen)
+![@angular/material: 8.2.1](https://img.shields.io/badge/%40angular%2Fmaterial-8.2.1-brightgreen)
+![@angular/flex-layout: 8.0.0-beta.27](https://img.shields.io/badge/%40angular%2Fflex--layout-8.0.0--beta.27-brightgreen)
+![prettier: 1.18.2](https://img.shields.io/badge/prettier-1.18.2-brightgreen)
+![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
@@ -71,15 +75,15 @@ Check out our [contribution guidelines](CONTRIBUTING.md) as well as our [code of
 
 # Changelogs
 
-An overview of the releases including the related changes can be found in our [changelogs](CHANGELOGS.md).
+An overview of the releases including the related changes can be found in our [changelogs](CHANGELOG.md).
 
 ## Update Strategy
 
-TBD
+[Update Strategy](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/wikis/10-Organization/Update-Strategy) in `schaeffler-frontend` Wiki
 
 ## Exit Strategy
 
-TBD
+[Exit Strategy](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/wikis/10-Organization/Exit-Strategy) in `schaeffler-frontend` Wiki
 
 ## Contributors
 
@@ -87,5 +91,5 @@ Made with ❤️ by
 
 - [Fabian Kaupp](https://gitlab.schaeffler.com/kauppfbi) 🎮
 - [Robert Krause](https://gitlab.schaeffler.com/krausrbe) 🎣
-- [Christian Berndt](https://gitlab.schaeffler.com/berndcri)
+- [Christian Berndt](https://gitlab.schaeffler.com/berndcri) 👇
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
