@@ -8,7 +8,6 @@
 ![@angular/flex-layout: 8.0.0-beta.27](https://img.shields.io/badge/%40angular%2Fflex--layout-8.0.0--beta.27-brightgreen)
 ![prettier: 1.18.2](https://img.shields.io/badge/prettier-1.18.2-brightgreen)
 ![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
-
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
@@ -93,3 +92,4 @@ Made with ❤️ by
 - [Robert Krause](https://gitlab.schaeffler.com/krausrbe) 🎣
 - [Christian Berndt](https://gitlab.schaeffler.com/berndcri) 👇
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
+
