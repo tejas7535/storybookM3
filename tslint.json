@@ -9,11 +9,6 @@
     "angular-tslint-rules",
     "tslint-config-prettier"
   ],
-  "extends": [
-    "tslint-config-airbnb",
-    "angular-tslint-rules",
-    "tslint-config-prettier"
-  ],
   "rules": {
     "arrow-return-shorthand": true,
     "callable-types": true,
