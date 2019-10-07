@@ -28,7 +28,6 @@
     "workspace-schematic": "./node_modules/.bin/nx workspace-schematic",
     "dep-graph": "./node_modules/.bin/nx dep-graph",
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
-    "warn-commit": "echo \"Use `npm run cm` instead of `git commit`\" && exit 1",
     "cm": "precise-commits && git-cz --no-verify",
     "release": "standard-version --message \"chore(release): Release v%s :tada: [ci skip]\" --no-verify",
     "help": "./node_modules/.bin/nx help",
@@ -36,7 +35,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run warn-commit"
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || echo You can use `npm run cm` for CLI support when creating conventional commits && exit 1"
     }
   },
   "private": true,
@@ -64,6 +63,8 @@
     "@angular/cli": "8.3.5",
     "@angular/compiler-cli": "8.2.7",
     "@angular/language-service": "8.2.7",
+    "@commitlint/cli": "8.2.0",
+    "@commitlint/config-conventional": "8.2.0",
     "@ngrx/store-devtools": "8.3.0",
     "@nrwl/schematics": "8.5.0",
     "@types/node": "12.7.5",
@@ -91,5 +92,10 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
   }
 }
