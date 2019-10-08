@@ -41,7 +41,7 @@ pipeline {
                     echo "Install NPM Dependencies"
                     
                     sh 'npm install -g cross-env npm-audit-html'
-                    // sh 'npm ci'
+                    sh 'npm ci'
                 }
             }
         }
@@ -126,6 +126,18 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run E2E Tests"
                             
+                            script {
+                                sh 'npm run affected:e2e:headless'
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false
+                        }
+                        failure {
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
                         }
                     }
                 }
