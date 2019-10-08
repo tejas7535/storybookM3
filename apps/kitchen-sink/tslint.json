@@ -1,0 +1,12 @@
+{
+  "extends": "../../tslint.json",
+  "rules": {
+    "directive-selector": [
+      true,
+      "attribute",
+      "schaefflerFrontend",
+      "camelCase"
+    ],
+    "component-selector": [true, "element", "schaeffler-frontend", "kebab-case"]
+  }
+}

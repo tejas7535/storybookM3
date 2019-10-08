@@ -1,5 +1,5 @@
 {
-  "npmScope": "@schaeffler",
+  "npmScope": "schaeffler-frontend",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
@@ -7,5 +7,12 @@
     "tslint.json": "*",
     "nx.json": "*"
   },
-  "projects": {}
+  "projects": {
+    "kitchen-sink-e2e": {
+      "tags": []
+    },
+    "kitchen-sink": {
+      "tags": []
+    }
+  }
 }
