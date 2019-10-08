@@ -134,7 +134,7 @@ pipeline {
                     post {
                         always {
                             junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
                         }
                         failure {
                             archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
