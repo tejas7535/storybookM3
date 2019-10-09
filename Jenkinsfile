@@ -1,9 +1,26 @@
 #!/usr/bin/env groovy
+import groovy.transform.Field
+
+// Variables
 def gitEnv
 def rtServer = Artifactory.server('artifactory.schaeffler.com')
 
-def builds = ['Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def builds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
 
+@Field
+def buildBase 
+
+// Functions
+def isMaster() {
+    return "${BRANCH_NAME}" == 'master'
+} 
+
+def defineBuildBase() {
+    buildBase = sh (
+        script: "git merge-base origin/master HEAD^",
+        returnStdout: true
+    ).trim()
+}
 
 pipeline {
     agent {
@@ -35,6 +52,16 @@ pipeline {
     }
 
     stages {
+        stage('Preparation') {
+            steps {
+                gitlabCommitStatus(name: STAGE_NAME) {
+                    echo "Preparation of some variables"
+                    
+                    defineBuildBase()
+                }
+            }
+        }
+
         stage('Install') {
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
@@ -127,14 +154,18 @@ pipeline {
                             echo "Run E2E Tests"
                             
                             script {
-                                sh 'npm run affected:e2e:headless'
+                                if(isMaster()){
+                                    sh "npm run master:e2e -- --base=${buildBase}"
+                                } else {
+                                    sh 'npm run affected:e2e:headless'
+                                }
                             }
                         }
                     }
                     post {
                         always {
                             junit allowEmptyResults: true, testResults: 'dist/cypress/apps/**/junit/cypress-report.xml'
-                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false
+                            archiveArtifacts artifacts: 'dist/cypress/apps/**/videos/**/*.mp4', onlyIfSuccessful: false, allowEmptyArchive: true
                         }
                         failure {
                             archiveArtifacts artifacts: 'dist/cypress/apps/**/screenshots/**/*.png', onlyIfSuccessful: false
