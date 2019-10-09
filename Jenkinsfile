@@ -155,7 +155,7 @@ pipeline {
                             
                             script {
                                 if(isMaster()){
-                                    sh 'npm run master:e2e -- --base=${buildBase}'
+                                    sh "npm run master:e2e -- --base=${buildBase}"
                                 } else {
                                     sh 'npm run affected:e2e:headless'
                                 }
