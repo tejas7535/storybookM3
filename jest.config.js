@@ -5,6 +5,24 @@ module.exports = {
   },
   resolver: '@nrwl/jest/plugins/resolver',
   moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageReporters: ['html'],
-  passWithNoTests: true
+  coverageReporters: ['html', 'lcov', 'cobertura'],
+  coverageThreshold: {
+    global: {
+      branches: 80,
+      functions: 80,
+      lines: 80
+    }
+  },
+  passWithNoTests: true,
+  collectCoverage: true,
+  reporters: [
+    'default',
+    [
+      'jest-junit',
+      {
+        outputDirectory: 'coverage/junit',
+        outputName: `test-${Date.now()}.xml`
+      }
+    ]
+  ]
 };

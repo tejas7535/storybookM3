@@ -1,6 +1,8 @@
 #!/usr/bin/env groovy
 import groovy.transform.Field
 
+/****************************************************************/
+
 // Variables
 def gitEnv
 def rtServer = Artifactory.server('artifactory.schaeffler.com')
@@ -9,6 +11,14 @@ def builds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Che
 
 @Field
 def buildBase 
+
+@Field
+def affectedApps
+
+@Field
+def affectedLibs
+
+/****************************************************************/
 
 // Functions
 def isMaster() {
@@ -21,6 +31,23 @@ def defineBuildBase() {
         returnStdout: true
     ).trim()
 }
+
+def defineAffectedAppsAndLibs() {
+    apps = sh (
+        script: "npm run --silent affected:apps -- --base=${buildBase} --plain",
+        returnStdout: true
+    ).trim().split(' ')
+    
+    libs = sh (
+        script: "npm run --silent affected:libs -- --base=${buildBase} --plain",
+        returnStdout: true
+    ).trim().split(' ')
+
+    affectedApps = apps == "" ? [] : apps
+    affectedLibs = libs == "" ? [] : apps
+}
+
+/****************************************************************/
 
 pipeline {
     agent {
@@ -52,23 +79,23 @@ pipeline {
     }
 
     stages {
+        stage('Install') {
+            steps {
+                gitlabCommitStatus(name: STAGE_NAME) {
+                    echo "Install NPM Dependencies"
+                    sh 'npm install -g cross-env npm-audit-html'
+                    sh 'npm ci'                    
+                }
+            }
+        }
+
         stage('Preparation') {
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Preparation of some variables"
                     
                     defineBuildBase()
-                }
-            }
-        }
-
-        stage('Install') {
-            steps {
-                gitlabCommitStatus(name: STAGE_NAME) {
-                    echo "Install NPM Dependencies"
-                    
-                    sh 'npm install -g cross-env npm-audit-html'
-                    sh 'npm ci'
+                    defineAffectedAppsAndLibs()
                 }
             }
         }
@@ -116,7 +143,23 @@ pipeline {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run TSLint"
-                            
+
+                            script {
+                                for(app in affectedApps) { 
+                                    sh "ng lint ${app} --force --format checkstyle > ${app}-checkstyle-result.xml"
+                                    sh "ng lint ${app}-e2e --force --format checkstyle > ${app}-e2e-checkstyle-result.xml"
+                                }
+
+                                for(lib in affectedLibs) { 
+                                    sh "ng lint ${lib} --force --format checkstyle > ${lib}-checkstyle-result.xml"
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        success {
+                            // TSLint checkstyle results
+                            recordIssues(tools: [checkStyle(id: 'ts-lint', pattern: '*checkstyle-result.xml')], aggregatingResults: true)
                         }
                     }
                 }
@@ -125,7 +168,9 @@ pipeline {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run HTML Lint"
-                            
+
+                            // no checkstyle output
+                            sh 'npm run lint:html'
                         }
                     }
                 }
@@ -134,7 +179,9 @@ pipeline {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run SCSS Lint"
-                            
+                
+                            // no checkstyle output
+                            sh 'npm run lint:scss'
                         }
                     }
                 }
@@ -143,7 +190,15 @@ pipeline {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run Unit Tests"
-                            
+
+                            sh "npm run affected:test -- --base=${buildBase}"                      
+                        }
+                    }
+                    post {
+                        success {
+                            // Unit tests results
+                            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage/**/*cobertura-coverage.xml', conditionalCoverageTargets: '80, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
+                            junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
                         }
                     }
                 }
