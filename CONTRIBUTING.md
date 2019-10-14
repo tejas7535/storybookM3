@@ -5,9 +5,10 @@
 - [Code of Conduct](#code-of-conduct)
 - [How can I Contribute?](#how-can-i-contribute)
 - [How to get started](#how-to-get-started)
+- [Git flow](#git-flow)
 - [Commit Message Guidelines](#commit-message-guidelines)
 - [Reporting Bugs](#reporting-bugs)
-- [Requesting / Proposing Features](#requesting-/-proposing-features)
+- [Requesting / Proposing Features](#requesting--proposing-features)
 - [Code Quality](#code-quality)
 
 ## Code of Conduct
@@ -41,9 +42,20 @@ We decided to go with the so-called _Release Flow_ which is used and introduced 
   - Exception: hotfixes on the release branch that do not affect current master anymore are not merged backed to master
 - Features can be hidden on production with feature flags
 
+![Git Flow](https://devblogs.microsoft.com/devops/wp-content/uploads/sites/6/2018/04/branchstrategy-releaseflow.png)
+
 ## Commit Message Guidelines
 
-[Commit Message Guidlines](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/wikis/Workspace/Commit-Message-Guidelines) in `schaeffler-frontend` Wiki
+For commit messages [conventional commits](https://www.conventionalcommits.org/en/v1.0.0/) need to be used. This ensures our automatic release process is working flawlessly. During a release convential commits are used in order to generate a changelog including all performed changes and fixes.
+
+This is where [commitlint](https://github.com/conventional-changelog/commitlint) comes in handy. It is executed before a commit is applied to verify the correct syntax has been used. If you have problems finding the right type for a commit or with the format in general do not hesitate to run
+
+```bash
+npm run cm
+```
+
+on your local machine.  
+This script starts the CLI tool [commitizen](https://github.com/commitizen/cz-cli) which supports you in creating perfect commit messages by asking the right questions in your shell.
 
 ## Reporting Bugs
 
