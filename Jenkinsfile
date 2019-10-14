@@ -1,13 +1,20 @@
 #!/usr/bin/env groovy
+
+// Imports
 import groovy.transform.Field
 
 /****************************************************************/
 
 // Variables
-def gitEnv
 def rtServer = Artifactory.server('artifactory.schaeffler.com')
+def gitEnv
 
-def builds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def builds 
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Packages', 'Deploy:Docs']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Packages', 'Deploy:Docs']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+
 
 @Field
 def buildBase 
@@ -21,34 +28,60 @@ def affectedLibs
 /****************************************************************/
 
 // Functions
+def isHotfix() {
+    return "${BRANCH_NAME}".startsWith('hotfix/')
+}
+
 def isMaster() {
     return "${BRANCH_NAME}" == 'master'
 } 
+
+def isRelease() {
+    return "${BRANCH_NAME}".startsWith('release/')
+}
 
 def defineBuildBase() {
     buildBase = sh (
         script: "git merge-base origin/master HEAD^",
         returnStdout: true
     ).trim()
+
+    println("The build base for the 'nx affected' scripts is commit ${buildBase}")
+}
+
+def mapAffectedStringToArray(String input) {
+    input = input.trim()
+
+    return input == "" ? [] : input.split(' ')
 }
 
 def defineAffectedAppsAndLibs() {
     apps = sh (
         script: "npm run --silent affected:apps -- --base=${buildBase} --plain",
         returnStdout: true
-    ).trim().split(' ')
+    )
     
     libs = sh (
         script: "npm run --silent affected:libs -- --base=${buildBase} --plain",
         returnStdout: true
-    ).trim().split(' ')
+    )
 
-    affectedApps = apps == "" ? [] : apps
-    affectedLibs = libs == "" ? [] : apps
+    affectedApps = mapAffectedStringToArray(apps)
+    affectedLibs = mapAffectedStringToArray(libs)
+}
+
+// define builds (stages), which are reported back to GitLab
+builds = featureBuilds
+
+if (isHotfix()) {
+    builds = hotfixBuilds
+} else if (isMaster()) {
+    builds = masterBuilds
+} else if (isRelease()) {
+    builds = releaseBuilds
 }
 
 /****************************************************************/
-
 pipeline {
     agent {
         label 'linux && docker && extratools'
@@ -123,7 +156,7 @@ pipeline {
                         }
                     }
 
-                    /* post {
+                   /*  post {
                         always {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'npm-audit.html', reportName: 'NPM Vulnerabilities', reportTitles: ''])
                         }
@@ -257,6 +290,9 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Build Apps"
                             
+                            script {
+                                sh 'npm run affected:build'
+                            }
                         }
                     }
                 }
@@ -295,10 +331,55 @@ pipeline {
             failFast true
             parallel {
                 stage('Deploy:Apps'){
+                    when {
+                        expression {
+                            return isMaster() || isRelease()
+                        }
+                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Deploy Apps to Artifactory"
                             
+                            script {                             
+                                sh 'mkdir dist/zips'
+
+                                // loop over apps and publish them
+                                for (app in affectedApps) {
+                                    echo "publish ${app} to Artifactory"
+
+                                    zip dir: "dist/apps/${app}",  glob: "", zipFile: "dist/zips/${app}/next.zip"
+                                    
+                                    def uploadSpec 
+                                    
+                                    if(isMaster()){
+                                        uploadSpec = """{
+                                            "files": [
+                                                {
+                                                    "pattern": "dist/zips/${app}/next.zip",
+                                                    "target": "generic-local/schaeffler-frontend/${app}/next.zip"
+                                                }
+                                            ]
+                                        }"""
+                                    } else {
+                                         uploadSpec = """{
+                                            "files": [
+                                                {
+                                                    "pattern": "dist/zips/${app}/next.zip",
+                                                    "target": "generic-local/schaeffler-frontend/${app}/latest.zip"
+                                                },
+                                                {
+                                                    "pattern": "dist/zips/${app}/next.zip",
+                                                    "target": "generic-local/schaeffler-frontend/${app}/${BRANCH_NAME}.zip"
+                                                }
+                                            ]
+                                        }"""
+                                    }
+
+                                    def buildInfo = rtServer.upload(uploadSpec)
+                                    buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
+                                    rtServer.publishBuildInfo(buildInfo)
+                                }
+                            }
                         }
                     }
                 }
