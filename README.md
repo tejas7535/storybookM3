@@ -56,3 +56,4 @@ Made with ❤️ by
 - [Robert Krause](https://gitlab.schaeffler.com/krausrbe) 🎣
 - [Christian Berndt](https://gitlab.schaeffler.com/berndcri) 👇
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
+
