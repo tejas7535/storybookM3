@@ -2,27 +2,27 @@ var markdownInclude = require('markdown-include');
 var path = require('path');
 var fs = require('fs');
 var branch = require('git-branch');
-
+const newLine = '\n';
+const versionBadge = require('markdown-magic-version-badge');
 module.exports = {
   transforms: {
-    VERSIONBADGE: require('markdown-magic-version-badge'),
+    VERSIONBADGE(_content, options, config) {
+      const badge = versionBadge(_content, options, config);
+      return `${newLine}${badge}${newLine}`;
+    },
     /* Match <!-- AUTO-GENERATED-CONTENT:START (UPDATEBADGES) --> */
     UPDATEBADGES(_content, options) {
       const currentBranch = branch.sync();
       let badges = fs.readFileSync(path.resolve(options.path)).toString();
-
       badges = badges.split('{current_branch}').join(currentBranch);
-
-      return badges;
+      return `${newLine}${badges}${newLine}`;
     },
     DEPSBADGES(_content, options) {
       const targets = options.deps.split('+');
       const pkgPath = path.resolve(process.cwd(), 'package.json');
       const pkg = require(pkgPath);
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-
       const duplicateMinus = value => value.replace('-', '--');
-
       const badges = targets
         .map(dep => {
           return `![${dep}: ${
@@ -32,8 +32,7 @@ module.exports = {
           )}-${duplicateMinus(deps[dep])}-brightgreen)`;
         })
         .join('\n');
-
-      return badges;
+      return `${newLine}${badges}${newLine}`;
     }
   },
   callback: () => {
@@ -41,13 +40,13 @@ module.exports = {
     markdownInclude.compileFiles('./docs/markdown.json').then(() => {
       console.log('README created!');
       console.log('Removing comments...');
-      const removeComments = / *?\<\!-- ([\s\S]*?) ?--\>\n\n*?/g;
+      const removeStartComments = / *?\n?\<\!-- (AUTO-GENERATED-CONTENT:START)([\s\S]*?) ?--\>\n/g;
+      const removeEndComments = /\n\n\<\!--.*(AUTO-GENERATED-CONTENT:END).*--\>/g;
       const readmePath = path.resolve('./README.md');
       const file = fs.readFileSync(readmePath, 'utf-8');
-
-      const updatedReadme = file.replace(removeComments, '');
+      let updatedReadme = file.replace(removeStartComments, '');
+      updatedReadme = updatedReadme.replace(removeEndComments, '');
       fs.writeFileSync(readmePath, updatedReadme);
-
       console.log('README updated');
     });
   }

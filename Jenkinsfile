@@ -168,6 +168,9 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run Format Check with prettier"
                             
+                            script {
+                                sh "npm run format:check -- --base=${buildBase}"
+                            }
                         }
                     }
                 }
