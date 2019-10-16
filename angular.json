@@ -29,6 +29,23 @@
             "scripts": []
           },
           "configurations": {
+            "dev": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/kitchen-sink/src/environments/environment.ts",
+                  "with": "apps/kitchen-sink/src/environments/environment.dev.ts"
+                }
+              ]
+            },
             "production": {
               "fileReplacements": [
                 {
