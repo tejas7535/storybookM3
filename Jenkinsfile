@@ -245,11 +245,7 @@ pipeline {
                             echo "Run E2E Tests"
                             
                             script {
-                                if(isMaster()){
-                                    sh "npm run master:e2e -- --base=${buildBase}"
-                                } else {
-                                    sh 'npm run affected:e2e:headless'
-                                }
+                                sh "npm run affected:e2e:headless -- --base=${buildBase}"
                             }
                         }
                     }
@@ -294,7 +290,11 @@ pipeline {
                             echo "Build Apps"
                             
                             script {
-                                sh 'npm run affected:build'
+                                if(isMaster() ||  isRelease()) {
+                                    sh "npm run affected:build -- --configuration=production --base=${buildBase}"
+                                } else {
+                                    sh "npm run affected:build -- --configuration=dev --base=${buildBase}"
+                                }  
                             }
                         }
                     }

@@ -3,6 +3,12 @@
 This app demonstrates how a project within our repository should look like.
 Feel free to use code snippets from here in your own application.
 
+## Builds & Environments
+
+It is necessary to add an `environment.dev.ts` to your application's environments folder in order to work with our CI pipeline.  
+For _feature_ and _hotfix_ branches apps/libs are built with _dev_ configuration that **can** be deployed to your staging environment.  
+For _master_ and _release_ branches apps/libs are built with _prod_ configuration that will be deployed to your qa/production environment.
+
 ## NPM scripts
 
 _All commands need to be executed from the root folder of this repository._
