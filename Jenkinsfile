@@ -10,10 +10,10 @@ def rtServer = Artifactory.server('artifactory.schaeffler.com')
 def gitEnv
 
 def builds 
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Packages', 'Deploy:Docs']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Packages', 'Deploy:Docs']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Release', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
 
 
 @Field
@@ -24,6 +24,9 @@ def affectedApps
 
 @Field
 def affectedLibs
+
+@Field
+def skipBuild = false
 
 /****************************************************************/
 
@@ -70,6 +73,28 @@ def defineAffectedAppsAndLibs() {
     affectedLibs = mapAffectedStringToArray(libs)
 }
 
+def ciSkip() {
+  ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
+
+  if (ciSkip == 0) {
+    currentBuild.description = "CI SKIP"
+    currentBuild.result = 'SUCCESS'
+    skipBuild = true
+  }
+}
+
+def setGitUser() {
+    // Set Config for Sir Henry
+    sh 'git config user.email a1173595@schaeffler.com'
+    sh 'git config user.name "Sir Henry"'
+
+}
+
+def getPackageVersion() {
+    packageJSON = readJSON file: 'package.json'
+    return packageJSON.version
+}
+
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
@@ -77,6 +102,11 @@ if (isHotfix()) {
     builds = hotfixBuilds
 } else if (isMaster()) {
     builds = masterBuilds
+
+    if (params.RELEASE){
+        builds.add('Pre-Release')
+        builds.add('Release')
+    }
 } else if (isRelease()) {
     builds = releaseBuilds
 }
@@ -106,6 +136,12 @@ pipeline {
         // cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
     }
 
+    parameters {
+        booleanParam(
+            name: 'RELEASE',
+            defaultValue: false,
+            description: 'Set "true" to trigger a production release.')
+    }
 
     tools {
         nodejs 'NodeJS LTS 10.15.0'
@@ -127,13 +163,20 @@ pipeline {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Preparation of some variables"
                     
+                    ciSkip()
                     defineBuildBase()
                     defineAffectedAppsAndLibs()
+                    setGitUser()
                 }
             }
         }
 
         stage('Quality') {
+            when {
+                expression {
+                    return !skipBuild
+                }
+            }
             failFast true
             parallel {
                 stage('OWASP'){
@@ -272,16 +315,37 @@ pipeline {
             }
         }
 
-        stage('Release') {
+        stage('Pre-Release') {
+            when {
+                expression {
+                    return params.RELEASE && !skipBuild && isMaster()
+                }
+            }
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Preparing Release"
                     
+                    script {
+                        // Generate Changelog, update Readme
+                        sh 'npm run release'
+                        sh 'npm run generate-readme'
+                        sh 'git add .'
+                        sh 'git commit --amend --no-edit'
+
+                        // Add new Release Tag
+                        def version = getPackageVersion()
+                        sh "git tag -a v${version} -m 'Release of Version ${version}'"                  
+                    }                    
                 }
             }
         }
 
         stage('Build') {
+            when {
+                expression {
+                    return !skipBuild
+                }
+            }
             failFast true
             parallel {
                 stage('Build:Apps'){
@@ -331,14 +395,14 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                expression {
+                    return !skipBuild && (isMaster() || isRelease())
+                }
+            }
             failFast true
             parallel {
                 stage('Deploy:Apps'){
-                    when {
-                        expression {
-                            return isMaster() || isRelease()
-                        }
-                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Deploy Apps to Artifactory"
@@ -409,10 +473,45 @@ pipeline {
             post {
                 success {
                     updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
+
+                    script {
+                        def version = getPackageVersion()
+                        currentBuild.description = "Version: ${version}"
+                    }
                 }
 
                 failure {
                     updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
+                }
+            }
+        } 
+
+        stage('Release') {
+            when {
+                expression {
+                    return params.RELEASE && !skipBuild && isMaster()
+                }
+            }
+            steps {
+                gitlabCommitStatus(name: STAGE_NAME) {
+                    echo "Release new version"
+                    
+                    sshagent(['GITLAB_USER_SSH_KEY']) {                        
+                        sh 'git push --follow-tags origin master'                           
+                    }                    
+                }
+            }
+        }       
+    }
+
+    post {
+        always {
+            script {
+                if (skipBuild) {
+                    masterBuilds.each {
+                        build -> updateGitlabCommitStatus name: build, state: 'success'
+                    }
+                    return
                 }
             }
         }
