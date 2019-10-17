@@ -10,11 +10,11 @@ def rtServer = Artifactory.server('artifactory.schaeffler.com')
 def gitEnv
 
 def builds 
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'OWASP', 'Audit', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
-
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Audit']
 
 @Field
 def buildBase 
@@ -41,6 +41,16 @@ def isMaster() {
 
 def isRelease() {
     return "${BRANCH_NAME}".startsWith('release/')
+}
+
+def isNightly() {
+    def buildCauses = "${currentBuild.buildCauses}"
+    boolean isStartedByTimer = false
+    if (buildCauses != null && buildCauses.contains("Started by timer")) {
+        isStartedByTimer = true
+    }
+
+    return isStartedByTimer && isMaster()
 }
 
 def defineBuildBase() {
@@ -103,7 +113,9 @@ if (isHotfix()) {
 } else if (isMaster()) {
     builds = masterBuilds
 
-    if (params.RELEASE){
+    if(isNightly()){
+        builds = nighltyBuilds
+    } else if (params.RELEASE){
         builds.add('Pre-Release')
         builds.add('Release')
     }
@@ -133,7 +145,7 @@ pipeline {
         gitlab(
             triggerOnPush: true
         )
-        // cron(env.BRANCH_NAME == 'develop' ? '@midnight' : '')
+        cron(isMaster() ? 'H H(0-3) * * 1-5' : '')
     }
 
     parameters {
@@ -152,8 +164,10 @@ pipeline {
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Install NPM Dependencies"
+                    // Install newest npm version since standard is 6.4.1 where npm audit returns a 400 Bad request error...
+                    sh 'npm install -g npm'
                     sh 'npm install -g cross-env npm-audit-html'
-                    sh 'npm ci'                    
+                    sh 'npm ci'            
                 }
             }
         }
@@ -171,10 +185,10 @@ pipeline {
             }
         }
 
-        stage('Quality') {
-            when {
+        stage('Nightly') {
+             when {
                 expression {
-                    return !skipBuild
+                    isNightly()
                 }
             }
             failFast true
@@ -193,19 +207,63 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run NPM Audit"
                             
-                            /* script {
-                                sh 'npm audit --json | npm-audit-html'
-                            } */
+                            script {
+                                try {
+                                    sh 'npm audit'
+                                } catch (error) {
+                                    sshagent(['GITLAB_USER_SSH_KEY']) {
+                                        // check if there is already a hotfix/security-patch branch
+                                        branchExists = sh (
+                                            script: "git ls-remote --heads ${GIT_URL} hotfix/security-patch | wc -l",
+                                            returnStdout: true
+                                        )
+
+                                        if (branchExists.toInteger() > 0) {
+                                            sh 'git push origin --delete hotfix/security-patch'
+                                        }
+
+                                        // create hotfix branch
+                                        sh 'git checkout -b hotfix/security-patch'
+
+                                        // try to fix vulnerabilities
+                                        sh 'npm audit fix'
+                                        sh 'git add -u'
+                                        sh 'git commit -m "chore(workspace): fix security vulnerabilities"'
+
+                                        // create merge request
+                                        sh """
+                                            git push -u origin hotfix/security-patch \
+                                            -o merge_request.create \
+                                            -o merge_request.target=master \
+                                            -o merge_request.title='WIP: chore(workspace): fix security vulnerabilities' \
+                                            -o merge_request.description='You had vulnerabilities in your project. It was a pleasure to fix them. For more information, see <a href="${JOB_URL}NPM_20Vulnerabilities/">NPM Audit Report</a>' \
+                                            -o merge_request.label='priority::hotfix' \
+                                            -o merge_request.remove_source_branch=true""".stripIndent()
+                                    }
+                                } finally {
+                                    sh 'npm audit --json | npm-audit-html'
+                                }
+                            }
                         }
                     }
 
-                   /*  post {
+                    post {
                         always {
                             publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'npm-audit.html', reportName: 'NPM Vulnerabilities', reportTitles: ''])
                         }
-                    } */
+                    }
                 }
+            }
+        }
 
+        stage('Quality') {
+            when {
+                expression {
+                    return !skipBuild && !isNightly()
+                }
+            }
+            failFast true
+            parallel {
                 stage('Format:Check'){
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
@@ -327,6 +385,7 @@ pipeline {
                     
                     script {
                         // Generate Changelog, update Readme
+                        sh 'git checkout master'
                         sh 'npm run release'
                         sh 'npm run generate-readme'
                         sh 'git add .'
@@ -343,7 +402,7 @@ pipeline {
         stage('Build') {
             when {
                 expression {
-                    return !skipBuild
+                    return !skipBuild && !isNightly()
                 }
             }
             failFast true
@@ -397,7 +456,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    return !skipBuild && (isMaster() || isRelease())
+                    return !skipBuild && (isMaster() || isRelease()) && !isNightly()
                 }
             }
             failFast true
@@ -507,6 +566,8 @@ pipeline {
     post {
         always {
             script {
+                cleanWs()
+
                 if (skipBuild) {
                     masterBuilds.each {
                         build -> updateGitlabCommitStatus name: build, state: 'success'
