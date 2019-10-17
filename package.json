@@ -37,7 +37,7 @@
     "help": "nx help",
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
-    "release": "standard-version --message \"chore(release): Release v%s :tada: [ci skip]\" --no-verify",
+    "release": "standard-version --no-verify",
     "postinstall": "npm run generate-readme"
   },
   "husky": {
