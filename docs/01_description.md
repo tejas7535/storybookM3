@@ -3,11 +3,6 @@
 ![version](https://img.shields.io/badge/version-v0.0.1-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
-<!-- AUTO-GENERATED-CONTENT:START (UPDATEBADGES:path=./docs/badges) -->
-
-![Build](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/badges/master/pipeline.svg)
-
-<!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@angular/core+@ngrx/store+@angular/material+@angular/flex-layout+prettier+commitizen) -->
 
 ![@angular/core: 8.2.7](https://img.shields.io/badge/%40angular%2Fcore-8.2.7-brightgreen)
