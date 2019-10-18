@@ -10,13 +10,6 @@ module.exports = {
       const badge = versionBadge(_content, options, config);
       return `${newLine}${badge}${newLine}`;
     },
-    /* Match <!-- AUTO-GENERATED-CONTENT:START (UPDATEBADGES) --> */
-    UPDATEBADGES(_content, options) {
-      const currentBranch = branch.sync();
-      let badges = fs.readFileSync(path.resolve(options.path)).toString();
-      badges = badges.split('{current_branch}').join(currentBranch);
-      return `${newLine}${badges}${newLine}`;
-    },
     DEPSBADGES(_content, options) {
       const targets = options.deps.split('+');
       const pkgPath = path.resolve(process.cwd(), 'package.json');
