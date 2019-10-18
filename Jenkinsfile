@@ -114,7 +114,7 @@ if (isHotfix()) {
     builds = masterBuilds
 
     if(isNightly()){
-        builds = nighltyBuilds
+        builds = nightlyBuilds
     } else if (params.RELEASE){
         builds.add('Pre-Release')
         builds.add('Release')
