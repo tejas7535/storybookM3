@@ -1,5 +1,5 @@
 {
-  "npmScope": "schaeffler-frontend",
+  "npmScope": "schaeffler",
   "implicitDependencies": {
     "angular.json": "*",
     "package.json": "*",
@@ -13,6 +13,9 @@
     },
     "kitchen-sink": {
       "tags": []
+    },
+    "shared-ui-components": {
+      "tags": ["scope:shared", "type:ui"]
     }
   }
 }
