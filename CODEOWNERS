@@ -3,8 +3,14 @@
 # Default codeowners for the whole monorepository
 * @kauppfbi @krausrbe @berndcri @herpisef
 
+# Kitchen-Sink
+apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef
+apps/kitchen-sink-e2e @kauppfbi @krausrbe @berndcri @herpisef
+
 # LTP
 apps/ltp @krausrbe @berndcri
+apps/ltp-e2e @krausrbe @berndcri
 
 # LSP
 apps/lsp @kauppfbi @herpisef
+apps/lsp-e2e @kauppfbi @herpisef
