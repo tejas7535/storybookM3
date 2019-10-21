@@ -414,9 +414,13 @@ pipeline {
                             
                             script {
                                 if(isMaster() ||  isRelease()) {
-                                    sh "npm run affected:build -- --configuration=production --base=${buildBase}"
+                                    for (app in affectedApps) {
+                                        sh 'ng build ${app} --configuration=production'
+                                    }
                                 } else {
-                                    sh "npm run affected:build -- --configuration=dev --base=${buildBase}"
+                                    for (app in affectedApps) {
+                                        sh 'ng build ${app} --configuration=dev'
+                                    }
                                 }  
                             }
                         }
@@ -428,6 +432,11 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Build Libraries as npm packages"
                             
+                            script {
+                                for(lib in affectedLibs) { 
+                                    sh "ng build ${lib}"
+                                }
+                            }
                         }
                     }
                 }

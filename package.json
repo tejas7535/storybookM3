@@ -64,6 +64,7 @@
     "@ngrx/store": "8.4.0",
     "core-js": "3.3.2",
     "rxjs": "6.5.3",
+    "tslib": "1.10.0",
     "zone.js": "0.10.2"
   },
   "devDependencies": {
@@ -71,6 +72,7 @@
     "@angular/cli": "8.3.12",
     "@angular/compiler-cli": "8.2.11",
     "@angular/language-service": "8.2.11",
+    "@angular-devkit/build-ng-packagr": "0.803.12",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
     "@ngrx/store-devtools": "8.4.0",
@@ -99,6 +101,7 @@
     "markdown-include": "0.4.3",
     "markdown-magic": "1.0.0",
     "markdown-magic-version-badge": "1.1.1",
+    "ng-packagr": "5.4.0",
     "prettier": "1.18.2",
     "pretty-quick": "2.0.0",
     "standard-version": "7.0.0",
@@ -106,6 +109,7 @@
     "stylelint-order": "3.1.1",
     "ts-jest": "24.1.0",
     "ts-node": "8.4.1",
+    "tsickle": "0.37.0",
     "tslint": "5.20.0",
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
