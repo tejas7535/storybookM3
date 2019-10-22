@@ -30,6 +30,7 @@
           },
           "configurations": {
             "dev": {
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
