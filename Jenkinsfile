@@ -166,7 +166,7 @@ pipeline {
                     echo "Install NPM Dependencies"
                     // Install newest npm version since standard is 6.4.1 where npm audit returns a 400 Bad request error...
                     sh 'npm install -g npm'
-                    sh 'npm install -g cross-env npm-audit-html'
+                    sh 'npm install -g cross-env npm-audit-html webpack-bundle-analyzer'
                     sh 'npm ci'            
                 }
             }
@@ -420,6 +420,8 @@ pipeline {
                                 } else {
                                     for (app in affectedApps) {
                                         sh 'ng build ${app} --configuration=dev'
+                                        sh "webpack-bundle-analyzer dist/apps/${app}/stats-es2015.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open" 
+                                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
                                     }
                                 }  
                             }
