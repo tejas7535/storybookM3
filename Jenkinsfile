@@ -564,8 +564,23 @@ pipeline {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Release new version"
                     
-                    sshagent(['GITLAB_USER_SSH_KEY']) {                        
-                        sh 'git push --follow-tags origin master'                           
+                    sshagent(['GITLAB_USER_SSH_KEY']) {  
+                        script {
+                            sh 'git push --follow-tags origin master'            
+
+                            // get current release branch
+                            currentReleaseBranch = sh(script: "git branch -r | grep 'origin/release/'",  returnStdout: true)
+                            currentReleaseBranch = currentReleaseBranch.replace('origin/', '')
+                            
+                            // increase release number for next release branch
+                            nextReleaseNumber = currentReleaseBranch.replace('release/', '').toInteger() + 1
+                            nextReleaseBranch = "release/${nextReleaseNumber}"
+                            
+                            // delete old branch and push new branch
+                            sh "git push origin --delete ${currentReleaseBranch}"
+                            sh "git checkout -b ${nextReleaseBranch}"
+                            sh "git push -u origin ${nextReleaseBranch}"               
+                        }                      
                     }                    
                 }
             }
