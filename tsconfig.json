@@ -18,7 +18,8 @@
     "paths": {
       "@schaeffler/shared/ui-components": [
         "libs/shared/ui-components/src/index.ts"
-      ]
+      ],
+      "@schaeffler/shared/styles": ["libs/shared/styles/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

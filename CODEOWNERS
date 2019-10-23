@@ -3,6 +3,10 @@
 # Default codeowners for the whole monorepository
 * @kauppfbi @krausrbe @berndcri @herpisef
 
+############
+### Apps ###
+############
+
 # Kitchen-Sink
 apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef
 apps/kitchen-sink-e2e @kauppfbi @krausrbe @berndcri @herpisef
@@ -14,3 +18,13 @@ apps/ltp-e2e @krausrbe @berndcri
 # LSP
 apps/lsp @kauppfbi @herpisef
 apps/lsp-e2e @kauppfbi @herpisef
+
+############
+### Libs ###
+############
+
+# shared styles
+libs/shared/styles @kauppfbi @krausrbe @berndcri @herpisef
+
+# shared ui-components
+libs/shared/ui-components @kauppfbi @krausrbe @berndcri @herpisef

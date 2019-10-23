@@ -12,10 +12,14 @@
       "tags": []
     },
     "kitchen-sink": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
     },
     "shared-ui-components": {
       "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-styles": {
+      "tags": ["scope:shared", "type:styles"]
     }
   }
 }
