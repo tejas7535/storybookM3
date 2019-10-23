@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.1...v0.0.2) (2019-10-23)
+
+
+### ✏️ Documentation
+
+* **workspace:** update readme links and content (FRON-89) ([635a910](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/635a910))
+
+
+### 🎸 Features
+
+* **sta:** setup of STA project (UFTABI-973) ([5c9f272](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5c9f272))
+* **styles:** add shared-styles library (FRON-90) ([a3808aa](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a3808aa))
+* **ui-components:** scaffold new library for ui-components (FRON-108) ([ed753f1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ed753f1))
+
+
+### 🏭 Automation
+
+* **workspace:** Add Stage for automated security patches (FRON-71) ([caf2f0f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/caf2f0f))
+* **workspace:** attach webpack-bundle-report in Jenkins Job (FRON-109) ([70eacc9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/70eacc9))
+* **workspace:** automatically open a new release branch (FRON-103) ([2c74059](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2c74059))
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fix autogeneration of changelog (FRON-111) ([a78f96f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a78f96f))
+* **workspace:** fix typo in Jenkinsfile (FRON-71) ([0c06882](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0c06882))
+* **workspace:** Handle different outcomes of npm audit (FRON-110) ([fb7e1f0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fb7e1f0))
 
 ### 0.0.1 (2019-10-17)
 
