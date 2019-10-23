@@ -82,6 +82,7 @@ In order to keep up a well formatted and consistent code all over the repository
 - htmlhint
 - prettier
 - tslint
-  A more detailed description about their usage can be found in our kitchen sink app's [README](apps/kitchen-sink/README.md).
+
+A more detailed description about their usage can be found in our kitchen sink app's [README](apps/kitchen-sink/README.md).
 
 Another aspect of code quality is strongly associated with code coverage. Please make sure to meet our threshold from at least **80 %** coverage for newly added or changed code.

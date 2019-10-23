@@ -19,6 +19,10 @@ apps/ltp-e2e @krausrbe @berndcri
 apps/lsp @kauppfbi @herpisef
 apps/lsp-e2e @kauppfbi @herpisef
 
+# STA
+apps/sta @kauppfbi @herpisef @birketho
+apps/sta-e2e @kauppfbi @herpisef @birketho
+
 ############
 ### Libs ###
 ############
@@ -28,3 +32,4 @@ libs/shared/styles @kauppfbi @krausrbe @berndcri @herpisef
 
 # shared ui-components
 libs/shared/ui-components @kauppfbi @krausrbe @berndcri @herpisef
+

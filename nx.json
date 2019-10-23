@@ -9,9 +9,17 @@
   },
   "projects": {
     "kitchen-sink-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
     },
     "kitchen-sink": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "sta-e2e": {
+      "tags": []
+    },
+    "sta": {
       "tags": [],
       "implicitDependencies": ["shared-styles"]
     },
