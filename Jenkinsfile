@@ -427,18 +427,21 @@ pipeline {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Preparing Release"
                     
-                    script {
-                        // Generate Changelog, update Readme
-                        sh 'git checkout master'
-                        sh 'npm run release'
-                        sh 'npm run generate-readme'
-                        sh 'git add .'
-                        sh 'git commit --amend --no-edit'
+                    sshagent(['GITLAB_USER_SSH_KEY']) { 
+                        script {
+                            // Generate Changelog, update Readme
+                            sh 'git fetch --all'
+                            sh 'git checkout master'
+                            sh 'npm run release'
+                            sh 'npm run generate-readme'
+                            sh 'git add .'
+                            sh 'git commit --amend --no-edit'
 
-                        // Add new Release Tag
-                        def version = getPackageVersion()
-                        sh "git tag -a v${version} -m 'Release of Version ${version}'"                  
-                    }                    
+                            // Add new Release Tag
+                            def version = getPackageVersion()
+                            sh "git tag -a v${version} -m 'Release of Version ${version}'"                  
+                        }
+                    }                      
                 }
             }
         }
@@ -624,8 +627,7 @@ pipeline {
                             nextReleaseNumber = currentReleaseBranch.replace('release/', '').toInteger() + 1
                             nextReleaseBranch = "release/${nextReleaseNumber}"
                             
-                            // delete old branch and push new branch
-                            sh "git push origin --delete ${currentReleaseBranch}"
+                            // push new branch
                             sh "git checkout -b ${nextReleaseBranch}"
                             sh "git push -u origin ${nextReleaseBranch}"               
                         }                      
