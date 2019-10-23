@@ -4,8 +4,6 @@
 
 Example: fix(scope): added error handling (JIRA-123) -->
 
-## `Hotfix`: Version
-
 ## Description
 
 A few sentences describing the overall goals of this MR.
@@ -24,5 +22,5 @@ Please describe how the reviewer can test the fix.
 - [ ] **Tests** (still) running (unit/integration/e2e tests)
 - [ ] **Test-Coverage** sufficent (Unit tests: 80%)
 - [ ] **Successful Build**
-- [ ]**Bug(s)** tested
+- [ ] **Bug(s)** tested
 - [ ] **Code Review**
