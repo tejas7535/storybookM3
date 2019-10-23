@@ -86,7 +86,7 @@ def defineAffectedAppsAndLibs() {
 def ciSkip() {
   ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
-  if (ciSkip == 0) {
+  if (ciSkip == 0 && isMaster()) {
     currentBuild.description = "CI SKIP"
     currentBuild.result = 'SUCCESS'
     skipBuild = true
