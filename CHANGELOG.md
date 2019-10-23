@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.2...v0.0.3) (2019-10-23)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** set skipBuild only on master branch (FRON-114) ([9c47f5e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9c47f5e))
+
 ### [0.0.2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.1...v0.0.2) (2019-10-23)
 
 
