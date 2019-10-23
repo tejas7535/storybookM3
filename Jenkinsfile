@@ -211,8 +211,21 @@ pipeline {
                                 try {
                                     sh 'npm audit'
                                 } catch (error) {
+                                    // Get jq binary --> temporary workaround until we have an image with jq preinstalled
+                                    sh 'mkdir ~/jq-bin'
+                                    sh 'curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 --output ~/jq-bin/jq'
+                                    sh 'chmod +x ~/jq-bin/jq'
+                                    env.PATH = "${PATH}:/home/jnkp1usr/jq-bin"
+                                    sshagent(['SSH_JUMPER']) {
+                                        doggoUrl = sh (
+                                            script: 'ssh -o StrictHostKeyChecking=no -l ltpuser 10.115.66.4  curl -L -s https://dog.ceo/api/breeds/image/random | jq .message',
+                                            returnStdout: true
+                                        ).trim()
+                                        sh "sed -i 's#@@DOGGO@@#${doggoUrl}#g' ./gitlab-templates/security-patch-description-template.md"
+                                    }
                                     sshagent(['GITLAB_USER_SSH_KEY']) {
                                         // check if there is already a hotfix/security-patch branch
+                                        // wc (word count) returns the number of words of an input. The -l flag lets it return the number of lines.
                                         branchExists = sh (
                                             script: "git ls-remote --heads ${GIT_URL} hotfix/security-patch | wc -l",
                                             returnStdout: true
@@ -227,8 +240,39 @@ pipeline {
 
                                         // try to fix vulnerabilities
                                         sh 'npm audit fix'
-                                        sh 'git add -u'
-                                        sh 'git commit -m "chore(workspace): fix security vulnerabilities"'
+
+                                        // check if something was auto fixed and commit
+                                        changesDone = sh (
+                                            script: "git status --porcelain --untracked-files='no' | wc -l",
+                                            returnStdout: true
+                                        )
+                                        if (changesDone.toInteger() > 0) {
+                                            sh 'git add -u'
+                                            sh "git commit -m 'chore(workspace): fix security vulnerabilities'"
+                                        }
+
+                                        // find vulnerabilities which could not be auto fixed
+                                        openFixesStr = sh (
+                                            script: "npm audit --json | jq '.advisories' | jq '.[].findings' | jq '.[].paths' | jq '.[]'",
+                                            returnStdout: true
+                                        )
+                                        def description
+                                        if (openFixesStr) {
+                                            openFixes = "${openFixesStr}".replaceAll('"\n', '\n').replaceAll('"', '* ').replaceAll('>', ' -- ')
+
+                                            for (line in openFixes.split('\n')) {
+                                                sh "sed -i '/@@FIXES@@/i ${line}' ./gitlab-templates/security-patch-description-template.md"
+                                            }
+
+                                            sh 'sed -i s#@@FIXES@@##g ./gitlab-templates/security-patch-description-template.md'
+                                            description = sh (
+                                                script: "cat ./gitlab-templates/security-patch-description-template.md",
+                                                returnStdout: true
+                                            )
+                                            description = "${description}".replaceAll('\n', '<br>')
+                                        } else {
+                                            description = 'You had vulnerabilities in your project. It was a pleasure to fix them. For more information, see <a href="${JOB_URL}NPM_20Vulnerabilities/">NPM Audit Report</a>'
+                                        }
 
                                         // create merge request
                                         sh """
@@ -236,7 +280,7 @@ pipeline {
                                             -o merge_request.create \
                                             -o merge_request.target=master \
                                             -o merge_request.title='WIP: chore(workspace): fix security vulnerabilities' \
-                                            -o merge_request.description='You had vulnerabilities in your project. It was a pleasure to fix them. For more information, see <a href="${JOB_URL}NPM_20Vulnerabilities/">NPM Audit Report</a>' \
+                                            -o merge_request.description="${description}" \
                                             -o merge_request.label='priority::hotfix' \
                                             -o merge_request.remove_source_branch=true""".stripIndent()
                                     }
