@@ -331,7 +331,7 @@ pipeline {
                                     sh "ng lint ${app}-e2e --force --format checkstyle > ${app}-e2e-checkstyle-result.xml"
                                 }
 
-                                for(lib in affectedLibs) { 
+                                for(lib in affectedLibs) {                                
                                     sh "ng lint ${lib} --force --format checkstyle > ${lib}-checkstyle-result.xml"
                                 }
                             }
@@ -479,8 +479,10 @@ pipeline {
                             echo "Build Libraries as npm packages"
                             
                             script {
-                                for(lib in affectedLibs) { 
-                                    sh "ng build ${lib}"
+                                for(lib in affectedLibs) {
+                                    if(lib != 'shared-styles') {
+                                        sh "ng build ${lib}"
+                                    }
                                 }
                             }
                         }
