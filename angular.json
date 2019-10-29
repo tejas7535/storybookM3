@@ -337,6 +337,25 @@
           }
         }
       }
+    },
+    "shared-cypress-utils": {
+      "projectType": "library",
+      "root": "libs/shared/cypress-utils",
+      "sourceRoot": "libs/shared/cypress-utils/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/cypress-utils/tsconfig.lib.json",
+              "libs/shared/cypress-utils/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/cypress-utils/**"]
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

@@ -9,8 +9,7 @@
   },
   "projects": {
     "kitchen-sink-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "tags": []
     },
     "kitchen-sink": {
       "tags": [],
@@ -28,6 +27,9 @@
     },
     "shared-styles": {
       "tags": ["scope:shared", "type:styles"]
+    },
+    "shared-cypress-utils": {
+      "tags": ["scope:shared", "type:utils"]
     }
   }
 }
