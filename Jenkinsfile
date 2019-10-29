@@ -105,6 +105,19 @@ def getPackageVersion() {
     return packageJSON.version
 }
 
+def getLibsToBuild() {
+    whiteList = ['shared-ui-components']
+    libsToBuild = []
+
+    for(lib in affectedLibs) {
+        if(whiteList.contains(lib)){
+            libsToBuild.add(lib)
+        }
+    }
+
+    return libsToBuild
+}
+
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
@@ -482,10 +495,8 @@ pipeline {
                             echo "Build Libraries as npm packages"
                             
                             script {
-                                for(lib in affectedLibs) {
-                                    if(lib != 'shared-styles') {
-                                        sh "ng build ${lib}"
-                                    }
+                                for(lib in getLibsToBuild()) {
+                                    sh "ng build ${lib}"
                                 }
                             }
                         }
