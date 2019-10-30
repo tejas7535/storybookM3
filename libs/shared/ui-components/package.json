@@ -4,6 +4,9 @@
   "peerDependencies": {
     "@angular/material": ">=8.2.0",
     "@angular/common": ">=8.2.0",
-    "@angular/core": ">=8.2.0"
+    "@angular/core": ">=8.2.0",
+    "@angular/animations": ">=8.2.0",
+    "@angular/platform-browser": ">=8.2.0",
+    "@angular/platform-browser-dynamic": ">=8.2.0"
   }
 }
