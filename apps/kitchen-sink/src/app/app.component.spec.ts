@@ -1,11 +1,13 @@
 import { async, TestBed } from '@angular/core/testing';
 
+import { ScrollToTopModule } from '@schaeffler/shared/ui-components';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [AppComponent]
+      declarations: [AppComponent],
+      imports: [ScrollToTopModule]
     }).compileComponents();
   }));
 

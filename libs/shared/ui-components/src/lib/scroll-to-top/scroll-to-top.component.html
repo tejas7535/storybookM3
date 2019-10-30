@@ -1,0 +1,12 @@
+<div
+  class="scroll-to-top"
+  [@toggle]="{ value: windowScrolled ? 'show' : 'hide' }"
+>
+  <button
+    class="flat-button-primary scroll-to-top-button"
+    data-cy="scrollToTop"
+    (click)="scrollToTop()"
+  >
+    <mat-icon class="icon" fontIcon="icon-arrow-up"></mat-icon>
+  </button>
+</div>

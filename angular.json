@@ -25,7 +25,10 @@
               "apps/kitchen-sink/src/favicon.ico",
               "apps/kitchen-sink/src/assets"
             ],
-            "styles": ["apps/kitchen-sink/src/styles.scss"],
+            "styles": [
+              "apps/kitchen-sink/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
             "scripts": []
           },
           "configurations": {

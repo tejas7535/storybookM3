@@ -1,2 +1,4 @@
-// tslint:disable-next-line: no-implicit-dependencies
+/* tslint:disable */
 import 'jest-preset-angular';
+import '@testing-library/jest-dom/extend-expect';
+import '../../../../global-mocks';

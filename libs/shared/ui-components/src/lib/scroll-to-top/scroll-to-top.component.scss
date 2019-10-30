@@ -1,0 +1,15 @@
+.scroll-to-top {
+  bottom: 15px;
+  position: fixed;
+  right: 15px;
+}
+
+.scroll-to-top-button {
+  height: 35px;
+  padding: 5px;
+  width: 43px;
+
+  .mat-icon {
+    display: unset !important;
+  }
+}
