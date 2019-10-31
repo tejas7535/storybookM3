@@ -23,13 +23,18 @@
       "implicitDependencies": ["shared-styles"]
     },
     "shared-ui-components": {
-      "tags": ["scope:shared", "type:ui"]
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
     },
     "shared-styles": {
       "tags": ["scope:shared", "type:styles"]
     },
     "shared-cypress-utils": {
       "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-empty-states": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
     }
   }
 }

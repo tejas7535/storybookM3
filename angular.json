@@ -29,7 +29,10 @@
               "apps/kitchen-sink/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
           },
           "configurations": {
             "dev": {
@@ -359,6 +362,44 @@
         }
       },
       "schematics": {}
+    },
+    "shared-empty-states": {
+      "projectType": "library",
+      "root": "libs/shared/empty-states",
+      "sourceRoot": "libs/shared/empty-states/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "libs/shared/empty-states/tsconfig.lib.json",
+            "project": "libs/shared/empty-states/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/empty-states/tsconfig.lib.json",
+              "libs/shared/empty-states/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/empty-states/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/empty-states/jest.config.js",
+            "tsConfig": "libs/shared/empty-states/tsconfig.spec.json",
+            "setupFile": "libs/shared/empty-states/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {
