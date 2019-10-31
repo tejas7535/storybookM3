@@ -106,7 +106,7 @@ def getPackageVersion() {
 }
 
 def getLibsToBuild() {
-    whiteList = ['shared-ui-components']
+    whiteList = ['shared-ui-components', 'shared-empty-states']
     libsToBuild = []
 
     for(lib in affectedLibs) {

@@ -1,7 +1,14 @@
-import { testScrollToTop } from '@schaeffler/shared/cypress-utils';
+import {
+  testPageNotFound,
+  testScrollToTop
+} from '@schaeffler/shared/cypress-utils';
 
 describe('Misc', () => {
   context('Desktop View', () => {
+    context('Page not Found', () => {
+      testPageNotFound('/home');
+    });
+
     context('Scroll to Top', () => {
       it('should scroll back to top', () => {
         testScrollToTop();

@@ -1,0 +1,13 @@
+{
+  "name": "@schaeffler/empty-states",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/material": ">=8.2.0",
+    "@angular/common": ">=8.2.0",
+    "@angular/core": ">=8.2.0",
+    "@angular/flex-layout": ">=8.0.0",
+    "@angular/router": ">=8.2.0",
+    "@ngneat/transloco": ">=2.3.0",
+    "rxjs": ">=6.5.0"
+  }
+}

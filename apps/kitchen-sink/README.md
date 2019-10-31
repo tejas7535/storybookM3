@@ -34,7 +34,7 @@ Run `npm run affected:test` to execute the unit tests affected by a change.
 ### E2E tests
 
 ```bash
-    ng e2e kitchen-sink
+    ng e2e kitchen-sink-e2e
 ```
 
 Run `npm run affected:e2e` to execute the end-to-end tests affected by a change.

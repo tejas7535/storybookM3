@@ -1,5 +1,5 @@
 export const testScrollToTop = () => {
-  cy.visit('/#/dashboard');
+  cy.visit('/#/home');
   cy.scrollTo('bottom')
     .get('[data-cy=scrollToTop]')
     .should('be', 'visible')

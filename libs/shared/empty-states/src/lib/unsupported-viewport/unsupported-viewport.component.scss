@@ -1,0 +1,22 @@
+.container {
+  padding: 50px 20px;
+  width: 100%;
+}
+
+.empty-state {
+  background: url('./png/empty-state-pic-resolutions-2x.png') no-repeat center;
+  height: 237px;
+  width: 165px;
+}
+
+footer {
+  font-family: 'Arial';
+  font-size: 15px;
+  letter-spacing: 0.04em;
+  line-height: 25px;
+  text-align: center;
+}
+
+header {
+  text-align: center;
+}
