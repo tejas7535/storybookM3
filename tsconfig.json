@@ -25,7 +25,8 @@
       ],
       "@schaeffler/shared/empty-states": [
         "libs/shared/empty-states/src/index.ts"
-      ]
+      ],
+      "@schaeffler/shared/responsive": ["libs/shared/responsive/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]
