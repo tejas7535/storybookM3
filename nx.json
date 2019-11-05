@@ -35,6 +35,9 @@
     "shared-empty-states": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
+    },
+    "shared-responsive": {
+      "tags": []
     }
   }
 }

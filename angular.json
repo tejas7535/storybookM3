@@ -400,6 +400,37 @@
           "styleext": "scss"
         }
       }
+    },
+    "shared-responsive": {
+      "projectType": "library",
+      "root": "libs/shared/responsive",
+      "sourceRoot": "libs/shared/responsive/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/responsive/tsconfig.lib.json",
+              "libs/shared/responsive/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/responsive/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/responsive/jest.config.js",
+            "tsConfig": "libs/shared/responsive/tsconfig.spec.json",
+            "setupFile": "libs/shared/responsive/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {
