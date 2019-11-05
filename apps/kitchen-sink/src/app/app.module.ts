@@ -8,14 +8,18 @@ import {
   TranslocoConfig,
   TranslocoModule
 } from '@ngneat/transloco';
-
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
-import { ScrollToTopModule } from '@schaeffler/shared/ui-components';
+import {
+  FooterModule,
+  ScrollToTopModule
+} from '@schaeffler/shared/ui-components';
 
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
+
+import { environment } from '../environments/environment';
 import { translocoLoader } from './transloco.loader';
 
 const translocoConfig: TranslocoConfig = {
@@ -29,6 +33,7 @@ const translocoConfig: TranslocoConfig = {
   imports: [
     BrowserModule,
     MatButtonModule,
+    FooterModule,
     ScrollToTopModule,
     HttpClientModule,
     TranslocoModule,
