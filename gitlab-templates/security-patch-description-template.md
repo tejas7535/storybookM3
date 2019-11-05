@@ -8,4 +8,4 @@ You have vulnerabilities in your project. Unfortunately I was not able to fix th
 
 Here is one of my buddies to support you.
 
-![Buddy](@@DOGGO@@ 'The goodest Buddy')
+![Buddy]("https://images.dog.ceo/breeds/bulldog-french/n02108915_1788.jpg" 'The goodest Buddy')
