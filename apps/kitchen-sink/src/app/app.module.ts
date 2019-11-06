@@ -11,7 +11,9 @@ import {
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
 import {
   FooterModule,
-  ScrollToTopModule
+  ScrollToTopModule,
+  SnackBarComponent,
+  SnackBarModule
 } from '@schaeffler/shared/ui-components';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,11 +37,13 @@ const translocoConfig: TranslocoConfig = {
     MatButtonModule,
     FooterModule,
     ScrollToTopModule,
+    SnackBarModule,
     HttpClientModule,
     TranslocoModule,
     PageNotFoundModule,
     AppRoutingModule
   ],
+  entryComponents: [SnackBarComponent],
   providers: [
     {
       provide: TRANSLOCO_CONFIG,
