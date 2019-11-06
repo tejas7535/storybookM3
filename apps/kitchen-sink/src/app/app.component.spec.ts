@@ -3,7 +3,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {
   FooterModule,
-  ScrollToTopModule
+  ScrollToTopModule,
+  SnackBarModule
 } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
@@ -12,7 +13,12 @@ describe('AppComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AppComponent],
-      imports: [FooterModule, ScrollToTopModule, RouterTestingModule]
+      imports: [
+        FooterModule,
+        ScrollToTopModule,
+        SnackBarModule,
+        RouterTestingModule
+      ]
     }).compileComponents();
   }));
 

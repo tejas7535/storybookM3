@@ -1,0 +1,57 @@
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
+
+::ng-deep snack-bar-container {
+  box-shadow: 0 0 6px 0 #666a6c;
+  height: 60px;
+  margin-bottom: 30px !important;
+  padding: 14px 14px 14px 24px !important;
+  width: 600px;
+
+  &.mat-snack-bar-container {
+    color: $schaeffler-white;
+    max-width: inherit;
+  }
+
+  &.error-message {
+    background-color: $schaeffler-red;
+  }
+
+  &.information-message {
+    background-color: $schaeffler-gray-12;
+  }
+
+  &.success-message {
+    background-color: $schaeffler-green-success;
+  }
+
+  &.warning-message {
+    background-color: $schaeffler-yellow;
+  }
+}
+
+.mat-icon {
+  float: left;
+  font-size: 33px;
+  margin-right: 20px;
+
+  &:before {
+    color: $schaeffler-white;
+  }
+}
+
+.snackbar-msg {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: $schaeffler-h4;
+  line-height: 33px;
+}
+
+.mat-button {
+  float: right;
+  font-weight: bold;
+  line-height: 33px;
+}
+
+.mat-button-wrapper {
+  color: $schaeffler-white;
+}

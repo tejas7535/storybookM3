@@ -11,7 +11,14 @@
   <p>
     Thank you for using and showing some ♥ for Nx.
   </p>
-  <button mat-raised-button color="primary">I'm just a test button</button>
+  <button
+    (click)="openSnackbar()"
+    data-cy="openSnackbar"
+    mat-raised-button
+    color="primary"
+  >
+    Open Snackbar
+  </button>
   <div class="flex github-star-container">
     <a
       href="https://github.com/nrwl/nx"
