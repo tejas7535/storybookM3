@@ -6,6 +6,7 @@
 - [How can I Contribute?](#how-can-i-contribute)
 - [How to get started](#how-to-get-started)
 - [Git flow](#git-flow)
+- [Hotfixes & Bugfixes](#hotfixes-&-bugfixes)
 - [Commit Message Guidelines](#commit-message-guidelines)
 - [Reporting Bugs](#reporting-bugs)
 - [Requesting / Proposing Features](#requesting--proposing-features)
@@ -45,9 +46,9 @@ We decided to go with the so-called _Release Flow_ which is used and introduced 
 
 ![Git Flow](https://devblogs.microsoft.com/devops/wp-content/uploads/sites/6/2018/04/branchstrategy-releaseflow.png)
 
-## Hotfixes
+## Hotfixes & Bugfixes
 
-For further information about how to handle hotfixes please refer to our [confluence space](https://confluence.schaeffler.com/pages/viewpage.action?pageId=62623272#Hotfix&Bugfix-Hotfixes)
+You can find implementation instructions for both - hotfixes as well as bugfixes - in our [Confluence space](https://confluence.schaeffler.com/pages/viewpage.action?pageId=62623272).
 
 ## Commit Message Guidelines
 

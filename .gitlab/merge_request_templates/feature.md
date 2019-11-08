@@ -21,6 +21,5 @@ Please describe how the reviewer can test the new feature.
 - [ ] **Documentation** up to date (if necessary)
 - [ ] **Tests** (still) running (unit/integration/e2e tests)
 - [ ] **Test-Coverage** sufficent (Unit tests: 80%)
-- [ ] **Successful Build**
 - [ ] **Feature** tested (if possible)
 - [ ] **Code Review** done
