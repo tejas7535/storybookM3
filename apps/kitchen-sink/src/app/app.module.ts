@@ -11,6 +11,7 @@ import {
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
 import {
   FooterModule,
+  HeaderModule,
   ScrollToTopModule,
   SnackBarComponent,
   SnackBarModule
@@ -38,6 +39,7 @@ const translocoConfig: TranslocoConfig = {
     FooterModule,
     ScrollToTopModule,
     SnackBarModule,
+    HeaderModule,
     HttpClientModule,
     TranslocoModule,
     PageNotFoundModule,

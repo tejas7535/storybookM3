@@ -1,0 +1,92 @@
+<mat-toolbar
+  class="header"
+  fxLayout="row"
+  fxLayout.xs="column"
+  fxLayout.sm="column"
+  fxLayoutAlign="space-between"
+>
+  <div *ngIf="isMobileViewPort || (unsupportedViewPort$ | async)">
+    <div
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="platform-title-mobile"
+      [transloco]="platformTitle"
+    ></div>
+  </div>
+  <div
+    fxLayout="row"
+    fxLayout.xs="column"
+    fxLayout.sm="column"
+    class="mobile-height-50"
+  >
+    <div fxLayout="row" fxLayoutAlign="start center" class="mobile-height-50">
+      <div *ngIf="toggleEnabled" class="burger-menu">
+        <mat-icon
+          id="burger-menu"
+          class="icon icon-menu"
+          (click)="toggleClicked()"
+        ></mat-icon>
+      </div>
+      <div fxLayout="column" fxLayoutAlign="center">
+        <span
+          fxHide.xs="true"
+          fxHide.sm="true"
+          class="schaeffler-h3 platform-title"
+          >{{ platformTitle | transloco }}</span
+        >
+      </div>
+      <div
+        fxShow.xs="true"
+        fxShow.sm="true"
+        fxHide.md="true"
+        fxHide.lg="true"
+        fxHide.xl="true"
+        class="margin-top-7"
+        [matMenuTriggerFor]="appMenu"
+      >
+        <mat-icon class="header-head-icon icon icon-user"></mat-icon>
+      </div>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <div fxLayout="column" fxLayoutAlign="center">
+        <div
+          [matMenuTriggerFor]="appMenu"
+          fxHide.xs="true"
+          fxHide.sm="true"
+          class="schaeffler-text header-user-menu"
+          fxLayout="row"
+          fxLayoutAlign="end center"
+          data-cy="logoutDiv"
+        >
+          <mat-icon
+            class="header-head-icon icon icon-user"
+            fxLayout="column"
+            fxLayoutAlign="center"
+          ></mat-icon>
+          <div id="headerUserName" class="header-user-menu-text">
+            {{ user }}
+          </div>
+          <mat-icon
+            class="header-user-menu-icon icon icon-arrow-down"
+            fxLayout="column"
+            fxLayoutAlign="center"
+          ></mat-icon>
+        </div>
+      </div>
+      <div class="header-logo"></div>
+    </div>
+  </div>
+</mat-toolbar>
+<mat-menu
+  class="mat-user-menu"
+  #appMenu="matMenu"
+  [overlapTrigger]="false"
+  xPosition="before"
+>
+  <button
+    mat-menu-item
+    (click)="logoutClicked()"
+    data-cy="logout"
+    transloco="GENERAL.LOGOUT"
+  ></button>
+</mat-menu>

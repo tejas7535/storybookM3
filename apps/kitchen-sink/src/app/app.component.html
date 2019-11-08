@@ -1,3 +1,10 @@
+<schaeffler-header
+  [platformTitle]="platformTitle"
+  [user]="username"
+  toggleEnabled="false"
+  (toggle)="toggleSidebar()"
+  (logout)="logoutUser()"
+></schaeffler-header>
 <router-outlet></router-outlet>
 <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
 <schaeffler-footer></schaeffler-footer>
