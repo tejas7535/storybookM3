@@ -87,6 +87,11 @@
     "use-pipe-transform-interface": true,
     "template-i18n": [false, "check-id", "check-text"],
     "no-implicit-dependencies": [true, ["dev", "@schaeffler"]],
-    "array-type": [true, "array"]
+    "array-type": [true, "array"],
+    "invalid-void": [true, { "allow-generics": ["EventEmitter", "Promise"] }],
+    "no-unbound-method": [
+      true,
+      { "ignore-static": true, "whitelist": ["expect"], "allow-typeof": true }
+    ]
   }
 }
