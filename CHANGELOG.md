@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.3...v0.0.4) (2019-11-11)
+
+
+### ✏️ Documentation
+
+* **workspace:** add bugfix mr and to link for further details on confluence (FRON-125) ([98a96e3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/98a96e3))
+
+
+### 🎸 Features
+
+* **cypress-utils:** add new library for cypress utils (FRON-100) ([6f618f4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6f618f4))
+* **empty-states:** add library empty states (FRON-98) ([e6fbfd9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e6fbfd9))
+* **responsive:** add responsive library with breakpoint service (FRON-126) ([3928e12](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3928e12))
+* **ui-components:** add footer (FRON-96) ([57de4cf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/57de4cf))
+* **ui-components:** add header (FRON-94) ([d60b38e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d60b38e))
+* **ui-components:** add scroll to top button (FRON-92) ([5dceec8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5dceec8))
+* **ui-components:** add sidebar (FRON-95) ([02a9f40](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/02a9f40))
+* **ui-components:** add snackbar (FRON-99) ([6ca66a3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6ca66a3))
+
+
+### 🏭 Automation
+
+* **workspace:** add Jenkinsfile as implicit dependency (FRON-113) ([1c352e7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1c352e7))
+* **workspace:** keep 10 builds (FRON-118) ([8bb5e21](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8bb5e21))
+* **workspace:** support hotfixes in CI pipeline (FRON-112) ([09a2076](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/09a2076))
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** fixed broken release stage & added bugfix builds (FRON-156) ([1d56da1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1d56da1))
+
 ### [0.0.3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.2...v0.0.3) (2019-10-23)
 
 
