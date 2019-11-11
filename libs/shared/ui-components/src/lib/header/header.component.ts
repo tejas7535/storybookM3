@@ -1,12 +1,6 @@
 import {
-  animate,
-  state,
-  style,
-  transition,
-  trigger
-} from '@angular/animations';
-import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   HostBinding,
@@ -15,8 +9,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  SimpleChanges,
-  ViewEncapsulation
+  SimpleChanges
 } from '@angular/core';
 import { fromEvent, merge, Observable, Subscription } from 'rxjs';
 import {
@@ -29,31 +22,17 @@ import {
   throttleTime
 } from 'rxjs/operators';
 
-import { BreakpointService } from './breakpoint-service/breakpoint.service';
+import { BreakpointService } from '../breakpoint-service/breakpoint.service';
 import { Direction } from './enums/direction.enum';
 import { VisibilityState } from './enums/visibility-state.enum';
+import { headerAnimations } from './header.animations';
 
 @Component({
   selector: 'schaeffler-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss'],
-  animations: [
-    trigger('toggle', [
-      state(
-        VisibilityState.Hidden,
-        style({ opacity: 0, transform: 'translateY(-100%)', zIndex: 0 })
-      ),
-      state(
-        VisibilityState.Visible,
-        style({ opacity: 1, transform: 'translateY(0)', zIndex: 10 })
-      ),
-      transition('* => *', animate('200ms ease-in'))
-    ])
-  ],
-  // tslint:disable-next-line: use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None
-  // TODO: enable again
-  // changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: headerAnimations,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent
   implements OnInit, AfterViewInit, OnChanges, OnDestroy {

@@ -7,5 +7,9 @@
   "GENERAL": {
     "LOGOUT": "Logout",
     "APP_NAME": "Kitchen Sink"
+  },
+  "NAVIGATION": {
+    "HOME": "Home",
+    "NOT_FOUND": "Not Found"
   }
 }
