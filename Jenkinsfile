@@ -12,6 +12,7 @@ def gitEnv
 def builds 
 def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
 def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
 def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
 def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
 def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
@@ -34,6 +35,10 @@ def skipBuild = false
 // Functions
 def isHotfix() {
     return "${BRANCH_NAME}".startsWith('hotfix/') 
+}
+
+def isBugfix() {
+    return "${BRANCH_NAME}".startsWith('bugfix/') 
 }
 
 // originates from hotfix branch that was merged into master
@@ -142,6 +147,8 @@ if (isHotfix()) {
     builds = releaseBuilds
 } else if (isCherryPick()) {
     builds = cherryPickBuilds
+} else if (isBugfix()){
+    builds = bugfixBuilds
 }
 
 /****************************************************************/
@@ -633,9 +640,6 @@ pipeline {
                     return !skipBuild && ((isMaster() && params.RELEASE) || isCherryPick() || (isHotfix() && params.RELEASE))
                 }
             }
-            environment {
-                 GITLAB_API_TOKEN = credentials('GITLAB_TOKEN')
-            }
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Release new version"
@@ -660,21 +664,19 @@ pipeline {
                                 sh "git push -u origin ${nextReleaseBranch}" 
                             } else if(isCherryPick()) {
                                 // Default Hotfix
-                                sshagent(['GITLAB_USER_SSH_KEY']) {
-                                    echo "Checking out current release branch ${currentReleaseBranch}..."
-                                    sh "git checkout ${currentReleaseBranch}"
+                                echo "Checking out current release branch ${currentReleaseBranch}..."
+                                sh "git checkout ${currentReleaseBranch}"
 
-                                    echo "Merging ${BRANCH_NAME} into current release branch ${currentReleaseBranch}..."
-                                    sh "git merge ${BRANCH_NAME}"
-                                    
-                                    echo "Release branch updatet. Pushing changes to origin..."
-                                    sh "git push origin ${currentReleaseBranch}"
+                                echo "Merging ${BRANCH_NAME} into current release branch ${currentReleaseBranch}..."
+                                sh "git merge ${BRANCH_NAME}"
+                                
+                                echo "Release branch updatet. Pushing changes to origin..."
+                                sh "git push origin ${currentReleaseBranch}"
 
-                                    echo "Updating master with new version and changelog..."
-                                    sh "git checkout master"
-                                    sh "git merge ${currentReleaseBranch}"
-                                    sh "git push origin master"
-                                }
+                                echo "Updating master with new version and changelog..."
+                                sh "git checkout master"
+                                sh "git merge ${currentReleaseBranch}"
+                                sh "git push origin master"
                             }                                       
                         }                      
                     }                    
