@@ -8,7 +8,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { BreakpointService } from './breakpoint-service/breakpoint.service';
+import { BreakpointService } from '../breakpoint-service/breakpoint.service';
 import { HeaderComponent } from './header.component';
 
 @NgModule({

@@ -1,0 +1,51 @@
+<mat-sidenav-container class="sidebar-container">
+  <mat-sidenav
+    class="sidebar"
+    mode="side"
+    [fixedInViewport]="true"
+    [fixedTopGap]="60"
+    [opened]="mode === 2 || (mode === 1 && !isMobileViewPort)"
+    [ngClass]="{ minified: mode === 1 }"
+    (swipeLeft)="toggleSidebar()"
+    [@onAnimateSidebar]="sidebarAnimation"
+  >
+    <div class="sidebar-navigation-content">
+      <div
+        *ngFor="let element of elements; trackBy: trackByFn; index as itemIndex"
+        id="sidebar-item-{{ itemIndex }}"
+        class="sidebar-item"
+        matTooltipPosition="right"
+        routerLinkActive="active"
+        [routerLink]="element.link"
+        [matTooltipDisabled]="mode !== 1"
+        [matTooltip]="element.text | transloco"
+        (click)="toggleSidebar()"
+      >
+        <div class="sidebar-item-wrapper" [ngClass]="{ minified: mode === 1 }">
+          <mat-icon class="sidebar-item-icon icon" [fontIcon]="element.icon"
+            ><span>{{ element.icon }}</span></mat-icon
+          >
+          <h4 class="sidebar-item-text">
+            {{ element.text | transloco }}
+          </h4>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    [ngStyle]="{
+      height: mode === 2 && isMobileViewPort === true ? '0' : '100%'
+    }"
+    [@onAnimateContent]="contentAnimation"
+  >
+    <div
+      *ngIf="isMobileViewPort"
+      class="swipe-area"
+      (swipeRight)="toggleSidebar()"
+    ></div>
+    <div class="main-container">
+      <ng-content></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

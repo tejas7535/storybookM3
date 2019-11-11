@@ -86,12 +86,16 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "template-i18n": [false, "check-id", "check-text"],
-    "no-implicit-dependencies": [true, ["dev", "@schaeffler"]],
+    "no-implicit-dependencies": [true, "dev", ["@schaeffler"]],
     "array-type": [true, "array"],
-    "invalid-void": [true, { "allow-generics": ["EventEmitter", "Promise"] }],
+    "invalid-void": [
+      true,
+      { "allow-generics": ["EventEmitter", "Promise", "Subject"] }
+    ],
     "no-unbound-method": [
       true,
       { "ignore-static": true, "whitelist": ["expect"], "allow-typeof": true }
-    ]
+    ],
+    "comment-type": [true, "doc", "singleline", "multiline"]
   }
 }
