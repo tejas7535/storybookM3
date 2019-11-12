@@ -249,7 +249,6 @@ pipeline {
                                             script: 'ssh -o StrictHostKeyChecking=no -l ltpuser 10.115.66.4  curl -L -s https://dog.ceo/api/breeds/image/random | jq .message',
                                             returnStdout: true
                                         ).trim()
-                                        sh "sed -i 's#@@DOGGO@@#${doggoUrl}#g' ./gitlab-templates/security-patch-description-template.md"
                                     }
                                     sshagent(['GITLAB_USER_SSH_KEY']) {
                                         // check if there is already a hotfix/security-patch branch
@@ -294,7 +293,7 @@ pipeline {
 
                                             sh 'sed -i s#@@FIXES@@##g ./gitlab-templates/security-patch-description-template.md'
                                             description = sh (
-                                                script: "cat ./gitlab-templates/security-patch-description-template.md",
+                                                script: "cat ./gitlab-templates/security-patch-description-template.md | sed 's#@@DOGGO@@#${doggoUrl}#g'",
                                                 returnStdout: true
                                             )
                                             description = "${description}".replaceAll('\n', '<br>')
