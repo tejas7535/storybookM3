@@ -1,0 +1,72 @@
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
+} from '@angular/core';
+
+import { SpeedDialFabItem } from './speed-dial-fab-item';
+import { speedDialFabAnimations } from './speed-dial-fab.animations';
+
+@Component({
+  selector: 'schaeffler-speed-dial-fab',
+  templateUrl: './speed-dial-fab.component.html',
+  styleUrls: ['./speed-dial-fab.component.scss'],
+  animations: speedDialFabAnimations,
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+export class SpeedDialFabComponent implements OnChanges {
+  @Input() primaryButton: SpeedDialFabItem = {
+    key: 'add',
+    icon: 'plus',
+    color: 'primary',
+    label: true,
+    title: 'Edit'
+  };
+
+  public primaryButtonOpen: SpeedDialFabItem = {
+    key: 'cancel',
+    icon: 'cross',
+    color: 'primary',
+    label: true,
+    title: 'Cancel'
+  };
+
+  @Input() public secondaryButtons: SpeedDialFabItem[];
+  @Input() public open = false;
+  @Input() public disabled = [];
+
+  @Output() readonly clicked: EventEmitter<string> = new EventEmitter();
+
+  public fabButtons: SpeedDialFabItem[] = [];
+
+  /**
+   * Fill or clear fabButtons expected by open-state to trigger animation
+   */
+  public ngOnChanges(change: SimpleChanges): void {
+    if (change.hasOwnProperty('open')) {
+      this.fabButtons = this.open ? this.secondaryButtons : [];
+    }
+  }
+
+  /**
+   * Emits the clicked event
+   */
+  public clickItem(key: string, event?: MouseEvent): void {
+    if (event) {
+      event.preventDefault();
+    }
+
+    this.clicked.emit(key);
+  }
+
+  /**
+   * Helps Angular to track array
+   */
+  public trackByFn(index): number {
+    return index;
+  }
+}

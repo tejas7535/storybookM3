@@ -112,4 +112,12 @@
   </pre
     >
   </details>
+
+  <schaeffler-speed-dial-fab
+    [open]="speedDialFabOpen"
+    [disabled]="speedDialFabDisabled"
+    [primaryButton]="speedDialFabPrimaryBtn"
+    [secondaryButtons]="speedDialFabSecondaryBtns"
+    (clicked)="speedDialFabClicked($event)"
+  ></schaeffler-speed-dial-fab>
 </main>

@@ -1,0 +1,45 @@
+<div id="fab-button" class="fab-container">
+  <ng-container [ngSwitch]="open">
+    <button
+      *ngSwitchCase="false"
+      [title]="primaryButton.title ? primaryButton.title : ''"
+      mat-fab
+      (click)="clickItem(primaryButton.key)"
+      [color]="primaryButton.color"
+      class="fab-button-primary"
+    >
+      <i class="icon icon-{{ primaryButton.icon }}"></i>
+    </button>
+
+    <button
+      *ngSwitchCase="true"
+      mat-fab
+      [title]="primaryButtonOpen.title"
+      (click)="clickItem(primaryButtonOpen.key, $event)"
+      [color]="primaryButtonOpen.color"
+      class="fab-button-primary"
+    >
+      <i
+        class="icon icon-{{ primaryButtonOpen.icon }}"
+        [@fabToggler]="{ value: open ? 'active' : 'inactive' }"
+      ></i>
+    </button>
+  </ng-container>
+  <div [@speedDialStagger]="fabButtons.length">
+    <button
+      *ngFor="let button of fabButtons; trackBy: trackByFn; index as iButton"
+      id="fab-save"
+      mat-mini-fab
+      [title]="button.title"
+      (click)="clickItem(button.key)"
+      [color]="button.color"
+      [disabled]="disabled[iButton] ? disabled[iButton] : false"
+      class="fab-button-secondary"
+    >
+      <i class="icon icon-{{ button.icon }}"></i>
+      <span class="btn-title" *ngIf="button.label">{{
+        button.title ? button.title : ''
+      }}</span>
+    </button>
+  </div>
+</div>

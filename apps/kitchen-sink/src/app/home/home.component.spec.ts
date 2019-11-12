@@ -1,7 +1,11 @@
 import { DebugElement } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  SnackBarModule,
+  SpeedDialFabModule
+} from '@schaeffler/shared/ui-components';
 
 import { HomeComponent } from './home.component';
 
@@ -13,7 +17,12 @@ describe('HomeComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
-      imports: [MatSnackBarModule, SnackBarModule]
+      imports: [
+        BrowserAnimationsModule,
+        MatSnackBarModule,
+        SnackBarModule,
+        SpeedDialFabModule
+      ]
     }).compileComponents();
   }));
 
@@ -50,6 +59,39 @@ describe('HomeComponent', () => {
       component.openSnackbar();
 
       expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('speedDialFabClicked', () => {
+    it('should log clicked button key', () => {
+      const key = 'edit';
+      console.log = jest.fn();
+
+      component.speedDialFabClicked(key);
+
+      expect(console.log).toHaveBeenCalledWith(
+        'Speed Dial FAB has been clicked:',
+        key
+      );
+    });
+
+    it('should toggle speedDialFabOpen on fab open', () => {
+      const key = 'conversation';
+
+      expect(component.speedDialFabOpen).toBeFalsy();
+
+      component.speedDialFabClicked(key);
+
+      expect(component.speedDialFabOpen).toBeTruthy();
+    });
+
+    it('should toggle speedDialFabOpen on fab close', () => {
+      const key = 'cancel';
+      component.speedDialFabOpen = true;
+
+      component.speedDialFabClicked(key);
+
+      expect(component.speedDialFabOpen).toBeFalsy();
     });
   });
 });
