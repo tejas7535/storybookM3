@@ -21,7 +21,8 @@ import {
   ScrollToTopModule,
   SidebarModule,
   SnackBarComponent,
-  SnackBarModule
+  SnackBarModule,
+  SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
 import { environment } from '../environments/environment';
@@ -54,7 +55,8 @@ const translocoConfig: TranslocoConfig = {
     HeaderModule,
     SidebarModule,
     PageNotFoundModule,
-    StoreModule
+    StoreModule,
+    SpeedDialFabModule
   ],
   entryComponents: [SnackBarComponent],
   providers: [
