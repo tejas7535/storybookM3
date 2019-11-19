@@ -1,0 +1,41 @@
+<mat-sidenav-container>
+  <mat-sidenav
+    #sidebar
+    fullscreen
+    position="end"
+    disableClose="true"
+    [opened]="open"
+    [mode]="(isLessThanMedium$ | async) ? 'over' : 'side'"
+    (openedChange)="onChangeState($event)"
+    fixedInViewport="true"
+    [fixedTopGap]="(isLessThanMedium$ | async) ? 73 : 60"
+  >
+    <div fxLayout="row">
+      <div fxFlex>
+        <button
+          *ngIf="toggleEnabled"
+          (click)="sidebar.toggle()"
+          mat-icon-button
+          aria-label="Filter"
+        >
+          <mat-icon class="icon" fontIcon="icon-filter"></mat-icon>
+        </button>
+      </div>
+    </div>
+    <ng-content select="[sidebar]"></ng-content>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <button
+      *ngIf="!sidebar.opened"
+      mat-mini-fab
+      data-cy="toggle-settings-sidebar"
+      class="upper-right"
+      color="primary"
+      aria-label="Filter"
+      (click)="sidebar.toggle()"
+    >
+      <mat-icon class="icon" fontIcon="icon-filter"></mat-icon>
+    </button>
+    <ng-content select="[container]"></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

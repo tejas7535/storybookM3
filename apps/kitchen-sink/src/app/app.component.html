@@ -1,4 +1,4 @@
-<div fxLayout="column">
+<div fxLayout="column" class="full-height">
   <schaeffler-header
     [platformTitle]="platformTitle"
     [sidebarMode]="sidebarMode | async"
@@ -13,8 +13,18 @@
     [mode]="sidebarMode | async"
     (toggle)="toggleSidebar()"
   >
-    <router-outlet></router-outlet>
-    <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
-    <schaeffler-footer></schaeffler-footer>
+    <schaeffler-settings-sidebar
+      toggleEnabled="true"
+      [open]="settingsSidebarOpen"
+      (openedChange)="onChangeSettingsSidebar($event)"
+    >
+      <ng-container container>
+        <router-outlet></router-outlet>
+        <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
+        <schaeffler-footer></schaeffler-footer> </ng-container
+      ><ng-container sidebar>
+        <span>I am inside the Settings Sidebar</span>
+      </ng-container>
+    </schaeffler-settings-sidebar>
   </schaeffler-sidebar>
 </div>

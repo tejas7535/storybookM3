@@ -49,6 +49,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public sidebarMode: Observable<SidebarMode>;
 
+  public settingsSidebarOpen = false;
+
   constructor(
     private readonly store: Store<AppState>,
     private readonly sidebarService: SidebarService
@@ -64,11 +66,12 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  /**
-   * Call logout as store action call
-   */
   public logoutUser(): void {
     console.log('You just logged out');
+  }
+
+  public onChangeSettingsSidebar(open: boolean): void {
+    console.log(open);
   }
 
   /**
