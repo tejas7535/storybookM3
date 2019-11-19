@@ -15,3 +15,15 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
+
+- [Usage](#usage)
+  - [Demo Application](#demo-application)
+  - [NX Quick Start & Documentation](#nx-quick-start-&-documentation)
+- [Project Setup](#project-setup)
+- [Contribution and Terms of Admission](#contribution-and-terms-of-admission)
+- [Changelog](#changelog)
+- [References](#references)
+  - [Update Strategy](#update-strategy)
+  - [Exit Strategy](#exit-strategy)
+  - [Furter Documentation](#furter-documentation)
+- [Contributors](#contributors)

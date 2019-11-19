@@ -11,9 +11,3 @@
 [30-minute video showing all Nx features](https://nx.dev/getting-started/what-is-nx)
 
 [Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
-
-### Generate an application
-
-Run `ng g @nrwl/angular:app my-app` to generate an application.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.

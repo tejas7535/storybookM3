@@ -10,6 +10,18 @@
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
+- [Usage](#usage)
+  - [Demo Application](#demo-application)
+  - [NX Quick Start & Documentation](#nx-quick-start-&-documentation)
+- [Project Setup](#project-setup)
+- [Contribution and Terms of Admission](#contribution-and-terms-of-admission)
+- [Changelog](#changelog)
+- [References](#references)
+  - [Update Strategy](#update-strategy)
+  - [Exit Strategy](#exit-strategy)
+  - [Furter Documentation](#furter-documentation)
+- [Contributors](#contributors)
+
 ## Usage
 
 ### Demo Application
@@ -24,32 +36,100 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
 
 [Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
 
-### Generate an application
+## Project Setup
 
-Run `ng g @nrwl/angular:app my-app` to generate an application.
+1. Create a new application
+   - Run `ng g @nrwl/angular:app my-app`
+2. Define Responsibilites
+   - Open `CODEOWNERS` and add entries for `my-app`:
+     ```bash
+         # my-app
+         apps/my-app @myname
+         apps/my-app @myname
+     ```
+   - `@myname` represents a gitlab username
+   - Codeowners are responsible for reviewing merge requests in your app
+3. App Configuration
+   - Edit `angular.json` and make sure to have the following configurations:
+     ```json
+         "configurations": {
+             "dev": {
+                 "statsJson": true,
+                 "optimization": true,
+                 "outputHashing": "none",
+                 "sourceMap": true,
+                 "extractCss": true,
+                 "namedChunks": true,
+                 "aot": true,
+                 "extractLicenses": true,
+                 "vendorChunk": true,
+                 "buildOptimizer": true,
+                 "fileReplacements": [
+                     {
+                     "replace": "apps/my-app/src/environments/environment.ts",
+                     "with": "apps/my-app/src/environments/environment.dev.ts"
+                     }
+                 ]
+             },
+             "production": {
+                 "fileReplacements": [
+                     {
+                     "replace": "apps/my-app/src/environments/environment.ts",
+                     "with": "apps/my-app/src/environments/environment.prod.ts"
+                     }
+                 ],
+                 "optimization": true,
+                 "outputHashing": "all",
+                 "sourceMap": false,
+                 "extractCss": true,
+                 "namedChunks": false,
+                 "aot": true,
+                 "extractLicenses": true,
+                 "vendorChunk": false,
+                 "buildOptimizer": true,
+                 "budgets": [
+                     {
+                     "type": "initial",
+                     "maximumWarning": "2mb",
+                     "maximumError": "5mb"
+                     },
+                     {
+                     "type": "anyComponentStyle",
+                     "maximumWarning": "6kb",
+                     "maximumError": "10kb"
+                     }
+                 ]
+             }
+         }
+     ```
+   - Don't forget to add a `environment.dev.ts` as well as a `environment.production` to your environments in your app.
+4. Add Deployment job
+   - Add an entry to `deployments.json` for your app:
+     ```json
+         "my-app": "/my-group/my-app/master/"
+     ```
+   - The value represents the Jenkin Job URL that should be triggered
 
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-# Contribution and Terms of Admission
+## Contribution and Terms of Admission
 
 Check out our [contribution guidelines](CONTRIBUTING.md) as well as our [code of conduct](CODE_OF_CONDUCT.md) if you are interested in participating.
 If you want to start a new project or integrate an existing one in our repository please read our [terms of admission](https://confluence.schaeffler.com/display/FRON/Terms+of+Admission) carefully.
 
-# Changelog
+## Changelog
 
 An overview of the releases including the related changes can be found in our [changelog](CHANGELOG.md).
 
-# References
+## References
 
-## Update Strategy
+### Update Strategy
 
 [Update Strategy](https://confluence.schaeffler.com/display/FRON/Update+Strategy) in `Frontend@Schaeffler` Documentation Space.
 
-## Exit Strategy
+### Exit Strategy
 
 [Exit Strategy](https://confluence.schaeffler.com/display/FRON/Exit+Strategy) in `Frontend@Schaeffler` Documentation Space.
 
-## Furter Documentation
+### Furter Documentation
 
 For further Documentation, please see our [Frontend@Schaeffler Documentation Space](https://confluence.schaeffler.com/display/FRON).
 If you are missing any content, don't hesitate to contact us in our [Teams Channel](https://teams.microsoft.com/l/team/19%3a2967d889ec6546729254b14c7f06c2b8%40thread.skype/conversations?groupId=a8039948-cbd2-4239-ba69-edbeefadeea2&tenantId=67416604-6509-4014-9859-45e709f53d3f).

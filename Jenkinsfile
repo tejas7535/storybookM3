@@ -14,8 +14,8 @@ def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:
 def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
 def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
 def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Audit']
 
 @Field
@@ -681,7 +681,37 @@ pipeline {
                     }                    
                 }
             }
-        }       
+        }     
+
+        stage('Trigger Deployments'){
+            when {
+                expression {
+                    return !skipBuild && !isNightly() && (isMaster() || isRelease())
+                }
+            }
+            steps {
+                gitlabCommitStatus(name: STAGE_NAME) {
+                    script {
+                        def deployments = readJSON file: 'deployments.json'
+
+                        for (app in affectedApps) {
+                            def url = deployments[app]
+                            def version = getPackageVersion()
+
+                            if(!url) {
+                                echo "Could not find deployment job for ${app}"
+                            } else {
+                                build job: "${url}",
+                                    parameters: [
+                                            string(name: 'BRANCH', value: "${BRANCH_NAME}"),
+                                            string(name: 'VERSION', value: "${version}")
+                                    ], wait: false
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 
     post {
