@@ -11,6 +11,7 @@ import {
   FooterModule,
   HeaderModule,
   ScrollToTopModule,
+  SettingsSidebarModule,
   SidebarMode,
   SidebarModule,
   SidebarService,
@@ -47,7 +48,8 @@ describe('AppComponent', () => {
         SnackBarModule,
         RouterTestingModule,
         HeaderModule,
-        SidebarModule
+        SidebarModule,
+        SettingsSidebarModule
       ],
       providers: [
         provideMockStore(),
@@ -92,6 +94,14 @@ describe('AppComponent', () => {
     it('should log to console when logoutUser is triggered', () => {
       jest.spyOn(console, 'log');
       component.logoutUser();
+      expect(console.log).toHaveBeenCalled();
+    });
+  });
+
+  describe('onChangeSettingsSidebar()', () => {
+    it('should log to console when called', () => {
+      jest.spyOn(console, 'log');
+      component.onChangeSettingsSidebar(true);
       expect(console.log).toHaveBeenCalled();
     });
   });

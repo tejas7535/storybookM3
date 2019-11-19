@@ -1,0 +1,25 @@
+@import 'libs/shared/styles/src';
+
+mat-sidenav-container {
+  mat-sidenav-content {
+    .mat-drawer-content {
+      overflow: unset;
+    }
+  }
+
+  mat-sidenav {
+    max-width: 100%;
+    position: fixed;
+    width: 400px;
+  }
+}
+
+.mat-drawer-container {
+  background-color: $schaeffler-gray-3;
+}
+
+.upper-right {
+  position: absolute;
+  right: 16px; // TODO: set to new stylguide generic padding
+  top: 16px; // TODO: set to new stylguide generic padding
+}

@@ -20,11 +20,6 @@
   box-shadow: rgba(0, 0, 0, 0.2) 0 3px 3px -2px, rgba(0, 0, 0, 0.14) 0 3px 4px 0,
     rgba(0, 0, 0, 0.12) 0 1px 8px 0;
   overflow-x: hidden;
-  top: 60px;
-
-  @media screen and (max-width: $screen-sm-max) {
-    top: 73px !important;
-  }
 }
 
 .sidebar-navigation-content {
@@ -174,6 +169,14 @@
   overflow: visible;
 }
 
+mat-sidenav-content {
+  top: 60px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    top: 73px;
+  }
+}
+
 /////////////////////////////////////////////////////////////////////
 //                    _ _                               _
 // _ __ ___   ___  __| (_) __ _    __ _ _   _  ___ _ __(_) ___  ___
@@ -191,10 +194,6 @@
 
   mat-sidenav-content {
     margin-left: 0 !important;
-  }
-
-  .main-container {
-    padding: 30px 20px;
   }
 }
 
@@ -214,10 +213,6 @@
 
   mat-sidenav-content {
     margin-left: 61px !important;
-  }
-
-  .main-container {
-    padding: 30px 25px;
   }
 }
 

@@ -8,8 +8,7 @@ import {
 
 @Component({
   selector: 'schaeffler-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
   public speedDialFabOpen = false;
@@ -41,8 +40,6 @@ export class HomeComponent {
   ];
 
   constructor(private readonly snackBar: MatSnackBar) {}
-
-  title = 'kitchen-sink';
 
   openSnackbar(): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {

@@ -65,6 +65,52 @@ describe('BreakpointService', () => {
     }));
   });
 
+  describe('isHandset', () => {
+    it('should return true on 400px width', async(() => {
+      resize(400);
+      service = TestBed.get(BreakpointService);
+      service.isHandset().subscribe(isHandset => expect(isHandset).toBe(true));
+    }));
+
+    it('should return true on 960px width', async(() => {
+      resize(960);
+      service = TestBed.get(BreakpointService);
+      service.isHandset().subscribe(isHandset => expect(isHandset).toBe(true));
+    }));
+
+    it('should return true on 1000px width', async(() => {
+      resize(1000);
+      service = TestBed.get(BreakpointService);
+      service.isHandset().subscribe(isHandset => expect(isHandset).toBe(false));
+    }));
+  });
+
+  describe('isLessThanMedium', () => {
+    it('should return true on 400px width', async(() => {
+      resize(400);
+      service = TestBed.get(BreakpointService);
+      service
+        .isLessThanMedium()
+        .subscribe(isLessThanMedium => expect(isLessThanMedium).toBe(true));
+    }));
+
+    it('should return true on 960px width', async(() => {
+      resize(960);
+      service = TestBed.get(BreakpointService);
+      service
+        .isLessThanMedium()
+        .subscribe(isLessThanMedium => expect(isLessThanMedium).toBe(true));
+    }));
+
+    it('should return true on 1000px width', async(() => {
+      resize(1000);
+      service = TestBed.get(BreakpointService);
+      service
+        .isLessThanMedium()
+        .subscribe(isLessThanMedium => expect(isLessThanMedium).toBe(false));
+    }));
+  });
+
   describe('unsupportedViewPort', () => {
     describe('should return false', () => {
       it('for 599px', async(() => {

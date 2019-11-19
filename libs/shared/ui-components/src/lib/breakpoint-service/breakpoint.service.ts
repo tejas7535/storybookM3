@@ -1,4 +1,8 @@
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
+import {
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState
+} from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -11,11 +15,26 @@ export class BreakpointService {
   constructor(private readonly breakpointObserver: BreakpointObserver) {}
 
   /**
-   * Returns an observable for mobileView
+   * Returns an observable for mobile view
    */
   public isMobileViewPort(): Observable<boolean> {
     return this.breakpointObserver
       .observe(['(max-width: 599px)'])
+      .pipe(map((state: BreakpointState) => state.matches));
+  }
+
+  /**
+   * Returns an observable for handset view
+   */
+  public isHandset(): Observable<boolean> {
+    return this.breakpointObserver
+      .observe(Breakpoints.Handset)
+      .pipe(map((state: BreakpointState) => state.matches));
+  }
+
+  public isLessThanMedium(): Observable<boolean> {
+    return this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
       .pipe(map((state: BreakpointState) => state.matches));
   }
 

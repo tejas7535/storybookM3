@@ -1,7 +1,11 @@
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { TranslocoModule } from '@ngneat/transloco';
+import { configureTestSuite } from 'ng-bullet';
+
 import {
   SnackBarModule,
   SpeedDialFabModule
@@ -14,17 +18,18 @@ describe('HomeComponent', () => {
   let fixture: ComponentFixture<HomeComponent>;
   let debugElement: DebugElement;
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [
         BrowserAnimationsModule,
         MatSnackBarModule,
         SnackBarModule,
-        SpeedDialFabModule
+        SpeedDialFabModule,
+        TranslocoModule
       ]
-    }).compileComponents();
-  }));
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
@@ -37,15 +42,13 @@ describe('HomeComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it(`should have as title 'kitchen-sink'`, () => {
-    expect(component.title).toEqual('kitchen-sink');
-  });
-
   it('should render title', () => {
     fixture.detectChanges();
+
+    // TODO: Use Transloco Testing Module
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to our kitchen-sink project!'
+      'en.NAVIGATION.HOME'
     );
   });
 

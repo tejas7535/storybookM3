@@ -19,6 +19,7 @@ import {
   FooterModule,
   HeaderModule,
   ScrollToTopModule,
+  SettingsSidebarModule,
   SidebarModule,
   SnackBarComponent,
   SnackBarModule,
@@ -56,7 +57,8 @@ const translocoConfig: TranslocoConfig = {
     SidebarModule,
     PageNotFoundModule,
     StoreModule,
-    SpeedDialFabModule
+    SpeedDialFabModule,
+    SettingsSidebarModule
   ],
   entryComponents: [SnackBarComponent],
   providers: [

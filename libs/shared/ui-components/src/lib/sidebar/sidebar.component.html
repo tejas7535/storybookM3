@@ -3,7 +3,7 @@
     class="sidebar"
     mode="side"
     [fixedInViewport]="true"
-    [fixedTopGap]="60"
+    [fixedTopGap]="(isLessThanMedium$ | async) ? 73 : 60"
     [opened]="mode === 2 || (mode === 1 && !isMobileViewPort)"
     [ngClass]="{ minified: mode === 1 }"
     (swipeLeft)="toggleSidebar()"
@@ -44,8 +44,6 @@
       class="swipe-area"
       (swipeRight)="toggleSidebar()"
     ></div>
-    <div class="main-container">
-      <ng-content></ng-content>
-    </div>
+    <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>
