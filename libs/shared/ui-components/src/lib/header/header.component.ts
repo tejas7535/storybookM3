@@ -11,7 +11,7 @@ import {
   Output,
   SimpleChanges
 } from '@angular/core';
-import { fromEvent, merge, Observable, Subscription } from 'rxjs';
+import { fromEvent, merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
   filter,
@@ -46,34 +46,13 @@ export class HeaderComponent
 
   @Input() sidebarMode: number;
 
-  /**
-   * Toggle flag for burgerButton
-   */
   @Input() toggleEnabled = false;
 
-  /**
-   * Title of the platform
-   */
   @Input() platformTitle: string;
-
-  /**
-   * UserName for LogoutPanel
-   */
-  @Input() user: string;
 
   isMobileViewPort: boolean;
 
-  unsupportedViewPort$: Observable<boolean>;
-
-  /**
-   * EventEmitter which is emitted after burgerMenu is clicked
-   */
   @Output() readonly toggle: EventEmitter<void> = new EventEmitter();
-
-  /**
-   * EventEmitter which is emitted if logoutButton is clicked
-   */
-  @Output() readonly logout: EventEmitter<void> = new EventEmitter();
 
   constructor(private readonly breakpointService: BreakpointService) {}
 
@@ -81,7 +60,6 @@ export class HeaderComponent
    * receives current viewPort
    */
   public ngOnInit(): void {
-    this.unsupportedViewPort$ = this.breakpointService.unsupportedViewPort();
     this.subscription.add(
       this.breakpointService
         .isMobileViewPort()
@@ -120,13 +98,6 @@ export class HeaderComponent
    */
   public toggleClicked(): void {
     this.toggle.emit();
-  }
-
-  /**
-   * Emits logout in application after button click
-   */
-  public logoutClicked(): void {
-    this.logout.emit();
   }
 
   /**

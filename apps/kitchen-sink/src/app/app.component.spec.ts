@@ -1,12 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { HAMMER_LOADER } from '@angular/platform-browser';
-import { RouterTestingModule } from '@angular/router/testing';
-
-import { Store } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { Observable, Subscriber } from 'rxjs';
 
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { HAMMER_LOADER } from '@angular/platform-browser';
+import { RouterTestingModule } from '@angular/router/testing';
+import * as transloco from '@ngneat/transloco';
+import { Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
   FooterModule,
   HeaderModule,
@@ -63,6 +63,7 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
+    spyOn(transloco, 'translate').and.returnValue('test');
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -76,7 +77,7 @@ describe('AppComponent', () => {
   });
 
   it('should set variables properly', () => {
-    expect(component.platformTitle).toEqual('GENERAL.APP_NAME');
+    expect(component.platformTitle).toEqual('test');
   });
 
   describe('OnInit', () => {
@@ -87,14 +88,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component['handleSidebarMode']).toHaveBeenCalled();
-    });
-  });
-
-  describe('logoutUser()', () => {
-    it('should log to console when logoutUser is triggered', () => {
-      jest.spyOn(console, 'log');
-      component.logoutUser();
-      expect(console.log).toHaveBeenCalled();
     });
   });
 

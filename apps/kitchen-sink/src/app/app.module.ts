@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -7,13 +7,12 @@ import {
   HAMMER_GESTURE_CONFIG
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
 import {
   TRANSLOCO_CONFIG,
   TranslocoConfig,
-  TranslocoModule
+  TranslocoModule,
+  TranslocoService
 } from '@ngneat/transloco';
-
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
 import {
   FooterModule,
@@ -38,6 +37,16 @@ const translocoConfig: TranslocoConfig = {
   availableLangs: ['en'],
   defaultLang: 'en',
   prodMode: environment.production
+};
+
+const preloadLanguage = (transloco: TranslocoService) => () =>
+  transloco.load(translocoConfig.defaultLang).toPromise();
+
+const preLoad = {
+  provide: APP_INITIALIZER,
+  multi: true,
+  useFactory: preloadLanguage,
+  deps: [TranslocoService]
 };
 
 @NgModule({
@@ -71,7 +80,8 @@ const translocoConfig: TranslocoConfig = {
       provide: TRANSLOCO_CONFIG,
       useValue: translocoConfig
     },
-    translocoLoader
+    translocoLoader,
+    preLoad
   ],
   bootstrap: [AppComponent]
 })

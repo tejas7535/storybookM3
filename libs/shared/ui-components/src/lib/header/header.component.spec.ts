@@ -1,3 +1,5 @@
+import { configureTestSuite } from 'ng-bullet';
+
 import { ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 import {
   async,
@@ -8,12 +10,10 @@ import {
 } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslocoModule } from '@ngneat/transloco';
-import { configureTestSuite } from 'ng-bullet';
 
 import { VisibilityState } from './enums/visibility-state.enum';
 import { HeaderComponent } from './header.component';
@@ -26,9 +26,8 @@ describe('In HeaderComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
-        MatToolbarModule,
-        MatMenuModule,
         MatIconModule,
+        MatToolbarModule,
         FlexLayoutModule,
         TranslocoModule
       ],
@@ -54,10 +53,8 @@ describe('In HeaderComponent', () => {
     it('should define the properties', () => {
       expect(component.toggleEnabled).toBeDefined();
       expect(component.platformTitle).toBeUndefined();
-      expect(component.user).toBeUndefined();
 
       expect(component.toggle).toBeDefined();
-      expect(component.logout).toBeDefined();
     });
 
     it('should define the default values', () => {
@@ -200,25 +197,7 @@ describe('In HeaderComponent', () => {
     });
   });
 
-  describe('logoutClicked()', () => {
-    it('should emit event', () => {
-      let eventEmitted = false;
-      component.logout.subscribe(() => (eventEmitted = true));
-
-      component.logoutClicked();
-      expect(eventEmitted).toBeTruthy();
-    });
-  });
-
   describe('template test', () => {
-    it('should display a username', () => {
-      const userName = 'Neo';
-      component.user = userName;
-      fixture.detectChanges();
-      const userMenu = document.querySelector('.header-user-menu');
-      expect(userMenu.innerHTML).toContain(userName);
-    });
-
     it('should display a platformTitle', () => {
       const platformTitle = 'Nebuchadnezzar Shipment';
       component.platformTitle = platformTitle;

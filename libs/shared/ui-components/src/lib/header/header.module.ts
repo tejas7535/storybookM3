@@ -6,10 +6,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { TranslocoModule } from '@ngneat/transloco';
 
 import { BreakpointService } from '../breakpoint-service/breakpoint.service';
 import { HeaderComponent } from './header.component';
+import { UserMenuComponent } from './user-menu/user-menu.component';
 
 @NgModule({
   imports: [
@@ -18,12 +18,11 @@ import { HeaderComponent } from './header.component';
     MatMenuModule,
     MatIconModule,
     FlexLayoutModule,
-    TranslocoModule,
     BrowserModule,
     BrowserAnimationsModule
   ],
   providers: [BreakpointService],
-  declarations: [HeaderComponent],
-  exports: [HeaderComponent]
+  declarations: [HeaderComponent, UserMenuComponent],
+  exports: [HeaderComponent, UserMenuComponent]
 })
 export class HeaderModule {}

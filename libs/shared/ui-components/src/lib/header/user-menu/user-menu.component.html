@@ -1,0 +1,52 @@
+<div
+  fxShow.xs="true"
+  fxHide.gt-xs="true"
+  class="margin-top-7"
+  fxFlexAlign="start"
+>
+  <mat-icon
+    class="head-icon icon icon-user"
+    [matMenuTriggerFor]="appMenu"
+  ></mat-icon>
+</div>
+
+<div
+  [matMenuTriggerFor]="appMenu"
+  fxHide.xs="true"
+  fxShow.sm="true"
+  class="schaeffler-text user-menu"
+  [ngClass]="{ pointer: entries.length > 0 }"
+  fxLayout="row"
+  fxLayoutAlign="end center"
+  data-cy="logoutDiv"
+  fxFlexAlign="end"
+>
+  <div
+    id="headerUserName"
+    class="user-menu-text"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+  >
+    <mat-icon class="head-icon icon icon-user"></mat-icon>
+    <span>{{ user }}</span>
+  </div>
+  <mat-icon
+    class="user-menu-icon icon icon-arrow-down"
+    fxLayout="column"
+    fxLayoutAlign="center"
+    *ngIf="entries.length > 0"
+  ></mat-icon>
+</div>
+
+<mat-menu
+  class="mat-user-menu"
+  #appMenu="matMenu"
+  [overlapTrigger]="false"
+  xPosition="before"
+>
+  <ng-container *ngFor="let entry of entries; trackBy: trackByFn">
+    <button mat-menu-item (click)="clickItem(entry.key)">
+      {{ entry.label }}
+    </button>
+  </ng-container>
+</mat-menu>

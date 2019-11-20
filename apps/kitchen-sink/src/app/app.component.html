@@ -2,11 +2,15 @@
   <schaeffler-header
     [platformTitle]="platformTitle"
     [sidebarMode]="sidebarMode | async"
-    [user]="username"
     toggleEnabled="true"
     (toggle)="toggleSidebar()"
-    (logout)="logoutUser()"
-  ></schaeffler-header>
+  >
+    <schaeffler-user-menu
+      [user]="username"
+      (clicked)="userMenuClicked($event)"
+      [entries]="userMenuEntries"
+    ></schaeffler-user-menu>
+  </schaeffler-header>
   <schaeffler-sidebar
     fxFlex
     [elements]="sidebarElements"
