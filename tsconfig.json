@@ -27,7 +27,9 @@
         "libs/shared/empty-states/src/index.ts"
       ],
       "@schaeffler/shared/responsive": ["libs/shared/responsive/src/index.ts"]
-    }
+    },
+    "resolveJsonModule": true,
+    "esModuleInterop": true
   },
   "exclude": ["node_modules", "tmp"]
 }

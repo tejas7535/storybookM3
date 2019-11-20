@@ -1,0 +1,56 @@
+@import 'libs/shared/styles/src';
+
+.user-menu {
+  height: 20px;
+  min-width: 150px;
+  text-align: right;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.head-icon {
+  color: $schaeffler-carbon-gray;
+  font-size: 24px;
+  margin: auto 5px auto 10px;
+  text-align: center;
+
+  .material-icons {
+    line-height: inherit;
+  }
+}
+
+.user-menu-text {
+  font-size: $schaeffler-text;
+  margin-right: 5px;
+  text-align: center;
+}
+
+.user-menu-icon {
+  margin-right: 10px;
+  text-align: center;
+
+  .material-icons {
+    line-height: inherit;
+  }
+}
+
+::ng-deep .mat-user-menu {
+  margin-right: 10px;
+
+  & .mat-menu-content:not(:empty) {
+    padding: 0 !important;
+  }
+}
+
+::ng-deep .mat-menu-panel {
+  min-height: auto !important;
+}
+
+.mat-menu-item {
+  color: $schaeffler-carbon-gray;
+  font-size: $schaeffler-text;
+  letter-spacing: 0.04em;
+  line-height: 25px;
+}

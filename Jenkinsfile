@@ -465,7 +465,7 @@ pipeline {
                             sh 'npm run release'
                             sh 'npm run generate-readme'
                             sh 'git add .'
-                            //sh 'git commit --amend --no-edit'
+                            sh 'git commit --amend --no-edit'
 
                             // Add new Release Tag
                             def version = getPackageVersion()

@@ -1,13 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { select, Store } from '@ngrx/store';
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { translate } from '@ngneat/transloco';
+import { select, Store } from '@ngrx/store';
 import {
   SidebarElement,
   SidebarMode,
-  SidebarService
+  SidebarService,
+  UserMenuEntry
 } from '@schaeffler/shared/ui-components';
 
 import {
@@ -24,15 +25,12 @@ import {
 export class AppComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<void> = new Subject();
 
-  /**
-   * Contains active userName
-   */
   public username = 'Test User';
+  public userMenuEntries = [
+    new UserMenuEntry('logout', translate('GENERAL.LOGOUT'))
+  ];
 
-  /**
-   * App-name for sidenav
-   */
-  public platformTitle = 'GENERAL.APP_NAME';
+  public platformTitle = translate('GENERAL.APP_NAME');
 
   public sidebarElements: SidebarElement[] = [
     {
@@ -66,8 +64,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.destroy$.next();
   }
 
-  public logoutUser(): void {
-    console.log('You just logged out');
+  /**
+   * User Menu Entry Clicked.
+   */
+  public userMenuClicked(key: string): void {
+    console.log(`You clicked the following the menu entry: ${key}`);
   }
 
   public onChangeSettingsSidebar(open: boolean): void {
