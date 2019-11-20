@@ -18,6 +18,8 @@ def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:T
 def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Packages', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Audit']
 
+def artifactoryBasePath = 'generic-local/schaeffler-frontend'
+
 @Field
 def buildBase 
 
@@ -570,7 +572,7 @@ pipeline {
                                             "files": [
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "generic-local/schaeffler-frontend/${app}/next.zip"
+                                                    "target": "${artifactoryBasePath}/${app}/next.zip"
                                                 }
                                             ]
                                         }"""
@@ -579,11 +581,11 @@ pipeline {
                                             "files": [
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "generic-local/schaeffler-frontend/${app}/latest.zip"
+                                                    "target": "${artifactoryBasePath}/${app}/latest.zip"
                                                 },
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "generic-local/schaeffler-frontend/${app}/${BRANCH_NAME}.zip"
+                                                    "target": "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
                                                 }
                                             ]
                                         }"""
@@ -698,15 +700,17 @@ pipeline {
                             def url = deployments[app]
                             def version = getPackageVersion()
 
-                            if(!url) {
-                                echo "Could not find deployment job for ${app}"
-                            } else {
+                            try {
                                 build job: "${url}",
                                     parameters: [
                                             string(name: 'BRANCH', value: "${BRANCH_NAME}"),
-                                            string(name: 'VERSION', value: "${version}")
+                                            string(name: 'VERSION', value: "${version}"),
+                                            string(name: 'ARTIFACTORY_PATH', value: "${artifactoryBasePath}/${app}")
                                     ], wait: false
-                            }
+                            } catch (error) {
+                                println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")
+                                println(error)
+                            }                            
                         }
                     }
                 }
