@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.4...v0.0.5) (2019-11-25)
+
+
+### 🎸 Features
+
+* **ui-components:** added speed dial fab (FRON-144) ([e9c4bd9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e9c4bd9))
+* **ui-components:** support custom user menu and other entries in header (FRON-149) ([6bb7299](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6bb7299))
+* **workspace:** trigger deployment jobs of affected apps (FRON-157) ([7631525](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7631525))
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** add try catch for app deployment job trigger (FRON-218) ([84c81fb](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/84c81fb))
+* **workspace:** replace token in read string instead of file (FRON-147) ([99324df](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/99324df))
+
 ### [0.0.4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.3...v0.0.4) (2019-11-11)
 
 
