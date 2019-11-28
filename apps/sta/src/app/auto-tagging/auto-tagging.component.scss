@@ -1,0 +1,38 @@
+@import 'libs/shared/styles/src';
+
+.tagging-container {
+  .textInput {
+    width: 100%;
+  }
+
+  .tags-btn {
+    margin-left: auto;
+  }
+}
+
+.chip-list-container {
+  background: $schaeffler-gray-4;
+  border-radius: 5px;
+  padding: 12px 0;
+  position: relative;
+  width: 100%;
+
+  .copy {
+    display: none;
+    position: absolute;
+    right: 8px;
+    top: 8px;
+  }
+
+  &:hover {
+    .copy {
+      display: block;
+    }
+  }
+
+  .chip {
+    .icon::before {
+      font-size: 18px;
+    }
+  }
+}

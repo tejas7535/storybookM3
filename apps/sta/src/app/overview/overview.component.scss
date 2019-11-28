@@ -1,0 +1,29 @@
+@import 'libs/shared/styles/src';
+
+.overview-elem {
+  border: 1px solid black;
+  border-radius: 5px;
+  cursor: pointer;
+  height: 120px;
+  width: 120px;
+
+  mat-icon {
+    height: 60px;
+    width: 60px;
+  }
+
+  mat-icon::before {
+    font-size: 60px;
+  }
+
+  h4 {
+    margin: 5px;
+    text-align: center;
+  }
+}
+
+.overview-elem:hover {
+  border: 2px solid $schaeffler-green-1;
+
+  color: $schaeffler-green-1;
+}

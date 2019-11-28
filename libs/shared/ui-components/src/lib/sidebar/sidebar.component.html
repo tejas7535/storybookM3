@@ -16,6 +16,7 @@
         class="sidebar-item"
         matTooltipPosition="right"
         routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
         [routerLink]="element.link"
         [matTooltipDisabled]="mode !== 1"
         [matTooltip]="element.text | transloco"

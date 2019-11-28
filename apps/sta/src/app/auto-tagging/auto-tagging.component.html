@@ -1,0 +1,63 @@
+<div class="page-container">
+  <h1>Auto Tagging</h1>
+  <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
+    <div class="main-container tagging-container" fxFlex="40%">
+      <div fxLayout="column" fxLayoutAlign="space-around start">
+        <mat-form-field class="textInput" floatLabel="always">
+          <mat-label>Text</mat-label>
+          <textarea
+            matTextareaAutosize
+            matAutosizeMinRows="10"
+            matInput
+            placeholder="Enter a text to get tags for"
+            [formControl]="textFormControl"
+          >
+          </textarea>
+          <mat-error *ngIf="!textFormControl.valid">
+            Your text must contain at least {{ minLength }} characters.
+          </mat-error>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          class="tags-btn"
+          (click)="getTags()"
+          [disabled]="!textFormControl.valid"
+        >
+          Get Tags
+        </button>
+      </div>
+    </div>
+
+    <div *ngIf="tags$ | async as tags" class="main-container" fxFlex="40%">
+      <h3>Tags</h3>
+
+      <div class="chip-list-container">
+        <button
+          mat-icon-button
+          class="copy"
+          aria-label="Copy..."
+          matTooltip="Copy tags to clipboard"
+          matTooltipPosition="below"
+          (click)="copyToClipBoard(tags)"
+        >
+          <mat-icon class="icon" fontIcon="icon-checklist"></mat-icon>
+        </button>
+        <mat-chip-list>
+          <mat-chip
+            *ngFor="let tag of tags; trackBy: trackByFn"
+            removable="true"
+            (removed)="remove(tags, tag)"
+            class="chip"
+            >{{ tag }}
+            <mat-icon
+              matChipRemove
+              class="icon"
+              fontIcon="icon-cancel"
+            ></mat-icon>
+          </mat-chip>
+        </mat-chip-list>
+      </div>
+    </div>
+  </div>
+</div>

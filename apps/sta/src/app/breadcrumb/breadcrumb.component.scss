@@ -1,0 +1,16 @@
+@import 'libs/shared/styles/src';
+
+.breadcrumb {
+  a {
+    color: $schaeffler-carbon-gray;
+  }
+
+  .active {
+    color: $schaeffler-green-1;
+    text-decoration: none;
+  }
+
+  .seperator {
+    margin: 0 10px;
+  }
+}

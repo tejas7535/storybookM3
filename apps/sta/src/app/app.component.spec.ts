@@ -1,34 +1,61 @@
-import { async, TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
-
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import {
+  FooterModule,
+  HeaderModule,
+  SettingsSidebarModule,
+  SidebarModule
+} from '@schaeffler/shared/ui-components';
+
+import { configureTestSuite } from 'ng-bullet';
+
+import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
+
+import { AppComponent } from './app.component';
+
 describe('AppComponent', () => {
-  beforeEach(async(() => {
+  let component: AppComponent;
+  let fixture: ComponentFixture<AppComponent>;
+
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [
+        BreadcrumbModule,
+        FooterModule,
+        HeaderModule,
+        RouterTestingModule,
+        SettingsSidebarModule,
+        SidebarModule
+      ],
       declarations: [AppComponent]
-    }).compileComponents();
-  }));
+    });
+  });
+
+  beforeEach(() => {
+    fixture = TestBed.createComponent(AppComponent);
+    component = fixture.componentInstance;
+  });
 
   it('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'sta'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
+  it(`should have as title 'Schaeffler Text Assistant'`, () => {
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('sta');
+    expect(app.title).toEqual('Schaeffler Text Assistant');
   });
 
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to sta!'
-    );
+  describe('toggleSidebar()', () => {
+    test('', () => {
+      component.toggleSidebar();
+    });
+  });
+
+  describe('onChangeSettingsSidebar()', () => {
+    test('', () => {
+      component.onChangeSettingsSidebar({});
+    });
   });
 });

@@ -1,0 +1,21 @@
+<div class="breadcrumb" fxLayout="row" fxLayoutAlign="start center">
+  <a
+    [routerLink]="home"
+    routerLinkActive="active"
+    [routerLinkActiveOptions]="{ exact: true }"
+  >
+    <mat-icon class="icon" fontIcon="icon-house"></mat-icon>
+  </a>
+  <span *ngIf="breadcrumb.length > 0" class="seperator"> / </span>
+  <span *ngFor="let item of breadcrumb; let i = index; trackBy: trackByFn">
+    <a
+      *ngIf="item?.url"
+      [routerLink]="[item.url]"
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      >{{ item.label }}</a
+    >
+    <span *ngIf="!item?.url">{{ item.label }}</span>
+    <span *ngIf="breadcrumb.length !== i + 1" class="seperator"> / </span>
+  </span>
+</div>
