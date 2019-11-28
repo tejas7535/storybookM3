@@ -12,14 +12,14 @@ import {
   FooterModule,
   HeaderModule,
   SettingsSidebarModule,
-  SidebarModule
+  SidebarModule,
+  SnackBarComponent,
+  SnackBarModule
 } from '@schaeffler/shared/ui-components';
 
-import { SnackBarModule } from './../../../../libs/shared/ui-components/src/lib/snackbar/snackbar.module';
 import { AppRoutingModule } from './app-routing.module';
 import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 
-import { SnackBarComponent } from './../../../../libs/shared/ui-components/src/lib/snackbar/snackbar.component';
 import { AppComponent } from './app.component';
 
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
