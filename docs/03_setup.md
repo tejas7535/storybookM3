@@ -64,10 +64,22 @@
              }
          }
      ```
-   - Don't forget to add a `environment.dev.ts` as well as a `environment.production` to your environments in your app.
+   - Don't forget to add a `environment.dev.ts` as well as a `environment.prod.ts` to your environments in your app.
 4. Add Deployment job
    - Add an entry to `deployments.json` for your app:
      ```json
          "my-app": "/my-group/my-app/master/"
      ```
    - The value represents the Jenkin Job URL that should be triggered
+5. Import shared styles by editing `angular.json`:
+   - Add `"node_modules/schaeffler-icons/style.css"` to the `styles` array
+   - Add the following to the `options` entry:
+     ```json
+        "stylePreprocessorOptions": {
+            "includePaths": ["libs/shared/styles/src"]
+        }
+     ```
+6. Further adaptions:
+   - Use `ng-bullet` configuration within your auto-generated .spec files
+   - Fix lint errors yielded by the autogeneration of your app
+   - Add `@import 'libs/shared/styles/src';` to your app's `styles.scss`

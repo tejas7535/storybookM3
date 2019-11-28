@@ -431,6 +431,150 @@
           "styleext": "scss"
         }
       }
+    },
+    "ltp": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/ltp",
+      "sourceRoot": "apps/ltp/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ltp",
+            "index": "apps/ltp/src/index.html",
+            "main": "apps/ltp/src/main.ts",
+            "polyfills": "apps/ltp/src/polyfills.ts",
+            "tsConfig": "apps/ltp/tsconfig.app.json",
+            "aot": false,
+            "assets": ["apps/ltp/src/favicon.ico", "apps/ltp/src/assets"],
+            "styles": [
+              "apps/ltp/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ltp/src/environments/environment.ts",
+                  "with": "apps/ltp/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ltp/src/environments/environment.ts",
+                  "with": "apps/ltp/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ltp:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "ltp:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ltp:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ltp/tsconfig.app.json",
+              "apps/ltp/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/ltp/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/ltp/jest.config.js",
+            "tsConfig": "apps/ltp/tsconfig.spec.json",
+            "setupFile": "apps/ltp/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "ltp-e2e": {
+      "root": "apps/ltp-e2e",
+      "sourceRoot": "apps/ltp-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ltp-e2e/cypress.json",
+            "tsConfig": "apps/ltp-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ltp:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "ltp:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/ltp-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/ltp-e2e/**"]
+          }
+        }
+      }
     }
   },
   "cli": {

@@ -39,6 +39,12 @@
     },
     "shared-responsive": {
       "tags": []
+    },
+    "ltp-e2e": {
+      "tags": []
+    },
+    "ltp": {
+      "tags": []
     }
   }
 }
