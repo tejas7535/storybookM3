@@ -227,8 +227,14 @@
             "tsConfig": "apps/sta/tsconfig.app.json",
             "aot": false,
             "assets": ["apps/sta/src/favicon.ico", "apps/sta/src/assets"],
-            "styles": ["apps/sta/src/styles.scss"],
-            "scripts": []
+            "styles": [
+              "apps/sta/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
           },
           "configurations": {
             "dev": {
@@ -244,8 +250,8 @@
               "buildOptimizer": true,
               "fileReplacements": [
                 {
-                  "replace": "apps/kitchen-sink/src/environments/environment.ts",
-                  "with": "apps/kitchen-sink/src/environments/environment.dev.ts"
+                  "replace": "apps/sta/src/environments/environment.ts",
+                  "with": "apps/sta/src/environments/environment.dev.ts"
                 }
               ]
             },

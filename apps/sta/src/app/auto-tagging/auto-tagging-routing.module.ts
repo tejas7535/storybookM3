@@ -1,0 +1,18 @@
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
+
+import { AutoTaggingComponent } from './auto-tagging.component';
+
+const routes: Routes = [
+  {
+    path: '',
+    component: AutoTaggingComponent,
+    data: { breadcrumb: 'Auto Tagging' }
+  }
+];
+
+@NgModule({
+  imports: [RouterModule.forChild(routes)],
+  exports: [RouterModule]
+})
+export class AutoTaggingRoutingModule {}
