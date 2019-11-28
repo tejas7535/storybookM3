@@ -90,11 +90,17 @@
     "array-type": [true, "array"],
     "invalid-void": [
       true,
-      { "allow-generics": ["EventEmitter", "Promise", "Subject"] }
+      {
+        "allow-generics": ["EventEmitter", "Promise", "Subject"]
+      }
     ],
     "no-unbound-method": [
       true,
-      { "ignore-static": true, "whitelist": ["expect"], "allow-typeof": true }
+      {
+        "ignore-static": true,
+        "whitelist": ["expect"],
+        "allow-typeof": true
+      }
     ],
     "comment-type": [true, "doc", "singleline", "multiline"]
   }
