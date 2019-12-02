@@ -25,7 +25,7 @@
     },
     "shared-ui-components": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-styles", "shared-assets"]
     },
     "shared-styles": {
       "tags": ["scope:shared", "type:styles"]
@@ -44,7 +44,11 @@
       "tags": []
     },
     "ltp": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-assets": {
+      "tags": ["scope:shared", "type:assets"]
     }
   }
 }
