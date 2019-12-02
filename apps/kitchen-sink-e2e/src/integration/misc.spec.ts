@@ -6,12 +6,12 @@ import {
 describe('Misc', () => {
   context('Desktop View', () => {
     context('Page not Found', () => {
-      testPageNotFound('/home');
+      testPageNotFound('/#/test', '/home');
     });
 
     context('Scroll to Top', () => {
       it('should scroll back to top', () => {
-        testScrollToTop();
+        testScrollToTop('/#/home');
       });
     });
   });
@@ -22,7 +22,7 @@ describe('Misc', () => {
     });
     context('Scroll to Top', () => {
       it('should scroll back to top', () => {
-        testScrollToTop();
+        testScrollToTop('/#/home');
       });
     });
   });
