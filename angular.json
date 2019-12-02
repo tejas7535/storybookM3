@@ -22,8 +22,12 @@
             "tsConfig": "apps/kitchen-sink/tsconfig.app.json",
             "aot": false,
             "assets": [
-              "apps/kitchen-sink/src/favicon.ico",
-              "apps/kitchen-sink/src/assets"
+              "apps/kitchen-sink/src/assets",
+              {
+                "glob": "**/*",
+                "input": "libs/shared/assets/src",
+                "output": "assets"
+              }
             ],
             "styles": [
               "apps/kitchen-sink/src/styles.scss",
@@ -581,6 +585,22 @@
           }
         }
       }
+    },
+    "shared-assets": {
+      "projectType": "library",
+      "root": "libs/shared/assets",
+      "sourceRoot": "libs/shared/assets/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["libs/shared/assets/tsconfig.lib.json"],
+            "exclude": ["**/node_modules/**", "!libs/shared/assets/**"]
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {
