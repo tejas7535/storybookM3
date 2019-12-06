@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { AuthService } from './core/auth.service';
+
 @Component({
   selector: 'sta-root',
   templateUrl: './app.component.html'
@@ -24,6 +26,10 @@ export class AppComponent {
   ];
 
   public sidebarMode = 1;
+
+  constructor(private readonly authService: AuthService) {
+    this.authService.initAuth();
+  }
 
   public toggleSidebar(): void {}
 
