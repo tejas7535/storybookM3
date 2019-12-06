@@ -230,7 +230,11 @@
             "polyfills": "apps/sta/src/polyfills.ts",
             "tsConfig": "apps/sta/tsconfig.app.json",
             "aot": false,
-            "assets": ["apps/sta/src/favicon.ico", "apps/sta/src/assets"],
+            "assets": [
+              "apps/sta/src/favicon.ico",
+              "apps/sta/src/assets",
+              "apps/sta/src/silent-refresh.html"
+            ],
             "styles": [
               "apps/sta/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"

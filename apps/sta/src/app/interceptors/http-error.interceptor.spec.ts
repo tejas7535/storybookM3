@@ -82,16 +82,6 @@ describe(`HttpErrorInterceptor`, () => {
       httpMock.verify();
     });
 
-    test('should always log response', async(() => {
-      service.getPosts().subscribe(response => {
-        expect(response).toBeTruthy();
-        expect(console.log).toHaveBeenCalled();
-      });
-      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-      httpRequest.flush('data');
-    }));
-
     test('should do nothing when no error occurs', async(() => {
       service.getPosts().subscribe(response => {
         expect(response).toBeTruthy();

@@ -19,6 +19,7 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
+import { CoreModule } from './core/core.module';
 
 import { AppComponent } from './app.component';
 
@@ -33,6 +34,7 @@ import { HammerConfig } from './config';
     BreadcrumbModule,
     BrowserAnimationsModule,
     BrowserModule,
+    CoreModule.forRoot(),
     FlexLayoutModule,
     FooterModule,
     HttpClientModule,
