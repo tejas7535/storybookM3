@@ -107,6 +107,7 @@
     "markdown-magic-version-badge": "1.1.1",
     "ng-bullet": "1.0.3",
     "ng-packagr": "5.7.1",
+    "npm-audit-html": "^1.4.0",
     "prettier": "1.19.1",
     "pretty-quick": "2.0.1",
     "standard-version": "7.0.1",
@@ -118,7 +119,8 @@
     "tslint": "5.20.1",
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
-    "typescript": "3.5.3"
+    "typescript": "3.5.3",
+    "webpack-bundle-analyzer": "^3.6.0"
   },
   "config": {
     "commitizen": {
