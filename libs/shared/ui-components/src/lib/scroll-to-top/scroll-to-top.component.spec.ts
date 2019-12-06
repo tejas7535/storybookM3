@@ -56,6 +56,14 @@ describe('ScrollToTopComponent', () => {
 
       expect(component.windowScrolled).toBeFalsy();
     });
+
+    test('should set windowScrolled on false', () => {
+      component['document'].documentElement.scrollTop = 0;
+
+      component.onWindowScroll();
+
+      expect(component.windowScrolled).toBeFalsy();
+    });
   });
 
   describe('scrollToTop', () => {
