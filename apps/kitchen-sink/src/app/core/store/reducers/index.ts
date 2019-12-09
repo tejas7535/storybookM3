@@ -1,11 +1,11 @@
 import { Params, RouterStateSnapshot } from '@angular/router';
-
 import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
   MetaReducer
 } from '@ngrx/store';
+import { BannerReducer, BannerState } from '@schaeffler/shared/ui-components';
 
 import { environment } from '../../../../environments/environment';
 import * as fromSidebarReducer from './sidebar/sidebar.reducer';
@@ -19,11 +19,13 @@ export interface RouterStateUrl {
 export interface AppState {
   sidebar: fromSidebarReducer.SidebarState;
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  banner: BannerState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   sidebar: fromSidebarReducer.reducer,
-  router: fromRouter.routerReducer
+  router: fromRouter.routerReducer,
+  banner: BannerReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -36,6 +38,7 @@ export const getRouterState = createFeatureSelector<
 export const getSidebarState = createFeatureSelector<
   fromSidebarReducer.SidebarState
 >('sidebar');
+export const getBannerState = createFeatureSelector<BannerState>('banner');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

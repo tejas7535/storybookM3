@@ -7,6 +7,7 @@ import {
   HAMMER_GESTURE_CONFIG
 } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {
   TRANSLOCO_CONFIG,
   TranslocoConfig,
@@ -15,6 +16,7 @@ import {
 } from '@ngneat/transloco';
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
 import {
+  BannerModule,
   FooterModule,
   HeaderModule,
   ScrollToTopModule,
@@ -25,11 +27,14 @@ import {
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { CustomBannerModule } from './shared/components/custom-banner/custom-banner.module';
+
 import { AppComponent } from './app.component';
-import { StoreModule } from './core/store';
 import { HomeComponent } from './home/home.component';
+
+import { environment } from '../environments/environment';
+import { StoreModule } from './core/store';
 import { HammerConfig } from './shared/config';
 import { translocoLoader } from './transloco.loader';
 
@@ -52,6 +57,7 @@ const preLoad = {
 @NgModule({
   declarations: [AppComponent, HomeComponent],
   imports: [
+    BannerModule,
     BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
@@ -67,7 +73,8 @@ const preLoad = {
     PageNotFoundModule,
     StoreModule,
     SpeedDialFabModule,
-    SettingsSidebarModule
+    SettingsSidebarModule,
+    CustomBannerModule
   ],
   entryComponents: [SnackBarComponent],
   providers: [

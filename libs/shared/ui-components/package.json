@@ -12,6 +12,10 @@
     "@angular/platform-browser-dynamic": ">=8.2.0",
     "@angular/router": ">=8.2.0",
     "@ngneat/transloco": ">=2.3.0",
+    "@ngrx/effects": "8.4.0",
+    "@ngrx/router-store": "8.4.0",
+    "@ngrx/store": "8.4.0",
+    "jest-marbles": "^2.5.0",
     "rxjs": ">=6.5.0"
   }
 }

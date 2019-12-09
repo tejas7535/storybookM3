@@ -1,0 +1,72 @@
+<div
+  class="info-banner-container"
+  id="infoBanner"
+  fxLayout="column"
+  fxLayoutAlign="center"
+>
+  <div
+    class="width-100"
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="space-between center"
+    fxLayoutGap.lt-md="20px"
+  >
+    <div
+      fxLayout="row"
+      fxLayout.lt-md="column"
+      fxLayoutAlign="start center"
+      fxFlex
+    >
+      <i
+        fxHide.lt-md
+        class="icon"
+        ngClass.lt-md="banner-icon-top"
+        ngClass.gt-sm="banner-icon"
+      ></i>
+      <div fxLayout="column" fxLayoutAlign="center start" fxFlex>
+        <p
+          *ngIf="!isFullTextShown && truncateSize > 0"
+          [innerHTML]="text | transloco | truncate: truncateSize"
+          id="infoBannerEllipses"
+        ></p>
+        <p
+          *ngIf="isFullTextShown"
+          [innerHTML]="text | transloco"
+          id="infoBannerFull"
+        ></p>
+        <span
+          *ngIf="truncateSize > 0"
+          class="read-more"
+          ngClass.lt-md="read-more-bottom"
+          fxLayout="row"
+          fxLayoutAlign.gt-sm="start center"
+          fxLayoutAlign.lt-md="center center"
+          fxFlex
+        >
+          <span
+            *ngIf="!isFullTextShown"
+            id="infoBannerReadMore"
+            transloco="BANNER.READ_MORE"
+            ngClass.lt-md="read-more-button"
+            (click)="toggleFullText()"
+          ></span>
+          <span
+            *ngIf="isFullTextShown"
+            id="infoBannerReadLess"
+            transloco="BANNER.READ_LESS"
+            ngClass.lt-md="read-more-button"
+            (click)="toggleFullText()"
+          ></span>
+        </span>
+      </div>
+    </div>
+    <button
+      (click)="closeBanner()"
+      id="infoBannerButton"
+      class="text-button-primary"
+      ngClass.gt-sm="info-banner-close-button"
+    >
+      {{ buttonText | transloco }}
+    </button>
+  </div>
+</div>

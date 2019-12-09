@@ -1,0 +1,28 @@
+<div
+  class="info-banner-container"
+  id="infoBanner"
+  fxLayout="column"
+  fxLayoutAlign="center"
+>
+  <div
+    class="width-100"
+    fxLayout="row"
+    fxLayout.lt-sm="column"
+    fxLayoutAlign="space-between center"
+    fxLayoutGap.lt-sm="20px"
+  >
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <img fxHide.lt-sm src="../../assets/img/sir_henry.png" />
+      <div fxLayout="column" fxLayoutAlign="center">
+        <p [innerHTML]="text | transloco" id="infoBannerFull"></p>
+      </div>
+    </div>
+    <button
+      (click)="closeBanner()"
+      id="infoBannerButton"
+      class="text-button-primary"
+    >
+      {{ buttonText | transloco }}
+    </button>
+  </div>
+</div>

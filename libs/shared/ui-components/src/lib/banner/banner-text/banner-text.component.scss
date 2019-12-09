@@ -1,0 +1,61 @@
+@import 'libs/shared/styles/src';
+
+.info-banner-container {
+  background-color: $schaeffler-white;
+  margin: 0;
+  min-height: 100px;
+  padding: 30px 30px;
+  position: relative;
+
+  i {
+    font-size: 26px;
+
+    &:before {
+      color: $schaeffler-blue;
+      content: '\e98e';
+    }
+  }
+
+  p {
+    color: $schaeffler-carbon-gray;
+    letter-spacing: 0.04em;
+    margin: 0;
+    text-align: justify;
+  }
+}
+
+.banner-icon {
+  margin-right: 20px;
+}
+
+.banner-icon-top {
+  margin-bottom: 10px;
+}
+
+.width-100 {
+  width: 100%;
+}
+
+.read-more {
+  color: $schaeffler-green-1;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  width: calc(100% - 60px);
+}
+
+.read-more-bottom {
+  margin: auto;
+}
+
+.read-more-button {
+  margin: auto;
+}
+
+.value {
+  color: $schaeffler-green-1;
+  font-weight: bold;
+}
+
+.info-banner-close-button {
+  margin-left: 50px;
+}

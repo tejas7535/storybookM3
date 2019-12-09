@@ -102,6 +102,7 @@
     "jasmine-marbles": "0.6.0",
     "jest": "24.9.0",
     "jest-junit": "9.0.0",
+    "jest-marbles": "^2.5.0",
     "jest-preset-angular": "7.1.1",
     "markdown-include": "0.4.3",
     "markdown-magic": "1.0.0",

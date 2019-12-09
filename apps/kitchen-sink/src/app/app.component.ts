@@ -2,6 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import {
@@ -46,6 +47,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
 
   public sidebarMode: Observable<SidebarMode>;
+  public bannerOpen: Observable<boolean>;
 
   public settingsSidebarOpen = false;
 

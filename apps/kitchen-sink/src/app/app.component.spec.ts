@@ -1,6 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
-import { Observable, Subscriber } from 'rxjs';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,6 +5,7 @@ import * as transloco from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
+  BannerModule,
   FooterModule,
   HeaderModule,
   ScrollToTopModule,
@@ -17,6 +15,8 @@ import {
   SidebarService,
   SnackBarModule
 } from '@schaeffler/shared/ui-components';
+import { configureTestSuite } from 'ng-bullet';
+import { Observable, Subscriber } from 'rxjs';
 
 import { AppComponent } from './app.component';
 import { AppState, toggleSidebar } from './core/store';
@@ -49,7 +49,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         HeaderModule,
         SidebarModule,
-        SettingsSidebarModule
+        SettingsSidebarModule,
+        BannerModule
       ],
       providers: [
         provideMockStore(),

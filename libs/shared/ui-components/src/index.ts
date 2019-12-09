@@ -1,3 +1,4 @@
+export * from './lib/banner';
 export * from './lib/footer';
 export * from './lib/header';
 export * from './lib/scroll-to-top';

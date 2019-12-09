@@ -1,4 +1,6 @@
 import {
+  getBanner,
+  getBannerCloseButton,
   getHeadline,
   getOpenSnackbarButton,
   getOverlayContainer
@@ -21,5 +23,17 @@ describe('kitchen-sink', () => {
       .click();
 
     getOverlayContainer().should('not.be.empty');
+  });
+
+  it('should open a standard banner', () => {
+    getBanner().contains('This is a BannerTextComponent:');
+  });
+
+  it('should open custom banner once the default is closed', () => {
+    getBannerCloseButton()
+      .contains('SHOW ME A CUSTOM ONE')
+      .click();
+
+    getBanner().contains('So custom. Much wow.');
   });
 });
