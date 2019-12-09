@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.5...v0.0.6) (2019-12-09)
+
+
+### 🎸 Features
+
+* **assets:** add shared assets lib (FRON-122) ([0fe660a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0fe660a0d5b316c40b28b91706d29deb519b9268))
+* **ci:** use local dependencies (FRON-250) ([090d75d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/090d75db02f490f6c8c5cf05ae341c947b0a87e3))
+* **cypress-utils:** parametrize e2e-specs for reusability (FRON-128) ([77d91ab](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/77d91abe8449baafe57b3ed6876265c4c07a96be))
+* **ltp:** added app skeleton for LTP (FRON-234) ([aef09cc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/aef09cc1843e3b4f94de09638f86209ae78019fa))
+* **scroll-to-top:** increase test coverage (FRON-129) ([c3d2500](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c3d25001521fec7868e39a5c256705ec99b57eca))
+* **sta:** added basic pages for overview and tagging (UFTABI-1031) ([e7e1e31](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e7e1e313e998eb260d86e81412dc026fb3d9a0b5))
+* **sta:** using hash for routes ([8d04922](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8d0492245d68aa6e2d7425b1a6cb8d50255cd272))
+
 ### [0.0.5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.4...v0.0.5) (2019-11-25)
 
 
