@@ -18,8 +18,9 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import { AppRoutingModule } from './app-routing.module';
-import { BreadcrumbModule } from './breadcrumb/breadcrumb.module';
 import { CoreModule } from './core/core.module';
+import { BreadcrumbModule } from './shared/breadcrumb/breadcrumb.module';
+import { ResultModule } from './shared/result/result.module';
 
 import { AppComponent } from './app.component';
 
@@ -40,6 +41,7 @@ import { HammerConfig } from './config';
     HttpClientModule,
     HeaderModule,
     PageNotFoundModule,
+    ResultModule,
     SettingsSidebarModule,
     SidebarModule,
     SnackBarModule

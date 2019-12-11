@@ -1,0 +1,55 @@
+<mat-expansion-panel class="panel mat-elevation-z0" [expanded]="subsetTags">
+  <mat-expansion-panel-header>
+    <h6>Tags</h6>
+  </mat-expansion-panel-header>
+
+  <ng-container *ngIf="subsetTags; else empty">
+    <mat-form-field class="chip-list-wrapper">
+      <mat-chip-list #chipList aria-label="Suggested Tags">
+        <mat-chip
+          *ngFor="let tag of subsetTags; trackBy: trackByFn"
+          removable="true"
+          (removed)="remove(tag)"
+        >
+          {{ tag }}
+          <mat-icon
+            matChipRemove
+            class="icon"
+            fontIcon="icon-cancel"
+          ></mat-icon>
+        </mat-chip>
+        <input
+          #tagInput
+          placeholder="Suggested Tags"
+          [matChipInputFor]="chipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          matChipInputAddOnBlur="true"
+          (matChipInputTokenEnd)="add($event)"
+        />
+      </mat-chip-list>
+    </mat-form-field>
+
+    <div class="button-row" fxLayout="row" fxLayoutAlign="end center">
+      <button
+        mat-button
+        (click)="showMoreTags()"
+        [disabled]="showMoreTagsBtnEnabled"
+      >
+        <mat-icon class="icon" fontIcon="icon-cycle"></mat-icon>
+        <span>
+          MORE
+        </span>
+      </button>
+      <button mat-button color="primary" (click)="copyToClipBoard()">
+        <mat-icon class="icon" fontIcon="icon-document"></mat-icon>
+        <span>COPY</span>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <p>
+      No tags found.
+    </p>
+  </ng-template>
+</mat-expansion-panel>

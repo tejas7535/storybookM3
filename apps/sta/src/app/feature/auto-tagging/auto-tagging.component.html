@@ -28,36 +28,5 @@
         </button>
       </div>
     </div>
-
-    <div *ngIf="tags$ | async as tags" class="main-container" fxFlex="40%">
-      <h3>Tags</h3>
-
-      <div class="chip-list-container">
-        <button
-          mat-icon-button
-          class="copy"
-          aria-label="Copy..."
-          matTooltip="Copy tags to clipboard"
-          matTooltipPosition="below"
-          (click)="copyToClipBoard(tags)"
-        >
-          <mat-icon class="icon" fontIcon="icon-checklist"></mat-icon>
-        </button>
-        <mat-chip-list>
-          <mat-chip
-            *ngFor="let tag of tags; trackBy: trackByFn"
-            removable="true"
-            (removed)="remove(tags, tag)"
-            class="chip"
-            >{{ tag }}
-            <mat-icon
-              matChipRemove
-              class="icon"
-              fontIcon="icon-cancel"
-            ></mat-icon>
-          </mat-chip>
-        </mat-chip-list>
-      </div>
-    </div>
   </div>
 </div>

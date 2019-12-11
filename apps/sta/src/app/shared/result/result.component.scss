@@ -1,0 +1,24 @@
+@import 'libs/shared/styles/src';
+
+.panel {
+  mat-expansion-panel-header {
+    height: 50px;
+
+    h6 {
+      color: $schaeffler-carbon-gray;
+    }
+  }
+}
+
+.mat-accordion .mat-expansion-panel {
+  border-radius: 0;
+}
+
+::ng-deep div.mat-expansion-panel-body {
+  padding: 0 24px 15px 54px;
+}
+
+.mat-divider.mat-divider-inset {
+  color: $schaeffler-gray-4;
+  margin: 0 24px;
+}

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AutoTaggingComponent } from './auto-tagging.component';
 
-import { AuthGuard } from '../core/auth.guard';
+import { AuthGuard } from '../../core/auth.guard';
 
 const routes: Routes = [
   {

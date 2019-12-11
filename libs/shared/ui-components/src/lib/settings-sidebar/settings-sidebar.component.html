@@ -26,7 +26,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <button
-      *ngIf="!sidebar.opened"
+      *ngIf="!sidebar.opened && toggleEnabled"
       mat-mini-fab
       data-cy="toggle-settings-sidebar"
       class="upper-right"
