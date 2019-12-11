@@ -46,7 +46,7 @@ describe('DataService', () => {
     test('should get tags from server', () => {
       const text = 'Get me some tags please.';
       const expectedTags = ['First', 'Tag', 'Artificial'];
-      const url = 'https://dev.sta.dp.schaeffler/api/v1/tagging';
+      const url = 'https://dev.sta.dp.schaeffler/api/v1/tagging/text';
 
       service.tags.pipe(skip(1)).subscribe(newTags => {
         expect(newTags).toEqual(expectedTags);
