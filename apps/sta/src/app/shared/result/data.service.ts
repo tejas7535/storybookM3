@@ -35,7 +35,7 @@ export class DataService {
 
   public postTaggingText(text: string): void {
     this.http
-      .post<Tags>(`${this.apiUrl}/tagging`, new InputText(text))
+      .post<Tags>(`${this.apiUrl}/tagging/text`, new InputText(text))
       .pipe(map((tags: Tags) => tags.tags))
       .subscribe(tags => {
         this.tags$.next(tags);
