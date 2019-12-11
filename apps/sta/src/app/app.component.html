@@ -2,20 +2,14 @@
   <schaeffler-header
     [platformTitle]="title"
     [sidebarMode]="sidebarMode"
-    toggleEnabled="true"
-    (toggle)="toggleSidebar()"
+    [toggleEnabled]="false"
   >
   </schaeffler-header>
-  <schaeffler-sidebar
-    fxFlex
-    [elements]="sidebarElements"
-    [mode]="sidebarMode"
-    (toggle)="toggleSidebar()"
-  >
+  <schaeffler-sidebar fxFlex [elements]="sidebarElements" [mode]="sidebarMode">
     <schaeffler-settings-sidebar
-      toggleEnabled="true"
       [open]="settingsSidebarOpen"
-      (openedChange)="onChangeSettingsSidebar($event)"
+      [toggleEnabled]="true"
+      (openedChange)="settingsSidebarOpenedChanges($event)"
     >
       <ng-container container>
         <div class="page-container">
@@ -23,9 +17,17 @@
         </div>
 
         <router-outlet></router-outlet>
-        <schaeffler-footer></schaeffler-footer> </ng-container
-      ><ng-container sidebar>
-        <span>I am inside the Settings Sidebar</span>
+        <schaeffler-footer></schaeffler-footer>
+      </ng-container>
+      <ng-container sidebar>
+        <ng-container
+          *ngIf="(isInitialState$ | async) === false; else emptystate"
+        >
+          <sta-result></sta-result>
+        </ng-container>
+        <ng-template #emptystate>
+          EMPTY STATE
+        </ng-template>
       </ng-container>
     </schaeffler-settings-sidebar>
   </schaeffler-sidebar>

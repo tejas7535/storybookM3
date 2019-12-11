@@ -1,3 +1,3 @@
 export interface Tags {
-  tags: String[];
+  tags: string[];
 }

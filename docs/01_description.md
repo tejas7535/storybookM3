@@ -9,7 +9,7 @@
 ![@ngrx/store: 8.5.2](https://img.shields.io/badge/%40ngrx%2Fstore-8.5.2-brightgreen)
 ![@angular/material: 8.2.3](https://img.shields.io/badge/%40angular%2Fmaterial-8.2.3-brightgreen)
 ![@angular/flex-layout: 8.0.0-beta.27](https://img.shields.io/badge/%40angular%2Fflex--layout-8.0.0--beta.27-brightgreen)
-![prettier: 1.19.1](https://img.shields.io/badge/prettier-1.19.1-brightgreen)
+![prettier: 1.18.2](https://img.shields.io/badge/prettier-1.18.2-brightgreen)
 ![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->

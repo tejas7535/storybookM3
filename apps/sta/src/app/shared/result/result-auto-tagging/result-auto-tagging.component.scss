@@ -1,0 +1,13 @@
+@import '../result.component.scss';
+
+.chip-list-wrapper {
+  width: 100%;
+}
+
+.button-row {
+  span {
+    color: $schaeffler-carbon-gray;
+    font-size: 16px;
+    font-weight: bold;
+  }
+}
