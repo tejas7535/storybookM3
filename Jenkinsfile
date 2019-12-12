@@ -186,7 +186,7 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS LTS 10.15.0'
+        nodejs 'NodeJS 12.13'
     }
 
     stages {
@@ -194,8 +194,7 @@ pipeline {
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Install NPM Dependencies"
-                    // Install newest npm version since standard is 6.4.1 where npm audit returns a 400 Bad request error...
-                    sh 'npm install -g npm'
+                    
                     sh 'npm ci'            
                 }
             }
@@ -406,7 +405,7 @@ pipeline {
                     post {
                         success {
                             // Unit tests results
-                            cobertura autoUpdateHealth: false, autoUpdateStability: false, coberturaReportFile: 'coverage/**/*cobertura-coverage.xml', conditionalCoverageTargets: '80, 0, 0', failUnhealthy: false, failUnstable: false, lineCoverageTargets: '80, 0, 0', maxNumberOfBuilds: 0, methodCoverageTargets: '80, 0, 0', onlyStable: false, sourceEncoding: 'ASCII', zoomCoverageChart: false, failNoReports: false
+                            publishCoverage adapters: [coberturaAdapter(mergeToOneReport: true, path: 'coverage/**/*cobertura-coverage.xml')], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
                             junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
                         }
                     }
