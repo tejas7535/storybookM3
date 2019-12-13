@@ -2,9 +2,31 @@
 
 .chip-list-wrapper {
   width: 100%;
-  .chip-icon {
-    height: 23px;
-    width: 23px;
+
+  mat-chip {
+    padding-left: 0;
+  }
+
+  .icon-left {
+    height: 24px;
+    margin-left: 4px;
+    width: 24px;
+
+    &::before {
+      font-size: 24px;
+    }
+  }
+
+  .icon-right::before {
+    font-size: 18px;
+  }
+
+  .chip-text {
+    margin-left: 12px;
+  }
+
+  .icon-left-active {
+    margin-left: 8px;
   }
 }
 
