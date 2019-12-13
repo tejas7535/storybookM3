@@ -13,7 +13,7 @@ import {
   MatSnackBarModule
 } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -33,7 +33,7 @@ describe('In SnackBarComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatButtonModule,
         MatSnackBarModule,
         SnackBarTestModule

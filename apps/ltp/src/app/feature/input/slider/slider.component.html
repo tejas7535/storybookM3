@@ -1,0 +1,29 @@
+<div fxLayout="column">
+  <label
+    [innerHTML]="
+      control.flexibleLabel
+        ? control.flexibleLabel(control.name | translate)
+        : (control.name | translate)
+    "
+  ></label>
+  <div fxLayout="row" fxLayoutAlign="space-between top">
+    <mat-slider
+      fxFlex="80"
+      [formControl]="control.formControl"
+      [max]="control.max"
+      [min]="control.min"
+      [step]="control.step"
+      (input)="
+        control.formControl.patchValue($event.value, { emitEvent: false })
+      "
+    ></mat-slider>
+    <mat-form-field fxFlex="20">
+      <input
+        matInput
+        type="number"
+        [formControl]="control.formControl"
+        (change)="validate($event.srcElement.value)"
+      />
+    </mat-form-field>
+  </div>
+</div>

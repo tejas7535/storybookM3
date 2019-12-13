@@ -3,7 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  SERVER_URL: 'https://lifetime-predictor-dev.digital.schaeffler.com/api/v1',
+  AUTH_URL: 'https://lifetime-predictor-dev.digital.schaeffler.com/auth',
+  KEYCLOAK_REALM: 'lifetime-predictor-realm',
+  KEYCLOAK_CLIENT: 'angular-frontend-app'
 };
 
 /*

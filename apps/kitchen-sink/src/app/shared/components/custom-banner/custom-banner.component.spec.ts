@@ -3,6 +3,8 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule } from '@ngneat/transloco';
+import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { BannerModule } from '@schaeffler/shared/ui-components';
 
 import { CustomBannerComponent } from './custom-banner.component';
@@ -14,7 +16,14 @@ describe('CustomBannerComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CustomBannerComponent],
-      imports: [BannerModule, TranslocoModule, FlexLayoutModule, CommonModule]
+      imports: [
+        BannerModule,
+        TranslocoModule,
+        FlexLayoutModule,
+        CommonModule,
+        StoreModule.forRoot({})
+      ],
+      providers: [provideMockStore()]
     }).compileComponents();
   }));
 

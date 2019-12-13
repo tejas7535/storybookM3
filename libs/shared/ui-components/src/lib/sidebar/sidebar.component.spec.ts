@@ -4,19 +4,19 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HAMMER_LOADER } from '@angular/platform-browser';
-import {
-  BrowserAnimationsModule,
-  NoopAnimationsModule
-} from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
+
+import { SidebarComponent } from './sidebar.component';
+
+import { SidebarMode } from './sidebar-mode.enum';
 
 import { SidebarElement } from './sidebar-element';
 import { SIDEBAR_ELEMENTS_MOCK } from './sidebar-elements.mock';
-import { SidebarMode } from './sidebar-mode.enum';
-import { SidebarComponent } from './sidebar.component';
 
 describe('In SidebarComponent', () => {
   let component: SidebarComponent;
@@ -26,7 +26,7 @@ describe('In SidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent],
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatSidenavModule,
         MatTooltipModule,
         NoopAnimationsModule,

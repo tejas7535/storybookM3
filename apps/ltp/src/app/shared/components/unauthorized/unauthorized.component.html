@@ -1,0 +1,49 @@
+<div class="unauthorized-main-container">
+  <h4 translate>ACCESS_DENIED_HEADLINE</h4>
+  <mat-grid-list cols="4" rowHeight="60">
+    <mat-grid-tile colspan="1">
+      <div class="unauhtorized-grid-tile-text">
+        <h5 translate>ERROR</h5>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <div class="unauhtorized-grid-tile-text">
+        <p [innerHTML]="'ACCESS_DENIED_ERROR_DESCRIPTION' | translate"></p>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+      <div class="unauhtorized-grid-tile-text">
+        <h5 translate>REASON</h5>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <div class="unauhtorized-grid-tile-text">
+        <p [innerHTML]="'ACCESS_DENIED_REASON_MESSAGE' | translate"></p>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="1">
+      <div class="unauhtorized-grid-tile-text">
+        <h5 translate>SOLUTION</h5>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="3">
+      <div class="unauhtorized-grid-tile-text">
+        <p>
+          <span
+            [innerHTML]="'ACCESS_DENIED_SOLUTION_DESCRIPTION' | translate"
+          ></span>
+          <a
+            class="disclaimer-link"
+            [href]="href"
+            [innerHTML]="'REQUEST' | translate"
+          ></a>
+        </p>
+      </div>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4">
+      <button mat-button color="primary" routerLink="/home">
+        {{ 'ROUTE_HOME_BTN' | translate }}
+      </button>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

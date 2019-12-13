@@ -1,12 +1,13 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import {
+  BannerModule,
   BannerState,
   BannerTextComponent,
   SnackBarModule,
@@ -51,11 +52,13 @@ describe('HomeComponent', () => {
     TestBed.configureTestingModule({
       declarations: [HomeComponent],
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatSnackBarModule,
         SnackBarModule,
         SpeedDialFabModule,
-        TranslocoModule
+        StoreModule.forRoot({}),
+        TranslocoModule,
+        BannerModule
       ],
       providers: [
         provideMockStore({

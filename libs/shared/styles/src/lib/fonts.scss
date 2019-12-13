@@ -7,7 +7,7 @@ $schaeffler-h3: 20px;
 $schaeffler-h4: 18px;
 $schaeffler-h5: 18px;
 $schaeffler-h6: 16px;
-$schaeffler-labels: 13px;
+$schaeffler-labels: 16px;
 $schaeffler-text: 16px;
 
 * {
@@ -66,6 +66,7 @@ input {
 }
 
 label {
+  color: $schaeffler-gray-7;
   font-size: $schaeffler-labels;
 }
 

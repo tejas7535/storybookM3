@@ -1,4 +1,4 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import * as BannerActions from '../../actions/banner/banner.actions';
 
@@ -62,3 +62,5 @@ export const bannerReducer = createReducer(
 export function reducer(state: BannerState, action: Action): BannerState {
   return bannerReducer(state, action);
 }
+
+export const getBannerState = createFeatureSelector<BannerState>('banner');

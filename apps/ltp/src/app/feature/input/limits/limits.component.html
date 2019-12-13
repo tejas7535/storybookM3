@@ -1,0 +1,40 @@
+<form [formGroup]="limitForm" fxLayout="column">
+  <label>{{ 'HV_LOWER_AND_UPPER_LIMIT' | translate }}</label>
+  <div fxLayout="row" fxLayoutAlign="none top">
+    <mat-form-field fxFlex="20">
+      <input
+        matInput
+        formControlName="hv_lower"
+        (change)="patchInput($event.srcElement, 'hv_lower')"
+        [max]="hv"
+        [min]="lowerMin"
+        type="number"
+      />
+    </mat-form-field>
+    <mat-slider
+      fxFlex="30"
+      formControlName="hv_lower"
+      (change)="patchLimits($event.value, 'hv_lower')"
+      [max]="hv"
+      [min]="lowerMin"
+      class="limit-slider-inverted"
+    ></mat-slider>
+    <mat-slider
+      fxFlex="30"
+      formControlName="hv_upper"
+      (change)="patchLimits($event.value, 'hv_upper')"
+      [max]="upperMax"
+      [min]="hv"
+    ></mat-slider>
+    <mat-form-field fxFlex="20">
+      <input
+        matInput
+        formControlName="hv_upper"
+        (change)="patchInput($event.srcElement, 'hv_upper')"
+        [max]="upperMax"
+        [min]="hv"
+        type="number"
+      />
+    </mat-form-field>
+  </div>
+</form>

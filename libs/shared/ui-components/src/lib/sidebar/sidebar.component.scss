@@ -139,7 +139,7 @@
   }
 }
 
-::ng-deep mat-tooltip-component .mat-tooltip {
+::ng-deep mat-tooltip-component .sidebar-tooltip {
   background-color: $schaeffler-white;
   border-radius: 0;
   box-shadow: 0 0 10px 0 $schaeffler-gray-9;
@@ -162,10 +162,10 @@
 }
 
 ::ng-deep mat-sidenav .mat-drawer-inner-container {
-  overflow: hidden;
+  overflow: visible;
 }
 
-::ng-deep mat-sidenav-container.mat-drawer-container {
+::ng-deep mat-sidenav-container .mat-drawer-container {
   overflow: visible;
 }
 

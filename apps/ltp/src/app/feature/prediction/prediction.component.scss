@@ -1,0 +1,63 @@
+.ltp-prediction-container {
+  background: #ffffff 0% 0% no-repeat padding-box;
+  box-shadow: 0 3px 6px #00000033;
+  height: 100%;
+}
+
+.ltp-prediction-container-bottom {
+  padding: 20px;
+}
+
+.ltp-prediction-kpi-headline {
+  text-align: center;
+}
+
+.ltp-prediction-border-bottom {
+  border-bottom: 1px solid #0000001f;
+}
+
+.ltp-prediction-padding-bottom {
+  padding-bottom: 10px;
+}
+
+.ltp-prediction-legend-header {
+  color: #646464;
+  font: Bold 16px/25px Arial;
+  letter-spacing: 0.64px;
+  opacity: 1;
+  text-align: left;
+}
+
+.mat-divider {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+::ng-deep .mat-tab-labels > .mat-tab-label {
+  opacity: 1;
+}
+
+::ng-deep .mat-tab-header {
+  border-bottom: none;
+}
+
+::ng-deep .mat-tab-body-wrapper {
+  display: none !important;
+}
+
+::ng-deep .mat-tab-label-active > .mat-tab-label-content > h4 {
+  color: #00893d;
+}
+
+::ng-deep .mat-menu-panel {
+  min-height: auto;
+}
+
+::ng-deep .mat-menu-panel {
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-menu-content {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}

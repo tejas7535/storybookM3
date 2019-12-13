@@ -2,10 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
-import {
-  BrowserModule,
-  HAMMER_GESTURE_CONFIG
-} from '@angular/platform-browser';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
@@ -58,7 +55,6 @@ const preLoad = {
   declarations: [AppComponent, HomeComponent],
   imports: [
     BannerModule,
-    BrowserModule,
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
