@@ -7,14 +7,22 @@
     <mat-form-field class="chip-list-wrapper">
       <mat-chip-list #chipList aria-label="Suggested Tags">
         <mat-chip
-          *ngFor="let tag of subsetTags; trackBy: trackByFn"
+          *ngFor="let tag of subsetTags; trackBy: trackByFn; index as i"
           removable="true"
           (removed)="remove(tag)"
         >
-          {{ tag }}
+          <mat-icon
+            *ngIf="i < 3"
+            class="icon chip-icon icon-left"
+            fontIcon="icon-star"
+          ></mat-icon>
+          <span [ngClass]="{ 'icon-left-active': i < 3 }" class="chip-text">
+            {{ tag }}
+          </span>
+
           <mat-icon
             matChipRemove
-            class="icon chip-icon"
+            class="icon chip-icon icon-right"
             fontIcon="icon-cancel"
           ></mat-icon>
         </mat-chip>
