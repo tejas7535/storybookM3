@@ -1,0 +1,28 @@
+<div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="5px">
+  <div
+    *ngFor="let graph of graphs; trackBy: trackByFn"
+    fxLayout="row"
+    fxLayoutAlign="start start"
+    fxLayoutGap="10px"
+  >
+    <div
+      class="ltp-prediction-legend-square-container"
+      fxLayout="column"
+      fxLayoutAlign="center center"
+    >
+      <div
+        [style.height.px]="14 - 2 * (graph.borderWidth || 0)"
+        [style.width.px]="14 - 2 * (graph.borderWidth || 0)"
+        [style.background-color]="graph.color || 'black'"
+        [style.border-width.px]="graph.borderWidth || 0"
+        [style.border-style]="graph.borderStyle || 'solid'"
+        [style.border-color]="graph.borderColor || 'black'"
+      ></div>
+    </div>
+    <span
+      class="ltp-chart-legend-text"
+      [innerHtml]="graph.name | translate"
+      fxFlex
+    ></span>
+  </div>
+</div>

@@ -1,0 +1,37 @@
+<form [formGroup]="materialForm" fxLayout="column">
+  <mat-form-field fxFlex>
+    <mat-label>{{ 'MATERIAL' | translate }}</mat-label>
+    <mat-select formControlName="materialControl" name="material">
+      <mat-option
+        *ngFor="
+          let materialOption of materialOptions | async;
+          trackBy: trackByFn
+        "
+        [value]="materialOption"
+      >
+        {{ materialOption }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field fxFlex>
+    <mat-label>{{ 'HEAT_TREATMENT' | translate }}</mat-label>
+    <mat-select formControlName="heatTreatmentControl" name="heatTreatment">
+      <mat-option
+        *ngFor="
+          let heatTreatmentOption of heatTreatmentOptions | async;
+          trackBy: trackByFn
+        "
+        [value]="heatTreatmentOption"
+        [disabled]="heatTreatmentOption.disabled"
+      >
+        {{ heatTreatmentOption.heatTreatment }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <p>
+    {{ 'HV' | translate }}:&nbsp;
+    <b *ngIf="materialForm.controls.heatTreatmentControl.value">
+      {{ materialForm.controls.heatTreatmentControl.value.hardness }}
+    </b>
+  </p>
+</form>

@@ -1,0 +1,21 @@
+<div
+  class="ltp-kpi-container ltp-widget-padding"
+  fxLayout="column"
+  fxLayoutAlign="space-between center"
+  fxLayoutAlign.lt-lg="space-between start"
+  fxLayoutAlign.lt-sm="space-between center"
+  fxLayoutGap="10px"
+  fxFlex
+>
+  <span class="ltp-kpi-value" translate>{{ value }}</span>
+  <label
+    *ngIf="!descriptionParams"
+    class="ltp-kpi-label"
+    [innerHtml]="description | translate"
+  ></label>
+  <label
+    *ngIf="descriptionParams"
+    class="ltp-kpi-label"
+    [innerHtml]="description | translate: this.descriptionParams"
+  ></label>
+</div>

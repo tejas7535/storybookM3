@@ -9,7 +9,7 @@ import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -21,12 +21,12 @@ import { BannerComponent } from './banner.component';
 import { BannerService } from './banner.service';
 
 import {
+  bannerReducer,
   BannerState,
   initialState
 } from './store/reducers/banner/banner.reducer';
 
 import { BannerContent } from '.';
-import { AppState } from './store';
 
 @Component({
   selector: 'schaeffler-dummy-component',
@@ -40,13 +40,12 @@ class DummyComponent extends BannerContent {
   }
 }
 
-describe('InfoDialog', () => {
+describe('BannerComponent', () => {
   let component: BannerComponent;
   let fixture: ComponentFixture<BannerComponent>;
   let bannerService: BannerService;
   let router: Router;
   let store: MockStore<AppState>;
-  let bannerStore: MockStore<BannerState>;
 
   const dummyRoutes: Routes = [
     {
@@ -61,20 +60,28 @@ describe('InfoDialog', () => {
     }
   ];
 
+  interface AppState {
+    banner: BannerState;
+  }
+
+  const initialAppState: AppState = {
+    banner: initialState
+  };
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [DummyComponent],
       imports: [
         BannerModule,
         TranslocoModule,
-        RouterTestingModule.withRoutes(dummyRoutes)
+        RouterTestingModule.withRoutes(dummyRoutes),
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('banner', bannerReducer)
       ],
       providers: [
         BannerService,
         provideMockStore({
-          initialState: {
-            banner: initialState
-          }
+          initialState: initialAppState
         })
       ]
     });
@@ -85,7 +92,6 @@ describe('InfoDialog', () => {
     component = fixture.componentInstance;
     // fixture.detectChanges();
     bannerService = TestBed.get(BannerService);
-    bannerStore = TestBed.get(Store);
     router = TestBed.get(Router);
     store = TestBed.get(Store);
   });

@@ -1,0 +1,365 @@
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
+import { Component, OnInit } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+
+import { select, Store } from '@ngrx/store';
+
+import { CustomFormControl, InputCategory } from './input.model';
+import { SelectControl } from './select/select-control.model';
+import { SliderControl } from './slider/slider.model';
+import { ToggleControl } from './toggle/toggle.model';
+
+import * as fromStore from '../../core/store';
+import { BurdeningType, Display, PredictionRequest } from '../../shared/models';
+import { SelectControlOption } from './select/select-control-option.model';
+
+@Component({
+  selector: 'ltp-input',
+  templateUrl: './input.component.html',
+  styleUrls: ['./input.component.scss']
+})
+export class InputComponent implements OnInit {
+  public burdeningTypes: Observable<BurdeningType[]>;
+  public predictionRequest: Observable<PredictionRequest>;
+  public hardnessControls: CustomFormControl[];
+  public materialControls: CustomFormControl[];
+  public loadControls: CustomFormControl[];
+  public commonControls: CustomFormControl[];
+  public inputForm = new FormGroup({});
+  public display: Observable<Display>;
+  public quality: string;
+  public material = false;
+
+  inputCategories: InputCategory[] = [];
+
+  constructor(private readonly store: Store<fromStore.LTPState>) {
+    this.predictionRequest = this.store.pipe(
+      select(fromStore.getPredictionRequest)
+    );
+    this.burdeningTypes = this.store.pipe(select(fromStore.getBurdeningTypes));
+    this.display = this.store.pipe(select(fromStore.getDisplay));
+
+    this.createControls();
+    this.inputCategories = [
+      {
+        name: 'DISPLAY',
+        description: '_PREDICTION.DISPLAY.INFO_DISPLAY',
+        controls: this.commonControls,
+        alwaysVisible: true
+      },
+      {
+        name: 'HV',
+        description: '_PREDICTION.DISPLAY.INFO_HV',
+        controls: this.hardnessControls
+      },
+      {
+        name: 'MATERIAL_PARAMS',
+        description: '_PREDICTION.DISPLAY.INFO_MATERIAL',
+        controls: this.materialControls
+      },
+      {
+        name: 'MECHANICAL_LOAD',
+        description: '_PREDICTION.DISPLAY.INFO_LOAD',
+        controls: this.loadControls
+      }
+    ];
+
+    this.inputCategories.forEach(inputCategory => {
+      inputCategory.controls.forEach(control => {
+        this.inputForm.registerControl(control.key, control.formControl);
+      });
+    });
+
+    this.predictionRequest.subscribe(request => this.patchForm(request));
+    this.display.subscribe(request => this.patchForm(request));
+  }
+
+  public ngOnInit(): void {
+    this.store.dispatch(fromStore.getFormOptions());
+
+    const displayFormControls = ['showMurakami', 'showFKM'];
+
+    this.inputForm.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged((prev, curr) => {
+          if (this.inputForm.valid && !this.inputForm.pristine) {
+            const displayFormChange = displayFormControls.reduce(
+              (earlier, control) => prev[control] !== curr[control] || earlier,
+              false
+            );
+            if (displayFormChange) {
+              this.store.dispatch(fromStore.setDisplay({ display: curr }));
+            } else if (prev !== curr) {
+              this.store.dispatch(
+                fromStore.setPredictionRequest({ predictionRequest: curr })
+              );
+            }
+
+            return true;
+          }
+        })
+      )
+      .subscribe();
+
+    const formControls = this.inputForm.controls;
+    formControls['hv'].valueChanges
+      .pipe(debounceTime(200))
+      .subscribe(selectedHV => {
+        if (formControls['hv'].dirty) {
+          this.adjustES(formControls['es'], selectedHV);
+        }
+      });
+  }
+
+  /**
+   * Patches form and sets it on pristine state
+   */
+  public patchForm(request): void {
+    this.inputForm.patchValue(request);
+    this.inputForm.markAsPristine();
+  }
+
+  /**
+   * Adjusts 'Eigenspannung' min and max value and value to half of selected 'Randhärte'
+   */
+  public adjustES(esFormControls: AbstractControl, selectedHV: number): void {
+    const esLimit = Math.round((selectedHV * 0.5) / 10) * 10;
+
+    const esIndex = this.materialControls.findIndex(
+      control => control.key === 'es'
+    );
+    this.materialControls[esIndex] = new SliderControl({
+      ...this.materialControls[esIndex],
+      min: -esLimit,
+      max: esLimit
+    });
+
+    if (Math.abs(esFormControls.value) > esLimit) {
+      esFormControls.value > 0
+        ? esFormControls.patchValue(esLimit)
+        : esFormControls.patchValue(-esLimit);
+    }
+  }
+
+  /**
+   * Returns true if the input is of type SliderControl
+   */
+  public isSlider(control: CustomFormControl): boolean {
+    return control instanceof SliderControl;
+  }
+
+  /**
+   * Returns true if the input is of type SelectControl
+   */
+  public isSelect(control: CustomFormControl): boolean {
+    return control instanceof SelectControl;
+  }
+
+  /**
+   * Returns true if the input is of type ToggleControl
+   */
+  public isToggle(control: CustomFormControl): boolean {
+    return control instanceof ToggleControl;
+  }
+
+  /**
+   * Returns true or false depending if toggle is set for manual dropdown
+   */
+  public dropdownHardness(controlGroupName: string): boolean {
+    return controlGroupName === 'HV' && !!this.material;
+  }
+
+  /**
+   * Returns true or false depending if toggle is set for slider selection
+   */
+  public sliderHardness(controlGroupName: string): boolean {
+    return (
+      controlGroupName !== 'HV' || (controlGroupName === 'HV' && !this.material)
+    );
+  }
+
+  public adjustLimits(limits: PredictionRequest): void {
+    this.store.dispatch(
+      fromStore.setPredictionRequest({ predictionRequest: limits })
+    );
+  }
+
+  /**
+   * Helps Angular to track array
+   */
+  public trackByFn(index): number {
+    return index;
+  }
+
+  /**
+   * Initializes all control arrays.
+   */
+  public createControls(): void {
+    this.commonControls = [
+      new ToggleControl({
+        key: 'showMurakami',
+        name: 'SHOW_MURAKAMI',
+        formControl: new FormControl(),
+        disabled: false,
+        default: false
+      }),
+      new ToggleControl({
+        key: 'showFKM',
+        name: 'SHOW_FKM',
+        formControl: new FormControl(),
+        disabled: false,
+        default: false
+      }),
+      new SliderControl({
+        key: 'spreading',
+        name: 'SLOG',
+        min: 0.0,
+        max: 0.1,
+        step: 0.005,
+        disabled: this.predictionRequest.pipe(map(req => req.prediction !== 0)),
+        formControl: new FormControl()
+      })
+    ];
+
+    this.hardnessControls = [
+      new SliderControl({
+        key: 'hv',
+        name: 'HV',
+        min: 180,
+        max: 800,
+        step: 1,
+        disabled: false,
+        formControl: new FormControl()
+      })
+    ];
+
+    this.materialControls = [
+      new SliderControl({
+        key: 'rz',
+        name: 'ROUGHNESS',
+        min: 0,
+        max: 25,
+        step: 0.1,
+        disabled: false,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'hv_core',
+        name: 'HV_CORE',
+        min: 180,
+        max: 800,
+        step: 1,
+        disabled: false,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'rArea',
+        name: 'AREA',
+        min: 5,
+        max: 100,
+        step: 1,
+        disabled: false,
+        flexibleLabel(label: string): string {
+          const addedString =
+            // tslint:disable-next-line: no-invalid-this
+            this.formControl.value > 15
+              ? // tslint:disable-next-line: no-invalid-this
+                this.formControl.value > 60
+                ? '(Low-Budget)'
+                : '(Standard)'
+              : '(TPQ)';
+
+          return label + addedString;
+        },
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'es',
+        name: 'RESIDUAL_STRESS',
+        min: -90,
+        max: 90,
+        step: 10,
+        disabled: false,
+        formControl: new FormControl()
+      })
+    ];
+
+    this.loadControls = [
+      new SliderControl({
+        key: 'mpa',
+        name: 'MPA',
+        min: 400,
+        max: 1500,
+        step: 1,
+        disabled: this.predictionRequest.pipe(map(req => req.prediction !== 0)),
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'v90',
+        name: 'V90',
+        min: 0,
+        max: 1000,
+        step: 1,
+        disabled: false,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'gradient',
+        name: 'GRADIENT',
+        min: 0.001,
+        max: 10,
+        step: 0.1,
+        disabled: true,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'rrelation',
+        name: 'RREL',
+        min: -1,
+        max: 0,
+        step: 1,
+        disabled: false,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'a90',
+        name: 'A90',
+        min: 0.01,
+        max: 2000,
+        step: 1,
+        disabled: true,
+        formControl: new FormControl()
+      }),
+      new SliderControl({
+        key: 'multiaxiality',
+        name: 'MULTIAXIALITY',
+        min: -1.33,
+        max: 1.33,
+        step: 0.01,
+        disabled: true,
+        formControl: new FormControl()
+      }),
+      new SelectControl({
+        key: 'burdeningType',
+        name: 'BURDENING_TYPE',
+        options: this.burdeningTypes.pipe(
+          map(burdeningTypes => {
+            const options: SelectControlOption[] = [];
+            for (const burdeningType of burdeningTypes) {
+              options.push(
+                new SelectControlOption(burdeningType.id, burdeningType.name)
+              );
+            }
+
+            return options;
+          })
+        ),
+        disabled: false,
+        formControl: new FormControl()
+      })
+    ];
+  }
+}

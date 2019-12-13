@@ -1,5 +1,3 @@
-import { configureTestSuite } from 'ng-bullet';
-
 import { ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 import {
   async,
@@ -12,11 +10,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { VisibilityState } from './enums/visibility-state.enum';
+import { configureTestSuite } from 'ng-bullet';
+
 import { HeaderComponent } from './header.component';
+
+import { VisibilityState } from './enums/visibility-state.enum';
 
 describe('In HeaderComponent', () => {
   let component: HeaderComponent;
@@ -25,7 +27,7 @@ describe('In HeaderComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatIconModule,
         MatToolbarModule,
         FlexLayoutModule,

@@ -1,24 +1,31 @@
 import { TestBed } from '@angular/core/testing';
 
 import { select, Store, StoreModule } from '@ngrx/store';
+
 import { configureTestSuite } from 'ng-bullet';
 
-import * as fromRoot from '../../reducers';
 import { initialState } from '../../reducers/banner/banner.reducer';
+import {
+  bannerReducer,
+  BannerState
+} from './../../reducers/banner/banner.reducer';
+
 import * as fromSelectors from '../../selectors';
 
-describe('SidebarSelector', () => {
-  let store: Store<fromRoot.AppState>;
+describe('BannerSelector', () => {
+  let store: Store<AppState>;
   let sub;
   let result;
+
+  interface AppState {
+    banner: BannerState;
+  }
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
         StoreModule.forRoot(
-          {
-            ...fromRoot.reducers
-          },
+          {},
           {
             runtimeChecks: {
               strictStateImmutability: true,
@@ -27,7 +34,8 @@ describe('SidebarSelector', () => {
               strictActionSerializability: false
             }
           }
-        )
+        ),
+        StoreModule.forFeature('banner', bannerReducer)
       ]
     });
   });

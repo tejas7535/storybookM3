@@ -1,0 +1,26 @@
+import { FormControl } from '@angular/forms';
+import { Observable } from 'rxjs';
+
+export class CustomFormControl {
+  key: string;
+  name: string;
+  disabled: Observable<boolean> | boolean;
+  flexibleLabel?: Function;
+  formControl: FormControl;
+
+  constructor(object: any) {
+    this.key = object.key;
+    this.name = object.name;
+    this.disabled = object.disabled;
+    this.flexibleLabel = object.flexibleLabel;
+    this.formControl = object.formControl;
+  }
+}
+
+export interface InputCategory {
+  name: string;
+  description?: string;
+  info?: string;
+  controls: CustomFormControl[];
+  alwaysVisible?: boolean;
+}

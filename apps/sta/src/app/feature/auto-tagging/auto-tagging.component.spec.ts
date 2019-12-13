@@ -4,7 +4,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -25,7 +25,7 @@ describe('AutoTaggingComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatChipsModule,
         MatFormFieldModule,
         MatIconModule,

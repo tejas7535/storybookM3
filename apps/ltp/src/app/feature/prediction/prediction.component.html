@@ -1,0 +1,203 @@
+<div class="ltp-prediction-container" fxLayout="column">
+  <div
+    class="ltp-prediction-border-bottom"
+    fxLayout="row"
+    fxLayoutAlign="space-between stretch"
+  >
+    <div fxLayout="row" fxLayoutAlign="start stretch">
+      <mat-tab-group
+        mat-align-tabs="center"
+        (selectedTabChange)="selectChartType($event.index)"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <h4 translate>_PREDICTION.WOEHLER</h4>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <h4 translate>_PREDICTION.HAIGH</h4>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="end stretch">
+      <button mat-button [matMenuTriggerFor]="uploadMenu">
+        <span
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxLayoutGap="5px"
+        >
+          <i class="icon icon-upload"></i>
+          <span fxHide.lt-sm translate>_PREDICTION.UPLOAD</span>
+          <i class="icon icon-arrow-down" fxHide.lt-sm></i>
+        </span>
+      </button>
+      <mat-menu #uploadMenu="matMenu">
+        <button mat-menu-item (click)="fileInput.click()">
+          <span translate>_PREDICTION.CSV</span>
+          <input
+            hidden
+            #fileInput
+            type="file"
+            id="file"
+            accept=".csv, text/plain"
+            (change)="handleFileInput($event.target.files)"
+          />
+        </button>
+      </mat-menu>
+      <button mat-button [matMenuTriggerFor]="exportMenu">
+        <span
+          fxLayout="row"
+          fxLayoutAlign="space-between center"
+          fxLayoutGap="5px"
+        >
+          <i class="icon icon-export"></i>
+          <span fxHide.lt-sm translate>_PREDICTION.EXPORT</span>
+          <i class="icon icon-arrow-down" fxHide.lt-sm></i>
+        </span>
+      </button>
+      <mat-menu #exportMenu="matMenu">
+        <button mat-menu-item (click)="chart.exportChart()">
+          <span translate>_PREDICTION.PDF</span>
+        </button>
+      </mat-menu>
+    </div>
+  </div>
+  <div
+    class="ltp-prediction-container-bottom"
+    fxLayout="row"
+    fxLayout.lt-lg="column"
+    fxLayoutAlign="space-between stretch"
+    fxLayoutGap.gt-md="20px"
+    fxFlex
+  >
+    <div fxFlex="50%" fxLayout.gt-md="column" fxFlex.gt-md="70%">
+      <ltp-chart
+        #chart
+        [data]="(predictionResult | async)?.data"
+        [lines]="(predictionResult | async)?.lines"
+        [limits]="(predictionResult | async)?.limits"
+        [bannerIsVisible]="bannerIsOpen"
+        [customizeTooltip]="customizeTooltip"
+        [chartSettings]="chartSettings"
+        class="full-height"
+      ></ltp-chart>
+    </div>
+    <div
+      fxLayout="column"
+      fxFlex="50%"
+      fxFlex.gt-md="30%"
+      fxLayoutAlign="space-between stretch"
+    >
+      <div
+        class="ltp-prediction-padding-bottom"
+        fxLayout="column"
+        fxLayoutAlign="space-around stretch"
+        fxLayoutGap="20px"
+      >
+        <mat-accordion displayMode="flat" fxHide.gt-md>
+          <ng-container>
+            <mat-expansion-panel class="mat-elevation-z0">
+              <mat-expansion-panel-header>
+                <div fxLayout="row" fxLayoutAlign="space-between center">
+                  <mat-panel-title>
+                    <span class="ltp-prediction-legend-header" translate
+                      >_PREDICTION.CHART.LEGEND</span
+                    >
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <ltp-tooltip
+                      (click)="$event.stopPropagation()"
+                      [content]="
+                        '_PREDICTION.CHART.LEGEND_DESCRIPTION' | translate
+                      "
+                      manualcolor="#1d9bb2"
+                      icon="icon-toast-information"
+                    ></ltp-tooltip>
+                  </mat-panel-description>
+                </div>
+              </mat-expansion-panel-header>
+              <ng-container>
+                <ltp-legend [graphs]="legendGraphs"></ltp-legend>
+              </ng-container>
+            </mat-expansion-panel>
+          </ng-container>
+        </mat-accordion>
+
+        <div
+          fxLayout="column"
+          fxLayoutAlign="space-around stretch"
+          fxLayoutGap="10px"
+          fxHide.lt-lg
+        >
+          <div fxLayout="row" fxLayoutAlign="space-between center">
+            <span class="ltp-prediction-legend-header" translate
+              >_PREDICTION.CHART.LEGEND</span
+            >
+            <ltp-tooltip
+              (click)="$event.stopPropagation()"
+              [content]="'_PREDICTION.CHART.LEGEND_DESCRIPTION' | translate"
+              manualcolor="#1d9bb2"
+              icon="icon-toast-information"
+            ></ltp-tooltip>
+          </div>
+          <ltp-legend [graphs]="legendGraphs"></ltp-legend>
+          <mat-divider></mat-divider>
+        </div>
+      </div>
+      <div
+        fxLayout="column"
+        fxLayoutAlign="space-around center"
+        fxLayoutAlign.lt-lg="space-around stretch"
+        fxLayoutAlign.lt-sm="space-around center"
+      >
+        <h4 class="ltp-prediction-kpi-headline" translate>
+          _PREDICTION.KPI_HEADLINE
+        </h4>
+        <ltp-kpi
+          *ngIf="showWoehler()"
+          [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
+          description="_PREDICTION.KPI.FATIGUE"
+        ></ltp-kpi>
+        <ltp-kpi
+          *ngIf="showWoehler()"
+          [value]="(predictionResult | async).kpi?.slope.toFixed(2)"
+          description="_PREDICTION.KPI.SLOPE"
+        ></ltp-kpi>
+        <ltp-kpi
+          *ngIf="showWoehler()"
+          [value]="
+            (predictionResult | async).kpi?.count == 0
+              ? '∞'
+              : (predictionResult | async).kpi?.count
+          "
+          [description]="
+            (predictionResult | async).kpi?.count == 0
+              ? 'SURVIVOR'
+              : '_PREDICTION.KPI.COUNT'
+          "
+          [descriptionParams]="{
+            mpa: (predictionResult | async)?.kpi?.mpa || ''
+          }"
+        ></ltp-kpi>
+
+        <ltp-kpi
+          *ngIf="!showWoehler()"
+          [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
+          description="_PREDICTION.KPI.FATIGUE_0"
+        ></ltp-kpi>
+        <ltp-kpi
+          *ngIf="!showWoehler()"
+          [value]="(predictionResult | async).kpi?.fatigue1.toFixed(0)"
+          description="_PREDICTION.KPI.FATIGUE_1"
+        ></ltp-kpi>
+        <ltp-kpi
+          *ngIf="!showWoehler()"
+          [value]="(predictionResult | async).kpi?.meanStress.toFixed(2)"
+          description="_PREDICTION.KPI.MEAN_STRESS"
+        ></ltp-kpi>
+      </div>
+    </div>
+  </div>
+</div>

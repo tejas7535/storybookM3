@@ -3,15 +3,17 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { Store } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { initialState } from './store/reducers/banner/banner.reducer';
+import {
+  bannerReducer,
+  initialState
+} from './store/reducers/banner/banner.reducer';
 
 import { BannerContent, BannerModule, BannerState } from '.';
-import { AppState } from './store';
 import * as BannerActions from './store/actions';
 
 @Component({
@@ -31,10 +33,20 @@ describe('BannerContent', () => {
   let fixture: ComponentFixture<DummyComponent>;
   let component: DummyComponent;
 
+  interface AppState {
+    banner: BannerState;
+  }
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [DummyComponent],
-      imports: [BannerModule, TranslocoModule, FlexLayoutModule],
+      imports: [
+        BannerModule,
+        TranslocoModule,
+        FlexLayoutModule,
+        StoreModule.forRoot({}),
+        StoreModule.forFeature('banner', bannerReducer)
+      ],
       providers: [provideMockStore({ initialState: { banner: initialState } })]
     });
   });

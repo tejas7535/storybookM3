@@ -1,22 +1,10 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 
-import { metaReducers, reducers } from './reducers';
+import { reducer } from './reducers';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    NgrxStoreModule.forRoot(reducers, {
-      metaReducers,
-      runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
-        strictStateSerializability: true,
-        strictActionSerializability: true
-      }
-    })
-  ],
+  imports: [NgrxStoreModule.forFeature('banner', reducer)],
   exports: []
 })
 export class StoreModule {}

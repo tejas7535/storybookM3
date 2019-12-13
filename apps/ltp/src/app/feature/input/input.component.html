@@ -1,0 +1,68 @@
+<form [formGroup]="inputForm">
+  <mat-accordion displayMode="flat" multi="true">
+    <ng-container
+      *ngFor="let controlGroup of inputCategories; trackBy: trackByFn"
+    >
+      <mat-expansion-panel
+        class="mat-elevation-z0"
+        [disabled]="controlGroup.alwaysVisible"
+        [expanded]="controlGroup.alwaysVisible"
+        [hideToggle]="controlGroup.alwaysVisible"
+        [ngClass]="{ 'panel-always-visible': controlGroup.alwaysVisible }"
+      >
+        <mat-expansion-panel-header>
+          <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
+            <h6>{{ controlGroup.name | translate }}</h6>
+            <ltp-tooltip
+              (click)="$event.stopPropagation()"
+              [content]="controlGroup.description | translate"
+              manualcolor="#1d9bb2"
+              icon="icon-toast-information"
+            ></ltp-tooltip>
+          </div>
+        </mat-expansion-panel-header>
+        <!-- <mat-slide-toggle
+          *ngIf="controlGroup.name == 'HV'"
+          color="primary"
+          [checked]="material"
+          (change)="material = $event.source.checked"
+        >
+          {{ 'HV_FROM_PLS_DATA' | translate }}
+        </mat-slide-toggle> -->
+        <ltp-material
+          *ngIf="dropdownHardness(controlGroup.name)"
+        ></ltp-material>
+        <ng-container *ngIf="sliderHardness(controlGroup.name)">
+          <div
+            *ngFor="let control of controlGroup.controls; trackBy: trackByFn"
+            class="input-control"
+          >
+            <ltp-slider
+              [control]="control"
+              *ngIf="isSlider(control)"
+            ></ltp-slider>
+            <ltp-select
+              [control]="control"
+              *ngIf="isSelect(control)"
+            ></ltp-select>
+            <ltp-toggle
+              [control]="control"
+              *ngIf="isToggle(control)"
+            ></ltp-toggle>
+          </div>
+        </ng-container>
+        <ltp-limits
+          *ngIf="controlGroup.name == 'HV'"
+          [hv]="(predictionRequest | async).hv"
+          [hv_lower]="(predictionRequest | async).hv_lower"
+          [hv_upper]="(predictionRequest | async).hv_upper"
+          (adjust)="adjustLimits($event)"
+        ></ltp-limits>
+      </mat-expansion-panel>
+      <mat-divider
+        *ngIf="!controlGroup.alwaysVisible"
+        [inset]="true"
+      ></mat-divider>
+    </ng-container>
+  </mat-accordion>
+</form>

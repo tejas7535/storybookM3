@@ -8,7 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
@@ -37,7 +37,7 @@ describe(`HttpErrorInterceptor`, () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule,
+        NoopAnimationsModule,
         HttpClientTestingModule,
         MatSnackBarModule,
         SnackBarModule

@@ -1,10 +1,7 @@
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  BrowserModule,
-  HAMMER_GESTURE_CONFIG
-} from '@angular/platform-browser';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
@@ -34,7 +31,6 @@ import { HammerConfig } from './config';
     AppRoutingModule,
     BreadcrumbModule,
     BrowserAnimationsModule,
-    BrowserModule,
     CoreModule.forRoot(),
     FlexLayoutModule,
     FooterModule,
