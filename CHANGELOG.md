@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.6...v0.0.7) (2019-12-16)
+
+
+### 🏭 Automation
+
+* **ltp:** add deployment job for ltp ([7cc80de](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7cc80de9794636eff3d929867c8887f4f9d1b800))
+* **workspace:** use NodeJS LTS 12.13 in CI Pipeline (FRON-115) ([024980a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/024980a462744813715a1d86387e6beda608e325))
+
+
+### 🐛 Bug Fixes
+
+* **sta:** center x-icons in chips (UFTABI-1354) ([2f4ba75](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2f4ba7533f32e112968a1e5f9e7c7194e7ee3aae))
+
+
+### 🎸 Features
+
+* **ltp:** migration of LTP (FRON-235) ([c1a73b1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c1a73b18354f19b4e5036e7e7e241b0a5858703c))
+* **sta:** adjust tagging endpoint (UFTABI-1347) ([29a042d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/29a042d462e25fb25eda7103e09cc78225fc9230))
+* **sta:** mark top 3 tags as favorites (UFTABI-1257) ([155453b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/155453bb441e56152883c691213b1ab237779823))
+* **sta:** sidebar for auto tagging results (UFTABI-1264) ([fa5228d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fa5228d392082f948fe5e83f53f354d5a802a84f))
+* **ui-components:** migrate banner component (FRON-93) ([f40843a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f40843a25fa471298b775beaaf133fafb4b4106f))
+
 ### [0.0.6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.5...v0.0.6) (2019-12-09)
 
 
