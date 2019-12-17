@@ -31,8 +31,8 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(
       openBanner({
         component: BannerTextComponent,
-        text: 'DISCLAIMER',
-        buttonText: 'DISCLAIMER_CLOSE',
+        text: 'disclaimer',
+        buttonText: 'disclaimerClose',
         truncateSize: 0
       })
     );

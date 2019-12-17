@@ -3,25 +3,20 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import * as transloco from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule,
-  TranslateService
-} from '@ngx-translate/core';
-import {
   BreakpointService,
   HeaderModule,
-  SettingsSidebarModule,
-  SidebarModule
+  SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
 import { KeycloakAngularModule } from 'keycloak-angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { InputModule } from './feature/input/input.module';
+import { getTranslocoModule } from './shared/transloco/transloco-testing.module';
 
 import { AppComponent } from './app.component';
 
@@ -42,7 +37,7 @@ describe('AppComponent', () => {
 
   let authGuard: AuthGuard;
   let breakpointService: BreakpointService;
-  let translationService: TranslateService;
+  let translationService: transloco.TranslocoService;
   let store: Store<any>;
 
   configureTestSuite(() => {
@@ -51,16 +46,10 @@ describe('AppComponent', () => {
       imports: [
         FlexLayoutModule,
         HeaderModule,
-        SidebarModule,
         SettingsSidebarModule,
         RouterTestingModule,
         InputModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        }),
+        getTranslocoModule(),
         KeycloakAngularModule
       ],
       providers: [
@@ -75,6 +64,7 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
+    spyOn(transloco, 'translate').and.returnValue('test');
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -83,7 +73,7 @@ describe('AppComponent', () => {
   beforeEach(() => {
     authGuard = TestBed.get(AuthGuard);
     breakpointService = TestBed.get(BreakpointService);
-    translationService = TestBed.get(TranslateService);
+    translationService = TestBed.get(transloco.TranslocoService);
     store = TestBed.get(Store);
   });
 
@@ -94,7 +84,6 @@ describe('AppComponent', () => {
   describe('#ngOnInit', () => {
     beforeEach(() => {
       component['getCurrentProfile'] = jest.fn();
-      component['initTranslation'] = jest.fn();
       component['handleObservables'] = jest.fn();
     });
 
@@ -103,13 +92,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component['getCurrentProfile']).toHaveBeenCalled();
-    });
-
-    it('should call initTranslation()', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component['initTranslation']).toHaveBeenCalled();
     });
 
     it('should call handleObservables()', () => {
@@ -161,31 +143,11 @@ describe('AppComponent', () => {
   });
 
   describe('private methods', () => {
-    describe('#initTranslation', () => {
-      it('should set default language to english', () => {
-        translationService.setDefaultLang = jest.fn();
-
-        component['initTranslation']();
-
-        expect(translationService.setDefaultLang).toHaveBeenCalledWith('en');
-      });
-
-      it('should use browser language', () => {
-        translationService.use = jest.fn();
-        translationService.getBrowserLang = jest.fn(() => 'de');
-
-        component['initTranslation']();
-
-        expect(translationService.use).toHaveBeenCalledWith('de');
-      });
-    });
-
     describe('#handleObservables', () => {
       beforeEach(() => {
         component.isLessThanMediumViewPort$ = undefined;
 
         spyOn(breakpointService, 'isLessThanMedium').and.callThrough();
-        spyOn(translationService, 'get').and.callThrough();
       });
 
       it('should set isLessThanMediumViewPort$ properly', () => {
@@ -195,12 +157,6 @@ describe('AppComponent', () => {
 
         expect(component.isLessThanMediumViewPort$).toBeDefined();
         expect(breakpointService.isLessThanMedium).toHaveBeenCalled();
-      });
-
-      it('should call translationService twice', () => {
-        component['handleObservables']();
-
-        expect(translationService.get).toHaveBeenCalledTimes(2);
       });
     });
 

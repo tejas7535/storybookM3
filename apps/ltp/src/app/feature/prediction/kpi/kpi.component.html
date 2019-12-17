@@ -6,16 +6,17 @@
   fxLayoutAlign.lt-sm="space-between center"
   fxLayoutGap="10px"
   fxFlex
+  *transloco="let t"
 >
-  <span class="ltp-kpi-value" translate>{{ value }}</span>
+  <span class="ltp-kpi-value">{{ value }}</span>
   <label
     *ngIf="!descriptionParams"
     class="ltp-kpi-label"
-    [innerHtml]="description | translate"
+    [innerHtml]="t(description)"
   ></label>
   <label
     *ngIf="descriptionParams"
     class="ltp-kpi-label"
-    [innerHtml]="description | translate: this.descriptionParams"
+    [innerHtml]="t(description, this.descriptionParams)"
   ></label>
 </div>

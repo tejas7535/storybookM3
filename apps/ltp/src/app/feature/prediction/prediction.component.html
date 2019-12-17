@@ -3,6 +3,7 @@
     class="ltp-prediction-border-bottom"
     fxLayout="row"
     fxLayoutAlign="space-between stretch"
+    *transloco="let t; read: 'prediction'"
   >
     <div fxLayout="row" fxLayoutAlign="start stretch">
       <mat-tab-group
@@ -11,12 +12,12 @@
       >
         <mat-tab>
           <ng-template mat-tab-label>
-            <h4 translate>_PREDICTION.WOEHLER</h4>
+            <h4>{{ t('woehler') }}</h4>
           </ng-template>
         </mat-tab>
         <mat-tab>
           <ng-template mat-tab-label>
-            <h4 translate>_PREDICTION.HAIGH</h4>
+            <h4>{{ t('haigh') }}</h4>
           </ng-template>
         </mat-tab>
       </mat-tab-group>
@@ -29,13 +30,13 @@
           fxLayoutGap="5px"
         >
           <i class="icon icon-upload"></i>
-          <span fxHide.lt-sm translate>_PREDICTION.UPLOAD</span>
+          <span fxHide.lt-sm>{{ t('upload') }}</span>
           <i class="icon icon-arrow-down" fxHide.lt-sm></i>
         </span>
       </button>
       <mat-menu #uploadMenu="matMenu">
         <button mat-menu-item (click)="fileInput.click()">
-          <span translate>_PREDICTION.CSV</span>
+          <span>{{ t('csv') }}</span>
           <input
             hidden
             #fileInput
@@ -53,13 +54,13 @@
           fxLayoutGap="5px"
         >
           <i class="icon icon-export"></i>
-          <span fxHide.lt-sm translate>_PREDICTION.EXPORT</span>
+          <span fxHide.lt-sm>{{ t('export') }}</span>
           <i class="icon icon-arrow-down" fxHide.lt-sm></i>
         </span>
       </button>
       <mat-menu #exportMenu="matMenu">
         <button mat-menu-item (click)="chart.exportChart()">
-          <span translate>_PREDICTION.PDF</span>
+          <span>{{ t('pdf') }}</span>
         </button>
       </mat-menu>
     </div>
@@ -95,6 +96,7 @@
         fxLayout="column"
         fxLayoutAlign="space-around stretch"
         fxLayoutGap="20px"
+        *transloco="let t; read: 'prediction'"
       >
         <mat-accordion displayMode="flat" fxHide.gt-md>
           <ng-container>
@@ -102,16 +104,14 @@
               <mat-expansion-panel-header>
                 <div fxLayout="row" fxLayoutAlign="space-between center">
                   <mat-panel-title>
-                    <span class="ltp-prediction-legend-header" translate
-                      >_PREDICTION.CHART.LEGEND</span
-                    >
+                    <span class="ltp-prediction-legend-header">{{
+                      t('chart.legend')
+                    }}</span>
                   </mat-panel-title>
                   <mat-panel-description>
                     <ltp-tooltip
                       (click)="$event.stopPropagation()"
-                      [content]="
-                        '_PREDICTION.CHART.LEGEND_DESCRIPTION' | translate
-                      "
+                      [content]="t('chart.legendDescription')"
                       manualcolor="#1d9bb2"
                       icon="icon-toast-information"
                     ></ltp-tooltip>
@@ -132,12 +132,12 @@
           fxHide.lt-lg
         >
           <div fxLayout="row" fxLayoutAlign="space-between center">
-            <span class="ltp-prediction-legend-header" translate
-              >_PREDICTION.CHART.LEGEND</span
-            >
+            <span class="ltp-prediction-legend-header">{{
+              t('chart.legend')
+            }}</span>
             <ltp-tooltip
               (click)="$event.stopPropagation()"
-              [content]="'_PREDICTION.CHART.LEGEND_DESCRIPTION' | translate"
+              [content]="t('chart.legendDescription')"
               manualcolor="#1d9bb2"
               icon="icon-toast-information"
             ></ltp-tooltip>
@@ -151,19 +151,20 @@
         fxLayoutAlign="space-around center"
         fxLayoutAlign.lt-lg="space-around stretch"
         fxLayoutAlign.lt-sm="space-around center"
+        *transloco="let t; read: 'prediction.kpi'"
       >
-        <h4 class="ltp-prediction-kpi-headline" translate>
-          _PREDICTION.KPI_HEADLINE
+        <h4 class="ltp-prediction-kpi-headline">
+          {{ t('headline') }}
         </h4>
         <ltp-kpi
           *ngIf="showWoehler()"
           [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
-          description="_PREDICTION.KPI.FATIGUE"
+          description="prediction.kpi.fatigue"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="showWoehler()"
           [value]="(predictionResult | async).kpi?.slope.toFixed(2)"
-          description="_PREDICTION.KPI.SLOPE"
+          description="prediction.kpi.slope"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="showWoehler()"
@@ -174,8 +175,8 @@
           "
           [description]="
             (predictionResult | async).kpi?.count == 0
-              ? 'SURVIVOR'
-              : '_PREDICTION.KPI.COUNT'
+              ? 'prediction.kpi.survivor'
+              : 'prediction.kpi.count'
           "
           [descriptionParams]="{
             mpa: (predictionResult | async)?.kpi?.mpa || ''
@@ -185,17 +186,17 @@
         <ltp-kpi
           *ngIf="!showWoehler()"
           [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
-          description="_PREDICTION.KPI.FATIGUE_0"
+          description="prediction.kpi.fatigue0"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="!showWoehler()"
           [value]="(predictionResult | async).kpi?.fatigue1.toFixed(0)"
-          description="_PREDICTION.KPI.FATIGUE_1"
+          description="prediction.kpi.fatigue1"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="!showWoehler()"
           [value]="(predictionResult | async).kpi?.meanStress.toFixed(2)"
-          description="_PREDICTION.KPI.MEAN_STRESS"
+          description="prediction.kpi.meanStress"
         ></ltp-kpi>
       </div>
     </div>

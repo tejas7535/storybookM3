@@ -6,15 +6,12 @@ import {
   MatInputModule,
   MatSliderModule
 } from '@angular/material';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
-
 import { configureTestSuite } from 'ng-bullet';
+
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { LimitsComponent } from './limits.component';
 
@@ -32,12 +29,13 @@ describe('LimitsComponent', () => {
         MatInputModule,
         MatSliderModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useValue: TranslateFakeLoader
-          }
-        })
+        getTranslocoModule()
+      ],
+      providers: [
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });

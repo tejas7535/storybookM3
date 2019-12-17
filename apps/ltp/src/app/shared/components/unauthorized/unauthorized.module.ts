@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { RouterModule } from '@angular/router';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { UnauthorizedComponent } from './unauthorized.component';
 
@@ -14,7 +14,7 @@ import { UnauthorizedComponent } from './unauthorized.component';
     CommonModule,
     MatGridListModule,
     MatButtonModule,
-    TranslateModule,
+    TranslocoModule,
     RouterModule
   ],
   exports: [UnauthorizedComponent]

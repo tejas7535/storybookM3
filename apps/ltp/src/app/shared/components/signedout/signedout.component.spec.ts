@@ -1,12 +1,10 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatGridListModule } from '@angular/material';
 
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { HttpLoaderFactory } from '../../../app.module';
+import { getTranslocoModule } from '../../transloco/transloco-testing.module';
 
 import { SignedoutComponent } from './signedout.component';
 
@@ -17,17 +15,7 @@ describe('SignedoutComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [SignedoutComponent],
-      imports: [
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        }),
-        HttpClientModule,
-        MatGridListModule
-      ]
+      imports: [HttpClientModule, MatGridListModule, getTranslocoModule()]
     });
   });
 

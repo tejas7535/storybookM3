@@ -7,7 +7,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     color: '#A1C861',
     identifier: 'appliedStress',
     legendDisplay: {
-      name: '_PREDICTION.CHART.LEGEND_LOAD',
+      name: 'prediction.chart.legendLoad',
       color: '#A1C861'
     }
   },
@@ -18,7 +18,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     identifier: 'snCurve',
     survivalProbability: 50,
     legendDisplay: {
-      name: '_PREDICTION.CHART.LEGEND_ML',
+      name: 'prediction.chart.legendMl',
       color: '#00893D'
     }
   },
@@ -29,7 +29,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     identifier: 'fkm',
     survivalProbability: 97.5,
     legendDisplay: {
-      name: '_PREDICTION.CHART.LEGEND_FKM',
+      name: 'prediction.chart.legendFkm',
       color: 'red'
     }
   },
@@ -40,7 +40,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     identifier: 'murakami',
     survivalProbability: 50,
     legendDisplay: {
-      name: '_PREDICTION.CHART.LEGEND_MURAKAMI',
+      name: 'prediction.chart.legendMurakami',
       color: 'blue'
     }
   },
@@ -52,7 +52,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     dashStyle: 'dash',
     survivalProbability: 1,
     legendDisplay: {
-      name: '_PREDICTION.CHART.CONFIDENCE_INNER',
+      name: 'prediction.chart.confidenceInner',
       color: 'transparent',
       borderStyle: 'dotted',
       borderWidth: 2,

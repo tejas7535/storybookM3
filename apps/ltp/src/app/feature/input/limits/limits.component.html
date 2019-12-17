@@ -1,5 +1,5 @@
-<form [formGroup]="limitForm" fxLayout="column">
-  <label>{{ 'HV_LOWER_AND_UPPER_LIMIT' | translate }}</label>
+<form [formGroup]="limitForm" fxLayout="column" *transloco="let t">
+  <label>{{ t('hvLowerAndUpperLimit') }}</label>
   <div fxLayout="row" fxLayoutAlign="none top">
     <mat-form-field fxFlex="20">
       <input

@@ -7,7 +7,7 @@ export const GRAPH_DEFINITIONS_HAIGH: Series[] = [
     color: '#A1C861',
     identifier: 'appliedStress',
     legendDisplay: {
-      name: 'Beanspruchung',
+      name: 'prediction.chart.legendLoad',
       color: '#A1C861'
     }
   },
@@ -17,7 +17,7 @@ export const GRAPH_DEFINITIONS_HAIGH: Series[] = [
     color: '#00893D',
     identifier: 'snCurve',
     legendDisplay: {
-      name: 'Beanspruchbarkeit ML-Modell',
+      name: 'prediction.chart.legendMl',
       color: '#00893D'
     }
   },
@@ -27,7 +27,7 @@ export const GRAPH_DEFINITIONS_HAIGH: Series[] = [
     color: 'red',
     identifier: 'fkm',
     legendDisplay: {
-      name: 'Beanspruchbarkeit FKM-Richtlinie',
+      name: 'prediction.chart.legendFkm',
       color: 'red'
     }
   },
@@ -37,7 +37,7 @@ export const GRAPH_DEFINITIONS_HAIGH: Series[] = [
     color: 'blue',
     identifier: 'murakami',
     legendDisplay: {
-      name: 'Beanspruchbarkeit Murakami-Modell',
+      name: 'prediction.chart.legendMurakami',
       color: 'blue'
     }
   }

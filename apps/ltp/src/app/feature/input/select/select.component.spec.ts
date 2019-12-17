@@ -1,3 +1,5 @@
+import { of } from 'rxjs';
+
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -5,16 +7,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
 import { configureTestSuite } from 'ng-bullet';
-import { of } from 'rxjs';
+
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
+
+import { SelectComponent } from './select.component';
 
 import { SelectControl } from './select-control.model';
-import { SelectComponent } from './select.component';
 
 describe('SelectComponent', () => {
   let component: SelectComponent;
@@ -30,12 +29,7 @@ describe('SelectComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         FlexLayoutModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        })
+        getTranslocoModule()
       ]
     });
   });

@@ -4,7 +4,7 @@ import { GRAPH_DEFINITIONS_HAIGH } from './graph-definitions-haigh';
 export const CHART_SETTINGS_HAIGH: ChartSettings = {
   sources: GRAPH_DEFINITIONS_HAIGH,
   argumentAxis: {
-    title: '_PREDICTION.CHART.HAIGH_X_LABEL',
+    title: 'prediction.chart.haighXLabel',
     showLabel: true,
     format: '',
     showGrid: true,
@@ -12,7 +12,7 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
     type: 'continouus'
   },
   valueAxis: {
-    title: '_PREDICTION.CHART.HAIGH_Y_LABEL',
+    title: 'prediction.chart.haighYLabel',
     showLabel: true,
     format: '',
     showGrid: true,

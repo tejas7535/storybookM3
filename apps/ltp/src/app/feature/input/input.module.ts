@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 
@@ -33,7 +33,7 @@ import { ToggleComponent } from './toggle/toggle.component';
   ],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslocoModule,
     FormsModule,
     ReactiveFormsModule,
     FlexLayoutModule,

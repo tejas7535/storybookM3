@@ -1,12 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
-
 import { configureTestSuite } from 'ng-bullet';
+
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { KpiComponent } from './kpi.component';
 
@@ -17,14 +13,7 @@ describe('KpiComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [KpiComponent],
-      imports: [
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        })
-      ]
+      imports: [getTranslocoModule()]
     });
   });
 

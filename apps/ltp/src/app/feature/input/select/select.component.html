@@ -1,9 +1,9 @@
-<mat-form-field fxFlex>
+<mat-form-field fxFlex *transloco="let t">
   <mat-label
     [innerHTML]="
       control.flexibleLabel
-        ? control.flexibleLabel(control.name | translate)
-        : (control.name | translate)
+        ? control.flexibleLabel(t(control.name))
+        : t(control.name)
     "
   ></mat-label>
   <mat-select [formControl]="control.formControl">
@@ -12,7 +12,7 @@
       [value]="option.value"
       [disabled]="option.disabled"
     >
-      {{ option.name | translate }}
+      {{ t(option.name) }}
     </mat-option>
   </mat-select>
 </mat-form-field>

@@ -8,20 +8,17 @@ import {
   MatMenuModule,
   MatTabsModule
 } from '@angular/material';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
+import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
 import { ChartModule } from './chart/chart.module';
 
 import { KpiComponent } from './kpi/kpi.component';
@@ -59,12 +56,7 @@ describe('PredictionComponent', () => {
         MatButtonModule,
         MatMenuModule,
         MatTabsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        }),
+        getTranslocoModule(),
         StoreModule.forRoot({}),
         ChartModule,
         MatExpansionModule,
@@ -78,7 +70,11 @@ describe('PredictionComponent', () => {
             input: initialInputState,
             banner: initialBannerState
           }
-        })
+        }),
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });

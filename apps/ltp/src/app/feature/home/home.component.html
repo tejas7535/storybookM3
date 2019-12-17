@@ -1,7 +1,12 @@
 <div fxLayout="column" class="container">
   <schaeffler-banner></schaeffler-banner>
-  <div fxLayout="column" class="page-container" fxFlex>
-    <h1 translate>HOME.HEADLINE</h1>
+  <div
+    fxLayout="column"
+    class="page-container"
+    fxFlex
+    *transloco="let t; read: 'home'"
+  >
+    <h1>{{ t('headline') }}</h1>
 
     <ltp-prediction fxFlex></ltp-prediction>
   </div>

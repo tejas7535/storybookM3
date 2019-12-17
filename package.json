@@ -38,13 +38,20 @@
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
-    "postinstall": "npm run generate-readme"
+    "postinstall": "npm run generate-readme",
+    "i18n:extract": "transloco-keys-manager extract",
+    "i18n:find": "transloco-keys-manager find"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "pretty-quick --staged",
+      "pre-commit": "pretty-quick --staged && lint-staged",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS || echo You can use `npm run cm` for CLI support when creating conventional commits && exit 1"
     }
+  },
+  "lint-staged": {
+    "**/*/assets/i18n/*.json": [
+      "transloco-validator"
+    ]
   },
   "private": true,
   "dependencies": {
@@ -59,13 +66,13 @@
     "@angular/platform-browser": "8.2.14",
     "@angular/platform-browser-dynamic": "8.2.14",
     "@angular/router": "8.2.14",
-    "@ngneat/transloco": "2.6.2",
+    "@ngneat/transloco": "2.12.1",
+    "@ngneat/transloco-optimize": "1.0.1",
+    "@ngneat/transloco-validator": "1.0.0",
     "@ngrx/effects": "8.5.2",
     "@ngrx/router-store": "8.5.2",
     "@ngrx/store": "8.5.2",
     "angular-oauth2-oidc": "8.0.4",
-    "@ngx-translate/core": "10.0.2",
-    "@ngx-translate/http-loader": "3.0.1",
     "core-js": "3.4.2",
     "devextreme": "19.2.4",
     "devextreme-angular": "19.2.4",
@@ -112,6 +119,7 @@
     "jest-junit": "9.0.0",
     "jest-marbles": "2.5.0",
     "jest-preset-angular": "7.1.1",
+    "lint-staged": "9.5.0",
     "markdown-include": "0.4.3",
     "markdown-magic": "1.0.0",
     "markdown-magic-version-badge": "1.1.1",
@@ -130,7 +138,9 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.3",
-    "webpack-bundle-analyzer": "3.6.0"
+    "webpack-bundle-analyzer": "3.6.0",
+    "ngx-build-plus": "9.0.2",
+    "@ngneat/transloco-keys-manager": "1.0.0"
   },
   "config": {
     "commitizen": {

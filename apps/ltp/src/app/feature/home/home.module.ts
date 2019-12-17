@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 import { BannerModule } from '@schaeffler/shared/ui-components';
 
 import { PredictionModule } from '../prediction/prediction.module';
@@ -16,7 +16,7 @@ import { HomeComponent } from './home.component';
     BannerModule,
     CommonModule,
     HomeRoutingModule,
-    TranslateModule,
+    TranslocoModule,
     FlexLayoutModule,
     PredictionModule
   ]

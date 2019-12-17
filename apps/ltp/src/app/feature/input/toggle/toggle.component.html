@@ -1,3 +1,7 @@
-<mat-slide-toggle color="primary" [formControl]="control.formControl">
-  {{ control.name | translate }}
+<mat-slide-toggle
+  color="primary"
+  [formControl]="control.formControl"
+  *transloco="let t"
+>
+  {{ t(control.name) }}
 </mat-slide-toggle>

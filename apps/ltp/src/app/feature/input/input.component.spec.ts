@@ -12,29 +12,30 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
+import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
+
 import { InputComponent } from './input.component';
 import { LimitsComponent } from './limits/limits.component';
 import { MaterialComponent } from './material/material.component';
 import { SelectComponent } from './select/select.component';
 import { SliderComponent } from './slider/slider.component';
-import { SliderControl } from './slider/slider.model';
 import { ToggleComponent } from './toggle/toggle.component';
 
-import * as fromStore from '../../core/store';
 import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
+
+import { SliderControl } from './slider/slider.model';
+
+import * as fromStore from '../../core/store';
 import { PredictionRequest } from '../../shared/models';
 
 describe('InputComponent', () => {
@@ -64,12 +65,7 @@ describe('InputComponent', () => {
         MatDividerModule,
         MatSlideToggleModule,
         TooltipModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useValue: TranslateFakeLoader
-          }
-        })
+        getTranslocoModule()
       ],
       providers: [
         provideMockStore({
@@ -77,7 +73,11 @@ describe('InputComponent', () => {
             input: initialInputState,
             prediction: initialPredictionState
           }
-        })
+        }),
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });
