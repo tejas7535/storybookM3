@@ -1,0 +1,26 @@
+<div fxLayout="column" fxLayoutAlign="space-around start">
+  <h2>Use demo text or paste your text here</h2>
+  <mat-form-field class="textInput" floatLabel="always">
+    <mat-label>Text</mat-label>
+    <textarea
+      matTextareaAutosize
+      matAutosizeMinRows="10"
+      matInput
+      placeholder="Enter a text to get tags for"
+      [formControl]="textFormControl"
+    >
+    </textarea>
+    <mat-error *ngIf="!textFormControl.valid">
+      Your text must contain at least {{ minLength }} characters.
+    </mat-error>
+  </mat-form-field>
+  <button
+    mat-raised-button
+    color="primary"
+    class="tags-btn"
+    (click)="getTags()"
+    [disabled]="!textFormControl.valid"
+  >
+    Generate Tags
+  </button>
+</div>

@@ -1,15 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { AutoTaggingRoutingModule } from './auto-tagging-routing.module';
-
 import { AutoTaggingComponent } from './auto-tagging.component';
+import { FileUploadModule } from './file-upload/file-upload.module';
+import { TextInputModule } from './text-input/text-input.module';
 
 @NgModule({
   declarations: [AutoTaggingComponent],
@@ -17,11 +14,9 @@ import { AutoTaggingComponent } from './auto-tagging.component';
     AutoTaggingRoutingModule,
     CommonModule,
     FlexLayoutModule,
-    MatButtonModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatInputModule,
-    ReactiveFormsModule
+    MatTabsModule,
+    TextInputModule,
+    FileUploadModule
   ],
   exports: [AutoTaggingComponent]
 })
