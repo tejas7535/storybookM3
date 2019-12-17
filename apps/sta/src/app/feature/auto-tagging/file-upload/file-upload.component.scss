@@ -1,0 +1,19 @@
+@import 'libs/shared/styles/src/lib/colors';
+
+.dropzone-container {
+  width: 100%;
+}
+
+.dropzone-information {
+  margin-top: 10px;
+
+  .icon-toast-information {
+    height: 20px;
+    width: 20px;
+
+    &:before {
+      color: $schaeffler-blue;
+      font-size: 16px;
+    }
+  }
+}

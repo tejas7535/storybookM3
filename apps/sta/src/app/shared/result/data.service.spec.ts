@@ -1,5 +1,3 @@
-import { skip } from 'rxjs/operators';
-
 import {
   HttpClientTestingModule,
   HttpTestingController
@@ -7,6 +5,7 @@ import {
 import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
+import { skip } from 'rxjs/operators';
 
 import { DataService } from './data.service';
 
@@ -56,6 +55,34 @@ describe('DataService', () => {
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('POST');
       req.flush({ tags: expectedTags });
+    });
+  });
+
+  describe('postTaggingFile', () => {
+    let file: File;
+    let form: FormData;
+    const url = 'https://dev.sta.dp.schaeffler/api/v1/tagging/file';
+
+    beforeEach(() => {
+      file = new File([], 'test');
+      form = new FormData();
+      form.append('file', file, file.name);
+    });
+
+    test('should update tags for event response and status 200', () => {
+      const tags = ['1', '2', '3'];
+
+      service.tags.pipe(skip(1)).subscribe(newTags => {
+        expect(newTags).toEqual(tags);
+      });
+
+      service.postTaggingFile(file);
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(form);
+
+      req.flush({ tags });
     });
   });
 

@@ -22,7 +22,6 @@ h5,
 h6,
 p,
 input,
-label,
 option {
   color: $schaeffler-carbon-gray;
 }
@@ -39,6 +38,7 @@ h1 {
 
 h2 {
   font-size: $schaeffler-h2;
+  font-weight: 400;
 }
 
 h3 {

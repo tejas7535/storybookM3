@@ -1,0 +1,21 @@
+<div fxLayout="column" fxLayoutAlign="space-around start">
+  <h2>Upload a file</h2>
+  <div class="dropzone-container">
+    <schaeffler-file-drop
+      multiple="false"
+      [accept]="['.docx', '.pdf', '.txt']"
+      (filesAdded)="uploadFile($event)"
+    ></schaeffler-file-drop>
+  </div>
+  <label
+    class="dropzone-information"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+  >
+    <mat-icon class="icon icon-toast-information"></mat-icon>
+    <span class="max"
+      >Maximum file size: <b>10 MB</b>. Supported file types:
+      <b>.txt, .docx</b> and <b>.pdf</b></span
+    >
+  </label>
+</div>

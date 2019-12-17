@@ -1,4 +1,4 @@
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { HttpClient } from '@angular/common/http';
@@ -36,6 +36,18 @@ export class DataService {
   public postTaggingText(text: string): void {
     this.http
       .post<Tags>(`${this.apiUrl}/tagging/text`, new InputText(text))
+      .pipe(map((tags: Tags) => tags.tags))
+      .subscribe(tags => {
+        this.tags$.next(tags);
+      });
+  }
+
+  public postTaggingFile(file: File): void {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+
+    this.http
+      .post(`${this.apiUrl}/tagging/file`, formData)
       .pipe(map((tags: Tags) => tags.tags))
       .subscribe(tags => {
         this.tags$.next(tags);
