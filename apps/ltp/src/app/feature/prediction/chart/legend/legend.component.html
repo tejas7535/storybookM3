@@ -1,4 +1,9 @@
-<div fxLayout="column" fxLayoutAlign="space-around start" fxLayoutGap="5px">
+<div
+  fxLayout="column"
+  fxLayoutAlign="space-around start"
+  fxLayoutGap="5px"
+  *transloco="let t"
+>
   <div
     *ngFor="let graph of graphs; trackBy: trackByFn"
     fxLayout="row"
@@ -21,7 +26,7 @@
     </div>
     <span
       class="ltp-chart-legend-text"
-      [innerHtml]="graph.name | translate"
+      [innerHtml]="t(graph.name)"
       fxFlex
     ></span>
   </div>

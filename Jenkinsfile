@@ -492,7 +492,7 @@ pipeline {
                             script {
                                 if(isMaster() ||  isRelease()) {
                                     for (app in affectedApps) {
-                                        sh "ng build ${app} --configuration=production"
+                                        sh "ng build ${app} --configuration=production && transloco-optimize dist/${app}/assets/i18n"
                                     }
                                 } else {
                                     for (app in affectedApps) {

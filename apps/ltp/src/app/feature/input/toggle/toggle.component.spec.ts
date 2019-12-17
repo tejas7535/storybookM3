@@ -1,15 +1,14 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { HttpLoaderFactory } from '../../../app.module';
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { ToggleComponent } from './toggle.component';
 
@@ -28,14 +27,14 @@ describe('ToggleComponent', () => {
         MatFormFieldModule,
         MatSlideToggleModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        }),
-        HttpClientModule
+        HttpClientModule,
+        getTranslocoModule()
+      ],
+      providers: [
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });

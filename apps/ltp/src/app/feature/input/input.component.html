@@ -1,4 +1,4 @@
-<form [formGroup]="inputForm">
+<form [formGroup]="inputForm" *transloco="let t">
   <mat-accordion displayMode="flat" multi="true">
     <ng-container
       *ngFor="let controlGroup of inputCategories; trackBy: trackByFn"
@@ -12,10 +12,10 @@
       >
         <mat-expansion-panel-header>
           <div fxFlex fxLayout="row" fxLayoutAlign="space-between center">
-            <h6>{{ controlGroup.name | translate }}</h6>
+            <h6>{{ t(controlGroup.name) }}</h6>
             <ltp-tooltip
               (click)="$event.stopPropagation()"
-              [content]="controlGroup.description | translate"
+              [content]="t(controlGroup.description)"
               manualcolor="#1d9bb2"
               icon="icon-toast-information"
             ></ltp-tooltip>
@@ -27,7 +27,7 @@
           [checked]="material"
           (change)="material = $event.source.checked"
         >
-          {{ 'HV_FROM_PLS_DATA' | translate }}
+          {{ t('HV_FROM_PLS_DATA') }}
         </mat-slide-toggle> -->
         <ltp-material
           *ngIf="dropdownHardness(controlGroup.name)"
@@ -52,7 +52,7 @@
           </div>
         </ng-container>
         <ltp-limits
-          *ngIf="controlGroup.name == 'HV'"
+          *ngIf="controlGroup.name == 'hv'"
           [hv]="(predictionRequest | async).hv"
           [hv_lower]="(predictionRequest | async).hv_lower"
           [hv_upper]="(predictionRequest | async).hv_upper"

@@ -4,14 +4,10 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
-
 import { DxChartModule } from 'devextreme-angular/ui/chart';
 import { configureTestSuite } from 'ng-bullet';
+
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { ChartComponent } from './chart.component';
 import { LegendComponent } from './legend/legend.component';
@@ -29,12 +25,7 @@ describe('ChartComponent', () => {
         CommonModule,
         FlexLayoutModule,
         DxChartModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        })
+        getTranslocoModule()
       ]
     });
   });

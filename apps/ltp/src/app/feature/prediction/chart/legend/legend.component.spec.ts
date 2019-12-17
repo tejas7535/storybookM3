@@ -1,10 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -17,14 +13,7 @@ describe('LegendComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LegendComponent],
-      imports: [
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        })
-      ]
+      imports: [TranslocoModule]
     });
   });
 

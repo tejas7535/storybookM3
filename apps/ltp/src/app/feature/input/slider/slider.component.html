@@ -1,9 +1,9 @@
-<div fxLayout="column">
+<div fxLayout="column" *transloco="let t">
   <label
     [innerHTML]="
       control.flexibleLabel
-        ? control.flexibleLabel(control.name | translate)
-        : (control.name | translate)
+        ? control.flexibleLabel(t(control.name))
+        : t(control.name)
     "
   ></label>
   <div fxLayout="row" fxLayoutAlign="space-between top">

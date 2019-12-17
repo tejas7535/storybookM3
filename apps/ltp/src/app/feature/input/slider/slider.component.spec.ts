@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DebugElement } from '@angular/core';
 import {
   ComponentFixture,
@@ -12,14 +12,12 @@ import {
   MatInputModule,
   MatSliderModule
 } from '@angular/material';
-import { By } from '@angular/platform-browser';
+import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { HttpLoaderFactory } from '../../../app.module';
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { SliderComponent } from './slider.component';
 
@@ -40,14 +38,14 @@ describe('SliderComponent', () => {
         MatSliderModule,
         MatInputModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        }),
-        HttpClientModule
+        HttpClientModule,
+        getTranslocoModule()
+      ],
+      providers: [
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });

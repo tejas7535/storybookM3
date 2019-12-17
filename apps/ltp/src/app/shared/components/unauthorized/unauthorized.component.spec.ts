@@ -3,13 +3,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
-
 import { configureTestSuite } from 'ng-bullet';
+
+import { getTranslocoModule } from '../../transloco/transloco-testing.module';
 
 import { UnauthorizedComponent } from './unauthorized.component';
 
@@ -21,12 +17,7 @@ describe('UnauthorizedComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UnauthorizedComponent],
       imports: [
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        }),
+        getTranslocoModule(),
         MatGridListModule,
         MatButtonModule,
         RouterTestingModule

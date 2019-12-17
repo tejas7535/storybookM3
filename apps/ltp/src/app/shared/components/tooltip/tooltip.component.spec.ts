@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -13,7 +14,13 @@ describe('TooltipComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TooltipComponent],
-      imports: [MatButtonModule, MatTooltipModule]
+      imports: [MatButtonModule, MatTooltipModule],
+      providers: [
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
+      ]
     });
   });
 

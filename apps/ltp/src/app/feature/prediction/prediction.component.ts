@@ -2,8 +2,8 @@ import { Observable } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import { getBannerOpen } from '@schaeffler/shared/ui-components';
 
 import { Papa } from 'ngx-papaparse';
@@ -32,7 +32,6 @@ export class PredictionComponent implements OnInit {
   chartSettings = CHART_SETTINGS_WOEHLER;
 
   constructor(
-    private readonly translate: TranslateService,
     private readonly papa: Papa,
     private readonly store: Store<fromStore.LTPState>
   ) {
@@ -130,14 +129,15 @@ export class PredictionComponent implements OnInit {
   public customizeTooltip = (arg: any): Object => {
     const { argument, value, seriesName } = arg;
     if (argument < 10000000 && argument > 10000) {
-      let text = this.translate.instant('_PREDICTION.CHART.TOOLTIP', {
+      let text = translate('prediction.chart.tooltip', {
         value: value.toFixed(2)
       });
+
       GRAPH_DEFINITIONS_WOEHLER.forEach(graphDefinition => {
         const { name, survivalProbability } = graphDefinition;
         if (name === seriesName) {
-          text = `${text}<br>${this.translate.instant(
-            '_PREDICTION.CHART.TOOLTIP_SURVIVAL_PROBABILITY',
+          text = `${text}<br>${translate(
+            'prediction.chart.tooltipSurvivalProbability',
             {
               survivalProbability
             }

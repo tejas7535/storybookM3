@@ -3,6 +3,7 @@
   #chartContainer
   (window:resize)="rerenderChart()"
   id="chart-container"
+  *transloco="let t"
 >
   <dx-chart
     id="chart"
@@ -29,7 +30,7 @@
       [visualRange]="limits ? [limits.x_min, limits.x_max] : [10000, 10000000]"
       [visible]="false"
     >
-      <dxo-title [text]="chartSettings.argumentAxis.title | translate">
+      <dxo-title [text]="t(chartSettings.argumentAxis.title)">
         <dxo-font size="16"></dxo-font>
       </dxo-title>
       <dxo-label
@@ -56,7 +57,7 @@
       [visible]="false"
     >
       <dxo-title
-        [text]="chartSettings.valueAxis.title | translate"
+        [text]="t(chartSettings.valueAxis.title)"
         [margin]="chartSettings.valueAxis.showLabel ? 8 : 44"
       >
         <dxo-font size="16"></dxo-font>

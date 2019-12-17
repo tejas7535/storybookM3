@@ -1,10 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import {
+  PageNotFoundComponent,
+  PageNotFoundModule
+} from '@schaeffler/shared/empty-states';
+
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
+import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 import { AuthGuard } from './core/guards/auth.guard';
-import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 const authorized = {
   canActivate: [AuthGuard],
@@ -36,15 +41,15 @@ const routes: Routes = [
       import('./feature/home/home.module').then(m => m.HomeModule),
     pathMatch: 'full',
     ...authorized
+  },
+  {
+    path: '**',
+    component: PageNotFoundComponent
   }
-  // {
-  //   path: '**',
-  //   redirectTo: `/${RoutePath.HomePath}`,
-  // },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes), PageNotFoundModule],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

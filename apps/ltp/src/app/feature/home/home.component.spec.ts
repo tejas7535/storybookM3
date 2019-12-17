@@ -1,16 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import {
-  TranslateFakeLoader,
-  TranslateLoader,
-  TranslateModule
-} from '@ngx-translate/core';
 import {
   BannerModule,
   BannerState,
@@ -19,6 +15,7 @@ import {
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
 import { PredictionModule } from '../prediction/prediction.module';
 
 import { HomeComponent } from './home.component';
@@ -48,17 +45,12 @@ describe('HomeComponent', () => {
       imports: [
         CommonModule,
         NoopAnimationsModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useClass: TranslateFakeLoader
-          }
-        }),
         StoreModule.forRoot({}),
         FlexLayoutModule,
         RouterTestingModule,
         PredictionModule,
-        BannerModule
+        BannerModule,
+        getTranslocoModule()
       ],
       providers: [
         provideMockStore({
@@ -67,7 +59,11 @@ describe('HomeComponent', () => {
             prediction: initialPredictionState,
             banner: initialBannerState
           }
-        })
+        }),
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
+        }
       ]
     });
   });
@@ -100,8 +96,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action', () => {
       const banner = {
         component: BannerTextComponent,
-        text: 'DISCLAIMER',
-        buttonText: 'DISCLAIMER_CLOSE',
+        text: 'disclaimer',
+        buttonText: 'disclaimerClose',
         truncateSize: 0,
         type: '[Banner] Open Banner'
       };

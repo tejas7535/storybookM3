@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,11 +7,10 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { HttpLoaderFactory } from '../../../app.module';
+import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { MaterialComponent } from './material.component';
 
@@ -33,13 +32,7 @@ describe('MaterialComponent', () => {
         MatFormFieldModule,
         NoopAnimationsModule,
         HttpClientModule,
-        TranslateModule.forRoot({
-          loader: {
-            provide: TranslateLoader,
-            useFactory: HttpLoaderFactory,
-            deps: [HttpClient]
-          }
-        }),
+        getTranslocoModule(),
         StoreModule.forRoot({
           ...fromStore.reducers
         })

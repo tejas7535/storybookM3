@@ -2,8 +2,8 @@ import { Observable } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { TranslateService } from '@ngx-translate/core';
 import {
   BreakpointService,
   UserMenuEntry
@@ -20,13 +20,13 @@ import * as fromStore from './core/store';
 export class AppComponent implements OnInit {
   public username = '';
 
-  public userMenuEntries = [];
+  public userMenuEntries = [
+    new UserMenuEntry('logout', translate('signOutBtn'))
+  ];
 
   public isLessThanMediumViewPort$: Observable<boolean>;
-  public title$: Observable<String>;
 
   constructor(
-    private readonly translationService: TranslateService,
     private readonly authGuard: AuthGuard,
     private readonly store: Store<fromStore.LTPState>,
     private readonly breakpointService: BreakpointService
@@ -34,8 +34,6 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.getCurrentProfile();
-
-    this.initTranslation();
 
     this.handleObservables();
   }
@@ -55,21 +53,8 @@ export class AppComponent implements OnInit {
     this.authGuard.signOut();
   }
 
-  private initTranslation(): void {
-    this.translationService.setDefaultLang('en');
-    this.translationService.use(this.translationService.getBrowserLang());
-  }
-
   private handleObservables(): void {
     this.isLessThanMediumViewPort$ = this.breakpointService.isLessThanMedium();
-
-    this.title$ = this.translationService.get('TITLE');
-
-    this.translationService
-      .get('SIGN_OUT_BTN')
-      .subscribe(logout =>
-        this.userMenuEntries.push(new UserMenuEntry('logout', logout))
-      );
   }
 
   private async getCurrentProfile(): Promise<void> {

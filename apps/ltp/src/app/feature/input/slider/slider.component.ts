@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
 import { AbstractControl, ValidatorFn } from '@angular/forms';
 

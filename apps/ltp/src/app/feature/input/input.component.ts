@@ -44,24 +44,24 @@ export class InputComponent implements OnInit {
     this.createControls();
     this.inputCategories = [
       {
-        name: 'DISPLAY',
-        description: '_PREDICTION.DISPLAY.INFO_DISPLAY',
+        name: 'display',
+        description: 'prediction.display.infoDisplay',
         controls: this.commonControls,
         alwaysVisible: true
       },
       {
-        name: 'HV',
-        description: '_PREDICTION.DISPLAY.INFO_HV',
+        name: 'hv',
+        description: 'prediction.display.infoHv',
         controls: this.hardnessControls
       },
       {
-        name: 'MATERIAL_PARAMS',
-        description: '_PREDICTION.DISPLAY.INFO_MATERIAL',
+        name: 'materialParams',
+        description: 'prediction.display.infoMaterial',
         controls: this.materialControls
       },
       {
-        name: 'MECHANICAL_LOAD',
-        description: '_PREDICTION.DISPLAY.INFO_LOAD',
+        name: 'mechanicalLoad',
+        description: 'prediction.display.infoLoad',
         controls: this.loadControls
       }
     ];
@@ -169,7 +169,7 @@ export class InputComponent implements OnInit {
    * Returns true or false depending if toggle is set for manual dropdown
    */
   public dropdownHardness(controlGroupName: string): boolean {
-    return controlGroupName === 'HV' && !!this.material;
+    return controlGroupName === 'hv' && !!this.material;
   }
 
   /**
@@ -177,7 +177,7 @@ export class InputComponent implements OnInit {
    */
   public sliderHardness(controlGroupName: string): boolean {
     return (
-      controlGroupName !== 'HV' || (controlGroupName === 'HV' && !this.material)
+      controlGroupName !== 'hv' || (controlGroupName === 'hv' && !this.material)
     );
   }
 
@@ -201,21 +201,21 @@ export class InputComponent implements OnInit {
     this.commonControls = [
       new ToggleControl({
         key: 'showMurakami',
-        name: 'SHOW_MURAKAMI',
+        name: 'showMurakami',
         formControl: new FormControl(),
         disabled: false,
         default: false
       }),
       new ToggleControl({
         key: 'showFKM',
-        name: 'SHOW_FKM',
+        name: 'showFkm',
         formControl: new FormControl(),
         disabled: false,
         default: false
       }),
       new SliderControl({
         key: 'spreading',
-        name: 'SLOG',
+        name: 'slog',
         min: 0.0,
         max: 0.1,
         step: 0.005,
@@ -227,7 +227,7 @@ export class InputComponent implements OnInit {
     this.hardnessControls = [
       new SliderControl({
         key: 'hv',
-        name: 'HV',
+        name: 'hv',
         min: 180,
         max: 800,
         step: 1,
@@ -239,7 +239,7 @@ export class InputComponent implements OnInit {
     this.materialControls = [
       new SliderControl({
         key: 'rz',
-        name: 'ROUGHNESS',
+        name: 'roughness',
         min: 0,
         max: 25,
         step: 0.1,
@@ -248,7 +248,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'hv_core',
-        name: 'HV_CORE',
+        name: 'hvCore',
         min: 180,
         max: 800,
         step: 1,
@@ -257,7 +257,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'rArea',
-        name: 'AREA',
+        name: 'area',
         min: 5,
         max: 100,
         step: 1,
@@ -278,7 +278,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'es',
-        name: 'RESIDUAL_STRESS',
+        name: 'residualStress',
         min: -90,
         max: 90,
         step: 10,
@@ -290,7 +290,7 @@ export class InputComponent implements OnInit {
     this.loadControls = [
       new SliderControl({
         key: 'mpa',
-        name: 'MPA',
+        name: 'mpa',
         min: 400,
         max: 1500,
         step: 1,
@@ -299,7 +299,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'v90',
-        name: 'V90',
+        name: 'v90',
         min: 0,
         max: 1000,
         step: 1,
@@ -308,7 +308,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'gradient',
-        name: 'GRADIENT',
+        name: 'gradient',
         min: 0.001,
         max: 10,
         step: 0.1,
@@ -317,7 +317,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'rrelation',
-        name: 'RREL',
+        name: 'rrel',
         min: -1,
         max: 0,
         step: 1,
@@ -326,7 +326,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'a90',
-        name: 'A90',
+        name: 'a90',
         min: 0.01,
         max: 2000,
         step: 1,
@@ -335,7 +335,7 @@ export class InputComponent implements OnInit {
       }),
       new SliderControl({
         key: 'multiaxiality',
-        name: 'MULTIAXIALITY',
+        name: 'multiaxiality',
         min: -1.33,
         max: 1.33,
         step: 0.01,
@@ -344,7 +344,7 @@ export class InputComponent implements OnInit {
       }),
       new SelectControl({
         key: 'burdeningType',
-        name: 'BURDENING_TYPE',
+        name: 'burdeningType',
         options: this.burdeningTypes.pipe(
           map(burdeningTypes => {
             const options: SelectControlOption[] = [];
