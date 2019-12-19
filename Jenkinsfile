@@ -492,7 +492,12 @@ pipeline {
                             script {
                                 if(isMaster() ||  isRelease()) {
                                     for (app in affectedApps) {
-                                        sh "ng build ${app} --configuration=production && transloco-optimize dist/${app}/assets/i18n"
+                                        sh "ng build ${app} --configuration=production"
+                                        try {
+                                            sh "transloco-optimize dist/apps/${app}/assets/i18n"
+                                        } catch (error) {
+                                            sh "No translations found to optimize in app ${app}"
+                                        }
                                     }
                                 } else {
                                     for (app in affectedApps) {
