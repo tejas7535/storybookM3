@@ -496,7 +496,7 @@ pipeline {
                                         try {
                                             sh "transloco-optimize dist/apps/${app}/assets/i18n"
                                         } catch (error) {
-                                            sh "No translations found to optimize in app ${app}"
+                                            echo "No translations found to optimize in app ${app}"
                                         }
                                     }
                                 } else {
