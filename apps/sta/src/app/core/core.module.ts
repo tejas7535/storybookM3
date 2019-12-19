@@ -1,3 +1,4 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   ModuleWithProviders,
   NgModule,
@@ -15,6 +16,8 @@ import {
 
 import { AuthService } from './auth.service';
 
+import { TokenInterceptor } from './token.interceptor';
+
 import { authConfig } from './auth-config';
 import { AuthGuard } from './auth.guard';
 
@@ -31,7 +34,12 @@ export class CoreModule {
       providers: [
         { provide: AuthConfig, useValue: authConfig },
         { provide: ValidationHandler, useClass: JwksValidationHandler },
-        { provide: OAuthStorage, useFactory: storageFactory }
+        { provide: OAuthStorage, useFactory: storageFactory },
+        {
+          provide: HTTP_INTERCEPTORS,
+          useClass: TokenInterceptor,
+          multi: true
+        }
       ]
     };
   }
