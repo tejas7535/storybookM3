@@ -141,6 +141,19 @@ describe('AuthService', () => {
     });
   });
 
+  describe('accessToken', () => {
+    test('should use authService to return access token', () => {
+      service['oauthService'].getAccessToken = jest
+        .fn()
+        .mockImplementation(() => 'token');
+
+      const res = service.accessToken;
+
+      expect(res).toEqual('token');
+      expect(service['oauthService'].getAccessToken).toHaveBeenCalled();
+    });
+  });
+
   describe('initConfig', () => {
     let authenticated;
 

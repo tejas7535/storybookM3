@@ -57,6 +57,10 @@ export class AuthService {
     );
   }
 
+  get accessToken(): string {
+    return this.oauthService.getAccessToken();
+  }
+
   private initConfig(): void {
     window.addEventListener('storage', event => {
       // The `key` is `null` if the event was caused by `.clear()`
