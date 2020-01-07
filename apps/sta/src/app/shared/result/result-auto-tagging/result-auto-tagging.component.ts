@@ -119,7 +119,7 @@ export class ResultAutoTaggingComponent implements OnChanges {
   }
 
   /**
-   * Show notification on error on copy click
+   * Show notification on copy click
    */
   private showCopiedToClipboardToast(): void {
     const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {

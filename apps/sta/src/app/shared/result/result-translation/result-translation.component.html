@@ -1,0 +1,32 @@
+<mat-expansion-panel
+  class="panel mat-elevation-z0"
+  [expanded]="translationFormControl.value"
+>
+  <mat-expansion-panel-header>
+    <h6>Translation</h6>
+  </mat-expansion-panel-header>
+  <ng-container *ngIf="translationFormControl.value; else empty">
+    <mat-form-field class="translation-field">
+      <mat-label>Suggested Translation</mat-label>
+      <textarea
+        matInput
+        [formControl]="translationFormControl"
+        class="textarea"
+      >
+      </textarea>
+    </mat-form-field>
+
+    <div class="button-row" fxLayout="row" fxLayoutAlign="end center">
+      <button mat-button color="primary" (click)="copyToClipBoard()">
+        <mat-icon>file_copy</mat-icon>
+        <span>COPY</span>
+      </button>
+    </div>
+  </ng-container>
+
+  <ng-template #empty>
+    <p>
+      No translation found.
+    </p>
+  </ng-template>
+</mat-expansion-panel>

@@ -3,25 +3,20 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 
-import { configureTestSuite } from 'ng-bullet';
-import { of } from 'rxjs';
-
 import { FileDropModule } from '@schaeffler/shared/ui-components';
 
-import { DataService } from '../../../shared/result/data.service';
+import { configureTestSuite } from 'ng-bullet';
+
 import { FileUploadComponent } from './file-upload.component';
 
 describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
 
-  let dataService: DataService;
-
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [FileUploadComponent],
-      imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule],
-      providers: [{ provide: DataService, useValue: {} }]
+      imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule]
     });
   });
 
@@ -29,8 +24,6 @@ describe('FileUploadComponent', () => {
     fixture = TestBed.createComponent(FileUploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    dataService = TestBed.get(DataService);
   });
 
   it('should create', () => {
@@ -40,25 +33,23 @@ describe('FileUploadComponent', () => {
   describe('uploadFile', () => {
     let fileList: FileList;
 
-    beforeEach(() => {
-      dataService.postTaggingFile = jest.fn().mockReturnValue(of(10));
-    });
-
     it('should return when no file is existing', () => {
+      component.fileUploaded.emit = jest.fn();
       fileList = { item: undefined, length: 1, 0: undefined };
 
       component.uploadFile(fileList);
 
-      expect(dataService.postTaggingFile).not.toHaveBeenCalled();
+      expect(component.fileUploaded.emit).not.toHaveBeenCalled();
     });
 
-    it('should call postTaggingFile of dataService', () => {
+    it('should emit fileUploaded when file exists', () => {
       const file: File = new File([], 'test');
       fileList = { item: undefined, length: 1, 0: file };
+      component.fileUploaded.emit = jest.fn();
 
       component.uploadFile(fileList);
 
-      expect(dataService.postTaggingFile).toHaveBeenCalledWith(file);
+      expect(component.fileUploaded.emit).toHaveBeenCalledWith(file);
     });
   });
 });

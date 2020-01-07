@@ -216,6 +216,26 @@ describe('AuthService', () => {
       expect(authenticated).toBeTruthy();
       expect(service['login']).not.toHaveBeenCalled();
     }));
+
+    test('should call login if token not valid and access_token event received', async(() => {
+      service[
+        'oauthService'
+      ].hasValidAccessToken = jest.fn().mockImplementation(() => false);
+      service['oauthService'].events = NEVER;
+      service['login'] = jest.fn();
+
+      service['initConfig']();
+
+      window.dispatchEvent(
+        new StorageEvent('storage', {
+          key: 'access_token',
+          newValue: 'test_value'
+        })
+      );
+
+      expect(authenticated).toBeFalsy();
+      expect(service['login']).toHaveBeenCalled();
+    }));
   });
 
   describe('navigateToState', () => {

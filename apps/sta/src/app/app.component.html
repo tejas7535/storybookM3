@@ -20,9 +20,7 @@
         <schaeffler-footer></schaeffler-footer>
       </ng-container>
       <ng-container sidebar>
-        <ng-container
-          *ngIf="(isInitialState$ | async) === false; else emptystate"
-        >
+        <ng-container *ngIf="(isDataAvl$ | async) === true; else emptystate">
           <sta-result></sta-result>
         </ng-container>
         <ng-template #emptystate>

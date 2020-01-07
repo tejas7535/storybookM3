@@ -17,6 +17,13 @@ const routes: Routes = [
       )
   },
   {
+    path: 'translation',
+    loadChildren: () =>
+      import('./feature/translation/translation.module').then(
+        m => m.TranslationModule
+      )
+  },
+  {
     path: '**',
     component: PageNotFoundComponent
   }

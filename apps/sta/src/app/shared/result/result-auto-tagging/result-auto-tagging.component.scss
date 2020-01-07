@@ -31,8 +31,11 @@
 }
 
 .button-row {
-  span {
+  .more {
     color: $schaeffler-carbon-gray;
+  }
+
+  span {
     font-size: 16px;
     font-weight: bold;
   }

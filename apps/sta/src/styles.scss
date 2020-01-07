@@ -1,5 +1,15 @@
 @import 'libs/shared/styles/src';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .full-height {
   height: 100%;
+}
+
+.material-icons {
+  font-family: 'Material Icons' !important;
+}
+
+.icon,
+.material-icons {
+  font-size: 20px;
 }

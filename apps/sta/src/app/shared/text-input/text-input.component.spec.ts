@@ -7,13 +7,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService } from '../../../shared/result/data.service';
 import { TextInputComponent } from './text-input.component';
 
 describe('TextInputComponent', () => {
   let component: TextInputComponent;
   let fixture: ComponentFixture<TextInputComponent>;
-  let dataService: DataService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -24,8 +22,7 @@ describe('TextInputComponent', () => {
         ReactiveFormsModule,
         MatButtonModule
       ],
-      declarations: [TextInputComponent],
-      providers: [{ provide: DataService, useValue: {} }]
+      declarations: [TextInputComponent]
     });
   });
 
@@ -33,8 +30,6 @@ describe('TextInputComponent', () => {
     fixture = TestBed.createComponent(TextInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    dataService = TestBed.get(DataService);
   });
 
   it('should create', () => {
@@ -51,13 +46,14 @@ describe('TextInputComponent', () => {
   });
 
   describe('getTags()', () => {
-    test('should call postTaggingText from Service', () => {
-      dataService.postTaggingText = jest.fn();
+    test('should emit btnClicked event', () => {
       component.textFormControl.setValue('test');
+
+      component.btnClicked.emit = jest.fn();
 
       component.getTags();
 
-      expect(dataService.postTaggingText).toHaveBeenCalledWith('test');
+      expect(component.btnClicked.emit).toHaveBeenCalledWith('test');
     });
   });
 });
