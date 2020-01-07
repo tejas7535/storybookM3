@@ -84,13 +84,14 @@
     "zone.js": "0.10.2"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.803.19",
+    "@angular-devkit/build-angular": "^0.803.21",
     "@angular-devkit/build-ng-packagr": "0.803.19",
     "@angular/cli": "8.3.19",
     "@angular/compiler-cli": "8.2.14",
     "@angular/language-service": "8.2.14",
     "@commitlint/cli": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
+    "@ngneat/transloco-keys-manager": "1.0.0",
     "@ngneat/transloco-optimize": "1.0.1",
     "@ngneat/transloco-validator": "1.0.0",
     "@ngrx/store-devtools": "8.5.2",
@@ -125,6 +126,7 @@
     "markdown-magic-version-badge": "1.1.1",
     "ng-bullet": "1.0.3",
     "ng-packagr": "5.7.1",
+    "ngx-build-plus": "9.0.2",
     "npm-audit-html": "1.4.0",
     "prettier": "1.18.2",
     "pretty-quick": "2.0.1",
@@ -138,9 +140,7 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.5.3",
-    "webpack-bundle-analyzer": "3.6.0",
-    "ngx-build-plus": "9.0.2",
-    "@ngneat/transloco-keys-manager": "1.0.0"
+    "webpack-bundle-analyzer": "3.6.0"
   },
   "config": {
     "commitizen": {
