@@ -1,20 +1,20 @@
 <div class="page-container">
-  <h1>Auto Tagging</h1>
+  <h1>Translation</h1>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <div class="mat-elevation-z8 background-white" fxFlex="100%">
       <mat-tab-group dynamicHeight="true">
         <mat-tab label="Text Input">
           <div class="main-container">
             <sta-text-input
-              (btnClicked)="getTagsForText($event)"
-              btnText="Generate Tags"
+              (btnClicked)="getTranslationForText($event)"
+              btnText="Generate Translation"
             ></sta-text-input>
           </div>
         </mat-tab>
         <mat-tab label="File Upload">
           <div class="main-container">
             <sta-file-upload
-              (fileUploaded)="getTagsForFile($event)"
+              (fileUploaded)="getTranslationForFile($event)"
             ></sta-file-upload>
           </div>
         </mat-tab>

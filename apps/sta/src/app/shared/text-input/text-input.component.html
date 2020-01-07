@@ -6,7 +6,7 @@
       matTextareaAutosize
       matAutosizeMinRows="10"
       matInput
-      placeholder="Enter a text to get tags for"
+      placeholder="Enter a text"
       [formControl]="textFormControl"
     >
     </textarea>
@@ -21,6 +21,6 @@
     (click)="getTags()"
     [disabled]="!textFormControl.valid"
   >
-    Generate Tags
+    {{ btnText }}
   </button>
 </div>

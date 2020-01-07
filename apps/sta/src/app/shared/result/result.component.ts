@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
-import { DataService } from './data.service';
+import { DataStoreService } from './services/data-store.service';
 
 @Component({
   selector: 'sta-result',
@@ -11,14 +11,16 @@ import { DataService } from './data.service';
 })
 export class ResultComponent implements OnInit {
   public tags$: Observable<string[]>;
+  public translation$: Observable<string>;
 
-  constructor(private readonly dataService: DataService) {}
+  constructor(private readonly dataStore: DataStoreService) {}
 
   public ngOnInit(): void {
     this.setObservables();
   }
 
   private setObservables(): void {
-    this.tags$ = this.dataService.tags;
+    this.tags$ = this.dataStore.tags$;
+    this.translation$ = this.dataStore.translation$;
   }
 }

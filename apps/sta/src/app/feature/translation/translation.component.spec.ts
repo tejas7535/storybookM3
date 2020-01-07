@@ -8,27 +8,27 @@ import { configureTestSuite } from 'ng-bullet';
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
 
-import { AutoTaggingComponent } from './auto-tagging.component';
+import { TranslationComponent } from './translation.component';
 
-describe('AutoTaggingComponent', () => {
-  let component: AutoTaggingComponent;
-  let fixture: ComponentFixture<AutoTaggingComponent>;
+describe('TranslationComponent', () => {
+  let component: TranslationComponent;
+  let fixture: ComponentFixture<TranslationComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      declarations: [TranslationComponent],
       imports: [
         NoopAnimationsModule,
         HttpClientTestingModule,
         MatTabsModule,
         TextInputModule,
         FileUploadModule
-      ],
-      declarations: [AutoTaggingComponent]
+      ]
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AutoTaggingComponent);
+    fixture = TestBed.createComponent(TranslationComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -37,25 +37,29 @@ describe('AutoTaggingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getTagsForText', () => {
-    test('should call getTagsForText', () => {
-      component['dataStore'].getTagsForText = jest.fn();
+  describe('getTranslationForText', () => {
+    test('should call getTranslationForText', () => {
+      component['dataStore'].getTranslationForText = jest.fn();
       const text = 'text';
 
-      component.getTagsForText(text);
+      component.getTranslationForText(text);
 
-      expect(component['dataStore'].getTagsForText).toHaveBeenCalledWith(text);
+      expect(component['dataStore'].getTranslationForText).toHaveBeenCalledWith(
+        text
+      );
     });
   });
 
-  describe('getTagsForFile', () => {
+  describe('getTranslationForFile', () => {
     test('should call getTagsFromFile', () => {
-      component['dataStore'].getTagsForFile = jest.fn();
+      component['dataStore'].getTranslationForFile = jest.fn();
       const file = new File([], 'file');
 
-      component.getTagsForFile(file);
+      component.getTranslationForFile(file);
 
-      expect(component['dataStore'].getTagsForFile).toHaveBeenCalledWith(file);
+      expect(component['dataStore'].getTranslationForFile).toHaveBeenCalledWith(
+        file
+      );
     });
   });
 });

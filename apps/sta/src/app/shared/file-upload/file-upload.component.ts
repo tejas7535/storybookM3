@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import { DataService } from '../../../shared/result/data.service';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'sta-file-upload',
@@ -8,13 +6,13 @@ import { DataService } from '../../../shared/result/data.service';
   styleUrls: ['./file-upload.component.scss']
 })
 export class FileUploadComponent {
-  constructor(private readonly dataService: DataService) {}
+  @Output() public readonly fileUploaded = new EventEmitter<File>();
 
   public uploadFile(fileList: FileList): void {
     const file = fileList[0];
 
     if (file) {
-      this.dataService.postTaggingFile(file);
+      this.fileUploaded.emit(file);
     }
   }
 }

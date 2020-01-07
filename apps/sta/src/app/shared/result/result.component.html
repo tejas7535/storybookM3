@@ -3,12 +3,9 @@
 
   <mat-divider [inset]="true"></mat-divider>
 
-  <mat-expansion-panel class="panel mat-elevation-z0">
-    <mat-expansion-panel-header>
-      <h6>Translation</h6>
-    </mat-expansion-panel-header>
-    <p>Coming Soon...</p>
-  </mat-expansion-panel>
+  <sta-result-translation
+    [translation]="translation$ | async"
+  ></sta-result-translation>
 
   <mat-divider [inset]="true"></mat-divider>
 

@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { SnackBarComponent } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -318,6 +319,15 @@ describe('ResultAutoTaggingComponent', () => {
       component.showMoreTags();
 
       expect(component.subsetTags).toEqual(['16', '15', '17']);
+    });
+
+    test('should not change subset when tags <= MIN_TAGS', () => {
+      component.subsetTags = ['13'];
+      component.tags = ['13'];
+
+      component.showMoreTags();
+
+      expect(component.subsetTags).toEqual(['13']);
     });
   });
 

@@ -1,10 +1,10 @@
-import { combineLatest, Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { AuthService } from './core/auth.service';
-import { DataService } from './shared/result/data.service';
+import { DataStoreService } from './shared/result/services/data-store.service';
 
 @Component({
   selector: 'sta-root',
@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public home = '/';
 
   public settingsSidebarOpen = false;
-  public isInitialState$: Observable<boolean>;
+  public isDataAvl$: Observable<boolean>;
 
   public subscription: Subscription = new Subscription();
 
@@ -30,6 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
       text: 'Auto Tagging',
       icon: 'icon-bookmark',
       link: 'tagging'
+    },
+    {
+      text: 'Translation',
+      icon: 'icon-bookmark',
+      link: 'translation'
     }
   ];
 
@@ -37,21 +42,25 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly dataService: DataService
+    private readonly dataStore: DataStoreService
   ) {
     this.authService.initAuth();
   }
 
   public ngOnInit(): void {
-    this.isInitialState$ = this.dataService.isInitialEmptyState();
+    this.isDataAvl$ = this.dataStore.isDataAvailable();
     this.subscription.add(
-      combineLatest([
-        this.dataService.isInitialEmptyState(),
-        this.dataService.isDataAvailable()
-      ])
+      this.dataStore
+        .isDataAvailable()
         .pipe(
-          map(([isInitialState, isDataAvailable]) => {
-            return isInitialState || isDataAvailable;
+          filter((_val, idx) => {
+            if (idx === 0) {
+              this.settingsSidebarOpen = true;
+
+              return false;
+            }
+
+            return true;
           })
         )
         .subscribe(open => (this.settingsSidebarOpen = open))
@@ -62,9 +71,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  /**
-   * Listen for changes in settings sidebar
-   */
   public settingsSidebarOpenedChanges(open: boolean): void {
     this.settingsSidebarOpen = open;
   }

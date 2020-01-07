@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { from, of } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
@@ -20,7 +20,7 @@ import { AppComponent } from './app.component';
 import { ResultComponent } from './shared/result/result.component';
 
 import { AuthService } from './core/auth.service';
-import { DataService } from './shared/result/data.service';
+import { DataStoreService } from './shared/result/services/data-store.service';
 
 @Component({ selector: 'sta-result', template: '' })
 class ResultStubComponent implements Partial<ResultComponent> {
@@ -45,7 +45,7 @@ describe('AppComponent', () => {
       ],
       declarations: [AppComponent, ResultStubComponent],
       providers: [
-        DataService,
+        DataStoreService,
         {
           provide: AuthService,
           useValue: {
@@ -93,11 +93,14 @@ describe('AppComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.isInitialState$).toBeDefined();
+      expect(component.isDataAvl$).toBeDefined();
       expect(component.subscription).toBeDefined();
     });
 
     test('should set settingsSidebarOpen to true initialy', async () => {
+      component['dataStore'].isDataAvailable = jest
+        .fn()
+        .mockImplementation(() => of(false));
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
@@ -107,12 +110,9 @@ describe('AppComponent', () => {
     });
 
     test('should set settingsSidebarOpen to true when data avl', async () => {
-      component['dataService'].isDataAvailable = jest
+      component['dataStore'].isDataAvailable = jest
         .fn()
-        .mockImplementation(() => of(true));
-      component[
-        'dataService'
-      ].isInitialEmptyState = jest.fn().mockImplementation(() => of(false));
+        .mockImplementation(() => from([false, true]));
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
@@ -122,13 +122,11 @@ describe('AppComponent', () => {
       expect(component.settingsSidebarOpen).toBeTruthy();
     });
 
-    test('should set settingsSidebarOpen to false when no data and not initial', fakeAsync(() => {
-      component['dataService'].isDataAvailable = jest
+    test('should set settingsSidebarOpen to false when no data', fakeAsync(() => {
+      component['dataStore'].isDataAvailable = jest
         .fn()
-        .mockImplementation(() => of(false));
-      component[
-        'dataService'
-      ].isInitialEmptyState = jest.fn().mockImplementation(() => of(false));
+        .mockImplementation(() => from([false, false]));
+
       component.settingsSidebarOpen = true;
 
       // tslint:disable-next-line: no-lifecycle-call

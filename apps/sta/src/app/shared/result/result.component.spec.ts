@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -11,9 +12,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { configureTestSuite } from 'ng-bullet';
 
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
+import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
 
-import { DataService } from './data.service';
+import { DataStoreService } from './services/data-store.service';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -29,10 +31,15 @@ describe('ResultComponent', () => {
         MatFormFieldModule,
         MatIconModule,
         MatSnackBarModule,
+        ReactiveFormsModule,
         NoopAnimationsModule
       ],
-      declarations: [ResultComponent, ResultAutoTaggingComponent],
-      providers: [DataService]
+      declarations: [
+        ResultComponent,
+        ResultAutoTaggingComponent,
+        ResultTranslationComponent
+      ],
+      providers: [DataStoreService]
     });
   });
 
@@ -62,6 +69,7 @@ describe('ResultComponent', () => {
       component['setObservables']();
 
       expect(component.tags$).toBeDefined();
+      expect(component.translation$).toBeDefined();
     });
   });
 });

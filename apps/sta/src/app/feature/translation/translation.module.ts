@@ -5,20 +5,20 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
-import { AutoTaggingRoutingModule } from './auto-tagging-routing.module';
+import { TranslationRoutingModule } from './translation-routing.module';
 
-import { AutoTaggingComponent } from './auto-tagging.component';
+import { TranslationComponent } from './translation.component';
 
 @NgModule({
-  declarations: [AutoTaggingComponent],
+  declarations: [TranslationComponent],
   imports: [
-    AutoTaggingRoutingModule,
     CommonModule,
     FlexLayoutModule,
     MatTabsModule,
     TextInputModule,
-    FileUploadModule
+    FileUploadModule,
+    TranslationRoutingModule
   ],
-  exports: [AutoTaggingComponent]
+  exports: [TranslationComponent]
 })
-export class AutoTaggingModule {}
+export class TranslationModule {}
