@@ -3,7 +3,9 @@
   [@toggle]="{ value: windowScrolled ? 'show' : 'hide' }"
 >
   <button
-    class="flat-button-primary scroll-to-top-button"
+    mat-fab
+    class="scroll-to-top"
+    color="primary"
     data-cy="scrollToTop"
     (click)="scrollToTop()"
   >
