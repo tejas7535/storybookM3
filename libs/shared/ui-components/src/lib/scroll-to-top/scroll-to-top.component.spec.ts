@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -12,7 +13,7 @@ describe('ScrollToTopComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [MatIconModule, NoopAnimationsModule],
+      imports: [MatIconModule, MatButtonModule, NoopAnimationsModule],
       declarations: [ScrollToTopComponent]
     });
   });
