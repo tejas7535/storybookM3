@@ -121,19 +121,6 @@ describe('AppComponent', () => {
 
       expect(component.settingsSidebarOpen).toBeTruthy();
     });
-
-    test('should set settingsSidebarOpen to false when no data', fakeAsync(() => {
-      component['dataStore'].isDataAvailable = jest
-        .fn()
-        .mockImplementation(() => from([false, false]));
-
-      component.settingsSidebarOpen = true;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component.settingsSidebarOpen).toBeFalsy();
-    }));
   });
 
   describe('ngOnDestroy', () => {

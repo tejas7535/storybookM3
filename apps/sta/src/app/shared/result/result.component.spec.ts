@@ -64,6 +64,16 @@ describe('ResultComponent', () => {
     });
   });
 
+  describe('reset', () => {
+    test('should call reset from dataStore service', () => {
+      component['dataStore'].reset = jest.fn();
+
+      component.reset();
+
+      expect(component['dataStore'].reset).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('setObservables', () => {
     test('should define observables', () => {
       component['setObservables']();

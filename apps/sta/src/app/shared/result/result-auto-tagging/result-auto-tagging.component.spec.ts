@@ -49,7 +49,7 @@ describe('ResultAutoTaggingComponent', () => {
       expect(component.subsetTags).toEqual(test);
     });
 
-    test('should set showMoreTagsBtnEnabled to false when more than 20 tags initially avl', () => {
+    test('should set showMoreTagsBtnDisabled to false when more than 20 tags initially avl', () => {
       const test = ['test'];
       const newTags = [
         '1',
@@ -83,10 +83,10 @@ describe('ResultAutoTaggingComponent', () => {
         }
       });
 
-      expect(component.showMoreTagsBtnEnabled).toBeFalsy();
+      expect(component.showMoreTagsBtnDisabled).toBeFalsy();
     });
 
-    test('should set showMoreTagsBtnEnabled to false when less than 15 tags initially avl', () => {
+    test('should set showMoreTagsBtnDisabled to true when less than 15 tags initially avl', () => {
       const test = ['test'];
       const newTags = [
         '1',
@@ -116,10 +116,10 @@ describe('ResultAutoTaggingComponent', () => {
         }
       });
 
-      expect(component.showMoreTagsBtnEnabled).toBeTruthy();
+      expect(component.showMoreTagsBtnDisabled).toBeTruthy();
     });
 
-    test('should set subsetTags on tags change to MAX when showMoreTagsBtnEnabled', () => {
+    test('should set showMoreTagsBtnDisabled to false when more than 15 tags initially avl', () => {
       const test = ['test'];
       const newTags = [
         '1',
@@ -137,12 +137,9 @@ describe('ResultAutoTaggingComponent', () => {
         '13',
         '14',
         '15',
-        '16',
-        '17'
+        '16'
       ];
       component.subsetTags = test;
-
-      component.showMoreTagsBtnEnabled = true;
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnChanges({
@@ -154,10 +151,10 @@ describe('ResultAutoTaggingComponent', () => {
         }
       });
 
-      expect(component.subsetTags).toEqual(newTags);
+      expect(component.showMoreTagsBtnDisabled).toBeFalsy();
     });
 
-    test('should set subsetTags on tags change to MIN when showMoreTagsBtnEnabled false', () => {
+    test('should set subsetTags on tags change to MIN', () => {
       const test = ['test'];
       const newTags = [
         '1',
@@ -180,7 +177,7 @@ describe('ResultAutoTaggingComponent', () => {
       ];
       component.subsetTags = test;
 
-      component.showMoreTagsBtnEnabled = false;
+      component.showMoreTagsBtnDisabled = false;
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnChanges({
@@ -267,7 +264,7 @@ describe('ResultAutoTaggingComponent', () => {
     let allTags: string[];
 
     beforeEach(() => {
-      component.showMoreTagsBtnEnabled = false;
+      component.showMoreTagsBtnDisabled = false;
       allTags = [
         '1',
         '2',
@@ -291,10 +288,10 @@ describe('ResultAutoTaggingComponent', () => {
       component.subsetTags = [];
     });
 
-    test('should set showMoreTagsBtnEnabled to true', () => {
+    test('should set showMoreTagsBtnDisabled to true', () => {
       component.showMoreTags();
 
-      expect(component.showMoreTagsBtnEnabled).toBeTruthy();
+      expect(component.showMoreTagsBtnDisabled).toBeTruthy();
     });
 
     test('should slice tags correctly when tags > min_tags', () => {

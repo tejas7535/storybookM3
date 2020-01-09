@@ -19,6 +19,10 @@ export class ResultComponent implements OnInit {
     this.setObservables();
   }
 
+  public reset(): void {
+    this.dataStore.reset();
+  }
+
   private setObservables(): void {
     this.tags$ = this.dataStore.tags$;
     this.translation$ = this.dataStore.translation$;
