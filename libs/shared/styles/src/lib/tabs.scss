@@ -1,0 +1,16 @@
+@import './colors.scss';
+@import './fonts.scss';
+
+.mat-tab-labels > .mat-tab-label {
+  opacity: 1;
+}
+
+.mat-tab-label-content {
+  color: $schaeffler-carbon-gray;
+  font-size: $schaeffler-h4;
+  font-weight: bold;
+}
+
+.mat-tab-label-active > .mat-tab-label-content {
+  color: $schaeffler-green-1;
+}
