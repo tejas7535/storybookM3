@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
 
 import { TranslocoModule } from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
@@ -12,7 +13,7 @@ describe('PageNotFoundComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [PageNotFoundComponent],
-      imports: [TranslocoModule]
+      imports: [TranslocoModule, MatButtonModule]
     });
   });
 
