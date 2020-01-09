@@ -77,4 +77,9 @@ export class DataStoreService {
       map(([tags, translation]) => (tags || translation ? true : false))
     );
   }
+
+  public reset(): void {
+    this.tags = undefined;
+    this.translation = undefined;
+  }
 }

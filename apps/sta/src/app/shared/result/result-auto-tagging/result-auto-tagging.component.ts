@@ -24,7 +24,7 @@ import {
 export class ResultAutoTaggingComponent implements OnChanges {
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  public showMoreTagsBtnEnabled = false;
+  public showMoreTagsBtnDisabled = false;
   public subsetTags: string[];
 
   private readonly MAX_TAGS = 20;
@@ -39,14 +39,9 @@ export class ResultAutoTaggingComponent implements OnChanges {
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.tags && changes.tags.currentValue) {
-      this.subsetTags = this.showMoreTagsBtnEnabled
-        ? changes.tags.currentValue.slice(0, this.MAX_TAGS)
-        : changes.tags.currentValue.slice(0, this.MIN_TAGS);
-      const enableMoreButton =
-        changes.tags.currentValue.length >= this.MIN_TAGS;
-
-      this.showMoreTagsBtnEnabled =
-        this.showMoreTagsBtnEnabled || !enableMoreButton ? true : false;
+      this.showMoreTagsBtnDisabled =
+        changes.tags.currentValue.length < this.MIN_TAGS ? true : false;
+      this.subsetTags = changes.tags.currentValue.slice(0, this.MIN_TAGS);
     }
   }
 
@@ -106,7 +101,7 @@ export class ResultAutoTaggingComponent implements OnChanges {
    * Show more tags if possible
    */
   public showMoreTags(): void {
-    this.showMoreTagsBtnEnabled = true;
+    this.showMoreTagsBtnDisabled = true;
     if (this.tags && this.tags.length > this.MIN_TAGS) {
       const remainingSubset = this.tags.slice(this.MIN_TAGS - 1, this.MAX_TAGS);
       this.subsetTags = this.subsetTags.concat(

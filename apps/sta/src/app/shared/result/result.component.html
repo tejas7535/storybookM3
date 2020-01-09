@@ -1,3 +1,15 @@
+<div
+  fxLayout="row"
+  class="header-row"
+  fxLayoutAlign="center center"
+  fxLayoutGap="10px"
+>
+  <img src="../../../favicon.ico" />
+  <h6>Schaeffler Text Assistant</h6>
+  <button mat-button color="primary" (click)="reset()">
+    <span>RESET</span>
+  </button>
+</div>
 <mat-accordion displayMode="flat" multi="true">
   <sta-result-auto-tagging [tags]="tags$ | async"></sta-result-auto-tagging>
 

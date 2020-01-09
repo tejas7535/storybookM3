@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public username = 'User';
   public home = '/';
 
-  public settingsSidebarOpen = false;
+  public settingsSidebarOpen = true;
   public isDataAvl$: Observable<boolean>;
 
   public subscription: Subscription = new Subscription();
@@ -50,20 +50,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.isDataAvl$ = this.dataStore.isDataAvailable();
     this.subscription.add(
-      this.dataStore
-        .isDataAvailable()
-        .pipe(
-          filter((_val, idx) => {
-            if (idx === 0) {
-              this.settingsSidebarOpen = true;
-
-              return false;
-            }
-
-            return true;
-          })
-        )
-        .subscribe(open => (this.settingsSidebarOpen = open))
+      this.dataStore.isDataAvailable().subscribe(open => {
+        if (open) {
+          this.settingsSidebarOpen = true;
+        }
+      })
     );
   }
 

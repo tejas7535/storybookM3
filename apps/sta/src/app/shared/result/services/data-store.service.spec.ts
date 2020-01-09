@@ -120,4 +120,16 @@ describe('DataStoreService', () => {
       });
     });
   });
+
+  describe('reset', () => {
+    test('should set variables to their initial states', () => {
+      service['tags'] = ['tag1', 'tag2'];
+      service['translation'] = 'awesome translation';
+
+      service.reset();
+
+      expect(service['tags']).toBeUndefined();
+      expect(service['translation']).toBeUndefined();
+    });
+  });
 });
