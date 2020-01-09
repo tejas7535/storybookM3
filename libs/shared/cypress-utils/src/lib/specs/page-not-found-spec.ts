@@ -7,7 +7,7 @@ export const testPageNotFound = (
 
     cy.get('#pageNotFound')
       .should('be.visible')
-      .get('#visitHome')
+      .get('[data-cy="visitHome"]')
       .click()
       .url()
       .should('include', redirectUri);

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 import { TranslocoModule } from '@ngneat/transloco';
@@ -8,7 +9,7 @@ import { PageNotFoundComponent } from './page-not-found.component';
 
 @NgModule({
   declarations: [PageNotFoundComponent],
-  imports: [FlexLayoutModule, TranslocoModule, RouterModule],
+  imports: [FlexLayoutModule, MatButtonModule, TranslocoModule, RouterModule],
   exports: [PageNotFoundComponent]
 })
 export class PageNotFoundModule {}

@@ -11,7 +11,13 @@
   <p class="schaeffler-text">
     {{ 'EMPTY_STATE.PAGE_NOT_FOUND_MESSAGE' | transloco }}
   </p>
-  <button class="fab-button-primary m-t-25" routerLink="/" id="visitHome">
+  <button
+    mat-raised-button
+    color="primary"
+    class="m-t-25"
+    routerLink="/"
+    data-cy="visitHome"
+  >
     {{ 'EMPTY_STATE.VISIT_HOMEPAGE' | transloco }}
   </button>
 </div>
