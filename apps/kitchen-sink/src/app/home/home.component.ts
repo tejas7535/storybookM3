@@ -1,23 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { select, Store } from '@ngrx/store';
+
+import { Subject } from 'rxjs';
+import { take, takeUntil } from 'rxjs/operators';
+
 import {
   BannerTextComponent,
   getBannerOpen,
   openBanner,
-  SnackBarComponent,
-  SnackBarMessageType,
+  SnackBarService,
   SpeedDialFabItem
 } from '@schaeffler/shared/ui-components';
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
 
 import { AppState } from '../core/store';
 import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
 
 @Component({
   selector: 'schaeffler-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styles: [
+    `
+      button {
+        margin: 10px;
+      }
+    `
+  ]
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public speedDialFabOpen = false;
@@ -51,7 +58,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private readonly snackBar: MatSnackBar,
+    private readonly snackBarService: SnackBarService,
     private readonly store: Store<AppState>
   ) {}
 
@@ -104,15 +111,28 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  openSnackbar(): void {
-    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
-      panelClass: 'success-message',
-      data: {
-        message: `Yippi, the Snackbar works!`,
-        type: SnackBarMessageType.SUCCESS
-      }
-    });
-    snackBarRef.instance.snackBarRef = snackBarRef;
+  showSuccessToast(): void {
+    this.snackBarService.showSuccessMessage('Yippi, the Snackbar works!');
+  }
+
+  showInformationToast(): void {
+    this.snackBarService.showInfoMessage('Some boring news for you.');
+  }
+
+  showWarningToast(): void {
+    this.snackBarService
+      .showWarningMessage('Oh, a warning.', 'Try again')
+      .subscribe(result => {
+        console.log(result);
+
+        if (result === 'action') {
+          this.showSuccessToast();
+        }
+      });
+  }
+
+  showErrorToast(): void {
+    this.snackBarService.showErrorMessage('Ohoh, an error occured!');
   }
 
   public speedDialFabClicked(key: string): void {

@@ -10,7 +10,6 @@ import {
   HeaderModule,
   SettingsSidebarModule,
   SidebarModule,
-  SnackBarComponent,
   SnackBarModule
 } from '@schaeffler/shared/ui-components';
 
@@ -42,7 +41,6 @@ import { HammerConfig } from './config';
     SidebarModule,
     SnackBarModule
   ],
-  entryComponents: [SnackBarComponent],
   providers: [
     {
       provide: HAMMER_GESTURE_CONFIG,

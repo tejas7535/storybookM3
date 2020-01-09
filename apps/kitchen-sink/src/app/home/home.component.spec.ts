@@ -1,33 +1,33 @@
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { TranslocoModule } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+import { of } from 'rxjs';
+
 import {
   BannerModule,
   BannerState,
   BannerTextComponent,
   SnackBarModule,
+  SnackBarService,
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
+import { AppState } from '../core/store';
+import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
 import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
 import { HomeComponent } from './home.component';
-
-import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
-
-import { AppState } from '../core/store';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let debugElement: DebugElement;
   let store: MockStore<AppState>;
+  let snackBarService: SnackBarService;
 
   const initialBannerState: BannerState = {
     text: '',
@@ -53,7 +53,6 @@ describe('HomeComponent', () => {
       declarations: [HomeComponent],
       imports: [
         NoopAnimationsModule,
-        MatSnackBarModule,
         SnackBarModule,
         SpeedDialFabModule,
         StoreModule.forRoot({}),
@@ -75,6 +74,7 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
 
     store = TestBed.get(Store);
+    snackBarService = TestBed.get(SnackBarService);
   });
 
   it('should create', () => {
@@ -91,16 +91,56 @@ describe('HomeComponent', () => {
     );
   });
 
-  describe('Snackbar', () => {
-    it('should be opened upon openSnackbar method call', () => {
-      const matSnackBar = TestBed.get(MatSnackBar);
-      const spy = spyOn(matSnackBar, 'openFromComponent').and.returnValue({
-        instance: { snackBarRef: {} }
-      });
+  describe('showSuccessToast', () => {
+    it('should call method ShowSuccessMessage of snackbarService', () => {
+      snackBarService.showSuccessMessage = jest.fn();
 
-      component.openSnackbar();
+      component.showSuccessToast();
 
-      expect(spy).toHaveBeenCalled();
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalled();
+    });
+  });
+
+  describe('showInformationToast', () => {
+    it('should call method ShowInfoMessage of snackbarService', () => {
+      snackBarService.showInfoMessage = jest.fn();
+
+      component.showInformationToast();
+
+      expect(snackBarService.showInfoMessage).toHaveBeenCalled();
+    });
+  });
+
+  describe('showSuccessWarningToast', () => {
+    const mockReturnValue = (value: string) => {
+      snackBarService.showWarningMessage = jest.fn().mockReturnValue(of(value));
+    };
+
+    it('should call method ShowWarningMessage of snackbarService', () => {
+      mockReturnValue('dismiss');
+
+      component.showWarningToast();
+
+      expect(snackBarService.showWarningMessage).toHaveBeenCalled();
+    });
+
+    it('should open success toast when user clicked try again', () => {
+      mockReturnValue('action');
+      component.showSuccessToast = jest.fn();
+
+      component.showWarningToast();
+
+      expect(component.showSuccessToast).toHaveBeenCalled();
+    });
+  });
+
+  describe('showErrorToast', () => {
+    it('should call method ShowErrorMessage of snackbarService', () => {
+      snackBarService.showErrorMessage = jest.fn();
+
+      component.showErrorToast();
+
+      expect(snackBarService.showErrorMessage).toHaveBeenCalled();
     });
   });
 

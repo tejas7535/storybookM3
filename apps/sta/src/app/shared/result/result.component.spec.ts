@@ -6,15 +6,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
+
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
-
 import { DataStoreService } from './services/data-store.service';
 
 describe('ResultComponent', () => {
@@ -30,8 +30,8 @@ describe('ResultComponent', () => {
         MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
-        MatSnackBarModule,
         ReactiveFormsModule,
+        SnackBarModule,
         NoopAnimationsModule
       ],
       declarations: [

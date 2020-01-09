@@ -19,7 +19,6 @@ import {
   ScrollToTopModule,
   SettingsSidebarModule,
   SidebarModule,
-  SnackBarComponent,
   SnackBarModule,
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
@@ -72,7 +71,6 @@ const preLoad = {
     SettingsSidebarModule,
     CustomBannerModule
   ],
-  entryComponents: [SnackBarComponent],
   providers: [
     {
       provide: HAMMER_GESTURE_CONFIG,

@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -7,16 +5,15 @@ import {
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { configureTestSuite } from 'ng-bullet';
+import { Observable } from 'rxjs';
 
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { HttpErrorInterceptor } from './http-error.interceptor';
-
 import { environment } from '../../environments/environment';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 @Injectable()
 export class ExampleService {
@@ -36,12 +33,7 @@ describe(`HttpErrorInterceptor`, () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        HttpClientTestingModule,
-        MatSnackBarModule,
-        SnackBarModule
-      ],
+      imports: [HttpClientTestingModule, NoopAnimationsModule, SnackBarModule],
       providers: [
         ExampleService,
         HttpErrorInterceptor,

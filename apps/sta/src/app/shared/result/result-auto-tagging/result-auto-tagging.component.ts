@@ -9,11 +9,10 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   SnackBarComponent,
-  SnackBarMessageType
+  SnackBarService
 } from '@schaeffler/shared/ui-components';
 
 @Component({
@@ -35,7 +34,7 @@ export class ResultAutoTaggingComponent implements OnChanges {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBarService: SnackBarService
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -93,7 +92,7 @@ export class ResultAutoTaggingComponent implements OnChanges {
     this.document.execCommand('copy');
     this.document.body.removeChild(selBox);
 
-    this.showCopiedToClipboardToast();
+    this.snackBarService.showSuccessMessage('Copied to clipboard');
   }
 
   /**
@@ -116,19 +115,5 @@ export class ResultAutoTaggingComponent implements OnChanges {
         )
       );
     }
-  }
-
-  /**
-   * Show notification on copy click
-   */
-  private showCopiedToClipboardToast(): void {
-    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
-      panelClass: 'success-message',
-      data: {
-        message: 'Copied to clipboard',
-        type: SnackBarMessageType.SUCCESS
-      }
-    });
-    snackBarRef.instance.snackBarRef = snackBarRef;
   }
 }

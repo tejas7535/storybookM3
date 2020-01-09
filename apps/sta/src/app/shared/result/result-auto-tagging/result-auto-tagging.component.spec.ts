@@ -1,25 +1,15 @@
-import { NgModule } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { SnackBarComponent } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
-@NgModule({
-  imports: [MatIconModule, MatSnackBarModule],
-  declarations: [SnackBarComponent],
-  exports: [SnackBarComponent],
-  entryComponents: [SnackBarComponent]
-})
-class SnackBarTestModule {}
+import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
 
 describe('ResultAutoTaggingComponent', () => {
   let component: ResultAutoTaggingComponent;
@@ -32,8 +22,7 @@ describe('ResultAutoTaggingComponent', () => {
         MatExpansionModule,
         MatFormFieldModule,
         MatIconModule,
-        MatSnackBarModule,
-        SnackBarTestModule,
+        SnackBarModule,
         NoopAnimationsModule
       ],
       declarations: [ResultAutoTaggingComponent]
@@ -328,24 +317,6 @@ describe('ResultAutoTaggingComponent', () => {
       component.showMoreTags();
 
       expect(component.subsetTags).toEqual(['13']);
-    });
-  });
-
-  describe('showCopiedToClipboardToast', () => {
-    test('should call openFromComponent', () => {
-      const snackBarRef = {
-        instance: {
-          snackBarRef: {}
-        }
-      };
-      component['snackBar'].openFromComponent = jest
-        .fn()
-        .mockImplementation(() => snackBarRef);
-
-      component['showCopiedToClipboardToast']();
-
-      expect(component['snackBar'].openFromComponent).toHaveBeenCalled();
-      expect(snackBarRef.instance.snackBarRef).toEqual(snackBarRef);
     });
   });
 });

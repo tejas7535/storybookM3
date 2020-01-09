@@ -7,12 +7,8 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {
-  SnackBarComponent,
-  SnackBarMessageType
-} from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 @Component({
   selector: 'sta-result-translation',
@@ -24,7 +20,7 @@ export class ResultTranslationComponent implements OnChanges {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly snackBar: MatSnackBar
+    private readonly snackBarService: SnackBarService
   ) {}
 
   public translationFormControl = new FormControl('');
@@ -52,20 +48,6 @@ export class ResultTranslationComponent implements OnChanges {
     this.document.execCommand('copy');
     this.document.body.removeChild(selBox);
 
-    this.showCopiedToClipboardToast();
-  }
-
-  /**
-   * Show notification on copy click
-   */
-  private showCopiedToClipboardToast(): void {
-    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
-      panelClass: 'success-message',
-      data: {
-        message: 'Copied to clipboard',
-        type: SnackBarMessageType.SUCCESS
-      }
-    });
-    snackBarRef.instance.snackBarRef = snackBarRef;
+    this.snackBarService.showSuccessMessage('Copied to clipboard');
   }
 }
