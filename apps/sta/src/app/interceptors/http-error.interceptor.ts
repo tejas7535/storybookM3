@@ -1,6 +1,3 @@
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
-
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -9,16 +6,15 @@ import {
   HttpRequest
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
-import {
-  SnackBarComponent,
-  SnackBarMessageType
-} from '@schaeffler/shared/ui-components';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/internal/operators';
+
+import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly snackBar: MatSnackBar) {}
+  constructor(private readonly snackBarService: SnackBarService) {}
 
   public intercept(
     request: HttpRequest<any>,
@@ -43,24 +39,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           errorMessage = `${error.status}: ${error.message}`;
         }
 
-        this.showError(errorMessage);
+        this.snackBarService.showErrorMessage(errorMessage);
 
         return throwError(errorMessage);
       })
     );
-  }
-
-  /**
-   * Show notification on error
-   */
-  public showError(message: string): void {
-    const snackBarRef = this.snackBar.openFromComponent(SnackBarComponent, {
-      panelClass: 'error-message',
-      data: {
-        message,
-        type: SnackBarMessageType.ERROR
-      }
-    });
-    snackBarRef.instance.snackBarRef = snackBarRef;
   }
 }

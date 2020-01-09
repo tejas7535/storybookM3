@@ -1,3 +1,5 @@
-<span><mat-icon class="icon" [fontIcon]="iconMap.get(type)"></mat-icon></span>
-<span class="snackbar-msg">{{ message }}</span>
-<button mat-button (click)="dismissSnackBar()">OK</button>
+<span><mat-icon class="icon" [fontIcon]="icon"></mat-icon></span>
+<span class="snackbar-msg">{{ data.message }}</span>
+<button *ngIf="data.action" mat-button (click)="clickActionButton()">
+  {{ data.action }}
+</button>

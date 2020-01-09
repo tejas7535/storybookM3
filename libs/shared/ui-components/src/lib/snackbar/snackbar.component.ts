@@ -1,20 +1,14 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
-import {
-  MAT_SNACK_BAR_DATA,
-  MatSnackBarRef
-} from '@angular/material/snack-bar';
+import { Component, EventEmitter, Inject } from '@angular/core';
+import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
-export enum SnackBarMessageType {
-  SUCCESS = 'success',
-  ERROR = 'error',
-  WARNING = 'warning',
-  NOTIFICATION = 'information'
-}
+import { SnackBarData } from './snackbar-data.model';
 
-export interface SnackBarData {
-  message: string;
-  type: SnackBarMessageType;
-}
+const iconMap: Map<string, string> = new Map([
+  ['success', 'icon-toast-success'],
+  ['error', 'icon-toast-error'],
+  ['warning', 'icon-toast-warning'],
+  ['information', 'icon-toast-information']
+]);
 
 @Component({
   selector: 'schaeffler-snackbar',
@@ -22,27 +16,18 @@ export interface SnackBarData {
   templateUrl: 'snackbar.component.html'
 })
 export class SnackBarComponent {
-  public iconMap: Map<string, string> = new Map([
-    ['success', 'icon-toast-success'],
-    ['error', 'icon-toast-error'],
-    ['warning', 'icon-toast-warning'],
-    ['information', 'icon-toast-information']
-  ]);
-  public snackBarRef: MatSnackBarRef<SnackBarComponent>;
-  public message: string;
-  public type: string;
+  public readonly action: EventEmitter<void> = new EventEmitter();
+
+  public icon = 'icon-toast-information';
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {
-    this.message = data.message ? data.message : '';
-    this.type = data.type ? data.type : SnackBarMessageType.NOTIFICATION;
+    this.icon = iconMap.get(data.type);
   }
 
   /**
-   * Closes the snackbar if an instance is given
+   * emits the ation event
    */
-  public dismissSnackBar(): void {
-    if (this.snackBarRef) {
-      this.snackBarRef.dismiss();
-    }
+  public clickActionButton(): void {
+    this.action.emit();
   }
 }
