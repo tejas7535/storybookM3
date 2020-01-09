@@ -1,4 +1,4 @@
-import { from, of } from 'rxjs';
+import { from, Observable, of, Subscriber } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
@@ -9,7 +9,9 @@ import {
   FooterModule,
   HeaderModule,
   SettingsSidebarModule,
-  SidebarModule
+  SidebarMode,
+  SidebarModule,
+  SidebarService
 } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -31,6 +33,8 @@ describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
   let service: AuthService;
+  let sidebarService: SidebarService;
+  let breakpointObserverMock: Subscriber<any>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -46,6 +50,7 @@ describe('AppComponent', () => {
       declarations: [AppComponent, ResultStubComponent],
       providers: [
         DataStoreService,
+        SidebarService,
         {
           provide: AuthService,
           useValue: {
@@ -61,6 +66,7 @@ describe('AppComponent', () => {
     service.initAuth = jest.fn();
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
+    sidebarService = TestBed.get(SidebarService);
     component = fixture.componentInstance;
 
     window.matchMedia = jest.fn().mockImplementation(query => {
@@ -75,6 +81,17 @@ describe('AppComponent', () => {
         dispatchEvent: jest.fn()
       };
     });
+  });
+
+  /**
+   * Fake Observer to emit fake stuff
+   */
+  const fakeObservable = new Observable(observer => {
+    breakpointObserverMock = observer;
+
+    return {
+      unsubscribe(): any {}
+    };
   });
 
   it('should create the app', () => {
@@ -126,11 +143,13 @@ describe('AppComponent', () => {
   describe('ngOnDestroy', () => {
     test('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
+      component.destroy$.next = jest.fn();
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
+      expect(component.destroy$.next).toHaveBeenCalled();
     });
   });
 
@@ -142,6 +161,92 @@ describe('AppComponent', () => {
       component.settingsSidebarOpenedChanges(open);
 
       expect(component.settingsSidebarOpen).toBeFalsy();
+    });
+  });
+
+  describe('toggleSidebar()', () => {
+    it('should set next sidebarToggled value', () => {
+      const sidebarMode = SidebarMode.Open;
+      spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
+      const spy = spyOn(component['sidebarToggled'], 'next');
+
+      component.toggleSidebar();
+      breakpointObserverMock.next(sidebarMode);
+
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(SidebarMode.Open);
+    });
+
+    it('should only set next sidebarToggled value in one time ToggleSidebarAction()', () => {
+      spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
+      const spy = spyOn(component['sidebarToggled'], 'next');
+      component.toggleSidebar();
+
+      breakpointObserverMock.next(SidebarMode.Open);
+      expect(spy).toHaveBeenCalledWith(SidebarMode.Open);
+
+      breakpointObserverMock.next(SidebarMode.Closed);
+      expect(spy).not.toHaveBeenCalledWith(SidebarMode.Closed);
+    });
+  });
+
+  describe('handleSidebarMode', () => {
+    it('should subscribe to getSidebarMode', () => {
+      const spy = spyOn(sidebarService, 'getSidebarMode').and.callThrough();
+
+      component['handleSidebarMode']();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('handleSidebarToggledObservable', () => {
+    test('should leave old mode as undefined if it was undefined', () => {
+      component.mode = undefined;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Open);
+
+      expect(component.mode).toBeUndefined();
+    });
+
+    test('should set mode to open when old mode is "Closed"', () => {
+      component.mode = SidebarMode.Closed;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Open);
+
+      expect(component.mode).toEqual(SidebarMode.Open);
+    });
+
+    test('should set mode to open when old mode is "Minified"', () => {
+      component.mode = SidebarMode.Minified;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Open);
+
+      expect(component.mode).toEqual(SidebarMode.Open);
+    });
+
+    test('should set mode to Minified when old mode is "Open" and new is "Open"', () => {
+      component.mode = SidebarMode.Open;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Open);
+
+      expect(component.mode).toEqual(SidebarMode.Minified);
+    });
+
+    test('should set mode to Minified when old mode is "Open" and new is "Minified"', () => {
+      component.mode = SidebarMode.Open;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Minified);
+
+      expect(component.mode).toEqual(SidebarMode.Minified);
+    });
+
+    test('should set mode to Closed when old mode is "Open" and new is "Closed"', () => {
+      component.mode = SidebarMode.Open;
+
+      component['handleSidebarToggledObservable'](SidebarMode.Closed);
+
+      expect(component.mode).toEqual(SidebarMode.Closed);
     });
   });
 });

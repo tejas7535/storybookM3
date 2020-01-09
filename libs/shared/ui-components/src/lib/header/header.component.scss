@@ -21,7 +21,7 @@ mat-toolbar {
   position: fixed;
   z-index: 10;
 
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: $screen-md-min) {
     height: 73px;
     padding: 0;
   }
@@ -44,7 +44,7 @@ mat-toolbar {
   cursor: pointer;
   margin: auto 0 auto 20px;
 
-  @media screen and (min-width: $screen-sm-max) {
+  @media screen and (min-width: $screen-md-min) {
     margin: 5px 10px 0 20px;
   }
 
@@ -60,7 +60,7 @@ mat-toolbar {
   margin-right: 0;
   width: 200px;
 
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: $screen-md-min) {
     height: 17px;
     margin-right: 10px;
     width: 150px;
@@ -70,7 +70,7 @@ mat-toolbar {
 .mobile-height-50 {
   height: auto;
 
-  @media screen and (max-width: $screen-sm-max) {
+  @media screen and (max-width: $screen-md-min) {
     height: 50px;
   }
 }
