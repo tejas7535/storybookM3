@@ -1,24 +1,41 @@
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { filter, take, takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { SidebarMode, SidebarService } from '@schaeffler/shared/ui-components';
+import {
+  BreakpointService,
+  SidebarMode,
+  SidebarService
+} from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
 import { DataStoreService } from './shared/result/services/data-store.service';
 
 @Component({
   selector: 'sta-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'Schaeffler Text Assistant';
   public username = 'User';
   public home = '/';
+  public isSidebarExpanded = false;
+  public sidebarWidthExpanded = '960px';
+  public sidebarWidthExpandedTablet = 'calc(100% - 60px)';
+  public sidebarWidthExpandedMobile = '100%';
+  public sidebarWidth = '400px';
+  public isLessThanMedium$: Observable<boolean>;
+  public isMedium$: Observable<boolean>;
+  public isMobile$: Observable<boolean>;
 
   public settingsSidebarOpen = true;
   public isDataAvl$: Observable<boolean>;
+
+  public iconEnlarge = 'icon-resize-enlarge';
+  public iconShrink = 'icon-resize-shrink';
+  public resizeIcon = this.iconEnlarge;
 
   public readonly subscription: Subscription = new Subscription();
   public readonly destroy$: Subject<void> = new Subject();
@@ -49,13 +66,17 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private readonly authService: AuthService,
     private readonly dataStore: DataStoreService,
-    private readonly sidebarService: SidebarService
+    private readonly sidebarService: SidebarService,
+    private readonly breakpointService: BreakpointService
   ) {
     this.authService.initAuth();
   }
 
   public ngOnInit(): void {
     this.isDataAvl$ = this.dataStore.isDataAvailable();
+    this.isMobile$ = this.breakpointService.isMobileViewPort();
+    this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
+    this.isMedium$ = this.breakpointService.isMedium();
     this.handleSidebarMode();
     this.subscription.add(
       this.dataStore.isDataAvailable().subscribe(open => {
@@ -69,6 +90,14 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sidebarToggledObservable$.subscribe(sidebarMode =>
         this.handleSidebarToggledObservable(sidebarMode)
       )
+    );
+
+    this.subscription.add(
+      this.breakpointService
+        .isLessThanMedium()
+        .subscribe(
+          isLessThanMedium => (this.settingsSidebarOpen = !isLessThanMedium)
+        )
     );
   }
 
@@ -91,6 +120,16 @@ export class AppComponent implements OnInit, OnDestroy {
       .subscribe(sidebarMode => {
         this.sidebarToggled.next(sidebarMode);
       });
+  }
+
+  public resizeSidebar(): void {
+    this.resizeIcon =
+      this.resizeIcon === this.iconEnlarge ? this.iconShrink : this.iconEnlarge;
+    this.isSidebarExpanded = !this.isSidebarExpanded;
+  }
+
+  public closeSidebar(): void {
+    this.settingsSidebarOpen = false;
   }
 
   private handleSidebarMode(): void {

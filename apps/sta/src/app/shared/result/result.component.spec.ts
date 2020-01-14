@@ -8,13 +8,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
-
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
+
 import { DataStoreService } from './services/data-store.service';
 
 describe('ResultComponent', () => {

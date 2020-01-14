@@ -41,7 +41,8 @@ describe('SettingsSidebarComponent', () => {
   describe('default variables', () => {
     test('default variables for inputs should be set', () => {
       expect(component.open).toBeTruthy();
-      expect(component.toggleEnabled).toBeFalsy();
+      expect(component.openSidebarBtn).toBeFalsy();
+      expect(component.closeSidebarBtn).toBeFalsy();
     });
 
     test('Observable isHandset$ should be defined', async(() => {

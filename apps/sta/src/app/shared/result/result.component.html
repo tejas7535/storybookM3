@@ -1,32 +1,34 @@
-<div
-  fxLayout="row"
-  class="header-row"
-  fxLayoutAlign="center center"
-  fxLayoutGap="10px"
->
-  <img src="../../../favicon.ico" />
-  <h6>Schaeffler Text Assistant</h6>
-  <button mat-button color="primary" (click)="reset()">
-    <span>RESET</span>
-  </button>
+<div class="top">
+  <div
+    fxLayout="row"
+    class="header-row"
+    fxLayoutAlign="center center"
+    fxLayoutGap="10px"
+  >
+    <img src="../../../favicon.ico" />
+    <h6>Schaeffler Text Assistant</h6>
+    <button mat-button color="primary" (click)="reset()">
+      <span>RESET</span>
+    </button>
+  </div>
+  <mat-accordion displayMode="flat" multi="true">
+    <sta-result-auto-tagging [tags]="tags$ | async"></sta-result-auto-tagging>
+
+    <mat-divider [inset]="true"></mat-divider>
+
+    <sta-result-translation
+      [translation]="translation$ | async"
+    ></sta-result-translation>
+
+    <mat-divider [inset]="true"></mat-divider>
+
+    <mat-expansion-panel class="panel mat-elevation-z0">
+      <mat-expansion-panel-header>
+        <h6>Topic Clustering</h6>
+      </mat-expansion-panel-header>
+      <p>Coming Soon...</p>
+    </mat-expansion-panel>
+
+    <mat-divider [inset]="true"></mat-divider>
+  </mat-accordion>
 </div>
-<mat-accordion displayMode="flat" multi="true">
-  <sta-result-auto-tagging [tags]="tags$ | async"></sta-result-auto-tagging>
-
-  <mat-divider [inset]="true"></mat-divider>
-
-  <sta-result-translation
-    [translation]="translation$ | async"
-  ></sta-result-translation>
-
-  <mat-divider [inset]="true"></mat-divider>
-
-  <mat-expansion-panel class="panel mat-elevation-z0">
-    <mat-expansion-panel-header>
-      <h6>Topic Clustering</h6>
-    </mat-expansion-panel-header>
-    <p>Coming Soon...</p>
-  </mat-expansion-panel>
-
-  <mat-divider [inset]="true"></mat-divider>
-</mat-accordion>

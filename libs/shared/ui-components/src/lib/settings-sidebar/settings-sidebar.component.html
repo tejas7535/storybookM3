@@ -1,4 +1,4 @@
-<mat-sidenav-container>
+<mat-sidenav-container autosize>
   <mat-sidenav
     #sidebar
     fullscreen
@@ -9,11 +9,12 @@
     (openedChange)="onChangeState($event)"
     fixedInViewport="true"
     [fixedTopGap]="(isLessThanMedium$ | async) ? 73 : 60"
+    [ngStyle]="{ width: width }"
   >
     <div fxLayout="row">
       <div fxFlex>
         <button
-          *ngIf="toggleEnabled"
+          *ngIf="closeSidebarBtn"
           (click)="sidebar.toggle()"
           mat-icon-button
           aria-label="Filter"
@@ -27,7 +28,7 @@
   </mat-sidenav>
   <mat-sidenav-content>
     <button
-      *ngIf="!sidebar.opened && toggleEnabled"
+      *ngIf="!sidebar.opened && openSidebarBtn"
       mat-mini-fab
       data-cy="toggle-settings-sidebar"
       class="upper-right"

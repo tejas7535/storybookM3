@@ -2,10 +2,13 @@ import { from, Observable, of, Subscriber } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
+  BreakpointService,
   FooterModule,
   HeaderModule,
   SettingsSidebarModule,
@@ -43,6 +46,8 @@ describe('AppComponent', () => {
         FooterModule,
         HeaderModule,
         HttpClientTestingModule,
+        MatIconModule,
+        MatButtonModule,
         RouterTestingModule,
         SettingsSidebarModule,
         SidebarModule
@@ -50,6 +55,7 @@ describe('AppComponent', () => {
       declarations: [AppComponent, ResultStubComponent],
       providers: [
         DataStoreService,
+        BreakpointService,
         SidebarService,
         {
           provide: AuthService,
@@ -94,13 +100,13 @@ describe('AppComponent', () => {
     };
   });
 
-  it('should create the app', () => {
+  test('should create the app', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
     expect(service.initAuth).toHaveBeenCalled();
   });
 
-  it(`should have as title 'Schaeffler Text Assistant'`, () => {
+  test(`should have as title 'Schaeffler Text Assistant'`, () => {
     const app = fixture.debugElement.componentInstance;
     expect(app.title).toEqual('Schaeffler Text Assistant');
   });
@@ -165,7 +171,7 @@ describe('AppComponent', () => {
   });
 
   describe('toggleSidebar()', () => {
-    it('should set next sidebarToggled value', () => {
+    test('should set next sidebarToggled value', () => {
       const sidebarMode = SidebarMode.Open;
       spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
       const spy = spyOn(component['sidebarToggled'], 'next');
@@ -177,7 +183,7 @@ describe('AppComponent', () => {
       expect(spy).toHaveBeenCalledWith(SidebarMode.Open);
     });
 
-    it('should only set next sidebarToggled value in one time ToggleSidebarAction()', () => {
+    test('should only set next sidebarToggled value in one time ToggleSidebarAction()', () => {
       spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
       const spy = spyOn(component['sidebarToggled'], 'next');
       component.toggleSidebar();
@@ -191,7 +197,7 @@ describe('AppComponent', () => {
   });
 
   describe('handleSidebarMode', () => {
-    it('should subscribe to getSidebarMode', () => {
+    test('should subscribe to getSidebarMode', () => {
       const spy = spyOn(sidebarService, 'getSidebarMode').and.callThrough();
 
       component['handleSidebarMode']();
@@ -247,6 +253,38 @@ describe('AppComponent', () => {
       component['handleSidebarToggledObservable'](SidebarMode.Closed);
 
       expect(component.mode).toEqual(SidebarMode.Closed);
+    });
+  });
+
+  describe('resizeSidebar', () => {
+    test('should toggle resizeIcon', () => {
+      component.resizeIcon = component.iconEnlarge;
+
+      component.resizeSidebar();
+
+      expect(component.resizeIcon).toEqual(component.iconShrink);
+
+      component.resizeSidebar();
+
+      expect(component.resizeIcon).toEqual(component.iconEnlarge);
+    });
+
+    test('should toggle isSidebarExpanded', () => {
+      component.isSidebarExpanded = true;
+
+      component.resizeSidebar();
+
+      expect(component.isSidebarExpanded).toBeFalsy();
+    });
+  });
+
+  describe('closeSidebar', () => {
+    test('should close settingsSidebarOpen', () => {
+      component.settingsSidebarOpen = true;
+
+      component.closeSidebar();
+
+      expect(component.settingsSidebarOpen).toBeFalsy();
     });
   });
 });

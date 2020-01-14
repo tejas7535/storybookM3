@@ -38,6 +38,12 @@ export class BreakpointService {
       .pipe(map((state: BreakpointState) => state.matches));
   }
 
+  public isMedium(): Observable<boolean> {
+    return this.breakpointObserver
+      .observe([Breakpoints.Medium])
+      .pipe(map((state: BreakpointState) => state.matches));
+  }
+
   /**
    * Returns an observable for unsupportedViewPort
    */
