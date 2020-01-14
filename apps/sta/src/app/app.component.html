@@ -9,8 +9,19 @@
   <schaeffler-sidebar fxFlex [elements]="sidebarElements" [mode]="mode">
     <schaeffler-settings-sidebar
       [open]="settingsSidebarOpen"
-      [toggleEnabled]="true"
+      [openSidebarBtn]="true"
       (openedChange)="settingsSidebarOpenedChanges($event)"
+      [width]="
+        isSidebarExpanded
+          ? (isLessThanMedium$ | async)
+            ? sidebarWidthExpandedMobile
+            : (isMedium$ | async)
+            ? sidebarWidthExpandedTablet
+            : sidebarWidthExpanded
+          : (isMobile$ | async)
+          ? sidebarWidthExpandedMobile
+          : sidebarWidth
+      "
     >
       <ng-container container>
         <div class="page-container">
@@ -27,6 +38,18 @@
         <ng-template #emptystate>
           EMPTY STATE
         </ng-template>
+        <button mat-icon-button (click)="closeSidebar()" class="close-icon">
+          <mat-icon>chevron_right</mat-icon>
+          <mat-icon>chevron_right</mat-icon>
+        </button>
+        <button
+          mat-icon-button
+          (click)="resizeSidebar()"
+          class="resize-icon"
+          *ngIf="(isMobile$ | async) === false"
+        >
+          <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
+        </button>
       </ng-container>
     </schaeffler-settings-sidebar>
   </schaeffler-sidebar>

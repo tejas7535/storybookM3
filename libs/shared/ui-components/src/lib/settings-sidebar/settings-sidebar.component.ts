@@ -13,7 +13,9 @@ export class SettingsSidebarComponent implements OnInit {
   public isLessThanMedium$: Observable<boolean>;
 
   @Input() public open = true;
-  @Input() public toggleEnabled = false;
+  @Input() public openSidebarBtn = false;
+  @Input() public closeSidebarBtn = false;
+  @Input() public width = '400px';
 
   @Output() private readonly openedChange: EventEmitter<
     boolean

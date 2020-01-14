@@ -24,7 +24,8 @@ API:
 ```typescript
   // Inputs
   @Input() open: boolean = true; // if the sidebar is visible or not
-  @Input() toggleEnabled: boolean = false; // if the user can toggle the open/close of the filter on big screens
+  @Input() openSidebarBtn: boolean = false; // if the user should see a button that opens the sidebar
+  @Input() closeSidebarBtn: boolean = false; // if the user should see a button that closes the sidebar when opened
   
   // Outputs
   @Output() openedChange: EventEmitter<boolean> = new EventEmitter(); // Emits the event, when the sidebar was toggled
@@ -37,7 +38,8 @@ Use like:
 
 <schaeffler-settings-sidebar
   [open]="false"
-  [toggleEnabled]="true"
+  [openSidebarBtn]="true"
+  [closeSidebarBtn]="true"
   (openChanged)="onOpenChanged($event)"
 >
   <ng-container container>

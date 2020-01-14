@@ -1,6 +1,8 @@
 import { Observable } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+
+import { BreakpointService } from '@schaeffler/shared/ui-components';
 
 import { DataStoreService } from './services/data-store.service';
 
