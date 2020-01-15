@@ -47,6 +47,7 @@ Use like:
 
   // Passing an Action
   this.snackBarService.showWarningMessage('Oh, a warning.', 'Try again');  // valid for every type
+  // If you want the snackbar to dismiss on button click, you need to `.subscribe()` here
 
   // Listening to an action
   this.snackBarService

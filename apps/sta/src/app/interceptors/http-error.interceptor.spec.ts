@@ -10,7 +10,10 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { configureTestSuite } from 'ng-bullet';
 import { Observable } from 'rxjs';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import {
+  SnackBarModule,
+  SnackBarService
+} from '@schaeffler/shared/ui-components';
 
 import { environment } from '../../environments/environment';
 import { HttpErrorInterceptor } from './http-error.interceptor';
@@ -30,6 +33,7 @@ describe(`HttpErrorInterceptor`, () => {
   let service: ExampleService;
   let httpMock: HttpTestingController;
   let interceptor: HttpErrorInterceptor;
+  let snackBarService: SnackBarService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -50,6 +54,7 @@ describe(`HttpErrorInterceptor`, () => {
     service = TestBed.get(ExampleService);
     httpMock = TestBed.get(HttpTestingController);
     interceptor = TestBed.get(HttpErrorInterceptor);
+    snackBarService = TestBed.get(SnackBarService);
   });
 
   it('should be truthy', () => {
@@ -68,6 +73,7 @@ describe(`HttpErrorInterceptor`, () => {
       });
 
       jest.spyOn(console, 'log');
+      snackBarService.showErrorMessage = jest.fn();
     });
 
     afterEach(() => {
@@ -121,5 +127,22 @@ describe(`HttpErrorInterceptor`, () => {
 
       httpRequest.error(({ error: 'wow' } as unknown) as ErrorEvent);
     }));
+
+    test('should toast error message in error case', () => {
+      service.getPosts().subscribe(
+        () => {
+          expect(true).toEqual(false);
+        },
+        response => {
+          expect(snackBarService.showErrorMessage).toHaveBeenCalled();
+        }
+      );
+
+      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(({ error: 'wow' } as unknown) as ErrorEvent);
+    });
   });
 });

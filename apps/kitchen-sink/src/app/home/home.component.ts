@@ -111,17 +111,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     );
   }
 
-  showSuccessToast(): void {
-    this.snackBarService.showSuccessMessage('Yippi, the Snackbar works!');
+  public showSuccessToast(): void {
+    this.snackBarService
+      .showSuccessMessage('Yippi, the Snackbar works!', 'ok')
+      .subscribe(); // we need to subscribe here, that the snackbar is dismissed on button click
   }
 
-  showInformationToast(): void {
+  public showInformationToast(): void {
     this.snackBarService.showInfoMessage('Some boring news for you.');
   }
 
-  showWarningToast(): void {
+  public showWarningToast(): void {
     this.snackBarService
-      .showWarningMessage('Oh, a warning.', 'Try again')
+      .showWarningMessage(
+        "This is a extra long warning! Don't do this in production! This is a extra long warning! Don't do this in production! This is a extra long warning! Don't do this in production!",
+        'Try again'
+      )
       .subscribe(result => {
         console.log(result);
 
@@ -131,7 +136,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       });
   }
 
-  showErrorToast(): void {
+  public showErrorToast(): void {
     this.snackBarService.showErrorMessage('Ohoh, an error occured!');
   }
 
