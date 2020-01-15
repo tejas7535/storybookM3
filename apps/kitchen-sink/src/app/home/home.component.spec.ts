@@ -93,7 +93,9 @@ describe('HomeComponent', () => {
 
   describe('showSuccessToast', () => {
     it('should call method ShowSuccessMessage of snackbarService', () => {
-      snackBarService.showSuccessMessage = jest.fn();
+      snackBarService.showSuccessMessage = jest
+        .fn()
+        .mockReturnValue(of('action'));
 
       component.showSuccessToast();
 

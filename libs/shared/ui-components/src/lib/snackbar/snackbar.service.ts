@@ -84,7 +84,10 @@ export class SnackBarService {
       SnackBarComponent
     > = this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
 
-    const action$ = snackBarRef.instance.action.pipe(mapTo('action'));
+    const action$ = snackBarRef.instance.action.pipe(
+      tap(() => snackBarRef.dismiss()),
+      mapTo('action')
+    );
 
     const afterDismissed$ = snackBarRef
       .afterDismissed()
