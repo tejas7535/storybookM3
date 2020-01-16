@@ -1,13 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { TranslocoModule } from '@ngneat/transloco';
+
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
-import { BannerState } from '../store/reducers/banner/banner.reducer';
-import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
+
+import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
+
+import {
+  BannerState,
+  initialState
+} from '../store/reducers/banner/banner.reducer';
 
 describe('BannerTextComponent', () => {
   let component: BannerTextComponent;
@@ -17,8 +24,18 @@ describe('BannerTextComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [BannerTextComponent, TruncatePipe],
-      imports: [TranslocoModule, FlexLayoutModule, StoreModule],
-      providers: [provideMockStore()]
+      imports: [
+        provideTranslocoTestingModule({}),
+        FlexLayoutModule,
+        StoreModule
+      ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            banner: initialState
+          }
+        })
+      ]
     });
   });
 

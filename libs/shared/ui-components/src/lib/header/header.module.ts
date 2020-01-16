@@ -9,7 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from './header.component';
 import { UserMenuComponent } from './user-menu/user-menu.component';
 
-import { BreakpointService } from '../breakpoint-service/breakpoint.service';
+import { BreakpointService } from '@schaeffler/shared/responsive';
 
 @NgModule({
   imports: [

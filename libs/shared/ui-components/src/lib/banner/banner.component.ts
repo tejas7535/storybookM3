@@ -12,7 +12,9 @@ import {
 } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
+import { sharedScopeLoader } from '@schaeffler/shared/transloco';
 
 import { BannerService } from './banner.service';
 
@@ -23,9 +25,23 @@ import { DynamicComponentDirective } from './dynamic-component-directive/dynamic
 import { getBannerOpen, getBannerUrl } from './store';
 import * as BannerActions from './store/actions';
 
+// tslint:disable-next-line: only-arrow-functions
+export async function importer(lang: string, root: string): Promise<any> {
+  return import(`./${root}/${lang}.json`);
+}
+
 @Component({
   selector: 'schaeffler-banner',
-  templateUrl: 'banner.component.html'
+  templateUrl: 'banner.component.html',
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: {
+        scope: 'banner',
+        loader: sharedScopeLoader(['de', 'en'], importer)
+      }
+    }
+  ]
 })
 export class BannerComponent implements OnInit, OnDestroy {
   @Output() readonly bannerClose: EventEmitter<void> = new EventEmitter();

@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { translate } from '@ngneat/transloco';
+import { select, Store } from '@ngrx/store';
 import {
   BannerTextComponent,
   getBannerOpen,
@@ -12,8 +13,9 @@ import {
   SpeedDialFabItem
 } from '@schaeffler/shared/ui-components';
 
-import { AppState } from '../core/store';
 import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
+
+import { AppState } from '../core/store';
 
 @Component({
   selector: 'schaeffler-home',
@@ -90,8 +92,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       openBanner({
         component: BannerTextComponent,
-        text: 'BANNER.BANNER_TEXT',
-        buttonText: 'BANNER.BUTTON_TEXT',
+        text: translate('BANNER.BANNER_TEXT'),
+        buttonText: translate('BANNER.BUTTON_TEXT'),
         truncateSize: 120
       })
     );
@@ -104,8 +106,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       openBanner({
         component: CustomBannerComponent,
-        text: 'CUSTOM_BANNER.BANNER_TEXT',
-        buttonText: 'CUSTOM_BANNER.BUTTON_TEXT',
+        text: translate('CUSTOM_BANNER.BANNER_TEXT'),
+        buttonText: translate('CUSTOM_BANNER.BUTTON_TEXT'),
         truncateSize: 0
       })
     );
@@ -128,8 +130,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         'Try again'
       )
       .subscribe(result => {
-        console.log(result);
-
         if (result === 'action') {
           this.showSuccessToast();
         }
@@ -141,7 +141,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   public speedDialFabClicked(key: string): void {
-    console.log('Speed Dial FAB has been clicked:', key);
     if (key === 'conversation' || key === 'cancel') {
       this.speedDialFabOpen = !this.speedDialFabOpen;
     }

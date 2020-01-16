@@ -15,13 +15,15 @@ import {
 import { By, HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
+import { configureTestSuite } from 'ng-bullet';
 
 import { SliderComponent } from './slider.component';
 
 import { SliderControl } from './slider.model';
+
+import * as en from '../../../../assets/i18n/en.json';
 
 describe('SliderComponent', () => {
   let component: SliderComponent;
@@ -39,7 +41,7 @@ describe('SliderComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         HttpClientModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ],
       providers: [
         {

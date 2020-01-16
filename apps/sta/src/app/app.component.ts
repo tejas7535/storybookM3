@@ -1,13 +1,11 @@
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
+import { Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import {
-  BreakpointService,
-  SidebarMode,
-  SidebarService
-} from '@schaeffler/shared/ui-components';
+import { BreakpointService } from '@schaeffler/shared/responsive';
+import { SidebarMode, SidebarService } from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
 import { DataStoreService } from './shared/result/services/data-store.service';
@@ -42,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public sidebarElements = [
     {
-      text: 'HOME',
+      text: 'Home',
       icon: 'icon-house',
       link: '/'
     },
@@ -70,6 +68,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly breakpointService: BreakpointService
   ) {
     this.authService.initAuth();
+    console.log(Breakpoints.Medium);
   }
 
   public ngOnInit(): void {

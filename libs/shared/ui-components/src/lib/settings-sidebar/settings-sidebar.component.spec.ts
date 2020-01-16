@@ -5,9 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { BreakpointService } from '@schaeffler/shared/responsive';
+
 import { configureTestSuite } from 'ng-bullet';
 
-import { BreakpointService } from '../breakpoint-service/breakpoint.service';
 import { SettingsSidebarComponent } from './settings-sidebar.component';
 
 describe('SettingsSidebarComponent', () => {

@@ -5,8 +5,10 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { translate } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   BannerState,
@@ -15,7 +17,6 @@ import {
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
 import { PredictionModule } from '../prediction/prediction.module';
 
 import { HomeComponent } from './home.component';
@@ -23,6 +24,7 @@ import { HomeComponent } from './home.component';
 import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
 
+import * as en from '../../../assets/i18n/en.json';
 import { LTPState } from '../../core/store';
 
 describe('HomeComponent', () => {
@@ -50,7 +52,7 @@ describe('HomeComponent', () => {
         RouterTestingModule,
         PredictionModule,
         BannerModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ],
       providers: [
         provideMockStore({
@@ -96,8 +98,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action', () => {
       const banner = {
         component: BannerTextComponent,
-        text: 'disclaimer',
-        buttonText: 'disclaimerClose',
+        text: translate('disclaimer'),
+        buttonText: translate('disclaimerClose'),
         truncateSize: 0,
         type: '[Banner] Open Banner'
       };

@@ -7,13 +7,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
-
 import { MaterialComponent } from './material.component';
 
+import * as en from '../../../../assets/i18n/en.json';
 import * as fromStore from '../../../core/store';
 
 describe('MaterialComponent', () => {
@@ -32,7 +32,7 @@ describe('MaterialComponent', () => {
         MatFormFieldModule,
         NoopAnimationsModule,
         HttpClientModule,
-        getTranslocoModule(),
+        provideTranslocoTestingModule({ en }),
         StoreModule.forRoot({
           ...fromStore.reducers
         })

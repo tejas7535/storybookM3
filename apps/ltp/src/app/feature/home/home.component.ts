@@ -2,6 +2,7 @@ import { Observable } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import {
   BannerTextComponent,
@@ -31,8 +32,8 @@ export class HomeComponent implements OnInit {
     this.store.dispatch(
       openBanner({
         component: BannerTextComponent,
-        text: 'disclaimer',
-        buttonText: 'disclaimerClose',
+        text: translate('disclaimer'),
+        buttonText: translate('disclaimerClose'),
         truncateSize: 0
       })
     );

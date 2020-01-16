@@ -5,25 +5,25 @@ import {
 import { TestBed } from '@angular/core/testing';
 import { Translation } from '@ngneat/transloco';
 
-import * as mock from '../assets/i18n/en.json';
-import { HttpLoader } from './transloco.loader';
+import { SharedHttpLoader } from './shared-transloco.loader';
 
 describe('Transloco Loader', () => {
-  let loader: HttpLoader;
+  let loader: SharedHttpLoader;
   let http: HttpTestingController;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [HttpLoader]
+      providers: [SharedHttpLoader]
     });
-    loader = TestBed.get(HttpLoader);
+    loader = TestBed.get(SharedHttpLoader);
     http = TestBed.get(HttpTestingController);
   });
 
   describe('getTranslation', () => {
     it('should load json file', () => {
       const lang = 'en';
+      const mock = { test: 'Test in English' };
 
       loader.getTranslation(lang).subscribe((translation: Translation) => {
         expect(translation).toEqual(mock);

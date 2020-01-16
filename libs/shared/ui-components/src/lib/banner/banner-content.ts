@@ -1,16 +1,20 @@
-import { OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { getBannerText } from './store';
-import * as BannerActions from './store/actions';
+import { OnDestroy, OnInit } from '@angular/core';
+
+import { select, Store } from '@ngrx/store';
+
 import { BannerState } from './store/reducers/banner/banner.reducer';
+
 import {
   getBannerButtonText,
   getBannerIsFullTextShown,
   getBannerTruncateSize
 } from './store/selectors/banner/banner.selectors';
+
+import { getBannerText } from './store';
+import * as BannerActions from './store/actions';
 
 export class BannerContent implements OnInit, OnDestroy {
   text: string;

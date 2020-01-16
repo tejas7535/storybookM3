@@ -27,7 +27,8 @@
         "libs/shared/empty-states/src/index.ts"
       ],
       "@schaeffler/shared/responsive": ["libs/shared/responsive/src/index.ts"],
-      "jszip": ["node_modules/jszip/dist/jszip.min.js"]
+      "jszip": ["node_modules/jszip/dist/jszip.min.js"],
+      "@schaeffler/shared/transloco": ["libs/shared/transloco/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

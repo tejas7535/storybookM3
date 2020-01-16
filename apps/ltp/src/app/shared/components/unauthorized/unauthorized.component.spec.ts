@@ -5,9 +5,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { getTranslocoModule } from '../../transloco/transloco-testing.module';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { UnauthorizedComponent } from './unauthorized.component';
+
+import * as en from '../../../../assets/i18n/en.json';
 
 describe('UnauthorizedComponent', () => {
   let component: UnauthorizedComponent;
@@ -17,7 +19,7 @@ describe('UnauthorizedComponent', () => {
     TestBed.configureTestingModule({
       declarations: [UnauthorizedComponent],
       imports: [
-        getTranslocoModule(),
+        provideTranslocoTestingModule({ en }),
         MatGridListModule,
         MatButtonModule,
         RouterTestingModule

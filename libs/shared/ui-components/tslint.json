@@ -2,7 +2,6 @@
   "extends": "../../../tslint.json",
   "rules": {
     "directive-selector": [true, "attribute", "schaeffler", "camelCase"],
-    "component-selector": [true, "element", "schaeffler", "kebab-case"],
-    "no-implicit-dependencies": [true, ["dev", "@schaeffler", "ng-bullet"]]
+    "component-selector": [true, "element", "schaeffler", "kebab-case"]
   }
 }

@@ -6,13 +6,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
+import { configureTestSuite } from 'ng-bullet';
 
 import { ToggleComponent } from './toggle.component';
 
 import { ToggleControl } from './toggle.model';
+
+import * as en from '../../../../assets/i18n/en.json';
 
 describe('ToggleComponent', () => {
   let component: ToggleComponent;
@@ -28,7 +30,7 @@ describe('ToggleComponent', () => {
         MatSlideToggleModule,
         NoopAnimationsModule,
         HttpClientModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ],
       providers: [
         {

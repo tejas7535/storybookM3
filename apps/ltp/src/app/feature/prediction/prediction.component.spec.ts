@@ -13,12 +13,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
-import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
 import { ChartModule } from './chart/chart.module';
 
 import { KpiComponent } from './kpi/kpi.component';
@@ -27,6 +27,7 @@ import { PredictionComponent } from './prediction.component';
 import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
 
+import * as en from '../../../assets/i18n/en.json';
 import * as fromStore from '../../core/store';
 import { CHART_SETTINGS_WOEHLER } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
@@ -56,7 +57,7 @@ describe('PredictionComponent', () => {
         MatButtonModule,
         MatMenuModule,
         MatTabsModule,
-        getTranslocoModule(),
+        provideTranslocoTestingModule({ en }),
         StoreModule.forRoot({}),
         ChartModule,
         MatExpansionModule,

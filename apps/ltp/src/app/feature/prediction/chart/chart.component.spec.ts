@@ -4,14 +4,15 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { DxChartModule } from 'devextreme-angular/ui/chart';
 import { configureTestSuite } from 'ng-bullet';
-
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
 
 import { ChartComponent } from './chart.component';
 import { LegendComponent } from './legend/legend.component';
 
+import * as en from '../../../../assets/i18n/en.json';
 import { CHART_SETTINGS_WOEHLER } from '../../../shared/constants';
 
 describe('ChartComponent', () => {
@@ -25,7 +26,7 @@ describe('ChartComponent', () => {
         CommonModule,
         FlexLayoutModule,
         DxChartModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ]
     });
   });

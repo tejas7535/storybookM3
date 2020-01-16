@@ -17,11 +17,11 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
-import { getTranslocoModule } from '../../shared/transloco/transloco-testing.module';
 
 import { InputComponent } from './input.component';
 import { LimitsComponent } from './limits/limits.component';
@@ -35,6 +35,7 @@ import { initialState as initialPredictionState } from '../../core/store/reducer
 
 import { SliderControl } from './slider/slider.model';
 
+import * as en from '../../../assets/i18n/en.json';
 import * as fromStore from '../../core/store';
 import { PredictionRequest } from '../../shared/models';
 
@@ -65,7 +66,7 @@ describe('InputComponent', () => {
         MatDividerModule,
         MatSlideToggleModule,
         TooltipModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ],
       providers: [
         provideMockStore({

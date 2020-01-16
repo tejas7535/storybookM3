@@ -4,10 +4,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import {
-  BreakpointService,
-  UserMenuEntry
-} from '@schaeffler/shared/ui-components';
+import { BreakpointService } from '@schaeffler/shared/responsive';
+import { UserMenuEntry } from '@schaeffler/shared/ui-components';
 
 import { AuthGuard } from './core/guards/auth.guard';
 import * as fromStore from './core/store';

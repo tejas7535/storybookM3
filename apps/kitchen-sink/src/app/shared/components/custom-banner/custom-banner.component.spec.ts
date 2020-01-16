@@ -1,11 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule } from '@ngneat/transloco';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { BannerModule } from '@schaeffler/shared/ui-components';
+import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { CustomBannerComponent } from './custom-banner.component';
 
@@ -13,7 +15,16 @@ describe('CustomBannerComponent', () => {
   let component: CustomBannerComponent;
   let fixture: ComponentFixture<CustomBannerComponent>;
 
-  beforeEach(async(() => {
+  const initialState: BannerState = {
+    text: '',
+    buttonText: 'OK',
+    truncateSize: 120,
+    isFullTextShown: false,
+    open: undefined,
+    url: undefined
+  };
+
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [CustomBannerComponent],
       imports: [
@@ -23,9 +34,15 @@ describe('CustomBannerComponent', () => {
         CommonModule,
         StoreModule.forRoot({})
       ],
-      providers: [provideMockStore()]
-    }).compileComponents();
-  }));
+      providers: [
+        provideMockStore({
+          initialState: {
+            banner: initialState
+          }
+        })
+      ]
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomBannerComponent);

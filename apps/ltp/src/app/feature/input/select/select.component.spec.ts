@@ -7,13 +7,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
+import { configureTestSuite } from 'ng-bullet';
 
 import { SelectComponent } from './select.component';
 
 import { SelectControl } from './select-control.model';
+
+import * as en from '../../../../assets/i18n/en.json';
 
 describe('SelectComponent', () => {
   let component: SelectComponent;
@@ -29,7 +31,7 @@ describe('SelectComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         FlexLayoutModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ]
     });
   });

@@ -4,13 +4,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule } from '@ngneat/transloco';
 
-import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
+
+import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 
 @NgModule({
   declarations: [BannerTextComponent, TruncatePipe],
   entryComponents: [BannerTextComponent],
-  imports: [TranslocoModule, FlexLayoutModule, CommonModule],
+  imports: [FlexLayoutModule, CommonModule, TranslocoModule],
   exports: [BannerTextComponent, TruncatePipe]
 })
 export class BannerTextModule {}

@@ -6,8 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as transloco from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { BreakpointService } from '@schaeffler/shared/responsive';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
-  BreakpointService,
   HeaderModule,
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
@@ -16,13 +17,13 @@ import { KeycloakAngularModule } from 'keycloak-angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { InputModule } from './feature/input/input.module';
-import { getTranslocoModule } from './shared/transloco/transloco-testing.module';
 
 import { AppComponent } from './app.component';
 
 import { initialState as initialInputState } from './core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from './core/store/reducers/prediction.reducer';
 
+import * as en from '../assets/i18n/en.json';
 import { AuthGuard } from './core/guards/auth.guard';
 import { unsetDisplay, unsetPredictionRequest } from './core/store';
 
@@ -49,7 +50,7 @@ describe('AppComponent', () => {
         SettingsSidebarModule,
         RouterTestingModule,
         InputModule,
-        getTranslocoModule(),
+        provideTranslocoTestingModule({ en }),
         KeycloakAngularModule
       ],
       providers: [

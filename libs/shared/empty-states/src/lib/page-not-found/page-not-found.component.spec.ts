@@ -1,10 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { PageNotFoundComponent } from './page-not-found.component';
+
+import * as en from './i18n/de.json';
 
 describe('PageNotFoundComponent', () => {
   let component: PageNotFoundComponent;
@@ -13,7 +16,10 @@ describe('PageNotFoundComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [PageNotFoundComponent],
-      imports: [TranslocoModule, MatButtonModule]
+      imports: [
+        provideTranslocoTestingModule({ 'pageNotFound/en': en }),
+        MatButtonModule
+      ]
     });
   });
 

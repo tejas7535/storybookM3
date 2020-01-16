@@ -14,7 +14,7 @@
     <div fxLayout="row" fxLayoutAlign="center center">
       <img fxHide.lt-sm src="../../assets/img/sir_henry.png" />
       <div fxLayout="column" fxLayoutAlign="center">
-        <p [innerHTML]="text | transloco" id="infoBannerFull"></p>
+        <p [innerHTML]="text" id="infoBannerFull"></p>
       </div>
     </div>
     <button
@@ -22,7 +22,7 @@
       id="infoBannerButton"
       class="text-button-primary"
     >
-      {{ buttonText | transloco }}
+      {{ buttonText }}
     </button>
   </div>
 </div>

@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from '@schaeffler/shared/empty-states';
-
 import { HomeComponent } from './home/home.component';
 
 export enum RoutePath {
@@ -23,7 +21,8 @@ export const appRoutePaths: Routes = [
   },
   {
     path: RoutePath.PageNotFoundPath,
-    component: PageNotFoundComponent
+    loadChildren: () =>
+      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
   },
   { path: '**', redirectTo: `/${RoutePath.PageNotFoundPath}` }
 ];

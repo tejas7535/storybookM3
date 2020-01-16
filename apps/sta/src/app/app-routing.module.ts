@@ -1,8 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from '@schaeffler/shared/empty-states';
-
 const routes: Routes = [
   {
     path: '',
@@ -25,7 +23,8 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: PageNotFoundComponent
+    loadChildren: () =>
+      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
   }
 ];
 
