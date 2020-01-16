@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -8,9 +6,10 @@ import {
   TRANSLOCO_LOADER,
   TranslocoLoader
 } from '@ngneat/transloco';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
-export class HttpLoader implements TranslocoLoader {
+export class SharedHttpLoader implements TranslocoLoader {
   constructor(private readonly http: HttpClient) {}
 
   public getTranslation(langPath: string): Observable<Translation> {
@@ -18,7 +17,7 @@ export class HttpLoader implements TranslocoLoader {
   }
 }
 
-export const translocoLoader = {
+export const sharedTranslocoLoader = {
   provide: TRANSLOCO_LOADER,
-  useClass: HttpLoader
+  useClass: SharedHttpLoader
 };

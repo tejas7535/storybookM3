@@ -9,11 +9,13 @@ import {
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
-import { getTranslocoModule } from '../../../shared/transloco/transloco-testing.module';
-
 import { LimitsComponent } from './limits.component';
+
+import * as en from '../../../../assets/i18n/en.json';
 
 describe('LimitsComponent', () => {
   let component: LimitsComponent;
@@ -29,7 +31,7 @@ describe('LimitsComponent', () => {
         MatInputModule,
         MatSliderModule,
         NoopAnimationsModule,
-        getTranslocoModule()
+        provideTranslocoTestingModule({ en })
       ],
       providers: [
         {

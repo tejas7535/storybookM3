@@ -8,7 +8,7 @@ import { CustomBannerComponent } from './custom-banner.component';
 @NgModule({
   declarations: [CustomBannerComponent],
   entryComponents: [CustomBannerComponent],
-  imports: [TranslocoModule, FlexLayoutModule, CommonModule],
+  imports: [FlexLayoutModule, CommonModule],
   exports: [CustomBannerComponent]
 })
 export class CustomBannerModule {}

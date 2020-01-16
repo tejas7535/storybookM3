@@ -6,7 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   FooterModule,
   HeaderModule,
@@ -24,6 +24,7 @@ import { AppComponent } from './app.component';
 
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 
+import { environment } from '../environments/environment';
 import { HammerConfig } from './config';
 
 @NgModule({
@@ -39,11 +40,11 @@ import { HammerConfig } from './config';
     HeaderModule,
     MatButtonModule,
     MatIconModule,
-    PageNotFoundModule,
     ResultModule,
     SettingsSidebarModule,
     SidebarModule,
-    SnackBarModule
+    SnackBarModule,
+    SharedTranslocoModule.forRoot(environment.production, ['en', 'de'], false)
   ],
   providers: [
     {

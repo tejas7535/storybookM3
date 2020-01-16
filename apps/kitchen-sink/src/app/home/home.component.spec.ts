@@ -1,13 +1,13 @@
+import { of } from 'rxjs';
+
 import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { translate } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
-import { of } from 'rxjs';
-
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   BannerState,
@@ -17,10 +17,15 @@ import {
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
-import { AppState } from '../core/store';
-import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
+import { configureTestSuite } from 'ng-bullet';
+
 import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
 import { HomeComponent } from './home.component';
+
+import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
+
+import * as en from '../../assets/i18n/en.json';
+import { AppState } from '../core/store';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -56,7 +61,7 @@ describe('HomeComponent', () => {
         SnackBarModule,
         SpeedDialFabModule,
         StoreModule.forRoot({}),
-        TranslocoModule,
+        provideTranslocoTestingModule({ en }),
         BannerModule
       ],
       providers: [
@@ -84,10 +89,9 @@ describe('HomeComponent', () => {
   it('should render title', () => {
     fixture.detectChanges();
 
-    // TODO: Use Transloco Testing Module
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain(
-      'en.NAVIGATION.HOME'
+      translate('NAVIGATION.HOME')
     );
   });
 
@@ -147,18 +151,6 @@ describe('HomeComponent', () => {
   });
 
   describe('speedDialFabClicked', () => {
-    it('should log clicked button key', () => {
-      const key = 'edit';
-      console.log = jest.fn();
-
-      component.speedDialFabClicked(key);
-
-      expect(console.log).toHaveBeenCalledWith(
-        'Speed Dial FAB has been clicked:',
-        key
-      );
-    });
-
     it('should toggle speedDialFabOpen on fab open', () => {
       const key = 'conversation';
 
@@ -183,8 +175,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action on openBanner', () => {
       const banner = {
         component: BannerTextComponent,
-        text: 'BANNER.BANNER_TEXT',
-        buttonText: 'BANNER.BUTTON_TEXT',
+        text: translate('BANNER.BANNER_TEXT'),
+        buttonText: translate('BANNER.BUTTON_TEXT'),
         truncateSize: 120,
         type: '[Banner] Open Banner'
       };
@@ -196,8 +188,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action on openCustomBanner', () => {
       const banner = {
         component: CustomBannerComponent,
-        text: 'CUSTOM_BANNER.BANNER_TEXT',
-        buttonText: 'CUSTOM_BANNER.BUTTON_TEXT',
+        text: translate('CUSTOM_BANNER.BANNER_TEXT'),
+        buttonText: translate('CUSTOM_BANNER.BUTTON_TEXT'),
         truncateSize: 0,
         type: '[Banner] Open Banner'
       };

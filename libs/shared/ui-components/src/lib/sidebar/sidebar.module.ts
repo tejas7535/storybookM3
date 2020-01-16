@@ -7,8 +7,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
-import { TranslocoModule } from '@ngneat/transloco';
-
 import { SidebarComponent } from './sidebar.component';
 
 @NgModule({
@@ -19,8 +17,7 @@ import { SidebarComponent } from './sidebar.component';
     MatTooltipModule,
     MatIconModule,
     RouterModule,
-    FlexLayoutModule,
-    TranslocoModule
+    FlexLayoutModule
   ],
   declarations: [SidebarComponent],
   exports: [MatSidenavModule, SidebarComponent]

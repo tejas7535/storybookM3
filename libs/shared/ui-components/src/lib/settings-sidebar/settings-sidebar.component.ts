@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { BreakpointService } from '../breakpoint-service/breakpoint.service';
+import { BreakpointService } from '@schaeffler/shared/responsive';
 
 @Component({
   selector: 'schaeffler-settings-sidebar',

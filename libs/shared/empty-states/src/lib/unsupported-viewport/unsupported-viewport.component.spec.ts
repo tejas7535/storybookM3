@@ -2,9 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { TranslocoModule } from '@ngneat/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
-import { UnsupportedViewportComponent } from './unsupported-viewport.component';
+import {
+  importer,
+  UnsupportedViewportComponent
+} from './unsupported-viewport.component';
+
+import * as testJson from './i18n/en.json';
 
 describe('UnsupportedViewportComponent', () => {
   let component: UnsupportedViewportComponent;
@@ -24,5 +30,13 @@ describe('UnsupportedViewportComponent', () => {
 
   it('Should create a component', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('importer', () => {
+    test('should import language from root path', async () => {
+      const result = await importer('en', 'i18n');
+
+      expect(result).toEqual(testJson);
+    });
   });
 });

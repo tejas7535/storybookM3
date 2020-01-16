@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import {
-  PageNotFoundComponent,
-  PageNotFoundModule
-} from '@schaeffler/shared/empty-states';
-
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
 import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
@@ -44,12 +39,13 @@ const routes: Routes = [
   },
   {
     path: '**',
-    component: PageNotFoundComponent
+    loadChildren: () =>
+      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
   }
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes), PageNotFoundModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

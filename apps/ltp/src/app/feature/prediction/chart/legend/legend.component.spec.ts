@@ -1,7 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TranslocoModule } from '@ngneat/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
 import { LegendComponent } from './legend.component';
@@ -13,7 +11,7 @@ describe('LegendComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LegendComponent],
-      imports: [TranslocoModule]
+      imports: []
     });
   });
 

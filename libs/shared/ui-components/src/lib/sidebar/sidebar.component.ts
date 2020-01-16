@@ -10,7 +10,7 @@ import {
 
 import { Observable, Subscription } from 'rxjs';
 
-import { BreakpointService } from '../breakpoint-service/breakpoint.service';
+import { BreakpointService } from '@schaeffler/shared/responsive';
 import { SidebarAnimationStyle } from './sidebar-animation-style';
 import { contentAnimation, sidebarAnimation } from './sidebar-animations';
 import { SidebarElement } from './sidebar-element';

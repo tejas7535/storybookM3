@@ -1,17 +1,11 @@
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {
-  TRANSLOCO_CONFIG,
-  TranslocoConfig,
-  TranslocoModule,
-  TranslocoService
-} from '@ngneat/transloco';
-import { PageNotFoundModule } from '@schaeffler/shared/empty-states';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   FooterModule,
@@ -32,23 +26,6 @@ import { HomeComponent } from './home/home.component';
 import { environment } from '../environments/environment';
 import { StoreModule } from './core/store';
 import { HammerConfig } from './shared/config';
-import { translocoLoader } from './transloco.loader';
-
-const translocoConfig: TranslocoConfig = {
-  availableLangs: ['en'],
-  defaultLang: 'en',
-  prodMode: environment.production
-};
-
-const preloadLanguage = (transloco: TranslocoService) => () =>
-  transloco.load(translocoConfig.defaultLang).toPromise();
-
-const preLoad = {
-  provide: APP_INITIALIZER,
-  multi: true,
-  useFactory: preloadLanguage,
-  deps: [TranslocoService]
-};
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -57,7 +34,6 @@ const preLoad = {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
-    TranslocoModule,
     MatButtonModule,
     FlexLayoutModule,
     FooterModule,
@@ -65,24 +41,17 @@ const preLoad = {
     SnackBarModule,
     HeaderModule,
     SidebarModule,
-    PageNotFoundModule,
     StoreModule,
     SpeedDialFabModule,
     SettingsSidebarModule,
-    CustomBannerModule
+    CustomBannerModule,
+    SharedTranslocoModule.forRoot(environment.production)
   ],
   providers: [
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig
-    },
-
-    {
-      provide: TRANSLOCO_CONFIG,
-      useValue: translocoConfig
-    },
-    translocoLoader,
-    preLoad
+    }
   ],
   bootstrap: [AppComponent]
 })

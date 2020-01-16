@@ -20,7 +20,7 @@
         [routerLinkActiveOptions]="{ exact: true }"
         [routerLink]="element.link"
         [matTooltipDisabled]="mode !== 1"
-        [matTooltip]="element.text | transloco"
+        [matTooltip]="element.text"
         (click)="toggleSidebar()"
       >
         <div class="sidebar-item-wrapper" [ngClass]="{ minified: mode === 1 }">
@@ -28,7 +28,7 @@
             ><span>{{ element.icon }}</span></mat-icon
           >
           <h4 class="sidebar-item-text">
-            {{ element.text | transloco }}
+            {{ element.text }}
           </h4>
         </div>
       </div>

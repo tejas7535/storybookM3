@@ -22,10 +22,11 @@ import {
   throttleTime
 } from 'rxjs/operators';
 
-import { BreakpointService } from '../breakpoint-service/breakpoint.service';
 import { Direction } from './enums/direction.enum';
 import { VisibilityState } from './enums/visibility-state.enum';
 import { headerAnimations } from './header.animations';
+
+import { BreakpointService } from '@schaeffler/shared/responsive';
 
 @Component({
   selector: 'schaeffler-header',

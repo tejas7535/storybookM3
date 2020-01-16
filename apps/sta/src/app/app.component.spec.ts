@@ -5,10 +5,11 @@ import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { HAMMER_LOADER } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
-  BreakpointService,
   FooterModule,
   HeaderModule,
   SettingsSidebarModule,
@@ -62,6 +63,10 @@ describe('AppComponent', () => {
           useValue: {
             initAuth: jest.fn()
           }
+        },
+        {
+          provide: HAMMER_LOADER,
+          useValue: async () => new Promise(() => {})
         }
       ]
     });

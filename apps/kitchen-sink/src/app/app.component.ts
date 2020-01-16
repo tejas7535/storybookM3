@@ -35,12 +35,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public sidebarElements: SidebarElement[] = [
     {
-      text: 'NAVIGATION.HOME',
+      text: translate('NAVIGATION.HOME'),
       icon: 'icon-house',
       link: '/home'
     },
     {
-      text: 'NAVIGATION.NOT_FOUND',
+      text: translate('NAVIGATION.NOT_FOUND'),
       icon: 'icon-house',
       link: '/second'
     }
