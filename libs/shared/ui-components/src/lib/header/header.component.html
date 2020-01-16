@@ -13,24 +13,30 @@
       {{ platformTitle }}
     </div>
   </div>
-  <div fxLayout="row" fxLayoutAlign="start center" fxFlex>
-    <div fxLayout="row" fxLayoutAlign="start center" class="mobile-height-50">
-      <div *ngIf="toggleEnabled" class="burger-menu">
-        <mat-icon
-          id="burger-menu"
-          class="icon icon-menu"
-          (click)="toggleClicked()"
-        ></mat-icon>
-      </div>
-      <div
-        fxLayout="column"
-        fxLayoutAlign="center"
-        fxHide.xs="true"
-        fxShow.gt-xs="true"
-      >
-        <span class="schaeffler-h3 platform-title">{{ platformTitle }}</span>
-      </div>
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    fxLayoutGap="30px"
+    fxFlex
+    class="mobile-height-50"
+  >
+    <mat-icon
+      *ngIf="toggleEnabled"
+      id="burger-menu"
+      class="icon burger-menu"
+      fontIcon="icon-menu"
+      (click)="toggleClicked()"
+    ></mat-icon>
+
+    <div
+      fxLayout="column"
+      fxLayoutAlign="center"
+      fxHide.xs="true"
+      fxShow.gt-xs="true"
+    >
+      <h3 class="platform-title">{{ platformTitle }}</h3>
     </div>
+
     <div fxFlex>
       <ng-content></ng-content>
     </div>
