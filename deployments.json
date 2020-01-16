@@ -1,5 +1,6 @@
 {
   "kitchen-sink": "/frontend-schaeffler/kitchen-sink-deployment/master/",
   "sta": "/SchaefflerTextAssistant/Schaeffler-Text-Assistant-Frontend/master",
-  "ltp": "/AIsolutions/ltp/ltp-deployment"
+  "ltp": "/AIsolutions/ltp/ltp-deployment",
+  "helloworld-azure": "/hello-world/hw-frontend-deployment/master/"
 }

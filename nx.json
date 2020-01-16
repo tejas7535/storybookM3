@@ -6,7 +6,8 @@
     "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*",
-    "Jenkinsfile": "*"
+    "Jenkinsfile": "*",
+    "deployments.json": "*"
   },
   "projects": {
     "kitchen-sink-e2e": {
@@ -52,6 +53,13 @@
     },
     "shared-transloco": {
       "tags": ["scope:shared", "type:translation"]
+    },
+    "helloworld-azure-e2e": {
+      "tags": []
+    },
+    "helloworld-azure": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
     }
   }
 }
