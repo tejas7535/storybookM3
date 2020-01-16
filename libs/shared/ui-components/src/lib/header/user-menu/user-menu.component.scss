@@ -1,5 +1,10 @@
 @import 'libs/shared/styles/src';
 
+.user-menu-mobile {
+  height: 24px;
+  line-height: 24px;
+}
+
 .user-menu {
   height: 20px;
   margin-left: auto;
@@ -15,12 +20,16 @@
 .head-icon {
   color: $schaeffler-carbon-gray;
   font-size: 24px;
-  margin: auto 5px auto 10px;
+  margin: auto 5px auto 0;
   text-align: center;
 
-  .material-icons {
-    line-height: inherit;
+  @media screen and (max-width: $screen-sm-max) {
+    margin: auto 0 auto 0;
   }
+
+  /* .material-icons {
+    line-height: inherit;
+  } */
 }
 
 .user-menu-text {
@@ -30,8 +39,11 @@
 }
 
 .user-menu-icon {
-  margin-right: 10px;
   text-align: center;
+
+  &:before {
+    color: $schaeffler-carbon-gray;
+  }
 
   .material-icons {
     line-height: inherit;

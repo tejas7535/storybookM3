@@ -204,7 +204,7 @@ describe('In HeaderComponent', () => {
       const platformTitle = 'Nebuchadnezzar Shipment';
       component.platformTitle = platformTitle;
       fixture.detectChanges();
-      const userMenu = document.querySelector('.schaeffler-h3');
+      const userMenu = document.querySelector('h3');
       expect(userMenu.innerHTML).toContain(platformTitle);
     });
 

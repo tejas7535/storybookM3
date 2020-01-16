@@ -1,7 +1,7 @@
 <div
+  class="user-menu-mobile"
   fxShow.xs="true"
   fxHide.gt-xs="true"
-  class="margin-top-7"
   fxFlexAlign="start"
 >
   <mat-icon
@@ -21,20 +21,16 @@
   data-cy="logoutDiv"
   fxFlexAlign="end"
 >
-  <div
-    id="headerUserName"
-    class="user-menu-text"
-    fxLayout="row"
-    fxLayoutAlign="center center"
-  >
+  <div id="headerUserName" fxLayout="row" fxLayoutAlign="center center">
     <mat-icon class="head-icon icon icon-user"></mat-icon>
-    <span>{{ user }}</span>
+    <p class="user-menu-text" fxHide.sm="true">{{ user }}</p>
   </div>
   <mat-icon
+    *ngIf="entries.length > 0"
     class="user-menu-icon icon icon-arrow-down"
     fxLayout="column"
     fxLayoutAlign="center"
-    *ngIf="entries.length > 0"
+    fxHide.sm="true"
   ></mat-icon>
 </div>
 
