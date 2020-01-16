@@ -308,7 +308,7 @@ pipeline {
                                             -o merge_request.target=master \
                                             -o merge_request.title='WIP: chore(workspace): fix security vulnerabilities' \
                                             -o merge_request.description="${description}" \
-                                            -o merge_request.label='priority::hotfix' \
+                                            -o merge_request.label='hotfix' \
                                             -o merge_request.remove_source_branch=true""".stripIndent()
                                     }
                                 } finally {
