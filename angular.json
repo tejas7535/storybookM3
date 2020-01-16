@@ -622,6 +622,153 @@
           "styleext": "scss"
         }
       }
+    },
+    "helloworld-azure": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/helloworld-azure",
+      "sourceRoot": "apps/helloworld-azure/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/helloworld-azure",
+            "index": "apps/helloworld-azure/src/index.html",
+            "main": "apps/helloworld-azure/src/main.ts",
+            "polyfills": "apps/helloworld-azure/src/polyfills.ts",
+            "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
+            "aot": false,
+            "assets": [
+              "apps/helloworld-azure/src/favicon.ico",
+              "apps/helloworld-azure/src/assets"
+            ],
+            "styles": [
+              "apps/helloworld-azure/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "helloworld-azure:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "helloworld-azure:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "helloworld-azure:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/helloworld-azure/tsconfig.app.json",
+              "apps/helloworld-azure/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/helloworld-azure/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/helloworld-azure/jest.config.js",
+            "tsConfig": "apps/helloworld-azure/tsconfig.spec.json",
+            "setupFile": "apps/helloworld-azure/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "helloworld-azure-e2e": {
+      "root": "apps/helloworld-azure-e2e",
+      "sourceRoot": "apps/helloworld-azure-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/helloworld-azure-e2e/cypress.json",
+            "tsConfig": "apps/helloworld-azure-e2e/tsconfig.e2e.json",
+            "devServerTarget": "helloworld-azure:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "helloworld-azure:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/helloworld-azure-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/helloworld-azure-e2e/**"]
+          }
+        }
+      }
     }
   },
   "cli": {
