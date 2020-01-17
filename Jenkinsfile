@@ -477,7 +477,7 @@ pipeline {
                             echo "Build Apps"
                             
                             script {
-                                if(isMaster() ||  isRelease()) {
+                                if(isRelease()) {
                                     for (app in affectedApps) {
                                         sh "ng build ${app} --configuration=production"
                                         try {

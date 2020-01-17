@@ -12,6 +12,7 @@ export const authConfig: AuthConfig = {
   logoutUrl: `${baseUrl}${environment.azureTenantId}/oauth2/v2.0/logout`,
   redirectUri: origin,
   silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
+  silentRefreshTimeout: 1000,
   postLogoutRedirectUri: origin,
   clientId: `${environment.azureClientId}`,
   scope: `openid profile email ${environment.azureBackendAPI}`,
