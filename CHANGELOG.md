@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.7...v0.0.8) (2020-01-20)
+
+
+### 📈 Improvements
+
+* **empty-states:** handle empty state translation inside the library (FRON-131) ([7a4eb3b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7a4eb3b4e2d4420ca0590a160e8ee15db1e9ce77))
+* **empty-states:** use material buttons (FRON-134) ([3a95ede](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3a95ededa198516c3fb092770387accffeb72fc5))
+* **empty-states:** use material buttons (FRON-134) ([e87f810](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e87f81078ba980d759453ce58e51d6de971b4eb1))
+* **sta:** enhance sidebar (UFTABI-1379) ([c05b0cf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c05b0cf5f8ac581402dbfe0637c36782f102eb23))
+* **ui-components:** enhance header styling (FRON-150) ([cd9e7ef](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cd9e7ef9430003625d5d160899b780ba7efaf001))
+* **ui-components:** improve snackbar styling (FRON-141) ([5bd6c4d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5bd6c4d1e4ae9db253fad5fd27242a2126a0569b))
+* **ui-components:** use material fab button for scroll to top (FRON-130) ([f6b0ee3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f6b0ee366e68c597e90984dbc1bb69a5ff966ad6))
+
+
+### 🎸 Features
+
+* **helloworld-azure:** add ADP helloworld app (FRON-321) ([e642fba](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e642fbabbf468a3547b8d9da90688eac88666dc6))
+* **ltp:** migrate from ngxtranslate to transloco (FRON-237) ([09b38b6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/09b38b602c47061da5eb3b20252f65388dfb25e7))
+* **sta:** add dropzone for fileupload (UFTABI-1260) ([c0543e2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c0543e254bef49da7dc284c92cf41ea83bb222a3))
+* **sta:** add translation (UFTABI-1361) ([3b346e3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3b346e3d7d20474364287eecaa2bcda6771357d1))
+* **sta:** authorized REST calls (UFTABI-1397) ([7c66828](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7c6682810791275573ff0d1f0f18e94da3ef9fc6))
+* **sta:** make sidebar expandable with autosize (UFTABI-1388) ([178552a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/178552a1cadc614aed8840dd05fb367e60b5b47e))
+* **sta:** prod environment for sta (UFTABI-1463) ([a193d4a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a193d4afe88b6d1462f71e23f70116638028ded4))
+* **styles:** add styles for material tabs (UFTABI-1391) ([8f193fe](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8f193fee19de8ee082a519aa382e77cb975b622c))
+
+
+### 🐛 Bug Fixes
+
+* **sta:** build with dev configuration on master (UFTABI-1482) ([cfa5fa1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cfa5fa11676f640e367c5822374a6962b12979d2))
+* **sta:** fixed responsive issues in sidebar (UFTABI-1418) ([00ef7ec](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/00ef7ec0aa38f270cd9dea01199cfb1865c9c61d))
+* **workspace:** only optimize translation files when possible (FRON-286) ([ffe4339](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ffe433938fbd3be14ee38caec58d9ac336337be7))
+
 ### [0.0.7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.6...v0.0.7) (2019-12-16)
 
 
