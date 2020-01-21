@@ -2,9 +2,7 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [0.0.10](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.9...v0.0.10) (2020-01-20)
 
-### [0.0.9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.8...v0.0.9) (2020-01-20)
 
 ### [0.0.8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.7...v0.0.8) (2020-01-20)
 
@@ -18,7 +16,8 @@ All notable changes to this project will be documented in this file. See [standa
 * **ui-components:** enhance header styling (FRON-150) ([cd9e7ef](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cd9e7ef9430003625d5d160899b780ba7efaf001))
 * **ui-components:** improve snackbar styling (FRON-141) ([5bd6c4d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5bd6c4d1e4ae9db253fad5fd27242a2126a0569b))
 * **ui-components:** use material fab button for scroll to top (FRON-130) ([f6b0ee3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f6b0ee366e68c597e90984dbc1bb69a5ff966ad6))
-
+* **ui-components:** no transloco keys as input parameters (FRON-219)
+* **transloco:** use general transloco loader in transloco lib (FRON-214)
 
 ### 🎸 Features
 
@@ -30,6 +29,7 @@ All notable changes to this project will be documented in this file. See [standa
 * **sta:** make sidebar expandable with autosize (UFTABI-1388) ([178552a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/178552a1cadc614aed8840dd05fb367e60b5b47e))
 * **sta:** prod environment for sta (UFTABI-1463) ([a193d4a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a193d4afe88b6d1462f71e23f70116638028ded4))
 * **styles:** add styles for material tabs (UFTABI-1391) ([8f193fe](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8f193fee19de8ee082a519aa382e77cb975b622c))
+* **transloco:** create shared library for transloco (FRON-204)
 
 
 ### 🐛 Bug Fixes
