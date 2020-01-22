@@ -8,7 +8,7 @@
     [mode]="(isLessThanMedium$ | async) ? 'over' : 'side'"
     (openedChange)="onChangeState($event)"
     fixedInViewport="true"
-    [fixedTopGap]="(isLessThanMedium$ | async) ? 73 : 60"
+    [fixedTopGap]="(isMobile$ | async) ? 73 : 60"
     [ngStyle]="{ width: width }"
   >
     <div fxLayout="row">
