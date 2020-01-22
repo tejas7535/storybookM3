@@ -8,7 +8,7 @@ import {
   Output
 } from '@angular/core';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import { SidebarAnimationStyle } from './sidebar-animation-style';
@@ -33,7 +33,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   @Input() elements: SidebarElement[];
 
   public isMobileViewPort: boolean;
-  public isLessThanMedium$: Observable<boolean>;
 
   @Output() public readonly toggle: EventEmitter<void> = new EventEmitter();
 
@@ -44,7 +43,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
    *
    */
   public ngOnInit(): void {
-    this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.subscriptions.add(
       this.breakpointService
         .isMobileViewPort()

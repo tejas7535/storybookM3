@@ -10,6 +10,7 @@ import { BreakpointService } from '@schaeffler/shared/responsive';
   styleUrls: ['./settings-sidebar.component.scss']
 })
 export class SettingsSidebarComponent implements OnInit {
+  public isMobile$: Observable<boolean>;
   public isLessThanMedium$: Observable<boolean>;
 
   @Input() public open = true;
@@ -24,6 +25,7 @@ export class SettingsSidebarComponent implements OnInit {
   constructor(private readonly breakpointService: BreakpointService) {}
 
   public ngOnInit(): void {
+    this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
   }
 

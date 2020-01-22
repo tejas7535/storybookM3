@@ -3,7 +3,7 @@
     class="sidebar"
     mode="side"
     [fixedInViewport]="true"
-    [fixedTopGap]="(isLessThanMedium$ | async) ? 73 : 60"
+    [fixedTopGap]="isMobileViewPort ? 73 : 60"
     [opened]="mode === 2 || (mode === 1 && !isMobileViewPort)"
     [ngClass]="{ minified: mode === 1 }"
     (swipeLeft)="toggleSidebar()"

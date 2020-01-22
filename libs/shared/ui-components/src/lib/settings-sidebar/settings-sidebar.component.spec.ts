@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -14,6 +14,7 @@ import { SettingsSidebarComponent } from './settings-sidebar.component';
 describe('SettingsSidebarComponent', () => {
   let component: SettingsSidebarComponent;
   let fixture: ComponentFixture<SettingsSidebarComponent>;
+  let breakpointService: BreakpointService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -33,6 +34,8 @@ describe('SettingsSidebarComponent', () => {
     fixture = TestBed.createComponent(SettingsSidebarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+
+    breakpointService = TestBed.get(BreakpointService);
   });
 
   test('should create', () => {
@@ -46,11 +49,29 @@ describe('SettingsSidebarComponent', () => {
       expect(component.closeSidebarBtn).toBeFalsy();
     });
 
-    test('Observable isHandset$ should be defined', async(() => {
-      component.isLessThanMedium$.subscribe(val => {
-        expect(val).toBeDefined();
-      });
-    }));
+    test('Observable of viewport should be defined', () => {
+      expect(component.isMobile$).toBeDefined();
+      expect(component.isLessThanMedium$).toBeDefined();
+    });
+  });
+
+  describe('#ngOnInit', () => {
+    test('should call isMobileViewPort of breakpointService', () => {
+      breakpointService.isMobileViewPort = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(breakpointService.isMobileViewPort).toHaveBeenCalled();
+    });
+    test('should call isLessThanMedium of breakpointService', () => {
+      breakpointService.isLessThanMedium = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(breakpointService.isLessThanMedium).toHaveBeenCalled();
+    });
   });
 
   describe('#onChangeState', () => {
