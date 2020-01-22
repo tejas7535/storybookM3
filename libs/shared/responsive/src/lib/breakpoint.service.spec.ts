@@ -60,9 +60,6 @@ describe('BreakpointService', () => {
   test('should be createable', () => {
     service = TestBed.get(BreakpointService);
     expect(service).toBeTruthy();
-    console.log(Breakpoints.Medium);
-    console.log('xSmall');
-    console.log(Breakpoints.XSmall);
   });
 
   describe('isMobileViewPort', () => {

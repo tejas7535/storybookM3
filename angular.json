@@ -645,7 +645,8 @@
             "aot": false,
             "assets": [
               "apps/helloworld-azure/src/favicon.ico",
-              "apps/helloworld-azure/src/assets"
+              "apps/helloworld-azure/src/assets",
+              "apps/helloworld-azure/src/silent-refresh.html"
             ],
             "styles": [
               "apps/helloworld-azure/src/styles.scss",

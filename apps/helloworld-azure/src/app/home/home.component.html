@@ -1,0 +1,53 @@
+<div class="container">
+  <div fxLayout="row" fxLayoutAlign="center center">
+    <div class="content-wrapper">
+      <div fxLayout="column">
+        <img
+          class="hello-world"
+          src="../assets/hello-world.png"
+          width="300px"
+        />
+        <h2>Here are some links to help you start:</h2>
+        <ul>
+          <li>
+            <a
+              target="_blank"
+              rel="noopener"
+              href="https://confluence.schaeffler.com"
+              >Confluence</a
+            >
+          </li>
+          <li>
+            <a target="_blank" rel="noopener" href="https://jira.schaeffler.com"
+              >Jira</a
+            >
+          </li>
+          <li>
+            <a
+              target="_blank"
+              rel="noopener"
+              href="https://gitlab.schaeffler.com"
+              >Gitlab</a
+            >
+          </li>
+          <li>
+            <a
+              target="_blank"
+              rel="noopener"
+              href="https://jenkins.schaeffler.com"
+              >Jenkins</a
+            >
+          </li>
+        </ul>
+        <h2>What the backend has to say:</h2>
+        <p *ngIf="response | async as message; else loading">
+          {{ message }}
+        </p>
+
+        <ng-template #loading>
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>

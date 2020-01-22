@@ -2,7 +2,7 @@ import { Observable } from 'rxjs';
 
 import { Component, OnInit } from '@angular/core';
 
-import { GreetingService } from './greeting.service';
+import { AuthService } from './core/auth.service';
 
 @Component({
   selector: 'schaeffler-root',
@@ -11,13 +11,15 @@ import { GreetingService } from './greeting.service';
 })
 export class AppComponent implements OnInit {
   public platformTitle = 'Hello World Azure';
-  public username = 'Test User';
+  public username: Observable<string>;
 
   public response: Observable<string>;
 
-  public constructor(private readonly greetingsService: GreetingService) {}
+  public constructor(private readonly authService: AuthService) {
+    this.authService.initAuth();
+  }
 
   public ngOnInit(): void {
-    this.response = this.greetingsService.greet();
+    this.username = this.authService.getUserName();
   }
 }

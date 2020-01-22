@@ -68,7 +68,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly breakpointService: BreakpointService
   ) {
     this.authService.initAuth();
-    console.log(Breakpoints.Medium);
   }
 
   public ngOnInit(): void {

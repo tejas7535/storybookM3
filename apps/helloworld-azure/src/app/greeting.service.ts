@@ -10,7 +10,7 @@ import { environment } from '../environments/environment';
   providedIn: 'root'
 })
 export class GreetingService {
-  baseUrl: string = environment.baseUrl;
+  baseUrl: string = environment.apiBaseUrl;
 
   constructor(private readonly httpClient: HttpClient) {}
 
