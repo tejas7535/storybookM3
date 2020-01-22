@@ -47,7 +47,7 @@ describe('GreetingService', () => {
           !!(
             request.url.match('api/hello') &&
             request.urlWithParams ===
-              `${environment.baseUrl}/api/hello?language=en-US` &&
+              `${environment.apiBaseUrl}/api/hello?language=en-US` &&
             request.method === 'GET'
           )
       );
