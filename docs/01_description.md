@@ -25,5 +25,5 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
 - [References](#references)
   - [Update Strategy](#update-strategy)
   - [Exit Strategy](#exit-strategy)
-  - [Furter Documentation](#furter-documentation)
+  - [Further Documentation](#further-documentation)
 - [Contributors](#contributors)
