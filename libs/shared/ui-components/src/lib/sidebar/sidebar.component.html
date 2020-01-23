@@ -24,9 +24,17 @@
         (click)="toggleSidebar()"
       >
         <div class="sidebar-item-wrapper" [ngClass]="{ minified: mode === 1 }">
-          <mat-icon class="sidebar-item-icon icon" [fontIcon]="element.icon"
-            ><span>{{ element.icon }}</span></mat-icon
+          <mat-icon
+            *ngIf="element.materialIcon; else schaefflerIcon"
+            class="sidebar-item-icon"
           >
+            {{ element.icon }}</mat-icon
+          >
+          <ng-template #schaefflerIcon>
+            <mat-icon class="sidebar-item-icon icon" [fontIcon]="element.icon">
+              <span>{{ element.icon }}</span>
+            </mat-icon>
+          </ng-template>
           <h4 class="sidebar-item-text">
             {{ element.text }}
           </h4>
