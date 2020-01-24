@@ -1,11 +1,13 @@
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { Breakpoints } from '@angular/cdk/layout';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { BreakpointService } from '@schaeffler/shared/responsive';
-import { SidebarMode, SidebarService } from '@schaeffler/shared/ui-components';
+import {
+  SidebarElement,
+  SidebarMode,
+  SidebarService
+} from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
 import { DataStoreService } from './shared/result/services/data-store.service';
@@ -38,7 +40,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public readonly subscription: Subscription = new Subscription();
   public readonly destroy$: Subject<void> = new Subject();
 
-  public sidebarElements = [
+  public sidebarElements: SidebarElement[] = [
     {
       text: 'Home',
       icon: 'icon-house',
@@ -46,13 +48,15 @@ export class AppComponent implements OnInit, OnDestroy {
     },
     {
       text: 'Auto Tagging',
-      icon: 'icon-bookmark',
-      link: 'tagging'
+      icon: 'local_offer',
+      link: 'tagging',
+      materialIcon: true
     },
     {
       text: 'Translation',
-      icon: 'icon-bookmark',
-      link: 'translation'
+      icon: 'translate',
+      link: 'translation',
+      materialIcon: true
     }
   ];
 
