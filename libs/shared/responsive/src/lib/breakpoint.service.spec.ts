@@ -1,11 +1,7 @@
 import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import {
-  BreakpointObserver,
-  Breakpoints,
-  BreakpointState
-} from '@angular/cdk/layout';
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { async, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';

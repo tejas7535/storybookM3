@@ -5,8 +5,8 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
-import { Store, StoreModule } from '@ngrx/store';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
@@ -28,12 +28,11 @@ import { AppComponent } from './app.component';
 import { initialState as initialSidebarState } from './core/store/reducers/sidebar/sidebar.reducer';
 
 import * as en from '../assets/i18n/en.json';
-import { AppState, toggleSidebar } from './core/store';
+import { toggleSidebar } from './core/store';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let store: MockStore<AppState>;
   let sidebarService: SidebarService;
   let breakpointObserverMock: Subscriber<any>;
 
@@ -94,7 +93,6 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
     sidebarService = TestBed.get(SidebarService);
   });
 

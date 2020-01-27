@@ -34,15 +34,15 @@ export class MockService {
   }
 
   postPrediction(
-    predictionRequest: PredictionRequest,
+    _predictionRequest: PredictionRequest,
     mode: number
   ): Observable<any> {
     return mode === 2 ? of(mockedPredictionResult) : undefined;
   }
 
   postLoadsData(
-    loads: any,
-    predictionRequest: PredictionRequest
+    _loads: any,
+    _predictionRequest: PredictionRequest
   ): Observable<any> {
     return of(mockedLoadsResult);
   }

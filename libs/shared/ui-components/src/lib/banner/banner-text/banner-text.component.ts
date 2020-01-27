@@ -12,7 +12,7 @@ import { BannerContent } from '../banner-content';
   styleUrls: ['./banner-text.component.scss']
 })
 export class BannerTextComponent extends BannerContent {
-  constructor(private readonly bannerStore: Store<BannerState>) {
+  constructor(readonly bannerStore: Store<BannerState>) {
     super(bannerStore);
   }
 }

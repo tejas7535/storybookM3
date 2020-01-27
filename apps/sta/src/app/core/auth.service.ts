@@ -88,7 +88,9 @@ export class AuthService {
 
     this.oauthService.events
       .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_e => this.router.navigateByUrl(this.oauthService.state));
+      .subscribe(_e =>
+        this.router.navigateByUrl(String(this.oauthService.state))
+      );
 
     this.oauthService.setupAutomaticSilentRefresh();
   }

@@ -38,7 +38,6 @@ describe('AppComponent', () => {
 
   let authGuard: AuthGuard;
   let breakpointService: BreakpointService;
-  let translationService: transloco.TranslocoService;
   let store: Store<any>;
 
   configureTestSuite(() => {
@@ -74,7 +73,6 @@ describe('AppComponent', () => {
   beforeEach(() => {
     authGuard = TestBed.get(AuthGuard);
     breakpointService = TestBed.get(BreakpointService);
-    translationService = TestBed.get(transloco.TranslocoService);
     store = TestBed.get(Store);
   });
 

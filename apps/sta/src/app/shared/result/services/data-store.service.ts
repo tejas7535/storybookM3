@@ -25,20 +25,13 @@ export class DataStoreService {
 
   constructor(private readonly dataService: DataService) {}
 
-  private get tags(): string[] {
-    return this._tags.getValue();
-  }
-
   private set tags(val: string[]) {
     this._tags.next(val);
   }
 
-  private get translation(): string {
-    return this._translation.getValue();
-  }
-
   private set translation(val: string) {
     this._translation.next(val);
+    console.log(this.translation);
   }
 
   public async getTagsForText(text: string): Promise<void> {

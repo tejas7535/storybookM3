@@ -8,7 +8,7 @@ import { BannerContent, BannerState } from '@schaeffler/shared/ui-components';
   styleUrls: ['./custom-banner.component.scss']
 })
 export class CustomBannerComponent extends BannerContent {
-  constructor(private readonly bannerStore: Store<BannerState>) {
+  constructor(readonly bannerStore: Store<BannerState>) {
     super(bannerStore);
   }
 }

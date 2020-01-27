@@ -18,7 +18,7 @@ import { BreadcrumbItem } from './models/breadcrumb-item.model';
 export class BreadcrumbComponent implements OnInit {
   @Input() public home = '/';
 
-  public breadcrumb = [];
+  public breadcrumb: BreadcrumbItem[] = [];
 
   constructor(
     private readonly activatedRoute: ActivatedRoute,
@@ -32,7 +32,7 @@ export class BreadcrumbComponent implements OnInit {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 

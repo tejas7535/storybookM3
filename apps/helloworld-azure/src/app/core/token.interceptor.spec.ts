@@ -33,7 +33,6 @@ export class ExampleService {
 describe(`TokenInterceptor`, () => {
   let service: ExampleService;
   let httpMock: HttpTestingController;
-  let interceptor: TokenInterceptor;
   let mockOAuth2: OAuthService;
 
   configureTestSuite(() => {
@@ -76,7 +75,6 @@ describe(`TokenInterceptor`, () => {
   beforeEach(() => {
     service = TestBed.get(ExampleService);
     httpMock = TestBed.get(HttpTestingController);
-    interceptor = TestBed.get(TokenInterceptor);
     mockOAuth2 = TestBed.get(OAuthService);
   });
 

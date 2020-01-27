@@ -34,7 +34,7 @@ describe('DataStoreService', () => {
     test('tags should set/get value', () => {
       const test = ['test'];
       service['tags'] = test;
-      expect(service['tags']).toEqual(test);
+      expect(service['_tags'].getValue()).toEqual(test);
     });
   });
 
@@ -49,7 +49,7 @@ describe('DataStoreService', () => {
       await service.getTagsForText(testText);
 
       expect(dataService.postTaggingText).toHaveBeenCalledWith(testText);
-      expect(service['tags']).toEqual(test);
+      expect(service['_tags'].getValue()).toEqual(test);
     });
   });
 
@@ -64,7 +64,7 @@ describe('DataStoreService', () => {
       await service.getTagsForFile(testFile);
 
       expect(dataService.postTaggingFile).toHaveBeenCalledWith(testFile);
-      expect(service['tags']).toEqual(test);
+      expect(service['_tags'].getValue()).toEqual(test);
     });
   });
 
@@ -82,7 +82,7 @@ describe('DataStoreService', () => {
         testText,
         Language.DE
       );
-      expect(service['translation']).toEqual(test);
+      expect(service['_translation'].getValue()).toEqual(test);
     });
   });
 
@@ -100,7 +100,7 @@ describe('DataStoreService', () => {
         testFile,
         Language.DE
       );
-      expect(service['translation']).toEqual(test);
+      expect(service['_translation'].getValue()).toEqual(test);
     });
   });
 
@@ -128,8 +128,8 @@ describe('DataStoreService', () => {
 
       service.reset();
 
-      expect(service['tags']).toBeUndefined();
-      expect(service['translation']).toBeUndefined();
+      expect(service['_tags'].getValue()).toBeUndefined();
+      expect(service['_translation'].getValue()).toBeUndefined();
     });
   });
 });

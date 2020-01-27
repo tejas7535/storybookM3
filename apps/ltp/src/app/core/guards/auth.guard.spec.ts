@@ -179,7 +179,7 @@ describe('AuthGuard', () => {
     it('should return the user profile of keycloakService', async(async () => {
       keycloakService.loadUserProfile = jest.fn(
         async () =>
-          new Promise(resolve => ({ firstName: 'Matthias', lastName: 'Funk' }))
+          new Promise(_resolve => ({ firstName: 'Matthias', lastName: 'Funk' }))
       );
 
       const userProfile = await guard.getCurrentProfile();

@@ -23,7 +23,7 @@ import * as BannerActions from './store/actions';
 })
 class DummyComponent {
   // tslint:disable-next-line: unnecessary-constructor
-  constructor(store: Store<BannerState>) {}
+  constructor(_store: Store<BannerState>) {}
 }
 
 describe('BannerContent', () => {
@@ -62,6 +62,7 @@ describe('BannerContent', () => {
   });
 
   it('should create', () => {
+    expect(component).toBeTruthy();
     expect(bannerContent).toBeTruthy();
   });
 
