@@ -42,7 +42,7 @@ export class PredictionEffects {
       concatMap(action =>
         of(action).pipe(withLatestFrom(this.store.select(getPredictionRequest)))
       ),
-      switchMap(([action, predictionRequest]) =>
+      switchMap(([_action, predictionRequest]) =>
         this.restService.postPrediction(predictionRequest, 2).pipe(
           map((predictionResult: PredictionResult) =>
             PredictionActions.setPredictionResult({ predictionResult })

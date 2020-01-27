@@ -32,7 +32,6 @@ export class ExampleService {
 describe(`HttpErrorInterceptor`, () => {
   let service: ExampleService;
   let httpMock: HttpTestingController;
-  let interceptor: HttpErrorInterceptor;
   let snackBarService: SnackBarService;
 
   configureTestSuite(() => {
@@ -53,7 +52,6 @@ describe(`HttpErrorInterceptor`, () => {
   beforeEach(() => {
     service = TestBed.get(ExampleService);
     httpMock = TestBed.get(HttpTestingController);
-    interceptor = TestBed.get(HttpErrorInterceptor);
     snackBarService = TestBed.get(SnackBarService);
   });
 
@@ -133,7 +131,7 @@ describe(`HttpErrorInterceptor`, () => {
         () => {
           expect(true).toEqual(false);
         },
-        response => {
+        _response => {
           expect(snackBarService.showErrorMessage).toHaveBeenCalled();
         }
       );

@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 import { CustomFormControl } from '../input.model';
 import { SelectControlOption } from './select-control-option.model';
 

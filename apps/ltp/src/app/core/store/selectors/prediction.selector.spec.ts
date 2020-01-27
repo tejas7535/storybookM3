@@ -1,11 +1,7 @@
-import { inject } from '@angular/core/testing';
-
-import { MockService } from '../../../mocks/mock.service';
-
 import * as PredictionSelectors from './prediction.selectors';
 
 describe('PredictionSelectors', () => {
-  it('should getLoads', inject([MockService], (mockService: MockService) => {
+  it('should getLoads', () => {
     const mockedPredictionRequest = {
       predictionRequest: {
         prediction: 0,
@@ -42,19 +38,18 @@ describe('PredictionSelectors', () => {
       status: 1,
       error: undefined
     });
-  }));
+  });
 
-  it('should getLoadsPoints', inject(
-    [MockService],
-    (mockService: MockService) => {
-      const mockedLoads = {
-        x: [1, 2, 3],
-        y: [4, 5, 6]
-      };
+  it('should getLoadsPoints', () => {
+    const mockedLoads = {
+      x: [1, 2, 3],
+      y: [4, 5, 6]
+    };
 
-      expect(PredictionSelectors.getLoadsPoints.projector(mockedLoads)).toEqual(
-        [{ x: 1, y: 4 }, { x: 2, y: 5 }, { x: 3, y: 6 }]
-      );
-    }
-  ));
+    expect(PredictionSelectors.getLoadsPoints.projector(mockedLoads)).toEqual([
+      { x: 1, y: 4 },
+      { x: 2, y: 5 },
+      { x: 3, y: 6 }
+    ]);
+  });
 });

@@ -26,7 +26,7 @@ export const getLoadsPoints = createSelector(
   loadsResults => {
     const result = [];
     if (loadsResults && loadsResults[Object.keys(loadsResults)[0]].length > 0) {
-      loadsResults[Object.keys(loadsResults)[0]].forEach((entry, index) => {
+      loadsResults[Object.keys(loadsResults)[0]].forEach((_entry, index) => {
         result.push({ x: loadsResults.x[index], y: loadsResults.y[index] });
       });
     }

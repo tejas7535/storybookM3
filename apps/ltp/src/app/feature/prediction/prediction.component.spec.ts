@@ -156,7 +156,7 @@ describe('PredictionComponent', () => {
       0: mockFile,
       1: mockFile,
       length: 2,
-      item: (index: number) => mockFile
+      item: (_index: number) => mockFile
     };
 
     spyOn(component, 'parseLoadFile');
@@ -173,7 +173,7 @@ describe('PredictionComponent', () => {
       0: mockFile,
       1: mockFile,
       length: 2,
-      item: (index: number) => mockFile
+      item: (_index: number) => mockFile
     };
 
     spyOn(component, 'parseLoadFile');

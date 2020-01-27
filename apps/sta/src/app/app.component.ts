@@ -1,4 +1,4 @@
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -60,7 +60,7 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private readonly sidebarToggled = new BehaviorSubject(undefined);
+  private readonly sidebarToggled = new Subject<SidebarMode>();
   private readonly sidebarToggledObservable$ = this.sidebarToggled.asObservable();
 
   public mode: SidebarMode = 2;
@@ -89,9 +89,9 @@ export class AppComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(
-      this.sidebarToggledObservable$.subscribe(sidebarMode =>
-        this.handleSidebarToggledObservable(sidebarMode)
-      )
+      this.sidebarToggledObservable$.subscribe((sidebarMode: SidebarMode) => {
+        this.handleSidebarToggledObservable(sidebarMode);
+      })
     );
 
     this.subscription.add(
@@ -119,7 +119,7 @@ export class AppComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         take(1)
       )
-      .subscribe(sidebarMode => {
+      .subscribe((sidebarMode: SidebarMode) => {
         this.sidebarToggled.next(sidebarMode);
       });
   }

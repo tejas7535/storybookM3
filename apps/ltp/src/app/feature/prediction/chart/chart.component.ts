@@ -1,13 +1,6 @@
 import { Observable } from 'rxjs';
 
-import {
-  Component,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 
 import { DxChartComponent } from 'devextreme-angular/ui/chart';
 
@@ -37,7 +30,7 @@ export class ChartComponent implements OnInit, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  ngOnChanges(): void {
     this.rerenderChart();
   }
 

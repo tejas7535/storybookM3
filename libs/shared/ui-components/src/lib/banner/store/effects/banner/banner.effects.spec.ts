@@ -22,7 +22,6 @@ describe('BannerEffects', () => {
   let actions$: HotObservable;
   let effects: BannerEffects;
   let router: Router;
-  let bannerService: BannerService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -39,7 +38,6 @@ describe('BannerEffects', () => {
     actions$ = TestBed.get(Actions);
     effects = TestBed.get(BannerEffects);
     router = TestBed.get(Router);
-    bannerService = TestBed.get(BannerService);
   });
 
   describe('openBanner', () => {

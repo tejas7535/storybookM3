@@ -10,10 +10,7 @@ import {
 } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 
-import {
-  SnackBarComponent,
-  SnackBarService
-} from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 @Component({
   selector: 'sta-result-auto-tagging',
@@ -93,7 +90,7 @@ export class ResultAutoTaggingComponent implements OnChanges {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 

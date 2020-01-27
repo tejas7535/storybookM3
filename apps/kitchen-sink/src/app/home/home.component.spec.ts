@@ -1,6 +1,5 @@
 import { of } from 'rxjs';
 
-import { DebugElement } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -30,7 +29,6 @@ import { AppState } from '../core/store';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let debugElement: DebugElement;
   let store: MockStore<AppState>;
   let snackBarService: SnackBarService;
 
@@ -75,7 +73,6 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);
     component = fixture.componentInstance;
-    debugElement = fixture.debugElement;
     fixture.detectChanges();
 
     store = TestBed.get(Store);
