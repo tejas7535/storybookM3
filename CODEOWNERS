@@ -23,6 +23,9 @@ apps/ltp-e2e @krausrbe @berndcri
 apps/sta @kauppfbi @herpisef @birketho
 apps/sta-e2e @kauppfbi @herpisef @birketho
 
+# STEEL
+apps/steel @krausrbe
+apps/steel-e2e @krausrbe
 
 ############
 ### Libs ###

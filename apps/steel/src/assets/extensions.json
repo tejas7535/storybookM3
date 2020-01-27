@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Live Refresh",
+    "description": "Allows for continous live refresh in of live data connections in Tableau",
+    "WIP": false,
+    "path": "liverefresh"
+  },
+  {
+    "name": "Save Filter",
+    "description": "Will allow to store your filter settings",
+    "WIP": true
+  },
+  {
+    "name": "Reset Button",
+    "description": "Will allow to reset all filters at once",
+    "WIP": true
+  },
+  {
+    "name": "Auto Update of Filters",
+    "description": "Will allow to update all paramaters to update dynamically as data get refreshed",
+    "WIP": true
+  }
+]

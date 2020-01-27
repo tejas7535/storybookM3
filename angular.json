@@ -576,6 +576,150 @@
         }
       }
     },
+    "steel": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/steel",
+      "sourceRoot": "apps/steel/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/steel",
+            "index": "apps/steel/src/index.html",
+            "main": "apps/steel/src/main.ts",
+            "polyfills": "apps/steel/src/polyfills.ts",
+            "tsConfig": "apps/steel/tsconfig.app.json",
+            "aot": false,
+            "assets": ["apps/steel/src/favicon.ico", "apps/steel/src/assets"],
+            "styles": [
+              "apps/steel/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            },
+            "scripts": []
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/steel/src/environments/environment.ts",
+                  "with": "apps/steel/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/steel/src/environments/environment.ts",
+                  "with": "apps/steel/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "steel:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "steel:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "steel:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/steel/tsconfig.app.json",
+              "apps/steel/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/steel/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/steel/jest.config.js",
+            "tsConfig": "apps/steel/tsconfig.spec.json",
+            "setupFile": "apps/steel/src/test-setup.ts"
+          }
+        }
+      }
+    },
+    "steel-e2e": {
+      "root": "apps/steel-e2e",
+      "sourceRoot": "apps/steel-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/steel-e2e/cypress.json",
+            "tsConfig": "apps/steel-e2e/tsconfig.e2e.json",
+            "devServerTarget": "steel:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "steel:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/steel-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/steel-e2e/**"]
+          }
+        }
+      }
+    },
     "shared-assets": {
       "projectType": "library",
       "root": "libs/shared/assets",

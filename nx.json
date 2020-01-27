@@ -60,6 +60,12 @@
     "helloworld-azure": {
       "tags": [],
       "implicitDependencies": ["shared-styles"]
+    },
+    "steel-e2e": {
+      "tags": []
+    },
+    "steel": {
+      "implicitDependencies": ["shared-styles"]
     }
   }
 }
