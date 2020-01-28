@@ -3,10 +3,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-import {
-  sharedScopeLoader,
-  SharedTranslocoModule
-} from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
@@ -17,9 +14,13 @@ const routes = [
   }
 ];
 
-// tslint:disable-next-line: only-arrow-functions
-export async function importer(lang: string, root: string): Promise<any> {
-  return import(`./${root}/${lang}.json`);
+// tslint:disable: only-arrow-functions
+export function de(): any {
+  return import('./i18n/de.json');
+}
+
+export function en(): any {
+  return import('./i18n/en.json');
 }
 
 @NgModule({
@@ -27,10 +28,7 @@ export async function importer(lang: string, root: string): Promise<any> {
   imports: [
     FlexLayoutModule,
     MatButtonModule,
-    SharedTranslocoModule.forChild(
-      'pageNotFound',
-      sharedScopeLoader(['de', 'en'], importer)
-    ),
+    SharedTranslocoModule.forChild('pageNotFound', { en, de }),
     RouterModule.forChild(routes)
   ],
   exports: [PageNotFoundComponent]
