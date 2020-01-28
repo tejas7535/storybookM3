@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { sharedScopeLoader } from '@schaeffler/shared/transloco';
 
-// tslint:disable-next-line: only-arrow-functions
-export async function importer(lang: string, root: string): Promise<any> {
-  return import(`./${root}/${lang}.json`);
+// tslint:disable: only-arrow-functions
+export function de(): any {
+  return import('./i18n/de.json');
+}
+
+export function en(): any {
+  return import('./i18n/en.json');
 }
 
 @Component({
@@ -17,7 +20,7 @@ export async function importer(lang: string, root: string): Promise<any> {
       provide: TRANSLOCO_SCOPE,
       useValue: {
         scope: 'unsupportedViewport',
-        loader: sharedScopeLoader(['de', 'en'], importer)
+        loader: { de, en }
       }
     }
   ]

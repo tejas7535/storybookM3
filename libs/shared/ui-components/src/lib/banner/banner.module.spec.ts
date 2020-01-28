@@ -1,8 +1,9 @@
 import { BannerModule } from './banner.module';
 
-import { importer } from './banner.component';
+import { de, en } from './banner.component';
 
-import * as testJson from './i18n/en.json';
+import * as testJsonDe from './i18n/de.json';
+import * as testJsonEn from './i18n/en.json';
 
 describe('BannerModule', () => {
   test('should work', () => {
@@ -10,10 +11,15 @@ describe('BannerModule', () => {
   });
 
   describe('importer', () => {
-    test('should import language from root path', async () => {
-      const result = await importer('en', 'i18n');
+    test('de should import language from root path', async () => {
+      const result = await de();
 
-      expect(result).toEqual(testJson);
+      expect(result).toEqual(testJsonDe);
+    });
+    test('en should import language from root path', async () => {
+      const result = await en();
+
+      expect(result).toEqual(testJsonEn);
     });
   });
 });
