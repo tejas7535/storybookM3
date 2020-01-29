@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { FileStatus } from './file-status.model';
 
 @Component({
   selector: 'sta-file-upload',
@@ -7,6 +9,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class FileUploadComponent {
   @Output() public readonly fileUploaded = new EventEmitter<File>();
+
+  @Input() public readonly fileStatus: FileStatus;
 
   public uploadFile(fileList: FileList): void {
     const file = fileList[0];

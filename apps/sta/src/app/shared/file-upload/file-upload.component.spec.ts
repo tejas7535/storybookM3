@@ -9,13 +9,15 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { FileUploadComponent } from './file-upload.component';
 
+import { FileTypeToIconPipe } from './file-type-to-icon.pipe';
+
 describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
   let fixture: ComponentFixture<FileUploadComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [FileUploadComponent],
+      declarations: [FileUploadComponent, FileTypeToIconPipe],
       imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule]
     });
   });

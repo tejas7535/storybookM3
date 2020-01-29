@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -9,6 +11,8 @@ import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
 
 import { TranslationComponent } from './translation.component';
+
+import { FileStatus } from '../../shared/file-upload/file-status.model';
 
 describe('TranslationComponent', () => {
   let component: TranslationComponent;
@@ -33,8 +37,58 @@ describe('TranslationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should add subscription', () => {
+      const spy = jest.spyOn(component['subscription'], 'add');
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    test('should reset fileStatus on reset Event', () => {
+      component.fileStatus = new FileStatus('test', '', true);
+      const sub = new Subject();
+      Object.defineProperty(component['dataStore'], 'reset$', {
+        value: sub
+      });
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      sub.next(undefined);
+
+      expect(component.fileStatus).toBeUndefined();
+    });
+
+    test('should not reset fileStatus if result has not been received yet', () => {
+      const status = new FileStatus('test', '', undefined);
+      component.fileStatus = status;
+      const sub = new Subject();
+      Object.defineProperty(component['dataStore'], 'reset$', {
+        value: sub
+      });
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      sub.next(undefined);
+
+      expect(component.fileStatus).toEqual(status);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
+    });
   });
 
   describe('getTranslationForText', () => {
