@@ -18,7 +18,7 @@ import { DataStoreService } from './shared/result/services/data-store.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
-  public title = 'Schaeffler Text Assistant';
+  public title = 'STA - Schaeffler Text Assistant';
   public username = 'User';
   public home = '/';
   public isSidebarExpanded = false;
