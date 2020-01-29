@@ -111,9 +111,9 @@ describe('AppComponent', () => {
     expect(service.initAuth).toHaveBeenCalled();
   });
 
-  test(`should have as title 'Schaeffler Text Assistant'`, () => {
+  test(`should have as title 'STA - Schaeffler Text Assistant'`, () => {
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Schaeffler Text Assistant');
+    expect(app.title).toEqual('STA - Schaeffler Text Assistant');
   });
 
   describe('ngOnInit()', () => {
