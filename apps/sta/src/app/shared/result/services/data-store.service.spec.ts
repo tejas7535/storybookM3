@@ -6,6 +6,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { DataStoreService } from './data-store.service';
 import { DataService } from './data.service';
 
+import { FileStatus } from '../../file-upload/file-status.model';
+
 import { Language } from '../models';
 
 describe('DataStoreService', () => {
@@ -42,9 +44,7 @@ describe('DataStoreService', () => {
     test('should call postTaggingText and set tags', async () => {
       const test = ['awesome', 'someawe'];
       const testText = '123';
-      dataService.postTaggingText = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(test));
+      dataService.postTaggingText = jest.fn().mockResolvedValue(test);
 
       await service.getTagsForText(testText);
 
@@ -57,14 +57,34 @@ describe('DataStoreService', () => {
     test('should call postTaggingFile and set tags', async () => {
       const test = ['awesome', 'someawe'];
       const testFile = new File([], 'test');
-      dataService.postTaggingFile = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(test));
+      dataService.postTaggingFile = jest.fn().mockResolvedValue(test);
 
       await service.getTagsForFile(testFile);
 
       expect(dataService.postTaggingFile).toHaveBeenCalledWith(testFile);
       expect(service['_tags'].getValue()).toEqual(test);
+    });
+
+    test('should return fileStatus even on failed service call', async () => {
+      const testFile = new File([], 'test');
+      dataService.postTaggingFile = jest.fn().mockRejectedValue(undefined);
+
+      const result = await service.getTagsForFile(testFile);
+
+      expect(dataService.postTaggingFile).toHaveBeenCalledWith(testFile);
+      expect(service['tags']).toEqual(undefined);
+      expect(result).toEqual(new FileStatus('test', '', false));
+    });
+
+    test('should return fileStatus even on failed service call', async () => {
+      const testFile = new File([], 'test');
+      dataService.postTaggingFile = jest.fn().mockRejectedValue(undefined);
+
+      const result = await service.getTagsForFile(testFile);
+
+      expect(dataService.postTaggingFile).toHaveBeenCalledWith(testFile);
+      expect(service['tags']).toEqual(undefined);
+      expect(result).toEqual(new FileStatus('test', '', false));
     });
   });
 
@@ -72,9 +92,7 @@ describe('DataStoreService', () => {
     test('should call postTaggingText and set translation', async () => {
       const test = ['awesome', 'someawe'];
       const testText = '123';
-      dataService.postTranslationText = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(test));
+      dataService.postTranslationText = jest.fn().mockResolvedValue(test);
 
       await service.getTranslationForText(testText);
 
@@ -88,19 +106,34 @@ describe('DataStoreService', () => {
 
   describe('getTranslationForFile', () => {
     test('should call postTranslationFile and set translation', async () => {
-      const test = ['awesome', 'someawe'];
+      const test = 'test';
       const testFile = new File([], 'test');
-      dataService.postTranslationFile = jest
-        .fn()
-        .mockImplementation(() => Promise.resolve(test));
+      service.reset = jest.fn();
+      dataService.postTranslationFile = jest.fn().mockResolvedValue(test);
 
-      await service.getTranslationForFile(testFile);
+      const result = await service.getTranslationForFile(testFile);
 
       expect(dataService.postTranslationFile).toHaveBeenCalledWith(
         testFile,
         Language.DE
       );
       expect(service['_translation'].getValue()).toEqual(test);
+      expect(service.reset).toHaveBeenCalled();
+      expect(result).toEqual(new FileStatus('test', '', true));
+    });
+
+    test('should return fileStatus even on failed service call', async () => {
+      const testFile = new File([], 'test');
+      dataService.postTranslationFile = jest.fn().mockRejectedValue(undefined);
+
+      const result = await service.getTranslationForFile(testFile);
+
+      expect(dataService.postTranslationFile).toHaveBeenCalledWith(
+        testFile,
+        Language.DE
+      );
+      expect(service['translation']).toEqual(undefined);
+      expect(result).toEqual(new FileStatus('test', '', false));
     });
   });
 
@@ -122,14 +155,16 @@ describe('DataStoreService', () => {
   });
 
   describe('reset', () => {
-    test('should set variables to their initial states', () => {
+    test('should set variables to their initial states and reset', () => {
       service['tags'] = ['tag1', 'tag2'];
       service['translation'] = 'awesome translation';
+      service['_reset'].next = jest.fn();
 
       service.reset();
 
-      expect(service['_tags'].getValue()).toBeUndefined();
-      expect(service['_translation'].getValue()).toBeUndefined();
+      expect(service['tags']).toBeUndefined();
+      expect(service['translation']).toBeUndefined();
+      expect(service['_reset'].next).toHaveBeenCalledTimes(1);
     });
   });
 });

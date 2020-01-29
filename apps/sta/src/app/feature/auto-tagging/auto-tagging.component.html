@@ -15,6 +15,7 @@
           <div class="main-container">
             <sta-file-upload
               (fileUploaded)="getTagsForFile($event)"
+              [fileStatus]="fileStatus"
             ></sta-file-upload>
           </div>
         </mat-tab>

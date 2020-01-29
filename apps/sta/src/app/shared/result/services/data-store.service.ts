@@ -1,9 +1,11 @@
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 
 import { DataService } from './data.service';
+
+import { FileStatus } from '../../file-upload/file-status.model';
 
 import { Language } from '../models';
 
@@ -17,9 +19,11 @@ export class DataStoreService {
   private readonly _translation: BehaviorSubject<string> = new BehaviorSubject(
     undefined
   );
+  private readonly _reset: Subject<void> = new Subject();
 
   public readonly tags$ = this._tags.asObservable();
   public readonly translation$ = this._translation.asObservable();
+  public readonly reset$ = this._reset.asObservable();
 
   private readonly allData$ = combineLatest([this.tags$, this.translation$]);
 
@@ -31,15 +35,24 @@ export class DataStoreService {
 
   private set translation(val: string) {
     this._translation.next(val);
-    console.log(this.translation);
   }
 
   public async getTagsForText(text: string): Promise<void> {
     this.tags = await this.dataService.postTaggingText(text);
   }
 
-  public async getTagsForFile(file: File): Promise<void> {
-    this.tags = await this.dataService.postTaggingFile(file);
+  public async getTagsForFile(file: File): Promise<FileStatus> {
+    let successfulCall = true;
+
+    this.reset();
+
+    try {
+      this.tags = await this.dataService.postTaggingFile(file);
+    } catch (_e) {
+      successfulCall = false;
+    }
+
+    return new FileStatus(file.name, file.type, successfulCall);
   }
 
   public async getTranslationForText(
@@ -55,11 +68,21 @@ export class DataStoreService {
   public async getTranslationForFile(
     file: File,
     targetLang: Language = Language.DE
-  ): Promise<void> {
-    this.translation = await this.dataService.postTranslationFile(
-      file,
-      targetLang
-    );
+  ): Promise<FileStatus> {
+    let successfulCall = true;
+
+    this.reset();
+
+    try {
+      this.translation = await this.dataService.postTranslationFile(
+        file,
+        targetLang
+      );
+    } catch (_e) {
+      successfulCall = false;
+    }
+
+    return new FileStatus(file.name, file.type, successfulCall);
   }
 
   /**
@@ -74,5 +97,7 @@ export class DataStoreService {
   public reset(): void {
     this.tags = undefined;
     this.translation = undefined;
+
+    this._reset.next();
   }
 }

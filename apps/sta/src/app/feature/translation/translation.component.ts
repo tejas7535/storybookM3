@@ -1,20 +1,43 @@
-import { Component } from '@angular/core';
+import { Subscription } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DataStoreService } from '../../shared/result/services/data-store.service';
+
+import { FileStatus } from '../../shared/file-upload/file-status.model';
 
 @Component({
   selector: 'sta-translation',
   templateUrl: './translation.component.html',
   styleUrls: ['./translation.component.scss']
 })
-export class TranslationComponent {
+export class TranslationComponent implements OnInit, OnDestroy {
+  public fileStatus: FileStatus = undefined;
+
+  private readonly subscription: Subscription = new Subscription();
+
   constructor(private readonly dataStore: DataStoreService) {}
+
+  public ngOnInit(): void {
+    this.subscription.add(
+      this.dataStore.reset$.subscribe(
+        () =>
+          (this.fileStatus =
+            this.fileStatus.success === undefined ? this.fileStatus : undefined)
+      )
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
   public getTranslationForText(text: string): void {
     this.dataStore.getTranslationForText(text);
   }
 
-  public getTranslationForFile(file: File): void {
-    this.dataStore.getTranslationForFile(file);
+  public async getTranslationForFile(file: File): Promise<void> {
+    this.fileStatus = new FileStatus(file.name, file.type);
+    this.fileStatus = await this.dataStore.getTranslationForFile(file);
   }
 }

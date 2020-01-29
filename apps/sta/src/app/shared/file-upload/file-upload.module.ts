@@ -7,8 +7,10 @@ import { FileDropModule } from '@schaeffler/shared/ui-components';
 
 import { FileUploadComponent } from './file-upload.component';
 
+import { FileTypeToIconPipe } from './file-type-to-icon.pipe';
+
 @NgModule({
-  declarations: [FileUploadComponent],
+  declarations: [FileUploadComponent, FileTypeToIconPipe],
   imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule],
   exports: [FileUploadComponent]
 })
