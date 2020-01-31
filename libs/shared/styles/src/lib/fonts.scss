@@ -1,3 +1,5 @@
+@import './mediaqueries.scss';
+
 $font: Arial;
 $fontSerif: Arial, sans-serif;
 
@@ -7,7 +9,7 @@ $schaeffler-h3: 20px;
 $schaeffler-h4: 18px;
 $schaeffler-h5: 18px;
 $schaeffler-h6: 16px;
-$schaeffler-labels: 16px;
+$schaeffler-labels: 13px;
 $schaeffler-text: 16px;
 
 * {
@@ -34,6 +36,10 @@ h2 {
 h1 {
   font-size: $schaeffler-h1;
   font-weight: 500;
+
+  @media screen and (max-width: $screen-sm-min) {
+    font-size: $schaeffler-h2;
+  }
 }
 
 h2 {
