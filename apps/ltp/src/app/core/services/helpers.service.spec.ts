@@ -581,7 +581,7 @@ describe('HelpersService', () => {
     expectedKpis = {
       ...expectedKpis,
       fatigue: 129.60351058284022,
-      count: 0
+      count: -1
     };
 
     kpis = helpersService.prepareKpis(predictionResult, display, request);
