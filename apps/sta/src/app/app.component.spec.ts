@@ -20,8 +20,6 @@ import {
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { BreadcrumbModule } from './shared/breadcrumb/breadcrumb.module';
-
 import { AppComponent } from './app.component';
 import { ResultComponent } from './shared/result/result.component';
 
@@ -43,7 +41,6 @@ describe('AppComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        BreadcrumbModule,
         FooterModule,
         HeaderModule,
         HttpClientTestingModule,
@@ -148,6 +145,19 @@ describe('AppComponent', () => {
       await fixture.whenStable();
 
       expect(component.settingsSidebarOpen).toBeTruthy();
+    });
+
+    test('should call handleSidebarToggledObservable on change', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      component['handleSidebarToggledObservable'] = jest.fn();
+
+      component['sidebarToggled'].next(SidebarMode.Minified);
+
+      expect(component['handleSidebarToggledObservable']).toHaveBeenCalledWith(
+        SidebarMode.Minified
+      );
     });
   });
 
@@ -258,6 +268,14 @@ describe('AppComponent', () => {
       component['handleSidebarToggledObservable'](SidebarMode.Closed);
 
       expect(component.mode).toEqual(SidebarMode.Closed);
+    });
+
+    test('should do nothing when called with undefined mode', () => {
+      component.mode = undefined;
+
+      component['handleSidebarToggledObservable'](undefined);
+
+      expect(component.mode).toBeUndefined();
     });
   });
 
