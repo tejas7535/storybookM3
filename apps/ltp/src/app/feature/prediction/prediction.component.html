@@ -169,12 +169,12 @@
         <ltp-kpi
           *ngIf="showWoehler()"
           [value]="
-            (predictionResult | async).kpi?.count == 0
+            (predictionResult | async).kpi?.count == -1
               ? '∞'
               : (predictionResult | async).kpi?.count
           "
           [description]="
-            (predictionResult | async).kpi?.count == 0
+            (predictionResult | async).kpi?.count == -1
               ? 'prediction.kpi.survivor'
               : 'prediction.kpi.count'
           "

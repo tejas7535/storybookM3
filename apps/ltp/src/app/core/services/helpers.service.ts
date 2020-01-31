@@ -75,7 +75,7 @@ export class HelpersService {
         count:
           predictionResult.woehler.appliedStress[1].x < 10000000
             ? predictionResult.woehler.appliedStress[1].x
-            : 0,
+            : -1,
         mpa: request.mpa
       };
     }
