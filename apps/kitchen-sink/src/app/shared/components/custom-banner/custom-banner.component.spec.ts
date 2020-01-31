@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { TranslocoModule } from '@ngneat/transloco';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -29,7 +29,7 @@ describe('CustomBannerComponent', () => {
       declarations: [CustomBannerComponent],
       imports: [
         BannerModule,
-        TranslocoModule,
+        provideTranslocoTestingModule({}),
         FlexLayoutModule,
         CommonModule,
         StoreModule.forRoot({})

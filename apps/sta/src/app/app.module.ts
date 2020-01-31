@@ -42,7 +42,13 @@ import { HammerConfig } from './config';
     SettingsSidebarModule,
     SidebarModule,
     SnackBarModule,
-    SharedTranslocoModule.forRoot(environment.production, ['en', 'de'], false)
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['en'],
+      'en',
+      'en',
+      false
+    )
   ],
   providers: [
     {

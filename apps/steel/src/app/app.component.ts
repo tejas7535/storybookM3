@@ -25,14 +25,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public isMedium$: Observable<boolean>;
   public isMobile$: Observable<boolean>;
 
-  public platformTitle = translate('GENERAL.APP_NAME');
+  public platformTitle = translate('general.appName');
 
   public readonly subscription: Subscription = new Subscription();
   public readonly destroy$: Subject<void> = new Subject();
 
   public sidebarElements: SidebarElement[] = [
     {
-      text: translate('NAVIGATION.HOME'),
+      text: translate('navigation.home'),
       icon: 'icon-house',
       link: '/home'
     }

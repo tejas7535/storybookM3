@@ -8,9 +8,9 @@ import {
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { TranslocoModule } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -73,7 +73,7 @@ describe('BannerComponent', () => {
       declarations: [DummyComponent],
       imports: [
         BannerModule,
-        TranslocoModule,
+        provideTranslocoTestingModule({}),
         RouterTestingModule.withRoutes(dummyRoutes),
         StoreModule.forRoot({}),
         StoreModule.forFeature('banner', bannerReducer)

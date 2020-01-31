@@ -1,10 +1,8 @@
 {
-  "GENERAL": {
-    "LOGOUT": "Logout",
-    "APP_NAME": "STEEL"
+  "general": {
+    "appName": "STEEL"
   },
-  "NAVIGATION": {
-    "HOME": "Home / Extensions",
-    "NOT_FOUND": "Not Found"
+  "navigation": {
+    "home": "Home / Extensions"
   }
 }

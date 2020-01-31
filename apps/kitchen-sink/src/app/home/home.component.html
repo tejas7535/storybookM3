@@ -1,5 +1,5 @@
-<div class="page-container">
-  <h1>{{ 'NAVIGATION.HOME' | transloco }}</h1>
+<div class="page-container" *transloco="let t; read: 'navigation'">
+  <h1>{{ t('home') }}</h1>
   <div class="main-container">
     <schaeffler-speed-dial-fab
       [open]="speedDialFabOpen"

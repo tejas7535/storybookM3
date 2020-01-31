@@ -88,7 +88,7 @@ describe('HomeComponent', () => {
 
     const compiled = fixture.debugElement.nativeElement;
     expect(compiled.querySelector('h1').textContent).toContain(
-      translate('NAVIGATION.HOME')
+      translate('navigation.home')
     );
   });
 
@@ -172,8 +172,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action on openBanner', () => {
       const banner = {
         component: BannerTextComponent,
-        text: translate('BANNER.BANNER_TEXT'),
-        buttonText: translate('BANNER.BUTTON_TEXT'),
+        text: translate('banner.bannerText'),
+        buttonText: translate('banner.buttonText'),
         truncateSize: 120,
         type: '[Banner] Open Banner'
       };
@@ -185,8 +185,8 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action on openCustomBanner', () => {
       const banner = {
         component: CustomBannerComponent,
-        text: translate('CUSTOM_BANNER.BANNER_TEXT'),
-        buttonText: translate('CUSTOM_BANNER.BUTTON_TEXT'),
+        text: translate('customBanner.bannerText'),
+        buttonText: translate('customBanner.buttonText'),
         truncateSize: 0,
         type: '[Banner] Open Banner'
       };

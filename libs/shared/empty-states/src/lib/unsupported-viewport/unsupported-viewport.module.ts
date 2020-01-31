@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { UnsupportedViewportComponent } from './unsupported-viewport.component';
 
 @NgModule({
-  imports: [TranslocoModule, FlexLayoutModule],
+  imports: [SharedTranslocoModule, FlexLayoutModule],
   declarations: [UnsupportedViewportComponent],
   exports: [UnsupportedViewportComponent]
 })

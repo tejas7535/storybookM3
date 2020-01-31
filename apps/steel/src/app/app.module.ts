@@ -50,7 +50,13 @@ import { HammerConfig } from './shared/config';
     SidebarModule,
     PageNotFoundModule,
     StoreModule,
-    SharedTranslocoModule.forRoot(environment.production, ['en'], true)
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['en'],
+      'en',
+      'en',
+      true
+    )
   ],
   providers: [
     {

@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { TranslocoService } from '@ngneat/transloco';
+import * as transloco from '@ngneat/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -19,7 +19,7 @@ describe('SharedTranslocoModule for Root', () => {
       imports: [
         HttpClientTestingModule,
         provideTranslocoTestingModule({}),
-        SharedTranslocoModule.forRoot(true)
+        SharedTranslocoModule.forRoot(true, ['en'], 'en', 'es')
       ]
     });
   });
@@ -29,13 +29,37 @@ describe('SharedTranslocoModule for Root', () => {
   });
 
   describe('preloadLanguage', () => {
-    test('should load default language via transloco', () => {
-      const service = TestBed.get(TranslocoService);
+    test('should load language', () => {
+      const service = TestBed.get(transloco.TranslocoService);
       service.load = jest.fn().mockImplementation(() => of(true));
 
-      preloadLanguage(service)();
+      preloadLanguage(service, 'en', 'es')();
 
-      expect(service.load).toHaveBeenCalled();
+      expect(service.load).toHaveBeenCalledWith('en');
+    });
+
+    test('should load language from Browser Language', () => {
+      Object.defineProperty(transloco, 'getBrowserLang', {
+        value: jest.fn().mockImplementation(() => 'es')
+      });
+      const service = TestBed.get(transloco.TranslocoService);
+      service.load = jest.fn().mockImplementation(() => of(true));
+
+      preloadLanguage(service, undefined, 'it')();
+
+      expect(service.load).toHaveBeenCalledWith('es');
+    });
+
+    test('should load language from fallback language in the edge case', () => {
+      Object.defineProperty(transloco, 'getBrowserLang', {
+        value: jest.fn().mockImplementation(() => undefined)
+      });
+      const service = TestBed.get(transloco.TranslocoService);
+      service.load = jest.fn().mockImplementation(() => of(true));
+
+      preloadLanguage(service, undefined, 'nl')();
+
+      expect(service.load).toHaveBeenCalledWith('nl');
     });
   });
 });

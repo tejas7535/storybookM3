@@ -1,9 +1,10 @@
-import { configureTestSuite } from 'ng-bullet';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { TranslocoModule } from '@ngneat/transloco';
+
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { UserMenuComponent } from './user-menu.component';
 
@@ -13,7 +14,11 @@ describe('UserMenuComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [MatIconModule, MatMenuModule, TranslocoModule],
+      imports: [
+        MatIconModule,
+        MatMenuModule,
+        provideTranslocoTestingModule({})
+      ],
       declarations: [UserMenuComponent]
     });
   });

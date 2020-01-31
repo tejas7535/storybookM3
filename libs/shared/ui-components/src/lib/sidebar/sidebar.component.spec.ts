@@ -7,7 +7,7 @@ import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -32,7 +32,7 @@ describe('In SidebarComponent', () => {
         NoopAnimationsModule,
         MatIconModule,
         RouterTestingModule,
-        TranslocoModule
+        provideTranslocoTestingModule({})
       ],
       providers: [
         {

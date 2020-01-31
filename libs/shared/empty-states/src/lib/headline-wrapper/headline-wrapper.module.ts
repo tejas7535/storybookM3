@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { HeadlineWrapperComponent } from './headline-wrapper.component';
 
 @NgModule({
-  imports: [TranslocoModule],
+  imports: [SharedTranslocoModule],
   declarations: [HeadlineWrapperComponent],
   exports: [HeadlineWrapperComponent]
 })

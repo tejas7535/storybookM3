@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -21,7 +21,7 @@ describe('UnsupportedViewportComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [UnsupportedViewportComponent],
-      imports: [TranslocoModule, FlexLayoutModule]
+      imports: [provideTranslocoTestingModule({}), FlexLayoutModule]
     });
   });
 

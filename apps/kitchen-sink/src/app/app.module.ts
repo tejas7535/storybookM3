@@ -46,7 +46,7 @@ import { HammerConfig } from './shared/config';
     SpeedDialFabModule,
     SettingsSidebarModule,
     CustomBannerModule,
-    SharedTranslocoModule.forRoot(environment.production)
+    SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en')
   ],
   providers: [
     {

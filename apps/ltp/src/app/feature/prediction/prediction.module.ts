@@ -9,7 +9,7 @@ import {
   MatTabsModule
 } from '@angular/material';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
@@ -25,7 +25,7 @@ import { PredictionComponent } from './prediction.component';
     MatButtonModule,
     MatMenuModule,
     MatTabsModule,
-    TranslocoModule,
+    SharedTranslocoModule,
     ChartModule,
     MatExpansionModule,
     MatDividerModule,
