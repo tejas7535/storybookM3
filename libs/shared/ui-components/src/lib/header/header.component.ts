@@ -1,16 +1,3 @@
-import {
-  AfterViewInit,
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnChanges,
-  OnDestroy,
-  OnInit,
-  Output,
-  SimpleChanges
-} from '@angular/core';
 import { fromEvent, merge, Subscription } from 'rxjs';
 import {
   distinctUntilChanged,
@@ -22,8 +9,21 @@ import {
   throttleTime
 } from 'rxjs/operators';
 
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
+
 import { Direction } from './enums/direction.enum';
 import { VisibilityState } from './enums/visibility-state.enum';
+
 import { headerAnimations } from './header.animations';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
@@ -35,8 +35,7 @@ import { BreakpointService } from '@schaeffler/shared/responsive';
   animations: headerAnimations,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent
-  implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+export class HeaderComponent implements OnInit, AfterViewInit, OnDestroy {
   @HostBinding('@toggle') get toggleVisibility(): VisibilityState {
     return this.headerVisibility;
   }
@@ -44,8 +43,6 @@ export class HeaderComponent
   private headerVisibility: VisibilityState = VisibilityState.Visible;
 
   private readonly subscription: Subscription = new Subscription();
-
-  @Input() sidebarMode: number;
 
   @Input() toggleEnabled = false;
 
@@ -66,18 +63,6 @@ export class HeaderComponent
         .isMobileViewPort()
         .subscribe(isMobile => (this.isMobileViewPort = isMobile))
     );
-  }
-
-  /**
-   * angular change detection function
-   * @param changes contains the received change object
-   */
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.sidebarMode) {
-      if (this.isMobileViewPort && changes.sidebarMode.currentValue === 2) {
-        this.headerVisibility = VisibilityState.Visible;
-      }
-    }
   }
 
   /**

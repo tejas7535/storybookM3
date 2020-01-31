@@ -1,3 +1,5 @@
+import { Subscription } from 'rxjs';
+
 import {
   ChangeDetectionStrategy,
   Component,
@@ -8,13 +10,13 @@ import {
   Output
 } from '@angular/core';
 
-import { Subscription } from 'rxjs';
-
 import { BreakpointService } from '@schaeffler/shared/responsive';
+
+import { SidebarMode } from './sidebar-mode.enum';
+
 import { SidebarAnimationStyle } from './sidebar-animation-style';
 import { contentAnimation, sidebarAnimation } from './sidebar-animations';
 import { SidebarElement } from './sidebar-element';
-import { SidebarMode } from './sidebar-mode.enum';
 
 @Component({
   selector: 'schaeffler-sidebar',

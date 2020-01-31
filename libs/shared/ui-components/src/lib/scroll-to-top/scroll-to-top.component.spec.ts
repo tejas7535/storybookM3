@@ -1,3 +1,6 @@
+import { Subject } from 'rxjs';
+
+import { ElementRef } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,14 +10,21 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { ScrollToTopComponent } from './scroll-to-top.component';
 
+import { ScrollToTopDirective } from './scroll-to-top.directive';
+
 describe('ScrollToTopComponent', () => {
   let component: ScrollToTopComponent;
   let fixture: ComponentFixture<ScrollToTopComponent>;
 
+  const mockScrollToTopContainer = {
+    scrollEvent$: new Subject<HTMLElement>(),
+    element: new ElementRef('<div></div>')
+  };
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatIconModule, MatButtonModule, NoopAnimationsModule],
-      declarations: [ScrollToTopComponent]
+      declarations: [ScrollToTopComponent, ScrollToTopDirective]
     });
   });
 
@@ -28,6 +38,61 @@ describe('ScrollToTopComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    beforeEach(() => {
+      Object.defineProperty(component, 'scrollToTopContainer', {
+        value: mockScrollToTopContainer
+      });
+    });
+
+    test('should subscribe to scrollEvent if scrollToTopContainer is defined', () => {
+      const spy = jest.spyOn(
+        component['scrollToTopContainer'].scrollEvent$,
+        'subscribe'
+      );
+
+      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+
+      expect(spy).toHaveBeenCalled();
+    });
+
+    test('should set containerScrolled to true if the container is scrolled to more than 100px', () => {
+      const container: HTMLElement = component['document'].createElement('div');
+      container.scrollTop = 200;
+      expect(component.containerScrolled).toEqual(undefined);
+
+      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+
+      component['scrollToTopContainer'].scrollEvent$.next(container);
+
+      expect(component.containerScrolled).toEqual(true);
+    });
+
+    test('should set containerScrolled to false if the container is scrolled to less than 10px', () => {
+      const container: HTMLElement = component['document'].createElement('div');
+      container.scrollTop = 1;
+      expect(component.containerScrolled).toEqual(undefined);
+
+      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+
+      component['scrollToTopContainer'].scrollEvent$.next(container);
+
+      expect(component.containerScrolled).toEqual(false);
+    });
+
+    test('should not change containerScrolled if the scrollTop property is between 10 and 100', () => {
+      const container: HTMLElement = component['document'].createElement('div');
+      container.scrollTop = 50;
+      expect(component.containerScrolled).toEqual(undefined);
+
+      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+
+      component['scrollToTopContainer'].scrollEvent$.next(container);
+
+      expect(component.containerScrolled).toEqual(undefined);
+    });
+  });
+
   describe('onWindowScroll', () => {
     beforeEach(() => {
       component['document'].documentElement.scrollTop = undefined;
@@ -36,34 +101,38 @@ describe('ScrollToTopComponent', () => {
 
     test('should set windowScrolled to true', () => {
       component['document'].documentElement.scrollTop = 100;
+      component['document'].body.scrollTop = 100;
 
       component.onWindowScroll();
 
-      expect(component.windowScrolled).toBeTruthy();
+      expect(component.containerScrolled).toBeTruthy();
     });
 
     test('should set windowScrolled to true', () => {
+      component['document'].documentElement.scrollTop = 110;
       component['document'].body.scrollTop = 110;
 
       component.onWindowScroll();
 
-      expect(component.windowScrolled).toBeTruthy();
+      expect(component.containerScrolled).toBeTruthy();
     });
 
     test('should set windowScrolled on false', () => {
+      component['document'].documentElement.scrollTop = 5;
       component['document'].body.scrollTop = 5;
 
       component.onWindowScroll();
 
-      expect(component.windowScrolled).toBeFalsy();
+      expect(component.containerScrolled).toBeFalsy();
     });
 
     test('should set windowScrolled on false', () => {
       component['document'].documentElement.scrollTop = 0;
+      component['document'].documentElement.scrollTop = 0;
 
       component.onWindowScroll();
 
-      expect(component.windowScrolled).toBeFalsy();
+      expect(component.containerScrolled).toBeFalsy();
     });
   });
 
@@ -84,6 +153,74 @@ describe('ScrollToTopComponent', () => {
     beforeEach(() => {
       component['document'].documentElement.scrollTop = undefined;
       component['document'].body.scrollTop = undefined;
+    });
+
+    test('should scroll container element to top', () => {
+      Object.defineProperty(component, 'scrollToTopContainer', {
+        value: new ScrollToTopDirective(
+          new ElementRef(component['document'].createElement('div'))
+        )
+      });
+
+      component[
+        'scrollToTopContainer'
+      ].element.nativeElement.animate = () => {};
+      component[
+        'scrollToTopContainer'
+      ].element.nativeElement.scrollTo = () => {};
+
+      const spyAnimateContainer = jest.spyOn(
+        component['scrollToTopContainer'].element.nativeElement,
+        'animate'
+      );
+      const spyScrollToContainer = jest.spyOn(
+        component['scrollToTopContainer'].element.nativeElement,
+        'scrollTo'
+      );
+
+      component['scrollToTopContainer'].element.nativeElement.scrollTop = 500;
+
+      component.scrollToTop();
+
+      expect(spyScrollToContainer).toHaveBeenCalledWith({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
+      expect(spyAnimateContainer).toHaveBeenCalledWith(undefined, {
+        duration: 200
+      });
+    });
+
+    test('should do nothing if container element is on top', () => {
+      Object.defineProperty(component, 'scrollToTopContainer', {
+        value: new ScrollToTopDirective(
+          new ElementRef(component['document'].createElement('div'))
+        )
+      });
+
+      component[
+        'scrollToTopContainer'
+      ].element.nativeElement.animate = () => {};
+      component[
+        'scrollToTopContainer'
+      ].element.nativeElement.scrollTo = () => {};
+
+      const spyAnimateContainer = jest.spyOn(
+        component['scrollToTopContainer'].element.nativeElement,
+        'animate'
+      );
+      const spyScrollToContainer = jest.spyOn(
+        component['scrollToTopContainer'].element.nativeElement,
+        'scrollTo'
+      );
+
+      component['scrollToTopContainer'].element.nativeElement.scrollTop = 0;
+
+      component.scrollToTop();
+
+      expect(spyScrollToContainer).not.toHaveBeenCalled();
+      expect(spyAnimateContainer).not.toHaveBeenCalled();
     });
 
     test('should not call native window methods', () => {

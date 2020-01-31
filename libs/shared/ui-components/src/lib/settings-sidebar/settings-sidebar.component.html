@@ -5,10 +5,11 @@
     position="end"
     disableClose="true"
     [opened]="open"
-    [mode]="(isLessThanMedium$ | async) ? 'over' : 'side'"
+    [mode]="isLessThanMedium ? 'over' : 'side'"
     (openedChange)="onChangeState($event)"
+    (swipeRight)="sidebar.toggle()"
     fixedInViewport="true"
-    [fixedTopGap]="(isMobile$ | async) ? 73 : 60"
+    [fixedTopGap]="isMobileViewPort ? 73 : 60"
     [ngStyle]="{ width: width }"
   >
     <div fxLayout="row">

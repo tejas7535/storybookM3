@@ -1,12 +1,11 @@
 <div fxLayout="column" class="full-height">
   <schaeffler-header
     [platformTitle]="platformTitle"
-    [sidebarMode]="mode"
     toggleEnabled="true"
     (toggle)="toggleSidebar()"
   >
   </schaeffler-header>
-  <schaeffler-sidebar fxFlex [elements]="sidebarElements" [mode]="mode">
+  <schaeffler-sidebar [elements]="sidebarElements" [mode]="mode">
     <router-outlet></router-outlet>
     <schaeffler-footer></schaeffler-footer>
   </schaeffler-sidebar>

@@ -10,6 +10,7 @@ import {
   BannerModule,
   FooterModule,
   HeaderModule,
+  ScrollToTopDirective,
   ScrollToTopModule,
   SettingsSidebarModule,
   SidebarModule,
@@ -51,7 +52,8 @@ import { HammerConfig } from './shared/config';
     {
       provide: HAMMER_GESTURE_CONFIG,
       useClass: HammerConfig
-    }
+    },
+    ScrollToTopDirective
   ],
   bootstrap: [AppComponent]
 })
