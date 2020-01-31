@@ -1,26 +1,55 @@
 @import 'libs/shared/styles/src';
+@import '~@angular/material/theming';
 
-.overview-elem {
-  border: 1px solid black;
-  border-radius: 5px;
-  cursor: pointer;
-  height: 120px;
-  width: 120px;
-
-  mat-icon {
-    font-size: 60px;
-    height: 60px;
-    width: 60px;
-  }
-
-  h4 {
-    margin: 5px;
-    text-align: center;
+.description {
+  a {
+    text-decoration: none;
   }
 }
 
-.overview-elem:hover {
-  border: 2px solid $schaeffler-green-1;
+.elem {
+  background: $schaeffler-gray-0;
+  color: $schaeffler-carbon-gray;
+  height: 100%;
+  outline: none;
+  @include mat-elevation-transition;
+  @include mat-elevation(2);
 
-  color: $schaeffler-green-1;
+  mat-icon,
+  h2 {
+    color: $schaeffler-carbon-gray;
+  }
+
+  mat-icon,
+  .icon:before {
+    font-size: 83px;
+    height: 83px;
+    width: 83px;
+  }
+
+  &.active {
+    cursor: pointer;
+
+    &:hover {
+      @include mat-elevation(8);
+    }
+  }
+
+  &.inactive {
+    mat-icon,
+    h2 {
+      opacity: 0.4;
+    }
+  }
+}
+
+.elem:before {
+  content: '';
+  display: block;
+  float: left;
+  padding-top: 100%;
+}
+
+.service-name {
+  text-align: center;
 }

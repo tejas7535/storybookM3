@@ -17,7 +17,6 @@ import {
 
 import { AppRoutingModule } from './app-routing.module';
 import { CoreModule } from './core/core.module';
-import { BreadcrumbModule } from './shared/breadcrumb/breadcrumb.module';
 import { ResultModule } from './shared/result/result.module';
 
 import { AppComponent } from './app.component';
@@ -31,7 +30,6 @@ import { HammerConfig } from './config';
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
-    BreadcrumbModule,
     BrowserAnimationsModule,
     CoreModule.forRoot(),
     FlexLayoutModule,
