@@ -1,5 +1,5 @@
 <div class="page-container">
-  <h1>{{ 'NAVIGATION.HOME' | transloco }}</h1>
+  <h1 *transloco="let t">{{ t('navigation.home') }}</h1>
   <div class="main-container">
     <div
       fxLayout="row wrap"

@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { StoreModule } from './store/store.module';
@@ -12,7 +12,7 @@ import { DynamicComponentDirective } from './dynamic-component-directive/dynamic
 
 @NgModule({
   declarations: [BannerComponent, DynamicComponentDirective],
-  imports: [CommonModule, StoreModule, BannerTextModule, TranslocoModule],
+  imports: [CommonModule, StoreModule, BannerTextModule, SharedTranslocoModule],
   exports: [BannerComponent]
 })
 export class BannerModule {}

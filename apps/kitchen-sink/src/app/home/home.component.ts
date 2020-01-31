@@ -92,8 +92,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       openBanner({
         component: BannerTextComponent,
-        text: translate('BANNER.BANNER_TEXT'),
-        buttonText: translate('BANNER.BUTTON_TEXT'),
+        text: translate('banner.bannerText'),
+        buttonText: translate('banner.buttonText'),
         truncateSize: 120
       })
     );
@@ -106,8 +106,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       openBanner({
         component: CustomBannerComponent,
-        text: translate('CUSTOM_BANNER.BANNER_TEXT'),
-        buttonText: translate('CUSTOM_BANNER.BUTTON_TEXT'),
+        text: translate('customBanner.bannerText'),
+        buttonText: translate('customBanner.buttonText'),
         truncateSize: 0
       })
     );

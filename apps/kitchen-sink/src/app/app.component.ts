@@ -28,19 +28,19 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public username = 'Test User';
   public userMenuEntries = [
-    new UserMenuEntry('logout', translate('GENERAL.LOGOUT'))
+    new UserMenuEntry('logout', translate('general.logout'))
   ];
 
-  public platformTitle = translate('GENERAL.APP_NAME');
+  public platformTitle = translate('general.appName');
 
   public sidebarElements: SidebarElement[] = [
     {
-      text: translate('NAVIGATION.HOME'),
+      text: translate('navigation.home'),
       icon: 'icon-house',
       link: '/home'
     },
     {
-      text: translate('NAVIGATION.NOT_FOUND'),
+      text: translate('navigation.notFound'),
       icon: 'icon-house',
       link: '/second'
     }

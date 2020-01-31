@@ -2,9 +2,9 @@ import { Component } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { TranslocoModule } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -42,7 +42,7 @@ describe('BannerContent', () => {
       declarations: [DummyComponent],
       imports: [
         BannerModule,
-        TranslocoModule,
+        provideTranslocoTestingModule({}),
         FlexLayoutModule,
         StoreModule.forRoot({}),
         StoreModule.forFeature('banner', bannerReducer)

@@ -39,7 +39,12 @@ import { AuthGuard } from './core/guards/auth.guard';
     SettingsSidebarModule,
     UnauthorizedModule,
     StoreModule,
-    SharedTranslocoModule.forRoot(environment.production)
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['de', 'en'],
+      undefined,
+      'en'
+    )
   ],
   declarations: [AppComponent, SignedoutComponent],
   providers: [

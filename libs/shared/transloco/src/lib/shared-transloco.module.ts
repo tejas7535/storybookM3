@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  APP_INITIALIZER,
+  InjectionToken,
+  ModuleWithProviders,
+  NgModule
+} from '@angular/core';
 
 import {
+  getBrowserLang,
   TRANSLOCO_CONFIG,
   TRANSLOCO_SCOPE,
   TranslocoConfig,
@@ -11,25 +17,30 @@ import {
 
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
-const translocoConfig: TranslocoConfig = {
-  availableLangs: ['en', 'de'],
-  defaultLang: 'en',
-  fallbackLang: 'en',
-  reRenderOnLangChange: true
-};
-
 // tslint:disable-next-line: only-arrow-functions
-export function preloadLanguage(transloco: TranslocoService): any {
-  const loader = () => transloco.load(translocoConfig.defaultLang).toPromise();
+export function preloadLanguage(
+  transloco: TranslocoService,
+  language: string,
+  fallback: string
+): any {
+  const lang = language ? language : getBrowserLang() || fallback;
+
+  transloco.setActiveLang(lang);
+  const loader = () => transloco.load(lang).toPromise();
 
   return loader;
 }
 
-const preLoad = {
+export const DEFAULT_LANGUAGE = new InjectionToken<string>('Default Language');
+export const FALLBACK_LANGUAGE = new InjectionToken<string>(
+  'Fallback Language'
+);
+
+export const preLoad = {
   provide: APP_INITIALIZER,
   multi: true,
   useFactory: preloadLanguage,
-  deps: [TranslocoService]
+  deps: [TranslocoService, DEFAULT_LANGUAGE, FALLBACK_LANGUAGE]
 };
 
 /**
@@ -47,19 +58,30 @@ const preLoad = {
 export class SharedTranslocoModule {
   static forRoot(
     prodMode: boolean,
-    availableLangs: string[] = ['en'],
+    availableLangs: string[],
+    defaultLang: string,
+    fallbackLang: string,
     appHasTranslations: boolean = true
   ): ModuleWithProviders {
     return {
       ngModule: SharedTranslocoModule,
       providers: [
-        ...(appHasTranslations ? [sharedTranslocoLoader, preLoad] : []),
+        ...(appHasTranslations
+          ? [
+              sharedTranslocoLoader,
+              { provide: DEFAULT_LANGUAGE, useValue: defaultLang },
+              { provide: FALLBACK_LANGUAGE, useValue: fallbackLang },
+              preLoad
+            ]
+          : []),
         {
           provide: TRANSLOCO_CONFIG,
           useValue: ({
-            ...translocoConfig,
             prodMode,
             availableLangs,
+            defaultLang,
+            fallbackLang,
+            reRenderOnLangChange: true,
             flatten: {
               aot: prodMode
             }

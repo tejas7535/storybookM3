@@ -12,7 +12,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -31,7 +31,7 @@ describe('In HeaderComponent', () => {
         MatIconModule,
         MatToolbarModule,
         FlexLayoutModule,
-        TranslocoModule
+        provideTranslocoTestingModule({})
       ],
       declarations: [HeaderComponent]
     }).overrideComponent(HeaderComponent, {

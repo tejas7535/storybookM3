@@ -8,7 +8,7 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 // eslint-disable-next-line @typescript-eslint/no-namespace
-declare namespace Cypress {}
+// declare namespace Cypress {}
 //
 
 //

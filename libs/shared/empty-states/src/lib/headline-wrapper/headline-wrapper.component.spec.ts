@@ -8,7 +8,8 @@ import {
 import { Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { TranslocoModule } from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { HeadlineWrapperComponent } from './headline-wrapper.component';
@@ -36,7 +37,10 @@ describe('HeadlineWrapperComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [HeadlineWrapperComponent, DummyComponent],
-      imports: [RouterTestingModule.withRoutes(dummyRoutes), TranslocoModule]
+      imports: [
+        RouterTestingModule.withRoutes(dummyRoutes),
+        provideTranslocoTestingModule({})
+      ]
     });
   });
 
