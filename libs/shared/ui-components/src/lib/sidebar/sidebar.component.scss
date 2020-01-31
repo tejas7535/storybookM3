@@ -2,6 +2,14 @@
 @import 'libs/shared/styles/src/lib/fonts';
 @import 'libs/shared/styles/src/lib/mediaqueries';
 
+:host {
+  height: 100%;
+}
+
+.sidebar-content {
+  overflow: auto;
+}
+
 .sidebar-container {
   background-color: $schaeffler-gray-3;
   height: 100%;

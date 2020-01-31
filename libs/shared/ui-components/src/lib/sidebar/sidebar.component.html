@@ -44,16 +44,12 @@
   </mat-sidenav>
 
   <mat-sidenav-content
+    class="sidebar-content"
     [ngStyle]="{
       height: mode === 2 && isMobileViewPort === true ? '0' : '100%'
     }"
     [@onAnimateContent]="contentAnimation"
   >
-    <div
-      *ngIf="isMobileViewPort"
-      class="swipe-area"
-      (swipeRight)="toggleSidebar()"
-    ></div>
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

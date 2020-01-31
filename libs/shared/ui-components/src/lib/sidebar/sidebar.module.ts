@@ -5,9 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
 import { SidebarComponent } from './sidebar.component';
+
+import { HammerConfig } from './config';
 
 @NgModule({
   imports: [
@@ -20,6 +23,12 @@ import { SidebarComponent } from './sidebar.component';
     FlexLayoutModule
   ],
   declarations: [SidebarComponent],
+  providers: [
+    {
+      provide: HAMMER_GESTURE_CONFIG,
+      useClass: HammerConfig
+    }
+  ],
   exports: [MatSidenavModule, SidebarComponent]
 })
 export class SidebarModule {}

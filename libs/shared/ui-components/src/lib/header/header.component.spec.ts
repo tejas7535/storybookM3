@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, SimpleChange } from '@angular/core';
+import { ChangeDetectionStrategy } from '@angular/core';
 import {
   async,
   ComponentFixture,
@@ -61,43 +61,6 @@ describe('In HeaderComponent', () => {
 
     it('should define the default values', () => {
       expect(component.toggleEnabled).toBeFalsy();
-    });
-  });
-
-  describe('ngOnChanges', () => {
-    test('should do nothing when sidebarmode is undefined in changes', () => {
-      component['headerVisibility'] = VisibilityState.Hidden;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        sidebarMode: new SimpleChange(0, undefined, false)
-      });
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Hidden);
-    });
-
-    test('should set headerVisibility when sidebarMode is correct', () => {
-      component['headerVisibility'] = VisibilityState.Hidden;
-      component.isMobileViewPort = true;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        sidebarMode: new SimpleChange(0, 2, false)
-      });
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Visible);
-    });
-
-    test('should not set headerVisibility  when sidebarMode is incorrect', () => {
-      component['headerVisibility'] = VisibilityState.Hidden;
-      component.isMobileViewPort = true;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        sidebarMode: new SimpleChange(0, 1, false)
-      });
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Hidden);
     });
   });
 

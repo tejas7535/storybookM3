@@ -49,28 +49,28 @@ describe('SettingsSidebarComponent', () => {
       expect(component.closeSidebarBtn).toBeFalsy();
     });
 
-    test('Observable of viewport should be defined', () => {
-      expect(component.isMobile$).toBeDefined();
-      expect(component.isLessThanMedium$).toBeDefined();
+    test('Viewport variables should be defined', () => {
+      expect(component.isMobileViewPort).toBeDefined();
+      expect(component.isLessThanMedium).toBeDefined();
     });
   });
 
   describe('#ngOnInit', () => {
     test('should call isMobileViewPort of breakpointService', () => {
-      breakpointService.isMobileViewPort = jest.fn();
+      const spy = jest.spyOn(breakpointService, 'isMobileViewPort');
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(breakpointService.isMobileViewPort).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
     test('should call isLessThanMedium of breakpointService', () => {
-      breakpointService.isLessThanMedium = jest.fn();
+      const spy = jest.spyOn(breakpointService, 'isLessThanMedium');
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(breakpointService.isLessThanMedium).toHaveBeenCalled();
+      expect(spy).toHaveBeenCalled();
     });
   });
 

@@ -1,7 +1,14 @@
 @import 'libs/shared/styles/src';
 
+:host {
+  height: 100%;
+}
+
 mat-sidenav-container {
+  height: 100%;
+
   mat-sidenav-content {
+    height: 100%;
     .mat-drawer-content {
       overflow: unset;
     }
@@ -19,6 +26,10 @@ mat-sidenav-container {
 
 .upper-right {
   position: absolute;
-  right: 16px; // TODO: set to new stylguide generic padding
-  top: 16px; // TODO: set to new stylguide generic padding
+  right: 30px;
+  top: 15px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    right: 20px;
+  }
 }
