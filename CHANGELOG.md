@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.1.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.8...v0.1.0) (2020-02-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* feat(ui-components): header scrolling behaviour (FRON-284)
+
+See merge request frontend-schaeffler/schaeffler-frontend!136
+
+### 🐛 Bug Fixes
+
+* use -1 as value for survivor (ADAPLD-6274) ([4a85b8e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4a85b8ec6d03845eb0d5131f75654f14ddf35b69))
+* **transloco:** fix missing translations in libs after build (FRON-334) ([f11ed83](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f11ed83aa4fe51a65d1a191b1da41326a09e4b5b))
+* **ui-components:** fix gap to top margin in tablet mode (FRON-330) ([356bc6f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/356bc6ffc9818e8500db2ec33d6244a64d075e49))
+* **workspace:** fix commit message hook with commitlint (FRON-327) ([c5c17e0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c5c17e02fa10627a4782cfde8a2064703bfefd49))
+* **workspace:** fix hotfix process in pipeline ([9793db4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9793db4be7fef9bfa215cb33d0c35f4abbf116bb))
+
+
+* Merge branch 'feature/FRON-284' into 'master' ([e01f89b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e01f89b7de2356f4ef019c87e304b44e57c96eb1))
+
+
+### 🎸 Features
+
+* **helloworld-adp:** integrate AAD oAuth2 (ADP-647) ([a6c8c33](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a6c8c33b148124b5f09d0463bfd50f2ad5067f49))
+* **sta:** implement overview page (UFTABI-1535) ([e973c0c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e973c0cb9592c78b1d44d5da4691a683f9d7002a))
+* **sta:** use correct icons for tagging and translate (UFTABI-1496) ([f2e8777](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f2e87773f868109afc8883519959cd7468b27b7d))
+* **steel:** add steel app (UFTABI-1214) ([408ac8a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/408ac8af1f634974a2088529d2a49d9aa021ac2a))
+* **ui-components:** support material icons in sidebar (FRON-343) ([1e4bfb5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1e4bfb50457fca75ed22f78c8f7c58c0a1b94e44))
+* **workspace:** add transloco keys manager config (FRON-202) ([be4e0da](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/be4e0daa7a751729f9b2ad79f7625e46c831a5b1))
+
+
+### 📈 Improvements
+
+* **styles:** improve generic colors and styles (FRON-350) ([097f0c0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/097f0c0da4a2d8b286197635427e656adc25a78f))
+* apply transloco best practises (FRON-203) ([25cdbf9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/25cdbf9f2adfea70de9e12ecdaceaf3bba3e2f1b))
+* **sta:** Adjust HTML & platform title (UFTABI-1539) ([82a47e7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/82a47e7942c1d565985f179a9b188a1a1f19f634))
+* **sta:** improve file upload (UFTABI-1430) ([9491077](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9491077050e7bfd6d6eb2788b301e64d970dcd9c))
+
 ### [0.0.9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.8...v0.0.9) (2020-01-21)
 
 ### [0.0.8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.7...v0.0.8) (2020-01-20)
