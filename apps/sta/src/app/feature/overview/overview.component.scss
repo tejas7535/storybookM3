@@ -27,6 +27,19 @@
     width: 83px;
   }
 
+  @media screen and (max-width: $screen-xs-max) {
+    mat-icon,
+    .icon:before {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
   &.active {
     cursor: pointer;
 
