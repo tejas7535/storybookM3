@@ -1,8 +1,9 @@
-import { HttpRequest } from '@angular/common/http';
+import { of } from 'rxjs';
+
+import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController,
-  TestRequest
+  HttpTestingController
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -34,25 +35,115 @@ describe('GreetingService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('#greet()', () => {
-    test('should return a Observable of type string with the greeting', () => {
+  describe('handleError', () => {
+    test('should return default message', done => {
+      GreetingService['handleError'](({
+        status: 200
+      } as unknown) as HttpErrorResponse).subscribe(message => {
+        expect(message).toEqual('Server is currently unavailable! 🤬');
+        done();
+      });
+    });
+
+    test('should return forbidden message for 403', done => {
+      GreetingService['handleError'](({
+        status: 403
+      } as unknown) as HttpErrorResponse).subscribe(message => {
+        expect(message).toEqual(
+          'Unfortunately, you are not allowed to listen! 😔'
+        );
+        done();
+      });
+    });
+  });
+
+  describe('getGreetingFromAPI', () => {
+    test('should return greeting message', done => {
       const mockResponse = { greeting: 'Hello, World' };
 
-      service.greet().subscribe(response => {
+      service['getGreetingFromAPI'](
+        `${environment.apiBaseUrl}/admin/api/hello`
+      ).subscribe(response => {
         expect(response).toEqual('Hello, World');
+        done();
       });
 
-      const call: TestRequest = backend.expectOne(
-        (request: HttpRequest<any>) =>
-          !!(
-            request.url.match('api/hello') &&
-            request.urlWithParams ===
-              `${environment.apiBaseUrl}/api/hello?language=en-US` &&
-            request.method === 'GET'
-          )
+      const call = backend.expectOne(
+        `${environment.apiBaseUrl}/admin/api/hello`
       );
 
       call.flush(mockResponse);
+    });
+
+    test('should call handleError on failed request', done => {
+      GreetingService['handleError'] = jest
+        .fn()
+        .mockImplementation(() => of('test'));
+      const mockErrorResponse = { message: 'failed' };
+
+      service['getGreetingFromAPI'](
+        `${environment.apiBaseUrl}/admin/api/hello`
+      ).subscribe(_ => {
+        expect(GreetingService['handleError']).toHaveBeenCalledTimes(1);
+        done();
+      });
+
+      const call = backend.expectOne(
+        `${environment.apiBaseUrl}/admin/api/hello`
+      );
+
+      call.flush(
+        { message: mockErrorResponse.message },
+        { status: 403, statusText: '' }
+      );
+    });
+  });
+
+  describe('greetPublic()', () => {
+    test('should call getGreetingFromAPI', () => {
+      const mock = of('test');
+      service['getGreetingFromAPI'] = jest.fn().mockImplementation(() => mock);
+
+      const result = service.greetPublic();
+
+      expect(service['getGreetingFromAPI']).toHaveBeenCalled();
+      expect(result).toEqual(mock);
+    });
+  });
+
+  describe('greetAuthorized()', () => {
+    test('should call getGreetingFromAPI', () => {
+      const mock = of('test');
+      service['getGreetingFromAPI'] = jest.fn().mockImplementation(() => mock);
+
+      const result = service.greetAuthorized();
+
+      expect(service['getGreetingFromAPI']).toHaveBeenCalled();
+      expect(result).toEqual(mock);
+    });
+  });
+
+  describe('greetUsers()', () => {
+    test('should call getGreetingFromAPI', () => {
+      const mock = of('test');
+      service['getGreetingFromAPI'] = jest.fn().mockImplementation(() => mock);
+
+      const result = service.greetUsers();
+
+      expect(service['getGreetingFromAPI']).toHaveBeenCalled();
+      expect(result).toEqual(mock);
+    });
+  });
+
+  describe('greetAdmins()', () => {
+    test('should call getGreetingFromAPI', () => {
+      const mock = of('test');
+      service['getGreetingFromAPI'] = jest.fn().mockImplementation(() => mock);
+
+      const result = service.greetAdmins();
+
+      expect(service['getGreetingFromAPI']).toHaveBeenCalled();
+      expect(result).toEqual(mock);
     });
   });
 });

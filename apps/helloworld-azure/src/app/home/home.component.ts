@@ -10,11 +10,17 @@ import { GreetingService } from '../greeting.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  public response: Observable<string>;
+  public responsePublic: Observable<string>;
+  public responseAuthorized: Observable<string>;
+  public responseUsers: Observable<string>;
+  public responseAdmins: Observable<string>;
 
   constructor(private readonly greetingsService: GreetingService) {}
 
   public ngOnInit(): void {
-    this.response = this.greetingsService.greet();
+    this.responsePublic = this.greetingsService.greetPublic();
+    this.responseAuthorized = this.greetingsService.greetAuthorized();
+    this.responseUsers = this.greetingsService.greetUsers();
+    this.responseAdmins = this.greetingsService.greetAdmins();
   }
 }
