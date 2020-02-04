@@ -39,8 +39,24 @@
             >
           </li>
         </ul>
-        <h2>What the backend has to say:</h2>
-        <p *ngIf="response | async as message; else loading">
+
+        <h2>What the backend has to say to the public:</h2>
+        <p *ngIf="responsePublic | async as message; else loading">
+          {{ message }}
+        </p>
+
+        <h2>What the backend has to say to authorized employees:</h2>
+        <p *ngIf="responseAuthorized | async as message; else loading">
+          {{ message }}
+        </p>
+
+        <h2>What the backend has to say to official Users:</h2>
+        <p *ngIf="responseUsers | async as message; else loading">
+          {{ message }}
+        </p>
+
+        <h2>What the backend has to say to Admins:</h2>
+        <p *ngIf="responseAdmins | async as message; else loading">
           {{ message }}
         </p>
 

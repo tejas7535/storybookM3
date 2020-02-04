@@ -1,7 +1,7 @@
 import { Observable, of } from 'rxjs';
 import { catchError, map } from 'rxjs/operators';
 
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { environment } from '../environments/environment';
@@ -12,18 +12,38 @@ import { environment } from '../environments/environment';
 export class GreetingService {
   baseUrl: string = environment.apiBaseUrl;
 
+  private static handleError(e: HttpErrorResponse): Observable<string> {
+    let message = 'Server is currently unavailable! 🤬';
+
+    if (e.status === 403) {
+      message = 'Unfortunately, you are not allowed to listen! 😔';
+    }
+
+    return of(message);
+  }
+
   constructor(private readonly httpClient: HttpClient) {}
 
-  public greet(): Observable<string> {
-    const language = navigator.language;
+  public greetPublic(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/public/api/hello`);
+  }
 
-    const params = new HttpParams().set('language', language);
+  public greetAuthorized(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/api/hello`);
+  }
 
-    return this.httpClient
-      .get<{ greeting: string }>(`${this.baseUrl}/api/hello`, { params })
-      .pipe(
-        map(response => response.greeting),
-        catchError(() => of('Server is currently unavailable'))
-      );
+  public greetUsers(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/api/user-hello`);
+  }
+
+  public greetAdmins(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/admin/api/hello`);
+  }
+
+  private getGreetingFromAPI(endpoint: string): Observable<string> {
+    return this.httpClient.get<{ greeting: string }>(endpoint).pipe(
+      map(response => response.greeting),
+      catchError(e => GreetingService.handleError(e))
+    );
   }
 }
