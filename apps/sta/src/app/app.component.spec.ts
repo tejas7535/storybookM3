@@ -6,6 +6,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HAMMER_LOADER } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
@@ -48,7 +49,8 @@ describe('AppComponent', () => {
         MatButtonModule,
         RouterTestingModule,
         SettingsSidebarModule,
-        SidebarModule
+        SidebarModule,
+        NoopAnimationsModule
       ],
       declarations: [AppComponent, ResultStubComponent],
       providers: [

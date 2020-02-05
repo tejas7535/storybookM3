@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { FooterModule, HeaderModule } from '@schaeffler/shared/ui-components';
@@ -15,7 +16,12 @@ describe('AppComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, HeaderModule, FooterModule],
+      imports: [
+        RouterTestingModule,
+        HeaderModule,
+        FooterModule,
+        NoopAnimationsModule
+      ],
       providers: [
         {
           provide: AuthService,

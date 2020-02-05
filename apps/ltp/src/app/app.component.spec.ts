@@ -13,6 +13,8 @@ import {
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { KeycloakAngularModule } from 'keycloak-angular';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -50,7 +52,8 @@ describe('AppComponent', () => {
         RouterTestingModule,
         InputModule,
         provideTranslocoTestingModule({ en }),
-        KeycloakAngularModule
+        KeycloakAngularModule,
+        NoopAnimationsModule
       ],
       providers: [
         AuthGuard,
