@@ -97,8 +97,13 @@ describe('DataService', () => {
         expect(trans).toEqual(expectedTranslation);
       });
 
+      const formData = new FormData();
+      formData.append('file', file, file.name);
+      formData.append('targetLang', targetLang);
+
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(formData);
 
       req.flush({ translation: expectedTranslation });
     }));

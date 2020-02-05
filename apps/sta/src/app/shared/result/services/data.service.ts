@@ -50,7 +50,7 @@ export class DataService {
   ): Promise<string> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
-    formData.append('lang', targetLang);
+    formData.append('targetLang', targetLang);
 
     return this.http
       .post<Translation>(`${this.apiUrl}/translation/file`, formData)
