@@ -16,7 +16,7 @@ def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:T
 def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs']
 def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Audit']
+def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 
@@ -213,6 +213,20 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run OWASP Dependency Check"
                             
+                        }
+                    }
+                }
+
+                stage('Renovate'){
+                    steps {
+                        gitlabCommitStatus(name: STAGE_NAME) {
+                            echo "Run Renovate for dependency updates"
+
+                            script {
+                                withCredentials([string(credentialsId: 'GITLAB_API_TOKEN', variable: 'ACCESS_TOKEN')]) {
+                                    sh "npx renovate --token=${ACCESS_TOKEN} --platform=gitlab --endpoint=https://gitlab.schaeffler.com/api/v4 frontend-schaeffler/schaeffler-frontend"
+                                }
+                            }
                         }
                     }
                 }

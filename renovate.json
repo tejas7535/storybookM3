@@ -1,0 +1,39 @@
+{
+  "semanticCommits": true,
+  "labels": ["Dependency Update"],
+  "lockFileMaintenance": {
+    "enabled": true
+  },
+  "baseBranches": ["master"],
+  "packageRules": [
+    {
+      "packagePatterns": ["^@angular/.*"],
+      "groupName": "angular",
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    },
+    {
+      "packagePatterns": ["^@nrwl/.*"],
+      "groupName": "nrwl",
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    },
+    {
+      "packagePatterns": ["^@ngrx/.*"],
+      "groupName": "ngrx",
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    },
+    {
+      "packageNames": ["typescript"],
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    },
+    {
+      "packageNames": ["keycloak-angular", "keycloak-js"],
+      "groupName": "keycloak",
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    }
+  ]
+}
