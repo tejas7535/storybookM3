@@ -70,6 +70,7 @@
     "@ngrx/effects": "8.6.0",
     "@ngrx/router-store": "8.6.0",
     "@ngrx/store": "8.6.0",
+    "@types/jwt-decode": "2.2.1",
     "angular-oauth2-oidc": "8.0.4",
     "core-js": "3.6.4",
     "devextreme": "19.2.5",

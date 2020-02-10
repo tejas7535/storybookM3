@@ -137,8 +137,8 @@ describe('ScrollToTopComponent', () => {
   });
 
   describe('scrollToTop', () => {
-    let spyScrollTo;
-    let spyRequestAnimation;
+    let spyScrollTo: jest.Mock;
+    let spyRequestAnimation: jest.Mock;
 
     beforeEach(() => {
       spyScrollTo = jest.fn();

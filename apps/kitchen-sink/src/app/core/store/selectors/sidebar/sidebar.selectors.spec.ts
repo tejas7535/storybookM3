@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { select, Store, StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
+import { Subscription } from 'rxjs';
 
 import * as fromRoot from '../../reducers';
 import { initialState } from '../../reducers/sidebar/sidebar.reducer';
@@ -9,8 +10,8 @@ import * as fromSelectors from '../../selectors';
 
 describe('SidebarSelector', () => {
   let store: Store<fromRoot.AppState>;
-  let sub;
-  let result;
+  let sub: Subscription;
+  let result: any;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({

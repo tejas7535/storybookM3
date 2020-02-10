@@ -57,7 +57,7 @@ export class OverviewComponent {
     }
   ];
 
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

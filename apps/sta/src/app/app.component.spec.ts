@@ -29,7 +29,7 @@ import { DataStoreService } from './shared/result/services/data-store.service';
 
 @Component({ selector: 'sta-result', template: '' })
 class ResultStubComponent implements Partial<ResultComponent> {
-  tags$;
+  tags$: Observable<string[]>;
 }
 
 describe('AppComponent', () => {

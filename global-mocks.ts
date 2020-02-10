@@ -2,12 +2,12 @@
 /* istanbul ignore file */
 
 const mock = () => {
-  let storage = {};
+  let storage: any = {};
 
   return {
-    getItem: key => (key in storage ? storage[key] : undefined),
-    setItem: (key, value) => (storage[key] = value || ''),
-    removeItem: key => delete storage[key],
+    getItem: (key: string) => (key in storage ? storage[key] : undefined),
+    setItem: (key: string, value: any) => (storage[key] = value || ''),
+    removeItem: (key: string) => delete storage[key],
     clear: () => (storage = {})
   };
 };
@@ -36,7 +36,7 @@ Object.defineProperty(window, 'getComputedStyle', {
 
 Object.defineProperty(window, 'getComputedStyle', {
   value: () => ({
-    getPropertyValue: _prop => {
+    getPropertyValue: (_prop: any) => {
       return '';
     }
   })

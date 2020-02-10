@@ -16,6 +16,13 @@
     "skipDefaultLibCheck": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
     "baseUrl": ".",
     "paths": {
       "@schaeffler/shared/ui-components": [

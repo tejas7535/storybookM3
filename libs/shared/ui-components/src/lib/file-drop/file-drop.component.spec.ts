@@ -48,7 +48,7 @@ describe('FileDropComponent', () => {
   });
 
   describe('EventHandler', () => {
-    let event;
+    let event: any;
 
     const defaultEvent = {
       preventDefault: jest.fn()

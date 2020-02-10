@@ -79,7 +79,7 @@ describe('DroppableDirective', () => {
   });
 
   describe('checkFileTypeAcceptance', () => {
-    let name;
+    let name: string;
     let accepted;
     let result;
 

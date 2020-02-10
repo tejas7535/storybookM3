@@ -10,7 +10,7 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let initConfigSpy;
+  let initConfigSpy: jest.SpyInstance;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -54,7 +54,7 @@ describe('AuthService', () => {
   });
 
   describe('initAuth', () => {
-    let done;
+    let done: boolean;
 
     beforeEach(() => {
       service['isDoneLoadingSubject$'].next(false);
@@ -155,7 +155,7 @@ describe('AuthService', () => {
   });
 
   describe('initConfig', () => {
-    let authenticated;
+    let authenticated: boolean;
 
     beforeEach(() => {
       initConfigSpy.mockRestore();
