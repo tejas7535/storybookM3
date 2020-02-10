@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 
-import { AUTO_TAGGING_DEMO } from '../../feature/auto-tagging/constants/auto-tagging-demo.constant';
-
 @Component({
   selector: 'sta-text-input',
   templateUrl: './text-input.component.html',
@@ -12,11 +10,12 @@ export class TextInputComponent implements OnInit {
   public textFormControl: FormControl;
   @Input() public minLength = 40;
   @Input() public btnText = 'Generate';
+  @Input() public defaultText = '';
 
   @Output() public readonly btnClicked = new EventEmitter<string>();
 
   public ngOnInit(): void {
-    this.textFormControl = new FormControl(AUTO_TAGGING_DEMO, [
+    this.textFormControl = new FormControl(this.defaultText, [
       Validators.required,
       Validators.minLength(this.minLength)
     ]);

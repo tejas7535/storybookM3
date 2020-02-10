@@ -4,6 +4,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { DataStoreService } from '../../shared/result/services/data-store.service';
 
+import { DEMO_TEXT_EN } from '../../constants/demo-text-en.constant';
+
 import { FileStatus } from '../../shared/file-upload/file-status.model';
 
 @Component({
@@ -13,6 +15,7 @@ import { FileStatus } from '../../shared/file-upload/file-status.model';
 })
 export class AutoTaggingComponent implements OnInit, OnDestroy {
   public fileStatus: FileStatus = undefined;
+  public demoTextEn = DEMO_TEXT_EN;
 
   private readonly subscription: Subscription = new Subscription();
 
