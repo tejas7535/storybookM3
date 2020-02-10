@@ -37,7 +37,7 @@ export class SpeedDialFabComponent implements OnChanges {
 
   @Input() public secondaryButtons: SpeedDialFabItem[];
   @Input() public open = false;
-  @Input() public disabled = [];
+  @Input() public disabled: boolean[] = [];
 
   @Output() readonly clicked: EventEmitter<string> = new EventEmitter();
 
@@ -66,7 +66,7 @@ export class SpeedDialFabComponent implements OnChanges {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

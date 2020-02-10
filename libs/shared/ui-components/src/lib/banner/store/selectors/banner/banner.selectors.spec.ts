@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
 import { select, Store, StoreModule } from '@ngrx/store';
-
 import { configureTestSuite } from 'ng-bullet';
+import { Subscription } from 'rxjs';
 
 import { initialState } from '../../reducers/banner/banner.reducer';
 import {
@@ -14,8 +14,8 @@ import * as fromSelectors from '../../selectors';
 
 describe('BannerSelector', () => {
   let store: Store<AppState>;
-  let sub;
-  let result;
+  let sub: Subscription;
+  let result: any;
 
   interface AppState {
     banner: BannerState;

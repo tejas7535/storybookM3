@@ -98,7 +98,8 @@ describe('BannerContent', () => {
         buttonText: 'test',
         truncateSize: 10,
         isFullTextShown: true,
-        open: true
+        open: true,
+        url: undefined
       };
       store.setState({
         ...state,
@@ -132,7 +133,8 @@ describe('BannerContent', () => {
         buttonText: 'test',
         truncateSize: 10,
         isFullTextShown: true,
-        open: true
+        open: true,
+        url: undefined
       };
       store.setState({
         ...state,
@@ -162,7 +164,8 @@ describe('BannerContent', () => {
         buttonText: '',
         truncateSize: 100,
         isFullTextShown: false,
-        open: true
+        open: true,
+        url: undefined
       };
       store.setState({
         ...state,

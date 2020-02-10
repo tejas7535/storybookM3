@@ -19,7 +19,7 @@ export class ScrollToTopDirective {
   @HostBinding('style.overflow') public readonly overflow = 'auto';
   @HostBinding('attr.data-cy') public readonly dataCy = 'scrollToTopContainer';
 
-  @HostListener('scroll', ['$event']) onScroll = event => {
+  @HostListener('scroll', ['$event']) onScroll = (event: Event) => {
     this.scrollEvent$.next(event.target as HTMLElement);
   };
 

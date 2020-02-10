@@ -46,7 +46,7 @@ describe('ScrollToTopDirective', () => {
 
       const target: HTMLElement = component['document'].createElement('div');
 
-      component.directive.onScroll({ target });
+      component.directive.onScroll(({ target } as unknown) as Event);
 
       expect(spy).toHaveBeenCalledWith(target);
     });

@@ -1,4 +1,4 @@
-export const testLogin = (login, username) => {
+export const testLogin = (login: Function, username: string) => {
   it('should check that user name is correct', () => {
     login().visit('/');
     cy.get('#headerUserName')

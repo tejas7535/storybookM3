@@ -15,7 +15,7 @@ export class Authorization {
    *
    */
   private static createUUID(): string {
-    const s = [];
+    const s: any[] = [];
     const hexDigits = '0123456789abcdef';
 
     for (let i = 0; i < 36; i += 1) {
@@ -32,7 +32,10 @@ export class Authorization {
    * performs login at keycloak with given parameters
    *
    */
-  public kcLogin(username, password): Chainable<Cypress.Response> {
+  public kcLogin(
+    username: string,
+    password: string
+  ): Chainable<Cypress.Response> {
     const loginPageRequest = {
       followRedirect: true,
       url: `${this.keycloak}/auth/realms/${this.realm}/protocol/openid-connect/auth`,
