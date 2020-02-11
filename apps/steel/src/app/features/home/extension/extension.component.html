@@ -1,0 +1,29 @@
+<mat-card class="extension-card">
+  <mat-card-header class="extension-card-header">
+    <mat-card-title>{{ extension.name }}</mat-card-title>
+    <mat-card-subtitle>
+      Tableau Extension <span *ngIf="extension.WIP">(WIP)</span>
+    </mat-card-subtitle>
+    <mat-icon class="extension-icon">{{ extension.icon }}</mat-icon>
+  </mat-card-header>
+  <mat-card-content class="extension-card-content">
+    <p>
+      {{ extension.description }}
+    </p>
+  </mat-card-content>
+  <mat-card-actions *ngIf="!extension.WIP">
+    <a mat-button [routerLink]="[extension.name]">DETAILS</a>
+    <button mat-button (click)="showSuccessToast()">DOWNLOAD</button>
+  </mat-card-actions>
+  <mat-card-actions *ngIf="extension.WIP">
+    <a
+      mat-button
+      href="{{
+        'mailto:krausrbe@schaeffler.com&subject=Tableau Extensions Request&body=I would like to have access to the experimental ' +
+          extension.name +
+          ' Extension.'
+      }}"
+      >CONTACT US</a
+    >
+  </mat-card-actions>
+</mat-card>

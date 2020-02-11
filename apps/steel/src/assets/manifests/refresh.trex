@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest manifest-version="0.1" xmlns="http://www.tableau.com/xml/extension_manifest">
+  <dashboard-extension id="com.extensions.tableau.schaeffler.datarefresh" extension-version="0.1.0">
+    <default-locale>en_US</default-locale>
+    <name resource-id="name"/>
+    <description>Data Refresh Extension</description>
+    <author name="Software Engineering Solutions" email="tableau@schaeffler.com " organization="schaeffler" website="https://sconnect.schaeffler.com/groups/tableauschaeffler"/>
+    <min-api-version>0.6</min-api-version>
+    <source-location>
+      <url>https://steel-dev.digital.schaeffler.com/extensions/refresh-ext</url>
+    </source-location>
+    <icon></icon>
+     <permissions>
+    	       <permission>full data</permission>
+      </permissions>
+  </dashboard-extension>
+  <resources>
+    <resource id="name">
+      <text locale="en_US">Data Refresh Extension</text>
+      <text locale="de_De">Data Refresh Extension </text>
+    </resource>
+  </resources>
+</manifest>

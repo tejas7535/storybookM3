@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { RestService } from './rest.service';
 
-import { Extension } from '../../home/extension/extension.model';
+import { Extension } from '../../features/home/extension/extension.model';
 
 describe('RestService', () => {
   let myProvider: RestService;

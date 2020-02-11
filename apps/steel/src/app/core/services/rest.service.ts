@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Extension } from '../../home/extension/extension.model';
+import { Extension } from '../../features/home/extension/extension.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { SnackBarService } from '@schaeffler/shared/ui-components';
 
@@ -17,14 +16,7 @@ export class ExtensionComponent {
     WIP: false
   };
 
-  constructor(
-    private readonly router: Router,
-    private readonly snackBarService: SnackBarService
-  ) {}
-
-  gotoDetail(name: string): void {
-    this.router.navigate(['/extension', name]);
-  }
+  constructor(private readonly snackBarService: SnackBarService) {}
 
   showSuccessToast(): void {
     this.snackBarService.showSuccessMessage('Downloaded');

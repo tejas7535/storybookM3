@@ -1,0 +1,19 @@
+<div class="page-container">
+  <h1 *transloco="let t">{{ t('navigation.home') }}</h1>
+  <div
+    fxLayout="row wrap"
+    fxLayout.sm="column"
+    fxLayoutAlign="start"
+    fxLayoutGap="15px grid"
+    fxLayoutWrap
+  >
+    <div
+      *ngFor="let extension of extensions; trackBy: trackByFn"
+      fxFlex.gt-sm="25%"
+    >
+      <schaeffler-steel-extension
+        [extension]="extension"
+      ></schaeffler-steel-extension>
+    </div>
+  </div>
+</div>
