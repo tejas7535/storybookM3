@@ -11,14 +11,16 @@
   },
   "projects": {
     "kitchen-sink-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["kitchen-sink"]
     },
     "kitchen-sink": {
       "tags": [],
       "implicitDependencies": ["shared-styles"]
     },
     "sta-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["sta"]
     },
     "sta": {
       "tags": [],
@@ -42,7 +44,8 @@
       "tags": []
     },
     "ltp-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["ltp"]
     },
     "ltp": {
       "tags": [],
@@ -55,14 +58,16 @@
       "tags": ["scope:shared", "type:translation"]
     },
     "helloworld-azure-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["helloworld-azure"]
     },
     "helloworld-azure": {
       "tags": [],
       "implicitDependencies": ["shared-styles"]
     },
     "steel-e2e": {
-      "tags": []
+      "tags": [],
+      "implicitDependencies": ["steel"]
     },
     "steel": {
       "implicitDependencies": ["shared-styles"]
