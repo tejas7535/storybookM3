@@ -2,15 +2,15 @@ import { Subject } from 'rxjs';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { RestService } from '../core/services/rest.service';
+import { RestService } from '../../../core/services/rest.service';
 
-import { Extension } from './extension/extension.model';
+import { Extension } from '../extension/extension.model';
 
 @Component({
-  selector: 'schaeffler-steel-home',
-  templateUrl: './home.component.html'
+  selector: 'schaeffler-steel-overview',
+  templateUrl: './overview.component.html'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class OverviewComponent implements OnInit, OnDestroy {
   private readonly destroy$: Subject<boolean> = new Subject();
 
   extensions: Extension[];

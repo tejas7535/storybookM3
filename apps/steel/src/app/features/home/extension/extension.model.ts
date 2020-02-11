@@ -3,4 +3,5 @@ export interface Extension {
   description: string;
   WIP: boolean;
   image?: string;
+  icon?: string;
 }

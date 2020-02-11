@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
-import { Router } from '@angular/router';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -13,7 +13,6 @@ import { ExtensionComponent } from './extension.component';
 describe('ExtensionComponent', () => {
   let component: ExtensionComponent;
   let fixture: ComponentFixture<ExtensionComponent>;
-  let router: Router;
   let snackBarService: SnackBarService;
 
   const mockExtension = {
@@ -26,7 +25,12 @@ describe('ExtensionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatCardModule, RouterTestingModule, SnackBarModule],
+      imports: [
+        MatCardModule,
+        MatIconModule,
+        RouterTestingModule,
+        SnackBarModule
+      ],
       declarations: [ExtensionComponent]
     }).compileComponents();
   }));
@@ -34,7 +38,6 @@ describe('ExtensionComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ExtensionComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
     component.extension = mockExtension;
     fixture.detectChanges();
 
@@ -44,13 +47,6 @@ describe('ExtensionComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
-  it('should navigate to extensiondetail page by extension name', () => {
-    const navigateSpy = spyOn(router, 'navigate');
-    component.gotoDetail('Test-Extensions');
-    expect(navigateSpy).toHaveBeenCalledWith(['/extension', 'Test-Extensions']);
-  });
-
   describe('showSuccessToast', () => {
     it('should call method ShowSuccessMessage of snackbarService', () => {
       snackBarService.showSuccessMessage = jest.fn();

@@ -1,23 +1,24 @@
 [
   {
     "name": "Live Refresh",
-    "description": "Allows for continous live refresh in of live data connections in Tableau",
-    "WIP": false,
-    "path": "liverefresh"
+    "description": "Allows a continous live refresh of live data connections in Tableau",
+    "WIP": true,
+    "path": "refresh-ext",
+    "image": "live-refresh.png",
+    "icon": "refresh"
   },
   {
     "name": "Save Filter",
-    "description": "Will allow to store your filter settings",
-    "WIP": true
+    "description": "Allows storing filter settings in Tableau",
+    "WIP": true,
+    "path": "save-filter",
+    "icon": "tune"
   },
   {
     "name": "Reset Button",
-    "description": "Will allow to reset all filters at once",
-    "WIP": true
-  },
-  {
-    "name": "Auto Update of Filters",
-    "description": "Will allow to update all paramaters to update dynamically as data get refreshed",
-    "WIP": true
+    "description": "Allows to reset all filters at once in Tableau",
+    "WIP": true,
+    "path": "reset-filter",
+    "icon": "delete_sweep"
   }
 ]

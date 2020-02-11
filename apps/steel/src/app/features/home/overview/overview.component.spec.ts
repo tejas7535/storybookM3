@@ -1,29 +1,33 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { ExtensionComponent } from './extension/extension.component';
-import { HomeComponent } from './home.component';
+import { ExtensionComponent } from '../extension/extension.component';
+import { OverviewComponent } from './overview.component';
 
-import * as en from '../../assets/i18n/en.json';
+import * as en from '../../../../assets/i18n/en.json';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('OverviewComponent', () => {
+  let component: OverviewComponent;
+  let fixture: ComponentFixture<OverviewComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent, ExtensionComponent],
+      declarations: [OverviewComponent, ExtensionComponent],
       imports: [
         NoopAnimationsModule,
         HttpClientTestingModule,
         MatCardModule,
+        MatIconModule,
+        RouterTestingModule,
         provideTranslocoTestingModule({ en })
       ]
     });
@@ -31,7 +35,7 @@ describe('HomeComponent', () => {
 
   beforeEach(() => {
     spyOn(transloco, 'translate').and.returnValue('test');
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(OverviewComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

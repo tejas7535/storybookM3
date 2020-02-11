@@ -1,17 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { PageNotFoundComponent } from '@schaeffler/shared/empty-states';
-
-import { ExtensiondetailComponent } from './home/extension/extensiondetail/extensiondetail.component';
-import { HomeComponent } from './home/home.component';
-
 export enum RoutePath {
   BasePath = '',
   HomePath = 'home',
-  ExtensiondetailPath = 'extension/:name',
   PageNotFoundPath = 'page-not-found',
-  ExtensionPath = 'extension/:name'
+  ExtensionPath = 'home/:name',
+  ExtensionsPath = 'extensions'
 }
 
 export const appRoutePaths: Routes = [
@@ -22,18 +17,21 @@ export const appRoutePaths: Routes = [
   },
   {
     path: RoutePath.HomePath,
-    component: HomeComponent
+    loadChildren: () =>
+      import('./features/home/home.module').then(m => m.HomeModule)
   },
+  // {
+  //   path: RoutePath.ExtensionsPath,
+  //   loadChildren: () =>
+  //     import('./features/extensions/extensions.module').then(
+  //       m => m.ExtensionsModule
+  //     )
+  // },
   {
-    path: RoutePath.ExtensiondetailPath,
-    component: ExtensiondetailComponent
-  },
-  {
-    path: RoutePath.ExtensionPath,
-    component: PageNotFoundComponent
-  },
-
-  { path: '**', redirectTo: `/${RoutePath.PageNotFoundPath}` }
+    path: '**',
+    loadChildren: () =>
+      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
+  }
 ];
 
 @NgModule({
