@@ -185,7 +185,7 @@ describe('RestService', () => {
 
       const mockedLoadsPrediction = {
         woehler: {},
-        loads: { x: [], y: [] }
+        loads: { x: [] as number[], y: [] as number[] }
       };
 
       myProvider

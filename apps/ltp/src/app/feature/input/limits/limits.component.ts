@@ -69,7 +69,8 @@ export class LimitsComponent implements OnChanges {
   /**
    * corrects value of number input if it exceeds min or max
    */
-  public patchInput(srcElement, type: string): void {
+  public patchInput(srcElement: any, type: string): void {
+    // TODO: remove any
     const { value, min, max } = srcElement;
     let patchedValue = value;
     if (patchedValue < min) {

@@ -82,7 +82,7 @@ export class MaterialComponent implements OnInit, OnDestroy {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

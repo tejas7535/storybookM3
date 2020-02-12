@@ -117,12 +117,13 @@ describe('InputComponent', () => {
     let mockSelectedHV = 133;
 
     it('should have an adjustES function that limits the sliders value if necessary', () => {
-      component.materialControls = [mockedFormControls];
+      const materialControls: SliderControl[] = [mockedFormControls];
+      component.materialControls = materialControls;
       component.adjustES(mockedEsFormControl, mockSelectedHV);
 
       expect(mockedEsFormControl.value).toBe(70);
-      expect(component.materialControls[0]['min']).toBe(-70);
-      expect(component.materialControls[0]['max']).toBe(70);
+      expect((component.materialControls[0] as SliderControl).min).toBe(-70);
+      expect((component.materialControls[0] as SliderControl).max).toBe(70);
     });
 
     it('should increase branch coverage', () => {

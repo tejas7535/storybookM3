@@ -7,9 +7,11 @@ describe('CHART_SETTINGS_WOEHLER', () => {
     });
 
     it('should return object with visible false', () => {
-      const customPoint = CHART_SETTINGS_WOEHLER.customPointFn();
+      const customPoint = CHART_SETTINGS_WOEHLER.customPointFn() as {
+        visible: boolean;
+      };
 
-      expect(customPoint['visible']).toEqual(false);
+      expect(customPoint.visible).toEqual(false);
     });
   });
 });

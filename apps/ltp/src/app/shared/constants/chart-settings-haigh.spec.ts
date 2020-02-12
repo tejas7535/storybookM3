@@ -7,9 +7,11 @@ describe('CHART_SETTINGS_HAIGH', () => {
     });
 
     it('should return object with visible false', () => {
-      const customPoint = CHART_SETTINGS_HAIGH.customPointFn();
+      const customPoint = CHART_SETTINGS_HAIGH.customPointFn() as {
+        visible: boolean;
+      };
 
-      expect(customPoint['visible']).toEqual(false);
+      expect(customPoint.visible).toEqual(false);
     });
   });
 });

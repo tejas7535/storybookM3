@@ -1,13 +1,17 @@
+import { PredictionState } from '../reducers/prediction.reducer';
+
 import * as PredictionSelectors from './prediction.selectors';
 
 describe('PredictionSelectors', () => {
   it('should getLoads', () => {
-    const mockedPredictionRequest = {
+    const mockedPredictionRequest: PredictionState = {
       predictionRequest: {
         prediction: 0,
         mpa: 400,
         v90: 0,
         hv: 180,
+        hv_lower: 180,
+        hv_upper: 180,
         rrelation: -1,
         burdeningType: 0,
         model: 5,
@@ -21,8 +25,7 @@ describe('PredictionSelectors', () => {
         multiaxiality: 0
       },
       // prediction: undefined,
-      woehlerPrediction: undefined,
-      haighPrediction: undefined,
+      predictionResult: undefined,
       loadsRequest: {
         data: [0, 1, 2, 3],
         status: 1,

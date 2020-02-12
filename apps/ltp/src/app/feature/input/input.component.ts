@@ -81,10 +81,11 @@ export class InputComponent implements OnInit {
 
     const displayFormControls = ['showMurakami', 'showFKM'];
 
+    // TODO: remove any
     this.inputForm.valueChanges
       .pipe(
         debounceTime(500),
-        distinctUntilChanged((prev, curr) => {
+        distinctUntilChanged((prev: any, curr: any) => {
           if (this.inputForm.valid && !this.inputForm.pristine) {
             const displayFormChange = displayFormControls.reduce(
               (earlier, control) => prev[control] !== curr[control] || earlier,
@@ -100,6 +101,8 @@ export class InputComponent implements OnInit {
 
             return true;
           }
+
+          return false;
         })
       )
       .subscribe();
@@ -117,7 +120,8 @@ export class InputComponent implements OnInit {
   /**
    * Patches form and sets it on pristine state
    */
-  public patchForm(request): void {
+  public patchForm(request: any): void {
+    // TODO: remove any
     this.inputForm.patchValue(request);
     this.inputForm.markAsPristine();
   }
@@ -190,7 +194,7 @@ export class InputComponent implements OnInit {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 
