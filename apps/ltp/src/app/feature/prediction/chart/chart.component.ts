@@ -22,7 +22,8 @@ export class ChartComponent implements OnInit, OnChanges {
   @Input() fileNamePrefix = 'Lifetime-Predictor-Woehler-Chart-Export';
 
   @ViewChild('chart1', { static: false }) chart1: DxChartComponent;
-  @ViewChild('chartContainer', { static: false }) chartContainer;
+  // TODO: remove any
+  @ViewChild('chartContainer', { static: false }) chartContainer: any;
 
   ngOnInit(): void {
     this.bannerIsVisible.subscribe(() => {
@@ -72,7 +73,7 @@ export class ChartComponent implements OnInit, OnChanges {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

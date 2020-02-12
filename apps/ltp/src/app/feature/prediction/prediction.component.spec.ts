@@ -148,9 +148,13 @@ describe('PredictionComponent', () => {
   });
 
   it('should call parseLoadFile when handleFileInput is called', () => {
-    const blob = new Blob([''], { type: 'text/csv' });
-    blob['lastModifiedDate'] = '';
-    blob['name'] = 'filename';
+    const blobProps = {
+      lastModifiedDate: '',
+      name: 'filename'
+    };
+    const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
+      type: 'text/csv'
+    });
     const mockFile = blob as File;
     const mockFileList = {
       0: mockFile,
@@ -165,9 +169,13 @@ describe('PredictionComponent', () => {
   });
 
   it('should dispatch dispatchLoad action when parseLoadFile is called', () => {
-    const blob = new Blob([''], { type: 'text/csv' });
-    blob['lastModifiedDate'] = '';
-    blob['name'] = 'filename';
+    const blobProps = {
+      lastModifiedDate: '',
+      name: 'filename'
+    };
+    const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
+      type: 'text/csv'
+    });
     const mockFile = blob as File;
     const mockFileList = {
       0: mockFile,

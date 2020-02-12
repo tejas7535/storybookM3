@@ -44,8 +44,9 @@ export class HelpersService {
   /**
    * Returns only Points that are within the graph dimensions
    */
-  public relevantLoadPoints(loadPoints, limits: Limits): Point[] {
-    return loadPoints.filter(entry => {
+  public relevantLoadPoints(loadPoints: any, limits: Limits): Point[] {
+    // TODO: remove any
+    return loadPoints.filter((entry: any) => {
       const { x, y } = entry;
       const { x_max, x_min, y_max, y_min } = limits;
 
@@ -100,9 +101,10 @@ export class HelpersService {
       return undefined;
     }
 
-    let data = [];
+    // TODO: remove any
+    let data: any[] = [];
     let limits: Limits;
-    let lines = [];
+    let lines: any[] = [];
     // calculate FKM and Murakami
     // rz Shieberegler Rauheit 0 - 25 step 0.1
     const krs =
@@ -138,17 +140,14 @@ export class HelpersService {
         ];
       }
       // parse display
-      Object.keys(predictionResult.woehler).map(key => {
+      Object.entries(predictionResult.woehler).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_WOEHLER.sources.find(
-          src => src.identifier === key
+          src => src.identifier === value[0]
         );
         data = [
           ...data,
           ...this.transformGraph(
-            this.calculateStartPoint(
-              predictionResult.woehler[key],
-              predictionResult.kpi.slope
-            ),
+            this.calculateStartPoint(value[1], predictionResult.kpi.slope),
             source.value
           )
         ];
@@ -193,24 +192,21 @@ export class HelpersService {
       limits = this.calculateLimitsHaigh(data);
 
       // parse display
-      Object.keys(predictionResult.haigh).map(key => {
+      Object.entries(predictionResult.haigh).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_HAIGH.sources.find(
-          src => src.identifier === key
+          src => src.identifier === value[0]
         );
         // TODO: see if that can be solved better...
         if (source.identifier === 'appliedStress') {
           data = [
             ...data,
             ...this.transformGraph(
-              this.extendGraphHaigh(predictionResult.haigh[key], limits),
+              this.extendGraphHaigh(value[1], limits),
               source.value
             )
           ];
         } else {
-          data = [
-            ...data,
-            ...this.transformGraph(predictionResult.haigh[key], source.value)
-          ];
+          data = [...data, ...this.transformGraph(value[1], source.value)];
         }
       });
       limits = this.calculateLimitsHaigh(data);
@@ -270,9 +266,9 @@ export class HelpersService {
    * Transforms a graph object into an Array of Objects, each with the specified key for the y-value
    */
   public transformGraph(graph: Graph, argumentKey: string): Object[] {
-    return Object.keys(graph).map(key => ({
-      x: graph[key].x,
-      [argumentKey]: graph[key].y
+    return Object.entries(graph).map((value: [string, Point]) => ({
+      x: value[1].x,
+      [argumentKey]: value[1].y
     }));
   }
 
@@ -280,7 +276,7 @@ export class HelpersService {
    * Returns all points of a graph object as Arraye
    */
   public graphToArray(graph: Graph): Point[] {
-    return Object.keys(graph).map(point => graph[point]);
+    return Object.entries(graph).map((value: [string, Point]) => value[1]);
   }
 
   /**
@@ -360,7 +356,7 @@ export class HelpersService {
   /**
    * Returns a graph object which matches the basic shape of the applied stress visualization in the Haigh chart
    */
-  public createGraphObjectHaigh(rrelation0, rrelation1): Graph {
+  public createGraphObjectHaigh(rrelation0: number, rrelation1: number): Graph {
     return {
       0: { x: 0, y: rrelation0 },
       1: { x: rrelation1, y: rrelation1 }
@@ -370,7 +366,7 @@ export class HelpersService {
   /**
    * Increases the length of the applied stress graph in a Haigh chart based on the current calculated limits
    */
-  public extendGraphHaigh(graph: Graph, limits): Graph {
+  public extendGraphHaigh(graph: Graph, limits: Limits): Graph {
     if (limits.x_max > graph[1].x || limits.y_max > graph[1].y) {
       return {
         0: {
@@ -391,11 +387,12 @@ export class HelpersService {
    * Calculates the limits for the chart axis based on the displayed data points
    */
   public calculateLimitsWoehler(points: Object[]): Limits {
+    // TODO: remove any
     const yVals: number[] = points
       .map(p => {
-        const keys = Object.keys(p);
+        const pEntries: [string, any][] = Object.entries(p);
 
-        return Number(p[keys[1]]);
+        return Number(pEntries[1][1]);
       })
       .filter(val => val && val !== 0);
 
@@ -411,15 +408,16 @@ export class HelpersService {
    * Calculates the limits for the chart axis based on the displayed data points
    */
   public calculateLimitsHaigh(points: Object[]): Limits {
+    // TODO: remove any
     const yVals: number[] = points.map(p => {
-      const keys = Object.keys(p);
+      const pEntries: [string, any][] = Object.entries(p);
 
-      return Number(p[keys[1]]);
+      return Number(pEntries[1][1]);
     });
     const xVals: number[] = points.map(p => {
-      const keys = Object.keys(p);
+      const pEntries: [string, any][] = Object.entries(p);
 
-      return Number(p[keys[0]]);
+      return Number(pEntries[0][1]);
     });
 
     const max = Math.max(Math.max(...yVals), Math.max(...xVals));

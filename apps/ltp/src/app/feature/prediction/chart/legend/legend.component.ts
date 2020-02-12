@@ -13,7 +13,7 @@ export class LegendComponent {
   /**
    * Helps Angular to track array
    */
-  public trackByFn(index): number {
+  public trackByFn(index: number): number {
     return index;
   }
 }

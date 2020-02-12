@@ -15,7 +15,11 @@ import {
   GRAPH_DEFINITIONS_WOEHLER
 } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
-import { LegendSquare, PredictionResultParsed } from '../../shared/models';
+import {
+  LegendSquare,
+  LoadsRequest,
+  PredictionResultParsed
+} from '../../shared/models';
 
 @Component({
   selector: 'ltp-prediction',
@@ -105,7 +109,7 @@ export class PredictionComponent implements OnInit {
    */
   public dispatchLoad(parsedFile: any[]): void {
     const limit = 50000;
-    const loadsRequest = {
+    const loadsRequest: LoadsRequest = {
       status: 1,
       data: undefined
     };
@@ -164,6 +168,8 @@ export class PredictionComponent implements OnInit {
           if (keys.length === 1) {
             return keys[0];
           }
+
+          return undefined;
         })
         .indexOf(value) >= 0
     );

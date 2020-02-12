@@ -4,6 +4,8 @@ import { predictionReducer } from './prediction.reducer';
 
 import { mockedPredictionResult } from '../../../mocks/mock.constants';
 
+import { LoadsRequest } from '../../../shared/models';
+
 describe('predictionReducer', () => {
   describe('reducer', () => {
     let state: any;
@@ -100,7 +102,7 @@ describe('predictionReducer', () => {
     });
 
     it('should set state on setLoadsData', () => {
-      const mockedLoadsRequest = {
+      const mockedLoadsRequest: LoadsRequest = {
         data: [1, 2],
         status: 1,
         error: undefined
