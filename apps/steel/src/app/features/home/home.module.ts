@@ -3,13 +3,13 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   FooterModule,
   HeaderModule,
+  IconModule,
   ScrollToTopDirective,
   ScrollToTopModule,
   SidebarModule
@@ -37,7 +37,7 @@ import { StoreModule } from '../../core/store';
     HomeRoutingModule,
     MatButtonModule,
     MatCardModule,
-    MatIconModule,
+    IconModule,
     FlexLayoutModule,
     FooterModule,
     ScrollToTopModule,

@@ -7,9 +7,10 @@
   </schaeffler-header>
   <schaeffler-sidebar [elements]="sidebarElements" [mode]="mode">
     <schaeffler-settings-sidebar
-      [open]="settingsSidebarOpen"
-      [openSidebarBtn]="true"
+      [open]="settingsSidebarOpen && !isHome"
+      [openSidebarBtn]="!isHome"
       (openedChange)="settingsSidebarOpenedChanges($event)"
+      [triggerBtnIcon]="triggerBtnIcon"
       [width]="
         isSidebarExpanded
           ? (isLessThanMedium$ | async)

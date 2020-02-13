@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { HAMMER_LOADER } from '@angular/platform-browser';
@@ -10,6 +9,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
+
+import { IconModule } from '../icon/icon.module';
 
 import { SidebarComponent } from './sidebar.component';
 
@@ -26,11 +27,11 @@ describe('In SidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent],
       imports: [
+        IconModule,
         NoopAnimationsModule,
         MatSidenavModule,
         MatTooltipModule,
         NoopAnimationsModule,
-        MatIconModule,
         RouterTestingModule,
         provideTranslocoTestingModule({})
       ],
@@ -84,7 +85,7 @@ describe('In SidebarComponent', () => {
 
         SIDEBAR_ELEMENTS_MOCK.forEach((sidebarElement: SidebarElement) => {
           sidebarIcon = Array.from(document.querySelectorAll('mat-icon')).find(
-            (element: Element) => element.innerHTML === sidebarElement.icon
+            (element: Element) => element.innerHTML === sidebarElement.icon.icon
           );
           expect(sidebarIcon).not.toBeNull();
         });

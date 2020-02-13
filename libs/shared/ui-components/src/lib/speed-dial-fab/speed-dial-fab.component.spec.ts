@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, SimpleChange } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,7 +14,7 @@ describe('SpeedDialFabComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatIconModule, MatButtonModule],
+      imports: [NoopAnimationsModule, MatButtonModule],
       declarations: [SpeedDialFabComponent]
     }).overrideComponent(SpeedDialFabComponent, {
       set: {

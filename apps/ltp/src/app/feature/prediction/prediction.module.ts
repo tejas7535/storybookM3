@@ -10,6 +10,7 @@ import {
 } from '@angular/material';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
@@ -29,7 +30,8 @@ import { PredictionComponent } from './prediction.component';
     ChartModule,
     MatExpansionModule,
     MatDividerModule,
-    TooltipModule
+    TooltipModule,
+    IconModule
   ],
   exports: [PredictionComponent]
 })

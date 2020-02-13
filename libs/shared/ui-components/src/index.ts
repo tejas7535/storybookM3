@@ -7,3 +7,4 @@ export * from './lib/settings-sidebar';
 export * from './lib/sidebar';
 export * from './lib/snackbar';
 export * from './lib/speed-dial-fab';
+export * from './lib/icon';

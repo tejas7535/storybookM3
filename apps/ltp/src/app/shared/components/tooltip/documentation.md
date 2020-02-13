@@ -26,6 +26,7 @@ API:
   @Input() color: string; // color of the icon button, could be e.g. primary
   @Input() manualcolor: string; // manual custom hex color of the icon button, could be e.g. #1d9bb2
   @Input() icon: string; // icon of the icon buttonn, could be e.g. icon-toast-information
+  @Input() materialIcon: string; // if it is a materialIcon, false by default
 ```
 
 Use like:

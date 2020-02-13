@@ -14,7 +14,12 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
+import {
+  BannerModule,
+  BannerState,
+  Icon,
+  IconModule
+} from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -62,7 +67,8 @@ describe('PredictionComponent', () => {
         ChartModule,
         MatExpansionModule,
         MatDividerModule,
-        TooltipModule
+        TooltipModule,
+        IconModule
       ],
       providers: [
         provideMockStore({
@@ -229,5 +235,17 @@ describe('PredictionComponent', () => {
     const action = fromStore.setChartType({ chartType: ChartType.Haigh });
 
     expect(store.dispatch).toHaveBeenCalledWith(action);
+  });
+
+  describe('getMaterialIcon', () => {
+    it('should return sth of type Icon', () => {
+      const mockIcon = 'test-icon';
+      const mockedComposedIcon: Icon = {
+        icon: mockIcon,
+        materialIcon: false
+      };
+
+      expect(component.getIcon(mockIcon)).toEqual(mockedComposedIcon);
+    });
   });
 });

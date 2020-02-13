@@ -4,7 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { getBannerOpen } from '@schaeffler/shared/ui-components';
+import { getBannerOpen, Icon } from '@schaeffler/shared/ui-components';
 
 import { Papa } from 'ngx-papaparse';
 
@@ -180,5 +180,9 @@ export class PredictionComponent implements OnInit {
    */
   public showWoehler(): boolean {
     return this.chartSettings === CHART_SETTINGS_WOEHLER;
+  }
+
+  getIcon(icon: string): Icon {
+    return new Icon(icon, false);
   }
 }

@@ -1,0 +1,14 @@
+<mat-icon
+  *ngIf="icon.materialIcon; else schaefflerIcon"
+  [ngStyle]="{ 'font-size': fontSize, height: fontSize, width: fontSize }"
+>
+  {{ icon.icon }}</mat-icon
+>
+<ng-template #schaefflerIcon>
+  <mat-icon
+    class="icon"
+    [ngStyle]="{ 'font-size': fontSize, height: fontSize, width: fontSize }"
+    [fontIcon]="icon.icon"
+  >
+  </mat-icon>
+</ng-template>
