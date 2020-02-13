@@ -105,7 +105,7 @@
     "@nrwl/workspace": "8.12.4",
     "@testing-library/jest-dom": "5.1.1",
     "@types/jest": "24.9.1",
-    "@types/node": "13.7.0",
+    "@types/node": "13.7.1",
     "angular-tslint-rules": "1.20.3",
     "codelyzer": "5.2.1",
     "commitizen": "4.0.3",
