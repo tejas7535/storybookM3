@@ -1,12 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -26,8 +26,8 @@ describe('OverviewComponent', () => {
         NoopAnimationsModule,
         HttpClientTestingModule,
         MatCardModule,
-        MatIconModule,
         RouterTestingModule,
+        IconModule,
         provideTranslocoTestingModule({ en })
       ]
     });

@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
@@ -160,6 +161,28 @@ describe('AppComponent', () => {
       expect(component['handleSidebarToggledObservable']).toHaveBeenCalledWith(
         SidebarMode.Minified
       );
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly I', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      const event = new NavigationEnd(42, '/', '/');
+      TestBed.get(Router).events.next(event);
+
+      expect(component.isHome).toBeTruthy();
+      expect(component.settingsSidebarOpen).toBeFalsy();
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly II', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      const event = new NavigationEnd(42, '/overview', '/overview');
+      TestBed.get(Router).events.next(event);
+
+      expect(component.isHome).toBeFalsy();
+      expect(component.settingsSidebarOpen).toBeTruthy();
     });
   });
 

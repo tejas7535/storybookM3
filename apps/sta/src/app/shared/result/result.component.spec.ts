@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -26,6 +26,7 @@ describe('ResultComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
+        IconModule,
         MatChipsModule,
         MatDividerModule,
         MatExpansionModule,

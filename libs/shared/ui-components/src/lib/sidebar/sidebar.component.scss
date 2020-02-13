@@ -82,17 +82,17 @@
     margin-right: 0;
     transition: all 0.6s;
 
-    > mat-icon {
+    schaeffler-icon {
       margin-right: 0;
       padding-right: 36px;
     }
   }
 }
 
-.sidebar-item-icon {
+schaeffler-icon {
   color: $schaeffler-carbon-gray;
   float: left;
-  font-size: 25px;
+  height: 25px;
   left: 0;
   margin-right: 10px;
   position: relative;
@@ -100,14 +100,6 @@
   -ms-transform: translate(+10px, calc(-50% - 2px));
   -webkit-transform: translate(+10px, calc(-50% - 2px));
   transform: translate(+10px, calc(-50% - 2px));
-
-  // dont show text, if icon-class of schaeffler is used
-  &.icon,
-  &.icon-performance {
-    span {
-      display: none;
-    }
-  }
 
   .active &,
   .active &:before {

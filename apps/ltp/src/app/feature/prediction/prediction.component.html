@@ -29,9 +29,15 @@
           fxLayoutAlign="space-between center"
           fxLayoutGap="5px"
         >
-          <i class="icon icon-upload"></i>
+          <schaeffler-icon
+            fontSize="14px"
+            [icon]="getIcon('icon-upload')"
+          ></schaeffler-icon>
           <span fxHide.lt-sm>{{ t('upload') }}</span>
-          <i class="icon icon-arrow-down" fxHide.lt-sm></i>
+          <schaeffler-icon
+            fontSize="14px"
+            [icon]="getIcon('icon-arrow-down')"
+          ></schaeffler-icon>
         </span>
       </button>
       <mat-menu #uploadMenu="matMenu">
@@ -53,9 +59,15 @@
           fxLayoutAlign="space-between center"
           fxLayoutGap="5px"
         >
-          <i class="icon icon-export"></i>
+          <schaeffler-icon
+            fontSize="14px"
+            [icon]="getIcon('icon-export')"
+          ></schaeffler-icon>
           <span fxHide.lt-sm>{{ t('export') }}</span>
-          <i class="icon icon-arrow-down" fxHide.lt-sm></i>
+          <schaeffler-icon
+            fontSize="14px"
+            [icon]="getIcon('icon-arrow-down')"
+          ></schaeffler-icon>
         </span>
       </button>
       <mat-menu #exportMenu="matMenu">

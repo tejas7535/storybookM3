@@ -11,6 +11,8 @@ import {
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
 
+import { Icon } from '../icon/icon.model';
+
 @Component({
   selector: 'schaeffler-settings-sidebar',
   templateUrl: './settings-sidebar.component.html',
@@ -26,6 +28,7 @@ export class SettingsSidebarComponent implements OnInit, OnDestroy {
   @Input() public openSidebarBtn = false;
   @Input() public closeSidebarBtn = false;
   @Input() public width = '400px';
+  @Input() public triggerBtnIcon: Icon = new Icon('icon-filter');
 
   @Output() private readonly openedChange: EventEmitter<
     boolean

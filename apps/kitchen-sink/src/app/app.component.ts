@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import {
+  Icon,
   SidebarElement,
   SidebarMode,
   SidebarService,
@@ -36,12 +37,12 @@ export class AppComponent implements OnInit, OnDestroy {
   public sidebarElements: SidebarElement[] = [
     {
       text: translate('navigation.home'),
-      icon: 'icon-house',
+      icon: new Icon('icon-house'),
       link: '/home'
     },
     {
       text: translate('navigation.notFound'),
-      icon: 'icon-house',
+      icon: new Icon('icon-house'),
       link: '/second'
     }
   ];

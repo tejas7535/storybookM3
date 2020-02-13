@@ -1,9 +1,19 @@
 import { Observable, Subject, Subscription } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import {
+  filter,
+  map,
+  take,
+  takeUntil,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { NavigationEnd, Router } from '@angular/router';
+
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
+  Icon,
   SidebarElement,
   SidebarMode,
   SidebarService
@@ -21,11 +31,13 @@ export class AppComponent implements OnInit, OnDestroy {
   public title = 'STA - Schaeffler Text Assistant';
   public username = 'User';
   public home = '/';
+  public isHome = true;
   public isSidebarExpanded = false;
   public sidebarWidthExpanded = '960px';
   public sidebarWidthExpandedTablet = 'calc(100% - 60px)';
   public sidebarWidthExpandedMobile = '100%';
   public sidebarWidth = '400px';
+  public triggerBtnIcon = new Icon('format_quote', true);
   public isLessThanMedium$: Observable<boolean>;
   public isMedium$: Observable<boolean>;
   public isMobile$: Observable<boolean>;
@@ -43,20 +55,18 @@ export class AppComponent implements OnInit, OnDestroy {
   public sidebarElements: SidebarElement[] = [
     {
       text: 'Home',
-      icon: 'icon-house',
+      icon: new Icon('icon-house'),
       link: '/'
     },
     {
       text: 'Auto Tagging',
-      icon: 'local_offer',
-      link: 'tagging',
-      materialIcon: true
+      icon: new Icon('local_offer', true),
+      link: 'tagging'
     },
     {
       text: 'Translation',
-      icon: 'translate',
-      link: 'translation',
-      materialIcon: true
+      icon: new Icon('translate', true),
+      link: 'translation'
     }
   ];
 
@@ -69,7 +79,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly authService: AuthService,
     private readonly dataStore: DataStoreService,
     private readonly sidebarService: SidebarService,
-    private readonly breakpointService: BreakpointService
+    private readonly breakpointService: BreakpointService,
+    private readonly router: Router
   ) {
     this.authService.initAuth();
   }
@@ -100,6 +111,22 @@ export class AppComponent implements OnInit, OnDestroy {
         .subscribe(
           isLessThanMedium => (this.settingsSidebarOpen = !isLessThanMedium)
         )
+    );
+
+    this.subscription.add(
+      this.router.events
+        .pipe(
+          filter(evt => evt instanceof NavigationEnd),
+          map(evt => evt as NavigationEnd),
+          withLatestFrom(this.isDataAvl$),
+          tap(([routerEvent, isDataAvl]: [NavigationEnd, boolean]) => {
+            this.isHome = routerEvent.url === this.home ? true : false;
+            if (!isDataAvl) {
+              this.settingsSidebarOpen = !this.isHome;
+            }
+          })
+        )
+        .subscribe()
     );
   }
 

@@ -28,12 +28,10 @@
           [routerLink]="elem.url ? elem.url : undefined"
         >
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
-            <mat-icon *ngIf="elem.materialIcon; else schaefflerIcon">
-              {{ elem.icon }}</mat-icon
-            >
-            <ng-template #schaefflerIcon>
-              <mat-icon class="icon" [fontIcon]="elem.icon"> </mat-icon>
-            </ng-template>
+            <schaeffler-icon
+              [icon]="elem.icon"
+              [fontSize]="(isMobile$ | async) === true ? '40px' : '83px'"
+            ></schaeffler-icon>
             <h2 class="service-name">{{ elem.title }}</h2>
           </mat-card>
         </div>

@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
+  Icon,
   SidebarElement,
   SidebarMode,
   SidebarService
@@ -33,7 +34,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public sidebarElements: SidebarElement[] = [
     {
       text: translate('navigation.home'),
-      icon: 'icon-house',
+      icon: new Icon('icon-house'),
       link: '/home'
     }
   ];

@@ -1,61 +1,66 @@
-import { Component } from '@angular/core';
+import { Observable } from 'rxjs';
+
+import { Component, OnInit } from '@angular/core';
+
+import { BreakpointService } from '@schaeffler/shared/responsive';
+import { Icon } from '@schaeffler/shared/ui-components';
 
 @Component({
   selector: 'sta-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
   public elements = [
     {
-      icon: 'local_offer',
       title: 'Auto Tagging',
       url: 'tagging',
-      materialIcon: true
+      icon: new Icon('local_offer', true)
     },
     {
-      icon: 'translate',
       title: 'Translation',
       url: 'translation',
-      materialIcon: true
+      icon: new Icon('translate', true)
     },
     {
-      icon: 'question_answer',
       title: 'Question Answering',
       url: '',
-      materialIcon: true
+      icon: new Icon('question_answer', true)
     },
     {
-      icon: 'group_work',
       title: 'Topic Clustering',
       url: '',
-      materialIcon: true
+      icon: new Icon('group_work', true)
     },
     {
-      icon: 'icon-statistics',
       title: 'Sentiment Analysis',
       url: '',
-      materialIcon: false
+      icon: new Icon('statistics')
     },
     {
-      icon: 'image_search',
       title: 'Semantic Search',
       url: '',
-      materialIcon: true
+      icon: new Icon('image_search', true)
     },
     {
-      icon: 'spellcheck',
       title: 'Spell Check',
       url: '',
-      materialIcon: true
+      icon: new Icon('spellcheck', true)
     },
     {
-      icon: 'insert_chart_outlined',
       title: 'SEO Relevance',
       url: '',
-      materialIcon: true
+      icon: new Icon('insert_chart_outlined', true)
     }
   ];
+
+  public isMobile$: Observable<boolean>;
+
+  public constructor(private readonly breapointService: BreakpointService) {}
+
+  public ngOnInit(): void {
+    this.isMobile$ = this.breapointService.isMobileViewPort();
+  }
 
   public trackByFn(index: number): number {
     return index;
