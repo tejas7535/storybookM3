@@ -35,7 +35,7 @@ export class OverviewComponent implements OnInit {
     {
       title: 'Sentiment Analysis',
       url: '',
-      icon: new Icon('statistics')
+      icon: new Icon(' icon-statistics')
     },
     {
       title: 'Semantic Search',
