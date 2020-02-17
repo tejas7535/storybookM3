@@ -1,52 +1,66 @@
 <div fxLayout="column" class="full-height">
   <schaeffler-header
     [platformTitle]="title"
-    [toggleEnabled]="true"
+    [toggleEnabled]="(isAuthenticated$ | async) === true"
     (toggle)="toggleSidebar()"
   >
   </schaeffler-header>
-  <schaeffler-sidebar [elements]="sidebarElements" [mode]="mode">
-    <schaeffler-settings-sidebar
-      [open]="settingsSidebarOpen && !isHome"
-      [openSidebarBtn]="!isHome"
-      (openedChange)="settingsSidebarOpenedChanges($event)"
-      [triggerBtnIcon]="triggerBtnIcon"
-      [width]="
-        isSidebarExpanded
-          ? (isLessThanMedium$ | async)
-            ? sidebarWidthExpandedMobile
-            : (isMedium$ | async)
-            ? sidebarWidthExpandedTablet
-            : sidebarWidthExpanded
-          : (isMobile$ | async)
-          ? sidebarWidthExpandedMobile
-          : sidebarWidth
-      "
+  <ng-container
+    *ngIf="(isAuthenticated$ | async) === true; else showLandingPage"
+  >
+    <schaeffler-sidebar
+      [elements]="sidebarElements"
+      [mode]="mode"
+      (toggle)="toggleSidebar()"
     >
-      <ng-container container>
-        <router-outlet></router-outlet>
-        <schaeffler-footer></schaeffler-footer>
-      </ng-container>
-      <ng-container sidebar>
-        <ng-container *ngIf="(isDataAvl$ | async) === true; else emptystate">
-          <sta-result></sta-result>
+      <schaeffler-settings-sidebar
+        [open]="settingsSidebarOpen"
+        [openSidebarBtn]="!isHome"
+        (openedChange)="settingsSidebarOpenedChanges($event)"
+        [width]="
+          isSidebarExpanded
+            ? (isLessThanMedium$ | async)
+              ? sidebarWidthExpandedMobile
+              : (isMedium$ | async)
+              ? sidebarWidthExpandedTablet
+              : sidebarWidthExpanded
+            : (isMobile$ | async)
+            ? sidebarWidthExpandedMobile
+            : sidebarWidth
+        "
+      >
+        <ng-container container>
+          <router-outlet></router-outlet>
+          <schaeffler-footer></schaeffler-footer>
         </ng-container>
-        <ng-template #emptystate>
-          EMPTY STATE
-        </ng-template>
-        <button mat-icon-button (click)="closeSidebar()" class="close-icon">
-          <mat-icon>chevron_right</mat-icon>
-          <mat-icon>chevron_right</mat-icon>
-        </button>
-        <button
-          mat-icon-button
-          (click)="resizeSidebar()"
-          class="resize-icon"
-          *ngIf="(isMobile$ | async) === false"
-        >
-          <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
-        </button>
-      </ng-container>
-    </schaeffler-settings-sidebar>
-  </schaeffler-sidebar>
+        <ng-container sidebar>
+          <ng-container *ngIf="(isDataAvl$ | async) === true; else emptystate">
+            <sta-result></sta-result>
+          </ng-container>
+          <ng-template #emptystate>
+            EMPTY STATE
+          </ng-template>
+          <button mat-icon-button (click)="closeSidebar()" class="close-icon">
+            <mat-icon>chevron_right</mat-icon>
+            <mat-icon>chevron_right</mat-icon>
+          </button>
+          <button
+            mat-icon-button
+            (click)="resizeSidebar()"
+            class="resize-icon"
+            *ngIf="(isMobile$ | async) === false"
+          >
+            <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
+          </button>
+        </ng-container>
+      </schaeffler-settings-sidebar>
+    </schaeffler-sidebar>
+  </ng-container>
+
+  <ng-template #showLandingPage>
+    <sta-landing
+      class="full-height"
+      *ngIf="isDoneLoading$ | async"
+    ></sta-landing>
+  </ng-template>
 </div>

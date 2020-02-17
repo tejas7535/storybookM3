@@ -10,7 +10,8 @@ import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
-  let initConfigSpy: jest.SpyInstance;
+  let oAuthService: OAuthService;
+  let initConfigSpy: jest.SpyInstance<any, unknown[]>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -19,7 +20,7 @@ describe('AuthService', () => {
         {
           provide: OAuthService,
           useValue: {
-            tryLogin: jest.fn(),
+            tryLogin: jest.fn().mockImplementation(() => true),
             hasValidAccessToken: jest.fn().mockImplementation(() => true),
             events: of({ type: 'token_received' }),
             setupAutomaticSilentRefresh: jest.fn(),
@@ -27,7 +28,13 @@ describe('AuthService', () => {
               .fn()
               .mockImplementation(() => Promise.resolve()),
             initImplicitFlow: jest.fn(),
-            state: 'state/link'
+            state: 'state/link',
+            loadDiscoveryDocumentAndTryLogin: jest
+              .fn()
+              .mockImplementation(() => Promise.resolve(true)),
+            silentRefresh: jest
+              .fn()
+              .mockImplementation(() => Promise.resolve(true))
           }
         },
         {
@@ -47,110 +54,64 @@ describe('AuthService', () => {
       'initConfig'
     );
     service = TestBed.get(AuthService);
+    oAuthService = TestBed.get(OAuthService);
   });
 
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('initAuth', () => {
-    let done: boolean;
-
-    beforeEach(() => {
-      service['isDoneLoadingSubject$'].next(false);
-
-      service.isDoneLoading$.subscribe(d => (done = d));
-
-      service['silentRefresh'] = jest
+  describe('login', () => {
+    test('should call silentRefresh and navigateToState', async () => {
+      service.silentRefresh = jest
         .fn()
-        .mockImplementation(() => Promise.resolve());
-
+        .mockImplementation(() => Promise.resolve(undefined));
       service['navigateToState'] = jest.fn();
-      service['oauthService'].tryLogin = jest.fn();
+      const target = 'target';
+
+      await service.login(target);
+
+      expect(oAuthService.hasValidAccessToken).toHaveBeenCalled();
+      expect(service.silentRefresh).toHaveBeenCalledTimes(1);
+      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
 
-    test('should resolve when login succeeds', async () => {
-      service[
-        'oauthService'
-      ].hasValidAccessToken = jest.fn().mockImplementation(() => true);
-
-      await service.initAuth();
-
-      expect(done).toBeTruthy();
-      expect(service['silentRefresh']).not.toHaveBeenCalled();
-      expect(service['oauthService'].tryLogin).toHaveBeenCalledTimes(1);
-      expect(service['oauthService'].hasValidAccessToken).toHaveBeenCalledTimes(
-        1
-      );
-      expect(service['navigateToState']).toHaveBeenCalled();
-    });
-
-    test('should silent refresh when token invalid', async () => {
-      service[
-        'oauthService'
-      ].hasValidAccessToken = jest.fn().mockImplementation(() => false);
-
-      await service.initAuth();
-
-      expect(done).toBeTruthy();
-      expect(service['silentRefresh']).toHaveBeenCalled();
-      expect(service['oauthService'].tryLogin).toHaveBeenCalledTimes(1);
-      expect(service['oauthService'].hasValidAccessToken).toHaveBeenCalledTimes(
-        1
-      );
-      expect(service['navigateToState']).toHaveBeenCalled();
-    });
-
-    test('should set isDoneLoadingSubject also on errors', async () => {
-      service[
-        'oauthService'
-      ].loadDiscoveryDocument = jest
+    test('should set authenticated to true when access token valid', async () => {
+      oAuthService.hasValidAccessToken = jest
         .fn()
-        .mockImplementation(() => Promise.reject());
-      service['oauthService'].hasValidAccessToken = jest.fn();
+        .mockImplementation(() => true);
+      service.silentRefresh = jest.fn(() => Promise.resolve(undefined));
+      service['navigateToState'] = jest.fn();
+      const target = 'target';
 
-      await service.initAuth();
+      await service.login(target);
 
-      expect(done).toBeTruthy();
-      expect(service['silentRefresh']).not.toHaveBeenCalled();
-      expect(service['oauthService'].tryLogin).not.toHaveBeenCalled();
-      expect(
-        service['oauthService'].hasValidAccessToken
-      ).not.toHaveBeenCalled();
-      expect(service['navigateToState']).not.toHaveBeenCalled();
+      expect(service.silentRefresh).toHaveBeenCalledTimes(1);
+      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
+      service.isAuthenticated$.subscribe(val => {
+        expect(val).toBeTruthy();
+      });
     });
   });
 
-  describe('login', () => {
-    test('should call initImplicitFlow with provided targetUrl', () => {
-      const target = 'hallejulia';
+  describe('hasValidAccessToken', () => {
+    test('should call hasValidAccessToken of oauthService', () => {
+      // the provided/mocked oAuthService returns true by default
 
-      service.login(target);
+      const hasValidAccessToken = service.hasValidAccessToken();
 
-      expect(service['oauthService'].initImplicitFlow).toHaveBeenCalledWith(
-        encodeURIComponent(target)
-      );
-    });
-
-    test('should call initImplicitFlow with curent router url if no target provided', () => {
-      service.login();
-
-      expect(service['oauthService'].initImplicitFlow).toHaveBeenCalledWith(
-        encodeURIComponent('test')
-      );
+      expect(hasValidAccessToken).toBeTruthy();
     });
   });
 
   describe('accessToken', () => {
     test('should use authService to return access token', () => {
-      service['oauthService'].getAccessToken = jest
-        .fn()
-        .mockImplementation(() => 'token');
+      oAuthService.getAccessToken = jest.fn().mockImplementation(() => 'token');
 
       const res = service.accessToken;
 
       expect(res).toEqual('token');
-      expect(service['oauthService'].getAccessToken).toHaveBeenCalled();
+      expect(oAuthService.getAccessToken).toHaveBeenCalled();
     });
   });
 
@@ -159,19 +120,10 @@ describe('AuthService', () => {
 
     beforeEach(() => {
       initConfigSpy.mockRestore();
-      service['oauthService'].setupAutomaticSilentRefresh = jest.fn();
-      service[
-        'oauthService'
-      ].hasValidAccessToken = jest.fn().mockImplementation(() => false);
+      oAuthService.hasValidAccessToken = jest
+        .fn()
+        .mockImplementation(() => false);
       service.isAuthenticated$.subscribe(a => (authenticated = a));
-    });
-
-    test('should set setupAutomaticSilentRefresh', () => {
-      service['initConfig']();
-
-      expect(
-        service['oauthService'].setupAutomaticSilentRefresh
-      ).toHaveBeenCalledTimes(1);
     });
 
     test('should navigate to state on token_received', async(() => {
@@ -185,7 +137,7 @@ describe('AuthService', () => {
 
     test('should do nothing when storage events on certain keys', async(() => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
-      service['oauthService'].events = NEVER;
+      oAuthService.events = NEVER;
       service['initConfig']();
 
       window.dispatchEvent(
@@ -199,7 +151,7 @@ describe('AuthService', () => {
       service[
         'oauthService'
       ].hasValidAccessToken = jest.fn().mockImplementation(() => true);
-      service['oauthService'].events = NEVER;
+      oAuthService.events = NEVER;
       service['login'] = jest.fn();
 
       expect(authenticated).toBeFalsy();
@@ -218,11 +170,11 @@ describe('AuthService', () => {
     }));
 
     test('should call login if token not valid and access_token event received', async(() => {
-      service[
-        'oauthService'
-      ].hasValidAccessToken = jest.fn().mockImplementation(() => false);
-      service['oauthService'].events = NEVER;
-      service['login'] = jest.fn();
+      oAuthService.hasValidAccessToken = jest
+        .fn()
+        .mockImplementation(() => false);
+      oAuthService.events = NEVER;
+      service.login = jest.fn();
 
       service['initConfig']();
 
@@ -250,18 +202,19 @@ describe('AuthService', () => {
       );
     });
 
-    test('should do nothing when state not set', () => {
-      service['oauthService'].state = undefined;
+    test('should call initial Navigation when state is not set', () => {
+      oAuthService.state = undefined;
+      service['router'].initialNavigation = jest.fn();
 
       service['navigateToState']();
 
-      expect(service['router'].navigateByUrl).not.toHaveBeenCalled();
+      expect(service['router'].initialNavigation).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('silentRefresh', () => {
     beforeEach(() => {
-      service['oauthService'].silentRefresh = jest
+      oAuthService.silentRefresh = jest
         .fn()
         .mockImplementation(() => Promise.resolve());
     });
@@ -272,34 +225,86 @@ describe('AuthService', () => {
       return service['silentRefresh']();
     });
 
-    test('should call login on certain reject reasons and resolve', async () => {
-      service['oauthService'].silentRefresh = jest
+    test('should call initImplicitFlow on reject and resolve afterwards', async () => {
+      oAuthService.silentRefresh = jest
         .fn()
         .mockImplementation(() =>
           Promise.reject({ reason: { error: 'login_required' } })
         );
 
-      service['login'] = jest.fn();
+      oAuthService['initImplicitFlow'] = jest.fn();
 
       expect.assertions(1);
 
       return service['silentRefresh']().then(_ => {
-        expect(service['login']).toHaveBeenCalledTimes(1);
+        expect(oAuthService['initImplicitFlow']).toHaveBeenCalledTimes(1);
       });
     });
+  });
 
-    test('should reject if wrong result', async () => {
-      service['oauthService'].silentRefresh = jest
+  describe('configureImplicitFlow', () => {
+    let isDoneLoading: boolean;
+
+    beforeEach(() => {
+      oAuthService.setStorage = jest.fn();
+      oAuthService.setupAutomaticSilentRefresh = jest.fn();
+      oAuthService.loadDiscoveryDocumentAndTryLogin = jest
         .fn()
-        .mockImplementation(() =>
-          Promise.reject({ reason: { error: 'rejectme' } })
-        );
+        .mockImplementation(() => Promise.resolve(true));
+      oAuthService.hasValidAccessToken = jest
+        .fn()
+        .mockImplementation(() => false);
+      service['navigateToState'] = jest.fn();
+      service['isAuthenticatedSubject$'].next(false);
+      service.isDoneLoading$.subscribe(val => (isDoneLoading = val));
+    });
 
-      service['login'] = jest.fn();
+    test('should set isDoneLoading and automatic silent refresh', async () => {
+      await service.configureImplicitFlow();
 
-      return service['silentRefresh']().catch(_ => {
-        expect(service['login']).toHaveBeenCalledTimes(0);
-      });
+      expect(oAuthService.hasValidAccessToken).toHaveBeenCalledTimes(1);
+      expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
+      expect(
+        oAuthService.loadDiscoveryDocumentAndTryLogin
+      ).toHaveBeenCalledTimes(1);
+      expect(oAuthService.setupAutomaticSilentRefresh).toHaveBeenCalledTimes(1);
+      expect(service['navigateToState']).not.toHaveBeenCalled();
+
+      expect(isDoneLoading).toBeTruthy();
+    });
+
+    test('should set isDoneLoading on errors', async () => {
+      oAuthService.loadDiscoveryDocumentAndTryLogin = jest
+        .fn()
+        .mockImplementation(() => Promise.reject(false));
+
+      await service.configureImplicitFlow();
+
+      expect(oAuthService.hasValidAccessToken).not.toHaveBeenCalled();
+      expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
+      expect(
+        oAuthService.loadDiscoveryDocumentAndTryLogin
+      ).toHaveBeenCalledTimes(1);
+      expect(service['navigateToState']).not.toHaveBeenCalled();
+
+      expect(isDoneLoading).toBeTruthy();
+    });
+
+    test('should call navigateToState on valid access token', async () => {
+      oAuthService.hasValidAccessToken = jest
+        .fn()
+        .mockImplementation(() => true);
+
+      await service.configureImplicitFlow();
+
+      expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
+      expect(
+        oAuthService.loadDiscoveryDocumentAndTryLogin
+      ).toHaveBeenCalledTimes(1);
+      expect(oAuthService.setupAutomaticSilentRefresh).toHaveBeenCalledTimes(1);
+      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
+
+      expect(isDoneLoading).toBeTruthy();
     });
   });
 });

@@ -1,0 +1,36 @@
+* {
+  letter-spacing: 0.04em;
+}
+.container {
+  background-image: url('../../../assets/img/landing-bg.jpg');
+  background-position: center;
+  background-size: cover;
+  margin-top: 60px;
+  min-height: calc(100% - 60px);
+  width: 100%;
+
+  .row {
+    height: 100%;
+  }
+}
+
+.content-wrapper {
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 3px;
+  box-shadow: 0 3px 6px #00000029;
+  max-width: 800px;
+  padding: 21px;
+}
+
+p {
+  line-height: 25px;
+}
+
+button {
+  font-weight: bold;
+}
+
+a {
+  font-weight: bold;
+  text-decoration: none;
+}

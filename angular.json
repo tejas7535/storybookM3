@@ -226,7 +226,8 @@
             "assets": [
               "apps/sta/src/favicon.ico",
               "apps/sta/src/assets",
-              "apps/sta/src/silent-refresh.html"
+              "apps/sta/src/silent-refresh.html",
+              "apps/sta/src/legal"
             ],
             "styles": [
               "apps/sta/src/styles.scss",

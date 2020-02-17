@@ -56,10 +56,10 @@ export class OverviewComponent implements OnInit {
 
   public isMobile$: Observable<boolean>;
 
-  public constructor(private readonly breapointService: BreakpointService) {}
+  public constructor(private readonly breakpointService: BreakpointService) {}
 
   public ngOnInit(): void {
-    this.isMobile$ = this.breapointService.isMobileViewPort();
+    this.isMobile$ = this.breakpointService.isMobileViewPort();
   }
 
   public trackByFn(index: number): number {
