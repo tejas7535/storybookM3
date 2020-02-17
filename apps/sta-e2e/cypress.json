@@ -7,5 +7,10 @@
   "video": true,
   "videosFolder": "../../dist/cypress/apps/sta-e2e/videos",
   "screenshotsFolder": "../../dist/cypress/apps/sta-e2e/screenshots",
-  "chromeWebSecurity": false
+  "chromeWebSecurity": false,
+  "reporter": "junit",
+  "reporterOptions": {
+    "mochaFile": "../../dist/cypress/apps/sta-sink-e2e/junit/cypress-report.xml",
+    "toConsole": false
+  }
 }

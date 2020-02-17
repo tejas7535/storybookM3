@@ -83,3 +83,12 @@
    - Use `ng-bullet` configuration within your auto-generated .spec files
    - Fix lint errors yielded by the autogeneration of your app
    - Add `@import 'libs/shared/styles/src';` to your app's `styles.scss`
+   - Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons
+   - Add the following to the configuation of your `cypress.json` within your `my-app-e2e` folder:
+     ```json
+        "reporter": "junit",
+        "reporterOptions": {
+            "mochaFile": "../../dist/cypress/apps/my-app-e2e/junit/cypress-report.xml",
+            "toConsole": false
+        }
+     ```

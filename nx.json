@@ -71,6 +71,14 @@
     },
     "steel": {
       "implicitDependencies": ["shared-styles"]
+    },
+    "cdba": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "cdba-e2e": {
+      "tags": [],
+      "implicitDependencies": ["cdba"]
     }
   }
 }
