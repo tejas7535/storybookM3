@@ -121,6 +121,7 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
    - Use `ng-bullet` configuration within your auto-generated .spec files
    - Fix lint errors yielded by the autogeneration of your app
    - Add `@import 'libs/shared/styles/src';` to your app's `styles.scss`
+   - Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons
 
 ## Contribution and Terms of Admission
 

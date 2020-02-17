@@ -27,6 +27,10 @@ apps/sta-e2e @kauppfbi @herpisef @birketho
 apps/steel @krausrbe
 apps/steel-e2e @krausrbe
 
+# CDBA
+apps/cdba @kauppfbi @herpisef
+apps/cdba-e2e @kauppfbi @herpisef
+
 ############
 ### Libs ###
 ############
