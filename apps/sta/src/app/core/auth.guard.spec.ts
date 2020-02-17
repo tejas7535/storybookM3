@@ -1,6 +1,6 @@
 import { of } from 'rxjs';
 
-import { fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router, RouterStateSnapshot } from '@angular/router';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -50,48 +50,52 @@ describe('AuthGuard', () => {
     expect(guard).toBeTruthy();
   });
 
+  describe('isAuthenticated', () => {
+    test('should call hasValidAcessToken', () => {
+      guard['authService'].hasValidAccessToken = jest.fn();
+      guard['isAuthenticated']();
+
+      expect(guard['authService'].hasValidAccessToken).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('canActivate', () => {
-    beforeEach(() => {
-      guard['authService'].login = jest.fn();
+    test('should return false when not authenticated', () => {
+      guard['isAuthenticated'] = jest.fn().mockImplementation(() => false);
+
+      const result = guard.canActivate(undefined, ({
+        url: 'hello'
+      } as unknown) as RouterStateSnapshot);
+
+      expect(result).toBeFalsy();
     });
 
-    test('should not proceed when is not done loading', fakeAsync(() => {
-      guard['authService']['isDoneLoadingSubject$'].next(false);
+    test('should return true when authenticated', () => {
+      guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
-      guard.canActivate(undefined, undefined);
+      const result = guard.canActivate(undefined, ({
+        url: 'hello'
+      } as unknown) as RouterStateSnapshot);
 
-      tick(100);
+      expect(result).toBeTruthy();
+    });
+  });
 
-      expect(guard['authService'].login).not.toHaveBeenCalled();
-      expect(guard['isAuthenticated']).toBeFalsy();
-    }));
+  describe('canLoad', () => {
+    test('should return false when not authenticated', () => {
+      guard['isAuthenticated'] = jest.fn().mockImplementation(() => false);
 
-    test('should login user when not authenticated', done => {
-      guard['authService']['isDoneLoadingSubject$'].next(true);
+      const result = guard.canLoad(undefined, []);
 
-      guard
-        .canActivate(undefined, ({
-          url: 'hello'
-        } as unknown) as RouterStateSnapshot)
-        .subscribe(res => {
-          expect(guard['authService'].login).toHaveBeenCalledWith('hello');
-          expect(res).toBeFalsy();
-          done();
-        });
+      expect(result).toBeFalsy();
     });
 
-    test('should return auth status', done => {
-      guard['authService']['isDoneLoadingSubject$'].next(true);
-      guard['isAuthenticated'] = true;
+    test('should return true when  authenticated', () => {
+      guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
-      guard
-        .canActivate(undefined, ({
-          url: 'hello'
-        } as unknown) as RouterStateSnapshot)
-        .subscribe(res => {
-          expect(res).toBeTruthy();
-          done();
-        });
+      const result = guard.canLoad(undefined, []);
+
+      expect(result).toBeTruthy();
     });
   });
 });

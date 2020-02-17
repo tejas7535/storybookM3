@@ -2,36 +2,30 @@ import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
-  RouterStateSnapshot
+  CanLoad,
+  Route,
+  RouterStateSnapshot,
+  UrlSegment
 } from '@angular/router';
-import { Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
 
 import { AuthService } from './auth.service';
 
 @Injectable()
-export class AuthGuard implements CanActivate {
-  private isAuthenticated: boolean;
+export class AuthGuard implements CanActivate, CanLoad {
+  constructor(private readonly authService: AuthService) {}
 
-  constructor(private readonly authService: AuthService) {
-    this.authService.isAuthenticated$.subscribe(
-      i => (this.isAuthenticated = i)
-    );
+  public canLoad(_route: Route, _segments: UrlSegment[]): boolean {
+    return this.isAuthenticated();
   }
 
   public canActivate(
     _route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): Observable<boolean> {
-    return this.authService.isDoneLoading$
-      .pipe(filter(isDone => isDone))
-      .pipe(
-        tap(_ => {
-          if (!this.isAuthenticated) {
-            this.authService.login(state.url);
-          }
-        })
-      )
-      .pipe(map(_ => this.isAuthenticated));
+    _state: RouterStateSnapshot
+  ): boolean {
+    return this.isAuthenticated();
+  }
+
+  private isAuthenticated(): boolean {
+    return this.authService.hasValidAccessToken();
   }
 }

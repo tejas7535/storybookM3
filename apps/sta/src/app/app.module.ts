@@ -25,6 +25,7 @@ import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 
 import { environment } from '../environments/environment';
 import { HammerConfig } from './config';
+import { LandingModule } from './feature/landing/landing.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -42,6 +43,7 @@ import { HammerConfig } from './config';
     SettingsSidebarModule,
     SidebarModule,
     SnackBarModule,
+    LandingModule,
     SharedTranslocoModule.forRoot(
       environment.production,
       ['en'],

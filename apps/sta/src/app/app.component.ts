@@ -41,8 +41,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public isLessThanMedium$: Observable<boolean>;
   public isMedium$: Observable<boolean>;
   public isMobile$: Observable<boolean>;
+  public isAuthenticated$: Observable<boolean>;
+  public isDoneLoading$: Observable<boolean>;
 
-  public settingsSidebarOpen = true;
+  public settingsSidebarOpen = false;
   public isDataAvl$: Observable<boolean>;
 
   public iconEnlarge = 'icon-resize-enlarge';
@@ -73,7 +75,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private readonly sidebarToggled = new Subject<SidebarMode>();
   private readonly sidebarToggledObservable$ = this.sidebarToggled.asObservable();
 
-  public mode: SidebarMode = 2;
+  public mode: SidebarMode = SidebarMode.Open;
 
   constructor(
     private readonly authService: AuthService,
@@ -82,10 +84,12 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly breakpointService: BreakpointService,
     private readonly router: Router
   ) {
-    this.authService.initAuth();
+    this.authService.configureImplicitFlow();
   }
 
   public ngOnInit(): void {
+    this.isAuthenticated$ = this.authService.isAuthenticated$;
+    this.isDoneLoading$ = this.authService.isDoneLoading$;
     this.isDataAvl$ = this.dataStore.isDataAvailable();
     this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
@@ -103,14 +107,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.sidebarToggledObservable$.subscribe((sidebarMode: SidebarMode) => {
         this.handleSidebarToggledObservable(sidebarMode);
       })
-    );
-
-    this.subscription.add(
-      this.breakpointService
-        .isLessThanMedium()
-        .subscribe(
-          isLessThanMedium => (this.settingsSidebarOpen = !isLessThanMedium)
-        )
     );
 
     this.subscription.add(

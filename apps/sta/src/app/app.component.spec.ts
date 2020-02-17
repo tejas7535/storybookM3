@@ -22,6 +22,8 @@ import {
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { LandingModule } from './feature/landing/landing.module';
+
 import { AppComponent } from './app.component';
 import { ResultComponent } from './shared/result/result.component';
 
@@ -46,6 +48,7 @@ describe('AppComponent', () => {
         FooterModule,
         HeaderModule,
         HttpClientTestingModule,
+        LandingModule,
         MatIconModule,
         MatButtonModule,
         RouterTestingModule,
@@ -74,7 +77,7 @@ describe('AppComponent', () => {
 
   beforeEach(() => {
     service = TestBed.get(AuthService);
-    service.initAuth = jest.fn();
+    service.configureImplicitFlow = jest.fn();
     fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     sidebarService = TestBed.get(SidebarService);
@@ -108,7 +111,7 @@ describe('AppComponent', () => {
   test('should create the app', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-    expect(service.initAuth).toHaveBeenCalled();
+    expect(service.configureImplicitFlow).toHaveBeenCalled();
   });
 
   test(`should have as title 'STA - Schaeffler Text Assistant'`, () => {
@@ -125,7 +128,7 @@ describe('AppComponent', () => {
       expect(component.subscription).toBeDefined();
     });
 
-    test('should set settingsSidebarOpen to true initialy', async () => {
+    test('should set settingsSidebarOpen to false initialy', async () => {
       component['dataStore'].isDataAvailable = jest
         .fn()
         .mockImplementation(() => of(false));
@@ -134,7 +137,7 @@ describe('AppComponent', () => {
 
       await fixture.whenStable();
 
-      expect(component.settingsSidebarOpen).toBeTruthy();
+      expect(component.settingsSidebarOpen).toBeFalsy();
     });
 
     test('should set settingsSidebarOpen to true when data avl', async () => {
