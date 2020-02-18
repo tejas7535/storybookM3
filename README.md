@@ -1,6 +1,6 @@
 # Frontend@Schaeffler
 
-![version](https://img.shields.io/badge/version-v0.1.0-green.svg)
+![version](https://img.shields.io/badge/version-v0.1.1-green.svg)
 ![@angular/core: 8.2.14](https://img.shields.io/badge/%40angular%2Fcore-8.2.14-brightgreen)
 ![@ngrx/store: 8.6.0](https://img.shields.io/badge/%40ngrx%2Fstore-8.6.0-brightgreen)
 ![@angular/material: 8.2.3](https://img.shields.io/badge/%40angular%2Fmaterial-8.2.3-brightgreen)
@@ -122,6 +122,14 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
    - Fix lint errors yielded by the autogeneration of your app
    - Add `@import 'libs/shared/styles/src';` to your app's `styles.scss`
    - Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons
+   - Add the following to the configuation of your `cypress.json` within your `my-app-e2e` folder:
+     ```json
+        "reporter": "junit",
+        "reporterOptions": {
+            "mochaFile": "../../dist/cypress/apps/my-app-e2e/junit/cypress-report.xml",
+            "toConsole": false
+        }
+     ```
 
 ## Contribution and Terms of Admission
 

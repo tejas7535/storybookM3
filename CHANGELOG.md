@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.1.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.1.0...v0.1.1) (2020-02-18)
+
+
+### 📈 Improvements
+
+* **sta:** squared overview items on mobile devices ([54e2108](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/54e21087eb1de84db8d46d942ac98d4e3169b101))
+* **ui-components:** remove BrowserAnimationsModule ([14c5ad2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/14c5ad2014529b3d6f4e1280572b179e6a6e212a))
+
+
+### 🏭 Automation
+
+* **workspace:** Setup Renovate to automate dependency updates (FRON-77) ([e92ec0b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e92ec0b639db88f7507c35f4f54406a093e3c5ba))
+
+
+### 🐛 Bug Fixes
+
+* **sta:** disabled cards are now greyed out again (UFTABI-1697) ([7b0ae06](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7b0ae06158f9a30cffb9a93bbc1814079b76a1b6))
+* **sta:** fix bad request in file upload for translation (UFTABI-1603) ([81daad7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/81daad73a97a4dce869bfd2801c8c13f398218a1))
+* **sta:** fix missing icon ovierview page (UFTABI-1695) ([a4e8ab7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a4e8ab79da41372ac45b318baa1e9900be5d7117))
+* **sta:** remove background color on result sidebar accordion hover (UFTABI-1564) ([1ac607e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1ac607e244fb9a23259f0fbb75405bc5877dafc7))
+
+
+### 🎸 Features
+
+* **cdba:** Scaffold new cdba application (DSCDA-1267) ([9a9675f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9a9675faca15dff066aab3c39695db8434ad70fa))
+* **helloworld-azure:** support multiple REST endpoints ([0c61b41](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0c61b41896141be9984e82593313618a4b328bfc))
+* **ltp:** enable strict compiler options (ADAPLD-6344) ([95fba74](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/95fba74bcd7f05e39334818e90ddc635561e36a3))
+* **sta:** implement Landing Page (UFTABI-1576) ([aebd07b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/aebd07b0a327c9b586f93398f91101c97429f44f))
+* **sta:** implement sidebar trigger (UFTABI-1540) ([1003285](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1003285acd92cd777949b93d699da4ce07fa562b))
+* **sta:** replace default favicon ([c9d8e58](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c9d8e580a32e7df16412f7c64d433e9534d23866))
+* **sta:** use schaeffler promo text as demo text (UFTABI-1537) ([e0ea081](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e0ea081ca903dded08f40db4c9cc3e5ae8276a46))
+
 ## [0.1.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.0.8...v0.1.0) (2020-02-03)
 
 
