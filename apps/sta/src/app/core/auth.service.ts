@@ -1,10 +1,13 @@
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { filter, share } from 'rxjs/operators';
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { OAuthService } from 'angular-oauth2-oidc';
+import jwtDecode from 'jwt-decode';
+
+import { AccessToken } from './access-token.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,9 +16,7 @@ export class AuthService {
   private readonly isAuthenticatedSubject$ = new BehaviorSubject<boolean>(
     false
   );
-  public isAuthenticated$ = this.isAuthenticatedSubject$
-    .asObservable()
-    .pipe(share());
+  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
 
   private readonly isDoneLoadingSubject$ = new ReplaySubject<boolean>();
   public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
@@ -25,6 +26,14 @@ export class AuthService {
     private readonly router: Router
   ) {
     this.initConfig();
+  }
+
+  private static getDecodedAccessToken(token: string): AccessToken {
+    try {
+      return jwtDecode(token);
+    } catch (Error) {
+      return undefined;
+    }
   }
 
   public async login(_targetUrl?: string): Promise<void> {
@@ -80,6 +89,25 @@ export class AuthService {
 
   get accessToken(): string {
     return this.oauthService.getAccessToken();
+  }
+
+  public getUserName(): Observable<string> {
+    return this.isAuthenticated$.pipe(
+      map(isAuthenticated => {
+        if (!isAuthenticated) {
+          return undefined;
+        }
+        const token = this.accessToken;
+
+        const decodedAccess = AuthService.getDecodedAccessToken(token);
+
+        const username = decodedAccess
+          ? `${decodedAccess.given_name} ${decodedAccess.family_name}`
+          : undefined;
+
+        return username;
+      })
+    );
   }
 
   private navigateToState(): void {

@@ -29,7 +29,6 @@ import { DataStoreService } from './shared/result/services/data-store.service';
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'STA - Schaeffler Text Assistant';
-  public username = 'User';
   public home = '/';
   public isHome = true;
   public isSidebarExpanded = false;
@@ -43,6 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isMobile$: Observable<boolean>;
   public isAuthenticated$: Observable<boolean>;
   public isDoneLoading$: Observable<boolean>;
+  public username$: Observable<string>;
 
   public settingsSidebarOpen = false;
   public isDataAvl$: Observable<boolean>;
@@ -94,6 +94,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
+    this.username$ = this.authService.getUserName();
     this.handleSidebarMode();
     this.subscription.add(
       this.dataStore.isDataAvailable().subscribe(open => {
