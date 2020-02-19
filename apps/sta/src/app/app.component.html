@@ -4,6 +4,10 @@
     [toggleEnabled]="(isAuthenticated$ | async) === true"
     (toggle)="toggleSidebar()"
   >
+    <schaeffler-user-menu
+      *ngIf="(isAuthenticated$ | async) === true"
+      [user]="username$ | async"
+    ></schaeffler-user-menu>
   </schaeffler-header>
   <ng-container
     *ngIf="(isAuthenticated$ | async) === true; else showLandingPage"

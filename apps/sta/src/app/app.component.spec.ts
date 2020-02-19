@@ -64,7 +64,7 @@ describe('AppComponent', () => {
         {
           provide: AuthService,
           useValue: {
-            initAuth: jest.fn()
+            getUserName: jest.fn()
           }
         },
         {

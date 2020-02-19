@@ -307,4 +307,63 @@ describe('AuthService', () => {
       expect(isDoneLoading).toBeTruthy();
     });
   });
+
+  describe('getDecodedAccessToken', () => {
+    test('should return decoded token when valid token provided', () => {
+      const token =
+        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c';
+
+      const result = AuthService['getDecodedAccessToken'](token);
+
+      expect(result).toBeDefined();
+    });
+
+    test('should return undefined when token is invalid', () => {
+      const result = AuthService['getDecodedAccessToken']('123');
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('getUserName', () => {
+    test('should return undefined when not authenticated', done => {
+      service['isAuthenticatedSubject$'].next(false);
+
+      service.getUserName().subscribe(username => {
+        expect(username).toBeUndefined();
+        done();
+      });
+    });
+
+    test('should return undefined when decoding access token fails', done => {
+      service['isAuthenticatedSubject$'].next(true);
+
+      AuthService['getDecodedAccessToken'] = jest
+        .fn()
+        .mockImplementation(() => undefined);
+
+      service.getUserName().subscribe(username => {
+        expect(username).toBeUndefined();
+        expect(AuthService['getDecodedAccessToken']).toHaveBeenCalled();
+        done();
+      });
+    });
+
+    test('should return username', done => {
+      service['isAuthenticatedSubject$'].next(true);
+
+      AuthService['getDecodedAccessToken'] = jest
+        .fn()
+        .mockImplementation(() => ({
+          given_name: 'given name',
+          family_name: 'family name'
+        }));
+
+      service.getUserName().subscribe(username => {
+        expect(username).toBeDefined();
+        expect(AuthService['getDecodedAccessToken']).toHaveBeenCalled();
+        done();
+      });
+    });
+  });
 });
