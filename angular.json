@@ -64,6 +64,7 @@
                   "with": "apps/kitchen-sink/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -293,6 +294,7 @@
                   "with": "apps/sta/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -547,6 +549,7 @@
                   "with": "apps/ltp/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -727,6 +730,7 @@
                   "with": "apps/steel/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -951,6 +955,7 @@
                   "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
@@ -1124,6 +1129,7 @@
                   "with": "apps/cdba/src/environments/environment.dev.ts"
                 }
               ],
+              "statsJson": true,
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
