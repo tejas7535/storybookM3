@@ -72,32 +72,20 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
                  ]
              },
              "qa": {
-                 "fileReplacements": [
-                    {
-                    "replace": "apps/my-app/src/environments/environment.ts",
-                    "with": "apps/my-app/src/environments/environment.dev.ts"
-                    }
-                 ],
                  "statsJson": true,
                  "optimization": true,
-                 "outputHashing": "all",
-                 "sourceMap": false,
+                 "outputHashing": "none",
+                 "sourceMap": true,
                  "extractCss": true,
-                 "namedChunks": false,
+                 "namedChunks": true,
                  "aot": true,
                  "extractLicenses": true,
-                 "vendorChunk": false,
+                 "vendorChunk": true,
                  "buildOptimizer": true,
-                 "budgets": [
+                 "fileReplacements": [
                      {
-                     "type": "initial",
-                     "maximumWarning": "2mb",
-                     "maximumError": "5mb"
-                     },
-                     {
-                     "type": "anyComponentStyle",
-                     "maximumWarning": "6kb",
-                     "maximumError": "10kb"
+                     "replace": "apps/my-app/src/environments/environment.ts",
+                     "with": "apps/my-app/src/environments/environment.dev.ts"
                      }
                  ]
              },

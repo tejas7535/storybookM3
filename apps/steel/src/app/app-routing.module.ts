@@ -20,13 +20,13 @@ export const appRoutePaths: Routes = [
     loadChildren: () =>
       import('./features/home/home.module').then(m => m.HomeModule)
   },
-  // {
-  //   path: RoutePath.ExtensionsPath,
-  //   loadChildren: () =>
-  //     import('./features/extensions/extensions.module').then(
-  //       m => m.ExtensionsModule
-  //     )
-  // },
+  {
+    path: RoutePath.ExtensionsPath,
+    loadChildren: () =>
+      import('./features/extensions/extensions.module').then(
+        m => m.ExtensionsModule
+      )
+  },
   {
     path: '**',
     loadChildren: () =>

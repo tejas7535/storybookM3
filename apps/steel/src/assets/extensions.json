@@ -8,13 +8,6 @@
     "icon": "refresh"
   },
   {
-    "name": "Save Filter",
-    "description": "Allows storing filter settings in Tableau",
-    "WIP": true,
-    "path": "save-filter",
-    "icon": "tune"
-  },
-  {
     "name": "Reset Button",
     "description": "Allows to reset all filters at once in Tableau",
     "WIP": true,
