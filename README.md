@@ -71,7 +71,25 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
                      }
                  ]
              },
-             "production": {
+             "qa": {
+                 "statsJson": true,
+                 "optimization": true,
+                 "outputHashing": "none",
+                 "sourceMap": true,
+                 "extractCss": true,
+                 "namedChunks": true,
+                 "aot": true,
+                 "extractLicenses": true,
+                 "vendorChunk": true,
+                 "buildOptimizer": true,
+                 "fileReplacements": [
+                     {
+                     "replace": "apps/my-app/src/environments/environment.ts",
+                     "with": "apps/my-app/src/environments/environment.dev.ts"
+                     }
+                 ]
+             },
+             "prod": {
                  "fileReplacements": [
                      {
                      "replace": "apps/my-app/src/environments/environment.ts",
@@ -102,7 +120,8 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
              }
          }
      ```
-   - Don't forget to add a `environment.dev.ts` as well as a `environment.prod.ts` to your environments in your app.
+   - In order to integrate your app in the workspace, it is mandatory to support the configurations `dev`, `qa` and `prod`.
+   - Don't forget to add a `environment.dev.ts` as well as a `environment.prod.ts` or if needed a `environment.qa.ts` to your environments in your app.
 4. Add Deployment job
    - Add an entry to `deployments.json` for your app:
      ```json
