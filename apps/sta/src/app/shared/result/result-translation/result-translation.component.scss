@@ -23,3 +23,24 @@
     margin: 4px 0;
   }
 }
+
+.ghost {
+  margin-top: 20px;
+  overflow: hidden;
+
+  div {
+    border-bottom: 2px solid $schaeffler-white;
+    border-radius: 4px 4px 4px 4px;
+    height: 30px;
+    @include animate-ghost-line;
+  }
+
+  .copy-btn {
+    display: inline-block;
+    height: 30px;
+    left: calc(100% - 99px);
+    margin-top: 40px;
+    position: relative;
+    width: 75px;
+  }
+}

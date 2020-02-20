@@ -1,15 +1,19 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
+
 import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
+
+import { DataStoreService } from '../services/data-store.service';
 
 describe('ResultAutoTaggingComponent', () => {
   let component: ResultAutoTaggingComponent;
@@ -23,9 +27,12 @@ describe('ResultAutoTaggingComponent', () => {
         MatFormFieldModule,
         MatIconModule,
         SnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        GhostLineElementsModule,
+        HttpClientTestingModule
       ],
-      declarations: [ResultAutoTaggingComponent]
+      declarations: [ResultAutoTaggingComponent],
+      providers: [DataStoreService]
     });
   });
 
@@ -37,6 +44,14 @@ describe('ResultAutoTaggingComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOniInit', () => {
+    test('should define observable', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+      expect(component.loadingTags$).toBeDefined();
+    });
   });
 
   describe('ngOnChanges', () => {

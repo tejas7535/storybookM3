@@ -1,15 +1,19 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
 
 import { ResultTranslationComponent } from './result-translation.component';
+
+import { DataStoreService } from '../services/data-store.service';
 
 describe('ResultTranslationComponent', () => {
   let component: ResultTranslationComponent;
@@ -23,9 +27,12 @@ describe('ResultTranslationComponent', () => {
         MatIconModule,
         ReactiveFormsModule,
         SnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        GhostLineElementsModule,
+        HttpClientTestingModule
       ],
-      declarations: [ResultTranslationComponent]
+      declarations: [ResultTranslationComponent],
+      providers: [DataStoreService]
     });
   });
 
@@ -37,6 +44,14 @@ describe('ResultTranslationComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOniInit', () => {
+    test('should define observable', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+      expect(component.loadingTranslation$).toBeDefined();
+    });
   });
 
   describe('ngOnChanges', () => {

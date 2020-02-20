@@ -21,9 +21,19 @@ export class DataStoreService {
   );
   private readonly _reset: Subject<void> = new Subject();
 
+  private readonly _loadingTags: Subject<boolean> = new BehaviorSubject(
+    undefined
+  );
+
+  private readonly _loadingTranslation: Subject<boolean> = new BehaviorSubject(
+    undefined
+  );
+
   public readonly tags$ = this._tags.asObservable();
   public readonly translation$ = this._translation.asObservable();
   public readonly reset$ = this._reset.asObservable();
+  public readonly loadingTags$ = this._loadingTags.asObservable();
+  public readonly loadingTranslation$ = this._loadingTranslation.asObservable();
 
   private readonly allData$ = combineLatest([this.tags$, this.translation$]);
 
@@ -38,10 +48,13 @@ export class DataStoreService {
   }
 
   public async getTagsForText(text: string): Promise<void> {
+    this._loadingTags.next(true);
     this.tags = await this.dataService.postTaggingText(text);
+    this._loadingTags.next(false);
   }
 
   public async getTagsForFile(file: File): Promise<FileStatus> {
+    this._loadingTags.next(true);
     let successfulCall = true;
 
     this.reset();
@@ -52,6 +65,8 @@ export class DataStoreService {
       successfulCall = false;
     }
 
+    this._loadingTags.next(false);
+
     return new FileStatus(file.name, file.type, successfulCall);
   }
 
@@ -59,16 +74,19 @@ export class DataStoreService {
     text: string,
     targetLang: Language = Language.DE
   ): Promise<void> {
+    this._loadingTranslation.next(true);
     this.translation = await this.dataService.postTranslationText(
       text,
       targetLang
     );
+    this._loadingTranslation.next(false);
   }
 
   public async getTranslationForFile(
     file: File,
     targetLang: Language = Language.DE
   ): Promise<FileStatus> {
+    this._loadingTranslation.next(true);
     let successfulCall = true;
 
     this.reset();
@@ -81,6 +99,8 @@ export class DataStoreService {
     } catch (_e) {
       successfulCall = false;
     }
+
+    this._loadingTranslation.next(false);
 
     return new FileStatus(file.name, file.type, successfulCall);
   }

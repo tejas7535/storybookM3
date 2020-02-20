@@ -51,6 +51,20 @@ describe('DataStoreService', () => {
       expect(dataService.postTaggingText).toHaveBeenCalledWith(testText);
       expect(service['_tags'].getValue()).toEqual(test);
     });
+
+    test('should update loadingTags', async () => {
+      const test = ['awesome', 'someawe'];
+      const testText = '123';
+
+      dataService.postTaggingText = jest.fn().mockResolvedValue(test);
+      service['_loadingTags'].next = jest.fn();
+
+      await service.getTagsForText(testText);
+
+      expect(service['_loadingTags'].next).toHaveBeenCalledTimes(2);
+      expect(service['_loadingTags'].next).toHaveBeenCalledWith(true);
+      expect(service['_loadingTags'].next).toHaveBeenCalledWith(false);
+    });
   });
 
   describe('getTagsForFile', () => {
@@ -63,6 +77,20 @@ describe('DataStoreService', () => {
 
       expect(dataService.postTaggingFile).toHaveBeenCalledWith(testFile);
       expect(service['_tags'].getValue()).toEqual(test);
+    });
+
+    test('should update loadingTags', async () => {
+      const test = ['awesome', 'someawe'];
+      const testFile = new File([], 'test');
+
+      dataService.postTaggingFile = jest.fn().mockResolvedValue(test);
+      service['_loadingTags'].next = jest.fn();
+
+      await service.getTagsForFile(testFile);
+
+      expect(service['_loadingTags'].next).toHaveBeenCalledTimes(2);
+      expect(service['_loadingTags'].next).toHaveBeenCalledWith(true);
+      expect(service['_loadingTags'].next).toHaveBeenCalledWith(false);
     });
 
     test('should return fileStatus even on failed service call', async () => {
@@ -102,6 +130,20 @@ describe('DataStoreService', () => {
       );
       expect(service['_translation'].getValue()).toEqual(test);
     });
+
+    test('should update loadingTranslation', async () => {
+      const test = ['awesome', 'someawe'];
+      const testText = '123';
+
+      dataService.postTranslationText = jest.fn().mockResolvedValue(test);
+      service['_loadingTranslation'].next = jest.fn();
+
+      await service.getTranslationForText(testText);
+
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledTimes(2);
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledWith(true);
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledWith(false);
+    });
   });
 
   describe('getTranslationForFile', () => {
@@ -120,6 +162,21 @@ describe('DataStoreService', () => {
       expect(service['_translation'].getValue()).toEqual(test);
       expect(service.reset).toHaveBeenCalled();
       expect(result).toEqual(new FileStatus('test', '', true));
+    });
+
+    test('should update loadingTranslation', async () => {
+      const test = 'test';
+      const testFile = new File([], 'test');
+
+      service.reset = jest.fn();
+      dataService.postTranslationFile = jest.fn().mockResolvedValue(test);
+      service['_loadingTranslation'].next = jest.fn();
+
+      await service.getTranslationForFile(testFile);
+
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledTimes(2);
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledWith(true);
+      expect(service['_loadingTranslation'].next).toHaveBeenCalledWith(false);
     });
 
     test('should return fileStatus even on failed service call', async () => {

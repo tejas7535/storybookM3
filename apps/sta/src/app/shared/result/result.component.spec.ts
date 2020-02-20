@@ -7,10 +7,11 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
 import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
+
+import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
@@ -34,7 +35,8 @@ describe('ResultComponent', () => {
         MatIconModule,
         ReactiveFormsModule,
         SnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
+        GhostLineElementsModule
       ],
       declarations: [
         ResultComponent,
