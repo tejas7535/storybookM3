@@ -1,6 +1,6 @@
-import { HammerGestureConfig } from '@angular/platform-browser';
+import { GestureConfig } from '@angular/material/core';
 
-export class HammerConfig extends HammerGestureConfig {
+export class HammerConfig extends GestureConfig {
   overrides = {
     pan: {
       direction: 6
