@@ -1,33 +1,63 @@
 import { TestBed } from '@angular/core/testing';
-import { AppComponent } from './app.component';
+import { MatButtonModule } from '@angular/material/button';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import {
+  HeaderModule,
+  SettingsSidebarModule
+} from '@schaeffler/shared/ui-components';
+
+import { AppComponent } from './app.component';
+
 describe('AppComponent', () => {
+  let component: AppComponent;
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      imports: [
+        NoopAnimationsModule,
+        HeaderModule,
+        SettingsSidebarModule,
+        MatButtonModule
+      ],
+      providers: [],
       declarations: [AppComponent]
     });
   });
 
+  beforeEach(() => {
+    const fixture = TestBed.createComponent(AppComponent);
+    component = fixture.debugElement.componentInstance;
+  });
+
   test('should create the app', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
-  test(`should have as title 'cdba'`, () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('cdba');
+  test(`should have as title 'Cost Database Analytics'`, () => {
+    expect(component.title).toEqual('Cost Database Analytics');
   });
 
-  test('should render title', () => {
-    const fixture = TestBed.createComponent(AppComponent);
-    fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain(
-      'Welcome to cdba!'
-    );
+  describe('ngOnInit', () => {
+    test('should define isLessThanMediumViewport$', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.isLessThanMediumViewport$).toBeDefined();
+    });
+  });
+
+  describe('handleReset', () => {
+    test('should log to console', () => {
+      spyOn(console, 'log');
+      spyOn(console, 'warn');
+
+      component.handleReset();
+
+      expect(console.log).toHaveBeenCalled();
+      expect(console.warn).toHaveBeenCalled();
+    });
   });
 });
