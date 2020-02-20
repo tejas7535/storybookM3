@@ -9,7 +9,7 @@ import {
 } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
@@ -21,6 +21,8 @@ import {
 
 import { AuthService } from './core/auth.service';
 import { DataStoreService } from './shared/result/services/data-store.service';
+
+import { ServiceType } from './shared/result/models';
 
 @Component({
   selector: 'sta-root',
@@ -46,6 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public settingsSidebarOpen = false;
   public isDataAvl$: Observable<boolean>;
+  public currentService: ServiceType;
 
   public iconEnlarge = 'icon-resize-enlarge';
   public iconShrink = 'icon-resize-shrink';
@@ -82,7 +85,8 @@ export class AppComponent implements OnInit, OnDestroy {
     private readonly dataStore: DataStoreService,
     private readonly sidebarService: SidebarService,
     private readonly breakpointService: BreakpointService,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.authService.configureImplicitFlow();
   }
@@ -118,6 +122,9 @@ export class AppComponent implements OnInit, OnDestroy {
           withLatestFrom(this.isDataAvl$),
           tap(([routerEvent, isDataAvl]: [NavigationEnd, boolean]) => {
             this.isHome = routerEvent.url === this.home ? true : false;
+
+            this.currentService = this.route.snapshot.firstChild.data.service;
+
             if (!isDataAvl) {
               this.settingsSidebarOpen = !this.isHome;
             }

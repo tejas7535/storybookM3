@@ -38,12 +38,7 @@
           <schaeffler-footer></schaeffler-footer>
         </ng-container>
         <ng-container sidebar>
-          <ng-container *ngIf="(isDataAvl$ | async) === true; else emptystate">
-            <sta-result></sta-result>
-          </ng-container>
-          <ng-template #emptystate>
-            EMPTY STATE
-          </ng-template>
+          <sta-result [currentService]="currentService"></sta-result>
           <button mat-icon-button (click)="closeSidebar()" class="close-icon">
             <mat-icon>chevron_right</mat-icon>
             <mat-icon>chevron_right</mat-icon>

@@ -1,7 +1,4 @@
-<mat-expansion-panel
-  class="panel mat-elevation-z0"
-  [expanded]="translationFormControl.value"
->
+<mat-expansion-panel class="panel mat-elevation-z0" [expanded]="true">
   <mat-expansion-panel-header>
     <h6>Translation</h6>
   </mat-expansion-panel-header>
@@ -25,8 +22,16 @@
   </ng-container>
 
   <ng-template #empty>
-    <p>
-      No translation found.
-    </p>
+    <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">
+      <h3>Nothing has been translated yet</h3>
+      <img
+        src="../../../../assets/empty-states/translation.png"
+        height="153px"
+      />
+      <p>
+        Please add your text and click 'translate' or upload a file to start the
+        translation.
+      </p>
+    </div>
   </ng-template>
 </mat-expansion-panel>
