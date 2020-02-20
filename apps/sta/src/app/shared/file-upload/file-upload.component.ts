@@ -11,6 +11,7 @@ export class FileUploadComponent {
   @Output() public readonly fileUploaded = new EventEmitter<File>();
 
   @Input() public readonly fileStatus: FileStatus;
+  @Input() public supportedLanguages = '';
 
   public uploadFile(fileList: FileList): void {
     const file = fileList[0];

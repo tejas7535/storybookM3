@@ -11,6 +11,7 @@ export class TextInputComponent implements OnInit {
   @Input() public minLength = 40;
   @Input() public btnText = 'Generate';
   @Input() public defaultText = '';
+  @Input() public textHint = '';
 
   @Output() public readonly btnClicked = new EventEmitter<string>();
 

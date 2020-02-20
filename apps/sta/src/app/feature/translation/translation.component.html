@@ -10,6 +10,7 @@
               btnText="Generate Translation"
               [defaultText]="demoTextEn"
               minLength="0"
+              textHint="German or English text only"
             ></sta-text-input>
           </div>
         </mat-tab>
@@ -18,6 +19,7 @@
             <sta-file-upload
               (fileUploaded)="getTranslationForFile($event)"
               [fileStatus]="fileStatus"
+              supportedLanguages="English and German"
             ></sta-file-upload>
           </div>
         </mat-tab>
