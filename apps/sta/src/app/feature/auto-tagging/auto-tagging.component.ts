@@ -26,7 +26,10 @@ export class AutoTaggingComponent implements OnInit, OnDestroy {
       this.dataStore.reset$.subscribe(
         () =>
           (this.fileStatus =
-            this.fileStatus.success === undefined ? this.fileStatus : undefined)
+            this.fileStatus !== undefined &&
+            this.fileStatus.success === undefined
+              ? this.fileStatus
+              : undefined)
       )
     );
   }

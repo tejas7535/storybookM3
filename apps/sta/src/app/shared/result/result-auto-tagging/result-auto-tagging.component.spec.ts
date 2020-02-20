@@ -5,9 +5,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
-
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
 
@@ -206,6 +206,22 @@ describe('ResultAutoTaggingComponent', () => {
         '14',
         '15'
       ]);
+    });
+
+    test('should reset subsetTags when tags are resetted', () => {
+      component.subsetTags = [];
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges({
+        tags: {
+          previousValue: [],
+          currentValue: undefined,
+          isFirstChange: () => false,
+          firstChange: false
+        }
+      });
+
+      expect(component.subsetTags).toBeUndefined();
     });
   });
 

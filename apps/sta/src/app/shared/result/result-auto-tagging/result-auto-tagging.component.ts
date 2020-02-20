@@ -35,7 +35,12 @@ export class ResultAutoTaggingComponent implements OnChanges {
   ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.tags && changes.tags.currentValue) {
+    if (changes.tags) {
+      if (!changes.tags.currentValue) {
+        this.subsetTags = undefined;
+
+        return;
+      }
       this.showMoreTagsBtnDisabled =
         changes.tags.currentValue.length < this.MIN_TAGS ? true : false;
       this.subsetTags = changes.tags.currentValue.slice(0, this.MIN_TAGS);
