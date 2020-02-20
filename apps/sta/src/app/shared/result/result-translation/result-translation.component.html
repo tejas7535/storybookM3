@@ -2,7 +2,9 @@
   <mat-expansion-panel-header>
     <h6>Translation</h6>
   </mat-expansion-panel-header>
-  <ng-container *ngIf="translationFormControl.value; else empty">
+  <ng-container
+    *ngIf="translationFormControl.value && !(loadingTranslation$ | async)"
+  >
     <mat-form-field class="translation-field">
       <mat-label>Suggested Translation</mat-label>
       <textarea
@@ -21,7 +23,9 @@
     </div>
   </ng-container>
 
-  <ng-template #empty>
+  <ng-container
+    *ngIf="!translationFormControl.value && !(loadingTranslation$ | async)"
+  >
     <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">
       <h3>Nothing has been translated yet</h3>
       <img
@@ -33,5 +37,12 @@
         translation.
       </p>
     </div>
-  </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="loadingTranslation$ | async">
+    <div class="ghost" @fadeInAnimation>
+      <sta-ghost-line-elements [numberOfLines]="4"></sta-ghost-line-elements>
+      <div class="copy-btn"></div>
+    </div>
+  </ng-container>
 </mat-expansion-panel>

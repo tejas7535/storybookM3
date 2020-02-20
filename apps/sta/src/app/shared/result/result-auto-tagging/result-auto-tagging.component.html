@@ -3,7 +3,7 @@
     <h6>Tags</h6>
   </mat-expansion-panel-header>
 
-  <ng-container *ngIf="subsetTags; else empty">
+  <ng-container *ngIf="subsetTags && !(loadingTags$ | async)">
     <mat-form-field class="chip-list-wrapper">
       <mat-chip-list #chipList aria-label="Suggested Tags">
         <mat-chip
@@ -56,7 +56,7 @@
     </div>
   </ng-container>
 
-  <ng-template #empty>
+  <ng-container *ngIf="!subsetTags && !(loadingTags$ | async)">
     <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">
       <h3>Nothing has been tagged yet</h3>
       <img src="../../../../assets/empty-states/tagging.png" height="153px" />
@@ -65,5 +65,13 @@
         the tagging.
       </p>
     </div>
-  </ng-template>
+  </ng-container>
+
+  <ng-container *ngIf="loadingTags$ | async">
+    <div class="ghost" @fadeInAnimation>
+      <sta-ghost-line-elements [numberOfLines]="7"></sta-ghost-line-elements>
+      <div class="more-btn"></div>
+      <div class="copy-btn"></div>
+    </div>
+  </ng-container>
 </mat-expansion-panel>

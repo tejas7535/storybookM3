@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -6,19 +8,25 @@ import {
   Inject,
   Input,
   OnChanges,
+  OnInit,
   SimpleChanges
 } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-
 import { SnackBarService } from '@schaeffler/shared/ui-components';
+
+import { DataStoreService } from '../services/data-store.service';
+
+import { fadeInAnimation } from '../../animations/fade-in-animation';
 
 @Component({
   selector: 'sta-result-auto-tagging',
   templateUrl: './result-auto-tagging.component.html',
   styleUrls: ['./result-auto-tagging.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInAnimation]
 })
-export class ResultAutoTaggingComponent implements OnChanges {
+export class ResultAutoTaggingComponent implements OnChanges, OnInit {
+  public loadingTags$: Observable<boolean>;
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
   public showMoreTagsBtnDisabled = false;
@@ -31,8 +39,13 @@ export class ResultAutoTaggingComponent implements OnChanges {
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBarService: SnackBarService,
+    private readonly dataStore: DataStoreService
   ) {}
+
+  public ngOnInit(): void {
+    this.loadingTags$ = this.dataStore.loadingTags$;
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.tags) {
