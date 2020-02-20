@@ -1,7 +1,6 @@
 <div fxLayout="column" fxLayoutAlign="space-around start">
-  <h2>Use demo text or paste your text here</h2>
   <mat-form-field class="textInput" floatLabel="always">
-    <mat-label>Text</mat-label>
+    <mat-label>Use demo text or paste your text here</mat-label>
     <textarea
       matTextareaAutosize
       matAutosizeMinRows="10"
@@ -10,6 +9,7 @@
       [formControl]="textFormControl"
     >
     </textarea>
+    <mat-hint>{{ textHint }}</mat-hint>
     <mat-error *ngIf="!textFormControl.valid">
       Your text must contain at least {{ minLength }} characters.
     </mat-error>

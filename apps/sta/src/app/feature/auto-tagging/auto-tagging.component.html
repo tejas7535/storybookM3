@@ -9,6 +9,7 @@
               (btnClicked)="getTagsForText($event)"
               btnText="Generate Tags"
               [defaultText]="demoTextEn"
+              textHint="English text only."
             ></sta-text-input>
           </div>
         </mat-tab>
@@ -17,6 +18,7 @@
             <sta-file-upload
               (fileUploaded)="getTagsForFile($event)"
               [fileStatus]="fileStatus"
+              supportedLanguages="English"
             ></sta-file-upload>
           </div>
         </mat-tab>
