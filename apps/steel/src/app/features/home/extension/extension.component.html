@@ -1,9 +1,13 @@
 <mat-card class="extension-card">
-  <mat-card-header class="extension-card-header">
-    <mat-card-title>{{ extension.name }}</mat-card-title>
+  <mat-card-header
+    fxLayout="row"
+    fxLayoutAlign="space-between start"
+    class="extension-card-header"
+  >
     <mat-card-subtitle>
       Tableau Extension <span *ngIf="extension.WIP">(WIP)</span>
     </mat-card-subtitle>
+    <mat-card-title>{{ extension.name }}</mat-card-title>
     <schaeffler-icon
       fontSize="50px"
       class="extension-icon"
