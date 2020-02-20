@@ -57,7 +57,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/kitchen-sink/src/environments/environment.ts",
+                  "with": "apps/kitchen-sink/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/kitchen-sink/src/environments/environment.ts",
@@ -94,8 +123,8 @@
             "browserTarget": "kitchen-sink:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "kitchen-sink:build:production"
+            "prod": {
+              "browserTarget": "kitchen-sink:build:prod"
             }
           }
         },
@@ -138,8 +167,8 @@
             "devServerTarget": "kitchen-sink:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "kitchen-sink:serve:production"
+            "prod": {
+              "devServerTarget": "kitchen-sink:serve:prod"
             }
           }
         },
@@ -257,7 +286,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/sta/src/environments/environment.ts",
+                  "with": "apps/sta/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/sta/src/environments/environment.ts",
@@ -294,8 +352,8 @@
             "browserTarget": "sta:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "sta:build:production"
+            "prod": {
+              "browserTarget": "sta:build:prod"
             }
           }
         },
@@ -338,8 +396,8 @@
             "devServerTarget": "sta:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "sta:serve:production"
+            "prod": {
+              "devServerTarget": "sta:serve:prod"
             }
           }
         },
@@ -482,7 +540,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ltp/src/environments/environment.ts",
+                  "with": "apps/ltp/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/ltp/src/environments/environment.ts",
@@ -519,8 +606,8 @@
             "browserTarget": "ltp:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "ltp:build:production"
+            "prod": {
+              "browserTarget": "ltp:build:prod"
             }
           }
         },
@@ -563,8 +650,8 @@
             "devServerTarget": "ltp:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "ltp:serve:production"
+            "prod": {
+              "devServerTarget": "ltp:serve:prod"
             }
           }
         },
@@ -633,7 +720,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/steel/src/environments/environment.ts",
+                  "with": "apps/steel/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/steel/src/environments/environment.ts",
@@ -670,8 +786,8 @@
             "browserTarget": "steel:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "steel:build:production"
+            "prod": {
+              "browserTarget": "steel:build:prod"
             }
           }
         },
@@ -714,8 +830,8 @@
             "devServerTarget": "steel:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "steel:serve:production"
+            "prod": {
+              "devServerTarget": "steel:serve:prod"
             }
           }
         },
@@ -828,7 +944,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/helloworld-azure/src/environments/environment.ts",
@@ -865,8 +1010,8 @@
             "browserTarget": "helloworld-azure:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "helloworld-azure:build:production"
+            "prod": {
+              "browserTarget": "helloworld-azure:build:prod"
             }
           }
         },
@@ -909,8 +1054,8 @@
             "devServerTarget": "helloworld-azure:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "helloworld-azure:serve:production"
+            "prod": {
+              "devServerTarget": "helloworld-azure:serve:prod"
             }
           }
         },
@@ -972,7 +1117,36 @@
                 }
               ]
             },
-            "production": {
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/cdba/src/environments/environment.ts",
+                  "with": "apps/cdba/src/environments/environment.dev.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
               "fileReplacements": [
                 {
                   "replace": "apps/cdba/src/environments/environment.ts",
@@ -1009,8 +1183,8 @@
             "browserTarget": "cdba:build"
           },
           "configurations": {
-            "production": {
-              "browserTarget": "cdba:build:production"
+            "prod": {
+              "browserTarget": "cdba:build:prod"
             }
           }
         },
@@ -1053,8 +1227,8 @@
             "devServerTarget": "cdba:serve"
           },
           "configurations": {
-            "production": {
-              "devServerTarget": "cdba:serve:production"
+            "prod": {
+              "devServerTarget": "cdba:serve:prod"
             }
           }
         },
