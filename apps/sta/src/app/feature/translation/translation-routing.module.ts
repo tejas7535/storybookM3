@@ -9,7 +9,6 @@ const routes: Routes = [
   {
     path: '',
     component: TranslationComponent,
-    data: { breadcrumb: 'Translation' },
     canActivate: [AuthGuard]
   }
 ];

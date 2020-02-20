@@ -1,4 +1,4 @@
-<mat-expansion-panel class="panel mat-elevation-z0" [expanded]="subsetTags">
+<mat-expansion-panel class="panel mat-elevation-z0" [expanded]="true">
   <mat-expansion-panel-header>
     <h6>Tags</h6>
   </mat-expansion-panel-header>
@@ -57,8 +57,13 @@
   </ng-container>
 
   <ng-template #empty>
-    <p>
-      No tags found.
-    </p>
+    <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">
+      <h3>Nothing has been tagged yet</h3>
+      <img src="../../../../assets/empty-states/tagging.png" height="153px" />
+      <p>
+        Please add your text and click 'generate tags' or upload a file to start
+        the tagging.
+      </p>
+    </div>
   </ng-template>
 </mat-expansion-panel>

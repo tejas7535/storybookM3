@@ -1,13 +1,13 @@
 import { from, Observable, of, Subscriber } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
@@ -30,9 +30,13 @@ import { ResultComponent } from './shared/result/result.component';
 import { AuthService } from './core/auth.service';
 import { DataStoreService } from './shared/result/services/data-store.service';
 
+import { ServiceType } from './shared/result/models';
+
 @Component({ selector: 'sta-result', template: '' })
 class ResultStubComponent implements Partial<ResultComponent> {
   tags$: Observable<string[]>;
+
+  @Input() public currentService: ServiceType;
 }
 
 describe('AppComponent', () => {
@@ -70,6 +74,18 @@ describe('AppComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: async () => new Promise(() => {})
+        },
+        {
+          provide: ActivatedRoute,
+          useValue: {
+            snapshot: {
+              firstChild: {
+                data: {
+                  service: 'tagging'
+                }
+              }
+            }
+          }
         }
       ]
     });
@@ -178,6 +194,36 @@ describe('AppComponent', () => {
     });
 
     test('should set isHome and settingsSidebarOpen correctly II', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      const event = new NavigationEnd(42, '/overview', '/overview');
+      TestBed.get(Router).events.next(event);
+
+      expect(component.isHome).toBeFalsy();
+      expect(component.settingsSidebarOpen).toBeTruthy();
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly III', () => {
+      component['dataStore'].isDataAvailable = jest
+        .fn()
+        .mockImplementation(() => of(true));
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      const event = new NavigationEnd(42, '/overview', '/overview');
+      TestBed.get(Router).events.next(event);
+
+      expect(component.isHome).toBeFalsy();
+      expect(component.settingsSidebarOpen).toBeTruthy();
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly III', () => {
+      component['dataStore'].isDataAvailable = jest
+        .fn()
+        .mockImplementation(() => of(true));
+
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 

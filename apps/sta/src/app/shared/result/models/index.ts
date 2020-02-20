@@ -3,3 +3,4 @@ export * from './input-text.model';
 export * from './input-translation.model';
 export * from './translation.model';
 export * from './language.model';
+export * from './service-type.enum';

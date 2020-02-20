@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from './core/auth.guard';
 
+import { ServiceType } from './shared/result/models';
+
 const routes: Routes = [
   {
     path: '',
@@ -15,7 +17,7 @@ const routes: Routes = [
       import('./feature/auto-tagging/auto-tagging.module').then(
         m => m.AutoTaggingModule
       ),
-    canLoad: [AuthGuard]
+    data: { service: ServiceType.TAGGING }
   },
   {
     path: 'translation',
@@ -23,7 +25,7 @@ const routes: Routes = [
       import('./feature/translation/translation.module').then(
         m => m.TranslationModule
       ),
-    canLoad: [AuthGuard]
+    data: { service: ServiceType.TRANSLATION }
   },
   {
     path: '**',
