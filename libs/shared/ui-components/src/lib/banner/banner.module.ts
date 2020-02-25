@@ -4,14 +4,11 @@ import { NgModule } from '@angular/core';
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
+import { BannerComponent } from './banner.component';
 import { StoreModule } from './store/store.module';
 
-import { BannerComponent } from './banner.component';
-
-import { DynamicComponentDirective } from './dynamic-component-directive/dynamic-component.directive';
-
 @NgModule({
-  declarations: [BannerComponent, DynamicComponentDirective],
+  declarations: [BannerComponent],
   imports: [CommonModule, StoreModule, BannerTextModule, SharedTranslocoModule],
   exports: [BannerComponent]
 })

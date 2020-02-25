@@ -62,9 +62,9 @@ describe(`HttpErrorInterceptor`, () => {
     Object.defineProperty(transloco, 'translate', {
       value: jest.fn().mockImplementation(() => 'test')
     });
-    service = TestBed.get(ExampleService);
-    httpMock = TestBed.get(HttpTestingController);
-    snackBarService = TestBed.get(SnackBarService);
+    service = TestBed.inject(ExampleService);
+    httpMock = TestBed.inject(HttpTestingController);
+    snackBarService = TestBed.inject(SnackBarService);
   });
 
   it('should be truthy', () => {

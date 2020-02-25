@@ -58,7 +58,7 @@ describe('PredictionEffects', () => {
       imports: [HttpClientTestingModule]
     });
 
-    effects = TestBed.get(PredictionEffects);
+    effects = TestBed.inject(PredictionEffects);
   });
 
   it('should be created', () => {

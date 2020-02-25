@@ -24,8 +24,8 @@ describe('DataStoreService', () => {
 
   beforeEach(() => {
     injector = getTestBed();
-    service = injector.get(DataStoreService);
-    dataService = injector.get(DataService);
+    service = injector.inject(DataStoreService);
+    dataService = injector.inject(DataService);
   });
 
   it('should be created', () => {

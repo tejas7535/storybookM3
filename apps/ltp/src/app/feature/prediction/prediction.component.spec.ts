@@ -1,13 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  MatButtonModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatMenuModule,
-  MatTabsModule
-} from '@angular/material';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
 import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -43,12 +41,11 @@ describe('PredictionComponent', () => {
   let store: MockStore<fromStore.LTPState>;
 
   const initialBannerState: BannerState = {
-    text: '',
-    buttonText: 'OK',
-    truncateSize: 120,
-    isFullTextShown: false,
-    open: true,
-    url: undefined
+    text: undefined,
+    buttonText: undefined,
+    truncateSize: undefined,
+    showFullText: false,
+    open: false
   };
 
   configureTestSuite(() => {
@@ -103,7 +100,7 @@ describe('PredictionComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store) as MockStore<fromStore.LTPState>;
     store.dispatch = jest.fn();
   });
 

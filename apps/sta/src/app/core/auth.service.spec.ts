@@ -53,8 +53,8 @@ describe('AuthService', () => {
       AuthService.prototype,
       'initConfig'
     );
-    service = TestBed.get(AuthService);
-    oAuthService = TestBed.get(OAuthService);
+    service = TestBed.inject(AuthService);
+    oAuthService = TestBed.inject(OAuthService);
   });
 
   it('should be created', () => {

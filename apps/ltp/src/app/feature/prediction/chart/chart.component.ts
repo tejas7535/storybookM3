@@ -21,9 +21,9 @@ export class ChartComponent implements OnInit, OnChanges {
 
   @Input() fileNamePrefix = 'Lifetime-Predictor-Woehler-Chart-Export';
 
-  @ViewChild('chart1', { static: false }) chart1: DxChartComponent;
+  @ViewChild('chart1') chart1: DxChartComponent;
   // TODO: remove any
-  @ViewChild('chartContainer', { static: false }) chartContainer: any;
+  @ViewChild('chartContainer') chartContainer: any;
 
   ngOnInit(): void {
     this.bannerIsVisible.subscribe(() => {

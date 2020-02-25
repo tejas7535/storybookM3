@@ -28,7 +28,7 @@ export const storageFactory = (): OAuthStorage => localStorage;
   providers: [AuthGuard, AuthService]
 })
 export class CoreModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
       providers: [

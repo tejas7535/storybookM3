@@ -9,11 +9,7 @@ import { translate } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-import {
-  BannerModule,
-  BannerState,
-  BannerTextComponent
-} from '@schaeffler/shared/ui-components';
+import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -33,12 +29,11 @@ describe('HomeComponent', () => {
   let store: MockStore<LTPState>;
 
   const initialBannerState: BannerState = {
-    text: '',
-    buttonText: 'OK',
-    truncateSize: 120,
-    isFullTextShown: false,
-    open: undefined,
-    url: undefined
+    text: undefined,
+    buttonText: undefined,
+    truncateSize: undefined,
+    showFullText: false,
+    open: false
   };
 
   configureTestSuite(() => {
@@ -76,7 +71,7 @@ describe('HomeComponent', () => {
 
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store) as MockStore<LTPState>;
   });
 
   it('should create', () => {
@@ -97,7 +92,6 @@ describe('HomeComponent', () => {
   describe('openBanner', () => {
     it('should dispatch openBanner action', () => {
       const banner = {
-        component: BannerTextComponent,
         text: translate('disclaimer'),
         buttonText: translate('disclaimerClose'),
         truncateSize: 0,

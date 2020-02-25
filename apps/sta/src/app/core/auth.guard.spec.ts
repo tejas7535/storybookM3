@@ -43,7 +43,7 @@ describe('AuthGuard', () => {
       ]
     });
 
-    guard = TestBed.get(AuthGuard);
+    guard = TestBed.inject(AuthGuard);
   });
 
   it('should be created', () => {

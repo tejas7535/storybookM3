@@ -20,9 +20,9 @@ describe('AuthGuard', () => {
   });
 
   beforeEach(() => {
-    router = TestBed.get(Router);
-    guard = TestBed.get(AuthGuard);
-    keycloakService = TestBed.get(KeycloakService);
+    router = TestBed.inject(Router);
+    guard = TestBed.inject(AuthGuard);
+    keycloakService = TestBed.inject(KeycloakService);
   });
 
   it('should create', () => {

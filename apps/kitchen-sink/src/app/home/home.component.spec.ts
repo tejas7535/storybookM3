@@ -1,44 +1,47 @@
-import { of } from 'rxjs';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { translate } from '@ngneat/transloco';
+import { RouterReducerState } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+import { of } from 'rxjs';
+
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   BannerState,
-  BannerTextComponent,
+  openBanner,
   SnackBarModule,
   SnackBarService,
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
+import * as en from '../../assets/i18n/en.json';
 
-import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
+import { RouterStateUrl } from '../core/store';
+import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
 import { HomeComponent } from './home.component';
 
-import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
-
-import * as en from '../../assets/i18n/en.json';
-import { AppState } from '../core/store';
+interface AppState {
+  sidebar: SidebarState;
+  router: RouterReducerState<RouterStateUrl>;
+  banner: BannerState;
+}
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
-  let store: MockStore<AppState>;
+  let store: MockStore<{ banner: BannerState }>;
   let snackBarService: SnackBarService;
 
   const initialBannerState: BannerState = {
-    text: '',
-    buttonText: 'OK',
-    truncateSize: 120,
-    isFullTextShown: false,
-    open: undefined,
-    url: undefined
+    text: undefined,
+    buttonText: undefined,
+    truncateSize: undefined,
+    showFullText: false,
+    open: false
   };
 
   const initialSidebarState: SidebarState = {
@@ -75,8 +78,8 @@ describe('HomeComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    store = TestBed.get(Store);
-    snackBarService = TestBed.get(SnackBarService);
+    store = TestBed.inject(Store) as MockStore<{ banner: BannerState }>;
+    snackBarService = TestBed.inject(SnackBarService);
   });
 
   it('should create', () => {
@@ -90,6 +93,33 @@ describe('HomeComponent', () => {
     expect(compiled.querySelector('h1').textContent).toContain(
       translate('navigation.home')
     );
+  });
+
+  describe('ngOnInit', () => {
+    it('should call openBanner', () => {
+      spyOn(component, 'openBanner');
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.openBanner).toHaveBeenCalled();
+    });
+  });
+
+  describe('openBanner', () => {
+    it('should dispatch openBanner action', () => {
+      spyOn(store, 'dispatch');
+
+      component.openBanner();
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        openBanner({
+          text: translate('banner.bannerText'),
+          buttonText: translate('banner.buttonText'),
+          truncateSize: 120
+        })
+      );
+    });
   });
 
   describe('showSuccessToast', () => {
@@ -165,50 +195,6 @@ describe('HomeComponent', () => {
       component.speedDialFabClicked(key);
 
       expect(component.speedDialFabOpen).toBeFalsy();
-    });
-  });
-
-  describe('bannerHandling', () => {
-    it('should dispatch openBanner action on openBanner', () => {
-      const banner = {
-        component: BannerTextComponent,
-        text: translate('banner.bannerText'),
-        buttonText: translate('banner.buttonText'),
-        truncateSize: 120,
-        type: '[Banner] Open Banner'
-      };
-      const spy = spyOn(store, 'dispatch');
-      component.openBanner();
-      expect(spy).toHaveBeenCalledWith(banner);
-    });
-
-    it('should dispatch openBanner action on openCustomBanner', () => {
-      const banner = {
-        component: CustomBannerComponent,
-        text: translate('customBanner.bannerText'),
-        buttonText: translate('customBanner.buttonText'),
-        truncateSize: 0,
-        type: '[Banner] Open Banner'
-      };
-      const spy = spyOn(store, 'dispatch');
-      component.openCustomBanner();
-      expect(spy).toHaveBeenCalledWith(banner);
-    });
-
-    it('should call openCustomBanner on closing the first banner', () => {
-      const spy = spyOn(component, 'openCustomBanner');
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      store.setState({
-        ...initialState,
-        banner: {
-          ...initialState.banner,
-          open: false
-        }
-      });
-
-      expect(spy).toHaveBeenCalled();
     });
   });
 });

@@ -1,4 +1,4 @@
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -306,8 +306,7 @@ describe('HelpersService', () => {
     TestBed.configureTestingModule({
       providers: [HelpersService]
     });
-    const testBed = getTestBed();
-    helpersService = testBed.get(HelpersService);
+    helpersService = TestBed.inject(HelpersService);
   });
 
   it('should have a calculateLines helper method', () => {

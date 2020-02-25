@@ -16,8 +16,8 @@ describe('Transloco Loader', () => {
       imports: [HttpClientTestingModule],
       providers: [SharedHttpLoader]
     });
-    loader = TestBed.get(SharedHttpLoader);
-    http = TestBed.get(HttpTestingController);
+    loader = TestBed.inject(SharedHttpLoader);
+    http = TestBed.inject(HttpTestingController);
   });
 
   describe('getTranslation', () => {

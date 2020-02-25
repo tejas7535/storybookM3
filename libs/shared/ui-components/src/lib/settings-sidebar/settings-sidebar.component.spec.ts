@@ -36,7 +36,7 @@ describe('SettingsSidebarComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    breakpointService = TestBed.get(BreakpointService);
+    breakpointService = TestBed.inject(BreakpointService);
   });
 
   test('should create', () => {

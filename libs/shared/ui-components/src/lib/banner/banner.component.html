@@ -1,3 +1,9 @@
-<ng-container *ngIf="isBannerShown | async">
-  <ng-template schaefflerDynamicComponent></ng-template>
-</ng-container>
+<schaeffler-banner-text
+  *ngIf="showBanner$ | async"
+  [text]="bannerText$ | async"
+  [showFullText]="showFullText$ | async"
+  [truncateSize]="truncateSize$ | async"
+  [buttonText]="bannerButtonText$ | async"
+  (closeBanner)="closeBanner()"
+  (toggleFullText)="toggleFullText()"
+></schaeffler-banner-text>

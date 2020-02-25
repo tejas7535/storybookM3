@@ -19,7 +19,6 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import { AppRoutingModule } from './app-routing.module';
-import { CustomBannerModule } from './shared/components/custom-banner/custom-banner.module';
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './home/home.component';
@@ -45,7 +44,6 @@ import { HammerConfig } from './shared/config';
     StoreModule,
     SpeedDialFabModule,
     SettingsSidebarModule,
-    CustomBannerModule,
     SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en')
   ],
   providers: [

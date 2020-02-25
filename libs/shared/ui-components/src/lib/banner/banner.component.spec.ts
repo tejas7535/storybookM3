@@ -1,87 +1,32 @@
-import { Component } from '@angular/core';
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
-import { Router, Routes } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Store, StoreModule } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { BannerModule } from './banner.module';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
+import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
-
-import { BannerService } from './banner.service';
-
 import {
-  bannerReducer,
   BannerState,
-  initialState
-} from './store/reducers/banner/banner.reducer';
-
-import { BannerContent } from '.';
-
-@Component({
-  selector: 'schaeffler-dummy-component',
-  template:
-    '<p class="test">{{bannerText}}</p><button (click)="closeBanner()" id="dummyButton">Zack</button>'
-})
-class DummyComponent extends BannerContent {
-  // tslint:disable-next-line: unnecessary-constructor
-  constructor(dummyStore: Store<BannerState>) {
-    super(dummyStore);
-  }
-}
+  closeBanner,
+  initialState,
+  toggleFullText
+} from './store';
 
 describe('BannerComponent', () => {
   let component: BannerComponent;
   let fixture: ComponentFixture<BannerComponent>;
-  let bannerService: BannerService;
-  let router: Router;
-  let store: MockStore<AppState>;
-
-  const dummyRoutes: Routes = [
-    {
-      path: 'page-not-found',
-      component: DummyComponent,
-      data: { title: 'TestDummyComponent' }
-    },
-    {
-      path: 'abc',
-      component: DummyComponent,
-      data: { title: 'TestDummyComponent' }
-    }
-  ];
-
-  interface AppState {
-    banner: BannerState;
-  }
-
-  const initialAppState: AppState = {
-    banner: initialState
-  };
+  let store: MockStore<{ banner: BannerState }>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [DummyComponent],
-      imports: [
-        BannerModule,
-        provideTranslocoTestingModule({}),
-        RouterTestingModule.withRoutes(dummyRoutes),
-        StoreModule.forRoot({}),
-        StoreModule.forFeature('banner', bannerReducer)
-      ],
+      declarations: [BannerComponent],
+      imports: [BannerTextModule, provideTranslocoTestingModule({})],
       providers: [
-        BannerService,
         provideMockStore({
-          initialState: initialAppState
+          initialState: { banner: initialState }
         })
       ]
     });
@@ -90,215 +35,76 @@ describe('BannerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BannerComponent);
     component = fixture.componentInstance;
-    // fixture.detectChanges();
-    bannerService = TestBed.get(BannerService);
-    router = TestBed.get(Router);
-    store = TestBed.get(Store);
+    fixture.detectChanges();
+
+    store = TestBed.inject(Store) as MockStore<{ banner: BannerState }>;
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
+    expect(store).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it('should subscribe to store to fill isBannerShown', () => {
-      expect(component.isBannerShown).toEqual(undefined);
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component.isBannerShown).toBeDefined();
+    it('should subscribe to store', () => {
+      expect(component.showBanner$).toBeDefined();
+      expect(component.bannerText$).toBeDefined();
+      expect(component.bannerButtonText$).toBeDefined();
+      expect(component.truncateSize$).toBeDefined();
+      expect(component.showFullText$).toBeDefined();
     });
 
-    it('should emit an event when the banner is closed', fakeAsync(() => {
-      const spy = jest.spyOn(component.bannerClose, 'emit');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
+    it('selectors should return correct values', async(() => {
       store.setState({
         banner: {
-          ...initialState,
+          text: 'banner text',
+          buttonText: 'OK',
+          truncateSize: 120,
+          showFullText: false,
           open: true
         }
       });
-      tick();
+      store.refreshState();
 
-      expect(spy).not.toHaveBeenCalled();
+      component.showBanner$.subscribe(showBanner =>
+        expect(showBanner).toEqual(true)
+      );
 
-      store.setState({
-        banner: {
-          ...initialState,
-          open: false
-        }
-      });
-      tick();
+      component.bannerText$.subscribe(bannerText =>
+        expect(bannerText).toEqual('banner text')
+      );
 
-      expect(spy).toHaveBeenCalled();
+      component.bannerButtonText$.subscribe(bannerButtonText =>
+        expect(bannerButtonText).toEqual('OK')
+      );
+
+      component.truncateSize$.subscribe(truncateSize =>
+        expect(truncateSize).toEqual(120)
+      );
+
+      component.showFullText$.subscribe(showFullText =>
+        expect(showFullText).toEqual(false)
+      );
     }));
 
-    it('should get the url from store', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+    describe('closeBanner', () => {
+      it('should dispatch action closeBanner', () => {
+        spyOn(store, 'dispatch');
 
-      expect(component['url']).toEqual(undefined);
+        component.closeBanner();
 
-      store.setState({
-        banner: {
-          ...initialState,
-          url: 'test'
-        }
+        expect(store.dispatch).toHaveBeenCalledWith(closeBanner());
       });
-
-      expect(component['url']).toEqual('test');
     });
 
-    it('should subscribe to bannerService and generateDynamicComponent', fakeAsync(() => {
-      component['generateDynamicComponent'] = jest.fn();
+    describe('toggleFullText', () => {
+      it('should dispatch action toggleFullText', () => {
+        spyOn(store, 'dispatch');
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+        component.toggleFullText();
 
-      expect(component['generateDynamicComponent']).not.toHaveBeenCalled();
-
-      bannerService.bannerComponent.next({ component: DummyComponent as any });
-      tick(500);
-
-      expect(component['generateDynamicComponent']).toHaveBeenCalled();
-    }));
-
-    it('should subscribe to routerEvents', fakeAsync(() => {
-      const spy = jest.spyOn(store, 'dispatch');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      router.navigate(['/page-not-found']);
-      tick(500);
-
-      expect(spy).toHaveBeenCalledWith({
-        type: '[Banner] Close Banner'
+        expect(store.dispatch).toHaveBeenCalledWith(toggleFullText());
       });
-    }));
-  });
-
-  describe('ngOnDestroy', () => {
-    test('should complete the Subject', fakeAsync(() => {
-      const spy = jest.spyOn(component['destroy$'], 'complete');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-      tick();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-      tick();
-
-      expect(spy).toHaveBeenCalled();
-    }));
-
-    test('should unsubscribe getBannerOpen', fakeAsync(() => {
-      let isBannerShown;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-      tick();
-      component.isBannerShown.subscribe(val => {
-        isBannerShown = val;
-      });
-
-      store.setState({
-        banner: {
-          ...initialState,
-          open: true
-        }
-      });
-      tick();
-
-      expect(isBannerShown).toEqual(true);
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      store.setState({
-        banner: {
-          ...initialState,
-          open: false
-        }
-      });
-      tick();
-
-      expect(isBannerShown).toEqual(true);
-    }));
-
-    test('should unsubscribe getBannerUrl', fakeAsync(() => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      store.setState({
-        banner: {
-          ...initialState,
-          url: 'abc'
-        }
-      });
-      tick();
-
-      expect(component['url']).toEqual('abc');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      store.setState({
-        banner: {
-          ...initialState,
-          url: 'notabc'
-        }
-      });
-      tick();
-
-      expect(component['url']).toEqual('abc');
-    }));
-
-    test('should unsubscribe bannerService.bannerComponent', fakeAsync(() => {
-      component['generateDynamicComponent'] = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-      tick();
-
-      bannerService.bannerComponent.next({ component: DummyComponent as any });
-      tick();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-      tick();
-
-      bannerService.bannerComponent.next({ component: DummyComponent as any });
-      tick();
-
-      expect(component['generateDynamicComponent']).toHaveBeenCalledTimes(1);
-    }));
-
-    test('should unsubscribe router events', fakeAsync(() => {
-      const spy = jest.spyOn(store, 'dispatch');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-      tick();
-
-      router.navigate(['/abc']);
-      tick();
-
-      expect(spy).toHaveBeenCalled();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-      tick();
-
-      router.navigate(['/page-not-found']);
-      tick();
-
-      expect(spy).toHaveBeenCalledTimes(1);
-    }));
+    });
   });
 });

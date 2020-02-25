@@ -33,7 +33,7 @@ describe('InputEffects', () => {
       imports: [HttpClientTestingModule]
     });
 
-    effects = TestBed.get(InputEffects);
+    effects = TestBed.inject(InputEffects);
   });
 
   it('should be created', () => {

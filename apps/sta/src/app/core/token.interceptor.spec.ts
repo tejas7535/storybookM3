@@ -73,9 +73,9 @@ describe(`TokenInterceptor`, () => {
   });
 
   beforeEach(() => {
-    service = TestBed.get(ExampleService);
-    httpMock = TestBed.get(HttpTestingController);
-    mockOAuth2 = TestBed.get(OAuthService);
+    service = TestBed.inject(ExampleService);
+    httpMock = TestBed.inject(HttpTestingController);
+    mockOAuth2 = TestBed.inject(OAuthService);
   });
 
   it('should be truthy', () => {

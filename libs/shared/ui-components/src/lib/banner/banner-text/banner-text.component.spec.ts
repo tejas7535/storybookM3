@@ -1,17 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { StoreModule } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { BannerTextComponent } from './banner-text.component';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
-
-import { initialState } from '../store/reducers/banner/banner.reducer';
+import { BannerTextComponent } from './banner-text.component';
 
 describe('BannerTextComponent', () => {
   let component: BannerTextComponent;
@@ -20,18 +15,7 @@ describe('BannerTextComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [BannerTextComponent, TruncatePipe],
-      imports: [
-        provideTranslocoTestingModule({}),
-        FlexLayoutModule,
-        StoreModule
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            banner: initialState
-          }
-        })
-      ]
+      imports: [provideTranslocoTestingModule({}), FlexLayoutModule]
     });
   });
 
@@ -43,5 +27,25 @@ describe('BannerTextComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('clickButton', () => {
+    it('should emit closeBanner event', () => {
+      spyOn(component.closeBanner, 'emit');
+
+      component.clickButton();
+
+      expect(component.closeBanner.emit).toHaveBeenCalled();
+    });
+  });
+
+  describe('toggleText', () => {
+    it('should emit toggleFullText event', () => {
+      spyOn(component.toggleFullText, 'emit');
+
+      component.toggleText();
+
+      expect(component.toggleFullText.emit).toHaveBeenCalled();
+    });
   });
 });

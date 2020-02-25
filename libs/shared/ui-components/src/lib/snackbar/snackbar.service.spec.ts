@@ -13,8 +13,7 @@ import { SnackBarModule } from './snackbar.module';
 import { SnackBarService } from './snackbar.service';
 
 @NgModule({
-  imports: [SnackBarModule],
-  entryComponents: [SnackBarComponent]
+  imports: [SnackBarModule]
 })
 class SnackBarTestModule {}
 
@@ -30,8 +29,8 @@ describe('SnackBarService', () => {
   });
 
   beforeEach(() => {
-    snackBar = TestBed.get(MatSnackBar);
-    snackBarService = TestBed.get(SnackBarService);
+    snackBar = TestBed.inject(MatSnackBar);
+    snackBarService = TestBed.inject(SnackBarService);
   });
 
   test('should be created', () => {

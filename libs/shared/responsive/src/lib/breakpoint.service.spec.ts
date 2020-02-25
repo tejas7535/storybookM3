@@ -54,14 +54,14 @@ describe('BreakpointService', () => {
   });
 
   test('should be createable', () => {
-    service = TestBed.get(BreakpointService);
+    service = TestBed.inject(BreakpointService);
     expect(service).toBeTruthy();
   });
 
   describe('isMobileViewPort', () => {
     test('should return true on 400px width', done => {
       resize(400);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMobileViewPort().subscribe(isMobile => {
         expect(isMobile).toBe(true);
         done();
@@ -70,7 +70,7 @@ describe('BreakpointService', () => {
 
     test('should return false on 700px width', done => {
       resize(700);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMobileViewPort().subscribe(isMobile => {
         expect(isMobile).toBe(false);
         done();
@@ -81,7 +81,7 @@ describe('BreakpointService', () => {
   describe('isHandset', () => {
     test('should return true on 400px width', done => {
       resize(400);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isHandset().subscribe(isHandset => {
         expect(isHandset).toBe(true);
         done();
@@ -90,7 +90,7 @@ describe('BreakpointService', () => {
 
     test('should return true on 960px width', done => {
       resize(960);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isHandset().subscribe(isHandset => {
         expect(isHandset).toBeTruthy();
         done();
@@ -99,7 +99,7 @@ describe('BreakpointService', () => {
 
     test('should return false on 1000px width', done => {
       resize(1000);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isHandset().subscribe(isHandset => {
         expect(isHandset).toBeFalsy();
         done();
@@ -110,7 +110,7 @@ describe('BreakpointService', () => {
   describe('isLessThanMedium', () => {
     test('should return true on 400px width', done => {
       resize(400);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isLessThanMedium().subscribe(isLessThanMedium => {
         expect(isLessThanMedium).toBeTruthy();
         done();
@@ -119,7 +119,7 @@ describe('BreakpointService', () => {
 
     test('should return true on 960px width', done => {
       resize(960);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isLessThanMedium().subscribe(isLessThanMedium => {
         expect(isLessThanMedium).toBeTruthy();
         done();
@@ -128,7 +128,7 @@ describe('BreakpointService', () => {
 
     test('should return true on 1000px width', done => {
       resize(1000);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isLessThanMedium().subscribe(isLessThanMedium => {
         expect(isLessThanMedium).toBeFalsy();
         done();
@@ -139,7 +139,7 @@ describe('BreakpointService', () => {
   describe('isMedium', () => {
     test('should return true on 960px width', done => {
       resize(960);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMedium().subscribe(isMedium => {
         expect(isMedium).toBeTruthy();
         done();
@@ -148,7 +148,7 @@ describe('BreakpointService', () => {
 
     test('should return true on 1280px width', done => {
       resize(1280);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMedium().subscribe(isMedium => {
         expect(isMedium).toBeTruthy();
         done();
@@ -157,7 +157,7 @@ describe('BreakpointService', () => {
 
     test('should return true on 1000px width', done => {
       resize(1000);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMedium().subscribe(isMedium => {
         expect(isMedium).toBeTruthy();
         done();
@@ -166,7 +166,7 @@ describe('BreakpointService', () => {
 
     test('should return false on 1281px width', done => {
       resize(1281);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMedium().subscribe(isMedium => {
         expect(isMedium).toBeFalsy();
         done();
@@ -175,7 +175,7 @@ describe('BreakpointService', () => {
 
     test('should return false on 959px width', done => {
       resize(959);
-      service = TestBed.get(BreakpointService);
+      service = TestBed.inject(BreakpointService);
       service.isMedium().subscribe(isMedium => {
         expect(isMedium).toBeFalsy();
         done();
@@ -187,7 +187,7 @@ describe('BreakpointService', () => {
     describe('should return false', () => {
       it('for 599px', async(() => {
         resize(599);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(false));
@@ -195,7 +195,7 @@ describe('BreakpointService', () => {
 
       it('above 959px', async(() => {
         resize(960);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(false));
@@ -203,7 +203,7 @@ describe('BreakpointService', () => {
 
       it('above 1400px', async(() => {
         resize(700);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(true));
@@ -213,7 +213,7 @@ describe('BreakpointService', () => {
     describe('should return true', () => {
       it('for 600px', async(() => {
         resize(600);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(true));
@@ -221,7 +221,7 @@ describe('BreakpointService', () => {
 
       it('between 600px and 959px', async(() => {
         resize(720);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(true));
@@ -229,7 +229,7 @@ describe('BreakpointService', () => {
 
       it('for 959px', async(() => {
         resize(959);
-        service = TestBed.get(BreakpointService);
+        service = TestBed.inject(BreakpointService);
         service
           .unsupportedViewPort()
           .subscribe(value => expect(value).toBe(true));
