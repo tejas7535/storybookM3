@@ -26,11 +26,11 @@
       ></i>
       <div fxLayout="column" fxLayoutAlign="center start" fxFlex>
         <p
-          *ngIf="!isFullTextShown && truncateSize > 0"
+          *ngIf="!showFullText && truncateSize > 0"
           [innerHTML]="text | truncate: truncateSize"
           id="infoBannerEllipses"
         ></p>
-        <p *ngIf="isFullTextShown" [innerHTML]="text" id="infoBannerFull"></p>
+        <p *ngIf="showFullText" [innerHTML]="text" id="infoBannerFull"></p>
         <span
           *ngIf="truncateSize > 0"
           class="read-more"
@@ -41,25 +41,27 @@
           fxFlex
         >
           <span
-            *ngIf="!isFullTextShown"
+            *ngIf="!showFullText"
             id="infoBannerReadMore"
             ngClass.lt-md="read-more-button"
-            (click)="toggleFullText()"
-            >{{ t('banner.readMore') }}</span
+            (click)="toggleText()"
           >
+            {{ t('banner.readMore') }}
+          </span>
           <span
-            *ngIf="isFullTextShown"
+            *ngIf="showFullText"
             id="infoBannerReadLess"
             transloco="banner.readLess"
             ngClass.lt-md="read-more-button"
-            (click)="toggleFullText()"
-            >{{ t('banner.readLess') }}</span
+            (click)="toggleText()"
           >
+            {{ t('banner.readLess') }}
+          </span>
         </span>
       </div>
     </div>
     <button
-      (click)="closeBanner()"
+      (click)="clickButton()"
       id="infoBannerButton"
       class="text-button-primary"
       ngClass.gt-sm="info-banner-close-button"

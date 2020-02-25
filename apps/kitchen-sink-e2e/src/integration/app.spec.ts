@@ -61,11 +61,11 @@ describe('kitchen-sink', () => {
     getBanner().contains('This is a BannerTextComponent:');
   });
 
-  it('should open custom banner once the default is closed', () => {
+  it('should close the banner on click', () => {
     getBannerCloseButton()
-      .contains('SHOW ME A CUSTOM ONE')
+      .contains('okay')
       .click();
 
-    getBanner().contains('So custom. Much wow.');
+    getBanner().should('not', 'be', 'visble');
   });
 });

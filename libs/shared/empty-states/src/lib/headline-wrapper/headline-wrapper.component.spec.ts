@@ -47,7 +47,7 @@ describe('HeadlineWrapperComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeadlineWrapperComponent);
     component = fixture.componentInstance;
-    router = TestBed.get(Router);
+    router = TestBed.inject(Router);
     fixture.detectChanges();
   });
 

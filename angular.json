@@ -20,7 +20,7 @@
             "main": "apps/kitchen-sink/src/main.ts",
             "polyfills": "apps/kitchen-sink/src/polyfills.ts",
             "tsConfig": "apps/kitchen-sink/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/kitchen-sink/src/assets",
               {
@@ -40,13 +40,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -99,7 +104,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -150,7 +154,8 @@
           "options": {
             "jestConfig": "apps/kitchen-sink/jest.config.js",
             "tsConfig": "apps/kitchen-sink/tsconfig.spec.json",
-            "setupFile": "apps/kitchen-sink/src/test-setup.ts"
+            "setupFile": "apps/kitchen-sink/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -203,7 +208,8 @@
           "options": {
             "jestConfig": "libs/shared/ui-components/jest.config.js",
             "tsConfig": "libs/shared/ui-components/tsconfig.spec.json",
-            "setupFile": "libs/shared/ui-components/src/test-setup.ts"
+            "setupFile": "libs/shared/ui-components/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -252,7 +258,7 @@
             "main": "apps/sta/src/main.ts",
             "polyfills": "apps/sta/src/polyfills.ts",
             "tsConfig": "apps/sta/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/sta/src/favicon.ico",
               "apps/sta/src/assets",
@@ -270,13 +276,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -329,7 +340,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -380,7 +390,8 @@
           "options": {
             "jestConfig": "apps/sta/jest.config.js",
             "tsConfig": "apps/sta/tsconfig.spec.json",
-            "setupFile": "apps/sta/src/test-setup.ts"
+            "setupFile": "apps/sta/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -452,7 +463,8 @@
           "options": {
             "jestConfig": "libs/shared/empty-states/jest.config.js",
             "tsConfig": "libs/shared/empty-states/tsconfig.spec.json",
-            "setupFile": "libs/shared/empty-states/src/test-setup.ts"
+            "setupFile": "libs/shared/empty-states/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -483,7 +495,8 @@
           "options": {
             "jestConfig": "libs/shared/responsive/jest.config.js",
             "tsConfig": "libs/shared/responsive/tsconfig.spec.json",
-            "setupFile": "libs/shared/responsive/src/test-setup.ts"
+            "setupFile": "libs/shared/responsive/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -512,7 +525,7 @@
             "main": "apps/ltp/src/main.ts",
             "polyfills": "apps/ltp/src/polyfills.ts",
             "tsConfig": "apps/ltp/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["apps/ltp/src/favicon.ico", "apps/ltp/src/assets"],
             "styles": [
               "apps/ltp/src/styles.scss",
@@ -525,13 +538,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -584,7 +602,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -635,7 +652,8 @@
           "options": {
             "jestConfig": "apps/ltp/jest.config.js",
             "tsConfig": "apps/ltp/tsconfig.spec.json",
-            "setupFile": "apps/ltp/src/test-setup.ts"
+            "setupFile": "apps/ltp/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -686,7 +704,7 @@
             "main": "apps/steel/src/main.ts",
             "polyfills": "apps/steel/src/polyfills.ts",
             "tsConfig": "apps/steel/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/steel/src/assets",
               {
@@ -706,13 +724,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -765,7 +788,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -816,7 +838,8 @@
           "options": {
             "jestConfig": "apps/steel/jest.config.js",
             "tsConfig": "apps/steel/tsconfig.spec.json",
-            "setupFile": "apps/steel/src/test-setup.ts"
+            "setupFile": "apps/steel/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -885,7 +908,8 @@
           "options": {
             "jestConfig": "libs/shared/transloco/jest.config.js",
             "tsConfig": "libs/shared/transloco/tsconfig.spec.json",
-            "setupFile": "libs/shared/transloco/src/test-setup.ts"
+            "setupFile": "libs/shared/transloco/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       },
@@ -914,7 +938,7 @@
             "main": "apps/helloworld-azure/src/main.ts",
             "polyfills": "apps/helloworld-azure/src/polyfills.ts",
             "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": [
               "apps/helloworld-azure/src/favicon.ico",
               "apps/helloworld-azure/src/assets",
@@ -931,13 +955,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -990,7 +1019,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1041,7 +1069,8 @@
           "options": {
             "jestConfig": "apps/helloworld-azure/jest.config.js",
             "tsConfig": "apps/helloworld-azure/tsconfig.spec.json",
-            "setupFile": "apps/helloworld-azure/src/test-setup.ts"
+            "setupFile": "apps/helloworld-azure/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }
@@ -1092,7 +1121,7 @@
             "main": "apps/cdba/src/main.ts",
             "polyfills": "apps/cdba/src/polyfills.ts",
             "tsConfig": "apps/cdba/tsconfig.app.json",
-            "aot": false,
+            "aot": true,
             "assets": ["apps/cdba/src/favicon.ico", "apps/cdba/src/assets"],
             "styles": [
               "apps/cdba/src/styles.scss",
@@ -1105,13 +1134,18 @@
           },
           "configurations": {
             "dev": {
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
+                }
+              ],
               "statsJson": true,
               "optimization": true,
               "outputHashing": "none",
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": true,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": true,
               "buildOptimizer": true,
@@ -1164,7 +1198,6 @@
               "sourceMap": false,
               "extractCss": true,
               "namedChunks": false,
-              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
@@ -1215,7 +1248,8 @@
           "options": {
             "jestConfig": "apps/cdba/jest.config.js",
             "tsConfig": "apps/cdba/tsconfig.spec.json",
-            "setupFile": "apps/cdba/src/test-setup.ts"
+            "setupFile": "apps/cdba/src/test-setup.ts",
+            "passWithNoTests": true
           }
         }
       }

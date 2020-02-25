@@ -13,7 +13,6 @@ module.exports = {
       lines: 80
     }
   },
-  passWithNoTests: true,
   collectCoverage: true,
   reporters: [
     'default',

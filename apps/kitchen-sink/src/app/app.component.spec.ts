@@ -38,12 +38,11 @@ describe('AppComponent', () => {
   let breakpointObserverMock: Subscriber<any>;
 
   const initialBannerState: BannerState = {
-    text: '',
-    buttonText: 'OK',
-    truncateSize: 120,
-    isFullTextShown: false,
-    open: undefined,
-    url: undefined
+    text: undefined,
+    buttonText: undefined,
+    truncateSize: undefined,
+    showFullText: false,
+    open: false
   };
 
   /**
@@ -95,7 +94,7 @@ describe('AppComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
 
-    sidebarService = TestBed.get(SidebarService);
+    sidebarService = TestBed.inject(SidebarService);
   });
 
   it('should create the app', () => {

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { getBannerState } from '../../reducers';
+import { getBannerState } from '../reducers/banner.reducer';
 
 export const getBannerText = createSelector(
   getBannerState,
@@ -19,15 +19,10 @@ export const getBannerTruncateSize = createSelector(
 
 export const getBannerIsFullTextShown = createSelector(
   getBannerState,
-  state => state.isFullTextShown
+  state => state.showFullText
 );
 
 export const getBannerOpen = createSelector(
   getBannerState,
   state => state.open
-);
-
-export const getBannerUrl = createSelector(
-  getBannerState,
-  state => state.url
 );

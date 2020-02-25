@@ -62,7 +62,7 @@ export class SharedTranslocoModule {
     defaultLang: string,
     fallbackLang: string,
     appHasTranslations: boolean = true
-  ): ModuleWithProviders {
+  ): ModuleWithProviders<SharedTranslocoModule> {
     return {
       ngModule: SharedTranslocoModule,
       providers: [
@@ -90,7 +90,10 @@ export class SharedTranslocoModule {
       ]
     };
   }
-  static forChild(scope: string, loader: any): ModuleWithProviders {
+  static forChild(
+    scope: string,
+    loader: any
+  ): ModuleWithProviders<SharedTranslocoModule> {
     return {
       ngModule: SharedTranslocoModule,
       providers: [

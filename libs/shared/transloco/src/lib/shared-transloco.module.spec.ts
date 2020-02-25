@@ -30,7 +30,7 @@ describe('SharedTranslocoModule for Root', () => {
 
   describe('preloadLanguage', () => {
     test('should load language', () => {
-      const service = TestBed.get(transloco.TranslocoService);
+      const service = TestBed.inject(transloco.TranslocoService);
       service.load = jest.fn().mockImplementation(() => of(true));
 
       preloadLanguage(service, 'en', 'es')();
@@ -42,7 +42,7 @@ describe('SharedTranslocoModule for Root', () => {
       Object.defineProperty(transloco, 'getBrowserLang', {
         value: jest.fn().mockImplementation(() => 'es')
       });
-      const service = TestBed.get(transloco.TranslocoService);
+      const service = TestBed.inject(transloco.TranslocoService);
       service.load = jest.fn().mockImplementation(() => of(true));
 
       preloadLanguage(service, undefined, 'it')();
@@ -54,7 +54,7 @@ describe('SharedTranslocoModule for Root', () => {
       Object.defineProperty(transloco, 'getBrowserLang', {
         value: jest.fn().mockImplementation(() => undefined)
       });
-      const service = TestBed.get(transloco.TranslocoService);
+      const service = TestBed.inject(transloco.TranslocoService);
       service.load = jest.fn().mockImplementation(() => of(true));
 
       preloadLanguage(service, undefined, 'nl')();

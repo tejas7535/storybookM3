@@ -4,11 +4,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import {
-  BannerTextComponent,
-  getBannerOpen,
-  openBanner
-} from '@schaeffler/shared/ui-components';
+import { getBannerOpen, openBanner } from '@schaeffler/shared/ui-components';
 
 import { LTPState } from '../../core/store';
 
@@ -31,7 +27,6 @@ export class HomeComponent implements OnInit {
   public openBanner(): void {
     this.store.dispatch(
       openBanner({
-        component: BannerTextComponent,
         text: translate('disclaimer'),
         buttonText: translate('disclaimerClose'),
         truncateSize: 0

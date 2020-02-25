@@ -13,7 +13,6 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
-
 import { ServiceType } from './shared/result/models';
 
 @Component({

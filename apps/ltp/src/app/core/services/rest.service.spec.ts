@@ -2,7 +2,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController
 } from '@angular/common/http/testing';
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -26,9 +26,8 @@ describe('RestService', () => {
       providers: [RestService]
     });
 
-    const testBed = getTestBed();
-    myProvider = testBed.get(RestService);
-    httpMock = testBed.get(HttpTestingController);
+    myProvider = TestBed.inject(RestService);
+    httpMock = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

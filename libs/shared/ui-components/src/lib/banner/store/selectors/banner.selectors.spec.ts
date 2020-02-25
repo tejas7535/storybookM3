@@ -1,19 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 
-import { select, Store, StoreModule } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { Subscription } from 'rxjs';
 
-import { initialState } from '../../reducers/banner/banner.reducer';
-import {
-  bannerReducer,
-  BannerState
-} from './../../reducers/banner/banner.reducer';
+import { BannerState, initialState } from './../reducers/banner.reducer';
 
-import * as fromSelectors from '../../selectors';
+import * as fromSelectors from './banner.selectors';
 
 describe('BannerSelector', () => {
-  let store: Store<AppState>;
+  let store: MockStore<AppState>;
   let sub: Subscription;
   let result: any;
 
@@ -23,26 +20,12 @@ describe('BannerSelector', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [
-        StoreModule.forRoot(
-          {},
-          {
-            runtimeChecks: {
-              strictStateImmutability: true,
-              strictActionImmutability: true,
-              strictStateSerializability: true,
-              strictActionSerializability: false
-            }
-          }
-        ),
-        StoreModule.forFeature('banner', bannerReducer)
-      ]
+      providers: [provideMockStore({ initialState: { banner: initialState } })]
     });
   });
 
   beforeEach(() => {
-    store = TestBed.get(Store);
-    jest.spyOn(store, 'dispatch');
+    store = TestBed.inject(Store) as MockStore<AppState>;
     result = undefined;
   });
 
@@ -125,27 +108,11 @@ describe('BannerSelector', () => {
     });
 
     it('should return false when state is not defined', () => {
-      expect(result).toEqual(initialState.isFullTextShown);
+      expect(result).toEqual(initialState.showFullText);
     });
 
     it('should return type boolean', () => {
-      expect(typeof result).toEqual(typeof initialState.isFullTextShown);
-    });
-  });
-
-  describe('#getBannerUrl', () => {
-    beforeEach(() => {
-      store
-        .pipe(select(fromSelectors.getBannerUrl))
-        .subscribe(value => (result = value));
-    });
-
-    it('should return false when state is not defined', () => {
-      expect(result).toEqual(initialState.url);
-    });
-
-    it('should return type string or undefined', () => {
-      expect(typeof result).toEqual(typeof initialState.url);
+      expect(typeof result).toEqual(typeof initialState.showFullText);
     });
   });
 });

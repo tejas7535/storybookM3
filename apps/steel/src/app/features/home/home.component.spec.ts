@@ -64,7 +64,7 @@ describe('HomeComponent', () => {
     spyOn(transloco, 'translate').and.returnValue('test');
     fixture = TestBed.createComponent(HomeComponent);
     fixture.detectChanges();
-    sidebarService = TestBed.get(SidebarService);
+    sidebarService = TestBed.inject(SidebarService);
     component = fixture.componentInstance;
 
     window.matchMedia = jest.fn().mockImplementation(query => {

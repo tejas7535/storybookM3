@@ -1,19 +1,12 @@
-import { Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import {
-  BannerTextComponent,
-  getBannerOpen,
   openBanner,
   SnackBarService,
   SpeedDialFabItem
 } from '@schaeffler/shared/ui-components';
-
-import { CustomBannerComponent } from '../shared/components/custom-banner/custom-banner.component';
 
 import { AppState } from '../core/store';
 
@@ -28,11 +21,9 @@ import { AppState } from '../core/store';
     `
   ]
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   public speedDialFabOpen = false;
   public speedDialFabDisabled = true;
-
-  private readonly destroy$: Subject<boolean> = new Subject();
 
   public speedDialFabPrimaryBtn: SpeedDialFabItem = {
     key: 'conversation',
@@ -66,23 +57,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.openBanner();
-
-    this.store
-      .pipe(
-        takeUntil(this.destroy$),
-        select(getBannerOpen)
-      )
-      .pipe(take(2))
-      .subscribe(open => {
-        if (!open) {
-          this.openCustomBanner();
-        }
-      });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
   }
 
   /**
@@ -91,24 +65,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public openBanner(): void {
     this.store.dispatch(
       openBanner({
-        component: BannerTextComponent,
         text: translate('banner.bannerText'),
         buttonText: translate('banner.buttonText'),
         truncateSize: 120
-      })
-    );
-  }
-
-  /**
-   * Opens custom banner, should be triggered only once when the default banner is closed
-   */
-  public openCustomBanner(): void {
-    this.store.dispatch(
-      openBanner({
-        component: CustomBannerComponent,
-        text: translate('customBanner.bannerText'),
-        buttonText: translate('customBanner.buttonText'),
-        truncateSize: 0
       })
     );
   }

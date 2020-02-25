@@ -22,8 +22,8 @@ describe('DataService', () => {
 
   beforeEach(() => {
     injector = getTestBed();
-    httpMock = injector.get(HttpTestingController);
-    service = injector.get(DataService);
+    httpMock = injector.inject(HttpTestingController);
+    service = injector.inject(DataService);
   });
 
   afterEach(() => {

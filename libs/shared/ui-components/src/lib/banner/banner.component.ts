@@ -1,28 +1,13 @@
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
-import {
-  Component,
-  ComponentFactoryResolver,
-  EventEmitter,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild
-} from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
-import { BannerService } from './banner.service';
-
-import { BannerState } from './store/reducers/banner/banner.reducer';
-
-import { BannerContent } from './banner-content';
-import { DynamicComponentDirective } from './dynamic-component-directive/dynamic-component.directive';
-import { getBannerOpen, getBannerUrl } from './store';
-import * as BannerActions from './store/actions';
+import * as bannerActions from './store/actions/banner.actions';
+import { BannerState } from './store/reducers/banner.reducer';
+import * as bannerSelectors from './store/selectors/banner.selectors';
 
 // tslint:disable: only-arrow-functions
 export function de(): any {
@@ -46,88 +31,34 @@ export function en(): any {
     }
   ]
 })
-export class BannerComponent implements OnInit, OnDestroy {
-  @Output() readonly bannerClose: EventEmitter<void> = new EventEmitter();
+export class BannerComponent implements OnInit {
+  public showBanner$: Observable<boolean>;
+  public bannerText$: Observable<string>;
+  public bannerButtonText$: Observable<string>;
+  public truncateSize$: Observable<number>;
+  public showFullText$: Observable<boolean>;
 
-  private readonly destroy$: Subject<boolean> = new Subject();
+  constructor(private readonly store: Store<BannerState>) {}
 
-  public isBannerShown: Observable<boolean>;
-
-  private url: string;
-
-  // tslint:disable-next-line: prefer-inline-decorator
-  @ViewChild(DynamicComponentDirective, { static: false })
-  public dynamicComponent: DynamicComponentDirective;
-
-  constructor(
-    private readonly bannerService: BannerService,
-    private readonly componentFactoryResolver: ComponentFactoryResolver,
-    private readonly router: Router,
-    private readonly store: Store<BannerState>
-  ) {}
-
-  /**
-   * Subscribes to infoBannerService
-   */
   public ngOnInit(): void {
-    this.isBannerShown = this.store.pipe(
-      takeUntil(this.destroy$),
-      select(getBannerOpen)
+    this.showBanner$ = this.store.pipe(select(bannerSelectors.getBannerOpen));
+    this.bannerText$ = this.store.pipe(select(bannerSelectors.getBannerText));
+    this.bannerButtonText$ = this.store.pipe(
+      select(bannerSelectors.getBannerButtonText)
     );
-    this.isBannerShown.subscribe(open => {
-      if (open !== undefined && !open) {
-        this.bannerClose.emit();
-      }
-    });
-    this.store
-      .pipe(
-        takeUntil(this.destroy$),
-        select(getBannerUrl)
-      )
-      .subscribe(url => {
-        this.url = url;
-      });
-
-    this.bannerService.bannerComponent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(data => {
-        if (data.component) {
-          setTimeout(() => {
-            this.generateDynamicComponent(data.component);
-          });
-        }
-      });
-
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe(event => {
-      if (
-        event instanceof NavigationEnd &&
-        event.url !== this.url &&
-        event.urlAfterRedirects !== this.url
-      ) {
-        this.store.dispatch(BannerActions.closeBanner());
-      }
-    });
+    this.truncateSize$ = this.store.pipe(
+      select(bannerSelectors.getBannerTruncateSize)
+    );
+    this.showFullText$ = this.store.pipe(
+      select(bannerSelectors.getBannerIsFullTextShown)
+    );
   }
 
-  /**
-   * Destroys Subscription
-   */
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.complete();
+  public closeBanner(): void {
+    this.store.dispatch(bannerActions.closeBanner());
   }
 
-  /**
-   * generates dynamic component and attaches it to the view
-   */
-  private generateDynamicComponent(component: BannerContent): void {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(
-      component as any
-    );
-
-    const viewContainerRef = this.dynamicComponent.viewContainerRef;
-    viewContainerRef.clear();
-
-    viewContainerRef.createComponent(componentFactory);
+  public toggleFullText(): void {
+    this.store.dispatch(bannerActions.toggleFullText());
   }
 }

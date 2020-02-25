@@ -28,14 +28,14 @@ describe('SidebarService', () => {
   });
 
   it('should be created', () => {
-    service = TestBed.get(SidebarService);
+    service = TestBed.inject(SidebarService);
     expect(service).toBeTruthy();
   });
 
   describe('getSidebarMode()', () => {
     it('should return Observable<SidebarMode>', () => {
       resize(1000);
-      service = TestBed.get(SidebarService);
+      service = TestBed.inject(SidebarService);
       service.getSidebarMode().subscribe(mode => {
         expect(
           Object.values(SidebarMode).includes(SidebarMode[mode])
@@ -45,7 +45,7 @@ describe('SidebarService', () => {
 
     it('should return SidebarMode.Closed', () => {
       resize(600);
-      service = TestBed.get(SidebarService);
+      service = TestBed.inject(SidebarService);
       service
         .getSidebarMode()
         .subscribe(mode => expect(mode).toBe(SidebarMode.Closed));
@@ -53,7 +53,7 @@ describe('SidebarService', () => {
 
     it('should return SidebarMode.Minified', () => {
       resize(1200);
-      service = TestBed.get(SidebarService);
+      service = TestBed.inject(SidebarService);
       service
         .getSidebarMode()
         .subscribe(mode => expect(mode).toBe(SidebarMode.Minified));
@@ -61,7 +61,7 @@ describe('SidebarService', () => {
 
     it('should return SidebarMode.Open', () => {
       resize(2000);
-      service = TestBed.get(SidebarService);
+      service = TestBed.inject(SidebarService);
       service
         .getSidebarMode()
         .subscribe(mode => expect(mode).toBe(SidebarMode.Open));

@@ -14,7 +14,7 @@ describe('DroppableDirective', () => {
   });
 
   beforeEach(() => {
-    directive = TestBed.get(DroppableDirective);
+    directive = TestBed.inject(DroppableDirective);
   });
 
   it('should create an instance', () => {

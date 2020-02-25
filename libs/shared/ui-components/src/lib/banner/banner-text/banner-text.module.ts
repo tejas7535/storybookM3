@@ -10,7 +10,6 @@ import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 
 @NgModule({
   declarations: [BannerTextComponent, TruncatePipe],
-  entryComponents: [BannerTextComponent],
   imports: [FlexLayoutModule, CommonModule, SharedTranslocoModule],
   exports: [BannerTextComponent, TruncatePipe]
 })

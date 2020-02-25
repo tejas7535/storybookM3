@@ -23,8 +23,8 @@ describe('GreetingService', () => {
       imports: [HttpClientTestingModule]
     });
 
-    service = TestBed.get(GreetingService);
-    backend = TestBed.get(HttpTestingController);
+    service = TestBed.inject(GreetingService);
+    backend = TestBed.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -74,9 +74,9 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
-    authGuard = TestBed.get(AuthGuard);
-    breakpointService = TestBed.get(BreakpointService);
-    store = TestBed.get(Store);
+    authGuard = TestBed.inject(AuthGuard);
+    breakpointService = TestBed.inject(BreakpointService);
+    store = TestBed.inject(Store);
   });
 
   it('should create the app', () => {

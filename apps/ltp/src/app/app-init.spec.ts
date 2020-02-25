@@ -24,7 +24,7 @@ describe('Keycloak initializer', () => {
   });
 
   beforeEach(() => {
-    keycloakService = TestBed.get(KeycloakService);
+    keycloakService = TestBed.inject(KeycloakService);
   });
 
   it('should be a function', () => {

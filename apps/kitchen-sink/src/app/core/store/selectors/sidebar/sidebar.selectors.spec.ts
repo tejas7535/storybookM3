@@ -34,7 +34,7 @@ describe('SidebarSelector', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
     jest.spyOn(store, 'dispatch');
     result = undefined;
   });

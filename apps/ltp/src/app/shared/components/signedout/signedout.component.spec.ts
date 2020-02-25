@@ -1,6 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatGridListModule } from '@angular/material';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 

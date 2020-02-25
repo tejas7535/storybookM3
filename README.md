@@ -1,10 +1,10 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v0.1.1-green.svg)
-![@angular/core: 8.2.14](https://img.shields.io/badge/%40angular%2Fcore-8.2.14-brightgreen)
+![@angular/core: 9.0.2](https://img.shields.io/badge/%40angular%2Fcore-9.0.2-brightgreen)
 ![@ngrx/store: 8.6.0](https://img.shields.io/badge/%40ngrx%2Fstore-8.6.0-brightgreen)
-![@angular/material: 8.2.3](https://img.shields.io/badge/%40angular%2Fmaterial-8.2.3-brightgreen)
-![@angular/flex-layout: 8.0.0-beta.27](https://img.shields.io/badge/%40angular%2Fflex--layout-8.0.0--beta.27-brightgreen)
+![@angular/material: 9.0.1](https://img.shields.io/badge/%40angular%2Fmaterial-9.0.1-brightgreen)
+![@angular/flex-layout: 9.0.0-beta.29](https://img.shields.io/badge/%40angular%2Fflex--layout-9.0.0--beta.29-brightgreen)
 ![prettier: 1.18.2](https://img.shields.io/badge/prettier-1.18.2-brightgreen)
 ![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
 

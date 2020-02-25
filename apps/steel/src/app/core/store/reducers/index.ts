@@ -5,7 +5,6 @@ import {
   createFeatureSelector,
   MetaReducer
 } from '@ngrx/store';
-import { BannerReducer, BannerState } from '@schaeffler/shared/ui-components';
 
 import { environment } from '../../../../environments/environment';
 
@@ -17,12 +16,10 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  banner: BannerState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  router: fromRouter.routerReducer,
-  banner: BannerReducer
+  router: fromRouter.routerReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -32,8 +29,6 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
-
-export const getBannerState = createFeatureSelector<BannerState>('banner');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

@@ -36,7 +36,7 @@ describe('ExtensionComponent', () => {
     component.extension = mockExtension;
     fixture.detectChanges();
 
-    snackBarService = TestBed.get(SnackBarService);
+    snackBarService = TestBed.inject(SnackBarService);
   });
 
   it('should create', () => {
