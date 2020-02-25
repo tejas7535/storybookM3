@@ -43,7 +43,8 @@ import { AuthGuard } from './core/guards/auth.guard';
       environment.production,
       ['de', 'en'],
       undefined,
-      'en'
+      'en',
+      true
     )
   ],
   declarations: [AppComponent, SignedoutComponent],

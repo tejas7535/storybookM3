@@ -1,0 +1,16 @@
+{
+  "errorMessages": {
+    "0": "Entschuldige, ein unbekannter Fehler ist aufgetreten. Bitte versuche es später noch einmal.",
+    "2": "Entschuldige, deine Texteingabe ist zu kurz. Bitte gib mind. 40 Zeichen ein.",
+    "3": "Entschuldige, deine Texteingabe scheint leer zu sein. Bitte gib gültige Zeichen ein.",
+    "4": "Entschuldige, unser Service ist gerade nicht erreichbar. Bitte versuche es später noch einmal.",
+    "5": "Entschuldige, unser KI-Modell hat kein Ergebnis für deinen Text. Wir versuchen uns zu verbessern!",
+    "6": "Entschuldige, unser Service ist gerade nicht erreichbar. Bitte versuche es später noch einmal.",
+    "8": "Entschuldige, deine Texteingabe scheint leer zu fehlen. Bitte gib einen Text ein.",
+    "9": "Entschuldige, deine Texteingabe scheint leer zu sein. Bitte gib gültige Zeichen ein.",
+    "12": "Entschuldige, dein Dateityp wird nicht unterstützt. Bitte lade .txt, .docx oder .pdf hoch.",
+    "13": "Entschuldige, deine Datei ist zu groß. Bitte lade eine Datei <10MB hoch.",
+    "14": "Entschuldige, deine Sprache wird noch nicht unterstützt. Wir können nur Deutsch oder Englisch verarbeiten.",
+    "17": "Entschuldige, deine Texteingabe ist zu lang. Bitte gib unter 1 Mio. Zeichen ein."
+  }
+}

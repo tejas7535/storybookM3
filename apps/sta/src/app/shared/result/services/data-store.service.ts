@@ -1,5 +1,4 @@
-import { BehaviorSubject, combineLatest, Observable, Subject } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Subject } from 'rxjs';
 
 import { Injectable } from '@angular/core';
 
@@ -34,8 +33,6 @@ export class DataStoreService {
   public readonly reset$ = this._reset.asObservable();
   public readonly loadingTags$ = this._loadingTags.asObservable();
   public readonly loadingTranslation$ = this._loadingTranslation.asObservable();
-
-  private readonly allData$ = combineLatest([this.tags$, this.translation$]);
 
   constructor(private readonly dataService: DataService) {}
 
@@ -103,15 +100,6 @@ export class DataStoreService {
     this._loadingTranslation.next(false);
 
     return new FileStatus(file.name, file.type, successfulCall);
-  }
-
-  /**
-   * Check if data has already been stored in any subject.
-   */
-  public isDataAvailable(): Observable<boolean> {
-    return this.allData$.pipe(
-      map(([tags, translation]) => (tags || translation ? true : false))
-    );
   }
 
   public reset(): void {
