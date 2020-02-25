@@ -46,10 +46,10 @@ import { LandingModule } from './feature/landing/landing.module';
     LandingModule,
     SharedTranslocoModule.forRoot(
       environment.production,
-      ['en'],
+      ['en', 'de'],
+      undefined,
       'en',
-      'en',
-      false
+      true
     )
   ],
   providers: [

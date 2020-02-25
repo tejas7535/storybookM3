@@ -1,3 +1,5 @@
+import { Observable } from 'rxjs';
+
 import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
@@ -7,16 +9,19 @@ import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
-import { Observable } from 'rxjs';
-
+import * as transloco from '@ngneat/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   SnackBarModule,
   SnackBarService
 } from '@schaeffler/shared/ui-components';
 
-import { environment } from '../../environments/environment';
+import { configureTestSuite } from 'ng-bullet';
+
 import { HttpErrorInterceptor } from './http-error.interceptor';
+
+import * as en from '../../assets/i18n/en.json';
+import { environment } from '../../environments/environment';
 
 @Injectable()
 export class ExampleService {
@@ -36,10 +41,14 @@ describe(`HttpErrorInterceptor`, () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NoopAnimationsModule, SnackBarModule],
+      imports: [
+        provideTranslocoTestingModule({ en }),
+        HttpClientTestingModule,
+        NoopAnimationsModule,
+        SnackBarModule
+      ],
       providers: [
         ExampleService,
-        HttpErrorInterceptor,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
@@ -50,6 +59,9 @@ describe(`HttpErrorInterceptor`, () => {
   });
 
   beforeEach(() => {
+    Object.defineProperty(transloco, 'translate', {
+      value: jest.fn().mockImplementation(() => 'test')
+    });
     service = TestBed.get(ExampleService);
     httpMock = TestBed.get(HttpTestingController);
     snackBarService = TestBed.get(SnackBarService);
@@ -64,7 +76,9 @@ describe(`HttpErrorInterceptor`, () => {
 
     beforeEach(() => {
       error = new ErrorEvent('error', {
-        error: new Error('AAAHHHH'),
+        error: {
+          message: 'error'
+        },
         message: 'A monkey is throwing bananas at me!',
         lineno: 402,
         filename: 'closet.html'
@@ -95,7 +109,12 @@ describe(`HttpErrorInterceptor`, () => {
         },
         response => {
           expect(response).toBeTruthy();
-          expect(response).toEqual(error.message);
+          expect(transloco.translate).toHaveBeenCalledWith(
+            '0',
+            {},
+            'errorMessages'
+          );
+          expect(response).toEqual('test');
         }
       );
 
@@ -113,9 +132,12 @@ describe(`HttpErrorInterceptor`, () => {
         },
         response => {
           expect(response).toBeTruthy();
-          expect(response).toEqual(
-            '0: Http failure response for https://dev.sta.dp.schaeffler/api/v1/test: 0 '
+          expect(transloco.translate).toHaveBeenCalledWith(
+            '10',
+            {},
+            'errorMessages'
           );
+          expect(response).toEqual('test');
         }
       );
 
@@ -123,7 +145,10 @@ describe(`HttpErrorInterceptor`, () => {
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error(({ error: 'wow' } as unknown) as ErrorEvent);
+      httpRequest.error(({
+        status: 0,
+        errorId: 10
+      } as unknown) as ErrorEvent);
     }));
 
     test('should toast error message in error case', () => {
@@ -140,7 +165,10 @@ describe(`HttpErrorInterceptor`, () => {
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error(({ error: 'wow' } as unknown) as ErrorEvent);
+      httpRequest.error(({
+        status: 403,
+        errorId: 99
+      } as unknown) as ErrorEvent);
     });
   });
 });

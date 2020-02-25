@@ -194,23 +194,6 @@ describe('DataStoreService', () => {
     });
   });
 
-  describe('isDataAvailable', () => {
-    test('should return true when tags are there', done => {
-      service['tags'] = ['tags'];
-      service.isDataAvailable().subscribe(isDataAvl => {
-        expect(isDataAvl).toBeTruthy();
-        done();
-      });
-    });
-
-    test('should return false when no tags avl', done => {
-      service.isDataAvailable().subscribe(isDataAvl => {
-        expect(isDataAvl).toBeFalsy();
-        done();
-      });
-    });
-  });
-
   describe('reset', () => {
     test('should set variables to their initial states and reset', () => {
       service['tags'] = ['tag1', 'tag2'];

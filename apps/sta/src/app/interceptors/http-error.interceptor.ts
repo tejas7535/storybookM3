@@ -1,3 +1,6 @@
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/internal/operators';
+
 import {
   HttpErrorResponse,
   HttpEvent,
@@ -7,9 +10,7 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
-
+import { translate } from '@ngneat/transloco';
 import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 @Injectable()
@@ -25,18 +26,23 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         let errorMessage = '';
 
         if (error.error instanceof ErrorEvent) {
-          // A client-side or network error occurred. Handle it accordingly.
+          // a client-side or network error occurred. Handle it accordingly.
           console.error('An error occurred:', error.error.message);
-          errorMessage = error.error.message;
+
+          // show default error message
+          errorMessage = translate('0', {}, 'errorMessages');
         } else {
-          // The backend returned an unsuccessful response code.
-          // The response body may contain clues as to what went wrong,
+          // Backend Response
           console.error(
             `Backend returned code ${error.status}, ` +
-              `body was: ${error.error}`
+              `body was: ${JSON.stringify(error.error)}`
           );
 
-          errorMessage = `${error.status}: ${error.message}`;
+          errorMessage = translate(
+            error.error.errorId.toString(),
+            {},
+            'errorMessages'
+          );
         }
 
         this.snackBarService.showErrorMessage(errorMessage);

@@ -1,4 +1,4 @@
-import { from, Observable, of, Subscriber } from 'rxjs';
+import { Observable, Subscriber } from 'rxjs';
 
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
@@ -28,7 +28,6 @@ import { AppComponent } from './app.component';
 import { ResultComponent } from './shared/result/result.component';
 
 import { AuthService } from './core/auth.service';
-import { DataStoreService } from './shared/result/services/data-store.service';
 
 import { ServiceType } from './shared/result/models';
 
@@ -62,7 +61,6 @@ describe('AppComponent', () => {
       ],
       declarations: [AppComponent, ResultStubComponent],
       providers: [
-        DataStoreService,
         BreakpointService,
         SidebarService,
         {
@@ -140,33 +138,10 @@ describe('AppComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.isDataAvl$).toBeDefined();
       expect(component.subscription).toBeDefined();
-    });
-
-    test('should set settingsSidebarOpen to false initialy', async () => {
-      component['dataStore'].isDataAvailable = jest
-        .fn()
-        .mockImplementation(() => of(false));
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      await fixture.whenStable();
-
-      expect(component.settingsSidebarOpen).toBeFalsy();
-    });
-
-    test('should set settingsSidebarOpen to true when data avl', async () => {
-      component['dataStore'].isDataAvailable = jest
-        .fn()
-        .mockImplementation(() => from([false, true]));
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      await fixture.whenStable();
-
-      expect(component.settingsSidebarOpen).toBeTruthy();
+      expect(component.isMobile$).toBeDefined();
+      expect(component.isLessThanMedium$).toBeDefined();
+      expect(component.isMedium$).toBeDefined();
     });
 
     test('should call handleSidebarToggledObservable on change', () => {
@@ -194,36 +169,6 @@ describe('AppComponent', () => {
     });
 
     test('should set isHome and settingsSidebarOpen correctly II', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      const event = new NavigationEnd(42, '/overview', '/overview');
-      TestBed.get(Router).events.next(event);
-
-      expect(component.isHome).toBeFalsy();
-      expect(component.settingsSidebarOpen).toBeTruthy();
-    });
-
-    test('should set isHome and settingsSidebarOpen correctly III', () => {
-      component['dataStore'].isDataAvailable = jest
-        .fn()
-        .mockImplementation(() => of(true));
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      const event = new NavigationEnd(42, '/overview', '/overview');
-      TestBed.get(Router).events.next(event);
-
-      expect(component.isHome).toBeFalsy();
-      expect(component.settingsSidebarOpen).toBeTruthy();
-    });
-
-    test('should set isHome and settingsSidebarOpen correctly III', () => {
-      component['dataStore'].isDataAvailable = jest
-        .fn()
-        .mockImplementation(() => of(true));
-
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 

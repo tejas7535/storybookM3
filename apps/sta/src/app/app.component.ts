@@ -1,12 +1,5 @@
 import { Observable, Subject, Subscription } from 'rxjs';
-import {
-  filter,
-  map,
-  take,
-  takeUntil,
-  tap,
-  withLatestFrom
-} from 'rxjs/operators';
+import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
@@ -20,7 +13,6 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
-import { DataStoreService } from './shared/result/services/data-store.service';
 
 import { ServiceType } from './shared/result/models';
 
@@ -47,7 +39,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public username$: Observable<string>;
 
   public settingsSidebarOpen = false;
-  public isDataAvl$: Observable<boolean>;
+
   public currentService: ServiceType;
 
   public iconEnlarge = 'icon-resize-enlarge';
@@ -82,7 +74,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly authService: AuthService,
-    private readonly dataStore: DataStoreService,
     private readonly sidebarService: SidebarService,
     private readonly breakpointService: BreakpointService,
     private readonly router: Router,
@@ -94,19 +85,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.isAuthenticated$ = this.authService.isAuthenticated$;
     this.isDoneLoading$ = this.authService.isDoneLoading$;
-    this.isDataAvl$ = this.dataStore.isDataAvailable();
     this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
     this.username$ = this.authService.getUserName();
     this.handleSidebarMode();
-    this.subscription.add(
-      this.dataStore.isDataAvailable().subscribe(open => {
-        if (open) {
-          this.settingsSidebarOpen = true;
-        }
-      })
-    );
 
     this.subscription.add(
       this.sidebarToggledObservable$.subscribe((sidebarMode: SidebarMode) => {
@@ -119,15 +102,12 @@ export class AppComponent implements OnInit, OnDestroy {
         .pipe(
           filter(evt => evt instanceof NavigationEnd),
           map(evt => evt as NavigationEnd),
-          withLatestFrom(this.isDataAvl$),
-          tap(([routerEvent, isDataAvl]: [NavigationEnd, boolean]) => {
+          tap((routerEvent: NavigationEnd) => {
             this.isHome = routerEvent.url === this.home ? true : false;
 
             this.currentService = this.route.snapshot.firstChild.data.service;
 
-            if (!isDataAvl) {
-              this.settingsSidebarOpen = !this.isHome;
-            }
+            this.settingsSidebarOpen = !this.isHome;
           })
         )
         .subscribe()
