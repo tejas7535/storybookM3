@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.1.1...v0.2.0) (2020-03-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* update to v9 (UFTABI-1901)
+improvement(ui-components): refactor banner component (UFTABI-1741)
+
+See merge request frontend-schaeffler/schaeffler-frontend!228
+
+### 🐛 Bug Fixes
+
+* **helloworld-azure:** fix basePaths in environments ([cc5735b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cc5735bb1a7d40224d7179c67c8a44bae3cbf4df))
+* **sta:** fix text length error for translation ([a3c23ed](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a3c23ed3964f7706a20b0cdf284222188cabb407))
+* **sta:** reset functionality works now for all cases ([1366f67](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1366f67ee729eb66d105aa132c70e4e6f6e009c8))
+* **workspace:** fix build configurations ([da7623f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/da7623fd639e79d92a8ff537d2f214254678e300))
+* **workspace:** use gesture config from angular material ([edd56c2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/edd56c2d6a87e7af84003ffb8e295a191d66e45e))
+
+
+* Merge branch 'feature/UFTABI-1901' into 'master' ([528aae1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/528aae1e5180f41ed3a0ef2c5b93227ba394294a))
+
+
+### 🎸 Features
+
+* **cdba:** add header and settings sidebar (DSCDA-1269) ([7e19eef](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7e19eef6cade23aee3af1e077b4e66ba9a7026b3))
+* **cdba:** add translation functionality (DSCDA-1305) ([7dc8cda](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7dc8cdad3170ee907ee4df3a455add69cb559806))
+* **cdba:** routing and empty states (DSCDA-1305) ([de1e24e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/de1e24e43bc5266c9e65438d1bd37ee0cad3b599))
+* **reset-filter:** add reset-filter extension (SSBI-57) ([39045a6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/39045a661404ffd1ec4adddb9981798682d0a150))
+* **sta:** adjust text in disclaimer ([872bc9e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/872bc9e03dd639b5b0c374cfc49607fa776813de))
+* **sta:** content area improvement (UFTABI-1577) ([e04033e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e04033e014a684b7445955b4936dab5d56860b4f))
+* **sta:** error handling (UFTABI-1673) ([09d90a6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/09d90a6e2b4333369f5ca2e4fc9abb872c25c7aa))
+* **sta:** Implement empty states (UFTABI-1656) ([1a14b00](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1a14b005897ce2149620c2f7dd168be2e399a9aa))
+* **sta:** implement ghost elements (UFTABI-1567) ([ed1971b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ed1971b78cfe9665e2efe7a14390c6249e2f43bc))
+* **sta:** loading bar with fun facts for user entertainment (UFTABI-1676) ([5e62be8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5e62be87c0716fbfa50d0119e51d8c794cfcab31))
+* **sta:** show username in header (UFTABI-2090) ([ddbe4e3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ddbe4e348da97ea09451621ac41081209e1fbefc))
+* **workspace:** support multiple build configurations (UFTABI-2030) ([480cab2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/480cab2535c22a50402c04964b6f741bd323d39c))
+
 ### [0.1.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.1.0...v0.1.1) (2020-02-18)
 
 
