@@ -46,7 +46,9 @@ export class DataStoreService {
 
   public async getTagsForText(text: string): Promise<void> {
     this._loadingTags.next(true);
-    this.tags = await this.dataService.postTaggingText(text);
+    try {
+      this.tags = await this.dataService.postTaggingText(text);
+    } catch (_e) {}
     this._loadingTags.next(false);
   }
 
@@ -72,10 +74,12 @@ export class DataStoreService {
     targetLang: Language = Language.DE
   ): Promise<void> {
     this._loadingTranslation.next(true);
-    this.translation = await this.dataService.postTranslationText(
-      text,
-      targetLang
-    );
+    try {
+      this.translation = await this.dataService.postTranslationText(
+        text,
+        targetLang
+      );
+    } catch (_e) {}
     this._loadingTranslation.next(false);
   }
 
