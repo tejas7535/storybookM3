@@ -2,25 +2,43 @@
   <h1>Translation</h1>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <div class="mat-elevation-z8 background-white" fxFlex="100%">
-      <mat-tab-group dynamicHeight="true">
+      <mat-tab-group #tabGroup dynamicHeight="true">
         <mat-tab label="Text Input">
           <div class="main-container">
-            <sta-text-input
-              (btnClicked)="getTranslationForText($event)"
-              btnText="Generate Translation"
-              [defaultText]="demoTextEn"
-              minLength="0"
-              textHint="German or English text only"
-            ></sta-text-input>
+            <ng-container *ngIf="!(loadingTranslation$ | async)">
+              <sta-text-input
+                (btnClicked)="getTranslationForText($event)"
+                btnText="Generate Translation"
+                [defaultText]="demoTextEn"
+                minLength="0"
+                textHint="German or English text only"
+              ></sta-text-input>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                (loadingTranslation$ | async) && tabGroup.selectedIndex === 0
+              "
+            >
+              <sta-fun-facts-loading-bar></sta-fun-facts-loading-bar>
+            </ng-container>
           </div>
         </mat-tab>
         <mat-tab label="File Upload">
           <div class="main-container">
-            <sta-file-upload
-              (fileUploaded)="getTranslationForFile($event)"
-              [fileStatus]="fileStatus"
-              supportedLanguages="English and German"
-            ></sta-file-upload>
+            <ng-container *ngIf="!(loadingTranslation$ | async)">
+              <sta-file-upload
+                (fileUploaded)="getTranslationForFile($event)"
+                [fileStatus]="fileStatus"
+                supportedLanguages="English and German"
+              ></sta-file-upload>
+            </ng-container>
+            <ng-container
+              *ngIf="
+                (loadingTranslation$ | async) && tabGroup.selectedIndex === 1
+              "
+            >
+              <sta-fun-facts-loading-bar></sta-fun-facts-loading-bar>
+            </ng-container>
           </div>
         </mat-tab>
       </mat-tab-group>

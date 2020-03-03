@@ -8,6 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { configureTestSuite } from 'ng-bullet';
 
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
+import { FunFactsLoadingBarModule } from '../../shared/fun-facts-loading-bar/fun-facts-loading-bar.module';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
 
 import { TranslationComponent } from './translation.component';
@@ -26,7 +27,8 @@ describe('TranslationComponent', () => {
         HttpClientTestingModule,
         MatTabsModule,
         TextInputModule,
-        FileUploadModule
+        FileUploadModule,
+        FunFactsLoadingBarModule
       ]
     });
   });

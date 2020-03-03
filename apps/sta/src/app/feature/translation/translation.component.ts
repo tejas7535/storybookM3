@@ -1,4 +1,4 @@
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
@@ -16,12 +16,15 @@ import { FileStatus } from '../../shared/file-upload/file-status.model';
 export class TranslationComponent implements OnInit, OnDestroy {
   public fileStatus: FileStatus = undefined;
   public demoTextEn = DEMO_TEXT_EN;
+  public loadingTranslation$: Observable<boolean>;
+  public selectedTabIndex = 0;
 
   private readonly subscription: Subscription = new Subscription();
 
   constructor(private readonly dataStore: DataStoreService) {}
 
   public ngOnInit(): void {
+    this.loadingTranslation$ = this.dataStore.loadingTranslation$;
     this.subscription.add(
       this.dataStore.reset$.subscribe(
         () =>

@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
+import { FunFactsLoadingBarModule } from '../../shared/fun-facts-loading-bar/fun-facts-loading-bar.module';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
 import { TranslationRoutingModule } from './translation-routing.module';
 
@@ -17,7 +18,8 @@ import { TranslationComponent } from './translation.component';
     MatTabsModule,
     TextInputModule,
     FileUploadModule,
-    TranslationRoutingModule
+    TranslationRoutingModule,
+    FunFactsLoadingBarModule
   ],
   exports: [TranslationComponent]
 })
