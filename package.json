@@ -67,7 +67,7 @@
     "@angular/platform-browser": "9.0.2",
     "@angular/platform-browser-dynamic": "9.0.2",
     "@angular/router": "9.0.2",
-    "@ngneat/transloco": "2.13.3",
+    "@ngneat/transloco": "2.13.5",
     "@ngrx/effects": "8.6.0",
     "@ngrx/router-store": "8.6.0",
     "@ngrx/store": "8.6.0",
