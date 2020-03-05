@@ -111,3 +111,10 @@
             "toConsole": false
         }
      ```
+   - Add the `shared-styles` as an implicit dependency in `nx.json`:
+     ```json
+        "my-app": {
+            "tags": [],
+            "implicitDependencies": ["shared-styles"]
+        }
+     ```

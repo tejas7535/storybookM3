@@ -156,7 +156,7 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
             "implicitDependencies": ["shared-styles"]
         }
      ```
-     
+
 ## Contribution and Terms of Admission
 
 Check out our [contribution guidelines](CONTRIBUTING.md) as well as our [code of conduct](CODE_OF_CONDUCT.md) if you are interested in participating.
