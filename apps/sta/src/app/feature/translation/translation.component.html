@@ -8,7 +8,7 @@
             <ng-container *ngIf="!(loadingTranslation$ | async)">
               <sta-text-input
                 (btnClicked)="getTranslationForText($event)"
-                btnText="Generate Translation"
+                btnText="Translate"
                 [defaultText]="demoTextEn"
                 minLength="0"
                 textHint="German or English text only"
