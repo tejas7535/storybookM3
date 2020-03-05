@@ -7,19 +7,19 @@
   "baseBranches": ["master"],
   "packageRules": [
     {
-      "packagePatterns": ["^@angular/.*"],
+      "packagePatterns": ["^@angular/", "^@angular-devkit/"],
       "groupName": "angular",
       "updateTypes": ["minor", "major"],
       "enabled": false
     },
     {
-      "packagePatterns": ["^@nrwl/.*"],
+      "packagePatterns": ["^@nrwl/"],
       "groupName": "nrwl",
       "updateTypes": ["minor", "major"],
       "enabled": false
     },
     {
-      "packagePatterns": ["^@ngrx/.*"],
+      "packagePatterns": ["^@ngrx/"],
       "groupName": "ngrx",
       "updateTypes": ["minor", "major"],
       "enabled": false
@@ -30,10 +30,12 @@
       "enabled": false
     },
     {
-      "packageNames": ["keycloak-angular", "keycloak-js"],
-      "groupName": "keycloak",
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "packageNames": ["devextreme", "devextreme-angular"],
+      "groupName": "devextreme"
+    },
+    {
+      "packagePatterns": ["^@ngneat/transloco"],
+      "groupName": "transloco"
     }
   ]
 }
