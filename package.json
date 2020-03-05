@@ -111,7 +111,7 @@
     "angular-tslint-rules": "1.20.3",
     "codelyzer": "5.2.1",
     "commitizen": "4.0.3",
-    "cypress": "3.8.3",
+    "cypress": "4.1.0",
     "cz-conventional-changelog": "3.1.0",
     "dotenv": "8.2.0",
     "eslint": "6.8.0",
