@@ -23,8 +23,8 @@ describe('FunFactsLoadingBarService', () => {
 
   beforeEach(() => {
     injector = getTestBed();
-    httpMock = injector.get(HttpTestingController);
-    service = injector.get(FunFactsLoadingBarService);
+    httpMock = injector.inject(HttpTestingController);
+    service = injector.inject(FunFactsLoadingBarService);
   });
 
   afterEach(() => {
