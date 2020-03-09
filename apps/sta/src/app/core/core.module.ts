@@ -14,6 +14,8 @@ import {
   ValidationHandler
 } from 'angular-oauth2-oidc';
 
+import { StoreModule } from './store/store.module';
+
 import { AuthService } from './auth.service';
 
 import { TokenInterceptor } from './token.interceptor';
@@ -24,7 +26,7 @@ import { AuthGuard } from './auth.guard';
 export const storageFactory = (): OAuthStorage => localStorage;
 
 @NgModule({
-  imports: [OAuthModule.forRoot()],
+  imports: [OAuthModule.forRoot(), StoreModule],
   providers: [AuthGuard, AuthService]
 })
 export class CoreModule {
