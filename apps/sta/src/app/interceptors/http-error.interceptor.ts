@@ -15,6 +15,8 @@ import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
+  private readonly NO_TOASTS = [19];
+
   constructor(private readonly snackBarService: SnackBarService) {}
 
   public intercept(
@@ -45,7 +47,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           );
         }
 
-        this.snackBarService.showErrorMessage(errorMessage);
+        // Do not show the toast for specific errors
+        if (this.NO_TOASTS.indexOf(error.error.errorId) === -1) {
+          this.snackBarService.showErrorMessage(errorMessage);
+        }
 
         return throwError(errorMessage);
       })

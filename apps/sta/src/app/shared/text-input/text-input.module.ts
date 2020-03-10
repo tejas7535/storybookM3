@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
+import { LanguageDetectionModule } from '../language-detection/language-detection.module';
+
 import { TextInputComponent } from './text-input.component';
 
 @NgModule({
@@ -13,6 +15,7 @@ import { TextInputComponent } from './text-input.component';
   imports: [
     CommonModule,
     FlexLayoutModule,
+    LanguageDetectionModule,
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,

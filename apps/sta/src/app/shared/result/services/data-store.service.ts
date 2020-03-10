@@ -71,13 +71,15 @@ export class DataStoreService {
 
   public async getTranslationForText(
     text: string,
-    targetLang: Language = Language.DE
+    targetLang: Language = Language.DE,
+    textLang: Language = Language.EN
   ): Promise<void> {
     this._loadingTranslation.next(true);
     try {
       this.translation = await this.dataService.postTranslationText(
         text,
-        targetLang
+        targetLang,
+        textLang
       );
     } catch (_e) {}
     this._loadingTranslation.next(false);
@@ -85,7 +87,8 @@ export class DataStoreService {
 
   public async getTranslationForFile(
     file: File,
-    targetLang: Language = Language.DE
+    targetLang: Language = Language.DE,
+    textLang: Language = Language.EN
   ): Promise<FileStatus> {
     this._loadingTranslation.next(true);
     let successfulCall = true;
@@ -95,7 +98,8 @@ export class DataStoreService {
     try {
       this.translation = await this.dataService.postTranslationFile(
         file,
-        targetLang
+        targetLang,
+        textLang
       );
     } catch (_e) {
       successfulCall = false;

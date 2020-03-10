@@ -5,6 +5,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
@@ -14,6 +16,8 @@ import { TextInputModule } from '../../shared/text-input/text-input.module';
 import { TranslationComponent } from './translation.component';
 
 import { FileStatus } from '../../shared/file-upload/file-status.model';
+
+import { TextInput } from '../../shared/result/models';
 
 describe('TranslationComponent', () => {
   let component: TranslationComponent;
@@ -28,7 +32,8 @@ describe('TranslationComponent', () => {
         MatTabsModule,
         TextInputModule,
         FileUploadModule,
-        FunFactsLoadingBarModule
+        FunFactsLoadingBarModule,
+        provideTranslocoTestingModule({})
       ]
     });
   });
@@ -96,12 +101,14 @@ describe('TranslationComponent', () => {
   describe('getTranslationForText', () => {
     test('should call getTranslationForText', () => {
       component['dataStore'].getTranslationForText = jest.fn();
-      const text = 'text';
+      const text = new TextInput('text');
 
       component.getTranslationForText(text);
 
       expect(component['dataStore'].getTranslationForText).toHaveBeenCalledWith(
-        text
+        text.text,
+        text.targetLang,
+        text.textLang
       );
     });
   });

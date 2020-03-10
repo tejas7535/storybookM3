@@ -8,6 +8,8 @@ import { DEMO_TEXT_EN } from '../../constants/demo-text-en.constant';
 
 import { FileStatus } from '../../shared/file-upload/file-status.model';
 
+import { TextInput } from '../../shared/result/models';
+
 @Component({
   selector: 'sta-translation',
   templateUrl: './translation.component.html',
@@ -41,8 +43,12 @@ export class TranslationComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  public getTranslationForText(text: string): void {
-    this.dataStore.getTranslationForText(text);
+  public getTranslationForText(textInput: TextInput): void {
+    this.dataStore.getTranslationForText(
+      textInput.text,
+      textInput.targetLang,
+      textInput.textLang
+    );
   }
 
   public async getTranslationForFile(file: File): Promise<void> {
