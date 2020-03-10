@@ -1,26 +1,49 @@
 <div fxLayout="column" fxLayoutAlign="space-around start">
-  <mat-form-field class="textInput" floatLabel="always">
+  <mat-form-field
+    class="textInput"
+    floatLabel="always"
+    [formGroup]="textFormGroup"
+  >
     <mat-label>Use demo text or paste your text here</mat-label>
     <textarea
       matTextareaAutosize
       matAutosizeMinRows="10"
       matInput
       placeholder="Enter a text"
-      [formControl]="textFormControl"
+      formControlName="text"
     >
     </textarea>
     <mat-hint>{{ textHint }}</mat-hint>
-    <mat-error *ngIf="!textFormControl.valid">
+    <mat-error
+      *ngIf="this.text.errors?.required || this.text.errors?.minlength"
+    >
       Your text must contain at least {{ minLength }} characters.
     </mat-error>
+    <mat-error *ngIf="this.text.errors?.invalidLang">
+      Original language is currently not supported. We can work with German or
+      English text only.
+    </mat-error>
+    <mat-error *ngIf="this.text.errors?.apiError">
+      {{ apiErrorMessage }}
+    </mat-error>
   </mat-form-field>
-  <button
-    mat-raised-button
-    color="primary"
-    class="tags-btn"
-    (click)="getTags()"
-    [disabled]="!textFormControl.valid"
-  >
-    {{ btnText }}
-  </button>
+
+  <div class="bottom-right">
+    <sta-language-detection
+      [supportedSourceLanguages]="supportedLanguages"
+      [supportedTargetLanguages]="avlLanguages"
+      [showTargetLanguage]="showTargetLanguage"
+      [disabledLanguages]="disabledLanguages"
+      [parentForm]="textFormGroup"
+    ></sta-language-detection>
+    <button
+      mat-raised-button
+      color="primary"
+      class="tags-btn"
+      (click)="btnClick()"
+      [disabled]="!textFormGroup.valid || disableSubmit"
+    >
+      {{ btnText }}
+    </button>
+  </div>
 </div>

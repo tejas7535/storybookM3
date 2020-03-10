@@ -110,7 +110,6 @@ def setGitUser() {
     // Set Config for Sir Henry
     sh 'git config user.email a1173595@schaeffler.com'
     sh 'git config user.name "Sir Henry"'
-
 }
 
 def getPackageVersion() {
@@ -648,7 +647,7 @@ pipeline {
                             sh 'git push --follow-tags'            
 
                             // get current release branch
-                            currentReleaseBranch = sh(script: "git branch -r | grep 'origin/release/'",  returnStdout: true)
+                            currentReleaseBranch = sh(script: "git branch -r | grep 'origin/release/' || echo 'origin/release/0'",  returnStdout: true)
                             currentReleaseBranch = currentReleaseBranch.replace('origin/', '')
                             
                             if(isMaster()) {
@@ -725,7 +724,6 @@ pipeline {
                     masterBuilds.each {
                         build -> updateGitlabCommitStatus name: build, state: 'success'
                     }
-                    return
                 }
             }
         }

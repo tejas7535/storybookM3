@@ -16,6 +16,8 @@ import { FileStatus } from '../../shared/file-upload/file-status.model';
 export class AutoTaggingComponent implements OnInit, OnDestroy {
   public fileStatus: FileStatus = undefined;
   public demoTextEn = DEMO_TEXT_EN;
+  public disabledLanguages = ['de'];
+  public showTargetLanguage = false;
 
   private readonly subscription: Subscription = new Subscription();
 

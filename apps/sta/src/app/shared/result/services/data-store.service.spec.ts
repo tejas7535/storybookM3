@@ -152,7 +152,8 @@ describe('DataStoreService', () => {
 
       expect(dataService.postTranslationText).toHaveBeenCalledWith(
         testText,
-        Language.DE
+        Language.DE,
+        Language.EN
       );
       expect(service['_translation'].getValue()).toEqual(test);
     });
@@ -196,7 +197,8 @@ describe('DataStoreService', () => {
 
       expect(dataService.postTranslationFile).toHaveBeenCalledWith(
         testFile,
-        Language.DE
+        Language.DE,
+        Language.EN
       );
       expect(service['_translation'].getValue()).toEqual(test);
       expect(service.reset).toHaveBeenCalled();
@@ -240,7 +242,8 @@ describe('DataStoreService', () => {
 
       expect(dataService.postTranslationFile).toHaveBeenCalledWith(
         testFile,
-        Language.DE
+        Language.DE,
+        Language.EN
       );
       expect(service['translation']).toEqual(undefined);
       expect(result).toEqual(new FileStatus('test', '', false));

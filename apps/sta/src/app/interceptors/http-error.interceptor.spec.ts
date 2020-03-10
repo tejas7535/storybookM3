@@ -170,5 +170,25 @@ describe(`HttpErrorInterceptor`, () => {
         errorId: 99
       } as unknown) as ErrorEvent);
     });
+
+    test('should not show toast on error when errorId part of NO_TOASTS', () => {
+      service.getPosts().subscribe(
+        () => {
+          expect(true).toEqual(false);
+        },
+        _response => {
+          expect(snackBarService.showErrorMessage).not.toHaveBeenCalled();
+        }
+      );
+
+      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(({
+        status: 403,
+        errorId: 19
+      } as unknown) as ErrorEvent);
+    });
   });
 });

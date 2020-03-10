@@ -5,6 +5,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
@@ -25,7 +27,8 @@ describe('AutoTaggingComponent', () => {
         HttpClientTestingModule,
         MatTabsModule,
         TextInputModule,
-        FileUploadModule
+        FileUploadModule,
+        provideTranslocoTestingModule({})
       ],
       declarations: [AutoTaggingComponent]
     });
