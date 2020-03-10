@@ -327,6 +327,16 @@ pipeline {
                     }
                 }
             }
+        
+            post {
+                success {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: 'success'
+                }
+
+                failure {
+                    updateGitlabCommitStatus name: STAGE_NAME, state: 'failed'
+                }
+            }
         }
 
         stage('Quality') {

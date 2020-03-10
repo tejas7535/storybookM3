@@ -68,8 +68,8 @@ export class RestService {
       belastungsart: predictionRequest.burdeningType,
       db_file: '../data/fatdat_series.sql',
       haerte: predictionRequest.hv,
-      haerte_untergrenzen: predictionRequest.hv_lower,
-      haerte_obergrenze: predictionRequest.hv_upper,
+      haerte_low: predictionRequest.hv_lower,
+      haerte_up: predictionRequest.hv_upper,
       model_type: predictionRequest.model,
       stress_amplitude: predictionRequest.mpa,
       streubreite: predictionRequest.spreading

@@ -1,7 +1,7 @@
 <div fxLayout="column" class="full-height" *transloco="let t">
   <schaeffler-header [platformTitle]="t('title')">
     <schaeffler-user-menu
-      [user]="username"
+      [user]="username$ | async"
       (clicked)="userMenuClicked($event)"
       [entries]="userMenuEntries"
     ></schaeffler-user-menu>

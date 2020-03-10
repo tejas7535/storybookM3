@@ -78,8 +78,6 @@
     "devextreme-angular": "19.2.6",
     "hammerjs": "2.0.8",
     "jwt-decode": "2.2.0",
-    "keycloak-angular": "7.1.0",
-    "keycloak-js": "8.0.2",
     "ngx-papaparse": "4.0.4",
     "rxjs": "6.5.4",
     "schaeffler-icons": "1.1.1",

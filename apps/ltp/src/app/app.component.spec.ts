@@ -1,6 +1,10 @@
+import { of } from 'rxjs';
+
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HAMMER_LOADER } from '@angular/platform-browser';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
@@ -13,20 +17,18 @@ import {
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { KeycloakAngularModule } from 'keycloak-angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { InputModule } from './feature/input/input.module';
 
 import { AppComponent } from './app.component';
 
+import { AuthService } from './core/services/auth.service';
+
 import { initialState as initialInputState } from './core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from './core/store/reducers/prediction.reducer';
 
 import * as en from '../assets/i18n/en.json';
-import { AuthGuard } from './core/guards/auth.guard';
 import { unsetDisplay, unsetPredictionRequest } from './core/store';
 
 const initialState = {
@@ -38,7 +40,7 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
 
-  let authGuard: AuthGuard;
+  let authService: AuthService;
   let breakpointService: BreakpointService;
   let store: Store<any>;
 
@@ -48,15 +50,24 @@ describe('AppComponent', () => {
       imports: [
         FlexLayoutModule,
         HeaderModule,
+        HttpClientTestingModule,
         SettingsSidebarModule,
         RouterTestingModule,
         InputModule,
         provideTranslocoTestingModule({ en }),
-        KeycloakAngularModule,
         NoopAnimationsModule
       ],
       providers: [
-        AuthGuard,
+        {
+          provide: AuthService,
+          useValue: {
+            initAuth: jest.fn(),
+            getUserName: jest
+              .fn()
+              .mockImplementation(() => of('Moritz Muster')),
+            logout: jest.fn()
+          }
+        },
         provideMockStore({ initialState }),
         {
           provide: HAMMER_LOADER,
@@ -74,7 +85,7 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
-    authGuard = TestBed.inject(AuthGuard);
+    authService = TestBed.inject(AuthService);
     breakpointService = TestBed.inject(BreakpointService);
     store = TestBed.inject(Store);
   });
@@ -136,11 +147,9 @@ describe('AppComponent', () => {
 
   describe('#logout', () => {
     it('should call method signOut of authGuard', () => {
-      authGuard.signOut = jest.fn();
-
       component.logout();
 
-      expect(authGuard.signOut).toHaveBeenCalled();
+      expect(authService.logout).toHaveBeenCalled();
     });
   });
 
@@ -164,16 +173,15 @@ describe('AppComponent', () => {
 
     describe('#getCurrentProfile', () => {
       beforeEach(() => {
-        component.username = '';
+        component.username$ = of('');
       });
 
-      it('should set username Moritz Muster', async () => {
-        const mockUser = { firstName: 'Moritz', lastName: 'Muster' };
-        authGuard.getCurrentProfile = jest.fn().mockResolvedValue(mockUser);
+      it('should set username Moritz Muster', () => {
+        component['getCurrentProfile']();
 
-        await component['getCurrentProfile']();
-
-        expect(component.username).toEqual('Moritz Muster');
+        expect(JSON.stringify(component.username$)).toEqual(
+          JSON.stringify(of('Moritz Muster'))
+        );
       });
     });
   });
