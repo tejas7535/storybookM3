@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   SERVER_URL: '/api/v1',
   azureTenantId: '67416604-6509-4014-9859-45e709f53d3f',
   azureClientId: 'a709aacf-3a98-4e66-9472-316a0e43eab6',
