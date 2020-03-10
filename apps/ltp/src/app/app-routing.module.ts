@@ -4,12 +4,14 @@ import { RouterModule, Routes } from '@angular/router';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
 import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
-import { AuthGuard } from './core/guards/auth.guard';
+import { environment } from '../environments/environment.dev';
+import { AuthGuard } from './core/guards';
+import { RoleGuard } from './core/guards/role.guard';
 
 const authorized = {
-  canActivate: [AuthGuard],
+  canActivate: [AuthGuard, RoleGuard],
   data: {
-    roles: ['lifetime_predictor_consumer'],
+    roles: [environment.accessRole],
     unauthorized: {
       redirect: ['forbidden']
     }
@@ -45,7 +47,12 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [
+    RouterModule.forRoot(routes, {
+      useHash: true,
+      initialNavigation: false
+    })
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule {}

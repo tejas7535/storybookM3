@@ -15,3 +15,4 @@ export * from './kpi-parsed-haigh.model';
 export * from './kpi-parsed-woehler.model';
 export * from './line.model';
 export * from './chart/';
+export * from './access-token.model';

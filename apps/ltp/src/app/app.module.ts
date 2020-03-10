@@ -1,5 +1,5 @@
 import { HttpClientModule } from '@angular/common/http';
-import { APP_INITIALIZER, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -10,9 +10,8 @@ import {
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
-import { KeycloakAngularModule, KeycloakService } from 'keycloak-angular';
-
 import { AppRoutingModule } from './app-routing.module';
+import { CoreModule } from './core/core.module';
 import { StoreModule } from './core/store/store.module';
 import { InputModule } from './feature/input/input.module';
 import { PredictionModule } from './feature/prediction/prediction.module';
@@ -22,18 +21,16 @@ import { AppComponent } from './app.component';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
 
 import { environment } from '../environments/environment';
-import { initializer } from './app-init';
-import { AuthGuard } from './core/guards/auth.guard';
 
 @NgModule({
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
+    CoreModule.forRoot(),
     FlexLayoutModule,
     HeaderModule,
     HttpClientModule,
     InputModule,
-    KeycloakAngularModule,
     MatButtonModule,
     PredictionModule,
     SettingsSidebarModule,
@@ -48,15 +45,6 @@ import { AuthGuard } from './core/guards/auth.guard';
     )
   ],
   declarations: [AppComponent, SignedoutComponent],
-  providers: [
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializer,
-      multi: true,
-      deps: [KeycloakService]
-    },
-    AuthGuard
-  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

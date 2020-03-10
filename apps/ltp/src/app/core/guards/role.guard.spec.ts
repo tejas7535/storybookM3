@@ -12,10 +12,10 @@ import { OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from '../services';
-import { AuthGuard } from './auth.guard';
+import { RoleGuard } from './role.guard';
 
-describe('AuthGuard', () => {
-  let guard: AuthGuard;
+describe('RoleGuard', () => {
+  let guard: RoleGuard;
 
   // tslint:disable-next-line: no-object-literal-type-assertion
   const goodRoute: ActivatedRoute = {
@@ -26,12 +26,35 @@ describe('AuthGuard', () => {
     }
   } as ActivatedRoute;
 
+  // tslint:disable-next-line: no-object-literal-type-assertion
+  const badRoute: ActivatedRoute = {
+    snapshot: {
+      paramMap: convertToParamMap({
+        id: 'one-id'
+      })
+    }
+  } as ActivatedRoute;
+
+  const goodData: any = {
+    roles: ['good_role'],
+    unauthorized: {
+      redirect: '/nonono'
+    }
+  };
+
+  const badData: any = {
+    roles: ['bad_role'],
+    unauthorized: {
+      redirect: '/nonono'
+    }
+  };
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [],
 
       providers: [
-        AuthGuard,
+        RoleGuard,
         AuthService,
         {
           provide: Router,
@@ -55,8 +78,13 @@ describe('AuthGuard', () => {
         }
       ]
     });
+    guard = TestBed.inject(RoleGuard);
+  });
 
-    guard = TestBed.inject(AuthGuard);
+  beforeAll(() => {
+    guard['authService'].getAppRoles = jest
+      .fn()
+      .mockImplementation(() => ['good_role']);
   });
 
   it('should be created', () => {
@@ -74,23 +102,39 @@ describe('AuthGuard', () => {
 
   describe('canActivate', () => {
     test('should return false when not authenticated', () => {
+      guard['denyAccess'] = jest.fn();
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => false);
 
-      goodRoute.snapshot.data = {
-        roles: ['good_role']
-      };
+      goodRoute.snapshot.data = goodData;
 
       const result = guard.canActivate(goodRoute.snapshot, ({
         url: 'hello'
       } as unknown) as RouterStateSnapshot);
 
+      expect(guard['denyAccess']).toHaveBeenCalledWith(goodRoute.snapshot);
       expect(result).toBeFalsy();
     });
 
-    test('should return true when authenticated', () => {
+    test('should return false when role is missing', () => {
+      guard['denyAccess'] = jest.fn();
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
-      const result = guard.canActivate(undefined, ({
+      badRoute.snapshot.data = badData;
+
+      const result = guard.canActivate(badRoute.snapshot, ({
+        url: 'hello'
+      } as unknown) as RouterStateSnapshot);
+
+      expect(guard['denyAccess']).toHaveBeenCalledWith(badRoute.snapshot);
+      expect(result).toBeFalsy();
+    });
+
+    test('should return true when authenticated and the required roles are present', () => {
+      guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
+
+      goodRoute.snapshot.data = goodData;
+
+      const result = guard.canActivate(goodRoute.snapshot, ({
         url: 'hello'
       } as unknown) as RouterStateSnapshot);
 
@@ -107,7 +151,7 @@ describe('AuthGuard', () => {
       expect(result).toBeFalsy();
     });
 
-    test('should return true when  authenticated', () => {
+    test('should return true when authenticated', () => {
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
       const result = guard.canLoad(undefined, []);
@@ -118,14 +162,10 @@ describe('AuthGuard', () => {
 
   describe('denyAccess', () => {
     test('should navigate if route has redirect url', () => {
+      guard = TestBed.inject(RoleGuard);
       guard['router'].navigate = jest.fn();
 
-      goodRoute.snapshot.data = {
-        roles: ['good_role'],
-        unauthorized: {
-          redirect: '/nonono'
-        }
-      };
+      goodRoute.snapshot.data = goodData;
 
       guard['denyAccess'](goodRoute.snapshot);
 
