@@ -1,12 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { IconModule } from '../../icon/icon.module';
+
+import { BannerTextComponent } from './banner-text.component';
 
 import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
-import { BannerTextComponent } from './banner-text.component';
 
 describe('BannerTextComponent', () => {
   let component: BannerTextComponent;
@@ -15,7 +17,7 @@ describe('BannerTextComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [BannerTextComponent, TruncatePipe],
-      imports: [provideTranslocoTestingModule({}), FlexLayoutModule]
+      imports: [provideTranslocoTestingModule({}), FlexLayoutModule, IconModule]
     });
   });
 

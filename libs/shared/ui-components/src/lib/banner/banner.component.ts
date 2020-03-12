@@ -6,7 +6,9 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import * as bannerActions from './store/actions/banner.actions';
+
 import { BannerState } from './store/reducers/banner.reducer';
+
 import * as bannerSelectors from './store/selectors/banner.selectors';
 
 // tslint:disable: only-arrow-functions
@@ -35,6 +37,7 @@ export class BannerComponent implements OnInit {
   public showBanner$: Observable<boolean>;
   public bannerText$: Observable<string>;
   public bannerButtonText$: Observable<string>;
+  public bannerIcon$: Observable<string>;
   public truncateSize$: Observable<number>;
   public showFullText$: Observable<boolean>;
 
@@ -46,6 +49,7 @@ export class BannerComponent implements OnInit {
     this.bannerButtonText$ = this.store.pipe(
       select(bannerSelectors.getBannerButtonText)
     );
+    this.bannerIcon$ = this.store.pipe(select(bannerSelectors.getBannerIcon));
     this.truncateSize$ = this.store.pipe(
       select(bannerSelectors.getBannerTruncateSize)
     );

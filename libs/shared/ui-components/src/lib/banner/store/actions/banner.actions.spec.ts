@@ -6,12 +6,14 @@ describe('BannerActions', () => {
       const action = fromBannerActions.openBanner({
         text: 'string',
         buttonText: 'string',
+        icon: 'error',
         truncateSize: 0
       });
 
       expect(action).toEqual({
         text: 'string',
         buttonText: 'string',
+        icon: 'error',
         truncateSize: 0,
         type: '[Banner] Open Banner'
       });

@@ -1,23 +1,16 @@
 @import 'libs/shared/styles/src';
 
-.info-banner-container {
+#banner-container {
   background-color: $schaeffler-white;
-  margin: 0;
   min-height: 100px;
   padding: 30px 30px;
   position: relative;
 
-  i {
-    font-size: 26px;
-
-    &:before {
-      color: $schaeffler-blue;
-      content: '\e98e';
-    }
+  @media screen and (max-width: $screen-sm-max) {
+    padding: 30px 20px;
   }
 
   p {
-    color: $schaeffler-carbon-gray;
     letter-spacing: 0.04em;
     margin: 0;
     text-align: justify;
@@ -25,37 +18,27 @@
 }
 
 .banner-icon {
-  margin-right: 20px;
-}
+  &.info {
+    color: $schaeffler-blue;
+  }
 
-.banner-icon-top {
-  margin-bottom: 10px;
-}
+  &.warning {
+    color: $schaeffler-yellow;
+  }
 
-.width-100 {
-  width: 100%;
+  &.error {
+    color: $schaeffler-red;
+  }
+
+  &.success {
+    color: $schaeffler-green-success;
+  }
 }
 
 .read-more {
   color: $schaeffler-green-1;
   cursor: pointer;
   letter-spacing: 0.04em;
-  width: calc(100% - 60px);
-}
-
-.read-more-bottom {
-  margin: auto;
-}
-
-.read-more-button {
-  margin: auto;
-}
-
-.value {
-  color: $schaeffler-green-1;
-  font-weight: bold;
-}
-
-.info-banner-close-button {
-  margin-left: 50px;
+  margin-left: -5px;
+  padding: 5px;
 }

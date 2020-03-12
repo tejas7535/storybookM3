@@ -67,6 +67,7 @@ export class HomeComponent implements OnInit {
       openBanner({
         text: translate('banner.bannerText'),
         buttonText: translate('banner.buttonText'),
+        icon: 'info',
         truncateSize: 120
       })
     );

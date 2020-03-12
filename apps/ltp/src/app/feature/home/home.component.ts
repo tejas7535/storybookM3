@@ -29,6 +29,7 @@ export class HomeComponent implements OnInit {
       openBanner({
         text: translate('disclaimer'),
         buttonText: translate('disclaimerClose'),
+        icon: 'info',
         truncateSize: 0
       })
     );

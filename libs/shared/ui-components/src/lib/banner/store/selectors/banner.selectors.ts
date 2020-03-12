@@ -12,6 +12,11 @@ export const getBannerButtonText = createSelector(
   state => state.buttonText
 );
 
+export const getBannerIcon = createSelector(
+  getBannerState,
+  state => state.icon
+);
+
 export const getBannerTruncateSize = createSelector(
   getBannerState,
   state => state.truncateSize

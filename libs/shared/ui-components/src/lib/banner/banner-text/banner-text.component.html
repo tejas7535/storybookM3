@@ -1,72 +1,45 @@
 <div
-  class="info-banner-container"
-  id="infoBanner"
-  fxLayout="column"
-  fxLayoutAlign="center"
+  id="banner-container"
   *transloco="let t"
+  fxLayout="row"
+  fxLayout.lt-md="column"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="20px"
 >
-  <div
-    class="width-100"
-    fxLayout="row"
-    fxLayout.lt-md="column"
-    fxLayoutAlign="space-between center"
-    fxLayoutGap.lt-md="20px"
-  >
-    <div
-      fxLayout="row"
-      fxLayout.lt-md="column"
-      fxLayoutAlign="start center"
-      fxFlex
-    >
-      <i
-        fxHide.lt-md
-        class="icon"
-        ngClass.lt-md="banner-icon-top"
-        ngClass.gt-sm="banner-icon"
-      ></i>
-      <div fxLayout="column" fxLayoutAlign="center start" fxFlex>
-        <p
-          *ngIf="!showFullText && truncateSize > 0"
-          [innerHTML]="text | truncate: truncateSize"
-          id="infoBannerEllipses"
-        ></p>
-        <p *ngIf="showFullText" [innerHTML]="text" id="infoBannerFull"></p>
-        <span
-          *ngIf="truncateSize > 0"
-          class="read-more"
-          ngClass.lt-md="read-more-bottom"
-          fxLayout="row"
-          fxLayoutAlign.gt-sm="start center"
-          fxLayoutAlign.lt-md="center center"
-          fxFlex
-        >
-          <span
-            *ngIf="!showFullText"
-            id="infoBannerReadMore"
-            ngClass.lt-md="read-more-button"
-            (click)="toggleText()"
-          >
-            {{ t('banner.readMore') }}
-          </span>
-          <span
-            *ngIf="showFullText"
-            id="infoBannerReadLess"
-            transloco="banner.readLess"
-            ngClass.lt-md="read-more-button"
-            (click)="toggleText()"
-          >
-            {{ t('banner.readLess') }}
-          </span>
-        </span>
-      </div>
-    </div>
-    <button
-      (click)="clickButton()"
-      id="infoBannerButton"
-      class="text-button-primary"
-      ngClass.gt-sm="info-banner-close-button"
-    >
-      {{ buttonText }}
-    </button>
+  <schaeffler-icon
+    *ngIf="bannerIcon"
+    fxHide.lt-md
+    class="icon banner-icon"
+    [ngClass]="bannerIcon"
+    [icon]="icon"
+  ></schaeffler-icon>
+  <div fxFlex="grow">
+    <p
+      *ngIf="!showFullText && truncateSize > 0"
+      [innerHTML]="text | truncate: truncateSize"
+    ></p>
+    <p *ngIf="showFullText" [innerHTML]="text"></p>
+    <span *ngIf="truncateSize > 0" class="read-more">
+      <span *ngIf="!showFullText" (click)="toggleText()">
+        {{ t('banner.readMore') }}
+      </span>
+      <span
+        *ngIf="showFullText"
+        transloco="banner.readLess"
+        (click)="toggleText()"
+      >
+        {{ t('banner.readLess') }}
+      </span>
+    </span>
   </div>
+  <button
+    id="infoBannerButton"
+    fxFlex="nogrow"
+    (click)="clickButton()"
+    color="primary"
+    mat-button
+    ngClass.gt-sm="banner-close-button"
+  >
+    {{ buttonText }}
+  </button>
 </div>

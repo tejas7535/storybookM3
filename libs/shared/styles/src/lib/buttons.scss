@@ -1,5 +1,14 @@
 @import 'colors';
 
+//as long as we dont use roboto
+.mat-button {
+  color: $schaeffler-carbon-gray;
+  text-transform: uppercase;
+  span {
+    font-weight: bold;
+  }
+}
+
 .flat-button-primary {
   background-color: $schaeffler-green-1;
   border: none;

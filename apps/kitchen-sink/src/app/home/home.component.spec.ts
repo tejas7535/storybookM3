@@ -39,6 +39,7 @@ describe('HomeComponent', () => {
   const initialBannerState: BannerState = {
     text: undefined,
     buttonText: undefined,
+    icon: undefined,
     truncateSize: undefined,
     showFullText: false,
     open: false
@@ -116,6 +117,7 @@ describe('HomeComponent', () => {
         openBanner({
           text: translate('banner.bannerText'),
           buttonText: translate('banner.buttonText'),
+          icon: 'info',
           truncateSize: 120
         })
       );

@@ -84,6 +84,22 @@ describe('BannerSelector', () => {
     });
   });
 
+  describe('#getBannerIcon', () => {
+    beforeEach(() => {
+      store
+        .pipe(select(fromSelectors.getBannerIcon))
+        .subscribe(value => (result = value));
+    });
+
+    it('should return false when state is not defined', () => {
+      expect(result).toEqual(initialState.icon);
+    });
+
+    it('should return type string', () => {
+      expect(typeof result).toEqual(typeof initialState.icon);
+    });
+  });
+
   describe('#getBannerTruncateSize', () => {
     beforeEach(() => {
       store

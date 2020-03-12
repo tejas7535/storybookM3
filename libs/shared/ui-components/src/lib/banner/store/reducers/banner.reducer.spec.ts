@@ -2,10 +2,16 @@ import * as fromBannerActions from '../actions/banner.actions';
 import { initialState, reducer } from './banner.reducer';
 
 describe('In BannerReducer', () => {
-  const openBanner = (text: string, buttonText: string, truncateSize: number) =>
+  const openBanner = (
+    text: string,
+    buttonText: string,
+    icon: string,
+    truncateSize: number
+  ) =>
     fromBannerActions.openBanner({
       text,
       buttonText,
+      icon,
       truncateSize
     });
   const closeBanner = fromBannerActions.closeBanner();
@@ -22,7 +28,7 @@ describe('In BannerReducer', () => {
     it('should set given banner information and isFullTextShown false if truncateSize > 0', () => {
       const state = reducer(
         { ...initialState },
-        openBanner('test', 'test', 10)
+        openBanner('test', 'test', 'error', 10)
       );
 
       expect(state.text).toEqual('test');
@@ -33,7 +39,10 @@ describe('In BannerReducer', () => {
     });
 
     it('should set given banner information and showFullText true if truncateSize = 0', () => {
-      const state = reducer({ ...initialState }, openBanner('test', 'test', 0));
+      const state = reducer(
+        { ...initialState },
+        openBanner('test', 'test', 'error', 0)
+      );
 
       expect(state.text).toEqual('test');
       expect(state.buttonText).toEqual('test');
