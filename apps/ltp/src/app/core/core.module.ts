@@ -7,9 +7,10 @@ import {
   SkipSelf
 } from '@angular/core';
 
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+
 import {
   AuthConfig,
-  JwksValidationHandler,
   OAuthModule,
   OAuthStorage,
   ValidationHandler
