@@ -1,6 +1,6 @@
 import { Observable, of } from 'rxjs';
 
-import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
+import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController

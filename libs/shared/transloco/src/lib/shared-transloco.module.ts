@@ -8,11 +8,11 @@ import {
 
 import {
   getBrowserLang,
-  TRANSLOCO_CONFIG,
-  TRANSLOCO_SCOPE,
   TranslocoConfig,
   TranslocoModule,
-  TranslocoService
+  TranslocoService,
+  TRANSLOCO_CONFIG,
+  TRANSLOCO_SCOPE
 } from '@ngneat/transloco';
 
 import { sharedTranslocoLoader } from './shared-transloco.loader';

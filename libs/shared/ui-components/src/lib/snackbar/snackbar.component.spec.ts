@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  MAT_SNACK_BAR_DATA,
-  MatSnackBarModule
+  MatSnackBarModule,
+  MAT_SNACK_BAR_DATA
 } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 
