@@ -4,8 +4,7 @@ import { Filter, Worksheet } from '@tableau/extensions-api-types';
 
 @Component({
   selector: 'schaeffler-reset-filter',
-  templateUrl: './reset-filter.component.html',
-  styleUrls: ['./reset-filter.component.scss']
+  templateUrl: './reset-filter.component.html'
 })
 export class ResetFilterComponent implements AfterViewInit {
   worksheets: Worksheet[];

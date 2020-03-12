@@ -19,19 +19,31 @@
       {{ extension.description }}
     </p>
   </mat-card-content>
-  <mat-card-actions *ngIf="!extension.WIP">
-    <a mat-button [routerLink]="[extension.name]">DETAILS</a>
-    <button mat-button (click)="showSuccessToast()">DOWNLOAD</button>
+  <mat-card-actions
+    *ngIf="!extension.WIP"
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="start start"
+    fxLayoutGap="8px"
+  >
+    <button mat-button [routerLink]="[extension.name]">
+      DETAILS
+    </button>
+    <schaeffler-steel-extension-download
+      [file]="extension.manifest"
+    ></schaeffler-steel-extension-download>
   </mat-card-actions>
-  <mat-card-actions *ngIf="extension.WIP">
+  <mat-card-actions *ngIf="extension.WIP" fxLayout="row">
     <a
+      type="button"
       mat-button
       href="{{
-        'mailto:krausrbe@schaeffler.com&subject=Tableau Extensions Request&body=I would like to have access to the experimental ' +
+        'mailto:alrezaas@schaeffler.com?cc=krausrbe@schaeffler.com&subject=Tableau Extensions Request&body=I would like to have access to the experimental ' +
           extension.name +
           ' Extension.'
       }}"
-      >CONTACT US</a
-    >
+      >CONTACT US
+    </a>
+    <div></div>
   </mat-card-actions>
 </mat-card>

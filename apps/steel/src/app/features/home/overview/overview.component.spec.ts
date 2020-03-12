@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
@@ -10,6 +11,8 @@ import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { ExtensionDetailComponent } from '../extension/extension-detail/extension-detail.component';
+import { ExtensionDownloadComponent } from '../extension/extension-download/extension-download.component';
 import { ExtensionComponent } from '../extension/extension.component';
 import { OverviewComponent } from './overview.component';
 
@@ -21,14 +24,20 @@ describe('OverviewComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [OverviewComponent, ExtensionComponent],
       imports: [
         NoopAnimationsModule,
         HttpClientTestingModule,
         MatCardModule,
         RouterTestingModule,
         IconModule,
+        ClipboardModule,
         provideTranslocoTestingModule({ en })
+      ],
+      declarations: [
+        OverviewComponent,
+        ExtensionComponent,
+        ExtensionDetailComponent,
+        ExtensionDownloadComponent
       ]
     });
   });

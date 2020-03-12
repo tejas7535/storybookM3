@@ -4,5 +4,9 @@
   },
   "navigation": {
     "home": "Home / Extensions"
+  },
+  "banner": {
+    "bannerText": "This is a temporary test. Further development will be decided once funding and business use cases are clarfied.",
+    "buttonText": "I understand"
   }
 }

@@ -8,9 +8,13 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
+import { Store, StoreModule } from '@ngrx/store';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
+  BannerModule,
+  BannerState,
   FooterModule,
   HeaderModule,
   IconModule,
@@ -26,12 +30,23 @@ import { configureTestSuite } from 'ng-bullet';
 import { HomeComponent } from './home.component';
 
 import * as en from '../../../assets/i18n/en.json';
+import { AppState } from '../../core/store';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let sidebarService: SidebarService;
   let breakpointObserverMock: Subscriber<any>;
+  let store: MockStore<AppState>;
+
+  const initialBannerState: BannerState = {
+    text: undefined,
+    buttonText: undefined,
+    icon: undefined,
+    truncateSize: undefined,
+    showFullText: false,
+    open: false
+  };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -46,6 +61,8 @@ describe('HomeComponent', () => {
         SidebarModule,
         ScrollToTopModule,
         NoopAnimationsModule,
+        StoreModule.forRoot({}),
+        BannerModule,
         provideTranslocoTestingModule({ en })
       ],
       declarations: [HomeComponent],
@@ -55,7 +72,12 @@ describe('HomeComponent', () => {
         {
           provide: HAMMER_LOADER,
           useValue: async () => new Promise(() => {})
-        }
+        },
+        provideMockStore({
+          initialState: {
+            banner: initialBannerState
+          }
+        })
       ]
     });
   });
@@ -66,6 +88,8 @@ describe('HomeComponent', () => {
     fixture.detectChanges();
     sidebarService = TestBed.inject(SidebarService);
     component = fixture.componentInstance;
+
+    store = TestBed.inject(Store) as MockStore<AppState>;
 
     window.matchMedia = jest.fn().mockImplementation(query => {
       return {
@@ -103,6 +127,15 @@ describe('HomeComponent', () => {
       component.ngOnInit();
 
       expect(component.subscription).toBeDefined();
+    });
+
+    test('should call openBanner', () => {
+      component.openBanner = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.openBanner).toHaveBeenCalled();
     });
   });
 
@@ -202,6 +235,22 @@ describe('HomeComponent', () => {
       component['handleSidebarToggledObservable'](SidebarMode.Closed);
 
       expect(component.mode).toEqual(SidebarMode.Closed);
+    });
+  });
+
+  describe('openBanner', () => {
+    it('should dispatch openBanner action', () => {
+      const banner = {
+        text: transloco.translate('disclaimer'),
+        buttonText: transloco.translate('disclaimerClose'),
+        icon: 'info',
+        truncateSize: 0,
+        type: '[Banner] Open Banner'
+      };
+      store.dispatch = jest.fn();
+
+      component.openBanner();
+      expect(store.dispatch).toHaveBeenCalledWith(banner);
     });
   });
 });
