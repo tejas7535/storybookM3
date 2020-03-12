@@ -7,19 +7,55 @@
   "baseBranches": ["master"],
   "packageRules": [
     {
-      "packagePatterns": ["^@angular/", "^@angular-devkit/"],
-      "groupName": "angular",
+      "packageNames": [
+        "@angular/animations",
+        "@angular/cdk",
+        "@angular/common",
+        "@angular/compiler",
+        "@angular/core",
+        "@angular/flex-layout",
+        "@angular/forms",
+        "@angular/material",
+        "@angular/platform-browser",
+        "@angular/platform-browser-dynamic",
+        "@angular/router"
+      ],
+      "groupName": "angular-core",
       "updateTypes": ["minor", "major"],
       "enabled": false
     },
     {
-      "packagePatterns": ["^@nrwl/"],
+      "packageNames": [
+        "@angular-devkit/build-ng-packagr",
+        "@angular-devkit/build-angular",
+        "@angular/cli",
+        "@angular/compiler-cli",
+        "@angular/language-service"
+      ],
+      "groupName": "angular-cli",
+      "updateTypes": ["minor", "major"],
+      "enabled": false
+    },
+    {
+      "packageNames": [
+        "@nrwl/angular",
+        "@nrwl/cli",
+        "@nrwl/cypress",
+        "@nrwl/jest",
+        "@nrwl/schematics",
+        "@nrwl/workspace"
+      ],
       "groupName": "nrwl",
       "updateTypes": ["minor", "major"],
       "enabled": false
     },
     {
-      "packagePatterns": ["^@ngrx/"],
+      "packageNames": [
+        "@ngrx/effects",
+        "@ngrx/router-store",
+        "@ngrx/store",
+        "@ngrx/store-devtools"
+      ],
       "groupName": "ngrx",
       "updateTypes": ["minor", "major"],
       "enabled": false
@@ -34,7 +70,12 @@
       "groupName": "devextreme"
     },
     {
-      "packagePatterns": ["^@ngneat/transloco"],
+      "packageNames": [
+        "@ngneat/transloco",
+        "@ngneat/transloco-keys-manager",
+        "@ngneat/transloco-optimize",
+        "@ngneat/transloco-validator"
+      ],
       "groupName": "transloco"
     }
   ]
