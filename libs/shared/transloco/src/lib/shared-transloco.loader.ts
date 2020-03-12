@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 
 import {
   Translation,
-  TRANSLOCO_LOADER,
-  TranslocoLoader
+  TranslocoLoader,
+  TRANSLOCO_LOADER
 } from '@ngneat/transloco';
 import { Observable } from 'rxjs';
 
