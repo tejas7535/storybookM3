@@ -1,11 +1,13 @@
 <div fxLayout="column" class="full-height fullscreen-bg">
   <schaeffler-header [platformTitle]="platformTitle" [toggleEnabled]="false">
-    <schaeffler-user-menu [user]="username | async"></schaeffler-user-menu>
+    <schaeffler-user-menu
+      user-menu
+      [user]="username | async"
+    ></schaeffler-user-menu>
+    <router-outlet></router-outlet>
+
+    <div class="footer-wrapper">
+      <schaeffler-footer></schaeffler-footer>
+    </div>
   </schaeffler-header>
-
-  <router-outlet></router-outlet>
-
-  <div class="footer-wrapper">
-    <schaeffler-footer></schaeffler-footer>
-  </div>
 </div>

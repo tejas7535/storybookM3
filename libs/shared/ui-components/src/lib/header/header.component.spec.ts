@@ -1,11 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import {
-  async,
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick
-} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -17,8 +11,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
 import { HeaderComponent } from './header.component';
-
-import { VisibilityState } from './enums/visibility-state.enum';
 
 describe('In HeaderComponent', () => {
   let component: HeaderComponent;
@@ -64,18 +56,6 @@ describe('In HeaderComponent', () => {
     });
   });
 
-  describe('ngAfterViewInit', () => {
-    it('should call method observeScrollDirection', () => {
-      const spy = spyOn<any>(component, 'observeScrollDirection');
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngAfterViewInit();
-      component.isMobileViewPort = true;
-
-      expect(spy).toHaveBeenCalled();
-    });
-  });
-
   describe('ngOnDestroy', () => {
     it('should unsubscribe fromSubscription', () => {
       const spy = spyOn<any>(component['subscription'], 'unsubscribe');
@@ -85,56 +65,6 @@ describe('In HeaderComponent', () => {
 
       expect(spy).toHaveBeenCalled();
     });
-  });
-
-  describe('observeScrollDirection()', () => {
-    it('should set headerVisibility to visible, when scroll direction is up', fakeAsync(() => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngAfterViewInit();
-      component.isMobileViewPort = true;
-
-      Object.defineProperty(window, 'pageYOffset', { value: 21 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      Object.defineProperty(window, 'pageYOffset', { value: 20 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Visible);
-    }));
-
-    it('should set headerVisibility to hidden, when scroll direction is down', fakeAsync(() => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngAfterViewInit();
-      component.isMobileViewPort = true;
-
-      Object.defineProperty(window, 'pageYOffset', { value: 20 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      Object.defineProperty(window, 'pageYOffset', { value: 21 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Hidden);
-    }));
-
-    it('should not change the visibility if viewport is bigger than 420', fakeAsync(() => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngAfterViewInit();
-      component.isMobileViewPort = false;
-
-      Object.defineProperty(window, 'pageYOffset', { value: 20 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      Object.defineProperty(window, 'pageYOffset', { value: 21 });
-      window.dispatchEvent(new Event('scroll'));
-      tick(11);
-
-      expect(component['headerVisibility']).toBe(VisibilityState.Visible);
-    }));
   });
 
   describe('toggleClicked()', () => {

@@ -68,3 +68,14 @@ mat-toolbar {
     height: 50px;
   }
 }
+
+.header-content {
+  height: calc(100% - 60px) !important;
+  overflow: auto;
+  position: relative;
+  top: 60px;
+
+  @media screen and (max-width: $screen-xs-max) {
+    top: 73px;
+  }
+}

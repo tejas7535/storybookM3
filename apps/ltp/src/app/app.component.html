@@ -1,29 +1,30 @@
 <div fxLayout="column" class="full-height" *transloco="let t">
-  <schaeffler-header [platformTitle]="t('title')">
+  <schaeffler-header [platformTitle]="t('title')" class="full-height">
     <schaeffler-user-menu
+      user-menu
       [user]="username$ | async"
       (clicked)="userMenuClicked($event)"
       [entries]="userMenuEntries"
     ></schaeffler-user-menu>
+    <schaeffler-settings-sidebar
+      [openSidebarBtn]="isLessThanMediumViewPort$ | async"
+      [closeSidebarBtn]="isLessThanMediumViewPort$ | async"
+      [open]="(isLessThanMediumViewPort$ | async) === false"
+    >
+      <ng-container settings-header>
+        <button
+          (click)="handleReset()"
+          mat-button
+          color="primary"
+          class="reset-button"
+        >
+          RESET
+        </button>
+      </ng-container>
+      <ng-container container><router-outlet></router-outlet></ng-container
+      ><ng-container sidebar>
+        <ltp-input></ltp-input>
+      </ng-container>
+    </schaeffler-settings-sidebar>
   </schaeffler-header>
-  <schaeffler-settings-sidebar
-    [openSidebarBtn]="isLessThanMediumViewPort$ | async"
-    [closeSidebarBtn]="isLessThanMediumViewPort$ | async"
-    [open]="(isLessThanMediumViewPort$ | async) === false"
-  >
-    <ng-container settings-header>
-      <button
-        (click)="handleReset()"
-        mat-button
-        color="primary"
-        class="reset-button"
-      >
-        RESET
-      </button>
-    </ng-container>
-    <ng-container container><router-outlet></router-outlet></ng-container
-    ><ng-container sidebar>
-      <ltp-input></ltp-input>
-    </ng-container>
-  </schaeffler-settings-sidebar>
 </div>

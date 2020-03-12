@@ -4,13 +4,3 @@
 .material-icons {
   font-family: 'Material Icons' !important;
 }
-
-mat-sidenav-content {
-  height: calc(100% - 60px) !important;
-  overflow: visible;
-  top: 60px;
-
-  @media screen and (max-width: $screen-sm-max) {
-    top: 73px;
-  }
-}

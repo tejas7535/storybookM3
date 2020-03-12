@@ -1,65 +1,73 @@
 <div fxLayout="column" class="full-height">
   <schaeffler-header
+    class="full-height"
     [platformTitle]="title"
     [toggleEnabled]="(isAuthenticated$ | async) === true"
     (toggle)="toggleSidebar()"
   >
     <schaeffler-user-menu
+      user-menu
       *ngIf="(isAuthenticated$ | async) === true"
       [user]="username$ | async"
     ></schaeffler-user-menu>
-  </schaeffler-header>
-  <ng-container
-    *ngIf="(isAuthenticated$ | async) === true; else showLandingPage"
-  >
-    <schaeffler-sidebar
-      [elements]="sidebarElements"
-      [mode]="mode"
-      (toggle)="toggleSidebar()"
-    >
-      <schaeffler-settings-sidebar
-        [open]="settingsSidebarOpen"
-        [openSidebarBtn]="!isHome"
-        (openedChange)="settingsSidebarOpenedChanges($event)"
-        [width]="
-          isSidebarExpanded
-            ? (isLessThanMedium$ | async)
-              ? sidebarWidthExpandedMobile
-              : (isMedium$ | async)
-              ? sidebarWidthExpandedTablet
-              : sidebarWidthExpanded
-            : (isMobile$ | async)
-            ? sidebarWidthExpandedMobile
-            : sidebarWidth
-        "
+    <ng-container>
+      <ng-container
+        *ngIf="(isAuthenticated$ | async) === true; else showLandingPage"
       >
-        <ng-container container>
-          <router-outlet></router-outlet>
-          <schaeffler-footer></schaeffler-footer>
-        </ng-container>
-        <ng-container sidebar>
-          <sta-result [currentService]="currentService"></sta-result>
-          <button mat-icon-button (click)="closeSidebar()" class="close-icon">
-            <mat-icon>chevron_right</mat-icon>
-            <mat-icon>chevron_right</mat-icon>
-          </button>
-          <button
-            mat-icon-button
-            (click)="resizeSidebar()"
-            class="resize-icon"
-            *ngIf="(isMobile$ | async) === false"
+        <schaeffler-sidebar
+          [elements]="sidebarElements"
+          [mode]="mode"
+          (toggle)="toggleSidebar()"
+        >
+          <schaeffler-settings-sidebar
+            [open]="settingsSidebarOpen"
+            [openSidebarBtn]="!isHome"
+            (openedChange)="settingsSidebarOpenedChanges($event)"
+            [width]="
+              isSidebarExpanded
+                ? (isLessThanMedium$ | async)
+                  ? sidebarWidthExpandedMobile
+                  : (isMedium$ | async)
+                  ? sidebarWidthExpandedTablet
+                  : sidebarWidthExpanded
+                : (isMobile$ | async)
+                ? sidebarWidthExpandedMobile
+                : sidebarWidth
+            "
           >
-            <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
-          </button>
-        </ng-container>
-      </schaeffler-settings-sidebar>
-    </schaeffler-sidebar>
-  </ng-container>
+            <ng-container container>
+              <router-outlet></router-outlet>
+              <schaeffler-footer></schaeffler-footer>
+            </ng-container>
+            <ng-container sidebar>
+              <sta-result [currentService]="currentService"></sta-result>
+              <button
+                mat-icon-button
+                (click)="closeSidebar()"
+                class="close-icon"
+              >
+                <mat-icon>chevron_right</mat-icon>
+                <mat-icon>chevron_right</mat-icon>
+              </button>
+              <button
+                mat-icon-button
+                (click)="resizeSidebar()"
+                class="resize-icon"
+                *ngIf="(isMobile$ | async) === false"
+              >
+                <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
+              </button>
+            </ng-container>
+          </schaeffler-settings-sidebar>
+        </schaeffler-sidebar>
+      </ng-container>
 
-  <ng-template #showLandingPage>
-    <sta-landing
-      class="full-height"
-      *ngIf="isDoneLoading$ | async"
-    ></sta-landing>
-  </ng-template>
+      <ng-template #showLandingPage>
+        <sta-landing
+          class="full-height"
+          *ngIf="isDoneLoading$ | async"
+        ></sta-landing>
+      </ng-template>
+    </ng-container>
+  </schaeffler-header>
 </div>

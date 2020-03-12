@@ -38,9 +38,12 @@
     </div>
 
     <div fxFlex>
-      <ng-content></ng-content>
+      <ng-content select="[user-menu]"></ng-content>
     </div>
 
     <div class="header-logo"></div>
   </div>
 </mat-toolbar>
+<div class="header-content">
+  <ng-content></ng-content>
+</div>
