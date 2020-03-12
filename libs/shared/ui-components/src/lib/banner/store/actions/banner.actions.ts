@@ -5,6 +5,7 @@ export const openBanner = createAction(
   props<{
     text: string;
     buttonText: string;
+    icon: string;
     truncateSize: number;
   }>()
 );

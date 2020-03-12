@@ -43,6 +43,7 @@ describe('PredictionComponent', () => {
   const initialBannerState: BannerState = {
     text: undefined,
     buttonText: undefined,
+    icon: undefined,
     truncateSize: undefined,
     showFullText: false,
     open: false

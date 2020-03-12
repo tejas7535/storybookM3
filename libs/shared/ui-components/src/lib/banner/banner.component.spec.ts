@@ -59,6 +59,7 @@ describe('BannerComponent', () => {
         banner: {
           text: 'banner text',
           buttonText: 'OK',
+          icon: 'info',
           truncateSize: 120,
           showFullText: false,
           open: true

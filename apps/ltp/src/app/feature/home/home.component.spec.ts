@@ -31,6 +31,7 @@ describe('HomeComponent', () => {
   const initialBannerState: BannerState = {
     text: undefined,
     buttonText: undefined,
+    icon: undefined,
     truncateSize: undefined,
     showFullText: false,
     open: false
@@ -93,6 +94,7 @@ describe('HomeComponent', () => {
     it('should dispatch openBanner action', () => {
       const banner = {
         text: translate('disclaimer'),
+        icon: 'info',
         buttonText: translate('disclaimerClose'),
         truncateSize: 0,
         type: '[Banner] Open Banner'
