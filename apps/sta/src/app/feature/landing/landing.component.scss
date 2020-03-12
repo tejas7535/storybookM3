@@ -5,8 +5,7 @@
   background-image: url('../../../assets/img/landing-bg.jpg');
   background-position: center;
   background-size: cover;
-  margin-top: 60px;
-  min-height: calc(100% - 60px);
+  overflow: auto;
   width: 100%;
 
   .row {

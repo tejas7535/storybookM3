@@ -1,15 +1,15 @@
-<div fxLayout="column" class="full-height">
-  <schaeffler-header
-    [platformTitle]="platformTitle"
-    toggleEnabled="true"
-    (toggle)="toggleSidebar()"
-  >
-    <schaeffler-user-menu
-      [user]="username"
-      (clicked)="userMenuClicked($event)"
-      [entries]="userMenuEntries"
-    ></schaeffler-user-menu>
-  </schaeffler-header>
+<schaeffler-header
+  class="full-height"
+  [platformTitle]="platformTitle"
+  toggleEnabled="true"
+  (toggle)="toggleSidebar()"
+>
+  <schaeffler-user-menu
+    user-menu
+    [user]="username"
+    (clicked)="userMenuClicked($event)"
+    [entries]="userMenuEntries"
+  ></schaeffler-user-menu>
   <schaeffler-sidebar
     [elements]="sidebarElements"
     [mode]="sidebarMode | async"
@@ -32,4 +32,4 @@
       </ng-container>
     </schaeffler-settings-sidebar>
   </schaeffler-sidebar>
-</div>
+</schaeffler-header>

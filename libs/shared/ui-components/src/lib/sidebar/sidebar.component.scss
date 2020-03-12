@@ -169,13 +169,7 @@ schaeffler-icon {
 }
 
 mat-sidenav-content {
-  height: calc(100% - 60px) !important;
   overflow: visible;
-  top: 60px;
-
-  @media screen and (max-width: $screen-xs-max) {
-    top: 73px;
-  }
 }
 
 /////////////////////////////////////////////////////////////////////

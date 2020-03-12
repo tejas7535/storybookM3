@@ -1,12 +1,12 @@
-<div fxLayout="column" class="full-height">
-  <schaeffler-header [platformTitle]="title">
-    <schaeffler-user-menu
-      [user]="username"
-      [entries]="userMenuEntries"
-    ></schaeffler-user-menu>
-  </schaeffler-header>
+<schaeffler-header [platformTitle]="title" class="full-height">
+  <schaeffler-user-menu
+    user-menu
+    [user]="username"
+    [entries]="userMenuEntries"
+  ></schaeffler-user-menu>
 
   <schaeffler-settings-sidebar
+    class="full-height"
     openSidebarBtn="true"
     closeSidebarBtn="true"
     [open]="!(isLessThanMediumViewport$ | async)"
@@ -21,9 +21,11 @@
         RESET
       </button>
     </ng-container>
-    <ng-container container> <router-outlet></router-outlet> </ng-container>
+    <ng-container container>
+      <router-outlet></router-outlet>
+    </ng-container>
     <ng-container sidebar>
       Filter come here
     </ng-container>
   </schaeffler-settings-sidebar>
-</div>
+</schaeffler-header>
