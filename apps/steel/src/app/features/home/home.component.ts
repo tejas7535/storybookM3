@@ -4,9 +4,12 @@ import { take, takeUntil } from 'rxjs/operators';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
+import { select, Store } from '@ngrx/store';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
+  getBannerOpen,
   Icon,
+  openBanner,
   SidebarElement,
   SidebarMode,
   SidebarService
@@ -25,6 +28,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public isLessThanMedium$: Observable<boolean>;
   public isMedium$: Observable<boolean>;
   public isMobile$: Observable<boolean>;
+  public isBannerShown$: Observable<boolean>;
 
   public platformTitle = translate('general.appName');
 
@@ -45,15 +49,19 @@ export class HomeComponent implements OnInit, OnDestroy {
   public mode: SidebarMode = SidebarMode.Minified;
 
   constructor(
+    private readonly store: Store<any>,
     private readonly sidebarService: SidebarService,
     private readonly breakpointService: BreakpointService
   ) {}
 
   public ngOnInit(): void {
+    this.isBannerShown$ = this.store.pipe(select(getBannerOpen));
     this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
     this.handleSidebarMode();
+
+    this.openBanner();
 
     this.subscription.add(
       this.sidebarToggledObservable$.subscribe(sidebarMode =>
@@ -65,6 +73,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
     this.destroy$.next();
+  }
+
+  public openBanner(): void {
+    this.store.dispatch(
+      openBanner({
+        text: translate('banner.bannerText'),
+        buttonText: translate('banner.buttonText'),
+        icon: 'info',
+        truncateSize: 0
+      })
+    );
   }
 
   public toggleSidebar(): void {

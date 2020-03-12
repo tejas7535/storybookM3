@@ -1,3 +1,4 @@
+import { ClipboardModule } from '@angular/cdk/clipboard';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -17,8 +18,9 @@ import {
 
 import { HomeRoutingModule } from './home-routing.module';
 
+import { ExtensionDetailComponent } from './extension/extension-detail/extension-detail.component';
+import { ExtensionDownloadComponent } from './extension/extension-download/extension-download.component';
 import { ExtensionComponent } from './extension/extension.component';
-import { ExtensiondetailComponent } from './extension/extensiondetail/extensiondetail.component';
 import { HomeComponent } from './home.component';
 import { OverviewComponent } from './overview/overview.component';
 
@@ -27,13 +29,15 @@ import { StoreModule } from '../../core/store';
 @NgModule({
   declarations: [
     HomeComponent,
-    ExtensiondetailComponent,
+    ExtensionDetailComponent,
+    ExtensionDownloadComponent,
     ExtensionComponent,
     OverviewComponent
   ],
   imports: [
     CommonModule,
     BannerModule,
+    ClipboardModule,
     HomeRoutingModule,
     MatButtonModule,
     MatCardModule,

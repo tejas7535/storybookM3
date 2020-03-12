@@ -13,11 +13,12 @@
   background-color: $schaeffler-green-1;
   border: none;
   border-radius: 3px;
-  color: $schaeffler-white;
+  color: $schaeffler-white !important;
   cursor: pointer;
   font-size: 16px;
   height: 30px;
   padding: 5px 20px;
+  text-decoration: none;
   text-transform: uppercase;
 
   &:hover {
@@ -39,11 +40,12 @@
   background-color: $schaeffler-carbon-gray;
   border: none;
   border-radius: 3px;
-  color: $schaeffler-white;
+  color: $schaeffler-white !important;
   cursor: pointer;
   font-size: 16px;
   height: 30px;
   padding: 5px 20px;
+  text-decoration: none;
   text-transform: uppercase;
 
   &:hover {
@@ -72,6 +74,7 @@
   font-weight: bold;
   height: 30px;
   padding: 5px 20px;
+  text-decoration: none;
   text-transform: uppercase;
 
   &:hover {
@@ -99,6 +102,7 @@
   font-weight: bold;
   height: 30px;
   padding: 5px 20px;
+  text-decoration: none;
   text-transform: uppercase;
 
   &:hover {

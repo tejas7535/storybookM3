@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Icon, SnackBarService } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/ui-components';
 
 import { Extension } from './extension.model';
 
@@ -15,12 +15,6 @@ export class ExtensionComponent {
     description: 'This should not show up in the real application',
     WIP: false
   };
-
-  constructor(private readonly snackBarService: SnackBarService) {}
-
-  showSuccessToast(): void {
-    this.snackBarService.showSuccessMessage('Downloaded');
-  }
 
   getMaterialIcon(icon: string): Icon {
     return new Icon(icon, true);

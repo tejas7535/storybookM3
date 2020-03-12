@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { ExtensiondetailComponent } from './extension/extensiondetail/extensiondetail.component';
+import { ExtensionDetailComponent } from './extension/extension-detail/extension-detail.component';
 import { HomeComponent } from './home.component';
 import { OverviewComponent } from './overview/overview.component';
 
@@ -22,7 +22,7 @@ export const homeRoutePaths: Routes = [
       },
       {
         path: RoutePath.ExtensiondetailPath,
-        component: ExtensiondetailComponent
+        component: ExtensionDetailComponent
       }
     ]
   }
