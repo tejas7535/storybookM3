@@ -21,8 +21,7 @@
         "@angular/router"
       ],
       "groupName": "angular-core",
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": [
@@ -33,8 +32,7 @@
         "@angular/language-service"
       ],
       "groupName": "angular-cli",
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": [
@@ -46,8 +44,7 @@
         "@nrwl/workspace"
       ],
       "groupName": "nrwl",
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": [
@@ -57,13 +54,11 @@
         "@ngrx/store-devtools"
       ],
       "groupName": "ngrx",
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": ["typescript"],
-      "updateTypes": ["minor", "major"],
-      "enabled": false
+      "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": ["devextreme", "devextreme-angular"],
