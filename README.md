@@ -5,7 +5,7 @@
 ![@ngrx/store: 8.6.0](https://img.shields.io/badge/%40ngrx%2Fstore-8.6.0-brightgreen)
 ![@angular/material: 9.0.1](https://img.shields.io/badge/%40angular%2Fmaterial-9.0.1-brightgreen)
 ![@angular/flex-layout: 9.0.0-beta.29](https://img.shields.io/badge/%40angular%2Fflex--layout-9.0.0--beta.29-brightgreen)
-![prettier: 1.18.2](https://img.shields.io/badge/prettier-1.18.2-brightgreen)
+![prettier: 1.19.1](https://img.shields.io/badge/prettier-1.19.1-brightgreen)
 ![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
