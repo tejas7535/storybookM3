@@ -13,8 +13,6 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
     NgrxStoreModule.forRoot(reducers, {
       metaReducers,
       runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
         strictStateSerializability: true,
         strictActionSerializability: true
       }

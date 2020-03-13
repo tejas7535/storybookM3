@@ -13,8 +13,6 @@ import { environment } from '../../../environments/environment';
   imports: [
     NgrxStoreModule.forRoot(reducers, {
       runtimeChecks: {
-        strictStateImmutability: true,
-        strictActionImmutability: true,
         strictStateSerializability: true,
         strictActionSerializability: true
       }
