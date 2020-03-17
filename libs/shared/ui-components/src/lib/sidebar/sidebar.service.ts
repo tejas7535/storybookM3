@@ -1,14 +1,12 @@
-import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { Injectable } from '@angular/core';
-
 import { merge, Observable } from 'rxjs';
+import { filter, mapTo } from 'rxjs/operators';
+
 import {
-  distinctUntilChanged,
-  filter,
-  flatMap,
-  map,
-  mapTo
-} from 'rxjs/operators';
+  BreakpointObserver,
+  Breakpoints,
+  BreakpointState
+} from '@angular/cdk/layout';
+import { Injectable } from '@angular/core';
 
 import { SidebarMode } from './sidebar-mode.enum';
 
@@ -37,30 +35,22 @@ export class SidebarService {
   private readonly sidebarObserver$: Observable<SidebarMode>;
 
   constructor(private readonly breakpointObserver: BreakpointObserver) {
-    this.closed$ = this.breakpointObserver.observe(['(min-width: 960px)']).pipe(
-      filter((state: BreakpointState) => !state.matches),
-      mapTo(SidebarMode.Closed)
-    );
+    this.closed$ = this.breakpointObserver
+      .observe([Breakpoints.XSmall, Breakpoints.Small])
+      .pipe(
+        filter((state: BreakpointState) => state.matches),
+        mapTo(SidebarMode.Closed)
+      );
 
     this.opened$ = this.breakpointObserver
-      .observe(['(min-width: 1280px)'])
+      .observe([Breakpoints.Large, Breakpoints.XLarge])
       .pipe(
         filter((state: BreakpointState) => state.matches),
         mapTo(SidebarMode.Open)
       );
 
-    const minifiedStart$: Observable<boolean> = this.breakpointObserver
-      .observe(['(min-width: 960px)'])
-      .pipe(map(state => state.matches));
-
-    const minifiedEnd$: Observable<boolean> = this.breakpointObserver
-      .observe(['(max-width: 1279px)'])
-      .pipe(map(state => state.matches));
-
-    this.minified$ = minifiedStart$.pipe(
-      flatMap(start => minifiedEnd$.pipe(map(end => start && end))),
-      distinctUntilChanged(),
-      filter(val => val),
+    this.minified$ = this.breakpointObserver.observe(Breakpoints.Medium).pipe(
+      filter((state: BreakpointState) => state.matches),
       mapTo(SidebarMode.Minified)
     );
 
