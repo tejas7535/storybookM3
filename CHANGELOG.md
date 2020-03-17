@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.2.0...v0.2.1) (2020-03-17)
+
+
+### ✏️ Documentation
+
+* **readme:** add nx.json hint in project setup ([2e590de](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2e590de45ee965f39c998e8b121d82385a6f9e66))
+* **readme:** add nx.json hint to setup ([37bdde5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/37bdde524b53fe77a51e0a8e7aa436d8eb55115e))
+
+
+### 🐛 Bug Fixes
+
+* **ltp:** fix dev environment (ADAPLD-6469) ([824e6a7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/824e6a792ee6fa69f4cb895c3046343a64c3500b))
+
+
+### 📈 Improvements
+
+* **ui-components:** improve banner styling (UFTABI-1887) ([07de06f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/07de06f7aefc3d98b6a8814f8c77d9066bbc3459))
+
+
+### 🏭 Automation
+
+* **workspace:** add a group for devextreme and transloco ([7e2d2e8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7e2d2e8c85ff8b5e2455b4533b15961353f7ba19))
+* **workspace:** use package names instead of patterns for renovate ([7a9fada](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7a9fadaa868c60e09f0dcd60789eb5844fc7c90a))
+
+
+### 🎸 Features
+
+* **cdba:** setup NgRx Router Store (DSCDA-1312) ([85f7715](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/85f7715e360358ac6f25f9bc0465ada6c958708c))
+* **ltp:** oauth2 authentication via Azure AD (ADAPLD-6461) ([01a2a11](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/01a2a1188de31901458c939c582cf9d724c540d0))
+* **sta:** add trigger resize on text input value change ([dbe52f1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/dbe52f1a5c596f28c609c33e44ee26bfa8973c04))
+* **sta:** change text in translate button (UFTABI-2197) ([b4ae9eb](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b4ae9eba90587a963e52a132cf23fe32ac4e095b))
+* **sta:** initial store setup (UFTABI-2124) ([f4a785a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f4a785ae5f7259728b6b705e91b346fbc5aebcf6))
+* **sta:** language detection and selection (UFTABI-1668) ([e2d5b28](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e2d5b285def6ac365b2010c8aa191ca1b2f7185e))
+* **sta:** remove checkstyle errors ([394d267](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/394d2679abda70a612f535cbb742df261fda026a))
+* **steel:** add detail page (SSBI-303) ([46b05cf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/46b05cf3eec2dc83889f97793dff255d09b6dbec))
+* **ui-components:** add ng-content to header (UFTABI-1977) ([2110440](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/211044004d305245433d53faff9b0f791f13eafe))
+* **workspace:** setup storybook for empty states and ui components (UFTABI-1805) ([2df3f5a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2df3f5a5ee0b0aa40609565f0916b9f03053414a))
+* **workspace:** update ngrx to v9 ([d50a3d6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d50a3d6d684cde154a0c0057d55c8a34b1404ee1))
+
 ## [0.2.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.1.1...v0.2.0) (2020-03-03)
 
 
