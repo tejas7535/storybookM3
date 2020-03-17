@@ -10,12 +10,12 @@ def rtServer = Artifactory.server('artifactory.schaeffler.com')
 def gitEnv
 
 def builds 
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs']
-def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Docs', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
+def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
@@ -529,11 +529,21 @@ pipeline {
                     }
                 }
 
-                stage('Build:Docs'){
+                stage('Build:Storybook'){
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            echo "Build Static Content for Documentation"
+                            echo "Build Storybooks for Shared Libraries"
                             
+                            script {
+                                def storybooksToBuild = ['shared-empty-states', 'shared-ui-components']
+
+                                for (storybook in storybooksToBuild) { 
+                                    if (affectedLibs.contains(storybook)){
+                                        sh "npx nx run ${storybook}:build-storybook"
+                                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/${storybook}", reportFiles: 'index.html', reportName: "Storybook ${storybook}", reportTitles: ''])
+                                    }
+                                }
+                            }
                         }
                     }
                 }
