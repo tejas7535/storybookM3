@@ -6,16 +6,20 @@ import {
   filter,
   mergeMap,
   startWith,
+  take,
   tap
 } from 'rxjs/operators';
 
+import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {
   Component,
   EventEmitter,
   Input,
+  NgZone,
   OnDestroy,
   OnInit,
-  Output
+  Output,
+  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -53,6 +57,8 @@ export class TextInputComponent implements OnDestroy, OnInit {
 
   @Output() public readonly btnClicked = new EventEmitter<TextInput>();
 
+  @ViewChild('autosize') autosize: CdkTextareaAutosize;
+
   public MIN_LENGTH_LANG_DETECTION = 2;
   public DEBOUNCE_TIME = 1000;
 
@@ -80,7 +86,8 @@ export class TextInputComponent implements OnDestroy, OnInit {
   public constructor(
     private readonly fb: FormBuilder,
     private readonly dataService: DataService,
-    private readonly languageService: TranslocoService
+    private readonly languageService: TranslocoService,
+    private readonly _ngZone: NgZone
   ) {}
 
   public ngOnInit(): void {
@@ -98,9 +105,10 @@ export class TextInputComponent implements OnDestroy, OnInit {
     this.subscription.add(
       this.text.valueChanges
         .pipe(this.validateTextInput(userLang))
-        .subscribe(languageDetectionResponse =>
-          this.handleTextInput(languageDetectionResponse)
-        )
+        .subscribe(languageDetectionResponse => {
+          this.triggerResize();
+          this.handleTextInput(languageDetectionResponse);
+        })
     );
   }
 
@@ -118,6 +126,13 @@ export class TextInputComponent implements OnDestroy, OnInit {
 
   public get targetLanguage(): AbstractControl {
     return this.textFormGroup.get('targetLanguage');
+  }
+
+  public triggerResize(): void {
+    // Wait for changes to be applied, then trigger textarea resize.
+    this._ngZone.onStable
+      .pipe(take(1))
+      .subscribe(() => this.autosize.resizeToFitContent(true));
   }
 
   public btnClick(): void {

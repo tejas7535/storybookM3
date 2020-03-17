@@ -6,9 +6,11 @@
   >
     <mat-label>Use demo text or paste your text here</mat-label>
     <textarea
-      matTextareaAutosize
-      matAutosizeMinRows="10"
       matInput
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="10"
+      cdkAutosizeMaxRows="25"
       placeholder="Enter a text"
       formControlName="text"
     >
