@@ -79,6 +79,14 @@
     "cdba-e2e": {
       "tags": [],
       "implicitDependencies": ["cdba"]
+    },
+    "shared-empty-states-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-empty-states"]
+    },
+    "shared-ui-components-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-components"]
     }
   }
 }

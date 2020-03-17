@@ -9,29 +9,39 @@
     {
       "packageNames": [
         "@angular/animations",
-        "@angular/cdk",
         "@angular/common",
+        "@angular/compiler-cli",
         "@angular/compiler",
         "@angular/core",
-        "@angular/flex-layout",
         "@angular/forms",
-        "@angular/material",
+        "@angular/language-service",
         "@angular/platform-browser",
         "@angular/platform-browser-dynamic",
-        "@angular/router"
+        "@angular/router",
+        "@angular/service-worker"
       ],
-      "groupName": "angular-core",
+      "groupName": "@angular/angular",
       "updateTypes": ["minor", "patch"]
     },
     {
       "packageNames": [
+        "@angular/cli",
+        "@angular/pwa",
         "@angular-devkit/build-ng-packagr",
         "@angular-devkit/build-angular",
-        "@angular/cli",
-        "@angular/compiler-cli",
-        "@angular/language-service"
+        "@angular-devkit/schematics",
+        "ng-packagr"
       ],
-      "groupName": "angular-cli",
+      "groupName": "@angular/angular-cli",
+      "updateTypes": ["minor", "patch"]
+    },
+    {
+      "packageNames": [
+        "@angular/cdk",
+        "@angular/material",
+        "@angular/flex-layout"
+      ],
+      "groupName": "@angular/components",
       "updateTypes": ["minor", "patch"]
     },
     {
@@ -41,6 +51,7 @@
         "@nrwl/cypress",
         "@nrwl/jest",
         "@nrwl/schematics",
+        "@nrwl/storybook",
         "@nrwl/workspace"
       ],
       "groupName": "nrwl",
@@ -58,7 +69,7 @@
     },
     {
       "packageNames": ["typescript"],
-      "updateTypes": ["minor", "patch"]
+      "updateTypes": ["patch"]
     },
     {
       "packageNames": ["devextreme", "devextreme-angular"],
@@ -72,6 +83,18 @@
         "@ngneat/transloco-validator"
       ],
       "groupName": "transloco"
+    },
+    {
+      "packageNames": [
+        "@storybook/addon-a11y",
+        "@storybook/addon-actions",
+        "@storybook/addon-knobs",
+        "@storybook/addon-notes",
+        "@storybook/addon-storysource",
+        "@storybook/addon-viewport",
+        "@storybook/angular"
+      ],
+      "groupName": "storybook"
     }
   ]
 }
