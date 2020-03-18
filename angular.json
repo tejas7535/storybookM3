@@ -1182,7 +1182,11 @@
             "polyfills": "apps/cdba/src/polyfills.ts",
             "tsConfig": "apps/cdba/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/cdba/src/favicon.ico", "apps/cdba/src/assets"],
+            "assets": [
+              "apps/cdba/src/favicon.ico",
+              "apps/cdba/src/assets",
+              "apps/cdba/src/silent-refresh.html"
+            ],
             "styles": [
               "apps/cdba/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"
@@ -1398,6 +1402,38 @@
               "!apps/shared-ui-components-e2e/**"
             ]
           }
+        }
+      }
+    },
+    "shared-auth": {
+      "projectType": "library",
+      "root": "libs/shared/auth",
+      "sourceRoot": "libs/shared/auth/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/auth/tsconfig.lib.json",
+              "libs/shared/auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/auth/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/auth/jest.config.js",
+            "tsConfig": "libs/shared/auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/auth/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
         }
       }
     }
