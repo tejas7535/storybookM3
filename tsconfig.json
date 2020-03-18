@@ -37,7 +37,8 @@
       ],
       "@schaeffler/shared/responsive": ["libs/shared/responsive/src/index.ts"],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"],
-      "@schaeffler/shared/transloco": ["libs/shared/transloco/src/index.ts"]
+      "@schaeffler/shared/transloco": ["libs/shared/transloco/src/index.ts"],
+      "@schaeffler/shared/auth": ["libs/shared/auth/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

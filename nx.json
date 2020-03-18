@@ -87,6 +87,9 @@
     "shared-ui-components-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-components"]
+    },
+    "shared-auth": {
+      "tags": ["scope:shared", "type:authentication"]
     }
   }
 }
