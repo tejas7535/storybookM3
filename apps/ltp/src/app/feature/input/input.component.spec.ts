@@ -12,7 +12,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store } from '@ngrx/store';
@@ -74,11 +73,7 @@ describe('InputComponent', () => {
             input: initialInputState,
             prediction: initialPredictionState
           }
-        }),
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        }
+        })
       ]
     });
   });

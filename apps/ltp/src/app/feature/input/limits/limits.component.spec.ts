@@ -4,7 +4,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
@@ -30,12 +29,6 @@ describe('LimitsComponent', () => {
         MatSliderModule,
         NoopAnimationsModule,
         provideTranslocoTestingModule({ en })
-      ],
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        }
       ]
     });
   });

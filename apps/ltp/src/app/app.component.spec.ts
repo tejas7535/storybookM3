@@ -3,7 +3,6 @@ import { of } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -68,11 +67,7 @@ describe('AppComponent', () => {
             logout: jest.fn()
           }
         },
-        provideMockStore({ initialState }),
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        }
+        provideMockStore({ initialState })
       ]
     });
   });

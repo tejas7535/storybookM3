@@ -7,7 +7,6 @@
     [opened]="open"
     [mode]="isLessThanMedium ? 'over' : 'side'"
     (openedChange)="onChangeState($event)"
-    (swipeRight)="sidebar.toggle()"
     fixedInViewport="true"
     [fixedTopGap]="isMobileViewPort ? 73 : 60"
     [ngStyle]="{ width: width }"

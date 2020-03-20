@@ -2,7 +2,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
-import { HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
@@ -25,7 +24,6 @@ import { HomeComponent } from './home/home.component';
 
 import { environment } from '../environments/environment';
 import { StoreModule } from './core/store';
-import { HammerConfig } from './shared/config';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -46,13 +44,7 @@ import { HammerConfig } from './shared/config';
     SettingsSidebarModule,
     SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en')
   ],
-  providers: [
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: HammerConfig
-    },
-    ScrollToTopDirective
-  ],
+  providers: [ScrollToTopDirective],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

@@ -401,12 +401,12 @@ describe('AuthService', () => {
       expect(roles).toEqual(mockRoles);
     });
 
-    test('should return undefined if user is not authenticated', () => {
+    test('should return empty array if user is not authenticated', () => {
       service.hasValidAccessToken = jest.fn().mockImplementation(() => false);
 
       const roles = service.getAppRoles();
 
-      expect(roles).toEqual(undefined);
+      expect(roles).toEqual([]);
     });
   });
 
