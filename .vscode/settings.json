@@ -1,0 +1,12 @@
+{
+  "typescriptHero.imports": {
+    "organizeOnSave": true,
+    "grouping": [
+      "/@angular/",
+      "/rxjs/",
+      "Modules",
+      "/@schaeffler/",
+      "Remaining"
+    ]
+  }
+}
