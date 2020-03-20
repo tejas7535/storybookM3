@@ -60,15 +60,6 @@ export class SidebarComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * Opens or close menu if swipeMode is activate
-   */
-  public toggleSidebar(): void {
-    if (this.isMobileViewPort) {
-      this.toggle.emit();
-    }
-  }
-
-  /**
    * Animates the sidebar-nav
    */
   public get sidebarAnimation(): SidebarAnimationStyle {

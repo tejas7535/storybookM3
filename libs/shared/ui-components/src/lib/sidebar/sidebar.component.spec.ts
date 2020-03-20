@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -34,12 +33,6 @@ describe('In SidebarComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         provideTranslocoTestingModule({})
-      ],
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        }
       ]
     }).overrideComponent(SidebarComponent, {
       set: {
@@ -131,30 +124,6 @@ describe('In SidebarComponent', () => {
           );
         }
       });
-    });
-  });
-
-  describe('toggleSidebar()', () => {
-    it('should emit toggle event', () => {
-      const spy = spyOn(component.toggle, 'emit');
-
-      component.isMobileViewPort = true;
-      fixture.detectChanges();
-
-      component.toggleSidebar();
-
-      expect(spy).toHaveBeenCalled();
-    });
-
-    it('should not emit toggle event when not in mobile view port', () => {
-      const spy = spyOn(component.toggle, 'emit');
-
-      component.isMobileViewPort = false;
-      fixture.detectChanges();
-
-      component.toggleSidebar();
-
-      expect(spy).not.toHaveBeenCalled();
     });
   });
 

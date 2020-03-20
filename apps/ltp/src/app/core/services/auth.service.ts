@@ -113,7 +113,7 @@ export class AuthService {
 
   public getAppRoles(): string[] {
     if (!this.hasValidAccessToken()) {
-      return undefined;
+      return [];
     }
     const token = this.accessToken;
 

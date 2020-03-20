@@ -3,7 +3,6 @@ import { Observable, Subscriber } from 'rxjs';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -69,10 +68,6 @@ describe('HomeComponent', () => {
       providers: [
         BreakpointService,
         SidebarService,
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        },
         provideMockStore({
           initialState: {
             banner: initialBannerState

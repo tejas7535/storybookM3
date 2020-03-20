@@ -1,9 +1,10 @@
+import { Observable, Subscriber } from 'rxjs';
+
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -19,14 +20,16 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
-import { Observable, Subscriber } from 'rxjs';
+
+import { LandingModule } from './feature/landing/landing.module';
 
 import { AppComponent } from './app.component';
-import { AuthGuard } from './core/auth.guard';
-import { AuthService } from './core/auth.service';
-import { LandingModule } from './feature/landing/landing.module';
-import { ServiceType } from './shared/result/models';
 import { ResultComponent } from './shared/result/result.component';
+
+import { AuthService } from './core/auth.service';
+
+import { AuthGuard } from './core/auth.guard';
+import { ServiceType } from './shared/result/models';
 
 @Component({ selector: 'sta-result', template: '' })
 class ResultStubComponent implements Partial<ResultComponent> {
@@ -90,10 +93,6 @@ describe('AppComponent', () => {
             getUserName: jest.fn(),
             configureImplicitFlow: jest.fn()
           }
-        },
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
         },
         {
           provide: ActivatedRoute,

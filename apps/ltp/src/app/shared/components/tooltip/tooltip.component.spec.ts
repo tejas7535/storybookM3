@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { HAMMER_LOADER } from '@angular/platform-browser';
 
 import { Icon, IconModule } from '@schaeffler/shared/ui-components';
 
@@ -16,13 +15,7 @@ describe('TooltipComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TooltipComponent],
-      imports: [MatButtonModule, MatTooltipModule, IconModule],
-      providers: [
-        {
-          provide: HAMMER_LOADER,
-          useValue: async () => new Promise(() => {})
-        }
-      ]
+      imports: [MatButtonModule, MatTooltipModule, IconModule]
     });
   });
 
