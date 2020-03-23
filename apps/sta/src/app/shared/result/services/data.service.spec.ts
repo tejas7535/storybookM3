@@ -8,14 +8,14 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { DataService } from './data.service';
 
-import { Language } from '../models';
+import { FileReplacement, Language } from '../models';
 
 describe('DataService', () => {
   let service: DataService;
   let injector: TestBed;
   let httpMock: HttpTestingController;
 
-  const basePath = 'https://dev.sta.dp.schaeffler/api/v1';
+  const basePath = 'https://sta-d.dev.dp.schaeffler/api/v1';
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -39,30 +39,42 @@ describe('DataService', () => {
   });
 
   describe('postTaggingText', () => {
-    test('should return response as promise', async(() => {
+    test('should return an Observable<string[]>', () => {
       const text = 'Get me some tags please.';
       const expectedTags = ['First', 'Tag', 'Artificial'];
       const url = `${basePath}/tagging/text`;
 
-      service.postTaggingText(text).then(tags => {
+      service.postTaggingText(text).subscribe(tags => {
         expect(tags).toEqual(expectedTags);
       });
 
       const req = httpMock.expectOne(url);
       expect(req.request.method).toBe('POST');
       req.flush({ tags: expectedTags });
-    }));
+    });
   });
 
   describe('postTaggingFile', () => {
-    test('should return response as promise', async(() => {
-      const file = new File([], 'test');
+    test('should return an Observable<string[]>', async(() => {
+      const fileReplacement: FileReplacement = {
+        name: 'abc',
+        type: 'xyz',
+        content: []
+      };
+      const expectedFile = new File(
+        [Int8Array.from(fileReplacement.content)],
+        fileReplacement.name,
+        {
+          type: fileReplacement.type
+        }
+      );
+
       const expectedTags = ['First', 'Tag', 'Artificial'];
       const url = `${basePath}/tagging/file`;
       const form = new FormData();
-      form.append('file', file, file.name);
+      form.append('file', expectedFile, expectedFile.name);
 
-      service.postTaggingFile(file).then(tags => {
+      service.postTaggingFile(fileReplacement).subscribe(tags => {
         expect(tags).toEqual(expectedTags);
       });
 

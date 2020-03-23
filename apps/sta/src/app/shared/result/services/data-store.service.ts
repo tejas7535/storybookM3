@@ -44,31 +44,6 @@ export class DataStoreService {
     this._translation.next(val);
   }
 
-  public async getTagsForText(text: string): Promise<void> {
-    this._loadingTags.next(true);
-    try {
-      this.tags = await this.dataService.postTaggingText(text);
-    } catch (_e) {}
-    this._loadingTags.next(false);
-  }
-
-  public async getTagsForFile(file: File): Promise<FileStatus> {
-    this._loadingTags.next(true);
-    let successfulCall = true;
-
-    this.reset();
-
-    try {
-      this.tags = await this.dataService.postTaggingFile(file);
-    } catch (_e) {
-      successfulCall = false;
-    }
-
-    this._loadingTags.next(false);
-
-    return new FileStatus(file.name, file.type, successfulCall);
-  }
-
   public async getTranslationForText(
     text: string,
     targetLang: Language = Language.DE,

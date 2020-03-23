@@ -1,10 +1,9 @@
-import { Subject } from 'rxjs';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -14,11 +13,19 @@ import { TextInputModule } from '../../shared/text-input/text-input.module';
 
 import { AutoTaggingComponent } from './auto-tagging.component';
 
-import { FileStatus } from '../../shared/file-upload/file-status.model';
+import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
+import {
+  AppState,
+  loadTagsForFile,
+  loadTagsForText,
+  setSelectedTabIndex
+} from '../../core/store';
+import { FileReplacement, TextInput } from '../../shared/result/models';
 
 describe('AutoTaggingComponent', () => {
   let component: AutoTaggingComponent;
   let fixture: ComponentFixture<AutoTaggingComponent>;
+  let store: Store<AppState>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -30,13 +37,15 @@ describe('AutoTaggingComponent', () => {
         FileUploadModule,
         provideTranslocoTestingModule({})
       ],
-      declarations: [AutoTaggingComponent]
+      declarations: [AutoTaggingComponent],
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
     });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AutoTaggingComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 
@@ -45,74 +54,69 @@ describe('AutoTaggingComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should add subscription', () => {
-      const spy = jest.spyOn(component['subscription'], 'add');
+    test('should call setObservables', () => {
+      component['setObservables'] = jest.fn();
+
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(spy).toHaveBeenCalledTimes(1);
-    });
-
-    test('should reset fileStatus on reset Event', () => {
-      component.fileStatus = new FileStatus('test', '', true);
-      const sub = new Subject();
-      Object.defineProperty(component['dataStore'], 'reset$', {
-        value: sub
-      });
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      sub.next(undefined);
-
-      expect(component.fileStatus).toBeUndefined();
-    });
-
-    test('should not reset fileStatus if result has not been received yet', () => {
-      const status = new FileStatus('test', '', undefined);
-      component.fileStatus = status;
-      const sub = new Subject();
-      Object.defineProperty(component['dataStore'], 'reset$', {
-        value: sub
-      });
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      sub.next(undefined);
-
-      expect(component.fileStatus).toEqual(status);
+      expect(component['setObservables']).toHaveBeenCalledTimes(1);
     });
   });
 
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe', () => {
-      component['subscription'].unsubscribe = jest.fn();
+  describe('setObservables', () => {
+    test('should define observables', () => {
+      component['setObservables']();
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
+      expect(component.fileStatus$).toBeDefined();
+      expect(component.textInput$).toBeDefined();
+      expect(component.selectedTabIndex$).toBeDefined();
     });
   });
 
   describe('getTagsForText', () => {
-    test('should call getTagsForText', () => {
-      component['dataStore'].getTagsForText = jest.fn();
-      const text = 'text';
+    test('should dispatch loadTagsForText action', () => {
+      store.dispatch = jest.fn();
+      const textInput: TextInput = { text: 'text' };
 
-      component.getTagsForText(text);
+      component.getTagsForText(textInput);
 
-      expect(component['dataStore'].getTagsForText).toHaveBeenCalledWith(text);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadTagsForText({ text: textInput.text })
+      );
     });
   });
 
   describe('getTagsForFile', () => {
-    test('should call getTagsFromFile', () => {
-      component['dataStore'].getTagsForFile = jest.fn();
-      const file = new File([], 'file');
+    test('should call getTagsFromFile', async () => {
+      store.dispatch = jest.fn();
+      const file = new File(['moin'], 'file', { type: 'abc' });
+      await component.getTagsForFile(file);
 
-      component.getTagsForFile(file);
+      const expected: FileReplacement = {
+        name: file.name,
+        type: file.type,
+        content: [109, 111, 105, 110]
+      };
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        loadTagsForFile({ file: expected })
+      );
+    });
+  });
 
-      expect(component['dataStore'].getTagsForFile).toHaveBeenCalledWith(file);
+  describe('setSelectedTabIndex', () => {
+    test('should dispatch setSelectedTabIndex action', () => {
+      store.dispatch = jest.fn();
+      const tabIndex = 0;
+
+      component.setSelectedTabIndex(tabIndex);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setSelectedTabIndex({ selectedTabIndex: tabIndex })
+      );
     });
   });
 });

@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 
 import { environment } from '../../../../environments/environment';
 import {
+  FileReplacement,
   Language,
   LanguageDetection,
   LanguageDetectionResponse,
@@ -22,21 +23,28 @@ export class DataService {
 
   constructor(private readonly http: HttpClient) {}
 
-  public async postTaggingText(text: string): Promise<string[]> {
+  public postTaggingText(text: string): Observable<string[]> {
     return this.http
       .post<Tags>(`${this.apiUrl}/tagging/text`, new TextInput(text))
-      .pipe(map((tags: Tags) => tags.tags))
-      .toPromise();
+      .pipe(map((tags: Tags) => tags.tags));
   }
 
-  public async postTaggingFile(file: File): Promise<string[]> {
+  public postTaggingFile(
+    fileReplacement: FileReplacement
+  ): Observable<string[]> {
     const formData: FormData = new FormData();
+    const file = new File(
+      [Int8Array.from(fileReplacement.content)],
+      fileReplacement.name,
+      {
+        type: fileReplacement.type
+      }
+    );
     formData.append('file', file, file.name);
 
     return this.http
       .post<Tags>(`${this.apiUrl}/tagging/file`, formData)
-      .pipe(map((response: Tags) => response.tags))
-      .toPromise();
+      .pipe(map((response: Tags) => response.tags));
   }
 
   public async postTranslationText(

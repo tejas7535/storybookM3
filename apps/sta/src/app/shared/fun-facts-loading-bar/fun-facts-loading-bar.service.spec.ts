@@ -38,7 +38,8 @@ describe('FunFactsLoadingBarService', () => {
   describe('getFunFact', () => {
     test('should return response as promise', () => {
       const expcetedFunFact = 'abc fact';
-      const url = 'https://dev.sta.dp.schaeffler/api/v1/fun-facts?language=en';
+      const url =
+        'https://sta-d.dev.dp.schaeffler/api/v1/fun-facts?language=en';
       service.getFunFact().subscribe(funFact => {
         expect(funFact).toEqual(expcetedFunFact);
       });

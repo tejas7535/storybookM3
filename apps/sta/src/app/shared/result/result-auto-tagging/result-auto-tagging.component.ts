@@ -1,63 +1,61 @@
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DOCUMENT } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  Inject,
-  Input,
-  OnChanges,
-  OnInit,
-  SimpleChanges
-} from '@angular/core';
+import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
+import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/shared/ui-components';
 
-import { DataStoreService } from '../services/data-store.service';
+import { TagsForFileInput } from '../../../core/store/reducers/tagging/models/tags-for-file-input.model';
+import { TagsForTextInput } from '../../../core/store/reducers/tagging/models/tags-for-text-input.model';
 
+import {
+  addTagForFile,
+  addTagForText,
+  AppState,
+  getSelectedTabIndexTagging,
+  removeTagForFile,
+  removeTagForText,
+  setShowMoreTagsFile,
+  setShowMoreTagsText
+} from '../../../core/store';
 import { fadeInAnimation } from '../../animations/fade-in-animation';
 
 @Component({
   selector: 'sta-result-auto-tagging',
   templateUrl: './result-auto-tagging.component.html',
   styleUrls: ['./result-auto-tagging.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [fadeInAnimation]
 })
-export class ResultAutoTaggingComponent implements OnChanges, OnInit {
-  public loadingTags$: Observable<boolean>;
+export class ResultAutoTaggingComponent implements OnInit, OnDestroy {
+  @Input() public tags: TagsForTextInput | TagsForFileInput;
+
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  public showMoreTagsBtnDisabled = false;
-  public subsetTags: string[];
+  public selectedTabIndex$: Observable<number>;
+  public selectedTabIndex: number;
 
-  private readonly MAX_TAGS = 20;
-  private readonly MIN_TAGS = 15;
-
-  @Input() public tags: string[];
+  public readonly subscription: Subscription = new Subscription();
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly snackBarService: SnackBarService,
-    private readonly dataStore: DataStoreService
+    private readonly store: Store<AppState>
   ) {}
 
   public ngOnInit(): void {
-    this.loadingTags$ = this.dataStore.loadingTags$;
+    this.subscription.add(
+      this.store
+        .pipe(select(getSelectedTabIndexTagging))
+        .subscribe((selectedTabIndex: number) => {
+          this.selectedTabIndex = selectedTabIndex;
+        })
+    );
   }
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.tags) {
-      if (!changes.tags.currentValue) {
-        this.subsetTags = undefined;
-
-        return;
-      }
-      this.showMoreTagsBtnDisabled =
-        changes.tags.currentValue.length < this.MIN_TAGS ? true : false;
-      this.subsetTags = changes.tags.currentValue.slice(0, this.MIN_TAGS);
-    }
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   /**
@@ -69,7 +67,11 @@ export class ResultAutoTaggingComponent implements OnChanges, OnInit {
 
     // add value
     if (value) {
-      this.subsetTags.push(value.trim());
+      if (this.selectedTabIndex === 0) {
+        this.store.dispatch(addTagForText({ tag: value.trim() }));
+      } else if (this.selectedTabIndex === 1) {
+        this.store.dispatch(addTagForFile({ tag: value.trim() }));
+      }
     }
 
     // Reset the input value
@@ -82,7 +84,11 @@ export class ResultAutoTaggingComponent implements OnChanges, OnInit {
    * Removes a tag from tags
    */
   public remove(tag: string): void {
-    this.subsetTags = this.subsetTags.filter(el => el !== tag);
+    if (this.selectedTabIndex === 0) {
+      this.store.dispatch(removeTagForText({ tag }));
+    } else if (this.selectedTabIndex === 1) {
+      this.store.dispatch(removeTagForFile({ tag }));
+    }
   }
 
   /**
@@ -95,7 +101,7 @@ export class ResultAutoTaggingComponent implements OnChanges, OnInit {
     selBox.style.left = '0';
     selBox.style.top = '0';
     selBox.style.opacity = '0';
-    selBox.value = this.subsetTags.join(', ');
+    selBox.value = this.tags.tags.join(', ');
     this.document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();
@@ -116,14 +122,10 @@ export class ResultAutoTaggingComponent implements OnChanges, OnInit {
    * Show more tags if possible
    */
   public showMoreTags(): void {
-    this.showMoreTagsBtnDisabled = true;
-    if (this.tags && this.tags.length > this.MIN_TAGS) {
-      const remainingSubset = this.tags.slice(this.MIN_TAGS - 1, this.MAX_TAGS);
-      this.subsetTags = this.subsetTags.concat(
-        remainingSubset.filter(
-          el => !this.subsetTags.find(existingEl => existingEl === el)
-        )
-      );
+    if (this.selectedTabIndex === 0) {
+      this.store.dispatch(setShowMoreTagsText({ showMoreTags: true }));
+    } else if (this.selectedTabIndex === 1) {
+      this.store.dispatch(setShowMoreTagsFile({ showMoreTags: true }));
     }
   }
 }
