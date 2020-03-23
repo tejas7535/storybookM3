@@ -2,6 +2,6 @@ export const environment = {
   production: true,
   devToolsEnabled: false,
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
-  clientId: '9cb9acbc-986b-483a-bd46-964628cc497f',
-  appId: 'api://5911691d-b29f-40bc-ab05-0b67f5b256cf/cdbaapi'
+  clientId: '9b41cee5-3a94-45cb-b36f-35d748d9c0bf', // SG_CDBA_Q
+  appId: 'api://653310f5-aeab-47f6-ae89-69f1211ffee3/cdbaapi' // SG_CDBA_Q_API
 };
