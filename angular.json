@@ -119,6 +119,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -128,6 +137,9 @@
             "browserTarget": "kitchen-sink:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "kitchen-sink:build:e2e"
+            },
             "prod": {
               "browserTarget": "kitchen-sink:build:prod"
             }
@@ -173,6 +185,9 @@
             "devServerTarget": "kitchen-sink:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "kitchen-sink:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "kitchen-sink:serve:prod"
             }
@@ -385,6 +400,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -394,6 +418,9 @@
             "browserTarget": "sta:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "sta:build:e2e"
+            },
             "prod": {
               "browserTarget": "sta:build:prod"
             }
@@ -439,6 +466,9 @@
             "devServerTarget": "sta:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "sta:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "sta:serve:prod"
             }
@@ -677,6 +707,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -686,6 +725,9 @@
             "browserTarget": "ltp:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "ltp:build:e2e"
+            },
             "prod": {
               "browserTarget": "ltp:build:prod"
             }
@@ -731,6 +773,9 @@
             "devServerTarget": "ltp:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "ltp:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "ltp:serve:prod"
             }
@@ -863,6 +908,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -872,6 +926,9 @@
             "browserTarget": "steel:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "steel:build:e2e"
+            },
             "prod": {
               "browserTarget": "steel:build:prod"
             }
@@ -917,6 +974,9 @@
             "devServerTarget": "steel:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "steel:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "steel:serve:prod"
             }
@@ -1094,6 +1154,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -1103,6 +1172,9 @@
             "browserTarget": "helloworld-azure:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "helloworld-azure:build:e2e"
+            },
             "prod": {
               "browserTarget": "helloworld-azure:build:prod"
             }
@@ -1148,6 +1220,9 @@
             "devServerTarget": "helloworld-azure:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "helloworld-azure:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "helloworld-azure:serve:prod"
             }
@@ -1277,6 +1352,15 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
             }
           }
         },
@@ -1286,6 +1370,9 @@
             "browserTarget": "cdba:build"
           },
           "configurations": {
+            "e2e": {
+              "browserTarget": "cdba:build:e2e"
+            },
             "prod": {
               "browserTarget": "cdba:build:prod"
             }
@@ -1331,6 +1418,9 @@
             "devServerTarget": "cdba:serve"
           },
           "configurations": {
+            "e2e": {
+              "devServerTarget": "cdba:serve:e2e"
+            },
             "prod": {
               "devServerTarget": "cdba:serve:prod"
             }
