@@ -16,13 +16,14 @@
     <ng-container [ngSwitch]="currentService">
       <sta-result-auto-tagging
         *ngSwitchCase="serviceType.TAGGING"
-        [tags]="tags$ | async"
+        [tags]="selectedTabIndexTagging === 1 ? tagsForFile : tagsForText"
       ></sta-result-auto-tagging>
 
       <sta-result-translation
         *ngSwitchCase="serviceType.TRANSLATION"
         [translation]="translation$ | async"
-      ></sta-result-translation>
+      >
+      </sta-result-translation>
     </ng-container>
 
     <mat-divider [inset]="true"></mat-divider>

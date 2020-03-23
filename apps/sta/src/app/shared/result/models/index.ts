@@ -6,3 +6,4 @@ export * from './language-detection.model';
 export * from './language-detection-response.model';
 export * from './key-value.model';
 export * from './text-input.model';
+export * from './file-replacement.model';

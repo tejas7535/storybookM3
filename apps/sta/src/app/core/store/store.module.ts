@@ -1,10 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { EffectsModule } from '@ngrx/effects';
 import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../../environments/environment';
+import { effects } from './effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 
 @NgModule({
@@ -25,7 +27,8 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
       ? StoreDevtoolsModule.instrument({
           maxAge: 50
         })
-      : /* istanbul ignore next: very difficult */ []
+      : /* istanbul ignore next: very difficult */ [],
+    EffectsModule.forRoot([...effects])
   ],
   exports: []
 })

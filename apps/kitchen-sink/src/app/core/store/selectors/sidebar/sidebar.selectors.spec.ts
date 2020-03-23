@@ -1,8 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
+import { Subscription } from 'rxjs';
+
 import { select, Store, StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
-import { Subscription } from 'rxjs';
 
 import * as fromRoot from '../../reducers';
 import { initialState } from '../../reducers/sidebar/sidebar.reducer';
@@ -22,8 +23,6 @@ describe('SidebarSelector', () => {
           },
           {
             runtimeChecks: {
-              strictStateImmutability: true,
-              strictActionImmutability: true,
               strictStateSerializability: true,
               strictActionSerializability: true
             }

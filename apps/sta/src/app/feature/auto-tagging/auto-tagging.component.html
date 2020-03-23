@@ -2,13 +2,19 @@
   <h1>Auto Tagging</h1>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <div class="mat-elevation-z8 background-white" fxFlex="100%">
-      <mat-tab-group dynamicHeight="true">
+      <mat-tab-group
+        dynamicHeight="true"
+        [selectedIndex]="selectedTabIndex$ | async"
+        (selectedIndexChange)="setSelectedTabIndex($event)"
+      >
         <mat-tab label="Text Input">
           <div class="main-container">
             <sta-text-input
               (btnClicked)="getTagsForText($event)"
               btnText="Generate Tags"
-              [defaultText]="demoTextEn"
+              [defaultText]="
+                (textInput$ | async) ? (textInput$ | async) : demoTextEn
+              "
               [disabledLanguages]="disabledLanguages"
               [showTargetLanguage]="showTargetLanguage"
               textHint="English text only."
@@ -19,7 +25,7 @@
           <div class="main-container">
             <sta-file-upload
               (fileUploaded)="getTagsForFile($event)"
-              [fileStatus]="fileStatus"
+              [fileStatus]="fileStatus$ | async"
               supportedLanguages="English"
             ></sta-file-upload>
           </div>

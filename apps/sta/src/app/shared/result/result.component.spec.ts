@@ -7,21 +7,27 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 
+import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
 
 import { DataStoreService } from './services/data-store.service';
 
+import * as fromTagging from '../../core/store';
+
 describe('ResultComponent', () => {
   let component: ResultComponent;
   let fixture: ComponentFixture<ResultComponent>;
+  let store: Store<fromTagging.AppState>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -43,13 +49,17 @@ describe('ResultComponent', () => {
         ResultAutoTaggingComponent,
         ResultTranslationComponent
       ],
-      providers: [DataStoreService]
+      providers: [
+        DataStoreService,
+        provideMockStore({ initialState: APP_STATE_MOCK })
+      ]
     });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
     fixture.detectChanges();
   });
 
@@ -58,6 +68,15 @@ describe('ResultComponent', () => {
   });
 
   describe('ngOnInit', () => {
+    test('should set subscription', () => {
+      component['setObservables'] = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.subscription).toBeDefined();
+    });
+
     test('should call setObservables', () => {
       const mock = (component['setObservables'] = jest.fn());
 
@@ -65,6 +84,27 @@ describe('ResultComponent', () => {
       component.ngOnInit();
 
       expect(mock).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setObservables', () => {
+    test('should define observables', () => {
+      component['setObservables']();
+
+      expect(component.translation$).toBeDefined();
+      expect(component.tagsForText$).toBeDefined();
+      expect(component.tagsForFile$).toBeDefined();
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component.subscription.unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component.subscription.unsubscribe).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -76,14 +116,14 @@ describe('ResultComponent', () => {
 
       expect(component['dataStore'].reset).toHaveBeenCalledTimes(1);
     });
-  });
 
-  describe('setObservables', () => {
-    test('should define observables', () => {
-      component['setObservables']();
+    test('should dispatch resetAll action', () => {
+      store.dispatch = jest.fn();
 
-      expect(component.tags$).toBeDefined();
-      expect(component.translation$).toBeDefined();
+      component.reset();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(fromTagging.resetAll());
     });
   });
 });

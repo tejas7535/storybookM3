@@ -5,6 +5,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -13,11 +15,21 @@ import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-element
 
 import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
 
-import { DataStoreService } from '../services/data-store.service';
+import { APP_STATE_MOCK } from '../../../../testing/mocks/shared/app-state.mock';
+import {
+  addTagForFile,
+  addTagForText,
+  AppState,
+  removeTagForFile,
+  removeTagForText,
+  setShowMoreTagsFile,
+  setShowMoreTagsText
+} from '../../../core/store';
 
 describe('ResultAutoTaggingComponent', () => {
   let component: ResultAutoTaggingComponent;
   let fixture: ComponentFixture<ResultAutoTaggingComponent>;
+  let store: Store<AppState>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -32,13 +44,20 @@ describe('ResultAutoTaggingComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [ResultAutoTaggingComponent],
-      providers: [DataStoreService]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
     });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ResultAutoTaggingComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    component.tags = {
+      tags: ['1', '2'],
+      loading: false,
+      showMoreTags: false,
+      success: true
+    };
     fixture.detectChanges();
   });
 
@@ -47,207 +66,48 @@ describe('ResultAutoTaggingComponent', () => {
   });
 
   describe('ngOniInit', () => {
-    test('should define observable', () => {
+    test('should set subscription', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
-      expect(component.loadingTags$).toBeDefined();
-    });
-  });
 
-  describe('ngOnChanges', () => {
-    test('should do nothing when tags did not change', () => {
-      const test = ['test'];
-      component.subsetTags = test;
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({});
-
-      expect(component.subsetTags).toEqual(test);
-    });
-
-    test('should set showMoreTagsBtnDisabled to false when more than 20 tags initially avl', () => {
-      const test = ['test'];
-      const newTags = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17',
-        '18'
-      ];
-      component.subsetTags = test;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        tags: {
-          previousValue: [],
-          currentValue: newTags,
-          isFirstChange: () => false,
-          firstChange: false
-        }
-      });
-
-      expect(component.showMoreTagsBtnDisabled).toBeFalsy();
-    });
-
-    test('should set showMoreTagsBtnDisabled to true when less than 15 tags initially avl', () => {
-      const test = ['test'];
-      const newTags = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14'
-      ];
-      component.subsetTags = test;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        tags: {
-          previousValue: [],
-          currentValue: newTags,
-          isFirstChange: () => false,
-          firstChange: false
-        }
-      });
-
-      expect(component.showMoreTagsBtnDisabled).toBeTruthy();
-    });
-
-    test('should set showMoreTagsBtnDisabled to false when more than 15 tags initially avl', () => {
-      const test = ['test'];
-      const newTags = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16'
-      ];
-      component.subsetTags = test;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        tags: {
-          previousValue: [],
-          currentValue: newTags,
-          isFirstChange: () => false,
-          firstChange: false
-        }
-      });
-
-      expect(component.showMoreTagsBtnDisabled).toBeFalsy();
-    });
-
-    test('should set subsetTags on tags change to MIN', () => {
-      const test = ['test'];
-      const newTags = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17'
-      ];
-      component.subsetTags = test;
-
-      component.showMoreTagsBtnDisabled = false;
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        tags: {
-          previousValue: [],
-          currentValue: newTags,
-          isFirstChange: () => false,
-          firstChange: false
-        }
-      });
-
-      expect(component.subsetTags).toEqual([
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15'
-      ]);
-    });
-
-    test('should reset subsetTags when tags are resetted', () => {
-      component.subsetTags = [];
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges({
-        tags: {
-          previousValue: [],
-          currentValue: undefined,
-          isFirstChange: () => false,
-          firstChange: false
-        }
-      });
-
-      expect(component.subsetTags).toBeUndefined();
+      expect(component.subscription).toBeDefined();
     });
   });
 
   describe('add', () => {
-    test('should push value when value is part of event', () => {
-      component.subsetTags = [];
-      component.add(({ value: 'test ' } as unknown) as MatChipInputEvent);
+    test('should dispatch addTagsForText when value when value is part of event and selectedTabIndex === 0', () => {
+      component.selectedTabIndex = 0;
+      store.dispatch = jest.fn();
+      const testValue = 'test ';
+      const expectedValue = 'test';
+      component.add(({ value: testValue } as unknown) as MatChipInputEvent);
 
-      expect(component.subsetTags[component.subsetTags.length - 1]).toEqual(
-        'test'
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        addTagForText({ tag: expectedValue })
       );
+    });
+
+    test('should dispatch addTagsForFile when value when value is part of event and selectedTabIndex === 1', () => {
+      component.selectedTabIndex = 1;
+      store.dispatch = jest.fn();
+      const testValue = 'test ';
+      const expectedValue = 'test';
+      component.add(({ value: testValue } as unknown) as MatChipInputEvent);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        addTagForFile({ tag: expectedValue })
+      );
+    });
+
+    test('should not dispatch anything on selectedTabIndex != 1 or 0', () => {
+      component.selectedTabIndex = 2;
+      store.dispatch = jest.fn();
+      const testValue = 'test ';
+      component.add(({ value: testValue } as unknown) as MatChipInputEvent);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
 
     test('should reset input when input is part of event', () => {
@@ -261,25 +121,54 @@ describe('ResultAutoTaggingComponent', () => {
   });
 
   describe('remove()', () => {
-    test('it should remove tag from tags', () => {
+    test('should dispatch removeTagForText action when selectedTabIndex === 0', () => {
+      component.selectedTabIndex = 0;
+      store.dispatch = jest.fn();
       const tag = 'apple';
-      const tags = ['cucumber', 'banana', 'apple', 'orange'];
-
-      component.subsetTags = tags;
 
       component.remove(tag);
 
-      expect(component.subsetTags).toEqual(['cucumber', 'banana', 'orange']);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(removeTagForText({ tag }));
+    });
+
+    test('should dispatch removeTagForFile action when selectedTabIndex === 1', () => {
+      component.selectedTabIndex = 1;
+      store.dispatch = jest.fn();
+      const tag = 'apple';
+
+      component.remove(tag);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(removeTagForFile({ tag }));
+    });
+
+    test('should not dispatch anything when selectedTabIndex != 1 or 0', () => {
+      component.selectedTabIndex = 2;
+      store.dispatch = jest.fn();
+      const tag = 'apple';
+
+      component.remove(tag);
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });
 
   describe('copyToClipBoard', () => {
-    test('it should copy text to clip board', () => {
-      component.subsetTags = ['test'];
+    test('it should copy text to clip board and show success message', () => {
+      component.tags.tags = ['test'];
       component['document'].execCommand = jest.fn();
+      component['snackBarService'].showSuccessMessage = jest.fn();
       component.copyToClipBoard();
 
       expect(document.execCommand).toHaveBeenCalledWith('copy');
+      expect(document.execCommand).toHaveBeenCalledTimes(1);
+      expect(
+        component['snackBarService'].showSuccessMessage
+      ).toHaveBeenCalledTimes(1);
+      expect(
+        component['snackBarService'].showSuccessMessage
+      ).toHaveBeenCalledWith('Copied to clipboard');
     });
   });
 
@@ -292,59 +181,37 @@ describe('ResultAutoTaggingComponent', () => {
   });
 
   describe('showMoreTags', () => {
-    let allTags: string[];
-
-    beforeEach(() => {
-      component.showMoreTagsBtnDisabled = false;
-      allTags = [
-        '1',
-        '2',
-        '3',
-        '4',
-        '5',
-        '6',
-        '7',
-        '8',
-        '9',
-        '10',
-        '11',
-        '12',
-        '13',
-        '14',
-        '15',
-        '16',
-        '17'
-      ];
-      component.tags = allTags;
-      component.subsetTags = [];
-    });
-
-    test('should set showMoreTagsBtnDisabled to true', () => {
-      component.showMoreTags();
-
-      expect(component.showMoreTagsBtnDisabled).toBeTruthy();
-    });
-
-    test('should slice tags correctly when tags > min_tags', () => {
-      component.showMoreTags();
-
-      expect(component.subsetTags).toEqual(['15', '16', '17']);
-    });
-
-    test('should not add already existing tags', () => {
-      component.subsetTags = ['16'];
-      component.showMoreTags();
-
-      expect(component.subsetTags).toEqual(['16', '15', '17']);
-    });
-
-    test('should not change subset when tags <= MIN_TAGS', () => {
-      component.subsetTags = ['13'];
-      component.tags = ['13'];
+    test('should dispatch setShowMoreTagsText action when selectedTabIndex === 0', () => {
+      component.selectedTabIndex = 0;
+      store.dispatch = jest.fn();
 
       component.showMoreTags();
 
-      expect(component.subsetTags).toEqual(['13']);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setShowMoreTagsText({ showMoreTags: true })
+      );
+    });
+
+    test('should dispatch setShowMoreTagsFile action when selectedTabIndex === 1', () => {
+      component.selectedTabIndex = 1;
+      store.dispatch = jest.fn();
+
+      component.showMoreTags();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        setShowMoreTagsFile({ showMoreTags: true })
+      );
+    });
+
+    test('should not dispatch anything when selectedTabIndex != 1 or 0', () => {
+      component.selectedTabIndex = 2;
+      store.dispatch = jest.fn();
+
+      component.showMoreTags();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(0);
     });
   });
 });
