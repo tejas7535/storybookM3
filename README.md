@@ -52,6 +52,7 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
 3. App Configuration
    - Edit `angular.json` and make sure to have the following configurations:
      ```json
+        // build configurations
          "configurations": {
              "dev": {
                  "statsJson": true,
@@ -117,11 +118,51 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
                      "maximumError": "10kb"
                      }
                  ]
-             }
-         }
+             },
+             "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+         },
+        ...
+        // serve configurations
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "<app>:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "<app>:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "<app>:build:prod"
+            }
+          }
+        },
+        ...
+        // e2e configurations
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": { ... },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "<app>:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "<app>:serve:prod"
+            }
+          }
+        },
      ```
-   - In order to integrate your app in the workspace, it is mandatory to support the configurations `dev`, `qa` and `prod`.
+   - In order to integrate your app in the workspace, it is mandatory to support the configurations `dev`, `qa`, `prod` and `e2e`.
    - Don't forget to add a `environment.dev.ts` as well as a `environment.prod.ts` or if needed a `environment.qa.ts` to your environments in your app.
+   - If you want to apply more complex configuration scenarios, please get in touch with us first in order to discuss your needs.
 4. Add Deployment job
    - Add an entry to `deployments.json` for your app:
      ```json
