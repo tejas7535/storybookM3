@@ -7,6 +7,7 @@ import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
+  FooterLink,
   getBannerOpen,
   Icon,
   openBanner,
@@ -40,6 +41,14 @@ export class HomeComponent implements OnInit, OnDestroy {
       text: translate('navigation.home'),
       icon: new Icon('icon-house'),
       link: '/home'
+    }
+  ];
+  public footerLinks: FooterLink[] = [
+    {
+      link:
+        'https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions',
+      title: 'Custom Apps & AI @ sConnect',
+      external: true
     }
   ];
 
@@ -89,10 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   public toggleSidebar(): void {
     this.sidebarService
       .getSidebarMode()
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-      )
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(sidebarMode => {
         this.sidebarToggled.next(sidebarMode);
       });

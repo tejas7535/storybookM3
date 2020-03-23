@@ -6,6 +6,7 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
+  FooterLink,
   Icon,
   SidebarElement,
   SidebarMode,
@@ -63,6 +64,18 @@ export class AppComponent implements OnInit, OnDestroy {
       text: 'Translation',
       icon: new Icon('translate', true),
       link: 'translation'
+    }
+  ];
+  public footerLinks: FooterLink[] = [
+    {
+      link: '/legal/data-privacy-en.html',
+      title: 'Data Privacy',
+      external: true
+    },
+    {
+      link: '/legal/cookie-policy-en.html',
+      title: 'Cookie Policy',
+      external: true
     }
   ];
 
@@ -125,10 +138,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public toggleSidebar(): void {
     this.sidebarService
       .getSidebarMode()
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-      )
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe((sidebarMode: SidebarMode) => {
         this.sidebarToggled.next(sidebarMode);
       });

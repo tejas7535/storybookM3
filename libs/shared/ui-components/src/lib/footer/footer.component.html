@@ -1,8 +1,45 @@
-<footer class="footer">
-  <div class="footer-list">
-    <div class="footer-version-and-copyright">
-      <span class="separator"> | </span>
-      <div>&copy; Schaeffler Technologies AG & Co. KG</div>
+<footer
+  id="footer"
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+  fxLayoutAlign.lt-md="start stretch"
+  fxLayout.lt-md="column"
+  fxLayoutGap="0px"
+  fxLayoutGap.lt-md="20px"
+>
+  <div
+    fxLayout="row"
+    fxLayout.lt-md="column"
+    fxLayoutAlign="start center"
+    fxLayoutAlign.lt-md="space-between stretch"
+  >
+    <div
+      class="footer-content"
+      fxLayoutAlign="start center"
+      *ngFor="let footerLink of footerLinks; trackBy: trackByFn"
+    >
+      <a
+        *ngIf="footerLink.external"
+        [href]="footerLink.link"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {{ footerLink.title }}
+      </a>
+      <div
+        *ngIf="!footerLink.external"
+        [routerLink]="footerLink.link"
+        class="footer-link-internal"
+      >
+        {{ footerLink.title }}
+      </div>
+      <span fxHide.lt-md>&nbsp;|&nbsp;</span>
     </div>
+    <div class="footer-content" id="version" fxLayoutAlign="start center">
+      <span> {{ version }} </span>
+    </div>
+  </div>
+  <div class="footer-content" fxLayoutAlign="start center">
+    &copy; Schaeffler Technologies AG & Co. KG
   </div>
 </footer>

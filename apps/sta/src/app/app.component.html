@@ -37,7 +37,9 @@
           >
             <ng-container container>
               <router-outlet></router-outlet>
-              <schaeffler-footer></schaeffler-footer>
+              <schaeffler-footer
+                [footerLinks]="footerLinks"
+              ></schaeffler-footer>
             </ng-container>
             <ng-container sidebar>
               <sta-result [currentService]="currentService"></sta-result>
