@@ -72,7 +72,7 @@
     "@ngrx/router-store": "9.0.0",
     "@ngrx/store": "9.0.0",
     "@types/jwt-decode": "2.2.1",
-    "angular-oauth2-oidc": "9.0.1",
+    "angular-oauth2-oidc": "9.1.0",
     "angular-oauth2-oidc-jwks": "9.0.0",
     "core-js": "3.6.4",
     "devextreme": "19.2.6",
