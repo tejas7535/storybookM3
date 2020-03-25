@@ -16,6 +16,7 @@
       "woehlerYLabel": "Prin­cipal stress am­pli­tude in MPa"
     },
     "csv": "CSV",
+    "csv_dummy": "Dummy-CSV of load collective",
     "display": {
       "infoDisplay": "Analytical models, e.g. following the FKM-guidline or the Murakami model can be chosen. Additionally a slider allows to define the scatter as a 'slog' (logarithmic deviation). A conservative value might be around 0.045.",
       "infoHv": "The local hardness in Vickers (HV10) is our primary influence for the generation of a artificial SN-curve. The hardness could be defined directly via a slider or the hardness can be derived from histroical data from the PLS (ger. for Prozessleitsystem). In that case you need to know your material and heat treatment.",

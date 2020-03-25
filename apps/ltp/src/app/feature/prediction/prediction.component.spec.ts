@@ -10,6 +10,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
@@ -18,21 +20,16 @@ import {
   IconModule
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
-import { ChartModule } from './chart/chart.module';
-
-import { KpiComponent } from './kpi/kpi.component';
-import { PredictionComponent } from './prediction.component';
-
-import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
-import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
-
 import * as en from '../../../assets/i18n/en.json';
 import * as fromStore from '../../core/store';
+import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
+import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
+import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { CHART_SETTINGS_WOEHLER } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
+import { ChartModule } from './chart/chart.module';
+import { KpiComponent } from './kpi/kpi.component';
+import { PredictionComponent } from './prediction.component';
 
 describe('PredictionComponent', () => {
   let component: PredictionComponent;
@@ -239,6 +236,18 @@ describe('PredictionComponent', () => {
       };
 
       expect(component.getIcon(mockIcon)).toEqual(mockedComposedIcon);
+    });
+  });
+
+  describe('handleDummyLoad', () => {
+    it('should call parseLoadsFile', () => {
+      spyOn(component, 'parseLoadFile');
+      component.handleDummyLoad();
+
+      expect(component.parseLoadFile).toHaveBeenCalledWith(
+        '/assets/loads/cca-sql-dump.txt',
+        true
+      );
     });
   });
 });

@@ -16,6 +16,7 @@
       "woehlerYLabel": "Haupt­span­nungs­am­pli­tu­de in MPa"
     },
     "csv": "CSV",
+    "csv_dummy": "Dummy-CSV von Lastkollektiv",
     "display": {
       "infoDisplay": "Analytische Modelle wie das der FKM-Richtlinie und Modell von Murakami stehen zur Verfügung. Zustäzlich erlaubt der slider für den 'slog' als logarithmische Standardabweichung eine Streuung vorzugeben . Ein konservativer Wert liegt hier bei ~0.045.",
       "infoHv": "Die lokale Härte in Vickers (HV10) ist unser primärer Einflussfaktor bei der Bestimmung einer künstlichen Wöhlerlinie. Die Eingabe der Härte kann direkt über den Schieberegler erfolgen, oder aus aus historischen Daten des PLS (Prozessleitsystem) abgeleitet werden. Dafür ist die Eingabe des Materials und der Wärmebehandlung nötig.",
