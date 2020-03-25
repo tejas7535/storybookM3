@@ -52,6 +52,9 @@
             (change)="handleFileInput($event.target.files)"
           />
         </button>
+        <button mat-menu-item (click)="handleDummyLoad()">
+          <span translate>{{ t('csv_dummy') }}</span>
+        </button>
       </mat-menu>
       <button mat-button [matMenuTriggerFor]="exportMenu">
         <span

@@ -84,12 +84,21 @@ export class PredictionComponent implements OnInit {
     this.parseLoadFile(loadCollective);
   }
 
+  handleDummyLoad(): void {
+    const loadCollective = '/assets/loads/cca-sql-dump.txt';
+    this.parseLoadFile(loadCollective, true);
+  }
+
   /**
    * Parses load File and class dispatchLoad method
    */
-  public async parseLoadFile(loadCollective: File): Promise<void> {
+  public async parseLoadFile(
+    loadCollective: File | string,
+    download = false
+  ): Promise<void> {
     return new Promise((resolve, reject) => {
       this.papa.parse(loadCollective, {
+        download,
         complete: result => {
           this.dispatchLoad(result.data);
 
