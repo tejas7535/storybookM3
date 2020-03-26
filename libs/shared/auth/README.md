@@ -9,7 +9,7 @@ Run `nx test shared-auth` to execute the unit tests.
 ## How to use
 
 This library can be used to authenticate users with Azure AD. Unfortunatelly, it is not possible right now to use _code flow_ due to restrictions from Azure.  
-This, you need the implement the *implicit flow*.
+Thus, this lib does only support the _implicit flow_
 
 
 ### Prequisites
@@ -25,7 +25,7 @@ This, you need the implement the *implicit flow*.
     </body>
     </html>
   ```
-- Add this file to the `assets` in the related entry of your app in the `angular.json` of this mono repository:
+- Add an entry for this file to the `assets` section in the `angular.json` of your application:
   ```json
     ...
     assets:[..., "apps/<your-app>/src/silent-refresh.html"],
@@ -65,17 +65,20 @@ This, you need the implement the *implicit flow*.
 
 ### Implementation
 
-1. Initialize the authentication service (for example in the constructor of your `app.component.ts`):
+* Use the `loginImplicitFlow` action in your application for login, e.g.:
    ```js
-      constructor(private readonly authService: AuthService) {
-            this.authService.configureImplicitFlow();
+      public constructor(private readonly store: Store){}
+
+      public ngOnInit(): void {
+            this.store.dispatch(loginImplicitFlow());
       }
    ```
-2. Use the login method to login the user (for example trigger this on a button click):
-  ```js
-    public login(): void {
-        this.authService.login();
-    }
-  ```
-
-*Please check out the other existing methods within the `auth.service.ts`.*
+* Use the `logout` action to logout the user:
+    ```js
+      this.store.dispatch(logout());
+    ```
+* Use the provided selectors to get relevant user information in your app, for example:
+    ```js
+      this.username$ = this.store.pipe(select(getUsername));
+      this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+    ```

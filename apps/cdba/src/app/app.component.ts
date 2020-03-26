@@ -1,13 +1,14 @@
-import { Observable } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { select, Store } from '@ngrx/store';
-import { AuthService } from '@schaeffler/shared/auth';
+
+import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import { UserMenuEntry } from '@schaeffler/shared/ui-components';
 
-import { AppState, getUsername, login, loginSuccess } from './core/store';
+import { AppState } from './core/store';
 
 @Component({
   selector: 'cdba-root',
@@ -24,7 +25,6 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly breakpointService: BreakpointService,
-    private readonly authService: AuthService,
     private readonly store: Store<AppState>
   ) {}
 
@@ -32,28 +32,11 @@ export class AppComponent implements OnInit {
     this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
     this.username$ = this.store.pipe(select(getUsername));
 
-    this.initImplicitFlow();
-
-    this.tryLogin();
+    this.store.dispatch(loginImplicitFlow());
   }
 
   public handleReset(): void {
     console.log('RESET FILTERS');
     console.warn('Handle Filter in seperate component');
-  }
-
-  private tryLogin(): void {
-    if (!this.authService.hasValidAccessToken()) {
-      this.store.dispatch(login());
-    }
-  }
-
-  private async initImplicitFlow(): Promise<void> {
-    const loginSuccesful = await this.authService.configureImplicitFlow();
-
-    if (loginSuccesful) {
-      const user = this.authService.getUser();
-      this.store.dispatch(loginSuccess({ user }));
-    }
   }
 }

@@ -1,8 +1,8 @@
-import { BehaviorSubject, ReplaySubject } from 'rxjs';
-import { filter } from 'rxjs/operators';
-
-import { Injectable } from '@angular/core';
+import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { from, Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import jwtDecode from 'jwt-decode';
@@ -13,17 +13,9 @@ import { AccessToken, User } from './models';
   providedIn: 'root'
 })
 export class AuthService {
-  private readonly isAuthenticatedSubject$ = new BehaviorSubject<boolean>(
-    false
-  );
-  public isAuthenticated$ = this.isAuthenticatedSubject$.asObservable();
-
-  private readonly isDoneLoadingSubject$ = new ReplaySubject<boolean>();
-  public isDoneLoading$ = this.isDoneLoadingSubject$.asObservable();
-
   constructor(
     private readonly oauthService: OAuthService,
-    private readonly router: Router
+    private readonly injector: Injector
   ) {
     this.initConfig();
   }
@@ -41,11 +33,16 @@ export class AuthService {
       .loadDiscoveryDocument()
       .then(() => this.oauthService.tryLogin())
       .then(async () => {
+        // 1) is already logged in?
         if (this.oauthService.hasValidAccessToken()) {
           return Promise.resolve();
         }
 
-        return this.silentRefresh(targetUrl);
+        // 2) try silent refresh first
+        return this.oauthService.silentRefresh().catch(() => {
+          // 3) silent refresh not possible -> login via implicit flow
+          this.oauthService.initImplicitFlow(targetUrl || '/');
+        });
       })
       .then(() => {
         this.navigateToState();
@@ -53,37 +50,25 @@ export class AuthService {
       });
   }
 
-  public async silentRefresh(targetUrl?: string): Promise<boolean> {
-    return this.oauthService
-      .silentRefresh()
-      .then(() => Promise.resolve(true))
-      .catch(async _result => {
-        this.oauthService.initImplicitFlow(targetUrl || '/');
-
-        return Promise.resolve(true);
-      });
-  }
-
-  public async configureImplicitFlow(): Promise<boolean> {
+  public tryAutomaticLogin(): Observable<boolean> {
     this.oauthService.setStorage(sessionStorage);
 
-    return this.oauthService
-      .loadDiscoveryDocumentAndTryLogin()
-      .then(async () => {
-        if (this.oauthService.hasValidAccessToken()) {
-          this.navigateToState();
-        }
-        this.isDoneLoadingSubject$.next(true);
+    return from(
+      this.oauthService
+        .loadDiscoveryDocumentAndTryLogin()
+        .then(async () => {
+          this.oauthService.setupAutomaticSilentRefresh();
 
-        this.oauthService.setupAutomaticSilentRefresh();
+          if (this.oauthService.hasValidAccessToken()) {
+            return Promise.resolve(true);
+          }
 
-        return Promise.resolve(true);
-      })
-      .catch(async () => {
-        this.isDoneLoadingSubject$.next(true);
-
-        return Promise.resolve(false);
-      });
+          return Promise.resolve(false);
+        })
+        .catch(async () => {
+          return Promise.resolve(false);
+        })
+    );
   }
 
   public hasValidAccessToken(): boolean {
@@ -112,46 +97,29 @@ export class AuthService {
     return { username };
   }
 
-  private navigateToState(): void {
+  public logout(): void {
+    this.oauthService.logOut();
+  }
+
+  public navigateToState(): void {
     if (
       this.oauthService.state &&
       this.oauthService.state !== 'undefined' &&
       this.oauthService.state !== 'null'
     ) {
-      this.router.navigateByUrl(this.oauthService.state);
+      this.injector.get<Router>(Router).navigateByUrl(this.oauthService.state);
     } else {
-      this.router.initialNavigation();
+      this.injector.get<Router>(Router).initialNavigation();
     }
   }
 
   private initConfig(): void {
-    window.addEventListener('storage', event => {
-      // The `key` is `null` if the event was caused by `.clear()`
-      if (event.key !== 'access_token' && event.key !== null) {
-        return;
-      }
-
-      console.warn(
-        'Noticed changes to access_token (most likely from another tab), updating isAuthenticated'
-      );
-
-      if (!this.oauthService.hasValidAccessToken()) {
-        this.login();
-      }
-    });
-
-    this.oauthService.events.subscribe(_event => {
-      this.isAuthenticatedSubject$.next(
-        this.oauthService.hasValidAccessToken()
-      );
-    });
-
     this.oauthService.events
       .pipe(filter(e => ['token_received'].includes(e.type)))
       .subscribe(_e => {
-        this.router.navigateByUrl(String(this.oauthService.state));
+        this.injector
+          .get<Router>(Router)
+          .navigateByUrl(String(this.oauthService.state));
       });
-
-    this.isAuthenticatedSubject$.next(this.oauthService.hasValidAccessToken());
   }
 }

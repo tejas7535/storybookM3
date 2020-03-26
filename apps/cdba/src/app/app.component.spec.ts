@@ -1,22 +1,18 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { AuthService } from '@schaeffler/shared/auth';
+import { configureTestSuite } from 'ng-bullet';
+
+import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
 import {
   HeaderModule,
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
 import { AppComponent } from './app.component';
-
-import { login, loginSuccess } from './core/store/actions/user/user.actions';
-
-import * as fromUserSelector from './core/store/selectors/user/user.selectors';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -32,18 +28,7 @@ describe('AppComponent', () => {
         MatButtonModule,
         RouterTestingModule
       ],
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn(),
-            hasValidAccessToken: jest.fn(),
-            getUser: jest.fn(() => {}),
-            configureImplicitFlow: jest.fn()
-          }
-        },
-        provideMockStore()
-      ],
+      providers: [provideMockStore()],
       declarations: [AppComponent]
     });
   });
@@ -64,7 +49,7 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.debugElement.componentInstance;
     store = TestBed.inject(MockStore);
-    store.overrideSelector(fromUserSelector.getUser, {
+    store.overrideSelector(getUser, {
       username: 'John'
     });
     fixture.detectChanges();
@@ -79,11 +64,15 @@ describe('AppComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should define isLessThanMediumViewport$', () => {
+    test('should set observables and dispatch login', () => {
+      store.dispatch = jest.fn();
+
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLessThanMediumViewport$).toBeDefined();
+      expect(component.username$).toBeDefined();
+      expect(store.dispatch).toHaveBeenCalledWith(loginImplicitFlow());
     });
   });
 
@@ -97,67 +86,5 @@ describe('AppComponent', () => {
       expect(console.log).toHaveBeenCalled();
       expect(console.warn).toHaveBeenCalled();
     });
-  });
-
-  describe('tryLogin', () => {
-    test('should dispatch login if invalid access token', () => {
-      component['authService'].hasValidAccessToken = jest.fn(() => false);
-      store.dispatch = jest.fn();
-
-      component['tryLogin']();
-
-      expect(
-        component['authService'].hasValidAccessToken
-      ).toHaveBeenCalledTimes(1);
-      expect(store.dispatch).toHaveBeenCalledWith(login());
-    });
-
-    test('should do nothing when valid access token', () => {
-      component['authService'].hasValidAccessToken = jest.fn(() => true);
-      store.dispatch = jest.fn();
-
-      component['tryLogin']();
-
-      expect(component['authService'].hasValidAccessToken).toHaveBeenCalled();
-      expect(store.dispatch).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('initImplicitFlow', () => {
-    test('should dispatch login success when login successful', async(() => {
-      component['authService'].configureImplicitFlow = jest.fn(() =>
-        Promise.resolve(true)
-      );
-      store.dispatch = jest.fn();
-
-      component['initImplicitFlow']();
-
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expect(
-          component['authService'].configureImplicitFlow
-        ).toHaveBeenCalled();
-        expect(store.dispatch).toHaveBeenCalledWith(
-          loginSuccess({ user: undefined })
-        );
-      });
-    }));
-
-    test('should do nothing when login not succesful', async(() => {
-      component['authService'].configureImplicitFlow = jest.fn(() =>
-        Promise.resolve(false)
-      );
-      store.dispatch = jest.fn();
-
-      component['initImplicitFlow']();
-
-      fixture.whenStable().then(() => {
-        fixture.detectChanges();
-        expect(
-          component['authService'].configureImplicitFlow
-        ).toHaveBeenCalled();
-        expect(store.dispatch).not.toHaveBeenCalled();
-      });
-    }));
   });
 });
