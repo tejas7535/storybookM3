@@ -85,10 +85,10 @@
     "zone.js": "0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.900.7",
-    "@angular-devkit/build-ng-packagr": "0.900.7",
-    "@angular-devkit/schematics": "9.0.7",
-    "@angular/cli": "9.0.7",
+    "@angular-devkit/build-angular": "0.901.0",
+    "@angular-devkit/build-ng-packagr": "0.901.0",
+    "@angular-devkit/schematics": "9.1.0",
+    "@angular/cli": "9.1.0",
     "@angular/compiler-cli": "9.0.2",
     "@angular/language-service": "9.0.2",
     "@babel/core": "7.9.0",
@@ -138,7 +138,7 @@
     "markdown-magic": "1.0.0",
     "markdown-magic-version-badge": "1.1.1",
     "ng-bullet": "1.0.3",
-    "ng-packagr": "9.0.3",
+    "ng-packagr": "9.1.0",
     "ngx-build-plus": "9.0.6",
     "npm-audit-html": "1.4.0",
     "prettier": "1.19.1",
