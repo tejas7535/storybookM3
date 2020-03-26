@@ -1,4 +1,5 @@
-@import 'libs/shared/styles/src';
+@import 'libs/shared/styles/src/lib/buttons';
+@import 'libs/shared/styles/src/lib/fonts';
 
 #banner-container {
   background-color: $schaeffler-white;
@@ -15,6 +16,10 @@
     margin: 0;
     text-align: justify;
   }
+}
+
+#infoBannerButton {
+  color: $schaeffler-green-1;
 }
 
 .banner-icon {

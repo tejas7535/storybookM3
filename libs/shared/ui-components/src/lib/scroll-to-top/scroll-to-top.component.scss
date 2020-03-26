@@ -1,7 +1,10 @@
-@import 'libs/shared/styles/src';
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
 
 .scroll-to-top {
+  background-color: $schaeffler-green-1 !important;
   bottom: 15px;
+  color: $schaeffler-gray-0 !important;
   position: absolute;
   right: 15px;
   @media screen and (max-width: $screen-sm-max) {

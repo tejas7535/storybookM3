@@ -1,5 +1,6 @@
-@import 'libs/shared/styles/src';
-@import '~@angular/material/theming';
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
+@import '~@angular/material/theming/';
 
 .description {
   a {
@@ -12,8 +13,6 @@
   color: $schaeffler-carbon-gray;
   height: 100%;
   outline: none;
-  @include mat-elevation-transition;
-  @include mat-elevation(2);
 
   schaeffler-icon,
   h2 {
@@ -23,14 +22,6 @@
   @media screen and (max-width: $screen-xs-max) {
     h2 {
       font-size: 20px;
-    }
-  }
-
-  &.active {
-    cursor: pointer;
-
-    &:hover {
-      @include mat-elevation(8);
     }
   }
 
