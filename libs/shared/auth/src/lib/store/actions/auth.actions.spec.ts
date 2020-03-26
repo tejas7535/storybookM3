@@ -1,11 +1,19 @@
-import { login, loginSuccess } from './user.actions';
+import { login, loginSuccess, logout } from './auth.actions';
 
-describe('User Actions', () => {
+describe('Auth Actions', () => {
   test('login should create action', () => {
     const action = login();
 
     expect(action).toEqual({
-      type: '[User] Login'
+      type: '[Auth] Login'
+    });
+  });
+
+  test('logout should create action', () => {
+    const action = logout();
+
+    expect(action).toEqual({
+      type: '[Auth] Logout'
     });
   });
 
@@ -18,7 +26,7 @@ describe('User Actions', () => {
 
     expect(action).toEqual({
       user,
-      type: '[User] Login success'
+      type: '[Auth] Login successful'
     });
   });
 });
