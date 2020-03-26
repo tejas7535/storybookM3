@@ -32,6 +32,13 @@
                      "replace": "apps/my-app/src/environments/environment.ts",
                      "with": "apps/my-app/src/environments/environment.dev.ts"
                      }
+                 ],
+                 "budgets": [
+                     {
+                     "type": "anyComponentStyle",
+                     "maximumWarning": "6kb",
+                     "maximumError": "10kb"
+                     }
                  ]
              },
              "qa": {
@@ -49,6 +56,18 @@
                      {
                      "replace": "apps/my-app/src/environments/environment.ts",
                      "with": "apps/my-app/src/environments/environment.dev.ts"
+                     }
+                 ],
+                 "budgets": [
+                     {
+                     "type": "initial",
+                     "maximumWarning": "2mb",
+                     "maximumError": "5mb"
+                     },
+                     {
+                     "type": "anyComponentStyle",
+                     "maximumWarning": "6kb",
+                     "maximumError": "10kb"
                      }
                  ]
              },
