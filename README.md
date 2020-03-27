@@ -3,7 +3,7 @@
 ![version](https://img.shields.io/badge/version-v0.2.1-green.svg)
 ![@angular/core: 9.1.0](https://img.shields.io/badge/%40angular%2Fcore-9.1.0-brightgreen)
 ![@ngrx/store: 9.0.0](https://img.shields.io/badge/%40ngrx%2Fstore-9.0.0-brightgreen)
-![@angular/material: 9.1.3](https://img.shields.io/badge/%40angular%2Fmaterial-9.1.3-brightgreen)
+![@angular/material: 9.2.0](https://img.shields.io/badge/%40angular%2Fmaterial-9.2.0-brightgreen)
 ![@angular/flex-layout: 9.0.0-beta.29](https://img.shields.io/badge/%40angular%2Fflex--layout-9.0.0--beta.29-brightgreen)
 ![prettier: 1.19.1](https://img.shields.io/badge/prettier-1.19.1-brightgreen)
 ![commitizen: 4.0.3](https://img.shields.io/badge/commitizen-4.0.3-brightgreen)
@@ -70,6 +70,13 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
                      "replace": "apps/my-app/src/environments/environment.ts",
                      "with": "apps/my-app/src/environments/environment.dev.ts"
                      }
+                 ],
+                 "budgets": [
+                     {
+                     "type": "anyComponentStyle",
+                     "maximumWarning": "6kb",
+                     "maximumError": "10kb"
+                     }
                  ]
              },
              "qa": {
@@ -87,6 +94,18 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
                      {
                      "replace": "apps/my-app/src/environments/environment.ts",
                      "with": "apps/my-app/src/environments/environment.dev.ts"
+                     }
+                 ],
+                 "budgets": [
+                     {
+                     "type": "initial",
+                     "maximumWarning": "2mb",
+                     "maximumError": "5mb"
+                     },
+                     {
+                     "type": "anyComponentStyle",
+                     "maximumWarning": "6kb",
+                     "maximumError": "10kb"
                      }
                  ]
              },
