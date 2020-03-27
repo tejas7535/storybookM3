@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { Icon, IconModule } from '@schaeffler/shared/ui-components';
-
 import { configureTestSuite } from 'ng-bullet';
+
+import { Icon } from '@schaeffler/shared/icons';
 
 import { TooltipComponent } from './tooltip.component';
 
@@ -15,7 +16,7 @@ describe('TooltipComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TooltipComponent],
-      imports: [MatButtonModule, MatTooltipModule, IconModule]
+      imports: [MatButtonModule, MatTooltipModule, MatIconModule]
     });
   });
 

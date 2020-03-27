@@ -8,11 +8,9 @@
       Tableau Extension <span *ngIf="extension.WIP">(WIP)</span>
     </mat-card-subtitle>
     <mat-card-title>{{ extension.name }}</mat-card-title>
-    <schaeffler-icon
-      fontSize="50px"
-      class="extension-icon"
-      [icon]="getMaterialIcon(extension.icon)"
-    ></schaeffler-icon>
+    <mat-icon class="extension-icon">{{
+      getMaterialIcon(extension.icon).icon
+    }}</mat-icon>
   </mat-card-header>
   <mat-card-content class="extension-card-content">
     <p>

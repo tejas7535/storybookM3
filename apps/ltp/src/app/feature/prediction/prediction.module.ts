@@ -4,15 +4,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
-import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
-
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
 
@@ -29,7 +28,7 @@ import { PredictionComponent } from './prediction.component';
     MatExpansionModule,
     MatDividerModule,
     TooltipModule,
-    IconModule
+    MatIconModule
   ],
   exports: [PredictionComponent]
 })

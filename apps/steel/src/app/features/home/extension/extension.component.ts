@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 import { Extension } from './extension.model';
 

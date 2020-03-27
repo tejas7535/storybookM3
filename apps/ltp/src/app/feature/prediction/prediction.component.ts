@@ -1,12 +1,13 @@
-import { Observable } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { getBannerOpen, Icon } from '@schaeffler/shared/ui-components';
-
 import { Papa } from 'ngx-papaparse';
+
+import { Icon } from '@schaeffler/shared/icons';
+import { getBannerOpen } from '@schaeffler/shared/ui-components';
 
 import * as fromStore from '../../core/store';
 import {

@@ -1,8 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { ExtensionDownloadComponent } from '../extension/extension-download/extension-download.component';
 import { ExtensionComponent } from './extension.component';
@@ -21,7 +22,12 @@ describe('ExtensionComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [MatCardModule, RouterTestingModule, IconModule, SnackBarModule],
+      imports: [
+        MatCardModule,
+        RouterTestingModule,
+        MatIconModule,
+        SnackBarModule
+      ],
       declarations: [ExtensionComponent, ExtensionDownloadComponent]
     }).compileComponents();
   }));

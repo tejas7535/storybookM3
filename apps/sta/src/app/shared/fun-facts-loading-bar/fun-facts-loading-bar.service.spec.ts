@@ -3,9 +3,10 @@ import {
   HttpTestingController
 } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
+
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { FunFactsLoadingBarService } from './fun-facts-loading-bar.service';
 

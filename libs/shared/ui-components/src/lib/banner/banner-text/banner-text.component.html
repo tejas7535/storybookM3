@@ -6,13 +6,15 @@
   fxLayoutAlign="space-between center"
   fxLayoutGap="20px"
 >
-  <schaeffler-icon
+  <mat-icon
     *ngIf="bannerIcon"
     fxHide.lt-md
-    class="icon banner-icon"
+    class="banner-icon"
     [ngClass]="bannerIcon"
-    [icon]="icon"
-  ></schaeffler-icon>
+    fontSet="schaeffler-icons"
+    [fontIcon]="icon.icon"
+  >
+  </mat-icon>
   <div fxFlex="grow">
     <p
       *ngIf="!showFullText && truncateSize > 0"

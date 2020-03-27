@@ -6,9 +6,8 @@ import { async, getTestBed, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService } from './data.service';
-
 import { FileReplacement, Language } from '../models';
+import { DataService } from './data.service';
 
 describe('DataService', () => {
   let service: DataService;

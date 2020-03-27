@@ -1,4 +1,4 @@
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 export interface SidebarElement {
   text: string;

@@ -1,15 +1,16 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
+
+import { Icon } from '@schaeffler/shared/icons';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
   FooterLink,
   getBannerOpen,
-  Icon,
   openBanner,
   SidebarElement,
   SidebarMode,

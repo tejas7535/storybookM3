@@ -1,4 +1,4 @@
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 import { SidebarElement } from './sidebar-element';
 

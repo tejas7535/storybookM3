@@ -1531,6 +1531,38 @@
           "styleext": "scss"
         }
       }
+    },
+    "shared-icons": {
+      "projectType": "library",
+      "root": "libs/shared/icons",
+      "sourceRoot": "libs/shared/icons/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/icons/tsconfig.lib.json",
+              "libs/shared/icons/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/icons/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/icons/jest.config.js",
+            "tsConfig": "libs/shared/icons/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/icons/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "styleext": "scss"
+        }
+      }
     }
   },
   "cli": {

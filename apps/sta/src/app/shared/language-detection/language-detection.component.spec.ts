@@ -1,9 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-
-import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -16,7 +15,7 @@ describe('LanguageDetectionComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        IconModule,
+        MatIconModule,
         MatSelectModule,
         NoopAnimationsModule,
         ReactiveFormsModule
