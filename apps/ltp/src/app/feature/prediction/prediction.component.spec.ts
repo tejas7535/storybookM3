@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,13 +13,9 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { Icon } from '@schaeffler/shared/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-import {
-  BannerModule,
-  BannerState,
-  Icon,
-  IconModule
-} from '@schaeffler/shared/ui-components';
+import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
 import * as en from '../../../assets/i18n/en.json';
 import * as fromStore from '../../core/store';
@@ -62,7 +59,7 @@ describe('PredictionComponent', () => {
         MatExpansionModule,
         MatDividerModule,
         TooltipModule,
-        IconModule
+        MatIconModule
       ],
       providers: [
         provideMockStore({

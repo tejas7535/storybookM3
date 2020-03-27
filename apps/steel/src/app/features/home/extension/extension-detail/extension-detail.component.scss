@@ -31,8 +31,18 @@ img {
   padding: 15px 0;
 }
 
-.icon {
+.extension-icon {
   color: $schaeffler-carbon-gray;
+  font-size: 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.default-icon {
+  color: $schaeffler-carbon-gray;
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
 }
 
 .warn-icon {

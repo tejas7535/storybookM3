@@ -5,18 +5,15 @@
     fxLayoutAlign="start center"
     [routerLink]="['/']"
   >
-    <schaeffler-icon [icon]="backIcon"></schaeffler-icon>
+    <mat-icon fontSet="schaeffler-icons" [fontIcon]="backIcon.icon"> </mat-icon>
     <span>Back to Extensions Overview</span>
   </div>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <div class="mat-elevation-z8 background-white" fxFlex="100%">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-        <schaeffler-icon
-          fontSize="40px"
-          class="icon"
-          [icon]="getMaterialIcon(extension?.icon)"
-        ></schaeffler-icon>
-
+        <mat-icon class="extension-icon">{{
+          getMaterialIcon(extension?.icon).icon
+        }}</mat-icon>
         <h1>{{ extension?.name }}</h1>
       </div>
       <div
@@ -47,11 +44,7 @@
             fxLayoutAlign="start center"
             fxLayoutGap="5px"
           >
-            <schaeffler-icon
-              fontSize="18px"
-              class="icon"
-              [icon]="langIcon"
-            ></schaeffler-icon>
+            <mat-icon class="default-icon">{{ langIcon.icon }}</mat-icon>
             <span>English</span>
           </div>
           <span>|</span>
@@ -69,17 +62,16 @@
             [cdkCopyToClipboard]="url"
             (click)="showCopySuccess()"
           >
-            <schaeffler-icon
-              fontSize="18px"
-              class="icon"
-              [icon]="getMaterialIcon('share')"
-            ></schaeffler-icon>
+            <mat-icon class="default-icon">{{
+              getMaterialIcon('share').icon
+            }}</mat-icon>
           </button>
           <schaeffler-steel-extension-download
             *ngIf="extension?.manifest"
             [file]="extension.manifest"
             raised="true"
-          ></schaeffler-steel-extension-download>
+          >
+          </schaeffler-steel-extension-download>
         </div>
       </div>
       <hr />
@@ -108,10 +100,7 @@
       </ul>
       <div class="notice">
         <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-          <schaeffler-icon
-            class="warn-icon"
-            [icon]="warningIcon"
-          ></schaeffler-icon>
+          <mat-icon class="warn-icon">{{ warningIcon.icon }}</mat-icon>
           <h3>Notice</h3>
         </div>
         <ul *ngIf="extension?.notice">

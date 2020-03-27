@@ -19,7 +19,10 @@
           mat-icon-button
           aria-label="Filter"
         >
-          <schaeffler-icon [icon]="triggerBtnIcon"></schaeffler-icon>
+          <mat-icon
+            fontSet="schaeffler-icons"
+            [fontIcon]="triggerBtnIcon.icon"
+          ></mat-icon>
         </button>
       </div>
       <ng-content select="[settings-header]"></ng-content>
@@ -35,7 +38,10 @@
       aria-label="Filter"
       (click)="sidebar.toggle()"
     >
-      <schaeffler-icon [icon]="triggerBtnIcon"></schaeffler-icon>
+      <mat-icon
+        fontSet="schaeffler-icons"
+        [fontIcon]="triggerBtnIcon.icon"
+      ></mat-icon>
     </button>
     <ng-content select="[container]"></ng-content>
   </mat-sidenav-content>

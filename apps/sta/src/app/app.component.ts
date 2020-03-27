@@ -1,13 +1,13 @@
-import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
+
+import { Icon } from '@schaeffler/shared/icons';
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
   FooterLink,
-  Icon,
   SidebarElement,
   SidebarMode,
   SidebarService

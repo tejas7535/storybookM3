@@ -4,27 +4,25 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   FooterModule,
   HeaderModule,
-  IconModule,
   ScrollToTopDirective,
   ScrollToTopModule,
   SidebarModule
 } from '@schaeffler/shared/ui-components';
 
-import { HomeRoutingModule } from './home-routing.module';
-
+import { StoreModule } from '../../core/store';
 import { ExtensionDetailComponent } from './extension/extension-detail/extension-detail.component';
 import { ExtensionDownloadComponent } from './extension/extension-download/extension-download.component';
 import { ExtensionComponent } from './extension/extension.component';
+import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 import { OverviewComponent } from './overview/overview.component';
-
-import { StoreModule } from '../../core/store';
 
 @NgModule({
   declarations: [
@@ -40,8 +38,8 @@ import { StoreModule } from '../../core/store';
     ClipboardModule,
     HomeRoutingModule,
     MatButtonModule,
+    MatIconModule,
     MatCardModule,
-    IconModule,
     FlexLayoutModule,
     FooterModule,
     ScrollToTopModule,

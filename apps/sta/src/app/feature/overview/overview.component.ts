@@ -1,16 +1,13 @@
-import { Observable } from 'rxjs';
+import { Component } from '@angular/core';
 
-import { Component, OnInit } from '@angular/core';
-
-import { BreakpointService } from '@schaeffler/shared/responsive';
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 @Component({
   selector: 'sta-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss']
 })
-export class OverviewComponent implements OnInit {
+export class OverviewComponent {
   public elements = [
     {
       title: 'Auto Tagging',
@@ -53,14 +50,6 @@ export class OverviewComponent implements OnInit {
       icon: new Icon('insert_chart_outlined', true)
     }
   ];
-
-  public isMobile$: Observable<boolean>;
-
-  public constructor(private readonly breakpointService: BreakpointService) {}
-
-  public ngOnInit(): void {
-    this.isMobile$ = this.breakpointService.isMobileViewPort();
-  }
 
   public trackByFn(index: number): number {
     return index;

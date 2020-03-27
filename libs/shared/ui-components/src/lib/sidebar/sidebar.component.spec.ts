@@ -1,22 +1,20 @@
 import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { IconModule } from '../icon/icon.module';
-
-import { SidebarComponent } from './sidebar.component';
-
-import { SidebarMode } from './sidebar-mode.enum';
+import { IconsModule } from '@schaeffler/shared/icons';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { SidebarElement } from './sidebar-element';
 import { SIDEBAR_ELEMENTS_MOCK } from './sidebar-elements.mock';
+import { SidebarMode } from './sidebar-mode.enum';
+import { SidebarComponent } from './sidebar.component';
 
 describe('In SidebarComponent', () => {
   let component: SidebarComponent;
@@ -26,10 +24,11 @@ describe('In SidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent],
       imports: [
-        IconModule,
+        IconsModule,
         NoopAnimationsModule,
         MatSidenavModule,
         MatTooltipModule,
+        MatIconModule,
         NoopAnimationsModule,
         RouterTestingModule,
         provideTranslocoTestingModule({})

@@ -7,13 +7,10 @@
         >Detect Language</span
       ></mat-label
     >
-    <span matPrefix
-      ><schaeffler-icon
-        [icon]="detectLanguageIcon"
-        fontSize="16px"
-      ></schaeffler-icon
-      >&nbsp;</span
-    >
+    <span matPrefix>
+      <mat-icon>{{ detectLanguageIcon.icon }}</mat-icon
+      >&nbsp;
+    </span>
     <mat-select formControlName="detectedLanguage">
       <mat-option
         *ngFor="let lang of supportedSourceLanguages"
@@ -24,20 +21,15 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-
-  <schaeffler-icon
-    *ngIf="showTargetLanguage"
-    [icon]="syncIcon"
-    fontSize="16px"
-    class="sync-icon"
-  ></schaeffler-icon>
-
+  <mat-icon *ngIf="showTargetLanguage" class="sync-icon">{{
+    syncIcon.icon
+  }}</mat-icon>
   <mat-form-field *ngIf="showTargetLanguage" [formGroup]="parentForm">
     <mat-label> Target Language</mat-label>
-    <span matPrefix
-      ><schaeffler-icon [icon]="flagIcon" fontSize="16px"></schaeffler-icon
-      >&nbsp;</span
-    >
+    <span matPrefix>
+      <mat-icon>{{ flagIcon.icon }}</mat-icon
+      >&nbsp;
+    </span>
     <mat-select formControlName="targetLanguage">
       <mat-option
         *ngFor="let lang of supportedTargetLanguages"

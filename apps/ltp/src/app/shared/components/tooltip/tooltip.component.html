@@ -4,5 +4,10 @@
   [color]="color"
   [style.color]="manualcolor"
 >
-  <schaeffler-icon fontSize="20px" [icon]="getIcon(icon)"></schaeffler-icon>
+  <mat-icon
+    [fontSet]="!getIcon(icon).materialIcon ? 'icon' : null"
+    [fontIcon]="!getIcon(icon).materialIcon ? getIcon(icon).icon : null"
+  >
+    {{ getIcon(icon).materialIcon ? getIcon(icon).icon : '' }}
+  </mat-icon>
 </button>

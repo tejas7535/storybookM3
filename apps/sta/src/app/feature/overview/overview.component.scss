@@ -14,19 +14,29 @@
   height: 100%;
   outline: none;
 
-  schaeffler-icon,
+  mat-icon {
+    color: $schaeffler-carbon-gray;
+    font-size: 83px;
+    height: 83px;
+    width: 83px;
+  }
   h2 {
     color: $schaeffler-carbon-gray;
   }
 
   @media screen and (max-width: $screen-xs-max) {
+    mat-icon {
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+    }
     h2 {
       font-size: 20px;
     }
   }
 
   &.inactive {
-    schaeffler-icon,
+    mat-icon,
     h2 {
       opacity: 0.4;
     }

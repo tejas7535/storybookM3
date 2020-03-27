@@ -1,13 +1,13 @@
-import { Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { Icon, SnackBarService } from '@schaeffler/shared/ui-components';
+import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { Icon } from '@schaeffler/shared/icons';
+import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 import { RestService } from '../../../../core/services/rest.service';
-
 import { Extension } from '../../extension/extension.model';
 
 @Component({

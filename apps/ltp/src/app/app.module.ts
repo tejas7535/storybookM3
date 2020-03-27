@@ -4,23 +4,22 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { IconsModule } from '@schaeffler/shared/icons';
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   HeaderModule,
   SettingsSidebarModule
 } from '@schaeffler/shared/ui-components';
 
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { StoreModule } from './core/store/store.module';
 import { InputModule } from './feature/input/input.module';
 import { PredictionModule } from './feature/prediction/prediction.module';
-import { UnauthorizedModule } from './shared/components/unauthorized/unauthorized.module';
-
-import { AppComponent } from './app.component';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
-
-import { environment } from '../environments/environment';
+import { UnauthorizedModule } from './shared/components/unauthorized/unauthorized.module';
 
 @NgModule({
   imports: [
@@ -42,7 +41,8 @@ import { environment } from '../environments/environment';
       undefined,
       'en',
       true
-    )
+    ),
+    IconsModule
   ],
   declarations: [AppComponent, SignedoutComponent],
   bootstrap: [AppComponent]

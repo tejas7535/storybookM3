@@ -1,13 +1,10 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+
 import { Observable, Subscription } from 'rxjs';
 
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Icon } from '@schaeffler/shared/ui-components';
 
-import { DataStoreService } from './services/data-store.service';
-
-import { TagsForFileInput } from '../../core/store/reducers/tagging/models/tags-for-file-input.model';
-import { TagsForTextInput } from '../../core/store/reducers/tagging/models/tags-for-text-input.model';
+import { Icon } from '@schaeffler/shared/icons';
 
 import {
   AppState,
@@ -16,7 +13,10 @@ import {
   getTagsForText,
   resetAll
 } from '../../core/store';
+import { TagsForFileInput } from '../../core/store/reducers/tagging/models/tags-for-file-input.model';
+import { TagsForTextInput } from '../../core/store/reducers/tagging/models/tags-for-text-input.model';
 import { ServiceType } from './models';
+import { DataStoreService } from './services/data-store.service';
 
 @Component({
   selector: 'sta-result',

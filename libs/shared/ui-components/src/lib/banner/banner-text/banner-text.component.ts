@@ -7,7 +7,7 @@ import {
   Output
 } from '@angular/core';
 
-import { Icon } from '../../icon';
+import { Icon } from '@schaeffler/shared/icons';
 
 enum BannerIconTypes {
   info = 'icon-toast-information',

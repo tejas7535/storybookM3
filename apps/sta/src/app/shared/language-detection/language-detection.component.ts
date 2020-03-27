@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 import { KeyValue } from '../result/models';
 

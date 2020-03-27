@@ -81,16 +81,20 @@
     margin-right: 0;
     transition: all 0.6s;
 
-    schaeffler-icon {
+    mat-icon {
+      font-size: 25px;
+      height: 25px;
       margin-right: 0;
       padding-right: 36px;
+      width: 25px;
     }
   }
 }
 
-schaeffler-icon {
+mat-icon {
   color: $schaeffler-carbon-gray;
   float: left;
+  font-size: 25px;
   height: 25px;
   left: 0;
   margin-right: 10px;
@@ -99,6 +103,7 @@ schaeffler-icon {
   -ms-transform: translate(+10px, calc(-50% - 2px));
   -webkit-transform: translate(+10px, calc(-50% - 2px));
   transform: translate(+10px, calc(-50% - 2px));
+  width: 25px;
 
   .active &,
   .active &:before {

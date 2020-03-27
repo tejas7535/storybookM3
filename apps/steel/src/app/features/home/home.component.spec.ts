@@ -1,14 +1,17 @@
-import { Observable, Subscriber } from 'rxjs';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { Observable, Subscriber } from 'rxjs';
 
 import * as transloco from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+
 import { BreakpointService } from '@schaeffler/shared/responsive';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
@@ -16,7 +19,6 @@ import {
   BannerState,
   FooterModule,
   HeaderModule,
-  IconModule,
   ScrollToTopModule,
   SettingsSidebarModule,
   SidebarMode,
@@ -24,12 +26,9 @@ import {
   SidebarService
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { HomeComponent } from './home.component';
-
 import * as en from '../../../assets/i18n/en.json';
 import { AppState } from '../../core/store';
+import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
@@ -52,7 +51,7 @@ describe('HomeComponent', () => {
       imports: [
         FooterModule,
         HeaderModule,
-        IconModule,
+        MatIconModule,
         HttpClientTestingModule,
         MatButtonModule,
         RouterTestingModule,

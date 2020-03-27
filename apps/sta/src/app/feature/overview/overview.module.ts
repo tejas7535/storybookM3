@@ -2,12 +2,12 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { IconModule } from '@schaeffler/shared/ui-components';
+import { IconsModule } from '@schaeffler/shared/icons';
 
 import { OverviewRoutingModule } from './overview-routing.module';
-
 import { OverviewComponent } from './overview.component';
 
 @NgModule({
@@ -15,10 +15,11 @@ import { OverviewComponent } from './overview.component';
   imports: [
     CommonModule,
     FlexLayoutModule,
-    IconModule,
+    MatIconModule,
     MatCardModule,
     OverviewRoutingModule,
-    RouterModule
+    RouterModule,
+    IconsModule
   ],
   exports: [OverviewComponent]
 })

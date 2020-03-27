@@ -1,5 +1,3 @@
-import { Subscription } from 'rxjs';
-
 import {
   Component,
   EventEmitter,
@@ -9,9 +7,10 @@ import {
   Output
 } from '@angular/core';
 
-import { BreakpointService } from '@schaeffler/shared/responsive';
+import { Subscription } from 'rxjs';
 
-import { Icon } from '../icon/icon.model';
+import { Icon } from '@schaeffler/shared/icons';
+import { BreakpointService } from '@schaeffler/shared/responsive';
 
 @Component({
   selector: 'schaeffler-settings-sidebar',

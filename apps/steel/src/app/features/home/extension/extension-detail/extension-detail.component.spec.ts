@@ -1,10 +1,11 @@
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { ExtensionDownloadComponent } from '../extension-download/extension-download.component';
 import { ExtensionDetailComponent } from './extension-detail.component';
@@ -17,7 +18,7 @@ describe('ExtensionComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         ClipboardModule,
-        IconModule,
+        MatIconModule,
         HttpClientTestingModule,
         RouterTestingModule,
         NoopAnimationsModule,

@@ -91,6 +91,9 @@
     },
     "shared-auth": {
       "tags": ["scope:shared", "type:authentication"]
+    },
+    "shared-icons": {
+      "tags": ["scope:shared", "type:ui"]
     }
   }
 }

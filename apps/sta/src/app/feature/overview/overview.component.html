@@ -28,10 +28,12 @@
           [routerLink]="elem.url ? elem.url : undefined"
         >
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
-            <schaeffler-icon
-              [icon]="elem.icon"
-              [fontSize]="(isMobile$ | async) === true ? '40px' : '83px'"
-            ></schaeffler-icon>
+            <mat-icon
+              [fontSet]="!elem.icon.materialIcon ? 'icon' : null"
+              [fontIcon]="!elem.icon.materialIcon ? elem.icon.icon : null"
+            >
+              {{ elem.icon.materialIcon ? elem.icon.icon : '' }}
+            </mat-icon>
             <h2 class="service-name">{{ elem.title }}</h2>
           </mat-card>
         </div>

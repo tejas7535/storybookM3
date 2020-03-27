@@ -1,10 +1,11 @@
 import { Component, Input } from '@angular/core';
 
-import { Icon } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/shared/icons';
 
 @Component({
   selector: 'ltp-tooltip',
-  templateUrl: './tooltip.component.html'
+  templateUrl: './tooltip.component.html',
+  styleUrls: ['./tooltip.component.scss']
 })
 export class TooltipComponent {
   @Input() content: string;

@@ -7,22 +7,20 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { IconModule, SnackBarModule } from '@schaeffler/shared/ui-components';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
+import * as fromTagging from '../../core/store';
+import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
-
 import { DataStoreService } from './services/data-store.service';
-
-import * as fromTagging from '../../core/store';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -33,7 +31,6 @@ describe('ResultComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        IconModule,
         MatChipsModule,
         MatDividerModule,
         MatExpansionModule,

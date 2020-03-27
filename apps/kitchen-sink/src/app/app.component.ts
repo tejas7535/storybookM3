@@ -1,12 +1,13 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
 import { Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
+
+import { Icon } from '@schaeffler/shared/icons';
 import {
-  Icon,
   SidebarElement,
   SidebarMode,
   SidebarService,
@@ -84,10 +85,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public toggleSidebar(): void {
     this.sidebarService
       .getSidebarMode()
-      .pipe(
-        takeUntil(this.destroy$),
-        take(1)
-      )
+      .pipe(takeUntil(this.destroy$), take(1))
       .subscribe(sidebarMode => {
         this.store.dispatch(toggleSidebar({ sidebarMode }));
       });

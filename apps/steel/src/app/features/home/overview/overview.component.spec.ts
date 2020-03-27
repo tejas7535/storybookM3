@@ -2,21 +2,20 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-import { IconModule } from '@schaeffler/shared/ui-components';
-
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+
+import * as en from '../../../../assets/i18n/en.json';
 import { ExtensionDetailComponent } from '../extension/extension-detail/extension-detail.component';
 import { ExtensionDownloadComponent } from '../extension/extension-download/extension-download.component';
 import { ExtensionComponent } from '../extension/extension.component';
 import { OverviewComponent } from './overview.component';
-
-import * as en from '../../../../assets/i18n/en.json';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -29,7 +28,7 @@ describe('OverviewComponent', () => {
         HttpClientTestingModule,
         MatCardModule,
         RouterTestingModule,
-        IconModule,
+        MatIconModule,
         ClipboardModule,
         provideTranslocoTestingModule({ en })
       ],

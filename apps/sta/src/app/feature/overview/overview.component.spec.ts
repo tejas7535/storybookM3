@@ -1,8 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { IconModule } from '@schaeffler/shared/ui-components';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -14,7 +13,7 @@ describe('OverviewComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [IconModule, MatCardModule, RouterTestingModule],
+      imports: [MatIconModule, MatCardModule, RouterTestingModule],
       declarations: [OverviewComponent]
     });
   });
@@ -25,7 +24,13 @@ describe('OverviewComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('trackByFn', () => {
+    test('should return correct index', () => {
+      expect(component.trackByFn(1)).toEqual(1);
+    });
   });
 });

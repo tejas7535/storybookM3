@@ -5,7 +5,9 @@
     fxLayoutAlign="center center"
     fxLayoutGap="10px"
   >
-    <schaeffler-icon [icon]="appIcon"></schaeffler-icon>
+    <mat-icon>
+      {{ appIcon.icon }}
+    </mat-icon>
     <h6>Schaeffler Text Assistant</h6>
     <button mat-button color="primary" (click)="reset()">
       <span>RESET</span>

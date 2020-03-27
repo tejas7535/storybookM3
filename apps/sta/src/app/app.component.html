@@ -9,7 +9,8 @@
       user-menu
       *ngIf="(isAuthenticated$ | async) === true"
       [user]="username$ | async"
-    ></schaeffler-user-menu>
+    >
+    </schaeffler-user-menu>
     <ng-container>
       <ng-container
         *ngIf="(isAuthenticated$ | async) === true; else showLandingPage"
@@ -57,7 +58,10 @@
                 class="resize-icon"
                 *ngIf="(isMobile$ | async) === false"
               >
-                <mat-icon class="icon" [fontIcon]="resizeIcon"></mat-icon>
+                <mat-icon
+                  fontSet="schaeffler-icons"
+                  [fontIcon]="resizeIcon"
+                ></mat-icon>
               </button>
             </ng-container>
           </schaeffler-settings-sidebar>
