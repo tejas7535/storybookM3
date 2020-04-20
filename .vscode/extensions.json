@@ -3,7 +3,7 @@
     "ms-vscode.vscode-typescript-tslint-plugin",
     "esbenp.prettier-vscode",
     "mkaufman.htmlhint",
-    "shinnn.stylelint",
+    "stylelint.vscode-stylelint",
     "rbbit.typescript-hero"
   ]
 }
