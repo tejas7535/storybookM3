@@ -503,27 +503,26 @@ pipeline {
                             
                             script {
                                 if(isRelease()) {
+                                    sh "npx nx affected --base=${buildBase} --target=build --configuration=prod --parallel"
                                     for (app in affectedApps) {
-                                        sh "ng build ${app} --configuration=prod"
                                         try {
                                             sh "transloco-optimize dist/apps/${app}/assets/i18n"
                                         } catch (error) {
                                             echo "No translations found to optimize in app ${app}"
                                         }
                                     }
-                                } else if(isMaster()) {
-                                    for (app in affectedApps) {
-                                        sh "ng build ${app} --configuration=qa"
-                                        sh "npx webpack-bundle-analyzer dist/apps/${app}/stats-es2015.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open" 
-                                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
-                                    }
                                 } else {
+                                    if (isMaster()) {
+                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=qa --parallel"
+                                    } else {
+                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=dev --parallel"
+                                    } 
+                                        
                                     for (app in affectedApps) {
-                                        sh "ng build ${app} --configuration=dev"
                                         sh "npx webpack-bundle-analyzer dist/apps/${app}/stats-es2015.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open" 
                                         publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
                                     }
-                                } 
+                                }
                             }
                         }
                     }
