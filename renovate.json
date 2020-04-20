@@ -27,8 +27,9 @@
       "packageNames": [
         "@angular/cli",
         "@angular/pwa",
-        "@angular-devkit/build-ng-packagr",
+        "@angular-devkit/core",
         "@angular-devkit/build-angular",
+        "@angular-devkit/build-ng-packagr",
         "@angular-devkit/schematics",
         "ng-packagr"
       ],
