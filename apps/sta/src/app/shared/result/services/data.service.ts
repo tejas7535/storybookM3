@@ -1,10 +1,11 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import { environment } from '../../../../environments/environment';
+import { TranslationFileInput } from '../../../core/store/reducers/translation/models/translation-file-input.model';
 import {
   FileReplacement,
   Language,
@@ -47,34 +48,40 @@ export class DataService {
       .pipe(map((response: Tags) => response.tags));
   }
 
-  public async postTranslationText(
-    text: string,
-    targetLang: Language,
-    textLang: Language
-  ): Promise<string> {
+  public postTranslationText(textInput: TextInput): Observable<string> {
+    const postTextInput: TextInput = {
+      text: textInput.text,
+      textLang: textInput.textLang ? textInput.textLang : Language.EN,
+      targetLang: textInput.targetLang ? textInput.targetLang : Language.DE
+    };
+
     return this.http
-      .post<Translation>(
-        `${this.apiUrl}/translation/text`,
-        new TextInput(text, targetLang, textLang)
-      )
-      .pipe(map((response: Translation) => response.translation))
-      .toPromise();
+      .post<Translation>(`${this.apiUrl}/translation/text`, postTextInput)
+      .pipe(map((response: Translation) => response.translation));
   }
 
-  public async postTranslationFile(
-    file: File,
-    targetLang: Language,
-    textLang: Language
-  ): Promise<string> {
+  public postTranslationFile(
+    fileInput: TranslationFileInput
+  ): Observable<string> {
     const formData: FormData = new FormData();
+    const file = new File(
+      [Int8Array.from(fileInput.file.content)],
+      fileInput.file.name,
+      { type: fileInput.file.type }
+    );
     formData.append('file', file, file.name);
-    formData.append('targetLang', targetLang);
-    formData.append('textLang', textLang);
+    formData.append(
+      'targetLang',
+      fileInput.targetLang ? fileInput.targetLang : Language.DE
+    );
+    formData.append(
+      'textLang',
+      fileInput.textLang ? fileInput.textLang : Language.EN
+    );
 
     return this.http
       .post<Translation>(`${this.apiUrl}/translation/file`, formData)
-      .pipe(map((response: Translation) => response.translation))
-      .toPromise();
+      .pipe(map((response: Translation) => response.translation));
   }
 
   public postLanguageDetectionText(

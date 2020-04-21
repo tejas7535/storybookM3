@@ -2,25 +2,24 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
-import { TextInputModule } from '../../shared/text-input/text-input.module';
-
-import { AutoTaggingComponent } from './auto-tagging.component';
+import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import {
   AppState,
   loadTagsForFile,
   loadTagsForText,
-  setSelectedTabIndex
+  setSelectedTabIndexTagging
 } from '../../core/store';
+import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { FileReplacement, TextInput } from '../../shared/result/models';
+import { TextInputModule } from '../../shared/text-input/text-input.module';
+import { AutoTaggingComponent } from './auto-tagging.component';
 
 describe('AutoTaggingComponent', () => {
   let component: AutoTaggingComponent;
@@ -89,7 +88,7 @@ describe('AutoTaggingComponent', () => {
   });
 
   describe('getTagsForFile', () => {
-    test('should call getTagsFromFile', async () => {
+    test('should call loadTagsForFile', async () => {
       store.dispatch = jest.fn();
       const file = new File(['moin'], 'file', { type: 'abc' });
       await component.getTagsForFile(file);
@@ -107,7 +106,7 @@ describe('AutoTaggingComponent', () => {
   });
 
   describe('setSelectedTabIndex', () => {
-    test('should dispatch setSelectedTabIndex action', () => {
+    test('should dispatch setSelectedTabIndexTagging action', () => {
       store.dispatch = jest.fn();
       const tabIndex = 0;
 
@@ -115,7 +114,7 @@ describe('AutoTaggingComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(
-        setSelectedTabIndex({ selectedTabIndex: tabIndex })
+        setSelectedTabIndexTagging({ selectedTabIndex: tabIndex })
       );
     });
   });

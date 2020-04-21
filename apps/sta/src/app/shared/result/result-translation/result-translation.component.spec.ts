@@ -5,15 +5,15 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { SnackBarModule } from '@schaeffler/shared/ui-components';
+
+import { APP_STATE_MOCK } from '../../../../testing/mocks/shared/app-state.mock';
 import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
-
 import { ResultTranslationComponent } from './result-translation.component';
-
-import { DataStoreService } from '../services/data-store.service';
 
 describe('ResultTranslationComponent', () => {
   let component: ResultTranslationComponent;
@@ -32,7 +32,7 @@ describe('ResultTranslationComponent', () => {
         HttpClientTestingModule
       ],
       declarations: [ResultTranslationComponent],
-      providers: [DataStoreService]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
     });
   });
 
@@ -50,7 +50,9 @@ describe('ResultTranslationComponent', () => {
     test('should define observable', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
-      expect(component.loadingTranslation$).toBeDefined();
+      expect(component.loadingTranslationForFile$).toBeDefined();
+      expect(component.loadingTranslationForText$).toBeDefined();
+      expect(component.selectedTabIndex$).toBeDefined();
     });
   });
 

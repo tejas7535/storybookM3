@@ -5,9 +5,7 @@
     fxLayoutAlign="center center"
     fxLayoutGap="10px"
   >
-    <mat-icon>
-      {{ appIcon.icon }}
-    </mat-icon>
+    <mat-icon>format_quote</mat-icon>
     <h6>Schaeffler Text Assistant</h6>
     <button mat-button color="primary" (click)="reset()">
       <span>RESET</span>
@@ -18,12 +16,21 @@
     <ng-container [ngSwitch]="currentService">
       <sta-result-auto-tagging
         *ngSwitchCase="serviceType.TAGGING"
-        [tags]="selectedTabIndexTagging === 1 ? tagsForFile : tagsForText"
-      ></sta-result-auto-tagging>
+        [tags]="
+          (selectedTabIndexTagging$ | async) === 1
+            ? (tagsForFile$ | async)
+            : (tagsForText$ | async)
+        "
+      >
+      </sta-result-auto-tagging>
 
       <sta-result-translation
         *ngSwitchCase="serviceType.TRANSLATION"
-        [translation]="translation$ | async"
+        [translation]="
+          (selectedTabIndexTranslation$ | async) === 1
+            ? (translationForFile$ | async)
+            : (translationForText$ | async)
+        "
       >
       </sta-result-translation>
     </ng-container>

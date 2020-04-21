@@ -2,21 +2,30 @@
   <h1>Translation</h1>
   <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px">
     <div class="mat-elevation-z8 background-white" fxFlex="100%">
-      <mat-tab-group #tabGroup dynamicHeight="true">
+      <mat-tab-group
+        dynamicHeight="true"
+        [selectedIndex]="selectedTabIndex$ | async"
+        (selectedIndexChange)="setSelectedTabIndex($event)"
+      >
         <mat-tab label="Text Input">
           <div class="main-container">
-            <ng-container *ngIf="!(loadingTranslation$ | async)">
+            <ng-container *ngIf="!(loadingTranslationForText$ | async)">
               <sta-text-input
                 (btnClicked)="getTranslationForText($event)"
                 btnText="Translate"
-                [defaultText]="demoTextEn"
+                [defaultText]="
+                  (textInput$ | async)?.text
+                    ? (textInput$ | async)?.text
+                    : demoTextEn
+                "
                 minLength="0"
                 textHint="German or English text only"
               ></sta-text-input>
             </ng-container>
             <ng-container
               *ngIf="
-                (loadingTranslation$ | async) && tabGroup.selectedIndex === 0
+                (loadingTranslationForText$ | async) &&
+                (selectedTabIndex$ | async) === 0
               "
             >
               <sta-fun-facts-loading-bar></sta-fun-facts-loading-bar>
@@ -25,16 +34,17 @@
         </mat-tab>
         <mat-tab label="File Upload">
           <div class="main-container">
-            <ng-container *ngIf="!(loadingTranslation$ | async)">
+            <ng-container *ngIf="!(loadingTranslationForFile$ | async)">
               <sta-file-upload
                 (fileUploaded)="getTranslationForFile($event)"
-                [fileStatus]="fileStatus"
+                [fileStatus]="fileStatus$ | async"
                 supportedLanguages="English and German"
               ></sta-file-upload>
             </ng-container>
             <ng-container
               *ngIf="
-                (loadingTranslation$ | async) && tabGroup.selectedIndex === 1
+                (loadingTranslationForFile$ | async) &&
+                (selectedTabIndex$ | async) === 1
               "
             >
               <sta-fun-facts-loading-bar></sta-fun-facts-loading-bar>

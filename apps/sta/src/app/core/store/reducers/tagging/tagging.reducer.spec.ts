@@ -11,7 +11,7 @@ import {
   removeTagForFile,
   removeTagForText,
   resetTags,
-  setSelectedTabIndex,
+  setSelectedTabIndexTagging,
   setShowMoreTagsFile,
   setShowMoreTagsText
 } from '../../actions/tagging/tagging.actions';
@@ -93,9 +93,9 @@ describe('Tagging Reducer', () => {
     });
   });
 
-  describe('SetSelectedTabIndex', () => {
+  describe('SetSelectedTabIndexTranslation', () => {
     test('should set selectedTabIndex', () => {
-      const action = setSelectedTabIndex({
+      const action = setSelectedTabIndexTagging({
         selectedTabIndex: TAGGING_STATE_MOCK.selectedTabIndex
       });
       const state = taggingReducer(initialState, action);

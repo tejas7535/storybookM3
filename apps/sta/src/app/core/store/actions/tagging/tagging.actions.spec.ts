@@ -1,12 +1,26 @@
+import {
+  addTagForFile,
+  addTagForText,
+  loadTagsForFile,
+  loadTagsForFileFailure,
+  loadTagsForFileSuccess,
+  loadTagsForText,
+  loadTagsForTextFailure,
+  loadTagsForTextSuccess,
+  removeTagForFile,
+  removeTagForText,
+  resetTags,
+  setSelectedTabIndexTagging,
+  setShowMoreTagsFile,
+  setShowMoreTagsText
+} from '..';
 import { FileReplacement } from '../../../../shared/result/models/file-replacement.model';
-
-import * as fromTaggingActions from './tagging.actions';
 
 describe('TaggingActions', () => {
   describe('Load Tags For Text Actions', () => {
     test('LoadTagsForText', () => {
       const text = 'test';
-      const action = fromTaggingActions.loadTagsForText({ text });
+      const action = loadTagsForText({ text });
 
       expect(action).toEqual({
         text,
@@ -16,7 +30,7 @@ describe('TaggingActions', () => {
 
     test('LoadTagsForTextSuccess', () => {
       const tags = ['1', '2'];
-      const action = fromTaggingActions.loadTagsForTextSuccess({ tags });
+      const action = loadTagsForTextSuccess({ tags });
 
       expect(action).toEqual({
         tags,
@@ -25,7 +39,7 @@ describe('TaggingActions', () => {
     });
 
     test('LoadTagsForTextFailure', () => {
-      const action = fromTaggingActions.loadTagsForTextFailure();
+      const action = loadTagsForTextFailure();
 
       expect(action).toEqual({
         type: '[Tagging] Load Tags Text Failure'
@@ -40,7 +54,7 @@ describe('TaggingActions', () => {
         type: 'xyz',
         content: [12, 13, 14, 15]
       };
-      const action = fromTaggingActions.loadTagsForFile({ file });
+      const action = loadTagsForFile({ file });
 
       expect(action).toEqual({
         file,
@@ -50,7 +64,7 @@ describe('TaggingActions', () => {
 
     test('LoadTagsForFileSuccess', () => {
       const tags = ['1', '2'];
-      const action = fromTaggingActions.loadTagsForFileSuccess({ tags });
+      const action = loadTagsForFileSuccess({ tags });
 
       expect(action).toEqual({
         tags,
@@ -59,7 +73,7 @@ describe('TaggingActions', () => {
     });
 
     test('LoadTagsForFileFailure', () => {
-      const action = fromTaggingActions.loadTagsForFileFailure();
+      const action = loadTagsForFileFailure();
 
       expect(action).toEqual({
         type: '[Tagging] Load Tags File Failure'
@@ -69,7 +83,7 @@ describe('TaggingActions', () => {
 
   describe('Reset Tags Action', () => {
     test('ResetTags', () => {
-      const action = fromTaggingActions.resetTags();
+      const action = resetTags();
 
       expect(action).toEqual({
         type: '[Tagging] Reset Tagging State to initialState'
@@ -81,7 +95,7 @@ describe('TaggingActions', () => {
     test('SetShowMoreTagsText', () => {
       const showMoreTags = true;
 
-      const action = fromTaggingActions.setShowMoreTagsText({ showMoreTags });
+      const action = setShowMoreTagsText({ showMoreTags });
 
       expect(action).toEqual({
         showMoreTags,
@@ -92,7 +106,7 @@ describe('TaggingActions', () => {
     test('SetShowMoreTagsFile', () => {
       const showMoreTags = true;
 
-      const action = fromTaggingActions.setShowMoreTagsFile({ showMoreTags });
+      const action = setShowMoreTagsFile({ showMoreTags });
 
       expect(action).toEqual({
         showMoreTags,
@@ -105,7 +119,7 @@ describe('TaggingActions', () => {
     test('RemoveTagForText', () => {
       const tag = 'abc';
 
-      const action = fromTaggingActions.removeTagForText({ tag });
+      const action = removeTagForText({ tag });
 
       expect(action).toEqual({
         tag,
@@ -116,7 +130,7 @@ describe('TaggingActions', () => {
     test('RemoveTagForFile', () => {
       const tag = 'abc';
 
-      const action = fromTaggingActions.removeTagForFile({ tag });
+      const action = removeTagForFile({ tag });
 
       expect(action).toEqual({
         tag,
@@ -129,7 +143,7 @@ describe('TaggingActions', () => {
     test('AddTagForText', () => {
       const tag = 'abc';
 
-      const action = fromTaggingActions.addTagForText({ tag });
+      const action = addTagForText({ tag });
 
       expect(action).toEqual({
         tag,
@@ -140,7 +154,7 @@ describe('TaggingActions', () => {
     test('AddTagForFile', () => {
       const tag = 'abc';
 
-      const action = fromTaggingActions.addTagForFile({ tag });
+      const action = addTagForFile({ tag });
 
       expect(action).toEqual({
         tag,
@@ -150,10 +164,10 @@ describe('TaggingActions', () => {
   });
 
   describe('Set Selected Tab Index Action', () => {
-    test('SetSelectedTabIndex', () => {
+    test('SetSelectedTabIndexTagging', () => {
       const selectedTabIndex = 0;
 
-      const action = fromTaggingActions.setSelectedTabIndex({
+      const action = setSelectedTabIndexTagging({
         selectedTabIndex
       });
 
