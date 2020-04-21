@@ -134,7 +134,7 @@
     "jest-canvas-mock": "2.2.0",
     "jest-junit": "10.0.0",
     "jest-marbles": "2.5.1",
-    "jest-preset-angular": "8.1.2",
+    "jest-preset-angular": "8.1.3",
     "lint-staged": "10.1.6",
     "markdown-include": "0.4.3",
     "markdown-magic": "1.0.0",
