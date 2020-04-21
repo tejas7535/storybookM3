@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { IconsModule } from '@schaeffler/shared/icons';
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
@@ -17,13 +18,11 @@ import {
   SpeedDialFabModule
 } from '@schaeffler/shared/ui-components';
 
-import { AppRoutingModule } from './app-routing.module';
-
-import { AppComponent } from './app.component';
-import { HomeComponent } from './home/home.component';
-
 import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { StoreModule } from './core/store';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent],
@@ -42,7 +41,8 @@ import { StoreModule } from './core/store';
     StoreModule,
     SpeedDialFabModule,
     SettingsSidebarModule,
-    SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en')
+    SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en'),
+    IconsModule
   ],
   providers: [ScrollToTopDirective],
   bootstrap: [AppComponent]
