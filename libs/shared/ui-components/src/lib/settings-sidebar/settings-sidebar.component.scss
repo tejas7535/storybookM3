@@ -8,6 +8,10 @@
 mat-sidenav-container {
   height: 100%;
 
+  .icon-font-size {
+    font-size: 24px;
+  }
+
   mat-sidenav-content {
     height: 100%;
     .mat-drawer-content {
