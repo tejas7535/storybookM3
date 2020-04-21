@@ -1,4 +1,5 @@
 import { Params, RouterStateSnapshot } from '@angular/router';
+
 import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
@@ -8,6 +9,7 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromTagging from './tagging/tagging.reducer';
+import * as fromTranslation from './translation/translation.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -18,11 +20,13 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   tagging: fromTagging.TaggingState;
+  translation: fromTranslation.TranslationState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  tagging: fromTagging.taggingReducer
+  tagging: fromTagging.taggingReducer,
+  translation: fromTranslation.translationReducer
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -32,9 +36,14 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
+
 export const getTaggingState = createFeatureSelector<fromTagging.TaggingState>(
   'tagging'
 );
+
+export const getTranslationState = createFeatureSelector<
+  fromTranslation.TranslationState
+>('translation');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

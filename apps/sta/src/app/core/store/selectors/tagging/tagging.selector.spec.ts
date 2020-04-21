@@ -16,8 +16,7 @@ import {
 import * as fromRoot from '../../reducers';
 import { tags14, tags15, tags20 } from './mock-tags';
 import {
-  getFileInput,
-  getFileStatus,
+  getFileStatusTagging,
   getLoadingTagsForFile,
   getLoadingTagsForText,
   getSelectedTabIndexTagging,
@@ -25,7 +24,7 @@ import {
   getShowMoreTagsForText,
   getTagsForFile,
   getTagsForText,
-  getTextInput
+  getTextInputTagging
 } from './tagging.selector';
 
 describe('TaggingSelector', () => {
@@ -64,9 +63,11 @@ describe('TaggingSelector', () => {
     }
   });
 
-  describe('getTextInput', () => {
+  describe('getTextInputTagging', () => {
     beforeEach(() => {
-      store.pipe(select(getTextInput)).subscribe(value => (result = value));
+      store
+        .pipe(select(getTextInputTagging))
+        .subscribe(value => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {
@@ -78,23 +79,6 @@ describe('TaggingSelector', () => {
       store.dispatch(loadTagsForText({ text: textInput }));
 
       expect(result).toEqual(textInput);
-    });
-  });
-
-  describe('getFileInput', () => {
-    beforeEach(() => {
-      store.pipe(select(getFileInput)).subscribe(value => (result = value));
-    });
-
-    test('should return undefined when state is not defined', () => {
-      expect(result).toBeUndefined();
-    });
-
-    test('should return fileInput', () => {
-      const fileInput = TAGGING_STATE_MOCK.fileInput;
-      store.dispatch(loadTagsForFile({ file: fileInput }));
-
-      expect(result).toEqual(fileInput);
     });
   });
 
@@ -249,9 +233,11 @@ describe('TaggingSelector', () => {
     });
   });
 
-  describe('getFileStatus', () => {
+  describe('getFileStatusTagging', () => {
     beforeEach(() => {
-      store.pipe(select(getFileStatus)).subscribe(value => (result = value));
+      store
+        .pipe(select(getFileStatusTagging))
+        .subscribe(value => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {

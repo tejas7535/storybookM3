@@ -6,17 +6,10 @@ import { TaggingState } from '../../reducers/tagging/tagging.reducer';
 
 const MIN_TAGS = 15;
 
-export const getTextInput = createSelector(
+export const getTextInputTagging = createSelector(
   getTaggingState,
   (state: TaggingState) => {
     return state.textInput;
-  }
-);
-
-export const getFileInput = createSelector(
-  getTaggingState,
-  (state: TaggingState) => {
-    return state.fileInput;
   }
 );
 
@@ -85,7 +78,7 @@ export const getSelectedTabIndexTagging = createSelector(
   (state: TaggingState) => state.selectedTabIndex
 );
 
-export const getFileStatus = createSelector(
+export const getFileStatusTagging = createSelector(
   getTaggingState,
   (state: TaggingState) =>
     state.fileInput

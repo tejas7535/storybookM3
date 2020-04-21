@@ -1,23 +1,22 @@
+import { Component, OnInit } from '@angular/core';
+
 import { Observable } from 'rxjs';
 
-import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 
 import { DEMO_TEXT_EN } from '../../constants/demo-text-en.constant';
-
-import { FileStatus } from '../../shared/file-upload/file-status.model';
-import { TextInput } from '../../shared/result/models/text-input.model';
-
 import {
   AppState,
-  getFileStatus,
+  getFileStatusTagging,
   getSelectedTabIndexTagging,
-  getTextInput,
+  getTextInputTagging,
   loadTagsForFile,
   loadTagsForText,
-  setSelectedTabIndex
+  setSelectedTabIndexTagging
 } from '../../core/store';
+import { FileStatus } from '../../shared/file-upload/file-status.model';
 import { FileReplacement } from '../../shared/result/models';
+import { TextInput } from '../../shared/result/models/text-input.model';
 
 @Component({
   selector: 'sta-auto-tagging',
@@ -40,8 +39,8 @@ export class AutoTaggingComponent implements OnInit {
   }
 
   private setObservables(): void {
-    this.fileStatus$ = this.store.pipe(select(getFileStatus));
-    this.textInput$ = this.store.pipe(select(getTextInput));
+    this.fileStatus$ = this.store.pipe(select(getFileStatusTagging));
+    this.textInput$ = this.store.pipe(select(getTextInputTagging));
     this.selectedTabIndex$ = this.store.pipe(
       select(getSelectedTabIndexTagging)
     );
@@ -72,6 +71,8 @@ export class AutoTaggingComponent implements OnInit {
   }
 
   public setSelectedTabIndex(index: number): void {
-    this.store.dispatch(setSelectedTabIndex({ selectedTabIndex: index }));
+    this.store.dispatch(
+      setSelectedTabIndexTagging({ selectedTabIndex: index })
+    );
   }
 }

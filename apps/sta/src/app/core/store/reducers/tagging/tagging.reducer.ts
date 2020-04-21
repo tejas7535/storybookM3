@@ -1,8 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { TagsForFileInput } from './models/tags-for-file-input.model';
-import { TagsForTextInput } from './models/tags-for-text-input.model';
-
 import { FileReplacement } from '../../../../shared/result/models';
 import {
   addTagForFile,
@@ -16,10 +13,12 @@ import {
   removeTagForFile,
   removeTagForText,
   resetTags,
-  setSelectedTabIndex,
+  setSelectedTabIndexTagging,
   setShowMoreTagsFile,
   setShowMoreTagsText
 } from '../../actions/tagging/tagging.actions';
+import { TagsForFileInput } from './models/tags-for-file-input.model';
+import { TagsForTextInput } from './models/tags-for-text-input.model';
 
 export interface TaggingState {
   textInput: string;
@@ -107,10 +106,13 @@ export const taggingReducer = createReducer(
     ...initialState,
     selectedTabIndex: state.selectedTabIndex
   })),
-  on(setSelectedTabIndex, (state: TaggingState, { selectedTabIndex }) => ({
-    ...state,
-    selectedTabIndex
-  })),
+  on(
+    setSelectedTabIndexTagging,
+    (state: TaggingState, { selectedTabIndex }) => ({
+      ...state,
+      selectedTabIndex
+    })
+  ),
   on(setShowMoreTagsText, (state: TaggingState, { showMoreTags }) => ({
     ...state,
     tagsForText: {

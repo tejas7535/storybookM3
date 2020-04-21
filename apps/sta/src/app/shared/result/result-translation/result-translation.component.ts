@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-
 import { DOCUMENT } from '@angular/common';
 import {
   Component,
@@ -10,10 +8,19 @@ import {
   SimpleChanges
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
+import { Observable } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+
 import { SnackBarService } from '@schaeffler/shared/ui-components';
 
-import { DataStoreService } from '../services/data-store.service';
-
+import { AppState } from '../../../core/store';
+import {
+  getLoadingTranslationForFile,
+  getLoadingTranslationForText,
+  getSelectedTabIndexTranslation
+} from '../../../core/store/selectors/translation/translation.selector';
 import { fadeInAnimation } from '../../animations/fade-in-animation';
 
 @Component({
@@ -23,20 +30,30 @@ import { fadeInAnimation } from '../../animations/fade-in-animation';
   animations: [fadeInAnimation]
 })
 export class ResultTranslationComponent implements OnChanges, OnInit {
-  public loadingTranslation$: Observable<boolean>;
+  public loadingTranslationForFile$: Observable<boolean>;
+  public loadingTranslationForText$: Observable<boolean>;
+  public selectedTabIndex$: Observable<number>;
 
   @Input() public translation: string;
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly snackBarService: SnackBarService,
-    private readonly dataStore: DataStoreService
+    private readonly store: Store<AppState>
   ) {}
 
   public translationFormControl = new FormControl('');
 
   public ngOnInit(): void {
-    this.loadingTranslation$ = this.dataStore.loadingTranslation$;
+    this.selectedTabIndex$ = this.store.pipe(
+      select(getSelectedTabIndexTranslation)
+    );
+    this.loadingTranslationForFile$ = this.store.pipe(
+      select(getLoadingTranslationForFile)
+    );
+    this.loadingTranslationForText$ = this.store.pipe(
+      select(getLoadingTranslationForText)
+    );
   }
 
   public ngOnChanges(changes: SimpleChanges): void {

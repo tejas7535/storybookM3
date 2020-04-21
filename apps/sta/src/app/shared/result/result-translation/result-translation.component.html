@@ -3,7 +3,13 @@
     <h6>Translation</h6>
   </mat-expansion-panel-header>
   <ng-container
-    *ngIf="translationFormControl.value && !(loadingTranslation$ | async)"
+    *ngIf="
+      translationFormControl.value &&
+      (((selectedTabIndex$ | async) === 0 &&
+        (loadingTranslationForText$ | async) === false) ||
+        ((selectedTabIndex$ | async) === 1 &&
+          (loadingTranslationForFile$ | async) === false))
+    "
   >
     <mat-form-field class="translation-field">
       <mat-label>Suggested Translation</mat-label>
@@ -24,7 +30,13 @@
   </ng-container>
 
   <ng-container
-    *ngIf="!translationFormControl.value && !(loadingTranslation$ | async)"
+    *ngIf="
+      !translationFormControl.value &&
+      (((selectedTabIndex$ | async) === 0 &&
+        (loadingTranslationForText$ | async) === false) ||
+        ((selectedTabIndex$ | async) === 1 &&
+          (loadingTranslationForFile$ | async) === false))
+    "
   >
     <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">
       <h3>Nothing has been translated yet</h3>
@@ -39,7 +51,14 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="loadingTranslation$ | async">
+  <ng-container
+    *ngIf="
+      ((selectedTabIndex$ | async) === 0 &&
+        (loadingTranslationForText$ | async)) ||
+      ((selectedTabIndex$ | async) === 1 &&
+        (loadingTranslationForFile$ | async))
+    "
+  >
     <div class="ghost" @fadeInAnimation>
       <sta-ghost-line-elements [numberOfLines]="4"></sta-ghost-line-elements>
       <div class="copy-btn"></div>

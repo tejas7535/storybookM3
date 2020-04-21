@@ -1,14 +1,13 @@
-import { Observable, Subscription } from 'rxjs';
-
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DOCUMENT } from '@angular/common';
 import { Component, Inject, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { select, Store } from '@ngrx/store';
-import { SnackBarService } from '@schaeffler/shared/ui-components';
 
-import { TagsForFileInput } from '../../../core/store/reducers/tagging/models/tags-for-file-input.model';
-import { TagsForTextInput } from '../../../core/store/reducers/tagging/models/tags-for-text-input.model';
+import { Subscription } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+
+import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 import {
   addTagForFile,
@@ -20,6 +19,8 @@ import {
   setShowMoreTagsFile,
   setShowMoreTagsText
 } from '../../../core/store';
+import { TagsForFileInput } from '../../../core/store/reducers/tagging/models/tags-for-file-input.model';
+import { TagsForTextInput } from '../../../core/store/reducers/tagging/models/tags-for-text-input.model';
 import { fadeInAnimation } from '../../animations/fade-in-animation';
 
 @Component({
@@ -33,7 +34,6 @@ export class ResultAutoTaggingComponent implements OnInit, OnDestroy {
 
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  public selectedTabIndex$: Observable<number>;
   public selectedTabIndex: number;
 
   public readonly subscription: Subscription = new Subscription();
