@@ -1,12 +1,13 @@
-import { Observable, Subscriber } from 'rxjs';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
@@ -17,24 +18,16 @@ import {
   SettingsSidebarModule,
   SidebarMode,
   SidebarModule,
-  SidebarService,
+  SidebarState,
   SnackBarModule
 } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { AppComponent } from './app.component';
-
-import { initialState as initialSidebarState } from './core/store/reducers/sidebar/sidebar.reducer';
-
 import * as en from '../assets/i18n/en.json';
-import { toggleSidebar } from './core/store';
+import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let sidebarService: SidebarService;
-  let breakpointObserverMock: Subscriber<any>;
 
   const initialBannerState: BannerState = {
     text: undefined,
@@ -45,16 +38,9 @@ describe('AppComponent', () => {
     open: false
   };
 
-  /**
-   * Fake Observer to emit fake stuff
-   */
-  const fakeObservable = new Observable(observer => {
-    breakpointObserverMock = observer;
-
-    return {
-      unsubscribe(): any {}
-    };
-  });
+  const initialSidebarState: SidebarState = {
+    mode: SidebarMode.Open
+  };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -70,16 +56,16 @@ describe('AppComponent', () => {
         BannerModule,
         NoopAnimationsModule,
         StoreModule.forRoot({}),
+        EffectsModule.forRoot([]),
         provideTranslocoTestingModule({ en })
       ],
       providers: [
         provideMockStore({
           initialState: {
-            sidebar: initialSidebarState,
-            banner: initialBannerState
+            banner: initialBannerState,
+            sidebar: initialSidebarState
           }
-        }),
-        SidebarService
+        })
       ]
     });
   });
@@ -89,8 +75,6 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
-    sidebarService = TestBed.inject(SidebarService);
   });
 
   it('should create the app', () => {
@@ -101,17 +85,6 @@ describe('AppComponent', () => {
     expect(component.platformTitle).toEqual('test');
   });
 
-  describe('OnInit', () => {
-    it('should call method handleSidebarMode()', () => {
-      component['handleSidebarMode'] = jest.fn();
-
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component['handleSidebarMode']).toHaveBeenCalled();
-    });
-  });
-
   describe('onChangeSettingsSidebar()', () => {
     it('should log to console when called', () => {
       jest.spyOn(console, 'log');
@@ -120,45 +93,11 @@ describe('AppComponent', () => {
     });
   });
 
-  describe('toggleSidebar()', () => {
-    it('should dispatch ToggleSidebarAction()', () => {
-      const sidebarMode = SidebarMode.Open;
-      spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
-      const spy = spyOn(component['store'], 'dispatch');
-
-      component.toggleSidebar();
-      breakpointObserverMock.next(sidebarMode);
-
-      expect(spy).toHaveBeenCalledTimes(1);
-      expect(spy).toHaveBeenCalledWith(
-        toggleSidebar({ sidebarMode: SidebarMode.Open })
-      );
-    });
-
-    it('should only dispatch in one time ToggleSidebarAction()', () => {
-      spyOn(sidebarService, 'getSidebarMode').and.returnValue(fakeObservable);
-      const spy = spyOn(component['store'], 'dispatch');
-      component.toggleSidebar();
-
-      breakpointObserverMock.next(SidebarMode.Open);
-      expect(spy).toHaveBeenCalledWith(
-        toggleSidebar({ sidebarMode: SidebarMode.Open })
-      );
-
-      breakpointObserverMock.next(SidebarMode.Closed);
-      expect(spy).not.toHaveBeenCalledWith(
-        toggleSidebar({ sidebarMode: SidebarMode.Closed })
-      );
-    });
-  });
-
-  describe('handleSidebarMode', () => {
-    it('should subscribe to getSidebarMode', () => {
-      const spy = spyOn(sidebarService, 'getSidebarMode').and.callThrough();
-
-      component['handleSidebarMode']();
-
-      expect(spy).toHaveBeenCalled();
+  describe('userMenuClicked()', () => {
+    it('should log to console', () => {
+      jest.spyOn(console, 'log');
+      component.userMenuClicked('lala');
+      expect(console.log).toHaveBeenCalled();
     });
   });
 });

@@ -1,0 +1,27 @@
+<div
+  *ngFor="let element of elements"
+  class="sidebar-item"
+  matTooltipClass="sidebar-tooltip"
+  matTooltipPosition="right"
+  routerLinkActive="active"
+  [routerLinkActiveOptions]="{ exact: true }"
+  [routerLink]="element.link"
+  [matTooltipDisabled]="(mode$ | async) !== 1"
+  [matTooltip]="element.text"
+>
+  <div
+    class="sidebar-item-wrapper"
+    [ngClass]="{ minified: (mode$ | async) === 1 }"
+  >
+    <mat-icon
+      [fontSet]="!element.icon.materialIcon ? 'icon' : null"
+      [fontIcon]="!element.icon.materialIcon ? element.icon.icon : null"
+      class="sidebar-item-icon"
+    >
+      {{ element.icon.materialIcon ? element.icon.icon : '' }}
+    </mat-icon>
+    <h4 class="sidebar-item-text">
+      {{ element.text }}
+    </h4>
+  </div>
+</div>

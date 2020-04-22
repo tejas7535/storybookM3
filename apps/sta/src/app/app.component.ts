@@ -1,17 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
-import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, map, take, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subscription } from 'rxjs';
+import { filter, map, tap } from 'rxjs/operators';
 
 import { Icon } from '@schaeffler/shared/icons';
 import { BreakpointService } from '@schaeffler/shared/responsive';
-import {
-  FooterLink,
-  SidebarElement,
-  SidebarMode,
-  SidebarService
-} from '@schaeffler/shared/ui-components';
+import { FooterLink, SidebarElement } from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
 import { ServiceType } from './shared/result/models';
@@ -47,7 +42,6 @@ export class AppComponent implements OnInit, OnDestroy {
   public resizeIcon = this.iconEnlarge;
 
   public readonly subscription: Subscription = new Subscription();
-  public readonly destroy$: Subject<void> = new Subject();
 
   public sidebarElements: SidebarElement[] = [
     {
@@ -79,14 +73,8 @@ export class AppComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private readonly sidebarToggled = new Subject<SidebarMode>();
-  private readonly sidebarToggledObservable$ = this.sidebarToggled.asObservable();
-
-  public mode: SidebarMode = SidebarMode.Open;
-
   constructor(
     private readonly authService: AuthService,
-    private readonly sidebarService: SidebarService,
     private readonly breakpointService: BreakpointService,
     private readonly router: Router,
     private readonly route: ActivatedRoute
@@ -101,13 +89,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
     this.username$ = this.authService.getUserName();
-    this.handleSidebarMode();
-
-    this.subscription.add(
-      this.sidebarToggledObservable$.subscribe((sidebarMode: SidebarMode) => {
-        this.handleSidebarToggledObservable(sidebarMode);
-      })
-    );
 
     this.subscription.add(
       this.router.events
@@ -128,20 +109,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
-    this.destroy$.next();
   }
 
   public settingsSidebarOpenedChanges(open: boolean): void {
     this.settingsSidebarOpen = open;
-  }
-
-  public toggleSidebar(): void {
-    this.sidebarService
-      .getSidebarMode()
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe((sidebarMode: SidebarMode) => {
-        this.sidebarToggled.next(sidebarMode);
-      });
   }
 
   public resizeSidebar(): void {
@@ -152,41 +123,5 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public closeSidebar(): void {
     this.settingsSidebarOpen = false;
-  }
-
-  private handleSidebarMode(): void {
-    this.sidebarService
-      .getSidebarMode()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(sidebarMode => {
-        this.mode = sidebarMode;
-      });
-  }
-
-  private handleSidebarToggledObservable(sidebarMode: SidebarMode): void {
-    if (sidebarMode === undefined) {
-      return;
-    }
-
-    switch (this.mode) {
-      case SidebarMode.Closed: {
-        this.mode = SidebarMode.Open;
-        break;
-      }
-      case SidebarMode.Minified: {
-        this.mode = SidebarMode.Open;
-        break;
-      }
-      case SidebarMode.Open: {
-        this.mode =
-          sidebarMode === SidebarMode.Open ||
-          sidebarMode === SidebarMode.Minified
-            ? SidebarMode.Minified
-            : SidebarMode.Closed;
-        break;
-      }
-      default:
-        this.mode = this.mode;
-    }
   }
 }

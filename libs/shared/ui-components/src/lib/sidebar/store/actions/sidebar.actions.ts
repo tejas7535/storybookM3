@@ -1,11 +1,8 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { SidebarMode } from '@schaeffler/shared/ui-components';
+import { SidebarMode } from '../../models';
 
-export const toggleSidebar = createAction(
-  '[Sidebar] Toggle Sidebar',
-  props<{ sidebarMode: SidebarMode }>()
-);
+export const toggleSidebar = createAction('[Sidebar] Toggle Sidebar');
 export const setSidebarMode = createAction(
   '[Sidebar] Set Sidebar Mode',
   props<{ sidebarMode: SidebarMode }>()

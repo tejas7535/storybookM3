@@ -6,10 +6,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { toggleSidebar } from '../sidebar/store';
 import { HeaderComponent } from './header.component';
 
 describe('In HeaderComponent', () => {
@@ -18,14 +18,14 @@ describe('In HeaderComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      declarations: [HeaderComponent],
       imports: [
         NoopAnimationsModule,
         MatIconModule,
         MatToolbarModule,
-        FlexLayoutModule,
-        provideTranslocoTestingModule({})
+        FlexLayoutModule
       ],
-      declarations: [HeaderComponent]
+      providers: [provideMockStore()]
     }).overrideComponent(HeaderComponent, {
       set: {
         changeDetection: ChangeDetectionStrategy.Default
@@ -84,11 +84,18 @@ describe('In HeaderComponent', () => {
     }));
 
     it('should emit event', () => {
-      let eventEmitted = false;
-      component.toggle.subscribe(() => (eventEmitted = true));
+      component.toggle.emit = jest.fn();
 
       component.toggleClicked();
-      expect(eventEmitted).toBeTruthy();
+      expect(component.toggle.emit).toHaveBeenCalled();
+    });
+
+    it('should dispatch toogleSidebar Action', () => {
+      component['store'].dispatch = jest.fn();
+
+      component.toggleClicked();
+      expect(component['store'].dispatch).toHaveBeenCalled();
+      expect(component['store'].dispatch).toHaveBeenCalledWith(toggleSidebar());
     });
   });
 

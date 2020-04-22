@@ -1,14 +1,13 @@
-import { from, Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { TestBed } from '@angular/core/testing';
 
+import { from, Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
+
 import { configureTestSuite } from 'ng-bullet';
 
+import { SidebarMode, Viewport } from './models';
 import { SidebarService } from './sidebar.service';
-
-import { SidebarMode } from './sidebar-mode.enum';
 
 describe('SidebarService', () => {
   let service: SidebarService;
@@ -137,6 +136,56 @@ describe('SidebarService', () => {
       resize(1280);
       service.getSidebarMode().subscribe(mode => {
         expect(mode).toBe(SidebarMode.Open);
+        done();
+      });
+    });
+  });
+
+  describe('getViewport()', () => {
+    test('should return Viewport.Small for width 600px', done => {
+      resize(600);
+      service.getViewport().subscribe(viewport => {
+        expect(viewport).toBe(SidebarMode.Closed);
+        done();
+      });
+    });
+
+    test('should return Viewport.Small for width 959px', done => {
+      resize(959);
+      service.getViewport().subscribe(mode => {
+        expect(mode).toBe(SidebarMode.Closed);
+        done();
+      });
+    });
+
+    test('should return Viewport.Small for width 400px', done => {
+      resize(400);
+      service.getViewport().subscribe(mode => {
+        expect(mode).toBe(SidebarMode.Closed);
+        done();
+      });
+    });
+
+    test('should return Viewport.Medium for width 960px', done => {
+      resize(960);
+      service.getViewport().subscribe(mode => {
+        expect(mode).toBe(Viewport.Medium);
+        done();
+      });
+    });
+
+    test('should return Viewport.Medium for width 1279px', done => {
+      resize(1279);
+      service.getViewport().subscribe(mode => {
+        expect(mode).toBe(Viewport.Medium);
+        done();
+      });
+    });
+
+    test('should return Viewport.Large for width 1280px', done => {
+      resize(1280);
+      service.getViewport().subscribe(mode => {
+        expect(mode).toBe(Viewport.Large);
         done();
       });
     });

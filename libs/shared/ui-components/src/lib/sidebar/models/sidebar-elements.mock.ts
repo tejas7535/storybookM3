@@ -1,6 +1,6 @@
 import { Icon } from '@schaeffler/shared/icons';
 
-import { SidebarElement } from './sidebar-element';
+import { SidebarElement } from './sidebar-element.model';
 
 export const SIDEBAR_ELEMENTS_MOCK: SidebarElement[] = [
   {

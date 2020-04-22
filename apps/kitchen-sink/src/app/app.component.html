@@ -2,7 +2,6 @@
   class="full-height"
   [platformTitle]="platformTitle"
   toggleEnabled="true"
-  (toggle)="toggleSidebar()"
 >
   <schaeffler-user-menu
     user-menu
@@ -10,26 +9,30 @@
     (clicked)="userMenuClicked($event)"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
-  <schaeffler-sidebar
-    [elements]="sidebarElements"
-    [mode]="sidebarMode | async"
-    (toggle)="toggleSidebar()"
-  >
-    <schaeffler-settings-sidebar
-      openSidebarBtn="true"
-      closeSidebarBtn="true"
-      [open]="settingsSidebarOpen"
-      (openedChange)="onChangeSettingsSidebar($event)"
-    >
-      <ng-container container>
-        <div schaefflerScrollToTop>
-          <schaeffler-banner></schaeffler-banner>
-          <router-outlet></router-outlet>
-          <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
-          <schaeffler-footer></schaeffler-footer></div></ng-container
-      ><ng-container sidebar>
-        <span>I am inside the Settings Sidebar</span>
-      </ng-container>
-    </schaeffler-settings-sidebar>
+  <schaeffler-sidebar>
+    <ng-container sidebar>
+      <schaeffler-sidebar-elements
+        [elements]="sidebarElements"
+      ></schaeffler-sidebar-elements>
+    </ng-container>
+
+    <ng-container content>
+      <schaeffler-settings-sidebar
+        openSidebarBtn="true"
+        closeSidebarBtn="true"
+        [open]="settingsSidebarOpen"
+        (openedChange)="onChangeSettingsSidebar($event)"
+      >
+        <ng-container container>
+          <div schaefflerScrollToTop>
+            <schaeffler-banner></schaeffler-banner>
+            <router-outlet></router-outlet>
+            <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
+            <schaeffler-footer></schaeffler-footer></div></ng-container
+        ><ng-container sidebar>
+          <span>I am inside the Settings Sidebar</span>
+        </ng-container>
+      </schaeffler-settings-sidebar>
+    </ng-container>
   </schaeffler-sidebar>
 </schaeffler-header>

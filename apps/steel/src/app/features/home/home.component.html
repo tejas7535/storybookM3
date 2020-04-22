@@ -3,15 +3,22 @@
     class="full-height"
     [platformTitle]="platformTitle"
     toggleEnabled="true"
-    (toggle)="toggleSidebar()"
   >
-    <schaeffler-sidebar [elements]="sidebarElements" [mode]="mode">
-      <div schaefflerScrollToTop>
-        <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
-        <schaeffler-banner></schaeffler-banner>
-        <router-outlet></router-outlet>
-        <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
-      </div>
+    <schaeffler-sidebar>
+      <ng-container sidebar>
+        <schaeffler-sidebar-elements
+          [elements]="sidebarElements"
+        ></schaeffler-sidebar-elements>
+      </ng-container>
+
+      <ng-container content>
+        <div schaefflerScrollToTop>
+          <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
+          <schaeffler-banner></schaeffler-banner>
+          <router-outlet></router-outlet>
+          <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
+        </div>
+      </ng-container>
     </schaeffler-sidebar>
   </schaeffler-header>
 </div>

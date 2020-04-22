@@ -1,28 +1,22 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+
 import { Subscription } from 'rxjs';
 
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { select, Store } from '@ngrx/store';
 
 import { BreakpointService } from '@schaeffler/shared/responsive';
 
-import { SidebarMode } from './sidebar-mode.enum';
-
-import { SidebarAnimationStyle } from './sidebar-animation-style';
-import { contentAnimation, sidebarAnimation } from './sidebar-animations';
-import { SidebarElement } from './sidebar-element';
+import {
+  contentAnimation,
+  sidebarAnimation
+} from './animations/sidebar-animations';
+import { SidebarAnimationStyle, SidebarMode } from './models';
+import { getSidebarMode, SidebarState } from './store';
 
 @Component({
   selector: 'schaeffler-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   animations: [sidebarAnimation, contentAnimation]
 })
 export class SidebarComponent implements OnInit, OnDestroy {
@@ -30,15 +24,14 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   @Input() width = 260;
 
-  @Input() mode: SidebarMode;
-
-  @Input() elements: SidebarElement[];
+  public mode: SidebarMode;
 
   public isMobileViewPort: boolean;
 
-  @Output() public readonly toggle: EventEmitter<void> = new EventEmitter();
-
-  constructor(private readonly breakpointService: BreakpointService) {}
+  constructor(
+    private readonly breakpointService: BreakpointService,
+    private readonly store: Store<SidebarState>
+  ) {}
 
   /**
    * receives view from breakpoint service
@@ -49,6 +42,12 @@ export class SidebarComponent implements OnInit, OnDestroy {
       this.breakpointService
         .isMobileViewPort()
         .subscribe(isMobile => (this.isMobileViewPort = isMobile))
+    );
+
+    this.subscriptions.add(
+      this.store
+        .pipe(select(getSidebarMode))
+        .subscribe(mode => (this.mode = mode))
     );
   }
 
