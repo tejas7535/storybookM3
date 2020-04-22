@@ -17,6 +17,19 @@
     },
     "csv": "CSV",
     "csv_dummy": "Dummy-CSV von Lastkollektiv",
+    "uploadModal": {
+      "factorsForLoadcalculation": "Faktoren für die Lastdatenberechnung",
+      "convertOuterLoadsToTension": "Möchten Sie die äußeren Lasten in lokale Spannungen umrechnen?",
+      "conversionFactor": "Umrechnungsfaktor",
+      "repetitionNumberforRainflow": "Benötigen Sie eine Wiederholungszahl für Rainflow-Kollektiv?",
+      "repetitionFactor": "Wiederholungsfaktor",
+      "meanStressCorrection": "Mittelspannungs-Korrektur",
+      "meanStressCorrectionMethod": "Mit welcher Methode möchten Sie berechnen?",
+      "fkm": "FKM",
+      "goodman": "Goodman",
+      "abort": "Abbrechen",
+      "continue": "Weiter"
+    },
     "display": {
       "infoDisplay": "Analytische Modelle wie das der FKM-Richtlinie und Modell von Murakami stehen zur Verfügung. Zustäzlich erlaubt der slider für den 'slog' als logarithmische Standardabweichung eine Streuung vorzugeben . Ein konservativer Wert liegt hier bei ~0.045.",
       "infoHv": "Die lokale Härte in Vickers (HV10) ist unser primärer Einflussfaktor bei der Bestimmung einer künstlichen Wöhlerlinie. Die Eingabe der Härte kann direkt über den Schieberegler erfolgen, oder aus aus historischen Daten des PLS (Prozessleitsystem) abgeleitet werden. Dafür ist die Eingabe des Materials und der Wärmebehandlung nötig.",

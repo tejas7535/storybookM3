@@ -1,19 +1,31 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef
+} from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { of } from 'rxjs';
 
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon, IconsModule } from '@schaeffler/shared/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
@@ -27,6 +39,7 @@ import { ChartType } from '../../shared/enums';
 import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 describe('PredictionComponent', () => {
   let component: PredictionComponent;
@@ -44,7 +57,7 @@ describe('PredictionComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [PredictionComponent, KpiComponent],
+      declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
       imports: [
         CommonModule,
         NoopAnimationsModule,
@@ -53,13 +66,19 @@ describe('PredictionComponent', () => {
         MatButtonModule,
         MatMenuModule,
         MatTabsModule,
+        MatDialogModule,
         provideTranslocoTestingModule({ en }),
         StoreModule.forRoot({}),
         ChartModule,
         MatExpansionModule,
         MatDividerModule,
         TooltipModule,
-        MatIconModule
+        MatIconModule,
+        IconsModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule
       ],
       providers: [
         provideMockStore({
@@ -68,8 +87,14 @@ describe('PredictionComponent', () => {
             input: initialInputState,
             banner: initialBannerState
           }
-        })
+        }),
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: [] }
       ]
+    }).overrideModule(BrowserDynamicTestingModule, {
+      set: {
+        entryComponents: [UploadModalComponent]
+      }
     });
   });
 
@@ -111,7 +136,7 @@ describe('PredictionComponent', () => {
   describe('#parseLoadFile', () => {
     let file: File;
     beforeEach(() => {
-      component.dispatchLoad = jest.fn();
+      component.openDialog = jest.fn();
       Object.defineProperty(window, 'matchMedia', {
         value: jest.fn(() => {
           return { matches: true };
@@ -119,15 +144,13 @@ describe('PredictionComponent', () => {
       });
     });
 
-    it('should call dispatchLoad', async () => {
+    it('should call openDialog', async () => {
       store.overrideSelector('getBannerOpen', true);
       file = new File(['input1', ',', 'input2'], 'file');
 
       await component.parseLoadFile(file);
 
-      expect(component.dispatchLoad).toHaveBeenCalledWith([
-        ['input1', 'input2']
-      ]);
+      expect(component.openDialog).toHaveBeenCalledWith([['input1', 'input2']]);
     });
 
     xit('should print the error to console in error case', async () => {
@@ -161,6 +184,26 @@ describe('PredictionComponent', () => {
     expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
   });
 
+  it('should call dispatchLoad when openedDialog afterClosed is called', () => {
+    const mockSettings = {
+      conversionFactor: 0,
+      repetitionFactor: 0,
+      method: 'FKM'
+    };
+
+    spyOn(component['dialog'], 'open').and.returnValue({
+      afterClosed: () => of(mockSettings)
+    });
+    const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
+
+    spyOn(component, 'dispatchLoad');
+    component.openDialog(mockArray);
+    expect(component.dispatchLoad).toHaveBeenCalledWith(
+      mockArray,
+      mockSettings
+    );
+  });
+
   it('should dispatch dispatchLoad action when parseLoadFile is called', () => {
     const blobProps = {
       lastModifiedDate: '',
@@ -184,10 +227,20 @@ describe('PredictionComponent', () => {
 
   it('should call dispatchLoad method that dispatches a cleaned number array to store', () => {
     const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
-    const mockCleanedArray = { data: [1, 2, 3], status: 1 };
-    const action = fromStore.postLoadsData({ loadsRequest: mockCleanedArray });
+    const mockCleanedArray = {
+      data: [1, 2, 3],
+      status: 1
+    };
+    const mockSettings = {
+      conversionFactor: 0,
+      repetitionFactor: 0,
+      method: 'FKM'
+    };
+    const action = fromStore.postLoadsData({
+      loadsRequest: { ...mockCleanedArray, ...mockSettings }
+    });
 
-    component.dispatchLoad(mockArray);
+    component.dispatchLoad(mockArray, mockSettings);
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 

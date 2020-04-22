@@ -1,5 +1,4 @@
 import { PredictionState } from '../reducers/prediction.reducer';
-
 import * as PredictionSelectors from './prediction.selectors';
 
 describe('PredictionSelectors', () => {
@@ -29,7 +28,10 @@ describe('PredictionSelectors', () => {
       loadsRequest: {
         data: [0, 1, 2, 3],
         status: 1,
-        error: undefined
+        error: undefined,
+        conversionFactor: 0,
+        repetitionFactor: 0,
+        method: 'FKM'
       },
       loads: undefined
     };
@@ -39,7 +41,10 @@ describe('PredictionSelectors', () => {
     ).toEqual({
       data: [0, 1, 2, 3],
       status: 1,
-      error: undefined
+      error: undefined,
+      conversionFactor: 0,
+      repetitionFactor: 0,
+      method: 'FKM'
     });
   });
 

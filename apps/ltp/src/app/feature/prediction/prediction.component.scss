@@ -53,7 +53,8 @@
   min-height: auto;
 }
 
-::ng-deep .mat-menu-panel {
+::ng-deep .mat-menu-panel,
+::ng-deep .mat-menu-trigger {
   border-radius: 0 !important;
 }
 

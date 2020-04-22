@@ -1,6 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
-import { PredictionRequest, PredictionResult } from '../../../shared/models';
+import {
+  LoadsRequest,
+  PredictionRequest,
+  PredictionResult
+} from '../../../shared/models';
 
 export const postPrediction = createAction(
   '[Predict Lifetime Container Component] Post Prediction'
@@ -27,7 +31,7 @@ export const setPredictionResult = createAction(
 
 export const postLoadsData = createAction(
   '[Ouput Wohler Chart Component] Get Load Data',
-  props<{ loadsRequest: { status: number; data: number[] } }>()
+  props<{ loadsRequest: LoadsRequest }>()
 );
 
 export const setLoadsResult = createAction(

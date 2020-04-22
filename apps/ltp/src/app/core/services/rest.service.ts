@@ -1,8 +1,8 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import {
@@ -66,10 +66,13 @@ export class RestService {
       R: predictionRequest.rrelation,
       V90: predictionRequest.v90,
       belastungsart: predictionRequest.burdeningType,
-      db_file: '../data/fatdat_series.sql',
       haerte: predictionRequest.hv,
-      haerte_low: predictionRequest.hv_lower,
-      haerte_up: predictionRequest.hv_upper,
+      haerte_low: predictionRequest.hv_lower
+        ? predictionRequest.hv_lower
+        : predictionRequest.hv,
+      haerte_up: predictionRequest.hv_upper
+        ? predictionRequest.hv_upper
+        : predictionRequest.hv,
       model_type: predictionRequest.model,
       stress_amplitude: predictionRequest.mpa,
       streubreite: predictionRequest.spreading
@@ -113,18 +116,15 @@ export class RestService {
     loads: any,
     predictionRequest: PredictionRequest
   ): Observable<any> {
-    const prediction_input = {
-      R: predictionRequest.rrelation,
+    const request = {
+      loads,
+      conversionFactor: 0, // new
+      repetitionFactor: 0, // new
+      method: 'FKM', // new
       V90: predictionRequest.v90,
       belastungsart: predictionRequest.burdeningType,
-      db_file: '../data/fatdat_series.sql',
-      haerte: predictionRequest.hv,
-      mode: 0,
-      model_type: predictionRequest.model,
-      stress_amplitude: predictionRequest.mpa,
-      streubreite: predictionRequest.spreading
+      haerte: predictionRequest.hv
     };
-    const request = { loads, prediction_input };
 
     return this.httpService.post<any>(`${this.SERVER_URL}/loads`, request);
   }
