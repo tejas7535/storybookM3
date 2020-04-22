@@ -1,4 +1,3 @@
 export * from './sidebar.module';
-export * from './sidebar-mode.enum';
-export * from './sidebar-element';
-export * from './sidebar.service';
+export * from './models/public-api';
+export * from './store/public-api';

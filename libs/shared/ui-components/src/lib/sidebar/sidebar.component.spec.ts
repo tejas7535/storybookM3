@@ -2,19 +2,15 @@ import { ChangeDetectionStrategy } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { IconsModule } from '@schaeffler/shared/icons';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
-import { SidebarElement } from './sidebar-element';
-import { SIDEBAR_ELEMENTS_MOCK } from './sidebar-elements.mock';
-import { SidebarMode } from './sidebar-mode.enum';
+import { SidebarMode } from './models';
 import { SidebarComponent } from './sidebar.component';
+import { initialState } from './store/reducers';
 
 describe('In SidebarComponent', () => {
   let component: SidebarComponent;
@@ -24,15 +20,12 @@ describe('In SidebarComponent', () => {
     TestBed.configureTestingModule({
       declarations: [SidebarComponent],
       imports: [
-        IconsModule,
         NoopAnimationsModule,
         MatSidenavModule,
-        MatTooltipModule,
         MatIconModule,
-        NoopAnimationsModule,
-        RouterTestingModule,
-        provideTranslocoTestingModule({})
-      ]
+        RouterTestingModule
+      ],
+      providers: [provideMockStore({ initialState: { sidebar: initialState } })]
     }).overrideComponent(SidebarComponent, {
       set: {
         changeDetection: ChangeDetectionStrategy.Default
@@ -53,76 +46,8 @@ describe('In SidebarComponent', () => {
   describe('Variables', () => {
     it('should define the properties', () => {
       expect(component.width).toEqual(260);
-      expect(component.mode).toBeUndefined();
-      expect(component.elements).toBeUndefined();
-    });
-  });
-
-  describe('template test', () => {
-    beforeEach(() => {
-      component.elements = SIDEBAR_ELEMENTS_MOCK;
-      fixture.detectChanges();
-    });
-
-    describe('should show sidebar-items', () => {
-      it('by given sidebar-elements', () => {
-        const sidebarItems: NodeListOf<Element> = document.querySelectorAll(
-          '.sidebar-item'
-        );
-        expect(sidebarItems.length).toEqual(SIDEBAR_ELEMENTS_MOCK.length);
-      });
-
-      it('with sidebar-items', () => {
-        let sidebarIcon: Element;
-
-        SIDEBAR_ELEMENTS_MOCK.forEach((sidebarElement: SidebarElement) => {
-          sidebarIcon = Array.from(document.querySelectorAll('mat-icon')).find(
-            (element: Element) => element.innerHTML === sidebarElement.icon.icon
-          );
-          expect(sidebarIcon).not.toBeNull();
-        });
-      });
-    });
-
-    it('sidebar-mode should toggle minified css-class in mat-sidenav and item-wrapper', () => {
-      const sidebar = document.querySelector('.sidebar');
-      // if it woks for one item, it works for the other ones
-      const sidebarItemWrapper = document.querySelector(
-        '.sidebar-item-wrapper'
-      );
-      const className = 'minified';
-
-      component.mode = SidebarMode.Closed;
-      fixture.detectChanges();
-      expect(sidebar.className).not.toContain(className);
-      expect(sidebarItemWrapper.className).not.toContain(className);
-
-      component.mode = SidebarMode.Open;
-      fixture.detectChanges();
-      expect(sidebar.className).not.toContain(className);
-      expect(sidebarItemWrapper.className).not.toContain(className);
-
-      component.mode = SidebarMode.Minified;
-      fixture.detectChanges();
-      expect(sidebar.className).toContain(className);
-      expect(sidebarItemWrapper.className).toContain(className);
-    });
-
-    describe('should set sidebar-item text', () => {
-      it('into headline-item', () => {
-        component.elements = SIDEBAR_ELEMENTS_MOCK;
-        component.mode = SidebarMode.Open;
-        fixture.detectChanges();
-
-        const headlines = document.querySelectorAll('.sidebar h4');
-        expect(headlines.length).toBeGreaterThan(0);
-
-        for (let i = 0; i < headlines.length; i += 1) {
-          expect(headlines.item(i).textContent).toContain(
-            SIDEBAR_ELEMENTS_MOCK[i].text
-          );
-        }
-      });
+      expect(component.mode).toEqual(SidebarMode.Open);
+      expect(component.isMobileViewPort).toBeFalsy();
     });
   });
 

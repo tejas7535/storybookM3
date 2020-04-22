@@ -1,14 +1,12 @@
-import { SidebarMode } from '@schaeffler/shared/ui-components';
+import { SidebarMode } from '../../models';
 import * as fromSidebarActions from './sidebar.actions';
 
 describe('SidebarActions', () => {
   describe('toggleSidebar', () => {
     it('should create an action', () => {
-      const sidebarMode: SidebarMode = SidebarMode.Open;
-      const action = fromSidebarActions.toggleSidebar({ sidebarMode });
+      const action = fromSidebarActions.toggleSidebar();
 
       expect(action).toEqual({
-        sidebarMode,
         type: '[Sidebar] Toggle Sidebar'
       });
     });

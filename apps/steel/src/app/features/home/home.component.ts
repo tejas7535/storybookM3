@@ -1,41 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-
-import { BehaviorSubject, Observable, Subject, Subscription } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Icon } from '@schaeffler/shared/icons';
-import { BreakpointService } from '@schaeffler/shared/responsive';
 import {
   FooterLink,
-  getBannerOpen,
   openBanner,
-  SidebarElement,
-  SidebarMode,
-  SidebarService
+  SidebarElement
 } from '@schaeffler/shared/ui-components';
 
 @Component({
   selector: 'schaeffler-steel-home',
   templateUrl: './home.component.html'
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnInit {
   public isSidebarExpanded = false;
   public sidebarWidthExpanded = '960px';
   public sidebarWidthExpandedTablet = 'calc(100% - 60px)';
   public sidebarWidthExpandedMobile = '100%';
   public sidebarWidth = '400px';
-  public isLessThanMedium$: Observable<boolean>;
-  public isMedium$: Observable<boolean>;
-  public isMobile$: Observable<boolean>;
-  public isBannerShown$: Observable<boolean>;
 
   public platformTitle = translate('general.appName');
-
-  public readonly subscription: Subscription = new Subscription();
-  public readonly destroy$: Subject<void> = new Subject();
 
   public sidebarElements: SidebarElement[] = [
     {
@@ -53,36 +39,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   ];
 
-  private readonly sidebarToggled = new BehaviorSubject(undefined);
-  private readonly sidebarToggledObservable$ = this.sidebarToggled.asObservable();
-
-  public mode: SidebarMode = SidebarMode.Minified;
-
-  constructor(
-    private readonly store: Store<any>,
-    private readonly sidebarService: SidebarService,
-    private readonly breakpointService: BreakpointService
-  ) {}
+  constructor(private readonly store: Store<any>) {}
 
   public ngOnInit(): void {
-    this.isBannerShown$ = this.store.pipe(select(getBannerOpen));
-    this.isMobile$ = this.breakpointService.isMobileViewPort();
-    this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
-    this.isMedium$ = this.breakpointService.isMedium();
-    this.handleSidebarMode();
-
     this.openBanner();
-
-    this.subscription.add(
-      this.sidebarToggledObservable$.subscribe(sidebarMode =>
-        this.handleSidebarToggledObservable(sidebarMode)
-      )
-    );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    this.destroy$.next();
   }
 
   public openBanner(): void {
@@ -94,50 +54,5 @@ export class HomeComponent implements OnInit, OnDestroy {
         truncateSize: 0
       })
     );
-  }
-
-  public toggleSidebar(): void {
-    this.sidebarService
-      .getSidebarMode()
-      .pipe(takeUntil(this.destroy$), take(1))
-      .subscribe(sidebarMode => {
-        this.sidebarToggled.next(sidebarMode);
-      });
-  }
-
-  private handleSidebarMode(): void {
-    this.sidebarService
-      .getSidebarMode()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(sidebarMode => {
-        this.mode = sidebarMode;
-      });
-  }
-
-  private handleSidebarToggledObservable(sidebarMode: SidebarMode): void {
-    if (sidebarMode === undefined) {
-      return;
-    }
-
-    switch (this.mode) {
-      case SidebarMode.Closed: {
-        this.mode = SidebarMode.Open;
-        break;
-      }
-      case SidebarMode.Minified: {
-        this.mode = SidebarMode.Open;
-        break;
-      }
-      case SidebarMode.Open: {
-        this.mode =
-          sidebarMode === SidebarMode.Open ||
-          sidebarMode === SidebarMode.Minified
-            ? SidebarMode.Minified
-            : SidebarMode.Closed;
-        break;
-      }
-      default:
-        this.mode = this.mode;
-    }
   }
 }

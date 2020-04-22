@@ -6,26 +6,29 @@ import {
   SkipSelf
 } from '@angular/core';
 
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 import {
   AuthConfig,
   OAuthModule,
   OAuthStorage,
   ValidationHandler
 } from 'angular-oauth2-oidc';
-
-import { AuthService } from './auth.service';
-
-import { TokenInterceptor } from './token.interceptor';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
 import { authConfig } from './auth-config';
 import { AuthGuard } from './auth.guard';
+import { AuthService } from './auth.service';
+import { TokenInterceptor } from './token.interceptor';
 
 export const storageFactory = (): OAuthStorage => localStorage;
 
 @NgModule({
-  imports: [OAuthModule.forRoot()],
+  imports: [
+    OAuthModule.forRoot(),
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot([])
+  ],
   providers: [AuthGuard, AuthService]
 })
 export class CoreModule {

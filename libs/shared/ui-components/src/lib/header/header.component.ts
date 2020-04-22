@@ -1,5 +1,3 @@
-import { Subscription } from 'rxjs';
-
 import {
   ChangeDetectionStrategy,
   Component,
@@ -10,8 +8,13 @@ import {
   Output
 } from '@angular/core';
 
+import { Subscription } from 'rxjs';
+
+import { Store } from '@ngrx/store';
+
 import { BreakpointService } from '@schaeffler/shared/responsive';
 
+import { toggleSidebar } from '../sidebar/store';
 import { headerAnimations } from './header.animations';
 
 @Component({
@@ -32,7 +35,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Output() readonly toggle: EventEmitter<void> = new EventEmitter();
 
-  constructor(private readonly breakpointService: BreakpointService) {}
+  constructor(
+    private readonly breakpointService: BreakpointService,
+    private readonly store: Store
+  ) {}
 
   /**
    * receives current viewPort
@@ -56,6 +62,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Emits toggle in application after burgermenu click
    */
   public toggleClicked(): void {
+    this.store.dispatch(toggleSidebar());
+
     this.toggle.emit();
   }
 }

@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { of } from 'rxjs';
+
 import { translate } from '@ngneat/transloco';
 import { RouterReducerState } from '@ngrx/router-store';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
-import { of } from 'rxjs';
 
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
@@ -19,13 +20,10 @@ import {
 } from '@schaeffler/shared/ui-components';
 
 import * as en from '../../assets/i18n/en.json';
-
 import { RouterStateUrl } from '../core/store';
-import { SidebarState } from '../core/store/reducers/sidebar/sidebar.reducer';
 import { HomeComponent } from './home.component';
 
 interface AppState {
-  sidebar: SidebarState;
   router: RouterReducerState<RouterStateUrl>;
   banner: BannerState;
 }
@@ -45,13 +43,8 @@ describe('HomeComponent', () => {
     open: false
   };
 
-  const initialSidebarState: SidebarState = {
-    mode: 0
-  };
-
   const initialState: AppState = {
     banner: initialBannerState,
-    sidebar: initialSidebarState,
     router: undefined
   };
 

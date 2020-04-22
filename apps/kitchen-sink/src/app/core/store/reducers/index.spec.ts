@@ -3,17 +3,15 @@ import { RouterStateSnapshot } from '@angular/router';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import * as fromRoot from './index';
+import * as fromRoot from '.';
 
 describe('NGRX Store Reducer Index', () => {
   it('should define the reducers object', () => {
     expect(fromRoot.reducers).toBeDefined();
-    expect(fromRoot.reducers.sidebar).toBeDefined();
     expect(fromRoot.reducers.router).toBeDefined();
   });
 
   it('should define feature selectors', () => {
-    expect(fromRoot.getSidebarState).toBeDefined();
     expect(fromRoot.getRouterState).toBeDefined();
   });
 

@@ -1,6 +1,3 @@
-import { merge, Observable } from 'rxjs';
-import { filter, mapTo } from 'rxjs/operators';
-
 import {
   BreakpointObserver,
   Breakpoints,
@@ -8,59 +5,83 @@ import {
 } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 
-import { SidebarMode } from './sidebar-mode.enum';
+import { merge, Observable } from 'rxjs';
+import { filter, mapTo } from 'rxjs/operators';
+
+import { SidebarMode, Viewport } from './models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SidebarService {
-  /**
-   * Observer for openState
+  /*
+   * Definition of Breakpoint States --> Basis for viewports and sidebarmodes
    */
-  private readonly closed$: Observable<SidebarMode>;
+  private readonly isSmall$: Observable<
+    BreakpointState
+  > = this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]);
+
+  private readonly isMedium$: Observable<
+    BreakpointState
+  > = this.breakpointObserver.observe(Breakpoints.Medium);
+
+  private readonly isLarge$: Observable<
+    BreakpointState
+  > = this.breakpointObserver.observe([Breakpoints.Large, Breakpoints.XLarge]);
+
+  /*
+   * Viewport Observables
+   */
+  private readonly smallViewport$: Observable<Viewport> = this.isSmall$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(Viewport.Small)
+  );
+
+  private readonly mediumViewport$: Observable<Viewport> = this.isMedium$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(Viewport.Medium)
+  );
+
+  private readonly largeViewport$: Observable<Viewport> = this.isLarge$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(Viewport.Large)
+  );
+
+  /*
+   * SidebarMode Observables
+   */
+  private readonly closed$: Observable<SidebarMode> = this.isSmall$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(SidebarMode.Closed)
+  );
+
+  private readonly minified$: Observable<SidebarMode> = this.isMedium$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(SidebarMode.Minified)
+  );
+
+  private readonly opened$: Observable<SidebarMode> = this.isLarge$.pipe(
+    filter((state: BreakpointState) => state.matches),
+    mapTo(SidebarMode.Open)
+  );
+
+  constructor(private readonly breakpointObserver: BreakpointObserver) {}
 
   /**
-   * Observer for minifiedState
+   * Returns sidebar mode as observable based on current breakpoint
    */
-  private readonly minified$: Observable<SidebarMode>;
-
-  /**
-   * Observer for openState
-   */
-  private readonly opened$: Observable<SidebarMode>;
-
-  /**
-   * Observer for mergedStates
-   */
-  private readonly sidebarObserver$: Observable<SidebarMode>;
-
-  constructor(private readonly breakpointObserver: BreakpointObserver) {
-    this.closed$ = this.breakpointObserver
-      .observe([Breakpoints.XSmall, Breakpoints.Small])
-      .pipe(
-        filter((state: BreakpointState) => state.matches),
-        mapTo(SidebarMode.Closed)
-      );
-
-    this.opened$ = this.breakpointObserver
-      .observe([Breakpoints.Large, Breakpoints.XLarge])
-      .pipe(
-        filter((state: BreakpointState) => state.matches),
-        mapTo(SidebarMode.Open)
-      );
-
-    this.minified$ = this.breakpointObserver.observe(Breakpoints.Medium).pipe(
-      filter((state: BreakpointState) => state.matches),
-      mapTo(SidebarMode.Minified)
-    );
-
-    this.sidebarObserver$ = merge(this.closed$, this.minified$, this.opened$);
+  public getSidebarMode(): Observable<SidebarMode> {
+    return merge(this.closed$, this.minified$, this.opened$);
   }
 
   /**
-   * Returns the observer of current breakPointState
+   * Returns viewport as observable based on current breakpoint
    */
-  public getSidebarMode(): Observable<SidebarMode> {
-    return this.sidebarObserver$;
+  public getViewport(): Observable<Viewport> {
+    return merge(
+      this.smallViewport$,
+      this.mediumViewport$,
+      this.largeViewport$
+    );
   }
 }

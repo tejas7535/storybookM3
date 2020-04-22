@@ -2,12 +2,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { FooterModule, HeaderModule } from '@schaeffler/shared/ui-components';
-
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { AppComponent } from './app.component';
+import { FooterModule, HeaderModule } from '@schaeffler/shared/ui-components';
 
+import { AppComponent } from './app.component';
 import { AuthService } from './core/auth.service';
 
 describe('AppComponent', () => {
@@ -23,6 +23,7 @@ describe('AppComponent', () => {
         NoopAnimationsModule
       ],
       providers: [
+        provideMockStore(),
         {
           provide: AuthService,
           useValue: {

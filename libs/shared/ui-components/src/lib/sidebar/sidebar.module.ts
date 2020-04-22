@@ -7,7 +7,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
+import { SidebarElementsComponent } from './sidebar-elements/sidebar-elements.component';
 import { SidebarComponent } from './sidebar.component';
+import { StoreModule } from './store';
 
 @NgModule({
   imports: [
@@ -17,9 +19,10 @@ import { SidebarComponent } from './sidebar.component';
     MatListModule,
     MatTooltipModule,
     RouterModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    StoreModule
   ],
-  declarations: [SidebarComponent],
-  exports: [MatSidenavModule, SidebarComponent]
+  declarations: [SidebarComponent, SidebarElementsComponent],
+  exports: [SidebarComponent, SidebarElementsComponent]
 })
 export class SidebarModule {}
