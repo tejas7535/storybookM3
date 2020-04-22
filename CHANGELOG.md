@@ -2,6 +2,54 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.2.1...v0.3.0) (2020-04-22)
+
+
+### ⚠ BREAKING CHANGES
+
+* **sidebar:** SidebarComponent is splitted into two components, Input `mode` and Output `toggle` are removed
+
+### ✏️ Documentation
+
+* **workspace:** update versions ins readme ([278393b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/278393ba92f1353f1458f41becc5fc235f4eeaf5))
+
+
+### 📈 Improvements
+
+* **auth:** enhance authentication library (UFTABI-2264) ([8ae58cc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8ae58ccbf86dc88fde1f977fa86d8410ddd256f7))
+* **ui-components:** enhance sidebar service tests (UFTABI-1840) ([676c899](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/676c899276d49126b132564470401b5994f78e93))
+* **workspace:** remove hammerjs (UFTABI-2167) ([d26c97d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d26c97d61141d55d330e34ace1f4de667cb300f1))
+* **workspace:** standardize import sorting (UFTABI-1824) ([3b2e22b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3b2e22b3a469d44f6c60156de45d4eb8039340e9))
+
+
+### 🏭 Automation
+
+* **workspace:** parallelize builds (UFTABI-2327) ([0b1a5d3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0b1a5d308150f58000f360d3051ae7d7f8aa2bcc))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** use q credentials for prod env (DSCDA-1451) ([76c9990](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/76c99907746cb07dc9702cdfa7f45982f9b03525))
+* **icons:** add icon module imports (UFTABI-2329) ([dea9fb8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/dea9fb8c1b3ad22b1850a23caff0e1cfaf54eb75))
+* **snackbar:** restore snackbar icon size ([9ea3923](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9ea3923ce53e45077b474aacbd38fa6543bfac72))
+* pipeline fails due to too big style bundles (UFTABI-2318) ([e61c6df](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e61c6dfcfba5ae1cc1dd43e0f5c2477c1add6af6))
+
+
+### 🎸 Features
+
+* **cdba:** implement authentication (DSCDA-1271) ([8b870dc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8b870dc9ccaabcf8d8e797e91ff266addf1d8136))
+* **empty-states:** remove unused headlineWrapper (UFTABI-1819) ([c8ba9e4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c8ba9e45a20d03200ed7f6fc42d4d4c3c5acf22b))
+* **footer:** add footer links, refactor footer (UFTABI-1830) ([a326192](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a32619215026941038314440cf9ea3131254806a))
+* **ltp:** add dummy loads file (ADAPLD-5961) ([fa7c97b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fa7c97bd235d781a31da18cee95629b367730da1))
+* **ltp:** add loads modal (ADAPLD-6276) ([9becf2b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9becf2b640ac8af507e4b86dfeac8652baeb600a))
+* **schaeffler-icon:** refactor the use of material icons (UFTABI-2279) ([9f19828](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9f198288f7a07abd222a252adc12b38fd8b46335))
+* **sidebar:** handle sidebar state management internally (UFTABI-1889) ([f318bad](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f318bad6889dcd2ae9876111877dc8f3b12093a8))
+* **sta:** add error message for unathorized ([0151e9a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0151e9a11697ce0358f183886f69e46dc4bafc91))
+* **sta:** implement store for tagging (UFTABI-2162) ([90acaf8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/90acaf8271f182dce86bdb829655d0b289246842))
+* **sta:** implement store for translation (UFTABI-2163) ([85f5554](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/85f5554a3e45be77cca73879b17098bb5866035c))
+* **testing:** add debug command for unit tests ([d5cfc5c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d5cfc5c2ab1486dc83782606cc745620a7d4477a))
+* **workspace:** create new-app schematic to automate project setup ([5fdedda](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5fdeddabe3927d89263aaa96e51d766edd44ede7))
+
 ### [0.2.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.2.0...v0.2.1) (2020-03-17)
 
 
