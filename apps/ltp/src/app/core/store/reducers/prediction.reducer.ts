@@ -1,12 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import * as PredictionActions from '../actions/prediction.actions';
-
 import {
   LoadsRequest,
   PredictionRequest,
   PredictionResult
 } from '../../../shared/models';
+import * as PredictionActions from '../actions/prediction.actions';
 
 export interface PredictionState {
   predictionRequest: PredictionRequest;
@@ -39,7 +38,10 @@ export const initialState: PredictionState = {
   loadsRequest: {
     status: 0, // 0 initial, 1 pending, 2 success, 3 error
     error: undefined,
-    data: undefined
+    data: undefined,
+    conversionFactor: 0,
+    repetitionFactor: 0,
+    method: 'FKM'
   },
   loads: undefined
 };

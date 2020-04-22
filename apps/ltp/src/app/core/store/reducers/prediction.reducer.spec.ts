@@ -1,10 +1,7 @@
-import * as PredictionActions from '../actions/prediction.actions';
-
-import { predictionReducer } from './prediction.reducer';
-
 import { mockedPredictionResult } from '../../../mocks/mock.constants';
-
 import { LoadsRequest } from '../../../shared/models';
+import * as PredictionActions from '../actions/prediction.actions';
+import { predictionReducer } from './prediction.reducer';
 
 describe('predictionReducer', () => {
   describe('reducer', () => {
@@ -34,7 +31,10 @@ describe('predictionReducer', () => {
         loadsRequest: {
           data: undefined,
           status: 0,
-          error: undefined
+          error: undefined,
+          conversionFactor: 0,
+          repetitionFactor: 0,
+          method: 'FKM'
         },
         loads: undefined
       };
@@ -105,7 +105,10 @@ describe('predictionReducer', () => {
       const mockedLoadsRequest: LoadsRequest = {
         data: [1, 2],
         status: 1,
-        error: undefined
+        error: undefined,
+        conversionFactor: 0,
+        repetitionFactor: 0,
+        method: 'FKM'
       };
 
       const newState = predictionReducer(

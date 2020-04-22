@@ -7,20 +7,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { translate } from '@ngneat/transloco';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
+
 import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { PredictionModule } from '../prediction/prediction.module';
-
-import { HomeComponent } from './home.component';
-
-import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
-import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
-
 import * as en from '../../../assets/i18n/en.json';
 import { LTPState } from '../../core/store';
+import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
+import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
+import { PredictionModule } from '../prediction/prediction.module';
+import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;

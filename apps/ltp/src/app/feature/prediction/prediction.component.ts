@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -18,9 +19,11 @@ import {
 import { ChartType } from '../../shared/enums';
 import {
   LegendSquare,
+  LoadOptions,
   LoadsRequest,
   PredictionResultParsed
 } from '../../shared/models';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @Component({
   selector: 'ltp-prediction',
@@ -37,6 +40,7 @@ export class PredictionComponent implements OnInit {
   chartSettings = CHART_SETTINGS_WOEHLER;
 
   constructor(
+    private readonly dialog: MatDialog,
     private readonly papa: Papa,
     private readonly store: Store<fromStore.LTPState>
   ) {
@@ -101,7 +105,7 @@ export class PredictionComponent implements OnInit {
       this.papa.parse(loadCollective, {
         download,
         complete: result => {
-          this.dispatchLoad(result.data);
+          this.openDialog(result.data);
 
           resolve();
         },
@@ -114,14 +118,28 @@ export class PredictionComponent implements OnInit {
     });
   }
 
+  openDialog(parsedFile: any[]): void {
+    const dialogRef = this.dialog.open(UploadModalComponent, {
+      width: '600px',
+      restoreFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe((result: LoadOptions) => {
+      if (result) {
+        this.dispatchLoad(parsedFile, result);
+      }
+    });
+  }
+
   /**
    * handle first column and omit text values and dispatches load array to store
    */
-  public dispatchLoad(parsedFile: any[]): void {
+  public dispatchLoad(parsedFile: any[], settings: LoadOptions): void {
     const limit = 50000;
     const loadsRequest: LoadsRequest = {
       status: 1,
-      data: undefined
+      data: undefined,
+      ...settings
     };
     loadsRequest.data = parsedFile.reduce((values, entry) => {
       const value = Number(entry[0]);
