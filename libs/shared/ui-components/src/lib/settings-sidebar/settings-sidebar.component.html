@@ -1,9 +1,8 @@
-<mat-sidenav-container autosize>
+<mat-sidenav-container autosize [hasBackdrop]="false">
   <mat-sidenav
     #sidebar
     fullscreen
     position="end"
-    disableClose="true"
     [opened]="open"
     [mode]="isLessThanMedium ? 'over' : 'side'"
     (openedChange)="onChangeState($event)"
