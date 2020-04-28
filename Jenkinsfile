@@ -474,7 +474,24 @@ pipeline {
                             // Generate Changelog, update Readme
                             sh 'git fetch --all'
                             sh "git checkout ${targetBranch}"
-                            sh 'npm run release'
+
+                            sh 'npm run release -- .'
+
+                            // changelog generation for affected apps
+                            for (app in affectedApps) {
+                                sh "npm run release -- apps/${app}"
+                            }
+
+                            // changelog generation for affected libs
+                            for (lib in affectedLibs) {
+                                // only for shared libs
+                                def temp = "${lib}".indexOf("shared-")
+                                if(temp == 0){
+                                    def cutLib = "${lib}".substring(7)
+                                    sh "npm run release -- libs/shared/${cutLib}"
+                                }                              
+                            }
+                            
                             sh 'npm run generate-readme'
                             sh 'git add .'
                             sh 'git commit --amend --no-edit'

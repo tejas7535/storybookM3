@@ -10,7 +10,7 @@ import {
   Rule,
   SchematicContext,
   Tree,
-  url
+  url,
 } from '@angular-devkit/schematics';
 
 import {
@@ -19,7 +19,7 @@ import {
   ProjectType,
   toFileName,
   updateJsonInTree,
-  updateWorkspace
+  updateWorkspace,
 } from '@nrwl/workspace';
 
 import {
@@ -27,7 +27,7 @@ import {
   getCypressReportConfiguration,
   getE2eConfigurations,
   getServeConfigurations,
-  getTsLintRules
+  getTsLintRules,
 } from './config';
 import { NewAppSchematicSchema } from './schema';
 
@@ -35,6 +35,7 @@ interface NormalizedSchema extends NewAppSchematicSchema {
   dasherizedName: string;
   projectName: string;
   projectRoot: string;
+  pathToRoot: string;
 }
 
 function updateTsLintConfiguration(options: NormalizedSchema): Rule {
@@ -114,8 +115,8 @@ function updateNxJson(options: NormalizedSchema): Rule {
       ...json,
       projects: {
         ...json.projects,
-        [options.projectName]: project
-      }
+        [options.projectName]: project,
+      },
     };
 
     return resultJson;
@@ -128,7 +129,7 @@ function updateDeploymentJson(options: NormalizedSchema): Rule {
 
     const resultJson = {
       ...json,
-      [options.projectName]: options.deploymentJob
+      [options.projectName]: options.deploymentJob,
     };
 
     return resultJson;
@@ -139,7 +140,7 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
   return (_host: Tree, context: SchematicContext) => {
     context.logger.info('Updating Application Settings for you...');
 
-    return updateWorkspace(workspace => {
+    return updateWorkspace((workspace) => {
       const appConfiguration = workspace.projects.get(options.projectName);
       // Add icons to styles array
       const styles = appConfiguration.targets.get('build').options[
@@ -152,7 +153,7 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
       appConfiguration.targets.get('build').options[
         'stylePreprocessorOptions'
       ] = {
-        includePaths: ['libs/shared/styles/src']
+        includePaths: ['libs/shared/styles/src'],
       };
 
       // adjust build configurations
@@ -197,9 +198,9 @@ function addFiles(options: NormalizedSchema): Rule {
         applyTemplates({
           ...strings,
           ...options,
-          capsify
+          capsify,
         }),
-        move(`${options.projectRoot}/src`)
+        move(`${options.projectRoot}/src`),
       ]),
       MergeStrategy.Overwrite
     );
@@ -209,14 +210,36 @@ function addFiles(options: NormalizedSchema): Rule {
         applyTemplates({
           ...strings,
           ...options,
-          capsify
+          capsify,
         }),
-        move(`${options.projectRoot}-e2e/src`)
+        move(`${options.projectRoot}-e2e/src`),
       ]),
       MergeStrategy.Overwrite
     );
 
     return chain([sourceTemplatesForApp, sourceTemplateForE2eApp]);
+  };
+}
+
+function addStandardVersion(options: NormalizedSchema): Rule {
+  return (_host: Tree, context: SchematicContext) => {
+    context.logger.log(
+      'info',
+      'Preparing configuration for standard version...'
+    );
+
+    const sourceTemplate = mergeWith(
+      apply(url(`./files/standard-version`), [
+        applyTemplates({
+          ...strings,
+          ...options,
+        }),
+        move(`${options.projectRoot}`),
+      ]),
+      MergeStrategy.Overwrite
+    );
+
+    return sourceTemplate;
   };
 }
 
@@ -231,16 +254,21 @@ function normalizeOptions(options: NewAppSchematicSchema): NormalizedSchema {
   const projectDirectory = toFileName(options.name);
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
   const projectRoot = `${projectRootDir(projectType)}/${projectDirectory}`;
+  const pathToRoot = projectRoot.replace(
+    new RegExp('.+(?=/)|(?<=/).+', 'g'),
+    '..'
+  );
 
   return {
     ...options,
     dasherizedName,
     projectName,
-    projectRoot
+    projectRoot,
+    pathToRoot,
   };
 }
 
-export default function(options: NewAppSchematicSchema): Rule {
+export default function (options: NewAppSchematicSchema): Rule {
   return (_host: Tree, context: SchematicContext): Rule => {
     context.logger.info(`Generating your new app ${options.name}`);
 
@@ -250,7 +278,7 @@ export default function(options: NewAppSchematicSchema): Rule {
       externalSchematic('@nrwl/angular', 'application', {
         name: options.name,
         routing: false,
-        style: 'scss'
+        style: 'scss',
       }),
       updateCodeowners(normalizedOptions),
       updateDeploymentJson(normalizedOptions),
@@ -259,7 +287,8 @@ export default function(options: NewAppSchematicSchema): Rule {
       updateCypressConfiguration(normalizedOptions),
       updateTsLintConfiguration(normalizedOptions),
       updateIndexHtml(normalizedOptions),
-      addFiles(normalizedOptions)
+      addFiles(normalizedOptions),
+      addStandardVersion(normalizedOptions),
     ]);
   };
 }
