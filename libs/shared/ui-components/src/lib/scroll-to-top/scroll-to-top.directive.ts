@@ -1,14 +1,14 @@
-import { Subject } from 'rxjs';
-
 import {
   Directive,
   ElementRef,
   HostBinding,
-  HostListener
+  HostListener,
 } from '@angular/core';
 
+import { Subject } from 'rxjs';
+
 @Directive({
-  selector: '[schaefflerScrollToTop]'
+  selector: '[schaefflerScrollToTop]',
 })
 export class ScrollToTopDirective {
   public readonly scrollEvent$: Subject<HTMLElement> = new Subject<
@@ -16,6 +16,9 @@ export class ScrollToTopDirective {
   >();
 
   @HostBinding('style.height') public readonly height = '100%';
+  @HostBinding('style.min-height') public readonly minHeight = '100%';
+  @HostBinding('style.display') public readonly display = 'flex';
+  @HostBinding('style.flex-direction') public readonly flexDirection = 'column';
   @HostBinding('style.overflow') public readonly overflow = 'auto';
   @HostBinding('attr.data-cy') public readonly dataCy = 'scrollToTopContainer';
 

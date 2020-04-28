@@ -15,7 +15,9 @@
         <div schaefflerScrollToTop>
           <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
           <schaeffler-banner></schaeffler-banner>
-          <router-outlet></router-outlet>
+          <div class="router-content">
+            <router-outlet></router-outlet>
+          </div>
           <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
         </div>
       </ng-container>

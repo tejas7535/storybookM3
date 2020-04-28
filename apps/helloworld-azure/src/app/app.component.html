@@ -4,10 +4,14 @@
       user-menu
       [user]="username | async"
     ></schaeffler-user-menu>
-    <router-outlet></router-outlet>
+    <div class="site-content">
+      <div class="router-content">
+        <router-outlet></router-outlet>
+      </div>
 
-    <div class="footer-wrapper">
-      <schaeffler-footer></schaeffler-footer>
+      <div class="footer-wrapper">
+        <schaeffler-footer></schaeffler-footer>
+      </div>
     </div>
   </schaeffler-header>
 </div>
