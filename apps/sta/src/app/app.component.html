@@ -39,10 +39,14 @@
               "
             >
               <ng-container container>
-                <router-outlet></router-outlet>
-                <schaeffler-footer
-                  [footerLinks]="footerLinks"
-                ></schaeffler-footer>
+                <div class="site-content">
+                  <div class="router-content">
+                    <router-outlet></router-outlet>
+                  </div>
+                  <schaeffler-footer
+                    [footerLinks]="footerLinks"
+                  ></schaeffler-footer>
+                </div>
               </ng-container>
               <ng-container sidebar>
                 <sta-result [currentService]="currentService"></sta-result>
