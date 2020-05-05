@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -32,9 +32,9 @@ describe('TextInputComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         ReactiveFormsModule,
-        provideTranslocoTestingModule({})
+        provideTranslocoTestingModule({}),
       ],
-      declarations: [TextInputComponent]
+      declarations: [TextInputComponent],
     });
   });
 
@@ -52,7 +52,7 @@ describe('TextInputComponent', () => {
     test('should return avl languages in en when userLang == en', () => {
       const expected = [
         new KeyValue('de', 'German'),
-        new KeyValue('en', 'English')
+        new KeyValue('en', 'English'),
       ];
 
       const langs = TextInputComponent['identifyAvailableLanguages']('en');
@@ -63,7 +63,7 @@ describe('TextInputComponent', () => {
     test('should return avl languages in de when userLang == de', () => {
       const expected = [
         new KeyValue('de', 'Deutsch'),
-        new KeyValue('en', 'Englisch')
+        new KeyValue('en', 'Englisch'),
       ];
 
       const langs = TextInputComponent['identifyAvailableLanguages']('de');
@@ -120,7 +120,7 @@ describe('TextInputComponent', () => {
       const resp = {
         textLang: 'en',
         displayName: 'Englisch',
-        supported: true
+        supported: true,
       };
       component['validateTextInput'] = jest.fn(() => () => of(resp));
       component['handleTextInput'] = jest.fn();
@@ -231,12 +231,12 @@ describe('TextInputComponent', () => {
       component['setTextInputError'] = jest.fn();
     });
 
-    test('should return detected language initially', done => {
+    test('should return detected language initially', (done) => {
       const userLang = 'de';
       const resp = {
         textLang: 'en',
         displayName: 'Englisch',
-        supported: true
+        supported: true,
       };
       component['dataService'].postLanguageDetectionText = jest.fn(() =>
         of(resp)
@@ -247,18 +247,18 @@ describe('TextInputComponent', () => {
 
       observable
         .pipe(component['validateTextInput'](userLang))
-        .subscribe(val => {
+        .subscribe((val) => {
           expect(val).toEqual(resp);
           done();
         });
     });
 
-    test('should return detected language after text change', done => {
+    test('should return detected language after text change', (done) => {
       const userLang = 'de';
       const resp = {
         textLang: 'en',
         displayName: 'Englisch',
-        supported: true
+        supported: true,
       };
       component['dataService'].postLanguageDetectionText = jest.fn(() =>
         of(resp)
@@ -266,7 +266,7 @@ describe('TextInputComponent', () => {
 
       observable
         .pipe(component['validateTextInput'](userLang))
-        .subscribe(val => {
+        .subscribe((val) => {
           expect(val).toEqual(resp);
           done();
         });
@@ -279,7 +279,7 @@ describe('TextInputComponent', () => {
       const resp = {
         textLang: 'en',
         displayName: 'Englisch',
-        supported: true
+        supported: true,
       };
       component['dataService'].postLanguageDetectionText = jest.fn(() =>
         of(resp)
@@ -297,12 +297,12 @@ describe('TextInputComponent', () => {
       expect(component.disableSubmit).toBeTruthy();
     }));
 
-    test('should set text input error when detected lang not supported', done => {
+    test('should set text input error when detected lang not supported', (done) => {
       const userLang = 'de';
       const resp = {
         textLang: 'es',
         displayName: 'Spanish',
-        supported: false
+        supported: false,
       };
       component['dataService'].postLanguageDetectionText = jest.fn(() =>
         of(resp)
@@ -312,7 +312,7 @@ describe('TextInputComponent', () => {
 
       observable
         .pipe(component['validateTextInput'](userLang))
-        .subscribe(val => {
+        .subscribe((val) => {
           expect(val).toEqual(resp);
           expect(component['setTextInputError']).toHaveBeenCalledTimes(1);
           expect(component.disableSubmit).toBeFalsy();
@@ -353,7 +353,7 @@ describe('TextInputComponent', () => {
       const resp = {
         textLang: 'en',
         displayName: 'English',
-        supported: true
+        supported: true,
       };
 
       component['handleTextInput'](resp);
@@ -409,7 +409,7 @@ describe('TextInputComponent', () => {
     beforeEach(() => {
       const langs = [
         new KeyValue('de', 'Deutsch'),
-        new KeyValue('en', 'Englisch')
+        new KeyValue('en', 'Englisch'),
       ];
       component.avlLanguages = langs;
     });
@@ -467,7 +467,7 @@ describe('TextInputComponent', () => {
     test('should return avl languages if no param provided', () => {
       const langs = [
         new KeyValue('de', 'Deutsch'),
-        new KeyValue('en', 'Englisch')
+        new KeyValue('en', 'Englisch'),
       ];
       component.avlLanguages = langs;
 
@@ -479,12 +479,12 @@ describe('TextInputComponent', () => {
     test('should return avl languages if detected lang is supported', () => {
       const langs = [
         new KeyValue('de', 'Deutsch'),
-        new KeyValue('en', 'Englisch')
+        new KeyValue('en', 'Englisch'),
       ];
       const resp = {
         textLang: 'en',
         displayName: 'English',
-        supported: true
+        supported: true,
       };
       component.avlLanguages = langs;
 
@@ -496,12 +496,12 @@ describe('TextInputComponent', () => {
     test('should return avl languages + detected lang if detected lang is not supported', () => {
       const langs = [
         new KeyValue('de', 'Deutsch'),
-        new KeyValue('en', 'Englisch')
+        new KeyValue('en', 'Englisch'),
       ];
       const resp = {
         textLang: 'es',
         displayName: 'Spanish',
-        supported: false
+        supported: false,
       };
       component.avlLanguages = langs;
 
@@ -509,7 +509,7 @@ describe('TextInputComponent', () => {
 
       expect(component.supportedLanguages).toEqual([
         new KeyValue('es', 'Spanish'),
-        ...langs
+        ...langs,
       ]);
     });
   });

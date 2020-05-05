@@ -6,15 +6,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { HeaderModule } from '@schaeffler/header';
 import {
   BannerModule,
   FooterModule,
-  HeaderModule,
   ScrollToTopDirective,
   ScrollToTopModule,
-  SidebarModule
+  SidebarModule,
 } from '@schaeffler/shared/ui-components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { StoreModule } from '../../core/store';
 import { ExtensionDetailComponent } from './extension/extension-detail/extension-detail.component';
@@ -30,7 +30,7 @@ import { OverviewComponent } from './overview/overview.component';
     ExtensionDetailComponent,
     ExtensionDownloadComponent,
     ExtensionComponent,
-    OverviewComponent
+    OverviewComponent,
   ],
   imports: [
     CommonModule,
@@ -46,8 +46,8 @@ import { OverviewComponent } from './overview/overview.component';
     HeaderModule,
     SidebarModule,
     StoreModule,
-    SharedTranslocoModule
+    SharedTranslocoModule,
   ],
-  providers: [ScrollToTopDirective]
+  providers: [ScrollToTopDirective],
 })
 export class HomeModule {}

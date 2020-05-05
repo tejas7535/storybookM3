@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { BreakpointService } from '@schaeffler/shared/responsive';
+import { BreakpointService } from '@schaeffler/responsive';
 
 import { SettingsSidebarComponent } from './settings-sidebar.component';
 
@@ -24,9 +24,9 @@ describe('SettingsSidebarComponent', () => {
         MatSidenavModule,
         MatButtonModule,
         FlexLayoutModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
-      providers: [BreakpointService]
+      providers: [BreakpointService],
     });
   });
 

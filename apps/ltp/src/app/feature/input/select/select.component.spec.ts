@@ -1,5 +1,3 @@
-import { of } from 'rxjs';
-
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -7,15 +5,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { of } from 'rxjs';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { SelectComponent } from './select.component';
-
-import { SelectControl } from './select-control.model';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { SelectControl } from './select-control.model';
+import { SelectComponent } from './select.component';
 
 describe('SelectComponent', () => {
   let component: SelectComponent;
@@ -31,8 +29,8 @@ describe('SelectComponent', () => {
         MatSelectModule,
         NoopAnimationsModule,
         FlexLayoutModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 
@@ -46,8 +44,8 @@ describe('SelectComponent', () => {
       formControl: new FormControl(),
       options: of([
         { value: 'testOption', name: 'TESTOPTION' },
-        { value: 'testOption2', name: 'TESTOPTION2' }
-      ])
+        { value: 'testOption2', name: 'TESTOPTION2' },
+      ]),
     });
     fixture.detectChanges();
   });

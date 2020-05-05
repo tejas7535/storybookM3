@@ -5,15 +5,15 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/shared/icons';
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   FooterModule,
-  HeaderModule,
   SettingsSidebarModule,
   SidebarModule,
-  SnackBarModule
+  SnackBarModule,
 } from '@schaeffler/shared/ui-components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -47,15 +47,15 @@ import { ResultModule } from './shared/result/result.module';
       'en',
       true
     ),
-    IconsModule
+    IconsModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpErrorInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

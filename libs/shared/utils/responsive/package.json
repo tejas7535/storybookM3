@@ -1,0 +1,13 @@
+{
+  "name": "@schaeffler/responsive",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/cdk": "^8.2.3",
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "rxjs": "^6.5.0"
+  },
+  "devDependencies": {
+    "ng-bullet": "1.0.3"
+  }
+}

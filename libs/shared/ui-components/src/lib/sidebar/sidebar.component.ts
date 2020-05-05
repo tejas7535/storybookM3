@@ -4,11 +4,11 @@ import { Subscription } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { BreakpointService } from '@schaeffler/shared/responsive';
+import { BreakpointService } from '@schaeffler/responsive';
 
 import {
   contentAnimation,
-  sidebarAnimation
+  sidebarAnimation,
 } from './animations/sidebar-animations';
 import { SidebarAnimationStyle, SidebarMode } from './models';
 import { getSidebarMode, SidebarState } from './store';
@@ -17,7 +17,7 @@ import { getSidebarMode, SidebarState } from './store';
   selector: 'schaeffler-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
-  animations: [sidebarAnimation, contentAnimation]
+  animations: [sidebarAnimation, contentAnimation],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
@@ -41,13 +41,13 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.breakpointService
         .isMobileViewPort()
-        .subscribe(isMobile => (this.isMobileViewPort = isMobile))
+        .subscribe((isMobile) => (this.isMobileViewPort = isMobile))
     );
 
     this.subscriptions.add(
       this.store
         .pipe(select(getSidebarMode))
-        .subscribe(mode => (this.mode = mode))
+        .subscribe((mode) => (this.mode = mode))
     );
   }
 

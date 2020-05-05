@@ -4,12 +4,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/shared/icons';
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
-import {
-  HeaderModule,
-  SettingsSidebarModule
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,9 +40,9 @@ import { UnauthorizedModule } from './shared/components/unauthorized/unauthorize
       'en',
       true
     ),
-    IconsModule
+    IconsModule,
   ],
   declarations: [AppComponent, SignedoutComponent],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

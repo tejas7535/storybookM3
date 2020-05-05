@@ -9,8 +9,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
 import { LTPState } from '../../core/store';
@@ -30,7 +30,7 @@ describe('HomeComponent', () => {
     icon: undefined,
     truncateSize: undefined,
     showFullText: false,
-    open: false
+    open: false,
   };
 
   configureTestSuite(() => {
@@ -44,17 +44,17 @@ describe('HomeComponent', () => {
         RouterTestingModule,
         PredictionModule,
         BannerModule,
-        provideTranslocoTestingModule({ en })
+        provideTranslocoTestingModule({ en }),
       ],
       providers: [
         provideMockStore({
           initialState: {
             input: initialInputState,
             prediction: initialPredictionState,
-            banner: initialBannerState
-          }
-        })
-      ]
+            banner: initialBannerState,
+          },
+        }),
+      ],
     });
   });
 
@@ -89,7 +89,7 @@ describe('HomeComponent', () => {
         icon: 'info',
         buttonText: translate('disclaimerClose'),
         truncateSize: 0,
-        type: '[Banner] Open Banner'
+        type: '[Banner] Open Banner',
       };
       store.dispatch = jest.fn();
 

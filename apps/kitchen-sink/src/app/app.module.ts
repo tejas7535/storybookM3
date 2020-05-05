@@ -4,19 +4,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/shared/icons';
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   FooterModule,
-  HeaderModule,
   ScrollToTopDirective,
   ScrollToTopModule,
   SettingsSidebarModule,
   SidebarModule,
   SnackBarModule,
-  SpeedDialFabModule
+  SpeedDialFabModule,
 } from '@schaeffler/shared/ui-components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -42,9 +42,9 @@ import { HomeComponent } from './home/home.component';
     SpeedDialFabModule,
     SettingsSidebarModule,
     SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en'),
-    IconsModule
+    IconsModule,
   ],
   providers: [ScrollToTopDirective],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

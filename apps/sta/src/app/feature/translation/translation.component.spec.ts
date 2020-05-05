@@ -7,21 +7,21 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import {
   AppState,
   loadTranslationForFile,
   loadTranslationForText,
-  setSelectedTabIndexTranslation
+  setSelectedTabIndexTranslation,
 } from '../../core/store';
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { FunFactsLoadingBarModule } from '../../shared/fun-facts-loading-bar/fun-facts-loading-bar.module';
 import {
   FileReplacement,
   Language,
-  TextInput
+  TextInput,
 } from '../../shared/result/models';
 import { TextInputModule } from '../../shared/text-input/text-input.module';
 import { TranslationComponent } from './translation.component';
@@ -41,9 +41,9 @@ describe('TranslationComponent', () => {
         TextInputModule,
         FileUploadModule,
         FunFactsLoadingBarModule,
-        provideTranslocoTestingModule({})
+        provideTranslocoTestingModule({}),
       ],
-      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 
@@ -87,7 +87,7 @@ describe('TranslationComponent', () => {
       const textInput: TextInput = {
         text: 'text',
         targetLang: Language.DE,
-        textLang: Language.EN
+        textLang: Language.EN,
       };
 
       component.getTranslationForText(textInput);
@@ -108,7 +108,7 @@ describe('TranslationComponent', () => {
       const expected: FileReplacement = {
         name: file.name,
         type: file.type,
-        content: [109, 111, 105, 110]
+        content: [109, 111, 105, 110],
       };
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(

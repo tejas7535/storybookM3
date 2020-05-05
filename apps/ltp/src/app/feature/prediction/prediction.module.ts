@@ -11,12 +11,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import {
+  MatRadioModule,
   MAT_RADIO_DEFAULT_OPTIONS,
-  MatRadioModule
 } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
@@ -42,15 +42,15 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     MatFormFieldModule,
     MatInputModule,
     MatRadioModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [
     {
       provide: MAT_RADIO_DEFAULT_OPTIONS,
-      useValue: { color: 'primary' }
-    }
+      useValue: { color: 'primary' },
+    },
   ],
   entryComponents: [UploadModalComponent],
-  exports: [PredictionComponent]
+  exports: [PredictionComponent],
 })
 export class PredictionModule {}

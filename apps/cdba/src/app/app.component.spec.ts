@@ -6,11 +6,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { HeaderModule } from '@schaeffler/header';
 import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
-import {
-  HeaderModule,
-  SettingsSidebarModule
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
 
@@ -26,15 +24,15 @@ describe('AppComponent', () => {
         HeaderModule,
         SettingsSidebarModule,
         MatButtonModule,
-        RouterTestingModule
+        RouterTestingModule,
       ],
       providers: [provideMockStore()],
-      declarations: [AppComponent]
+      declarations: [AppComponent],
     });
   });
 
   beforeEach(() => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: false,
         media: query,
@@ -43,14 +41,14 @@ describe('AppComponent', () => {
         removeListener: jest.fn(), // deprecated
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn()
+        dispatchEvent: jest.fn(),
       };
     });
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.debugElement.componentInstance;
     store = TestBed.inject(MockStore);
     store.overrideSelector(getUser, {
-      username: 'John'
+      username: 'John',
     });
     fixture.detectChanges();
   });

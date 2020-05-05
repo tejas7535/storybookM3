@@ -1,19 +1,18 @@
-import { of } from 'rxjs';
-
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { of } from 'rxjs';
 
 import { DxChartModule } from 'devextreme-angular/ui/chart';
 import { configureTestSuite } from 'ng-bullet';
 
-import { ChartComponent } from './chart.component';
-import { LegendComponent } from './legend/legend.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { CHART_SETTINGS_WOEHLER } from '../../../shared/constants';
+import { ChartComponent } from './chart.component';
+import { LegendComponent } from './legend/legend.component';
 
 describe('ChartComponent', () => {
   let component: ChartComponent;
@@ -26,8 +25,8 @@ describe('ChartComponent', () => {
         CommonModule,
         FlexLayoutModule,
         DxChartModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 
@@ -38,7 +37,7 @@ describe('ChartComponent', () => {
       x_min: 0,
       x_max: 1000000,
       y_min: 0,
-      y_max: 1000
+      y_max: 1000,
     };
     component.bannerIsVisible = of(true);
     component.chartSettings = CHART_SETTINGS_WOEHLER;

@@ -1,12 +1,12 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { FunFactsLoadingBarService } from './fun-facts-loading-bar.service';
 
@@ -18,7 +18,7 @@ describe('FunFactsLoadingBarService', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, provideTranslocoTestingModule({})],
-      providers: [FunFactsLoadingBarService]
+      providers: [FunFactsLoadingBarService],
     });
   });
 
@@ -41,7 +41,7 @@ describe('FunFactsLoadingBarService', () => {
       const expcetedFunFact = 'abc fact';
       const url =
         'https://sta-d.dev.dp.schaeffler/api/v1/fun-facts?language=en';
-      service.getFunFact().subscribe(funFact => {
+      service.getFunFact().subscribe((funFact) => {
         expect(funFact).toEqual(expcetedFunFact);
       });
 

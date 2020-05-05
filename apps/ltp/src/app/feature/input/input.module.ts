@@ -11,7 +11,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 
@@ -29,7 +29,7 @@ import { ToggleComponent } from './toggle/toggle.component';
     SelectComponent,
     MaterialComponent,
     ToggleComponent,
-    LimitsComponent
+    LimitsComponent,
   ],
   imports: [
     CommonModule,
@@ -45,8 +45,8 @@ import { ToggleComponent } from './toggle/toggle.component';
     MatExpansionModule,
     MatDividerModule,
     MatSlideToggleModule,
-    TooltipModule
+    TooltipModule,
   ],
-  exports: [InputComponent]
+  exports: [InputComponent],
 })
 export class InputModule {}

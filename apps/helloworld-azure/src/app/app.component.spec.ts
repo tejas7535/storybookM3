@@ -5,7 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { FooterModule, HeaderModule } from '@schaeffler/shared/ui-components';
+import { HeaderModule } from '@schaeffler/header';
+import { FooterModule } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
 import { AuthService } from './core/auth.service';
@@ -20,7 +21,7 @@ describe('AppComponent', () => {
         RouterTestingModule,
         HeaderModule,
         FooterModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         provideMockStore(),
@@ -28,11 +29,11 @@ describe('AppComponent', () => {
           provide: AuthService,
           useValue: {
             initAuth: jest.fn(),
-            getUserName: jest.fn()
-          }
-        }
+            getUserName: jest.fn(),
+          },
+        },
       ],
-      declarations: [AppComponent]
+      declarations: [AppComponent],
     });
   });
 

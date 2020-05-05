@@ -8,7 +8,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { UploadModalComponent } from './upload-modal.component';
@@ -26,9 +26,9 @@ describe('UploadModalComponent', () => {
         MatFormFieldModule,
         ReactiveFormsModule,
         MatInputModule,
-        MatRadioModule
+        MatRadioModule,
       ],
-      declarations: [UploadModalComponent]
+      declarations: [UploadModalComponent],
     }).compileComponents();
   });
 

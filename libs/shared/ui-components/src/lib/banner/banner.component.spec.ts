@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
@@ -12,7 +12,7 @@ import {
   BannerState,
   closeBanner,
   initialState,
-  toggleFullText
+  toggleFullText,
 } from './store';
 
 describe('BannerComponent', () => {
@@ -26,9 +26,9 @@ describe('BannerComponent', () => {
       imports: [BannerTextModule, provideTranslocoTestingModule({})],
       providers: [
         provideMockStore({
-          initialState: { banner: initialState }
-        })
-      ]
+          initialState: { banner: initialState },
+        }),
+      ],
     });
   });
 
@@ -62,28 +62,28 @@ describe('BannerComponent', () => {
           icon: 'info',
           truncateSize: 120,
           showFullText: false,
-          open: true
-        }
+          open: true,
+        },
       });
       store.refreshState();
 
-      component.showBanner$.subscribe(showBanner =>
+      component.showBanner$.subscribe((showBanner) =>
         expect(showBanner).toEqual(true)
       );
 
-      component.bannerText$.subscribe(bannerText =>
+      component.bannerText$.subscribe((bannerText) =>
         expect(bannerText).toEqual('banner text')
       );
 
-      component.bannerButtonText$.subscribe(bannerButtonText =>
+      component.bannerButtonText$.subscribe((bannerButtonText) =>
         expect(bannerButtonText).toEqual('OK')
       );
 
-      component.truncateSize$.subscribe(truncateSize =>
+      component.truncateSize$.subscribe((truncateSize) =>
         expect(truncateSize).toEqual(120)
       );
 
-      component.showFullText$.subscribe(showFullText =>
+      component.showFullText$.subscribe((showFullText) =>
         expect(showFullText).toEqual(false)
       );
     }));

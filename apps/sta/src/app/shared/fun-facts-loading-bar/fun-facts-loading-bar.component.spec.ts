@@ -3,11 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { TranslocoService } from '@ngneat/transloco';
-import { configureTestSuite } from 'ng-bullet';
 import { TestScheduler } from 'rxjs/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { TranslocoService } from '@ngneat/transloco';
+import { configureTestSuite } from 'ng-bullet';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { FunFactsLoadingBarComponent } from './fun-facts-loading-bar.component';
 import { FunFactsLoadingBarService } from './fun-facts-loading-bar.service';
@@ -23,9 +24,9 @@ describe('FunFactsLoadingBarComponent', () => {
         MatProgressBarModule,
         HttpClientTestingModule,
         NoopAnimationsModule,
-        provideTranslocoTestingModule({})
+        provideTranslocoTestingModule({}),
       ],
-      providers: [FunFactsLoadingBarService, TranslocoService]
+      providers: [FunFactsLoadingBarService, TranslocoService],
     });
   });
 
@@ -51,7 +52,7 @@ describe('FunFactsLoadingBarComponent', () => {
       const expectedMarble = '0ms a 7999ms b';
       const expectedValues = {
         a: expectedFunFact1,
-        b: expectedFunFact2
+        b: expectedFunFact2,
       };
 
       scheduler

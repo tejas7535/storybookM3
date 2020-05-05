@@ -1,11 +1,12 @@
-import { Observable } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import { BreakpointService } from '@schaeffler/shared/responsive';
-import { UserMenuEntry } from '@schaeffler/shared/ui-components';
+
+import { UserMenuEntry } from '@schaeffler/header';
+import { BreakpointService } from '@schaeffler/responsive';
 
 import { AuthService } from './core/services';
 import * as fromStore from './core/store';
@@ -13,13 +14,13 @@ import * as fromStore from './core/store';
 @Component({
   selector: 'ltp-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   public username$: Observable<string>;
 
   public userMenuEntries = [
-    new UserMenuEntry('logout', translate('signOutBtn'))
+    new UserMenuEntry('logout', translate('signOutBtn')),
   ];
 
   public isLessThanMediumViewPort$: Observable<boolean>;

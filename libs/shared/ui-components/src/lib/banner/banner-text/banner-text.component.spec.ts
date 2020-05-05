@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
@@ -19,8 +19,8 @@ describe('BannerTextComponent', () => {
       imports: [
         provideTranslocoTestingModule({}),
         FlexLayoutModule,
-        MatIconModule
-      ]
+        MatIconModule,
+      ],
     });
   });
 

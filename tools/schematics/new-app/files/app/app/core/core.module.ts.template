@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
-import { HeaderModule } from '@schaeffler/shared/ui-components';
+import { HeaderModule } from '@schaeffler/header';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';

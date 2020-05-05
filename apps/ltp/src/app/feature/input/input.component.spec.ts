@@ -3,7 +3,7 @@ import {
   FormControl,
   FormGroup,
   FormsModule,
-  ReactiveFormsModule
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -16,7 +16,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
 
@@ -51,7 +51,7 @@ describe('InputComponent', () => {
         SliderComponent,
         SelectComponent,
         ToggleComponent,
-        LimitsComponent
+        LimitsComponent,
       ],
       imports: [
         NoopAnimationsModule,
@@ -65,16 +65,16 @@ describe('InputComponent', () => {
         MatDividerModule,
         MatSlideToggleModule,
         TooltipModule,
-        provideTranslocoTestingModule({ en })
+        provideTranslocoTestingModule({ en }),
       ],
       providers: [
         provideMockStore({
           initialState: {
             input: initialInputState,
-            prediction: initialPredictionState
-          }
-        })
-      ]
+            prediction: initialPredictionState,
+          },
+        }),
+      ],
     });
   });
 
@@ -103,7 +103,7 @@ describe('InputComponent', () => {
       max: 90,
       step: 10,
       disabled: false,
-      formControl: new FormControl(230)
+      formControl: new FormControl(230),
     });
     const mockedEsFormControl = mockedInputForm.registerControl(
       mockedFormControls.key,
@@ -159,14 +159,14 @@ describe('InputComponent', () => {
         hv_core: 500,
         a90: 100,
         gradient: 1,
-        multiaxiality: 0
+        multiaxiality: 0,
       };
 
       component.adjustLimits(limits);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         fromStore.setPredictionRequest({
-          predictionRequest: limits
+          predictionRequest: limits,
         })
       );
     });

@@ -9,7 +9,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import * as transloco from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
 import { ExtensionDetailComponent } from '../extension/extension-detail/extension-detail.component';
@@ -30,14 +30,14 @@ describe('OverviewComponent', () => {
         RouterTestingModule,
         MatIconModule,
         ClipboardModule,
-        provideTranslocoTestingModule({ en })
+        provideTranslocoTestingModule({ en }),
       ],
       declarations: [
         OverviewComponent,
         ExtensionComponent,
         ExtensionDetailComponent,
-        ExtensionDownloadComponent
-      ]
+        ExtensionDownloadComponent,
+      ],
     });
   });
 
