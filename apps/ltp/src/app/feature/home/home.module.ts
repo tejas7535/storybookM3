@@ -2,12 +2,11 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
 import { BannerModule } from '@schaeffler/shared/ui-components';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PredictionModule } from '../prediction/prediction.module';
 import { HomeRoutingModule } from './home-routing.module';
-
 import { HomeComponent } from './home.component';
 
 @NgModule({
@@ -18,7 +17,7 @@ import { HomeComponent } from './home.component';
     HomeRoutingModule,
     SharedTranslocoModule,
     FlexLayoutModule,
-    PredictionModule
-  ]
+    PredictionModule,
+  ],
 })
 export class HomeModule {}

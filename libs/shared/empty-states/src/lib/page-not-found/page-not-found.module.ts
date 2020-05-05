@@ -3,15 +3,15 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
 const routes = [
   {
     path: '',
-    component: PageNotFoundComponent
-  }
+    component: PageNotFoundComponent,
+  },
 ];
 
 // tslint:disable: only-arrow-functions
@@ -29,8 +29,8 @@ export function en(): any {
     FlexLayoutModule,
     MatButtonModule,
     SharedTranslocoModule.forChild('pageNotFound', { en, de }),
-    RouterModule.forChild(routes)
+    RouterModule.forChild(routes),
   ],
-  exports: [PageNotFoundComponent]
+  exports: [PageNotFoundComponent],
 })
 export class PageNotFoundModule {}

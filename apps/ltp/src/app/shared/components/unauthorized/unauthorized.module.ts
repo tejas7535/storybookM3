@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { RouterModule } from '@angular/router';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { UnauthorizedComponent } from './unauthorized.component';
 
@@ -15,8 +15,8 @@ import { UnauthorizedComponent } from './unauthorized.component';
     MatGridListModule,
     MatButtonModule,
     SharedTranslocoModule,
-    RouterModule
+    RouterModule,
   ],
-  exports: [UnauthorizedComponent]
+  exports: [UnauthorizedComponent],
 })
 export class UnauthorizedModule {}

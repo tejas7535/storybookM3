@@ -4,9 +4,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
-  MAT_DIALOG_DATA,
   MatDialogModule,
-  MatDialogRef
+  MatDialogRef,
+  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -26,8 +26,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { Icon, IconsModule } from '@schaeffler/shared/icons';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
 import * as fromStore from '../../core/store';
@@ -52,7 +52,7 @@ describe('PredictionComponent', () => {
     icon: undefined,
     truncateSize: undefined,
     showFullText: false,
-    open: false
+    open: false,
   };
 
   configureTestSuite(() => {
@@ -78,28 +78,28 @@ describe('PredictionComponent', () => {
         ReactiveFormsModule,
         MatFormFieldModule,
         MatInputModule,
-        MatRadioModule
+        MatRadioModule,
       ],
       providers: [
         provideMockStore({
           initialState: {
             prediction: initialPredictionState,
             input: initialInputState,
-            banner: initialBannerState
-          }
+            banner: initialBannerState,
+          },
         }),
         { provide: MatDialogRef, useValue: {} },
-        { provide: MAT_DIALOG_DATA, useValue: [] }
-      ]
+        { provide: MAT_DIALOG_DATA, useValue: [] },
+      ],
     }).overrideModule(BrowserDynamicTestingModule, {
       set: {
-        entryComponents: [UploadModalComponent]
-      }
+        entryComponents: [UploadModalComponent],
+      },
     });
   });
 
   beforeEach(() => {
-    window.matchMedia = jest.fn().mockImplementation(query => {
+    window.matchMedia = jest.fn().mockImplementation((query) => {
       return {
         matches: false,
         media: query,
@@ -108,7 +108,7 @@ describe('PredictionComponent', () => {
         removeListener: jest.fn(), // deprecated
         addEventListener: jest.fn(),
         removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn()
+        dispatchEvent: jest.fn(),
       };
     });
     fixture = TestBed.createComponent(PredictionComponent);
@@ -140,7 +140,7 @@ describe('PredictionComponent', () => {
       Object.defineProperty(window, 'matchMedia', {
         value: jest.fn(() => {
           return { matches: true };
-        })
+        }),
       });
     });
 
@@ -166,17 +166,17 @@ describe('PredictionComponent', () => {
   it('should call parseLoadFile when handleFileInput is called', () => {
     const blobProps = {
       lastModifiedDate: '',
-      name: 'filename'
+      name: 'filename',
     };
     const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
-      type: 'text/csv'
+      type: 'text/csv',
     });
     const mockFile = blob as File;
     const mockFileList = {
       0: mockFile,
       1: mockFile,
       length: 2,
-      item: (_index: number) => mockFile
+      item: (_index: number) => mockFile,
     };
 
     spyOn(component, 'parseLoadFile');
@@ -188,11 +188,11 @@ describe('PredictionComponent', () => {
     const mockSettings = {
       conversionFactor: 0,
       repetitionFactor: 0,
-      method: 'FKM'
+      method: 'FKM',
     };
 
     spyOn(component['dialog'], 'open').and.returnValue({
-      afterClosed: () => of(mockSettings)
+      afterClosed: () => of(mockSettings),
     });
     const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
 
@@ -207,17 +207,17 @@ describe('PredictionComponent', () => {
   it('should dispatch dispatchLoad action when parseLoadFile is called', () => {
     const blobProps = {
       lastModifiedDate: '',
-      name: 'filename'
+      name: 'filename',
     };
     const blob = new Blob([JSON.stringify(blobProps, undefined, 2)], {
-      type: 'text/csv'
+      type: 'text/csv',
     });
     const mockFile = blob as File;
     const mockFileList = {
       0: mockFile,
       1: mockFile,
       length: 2,
-      item: (_index: number) => mockFile
+      item: (_index: number) => mockFile,
     };
 
     spyOn(component, 'parseLoadFile');
@@ -229,15 +229,15 @@ describe('PredictionComponent', () => {
     const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
     const mockCleanedArray = {
       data: [1, 2, 3],
-      status: 1
+      status: 1,
     };
     const mockSettings = {
       conversionFactor: 0,
       repetitionFactor: 0,
-      method: 'FKM'
+      method: 'FKM',
     };
     const action = fromStore.postLoadsData({
-      loadsRequest: { ...mockCleanedArray, ...mockSettings }
+      loadsRequest: { ...mockCleanedArray, ...mockSettings },
     });
 
     component.dispatchLoad(mockArray, mockSettings);
@@ -247,7 +247,7 @@ describe('PredictionComponent', () => {
   it('customize tooltip should add text if 10000 < x < 10000000', () => {
     const testObj: any = component.customizeTooltip({
       argument: 10001,
-      value: 1
+      value: 1,
     });
     expect(testObj.text).toBeTruthy();
     expect(testObj.html).not.toBeDefined();
@@ -256,7 +256,7 @@ describe('PredictionComponent', () => {
   it('customize tooltip should not add text if 10000 > x | x > 10000000', () => {
     const testObj: any = component.customizeTooltip({
       argument: 1001,
-      value: 1
+      value: 1,
     });
     expect(testObj.text).not.toBeDefined();
     expect(testObj.html).not.toBeTruthy();
@@ -282,7 +282,7 @@ describe('PredictionComponent', () => {
       const mockIcon = 'test-icon';
       const mockedComposedIcon: Icon = {
         icon: mockIcon,
-        materialIcon: false
+        materialIcon: false,
       };
 
       expect(component.getIcon(mockIcon)).toEqual(mockedComposedIcon);

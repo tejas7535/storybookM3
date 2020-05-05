@@ -2,9 +2,9 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
-
 import { DxChartModule } from 'devextreme-angular/ui/chart';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ChartComponent } from './chart.component';
 import { LegendComponent } from './legend/legend.component';
@@ -15,8 +15,8 @@ import { LegendComponent } from './legend/legend.component';
     CommonModule,
     SharedTranslocoModule,
     FlexLayoutModule,
-    DxChartModule
+    DxChartModule,
   ],
-  exports: [ChartComponent, LegendComponent]
+  exports: [ChartComponent, LegendComponent],
 })
 export class ChartModule {}

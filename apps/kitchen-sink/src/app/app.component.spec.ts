@@ -8,19 +8,19 @@ import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { HeaderModule } from '@schaeffler/header';
 import {
   BannerModule,
   BannerState,
   FooterModule,
-  HeaderModule,
   ScrollToTopModule,
   SettingsSidebarModule,
   SidebarMode,
   SidebarModule,
   SidebarState,
-  SnackBarModule
+  SnackBarModule,
 } from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../assets/i18n/en.json';
 import { AppComponent } from './app.component';
@@ -35,11 +35,11 @@ describe('AppComponent', () => {
     icon: undefined,
     truncateSize: undefined,
     showFullText: false,
-    open: false
+    open: false,
   };
 
   const initialSidebarState: SidebarState = {
-    mode: SidebarMode.Open
+    mode: SidebarMode.Open,
   };
 
   configureTestSuite(() => {
@@ -57,16 +57,16 @@ describe('AppComponent', () => {
         NoopAnimationsModule,
         StoreModule.forRoot({}),
         EffectsModule.forRoot([]),
-        provideTranslocoTestingModule({ en })
+        provideTranslocoTestingModule({ en }),
       ],
       providers: [
         provideMockStore({
           initialState: {
             banner: initialBannerState,
-            sidebar: initialSidebarState
-          }
-        })
-      ]
+            sidebar: initialSidebarState,
+          },
+        }),
+      ],
     });
   });
 

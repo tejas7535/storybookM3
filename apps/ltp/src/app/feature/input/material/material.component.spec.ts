@@ -7,14 +7,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store, StoreModule } from '@ngrx/store';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { MaterialComponent } from './material.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
 import * as fromStore from '../../../core/store';
+import { MaterialComponent } from './material.component';
 
 describe('MaterialComponent', () => {
   let component: MaterialComponent;
@@ -34,9 +33,9 @@ describe('MaterialComponent', () => {
         HttpClientModule,
         provideTranslocoTestingModule({ en }),
         StoreModule.forRoot({
-          ...fromStore.reducers
-        })
-      ]
+          ...fromStore.reducers,
+        }),
+      ],
     });
   });
 
@@ -58,7 +57,7 @@ describe('MaterialComponent', () => {
       name: 'Makrele',
       heatTreatment: 'Räuchern',
       hardness: 12,
-      disabled: false
+      disabled: false,
     };
     expect(component.displayFn).toBeDefined();
     expect(component.displayFn()).toBe(undefined);

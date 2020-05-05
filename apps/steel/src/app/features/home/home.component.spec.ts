@@ -10,17 +10,17 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { HeaderModule } from '@schaeffler/header';
 import {
   BannerModule,
   BannerState,
   FooterModule,
-  HeaderModule,
   ScrollToTopModule,
   SidebarMode,
   SidebarModule,
-  SidebarState
+  SidebarState,
 } from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
 import { AppState, StoreModule } from '../../core/store';
@@ -37,11 +37,11 @@ describe('HomeComponent', () => {
     icon: undefined,
     truncateSize: undefined,
     showFullText: false,
-    open: false
+    open: false,
   };
 
   const initialSidebarState: SidebarState = {
-    mode: SidebarMode.Open
+    mode: SidebarMode.Open,
   };
 
   configureTestSuite(() => {
@@ -58,17 +58,17 @@ describe('HomeComponent', () => {
         NoopAnimationsModule,
         StoreModule,
         BannerModule,
-        provideTranslocoTestingModule({ en })
+        provideTranslocoTestingModule({ en }),
       ],
       declarations: [HomeComponent],
       providers: [
         provideMockStore({
           initialState: {
             banner: initialBannerState,
-            sidebar: initialSidebarState
-          }
-        })
-      ]
+            sidebar: initialSidebarState,
+          },
+        }),
+      ],
     });
   });
 
@@ -104,7 +104,7 @@ describe('HomeComponent', () => {
         buttonText: transloco.translate('disclaimerClose'),
         icon: 'info',
         truncateSize: 0,
-        type: '[Banner] Open Banner'
+        type: '[Banner] Open Banner',
       };
       store.dispatch = jest.fn();
 

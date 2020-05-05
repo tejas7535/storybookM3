@@ -1,27 +1,26 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import * as transloco from '@ngneat/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-import {
-  SnackBarModule,
-  SnackBarService
-} from '@schaeffler/shared/ui-components';
+import { Observable } from 'rxjs';
 
+import * as transloco from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import { HttpErrorInterceptor } from './http-error.interceptor';
+import {
+  SnackBarModule,
+  SnackBarService,
+} from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../assets/i18n/en.json';
 import { environment } from '../../environments/environment';
+import { HttpErrorInterceptor } from './http-error.interceptor';
 
 @Injectable()
 export class ExampleService {
@@ -45,22 +44,22 @@ describe(`HttpErrorInterceptor`, () => {
         provideTranslocoTestingModule({ en }),
         HttpClientTestingModule,
         NoopAnimationsModule,
-        SnackBarModule
+        SnackBarModule,
       ],
       providers: [
         ExampleService,
         {
           provide: HTTP_INTERCEPTORS,
           useClass: HttpErrorInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     });
   });
 
   beforeEach(() => {
     Object.defineProperty(transloco, 'translate', {
-      value: jest.fn().mockImplementation(() => 'test')
+      value: jest.fn().mockImplementation(() => 'test'),
     });
     service = TestBed.inject(ExampleService);
     httpMock = TestBed.inject(HttpTestingController);
@@ -77,11 +76,11 @@ describe(`HttpErrorInterceptor`, () => {
     beforeEach(() => {
       error = new ErrorEvent('error', {
         error: {
-          message: 'error'
+          message: 'error',
         },
         message: 'A monkey is throwing bananas at me!',
         lineno: 402,
-        filename: 'closet.html'
+        filename: 'closet.html',
       });
 
       jest.spyOn(console, 'log');
@@ -93,7 +92,7 @@ describe(`HttpErrorInterceptor`, () => {
     });
 
     test('should do nothing when no error occurs', async(() => {
-      service.getPosts().subscribe(response => {
+      service.getPosts().subscribe((response) => {
         expect(response).toBeTruthy();
         expect(response).toEqual('data');
       });
@@ -107,7 +106,7 @@ describe(`HttpErrorInterceptor`, () => {
         () => {
           expect(true).toEqual(false);
         },
-        response => {
+        (response) => {
           expect(response).toBeTruthy();
           expect(transloco.translate).toHaveBeenCalledWith(
             '0',
@@ -130,7 +129,7 @@ describe(`HttpErrorInterceptor`, () => {
         () => {
           expect(true).toEqual(false);
         },
-        response => {
+        (response) => {
           expect(response).toBeTruthy();
           expect(transloco.translate).toHaveBeenCalledWith(
             '10',
@@ -147,7 +146,7 @@ describe(`HttpErrorInterceptor`, () => {
 
       httpRequest.error(({
         status: 0,
-        errorId: 10
+        errorId: 10,
       } as unknown) as ErrorEvent);
     }));
 
@@ -156,7 +155,7 @@ describe(`HttpErrorInterceptor`, () => {
         () => {
           expect(true).toEqual(false);
         },
-        _response => {
+        (_response) => {
           expect(snackBarService.showErrorMessage).toHaveBeenCalled();
         }
       );
@@ -167,7 +166,7 @@ describe(`HttpErrorInterceptor`, () => {
 
       httpRequest.error(({
         status: 403,
-        errorId: 99
+        errorId: 99,
       } as unknown) as ErrorEvent);
     });
 
@@ -176,7 +175,7 @@ describe(`HttpErrorInterceptor`, () => {
         () => {
           expect(true).toEqual(false);
         },
-        _response => {
+        (_response) => {
           expect(snackBarService.showErrorMessage).not.toHaveBeenCalled();
         }
       );
@@ -187,7 +186,7 @@ describe(`HttpErrorInterceptor`, () => {
 
       httpRequest.error(({
         status: 403,
-        errorId: 19
+        errorId: 19,
       } as unknown) as ErrorEvent);
     });
   });

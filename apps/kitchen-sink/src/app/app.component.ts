@@ -2,20 +2,18 @@ import { Component } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
+import { UserMenuEntry } from '@schaeffler/header';
 import { Icon } from '@schaeffler/shared/icons';
-import {
-  SidebarElement,
-  UserMenuEntry
-} from '@schaeffler/shared/ui-components';
+import { SidebarElement } from '@schaeffler/shared/ui-components';
 
 @Component({
   selector: 'schaeffler-frontend-root',
-  templateUrl: './app.component.html'
+  templateUrl: './app.component.html',
 })
 export class AppComponent {
   public username = 'Test User';
   public userMenuEntries = [
-    new UserMenuEntry('logout', translate('general.logout'))
+    new UserMenuEntry('logout', translate('general.logout')),
   ];
 
   public platformTitle = translate('general.appName');
@@ -24,13 +22,13 @@ export class AppComponent {
     {
       text: translate('navigation.home'),
       icon: new Icon('icon-house'),
-      link: '/home'
+      link: '/home',
     },
     {
       text: translate('navigation.notFound'),
       icon: new Icon('icon-house'),
-      link: '/second'
-    }
+      link: '/second',
+    },
   ];
 
   public settingsSidebarOpen = false;

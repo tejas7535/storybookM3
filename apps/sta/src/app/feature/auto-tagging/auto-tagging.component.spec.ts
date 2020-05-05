@@ -7,14 +7,14 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import {
   AppState,
   loadTagsForFile,
   loadTagsForText,
-  setSelectedTabIndexTagging
+  setSelectedTabIndexTagging,
 } from '../../core/store';
 import { FileUploadModule } from '../../shared/file-upload/file-upload.module';
 import { FileReplacement, TextInput } from '../../shared/result/models';
@@ -34,10 +34,10 @@ describe('AutoTaggingComponent', () => {
         MatTabsModule,
         TextInputModule,
         FileUploadModule,
-        provideTranslocoTestingModule({})
+        provideTranslocoTestingModule({}),
       ],
       declarations: [AutoTaggingComponent],
-      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 
@@ -96,7 +96,7 @@ describe('AutoTaggingComponent', () => {
       const expected: FileReplacement = {
         name: file.name,
         type: file.type,
-        content: [109, 111, 105, 110]
+        content: [109, 111, 105, 110],
       };
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledWith(

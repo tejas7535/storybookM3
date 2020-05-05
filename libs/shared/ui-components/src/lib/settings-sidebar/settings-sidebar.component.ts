@@ -4,18 +4,18 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
+import { BreakpointService } from '@schaeffler/responsive';
 import { Icon } from '@schaeffler/shared/icons';
-import { BreakpointService } from '@schaeffler/shared/responsive';
 
 @Component({
   selector: 'schaeffler-settings-sidebar',
   templateUrl: './settings-sidebar.component.html',
-  styleUrls: ['./settings-sidebar.component.scss']
+  styleUrls: ['./settings-sidebar.component.scss'],
 })
 export class SettingsSidebarComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
@@ -39,13 +39,13 @@ export class SettingsSidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.breakpointService
         .isMobileViewPort()
-        .subscribe(isMobile => (this.isMobileViewPort = isMobile))
+        .subscribe((isMobile) => (this.isMobileViewPort = isMobile))
     );
     this.subscriptions.add(
       this.breakpointService
         .isLessThanMedium()
         .subscribe(
-          isLessThanMedium => (this.isLessThanMedium = isLessThanMedium)
+          (isLessThanMedium) => (this.isLessThanMedium = isLessThanMedium)
         )
     );
   }

@@ -2,13 +2,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatGridListModule } from '@angular/material/grid-list';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { SignedoutComponent } from './signedout.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { SignedoutComponent } from './signedout.component';
 
 describe('SignedoutComponent', () => {
   let component: SignedoutComponent;
@@ -20,8 +19,8 @@ describe('SignedoutComponent', () => {
       imports: [
         HttpClientModule,
         MatGridListModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 

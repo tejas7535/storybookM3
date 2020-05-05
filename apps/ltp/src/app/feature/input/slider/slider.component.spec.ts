@@ -4,7 +4,7 @@ import {
   ComponentFixture,
   fakeAsync,
   TestBed,
-  tick
+  tick,
 } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,15 +13,13 @@ import { MatSliderModule } from '@angular/material/slider';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { SliderComponent } from './slider.component';
-
-import { SliderControl } from './slider.model';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { SliderComponent } from './slider.component';
+import { SliderControl } from './slider.model';
 
 describe('SliderComponent', () => {
   let component: SliderComponent;
@@ -39,8 +37,8 @@ describe('SliderComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         HttpClientModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 
@@ -54,7 +52,7 @@ describe('SliderComponent', () => {
       formControl: new FormControl(),
       min: 0,
       max: 200,
-      step: 1
+      step: 1,
     });
     debugElement = fixture.debugElement;
     fixture.detectChanges();

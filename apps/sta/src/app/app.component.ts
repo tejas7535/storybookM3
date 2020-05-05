@@ -4,8 +4,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+import { BreakpointService } from '@schaeffler/responsive';
 import { Icon } from '@schaeffler/shared/icons';
-import { BreakpointService } from '@schaeffler/shared/responsive';
 import { FooterLink, SidebarElement } from '@schaeffler/shared/ui-components';
 
 import { AuthService } from './core/auth.service';
@@ -14,7 +14,7 @@ import { ServiceType } from './shared/result/models';
 @Component({
   selector: 'sta-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'STA - Schaeffler Text Assistant';
@@ -47,30 +47,30 @@ export class AppComponent implements OnInit, OnDestroy {
     {
       text: 'Home',
       icon: new Icon('icon-house'),
-      link: '/'
+      link: '/',
     },
     {
       text: 'Auto Tagging',
       icon: new Icon('local_offer', true),
-      link: 'tagging'
+      link: 'tagging',
     },
     {
       text: 'Translation',
       icon: new Icon('translate', true),
-      link: 'translation'
-    }
+      link: 'translation',
+    },
   ];
   public footerLinks: FooterLink[] = [
     {
       link: '/legal/data-privacy-en.html',
       title: 'Data Privacy',
-      external: true
+      external: true,
     },
     {
       link: '/legal/cookie-policy-en.html',
       title: 'Cookie Policy',
-      external: true
-    }
+      external: true,
+    },
   ];
 
   constructor(
@@ -93,8 +93,8 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.router.events
         .pipe(
-          filter(evt => evt instanceof NavigationEnd),
-          map(evt => evt as NavigationEnd),
+          filter((evt) => evt instanceof NavigationEnd),
+          map((evt) => evt as NavigationEnd),
           tap((routerEvent: NavigationEnd) => {
             this.isHome = routerEvent.url === this.home ? true : false;
 

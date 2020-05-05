@@ -411,7 +411,7 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run Unit Tests"
 
-                            sh "npm run affected:test -- --base=${buildBase}"                      
+                            sh "npm run affected:test -- --base=${buildBase}  --parallel"                      
                         }
                     }
                     post {
@@ -520,7 +520,7 @@ pipeline {
                             
                             script {
                                 if(isRelease()) {
-                                    sh "npx nx affected --base=${buildBase} --target=build --configuration=prod --parallel"
+                                    sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=prod --parallel"
                                     for (app in affectedApps) {
                                         try {
                                             sh "transloco-optimize dist/apps/${app}/assets/i18n"
@@ -530,9 +530,9 @@ pipeline {
                                     }
                                 } else {
                                     if (isMaster()) {
-                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=qa --parallel"
+                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
                                     } else {
-                                        sh "npx nx affected --base=${buildBase} --target=build --configuration=dev --parallel"
+                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
                                     } 
                                         
                                     for (app in affectedApps) {

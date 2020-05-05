@@ -13,12 +13,12 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 
-import { BreakpointService } from '@schaeffler/shared/responsive';
+import { HeaderModule } from '@schaeffler/header';
+import { BreakpointService } from '@schaeffler/responsive';
 import {
   FooterModule,
-  HeaderModule,
   SettingsSidebarModule,
-  SidebarModule
+  SidebarModule,
 } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
@@ -39,20 +39,24 @@ export const testRoutes: Routes = [
   {
     path: '',
     loadChildren: () =>
-      import('./feature/overview/overview.module').then(m => m.OverviewModule)
+      import('./feature/overview/overview.module').then(
+        (m) => m.OverviewModule
+      ),
   },
   {
     path: 'tagging',
     loadChildren: () =>
       import('./feature/auto-tagging/auto-tagging.module').then(
-        m => m.AutoTaggingModule
-      )
+        (m) => m.AutoTaggingModule
+      ),
   },
   {
     path: '**',
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
-  }
+      import('@schaeffler/shared/empty-states').then(
+        (m) => m.PageNotFoundModule
+      ),
+  },
 ];
 
 describe('AppComponent', () => {
@@ -75,7 +79,7 @@ describe('AppComponent', () => {
         SidebarModule,
         NoopAnimationsModule,
         StoreModule.forRoot({}),
-        EffectsModule.forRoot([])
+        EffectsModule.forRoot([]),
       ],
       declarations: [AppComponent, ResultStubComponent],
       providers: [
@@ -87,8 +91,8 @@ describe('AppComponent', () => {
             initAuth: jest.fn(),
             hasValidAccessToken: jest.fn(),
             getUserName: jest.fn(),
-            configureImplicitFlow: jest.fn()
-          }
+            configureImplicitFlow: jest.fn(),
+          },
         },
         {
           provide: ActivatedRoute,
@@ -96,13 +100,13 @@ describe('AppComponent', () => {
             snapshot: {
               firstChild: {
                 data: {
-                  service: 'tagging'
-                }
-              }
-            }
-          }
-        }
-      ]
+                  service: 'tagging',
+                },
+              },
+            },
+          },
+        },
+      ],
     });
   });
 

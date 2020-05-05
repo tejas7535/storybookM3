@@ -9,15 +9,15 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
 import {
   BannerModule,
   BannerState,
   openBanner,
   SnackBarModule,
   SnackBarService,
-  SpeedDialFabModule
+  SpeedDialFabModule,
 } from '@schaeffler/shared/ui-components';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../assets/i18n/en.json';
 import { RouterStateUrl } from '../core/store';
@@ -40,12 +40,12 @@ describe('HomeComponent', () => {
     icon: undefined,
     truncateSize: undefined,
     showFullText: false,
-    open: false
+    open: false,
   };
 
   const initialState: AppState = {
     banner: initialBannerState,
-    router: undefined
+    router: undefined,
   };
 
   configureTestSuite(() => {
@@ -57,13 +57,13 @@ describe('HomeComponent', () => {
         SpeedDialFabModule,
         StoreModule.forRoot({}),
         provideTranslocoTestingModule({ en }),
-        BannerModule
+        BannerModule,
       ],
       providers: [
         provideMockStore({
-          initialState
-        })
-      ]
+          initialState,
+        }),
+      ],
     });
   });
 
@@ -111,7 +111,7 @@ describe('HomeComponent', () => {
           text: translate('banner.bannerText'),
           buttonText: translate('banner.buttonText'),
           icon: 'info',
-          truncateSize: 120
+          truncateSize: 120,
         })
       );
     });

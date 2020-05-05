@@ -4,7 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { SharedTranslocoModule } from '@schaeffler/shared/transloco';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
@@ -16,8 +16,8 @@ import { BannerTextComponent } from './banner-text.component';
     CommonModule,
     SharedTranslocoModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
   ],
-  exports: [BannerTextComponent, TruncatePipe]
+  exports: [BannerTextComponent, TruncatePipe],
 })
 export class BannerTextModule {}

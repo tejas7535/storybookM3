@@ -6,13 +6,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSliderModule } from '@angular/material/slider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { LimitsComponent } from './limits.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { LimitsComponent } from './limits.component';
 
 describe('LimitsComponent', () => {
   let component: LimitsComponent;
@@ -28,8 +27,8 @@ describe('LimitsComponent', () => {
         MatInputModule,
         MatSliderModule,
         NoopAnimationsModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 
@@ -56,8 +55,8 @@ describe('LimitsComponent', () => {
           previousValue: 10,
           currentValue: 20,
           firstChange: false,
-          isFirstChange: undefined
-        }
+          isFirstChange: undefined,
+        },
       };
 
       // tslint:disable-next-line: no-lifecycle-call
@@ -72,8 +71,8 @@ describe('LimitsComponent', () => {
           previousValue: 10,
           currentValue: 10,
           firstChange: false,
-          isFirstChange: undefined
-        }
+          isFirstChange: undefined,
+        },
       };
 
       // tslint:disable-next-line: no-lifecycle-call
@@ -101,7 +100,7 @@ describe('LimitsComponent', () => {
 
     const mockExpectedAdjustEvent = {
       hv_lower: 123,
-      hv_upper: 567
+      hv_upper: 567,
     };
     expect(component.patchLimits).toBeDefined();
     spyOn(component.adjust, 'emit');
@@ -116,7 +115,7 @@ describe('LimitsComponent', () => {
     expect(component.patchInput).toBeDefined();
     const mockSrcElement = {
       min: 100,
-      max: 300
+      max: 300,
     };
 
     component.patchInput({ value: 200, ...mockSrcElement }, 'hv_upper');

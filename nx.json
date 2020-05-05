@@ -41,9 +41,6 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
     },
-    "shared-responsive": {
-      "tags": []
-    },
     "ltp-e2e": {
       "tags": [],
       "implicitDependencies": ["ltp"]
@@ -54,9 +51,6 @@
     },
     "shared-assets": {
       "tags": ["scope:shared", "type:assets"]
-    },
-    "shared-transloco": {
-      "tags": ["scope:shared", "type:translation"]
     },
     "helloworld-azure-e2e": {
       "tags": [],
@@ -94,13 +88,32 @@
     },
     "shared-icons": {
       "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-header": {
+      "tags": []
+    },
+    "shared-utils-responsive": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-ui-header-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-header"]
+    },
+    "shared-utils-transloco": {
+      "tags": ["scope:shared", "type:utils"]
     }
   },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": ["build", "lint", "test", "e2e"]
+        "cacheableOperations": [
+          "build",
+          "lint",
+          "test",
+          "e2e",
+          "build-storybook"
+        ]
       }
     }
   }

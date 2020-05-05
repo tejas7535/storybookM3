@@ -1,18 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import {
-  de,
-  en,
-  UnsupportedViewportComponent
-} from './unsupported-viewport.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as testJsonDe from './i18n/de.json';
 import * as testJsonEn from './i18n/en.json';
+import {
+  de,
+  en,
+  UnsupportedViewportComponent,
+} from './unsupported-viewport.component';
 
 describe('UnsupportedViewportComponent', () => {
   let component: UnsupportedViewportComponent;
@@ -21,7 +20,7 @@ describe('UnsupportedViewportComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [UnsupportedViewportComponent],
-      imports: [provideTranslocoTestingModule({}), FlexLayoutModule]
+      imports: [provideTranslocoTestingModule({}), FlexLayoutModule],
     });
   });
 

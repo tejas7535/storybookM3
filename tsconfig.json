@@ -39,7 +39,10 @@
       "jszip": ["node_modules/jszip/dist/jszip.min.js"],
       "@schaeffler/shared/transloco": ["libs/shared/transloco/src/index.ts"],
       "@schaeffler/shared/auth": ["libs/shared/auth/src/index.ts"],
-      "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"]
+      "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
+      "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
+      "@schaeffler/responsive": ["libs/shared/utils/responsive/src/index.ts"],
+      "@schaeffler/transloco": ["libs/shared/utils/transloco/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

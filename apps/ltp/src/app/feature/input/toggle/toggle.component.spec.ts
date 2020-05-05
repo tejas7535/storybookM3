@@ -5,15 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/shared/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { ToggleComponent } from './toggle.component';
-
-import { ToggleControl } from './toggle.model';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { ToggleComponent } from './toggle.component';
+import { ToggleControl } from './toggle.model';
 
 describe('ToggleComponent', () => {
   let component: ToggleComponent;
@@ -29,8 +27,8 @@ describe('ToggleComponent', () => {
         MatSlideToggleModule,
         NoopAnimationsModule,
         HttpClientModule,
-        provideTranslocoTestingModule({ en })
-      ]
+        provideTranslocoTestingModule({ en }),
+      ],
     });
   });
 
@@ -42,7 +40,7 @@ describe('ToggleComponent', () => {
       name: 'TEST_TOGGLE',
       disabled: false,
       default: false,
-      formControl: new FormControl()
+      formControl: new FormControl(),
     });
     fixture.detectChanges();
   });

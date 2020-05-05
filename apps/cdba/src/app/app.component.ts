@@ -4,16 +4,16 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { UserMenuEntry } from '@schaeffler/header';
+import { BreakpointService } from '@schaeffler/responsive';
 import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
-import { BreakpointService } from '@schaeffler/shared/responsive';
-import { UserMenuEntry } from '@schaeffler/shared/ui-components';
 
 import { AppState } from './core/store';
 
 @Component({
   selector: 'cdba-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';

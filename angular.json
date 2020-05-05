@@ -566,38 +566,6 @@
         }
       }
     },
-    "shared-responsive": {
-      "projectType": "library",
-      "root": "libs/shared/responsive",
-      "sourceRoot": "libs/shared/responsive/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/responsive/tsconfig.lib.json",
-              "libs/shared/responsive/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/shared/responsive/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/responsive/jest.config.js",
-            "tsConfig": "libs/shared/responsive/tsconfig.spec.json",
-            "setupFile": "libs/shared/responsive/src/test-setup.ts",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "styleext": "scss"
-        }
-      }
-    },
     "ltp": {
       "projectType": "application",
       "schematics": {
@@ -1010,38 +978,6 @@
         }
       },
       "schematics": {}
-    },
-    "shared-transloco": {
-      "projectType": "library",
-      "root": "libs/shared/transloco",
-      "sourceRoot": "libs/shared/transloco/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/transloco/tsconfig.lib.json",
-              "libs/shared/transloco/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/shared/transloco/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/transloco/jest.config.js",
-            "tsConfig": "libs/shared/transloco/tsconfig.spec.json",
-            "setupFile": "libs/shared/transloco/src/test-setup.ts",
-            "passWithNoTests": true
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "styleext": "scss"
-        }
-      }
     },
     "helloworld-azure": {
       "projectType": "application",
@@ -1561,6 +1497,183 @@
       "schematics": {
         "@nrwl/angular:component": {
           "styleext": "scss"
+        }
+      }
+    },
+    "shared-ui-header": {
+      "projectType": "library",
+      "root": "libs/shared/ui/header",
+      "sourceRoot": "libs/shared/ui/header/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/header/tsconfig.lib.json",
+            "project": "libs/shared/ui/header/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/ui/header/tsconfig.lib.json",
+              "libs/shared/ui/header/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/header/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/header/jest.config.js",
+            "tsConfig": "libs/shared/ui/header/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/header/src/test-setup.ts"
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared/ui/header/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/shared-ui-header",
+            "config": {
+              "configFolder": "libs/shared/ui/header/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-responsive": {
+      "projectType": "library",
+      "root": "libs/shared/utils/responsive",
+      "sourceRoot": "libs/shared/utils/responsive/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.json",
+            "project": "libs/shared/utils/responsive/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/responsive/tsconfig.lib.json",
+              "libs/shared/utils/responsive/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/responsive/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/responsive/jest.config.js",
+            "tsConfig": "libs/shared/utils/responsive/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/responsive/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-header-e2e": {
+      "root": "apps/shared-ui-header-e2e",
+      "sourceRoot": "apps/shared-ui-header-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shared-ui-header-e2e/cypress.json",
+            "tsConfig": "apps/shared-ui-header-e2e/tsconfig.e2e.json",
+            "devServerTarget": "shared-ui-header:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "shared-ui-header:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/shared-ui-header-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/shared-ui-header-e2e/**"]
+          }
+        }
+      }
+    },
+    "shared-utils-transloco": {
+      "projectType": "library",
+      "root": "libs/shared/utils/transloco",
+      "sourceRoot": "libs/shared/utils/transloco/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
+            "project": "libs/shared/utils/transloco/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/transloco/tsconfig.lib.json",
+              "libs/shared/utils/transloco/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/utils/transloco/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/transloco/jest.config.js",
+            "tsConfig": "libs/shared/utils/transloco/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/transloco/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       }
     }
