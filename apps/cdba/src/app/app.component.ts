@@ -7,6 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
+import { FooterLink } from '@schaeffler/shared/ui-components';
 
 import { AppState } from './core/store';
 
@@ -17,6 +18,14 @@ import { AppState } from './core/store';
 })
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';
+
+  public footerLinks: FooterLink[] = [
+    {
+      link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics',
+      title: 'CDBA @ sConnect',
+      external: true,
+    },
+  ];
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
@@ -33,10 +42,5 @@ export class AppComponent implements OnInit {
     this.username$ = this.store.pipe(select(getUsername));
 
     this.store.dispatch(loginImplicitFlow());
-  }
-
-  public handleReset(): void {
-    console.log('RESET FILTERS');
-    console.warn('Handle Filter in seperate component');
   }
 }

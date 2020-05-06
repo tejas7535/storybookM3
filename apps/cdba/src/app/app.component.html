@@ -4,28 +4,12 @@
     [user]="username$ | async"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
-
-  <schaeffler-settings-sidebar
-    class="full-height"
-    openSidebarBtn="true"
-    closeSidebarBtn="true"
-    [open]="!(isLessThanMediumViewport$ | async)"
-  >
-    <ng-container settings-header>
-      <button
-        (click)="handleReset()"
-        mat-button
-        color="primary"
-        class="reset-button"
-      >
-        RESET
-      </button>
-    </ng-container>
-    <ng-container container>
-      <router-outlet></router-outlet>
-    </ng-container>
-    <ng-container sidebar>
-      Filter come here
-    </ng-container>
-  </schaeffler-settings-sidebar>
+  <div class="page-container">
+    <div class="site-content">
+      <div class="router-content">
+        <router-outlet></router-outlet>
+      </div>
+      <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
+    </div>
+  </div>
 </schaeffler-header>

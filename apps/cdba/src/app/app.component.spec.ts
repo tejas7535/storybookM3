@@ -8,7 +8,10 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { HeaderModule } from '@schaeffler/header';
 import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import {
+  FooterModule,
+  SettingsSidebarModule,
+} from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
 
@@ -22,6 +25,7 @@ describe('AppComponent', () => {
       imports: [
         NoopAnimationsModule,
         HeaderModule,
+        FooterModule,
         SettingsSidebarModule,
         MatButtonModule,
         RouterTestingModule,
@@ -71,18 +75,6 @@ describe('AppComponent', () => {
       expect(component.isLessThanMediumViewport$).toBeDefined();
       expect(component.username$).toBeDefined();
       expect(store.dispatch).toHaveBeenCalledWith(loginImplicitFlow());
-    });
-  });
-
-  describe('handleReset', () => {
-    test('should log to console', () => {
-      spyOn(console, 'log');
-      spyOn(console, 'warn');
-
-      component.handleReset();
-
-      expect(console.log).toHaveBeenCalled();
-      expect(console.warn).toHaveBeenCalled();
     });
   });
 });

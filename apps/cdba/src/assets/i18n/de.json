@@ -1,0 +1,11 @@
+{
+  "search": {
+    "filterPanel": {
+      "open": "öffne Filter Panel",
+      "collapse": "schließe Filter Panel"
+    },
+    "referenceTypesFilters": {
+      "search": "Suche"
+    }
+  }
+}

@@ -1,0 +1,29 @@
+<ng-container *ngIf="searchSuccessful; else showStartPage">
+  <div
+    class="container"
+    fxLayout="column"
+    fxLayoutAlign="start center"
+    fxLayoutGap="20px"
+  >
+    <cdba-filter-panel>
+      <cdba-reference-types-filters></cdba-reference-types-filters>
+    </cdba-filter-panel>
+    <cdba-reference-types-table></cdba-reference-types-table>
+  </div>
+</ng-container>
+
+<ng-template #showStartPage>
+  <div
+    class="container"
+    fxLayout="column"
+    fxLayoutAlign="center center"
+    fxLayoutGap="20px"
+  >
+    <img
+      src="/assets/images/logo.png"
+      alt="Logo"
+      (click)="searchSuccessful = true"
+    />
+    <cdba-reference-types-filters></cdba-reference-types-filters>
+  </div>
+</ng-template>

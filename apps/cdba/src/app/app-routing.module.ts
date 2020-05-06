@@ -3,34 +3,36 @@ import { RouterModule, Routes } from '@angular/router';
 
 export enum RoutePath {
   BasePath = '',
-  RefTypePath = 'ref-type'
+  SearchPath = 'search',
 }
 
 export const appRoutePaths: Routes = [
   {
     path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.RefTypePath}`,
-    pathMatch: 'full'
+    redirectTo: `/${RoutePath.SearchPath}`,
+    pathMatch: 'full',
   },
   {
-    path: RoutePath.RefTypePath,
+    path: RoutePath.SearchPath,
     loadChildren: () =>
-      import('./ref-type/ref-type.module').then(m => m.RefTypeModule)
+      import('./search/search.module').then((m) => m.SearchModule),
   },
   {
     path: '**',
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then(m => m.PageNotFoundModule)
-  }
+      import('@schaeffler/shared/empty-states').then(
+        (m) => m.PageNotFoundModule
+      ),
+  },
 ];
 
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: false
-    })
+      initialNavigation: false,
+    }),
   ],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class AppRoutingModule {}

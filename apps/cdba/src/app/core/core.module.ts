@@ -4,7 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '@schaeffler/header';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { FooterModule } from '@schaeffler/shared/ui-components';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -22,7 +22,7 @@ import { StoreModule } from './store/store.module';
 
     // UI Modules
     HeaderModule,
-    SettingsSidebarModule,
+    FooterModule,
     MatButtonModule,
 
     // Translation
