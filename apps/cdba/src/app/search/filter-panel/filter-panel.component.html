@@ -1,0 +1,20 @@
+<mat-accordion displayMode="flat">
+  <mat-expansion-panel #panel>
+    <mat-expansion-panel-header>
+      <div
+        class="expansion-panel-header"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+      >
+        <h1>Search</h1>
+        <span
+          class="helper-text"
+          *transloco="let t; read: 'search.filterPanel'"
+        >
+          {{ (panel.expanded ? t('collapse') : t('open')) | uppercase }}</span
+        >
+      </div>
+    </mat-expansion-panel-header>
+    <ng-content></ng-content>
+  </mat-expansion-panel>
+</mat-accordion>

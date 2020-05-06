@@ -3,13 +3,11 @@ import { NgModule } from '@angular/core';
 
 import { AzureConfig, SharedAuthModule } from '@schaeffler/shared/auth';
 
+import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-
-import { AppComponent } from './app.component';
-
-import { environment } from '../environments/environment';
 
 const azureConfig = new AzureConfig(
   environment.tenantId,
@@ -24,9 +22,9 @@ const azureConfig = new AzureConfig(
     HttpClientModule,
     CoreModule,
     SharedAuthModule.forRoot(azureConfig),
-    SharedModule
+    SharedModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,0 +1,24 @@
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
+
+:host {
+  width: 100%;
+
+  mat-expansion-panel {
+    box-shadow: none;
+
+    .expansion-panel-header {
+      width: 100%;
+
+      .title {
+        font-size: 34px;
+      }
+
+      .helper-text {
+        color: $schaeffler-carbon-gray;
+        font-size: $schaeffler-labels;
+        margin-right: 20px;
+      }
+    }
+  }
+}

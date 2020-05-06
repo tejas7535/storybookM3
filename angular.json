@@ -1187,7 +1187,7 @@
       },
       "root": "apps/cdba",
       "sourceRoot": "apps/cdba/src",
-      "prefix": "schaeffler",
+      "prefix": "cdba",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
