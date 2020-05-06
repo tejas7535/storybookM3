@@ -146,7 +146,7 @@
     "npm-audit-html": "1.4.1",
     "prettier": "2.0.5",
     "pretty-quick": "2.0.1",
-    "standard-version": "7.1.0",
+    "standard-version": "8.0.0",
     "stylelint": "13.3.3",
     "stylelint-order": "4.0.0",
     "ts-jest": "25.4.0",
