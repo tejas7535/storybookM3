@@ -7,28 +7,28 @@ import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { Papa } from 'ngx-papaparse';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon } from '@schaeffler/icons';
 import { getBannerOpen } from '@schaeffler/shared/ui-components';
 
 import * as fromStore from '../../core/store';
 import {
   CHART_SETTINGS_HAIGH,
   CHART_SETTINGS_WOEHLER,
-  GRAPH_DEFINITIONS_WOEHLER
+  GRAPH_DEFINITIONS_WOEHLER,
 } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
 import {
   LegendSquare,
   LoadOptions,
   LoadsRequest,
-  PredictionResultParsed
+  PredictionResultParsed,
 } from '../../shared/models';
 import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @Component({
   selector: 'ltp-prediction',
   templateUrl: './prediction.component.html',
-  styleUrls: ['./prediction.component.scss']
+  styleUrls: ['./prediction.component.scss'],
 })
 export class PredictionComponent implements OnInit {
   predictionResult: Observable<PredictionResultParsed>;
@@ -51,20 +51,20 @@ export class PredictionComponent implements OnInit {
     this.store
       .pipe(select(fromStore.getDisplay))
       .subscribe(
-        display =>
+        (display) =>
           (this.chartSettings =
             display.chartType === ChartType.Woehler
               ? CHART_SETTINGS_WOEHLER
               : CHART_SETTINGS_HAIGH)
       );
-    this.predictionResult.subscribe(res => {
+    this.predictionResult.subscribe((res) => {
       this.legendGraphs = this.chartSettings.sources
         .filter(
-          source =>
+          (source) =>
             source.legendDisplay &&
             this.filterLegendGraphs(source.value, res.data)
         )
-        .map(source => source.legendDisplay);
+        .map((source) => source.legendDisplay);
 
       return res.data;
     });
@@ -104,16 +104,16 @@ export class PredictionComponent implements OnInit {
     return new Promise((resolve, reject) => {
       this.papa.parse(loadCollective, {
         download,
-        complete: result => {
+        complete: (result) => {
           this.openDialog(result.data);
 
           resolve();
         },
-        error: err => {
+        error: (err) => {
           console.error(`An error occured: ${err}`);
 
           reject();
-        }
+        },
       });
     });
   }
@@ -121,7 +121,7 @@ export class PredictionComponent implements OnInit {
   openDialog(parsedFile: any[]): void {
     const dialogRef = this.dialog.open(UploadModalComponent, {
       width: '600px',
-      restoreFocus: false
+      restoreFocus: false,
     });
 
     dialogRef.afterClosed().subscribe((result: LoadOptions) => {
@@ -139,7 +139,7 @@ export class PredictionComponent implements OnInit {
     const loadsRequest: LoadsRequest = {
       status: 1,
       data: undefined,
-      ...settings
+      ...settings,
     };
     loadsRequest.data = parsedFile.reduce((values, entry) => {
       const value = Number(entry[0]);
@@ -162,16 +162,16 @@ export class PredictionComponent implements OnInit {
     const { argument, value, seriesName } = arg;
     if (argument < 10000000 && argument > 10000) {
       let text = translate('prediction.chart.tooltip', {
-        value: value.toFixed(2)
+        value: value.toFixed(2),
       });
 
-      GRAPH_DEFINITIONS_WOEHLER.forEach(graphDefinition => {
+      GRAPH_DEFINITIONS_WOEHLER.forEach((graphDefinition) => {
         const { name, survivalProbability } = graphDefinition;
         if (name === seriesName) {
           text = `${text}<br>${translate(
             'prediction.chart.tooltipSurvivalProbability',
             {
-              survivalProbability
+              survivalProbability,
             }
           )}`;
         }
@@ -181,7 +181,7 @@ export class PredictionComponent implements OnInit {
     }
 
     return {
-      html: ''
+      html: '',
     };
   };
 
@@ -191,8 +191,8 @@ export class PredictionComponent implements OnInit {
   public filterLegendGraphs(value: string, data: Object[] = []): boolean {
     return (
       data
-        .map(point => {
-          const keys = Object.keys(point).filter(key => key !== 'x');
+        .map((point) => {
+          const keys = Object.keys(point).filter((key) => key !== 'x');
           if (keys.length === 1) {
             return keys[0];
           }

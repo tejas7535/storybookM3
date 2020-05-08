@@ -3,16 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { Icon } from '@schaeffler/shared/icons';
-import {
-  FooterLink,
-  openBanner,
-  SidebarElement
-} from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/icons';
+import { FooterLink, openBanner } from '@schaeffler/shared/ui-components';
+import { SidebarElement } from '@schaeffler/sidebar';
 
 @Component({
   selector: 'schaeffler-steel-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
 })
 export class HomeComponent implements OnInit {
   public isSidebarExpanded = false;
@@ -27,16 +24,16 @@ export class HomeComponent implements OnInit {
     {
       text: translate('navigation.home'),
       icon: new Icon('icon-house'),
-      link: '/home'
-    }
+      link: '/home',
+    },
   ];
   public footerLinks: FooterLink[] = [
     {
       link:
         'https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions',
       title: 'Custom Apps & AI @ sConnect',
-      external: true
-    }
+      external: true,
+    },
   ];
 
   constructor(private readonly store: Store<any>) {}
@@ -51,7 +48,7 @@ export class HomeComponent implements OnInit {
         text: translate('banner.bannerText'),
         buttonText: translate('banner.buttonText'),
         icon: 'info',
-        truncateSize: 0
+        truncateSize: 0,
       })
     );
   }

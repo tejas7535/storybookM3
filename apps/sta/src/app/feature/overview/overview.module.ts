@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
-import { IconsModule } from '@schaeffler/shared/icons';
+import { IconsModule } from '@schaeffler/icons';
 
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
@@ -19,8 +19,8 @@ import { OverviewComponent } from './overview.component';
     MatCardModule,
     OverviewRoutingModule,
     RouterModule,
-    IconsModule
+    IconsModule,
   ],
-  exports: [OverviewComponent]
+  exports: [OverviewComponent],
 })
 export class OverviewModule {}

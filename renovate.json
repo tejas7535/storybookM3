@@ -5,6 +5,8 @@
     "enabled": true
   },
   "baseBranches": ["master"],
+  "postUpgradeTask": { "commands": ["npm run generate-readme"] },
+  "ignorePaths": ["libs/**/*"],
   "packageRules": [
     {
       "packageNames": [

@@ -1,14 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon } from '@schaeffler/icons';
 
 import { KeyValue } from '../result/models';
 
 @Component({
   selector: 'sta-language-detection',
   templateUrl: './language-detection.component.html',
-  styleUrls: ['./language-detection.component.scss']
+  styleUrls: ['./language-detection.component.scss'],
 })
 export class LanguageDetectionComponent {
   @Input() public supportedSourceLanguages: KeyValue[];

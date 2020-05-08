@@ -2,7 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { IconsModule } from '@schaeffler/shared/icons';
+import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/shared/ui-components';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

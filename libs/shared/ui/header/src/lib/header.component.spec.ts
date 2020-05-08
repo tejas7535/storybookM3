@@ -9,6 +9,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { toggleSidebar } from '@schaeffler/sidebar';
+
 import { HeaderComponent } from './header.component';
 
 describe('In HeaderComponent', () => {
@@ -94,9 +96,7 @@ describe('In HeaderComponent', () => {
 
       component.toggleClicked();
       expect(component['store'].dispatch).toHaveBeenCalled();
-      expect(component['store'].dispatch).toHaveBeenCalledWith({
-        type: '[Sidebar] Toggle Sidebar',
-      });
+      expect(component['store'].dispatch).toHaveBeenCalledWith(toggleSidebar());
     });
   });
 

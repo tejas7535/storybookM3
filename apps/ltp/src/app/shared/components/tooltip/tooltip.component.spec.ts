@@ -5,7 +5,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon } from '@schaeffler/icons';
 
 import { TooltipComponent } from './tooltip.component';
 
@@ -16,7 +16,7 @@ describe('TooltipComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [TooltipComponent],
-      imports: [MatButtonModule, MatTooltipModule, MatIconModule]
+      imports: [MatButtonModule, MatTooltipModule, MatIconModule],
     });
   });
 
@@ -35,7 +35,7 @@ describe('TooltipComponent', () => {
       const mockIcon = 'test-icon';
       const mockedComposedIcon: Icon = {
         icon: mockIcon,
-        materialIcon: false
+        materialIcon: false,
       };
 
       expect(component.getIcon(mockIcon)).toEqual(mockedComposedIcon);
