@@ -13,6 +13,7 @@ import { Subscription } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { BreakpointService } from '@schaeffler/responsive';
+import { toggleSidebar } from '@schaeffler/sidebar';
 
 import { headerAnimations } from './header.animations';
 
@@ -61,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
    * Emits toggle in application after burgermenu click
    */
   public toggleClicked(): void {
-    this.store.dispatch({ type: '[Sidebar] Toggle Sidebar' });
+    this.store.dispatch(toggleSidebar());
 
     this.toggle.emit();
   }

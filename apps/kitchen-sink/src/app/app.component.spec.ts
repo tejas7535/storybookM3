@@ -15,11 +15,9 @@ import {
   FooterModule,
   ScrollToTopModule,
   SettingsSidebarModule,
-  SidebarMode,
-  SidebarModule,
-  SidebarState,
   SnackBarModule,
 } from '@schaeffler/shared/ui-components';
+import { SidebarMode, SidebarModule, SidebarState } from '@schaeffler/sidebar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../assets/i18n/en.json';

@@ -5,17 +5,17 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderModule } from '@schaeffler/header';
-import { IconsModule } from '@schaeffler/shared/icons';
+import { IconsModule } from '@schaeffler/icons';
 import {
   BannerModule,
   FooterModule,
   ScrollToTopDirective,
   ScrollToTopModule,
   SettingsSidebarModule,
-  SidebarModule,
   SnackBarModule,
   SpeedDialFabModule,
 } from '@schaeffler/shared/ui-components';
+import { SidebarModule } from '@schaeffler/sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';

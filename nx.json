@@ -29,7 +29,7 @@
     },
     "shared-ui-components": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles", "shared-assets"]
+      "implicitDependencies": ["shared-styles"]
     },
     "shared-styles": {
       "tags": ["scope:shared", "type:styles"]
@@ -86,11 +86,9 @@
     "shared-auth": {
       "tags": ["scope:shared", "type:authentication"]
     },
-    "shared-icons": {
-      "tags": ["scope:shared", "type:ui"]
-    },
     "shared-ui-header": {
-      "tags": []
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles", "shared-assets"]
     },
     "shared-utils-responsive": {
       "tags": ["scope:shared", "type:utils"]
@@ -101,6 +99,17 @@
     },
     "shared-utils-transloco": {
       "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-ui-sidebar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-icons": {
+      "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-sidebar-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-sidebar"]
     }
   },
   "tasksRunnerOptions": {

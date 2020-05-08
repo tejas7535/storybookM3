@@ -35,26 +35,6 @@ apps/cdba-e2e @kauppfbi @herpisef
 ### Libs ###
 ############
 
-# assets
-libs/shared/assets @kauppfbi @krausrbe @berndcri @herpisef
-
-# cypress-utils
-libs/shared/assets @kauppfbi @krausrbe @berndcri @herpisef
-
-# empty-states
-libs/shared/empty-states @kauppfbi @krausrbe @berndcri @herpisef
-
-# responsive
-libs/shared/responsive @kauppfbi @krausrbe @berndcri @herpisef
-
-# styles
-libs/shared/responsive @kauppfbi @krausrbe @berndcri @herpisef
-
-# transloco
-libs/shared/transloco @kauppfbi @krausrbe @berndcri @herpisef
-
-# ui-components
-libs/shared/ui-components @kauppfbi @krausrbe @berndcri @herpisef
 
 
 

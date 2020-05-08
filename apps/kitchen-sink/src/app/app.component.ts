@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { UserMenuEntry } from '@schaeffler/header';
-import { Icon } from '@schaeffler/shared/icons';
-import { SidebarElement } from '@schaeffler/shared/ui-components';
+import { Icon } from '@schaeffler/icons';
+import { SidebarElement } from '@schaeffler/sidebar';
 
 @Component({
   selector: 'schaeffler-frontend-root',

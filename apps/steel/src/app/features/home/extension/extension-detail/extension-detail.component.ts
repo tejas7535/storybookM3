@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon } from '@schaeffler/icons';
 import { SnackBarService } from '@schaeffler/shared/ui-components';
 
 import { RestService } from '../../../../core/services/rest.service';
@@ -13,7 +13,7 @@ import { Extension } from '../../extension/extension.model';
 @Component({
   selector: 'schaeffler-steel-extension-detail',
   templateUrl: './extension-detail.component.html',
-  styleUrls: ['./extension-detail.component.scss']
+  styleUrls: ['./extension-detail.component.scss'],
 })
 export class ExtensionDetailComponent implements OnInit, OnDestroy {
   public backIcon = new Icon('icon-arrow-west');
@@ -39,7 +39,7 @@ export class ExtensionDetailComponent implements OnInit, OnDestroy {
         .pipe(
           map(
             (exts: Extension[]) =>
-              exts.filter(elem => elem.name === filterName)[0]
+              exts.filter((elem) => elem.name === filterName)[0]
           )
         )
         .subscribe((extension: Extension) => (this.extension = extension))

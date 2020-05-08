@@ -18,8 +18,8 @@ import { BreakpointService } from '@schaeffler/responsive';
 import {
   FooterModule,
   SettingsSidebarModule,
-  SidebarModule,
 } from '@schaeffler/shared/ui-components';
+import { SidebarModule } from '@schaeffler/sidebar';
 
 import { AppComponent } from './app.component';
 import { AuthGuard } from './core/auth.guard';

@@ -25,7 +25,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { Icon, IconsModule } from '@schaeffler/shared/icons';
+import { Icon, IconsModule } from '@schaeffler/icons';
 import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 

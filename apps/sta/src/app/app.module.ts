@@ -6,13 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderModule } from '@schaeffler/header';
-import { IconsModule } from '@schaeffler/shared/icons';
+import { IconsModule } from '@schaeffler/icons';
 import {
   FooterModule,
   SettingsSidebarModule,
-  SidebarModule,
   SnackBarModule,
 } from '@schaeffler/shared/ui-components';
+import { SidebarModule } from '@schaeffler/sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';

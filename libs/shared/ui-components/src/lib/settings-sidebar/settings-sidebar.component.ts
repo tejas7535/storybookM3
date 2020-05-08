@@ -9,8 +9,8 @@ import {
 
 import { Subscription } from 'rxjs';
 
+import { Icon } from '@schaeffler/icons';
 import { BreakpointService } from '@schaeffler/responsive';
-import { Icon } from '@schaeffler/shared/icons';
 
 @Component({
   selector: 'schaeffler-settings-sidebar',

@@ -4,9 +4,10 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+import { Icon } from '@schaeffler/icons';
 import { BreakpointService } from '@schaeffler/responsive';
-import { Icon } from '@schaeffler/shared/icons';
-import { FooterLink, SidebarElement } from '@schaeffler/shared/ui-components';
+import { FooterLink } from '@schaeffler/shared/ui-components';
+import { SidebarElement } from '@schaeffler/sidebar';
 
 import { AuthService } from './core/auth.service';
 import { ServiceType } from './shared/result/models';

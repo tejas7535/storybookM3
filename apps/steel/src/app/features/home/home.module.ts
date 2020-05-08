@@ -12,8 +12,8 @@ import {
   FooterModule,
   ScrollToTopDirective,
   ScrollToTopModule,
-  SidebarModule,
 } from '@schaeffler/shared/ui-components';
+import { SidebarModule } from '@schaeffler/sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { StoreModule } from '../../core/store';

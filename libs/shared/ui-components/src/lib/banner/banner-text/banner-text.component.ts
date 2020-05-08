@@ -4,23 +4,23 @@ import {
   EventEmitter,
   Input,
   OnInit,
-  Output
+  Output,
 } from '@angular/core';
 
-import { Icon } from '@schaeffler/shared/icons';
+import { Icon } from '@schaeffler/icons';
 
 enum BannerIconTypes {
   info = 'icon-toast-information',
   warning = 'icon-toast-warning',
   error = 'icon-toast-error',
-  success = 'icon-toast-success'
+  success = 'icon-toast-success',
 }
 
 @Component({
   selector: 'schaeffler-banner-text',
   templateUrl: './banner-text.component.html',
   styleUrls: ['./banner-text.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BannerTextComponent implements OnInit {
   @Input() public text: string;

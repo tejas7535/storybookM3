@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderModule } from '@schaeffler/header';
-import { IconsModule } from '@schaeffler/shared/icons';
+import { IconsModule } from '@schaeffler/icons';
 import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
