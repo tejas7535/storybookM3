@@ -7,6 +7,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { SharedModule } from '../../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
 
@@ -25,6 +27,7 @@ describe('MultiSelectFilterComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        provideTranslocoTestingModule({}),
       ],
     });
   });
@@ -37,5 +40,15 @@ describe('MultiSelectFilterComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('trackByFn', () => {
+    test('should return index', () => {
+      const idx = 5;
+
+      const result = component.trackByFn(idx, {});
+
+      expect(result).toEqual(idx);
+    });
   });
 });

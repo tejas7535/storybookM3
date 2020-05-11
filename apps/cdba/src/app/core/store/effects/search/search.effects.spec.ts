@@ -1,0 +1,296 @@
+import { TestBed } from '@angular/core/testing';
+
+import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { configureTestSuite } from 'ng-bullet';
+
+import { SearchService } from '../../../../search/search.service';
+import {
+  applyTextSearch,
+  applyTextSearchFailure,
+  applyTextSearchSuccess,
+  autocomplete,
+  autocompleteFailure,
+  autocompleteSuccess,
+  getInitialFilters,
+  getInitialFiltersFailure,
+  getInitialFiltersSuccess,
+  resetFilters,
+  search,
+  searchFailure,
+  searchSuccess,
+} from '../../actions/search/search.actions';
+import {
+  FilterItemIdValue,
+  FilterItemRange,
+  IdValue,
+  ReferenceType,
+  SearchResult,
+  TextSearch,
+} from '../../reducers/search/models';
+import { getSelectedFilters } from '../../selectors/search/search.selector';
+import { SearchEffects } from './search.effects';
+
+describe('Search Effects', () => {
+  let action: any;
+  let actions$: any;
+  let store: any;
+  let metadata: EffectsMetadata<SearchEffects>;
+  let effects: SearchEffects;
+  let searchService: SearchService;
+
+  configureTestSuite(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        SearchEffects,
+        provideMockActions(() => actions$),
+        provideMockStore(),
+        {
+          provide: SearchService,
+          useValue: {
+            getInitialFiltersSales: jest.fn(),
+            search: jest.fn(),
+            autocomplete: jest.fn(),
+            textSearch: jest.fn(),
+          },
+        },
+      ],
+    });
+  });
+
+  beforeEach(() => {
+    actions$ = TestBed.inject(Actions);
+    store = TestBed.inject(Store);
+    effects = TestBed.inject(SearchEffects);
+    metadata = getEffectsMetadata(effects);
+    searchService = TestBed.inject(SearchService);
+
+    store.overrideSelector(getSelectedFilters, []);
+  });
+
+  describe('loadInitialFilters$', () => {
+    beforeEach(() => {
+      action = getInitialFilters();
+    });
+
+    test('should return getInitialFiltersSuccess action when REST call is successful', () => {
+      const items = [
+        new FilterItemIdValue('customer', [new IdValue('audi', 'Audi')]),
+      ];
+      const result = getInitialFiltersSuccess({
+        items,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: items,
+      });
+      const expected = cold('--b', { b: result });
+
+      searchService.getInitialFiltersSales = jest.fn(() => response);
+
+      expect(effects.loadInitialFilters$).toBeObservable(expected);
+      expect(searchService.getInitialFiltersSales).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return getInitialFiltersFailure on REST error', () => {
+      const error = new Error('damn');
+      const result = getInitialFiltersFailure();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      searchService.getInitialFiltersSales = jest.fn(() => response);
+
+      expect(effects.loadInitialFilters$).toBeObservable(expected);
+      expect(searchService.getInitialFiltersSales).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('search$', () => {
+    beforeEach(() => {
+      action = search();
+    });
+
+    test('should return searchSuccess action when REST call is successful', () => {
+      const filterItemIdVal = new FilterItemIdValue('plant', [
+        new IdValue('23', 'Best plant'),
+      ]);
+      const filterItemRange = new FilterItemRange('length', 0, 200);
+
+      const ref = new ReferenceType();
+      const searchResult = new SearchResult(
+        [filterItemIdVal, filterItemRange],
+        [ref]
+      );
+      const result = searchSuccess({
+        searchResult,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: searchResult,
+      });
+      const expected = cold('--b', { b: result });
+
+      searchService.search = jest.fn(() => response);
+
+      expect(effects.search$).toBeObservable(expected);
+      expect(searchService.search).toHaveBeenCalledTimes(1);
+      expect(searchService.search).toHaveBeenCalledWith([]);
+    });
+
+    test('should return searchFailure on REST error', () => {
+      const error = new Error('damn');
+      const result = searchFailure();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      searchService.search = jest.fn(() => response);
+
+      expect(effects.search$).toBeObservable(expected);
+      expect(searchService.search).toHaveBeenCalledTimes(1);
+      expect(searchService.search).toHaveBeenCalledWith([]);
+    });
+  });
+
+  describe('applyTextSearch$', () => {
+    let textSearch: TextSearch;
+
+    beforeEach(() => {
+      textSearch = new TextSearch('customer', 'Awesome Customer');
+      action = applyTextSearch({ textSearch });
+    });
+
+    test('should return applyTextSearchSuccess action when REST call is successful', () => {
+      const filterItemIdVal = new FilterItemIdValue('plant', [
+        new IdValue('23', 'Best plant'),
+      ]);
+      const filterItemRange = new FilterItemRange('length', 0, 200);
+
+      const ref = new ReferenceType();
+      const searchResult = new SearchResult(
+        [filterItemIdVal, filterItemRange],
+        [ref]
+      );
+      const result = applyTextSearchSuccess({
+        searchResult,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: searchResult,
+      });
+      const expected = cold('--b', { b: result });
+
+      searchService.textSearch = jest.fn(() => response);
+
+      expect(effects.applyTextSearch$).toBeObservable(expected);
+      expect(searchService.textSearch).toHaveBeenCalledTimes(1);
+      expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
+    });
+
+    test('should return applyTextSearchFailure on REST error', () => {
+      const error = new Error('damn');
+      const result = applyTextSearchFailure();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      searchService.textSearch = jest.fn(() => response);
+
+      expect(effects.applyTextSearch$).toBeObservable(expected);
+      expect(searchService.textSearch).toHaveBeenCalledTimes(1);
+      expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
+    });
+  });
+
+  describe('resetFilters$', () => {
+    test('should not return an action', () => {
+      expect(metadata.resetFilters$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    test('should dispatch getInitialFilters', () => {
+      store.dispatch = jest.fn();
+      actions$ = cold('-a', { a: resetFilters() });
+
+      expect(effects.resetFilters$).toBeObservable(actions$);
+      expect(store.dispatch).toHaveBeenCalledWith(getInitialFilters());
+    });
+  });
+
+  describe('shareSearchResult', () => {
+    test('should not return an action', () => {
+      expect(metadata.shareSearchResult$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+  });
+
+  describe('autocomplete$', () => {
+    let textSearch: TextSearch;
+
+    beforeEach(() => {
+      textSearch = new TextSearch('customer', 'Aud');
+      action = autocomplete({ textSearch });
+    });
+
+    test('should return autocompleteSuccess action when REST call is successful', () => {
+      const item = new FilterItemIdValue('customer', [
+        new IdValue('audi', 'Audi'),
+      ]);
+      const result = autocompleteSuccess({
+        item,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: item,
+      });
+      const expected = cold('--b', { b: result });
+
+      searchService.autocomplete = jest.fn(() => response);
+
+      expect(effects.autocomplete$).toBeObservable(expected);
+      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+      expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch);
+    });
+
+    test('should return autocompleteFailure on REST error', () => {
+      const error = new Error('damn');
+      const result = autocompleteFailure();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      searchService.autocomplete = jest.fn(() => response);
+
+      expect(effects.autocomplete$).toBeObservable(expected);
+      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngrxOnInitEffects', () => {
+    test('should return getInitialFilters', () => {
+      const result = effects.ngrxOnInitEffects();
+
+      expect(result).toEqual(getInitialFilters());
+    });
+  });
+});

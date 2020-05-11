@@ -1,20 +1,24 @@
 <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-  <cdba-multi-select-filter
-    label="Product Line"
-    [options]="productLineOptions"
-  ></cdba-multi-select-filter>
-  <cdba-multi-select-filter
-    label="Plant"
-    [options]="plantOptions"
-  ></cdba-multi-select-filter>
-  <cdba-multi-select-filter
-    label="Customer"
-    [options]="customerOptions"
-  ></cdba-multi-select-filter>
+  <ng-container
+    *ngFor="let filter of filters$ | async; trackBy: trackByFn"
+    [ngSwitch]="filter.type"
+  >
+    <cdba-multi-select-filter
+      *ngSwitchCase="filterType.ID_VALUE"
+      [filter]="filter"
+    ></cdba-multi-select-filter>
+
+    <cdba-range-filter
+      *ngSwitchCase="filterType.RANGE"
+      [filter]="filter"
+    ></cdba-range-filter>
+  </ng-container>
+
   <button
     mat-flat-button
     color="primary"
     *transloco="let t; read: 'search.referenceTypesFilters'"
+    (click)="search()"
   >
     <mat-icon>poll</mat-icon>
     {{ t('search') }}
