@@ -5,7 +5,8 @@
       "collapse": "collapse filter panel"
     },
     "referenceTypesFilters": {
-      "search": "Search"
+      "search": "Search",
+      "customer": "Customer"
     }
   }
 }

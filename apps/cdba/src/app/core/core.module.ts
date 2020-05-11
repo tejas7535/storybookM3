@@ -9,6 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -33,6 +34,9 @@ import { StoreModule } from './store/store.module';
       'en',
       true
     ),
+
+    // HTTP
+    HttpModule.forRoot({ environment }),
   ],
   exports: [AppComponent],
 })

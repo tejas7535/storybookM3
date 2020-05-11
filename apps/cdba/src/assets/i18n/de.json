@@ -5,7 +5,8 @@
       "collapse": "schließe Filter Panel"
     },
     "referenceTypesFilters": {
-      "search": "Suche"
+      "search": "Suche",
+      "customer": "Kunde"
     }
   }
 }

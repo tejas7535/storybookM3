@@ -4,10 +4,11 @@ import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
-  MetaReducer
+  MetaReducer,
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import * as fromSearch from './search/search.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -17,10 +18,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  search: fromSearch.SearchState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  router: fromRouter.routerReducer
+  router: fromRouter.routerReducer,
+  search: fromSearch.searchReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -30,6 +33,10 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
+
+export const getSearchState = createFeatureSelector<fromSearch.SearchState>(
+  'search'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
@@ -45,7 +52,7 @@ export class CustomSerializer
 
     const {
       url,
-      root: { queryParams }
+      root: { queryParams },
     } = routerState;
     const { params } = route;
 

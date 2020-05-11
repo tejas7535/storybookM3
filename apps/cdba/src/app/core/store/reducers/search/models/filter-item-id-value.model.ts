@@ -1,0 +1,9 @@
+import { FilterItemType } from './filter-item-type.enum';
+import { FilterItem } from './filter-item.model';
+import { IdValue } from './id-value.model';
+
+export class FilterItemIdValue extends FilterItem {
+  public constructor(public name: string, public items: IdValue[]) {
+    super(name, FilterItemType.ID_VALUE);
+  }
+}
