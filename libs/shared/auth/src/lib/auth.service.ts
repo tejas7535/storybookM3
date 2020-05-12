@@ -10,17 +10,17 @@ import jwtDecode from 'jwt-decode';
 import { AccessToken, User } from './models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   constructor(
-    private readonly oauthService: OAuthService,
+    public readonly oauthService: OAuthService,
     private readonly injector: Injector
   ) {
     this.initConfig();
   }
 
-  private static getDecodedAccessToken(token: string): AccessToken {
+  public static getDecodedAccessToken(token: string): AccessToken {
     try {
       return jwtDecode(token);
     } catch (Error) {
@@ -115,8 +115,8 @@ export class AuthService {
 
   private initConfig(): void {
     this.oauthService.events
-      .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_e => {
+      .pipe(filter((e) => ['token_received'].includes(e.type)))
+      .subscribe((_e) => {
         this.injector
           .get<Router>(Router)
           .navigateByUrl(String(this.oauthService.state));
