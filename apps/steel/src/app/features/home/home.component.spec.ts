@@ -10,11 +10,11 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import {
   BannerModule,
   BannerState,
-  FooterModule,
   ScrollToTopModule,
 } from '@schaeffler/shared/ui-components';
 import { SidebarMode, SidebarModule, SidebarState } from '@schaeffler/sidebar';

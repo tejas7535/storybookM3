@@ -6,10 +6,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import {
   BannerModule,
-  FooterModule,
   ScrollToTopDirective,
   ScrollToTopModule,
 } from '@schaeffler/shared/ui-components';

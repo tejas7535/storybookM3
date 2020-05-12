@@ -1,4 +1,4 @@
-# frontend@schaeffler Footer Documentation
+# frontend@schaeffler Speed Dial Fab Documentation
 Import into your project like:
 
 ```typescript

@@ -6,12 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
-import {
-  FooterModule,
-  SettingsSidebarModule,
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
 

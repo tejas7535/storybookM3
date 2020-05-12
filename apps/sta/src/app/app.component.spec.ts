@@ -13,12 +13,10 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
-import {
-  FooterModule,
-  SettingsSidebarModule,
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 import { SidebarModule } from '@schaeffler/sidebar';
 
 import { AppComponent } from './app.component';

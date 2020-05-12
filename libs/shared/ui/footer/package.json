@@ -1,0 +1,14 @@
+{
+  "name": "@schaeffler/footer",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@angular/flex-layout": "^8.0.0-beta.27",
+    "@angular/router": "^8.2.14",
+    "@angular/platform-browser": "^8.2.14"
+  },
+  "devDependencies": {
+    "ng-bullet": "1.0.3"
+  }
+}
