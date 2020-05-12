@@ -81,4 +81,7 @@ Thus, this lib does only support the _implicit flow_
     ```js
       this.username$ = this.store.pipe(select(getUsername));
       this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+      this.token$ = this.store.pipe(select(getToken));
+      this.claim$ = this.store.pipe(select(getClaim('myClaim')));
+      this.roles$ = this.store.pipe(select(getRoles));
     ```

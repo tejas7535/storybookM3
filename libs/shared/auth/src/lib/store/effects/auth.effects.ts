@@ -5,6 +5,7 @@ import { filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
+import { AuthState } from '..';
 import { AuthService } from '../../auth.service';
 import * as authActions from '../actions/auth.actions';
 import { getIsLoggedIn } from '../selectors/auth.selectors';
@@ -19,7 +20,7 @@ export class AuthEffects {
       mergeMap(() =>
         // try to login automatically
         this.authService.tryAutomaticLogin().pipe(
-          map(isLoggedIn => {
+          map((isLoggedIn) => {
             let action;
 
             if (isLoggedIn) {
@@ -65,9 +66,39 @@ export class AuthEffects {
     { dispatch: false }
   );
 
+  public loginSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(authActions.loginSuccess),
+      map(() => {
+        const token = AuthService.getDecodedAccessToken(
+          this.authService.accessToken
+        );
+
+        return authActions.setToken({ token });
+      })
+    )
+  );
+
+  public tokenChange$ = createEffect(() =>
+    this.authService.oauthService.events.pipe(
+      filter((e) =>
+        ['silently_refreshed', 'token_received', 'token_refreshed'].includes(
+          e.type
+        )
+      ),
+      map(() =>
+        authActions.setToken({
+          token: AuthService.getDecodedAccessToken(
+            this.authService.accessToken
+          ),
+        })
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly authService: AuthService,
-    private readonly store: Store
+    private readonly store: Store<AuthState>
   ) {}
 }

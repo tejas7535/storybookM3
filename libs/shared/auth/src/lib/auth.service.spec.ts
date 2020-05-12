@@ -21,6 +21,7 @@ describe('AuthService', () => {
           useValue: {
             tryLogin: jest.fn(() => true),
             hasValidAccessToken: jest.fn(() => true),
+            getAccessToken: jest.fn(() => 'token'),
             events: of({ type: 'token_received' }),
             setupAutomaticSilentRefresh: jest.fn(),
             loadDiscoveryDocument: jest.fn(() => Promise.resolve()),
@@ -30,17 +31,17 @@ describe('AuthService', () => {
               Promise.resolve(true)
             ),
             silentRefresh: jest.fn(() => Promise.resolve(true)),
-            logOut: jest.fn()
-          }
+            logOut: jest.fn(),
+          },
         },
         {
           provide: Router,
           useValue: {
             navigateByUrl: jest.fn(),
-            url: 'test'
-          }
-        }
-      ]
+            url: 'test',
+          },
+        },
+      ],
     });
   });
 
@@ -165,12 +166,12 @@ describe('AuthService', () => {
       oAuthService.hasValidAccessToken = jest.fn(() => false);
     });
 
-    test('should return false on errors', done => {
+    test('should return false on errors', (done) => {
       oAuthService.loadDiscoveryDocumentAndTryLogin = jest.fn(() =>
         Promise.reject(false)
       );
 
-      service.tryAutomaticLogin().subscribe(result => {
+      service.tryAutomaticLogin().subscribe((result) => {
         expect(oAuthService.hasValidAccessToken).not.toHaveBeenCalled();
         expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
         expect(
@@ -181,10 +182,10 @@ describe('AuthService', () => {
       });
     });
 
-    test('should return true on valid access token', done => {
+    test('should return true on valid access token', (done) => {
       oAuthService.hasValidAccessToken = jest.fn(() => true);
 
-      service.tryAutomaticLogin().subscribe(result => {
+      service.tryAutomaticLogin().subscribe((result) => {
         expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
         expect(
           oAuthService.loadDiscoveryDocumentAndTryLogin
@@ -197,10 +198,10 @@ describe('AuthService', () => {
       });
     });
 
-    test('should return false on invalid access token', done => {
+    test('should return false on invalid access token', (done) => {
       oAuthService.hasValidAccessToken = jest.fn(() => false);
 
-      service.tryAutomaticLogin().subscribe(result => {
+      service.tryAutomaticLogin().subscribe((result) => {
         expect(oAuthService.setStorage).toHaveBeenCalledTimes(1);
         expect(
           oAuthService.loadDiscoveryDocumentAndTryLogin
@@ -264,7 +265,7 @@ describe('AuthService', () => {
         .fn()
         .mockImplementation(() => ({
           given_name: 'given name',
-          family_name: 'family name'
+          family_name: 'family name',
         }));
 
       const user = service.getUser();

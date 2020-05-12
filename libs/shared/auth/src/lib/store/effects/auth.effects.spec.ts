@@ -6,15 +6,18 @@ import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { cold, hot } from 'jest-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
+import { AuthState } from '..';
 import { AuthService } from '../../auth.service';
 import {
   login,
   loginImplicitFlow,
   loginSuccess,
-  logout
+  logout,
+  setToken,
 } from '../actions/auth.actions';
 import { getIsLoggedIn } from '../selectors/auth.selectors';
 import { AuthEffects } from './auth.effects';
@@ -24,7 +27,8 @@ describe('Auth Effects', () => {
   let effects: AuthEffects;
   let metadata: EffectsMetadata<AuthEffects>;
   let authService: AuthService;
-  let store: MockStore;
+  let store: MockStore<AuthState>;
+  // let authEvents = new Observable<OAuthEvent>();
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -35,17 +39,21 @@ describe('Auth Effects', () => {
           provide: AuthService,
           useValue: {
             initAuth: jest.fn(),
-            hasValidAccessToken: jest.fn(),
+            getDecodedAccessToken: jest.fn(() => {}),
+            hasValidAccessToken: jest.fn(() => true),
             getUser: jest.fn(() => {}),
             configureImplicitFlow: jest.fn(),
             navigateToState: jest.fn(),
             login: jest.fn(),
-            logout: jest.fn()
-          }
+            logout: jest.fn(),
+            oauthService: {
+              events: of(new OAuthSuccessEvent('token_received')),
+            },
+          },
         },
         provideMockStore(),
-        provideMockActions(() => actions$)
-      ]
+        provideMockActions(() => actions$),
+      ],
     });
   });
 
@@ -61,7 +69,7 @@ describe('Auth Effects', () => {
     test('should not return an action', () => {
       expect(metadata.login$).toEqual({
         dispatch: false,
-        useEffectsErrorHandler: true
+        useEffectsErrorHandler: true,
       });
     });
 
@@ -78,8 +86,8 @@ describe('Auth Effects', () => {
       const hash = '#/page1';
       Object.defineProperty(window, 'location', {
         value: {
-          hash
-        }
+          hash,
+        },
       });
 
       authService.login = jest.fn();
@@ -97,7 +105,7 @@ describe('Auth Effects', () => {
       authService.tryAutomaticLogin = jest.fn(() => tryAutomaticResponse);
 
       actions$ = hot('-a', {
-        a: loginImplicitFlow()
+        a: loginImplicitFlow(),
       });
 
       const expected = cold('-b', { b: loginSuccess({ user: undefined }) });
@@ -110,7 +118,7 @@ describe('Auth Effects', () => {
       authService.tryAutomaticLogin = jest.fn(() => tryAutomaticResponse);
 
       actions$ = hot('a', {
-        a: loginImplicitFlow()
+        a: loginImplicitFlow(),
       });
 
       const expected = cold('b', { b: login() });
@@ -123,7 +131,7 @@ describe('Auth Effects', () => {
     test('should not return an action', () => {
       expect(metadata.logout$).toEqual({
         dispatch: false,
-        useEffectsErrorHandler: true
+        useEffectsErrorHandler: true,
       });
     });
 
@@ -133,6 +141,29 @@ describe('Auth Effects', () => {
       effects.logout$.subscribe();
 
       expect(authService.logout).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('loginSuccess$', () => {
+    test('should return setToken action', () => {
+      actions$ = hot('-a', {
+        a: loginSuccess({ user: undefined }),
+      });
+
+      // tslint:disable-next-line: no-object-literal-type-assertion
+      const expected = cold('-b', { b: setToken({ token: undefined }) });
+
+      expect(effects.loginSuccess$).toBeObservable(expected);
+    });
+  });
+
+  describe('tokenChange$', () => {
+    test('should return setToken action on correct event', () => {
+      const expected = cold('(b|)', {
+        b: setToken({ token: undefined }),
+      });
+
+      expect(effects.tokenChange$).toBeObservable(expected);
     });
   });
 });

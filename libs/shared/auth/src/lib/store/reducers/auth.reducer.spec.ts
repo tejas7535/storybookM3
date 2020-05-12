@@ -1,4 +1,5 @@
-import { login, loginSuccess, logout } from '../actions/auth.actions';
+import { AccessToken } from '../../models';
+import { login, loginSuccess, logout, setToken } from '../actions/auth.actions';
 import { AuthState, reducer } from './auth.reducer';
 
 describe('Auth Reducer', () => {
@@ -7,7 +8,8 @@ describe('Auth Reducer', () => {
   beforeEach(() => {
     state = {
       user: undefined,
-      loggedIn: false
+      loggedIn: false,
+      token: undefined,
     };
   });
 
@@ -19,7 +21,7 @@ describe('Auth Reducer', () => {
 
   test('should set user on loginSuccess', () => {
     const user = {
-      username: 'Joe'
+      username: 'Joe',
     };
 
     const result = reducer(state, loginSuccess({ user }));
@@ -30,7 +32,7 @@ describe('Auth Reducer', () => {
 
   test('should reset user on logout', () => {
     const user = {
-      username: 'Joe'
+      username: 'Joe',
     };
     const newState = reducer(state, loginSuccess({ user }));
 
@@ -38,5 +40,16 @@ describe('Auth Reducer', () => {
 
     expect(result.user).toBeUndefined();
     expect(result.loggedIn).toBeFalsy();
+  });
+
+  test('should set token on setToken', () => {
+    // tslint:disable-next-line: no-object-literal-type-assertion
+    const token = {
+      iss: 'test',
+    } as AccessToken;
+
+    const result = reducer(state, setToken({ token }));
+
+    expect(result.token).toEqual(token);
   });
 });

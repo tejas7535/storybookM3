@@ -1,23 +1,30 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { User } from '../../models';
-import { login, loginSuccess, logout } from '../actions/auth.actions';
+import { AccessToken, User } from '../../models';
+import { login, loginSuccess, logout, setToken } from '../actions/auth.actions';
 
 export interface AuthState {
   user: User;
   loggedIn: boolean;
+  token: AccessToken | string;
 }
 
 export const initialState: AuthState = {
   user: undefined,
-  loggedIn: false
+  loggedIn: false,
+  token: undefined,
 };
 
 export const authReducer = createReducer(
   initialState,
   on(login),
-  on(loginSuccess, (state, { user }) => ({ ...state, user, loggedIn: true })),
-  on(logout, state => ({ ...state, user: undefined, loggedIn: false }))
+  on(loginSuccess, (state, { user }) => ({
+    ...state,
+    user,
+    loggedIn: true,
+  })),
+  on(logout, (state) => ({ ...state, user: undefined, loggedIn: false })),
+  on(setToken, (state, { token }) => ({ ...state, token }))
 );
 
 // tslint:disable-next-line: only-arrow-functions
