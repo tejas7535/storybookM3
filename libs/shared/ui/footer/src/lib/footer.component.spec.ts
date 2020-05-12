@@ -17,7 +17,7 @@ describe('FooterComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, RouterTestingModule],
-      declarations: [FooterComponent]
+      declarations: [FooterComponent],
     });
   });
 
@@ -44,7 +44,7 @@ describe('FooterComponent', () => {
 
     it('should have a external ink in the footer', () => {
       component.footerLinks = [
-        new FooterLink('hothotstuff.xyz', 'XXX Content', true)
+        new FooterLink('hothotstuff.xyz', 'XXX Content', true),
       ];
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('a'))).toBeTruthy();
@@ -52,7 +52,7 @@ describe('FooterComponent', () => {
 
     it('should have a internal ink in the footer', () => {
       component.footerLinks = [
-        new FooterLink('/boring-corporate-stuff', 'I am fallin asleep', false)
+        new FooterLink('/boring-corporate-stuff', 'I am fallin asleep', false),
       ];
       fixture.detectChanges();
       expect(

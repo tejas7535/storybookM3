@@ -1,5 +1,4 @@
 export * from './lib/banner';
-export * from './lib/footer';
 export * from './lib/file-drop';
 export * from './lib/scroll-to-top';
 export * from './lib/settings-sidebar';

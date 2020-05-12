@@ -103,6 +103,12 @@
         "allow-typeof": true
       }
     ],
-    "comment-type": [true, "doc", "singleline", "multiline"]
+    "comment-type": [true, "doc", "singleline", "multiline"],
+    "ordered-imports": [
+      true,
+      {
+        "named-imports-order": "any"
+      }
+    ]
   }
 }

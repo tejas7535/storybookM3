@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
+import { FooterLink } from '@schaeffler/footer';
 import { Icon } from '@schaeffler/icons';
-import { FooterLink, openBanner } from '@schaeffler/shared/ui-components';
+import { openBanner } from '@schaeffler/shared/ui-components';
 import { SidebarElement } from '@schaeffler/sidebar';
 
 @Component({

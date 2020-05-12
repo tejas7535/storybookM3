@@ -4,10 +4,10 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
-import { FooterLink } from '@schaeffler/shared/ui-components';
 
 import { AppState } from './core/store';
 

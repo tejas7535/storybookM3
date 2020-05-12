@@ -4,8 +4,8 @@ import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { FooterModule } from '@schaeffler/shared/ui-components';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';

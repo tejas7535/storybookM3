@@ -4,7 +4,7 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
-import { FooterModule } from '@schaeffler/shared/ui-components';
+import { FooterModule } from '@schaeffler/footer';
 
 @NgModule({
   ...
@@ -32,7 +32,7 @@ Use like:
 
 ```typescript
 // comp-xy.component.ts
-import { FooterLink } from '@schaeffler/shared/ui-components';
+import { FooterLink } from '@schaeffler/footer';
 
 public footerLinks: FooterLink[] = [
   {

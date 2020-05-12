@@ -110,6 +110,14 @@
     "shared-ui-sidebar-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-sidebar"]
+    },
+    "shared-ui-footer": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-footer-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-footer"]
     }
   },
   "tasksRunnerOptions": {
