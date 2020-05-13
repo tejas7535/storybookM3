@@ -1,6 +1,12 @@
 :host {
+  height: 100%;
   width: 100%;
+
   .table-container {
-    border: 1px dotted lightgray;
+    height: 100%;
+
+    ag-grid-angular {
+      height: 100%;
+    }
   }
 }
