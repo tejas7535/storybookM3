@@ -8,11 +8,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
-import {
-  SettingsSidebarModule,
-  SnackBarModule,
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 import { SidebarModule } from '@schaeffler/sidebar';
+import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';

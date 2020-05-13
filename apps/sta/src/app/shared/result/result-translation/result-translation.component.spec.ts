@@ -9,7 +9,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../../testing/mocks/shared/app-state.mock';
 import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
@@ -29,10 +29,10 @@ describe('ResultTranslationComponent', () => {
         SnackBarModule,
         NoopAnimationsModule,
         GhostLineElementsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       declarations: [ResultTranslationComponent],
-      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 
@@ -73,8 +73,8 @@ describe('ResultTranslationComponent', () => {
           previousValue: [],
           currentValue: trans,
           isFirstChange: () => false,
-          firstChange: false
-        }
+          firstChange: false,
+        },
       });
 
       expect(component.translationFormControl.value).toEqual(trans);

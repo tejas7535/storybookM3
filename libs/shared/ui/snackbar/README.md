@@ -7,7 +7,7 @@ Import into your project like:
 ```typescript
 // myModule.module.ts
 
-import { SnackbarModule } from '@schaeffler/shared/ui-components';
+import { SnackbarModule } from '@schaeffler/snackbar';
 
 @NgModule({
   ...

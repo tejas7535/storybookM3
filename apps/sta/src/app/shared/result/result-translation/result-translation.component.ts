@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   OnInit,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
@@ -13,13 +13,13 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { SnackBarService } from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppState } from '../../../core/store';
 import {
   getLoadingTranslationForFile,
   getLoadingTranslationForText,
-  getSelectedTabIndexTranslation
+  getSelectedTabIndexTranslation,
 } from '../../../core/store/selectors/translation/translation.selector';
 import { fadeInAnimation } from '../../animations/fade-in-animation';
 
@@ -27,7 +27,7 @@ import { fadeInAnimation } from '../../animations/fade-in-animation';
   selector: 'sta-result-translation',
   templateUrl: './result-translation.component.html',
   styleUrls: ['./result-translation.component.scss'],
-  animations: [fadeInAnimation]
+  animations: [fadeInAnimation],
 })
 export class ResultTranslationComponent implements OnChanges, OnInit {
   public loadingTranslationForFile$: Observable<boolean>;

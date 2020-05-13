@@ -1974,6 +1974,102 @@
           }
         }
       }
+    },
+    "shared-ui-snackbar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/snackbar",
+      "sourceRoot": "libs/shared/ui/snackbar/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.json",
+            "project": "libs/shared/ui/snackbar/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/ui/snackbar/tsconfig.lib.json",
+              "libs/shared/ui/snackbar/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/snackbar/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/snackbar/jest.config.js",
+            "tsConfig": "libs/shared/ui/snackbar/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/snackbar/src/test-setup.ts"
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared/ui/snackbar/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/shared-ui-snackbar",
+            "config": {
+              "configFolder": "libs/shared/ui/snackbar/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-snackbar-e2e": {
+      "root": "apps/shared-ui-snackbar-e2e",
+      "sourceRoot": "apps/shared-ui-snackbar-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shared-ui-snackbar-e2e/cypress.json",
+            "tsConfig": "apps/shared-ui-snackbar-e2e/tsconfig.e2e.json",
+            "devServerTarget": "shared-ui-snackbar:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "shared-ui-snackbar:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/shared-ui-snackbar-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/shared-ui-snackbar-e2e/**"]
+          }
+        }
+      }
     }
   },
   "cli": {

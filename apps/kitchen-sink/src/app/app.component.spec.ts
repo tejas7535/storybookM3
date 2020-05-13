@@ -15,9 +15,9 @@ import {
   BannerState,
   ScrollToTopModule,
   SettingsSidebarModule,
-  SnackBarModule,
 } from '@schaeffler/shared/ui-components';
 import { SidebarMode, SidebarModule, SidebarState } from '@schaeffler/sidebar';
+import { SnackBarModule } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../assets/i18n/en.json';

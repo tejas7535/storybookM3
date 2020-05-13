@@ -13,7 +13,7 @@ import { SnackBarModule } from './snackbar.module';
 import { SnackBarService } from './snackbar.service';
 
 @NgModule({
-  imports: [SnackBarModule]
+  imports: [SnackBarModule],
 })
 class SnackBarTestModule {}
 
@@ -24,7 +24,7 @@ describe('SnackBarService', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [CommonModule, BrowserAnimationsModule, SnackBarTestModule],
-      providers: [SnackBarService]
+      providers: [SnackBarService],
     });
   });
 
@@ -48,7 +48,7 @@ describe('SnackBarService', () => {
       expectedConfig = {
         panelClass: 'success-message',
         data: new SnackBarData('Success', undefined, SnackBarType.SUCCESS),
-        duration: 3000
+        duration: 3000,
       };
 
       snackBarService.showSuccessMessage(message);
@@ -66,7 +66,7 @@ describe('SnackBarService', () => {
           undefined,
           SnackBarType.SUCCESS
         ),
-        duration: 3000
+        duration: 3000,
       };
 
       snackBarService.showSuccessMessage();
@@ -85,7 +85,7 @@ describe('SnackBarService', () => {
       message = 'Warning';
       expectedConfig = {
         panelClass: 'warning-message',
-        data: new SnackBarData('Warning', undefined, SnackBarType.WARNING)
+        data: new SnackBarData('Warning', undefined, SnackBarType.WARNING),
       };
 
       snackBarService.showWarningMessage(message);
@@ -104,7 +104,7 @@ describe('SnackBarService', () => {
       message = 'Error';
       expectedConfig = {
         panelClass: 'error-message',
-        data: new SnackBarData('Error', undefined, SnackBarType.ERROR)
+        data: new SnackBarData('Error', undefined, SnackBarType.ERROR),
       };
 
       snackBarService.showErrorMessage(message);
@@ -123,7 +123,7 @@ describe('SnackBarService', () => {
       message = 'Info';
       expectedConfig = {
         panelClass: 'info-message',
-        data: new SnackBarData('Info', undefined, SnackBarType.INFORMATION)
+        data: new SnackBarData('Info', undefined, SnackBarType.INFORMATION),
       };
 
       snackBarService.showInfoMessage(message);
@@ -138,7 +138,7 @@ describe('SnackBarService', () => {
 
       const snackBarConfig: MatSnackBarConfig = {
         panelClass: 'info-message',
-        data: new SnackBarData('Info', 'ok', SnackBarType.INFORMATION)
+        data: new SnackBarData('Info', 'ok', SnackBarType.INFORMATION),
       };
 
       snackBarService['showMessage'](snackBarConfig);
@@ -147,7 +147,7 @@ describe('SnackBarService', () => {
     });
 
     test('should return dismissed as Observable after dismissed', async(() => {
-      snackBarService.showSuccessMessage().subscribe(result => {
+      snackBarService.showSuccessMessage().subscribe((result) => {
         expect(result).toEqual('dismissed');
       });
     }));

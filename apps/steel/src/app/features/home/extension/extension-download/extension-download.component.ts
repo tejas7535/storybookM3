@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { SnackBarService } from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 @Component({
   selector: 'schaeffler-steel-extension-download',
-  templateUrl: './extension-download.component.html'
+  templateUrl: './extension-download.component.html',
 })
 export class ExtensionDownloadComponent implements OnInit {
   @Input() file = '';
