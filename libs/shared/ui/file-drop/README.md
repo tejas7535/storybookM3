@@ -5,7 +5,7 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
-import { FileDropModule } from '@schaeffler/shared/ui-components';
+import { FileDropModule } from '@schaeffler/file-drop';
 
 @NgModule({
   ...

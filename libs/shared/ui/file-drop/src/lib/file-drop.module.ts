@@ -8,6 +8,6 @@ import { FileDropComponent } from './file-drop.component';
 @NgModule({
   imports: [CommonModule, FlexLayoutModule],
   declarations: [FileDropComponent, DroppableDirective],
-  exports: [FileDropComponent]
+  exports: [FileDropComponent],
 })
 export class FileDropModule {}

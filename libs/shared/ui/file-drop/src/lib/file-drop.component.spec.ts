@@ -11,7 +11,7 @@ describe('FileDropComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [FileDropComponent, DroppableDirective]
+      declarations: [FileDropComponent, DroppableDirective],
     });
   });
 
@@ -51,7 +51,7 @@ describe('FileDropComponent', () => {
     let event: any;
 
     const defaultEvent = {
-      preventDefault: jest.fn()
+      preventDefault: jest.fn(),
     };
 
     beforeEach(() => {

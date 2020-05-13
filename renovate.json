@@ -5,7 +5,6 @@
     "enabled": true
   },
   "baseBranches": ["master"],
-  "postUpgradeTask": { "commands": ["npm run generate-readme"] },
   "ignorePaths": ["libs/**/*"],
   "packageRules": [
     {
@@ -63,6 +62,7 @@
     {
       "packageNames": [
         "@ngrx/effects",
+        "@ngrx/entity",
         "@ngrx/router-store",
         "@ngrx/store",
         "@ngrx/store-devtools"

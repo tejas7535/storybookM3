@@ -118,6 +118,14 @@
     "shared-ui-footer-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-footer"]
+    },
+    "shared-ui-file-drop": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-file-drop-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-file-drop"]
     }
   },
   "tasksRunnerOptions": {
