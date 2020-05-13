@@ -3,13 +3,13 @@ import {
   EventEmitter,
   Input,
   OnChanges,
-  Output
+  Output,
 } from '@angular/core';
 
 @Component({
   selector: 'schaeffler-file-drop',
   templateUrl: './file-drop.component.html',
-  styleUrls: ['./file-drop.component.scss']
+  styleUrls: ['./file-drop.component.scss'],
 })
 export class FileDropComponent implements OnChanges {
   @Input() public disabled: boolean;

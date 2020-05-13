@@ -9,7 +9,7 @@ describe('DroppableDirective', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      providers: [DroppableDirective]
+      providers: [DroppableDirective],
     });
   });
 
@@ -26,7 +26,7 @@ describe('DroppableDirective', () => {
 
     const defaultEvent = {
       preventDefault: jest.fn(),
-      dataTransfer: {}
+      dataTransfer: {},
     };
 
     beforeEach(() => {
@@ -46,7 +46,7 @@ describe('DroppableDirective', () => {
     it('should emit Event dropped when file is existing and file type is correct', () => {
       event = {
         ...defaultEvent,
-        dataTransfer: { files: [{ name: 'test.docx' }] }
+        dataTransfer: { files: [{ name: 'test.docx' }] },
       };
       directive['checkFileTypeAcceptance'] = jest.fn().mockReturnValue(true);
 
@@ -58,7 +58,7 @@ describe('DroppableDirective', () => {
     it('should not emit Event dropped when file is not existing', () => {
       event = {
         ...defaultEvent,
-        dataTransfer: { files: [{}] }
+        dataTransfer: { files: [{}] },
       };
 
       directive.drop(event);
@@ -69,7 +69,7 @@ describe('DroppableDirective', () => {
     it('should not emit Event dropped when the file exists but its the wrong file type', () => {
       event = {
         ...defaultEvent,
-        dataTransfer: { files: [{ name: 'test.docx' }] }
+        dataTransfer: { files: [{ name: 'test.docx' }] },
       };
 
       directive.drop(event);

@@ -3,13 +3,12 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 
-import { FileDropModule } from '@schaeffler/shared/ui-components';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { FileUploadComponent } from './file-upload.component';
+import { FileDropModule } from '@schaeffler/file-drop';
 
 import { FileTypeToIconPipe } from './file-type-to-icon.pipe';
+import { FileUploadComponent } from './file-upload.component';
 
 describe('FileUploadComponent', () => {
   let component: FileUploadComponent;
@@ -18,7 +17,7 @@ describe('FileUploadComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [FileUploadComponent, FileTypeToIconPipe],
-      imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule]
+      imports: [CommonModule, FlexLayoutModule, FileDropModule, MatIconModule],
     });
   });
 

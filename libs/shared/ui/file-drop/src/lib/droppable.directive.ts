@@ -3,11 +3,11 @@ import {
   EventEmitter,
   HostListener,
   Input,
-  Output
+  Output,
 } from '@angular/core';
 
 @Directive({
-  selector: '[schaefflerDroppable]'
+  selector: '[schaefflerDroppable]',
 })
 export class DroppableDirective {
   @Input() public accept: string[];
