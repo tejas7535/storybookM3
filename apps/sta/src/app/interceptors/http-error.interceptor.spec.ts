@@ -12,10 +12,7 @@ import { Observable } from 'rxjs';
 import * as transloco from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import {
-  SnackBarModule,
-  SnackBarService,
-} from '@schaeffler/shared/ui-components';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../assets/i18n/en.json';

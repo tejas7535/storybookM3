@@ -5,15 +5,12 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
-
-import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../../testing/mocks/shared/app-state.mock';
 import {
@@ -23,8 +20,10 @@ import {
   removeTagForFile,
   removeTagForText,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '../../../core/store';
+import { GhostLineElementsModule } from '../../ghost-elements/ghost-line-elements.module';
+import { ResultAutoTaggingComponent } from './result-auto-tagging.component';
 
 describe('ResultAutoTaggingComponent', () => {
   let component: ResultAutoTaggingComponent;
@@ -41,10 +40,10 @@ describe('ResultAutoTaggingComponent', () => {
         SnackBarModule,
         NoopAnimationsModule,
         GhostLineElementsModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
       ],
       declarations: [ResultAutoTaggingComponent],
-      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 
@@ -56,7 +55,7 @@ describe('ResultAutoTaggingComponent', () => {
       tags: ['1', '2'],
       loading: false,
       showMoreTags: false,
-      success: true
+      success: true,
     };
     fixture.detectChanges();
   });
@@ -112,7 +111,7 @@ describe('ResultAutoTaggingComponent', () => {
 
     test('should reset input when input is part of event', () => {
       const evt = ({
-        input: { value: 'top' }
+        input: { value: 'top' },
       } as unknown) as MatChipInputEvent;
       component.add(evt);
 

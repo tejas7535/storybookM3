@@ -5,7 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { ExtensionDownloadComponent } from '../extension-download/extension-download.component';
 import { ExtensionDetailComponent } from './extension-detail.component';
@@ -22,9 +22,9 @@ describe('ExtensionComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         NoopAnimationsModule,
-        SnackBarModule
+        SnackBarModule,
       ],
-      declarations: [ExtensionDetailComponent, ExtensionDownloadComponent]
+      declarations: [ExtensionDetailComponent, ExtensionDownloadComponent],
     }).compileComponents();
   }));
 
@@ -46,7 +46,7 @@ describe('ExtensionComponent', () => {
       howToUse: ['How to use 1', 'How to use 2'],
       notice: ['test notice 1', 'test notice 2', 'test notice 3'],
       permissions: 'none',
-      screenshots: ['assets/screenshots/testfilter.PNG']
+      screenshots: ['assets/screenshots/testfilter.PNG'],
     };
     expect(component).toBeTruthy();
   });

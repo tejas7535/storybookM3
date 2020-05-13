@@ -7,7 +7,7 @@ import { Subscription } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { SnackBarService } from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import {
   addTagForFile,
@@ -17,7 +17,7 @@ import {
   removeTagForFile,
   removeTagForText,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '../../../core/store';
 import { TagsForFileInput } from '../../../core/store/reducers/tagging/models/tags-for-file-input.model';
 import { TagsForTextInput } from '../../../core/store/reducers/tagging/models/tags-for-text-input.model';
@@ -27,7 +27,7 @@ import { fadeInAnimation } from '../../animations/fade-in-animation';
   selector: 'sta-result-auto-tagging',
   templateUrl: './result-auto-tagging.component.html',
   styleUrls: ['./result-auto-tagging.component.scss'],
-  animations: [fadeInAnimation]
+  animations: [fadeInAnimation],
 })
 export class ResultAutoTaggingComponent implements OnInit, OnDestroy {
   @Input() public tags: TagsForTextInput | TagsForFileInput;

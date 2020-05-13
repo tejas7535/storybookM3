@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
   MatSnackBarModule,
-  MAT_SNACK_BAR_DATA
+  MAT_SNACK_BAR_DATA,
 } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
 
@@ -38,7 +38,7 @@ describe('SnackBarComponent', () => {
     TestBed.configureTestingModule({
       imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
       declarations: [SnackBarComponent],
-      providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }]
+      providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }],
     });
   });
 
@@ -74,7 +74,7 @@ describe('SnackBarComponent', () => {
     describe('snackbar of type success', () => {
       beforeAll(() => {
         TestBed.overrideProvider(MAT_SNACK_BAR_DATA, {
-          useValue: successConfig
+          useValue: successConfig,
         });
       });
 
@@ -89,7 +89,7 @@ describe('SnackBarComponent', () => {
     describe('snackbar of type warning', () => {
       beforeAll(() => {
         TestBed.overrideProvider(MAT_SNACK_BAR_DATA, {
-          useValue: warningConfig
+          useValue: warningConfig,
         });
       });
 

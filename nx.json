@@ -126,6 +126,14 @@
     "shared-ui-file-drop-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-file-drop"]
+    },
+    "shared-ui-snackbar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-snackbar-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-snackbar"]
     }
   },
   "tasksRunnerOptions": {

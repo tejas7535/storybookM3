@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import {
   MatSnackBar,
   MatSnackBarConfig,
-  MatSnackBarRef
+  MatSnackBarRef,
 } from '@angular/material/snack-bar';
 
 import { merge, Observable } from 'rxjs';
@@ -13,7 +13,7 @@ import { SnackBarType } from './snackbar-type.enum';
 import { SnackBarComponent } from './snackbar.component';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SnackBarService {
   constructor(private readonly snackBar: MatSnackBar) {}
@@ -28,7 +28,7 @@ export class SnackBarService {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'success-message',
       data: new SnackBarData(message, action, SnackBarType.SUCCESS),
-      duration: 3000
+      duration: 3000,
     };
 
     return this.showMessage(snackBarConfig);
@@ -43,7 +43,7 @@ export class SnackBarService {
   ): Observable<string> {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'warning-message',
-      data: new SnackBarData(message, action, SnackBarType.WARNING)
+      data: new SnackBarData(message, action, SnackBarType.WARNING),
     };
 
     return this.showMessage(snackBarConfig);
@@ -58,7 +58,7 @@ export class SnackBarService {
   ): Observable<string> {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'error-message',
-      data: new SnackBarData(message, action, SnackBarType.ERROR)
+      data: new SnackBarData(message, action, SnackBarType.ERROR),
     };
 
     return this.showMessage(snackBarConfig);
@@ -70,7 +70,7 @@ export class SnackBarService {
   public showInfoMessage(message: string, action?: string): Observable<string> {
     const snackBarConfig: MatSnackBarConfig = {
       panelClass: 'info-message',
-      data: new SnackBarData(message, action, SnackBarType.INFORMATION)
+      data: new SnackBarData(message, action, SnackBarType.INFORMATION),
     };
 
     return this.showMessage(snackBarConfig);
@@ -80,9 +80,10 @@ export class SnackBarService {
    * opens the snackbar with the given config
    */
   private showMessage(snackBarConfig: MatSnackBarConfig): Observable<string> {
-    const snackBarRef: MatSnackBarRef<
-      SnackBarComponent
-    > = this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
+    const snackBarRef: MatSnackBarRef<SnackBarComponent> = this.snackBar.openFromComponent(
+      SnackBarComponent,
+      snackBarConfig
+    );
 
     const action$ = snackBarRef.instance.action.pipe(
       tap(() => snackBarRef.dismiss()),

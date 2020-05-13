@@ -1,17 +1,18 @@
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
-
 import {
   HttpErrorResponse,
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/internal/operators';
+
 import { translate } from '@ngneat/transloco';
-import { SnackBarService } from '@schaeffler/shared/ui-components';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {

@@ -12,7 +12,7 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import { AppState, resetAll } from '../../core/store';
@@ -38,14 +38,14 @@ describe('ResultComponent', () => {
         ReactiveFormsModule,
         SnackBarModule,
         NoopAnimationsModule,
-        GhostLineElementsModule
+        GhostLineElementsModule,
       ],
       declarations: [
         ResultComponent,
         ResultAutoTaggingComponent,
-        ResultTranslationComponent
+        ResultTranslationComponent,
       ],
-      providers: [provideMockStore({ initialState: APP_STATE_MOCK })]
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 

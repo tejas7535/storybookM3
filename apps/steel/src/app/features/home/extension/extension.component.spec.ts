@@ -3,7 +3,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { SnackBarModule } from '@schaeffler/shared/ui-components';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { ExtensionDownloadComponent } from '../extension/extension-download/extension-download.component';
 import { ExtensionComponent } from './extension.component';
@@ -17,7 +17,7 @@ describe('ExtensionComponent', () => {
     description:
       'Allows for continous live refresh in of live data connections in Tableau',
     WIP: false,
-    path: 'liverefresh'
+    path: 'liverefresh',
   };
 
   beforeEach(async(() => {
@@ -26,9 +26,9 @@ describe('ExtensionComponent', () => {
         MatCardModule,
         RouterTestingModule,
         MatIconModule,
-        SnackBarModule
+        SnackBarModule,
       ],
-      declarations: [ExtensionComponent, ExtensionDownloadComponent]
+      declarations: [ExtensionComponent, ExtensionDownloadComponent],
     }).compileComponents();
   }));
 

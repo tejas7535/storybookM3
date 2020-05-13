@@ -7,13 +7,13 @@ const iconMap: Map<string, string> = new Map([
   ['success', 'icon-toast-success'],
   ['error', 'icon-toast-error'],
   ['warning', 'icon-toast-warning'],
-  ['information', 'icon-toast-information']
+  ['information', 'icon-toast-information'],
 ]);
 
 @Component({
   selector: 'schaeffler-snackbar',
   styleUrls: ['snackbar.component.scss'],
-  templateUrl: 'snackbar.component.html'
+  templateUrl: 'snackbar.component.html',
 })
 export class SnackBarComponent {
   public readonly action: EventEmitter<void> = new EventEmitter();

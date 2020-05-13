@@ -13,10 +13,9 @@ import {
   BannerModule,
   BannerState,
   openBanner,
-  SnackBarModule,
-  SnackBarService,
   SpeedDialFabModule,
 } from '@schaeffler/shared/ui-components';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../assets/i18n/en.json';

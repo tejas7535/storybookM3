@@ -2,11 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
-import {
-  openBanner,
-  SnackBarService,
-  SpeedDialFabItem
-} from '@schaeffler/shared/ui-components';
+
+import { openBanner, SpeedDialFabItem } from '@schaeffler/shared/ui-components';
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppState } from '../core/store';
 
@@ -18,8 +16,8 @@ import { AppState } from '../core/store';
       button {
         margin: 10px;
       }
-    `
-  ]
+    `,
+  ],
 })
 export class HomeComponent implements OnInit {
   public speedDialFabOpen = false;
@@ -30,7 +28,7 @@ export class HomeComponent implements OnInit {
     icon: 'bubbles',
     color: 'primary',
     label: true,
-    title: 'new conversation'
+    title: 'new conversation',
   };
 
   public speedDialFabSecondaryBtns: SpeedDialFabItem[] = [
@@ -39,15 +37,15 @@ export class HomeComponent implements OnInit {
       icon: 'mail',
       color: 'accent',
       label: true,
-      title: 'new mail'
+      title: 'new mail',
     },
     {
       key: 'phone',
       icon: 'phone',
       color: 'accent',
       label: true,
-      title: 'new call'
-    }
+      title: 'new call',
+    },
   ];
 
   constructor(
@@ -68,7 +66,7 @@ export class HomeComponent implements OnInit {
         text: translate('banner.bannerText'),
         buttonText: translate('banner.buttonText'),
         icon: 'info',
-        truncateSize: 120
+        truncateSize: 120,
       })
     );
   }
@@ -89,7 +87,7 @@ export class HomeComponent implements OnInit {
         "This is a extra long warning! Don't do this in production! This is a extra long warning! Don't do this in production! This is a extra long warning! Don't do this in production!",
         'Try again'
       )
-      .subscribe(result => {
+      .subscribe((result) => {
         if (result === 'action') {
           this.showSuccessToast();
         }
