@@ -1,0 +1,10 @@
+<button
+  mat-flat-button
+  color="primary"
+  *transloco="let t; read: 'search.referenceTypesTable.statusBar'"
+  [disabled]="selections.length === 0"
+  (click)="showDetailView()"
+>
+  <mat-icon>poll</mat-icon>
+  {{ t('detail') }}
+</button>

@@ -1,3 +1,19 @@
 <div class="table-container">
-  Here comes the table
+  <ag-grid-angular
+    class="ag-theme-material"
+    [rowData]="rowData"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    [modules]="modules"
+    [sideBar]="sideBar"
+    [rowSelection]="rowSelection"
+    [frameworkComponents]="frameworkComponents"
+    [statusBar]="statusBar"
+    rowGroupPanelShow="always"
+    enableRangeSelection
+    animateRows
+    suppressCsvExport
+    suppressExcelExport
+  >
+  </ag-grid-angular>
 </div>

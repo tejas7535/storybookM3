@@ -1,3 +1,10 @@
+@import '~@ag-grid-enterprise/all-modules/dist/styles/ag-grid.scss';
+@import '~@ag-grid-enterprise/all-modules/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+
+.ag-theme-material {
+  @include ag-theme-material();
+}
+
 @import 'libs/shared/styles/src';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 

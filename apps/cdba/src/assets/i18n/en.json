@@ -6,7 +6,21 @@
     },
     "referenceTypesFilters": {
       "search": "Search",
-      "customer": "Customer"
+      "customer": "Customer",
+      "productLine": "Product Line"
+    },
+    "referenceTypesTable": {
+      "headers": {
+        "materialNumber": "Material Number",
+        "plant": "Plant"
+      },
+      "tooltips": {
+        "materialNumber": "Material Number of the product",
+        "plant": "4-digit number of Plant for which the SQV SAP is calculated; usually the plant where the part is produced or bought"
+      },
+      "statusBar": {
+        "detail": "Detail View"
+      }
     }
   }
 }

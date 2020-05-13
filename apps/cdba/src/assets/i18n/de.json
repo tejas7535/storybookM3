@@ -6,7 +6,21 @@
     },
     "referenceTypesFilters": {
       "search": "Suche",
-      "customer": "Kunde"
+      "customer": "Kunde",
+      "productLine": "Produkt Linie"
+    },
+    "referenceTypesTable": {
+      "headers": {
+        "materialNumber": "Materialnummer",
+        "plant": "Werk"
+      },
+      "tooltips": {
+        "materialNumber": "Materialnummer des Produkts",
+        "plant": "Vierstellige Werksnummer für welche der SQV SAP berechnet wird; normalerweise das Werke, an welchem das Produkt produziert oder gekauft wird"
+      },
+      "statusBar": {
+        "detail": "Detailansicht"
+      }
     }
   }
 }
