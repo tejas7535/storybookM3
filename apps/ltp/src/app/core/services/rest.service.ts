@@ -7,15 +7,16 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   BurdeningType,
+  LoadsRequest,
   Material,
   Model,
   Prediction,
   PredictionRequest,
-  PredictionResult
+  PredictionResult,
 } from '../../shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RestService {
   public SERVER_URL = environment.SERVER_URL;
@@ -75,13 +76,13 @@ export class RestService {
         : predictionRequest.hv,
       model_type: predictionRequest.model,
       stress_amplitude: predictionRequest.mpa,
-      streubreite: predictionRequest.spreading
+      streubreite: predictionRequest.spreading,
     };
     if (mode === 2) {
       return this.httpService
         .post<any>(`${this.SERVER_URL}/predictor`, prediction)
         .pipe(
-          map(res => {
+          map((res) => {
             const result = res.prediction;
 
             return ({
@@ -91,13 +92,13 @@ export class RestService {
                 percentile1: result.woehler.percentile_1,
                 percentile10: result.woehler.percentile_10,
                 percentile90: result.woehler.percentile_90,
-                percentile99: result.woehler.percentile_99
+                percentile99: result.woehler.percentile_99,
               },
               haigh: {
                 snCurve: result.haigh.sn_curve,
-                appliedStress: result.haigh.applied_stress
+                appliedStress: result.haigh.applied_stress,
               },
-              kpi: result.kpi
+              kpi: result.kpi,
             } as unknown) as PredictionResult;
           })
         );
@@ -113,17 +114,19 @@ export class RestService {
    * posts prediction and load request and returns result of whole calculation
    */
   public postLoadsData(
-    loads: any,
+    loadsRequest: LoadsRequest,
     predictionRequest: PredictionRequest
   ): Observable<any> {
+    const { data, conversionFactor, repetitionFactor, method } = loadsRequest;
+    const { v90, burdeningType, hv } = predictionRequest;
     const request = {
-      loads,
-      conversionFactor: 0, // new
-      repetitionFactor: 0, // new
-      method: 'FKM', // new
-      V90: predictionRequest.v90,
-      belastungsart: predictionRequest.burdeningType,
-      haerte: predictionRequest.hv
+      conversionFactor,
+      repetitionFactor,
+      method,
+      loads: data,
+      V90: v90,
+      belastungsart: burdeningType,
+      haerte: hv,
     };
 
     return this.httpService.post<any>(`${this.SERVER_URL}/loads`, request);

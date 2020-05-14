@@ -25,18 +25,18 @@ describe('predictionReducer', () => {
           hv_core: 500,
           a90: 100,
           gradient: 1,
-          multiaxiality: 0
+          multiaxiality: 0,
         },
         predictionResult: undefined,
         loadsRequest: {
           data: undefined,
           status: 0,
           error: undefined,
-          conversionFactor: 0,
-          repetitionFactor: 0,
-          method: 'FKM'
+          conversionFactor: 1,
+          repetitionFactor: 1,
+          method: 'FKM',
         },
-        loads: undefined
+        loads: undefined,
       };
     });
 
@@ -65,17 +65,17 @@ describe('predictionReducer', () => {
         hv_core: 500,
         a90: 100,
         gradient: 1,
-        multiaxiality: 0
+        multiaxiality: 0,
       };
       const newState = predictionReducer(
         state,
         PredictionActions.setPredictionRequest({
-          predictionRequest: mockedPredictionRequest
+          predictionRequest: mockedPredictionRequest,
         })
       );
       expect(newState.predictionRequest).toEqual({
         ...state.prediction,
-        ...mockedPredictionRequest
+        ...mockedPredictionRequest,
       });
     });
 
@@ -92,12 +92,12 @@ describe('predictionReducer', () => {
       const newState = predictionReducer(
         state,
         PredictionActions.setPredictionType({
-          prediction: mockedPredictionType.prediction
+          prediction: mockedPredictionType.prediction,
         })
       );
       expect(newState.predictionRequest).toEqual({
         ...state.predictionRequest,
-        ...mockedPredictionType
+        ...mockedPredictionType,
       });
     });
 
@@ -106,9 +106,9 @@ describe('predictionReducer', () => {
         data: [1, 2],
         status: 1,
         error: undefined,
-        conversionFactor: 0,
-        repetitionFactor: 0,
-        method: 'FKM'
+        conversionFactor: 1,
+        repetitionFactor: 1,
+        method: 'FKM',
       };
 
       const newState = predictionReducer(
@@ -128,7 +128,7 @@ describe('predictionReducer', () => {
         PredictionActions.setLoadsResult({
           loads: mockedLoads,
           status: mockedStatus,
-          error: undefined
+          error: undefined,
         })
       );
       expect(newState.loadsRequest.status).toEqual(mockedStatus);

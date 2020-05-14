@@ -1,30 +1,28 @@
 import { createSelector } from '@ngrx/store';
 
 import { HelpersService } from '../../services/helpers.service';
-
 import * as fromStore from '../reducers';
-
 import { getDisplay } from './input.selectors';
 
 export const getPredictionRequest = createSelector(
   fromStore.getPredictionState,
-  prediction => prediction.predictionRequest
+  (prediction) => prediction.predictionRequest
 );
 
 export const getLoads = createSelector(
   fromStore.getPredictionState,
-  prediction => prediction.loadsRequest
+  (prediction) => prediction.loadsRequest
 );
 
 export const getLoadsResults = createSelector(
   fromStore.getPredictionState,
-  prediction => prediction.loads
+  (prediction) => prediction.loads
 );
 
 // TODO: remove any
 export const getLoadsPoints = createSelector(
   getLoadsResults,
-  loadsResults => {
+  (loadsResults) => {
     const result: any[] = [];
     if (loadsResults && loadsResults[Object.keys(loadsResults)[0]].length > 0) {
       loadsResults[Object.keys(loadsResults)[0]].forEach(
@@ -40,7 +38,7 @@ export const getLoadsPoints = createSelector(
 
 export const getLoadsStatus = createSelector(
   fromStore.getPredictionState,
-  prediction => {
+  (prediction) => {
     const { status, error } = prediction.loadsRequest;
 
     return { status, error };
@@ -66,12 +64,14 @@ export const getPredictionResult = createSelector(
   fromStore.getPredictionState,
   getDisplay,
   getKpis,
-  (prediction, display, kpi) => {
+  getLoadsPoints,
+  (prediction, display, kpi, loadsPoints) => {
     const helpersService = new HelpersService();
     const result = helpersService.preparePredictionResult(
       prediction.predictionResult,
       display,
-      prediction.predictionRequest
+      prediction.predictionRequest,
+      loadsPoints
     );
 
     return { ...result, kpi };

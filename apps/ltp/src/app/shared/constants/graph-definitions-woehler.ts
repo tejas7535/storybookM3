@@ -8,8 +8,8 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     identifier: 'appliedStress',
     legendDisplay: {
       name: 'prediction.chart.legendLoad',
-      color: '#A1C861'
-    }
+      color: '#A1C861',
+    },
   },
   {
     value: 'y2',
@@ -19,8 +19,8 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     survivalProbability: 50,
     legendDisplay: {
       name: 'prediction.chart.legendMl',
-      color: '#00893D'
-    }
+      color: '#00893D',
+    },
   },
   {
     value: 'y7',
@@ -30,8 +30,8 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     survivalProbability: 97.5,
     legendDisplay: {
       name: 'prediction.chart.legendFkm',
-      color: 'red'
-    }
+      color: 'red',
+    },
   },
   {
     value: 'y8',
@@ -41,8 +41,8 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     survivalProbability: 50,
     legendDisplay: {
       name: 'prediction.chart.legendMurakami',
-      color: 'blue'
-    }
+      color: 'blue',
+    },
   },
   {
     value: 'y3',
@@ -56,8 +56,8 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
       color: 'transparent',
       borderStyle: 'dotted',
       borderWidth: 2,
-      borderColor: '#003A54'
-    }
+      borderColor: '#003A54',
+    },
   },
   {
     value: 'y4',
@@ -65,7 +65,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     color: '#003A54',
     identifier: 'percentile99',
     dashStyle: 'dash',
-    survivalProbability: 99
+    survivalProbability: 99,
   },
   {
     value: 'y5',
@@ -73,7 +73,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     color: '#777D7F',
     identifier: 'percentile10',
     dashStyle: 'dash',
-    survivalProbability: 10
+    survivalProbability: 10,
   },
   {
     value: 'y6',
@@ -81,6 +81,16 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     color: '#777D7F',
     identifier: 'percentile90',
     dashStyle: 'dash',
-    survivalProbability: 90
-  }
+    survivalProbability: 90,
+  },
+  {
+    value: 'y',
+    name: 'Lastkurve',
+    color: '#e62c27',
+    identifier: 'loads',
+    legendDisplay: {
+      name: 'ld',
+      color: '#e62c27',
+    },
+  },
 ];

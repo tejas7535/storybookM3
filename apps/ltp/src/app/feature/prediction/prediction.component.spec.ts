@@ -4,9 +4,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import {
+  MAT_DIALOG_DATA,
   MatDialogModule,
   MatDialogRef,
-  MAT_DIALOG_DATA,
 } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -186,8 +186,8 @@ describe('PredictionComponent', () => {
 
   it('should call dispatchLoad when openedDialog afterClosed is called', () => {
     const mockSettings = {
-      conversionFactor: 0,
-      repetitionFactor: 0,
+      conversionFactor: 1,
+      repetitionFactor: 1,
       method: 'FKM',
     };
 
@@ -232,8 +232,8 @@ describe('PredictionComponent', () => {
       status: 1,
     };
     const mockSettings = {
-      conversionFactor: 0,
-      repetitionFactor: 0,
+      conversionFactor: 1,
+      repetitionFactor: 1,
       method: 'FKM',
     };
     const action = fromStore.postLoadsData({
