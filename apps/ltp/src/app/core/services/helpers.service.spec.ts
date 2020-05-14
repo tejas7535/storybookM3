@@ -2,8 +2,6 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { HelpersService } from './helpers.service';
-
 import { ChartType } from '../../shared/enums';
 import {
   Display,
@@ -13,8 +11,9 @@ import {
   Limits,
   PredictionRequest,
   PredictionResult,
-  PredictionResultParsed
+  PredictionResultParsed,
 } from '../../shared/models';
+import { HelpersService } from './helpers.service';
 
 // Constants
 const getDefaultConstants = {
@@ -35,72 +34,76 @@ const getDefaultConstants = {
     hv_core: 500,
     a90: 100,
     gradient: 1,
-    multiaxiality: 0
+    multiaxiality: 0,
   } as unknown) as PredictionRequest,
+  loads: [
+    { x: 1, y: 2 },
+    { x: 3, y: 4 },
+  ],
   defaultPredictionResult: ({
     woehler: {
       snCurve: {
         '0': {
           x: 460.9834219198255,
-          y: 520
+          y: 520,
         },
         '1': {
           x: 1158691.4165629777,
-          y: 129.60351058284022
+          y: 129.60351058284022,
         },
         '2': {
           x: 10000000,
-          y: 129.60351058284022
-        }
+          y: 129.60351058284022,
+        },
       },
       appliedStress: {
         '0': {
           x: 2022,
-          y: 400
+          y: 400,
         },
         '1': {
           x: 2022,
-          y: 103.68280846627218
+          y: 103.68280846627218,
         },
         '2': {
           x: 10000,
-          y: 400
-        }
+          y: 400,
+        },
       },
       percentile1: ({} as unknown) as Graph,
       percentile10: ({} as unknown) as Graph,
       percentile90: ({} as unknown) as Graph,
-      percentile99: ({} as unknown) as Graph
+      percentile99: ({} as unknown) as Graph,
     },
     haigh: {
       snCurve: {
         '0': {
           x: 0,
-          y: 129.60351058284022
+          y: 129.60351058284022,
         },
         '1': {
           x: 127.48671337634478,
-          y: 127.48671337634478
-        }
+          y: 127.48671337634478,
+        },
       },
       appliedStress: {
         '0': {
           x: 0,
-          y: 0
+          y: 0,
         },
         '1': {
           x: 229.60351058284022,
-          y: 229.60351058284022
-        }
-      }
+          y: 229.60351058284022,
+        },
+      },
     },
     kpi: {
       fatigue: {
         '0': 127.48671337634478,
-        '1': 129.60351058284022
+        '1': 129.60351058284022,
       },
-      slope: 5.635329994802062
-    }
+      slope: 5.635329994802062,
+    },
   } as unknown) as PredictionResult,
 
   defaultPredictionResultParsedWoehler: ({
@@ -113,14 +116,16 @@ const getDefaultConstants = {
       { x: 10000000, y8: 357.89106194324967 },
       { x: 10000, y2: 301.21165055865265 },
       { x: 1158691.4165629777, y2: 129.60351058284022 },
-      { x: 10000000, y2: 129.60351058284022 }
+      { x: 10000000, y2: 129.60351058284022 },
+      { x: 1, y: 2 },
+      { x: 3, y: 4 },
     ],
     kpi: undefined,
     limits: {
       x_max: 10000000,
       x_min: 10000,
       y_max: 988.8798726991838,
-      y_min: 116.6431595245562
+      y_min: 116.6431595245562,
     },
     lines: [
       {
@@ -129,9 +134,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 150
+        value: 150,
       },
       {
         color: '#dddddd',
@@ -139,9 +144,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 200
+        value: 200,
       },
       {
         color: '#dddddd',
@@ -149,9 +154,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 250
+        value: 250,
       },
       {
         color: '#dddddd',
@@ -159,9 +164,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 300
+        value: 300,
       },
       {
         color: '#dddddd',
@@ -169,9 +174,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 350
+        value: 350,
       },
       {
         color: '#dddddd',
@@ -179,9 +184,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 400
+        value: 400,
       },
       {
         color: '#dddddd',
@@ -189,9 +194,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 450
+        value: 450,
       },
       {
         color: '#dddddd',
@@ -199,9 +204,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 500
+        value: 500,
       },
       {
         color: '#dddddd',
@@ -209,9 +214,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 550
+        value: 550,
       },
       {
         color: '#dddddd',
@@ -219,9 +224,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 600
+        value: 600,
       },
       {
         color: '#dddddd',
@@ -229,9 +234,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 650
+        value: 650,
       },
       {
         color: '#dddddd',
@@ -239,9 +244,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 700
+        value: 700,
       },
       {
         color: '#dddddd',
@@ -249,9 +254,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 750
+        value: 750,
       },
       {
         color: '#dddddd',
@@ -259,9 +264,9 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 800
+        value: 800,
       },
       {
         color: '#dddddd',
@@ -269,11 +274,11 @@ const getDefaultConstants = {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
+          verticalAlignment: 'center',
         },
-        value: 900
-      }
-    ]
+        value: 900,
+      },
+    ],
   } as unknown) as PredictionResultParsed,
 
   defaultPredictionResultParsedHaigh: ({
@@ -285,17 +290,17 @@ const getDefaultConstants = {
       { x: 0, y2: 129.60351058284022 },
       { x: 127.48671337634478, y2: 127.48671337634478 },
       { x: 0, y1: 0 },
-      { x: 393.68016813757464, y1: 393.68016813757464 }
+      { x: 393.68016813757464, y1: 393.68016813757464 },
     ],
     kpi: undefined,
     limits: {
       x_max: 393.68016813757464,
       x_min: 0,
       y_max: 393.68016813757464,
-      y_min: 0
+      y_min: 0,
     },
-    lines: []
-  } as unknown) as PredictionResultParsed
+    lines: [],
+  } as unknown) as PredictionResultParsed,
 };
 
 describe('HelpersService', () => {
@@ -304,7 +309,7 @@ describe('HelpersService', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      providers: [HelpersService]
+      providers: [HelpersService],
     });
     helpersService = TestBed.inject(HelpersService);
   });
@@ -314,7 +319,10 @@ describe('HelpersService', () => {
   });
 
   it('should have a relevantLoadPoints helper method', () => {
-    const mockLoad = [{ x: 1, y: 1 }, { x: 10, y: 10 }];
+    const mockLoad = [
+      { x: 1, y: 1 },
+      { x: 10, y: 10 },
+    ];
     const mockLimit = { x_min: 0, x_max: 2, y_min: 0, y_max: 2 };
 
     expect(helpersService.relevantLoadPoints).toBeDefined();
@@ -328,7 +336,7 @@ describe('HelpersService', () => {
       x_max: 500,
       x_min: 0,
       y_max: 501,
-      y_min: 0
+      y_min: 0,
     };
 
     const lineBase = {
@@ -337,8 +345,8 @@ describe('HelpersService', () => {
       label: {
         horizontalAlignment: 'left',
         position: 'outside',
-        verticalAlignment: 'center'
-      }
+        verticalAlignment: 'center',
+      },
     };
 
     const expectedLines = [
@@ -351,7 +359,7 @@ describe('HelpersService', () => {
       { ...lineBase, value: 350 },
       { ...lineBase, value: 400 },
       { ...lineBase, value: 450 },
-      { ...lineBase, value: 500 }
+      { ...lineBase, value: 500 },
     ];
 
     const lines = helpersService.calculateLines(limits);
@@ -364,7 +372,7 @@ describe('HelpersService', () => {
       x_max: 500,
       x_min: 0,
       y_max: 800,
-      y_min: 0
+      y_min: 0,
     };
 
     const lines = helpersService.calculateLines(limits);
@@ -383,7 +391,7 @@ describe('HelpersService', () => {
       x_max: 500,
       x_min: 0,
       y_max: 1500,
-      y_min: 801
+      y_min: 801,
     };
 
     const lines = helpersService.calculateLines(limits);
@@ -414,14 +422,14 @@ describe('HelpersService', () => {
       { x: 10000, y: 0 },
       { x: 10000, y: 100 },
       { x: 10000, y: 1000 },
-      { x: 10000, y: 10000 }
+      { x: 10000, y: 10000 },
     ];
 
     let limits: Limits = {
       x_max: 10000,
       x_min: 0,
       y_max: 10000,
-      y_min: 0
+      y_min: 0,
     };
 
     let filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -441,7 +449,7 @@ describe('HelpersService', () => {
       { x: 1000, y: 0 },
       { x: 1000, y: 100 },
       { x: 1000, y: 1000 },
-      { x: 1000, y: 10000 }
+      { x: 1000, y: 10000 },
     ];
 
     filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -458,7 +466,7 @@ describe('HelpersService', () => {
       { x: 100, y: 1000 },
       { x: 1000, y: 0 },
       { x: 1000, y: 100 },
-      { x: 1000, y: 1000 }
+      { x: 1000, y: 1000 },
     ];
 
     filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -472,7 +480,7 @@ describe('HelpersService', () => {
       { x: 100, y: 1000 },
       { x: 1000, y: 0 },
       { x: 1000, y: 100 },
-      { x: 1000, y: 1000 }
+      { x: 1000, y: 1000 },
     ];
 
     filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -484,7 +492,7 @@ describe('HelpersService', () => {
       { x: 100, y: 100 },
       { x: 100, y: 1000 },
       { x: 1000, y: 100 },
-      { x: 1000, y: 1000 }
+      { x: 1000, y: 1000 },
     ];
 
     filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -507,49 +515,49 @@ describe('HelpersService', () => {
         appliedStress: {
           0: {
             x: 2022,
-            y: 400
+            y: 400,
           },
           1: {
             x: 2022,
-            y: 103.68280846627218
+            y: 103.68280846627218,
           },
           2: {
             x: 10000,
-            y: 400
-          }
+            y: 400,
+          },
         },
         percentile1: undefined,
         percentile10: undefined,
         percentile90: undefined,
-        percentile99: undefined
+        percentile99: undefined,
       },
       haigh: {
         snCurve: undefined,
-        appliedStress: undefined
+        appliedStress: undefined,
       },
       kpi: {
         fatigue: {
           0: 127.48671337634478,
-          1: 129.60351058284022
+          1: 129.60351058284022,
         },
-        slope: 5.635329994802062
-      }
+        slope: 5.635329994802062,
+      },
     };
 
     let request = ({
       rrelation: 0,
-      mpa: 400
+      mpa: 400,
     } as unknown) as PredictionRequest;
 
     const display = ({
-      chartType: ChartType.Woehler
+      chartType: ChartType.Woehler,
     } as unknown) as Display;
 
     let expectedKpis: KpiParsedWoehler = {
       fatigue: 127.48671337634478,
       slope: 5.635329994802062,
       count: 2022,
-      mpa: 400
+      mpa: 400,
     };
 
     let kpis = helpersService.prepareKpis(predictionResult, display, request);
@@ -563,24 +571,24 @@ describe('HelpersService', () => {
         appliedStress: {
           0: {
             x: 2022,
-            y: 400
+            y: 400,
           },
           1: {
             x: 100000000,
-            y: 103.68280846627218
+            y: 103.68280846627218,
           },
           2: {
             x: 10000,
-            y: 400
-          }
-        }
-      }
+            y: 400,
+          },
+        },
+      },
     };
 
     expectedKpis = {
       ...expectedKpis,
       fatigue: 129.60351058284022,
-      count: -1
+      count: -1,
     };
 
     kpis = helpersService.prepareKpis(predictionResult, display, request);
@@ -595,29 +603,29 @@ describe('HelpersService', () => {
         percentile1: undefined,
         percentile10: undefined,
         percentile90: undefined,
-        percentile99: undefined
+        percentile99: undefined,
       },
       haigh: {
         snCurve: undefined,
-        appliedStress: undefined
+        appliedStress: undefined,
       },
       kpi: {
         fatigue: {
           0: 127.48671337634478,
-          1: 129.60351058284022
+          1: 129.60351058284022,
         },
-        slope: 5.635329994802062
-      }
+        slope: 5.635329994802062,
+      },
     };
 
     const display = ({
-      chartType: ChartType.Haigh
+      chartType: ChartType.Haigh,
     } as unknown) as Display;
 
     const expectedKpis: KpiParsedHaigh = {
       fatigue: 127.48671337634478,
       fatigue1: 129.60351058284022,
-      meanStress: 0.016604061320857566
+      meanStress: 0.016604061320857566,
     };
 
     const kpis = helpersService.prepareKpis(
@@ -632,6 +640,7 @@ describe('HelpersService', () => {
     const predictionResult = helpersService.preparePredictionResult(
       undefined,
       undefined,
+      undefined,
       undefined
     );
     expect(predictionResult).toEqual(undefined);
@@ -642,14 +651,15 @@ describe('HelpersService', () => {
       chartType: ChartType.Woehler,
       showFKM: true,
       showMurakami: true,
-      bannerOpen: false
+      bannerOpen: false,
     };
 
     const expectedResult = defaults.defaultPredictionResultParsedWoehler;
     const result = helpersService.preparePredictionResult(
       defaults.defaultPredictionResult,
       display,
-      defaults.defaultPredictionRequest
+      defaults.defaultPredictionRequest,
+      defaults.loads
     );
     expect(result).toEqual(expectedResult);
   });
@@ -659,14 +669,15 @@ describe('HelpersService', () => {
       chartType: ChartType.Haigh,
       showFKM: true,
       showMurakami: true,
-      bannerOpen: false
+      bannerOpen: false,
     };
 
     const expectedResult = defaults.defaultPredictionResultParsedHaigh;
     const result = helpersService.preparePredictionResult(
       defaults.defaultPredictionResult,
       display,
-      defaults.defaultPredictionRequest
+      defaults.defaultPredictionRequest,
+      defaults.loads
     );
     expect(result).toEqual(expectedResult);
   });
@@ -675,16 +686,16 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 100,
-        y: 100
+        y: 100,
       },
       1: {
         x: 1000000,
-        y: 50
+        y: 50,
       },
       2: {
         x: 10000000,
-        y: 50
-      }
+        y: 50,
+      },
     };
 
     const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
@@ -696,16 +707,16 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 100,
-        y: 100
+        y: 100,
       },
       1: {
         x: 10000,
-        y: 100
+        y: 100,
       },
       2: {
         x: 10000,
-        y: 0
-      }
+        y: 0,
+      },
     };
 
     const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
@@ -716,16 +727,16 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 10000,
-        y: 100
+        y: 100,
       },
       1: {
         x: 100000,
-        y: 50
+        y: 50,
       },
       2: {
         x: 100000,
-        y: 20
-      }
+        y: 20,
+      },
     };
 
     const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
@@ -737,16 +748,16 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 0,
-        y: 100
+        y: 100,
       },
       1: {
         x: 100,
-        y: 50
+        y: 50,
       },
       2: {
         x: 1000,
-        y: 50
-      }
+        y: 50,
+      },
     };
 
     const result = helpersService.isSNShape(graph);
@@ -757,12 +768,12 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 0,
-        y: 100
+        y: 100,
       },
       1: {
         x: 1000,
-        y: 100
-      }
+        y: 100,
+      },
     };
 
     const result = helpersService.isSNShape(graph);
@@ -773,22 +784,22 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 100,
-        y: 100
+        y: 100,
       },
       1: {
         x: 1000000,
-        y: 50
+        y: 50,
       },
       2: {
         x: 10000000,
-        y: 50
-      }
+        y: 50,
+      },
     };
 
     const expectedArray = [
       { x: 100, definitelyNotY: 100 },
       { x: 1000000, definitelyNotY: 50 },
-      { x: 10000000, definitelyNotY: 50 }
+      { x: 10000000, definitelyNotY: 50 },
     ];
     const transformedGraph = helpersService.transformGraph(
       graph,
@@ -801,22 +812,22 @@ describe('HelpersService', () => {
     const graph = {
       0: {
         x: 100,
-        y: 100
+        y: 100,
       },
       1: {
         x: 1000000,
-        y: 50
+        y: 50,
       },
       2: {
         x: 10000000,
-        y: 50
-      }
+        y: 50,
+      },
     };
 
     const expectedArray = [
       { x: 100, y: 100 },
       { x: 1000000, y: 50 },
-      { x: 10000000, y: 50 }
+      { x: 10000000, y: 50 },
     ];
     const transformedGraph = helpersService.graphToArray(graph);
     expect(transformedGraph).toEqual(expectedArray);
@@ -829,7 +840,7 @@ describe('HelpersService', () => {
     const expectedGraph = {
       0: { x: 10000, y: 671.4272431425106 },
       1: { x: 1000000, y: 267.29999999999995 },
-      2: { x: 10000000, y: 267.29999999999995 }
+      2: { x: 10000000, y: 267.29999999999995 },
     };
     const fkm = helpersService.calculateFKMWoehler(krs, request);
     expect(fkm).toEqual(expectedGraph);
@@ -842,7 +853,7 @@ describe('HelpersService', () => {
     const expectedGraph = {
       0: { x: 10000, y: 606.035962760638 },
       1: { x: 1000000, y: 241.26726238830219 },
-      2: { x: 10000000, y: 241.26726238830219 }
+      2: { x: 10000000, y: 241.26726238830219 },
     };
     const fkm = helpersService.calculateFKMWoehler(krs, request);
     expect(fkm).toEqual(expectedGraph);
@@ -855,7 +866,7 @@ describe('HelpersService', () => {
     const expectedGraph = {
       0: { x: 10000, y: 1000 },
       1: { x: 1000000, y: 100 },
-      2: { x: 10000000, y: 100 }
+      2: { x: 10000000, y: 100 },
     };
     const sn = helpersService.createGraphObjectWoehler(start, sa);
     expect(sn).toEqual(expectedGraph);
@@ -866,7 +877,7 @@ describe('HelpersService', () => {
 
     const expectedGraph = {
       0: { x: 0, y: 267.29999999999995 },
-      1: { x: 241.26726238830219, y: 241.26726238830219 }
+      1: { x: 241.26726238830219, y: 241.26726238830219 },
     };
     const fkm = helpersService.calculateFKMHaigh(request);
     expect(fkm).toEqual(expectedGraph);
@@ -879,20 +890,20 @@ describe('HelpersService', () => {
     let expectedGraph = {
       0: { x: 10000, y: 898.9817024538035 },
       1: { x: 1000000, y: 357.89106194324967 },
-      2: { x: 10000000, y: 357.89106194324967 }
+      2: { x: 10000000, y: 357.89106194324967 },
     };
     let murakami = helpersService.calculateMurakamiWoehler(krs, request);
     expect(murakami).toEqual(expectedGraph);
 
     request = {
       ...defaults.defaultPredictionRequest,
-      rrelation: 0
+      rrelation: 0,
     };
 
     expectedGraph = {
       0: { x: 10000, y: 759.100947329734 },
       1: { x: 1000000, y: 302.20353030591974 },
-      2: { x: 10000000, y: 302.20353030591974 }
+      2: { x: 10000000, y: 302.20353030591974 },
     };
     murakami = helpersService.calculateMurakamiWoehler(krs, request);
     expect(murakami).toEqual(expectedGraph);
@@ -903,7 +914,7 @@ describe('HelpersService', () => {
 
     const expectedGraph = {
       0: { x: 0, y: 357.89106194324967 },
-      1: { x: 302.20353030591974, y: 302.20353030591974 }
+      1: { x: 302.20353030591974, y: 302.20353030591974 },
     };
     const murakami = helpersService.calculateMurakamiHaigh(request);
     expect(murakami).toEqual(expectedGraph);
@@ -927,29 +938,29 @@ describe('HelpersService', () => {
       x_max: 700,
       x_min: 0,
       y_max: 700,
-      y_min: 0
+      y_min: 0,
     };
 
     const graph = {
       0: {
         x: 0,
-        y: 0
+        y: 0,
       },
       1: {
         x: 600,
-        y: 600
-      }
+        y: 600,
+      },
     };
 
     const expectedGraph = {
       0: {
         x: 0,
-        y: 0
+        y: 0,
       },
       1: {
         x: 770,
-        y: 770
-      }
+        y: 770,
+      },
     };
 
     const extendedGraph = helpersService.extendGraphHaigh(graph, limits);
@@ -961,18 +972,18 @@ describe('HelpersService', () => {
       x_max: 500,
       x_min: 0,
       y_max: 500,
-      y_min: 0
+      y_min: 0,
     };
 
     const graph = {
       0: {
         x: 0,
-        y: 0
+        y: 0,
       },
       1: {
         x: 600,
-        y: 600
-      }
+        y: 600,
+      },
     };
 
     const extendedGraph = helpersService.extendGraphHaigh(graph, limits);
@@ -980,13 +991,17 @@ describe('HelpersService', () => {
   });
 
   it('should calculate the woehler limits', () => {
-    const points = [{ x: 0, y: 100 }, { x: 0, y: 1000 }, { x: 0, y: 10000 }];
+    const points = [
+      { x: 0, y: 100 },
+      { x: 0, y: 1000 },
+      { x: 0, y: 10000 },
+    ];
 
     const expectedLimits: Limits = {
       x_max: 10000000,
       x_min: 10000,
       y_max: 11000,
-      y_min: 90
+      y_min: 90,
     };
     const limits = helpersService.calculateLimitsWoehler(points);
     expect(limits).toEqual(expectedLimits);
@@ -999,14 +1014,14 @@ describe('HelpersService', () => {
       { x: 0, y: 10000 },
       { y: 0, x: 100 },
       { y: 0, x: 1000 },
-      { y: 0, x: 10000 }
+      { y: 0, x: 10000 },
     ];
 
     const expectedLimits: Limits = {
       x_max: 10000,
       x_min: 0,
       y_max: 10000,
-      y_min: 0
+      y_min: 0,
     };
     const limits = helpersService.calculateLimitsHaigh(points);
     expect(limits).toEqual(expectedLimits);

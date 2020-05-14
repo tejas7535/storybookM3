@@ -1,20 +1,19 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
-
-import { RestService } from './rest.service';
 
 import { mockedMaterials } from '../../mocks/mock.constants';
 import {
   BurdeningType,
   Model,
   Prediction,
-  PredictionRequest
+  PredictionRequest,
 } from '../../shared/models';
+import { RestService } from './rest.service';
 
 describe('RestService', () => {
   let myProvider: RestService;
@@ -23,7 +22,7 @@ describe('RestService', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [RestService]
+      providers: [RestService],
     });
 
     myProvider = TestBed.inject(RestService);
@@ -42,10 +41,10 @@ describe('RestService', () => {
     it('should return an Observable<Model[]>', () => {
       const mockedModels: Model[] = [
         { id: 0, name: 'WOEHLER_CURVE' },
-        { id: 1, name: 'HAIGH_CURVE' }
+        { id: 1, name: 'HAIGH_CURVE' },
       ];
 
-      myProvider.getModels().subscribe(models => {
+      myProvider.getModels().subscribe((models) => {
         expect(models.length).toBe(2);
         expect(models).toEqual(mockedModels);
       });
@@ -60,10 +59,10 @@ describe('RestService', () => {
     it('should return an Observable<Model[]>', () => {
       const mockedPredictions: Prediction[] = [
         { id: 0, name: 'Arnold Strong' },
-        { id: 1, name: 'Silvester Stallone' }
+        { id: 1, name: 'Silvester Stallone' },
       ];
 
-      myProvider.getPredictions().subscribe(models => {
+      myProvider.getPredictions().subscribe((models) => {
         expect(models.length).toBe(2);
         expect(models).toEqual(mockedPredictions);
       });
@@ -78,10 +77,10 @@ describe('RestService', () => {
     it('should return an Observable<Model[]>', () => {
       const mockedBurdeningTypes: BurdeningType[] = [
         { id: 0, name: 'Jet Lee' },
-        { id: 1, name: 'Tyson Fury' }
+        { id: 1, name: 'Tyson Fury' },
       ];
 
-      myProvider.getBurdeningTypes().subscribe(models => {
+      myProvider.getBurdeningTypes().subscribe((models) => {
         expect(models.length).toBe(2);
         expect(models).toEqual(mockedBurdeningTypes);
       });
@@ -98,7 +97,7 @@ describe('RestService', () => {
     it('should return an Observable<Material[]', () => {
       myProvider
         .getMaterials()
-        .subscribe(materials => expect(materials).toEqual(mockedMaterials));
+        .subscribe((materials) => expect(materials).toEqual(mockedMaterials));
 
       const req = httpMock.expectOne(`${myProvider.SERVER_URL}/getMaterials`);
       expect(req.request.method).toBe('GET');
@@ -124,20 +123,26 @@ describe('RestService', () => {
       hv_core: 500,
       a90: 100,
       gradient: 1,
-      multiaxiality: 0
+      multiaxiality: 0,
     };
 
     const mockedHaighPrediction = {
       'fatigue_strength-1': 129.60351058284022,
       fatigue_strength0: 127.48671337634478,
-      plot1: [[0, 0], [229.60351058284022, 229.60351058284022]],
-      plot2: [[0, 129.60351058284022], [127.48671337634478, 127.48671337634478]]
+      plot1: [
+        [0, 0],
+        [229.60351058284022, 229.60351058284022],
+      ],
+      plot2: [
+        [0, 129.60351058284022],
+        [127.48671337634478, 127.48671337634478],
+      ],
     };
 
     it('should return an Observable<PredictionResult>', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 1)
-        .subscribe(haighResult => {
+        .subscribe((haighResult) => {
           expect(haighResult).toEqual(mockedHaighPrediction);
         });
 
@@ -149,7 +154,7 @@ describe('RestService', () => {
     it('should return PredictionResult for Woehler Chart', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 2)
-        .subscribe(woehlerResult => {
+        .subscribe((woehlerResult) => {
           expect(woehlerResult).toEqual(undefined);
         });
 
@@ -161,7 +166,13 @@ describe('RestService', () => {
 
   describe('postLoadsData', () => {
     it('should return an Observable<any[]', () => {
-      const mockedLoads = {};
+      const mockedLoadsRequest = {
+        status: 1,
+        data: [0, 1, 2],
+        conversionFactor: 4,
+        repetitionFactor: 3,
+        method: 'Goodman',
+      };
       const mockedPredictionRequest: PredictionRequest = {
         prediction: 0,
         mpa: 400,
@@ -179,17 +190,17 @@ describe('RestService', () => {
         hv_core: 500,
         a90: 100,
         gradient: 1,
-        multiaxiality: 0
+        multiaxiality: 0,
       };
 
       const mockedLoadsPrediction = {
         woehler: {},
-        loads: { x: [] as number[], y: [] as number[] }
+        loads: { x: [] as number[], y: [] as number[] },
       };
 
       myProvider
-        .postLoadsData(mockedLoads, mockedPredictionRequest)
-        .subscribe(loadsResult => {
+        .postLoadsData(mockedLoadsRequest, mockedPredictionRequest)
+        .subscribe((loadsResult) => {
           expect(loadsResult).toEqual(mockedLoadsPrediction);
         });
 

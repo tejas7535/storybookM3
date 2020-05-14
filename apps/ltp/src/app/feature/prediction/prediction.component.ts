@@ -167,7 +167,7 @@ export class PredictionComponent implements OnInit {
 
       GRAPH_DEFINITIONS_WOEHLER.forEach((graphDefinition) => {
         const { name, survivalProbability } = graphDefinition;
-        if (name === seriesName) {
+        if (name === seriesName && survivalProbability) {
           text = `${text}<br>${translate(
             'prediction.chart.tooltipSurvivalProbability',
             {

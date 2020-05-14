@@ -11,7 +11,12 @@
         <mat-label>
           {{ t('conversionFactor') }}
         </mat-label>
-        <input matInput type="number" formControlName="conversionFactor" />
+        <input
+          matInput
+          type="number"
+          min="0.01"
+          formControlName="conversionFactor"
+        />
       </mat-form-field>
       <br />
       <p>{{ t('repetitionNumberforRainflow') }}</p>
@@ -19,17 +24,19 @@
         <mat-label>
           {{ t('repetitionFactor') }}
         </mat-label>
-        <input matInput type="number" formControlName="repetitionFactor" />
+        <input
+          matInput
+          type="number"
+          min="0.01"
+          formControlName="repetitionFactor"
+        />
       </mat-form-field>
       <br />
       <h3>{{ t('meanStressCorrection') }}</h3>
       <mat-label>
         {{ t('meanStressCorrectionMethod') }}
       </mat-label>
-      <mat-radio-group
-        class="load-radio-group"
-        formControlName="meanStressCorrectionMethod"
-      >
+      <mat-radio-group class="load-radio-group" formControlName="method">
         <mat-radio-button
           class="load-radio-button"
           *ngFor="let method of methods"

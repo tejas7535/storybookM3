@@ -3,7 +3,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 import {
   LoadsRequest,
   PredictionRequest,
-  PredictionResult
+  PredictionResult,
 } from '../../../shared/models';
 import * as PredictionActions from '../actions/prediction.actions';
 
@@ -32,18 +32,18 @@ export const initialState: PredictionState = {
     hv_core: 500,
     a90: 100,
     gradient: 1,
-    multiaxiality: 0
+    multiaxiality: 0,
   },
   predictionResult: undefined,
   loadsRequest: {
     status: 0, // 0 initial, 1 pending, 2 success, 3 error
     error: undefined,
     data: undefined,
-    conversionFactor: 0,
-    repetitionFactor: 0,
-    method: 'FKM'
+    conversionFactor: 1,
+    repetitionFactor: 1,
+    method: 'FKM',
   },
-  loads: undefined
+  loads: undefined,
 };
 
 export const predictionReducer = createReducer(
@@ -65,7 +65,7 @@ export const predictionReducer = createReducer(
       hv_core,
       a90,
       gradient,
-      multiaxiality
+      multiaxiality,
     } = predictionRequest;
 
     return {
@@ -87,28 +87,28 @@ export const predictionReducer = createReducer(
         hv_core,
         a90,
         gradient,
-        multiaxiality
-      }
+        multiaxiality,
+      },
     };
   }),
-  on(PredictionActions.unsetPredictionRequest, state => ({
+  on(PredictionActions.unsetPredictionRequest, (state) => ({
     ...state,
-    predictionRequest: initialState.predictionRequest
+    predictionRequest: initialState.predictionRequest,
   })),
   on(PredictionActions.setPredictionType, (state, { prediction }) => ({
     ...state,
     predictionRequest: {
       ...state.predictionRequest,
-      prediction
-    }
+      prediction,
+    },
   })),
   on(PredictionActions.setPredictionResult, (state, { predictionResult }) => ({
     ...state,
-    predictionResult
+    predictionResult,
   })),
   on(PredictionActions.postLoadsData, (state, { loadsRequest }) => ({
     ...state,
-    loadsRequest
+    loadsRequest,
   })),
   on(PredictionActions.setLoadsResult, (state, { loads, status, error }) => ({
     ...state,
@@ -116,15 +116,15 @@ export const predictionReducer = createReducer(
     loadsRequest: {
       ...state.loadsRequest,
       status,
-      error
-    }
+      error,
+    },
   })),
   on(PredictionActions.setHardness, (state, { selectedHardness }) => ({
     ...state,
     predictionRequest: {
       ...state.predictionRequest,
-      hv: selectedHardness
-    }
+      hv: selectedHardness,
+    },
   }))
 );
 

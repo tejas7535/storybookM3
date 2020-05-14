@@ -21,7 +21,7 @@ describe('PredictionSelectors', () => {
         hv_core: 500,
         a90: 100,
         gradient: 1,
-        multiaxiality: 0
+        multiaxiality: 0,
       },
       // prediction: undefined,
       predictionResult: undefined,
@@ -29,11 +29,11 @@ describe('PredictionSelectors', () => {
         data: [0, 1, 2, 3],
         status: 1,
         error: undefined,
-        conversionFactor: 0,
-        repetitionFactor: 0,
-        method: 'FKM'
+        conversionFactor: 1,
+        repetitionFactor: 1,
+        method: 'FKM',
       },
-      loads: undefined
+      loads: undefined,
     };
 
     expect(
@@ -42,22 +42,22 @@ describe('PredictionSelectors', () => {
       data: [0, 1, 2, 3],
       status: 1,
       error: undefined,
-      conversionFactor: 0,
-      repetitionFactor: 0,
-      method: 'FKM'
+      conversionFactor: 1,
+      repetitionFactor: 1,
+      method: 'FKM',
     });
   });
 
   it('should getLoadsPoints', () => {
     const mockedLoads = {
       x: [1, 2, 3],
-      y: [4, 5, 6]
+      y: [4, 5, 6],
     };
 
     expect(PredictionSelectors.getLoadsPoints.projector(mockedLoads)).toEqual([
       { x: 1, y: 4 },
       { x: 2, y: 5 },
-      { x: 3, y: 6 }
+      { x: 3, y: 6 },
     ]);
   });
 });

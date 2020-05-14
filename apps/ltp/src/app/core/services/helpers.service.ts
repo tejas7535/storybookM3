@@ -1,6 +1,6 @@
 import {
   CHART_SETTINGS_HAIGH,
-  CHART_SETTINGS_WOEHLER
+  CHART_SETTINGS_WOEHLER,
 } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
 import {
@@ -13,7 +13,7 @@ import {
   Point,
   PredictionRequest,
   PredictionResult,
-  PredictionResultParsed
+  PredictionResultParsed,
 } from '../../shared/models';
 
 export class HelpersService {
@@ -32,8 +32,8 @@ export class HelpersService {
         label: {
           horizontalAlignment: 'left',
           position: 'outside',
-          verticalAlignment: 'center'
-        }
+          verticalAlignment: 'center',
+        },
       });
       start = start < 800 ? start + 50 : start + 100;
     }
@@ -77,7 +77,7 @@ export class HelpersService {
           predictionResult.woehler.appliedStress[1].x < 10000000
             ? predictionResult.woehler.appliedStress[1].x
             : -1,
-        mpa: request.mpa
+        mpa: request.mpa,
       };
     }
 
@@ -85,7 +85,7 @@ export class HelpersService {
       fatigue: predictionResult.kpi.fatigue[0],
       fatigue1: predictionResult.kpi.fatigue[1],
       meanStress:
-        predictionResult.kpi.fatigue[1] / predictionResult.kpi.fatigue[0] - 1
+        predictionResult.kpi.fatigue[1] / predictionResult.kpi.fatigue[0] - 1,
     };
   }
 
@@ -95,7 +95,8 @@ export class HelpersService {
   public preparePredictionResult(
     predictionResult: PredictionResult,
     display: Display,
-    request: PredictionRequest
+    request: PredictionRequest,
+    loadsPoints: Point[]
   ): PredictionResultParsed {
     if (!predictionResult) {
       return undefined;
@@ -122,9 +123,10 @@ export class HelpersService {
           ...data,
           ...this.transformGraph(
             fkm,
-            CHART_SETTINGS_WOEHLER.sources.find(src => src.identifier === 'fkm')
-              .value
-          )
+            CHART_SETTINGS_WOEHLER.sources.find(
+              (src) => src.identifier === 'fkm'
+            ).value
+          ),
         ];
       }
       if (display.showMurakami) {
@@ -134,26 +136,30 @@ export class HelpersService {
           ...this.transformGraph(
             murakami,
             CHART_SETTINGS_WOEHLER.sources.find(
-              src => src.identifier === 'murakami'
+              (src) => src.identifier === 'murakami'
             ).value
-          )
+          ),
         ];
       }
       // parse display
       Object.entries(predictionResult.woehler).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_WOEHLER.sources.find(
-          src => src.identifier === value[0]
+          (src) => src.identifier === value[0]
         );
         data = [
           ...data,
           ...this.transformGraph(
             this.calculateStartPoint(value[1], predictionResult.kpi.slope),
             source.value
-          )
+          ),
         ];
       });
+
       limits = this.calculateLimitsWoehler(data);
-      data.map(point => {
+
+      data = [...data, ...loadsPoints]; // add loaddata after limits are calculated
+
+      data.map((point) => {
         const keys = Object.keys(point);
         if (point[keys[1]] === 0) {
           point[keys[1]] = limits.y_min;
@@ -173,9 +179,9 @@ export class HelpersService {
           ...data,
           ...this.transformGraph(
             fkm,
-            CHART_SETTINGS_HAIGH.sources.find(src => src.identifier === 'fkm')
+            CHART_SETTINGS_HAIGH.sources.find((src) => src.identifier === 'fkm')
               .value
-          )
+          ),
         ];
       }
       if (display.showMurakami) {
@@ -184,17 +190,18 @@ export class HelpersService {
           ...this.transformGraph(
             murakami,
             CHART_SETTINGS_HAIGH.sources.find(
-              src => src.identifier === 'murakami'
+              (src) => src.identifier === 'murakami'
             ).value
-          )
+          ),
         ];
       }
+
       limits = this.calculateLimitsHaigh(data);
 
       // parse display
       Object.entries(predictionResult.haigh).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_HAIGH.sources.find(
-          src => src.identifier === value[0]
+          (src) => src.identifier === value[0]
         );
         // TODO: see if that can be solved better...
         if (source.identifier === 'appliedStress') {
@@ -203,7 +210,7 @@ export class HelpersService {
             ...this.transformGraph(
               this.extendGraphHaigh(value[1], limits),
               source.value
-            )
+            ),
           ];
         } else {
           data = [...data, ...this.transformGraph(value[1], source.value)];
@@ -226,8 +233,8 @@ export class HelpersService {
         ...graph,
         0: {
           x: 10000,
-          y: newY
-        }
+          y: newY,
+        },
       };
     }
 
@@ -241,8 +248,8 @@ export class HelpersService {
         ...graph,
         2: {
           ...graph[2],
-          y: 0
-        }
+          y: 0,
+        },
       };
     }
 
@@ -268,7 +275,7 @@ export class HelpersService {
   public transformGraph(graph: Graph, argumentKey: string): Object[] {
     return Object.entries(graph).map((value: [string, Point]) => ({
       x: value[1].x,
-      [argumentKey]: value[1].y
+      [argumentKey]: value[1].y,
     }));
   }
 
@@ -305,7 +312,7 @@ export class HelpersService {
     return {
       0: { x: 10000, y: start },
       1: { x: 1000000, y: sa },
-      2: { x: 10000000, y: sa }
+      2: { x: 10000000, y: sa },
     };
   }
 
@@ -359,7 +366,7 @@ export class HelpersService {
   public createGraphObjectHaigh(rrelation0: number, rrelation1: number): Graph {
     return {
       0: { x: 0, y: rrelation0 },
-      1: { x: rrelation1, y: rrelation1 }
+      1: { x: rrelation1, y: rrelation1 },
     };
   }
 
@@ -371,12 +378,12 @@ export class HelpersService {
       return {
         0: {
           x: 0,
-          y: 0
+          y: 0,
         },
         1: {
           x: this.increase10Percent(limits.x_max),
-          y: this.increase10Percent(limits.y_max)
-        }
+          y: this.increase10Percent(limits.y_max),
+        },
       };
     }
 
@@ -389,18 +396,18 @@ export class HelpersService {
   public calculateLimitsWoehler(points: Object[]): Limits {
     // TODO: remove any
     const yVals: number[] = points
-      .map(p => {
+      .map((p) => {
         const pEntries: [string, any][] = Object.entries(p);
 
         return Number(pEntries[1][1]);
       })
-      .filter(val => val && val !== 0);
+      .filter((val) => val && val !== 0);
 
     return {
       x_max: 10000000,
       x_min: 10000,
       y_max: this.increase10Percent(Math.max(...yVals)),
-      y_min: this.reduce10Percent(Math.min(...yVals))
+      y_min: this.reduce10Percent(Math.min(...yVals)),
     };
   }
 
@@ -409,12 +416,12 @@ export class HelpersService {
    */
   public calculateLimitsHaigh(points: Object[]): Limits {
     // TODO: remove any
-    const yVals: number[] = points.map(p => {
+    const yVals: number[] = points.map((p) => {
       const pEntries: [string, any][] = Object.entries(p);
 
       return Number(pEntries[1][1]);
     });
-    const xVals: number[] = points.map(p => {
+    const xVals: number[] = points.map((p) => {
       const pEntries: [string, any][] = Object.entries(p);
 
       return Number(pEntries[0][1]);
@@ -426,7 +433,7 @@ export class HelpersService {
       x_max: max,
       x_min: 0,
       y_max: max,
-      y_min: 0
+      y_min: 0,
     };
   }
 
