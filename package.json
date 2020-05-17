@@ -100,7 +100,7 @@
     "@babel/core": "7.9.6",
     "@commitlint/cli": "8.3.5",
     "@commitlint/config-conventional": "8.3.4",
-    "@ngneat/transloco-keys-manager": "2.0.6",
+    "@ngneat/transloco-keys-manager": "2.0.7",
     "@ngneat/transloco-optimize": "1.0.1",
     "@ngneat/transloco-validator": "1.0.0",
     "@nrwl/angular": "9.3.0",
