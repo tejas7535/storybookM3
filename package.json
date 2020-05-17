@@ -152,7 +152,7 @@
     "standard-version": "8.0.0",
     "stylelint": "13.4.0",
     "stylelint-order": "4.0.0",
-    "ts-jest": "25.4.0",
+    "ts-jest": "25.5.1",
     "ts-node": "8.10.1",
     "tsickle": "0.38.1",
     "tslint": "6.1.2",
