@@ -104,7 +104,7 @@
     "@ngneat/transloco-optimize": "1.0.1",
     "@ngneat/transloco-validator": "1.0.0",
     "@nrwl/angular": "9.3.0",
-    "@nrwl/cli": "9.2.4",
+    "@nrwl/cli": "9.3.0",
     "@nrwl/cypress": "9.3.0",
     "@nrwl/jest": "9.3.0",
     "@ngrx/store-devtools": "9.1.2",
