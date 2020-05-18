@@ -131,7 +131,7 @@
     "dotenv": "8.2.0",
     "eslint": "7.0.0",
     "git-branch": "2.0.1",
-    "htmlhint": "0.11.0",
+    "htmlhint": "0.13.0",
     "husky": "4.2.5",
     "jasmine-marbles": "0.6.0",
     "jest": "26.0.1",
