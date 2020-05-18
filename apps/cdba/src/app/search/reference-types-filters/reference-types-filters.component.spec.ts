@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,7 +13,11 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { search } from '../../core/store/actions/search/search.actions';
+import {
+  removeFilter,
+  search,
+  updateFilter,
+} from '../../core/store/actions/search/search.actions';
 import {
   FilterItemIdValue,
   FilterItemRange,
@@ -24,6 +29,7 @@ import {
 } from '../../core/store/selectors/search/search.selector';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
+import { RangeFilterValuePipe } from './range-filter/range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 import { ReferenceTypesFiltersComponent } from './reference-types-filters.component';
 
@@ -38,6 +44,7 @@ describe('ReferenceTypesFiltersComponent', () => {
         ReferenceTypesFiltersComponent,
         RangeFilterComponent,
         MultiSelectFilterComponent,
+        RangeFilterValuePipe,
       ],
       imports: [
         NoopAnimationsModule,
@@ -50,6 +57,7 @@ describe('ReferenceTypesFiltersComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
+        MatSliderModule,
       ],
       providers: [
         provideMockStore({
@@ -96,67 +104,35 @@ describe('ReferenceTypesFiltersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('selectIdValuesInFilter', () => {
-    test('should set filters to true where selected filters match', () => {
-      const item = new FilterItemIdValue('item', [
-        new IdValue('1', 'test1'),
-        new IdValue('2', 'test2'),
-        new IdValue('3', 'test3'),
-        new IdValue('4', 'test4'),
-        new IdValue('5', 'test5'),
-      ]);
-      const selectedItem = new FilterItemIdValue('item', [
-        new IdValue('1', 'test1', true),
-        new IdValue('2', 'test2', true),
-        new IdValue('3', 'test3', true),
-        new IdValue('4', 'test4', true),
-        new IdValue('5', 'test5', true),
-      ]);
+  describe('removeFilter', () => {
+    it('should dispatch removeFilter action', () => {
+      mockStore.dispatch = jest.fn();
 
-      ReferenceTypesFiltersComponent['selectIdValuesInFilter'](
-        item,
-        selectedItem
+      component.removeFilter('name');
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        removeFilter({ name: 'name' })
+      );
+    });
+  });
+
+  describe('updateFilter', () => {
+    it('should disptach action updateFilter', () => {
+      mockStore.dispatch = jest.fn();
+      const filter: FilterItemRange = new FilterItemRange(
+        'name',
+        0,
+        100,
+        20,
+        80,
+        'mm'
       );
 
-      item.items.forEach((i) => expect(i.selected).toBeTruthy());
-    });
-  });
+      component.updateFilter(filter);
 
-  describe('selectRangeInFilter', () => {
-    test('should set selectedMin/selectedMax according to selected filter ', () => {
-      const item = new FilterItemRange('filter1', 0, 500);
-
-      const selectedItem = new FilterItemRange('filter1', 0, 500, 23, 70);
-
-      ReferenceTypesFiltersComponent['selectRangeInFilter'](item, selectedItem);
-
-      expect(item.maxSelected).toEqual(selectedItem.maxSelected);
-      expect(item.minSelected).toEqual(selectedItem.minSelected);
-    });
-  });
-
-  describe('mergePossibleAndSelectedFilters', () => {
-    test('should return filter array with selected values', (done) => {
-      const expected = [
-        new FilterItemIdValue('id1', [
-          new IdValue('1', 'test1'),
-          new IdValue('2', 'test2'),
-          new IdValue('3', 'test3'),
-        ]),
-        new FilterItemIdValue('id2', [
-          new IdValue('a', 'test4'),
-          new IdValue('b', 'test5', true),
-          new IdValue('c', 'test6'),
-        ]),
-        new FilterItemRange('filter1', 0, 500, 23, 300),
-      ];
-
-      component.filters$.subscribe((val) => {
-        expect(val).toEqual(expected);
-        done();
-      });
-
-      component.mergePossibleAndSelectedFilters();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        updateFilter({ item: filter })
+      );
     });
   });
 

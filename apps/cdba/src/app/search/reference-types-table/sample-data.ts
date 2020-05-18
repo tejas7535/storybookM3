@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 interface SampleReference {
   id: string | undefined;
   materialNumber: string;

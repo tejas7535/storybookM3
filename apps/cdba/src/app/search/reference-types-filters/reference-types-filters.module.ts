@@ -5,11 +5,13 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
+import { RangeFilterValuePipe } from './range-filter/range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 import { ReferenceTypesFiltersComponent } from './reference-types-filters.component';
 
@@ -18,6 +20,7 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     ReferenceTypesFiltersComponent,
     RangeFilterComponent,
     MultiSelectFilterComponent,
+    RangeFilterValuePipe,
   ],
   imports: [
     SharedModule,
@@ -29,6 +32,7 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatSliderModule,
   ],
   exports: [ReferenceTypesFiltersComponent],
 })

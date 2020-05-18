@@ -1,0 +1,37 @@
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
+
+::ng-deep .range-menu {
+  margin-left: 4px;
+  margin-top: 30px;
+  min-width: 204px !important;
+  width: 204px !important;
+
+  &.ng-animating {
+    visibility: hidden;
+  }
+}
+
+mat-option {
+  height: 0 !important;
+}
+
+mat-select-trigger {
+  color: $schaeffler-carbon-gray;
+}
+
+.drop-down {
+  color: $schaeffler-carbon-gray;
+  font-size: $schaeffler-labels;
+  margin: 10px;
+
+  mat-form-field {
+    height: 42px;
+    width: 100%;
+  }
+
+  mat-icon {
+    cursor: pointer;
+    font-size: 18px;
+  }
+}

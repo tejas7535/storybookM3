@@ -1,5 +1,6 @@
+import { Action } from '@ngrx/store';
+
 import {
-  addFilter,
   applyTextSearch,
   applyTextSearchFailure,
   applyTextSearchSuccess,
@@ -25,7 +26,7 @@ import {
   SearchResult,
   TextSearch,
 } from './models';
-import { initialState, searchReducer } from './search.reducer';
+import { initialState, reducer, searchReducer } from './search.reducer';
 
 describe('Search Reducer', () => {
   describe('getInitialFilters', () => {
@@ -264,28 +265,12 @@ describe('Search Reducer', () => {
     });
   });
 
-  describe('addFilter', () => {
-    test('should add filter', () => {
-      const item = new FilterItemIdValue('customer', [
-        new IdValue('audi', 'Audi'),
-      ]);
-
-      const action = addFilter({ item });
-      const state = searchReducer(initialState, action);
-
-      expect(state.filters.selected.entities.customer).toEqual(item);
-    });
-  });
-
   describe('updateFilter', () => {
     test('should update filter', () => {
-      const update = new FilterItemIdValue('customer', [
+      const item = new FilterItemIdValue('customer', [
+        new IdValue('audi', 'Audi'),
         new IdValue('vw', 'VW'),
       ]);
-      const item = {
-        id: 'customer',
-        changes: update,
-      };
       const fakeState = {
         ...initialState,
         filters: {
@@ -304,7 +289,7 @@ describe('Search Reducer', () => {
       const action = updateFilter({ item });
       const state = searchReducer(fakeState, action);
 
-      expect(state.filters.selected.entities.customer).toEqual(update);
+      expect(state.filters.selected.entities.customer).toEqual(item);
     });
   });
 
@@ -397,6 +382,16 @@ describe('Search Reducer', () => {
       const state = searchReducer(initialState, action);
 
       expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('Reducer function', () => {
+    test('should return searchReducer', () => {
+      // prepare any action
+      const action: Action = autocompleteFailure();
+      expect(reducer(initialState, action)).toEqual(
+        searchReducer(initialState, action)
+      );
     });
   });
   // tslint:disable-next-line:max-file-line-count
