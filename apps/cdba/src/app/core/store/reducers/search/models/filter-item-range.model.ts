@@ -7,7 +7,8 @@ export class FilterItemRange extends FilterItem {
     public min: number,
     public max: number,
     public minSelected?: number,
-    public maxSelected?: number
+    public maxSelected?: number,
+    public unit?: string
   ) {
     super(name, FilterItemType.RANGE);
   }

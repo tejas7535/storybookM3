@@ -11,6 +11,8 @@
     <cdba-range-filter
       *ngSwitchCase="filterType.RANGE"
       [filter]="filter"
+      (removeFilter)="removeFilter($event)"
+      (updateFilter)="updateFilter($event)"
     ></cdba-range-filter>
   </ng-container>
 

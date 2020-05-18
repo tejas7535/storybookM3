@@ -1,1 +1,78 @@
-<p>range-filter works!</p>
+<mat-form-field
+  appearance="fill"
+  *transloco="let t; read: 'search.referenceTypesFilters'"
+>
+  <mat-label>{{ t(filter?.name) }}</mat-label>
+  <mat-select
+    [formControl]="form"
+    panelClass="range-menu"
+    disableOptionCentering
+  >
+    <mat-select-trigger>
+      {{ filter | rangeFilterValue }}
+    </mat-select-trigger>
+    <mat-option value="selected"></mat-option>
+    <div class="drop-down" fxLayout="column">
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+        <div #label fxFlex="50">Min. {{ t(filter?.name) }}</div>
+        <div #input fxFlex="40">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [value]="filter.minSelected ? filter.minSelected : filter.min"
+              [max]="filter.max"
+              [min]="filter.min"
+              (change)="update(inputType.Min, $event.target.value)"
+            />
+            <div *ngIf="filter.unit" matSuffix>{{ filter.unit }}</div>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+        <mat-slider
+          #minSlider
+          fxFlex
+          thumbLabel
+          color="primary"
+          [value]="filter.minSelected ? filter.minSelected : filter.min"
+          [max]="filter.max"
+          [min]="filter.min"
+          (change)="update(inputType.Min, $event.value)"
+        >
+        </mat-slider>
+        <mat-icon fxFlex="10" (click)="reset(inputType.Min)">restore</mat-icon>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+        <div #label fxFlex="50">Max. {{ t(filter?.name) }}</div>
+        <div #input fxFlex="40">
+          <mat-form-field>
+            <input
+              matInput
+              type="number"
+              [max]="filter.max"
+              [min]="filter.min"
+              [value]="filter.maxSelected ? filter.maxSelected : filter.max"
+              (change)="update(inputType.Max, $event.target.value)"
+            />
+          </mat-form-field>
+        </div>
+        <div *ngIf="filter.unit" fxFlex="10">{{ filter.unit }}</div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
+        <mat-slider
+          #maxSlider
+          fxFlex
+          thumbLabel
+          color="primary"
+          [value]="filter.maxSelected ? filter.maxSelected : filter.max"
+          [max]="filter.max"
+          [min]="filter.min"
+          (change)="update(inputType.Max, $event.value)"
+        >
+        </mat-slider>
+        <mat-icon fxFlex="10" (click)="reset(inputType.Max)">restore</mat-icon>
+      </div>
+    </div>
+  </mat-select>
+</mat-form-field>

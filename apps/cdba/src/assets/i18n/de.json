@@ -7,7 +7,9 @@
     "referenceTypesFilters": {
       "search": "Suche",
       "customer": "Kunde",
-      "productLine": "Produkt Linie"
+      "productLine": "Produkt Linie",
+      "length": "Länge",
+      "budgetQuantity": "Budgetierte Menge"
     },
     "referenceTypesTable": {
       "headers": {

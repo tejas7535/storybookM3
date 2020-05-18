@@ -1,10 +1,12 @@
 import {
   FilterItemIdValue,
+  FilterItemRange,
   IdValue,
   ReferenceType,
 } from '../../reducers/search/models';
 import { initialState } from '../../reducers/search/search.reducer';
 import {
+  getAllFilters,
   getInitialFiltersLoading,
   getPossibleFilters,
   getReferenceTypes,
@@ -66,14 +68,14 @@ describe('Search Selector', () => {
       const plant = new FilterItemIdValue('plant', [
         new IdValue('32', 'Nice Plant'),
       ]);
-      const selected = {
+      const possible = {
         ids: ['customer', 'plant'],
         entities: {
           customer,
           plant,
         },
       };
-      expect(getPossibleFilters.projector(selected)).toEqual([customer, plant]);
+      expect(getPossibleFilters.projector(possible)).toEqual([customer, plant]);
     });
   });
 
@@ -108,6 +110,61 @@ describe('Search Selector', () => {
   describe('getSearchSuccessful', () => {
     test('should return false if search has not been triggered yet', () => {
       expect(getSearchSuccessful({ search: initialState })).toBeFalsy();
+    });
+  });
+
+  describe('getAllFilters', () => {
+    test('should merge possible and selected filters', () => {
+      const customer = new FilterItemIdValue('customer', [
+        new IdValue('vw', 'VW'),
+      ]);
+      const plant = new FilterItemIdValue('plant', [
+        new IdValue('32', 'Nice Plant'),
+      ]);
+      const width = new FilterItemRange(
+        'width',
+        0,
+        100,
+        undefined,
+        undefined,
+        'mm'
+      );
+      const length = new FilterItemRange('length', 0, 100);
+      const possible = {
+        ids: ['plant', 'customer', 'width', 'length'],
+        entities: {
+          plant,
+          customer,
+          width,
+          length,
+        },
+      };
+      const selected = {
+        ids: ['plant', 'customer', 'width', 'length'],
+        entities: {
+          plant,
+          customer: { ...customer, items: [new IdValue('vw', 'VW', true)] },
+          width: { ...width, minSelected: 10 },
+          length: { ...length, maxSelected: 90 },
+        },
+      };
+
+      const state = {
+        ...fakeState,
+        search: {
+          ...fakeState.search,
+          filters: { ...fakeState.search.filters, possible, selected },
+        },
+      };
+
+      const expected = [
+        plant,
+        { ...customer, items: [new IdValue('vw', 'VW', true)] },
+        { ...width, minSelected: 10 },
+        { ...length, maxSelected: 90 },
+      ];
+
+      expect(getAllFilters(state)).toEqual(expected);
     });
   });
 });

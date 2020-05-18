@@ -1,7 +1,4 @@
-import { Update } from '@ngrx/entity';
-
 import {
-  addFilter,
   applyTextSearch,
   applyTextSearchFailure,
   applyTextSearchSuccess,
@@ -21,6 +18,7 @@ import {
 } from '../';
 import {
   FilterItemIdValue,
+  FilterItemRange,
   IdValue,
   ReferenceType,
   SearchResult,
@@ -90,32 +88,9 @@ describe('Search Actions', () => {
     });
   });
 
-  describe('Add Filter Action', () => {
-    test('addFilter', () => {
-      const item = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Super Plant'),
-      ]);
-
-      const action = addFilter({ item });
-
-      expect(action).toEqual({
-        item,
-        type: '[Search] Add Filter',
-      });
-    });
-  });
-
   describe('Update Filter Action', () => {
     test('updateFilter', () => {
-      const item: Update<FilterItemIdValue> = {
-        id: 'plant',
-        changes: {
-          items: [
-            new IdValue('23', 'Super Plant'),
-            new IdValue('24', 'Power Plant'),
-          ],
-        },
-      };
+      const item: FilterItemRange = new FilterItemRange('width', 100, 200);
 
       const action = updateFilter({ item });
 

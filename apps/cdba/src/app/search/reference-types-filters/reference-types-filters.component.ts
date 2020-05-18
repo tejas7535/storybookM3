@@ -1,22 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 
-import { combineLatest, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { search } from '../../core/store';
+import { removeFilter, search, updateFilter } from '../../core/store';
 import {
   FilterItem,
-  FilterItemIdValue,
-  FilterItemRange,
   FilterItemType,
 } from '../../core/store/reducers/search/models';
 import { SearchState } from '../../core/store/reducers/search/search.reducer';
-import {
-  getPossibleFilters,
-  getSelectedFilters,
-} from '../../core/store/selectors/search/search.selector';
+import { getAllFilters } from '../../core/store/selectors/search/search.selector';
 
 @Component({
   selector: 'cdba-reference-types-filters',
@@ -27,68 +21,24 @@ export class ReferenceTypesFiltersComponent implements OnInit {
 
   filterType = FilterItemType;
 
-  private static selectIdValuesInFilter(
-    filter: FilterItemIdValue,
-    selectedFilter: FilterItemIdValue
-  ): void {
-    selectedFilter.items.forEach((item) => {
-      const found = filter.items.filter((it) => it.id === item.id)[0];
-      if (found) {
-        found.selected = item.selected;
-      }
-    });
-  }
-
-  private static selectRangeInFilter(
-    filter: FilterItemRange,
-    selectedFilter: FilterItemRange
-  ): void {
-    filter.minSelected = selectedFilter.minSelected;
-    filter.maxSelected = selectedFilter.maxSelected;
-  }
-
   public constructor(private readonly store: Store<SearchState>) {}
 
   ngOnInit(): void {
-    this.mergePossibleAndSelectedFilters();
+    this.filters$ = this.store.pipe(select(getAllFilters));
   }
 
   /**
-   * Combine possible and selected filters
+   * Removes the given filter entirely from the selected ones
    */
-  public mergePossibleAndSelectedFilters(): void {
-    this.filters$ = combineLatest([
-      this.store.pipe(select(getPossibleFilters)),
-      this.store.pipe(select(getSelectedFilters)),
-    ]).pipe(
-      map(([possibleFilters, selectedFilters]) => {
-        const filters = [...possibleFilters];
+  public removeFilter(name: string): void {
+    this.store.dispatch(removeFilter({ name }));
+  }
 
-        filters.forEach((filter) => {
-          // check if this filter has selections
-          const selectedFilter = selectedFilters.find(
-            (f) => f.name === filter.name
-          );
-
-          if (selectedFilter) {
-            // set selected value(s) dependent on filter item type
-            if (filter.type === FilterItemType.ID_VALUE) {
-              ReferenceTypesFiltersComponent.selectIdValuesInFilter(
-                filter as FilterItemIdValue,
-                selectedFilter as FilterItemIdValue
-              );
-            } else if (filter.type === FilterItemType.RANGE) {
-              ReferenceTypesFiltersComponent.selectRangeInFilter(
-                filter as FilterItemRange,
-                selectedFilter as FilterItemRange
-              );
-            }
-          }
-        });
-
-        return filters;
-      })
-    );
+  /**
+   * Updates the given filter
+   */
+  public updateFilter(filter: FilterItem): void {
+    this.store.dispatch(updateFilter({ item: filter }));
   }
 
   /**

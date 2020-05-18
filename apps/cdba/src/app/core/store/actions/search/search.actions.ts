@@ -1,10 +1,7 @@
-import { Update } from '@ngrx/entity';
 import { createAction, props, union } from '@ngrx/store';
 
 import {
   FilterItem,
-  FilterItemIdValue,
-  FilterItemRange,
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
@@ -31,14 +28,9 @@ export const searchFailure = createAction(
   '[Search] Search Reference Types Failure'
 );
 
-export const addFilter = createAction(
-  '[Search] Add Filter',
-  props<{ item: FilterItem }>()
-);
-
 export const updateFilter = createAction(
   '[Search] Update Filter',
-  props<{ item: Update<FilterItemRange | FilterItemIdValue> }>()
+  props<{ item: FilterItem }>()
 );
 
 export const removeFilter = createAction(
@@ -87,7 +79,6 @@ const all = union({
   applyTextSearch,
   applyTextSearchSuccess,
   applyTextSearchFailure,
-  addFilter,
   updateFilter,
   removeFilter,
   resetFilters,

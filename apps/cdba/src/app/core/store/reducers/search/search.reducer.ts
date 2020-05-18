@@ -1,7 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
-  addFilter,
   applyTextSearch,
   applyTextSearchFailure,
   applyTextSearchSuccess,
@@ -140,18 +139,11 @@ export const searchReducer = createReducer(
   })),
 
   // entity changes
-  on(addFilter, (state: SearchState, { item }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      selected: filterItemAdapter.addOne(item, state.filters.selected),
-    },
-  })),
   on(updateFilter, (state: SearchState, { item }) => ({
     ...state,
     filters: {
       ...state.filters,
-      selected: filterItemAdapter.updateOne(item, state.filters.selected),
+      selected: filterItemAdapter.upsertOne(item, state.filters.selected),
     },
   })),
   on(removeFilter, (state: SearchState, { name }) => ({
