@@ -4,6 +4,8 @@
     "esbenp.prettier-vscode",
     "mkaufman.htmlhint",
     "stylelint.vscode-stylelint",
-    "rbbit.typescript-hero"
+    "rbbit.typescript-hero",
+    "dzhavat.rxjs-cheatsheet",
+    "nrwl.angular-console"
   ]
 }
