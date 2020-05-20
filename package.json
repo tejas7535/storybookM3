@@ -159,7 +159,7 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.8.3",
-    "webpack-bundle-analyzer": "3.7.0"
+    "webpack-bundle-analyzer": "3.8.0"
   },
   "config": {
     "commitizen": {
