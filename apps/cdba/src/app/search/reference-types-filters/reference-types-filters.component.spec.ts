@@ -1,11 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -14,6 +16,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
+  autocomplete,
   removeFilter,
   search,
   updateFilter,
@@ -22,6 +25,7 @@ import {
   FilterItemIdValue,
   FilterItemRange,
   IdValue,
+  TextSearch,
 } from '../../core/store/reducers/search/models';
 import {
   getPossibleFilters,
@@ -29,6 +33,7 @@ import {
 } from '../../core/store/selectors/search/search.selector';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
+import { MultiSelectValuePipe } from './multi-select-filter/multi-select-value.pipe';
 import { RangeFilterValuePipe } from './range-filter/range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 import { ReferenceTypesFiltersComponent } from './reference-types-filters.component';
@@ -45,6 +50,7 @@ describe('ReferenceTypesFiltersComponent', () => {
         RangeFilterComponent,
         MultiSelectFilterComponent,
         RangeFilterValuePipe,
+        MultiSelectValuePipe,
       ],
       imports: [
         NoopAnimationsModule,
@@ -58,6 +64,8 @@ describe('ReferenceTypesFiltersComponent', () => {
         MatInputModule,
         MatSelectModule,
         MatSliderModule,
+        MatCheckboxModule,
+        MatTooltipModule,
       ],
       providers: [
         provideMockStore({
@@ -132,6 +140,19 @@ describe('ReferenceTypesFiltersComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         updateFilter({ item: filter })
+      );
+    });
+  });
+
+  describe('autocomplete', () => {
+    it('should dispatch autocomplete action', () => {
+      mockStore.dispatch = jest.fn();
+      const textSearch = new TextSearch('name', 'Hans');
+
+      component.autocomplete(textSearch);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        autocomplete({ textSearch })
       );
     });
   });

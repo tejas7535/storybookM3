@@ -19,6 +19,7 @@ import {
   updateFilter,
 } from '../../actions/search/search.actions';
 import { filterItemAdapter, FilterItemState } from './filter-item.entity';
+import { FilterItem, FilterItemIdValue, FilterItemType } from './models';
 
 export interface SearchState {
   filters: {
@@ -54,6 +55,20 @@ export const initialState: SearchState = {
   },
 };
 
+const extendFilterItemIdValueWithSelected = (items: FilterItem[]) => {
+  return items.map((item) =>
+    item.type === FilterItemType.ID_VALUE
+      ? {
+          ...item,
+          items: (item as FilterItemIdValue).items.map((it) => ({
+            ...it,
+            selected: false,
+          })),
+        }
+      : item
+  );
+};
+
 export const searchReducer = createReducer(
   initialState,
   // initial filters
@@ -66,7 +81,10 @@ export const searchReducer = createReducer(
     filters: {
       ...state.filters,
       loading: false,
-      possible: filterItemAdapter.setAll(items, state.filters.possible),
+      possible: filterItemAdapter.setAll(
+        extendFilterItemIdValueWithSelected(items),
+        state.filters.possible
+      ),
     },
   })),
   on(getInitialFiltersFailure, (state: SearchState) => ({
@@ -87,7 +105,7 @@ export const searchReducer = createReducer(
     filters: {
       ...state.filters,
       possible: filterItemAdapter.setAll(
-        searchResult.possible,
+        extendFilterItemIdValueWithSelected(searchResult.possible),
         state.filters.possible
       ),
     },

@@ -6,6 +6,9 @@
     <cdba-multi-select-filter
       *ngSwitchCase="filterType.ID_VALUE"
       [filter]="filter"
+      (autocomplete)="autocomplete($event)"
+      (removeFilter)="removeFilter($event)"
+      (updateFilter)="updateFilter($event)"
     ></cdba-multi-select-filter>
 
     <cdba-range-filter

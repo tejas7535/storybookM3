@@ -9,7 +9,11 @@
       "customer": "Kunde",
       "productLine": "Produkt Linie",
       "length": "Länge",
-      "budgetQuantity": "Budgetierte Menge"
+      "budgetQuantity": "Budgetierte Menge",
+      "plant": "Werk",
+      "searchPlaceholder": "Suche...",
+      "selectAll": "Alle auswählen",
+      "msd": "Material Kurzbeschreibung"
     },
     "referenceTypesTable": {
       "headers": {
