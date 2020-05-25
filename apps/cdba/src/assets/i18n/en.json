@@ -26,6 +26,9 @@
       },
       "statusBar": {
         "detail": "Detail View"
+      },
+      "menu": {
+        "resetAll": "Reset table to its default settings"
       }
     }
   }

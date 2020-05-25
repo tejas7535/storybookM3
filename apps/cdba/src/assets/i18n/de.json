@@ -26,6 +26,9 @@
       },
       "statusBar": {
         "detail": "Detailansicht"
+      },
+      "menu": {
+        "resetAll": "Tabelle auf Standardeinstellungen zurücksetzen"
       }
     }
   }
