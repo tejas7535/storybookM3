@@ -42,10 +42,22 @@ const mergeIdValueFilter = (
   filter: FilterItemIdValue,
   selectedFilter: FilterItemIdValue
 ): FilterItemIdValue => {
-  const items: IdValue[] = filter.items.map((item) => ({
+  let items: IdValue[] = filter.items.map((item) => ({
     ...item,
     selected: selectedFilter.items.find((it) => it.id === item.id)?.selected,
   }));
+
+  // add selected filters that did not come back from BE
+  selectedFilter.items.forEach((it) => {
+    const found = items.find((i) => i.id === it.id);
+    if (!found) {
+      items.push(it);
+    }
+  });
+
+  items = items.sort((a, b) =>
+    a.selected === b.selected ? 0 : a.selected ? -1 : 1
+  );
 
   return { ...filter, items };
 };
@@ -88,7 +100,25 @@ const mergePossibleAndSelectedFilters = (
         );
       }
     } else {
-      combinedFilters.push(filter);
+      combinedFilters.push({ ...filter });
+    }
+  });
+
+  // add filter that are not part of possible filter but are still selected
+  selectedFilters.forEach((filter) => {
+    const relatedPossibleFilter = combinedFilters.find(
+      (it) => it.name === filter.name
+    );
+
+    if (!relatedPossibleFilter) {
+      const updatedFilter = { ...filter };
+      if (updatedFilter.type === FilterItemType.ID_VALUE) {
+        (updatedFilter as FilterItemIdValue).items = (updatedFilter as FilterItemIdValue).items.filter(
+          (it) => it.selected
+        );
+      }
+
+      combinedFilters.push({ ...filter });
     }
   });
 
