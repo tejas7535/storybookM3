@@ -8,6 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { getSearchSuccessful } from '../core/store';
+import { AgGridStateService } from '../shared/services/ag-grid-state.service';
 import { SharedModule } from '../shared/shared.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
@@ -37,6 +38,7 @@ describe('SearchComponent', () => {
       ],
       declarations: [SearchComponent],
       providers: [
+        AgGridStateService,
         provideMockStore({
           initialState: {
             search: {},

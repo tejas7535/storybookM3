@@ -9,11 +9,16 @@
     [rowSelection]="rowSelection"
     [frameworkComponents]="frameworkComponents"
     [statusBar]="statusBar"
+    [getMainMenuItems]="getMainMenuItems"
     rowGroupPanelShow="always"
     enableRangeSelection
     animateRows
     suppressCsvExport
     suppressExcelExport
+    (columnMoved)="columnChange($event)"
+    (columnVisible)="columnChange($event)"
+    (columnPinned)="columnChange($event)"
+    (sortChanged)="sortChange($event)"
   >
   </ag-grid-angular>
 </div>
