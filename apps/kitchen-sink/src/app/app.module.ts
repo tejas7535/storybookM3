@@ -4,11 +4,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { BannerModule } from '@schaeffler/banner';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import {
-  BannerModule,
   ScrollToTopDirective,
   ScrollToTopModule,
   SettingsSidebarModule,

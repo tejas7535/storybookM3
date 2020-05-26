@@ -9,7 +9,7 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { BannerModule, BannerState } from '@schaeffler/shared/ui-components';
+import { BannerModule, BannerState } from '@schaeffler/banner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';

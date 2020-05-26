@@ -17,7 +17,7 @@ export const initialState: BannerState = {
   icon: undefined,
   truncateSize: undefined,
   showFullText: false,
-  open: false
+  open: false,
 };
 
 export const bannerReducer = createReducer(
@@ -31,13 +31,13 @@ export const bannerReducer = createReducer(
       icon,
       truncateSize,
       showFullText: truncateSize > 0 ? false : true,
-      open: true
+      open: true,
     })
   ),
   on(BannerActions.closeBanner, () => initialState),
-  on(BannerActions.toggleFullText, state => ({
+  on(BannerActions.toggleFullText, (state) => ({
     ...state,
-    showFullText: !state.showFullText
+    showFullText: !state.showFullText,
   }))
 );
 

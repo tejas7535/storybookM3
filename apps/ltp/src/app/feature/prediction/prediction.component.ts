@@ -7,8 +7,8 @@ import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { Papa } from 'ngx-papaparse';
 
+import { getBannerOpen } from '@schaeffler/banner';
 import { Icon } from '@schaeffler/icons';
-import { getBannerOpen } from '@schaeffler/shared/ui-components';
 
 import * as fromStore from '../../core/store';
 import {

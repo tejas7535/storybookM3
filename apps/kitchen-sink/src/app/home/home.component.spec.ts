@@ -9,12 +9,8 @@ import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import {
-  BannerModule,
-  BannerState,
-  openBanner,
-  SpeedDialFabModule,
-} from '@schaeffler/shared/ui-components';
+import { BannerModule, BannerState, openBanner } from '@schaeffler/banner';
+import { SpeedDialFabModule } from '@schaeffler/shared/ui-components';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 

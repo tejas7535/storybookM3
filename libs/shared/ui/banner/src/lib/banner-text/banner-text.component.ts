@@ -39,6 +39,10 @@ export class BannerTextComponent implements OnInit {
   public readonly toggleFullText: EventEmitter<void> = new EventEmitter<void>();
 
   ngOnInit(): void {
+    this.setBannerIcon();
+  }
+
+  public setBannerIcon(): void {
     switch (this.bannerIcon) {
       case 'info':
         this.icon = new Icon(BannerIconTypes.info);

@@ -134,6 +134,14 @@
     "shared-ui-snackbar-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-snackbar"]
+    },
+    "shared-ui-banner": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-banner-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-banner"]
     }
   },
   "tasksRunnerOptions": {
