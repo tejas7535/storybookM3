@@ -564,6 +564,42 @@ describe('MultiSelectFilterComponent', () => {
         ],
       });
     });
+
+    it('should also consider unselected options', () => {
+      const idValue1 = new IdValue('001', 'baum', true);
+      const idValue2 = new IdValue('002', 'cdba', true);
+      const idValue3 = new IdValue('003', 'dont find me', true);
+      const items = [idValue1, idValue2, idValue3];
+
+      const filter = new FilterItemIdValue('name', items);
+      component.modifiedFilter = filter;
+
+      component.form.setValue([idValue1, idValue3]);
+      component['updateFilter'].emit = jest.fn();
+
+      component['emitUpdate']();
+
+      expect(component['updateFilter'].emit).toHaveBeenCalledWith({
+        ...filter,
+        items: [
+          {
+            id: '001',
+            value: 'baum',
+            selected: true,
+          },
+          {
+            id: '002',
+            value: 'cdba',
+            selected: false,
+          },
+          {
+            id: '003',
+            value: 'dont find me',
+            selected: true,
+          },
+        ],
+      });
+    });
   });
   // tslint:disable-next-line: max-file-line-count
 });

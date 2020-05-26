@@ -213,9 +213,8 @@ export class MultiSelectFilterComponent
         const item = this.form.value.find(
           (i: IdValue) => i.id && i.id === it.id
         );
-        if (item) {
-          tmp.selected = true;
-        }
+
+        tmp.selected = item !== undefined ? true : false;
 
         return tmp;
       }),
