@@ -4,30 +4,30 @@ import { getBannerState } from '../reducers/banner.reducer';
 
 export const getBannerText = createSelector(
   getBannerState,
-  state => state.text
+  (state) => state.text
 );
 
 export const getBannerButtonText = createSelector(
   getBannerState,
-  state => state.buttonText
+  (state) => state.buttonText
 );
 
 export const getBannerIcon = createSelector(
   getBannerState,
-  state => state.icon
+  (state) => state.icon
 );
 
 export const getBannerTruncateSize = createSelector(
   getBannerState,
-  state => state.truncateSize
+  (state) => state.truncateSize
 );
 
 export const getBannerIsFullTextShown = createSelector(
   getBannerState,
-  state => state.showFullText
+  (state) => state.showFullText
 );
 
 export const getBannerOpen = createSelector(
   getBannerState,
-  state => state.open
+  (state) => state.open
 );

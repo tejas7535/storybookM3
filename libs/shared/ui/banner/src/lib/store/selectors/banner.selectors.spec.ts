@@ -20,7 +20,7 @@ describe('BannerSelector', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      providers: [provideMockStore({ initialState: { banner: initialState } })]
+      providers: [provideMockStore({ initialState: { banner: initialState } })],
     });
   });
 
@@ -40,7 +40,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerOpen))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {
@@ -56,7 +56,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {
@@ -72,7 +72,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerButtonText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {
@@ -88,7 +88,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerIcon))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {
@@ -104,7 +104,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerTruncateSize))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {
@@ -120,7 +120,7 @@ describe('BannerSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(fromSelectors.getBannerIsFullTextShown))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     it('should return false when state is not defined', () => {

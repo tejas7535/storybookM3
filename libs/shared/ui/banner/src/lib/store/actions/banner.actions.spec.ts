@@ -7,7 +7,7 @@ describe('BannerActions', () => {
         text: 'string',
         buttonText: 'string',
         icon: 'error',
-        truncateSize: 0
+        truncateSize: 0,
       });
 
       expect(action).toEqual({
@@ -15,7 +15,7 @@ describe('BannerActions', () => {
         buttonText: 'string',
         icon: 'error',
         truncateSize: 0,
-        type: '[Banner] Open Banner'
+        type: '[Banner] Open Banner',
       });
     });
   });
@@ -25,7 +25,7 @@ describe('BannerActions', () => {
       const action = fromBannerActions.toggleFullText();
 
       expect(action).toEqual({
-        type: '[Banner] Toggle Full Text'
+        type: '[Banner] Toggle Full Text',
       });
     });
   });
@@ -35,7 +35,7 @@ describe('BannerActions', () => {
       const action = fromBannerActions.closeBanner();
 
       expect(action).toEqual({
-        type: '[Banner] Close Banner'
+        type: '[Banner] Close Banner',
       });
     });
   });

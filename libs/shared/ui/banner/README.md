@@ -4,7 +4,7 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
-import { BannerModule } from '@schaeffler/shared/ui-components';
+import { BannerModule } from '@schaeffler/banner';
 
 @NgModule({
   ...

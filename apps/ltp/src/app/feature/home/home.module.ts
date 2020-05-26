@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { BannerModule } from '@schaeffler/shared/ui-components';
+import { BannerModule } from '@schaeffler/banner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { PredictionModule } from '../prediction/prediction.module';

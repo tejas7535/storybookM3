@@ -5,6 +5,6 @@ import { reducer } from './reducers/banner.reducer';
 
 @NgModule({
   imports: [NgrxStoreModule.forFeature('banner', reducer)],
-  exports: []
+  exports: [],
 })
 export class StoreModule {}

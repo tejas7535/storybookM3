@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { openBanner, SpeedDialFabItem } from '@schaeffler/shared/ui-components';
+import { openBanner } from '@schaeffler/banner';
+import { SpeedDialFabItem } from '@schaeffler/shared/ui-components';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppState } from '../core/store';

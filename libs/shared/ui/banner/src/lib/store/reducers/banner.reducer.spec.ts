@@ -12,7 +12,7 @@ describe('In BannerReducer', () => {
       text,
       buttonText,
       icon,
-      truncateSize
+      truncateSize,
     });
   const closeBanner = fromBannerActions.closeBanner();
   const toggleFullText = fromBannerActions.toggleFullText();
@@ -57,7 +57,7 @@ describe('In BannerReducer', () => {
       const state = reducer(
         {
           ...initialState,
-          open: true
+          open: true,
         },
         closeBanner
       );
@@ -70,7 +70,7 @@ describe('In BannerReducer', () => {
     it('should toggle value of showFullText', () => {
       let state = reducer(
         {
-          ...initialState
+          ...initialState,
         },
         toggleFullText
       );
@@ -79,7 +79,7 @@ describe('In BannerReducer', () => {
 
       state = reducer(
         {
-          ...state
+          ...state,
         },
         toggleFullText
       );

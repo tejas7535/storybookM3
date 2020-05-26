@@ -1,24 +1,19 @@
-import { Observable } from 'rxjs';
-
 import { Component, OnInit } from '@angular/core';
+
+import { Observable } from 'rxjs';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import * as bannerActions from './store/actions/banner.actions';
-
 import { BannerState } from './store/reducers/banner.reducer';
-
 import * as bannerSelectors from './store/selectors/banner.selectors';
 
-// tslint:disable: only-arrow-functions
-export function de(): any {
-  return import('./i18n/de.json');
-}
+export const loader = ['en', 'de'].reduce((acc: any, lang: string) => {
+  acc[lang] = () => import(`./i18n/${lang}.json`);
 
-export function en(): any {
-  return import('./i18n/en.json');
-}
+  return acc;
+}, {});
 
 @Component({
   selector: 'schaeffler-banner',
@@ -27,11 +22,11 @@ export function en(): any {
     {
       provide: TRANSLOCO_SCOPE,
       useValue: {
+        loader,
         scope: 'banner',
-        loader: { de, en }
-      }
-    }
-  ]
+      },
+    },
+  ],
 })
 export class BannerComponent implements OnInit {
   public showBanner$: Observable<boolean>;
