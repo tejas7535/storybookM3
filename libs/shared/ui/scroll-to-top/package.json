@@ -1,0 +1,15 @@
+{
+  "name": "@schaeffler/scroll-to-top",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/animations": "^8.2.14",
+    "@angular/common": "^8.2.14",
+    "@angular/core": "^8.2.14",
+    "@angular/material": "^8.2.3",
+    "rxjs": "^6.5.0"
+  },
+  "devDependencies": {
+    "@angular/platform-browser": "^8.2.14",
+    "ng-bullet": "1.0.3"
+  }
+}

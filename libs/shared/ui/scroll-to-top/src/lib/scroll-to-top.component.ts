@@ -5,7 +5,7 @@ import {
   HostListener,
   Inject,
   OnInit,
-  Optional
+  Optional,
 } from '@angular/core';
 
 import { scrollToTopAnimations } from './scroll-to-top.animations';
@@ -16,7 +16,7 @@ import { ScrollToTopDirective } from './scroll-to-top.directive';
   selector: 'schaeffler-scroll-to-top',
   templateUrl: './scroll-to-top.component.html',
   styleUrls: ['./scroll-to-top.component.scss'],
-  animations: scrollToTopAnimations
+  animations: scrollToTopAnimations,
 })
 export class ScrollToTopComponent implements OnInit {
   public containerScrolled: boolean;
@@ -30,7 +30,7 @@ export class ScrollToTopComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.scrollToTopContainer) {
-      this.scrollToTopContainer.scrollEvent$.subscribe(container => {
+      this.scrollToTopContainer.scrollEvent$.subscribe((container) => {
         if (container.scrollTop && container.scrollTop >= 100) {
           this.containerScrolled = true;
         } else if (container.scrollTop && container.scrollTop < 10) {
@@ -72,10 +72,10 @@ export class ScrollToTopComponent implements OnInit {
           this.scrollToTopContainer.element.nativeElement.scrollTo({
             top: 0,
             left: 0,
-            behavior: 'smooth'
+            behavior: 'smooth',
           }),
           {
-            duration: 200
+            duration: 200,
           }
         );
       }

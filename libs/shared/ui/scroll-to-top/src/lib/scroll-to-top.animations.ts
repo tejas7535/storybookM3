@@ -3,7 +3,7 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
 export const scrollToTopAnimations = [
@@ -11,15 +11,15 @@ export const scrollToTopAnimations = [
     state(
       'show',
       style({
-        opacity: 1
+        opacity: 1,
       })
     ),
     state(
       'hide',
       style({
-        opacity: 0
+        opacity: 0,
       })
     ),
-    transition('* <=> *', animate('200ms ease-in-out'))
-  ])
+    transition('* <=> *', animate('200ms ease-in-out')),
+  ]),
 ];

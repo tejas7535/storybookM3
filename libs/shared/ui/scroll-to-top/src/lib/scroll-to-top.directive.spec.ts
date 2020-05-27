@@ -7,7 +7,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { ScrollToTopDirective } from './scroll-to-top.directive';
 
 @Component({
-  template: '<div></div>'
+  template: '<div></div>',
 })
 class TestScrollToTopComponent {
   constructor(
@@ -23,7 +23,7 @@ describe('ScrollToTopDirective', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [],
-      declarations: [TestScrollToTopComponent, ScrollToTopDirective]
+      declarations: [TestScrollToTopComponent, ScrollToTopDirective],
     });
   });
 

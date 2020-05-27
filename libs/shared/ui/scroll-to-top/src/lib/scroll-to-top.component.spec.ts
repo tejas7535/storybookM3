@@ -18,13 +18,13 @@ describe('ScrollToTopComponent', () => {
 
   const mockScrollToTopContainer = {
     scrollEvent$: new Subject<HTMLElement>(),
-    element: new ElementRef('<div></div>')
+    element: new ElementRef('<div></div>'),
   };
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatIconModule, MatButtonModule, NoopAnimationsModule],
-      declarations: [ScrollToTopComponent, ScrollToTopDirective]
+      declarations: [ScrollToTopComponent, ScrollToTopDirective],
     });
   });
 
@@ -41,7 +41,7 @@ describe('ScrollToTopComponent', () => {
   describe('ngOnInit', () => {
     beforeEach(() => {
       Object.defineProperty(component, 'scrollToTopContainer', {
-        value: mockScrollToTopContainer
+        value: mockScrollToTopContainer,
       });
     });
 
@@ -146,7 +146,7 @@ describe('ScrollToTopComponent', () => {
 
       spyRequestAnimation = jest.fn();
       Object.defineProperty(window, 'requestAnimationFrame', {
-        value: spyRequestAnimation
+        value: spyRequestAnimation,
       });
     });
 
@@ -159,7 +159,7 @@ describe('ScrollToTopComponent', () => {
       Object.defineProperty(component, 'scrollToTopContainer', {
         value: new ScrollToTopDirective(
           new ElementRef(component['document'].createElement('div'))
-        )
+        ),
       });
 
       component[
@@ -185,10 +185,10 @@ describe('ScrollToTopComponent', () => {
       expect(spyScrollToContainer).toHaveBeenCalledWith({
         top: 0,
         left: 0,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
       expect(spyAnimateContainer).toHaveBeenCalledWith(undefined, {
-        duration: 200
+        duration: 200,
       });
     });
 
@@ -196,7 +196,7 @@ describe('ScrollToTopComponent', () => {
       Object.defineProperty(component, 'scrollToTopContainer', {
         value: new ScrollToTopDirective(
           new ElementRef(component['document'].createElement('div'))
-        )
+        ),
       });
 
       component[
