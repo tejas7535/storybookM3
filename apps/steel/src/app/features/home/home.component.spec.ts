@@ -13,7 +13,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { BannerModule, BannerState } from '@schaeffler/banner';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { ScrollToTopModule } from '@schaeffler/shared/ui-components';
+import { ScrollToTopModule } from '@schaeffler/scroll-to-top';
 import { SidebarMode, SidebarModule, SidebarState } from '@schaeffler/sidebar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 

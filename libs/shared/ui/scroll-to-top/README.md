@@ -4,7 +4,7 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
-import { ScrollToTopDirective, ScrollToTopModule} from '@schaeffler/shared/ui-components';
+import { ScrollToTopDirective, ScrollToTopModule} from '@schaeffler/scroll-to-top';
 
 @NgModule({
   ...

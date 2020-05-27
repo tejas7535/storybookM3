@@ -12,7 +12,7 @@ import { HeaderModule } from '@schaeffler/header';
 import {
   ScrollToTopDirective,
   ScrollToTopModule,
-} from '@schaeffler/shared/ui-components';
+} from '@schaeffler/scroll-to-top';
 import { SidebarModule } from '@schaeffler/sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 

@@ -9,6 +9,6 @@ import { ScrollToTopDirective } from './scroll-to-top.directive';
 @NgModule({
   declarations: [ScrollToTopComponent, ScrollToTopDirective],
   imports: [CommonModule, MatButtonModule, MatIconModule],
-  exports: [ScrollToTopComponent, ScrollToTopDirective]
+  exports: [ScrollToTopComponent, ScrollToTopDirective],
 })
 export class ScrollToTopModule {}

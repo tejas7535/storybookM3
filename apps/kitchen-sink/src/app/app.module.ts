@@ -11,6 +11,8 @@ import { IconsModule } from '@schaeffler/icons';
 import {
   ScrollToTopDirective,
   ScrollToTopModule,
+} from '@schaeffler/scroll-to-top';
+import {
   SettingsSidebarModule,
   SpeedDialFabModule,
 } from '@schaeffler/shared/ui-components';
