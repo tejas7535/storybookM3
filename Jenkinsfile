@@ -161,7 +161,7 @@ pipeline {
         gitlab(
             triggerOnPush: true
         )
-        cron(isMaster() ? 'H H(0-3) * * 1-5' : '')
+        cron(isMaster() ? '@nightly' : '')
     }
 
     parameters {
@@ -366,12 +366,12 @@ pipeline {
 
                             script {
                                 for(app in affectedApps) { 
-                                    sh "ng lint ${app} --force --format checkstyle > ${app}-checkstyle-result.xml"
-                                    sh "ng lint ${app}-e2e --force --format checkstyle > ${app}-e2e-checkstyle-result.xml"
+                                    sh "npx ng lint ${app} --force --format msbuild > ${app}-checkstyle-result.txt"
+                                    sh "npx ng lint ${app}-e2e --force --format msbuild > ${app}-e2e-checkstyle-result.txt"
                                 }
 
                                 for(lib in affectedLibs) {                                
-                                    sh "ng lint ${lib} --force --format checkstyle > ${lib}-checkstyle-result.xml"
+                                    sh "npx ng lint ${lib} --force --format msbuild > ${lib}-checkstyle-result.txt"
                                 }
                             }
                         }
@@ -379,7 +379,7 @@ pipeline {
                     post {
                         success {
                             // TSLint checkstyle results
-                            recordIssues(tools: [checkStyle(id: 'ts-lint', pattern: '*checkstyle-result.xml')], aggregatingResults: true)
+                            recordIssues(tools: [msBuild(id: 'ts-lint', pattern: '*checkstyle-result.txt', reportEncoding: 'UTF-8')], aggregatingResults: true)
                         }
                     }
                 }
