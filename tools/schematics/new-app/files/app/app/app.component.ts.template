@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { UserMenuEntry } from '@schaeffler/shared/ui-components';
+import { UserMenuEntry } from '@schaeffler/header';
 
 @Component({
   selector: '<%= dasherize(name) %>-root',

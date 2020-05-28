@@ -8,8 +8,8 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 
 import { AppComponent } from './app.component';
 

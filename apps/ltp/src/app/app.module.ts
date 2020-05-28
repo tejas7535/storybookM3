@@ -6,7 +6,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';

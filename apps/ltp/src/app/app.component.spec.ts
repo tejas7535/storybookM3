@@ -13,7 +13,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../assets/i18n/en.json';

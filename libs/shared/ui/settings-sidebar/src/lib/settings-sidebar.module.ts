@@ -14,8 +14,8 @@ import { SettingsSidebarComponent } from './settings-sidebar.component';
     MatIconModule,
     FlexLayoutModule,
     MatButtonModule,
-    MatSidenavModule
+    MatSidenavModule,
   ],
-  exports: [SettingsSidebarComponent]
+  exports: [SettingsSidebarComponent],
 })
 export class SettingsSidebarModule {}
