@@ -161,7 +161,7 @@ pipeline {
         gitlab(
             triggerOnPush: true
         )
-        cron(isMaster() ? '@nightly' : '')
+        cron(isMaster() ? '@midnight' : '')
     }
 
     parameters {
