@@ -6,7 +6,7 @@ import {
   state,
   style,
   transition,
-  trigger
+  trigger,
 } from '@angular/animations';
 
 export const speedDialFabAnimations = [
@@ -14,10 +14,10 @@ export const speedDialFabAnimations = [
     state(
       'active',
       style({
-        transform: 'rotate(90deg)'
+        transform: 'rotate(90deg)',
       })
     ),
-    transition('* <=> *', animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+    transition('* <=> *', animate('300ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
   ]),
   trigger('speedDialStagger', [
     transition('* => *', [
@@ -30,9 +30,9 @@ export const speedDialFabAnimations = [
             '300ms cubic-bezier(0.4, 0.0, 0.2, 1)',
             keyframes([
               style({ opacity: 0, transform: 'translateY(10px)' }),
-              style({ opacity: 1, transform: 'translateY(0)' })
+              style({ opacity: 1, transform: 'translateY(0)' }),
             ])
-          )
+          ),
         ]),
         { optional: true }
       ),
@@ -44,9 +44,9 @@ export const speedDialFabAnimations = [
           keyframes([style({ opacity: 1 }), style({ opacity: 0 })])
         ),
         {
-          optional: true
+          optional: true,
         }
-      )
-    ])
-  ])
+      ),
+    ]),
+  ]),
 ];

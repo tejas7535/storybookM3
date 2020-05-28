@@ -10,8 +10,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { BannerModule, BannerState, openBanner } from '@schaeffler/banner';
-import { SpeedDialFabModule } from '@schaeffler/shared/ui-components';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
+import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../assets/i18n/en.json';

@@ -150,6 +150,14 @@
     "shared-ui-scroll-to-top-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-scroll-to-top"]
+    },
+    "shared-ui-speed-dial-fab": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-speed-dial-fab-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-speed-dial-fab"]
     }
   },
   "tasksRunnerOptions": {

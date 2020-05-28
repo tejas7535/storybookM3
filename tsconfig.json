@@ -49,7 +49,10 @@
         "libs/shared/ui/scroll-to-top/src/index.ts"
       ],
       "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
-      "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"]
+      "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
+      "@schaeffler/speed-dial-fab": [
+        "libs/shared/ui/speed-dial-fab/src/index.ts"
+      ]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

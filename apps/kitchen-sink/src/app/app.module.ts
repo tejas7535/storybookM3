@@ -12,12 +12,10 @@ import {
   ScrollToTopDirective,
   ScrollToTopModule,
 } from '@schaeffler/scroll-to-top';
-import {
-  SettingsSidebarModule,
-  SpeedDialFabModule,
-} from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
 import { SidebarModule } from '@schaeffler/sidebar';
 import { SnackBarModule } from '@schaeffler/snackbar';
+import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';

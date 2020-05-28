@@ -4,8 +4,8 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { openBanner } from '@schaeffler/banner';
-import { SpeedDialFabItem } from '@schaeffler/shared/ui-components';
 import { SnackBarService } from '@schaeffler/snackbar';
+import { SpeedDialFabItem } from '@schaeffler/speed-dial-fab';
 
 import { AppState } from '../core/store';
 
