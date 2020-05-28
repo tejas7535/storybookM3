@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
+import { ResultQuestionAnsweringModule } from './result-question-answering/result-question-answering.module';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
 
@@ -19,7 +20,7 @@ import { ResultComponent } from './result.component';
   declarations: [
     ResultComponent,
     ResultAutoTaggingComponent,
-    ResultTranslationComponent
+    ResultTranslationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,8 +33,9 @@ import { ResultComponent } from './result.component';
     MatIconModule,
     MatInputModule,
     ReactiveFormsModule,
-    GhostLineElementsModule
+    GhostLineElementsModule,
+    ResultQuestionAnsweringModule,
   ],
-  exports: [ResultComponent]
+  exports: [ResultComponent],
 })
 export class ResultModule {}

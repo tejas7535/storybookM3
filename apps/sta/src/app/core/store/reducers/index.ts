@@ -4,10 +4,11 @@ import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
-  MetaReducer
+  MetaReducer,
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import * as fromQuestionAnswering from './question-answering/question-answering.reducer';
 import * as fromTagging from './tagging/tagging.reducer';
 import * as fromTranslation from './translation/translation.reducer';
 
@@ -21,12 +22,14 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   tagging: fromTagging.TaggingState;
   translation: fromTranslation.TranslationState;
+  questionAnswering: fromQuestionAnswering.QuestionAnsweringState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   tagging: fromTagging.taggingReducer,
-  translation: fromTranslation.translationReducer
+  translation: fromTranslation.translationReducer,
+  questionAnswering: fromQuestionAnswering.questionAnsweringReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -45,6 +48,10 @@ export const getTranslationState = createFeatureSelector<
   fromTranslation.TranslationState
 >('translation');
 
+export const getQuestionAnsweringState = createFeatureSelector<
+  fromQuestionAnswering.QuestionAnsweringState
+>('questionAnswering');
+
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
   /**
@@ -59,7 +66,7 @@ export class CustomSerializer
 
     const {
       url,
-      root: { queryParams }
+      root: { queryParams },
     } = routerState;
     const { params } = route;
 

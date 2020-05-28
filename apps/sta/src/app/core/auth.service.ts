@@ -1,8 +1,8 @@
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import jwtDecode from 'jwt-decode';
@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 import { AccessToken } from './access-token.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly isAuthenticatedSubject$ = new BehaviorSubject<boolean>(
@@ -57,7 +57,7 @@ export class AuthService {
     return this.oauthService
       .silentRefresh()
       .then(() => Promise.resolve(true))
-      .catch(async _result => {
+      .catch(async (_result) => {
         this.oauthService.initImplicitFlow(targetUrl || '/');
 
         return Promise.resolve(true);
@@ -93,7 +93,7 @@ export class AuthService {
 
   public getUserName(): Observable<string> {
     return this.isAuthenticated$.pipe(
-      map(isAuthenticated => {
+      map((isAuthenticated) => {
         if (!isAuthenticated) {
           return undefined;
         }
@@ -106,6 +106,23 @@ export class AuthService {
           : undefined;
 
         return username;
+      })
+    );
+  }
+
+  public getUserGivenName(): Observable<string> {
+    return this.isAuthenticated$.pipe(
+      map((isAuthenticated) => {
+        if (!isAuthenticated) {
+          return undefined;
+        }
+        const token = this.accessToken;
+
+        const decodedAccess = AuthService.getDecodedAccessToken(token);
+
+        const givenName = decodedAccess ? decodedAccess.given_name : undefined;
+
+        return givenName;
       })
     );
   }
@@ -123,7 +140,7 @@ export class AuthService {
   }
 
   private initConfig(): void {
-    window.addEventListener('storage', event => {
+    window.addEventListener('storage', (event) => {
       // The `key` is `null` if the event was caused by `.clear()`
       if (event.key !== 'access_token' && event.key !== null) {
         return;
@@ -138,15 +155,15 @@ export class AuthService {
       }
     });
 
-    this.oauthService.events.subscribe(_event => {
+    this.oauthService.events.subscribe((_event) => {
       this.isAuthenticatedSubject$.next(
         this.oauthService.hasValidAccessToken()
       );
     });
 
     this.oauthService.events
-      .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_e => {
+      .pipe(filter((e) => ['token_received'].includes(e.type)))
+      .subscribe((_e) => {
         this.router.navigateByUrl(String(this.oauthService.state));
       });
 

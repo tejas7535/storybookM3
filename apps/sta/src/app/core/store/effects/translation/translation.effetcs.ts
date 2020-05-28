@@ -15,7 +15,7 @@ import {
   loadTranslationForTextFailure,
   loadTranslationForTextSuccess,
   resetAll,
-  resetTranslation
+  resetTranslation,
 } from '../../actions';
 import { TranslationFileInput } from '../../reducers/translation/models/translation-file-input.model';
 import { TranslationTextInput } from '../../reducers/translation/models/translation-text-input.model';
@@ -40,7 +40,7 @@ export class TranslationEffects {
           map((translation: string) =>
             loadTranslationForTextSuccess({ translation })
           ),
-          catchError(_e => of(loadTranslationForTextFailure()))
+          catchError((_e) => of(loadTranslationForTextFailure()))
         )
       )
     )
@@ -60,7 +60,7 @@ export class TranslationEffects {
           map((translation: string) =>
             loadTranslationForFileSuccess({ translation })
           ),
-          catchError(_e => of(loadTranslationForFileFailure()))
+          catchError((_e) => of(loadTranslationForFileFailure()))
         )
       )
     )

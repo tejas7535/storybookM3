@@ -3,14 +3,14 @@ import { Language } from '../../../app/shared/result/models/language.enum';
 export const APP_STATE_MOCK = {
   router: {
     state: { url: '/tagging', params: {}, queryParams: {} },
-    navigationId: 2
+    navigationId: 2,
   },
   tagging: {
     textInput: 'The Schaeffler Group is nice and fancy as well',
     fileInput: {
       name: 'testText.txt',
       type: 'text/plain',
-      content: [84, 104, 101, 32, 83, 99]
+      content: [84, 104, 101, 32, 83, 99],
     },
     tagsForText: {
       tags: [
@@ -22,10 +22,10 @@ export const APP_STATE_MOCK = {
         'and',
         'as',
         'well',
-        'the schaeffler group'
+        'the schaeffler group',
       ],
       showMoreTags: false,
-      loading: false
+      loading: false,
     },
     tagsForFile: {
       tags: [
@@ -37,38 +37,91 @@ export const APP_STATE_MOCK = {
         'and',
         'as',
         'well',
-        'the schaeffler group'
+        'the schaeffler group',
       ],
       showMoreTags: false,
       loading: false,
-      success: true
+      success: true,
     },
-    selectedTabIndex: 1
+    selectedTabIndex: 1,
   },
   translation: {
     translationTextInput: {
       text: 'The Schaeffler Group',
       textLang: Language.EN,
-      targetLang: Language.DE
+      targetLang: Language.DE,
     },
     translationFileInput: {
       file: {
         name: 'testText.txt',
         type: ' text/plain',
-        content: [84, 104, 101, 32]
+        content: [84, 104, 101, 32],
       },
       textLang: Language.EN,
-      targetLang: Language.DE
+      targetLang: Language.DE,
     },
     translationForText: {
       translation: 'abc',
-      loading: false
+      loading: false,
     },
     translationForFile: {
       translation: 'xyz',
       loading: false,
-      success: true
+      success: true,
     },
-    selectedTabIndex: 1
-  }
+    selectedTabIndex: 1,
+  },
+  questionAnswering: {
+    fileUpload: {
+      input: {
+        file: {
+          name: 'abc',
+          type: 'text/plain',
+          content: [84, 104, 101, 32],
+        },
+        question: 'abc?',
+        textLang: Language.EN,
+        textInput: 'abc',
+      },
+      conversation: [
+        {
+          question: 'abc?',
+          answer: {
+            answer: 'abc',
+            exactMatch: 'abc',
+            logit: 5,
+            paragraphStart: 0,
+            paragraphEnd: 2,
+            confidenceAnswerIndex: 1,
+            reengagementMessageIndex: 0,
+          },
+        },
+      ],
+      loading: false,
+      success: true,
+    },
+    text: {
+      input: {
+        text: 'abc',
+        question: 'abc?',
+        textLang: Language.EN,
+      },
+      conversation: [
+        {
+          question: 'abc?',
+          answer: {
+            answer: 'abc',
+            exactMatch: 'abc',
+            logit: 5,
+            paragraphStart: 0,
+            paragraphEnd: 2,
+            confidenceAnswerIndex: 1,
+            reengagementMessageIndex: 0,
+          },
+        },
+      ],
+      loading: false,
+    },
+    selectedTabIndex: 0,
+  },
 };

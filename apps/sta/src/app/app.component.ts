@@ -60,6 +60,11 @@ export class AppComponent implements OnInit, OnDestroy {
       icon: new Icon('translate', true),
       link: 'translation',
     },
+    {
+      text: 'Question Answering',
+      icon: new Icon('question_answer', true),
+      link: 'question-answering',
+    },
   ];
   public footerLinks: FooterLink[] = [
     {

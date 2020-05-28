@@ -13,7 +13,7 @@ import {
   resetTags,
   setSelectedTabIndexTagging,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '../../actions/tagging/tagging.actions';
 import { initialState, reducer, taggingReducer } from './tagging.reducer';
 
@@ -58,7 +58,7 @@ describe('Tagging Reducer', () => {
   describe('LoadTagsForTextSucces', () => {
     test('should set tags and loading', () => {
       const action = loadTagsForTextSuccess({
-        tags: TAGGING_STATE_MOCK.tagsForText.tags
+        tags: TAGGING_STATE_MOCK.tagsForText.tags,
       });
       const state = taggingReducer(initialState, action);
 
@@ -72,7 +72,7 @@ describe('Tagging Reducer', () => {
   describe('LoadTagsForFileSucces', () => {
     test('should set tags, loading and success', () => {
       const action = loadTagsForFileSuccess({
-        tags: TAGGING_STATE_MOCK.tagsForFile.tags
+        tags: TAGGING_STATE_MOCK.tagsForFile.tags,
       });
       const state = taggingReducer(initialState, action);
 
@@ -96,7 +96,7 @@ describe('Tagging Reducer', () => {
   describe('SetSelectedTabIndexTranslation', () => {
     test('should set selectedTabIndex', () => {
       const action = setSelectedTabIndexTagging({
-        selectedTabIndex: TAGGING_STATE_MOCK.selectedTabIndex
+        selectedTabIndex: TAGGING_STATE_MOCK.selectedTabIndex,
       });
       const state = taggingReducer(initialState, action);
 

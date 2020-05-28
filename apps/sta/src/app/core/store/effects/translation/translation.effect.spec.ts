@@ -17,7 +17,7 @@ import {
   loadTranslationForTextFailure,
   loadTranslationForTextSuccess,
   resetAll,
-  resetTranslation
+  resetTranslation,
 } from '../../actions';
 import { initialState } from '../../reducers/translation/translation.reducer';
 import { TranslationEffects } from './translation.effetcs';
@@ -39,10 +39,10 @@ describe('TranslationEffects', () => {
           provide: DataService,
           useValue: {
             postTranslationText: jest.fn(),
-            postTranslationFile: jest.fn()
-          }
-        }
-      ]
+            postTranslationFile: jest.fn(),
+          },
+        },
+      ],
     });
   });
 
@@ -56,18 +56,18 @@ describe('TranslationEffects', () => {
   describe('loadTranslationText', () => {
     beforeEach(() => {
       action = loadTranslationForText({
-        textInput: APP_STATE_MOCK.translation.translationTextInput
+        textInput: APP_STATE_MOCK.translation.translationTextInput,
       });
     });
 
     test('should return loadTranslationForTextSuccess action with translation', () => {
       const result = loadTranslationForTextSuccess({
-        translation: APP_STATE_MOCK.translation.translationForText.translation
+        translation: APP_STATE_MOCK.translation.translationForText.translation,
       });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: APP_STATE_MOCK.translation.translationForText.translation
+        a: APP_STATE_MOCK.translation.translationForText.translation,
       });
       const expected = cold('--b', { b: result });
 
@@ -101,18 +101,18 @@ describe('TranslationEffects', () => {
   describe('loadTranslationFile', () => {
     beforeEach(() => {
       action = loadTranslationForFile({
-        fileInput: APP_STATE_MOCK.translation.translationFileInput
+        fileInput: APP_STATE_MOCK.translation.translationFileInput,
       });
     });
 
     test('should return loadTranslationForFileSuccess action with translation', () => {
       const result = loadTranslationForFileSuccess({
-        translation: APP_STATE_MOCK.translation.translationForFile.translation
+        translation: APP_STATE_MOCK.translation.translationForFile.translation,
       });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: APP_STATE_MOCK.translation.translationForFile.translation
+        a: APP_STATE_MOCK.translation.translationForFile.translation,
       });
       const expected = cold('--b', { b: result });
 

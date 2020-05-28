@@ -1,0 +1,18 @@
+@import 'libs/shared/styles/src/lib/colors';
+
+.background-white {
+  background-color: $schaeffler-white;
+}
+
+.headline {
+  font-weight: bold;
+}
+
+.text-passage {
+  line-height: 24px;
+}
+
+.highlight-text {
+  background-color: $schaeffler-gray-2;
+  padding: 3px 3px;
+}

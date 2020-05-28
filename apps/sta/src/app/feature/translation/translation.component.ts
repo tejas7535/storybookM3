@@ -9,7 +9,7 @@ import {
   AppState,
   loadTranslationForFile,
   loadTranslationForText,
-  setSelectedTabIndexTranslation
+  setSelectedTabIndexTranslation,
 } from '../../core/store';
 import { TranslationTextInput } from '../../core/store/reducers/translation/models/translation-text-input.model';
 import {
@@ -17,7 +17,7 @@ import {
   getLoadingTranslationForFile,
   getLoadingTranslationForText,
   getSelectedTabIndexTranslation,
-  getTextInputTranslation
+  getTextInputTranslation,
 } from '../../core/store/selectors/translation/translation.selector';
 import { FileStatus } from '../../shared/file-upload/file-status.model';
 import { FileReplacement, TextInput } from '../../shared/result/models';
@@ -25,7 +25,7 @@ import { FileReplacement, TextInput } from '../../shared/result/models';
 @Component({
   selector: 'sta-translation',
   templateUrl: './translation.component.html',
-  styleUrls: ['./translation.component.scss']
+  styleUrls: ['./translation.component.scss'],
 })
 export class TranslationComponent implements OnInit {
   public demoTextEn = DEMO_TEXT_EN;
@@ -60,15 +60,14 @@ export class TranslationComponent implements OnInit {
     const input: TextInput = {
       text: textInput.text,
       targetLang: textInput.targetLang,
-      textLang: textInput.textLang
+      textLang: textInput.textLang,
     };
     this.store.dispatch(loadTranslationForText({ textInput: input }));
   }
 
   public async getTranslationForFile(file: File): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       const reader = new FileReader();
-      reader.readAsArrayBuffer(file);
 
       reader.onloadend = () => {
         const fileReplacement: FileReplacement = {
@@ -76,16 +75,18 @@ export class TranslationComponent implements OnInit {
           type: file.type,
           content: Array.prototype.slice.call(
             new Int8Array(reader.result as ArrayBuffer)
-          )
+          ),
         };
         this.store.dispatch(
           loadTranslationForFile({
-            fileInput: { file: fileReplacement }
+            fileInput: { file: fileReplacement },
           })
         );
 
         resolve();
       };
+
+      reader.readAsArrayBuffer(file);
     });
   }
 

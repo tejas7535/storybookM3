@@ -9,21 +9,21 @@ import {
   getSelectedTabIndexTagging,
   getTagsForFile,
   getTagsForText,
-  resetAll
+  resetAll,
 } from '../../core/store';
 import { TagsForFileInput } from '../../core/store/reducers/tagging/models/tags-for-file-input.model';
 import { TagsForTextInput } from '../../core/store/reducers/tagging/models/tags-for-text-input.model';
 import {
   getSelectedTabIndexTranslation,
   getTranslationForFile,
-  getTranslationForText
+  getTranslationForText,
 } from '../../core/store/selectors/translation/translation.selector';
 import { ServiceType } from './models';
 
 @Component({
   selector: 'sta-result',
   templateUrl: './result.component.html',
-  styleUrls: ['./result.component.scss']
+  styleUrls: ['./result.component.scss'],
 })
 export class ResultComponent implements OnInit {
   @Input() public currentService: ServiceType;

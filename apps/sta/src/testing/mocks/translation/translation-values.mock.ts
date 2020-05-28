@@ -5,25 +5,25 @@ export const TRANSLATION_STATE_MOCK: TranslationState = {
   translationTextInput: {
     text: 'The Schaeffler Group',
     textLang: Language.EN,
-    targetLang: Language.DE
+    targetLang: Language.DE,
   },
   translationFileInput: {
     file: {
       name: 'testText.txt',
       type: ' text/plain',
-      content: [84, 104, 101, 32]
+      content: [84, 104, 101, 32],
     },
     textLang: Language.EN,
-    targetLang: Language.DE
+    targetLang: Language.DE,
   },
   translationForText: {
     translation: 'abc',
-    loading: false
+    loading: false,
   },
   translationForFile: {
     translation: 'xyz',
     loading: false,
-    success: true
+    success: true,
   },
-  selectedTabIndex: 1
+  selectedTabIndex: 1,
 };

@@ -33,6 +33,11 @@
         "
       >
       </sta-result-translation>
+
+      <sta-result-question-answering
+        *ngSwitchCase="serviceType.QUESTION_ANSWERING"
+      >
+      </sta-result-question-answering>
     </ng-container>
 
     <mat-divider [inset]="true"></mat-divider>

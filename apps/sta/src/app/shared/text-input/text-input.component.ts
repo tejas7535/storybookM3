@@ -1,15 +1,3 @@
-import { EMPTY, Observable, Subscription } from 'rxjs';
-import {
-  catchError,
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  mergeMap,
-  startWith,
-  take,
-  tap
-} from 'rxjs/operators';
-
 import { CdkTextareaAutosize } from '@angular/cdk/text-field';
 import {
   Component,
@@ -19,33 +7,43 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
   FormBuilder,
   FormControl,
   FormGroup,
-  Validators
+  Validators,
 } from '@angular/forms';
+
+import { EMPTY, Observable, Subscription } from 'rxjs';
+import {
+  catchError,
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  mergeMap,
+  startWith,
+  take,
+  tap,
+} from 'rxjs/operators';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { DataService } from '../result/services/data.service';
-
 import { AVAILABLE_LANGUAGES } from '../../constants/available-languages.constant';
-
 import {
   KeyValue,
   Language,
   LanguageDetectionResponse,
-  TextInput
+  TextInput,
 } from '../result/models';
+import { DataService } from '../result/services/data.service';
 
 @Component({
   selector: 'sta-text-input',
   templateUrl: './text-input.component.html',
-  styleUrls: ['./text-input.component.scss']
+  styleUrls: ['./text-input.component.scss'],
 })
 export class TextInputComponent implements OnDestroy, OnInit {
   @Input() public minLength = 40;
@@ -54,8 +52,10 @@ export class TextInputComponent implements OnDestroy, OnInit {
   @Input() public textHint = '';
   @Input() public showTargetLanguage = true;
   @Input() public disabledLanguages: string[] = [];
+  @Input() public showSubmitButton = true;
 
   @Output() public readonly btnClicked = new EventEmitter<TextInput>();
+  @Output() public readonly textUpdate = new EventEmitter<TextInput>();
 
   @ViewChild('autosize') autosize: CdkTextareaAutosize;
 
@@ -74,7 +74,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
   private static identifyAvailableLanguages(userLang: string): KeyValue[] {
     let langs: KeyValue[] = [];
 
-    AVAILABLE_LANGUAGES.forEach(langEntry => {
+    AVAILABLE_LANGUAGES.forEach((langEntry) => {
       if (langEntry['userLang'] === userLang) {
         langs = langEntry['languages'];
       }
@@ -97,7 +97,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
     this.avlLanguages = TextInputComponent.identifyAvailableLanguages(userLang);
 
     this.subscription.add(
-      this.detectedLanguage.valueChanges.subscribe(val =>
+      this.detectedLanguage.valueChanges.subscribe((val) =>
         this.handleLanguageDetectionChange(val)
       )
     );
@@ -105,7 +105,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
     this.subscription.add(
       this.text.valueChanges
         .pipe(this.validateTextInput(userLang))
-        .subscribe(languageDetectionResponse => {
+        .subscribe((languageDetectionResponse) => {
           this.triggerResize();
           this.handleTextInput(languageDetectionResponse);
         })
@@ -149,13 +149,13 @@ export class TextInputComponent implements OnDestroy, OnInit {
     this.textFormGroup = this.fb.group({
       text: new FormControl(this.defaultText, [
         Validators.required,
-        Validators.minLength(this.minLength)
+        Validators.minLength(this.minLength),
       ]),
       detectedLanguage: new FormControl('', [Validators.required]),
       targetLanguage: new FormControl(
         '',
         this.showTargetLanguage ? [Validators.required] : []
-      )
+      ),
     });
   }
 
@@ -169,21 +169,30 @@ export class TextInputComponent implements OnDestroy, OnInit {
         distinctUntilChanged(),
         startWith(this.defaultText),
         filter(
-          text =>
+          (text) =>
             text.length >= this.MIN_LENGTH_LANG_DETECTION &&
             text.length >= this.minLength
         ),
-        mergeMap(text =>
+        mergeMap((text) =>
           this.dataService
             .postLanguageDetectionText(text, userLang as Language)
-            .pipe(catchError(e => this.handlePostLanguageDetectionTextError(e)))
+            .pipe(
+              catchError((e) => this.handlePostLanguageDetectionTextError(e))
+            )
         ),
-        tap(languageDetectionResponse => {
+        tap((languageDetectionResponse) => {
           if (!languageDetectionResponse.supported) {
             this.setTextInputError({ invalidLang: true }, true);
           }
 
           this.disableSubmit = false;
+          this.textUpdate.emit(
+            new TextInput(
+              this.textFormGroup.get('text').value,
+              this.textFormGroup.get('targetLanguage').value,
+              this.textFormGroup.get('detectedLanguage').value
+            )
+          );
         })
       );
     };
@@ -232,7 +241,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
 
     let newValIsAvl = false;
 
-    this.avlLanguages.forEach(lang => {
+    this.avlLanguages.forEach((lang) => {
       if (lang.key !== val && this.disabledLanguages.indexOf(lang.key) === -1) {
         this.targetLanguage.setValue(lang.key);
       } else if (lang.key === val) {
@@ -242,7 +251,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
     });
 
     // if user manually selects a detected language (again) that is not supported
-    const avlLanguagesKeys = this.avlLanguages.map(entry => entry.key);
+    const avlLanguagesKeys = this.avlLanguages.map((entry) => entry.key);
     if (avlLanguagesKeys.indexOf(val) === -1) {
       this.setTextInputError({ invalidLang: true });
     }

@@ -83,7 +83,7 @@ const all = union({
   removeTagForFile,
   addTagForText,
   addTagForFile,
-  setSelectedTabIndexTagging
+  setSelectedTabIndexTagging,
 });
 
 export type TaggingActions = typeof all;

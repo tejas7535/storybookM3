@@ -11,7 +11,7 @@ import {
   loadTagsForText,
   loadTagsForTextSuccess,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '../../actions/tagging/tagging.actions';
 import * as fromRoot from '../../reducers';
 import { tags14, tags15, tags20 } from './mock-tags';
@@ -24,7 +24,7 @@ import {
   getShowMoreTagsForText,
   getTagsForFile,
   getTagsForText,
-  getTextInputTagging
+  getTextInputTagging,
 } from './tagging.selector';
 
 describe('TaggingSelector', () => {
@@ -37,16 +37,16 @@ describe('TaggingSelector', () => {
       imports: [
         StoreModule.forRoot(
           {
-            ...fromRoot.reducers
+            ...fromRoot.reducers,
           },
           {
             runtimeChecks: {
               strictStateSerializability: true,
-              strictActionSerializability: true
-            }
+              strictActionSerializability: true,
+            },
           }
-        )
-      ]
+        ),
+      ],
     });
   });
 
@@ -67,7 +67,7 @@ describe('TaggingSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getTextInputTagging))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {
@@ -84,41 +84,7 @@ describe('TaggingSelector', () => {
 
   describe('getTagsForText', () => {
     beforeEach(() => {
-      store.pipe(select(getTagsForText)).subscribe(value => (result = value));
-    });
-
-    test('should return undefined tags when state is not defined', () => {
-      expect(result.tags).toBeUndefined();
-    });
-
-    test('should return 15 tags when showMoreTags is false', () => {
-      const expected = {
-        loading: false,
-        showMoreTags: false,
-        tags: tags15
-      };
-      store.dispatch(setShowMoreTagsText({ showMoreTags: false }));
-      store.dispatch(loadTagsForTextSuccess({ tags: tags20 }));
-
-      expect(result).toEqual(expected);
-    });
-
-    test('should return all tags when showMoreTags is true', () => {
-      const expected = {
-        loading: false,
-        showMoreTags: true,
-        tags: tags20
-      };
-      store.dispatch(setShowMoreTagsText({ showMoreTags: true }));
-      store.dispatch(loadTagsForTextSuccess({ tags: tags20 }));
-
-      expect(result).toEqual(expected);
-    });
-  });
-
-  describe('getTagsForFile', () => {
-    beforeEach(() => {
-      store.pipe(select(getTagsForFile)).subscribe(value => (result = value));
+      store.pipe(select(getTagsForText)).subscribe((value) => (result = value));
     });
 
     test('should return undefined tags when state is not defined', () => {
@@ -130,7 +96,41 @@ describe('TaggingSelector', () => {
         loading: false,
         showMoreTags: false,
         tags: tags15,
-        success: true
+      };
+      store.dispatch(setShowMoreTagsText({ showMoreTags: false }));
+      store.dispatch(loadTagsForTextSuccess({ tags: tags20 }));
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should return all tags when showMoreTags is true', () => {
+      const expected = {
+        loading: false,
+        showMoreTags: true,
+        tags: tags20,
+      };
+      store.dispatch(setShowMoreTagsText({ showMoreTags: true }));
+      store.dispatch(loadTagsForTextSuccess({ tags: tags20 }));
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getTagsForFile', () => {
+    beforeEach(() => {
+      store.pipe(select(getTagsForFile)).subscribe((value) => (result = value));
+    });
+
+    test('should return undefined tags when state is not defined', () => {
+      expect(result.tags).toBeUndefined();
+    });
+
+    test('should return 15 tags when showMoreTags is false', () => {
+      const expected = {
+        loading: false,
+        showMoreTags: false,
+        tags: tags15,
+        success: true,
       };
       store.dispatch(setShowMoreTagsFile({ showMoreTags: false }));
       store.dispatch(loadTagsForFileSuccess({ tags: tags20 }));
@@ -143,7 +143,7 @@ describe('TaggingSelector', () => {
         loading: false,
         showMoreTags: true,
         tags: tags20,
-        success: true
+        success: true,
       };
       store.dispatch(setShowMoreTagsFile({ showMoreTags: true }));
       store.dispatch(loadTagsForFileSuccess({ tags: tags20 }));
@@ -156,7 +156,7 @@ describe('TaggingSelector', () => {
     test('should return false on initialState', () => {
       store
         .pipe(select(getLoadingTagsForText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });
@@ -165,7 +165,7 @@ describe('TaggingSelector', () => {
     test('should return false on initialState', () => {
       store
         .pipe(select(getLoadingTagsForFile))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });
@@ -174,7 +174,7 @@ describe('TaggingSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getShowMoreTagsForText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined on initialState (tags undefined)', () => {
@@ -201,7 +201,7 @@ describe('TaggingSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getShowMoreTagsForFile))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined on initialState (tags undefined)', () => {
@@ -228,7 +228,7 @@ describe('TaggingSelector', () => {
     test('should return 0 on initialState', () => {
       store
         .pipe(select(getSelectedTabIndexTagging))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(0);
     });
   });
@@ -237,7 +237,7 @@ describe('TaggingSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getFileStatusTagging))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {
@@ -251,7 +251,7 @@ describe('TaggingSelector', () => {
       const expected: FileStatus = {
         fileName: fileInput.name,
         fileType: fileInput.type,
-        success: undefined
+        success: undefined,
       };
       expect(result).toEqual(expected);
     });
@@ -265,7 +265,7 @@ describe('TaggingSelector', () => {
       const expected: FileStatus = {
         fileName: fileInput.name,
         fileType: fileInput.type,
-        success: true
+        success: true,
       };
       expect(result).toEqual(expected);
     });
