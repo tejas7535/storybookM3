@@ -16,7 +16,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { SidebarModule } from '@schaeffler/sidebar';
 
 import { AppComponent } from './app.component';

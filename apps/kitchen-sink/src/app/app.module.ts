@@ -12,7 +12,7 @@ import {
   ScrollToTopDirective,
   ScrollToTopModule,
 } from '@schaeffler/scroll-to-top';
-import { SettingsSidebarModule } from '@schaeffler/shared/ui-components';
+import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { SidebarModule } from '@schaeffler/sidebar';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
@@ -37,8 +37,8 @@ import { HomeComponent } from './home/home.component';
     ScrollToTopModule,
     SnackBarModule,
     HeaderModule,
-    SidebarModule,
     StoreModule,
+    SidebarModule,
     SpeedDialFabModule,
     SettingsSidebarModule,
     SharedTranslocoModule.forRoot(environment.production, ['en'], 'en', 'en'),

@@ -27,10 +27,6 @@
       "tags": [],
       "implicitDependencies": ["shared-styles"]
     },
-    "shared-ui-components": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
-    },
     "shared-styles": {
       "tags": ["scope:shared", "type:styles"]
     },
@@ -78,10 +74,6 @@
     "shared-empty-states-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-empty-states"]
-    },
-    "shared-ui-components-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-components"]
     },
     "shared-auth": {
       "tags": ["scope:shared", "type:authentication"]
@@ -158,6 +150,14 @@
     "shared-ui-speed-dial-fab-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-speed-dial-fab"]
+    },
+    "shared-ui-settings-sidebar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "shared-ui-settings-sidebar-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-settings-sidebar"]
     }
   },
   "tasksRunnerOptions": {

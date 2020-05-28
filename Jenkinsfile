@@ -551,7 +551,7 @@ pipeline {
                             echo "Build Storybooks for Shared Libraries"
                             
                             script {
-                                def storybooksToBuild = ['shared-empty-states', 'shared-ui-components']
+                                def storybooksToBuild = ['shared-empty-states']
 
                                 for (storybook in storybooksToBuild) { 
                                     if (affectedLibs.contains(storybook)){

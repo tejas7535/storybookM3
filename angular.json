@@ -203,68 +203,6 @@
         }
       }
     },
-    "shared-ui-components": {
-      "projectType": "library",
-      "root": "libs/shared/ui-components",
-      "sourceRoot": "libs/shared/ui-components/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/ui-components/tsconfig.lib.json",
-              "libs/shared/ui-components/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui-components/**"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui-components/jest.config.js",
-            "tsConfig": "libs/shared/ui-components/tsconfig.spec.json",
-            "setupFile": "libs/shared/ui-components/src/test-setup.ts",
-            "passWithNoTests": true
-          }
-        },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui-components/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-components",
-            "config": {
-              "configFolder": "libs/shared/ui-components/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "styleext": "scss"
-        }
-      }
-    },
     "shared-styles": {
       "projectType": "library",
       "root": "libs/shared/styles",
@@ -1406,36 +1344,6 @@
         }
       }
     },
-    "shared-ui-components-e2e": {
-      "root": "apps/shared-ui-components-e2e",
-      "sourceRoot": "apps/shared-ui-components-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-components-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-components-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-components:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-components:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-components-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-components-e2e/**"
-            ]
-          }
-        }
-      }
-    },
     "shared-auth": {
       "projectType": "library",
       "root": "libs/shared/auth",
@@ -2367,6 +2275,110 @@
           "options": {
             "tsConfig": ["apps/shared-ui-banner-e2e/tsconfig.e2e.json"],
             "exclude": ["**/node_modules/**", "!apps/shared-ui-banner-e2e/**"]
+          }
+        }
+      }
+    },
+    "shared-ui-settings-sidebar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/settings-sidebar",
+      "sourceRoot": "libs/shared/ui/settings-sidebar/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.json",
+            "project": "libs/shared/ui/settings-sidebar/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/ui/settings-sidebar/tsconfig.lib.json",
+              "libs/shared/ui/settings-sidebar/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/ui/settings-sidebar/**"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/settings-sidebar/jest.config.js",
+            "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/settings-sidebar/src/test-setup.ts"
+          }
+        },
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared/ui/settings-sidebar/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/shared-ui-settings-sidebar",
+            "config": {
+              "configFolder": "libs/shared/ui/settings-sidebar/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-settings-sidebar-e2e": {
+      "root": "apps/shared-ui-settings-sidebar-e2e",
+      "sourceRoot": "apps/shared-ui-settings-sidebar-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shared-ui-settings-sidebar-e2e/cypress.json",
+            "tsConfig": "apps/shared-ui-settings-sidebar-e2e/tsconfig.e2e.json",
+            "devServerTarget": "shared-ui-settings-sidebar:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "shared-ui-settings-sidebar:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/shared-ui-settings-sidebar-e2e/tsconfig.e2e.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/shared-ui-settings-sidebar-e2e/**"
+            ]
           }
         }
       }

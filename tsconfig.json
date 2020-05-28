@@ -25,9 +25,6 @@
     "noImplicitReturns": true,
     "baseUrl": ".",
     "paths": {
-      "@schaeffler/shared/ui-components": [
-        "libs/shared/ui-components/src/index.ts"
-      ],
       "@schaeffler/shared/styles": ["libs/shared/styles/src/index.ts"],
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"
@@ -52,6 +49,9 @@
       "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
       "@schaeffler/speed-dial-fab": [
         "libs/shared/ui/speed-dial-fab/src/index.ts"
+      ],
+      "@schaeffler/settings-sidebar": [
+        "libs/shared/ui/settings-sidebar/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
