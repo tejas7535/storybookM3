@@ -21,7 +21,7 @@ export class OverviewComponent {
     },
     {
       title: 'Question Answering',
-      url: '',
+      url: 'question-answering',
       icon: new Icon('question_answer', true),
     },
     {

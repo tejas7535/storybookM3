@@ -1,4 +1,5 @@
 export enum ServiceType {
   TAGGING = 'tagging',
-  TRANSLATION = 'translation'
+  TRANSLATION = 'translation',
+  QUESTION_ANSWERING = 'question-answering',
 }

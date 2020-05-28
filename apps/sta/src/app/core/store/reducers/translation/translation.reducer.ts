@@ -10,7 +10,7 @@ import {
   loadTranslationForText,
   loadTranslationForTextFailure,
   loadTranslationForTextSuccess,
-  resetTranslation
+  resetTranslation,
 } from '../../actions/translation/translation.actions';
 import { TranslationFileInput } from './models/translation-file-input.model';
 import { TranslationForFileInput } from './models/translation-for-file-input.model';
@@ -29,14 +29,14 @@ export const initialState: TranslationState = {
   translationFileInput: undefined,
   translationForText: {
     translation: undefined,
-    loading: false
+    loading: false,
   },
   translationForFile: {
     translation: undefined,
     loading: false,
-    success: undefined
+    success: undefined,
   },
-  selectedTabIndex: 0
+  selectedTabIndex: 0,
 };
 
 export const translationReducer = createReducer(
@@ -46,40 +46,40 @@ export const translationReducer = createReducer(
     translationTextInput: {
       text: textInput.text,
       textLang: textInput.textLang ? textInput.textLang : Language.EN,
-      targetLang: textInput.targetLang ? textInput.targetLang : Language.DE
+      targetLang: textInput.targetLang ? textInput.targetLang : Language.DE,
     },
     translationForText: {
       ...state.translationForText,
-      loading: true
-    }
+      loading: true,
+    },
   })),
   on(loadTranslationForFile, (state: TranslationState, { fileInput }) => ({
     ...state,
     translationFileInput: {
       file: fileInput.file,
       textLang: fileInput.textLang ? fileInput.textLang : Language.EN,
-      targetLang: fileInput.targetLang ? fileInput.targetLang : Language.DE
+      targetLang: fileInput.targetLang ? fileInput.targetLang : Language.DE,
     },
     translationForFile: {
       ...state.translationForFile,
       loading: true,
-      success: undefined
-    }
+      success: undefined,
+    },
   })),
   on(loadTranslationForTextFailure, (state: TranslationState) => ({
     ...state,
     translationForText: {
       ...state.translationForText,
-      loading: false
-    }
+      loading: false,
+    },
   })),
   on(loadTranslationForFileFailure, (state: TranslationState) => ({
     ...state,
     translationForFile: {
       ...state.translationForFile,
       loading: false,
-      success: false
-    }
+      success: false,
+    },
   })),
   on(
     loadTranslationForTextSuccess,
@@ -88,8 +88,8 @@ export const translationReducer = createReducer(
       translationForText: {
         ...state.translationForText,
         translation,
-        loading: false
-      }
+        loading: false,
+      },
     })
   ),
   on(
@@ -100,19 +100,19 @@ export const translationReducer = createReducer(
         ...state.translationForFile,
         translation,
         loading: false,
-        success: true
-      }
+        success: true,
+      },
     })
   ),
   on(resetTranslation, (state: TranslationState) => ({
     ...initialState,
-    selectedTabIndex: state.selectedTabIndex
+    selectedTabIndex: state.selectedTabIndex,
   })),
   on(
     setSelectedTabIndexTranslation,
     (state: TranslationState, { selectedTabIndex }) => ({
       ...state,
-      selectedTabIndex
+      selectedTabIndex,
     })
   )
 );

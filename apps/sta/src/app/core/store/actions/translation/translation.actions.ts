@@ -48,7 +48,7 @@ const all = union({
   loadTranslationForFileSuccess,
   loadTranslationForFileFailure,
   resetTranslation,
-  setSelectedTabIndexTranslation
+  setSelectedTabIndexTranslation,
 });
 
 export type TranslationActions = typeof all;

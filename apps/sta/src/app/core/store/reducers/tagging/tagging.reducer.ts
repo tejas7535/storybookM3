@@ -15,7 +15,7 @@ import {
   resetTags,
   setSelectedTabIndexTagging,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '../../actions/tagging/tagging.actions';
 import { TagsForFileInput } from './models/tags-for-file-input.model';
 import { TagsForTextInput } from './models/tags-for-text-input.model';
@@ -34,15 +34,15 @@ export const initialState: TaggingState = {
   tagsForText: {
     tags: undefined,
     showMoreTags: false,
-    loading: false
+    loading: false,
   },
   tagsForFile: {
     tags: undefined,
     showMoreTags: false,
     loading: false,
-    success: undefined
+    success: undefined,
   },
-  selectedTabIndex: 0
+  selectedTabIndex: 0,
 };
 
 export const taggingReducer = createReducer(
@@ -53,45 +53,45 @@ export const taggingReducer = createReducer(
     tagsForText: {
       ...state.tagsForText,
       showMoreTags: false,
-      loading: true
-    }
+      loading: true,
+    },
   })),
   on(loadTagsForFile, (state: TaggingState, { file }) => ({
     ...state,
     fileInput: {
       name: file.name,
       type: file.type,
-      content: file.content
+      content: file.content,
     },
     tagsForFile: {
       ...state.tagsForFile,
       showMoreTags: false,
       loading: true,
-      success: undefined
-    }
+      success: undefined,
+    },
   })),
   on(loadTagsForTextFailure, (state: TaggingState) => ({
     ...state,
     tagsForText: {
       ...state.tagsForText,
-      loading: false
-    }
+      loading: false,
+    },
   })),
   on(loadTagsForFileFailure, (state: TaggingState) => ({
     ...state,
     tagsForFile: {
       ...state.tagsForFile,
       loading: false,
-      success: false
-    }
+      success: false,
+    },
   })),
   on(loadTagsForTextSuccess, (state: TaggingState, { tags }) => ({
     ...state,
     tagsForText: {
       ...state.tagsForText,
       tags,
-      loading: false
-    }
+      loading: false,
+    },
   })),
   on(loadTagsForFileSuccess, (state: TaggingState, { tags }) => ({
     ...state,
@@ -99,61 +99,61 @@ export const taggingReducer = createReducer(
       ...state.tagsForFile,
       tags,
       loading: false,
-      success: true
-    }
+      success: true,
+    },
   })),
   on(resetTags, (state: TaggingState) => ({
     ...initialState,
-    selectedTabIndex: state.selectedTabIndex
+    selectedTabIndex: state.selectedTabIndex,
   })),
   on(
     setSelectedTabIndexTagging,
     (state: TaggingState, { selectedTabIndex }) => ({
       ...state,
-      selectedTabIndex
+      selectedTabIndex,
     })
   ),
   on(setShowMoreTagsText, (state: TaggingState, { showMoreTags }) => ({
     ...state,
     tagsForText: {
       ...state.tagsForText,
-      showMoreTags
-    }
+      showMoreTags,
+    },
   })),
   on(setShowMoreTagsFile, (state: TaggingState, { showMoreTags }) => ({
     ...state,
     tagsForFile: {
       ...state.tagsForFile,
-      showMoreTags
-    }
+      showMoreTags,
+    },
   })),
   on(removeTagForText, (state: TaggingState, { tag }) => ({
     ...state,
     tagsForText: {
       ...state.tagsForText,
-      tags: state.tagsForText.tags.filter(el => el !== tag)
-    }
+      tags: state.tagsForText.tags.filter((el) => el !== tag),
+    },
   })),
   on(removeTagForFile, (state: TaggingState, { tag }) => ({
     ...state,
     tagsForFile: {
       ...state.tagsForFile,
-      tags: state.tagsForFile.tags.filter(el => el !== tag)
-    }
+      tags: state.tagsForFile.tags.filter((el) => el !== tag),
+    },
   })),
   on(addTagForText, (state: TaggingState, { tag }) => ({
     ...state,
     tagsForText: {
       ...state.tagsForText,
-      tags: [...state.tagsForText.tags, tag]
-    }
+      tags: [...state.tagsForText.tags, tag],
+    },
   })),
   on(addTagForFile, (state: TaggingState, { tag }) => ({
     ...state,
     tagsForFile: {
       ...state.tagsForFile,
-      tags: [...state.tagsForFile.tags, tag]
-    }
+      tags: [...state.tagsForFile.tags, tag],
+    },
   }))
 );
 

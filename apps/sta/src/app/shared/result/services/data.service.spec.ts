@@ -1,11 +1,14 @@
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { Answer } from '../../../core/store/reducers/question-answering/models/answer.model';
+import { QuestionAnsweringFileInput } from '../../../core/store/reducers/question-answering/models/question-answering-file-input.model';
+import { QuestionAnsweringTextInput } from '../../../core/store/reducers/question-answering/models/question-answering-text-input.model';
 import { TranslationFileInput } from '../../../core/store/reducers/translation/models/translation-file-input.model';
 import { FileReplacement, Language, TextInput } from '../models';
 import { DataService } from './data.service';
@@ -20,7 +23,7 @@ describe('DataService', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [DataService]
+      providers: [DataService],
     });
   });
 
@@ -39,13 +42,14 @@ describe('DataService', () => {
   });
 
   describe('postTaggingText', () => {
-    test('should return an Observable<string[]>', () => {
+    test('should return an Observable<string[]>', (done) => {
       const text = 'Get me some tags please.';
       const expectedTags = ['First', 'Tag', 'Artificial'];
       const url = `${basePath}/tagging/text`;
 
-      service.postTaggingText(text).subscribe(tags => {
+      service.postTaggingText(text).subscribe((tags) => {
         expect(tags).toEqual(expectedTags);
+        done();
       });
 
       const req = httpMock.expectOne(url);
@@ -55,17 +59,17 @@ describe('DataService', () => {
   });
 
   describe('postTaggingFile', () => {
-    test('should return an Observable<string[]>', () => {
+    test('should return an Observable<string[]>', (done) => {
       const fileReplacement: FileReplacement = {
         name: 'abc',
         type: 'xyz',
-        content: []
+        content: [],
       };
       const expectedFile = new File(
         [Int8Array.from(fileReplacement.content)],
         fileReplacement.name,
         {
-          type: fileReplacement.type
+          type: fileReplacement.type,
         }
       );
 
@@ -74,8 +78,9 @@ describe('DataService', () => {
       const form = new FormData();
       form.append('file', expectedFile, expectedFile.name);
 
-      service.postTaggingFile(fileReplacement).subscribe(tags => {
+      service.postTaggingFile(fileReplacement).subscribe((tags) => {
         expect(tags).toEqual(expectedTags);
+        done();
       });
 
       const req = httpMock.expectOne(url);
@@ -86,7 +91,7 @@ describe('DataService', () => {
   });
 
   describe('postTranslationText', () => {
-    test('should return response as observable', () => {
+    test('should return response as observable', (done) => {
       const text = 'Bitte einmal übersetzen.';
       const expectedTranslation = 'Please translate once.';
       const targetLang = Language.EN;
@@ -96,11 +101,12 @@ describe('DataService', () => {
       const textInput: TextInput = {
         text,
         targetLang,
-        textLang
+        textLang,
       };
 
-      service.postTranslationText(textInput).subscribe(trans => {
+      service.postTranslationText(textInput).subscribe((trans) => {
         expect(trans).toEqual(expectedTranslation);
+        done();
       });
 
       const req = httpMock.expectOne(url);
@@ -117,16 +123,16 @@ describe('DataService', () => {
       const url = `${basePath}/translation/text`;
 
       const textInput: TextInput = {
-        text
+        text,
       };
 
       const expectedInput: TextInput = {
         text,
         textLang: defaultTextLang,
-        targetLang: defaultTargetLang
+        targetLang: defaultTargetLang,
       };
 
-      service.postTranslationText(textInput).subscribe(_trans => {
+      service.postTranslationText(textInput).subscribe((_trans) => {
         expect(service['http'].post).toHaveBeenCalledTimes(1);
         expect(service['http'].post).toHaveBeenCalledWith(url, expectedInput);
       });
@@ -137,7 +143,7 @@ describe('DataService', () => {
   });
 
   describe('postTranslationFile', () => {
-    test('should return response as observable', () => {
+    test('should return response as observable', (done) => {
       const expectedTranslation = 'Please translate once.';
       const url = `${basePath}/translation/file`;
       const targetLang = Language.EN;
@@ -146,25 +152,26 @@ describe('DataService', () => {
       const fileReplacement: FileReplacement = {
         name: 'abc',
         type: 'xyz',
-        content: []
+        content: [],
       };
 
       const expectedFile = new File(
         [Int8Array.from(fileReplacement.content)],
         fileReplacement.name,
         {
-          type: fileReplacement.type
+          type: fileReplacement.type,
         }
       );
 
       const input: TranslationFileInput = {
         targetLang,
         textLang,
-        file: fileReplacement
+        file: fileReplacement,
       };
 
-      service.postTranslationFile(input).subscribe(trans => {
+      service.postTranslationFile(input).subscribe((trans) => {
         expect(trans).toEqual(expectedTranslation);
+        done();
       });
 
       const formData = new FormData();
@@ -189,20 +196,20 @@ describe('DataService', () => {
       const fileReplacement: FileReplacement = {
         name: 'abc',
         type: 'xyz',
-        content: []
+        content: [],
       };
 
       const input: TranslationFileInput = {
-        file: fileReplacement
+        file: fileReplacement,
       };
 
       const expectedInput: TranslationFileInput = {
         file: fileReplacement,
         targetLang: defaultTargetLang,
-        textLang: defaultTextLang
+        textLang: defaultTextLang,
       };
 
-      service.postTranslationFile(input).subscribe(_trans => {
+      service.postTranslationFile(input).subscribe((_trans) => {
         expect(service['http'].post).toHaveBeenCalledTimes(1);
         expect(service['http'].post).toHaveBeenCalledWith(url, expectedInput);
       });
@@ -212,7 +219,7 @@ describe('DataService', () => {
   });
 
   describe('postLanguageDetectionText', () => {
-    test('should return response correctly as promise', done => {
+    test('should return response correctly as observable', (done) => {
       const text = 'Was für eine Sprache bin ich?';
       const url = `${basePath}/language-detection/text`;
       const expectedLang = 'de';
@@ -220,7 +227,7 @@ describe('DataService', () => {
 
       service
         .postLanguageDetectionText(text, userLang)
-        .subscribe(detectedLang => {
+        .subscribe((detectedLang) => {
           expect(detectedLang.textLang).toEqual(expectedLang);
           done();
         });
@@ -232,7 +239,7 @@ describe('DataService', () => {
   });
 
   describe('postLanguageDetectionFile', () => {
-    test('should return response correctly as promise', done => {
+    test('should return response correctly as observable', (done) => {
       const file = new File([], 'test');
       const url = `${basePath}/language-detection/file`;
       const expectedLang = 'de';
@@ -240,7 +247,7 @@ describe('DataService', () => {
 
       service
         .postLanguageDetectionFile(file, userLang)
-        .subscribe(detectedLang => {
+        .subscribe((detectedLang) => {
           expect(detectedLang.textLang).toEqual(expectedLang);
           done();
         });
@@ -253,6 +260,81 @@ describe('DataService', () => {
       expect(req.request.method).toBe('POST');
       expect(req.request.body).toEqual(formData);
       req.flush({ textLang: expectedLang });
+    });
+  });
+
+  describe('postLanguageDetectionFile', () => {
+    test('should return response correctly as observable', (done) => {
+      const textInput: QuestionAnsweringTextInput = {
+        question: 'abc',
+        text: 'abc',
+        textLang: Language.EN,
+      };
+
+      const url = `${basePath}/question-answering/text`;
+
+      const expectedAnswer: Answer = {
+        answer: 'ja moin',
+        exactMatch: 'Genaues moinsen',
+        logit: 1,
+        paragraphEnd: 1,
+        paragraphStart: 0,
+      };
+
+      service.postQuestionAnsweringText(textInput).subscribe((answer) => {
+        expect(answer).toEqual(expectedAnswer);
+        done();
+      });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      req.flush(expectedAnswer);
+    });
+  });
+
+  describe('postQuestionAnsweringFile', () => {
+    test('should return response as observable', (done) => {
+      const fileInput: QuestionAnsweringFileInput = {
+        file: {
+          content: [0, 1, 2],
+          name: 'servus',
+          type: 'superfile',
+        },
+        question: 'Was sagt der Tacho?',
+      };
+
+      const url = `${basePath}/question-answering/file`;
+
+      const expectedFile = new File(
+        [Int8Array.from(fileInput.file.content)],
+        fileInput.file.name,
+        {
+          type: fileInput.file.type,
+        }
+      );
+
+      const expectedAnswer: Answer = {
+        answer: 'ja moin',
+        exactMatch: 'Genaues moinsen',
+        logit: 1,
+        paragraphEnd: 1,
+        paragraphStart: 0,
+      };
+
+      service.postQuestionAnsweringFile(fileInput).subscribe((answer) => {
+        expect(answer).toEqual(expectedAnswer);
+        done();
+      });
+
+      const formData = new FormData();
+      formData.append('file', expectedFile, expectedFile.name);
+      formData.append('question', fileInput.question);
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      expect(req.request.body).toEqual(formData);
+
+      req.flush(expectedAnswer);
     });
   });
 });

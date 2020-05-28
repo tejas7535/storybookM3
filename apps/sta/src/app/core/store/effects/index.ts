@@ -1,4 +1,9 @@
+import { QuestionAnsweringEffects } from './question-answering/question-answering.effects';
 import { TaggingEffects } from './tagging/tagging.effects';
 import { TranslationEffects } from './translation/translation.effetcs';
 
-export const effects = [TaggingEffects, TranslationEffects];
+export const effects = [
+  TaggingEffects,
+  TranslationEffects,
+  QuestionAnsweringEffects,
+];

@@ -12,7 +12,7 @@ import {
   getTextInputTagging,
   loadTagsForFile,
   loadTagsForText,
-  setSelectedTabIndexTagging
+  setSelectedTabIndexTagging,
 } from '../../core/store';
 import { FileStatus } from '../../shared/file-upload/file-status.model';
 import { FileReplacement } from '../../shared/result/models';
@@ -21,7 +21,7 @@ import { TextInput } from '../../shared/result/models/text-input.model';
 @Component({
   selector: 'sta-auto-tagging',
   templateUrl: './auto-tagging.component.html',
-  styleUrls: ['./auto-tagging.component.scss']
+  styleUrls: ['./auto-tagging.component.scss'],
 })
 export class AutoTaggingComponent implements OnInit {
   public demoTextEn = DEMO_TEXT_EN;
@@ -51,7 +51,7 @@ export class AutoTaggingComponent implements OnInit {
   }
 
   public async getTagsForFile(file: File): Promise<void> {
-    return new Promise<void>(resolve => {
+    return new Promise<void>((resolve) => {
       const reader = new FileReader();
       reader.readAsArrayBuffer(file);
 
@@ -61,7 +61,7 @@ export class AutoTaggingComponent implements OnInit {
           type: file.type,
           content: Array.prototype.slice.call(
             new Int8Array(reader.result as ArrayBuffer)
-          )
+          ),
         };
         this.store.dispatch(loadTagsForFile({ file: fileReplacement }));
 

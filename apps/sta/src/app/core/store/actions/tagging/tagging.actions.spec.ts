@@ -12,7 +12,7 @@ import {
   resetTags,
   setSelectedTabIndexTagging,
   setShowMoreTagsFile,
-  setShowMoreTagsText
+  setShowMoreTagsText,
 } from '..';
 import { FileReplacement } from '../../../../shared/result/models/file-replacement.model';
 
@@ -24,7 +24,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         text,
-        type: '[Tagging] Load Tags Text'
+        type: '[Tagging] Load Tags Text',
       });
     });
 
@@ -34,7 +34,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tags,
-        type: '[Tagging] Load Tags Text Success'
+        type: '[Tagging] Load Tags Text Success',
       });
     });
 
@@ -42,7 +42,7 @@ describe('TaggingActions', () => {
       const action = loadTagsForTextFailure();
 
       expect(action).toEqual({
-        type: '[Tagging] Load Tags Text Failure'
+        type: '[Tagging] Load Tags Text Failure',
       });
     });
   });
@@ -52,13 +52,13 @@ describe('TaggingActions', () => {
       const file: FileReplacement = {
         name: 'abc',
         type: 'xyz',
-        content: [12, 13, 14, 15]
+        content: [12, 13, 14, 15],
       };
       const action = loadTagsForFile({ file });
 
       expect(action).toEqual({
         file,
-        type: '[Tagging] Load Tags File'
+        type: '[Tagging] Load Tags File',
       });
     });
 
@@ -68,7 +68,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tags,
-        type: '[Tagging] Load Tags File Success'
+        type: '[Tagging] Load Tags File Success',
       });
     });
 
@@ -76,7 +76,7 @@ describe('TaggingActions', () => {
       const action = loadTagsForFileFailure();
 
       expect(action).toEqual({
-        type: '[Tagging] Load Tags File Failure'
+        type: '[Tagging] Load Tags File Failure',
       });
     });
   });
@@ -86,7 +86,7 @@ describe('TaggingActions', () => {
       const action = resetTags();
 
       expect(action).toEqual({
-        type: '[Tagging] Reset Tagging State to initialState'
+        type: '[Tagging] Reset Tagging State to initialState',
       });
     });
   });
@@ -99,7 +99,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         showMoreTags,
-        type: '[Tagging] Set ShowMoreTags Text'
+        type: '[Tagging] Set ShowMoreTags Text',
       });
     });
 
@@ -110,7 +110,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         showMoreTags,
-        type: '[Tagging] Set ShowMoreTags File'
+        type: '[Tagging] Set ShowMoreTags File',
       });
     });
   });
@@ -123,7 +123,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tag,
-        type: '[Tagging] Remove Tag for Tags'
+        type: '[Tagging] Remove Tag for Tags',
       });
     });
 
@@ -134,7 +134,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tag,
-        type: '[Tagging] Remove Tag for File'
+        type: '[Tagging] Remove Tag for File',
       });
     });
   });
@@ -147,7 +147,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tag,
-        type: '[Tagging] Add Tag for Text'
+        type: '[Tagging] Add Tag for Text',
       });
     });
 
@@ -158,7 +158,7 @@ describe('TaggingActions', () => {
 
       expect(action).toEqual({
         tag,
-        type: '[Tagging] Add Tag for File'
+        type: '[Tagging] Add Tag for File',
       });
     });
   });
@@ -168,12 +168,12 @@ describe('TaggingActions', () => {
       const selectedTabIndex = 0;
 
       const action = setSelectedTabIndexTagging({
-        selectedTabIndex
+        selectedTabIndex,
       });
 
       expect(action).toEqual({
         selectedTabIndex,
-        type: '[Tagging] Set SelectedTabIndex'
+        type: '[Tagging] Set SelectedTabIndex',
       });
     });
   });

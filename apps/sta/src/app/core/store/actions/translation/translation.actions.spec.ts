@@ -1,7 +1,7 @@
 import {
   FileReplacement,
   Language,
-  TextInput
+  TextInput,
 } from '../../../../shared/result/models';
 import { TranslationFileInput } from '../../reducers/translation/models/translation-file-input.model';
 import {
@@ -12,7 +12,7 @@ import {
   loadTranslationForTextFailure,
   loadTranslationForTextSuccess,
   resetTranslation,
-  setSelectedTabIndexTranslation
+  setSelectedTabIndexTranslation,
 } from './translation.actions';
 
 describe('TranslationActions', () => {
@@ -21,13 +21,13 @@ describe('TranslationActions', () => {
       const textInput: TextInput = {
         text: 'abc',
         targetLang: Language.DE,
-        textLang: Language.EN
+        textLang: Language.EN,
       };
       const action = loadTranslationForText({ textInput });
 
       expect(action).toEqual({
         textInput,
-        type: '[Translation] Load Translation for Text'
+        type: '[Translation] Load Translation for Text',
       });
     });
 
@@ -37,7 +37,7 @@ describe('TranslationActions', () => {
 
       expect(action).toEqual({
         translation,
-        type: '[Translation] Load Translation for Text Success'
+        type: '[Translation] Load Translation for Text Success',
       });
     });
 
@@ -45,7 +45,7 @@ describe('TranslationActions', () => {
       const action = loadTranslationForTextFailure();
 
       expect(action).toEqual({
-        type: '[Translation] Load Translation for Text Failure'
+        type: '[Translation] Load Translation for Text Failure',
       });
     });
   });
@@ -55,18 +55,18 @@ describe('TranslationActions', () => {
       const file: FileReplacement = {
         name: 'abc',
         type: 'xyz',
-        content: [12, 13, 14, 15]
+        content: [12, 13, 14, 15],
       };
       const fileInput: TranslationFileInput = {
         file,
         targetLang: Language.DE,
-        textLang: Language.EN
+        textLang: Language.EN,
       };
       const action = loadTranslationForFile({ fileInput });
 
       expect(action).toEqual({
         fileInput,
-        type: '[Translation] Load Translation for File'
+        type: '[Translation] Load Translation for File',
       });
     });
 
@@ -76,7 +76,7 @@ describe('TranslationActions', () => {
 
       expect(action).toEqual({
         translation,
-        type: '[Translation] Load Translation for File Success'
+        type: '[Translation] Load Translation for File Success',
       });
     });
 
@@ -84,7 +84,7 @@ describe('TranslationActions', () => {
       const action = loadTranslationForFileFailure();
 
       expect(action).toEqual({
-        type: '[Translation] Load Translation for File Failure'
+        type: '[Translation] Load Translation for File Failure',
       });
     });
   });
@@ -94,7 +94,7 @@ describe('TranslationActions', () => {
       const action = resetTranslation();
 
       expect(action).toEqual({
-        type: '[Translation] Reset Translation State to initialState'
+        type: '[Translation] Reset Translation State to initialState',
       });
     });
   });
@@ -104,12 +104,12 @@ describe('TranslationActions', () => {
       const selectedTabIndex = 0;
 
       const action = setSelectedTabIndexTranslation({
-        selectedTabIndex
+        selectedTabIndex,
       });
 
       expect(action).toEqual({
         selectedTabIndex,
-        type: '[Translation] Set SelectedTabIndex'
+        type: '[Translation] Set SelectedTabIndex',
       });
     });
   });

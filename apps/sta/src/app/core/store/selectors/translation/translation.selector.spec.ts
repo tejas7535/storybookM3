@@ -7,7 +7,7 @@ import {
   loadTranslationForFile,
   loadTranslationForFileSuccess,
   loadTranslationForText,
-  loadTranslationForTextSuccess
+  loadTranslationForTextSuccess,
 } from '../..';
 import { TRANSLATION_STATE_MOCK } from '../../../../../testing/mocks/translation/translation-values.mock';
 import { FileStatus } from '../../../../shared/file-upload/file-status.model';
@@ -19,7 +19,7 @@ import {
   getSelectedTabIndexTranslation,
   getTextInputTranslation,
   getTranslationForFile,
-  getTranslationForText
+  getTranslationForText,
 } from './translation.selector';
 
 describe('TranslationSelector', () => {
@@ -32,16 +32,16 @@ describe('TranslationSelector', () => {
       imports: [
         StoreModule.forRoot(
           {
-            ...fromRoot.reducers
+            ...fromRoot.reducers,
           },
           {
             runtimeChecks: {
               strictStateSerializability: true,
-              strictActionSerializability: true
-            }
+              strictActionSerializability: true,
+            },
           }
-        )
-      ]
+        ),
+      ],
     });
   });
 
@@ -62,7 +62,7 @@ describe('TranslationSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getTextInputTranslation))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {
@@ -81,7 +81,7 @@ describe('TranslationSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getTranslationForText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined translation when state is not defined', () => {
@@ -91,7 +91,7 @@ describe('TranslationSelector', () => {
     test('should return translation', () => {
       store.dispatch(
         loadTranslationForTextSuccess({
-          translation: TRANSLATION_STATE_MOCK.translationForText.translation
+          translation: TRANSLATION_STATE_MOCK.translationForText.translation,
         })
       );
 
@@ -105,7 +105,7 @@ describe('TranslationSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getTranslationForFile))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined translation when state is not defined', () => {
@@ -115,7 +115,7 @@ describe('TranslationSelector', () => {
     test('should return translation', () => {
       store.dispatch(
         loadTranslationForFileSuccess({
-          translation: TRANSLATION_STATE_MOCK.translationForFile.translation
+          translation: TRANSLATION_STATE_MOCK.translationForFile.translation,
         })
       );
 
@@ -129,7 +129,7 @@ describe('TranslationSelector', () => {
     test('should return false on initialState', () => {
       store
         .pipe(select(getLoadingTranslationForText))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });
@@ -138,7 +138,7 @@ describe('TranslationSelector', () => {
     test('should return false on initialState', () => {
       store
         .pipe(select(getLoadingTranslationForFile))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toBeFalsy();
     });
   });
@@ -147,7 +147,7 @@ describe('TranslationSelector', () => {
     test('should return 0 on initialState', () => {
       store
         .pipe(select(getSelectedTabIndexTranslation))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
       expect(result).toEqual(0);
     });
   });
@@ -156,7 +156,7 @@ describe('TranslationSelector', () => {
     beforeEach(() => {
       store
         .pipe(select(getFileStatusTranslation))
-        .subscribe(value => (result = value));
+        .subscribe((value) => (result = value));
     });
 
     test('should return undefined when state is not defined', () => {
@@ -170,7 +170,7 @@ describe('TranslationSelector', () => {
       const expected: FileStatus = {
         fileName: fileInput.file.name,
         fileType: fileInput.file.type,
-        success: undefined
+        success: undefined,
       };
       expect(result).toEqual(expected);
     });
@@ -184,7 +184,7 @@ describe('TranslationSelector', () => {
       const expected: FileStatus = {
         fileName: fileInput.file.name,
         fileType: fileInput.file.type,
-        success: true
+        success: true,
       };
       expect(result).toEqual(expected);
     });

@@ -6,20 +6,20 @@ import {
   loadTranslationForTextFailure,
   loadTranslationForTextSuccess,
   resetTranslation,
-  setSelectedTabIndexTranslation
+  setSelectedTabIndexTranslation,
 } from '../..';
 import { TRANSLATION_STATE_MOCK } from '../../../../../testing/mocks/translation/translation-values.mock';
 import {
   initialState,
   reducer,
-  translationReducer
+  translationReducer,
 } from './translation.reducer';
 
 describe('Translation Reducer', () => {
   describe('LoadTranslationForText', () => {
     test('should set translationTextInput and loading', () => {
       const action = loadTranslationForText({
-        textInput: TRANSLATION_STATE_MOCK.translationTextInput
+        textInput: TRANSLATION_STATE_MOCK.translationTextInput,
       });
       const state = translationReducer(initialState, action);
 
@@ -30,7 +30,7 @@ describe('Translation Reducer', () => {
 
     test('should set default values for targetLang and TextLang', () => {
       const withoutLangValues = {
-        text: TRANSLATION_STATE_MOCK.translationTextInput.text
+        text: TRANSLATION_STATE_MOCK.translationTextInput.text,
       };
       const action = loadTranslationForText({ textInput: withoutLangValues });
       const state = translationReducer(initialState, action);
@@ -44,7 +44,7 @@ describe('Translation Reducer', () => {
   describe('LoadTranslationForFile', () => {
     test('should set translationFileInput and loading', () => {
       const action = loadTranslationForFile({
-        fileInput: TRANSLATION_STATE_MOCK.translationFileInput
+        fileInput: TRANSLATION_STATE_MOCK.translationFileInput,
       });
       const state = translationReducer(initialState, action);
 
@@ -55,7 +55,7 @@ describe('Translation Reducer', () => {
 
     test('should set default values for targetLang and TextLang', () => {
       const withoutLangValues = {
-        file: TRANSLATION_STATE_MOCK.translationFileInput.file
+        file: TRANSLATION_STATE_MOCK.translationFileInput.file,
       };
       const action = loadTranslationForFile({ fileInput: withoutLangValues });
       const state = translationReducer(initialState, action);
@@ -88,7 +88,7 @@ describe('Translation Reducer', () => {
   describe('LoadTranslationForTextSucces', () => {
     test('should set translation and loading', () => {
       const action = loadTranslationForTextSuccess({
-        translation: TRANSLATION_STATE_MOCK.translationForText.translation
+        translation: TRANSLATION_STATE_MOCK.translationForText.translation,
       });
       const state = translationReducer(initialState, action);
 
@@ -102,7 +102,7 @@ describe('Translation Reducer', () => {
   describe('LoadTranslationForFileSucces', () => {
     test('should set translation, loading and success', () => {
       const action = loadTranslationForFileSuccess({
-        translation: TRANSLATION_STATE_MOCK.translationForFile.translation
+        translation: TRANSLATION_STATE_MOCK.translationForFile.translation,
       });
       const state = translationReducer(initialState, action);
 
@@ -126,7 +126,7 @@ describe('Translation Reducer', () => {
   describe('SetSelectedTabIndexTranslation', () => {
     test('should set selectedTabIndex', () => {
       const action = setSelectedTabIndexTranslation({
-        selectedTabIndex: TRANSLATION_STATE_MOCK.selectedTabIndex
+        selectedTabIndex: TRANSLATION_STATE_MOCK.selectedTabIndex,
       });
       const state = translationReducer(initialState, action);
 
@@ -139,7 +139,7 @@ describe('Translation Reducer', () => {
   describe('Reducer function', () => {
     test('should return translationReducer', () => {
       const action = loadTranslationForText({
-        textInput: TRANSLATION_STATE_MOCK.translationTextInput
+        textInput: TRANSLATION_STATE_MOCK.translationTextInput,
       });
       expect(reducer(initialState, action)).toEqual(
         translationReducer(initialState, action)

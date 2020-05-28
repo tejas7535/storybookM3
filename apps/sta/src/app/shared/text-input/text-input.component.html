@@ -37,8 +37,10 @@
       [showTargetLanguage]="showTargetLanguage"
       [disabledLanguages]="disabledLanguages"
       [parentForm]="textFormGroup"
-    ></sta-language-detection>
+    >
+    </sta-language-detection>
     <button
+      *ngIf="showSubmitButton"
       mat-raised-button
       color="primary"
       class="tags-btn"

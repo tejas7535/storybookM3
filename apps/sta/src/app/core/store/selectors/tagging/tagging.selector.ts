@@ -20,7 +20,7 @@ export const getTagsForText = createSelector(
       ...state.tagsForText,
       tags: state.tagsForText.showMoreTags
         ? state.tagsForText.tags
-        : state.tagsForText.tags?.slice(0, MIN_TAGS)
+        : state.tagsForText.tags?.slice(0, MIN_TAGS),
     };
   }
 );
@@ -32,7 +32,7 @@ export const getTagsForFile = createSelector(
       ...state.tagsForFile,
       tags: state.tagsForFile.showMoreTags
         ? state.tagsForFile.tags
-        : state.tagsForFile.tags?.slice(0, MIN_TAGS)
+        : state.tagsForFile.tags?.slice(0, MIN_TAGS),
     };
   }
 );
