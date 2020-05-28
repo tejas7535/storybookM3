@@ -5,7 +5,7 @@ import {
   Input,
   OnChanges,
   Output,
-  SimpleChanges
+  SimpleChanges,
 } from '@angular/core';
 
 import { SpeedDialFabItem } from './speed-dial-fab-item';
@@ -16,7 +16,7 @@ import { speedDialFabAnimations } from './speed-dial-fab.animations';
   templateUrl: './speed-dial-fab.component.html',
   styleUrls: ['./speed-dial-fab.component.scss'],
   animations: speedDialFabAnimations,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpeedDialFabComponent implements OnChanges {
   @Input() primaryButton: SpeedDialFabItem = {
@@ -24,7 +24,7 @@ export class SpeedDialFabComponent implements OnChanges {
     icon: 'plus',
     color: 'primary',
     label: true,
-    title: 'Edit'
+    title: 'Edit',
   };
 
   public primaryButtonOpen: SpeedDialFabItem = {
@@ -32,7 +32,7 @@ export class SpeedDialFabComponent implements OnChanges {
     icon: 'cross',
     color: 'primary',
     label: true,
-    title: 'Cancel'
+    title: 'Cancel',
   };
 
   @Input() public secondaryButtons: SpeedDialFabItem[];

@@ -4,7 +4,7 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
-import { SpeedDialFabModule } from '@schaeffler/shared/ui-components';
+import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
 
 @NgModule({
   ...
@@ -58,7 +58,7 @@ Use like:
 
 ```typescript
 // comp-xy.component.ts
-import { SpeedDialFabItem } from '@schaeffler/shared/ui-components';
+import { SpeedDialFabItem } from '@schaeffler/speed-dial-fab';
 
 public speedDialFabPrimaryBtn: SpeedDialFabItem = {
   key: 'conversation',

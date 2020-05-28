@@ -15,11 +15,11 @@ describe('SpeedDialFabComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [NoopAnimationsModule, MatButtonModule],
-      declarations: [SpeedDialFabComponent]
+      declarations: [SpeedDialFabComponent],
     }).overrideComponent(SpeedDialFabComponent, {
       set: {
-        changeDetection: ChangeDetectionStrategy.Default
-      }
+        changeDetection: ChangeDetectionStrategy.Default,
+      },
     });
   });
 
@@ -48,7 +48,7 @@ describe('SpeedDialFabComponent', () => {
 
     it('should prevent default if mouse event', () => {
       const evt = {
-        preventDefault: jest.fn()
+        preventDefault: jest.fn(),
       };
 
       component.clickItem('test', (evt as unknown) as MouseEvent);
@@ -67,14 +67,14 @@ describe('SpeedDialFabComponent', () => {
           icon: 'matrix',
           color: 'green',
           label: true,
-          title: 'test'
-        }
+          title: 'test',
+        },
       ];
       expect(component.fabButtons.length).toBe(0);
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnChanges({
-        open: new SimpleChange(false, openState, false)
+        open: new SimpleChange(false, openState, false),
       });
       expect(component.fabButtons).toBe(component.secondaryButtons);
     });
@@ -88,14 +88,14 @@ describe('SpeedDialFabComponent', () => {
           icon: 'matrix',
           color: 'green',
           label: true,
-          title: 'test'
-        }
+          title: 'test',
+        },
       ];
       expect(component.fabButtons.length).toBe(0);
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnChanges({
-        open: new SimpleChange(false, openState, false)
+        open: new SimpleChange(false, openState, false),
       });
       expect(component.fabButtons).toEqual([]);
     });
@@ -110,13 +110,13 @@ describe('SpeedDialFabComponent', () => {
         icon: 'patronus',
         color: 'green',
         label: true,
-        title: 'Patronum!'
-      }
+        title: 'Patronum!',
+      },
     ];
 
     // tslint:disable-next-line: no-lifecycle-call
     component.ngOnChanges({
-      open: new SimpleChange(false, openState, false)
+      open: new SimpleChange(false, openState, false),
     });
 
     fixture.detectChanges();

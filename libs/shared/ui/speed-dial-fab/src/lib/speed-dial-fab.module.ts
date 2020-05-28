@@ -7,6 +7,6 @@ import { SpeedDialFabComponent } from './speed-dial-fab.component';
 @NgModule({
   imports: [CommonModule, MatButtonModule],
   declarations: [SpeedDialFabComponent],
-  exports: [SpeedDialFabComponent]
+  exports: [SpeedDialFabComponent],
 })
 export class SpeedDialFabModule {}

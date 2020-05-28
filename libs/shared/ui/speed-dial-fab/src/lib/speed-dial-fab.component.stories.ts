@@ -13,25 +13,25 @@ const moduleMetadata = {
     SpeedDialFabModule,
     CommonModule,
     MatButtonModule,
-    BrowserAnimationsModule
-  ]
+    BrowserAnimationsModule,
+  ],
 };
 
 const baseComponent = {
   moduleMetadata,
-  component: SpeedDialFabComponent
+  component: SpeedDialFabComponent,
 };
 
 // tslint:disable-next-line: no-default-export
 export default {
-  title: 'SpeedDialFabButton'
+  title: 'SpeedDialFabButton',
 };
 
 export const primary = () => ({
   ...baseComponent,
   props: {
-    clicked: action('clicked')
-  }
+    clicked: action('clicked'),
+  },
 });
 
 export const customButton = () => ({
@@ -43,9 +43,9 @@ export const customButton = () => ({
       icon: text('icon', 'draft'),
       color: text('color', 'warn'),
       label: boolean('label', true),
-      title: text('title', 'Edit')
-    }
-  }
+      title: text('title', 'Edit'),
+    },
+  },
 });
 
 export const withSecondaryButtons = () => ({
@@ -58,7 +58,7 @@ export const withSecondaryButtons = () => ({
       icon: 'bubbles',
       color: 'primary',
       label: true,
-      title: 'new conversation'
+      title: 'new conversation',
     },
     secondaryButtons: [
       {
@@ -66,17 +66,17 @@ export const withSecondaryButtons = () => ({
         icon: text('icon', 'mail', 'button1'),
         color: text('color', 'accent', 'button1'),
         label: boolean('label', true, 'button1'),
-        title: text('title', 'New Mail', 'button1')
+        title: text('title', 'New Mail', 'button1'),
       },
       {
         key: text('key', 'phone', 'button2'),
         icon: text('icon', 'phone', 'button2'),
         color: text('color', 'accent', 'button2'),
         label: boolean('label', true, 'button2'),
-        title: text('title', 'New Call', 'button2')
-      }
-    ]
-  }
+        title: text('title', 'New Call', 'button2'),
+      },
+    ],
+  },
 });
 
 export const disabledSecondaryButtons = () => ({
@@ -89,7 +89,7 @@ export const disabledSecondaryButtons = () => ({
       icon: 'draft',
       color: 'primary',
       label: false,
-      title: 'Start edit mode'
+      title: 'Start edit mode',
     },
     secondaryButtons: [
       {
@@ -97,9 +97,9 @@ export const disabledSecondaryButtons = () => ({
         icon: 'disk',
         color: 'accent',
         label: false,
-        title: 'Save changes'
-      }
+        title: 'Save changes',
+      },
     ],
-    disableSecondary: boolean('Disable the secondary button', false)
-  }
+    disableSecondary: boolean('Disable the secondary button', false),
+  },
 });
