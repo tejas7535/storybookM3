@@ -1,0 +1,19 @@
+:host {
+  width: 100%;
+}
+
+.container {
+  padding: 50px 20px;
+  width: 100%;
+}
+
+.forbidden {
+  background: url('./img/403-error.svg') no-repeat center;
+  height: 96px;
+  width: 246px;
+}
+
+p {
+  max-width: 400px;
+  text-align: center;
+}

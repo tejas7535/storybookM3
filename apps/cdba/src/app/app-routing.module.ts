@@ -1,21 +1,29 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export enum RoutePath {
-  BasePath = '',
-  SearchPath = 'search',
-}
+import { AppRoutePath } from './app-route-path.enum';
+import { RoleGuard } from './core/guards';
+import { FORBIDDEN_ACTION } from './shared/constants';
 
-export const appRoutePaths: Routes = [
+export const appRoutes: Routes = [
   {
-    path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.SearchPath}`,
+    path: AppRoutePath.BasePath,
+    redirectTo: `/${AppRoutePath.SearchPath}`,
     pathMatch: 'full',
   },
   {
-    path: RoutePath.SearchPath,
+    path: AppRoutePath.SearchPath,
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),
+    canActivateChild: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.ForbiddenPath,
+    loadChildren: () =>
+      import('@schaeffler/shared/empty-states').then((m) => m.ForbiddenModule),
+    data: {
+      action: encodeURI(FORBIDDEN_ACTION),
+    },
   },
   {
     path: '**',
@@ -28,7 +36,7 @@ export const appRoutePaths: Routes = [
 
 @NgModule({
   imports: [
-    RouterModule.forRoot(appRoutePaths, {
+    RouterModule.forRoot(appRoutes, {
       useHash: true,
       initialNavigation: false,
     }),
