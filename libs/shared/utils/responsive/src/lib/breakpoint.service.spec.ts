@@ -31,6 +31,7 @@ describe('BreakpointService', () => {
       result: false,
     },
     { matchStr: '(min-width: 600px) and (max-width: 959.99px)', result: false },
+    { matchStr: '(min-width: 1920px)', result: false },
   ];
 
   const resize = (width: number): void => {
@@ -39,6 +40,7 @@ describe('BreakpointService', () => {
     matchObj[2].result = width <= 959; // isLessThanMedium
     matchObj[3].result = width >= 960 && width <= 1279.99; // isMedium
     matchObj[4].result = width >= 600 && width <= 959.99; // unsupportedViewPort
+    matchObj[5].result = width >= 1920;
   };
 
   const fakeObserve = (s: string[] | string): Observable<BreakpointState> =>
@@ -272,6 +274,24 @@ describe('BreakpointService', () => {
           expect(value).toBeTruthy();
           done();
         });
+      });
+    });
+  });
+
+  describe('isDesktop', () => {
+    test('should return false on width < 1920', (done) => {
+      resize(1919);
+      service.isDesktop().subscribe((isDesktop: boolean) => {
+        expect(isDesktop).toBeFalsy();
+        done();
+      });
+    });
+
+    test('should return true on width  >= 1920', (done) => {
+      resize(1920);
+      service.isDesktop().subscribe((isDesktop: boolean) => {
+        expect(isDesktop).toBeTruthy();
+        done();
       });
     });
   });

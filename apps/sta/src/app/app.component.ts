@@ -20,6 +20,7 @@ import { ServiceType } from './shared/result/models';
 export class AppComponent implements OnInit, OnDestroy {
   public title = 'STA - Schaeffler Text Assistant';
   public home = '/';
+  public translationRoute = '/translation';
   public isHome = true;
   public isSidebarExpanded = false;
   public sidebarWidthExpanded = '960px';
@@ -29,12 +30,14 @@ export class AppComponent implements OnInit, OnDestroy {
   public triggerBtnIcon = new Icon('format_quote', true);
   public isLessThanMedium$: Observable<boolean>;
   public isMedium$: Observable<boolean>;
+  public isDesktop$: Observable<boolean>;
+  public isDesktop: boolean;
   public isMobile$: Observable<boolean>;
   public isAuthenticated$: Observable<boolean>;
   public isDoneLoading$: Observable<boolean>;
   public username$: Observable<string>;
-
   public settingsSidebarOpen = false;
+  public currentRoute: string;
 
   public currentService: ServiceType;
 
@@ -95,7 +98,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
     this.username$ = this.authService.getUserName();
+    this.isDesktop$ = this.breakpointService.isDesktop();
+    this.addSubscriptions();
+  }
 
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public addSubscriptions(): void {
     this.subscription.add(
       this.router.events
         .pipe(
@@ -103,18 +114,24 @@ export class AppComponent implements OnInit, OnDestroy {
           map((evt) => evt as NavigationEnd),
           tap((routerEvent: NavigationEnd) => {
             this.isHome = routerEvent.url === this.home ? true : false;
-
             this.currentService = this.route.snapshot.firstChild.data.service;
+
+            this.currentRoute = routerEvent.url;
+            this.isSidebarExpanded =
+              this.currentRoute === this.translationRoute && this.isDesktop;
 
             this.settingsSidebarOpen = !this.isHome;
           })
         )
         .subscribe()
     );
-  }
-
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription.add(
+      this.isDesktop$.subscribe((isDesktopValue: boolean) => {
+        this.isDesktop = isDesktopValue;
+        this.isSidebarExpanded =
+          this.currentRoute === this.translationRoute && isDesktopValue;
+      })
+    );
   }
 
   public settingsSidebarOpenedChanges(open: boolean): void {

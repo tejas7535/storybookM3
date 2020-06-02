@@ -31,6 +31,8 @@ import {
 
 import { TranslocoService } from '@ngneat/transloco';
 
+import { BreakpointService } from '@schaeffler/responsive';
+
 import { AVAILABLE_LANGUAGES } from '../../constants/available-languages.constant';
 import {
   KeyValue,
@@ -69,6 +71,9 @@ export class TextInputComponent implements OnDestroy, OnInit {
   public disableSubmit = true;
   public apiErrorMessage = '';
 
+  public textAreaMaxRows: Number;
+  public isDesktop$: Observable<boolean>;
+
   private readonly subscription: Subscription = new Subscription();
 
   private static identifyAvailableLanguages(userLang: string): KeyValue[] {
@@ -87,15 +92,23 @@ export class TextInputComponent implements OnDestroy, OnInit {
     private readonly fb: FormBuilder,
     private readonly dataService: DataService,
     private readonly languageService: TranslocoService,
-    private readonly _ngZone: NgZone
+    private readonly _ngZone: NgZone,
+    private readonly breakpointService: BreakpointService
   ) {}
 
   public ngOnInit(): void {
     const userLang = this.languageService.getActiveLang();
+    this.isDesktop$ = this.breakpointService.isDesktop();
     this.initForm();
-
     this.avlLanguages = TextInputComponent.identifyAvailableLanguages(userLang);
+    this.addSubscriptions();
+  }
 
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public addSubscriptions(): void {
     this.subscription.add(
       this.detectedLanguage.valueChanges.subscribe((val) =>
         this.handleLanguageDetectionChange(val)
@@ -104,18 +117,19 @@ export class TextInputComponent implements OnDestroy, OnInit {
 
     this.subscription.add(
       this.text.valueChanges
-        .pipe(this.validateTextInput(userLang))
+        .pipe(this.validateTextInput(this.languageService.getActiveLang()))
         .subscribe((languageDetectionResponse) => {
           this.triggerResize();
           this.handleTextInput(languageDetectionResponse);
         })
     );
-  }
 
-  public ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.subscription.add(
+      this.isDesktop$.subscribe((isDesktopVal) => {
+        this.textAreaMaxRows = isDesktopVal ? 25 : 15;
+      })
+    );
   }
-
   public get text(): AbstractControl {
     return this.textFormGroup.get('text');
   }
