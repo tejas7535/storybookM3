@@ -1,5 +1,3 @@
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -8,15 +6,15 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { LanguageDetectionModule } from '../language-detection/language-detection.module';
-
-import { TextInputComponent } from './text-input.component';
-
 import { KeyValue, Language, TextInput } from '../result/models';
+import { TextInputComponent } from './text-input.component';
 
 describe('TextInputComponent', () => {
   let component: TextInputComponent;
@@ -88,24 +86,39 @@ describe('TextInputComponent', () => {
       const langs = [new KeyValue('key', 'val')];
       component['languageService'].getActiveLang = jest.fn(() => userLang);
       component['initForm'] = jest.fn();
+      component['addSubscriptions'] = jest.fn();
       TextInputComponent['identifyAvailableLanguages'] = jest.fn(() => langs);
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
-
+      expect(component['addSubscriptions']).toHaveBeenCalledTimes(1);
       expect(component['initForm']).toHaveBeenCalledTimes(1);
       expect(component['languageService'].getActiveLang).toHaveBeenCalledTimes(
         1
       );
       expect(component.avlLanguages).toEqual(langs);
+      expect(component.isDesktop$).toBeDefined();
     });
+  });
 
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe from subscription', () => {
+      const spy = jest.spyOn(component['subscription'], 'unsubscribe');
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addSubscriptions', () => {
     test('should initialize subscriptions and handle detected language changes', () => {
       component['handleLanguageDetectionChange'] = jest.fn();
       const testVal = 'test';
 
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.addSubscriptions();
 
       component.detectedLanguage.setValue(testVal);
 
@@ -127,7 +140,7 @@ describe('TextInputComponent', () => {
       const testVal = 'test';
 
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.addSubscriptions();
 
       component.text.setValue(testVal);
 
@@ -136,16 +149,17 @@ describe('TextInputComponent', () => {
       expect(component['validateTextInput']).toHaveBeenCalledTimes(1);
       expect(component['handleTextInput']).toHaveBeenCalledWith(resp);
     });
-  });
 
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe from subscription', () => {
-      const spy = jest.spyOn(component['subscription'], 'unsubscribe');
+    test('set textAreaRows to 25 if Desktop', () => {
+      component.isDesktop$ = of(true);
+      component.addSubscriptions();
+      expect(component.textAreaMaxRows).toEqual(25);
+    });
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnDestroy();
-
-      expect(spy).toHaveBeenCalledTimes(1);
+    test('set textAreaRows to 15 if !Desktop', () => {
+      component.isDesktop$ = of(false);
+      component.addSubscriptions();
+      expect(component.textAreaMaxRows).toEqual(15);
     });
   });
 

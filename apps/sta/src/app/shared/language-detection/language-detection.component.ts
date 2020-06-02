@@ -19,6 +19,5 @@ export class LanguageDetectionComponent {
   @Input() public parentForm: FormGroup;
 
   public detectLanguageIcon = new Icon('language', true);
-  public syncIcon = new Icon('sync_alt', true);
   public flagIcon = new Icon('flag', true);
 }

@@ -7,7 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router, Routes } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -112,7 +112,6 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-
     service = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
   });
@@ -130,33 +129,15 @@ describe('AppComponent', () => {
 
   describe('ngOnInit()', () => {
     test('should set Observables', () => {
+      component.addSubscriptions = jest.fn();
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.subscription).toBeDefined();
       expect(component.isMobile$).toBeDefined();
       expect(component.isLessThanMedium$).toBeDefined();
       expect(component.isMedium$).toBeDefined();
-    });
-
-    test('should set isHome and settingsSidebarOpen correctly I', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      await router.navigateByUrl('/');
-
-      expect(component.isHome).toBeTruthy();
-      expect(component.settingsSidebarOpen).toBeFalsy();
-    });
-
-    test('should set isHome and settingsSidebarOpen correctly II', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      await router.navigateByUrl('/overview');
-
-      expect(component.isHome).toBeFalsy();
-      expect(component.settingsSidebarOpen).toBeTruthy();
+      expect(component.isDesktop$).toBeDefined();
+      expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -168,6 +149,97 @@ describe('AppComponent', () => {
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
+    });
+  });
+  describe('addSubscriptions', () => {
+    test('subscribtion should be definied', () => {
+      component.addSubscriptions();
+      expect(component.subscription).toBeDefined();
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly I', async () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      await router.navigateByUrl('/');
+
+      expect(component.isHome).toBeTruthy();
+      expect(component.settingsSidebarOpen).toBeFalsy();
+    });
+
+    test('should set isHome and settingsSidebarOpen correctly II', async () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      await router.navigateByUrl('/overview');
+
+      expect(component.isHome).toBeFalsy();
+      expect(component.settingsSidebarOpen).toBeTruthy();
+    });
+
+    test('should set isSideBarExpanded to true when translation and Desktop', async () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      component.isDesktop = true;
+      await router.navigateByUrl(component.translationRoute);
+
+      expect(component.isSidebarExpanded).toBeTruthy();
+      expect(component.currentRoute).toEqual(component.translationRoute);
+    });
+
+    test('should set isSideBarExpanded to false when not translation and Desktop', async () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      component.isDesktop = true;
+      await router.navigateByUrl('/tagging');
+
+      expect(component.isSidebarExpanded).toBeFalsy();
+    });
+
+    test('should set isSideBarExpanded to false when translation and not Desktop', async () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      component.isDesktop = false;
+      await router.navigateByUrl(component.translationRoute);
+
+      expect(component.isSidebarExpanded).toBeFalsy();
+      expect(component.currentRoute).toEqual(component.translationRoute);
+    });
+
+    test('should set isSideBarExpanded to true when isDesktop and currentRoute equals translation ', () => {
+      component.isDesktop$ = of(true);
+      component.currentRoute = component.translationRoute;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      expect(component.isSidebarExpanded).toBeTruthy();
+      expect(component.isDesktop).toBeTruthy();
+    });
+
+    test('should set isSideBarExpanded to false when !isDesktop and currentRoute equals translation ', () => {
+      component.isDesktop$ = of(false);
+      component.currentRoute = component.translationRoute;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      expect(component.isSidebarExpanded).toBeFalsy();
+      expect(component.isDesktop).toBeFalsy();
+    });
+
+    test('should set isSideBarExpanded to false when isDesktop and currentRoute not equals translation ', () => {
+      component.isDesktop$ = of(true);
+      component.currentRoute = '/tagging';
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.addSubscriptions();
+
+      expect(component.isSidebarExpanded).toBeFalsy();
+      expect(component.isDesktop).toBeTruthy();
     });
   });
 

@@ -52,4 +52,9 @@ export class BreakpointService {
       .observe(Breakpoints.Small)
       .pipe(map((state: BreakpointState) => state.matches));
   }
+  public isDesktop(): Observable<boolean> {
+    return this.breakpointObserver
+      .observe(Breakpoints.XLarge)
+      .pipe(map((state: BreakpointState) => state.matches));
+  }
 }

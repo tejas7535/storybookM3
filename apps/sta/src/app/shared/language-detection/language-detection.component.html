@@ -21,9 +21,6 @@
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <mat-icon *ngIf="showTargetLanguage" class="sync-icon">{{
-    syncIcon.icon
-  }}</mat-icon>
   <mat-form-field *ngIf="showTargetLanguage" [formGroup]="parentForm">
     <mat-label> Target Language</mat-label>
     <span matPrefix>
