@@ -40,6 +40,7 @@ Thumbs.db
 
 # lint outputs
 **/*checkstyle-result.xml
+**/*checkstyle-result.txt
 
 # current version
 libs/shared/ui/footer/src/lib/version.ts

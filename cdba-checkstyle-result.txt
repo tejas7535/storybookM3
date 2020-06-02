@@ -1,2 +1,0 @@
-/home/jnkp1usr/workspace/ffler_schaeffler-frontend_master/apps/cdba/src/app/search/reference-types-filters/multi-select-filter/multi-select-filter.component.html(59,8): error templateUseTrackByFunction: Missing trackBy function in ngFor directive
-

@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.0.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.0.0) (2020-06-02)
+
+**Contains all previous changes / releases from start**
+
+### Apps
+* CDBA - Cost Database Analytics
+* Helloworld-Azure - Demo Application for Azure / Kubernetes
+* Kitchen-Sink - Demo application of this mono repository
+* LTP - Lifetime Predictor
+* STA - Schaeffler Text Assistant
+* STEEL - Schaeffler Tableau Extensions Library
+
+### Libraries
+* assets - Favicon & Logo
+* auth - oAuth2 lib for authentication with Azure AD
+* cypress-utils - utilities for e2e tests
+* empty-states - empty states like 404 Not Found and 403 Forbidden
+* styles - Schaeffler styles including fonts, colors, buttons, ghost animations and so on
+* ui - shared ui components:
+  * banner
+  * file-drop
+  * footer
+  * header
+  * icons
+  * scroll-to-top
+  * settings-sidebar
+  * sidebar
+  * snackbar
+  * speed-dial-fab
+* utils
+  * responsive (responsive helpers)
+  * transloco (translation lib)
+
 ## [0.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.4.0...v0.5.0) (2020-06-02)
 
 

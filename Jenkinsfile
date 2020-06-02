@@ -479,7 +479,7 @@ pipeline {
                             sh 'npm run release'
 
                             // generate project specific changelogs
-                            sh 'npx nx affected --base=${buildBase} --target=standard-version --parallel'
+                            sh "npx nx affected --base=${buildBase} --target=standard-version --parallel"
                             
                             sh 'npm run generate-readme'
                             sh 'git add .'
