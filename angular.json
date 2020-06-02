@@ -170,6 +170,16 @@
             "setupFile": "apps/kitchen-sink/src/test-setup.ts",
             "passWithNoTests": true
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/kitchen-sink && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       }
     },
@@ -214,6 +224,16 @@
           "options": {
             "tsConfig": ["libs/shared/styles/tsconfig.lib.json"],
             "exclude": ["**/node_modules/**", "!libs/shared/styles/**"]
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/styles && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -390,6 +410,16 @@
             "setupFile": "apps/sta/src/test-setup.ts",
             "passWithNoTests": true
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/sta && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       }
     },
@@ -437,6 +467,16 @@
               "libs/shared/cypress-utils/tsconfig.spec.json"
             ],
             "exclude": ["**/node_modules/**", "!libs/shared/cypress-utils/**"]
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/cypress-utils && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -495,6 +535,16 @@
             "ci": {
               "quiet": true
             }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/empty-states && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -665,6 +715,16 @@
             "tsConfig": "apps/ltp/tsconfig.spec.json",
             "setupFile": "apps/ltp/src/test-setup.ts",
             "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/ltp && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       }
@@ -868,6 +928,16 @@
             "setupFile": "apps/steel/src/test-setup.ts",
             "passWithNoTests": true
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/steel && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       }
     },
@@ -912,6 +982,16 @@
           "options": {
             "tsConfig": ["libs/shared/assets/tsconfig.lib.json"],
             "exclude": ["**/node_modules/**", "!libs/shared/assets/**"]
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/assets && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -1082,6 +1162,16 @@
             "tsConfig": "apps/helloworld-azure/tsconfig.spec.json",
             "setupFile": "apps/helloworld-azure/src/test-setup.ts",
             "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/helloworld-azure && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       }
@@ -1281,6 +1371,16 @@
             "setupFile": "apps/cdba/src/test-setup.ts",
             "passWithNoTests": true
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/cdba && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       }
     },
@@ -1368,6 +1468,16 @@
             "passWithNoTests": true,
             "setupFile": "libs/shared/auth/src/test-setup.ts"
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/auth && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1437,6 +1547,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/header && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1478,6 +1598,16 @@
             "tsConfig": "libs/shared/utils/responsive/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/utils/responsive/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/utils/responsive && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -1544,6 +1674,16 @@
             "tsConfig": "libs/shared/utils/transloco/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/utils/transloco/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/utils/transloco && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -1614,6 +1754,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/sidebar && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1652,6 +1802,16 @@
             "tsConfig": "libs/shared/ui/icons/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/ui/icons/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/icons && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -1749,6 +1909,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/footer && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1844,6 +2014,16 @@
             "ci": {
               "quiet": true
             }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/file-drop && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -1944,6 +2124,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/snackbar && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -2042,6 +2232,16 @@
             "ci": {
               "quiet": true
             }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/scroll-to-top && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
@@ -2145,6 +2345,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/speed-dial-fab && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -2244,6 +2454,16 @@
               "quiet": true
             }
           }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/banner && npx standard-version --no-verify"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -2342,6 +2562,16 @@
             "ci": {
               "quiet": true
             }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/settings-sidebar && npx standard-version --no-verify"
+              }
+            ]
           }
         }
       },
