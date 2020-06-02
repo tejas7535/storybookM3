@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.4.0...v0.5.0) (2020-06-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* **speed-dial-fab:** package changed from `@schaeffler/shared/ui-components` to `@schaeffler/speed-dial-fab`
+* **banner:** Banner is now published in its own library, the import path is now `@schaeffler/banner`
+
+### 🏭 Automation
+
+* **workspace:** use custom builder to generate custom changelogs per project ([11d22e3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/11d22e32860ec7929d5e1cc5ec19393451b833e1))
+* **workspace:** visualize checkstyle issues correctly ([8e9c257](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8e9c2576c5fa43cedb8558fd539c4e2fd1a1ff53))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** consider unselected options in filter dropdown (DSCDA-1669) ([a1f02b0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a1f02b08c98448e733cbb9c78ff1f42e4f1944f3))
+* **ltp:** fix load settings to be reflected in api request (ADAPLD-6690) ([5a369c0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5a369c049487b021061d1163e124ca6500e57f01))
+* **workspace:** adjust transloco lib import path ([d0981bb](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d0981bb5ec123c3b7ee5cce89fa245140a097e8a))
+
+
+### 🎸 Features
+
+* **banner:** split banner into seperate publishable lib (UFTABI-2313) ([1cf9ecc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1cf9ecce8a2af98526795201b7e4c68adb04cf90))
+* **cdba:** enable retention of column state in ref types table (DSCDA-1456|DSCDA-1477) ([9fc1970](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9fc19706fa9f9040f6aae2ac9524d1063f5160bc))
+* **cdba:** implement multi select filter (DSCDA-1586) ([2170b8d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2170b8d0bbc52151f8887c1ae1534fd2dce4dc41))
+* **cdba:** implement Range Filter Component (DSCDA-1582) ([4f85e94](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4f85e94b1eadb5026da48742c98aff16e077a8cb))
+* **cdba:** integrate forbidden page for non authorized users (DSCDA-1594) ([4da9985](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4da99858b53090fa02ededecf843d4cdb3d5ff64))
+* **file-drop:** split file-drop in separate publishable lib (UFTABI-2312) ([76c5c8f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/76c5c8f217a8eddf62926ae95faad8b499a5d0a6))
+* **scroll-to-top:** split scroll-to-top into seperate publishable lib (UFTABI-2314) ([9370cf7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9370cf7813a82599ec90837bc6171b557520728c))
+* **settings-sidebar:** split settings-sidebar into seperate publishable lib (UFTABI-2315) ([51e96a4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/51e96a4bc78f1efff19aa1c6bee26e7d8150745b))
+* **snackbar:** split snackbar into separate publishable lib (UFTABI-2316) ([1d60a3e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1d60a3e1e7d14c162360e745b48b5c90983fae5f))
+* **speed-dial-fab:** split speed-dial-fab into sepereate publishable library (UFTABI-2317) ([eb8fba1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/eb8fba1cd4856dc3e6319368c694b2d3ac33cd26))
+* **sta:** frontend adjustments sta (UFTABI-2380) ([3e06c1b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3e06c1b25181ec8069233317a8dbd7e0ce28298a))
+* **sta:** question answering page (UFTABI-1591) ([ca49db3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ca49db312fcfefcf818aeaaa4f2dc3a9edd89c39))
+
 ## [0.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.3.0...v0.4.0) (2020-05-13)
 
 
