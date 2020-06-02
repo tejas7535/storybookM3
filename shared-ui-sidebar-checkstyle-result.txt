@@ -1,2 +1,0 @@
-/home/jnkp1usr/workspace/ffler_schaeffler-frontend_master/libs/shared/ui/sidebar/src/lib/sidebar-elements/sidebar-elements.component.html(2,2): error templateUseTrackByFunction: Missing trackBy function in ngFor directive
-

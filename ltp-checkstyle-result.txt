@@ -1,2 +1,0 @@
-/home/jnkp1usr/workspace/ffler_schaeffler-frontend_master/apps/ltp/src/app/feature/prediction/upload-modal/upload-modal.component.html(42,10): error templateUseTrackByFunction: Missing trackBy function in ngFor directive
-
