@@ -475,22 +475,11 @@ pipeline {
                             sh 'git fetch --all'
                             sh "git checkout ${targetBranch}"
 
-                            sh 'npm run release -- .'
+                            // run standard version in root to generate general changelog
+                            sh 'npm run release'
 
-                            // changelog generation for affected apps
-                            for (app in affectedApps) {
-                                sh "npm run release -- apps/${app}"
-                            }
-
-                            // changelog generation for affected libs
-                            for (lib in affectedLibs) {
-                                // only for shared libs
-                                def temp = "${lib}".indexOf("shared-")
-                                if(temp == 0){
-                                    def cutLib = "${lib}".substring(7)
-                                    sh "npm run release -- libs/shared/${cutLib}"
-                                }                              
-                            }
+                            // generate project specific changelogs
+                            sh 'npx nx affected --base=${buildBase} --target=standard-version --parallel'
                             
                             sh 'npm run generate-readme'
                             sh 'git add .'

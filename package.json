@@ -38,7 +38,7 @@
     "help": "nx help",
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
-    "release": "node ./tools/npm-scripts/release.js",
+    "release": "standard-version --no-verify",
     "postinstall": "npm run ngcc && npm run generate-readme && npm run version",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
