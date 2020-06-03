@@ -4,11 +4,12 @@
   </mat-expansion-panel-header>
   <ng-container
     *ngIf="
-      translationFormControl.value &&
-      (((selectedTabIndex$ | async) === 0 &&
+      (translationFormControl.value &&
+        (selectedTabIndex$ | async) === 0 &&
         (loadingTranslationForText$ | async) === false) ||
-        ((selectedTabIndex$ | async) === 1 &&
-          (loadingTranslationForFile$ | async) === false))
+      (translationFormControl.value &&
+        (selectedTabIndex$ | async) === 1 &&
+        (loadingTranslationForFile$ | async) === false)
     "
   >
     <mat-form-field class="translation-field">
@@ -31,11 +32,12 @@
 
   <ng-container
     *ngIf="
-      !translationFormControl.value &&
-      (((selectedTabIndex$ | async) === 0 &&
+      (!translationFormControl.value &&
+        (selectedTabIndex$ | async) === 0 &&
         (loadingTranslationForText$ | async) === false) ||
-        ((selectedTabIndex$ | async) === 1 &&
-          (loadingTranslationForFile$ | async) === false))
+      (!translationFormControl.value &&
+        (selectedTabIndex$ | async) === 1 &&
+        (loadingTranslationForFile$ | async) === false)
     "
   >
     <div fxLayout="column" fxLayoutAlign="center center" class="empty-state">

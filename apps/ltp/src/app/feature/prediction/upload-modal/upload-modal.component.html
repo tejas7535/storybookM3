@@ -39,7 +39,7 @@
       <mat-radio-group class="load-radio-group" formControlName="method">
         <mat-radio-button
           class="load-radio-button"
-          *ngFor="let method of methods"
+          *ngFor="let method of methods; trackBy: trackByFn"
           [value]="method"
         >
           {{ method }}

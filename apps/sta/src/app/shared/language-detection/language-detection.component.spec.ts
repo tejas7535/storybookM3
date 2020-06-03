@@ -18,9 +18,9 @@ describe('LanguageDetectionComponent', () => {
         MatIconModule,
         MatSelectModule,
         NoopAnimationsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
       ],
-      declarations: [LanguageDetectionComponent]
+      declarations: [LanguageDetectionComponent],
     });
   });
 
@@ -32,5 +32,15 @@ describe('LanguageDetectionComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('trackByFn', () => {
+    test('should return index', () => {
+      const idx = 5;
+
+      const result = component.trackByFn(idx, {});
+
+      expect(result).toEqual(idx);
+    });
   });
 });

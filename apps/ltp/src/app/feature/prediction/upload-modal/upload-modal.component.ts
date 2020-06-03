@@ -20,4 +20,8 @@ export class UploadModalComponent {
   });
 
   methods: string[] = ['FKM', 'Goodman'];
+
+  public trackByFn(index: number, _item: any): number {
+    return index;
+  }
 }

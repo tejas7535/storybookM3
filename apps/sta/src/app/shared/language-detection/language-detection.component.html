@@ -13,7 +13,7 @@
     </span>
     <mat-select formControlName="detectedLanguage">
       <mat-option
-        *ngFor="let lang of supportedSourceLanguages"
+        *ngFor="let lang of supportedSourceLanguages; trackBy: trackByFn"
         [value]="lang.key"
         [disabled]="disabledLanguages.indexOf(lang.key) !== -1"
       >
@@ -29,7 +29,7 @@
     </span>
     <mat-select formControlName="targetLanguage">
       <mat-option
-        *ngFor="let lang of supportedTargetLanguages"
+        *ngFor="let lang of supportedTargetLanguages; trackBy: trackByFn"
         [value]="lang.key"
         [disabled]="disabledLanguages.indexOf(lang.key) !== -1"
       >

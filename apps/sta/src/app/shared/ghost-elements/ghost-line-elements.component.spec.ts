@@ -10,7 +10,7 @@ describe('GhostLineElementsComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [GhostLineElementsComponent]
+      declarations: [GhostLineElementsComponent],
     });
   });
 
@@ -27,6 +27,16 @@ describe('GhostLineElementsComponent', () => {
   describe('createArray', () => {
     test('should create empty array with correct length', () => {
       expect(component.createArray(3).length).toEqual(3);
+    });
+  });
+
+  describe('trackByFn', () => {
+    test('should return index', () => {
+      const idx = 5;
+
+      const result = component.trackByFn(idx, {});
+
+      expect(result).toEqual(idx);
     });
   });
 });

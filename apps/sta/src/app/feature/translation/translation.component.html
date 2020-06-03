@@ -9,7 +9,9 @@
       >
         <mat-tab label="Text Input">
           <div class="main-container">
-            <ng-container *ngIf="!(loadingTranslationForText$ | async)">
+            <ng-container
+              *ngIf="(loadingTranslationForText$ | async) === false"
+            >
               <sta-text-input
                 (btnClicked)="getTranslationForText($event)"
                 btnText="Translate"
@@ -34,7 +36,9 @@
         </mat-tab>
         <mat-tab label="File Upload">
           <div class="main-container">
-            <ng-container *ngIf="!(loadingTranslationForFile$ | async)">
+            <ng-container
+              *ngIf="(loadingTranslationForFile$ | async) === false"
+            >
               <sta-file-upload
                 (fileUploaded)="getTranslationForFile($event)"
                 [fileStatus]="fileStatus$ | async"

@@ -22,4 +22,8 @@ export class SidebarElementsComponent implements OnInit {
   public ngOnInit(): void {
     this.mode$ = this.store.pipe(select(getSidebarMode));
   }
+
+  public trackByFn(index: number, _item: any): number {
+    return index;
+  }
 }

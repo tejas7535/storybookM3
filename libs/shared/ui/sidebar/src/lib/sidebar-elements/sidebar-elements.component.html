@@ -1,5 +1,5 @@
 <div
-  *ngFor="let element of elements"
+  *ngFor="let element of elements; trackBy: trackByFn"
   class="sidebar-item"
   matTooltipClass="sidebar-tooltip"
   matTooltipPosition="right"
