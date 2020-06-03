@@ -1,3 +1,4 @@
+import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
 
 import { getSearchState } from '../../reducers';
@@ -5,7 +6,9 @@ import { filterItemAdapter } from '../../reducers/search/filter-item.entity';
 import {
   FilterItem,
   FilterItemIdValue,
+  FilterItemIdValueUpdate,
   FilterItemRange,
+  FilterItemRangeUpdate,
   FilterItemType,
   IdValue,
 } from '../../reducers/search/models';
@@ -16,119 +19,79 @@ export const getInitialFiltersLoading = createSelector(
   (state: SearchState) => state.filters.loading
 );
 
-const { selectAll } = filterItemAdapter.getSelectors();
+const { selectAll, selectEntities } = filterItemAdapter.getSelectors();
 
-const getSelectedFiltersEntityState = createSelector(
+const getFiltersEntityState = createSelector(
   getSearchState,
-  (state: SearchState) => state.filters.selected
+  (state: SearchState) => state.filters.items
 );
 
-const getPossibleFiltersEntityState = createSelector(
-  getSearchState,
-  (state: SearchState) => state.filters.possible
-);
+export const getFilters = createSelector(getFiltersEntityState, selectAll);
 
-export const getSelectedFilters = createSelector(
-  getSelectedFiltersEntityState,
-  selectAll
-);
-
-export const getPossibleFilters = createSelector(
-  getPossibleFiltersEntityState,
-  selectAll
-);
-
-const mergeIdValueFilter = (
-  filter: FilterItemIdValue,
-  selectedFilter: FilterItemIdValue
-): FilterItemIdValue => {
-  let items: IdValue[] = filter.items.map((item) => ({
-    ...item,
-    selected: selectedFilter.items.find((it) => it.id === item.id)?.selected,
-  }));
-
-  // add selected filters that did not come back from BE
-  selectedFilter.items.forEach((it) => {
-    const found = items.find((i) => i.id === it.id);
-    if (!found) {
-      items.push(it);
-    }
-  });
-
-  items = items.sort((a, b) =>
-    a.selected === b.selected ? 0 : a.selected ? -1 : 1
-  );
-
-  return { ...filter, items };
-};
-
-const mergeRangeFilter = (
-  filter: FilterItemRange,
-  selectedFilter: FilterItemRange
-): FilterItemRange => ({
-  ...filter,
-  minSelected: selectedFilter?.minSelected,
-  maxSelected: selectedFilter?.maxSelected,
-});
-
-const mergePossibleAndSelectedFilters = (
-  possibleFilters: FilterItem[],
-  selectedFilters: FilterItem[]
-) => {
-  const combinedFilters: FilterItem[] = [];
-
-  possibleFilters.forEach((filter) => {
-    // check if this filter has selections
-    const selectedFilter = selectedFilters.find((f) => f.name === filter.name);
-
-    if (selectedFilter) {
-      // set selected value(s) dependent on filter item type
+const mapSelectedFilters = (
+  filters: FilterItem[]
+): (FilterItemIdValueUpdate | FilterItemRangeUpdate)[] => {
+  const mapped = filters
+    .filter(
+      (filter: FilterItem) =>
+        filter.type === FilterItemType.ID_VALUE ||
+        filter.type === FilterItemType.RANGE
+    )
+    .map((filter: FilterItem) => {
       if (filter.type === FilterItemType.ID_VALUE) {
-        combinedFilters.push(
-          mergeIdValueFilter(
-            filter as FilterItemIdValue,
-            selectedFilter as FilterItemIdValue
-          )
-        );
-      } else {
-        // filter.type === FilterItemType.RANGE
-        combinedFilters.push(
-          mergeRangeFilter(
-            filter as FilterItemRange,
-            selectedFilter as FilterItemRange
-          )
+        return new FilterItemIdValueUpdate(
+          filter.name,
+          (filter as FilterItemIdValue).items
+            .filter((it) => it.selected)
+            .map((it) => it.id)
         );
       }
-    } else {
-      combinedFilters.push({ ...filter });
-    }
-  });
 
-  // add filter that are not part of possible filter but are still selected
-  selectedFilters.forEach((filter) => {
-    const relatedPossibleFilter = combinedFilters.find(
-      (it) => it.name === filter.name
+      return new FilterItemRangeUpdate(
+        filter.name,
+        (filter as FilterItemRange).minSelected,
+        (filter as FilterItemRange).maxSelected
+      );
+    })
+    .filter(
+      (filter: FilterItemIdValueUpdate | FilterItemRangeUpdate) =>
+        (filter.type === FilterItemType.ID_VALUE &&
+          (filter as FilterItemIdValueUpdate).ids.length > 0) ||
+        (filter.type === FilterItemType.RANGE &&
+          (filter as FilterItemRangeUpdate).minSelected >= 0 &&
+          (filter as FilterItemRangeUpdate).maxSelected >= 0)
     );
 
-    if (!relatedPossibleFilter) {
-      const updatedFilter = { ...filter };
-      if (updatedFilter.type === FilterItemType.ID_VALUE) {
-        (updatedFilter as FilterItemIdValue).items = (updatedFilter as FilterItemIdValue).items.filter(
-          (it) => it.selected
-        );
-      }
-
-      combinedFilters.push({ ...filter });
-    }
-  });
-
-  return combinedFilters;
+  return mapped;
 };
 
-export const getAllFilters = createSelector(
-  getPossibleFilters,
-  getSelectedFilters,
-  mergePossibleAndSelectedFilters
+export const getSelectedFilters = createSelector(
+  getFilters,
+  mapSelectedFilters
+);
+
+const getSelectedOptionsByName = (
+  filterItemEntities: Dictionary<FilterItem>,
+  props: any
+) => {
+  const filter = filterItemEntities[props.name];
+
+  const options = filter
+    ? filter.type === FilterItemType.ID_VALUE
+      ? (filter as FilterItemIdValue).items.filter(
+          (item: IdValue) => item.selected
+        )
+      : []
+    : [];
+
+  return options;
+};
+
+const getFilterEntities = createSelector(getFiltersEntityState, selectEntities);
+
+export const getSelectedFilterIdValueOptionsByFilterName = createSelector(
+  getFilterEntities,
+  getSelectedOptionsByName
 );
 
 export const getSearchText = createSelector(
@@ -159,4 +122,9 @@ export const getSearchSuccessful = createSelector(
       state.referenceTypes.items?.length >= 0
     );
   }
+);
+
+export const getAutocompleteLoading = createSelector(
+  getSearchState,
+  (state: SearchState) => state.filters.autocompleteLoading
 );

@@ -10,7 +10,6 @@ import {
   getInitialFilters,
   getInitialFiltersFailure,
   getInitialFiltersSuccess,
-  removeFilter,
   resetFilters,
   search,
   searchFailure,
@@ -29,6 +28,13 @@ import {
 import { initialState, reducer, searchReducer } from './search.reducer';
 
 describe('Search Reducer', () => {
+  const filterItemIdVal = new FilterItemIdValue(
+    'plant',
+    [new IdValue('23', 'Best plant', false)],
+    false
+  );
+  const filterItemRange = new FilterItemRange('length', 0, 200, 0, 200, 'cm');
+
   describe('getInitialFilters', () => {
     test('should set loading', () => {
       const action = getInitialFilters();
@@ -40,10 +46,6 @@ describe('Search Reducer', () => {
 
   describe('getInitialFiltersSuccess', () => {
     test('should unset loading and set possible filters', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
       const items = [filterItemIdVal, filterItemRange];
 
       const expected = {
@@ -60,7 +62,7 @@ describe('Search Reducer', () => {
       const state = searchReducer(fakeState, action);
 
       expect(state.filters.loading).toBeFalsy();
-      expect(state.filters.possible.entities).toEqual(expected);
+      expect(state.filters.items.entities).toEqual(expected);
     });
   });
 
@@ -89,11 +91,6 @@ describe('Search Reducer', () => {
 
   describe('searchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
-
       const ref = new ReferenceType();
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
@@ -118,15 +115,10 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeFalsy();
       expect(state.referenceTypes.items).toEqual(searchResult.result);
-      expect(state.filters.possible.entities).toEqual(expectedEntities);
+      expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
     test('should unset loading and tooManyResults if results undefined', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
-
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         undefined
@@ -150,7 +142,7 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeTruthy();
       expect(state.referenceTypes.items).toEqual(searchResult.result);
-      expect(state.filters.possible.entities).toEqual(expectedEntities);
+      expect(state.filters.items.entities).toEqual(expectedEntities);
     });
   });
 
@@ -183,11 +175,6 @@ describe('Search Reducer', () => {
 
   describe('applyTextSearchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
-
       const ref = new ReferenceType();
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
@@ -212,15 +199,10 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeFalsy();
       expect(state.referenceTypes.items).toEqual(searchResult.result);
-      expect(state.filters.possible.entities).toEqual(expectedEntities);
+      expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
     test('should unset loading and tooManyResults if results undefined', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
-
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         undefined
@@ -244,7 +226,7 @@ describe('Search Reducer', () => {
       expect(state.referenceTypes.loading).toBeFalsy();
       expect(state.referenceTypes.tooManyResults).toBeTruthy();
       expect(state.referenceTypes.items).toEqual(searchResult.result);
-      expect(state.filters.possible.entities).toEqual(expectedEntities);
+      expect(state.filters.items.entities).toEqual(expectedEntities);
     });
   });
 
@@ -267,20 +249,23 @@ describe('Search Reducer', () => {
 
   describe('updateFilter', () => {
     test('should update filter', () => {
-      const item = new FilterItemIdValue('customer', [
-        new IdValue('audi', 'Audi'),
-        new IdValue('vw', 'VW'),
-      ]);
+      const item = new FilterItemIdValue(
+        'customer',
+        [new IdValue('audi', 'Audi', false), new IdValue('vw', 'VW', false)],
+        true
+      );
       const fakeState = {
         ...initialState,
         filters: {
           ...initialState.filters,
-          selected: {
+          items: {
             ids: ['customer'],
             entities: {
-              customer: new FilterItemIdValue('customer', [
-                new IdValue('audi', 'Audi'),
-              ]),
+              customer: new FilterItemIdValue(
+                'customer',
+                [new IdValue('audi', 'Audi', false)],
+                true
+              ),
             },
           },
         },
@@ -289,49 +274,36 @@ describe('Search Reducer', () => {
       const action = updateFilter({ item });
       const state = searchReducer(fakeState, action);
 
-      expect(state.filters.selected.entities.customer).toEqual(item);
-    });
-  });
-
-  describe('removeFilter', () => {
-    test('should remove filter', () => {
-      const fakeState = {
-        ...initialState,
-        filters: {
-          ...initialState.filters,
-          selected: {
-            ids: ['customer'],
-            entities: {
-              customer: new FilterItemIdValue('customer', [
-                new IdValue('audi', 'Audi'),
-              ]),
-            },
-          },
-        },
-      };
-
-      const action = removeFilter({ name: 'customer' });
-      const state = searchReducer(fakeState, action);
-
-      expect(state.filters.selected.entities).toEqual({});
+      expect(state.filters.items.entities.customer).toEqual(item);
     });
   });
 
   describe('resetFilters', () => {
     test('should reset filters', () => {
+      const customer = new FilterItemIdValue(
+        'customer',
+        [new IdValue('audi', 'Audi', true)],
+        true
+      );
+
+      const plant = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Awesome Plant', true)],
+        false
+      );
+
+      const length = new FilterItemRange('length', 1, 20, 2, 19, 'min');
+
       const fakeState = {
         ...initialState,
         filters: {
           ...initialState.filters,
-          selected: {
-            ids: ['customer', 'plant'],
+          items: {
+            ids: ['customer', 'plant', 'length'],
             entities: {
-              customer: new FilterItemIdValue('customer', [
-                new IdValue('audi', 'Audi'),
-              ]),
-              plant: new FilterItemIdValue('plant', [
-                new IdValue('23', 'Awesome Plant'),
-              ]),
+              customer,
+              plant,
+              length,
             },
           },
         },
@@ -340,7 +312,33 @@ describe('Search Reducer', () => {
       const action = resetFilters();
       const state = searchReducer(fakeState, action);
 
-      expect(state.filters.selected.entities).toEqual({});
+      expect(state.filters.items.entities).toEqual({
+        customer: {
+          ...customer,
+          items: [
+            ...customer.items.map((it) => {
+              it.selected = false;
+
+              return it;
+            }),
+          ],
+        },
+        plant: {
+          ...plant,
+          items: [
+            ...plant.items.map((it) => {
+              it.selected = false;
+
+              return it;
+            }),
+          ],
+        },
+        length: {
+          ...length,
+          maxSelected: length.max,
+          minSelected: length.min,
+        },
+      });
     });
   });
 
@@ -354,25 +352,26 @@ describe('Search Reducer', () => {
   });
 
   describe('autocomplete', () => {
-    test('should not manipulate state', () => {
+    test('should set autocomplete loading', () => {
       const textSearch = new TextSearch('customer', 'Awesome Customer');
       const action = autocomplete({
         textSearch,
       });
       const state = searchReducer(initialState, action);
 
-      expect(state).toEqual(initialState);
+      expect(state).toEqual({
+        ...initialState,
+        filters: { ...initialState.filters, autocompleteLoading: true },
+      });
     });
   });
 
   describe('autocompleteSuccess', () => {
     test('should upsert possible filters', () => {
-      const item = new FilterItemIdValue('customer', [new IdValue('vw', 'VW')]);
-
-      const action = autocompleteSuccess({ item });
+      const action = autocompleteSuccess({ item: filterItemIdVal });
       const state = searchReducer(initialState, action);
 
-      expect(state.filters.possible.entities.customer).toEqual(item);
+      expect(state.filters.items.entities.plant).toEqual(filterItemIdVal);
     });
   });
 
@@ -394,5 +393,4 @@ describe('Search Reducer', () => {
       );
     });
   });
-  // tslint:disable-next-line:max-file-line-count
 });

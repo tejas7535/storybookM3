@@ -54,7 +54,7 @@ describe('RangeFilterComponent', () => {
     let filter: FilterItemRange;
 
     beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100);
+      filter = new FilterItemRange('name', 0, 100, undefined, undefined, 'xy');
     });
 
     it('should reset the form, if minSelected and maxSelected is undefined', () => {
@@ -91,28 +91,14 @@ describe('RangeFilterComponent', () => {
   });
 
   describe('reset', () => {
-    const input: InputType = InputType.Max;
-    let filter: FilterItemRange;
-
-    beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100);
-
-      component['removeFilter'].emit = jest.fn();
-      component['updateFilter'].emit = jest.fn();
-    });
-
-    it('should emit removeFilter when filter doesnt limit the query at all', () => {
-      filter.maxSelected = 90;
-
-      component.filter = filter;
-      component.reset(input);
-
-      expect(component['removeFilter'].emit).toHaveBeenCalledWith(filter.name);
-    });
+    beforeEach(() => {});
 
     it('should emit updateFilter in order to reset min|max input', () => {
-      filter.minSelected = 20;
-      filter.maxSelected = 80;
+      const input: InputType = InputType.Max;
+
+      const filter = new FilterItemRange('name', 0, 100, 20, 80, 'xy');
+
+      component['updateFilter'].emit = jest.fn();
 
       component.filter = filter;
       component.reset(input);
@@ -130,7 +116,7 @@ describe('RangeFilterComponent', () => {
     let filter: FilterItemRange;
 
     beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100);
+      filter = new FilterItemRange('name', 0, 100, undefined, undefined, 'xy');
 
       component['updateMinInput'] = jest.fn();
       component['updateMaxInput'] = jest.fn();
@@ -185,7 +171,7 @@ describe('RangeFilterComponent', () => {
     let filter: FilterItemRange;
 
     beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100);
+      filter = new FilterItemRange('name', 0, 100, undefined, undefined, 'xy');
 
       component['updateFilter'].emit = jest.fn();
     });
@@ -236,7 +222,7 @@ describe('RangeFilterComponent', () => {
     let filter: FilterItemRange;
 
     beforeEach(() => {
-      filter = new FilterItemRange('name', 0, 100);
+      filter = new FilterItemRange('name', 0, 100, undefined, undefined, 'xy');
 
       component['updateFilter'].emit = jest.fn();
     });

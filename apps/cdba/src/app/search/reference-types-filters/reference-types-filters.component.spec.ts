@@ -5,6 +5,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -17,7 +18,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
-  removeFilter,
   search,
   updateFilter,
 } from '../../core/store/actions/search/search.actions';
@@ -28,8 +28,8 @@ import {
   TextSearch,
 } from '../../core/store/reducers/search/models';
 import {
-  getPossibleFilters,
-  getSelectedFilters,
+  getAutocompleteLoading,
+  getFilters,
 } from '../../core/store/selectors/search/search.selector';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -66,6 +66,7 @@ describe('ReferenceTypesFiltersComponent', () => {
         MatSliderModule,
         MatCheckboxModule,
         MatTooltipModule,
+        MatProgressSpinnerModule,
       ],
       providers: [
         provideMockStore({
@@ -82,46 +83,34 @@ describe('ReferenceTypesFiltersComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     mockStore = TestBed.inject(MockStore);
-    const possibleFilters = [
-      new FilterItemIdValue('id1', [
-        new IdValue('1', 'test1'),
-        new IdValue('2', 'test2'),
-        new IdValue('3', 'test3'),
-      ]),
-      new FilterItemIdValue('id2', [
-        new IdValue('a', 'test4'),
-        new IdValue('b', 'test5'),
-        new IdValue('c', 'test6'),
-      ]),
-      new FilterItemRange('filter1', 0, 500),
+    const filters = [
+      new FilterItemIdValue(
+        'id1',
+        [
+          new IdValue('1', 'test1', false),
+          new IdValue('2', 'test2', false),
+          new IdValue('3', 'test3', false),
+        ],
+        false
+      ),
+      new FilterItemIdValue(
+        'id2',
+        [
+          new IdValue('a', 'test4', false),
+          new IdValue('b', 'test5', false),
+          new IdValue('c', 'test6', false),
+        ],
+        false
+      ),
+      new FilterItemRange('filter1', 0, 500, undefined, undefined, 'xy'),
     ];
 
-    const selectedFilters = [
-      new FilterItemIdValue('id2', [
-        new IdValue('a', 'test4'),
-        new IdValue('b', 'test5', true),
-        new IdValue('c', 'test6'),
-      ]),
-      new FilterItemRange('filter1', 0, 500, 23, 300),
-    ];
-    mockStore.overrideSelector(getPossibleFilters, possibleFilters);
-    mockStore.overrideSelector(getSelectedFilters, selectedFilters);
+    mockStore.overrideSelector(getFilters, filters);
+    mockStore.overrideSelector(getAutocompleteLoading, true);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('removeFilter', () => {
-    it('should dispatch removeFilter action', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.removeFilter('name');
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        removeFilter({ name: 'name' })
-      );
-    });
   });
 
   describe('updateFilter', () => {

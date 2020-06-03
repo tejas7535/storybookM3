@@ -1,15 +1,11 @@
 import { FilterItemType } from './filter-item-type.enum';
 import { FilterItem } from './filter-item.model';
 
-export class FilterItemRange extends FilterItem {
+export class FilterItemRangeUpdate extends FilterItem {
   public constructor(
     public name: string,
-    public min: number,
-    public max: number,
     public minSelected: number,
-    public maxSelected: number,
-    public unit: string,
-    public hidden: boolean = false
+    public maxSelected: number
   ) {
     super(name, FilterItemType.RANGE);
   }

@@ -4,19 +4,17 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import {
-  autocomplete,
-  removeFilter,
-  search,
-  updateFilter,
-} from '../../core/store';
+import { autocomplete, search, updateFilter } from '../../core/store';
 import {
   FilterItem,
   FilterItemType,
   TextSearch,
 } from '../../core/store/reducers/search/models';
 import { SearchState } from '../../core/store/reducers/search/search.reducer';
-import { getAllFilters } from '../../core/store/selectors/search/search.selector';
+import {
+  getAutocompleteLoading,
+  getFilters,
+} from '../../core/store/selectors/search/search.selector';
 
 @Component({
   selector: 'cdba-reference-types-filters',
@@ -25,19 +23,16 @@ import { getAllFilters } from '../../core/store/selectors/search/search.selector
 export class ReferenceTypesFiltersComponent implements OnInit {
   filters$: Observable<FilterItem[]>;
 
+  // can be used for all filters for now since only one filter can be opened anyway
+  autocompleteLoading$: Observable<boolean>;
+
   filterType = FilterItemType;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
   public ngOnInit(): void {
-    this.filters$ = this.store.pipe(select(getAllFilters));
-  }
-
-  /**
-   * Removes the given filter entirely from the selected ones
-   */
-  public removeFilter(name: string): void {
-    this.store.dispatch(removeFilter({ name }));
+    this.filters$ = this.store.pipe(select(getFilters));
+    this.autocompleteLoading$ = this.store.pipe(select(getAutocompleteLoading));
   }
 
   /**

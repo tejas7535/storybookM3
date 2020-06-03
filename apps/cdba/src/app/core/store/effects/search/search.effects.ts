@@ -6,7 +6,7 @@ import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
 
-import { SearchService } from '../../../../search/search.service';
+import { SearchService } from '../../../../search/services/search.service';
 import {
   applyTextSearch,
   applyTextSearchFailure,
@@ -25,7 +25,10 @@ import {
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
 import { SearchState } from '../../reducers/search/search.reducer';
-import { getSelectedFilters } from '../../selectors';
+import {
+  getSelectedFilterIdValueOptionsByFilterName,
+  getSelectedFilters,
+} from '../../selectors';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -39,7 +42,7 @@ export class SearchEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(getInitialFilters.type),
       mergeMap(() =>
-        this.searchService.getInitialFiltersSales().pipe(
+        this.searchService.getInitialFilters().pipe(
           map((items: FilterItem[]) => getInitialFiltersSuccess({ items })),
           catchError((_e) => of(getInitialFiltersFailure()))
         )
@@ -113,12 +116,24 @@ export class SearchEffects implements OnInitEffects {
   autocomplete$ = createEffect(() =>
     this.actions$.pipe(
       ofType(autocomplete.type),
-      map((action: any) => action.textSearch),
-      mergeMap((textSearch) =>
-        this.searchService.autocomplete(textSearch).pipe(
-          map((item) => autocompleteSuccess({ item })),
-          catchError((_e) => of(autocompleteFailure()))
+      mergeMap((action: any) =>
+        of(action).pipe(
+          withLatestFrom(
+            this.store.pipe(
+              select(getSelectedFilterIdValueOptionsByFilterName, {
+                name: action.textSearch.field,
+              })
+            )
+          )
         )
+      ),
+      mergeMap(([action, selectedOptions]) =>
+        this.searchService
+          .autocomplete(action.textSearch, selectedOptions)
+          .pipe(
+            map((item) => autocompleteSuccess({ item })),
+            catchError((_e) => of(autocompleteFailure()))
+          )
       )
     )
   );

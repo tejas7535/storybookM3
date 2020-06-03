@@ -8,7 +8,6 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { getUser, loginImplicitFlow } from '@schaeffler/shared/auth';
 
 import { AppComponent } from './app.component';
@@ -24,7 +23,6 @@ describe('AppComponent', () => {
         NoopAnimationsModule,
         HeaderModule,
         FooterModule,
-        SettingsSidebarModule,
         MatButtonModule,
         RouterTestingModule,
       ],
@@ -34,18 +32,18 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
-    window.matchMedia = jest.fn().mockImplementation((query) => {
-      return {
-        matches: false,
-        media: query,
-        onchange: undefined,
-        addListener: jest.fn(), // deprecated
-        removeListener: jest.fn(), // deprecated
-        addEventListener: jest.fn(),
-        removeEventListener: jest.fn(),
-        dispatchEvent: jest.fn(),
-      };
-    });
+    // window.matchMedia = jest.fn().mockImplementation((query) => {
+    //   return {
+    //     matches: false,
+    //     media: query,
+    //     onchange: undefined,
+    //     addListener: jest.fn(), // deprecated
+    //     removeListener: jest.fn(), // deprecated
+    //     addEventListener: jest.fn(),
+    //     removeEventListener: jest.fn(),
+    //     dispatchEvent: jest.fn(),
+    //   };
+    // });
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.debugElement.componentInstance;
     store = TestBed.inject(MockStore);
