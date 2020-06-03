@@ -24,10 +24,6 @@ export class RangeFilterComponent implements OnChanges {
 
   @Input() public filter: FilterItemRange;
 
-  @Output() private readonly removeFilter: EventEmitter<
-    string
-  > = new EventEmitter();
-
   @Output() private readonly updateFilter: EventEmitter<
     FilterItemRange
   > = new EventEmitter();
@@ -51,17 +47,7 @@ export class RangeFilterComponent implements OnChanges {
 
     const updatedFilter = { ...this.filter, [toUpdate]: newValue };
 
-    if (
-      (updatedFilter.max === updatedFilter.maxSelected ||
-        updatedFilter.maxSelected === undefined) &&
-      (updatedFilter.min === updatedFilter.minSelected ||
-        updatedFilter.minSelected === undefined)
-    ) {
-      // filter can be removed entirely since it doesn't limit the query
-      this.removeFilter.emit(this.filter.name);
-    } else {
-      this.updateFilter.emit(updatedFilter);
-    }
+    this.updateFilter.emit(updatedFilter);
   }
 
   public update(input: InputType, newValue: number | string): void {

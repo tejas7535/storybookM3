@@ -8,7 +8,6 @@ import {
   getInitialFilters,
   getInitialFiltersFailure,
   getInitialFiltersSuccess,
-  removeFilter,
   resetFilters,
   search,
   searchFailure,
@@ -37,7 +36,11 @@ describe('Search Actions', () => {
 
     test('getInitialFiltersSuccess', () => {
       const items = [
-        new FilterItemIdValue('plant', [new IdValue('23', 'Super Plant')]),
+        new FilterItemIdValue(
+          'plant',
+          [new IdValue('23', 'Super Plant', false)],
+          false
+        ),
       ];
       const action = getInitialFiltersSuccess({ items });
 
@@ -66,9 +69,11 @@ describe('Search Actions', () => {
     });
 
     test('searchSuccess', () => {
-      const item = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Super Plant'),
-      ]);
+      const item = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Super Plant', false)],
+        false
+      );
       const ref = new ReferenceType();
       const searchResult = new SearchResult([item], [ref]);
       const action = searchSuccess({ searchResult });
@@ -90,26 +95,20 @@ describe('Search Actions', () => {
 
   describe('Update Filter Action', () => {
     test('updateFilter', () => {
-      const item: FilterItemRange = new FilterItemRange('width', 100, 200);
+      const item: FilterItemRange = new FilterItemRange(
+        'width',
+        100,
+        200,
+        100,
+        200,
+        'cm'
+      );
 
       const action = updateFilter({ item });
 
       expect(action).toEqual({
         item,
         type: '[Search] Update Filter',
-      });
-    });
-  });
-
-  describe('Remove Filter Action', () => {
-    test('removeFilter', () => {
-      const name = 'plant';
-
-      const action = removeFilter({ name });
-
-      expect(action).toEqual({
-        name,
-        type: '[Search] Remove Filter',
       });
     });
   });
@@ -127,9 +126,11 @@ describe('Search Actions', () => {
     });
 
     test('applyTextSearchSuccess', () => {
-      const item = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Super Plant'),
-      ]);
+      const item = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Super Plant', false)],
+        false
+      );
       const ref = new ReferenceType();
       const searchResult = new SearchResult([item], [ref]);
       const action = applyTextSearchSuccess({ searchResult });
@@ -182,9 +183,11 @@ describe('Search Actions', () => {
     });
 
     test('autocompleteSuccess', () => {
-      const item = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Super Plant'),
-      ]);
+      const item = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Super Plant', false)],
+        false
+      );
 
       const action = autocompleteSuccess({ item });
 

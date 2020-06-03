@@ -10,7 +10,6 @@ import {
   getInitialFilters,
   getInitialFiltersFailure,
   getInitialFiltersSuccess,
-  removeFilter,
   resetFilters,
   search,
   searchFailure,
@@ -18,14 +17,18 @@ import {
   shareSearchResult,
   updateFilter,
 } from '../../actions/search/search.actions';
-import { filterItemAdapter, FilterItemState } from './filter-item.entity';
+import {
+  filterItemAdapter,
+  FilterItemState,
+  resetFilterItems,
+} from './filter-item.entity';
 import { FilterItem, FilterItemIdValue, FilterItemType } from './models';
 
 export interface SearchState {
   filters: {
     loading: boolean;
-    selected: FilterItemState;
-    possible: FilterItemState;
+    autocompleteLoading: boolean;
+    items: FilterItemState;
     searchText: {
       field: string;
       value: string;
@@ -41,8 +44,8 @@ export interface SearchState {
 export const initialState: SearchState = {
   filters: {
     loading: false,
-    selected: filterItemAdapter.getInitialState(),
-    possible: filterItemAdapter.getInitialState(),
+    autocompleteLoading: false,
+    items: filterItemAdapter.getInitialState(),
     searchText: {
       field: undefined,
       value: undefined,
@@ -55,18 +58,26 @@ export const initialState: SearchState = {
   },
 };
 
-const extendFilterItemIdValueWithSelected = (items: FilterItem[]) => {
-  return items.map((item) =>
-    item.type === FilterItemType.ID_VALUE
-      ? {
-          ...item,
-          items: (item as FilterItemIdValue).items.map((it) => ({
-            ...it,
-            selected: false,
-          })),
-        }
-      : item
-  );
+const sortFilterItem = (item: FilterItem) => {
+  const tmp = { ...item };
+
+  if (tmp.type === FilterItemType.ID_VALUE) {
+    (tmp as FilterItemIdValue).items = (tmp as FilterItemIdValue).items
+      .slice()
+      .sort((a, b) => (a.selected === b.selected ? 0 : a.selected ? -1 : 1));
+  }
+
+  return tmp;
+};
+
+const sortFilterItems = (items: FilterItem[]) => {
+  const itemsCopy: FilterItem[] = [];
+
+  items.forEach((item: FilterItem) => {
+    itemsCopy.push(sortFilterItem(item));
+  });
+
+  return itemsCopy;
 };
 
 export const searchReducer = createReducer(
@@ -81,9 +92,9 @@ export const searchReducer = createReducer(
     filters: {
       ...state.filters,
       loading: false,
-      possible: filterItemAdapter.setAll(
-        extendFilterItemIdValueWithSelected(items),
-        state.filters.possible
+      items: filterItemAdapter.setAll(
+        sortFilterItems(items),
+        state.filters.items
       ),
     },
   })),
@@ -104,9 +115,9 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      possible: filterItemAdapter.setAll(
-        extendFilterItemIdValueWithSelected(searchResult.possible),
-        state.filters.possible
+      items: filterItemAdapter.setAll(
+        sortFilterItems(searchResult.filters),
+        state.filters.items
       ),
     },
     referenceTypes: {
@@ -136,9 +147,9 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      possible: filterItemAdapter.setAll(
-        searchResult.possible,
-        state.filters.possible
+      items: filterItemAdapter.setAll(
+        sortFilterItems(searchResult.filters),
+        state.filters.items
       ),
     },
     referenceTypes: {
@@ -161,35 +172,41 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      selected: filterItemAdapter.upsertOne(item, state.filters.selected),
-    },
-  })),
-  on(removeFilter, (state: SearchState, { name }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      selected: filterItemAdapter.removeOne(name, state.filters.selected),
+      items: filterItemAdapter.upsertOne(
+        sortFilterItem(item),
+        state.filters.items
+      ),
     },
   })),
   on(resetFilters, (state: SearchState) => ({
     ...state,
     filters: {
       ...state.filters,
-      selected: filterItemAdapter.removeAll(state.filters.selected),
+      items: filterItemAdapter.map(resetFilterItems, state.filters.items),
     },
   })),
 
   // additional functionality
   on(shareSearchResult, (state: SearchState) => state),
-  on(autocomplete, (state: SearchState) => state),
+  on(autocomplete, (state: SearchState) => ({
+    ...state,
+    filters: { ...state.filters, autocompleteLoading: true },
+  })),
   on(autocompleteSuccess, (state: SearchState, { item }) => ({
     ...state,
     filters: {
       ...state.filters,
-      possible: filterItemAdapter.upsertOne(item, state.filters.possible),
+      autocompleteLoading: false,
+      items: filterItemAdapter.upsertOne(
+        sortFilterItem(item),
+        state.filters.items
+      ),
     },
   })),
-  on(autocompleteFailure, (state: SearchState) => state)
+  on(autocompleteFailure, (state: SearchState) => ({
+    ...state,
+    filters: { ...state.filters, autocompleteLoading: false },
+  }))
 );
 
 // tslint:disable-next-line: only-arrow-functions

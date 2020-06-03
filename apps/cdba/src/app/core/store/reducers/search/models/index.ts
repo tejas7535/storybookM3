@@ -6,3 +6,5 @@ export * from './id-value.model';
 export * from './reference-type.model';
 export * from './search-result.model';
 export * from './text-search.model';
+export * from './filter-item-id-value-update.model';
+export * from './filter-item-range-update.model';

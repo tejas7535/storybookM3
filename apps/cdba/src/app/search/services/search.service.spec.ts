@@ -6,15 +6,15 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService } from '../core/http/data.service';
-import { ENV_CONFIG } from '../core/http/environment-config.interface';
+import { DataService } from '../../core/http/data.service';
+import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import {
   FilterItem,
-  FilterItemIdValue,
   IdValue,
   SearchResult,
   TextSearch,
-} from '../core/store/reducers/search/models';
+} from '../../core/store/reducers/search/models';
+import { SearchUtilityService } from './search-utility.service';
 import { SearchService } from './search.service';
 
 describe('SearchService', () => {
@@ -27,6 +27,7 @@ describe('SearchService', () => {
       providers: [
         SearchService,
         DataService,
+        SearchUtilityService,
         {
           provide: ENV_CONFIG,
           useValue: {
@@ -48,15 +49,15 @@ describe('SearchService', () => {
     httpMock.verify();
   });
 
-  describe('getInitialFiltersSales', () => {
+  describe('getInitialFilters', () => {
     test('should get initial filters', () => {
       const mock: FilterItem[] = [];
 
-      service.getInitialFiltersSales().subscribe((response) => {
+      service.getInitialFilters().subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/initial-filter-sales');
+      const req = httpMock.expectOne('/initial-filter');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -70,7 +71,7 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/search-sales');
+      const req = httpMock.expectOne('/search');
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });
@@ -79,11 +80,13 @@ describe('SearchService', () => {
   describe('autocomplete', () => {
     test('should get autocomplete suggestions', () => {
       const textSearch = new TextSearch('customer', 'Audi');
-      const mock = new FilterItemIdValue('customer', [
-        new IdValue('audi', 'Audi'),
-      ]);
+      const mock = [new IdValue('audi', 'Audi', true)];
 
-      service.autocomplete(textSearch).subscribe((response) => {
+      service['searchUtilities'].mergeOptionsWithSelectedOptions = jest.fn(
+        () => mock
+      );
+
+      service.autocomplete(textSearch, []).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 

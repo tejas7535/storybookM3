@@ -33,11 +33,6 @@ export const updateFilter = createAction(
   props<{ item: FilterItem }>()
 );
 
-export const removeFilter = createAction(
-  '[Search] Remove Filter',
-  props<{ name: string }>()
-);
-
 export const applyTextSearch = createAction(
   '[Search] Apply Text Search',
   props<{ textSearch: TextSearch }>()
@@ -80,7 +75,6 @@ const all = union({
   applyTextSearchSuccess,
   applyTextSearchFailure,
   updateFilter,
-  removeFilter,
   resetFilters,
   shareSearchResult,
   autocomplete,

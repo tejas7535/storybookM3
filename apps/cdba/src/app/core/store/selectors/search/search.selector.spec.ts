@@ -1,18 +1,21 @@
 import {
   FilterItemIdValue,
+  FilterItemIdValueUpdate,
   FilterItemRange,
+  FilterItemRangeUpdate,
   IdValue,
   ReferenceType,
 } from '../../reducers/search/models';
 import { initialState } from '../../reducers/search/search.reducer';
 import {
-  getAllFilters,
+  getAutocompleteLoading,
+  getFilters,
   getInitialFiltersLoading,
-  getPossibleFilters,
   getReferenceTypes,
   getReferenceTypesLoading,
   getSearchSuccessful,
   getSearchText,
+  getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
   getTooManyResults,
 } from './search.selector';
@@ -23,6 +26,7 @@ describe('Search Selector', () => {
       ...initialState,
       filters: {
         ...initialState.filters,
+        autocompleteLoading: true,
         searchText: {
           field: 'customer',
           value: 'aud',
@@ -41,41 +45,85 @@ describe('Search Selector', () => {
     });
   });
 
-  describe('getSelectedFilters', () => {
-    test('should return selected filters', () => {
-      const customer = new FilterItemIdValue('customer', [
-        new IdValue('vw', 'VW'),
-      ]);
-      const plant = new FilterItemIdValue('plant', [
-        new IdValue('32', 'Nice Plant'),
-      ]);
-      const selected = {
+  describe('getFilters', () => {
+    it('should return all filters', () => {
+      const customer = new FilterItemIdValue(
+        'customer',
+        [
+          new IdValue('vw', 'VW', false),
+          new IdValue('vw2', 'VW 2', false),
+          new IdValue('vw3', 'VW 3', true),
+        ],
+        true
+      );
+      const plant = new FilterItemIdValue(
+        'plant',
+        [
+          new IdValue('32', 'Nice Plant', false),
+          new IdValue('33', 'Nicer Plant', true),
+        ],
+        false
+      );
+      const items = [customer, plant];
+
+      const entityState = {
         ids: ['customer', 'plant'],
         entities: {
           customer,
           plant,
         },
       };
-      expect(getSelectedFilters.projector(selected)).toEqual([customer, plant]);
+
+      expect(getFilters.projector(entityState)).toEqual(items);
     });
   });
 
-  describe('getPossibleFilters', () => {
-    test('should return possible filters', () => {
-      const customer = new FilterItemIdValue('customer', [
-        new IdValue('vw', 'VW'),
+  describe('getSelectedFilters', () => {
+    test('should return selected filters', () => {
+      const customer = new FilterItemIdValue(
+        'customer',
+        [new IdValue('vw', 'VW', false)],
+        true
+      );
+      const plant = new FilterItemIdValue(
+        'plant',
+        [new IdValue('32', 'Nice Plant', true)],
+        false
+      );
+      const range = new FilterItemRange('length', 0, 200, 0, 200, 'kg');
+      const items = [customer, plant, range];
+
+      expect(getSelectedFilters.projector(items)).toEqual([
+        new FilterItemIdValueUpdate('plant', ['32']),
+        new FilterItemRangeUpdate('length', 0, 200),
       ]);
-      const plant = new FilterItemIdValue('plant', [
-        new IdValue('32', 'Nice Plant'),
-      ]);
-      const possible = {
+    });
+  });
+
+  describe('getSelectedFilterIdValueOptionsByFilterName', () => {
+    test('should return filter by name', () => {
+      const customer = new FilterItemIdValue(
+        'customer',
+        [new IdValue('vw', 'VW', true)],
+        true
+      );
+      const plant = new FilterItemIdValue(
+        'plant',
+        [new IdValue('32', 'Nice Plant', false)],
+        false
+      );
+      const items = {
         ids: ['customer', 'plant'],
         entities: {
           customer,
           plant,
         },
       };
-      expect(getPossibleFilters.projector(possible)).toEqual([customer, plant]);
+      expect(
+        getSelectedFilterIdValueOptionsByFilterName.projector(items.entities, {
+          name: 'customer',
+        })
+      ).toEqual([new IdValue('vw', 'VW', true)]);
     });
   });
 
@@ -113,58 +161,9 @@ describe('Search Selector', () => {
     });
   });
 
-  describe('getAllFilters', () => {
-    test('should merge possible and selected filters', () => {
-      const customer = new FilterItemIdValue('customer', [
-        new IdValue('vw', 'VW'),
-      ]);
-      const plant = new FilterItemIdValue('plant', [
-        new IdValue('32', 'Nice Plant'),
-      ]);
-      const width = new FilterItemRange(
-        'width',
-        0,
-        100,
-        undefined,
-        undefined,
-        'mm'
-      );
-      const length = new FilterItemRange('length', 0, 100);
-      const possible = {
-        ids: ['plant', 'customer', 'width', 'length'],
-        entities: {
-          plant,
-          customer,
-          width,
-          length,
-        },
-      };
-      const selected = {
-        ids: ['plant', 'customer', 'width', 'length'],
-        entities: {
-          plant,
-          customer: { ...customer, items: [new IdValue('vw', 'VW', true)] },
-          width: { ...width, minSelected: 10 },
-          length: { ...length, maxSelected: 90 },
-        },
-      };
-
-      const state = {
-        ...fakeState,
-        search: {
-          ...fakeState.search,
-          filters: { ...fakeState.search.filters, possible, selected },
-        },
-      };
-
-      const expected = [
-        plant,
-        { ...customer, items: [new IdValue('vw', 'VW', true)] },
-        { ...width, minSelected: 10 },
-        { ...length, maxSelected: 90 },
-      ];
-
-      expect(getAllFilters(state)).toEqual(expected);
+  describe('getAutocompleteLoading', () => {
+    test('should return true if autocomplete is currently loading', () => {
+      expect(getAutocompleteLoading(fakeState)).toBeTruthy();
     });
   });
 });

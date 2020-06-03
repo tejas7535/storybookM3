@@ -19,9 +19,9 @@ describe('MultiSelectValuePipe', () => {
 
   it('should return number of values as prefix including joined items', () => {
     const items = [
-      new IdValue('1', 'value1'),
-      new IdValue('2', 'value2'),
-      new IdValue('3', 'value3'),
+      new IdValue('1', 'value1', false),
+      new IdValue('2', 'value2', false),
+      new IdValue('3', 'value3', false),
     ];
     const result = pipe.transform(items);
 

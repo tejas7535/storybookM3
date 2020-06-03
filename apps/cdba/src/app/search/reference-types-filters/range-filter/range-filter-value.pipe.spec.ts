@@ -34,13 +34,20 @@ describe('RangeFilterValuePipe', () => {
     let expected: string;
 
     beforeEach(() => {
-      filter = new FilterItemRange('length', 0, 100);
+      filter = new FilterItemRange(
+        'length',
+        0,
+        100,
+        undefined,
+        undefined,
+        'xy'
+      );
     });
 
     test('should transform correct for minSelected', () => {
       filter.minSelected = 10;
 
-      expected = 'Min. Length: 10';
+      expected = 'Min. Length: 10xy';
 
       expect(pipe.transform(filter)).toEqual(expected);
     });
@@ -48,7 +55,7 @@ describe('RangeFilterValuePipe', () => {
     test('should transform correct for maxSelected', () => {
       filter.maxSelected = 90;
 
-      expected = 'Max. Length: 90';
+      expected = 'Max. Length: 90xy';
 
       expect(pipe.transform(filter)).toEqual(expected);
     });

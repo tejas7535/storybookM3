@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
-import { SearchService } from '../../../../search/search.service';
+import { SearchService } from '../../../../search/services/search.service';
 import {
   applyTextSearch,
   applyTextSearchFailure,
@@ -31,7 +31,10 @@ import {
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
-import { getSelectedFilters } from '../../selectors/search/search.selector';
+import {
+  getSelectedFilterIdValueOptionsByFilterName,
+  getSelectedFilters,
+} from '../../selectors/search/search.selector';
 import { SearchEffects } from './search.effects';
 
 describe('Search Effects', () => {
@@ -51,7 +54,7 @@ describe('Search Effects', () => {
         {
           provide: SearchService,
           useValue: {
-            getInitialFiltersSales: jest.fn(),
+            getInitialFilters: jest.fn(),
             search: jest.fn(),
             autocomplete: jest.fn(),
             textSearch: jest.fn(),
@@ -69,6 +72,7 @@ describe('Search Effects', () => {
     searchService = TestBed.inject(SearchService);
 
     store.overrideSelector(getSelectedFilters, []);
+    store.overrideSelector(getSelectedFilterIdValueOptionsByFilterName, []);
   });
 
   describe('loadInitialFilters$', () => {
@@ -78,7 +82,11 @@ describe('Search Effects', () => {
 
     test('should return getInitialFiltersSuccess action when REST call is successful', () => {
       const items = [
-        new FilterItemIdValue('customer', [new IdValue('audi', 'Audi')]),
+        new FilterItemIdValue(
+          'customer',
+          [new IdValue('audi', 'Audi', false)],
+          true
+        ),
       ];
       const result = getInitialFiltersSuccess({
         items,
@@ -91,10 +99,10 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      searchService.getInitialFiltersSales = jest.fn(() => response);
+      searchService.getInitialFilters = jest.fn(() => response);
 
       expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(searchService.getInitialFiltersSales).toHaveBeenCalledTimes(1);
+      expect(searchService.getInitialFilters).toHaveBeenCalledTimes(1);
     });
 
     test('should return getInitialFiltersFailure on REST error', () => {
@@ -105,10 +113,10 @@ describe('Search Effects', () => {
       const response = cold('-#|', undefined, error);
       const expected = cold('--b', { b: result });
 
-      searchService.getInitialFiltersSales = jest.fn(() => response);
+      searchService.getInitialFilters = jest.fn(() => response);
 
       expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(searchService.getInitialFiltersSales).toHaveBeenCalledTimes(1);
+      expect(searchService.getInitialFilters).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -118,10 +126,19 @@ describe('Search Effects', () => {
     });
 
     test('should return searchSuccess action when REST call is successful', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
+      const filterItemIdVal = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Best plant', false)],
+        false
+      );
+      const filterItemRange = new FilterItemRange(
+        'length',
+        0,
+        200,
+        0,
+        200,
+        'kg'
+      );
 
       const ref = new ReferenceType();
       const searchResult = new SearchResult(
@@ -171,10 +188,19 @@ describe('Search Effects', () => {
     });
 
     test('should return applyTextSearchSuccess action when REST call is successful', () => {
-      const filterItemIdVal = new FilterItemIdValue('plant', [
-        new IdValue('23', 'Best plant'),
-      ]);
-      const filterItemRange = new FilterItemRange('length', 0, 200);
+      const filterItemIdVal = new FilterItemIdValue(
+        'plant',
+        [new IdValue('23', 'Best plant', false)],
+        false
+      );
+      const filterItemRange = new FilterItemRange(
+        'length',
+        0,
+        200,
+        0,
+        200,
+        'kg'
+      );
 
       const ref = new ReferenceType();
       const searchResult = new SearchResult(
@@ -250,9 +276,11 @@ describe('Search Effects', () => {
     });
 
     test('should return autocompleteSuccess action when REST call is successful', () => {
-      const item = new FilterItemIdValue('customer', [
-        new IdValue('audi', 'Audi'),
-      ]);
+      const item = new FilterItemIdValue(
+        'customer',
+        [new IdValue('audi', 'Audi', false)],
+        true
+      );
       const result = autocompleteSuccess({
         item,
       });
@@ -268,7 +296,7 @@ describe('Search Effects', () => {
 
       expect(effects.autocomplete$).toBeObservable(expected);
       expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch);
+      expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
     });
 
     test('should return autocompleteFailure on REST error', () => {

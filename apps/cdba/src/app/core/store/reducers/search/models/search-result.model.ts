@@ -3,7 +3,7 @@ import { ReferenceType } from './reference-type.model';
 
 export class SearchResult {
   public constructor(
-    public possible: FilterItem[],
+    public filters: FilterItem[],
     public result: ReferenceType[]
   ) {}
 }

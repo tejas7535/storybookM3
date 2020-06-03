@@ -19,6 +19,7 @@ import {
   IdValue,
   TextSearch,
 } from '../../../core/store/reducers/search/models';
+import { SearchUtilityService } from '../../services/search-utility.service';
 
 @Component({
   selector: 'cdba-multi-select-filter',
@@ -29,9 +30,7 @@ export class MultiSelectFilterComponent
   implements OnChanges, OnDestroy, OnInit {
   @Input() filter: FilterItemIdValue;
 
-  @Output() private readonly removeFilter: EventEmitter<
-    string
-  > = new EventEmitter();
+  @Input() autocompleteLoading = false;
 
   @Output() private readonly updateFilter: EventEmitter<
     FilterItemIdValue
@@ -41,19 +40,28 @@ export class MultiSelectFilterComponent
     TextSearch
   > = new EventEmitter();
 
+  debounceTime = 250;
+
   form = new FormControl();
   searchForm = new FormControl();
   selectAllChecked = false;
   selectAllIndeterminate = false;
-  modifiedFilter: FilterItemIdValue = new FilterItemIdValue(undefined, []);
+
+  filterOptions: IdValue[] = [];
+  filterName = '';
+
   readonly subscription: Subscription = new Subscription();
+
+  public constructor(private readonly searchUtilities: SearchUtilityService) {}
 
   public ngOnInit(): void {
     this.subscription.add(
       this.searchForm.valueChanges
         .pipe(
           debounce(() =>
-            this.modifiedFilter.autocomplete ? timer(500) : EMPTY
+            this.filter && this.filter.autocomplete
+              ? timer(this.debounceTime)
+              : EMPTY
           )
         )
         .subscribe((val) => {
@@ -64,15 +72,25 @@ export class MultiSelectFilterComponent
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.filter) {
-      this.modifiedFilter.name = changes.filter.currentValue.name;
-      this.modifiedFilter.items = changes.filter.currentValue.items;
+      const filterUpdate = changes.filter.currentValue;
+      this.filterName = filterUpdate.name;
+
+      // prevent overriding existing selections due to new autocomplete suggestions
+      if (filterUpdate.autocomplete) {
+        this.filterOptions = this.searchUtilities.mergeOptionsWithSelectedOptions(
+          filterUpdate.items,
+          this.form.value || []
+        );
+      } else {
+        this.filterOptions = filterUpdate.items;
+      }
 
       // consider current search string if local search
       if (!changes.filter.currentValue.autocomplete) {
-        const selectedIds = this.modifiedFilter.items
+        const selectedIds = this.filterOptions
           .filter((item: IdValue) => item.selected)
           .map((item: IdValue) => item.id);
-        this.modifiedFilter.items = this.filterItemsLocally(
+        this.filterOptions = this.filterItemsLocally(
           this.searchForm.value,
           selectedIds
         );
@@ -97,17 +115,18 @@ export class MultiSelectFilterComponent
     }
   }
 
+  /**
+   * Update current form value with new filter (options).
+   */
   public updateFormValue(): void {
-    const filteredItems = this.modifiedFilter.items.filter(
-      (it: any) => it.selected
-    );
+    const filteredItems = this.filterOptions.filter((it: any) => it.selected);
 
     this.selectAllChecked =
-      filteredItems.length === this.modifiedFilter.items.length &&
+      filteredItems.length === this.filterOptions.length &&
       filteredItems.length > 0;
 
     this.selectAllIndeterminate =
-      filteredItems.length < this.modifiedFilter.items.length &&
+      filteredItems.length < this.filterOptions.length &&
       filteredItems.length > 0;
 
     this.form.setValue(filteredItems);
@@ -127,13 +146,15 @@ export class MultiSelectFilterComponent
     search: string,
     selectedValues: string[]
   ): IdValue[] {
-    const result = this.filter.items.filter(
-      (item: IdValue) =>
-        !search ||
-        search.length === 0 ||
-        item.value.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
-        selectedValues.includes(item.id)
-    );
+    const result = this.filter.items
+      .slice()
+      .filter(
+        (item: IdValue) =>
+          !search ||
+          search.length === 0 ||
+          item.value.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+          selectedValues.includes(item.id)
+      );
 
     return result;
   }
@@ -144,9 +165,12 @@ export class MultiSelectFilterComponent
   public selectAllChange(checked: boolean): void {
     this.selectAllChecked = checked;
     this.selectAllIndeterminate = false;
-    this.form.setValue(this.selectAllChecked ? this.modifiedFilter.items : []);
+    this.form.setValue(this.selectAllChecked ? this.filterOptions : []);
   }
 
+  /**
+   * Check/Uncheck select all checkbox correctly dependent on selected options.
+   */
   public selectionChange(evt: MatOptionSelectionChange): void {
     if (evt.isUserInput) {
       const isSelected = evt.source.selected;
@@ -155,32 +179,32 @@ export class MultiSelectFilterComponent
         ? +this.form.value.length + 1
         : +this.form.value.length - 1;
 
-      this.selectAllChecked =
-        formValueLength === this.modifiedFilter.items.length;
+      this.selectAllChecked = formValueLength === this.filterOptions.length;
 
       this.selectAllIndeterminate =
-        formValueLength < this.modifiedFilter.items.length &&
-        formValueLength > 0;
+        formValueLength < this.filterOptions.length && formValueLength > 0;
     }
   }
 
+  /**
+   * Update store when dropdown is closed.
+   */
   public updateFiltersOnDropdownClose(isOpened: boolean): void {
     if (!isOpened) {
-      if (this.form.value.length === 0) {
-        this.removeFilter.emit(this.modifiedFilter.name);
-      } else {
-        this.emitUpdate();
-      }
+      this.emitUpdate(this.form.value);
     }
   }
 
   /**
    * Improves performance of ngFor.
    */
-  public trackByFn(_index: number, item: IdValue): string {
-    return item.id;
+  public trackByFn(_index: number, item: IdValue): IdValue {
+    return item;
   }
 
+  /**
+   * Search within given options.
+   */
   private handleLocalSearch(search: string): void {
     const selectedIds = this.form.value.map((item: IdValue) => item.id);
     const updatedOptions = this.filterItemsLocally(search, selectedIds);
@@ -192,27 +216,32 @@ export class MultiSelectFilterComponent
     this.selectAllIndeterminate =
       countSelectedOptions > 0 && countSelectedOptions < updatedOptions.length;
 
-    this.modifiedFilter.items = updatedOptions;
+    this.filterOptions = updatedOptions;
   }
 
+  /**
+   * Get appropriate options via remote autocomplete / REST call.
+   *
+   */
   private handleRemoteSearch(search: string): void {
     // only dispatch event when search at at least of length 1
     if (search && search.length > 0) {
-      this.emitUpdate();
+      this.emitUpdate(this.form.value);
       this.autocomplete.emit({ field: this.filter.name, value: search });
     } else {
-      this.modifiedFilter.items = this.form.value;
+      this.filterOptions = this.form.value;
     }
   }
 
-  private emitUpdate(): void {
+  /**
+   * Update store with current selections.
+   */
+  private emitUpdate(values: IdValue[]): void {
     this.updateFilter.emit({
-      ...this.modifiedFilter,
-      items: this.modifiedFilter.items.slice().map((it) => {
+      ...this.filter,
+      items: this.filter.items.slice().map((it) => {
         const tmp = { ...it };
-        const item = this.form.value.find(
-          (i: IdValue) => i.id && i.id === it.id
-        );
+        const item = values.find((i: IdValue) => i.id && i.id === it.id);
 
         tmp.selected = item !== undefined ? true : false;
 
