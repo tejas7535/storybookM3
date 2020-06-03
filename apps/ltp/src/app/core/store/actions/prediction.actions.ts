@@ -1,9 +1,10 @@
 import { createAction, props } from '@ngrx/store';
 
 import {
+  Loads,
   LoadsRequest,
   PredictionRequest,
-  PredictionResult
+  PredictionResult,
 } from '../../../shared/models';
 
 export const postPrediction = createAction(
@@ -29,14 +30,22 @@ export const setPredictionResult = createAction(
   props<{ predictionResult: PredictionResult }>()
 );
 
-export const postLoadsData = createAction(
-  '[Ouput Wohler Chart Component] Get Load Data',
+export const setLoadsRequest = createAction(
+  '[Ouput Wohler Chart Component] Set Loads Request',
   props<{ loadsRequest: LoadsRequest }>()
+);
+
+export const postLoadsData = createAction(
+  '[Ouput Wohler Chart Component] Get Load Data'
 );
 
 export const setLoadsResult = createAction(
   '[Ouput Wohler Chart Component] Set Loads Result',
-  props<{ loads: any; status: number; error: string }>()
+  props<{
+    loads: Loads;
+    status: number;
+    error: string;
+  }>()
 );
 
 export const setHardness = createAction(

@@ -236,7 +236,7 @@ describe('PredictionComponent', () => {
       repetitionFactor: 1,
       method: 'FKM',
     };
-    const action = fromStore.postLoadsData({
+    const action = fromStore.setLoadsRequest({
       loadsRequest: { ...mockCleanedArray, ...mockSettings },
     });
 

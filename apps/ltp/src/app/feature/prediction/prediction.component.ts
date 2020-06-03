@@ -152,7 +152,7 @@ export class PredictionComponent implements OnInit {
     if (loadsRequest.data.length > limit) {
       loadsRequest.data.slice(0, loadsRequest.data.length);
     }
-    this.store.dispatch(fromStore.postLoadsData({ loadsRequest }));
+    this.store.dispatch(fromStore.setLoadsRequest({ loadsRequest }));
   }
 
   /**
