@@ -167,42 +167,22 @@ describe('RestService', () => {
   describe('postLoadsData', () => {
     it('should return an Observable<any[]', () => {
       const mockedLoadsRequest = {
-        status: 1,
-        data: [0, 1, 2],
-        conversionFactor: 4,
-        repetitionFactor: 3,
-        method: 'Goodman',
-      };
-      const mockedPredictionRequest: PredictionRequest = {
-        prediction: 0,
-        mpa: 400,
-        v90: 0,
-        hv: 180,
-        hv_lower: 180,
-        hv_upper: 180,
-        rrelation: -1,
-        burdeningType: 0,
-        model: 5,
-        spreading: 0,
-        rArea: 5,
-        es: 200,
-        rz: 0,
-        hv_core: 500,
-        a90: 100,
-        gradient: 1,
-        multiaxiality: 0,
+        conversionFactor: 1,
+        repetitionFactor: 100,
+        method: 'FKM',
+        loads: [] as number[],
+        V90: 589,
+        belastungsart: 0,
+        haerte: 325,
       };
 
       const mockedLoadsPrediction = {
         woehler: {},
-        loads: { x: [] as number[], y: [] as number[] },
       };
 
-      myProvider
-        .postLoadsData(mockedLoadsRequest, mockedPredictionRequest)
-        .subscribe((loadsResult) => {
-          expect(loadsResult).toEqual(mockedLoadsPrediction);
-        });
+      myProvider.postLoadsData(mockedLoadsRequest).subscribe((loadsResult) => {
+        expect(loadsResult).toEqual(mockedLoadsPrediction);
+      });
 
       const req = httpMock.expectOne(`${myProvider.SERVER_URL}/loads`);
       expect(req.request.method).toBe('POST');

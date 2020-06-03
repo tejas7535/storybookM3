@@ -157,8 +157,6 @@ export class HelpersService {
 
       limits = this.calculateLimitsWoehler(data);
 
-      data = [...data, ...loadsPoints]; // add loaddata after limits are calculated
-
       data.map((point) => {
         const keys = Object.keys(point);
         if (point[keys[1]] === 0) {
@@ -167,6 +165,8 @@ export class HelpersService {
 
         return point;
       });
+
+      data = [...data, ...loadsPoints]; // add loaddata after limits are calculated
 
       lines = this.calculateLines(limits);
     }

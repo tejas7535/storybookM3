@@ -113,13 +113,18 @@ describe('predictionReducer', () => {
 
       const newState = predictionReducer(
         state,
-        PredictionActions.postLoadsData({ loadsRequest: mockedLoadsRequest })
+        PredictionActions.setLoadsRequest({ loadsRequest: mockedLoadsRequest })
       );
       expect(newState.loadsRequest).toEqual(mockedLoadsRequest);
     });
 
     it('should set state on setLoadsResult', () => {
-      const mockedLoads = {};
+      const mockedLoads = {
+        loads: {
+          x: [1, 2, 3],
+          y: [4, 5, 6],
+        },
+      };
 
       const mockedStatus = 2;
 
@@ -132,7 +137,7 @@ describe('predictionReducer', () => {
         })
       );
       expect(newState.loadsRequest.status).toEqual(mockedStatus);
-      expect(newState.loads).toEqual(mockedLoads);
+      expect(newState.loads).toEqual(mockedLoads.loads);
     });
 
     it('should set state on setHardness', () => {

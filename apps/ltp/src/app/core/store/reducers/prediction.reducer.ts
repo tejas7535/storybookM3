@@ -106,13 +106,13 @@ export const predictionReducer = createReducer(
     ...state,
     predictionResult,
   })),
-  on(PredictionActions.postLoadsData, (state, { loadsRequest }) => ({
+  on(PredictionActions.setLoadsRequest, (state, { loadsRequest }) => ({
     ...state,
     loadsRequest,
   })),
   on(PredictionActions.setLoadsResult, (state, { loads, status, error }) => ({
     ...state,
-    loads,
+    loads: loads.loads,
     loadsRequest: {
       ...state.loadsRequest,
       status,

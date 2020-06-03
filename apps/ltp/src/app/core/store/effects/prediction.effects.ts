@@ -4,8 +4,8 @@ import { EMPTY, of } from 'rxjs';
 import {
   catchError,
   concatMap,
+  filter,
   map,
-  mergeMap,
   switchMap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -13,11 +13,14 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { PredictionResult } from '../../../shared/models';
+import { Loads, PredictionResult } from '../../../shared/models';
 import { RestService } from '../../services/rest.service';
 import * as PredictionActions from '../actions/prediction.actions';
 import { LTPState } from '../reducers';
-import { getPredictionRequest } from '../selectors/prediction.selectors';
+import {
+  getLoadsRequest,
+  getPredictionRequest,
+} from '../selectors/prediction.selectors';
 
 @Injectable()
 export class PredictionEffects {
@@ -51,33 +54,37 @@ export class PredictionEffects {
     )
   );
 
+  public setLoadsRequest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PredictionActions.setLoadsRequest),
+      map(() => PredictionActions.postLoadsData())
+    )
+  );
+
   public postLoadsData$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PredictionActions.postLoadsData),
-      concatMap((action) =>
-        of(action).pipe(withLatestFrom(this.store.select(getPredictionRequest)))
-      ),
-      mergeMap(([action, predictionRequest]) =>
-        this.restService
-          .postLoadsData(action.loadsRequest, predictionRequest)
-          .pipe(
-            map((loadsResult) =>
+      ofType(PredictionActions.postLoadsData, PredictionActions.postPrediction),
+      withLatestFrom(this.store.select(getLoadsRequest)),
+      filter(([_action, loadsRequest]) => loadsRequest !== undefined),
+      switchMap(([_action, loadsRequest]) =>
+        this.restService.postLoadsData(loadsRequest).pipe(
+          map((loadsResult: Loads) =>
+            PredictionActions.setLoadsResult({
+              loads: loadsResult,
+              status: 2,
+              error: undefined,
+            })
+          ),
+          catchError((error) =>
+            of(
               PredictionActions.setLoadsResult({
-                ...loadsResult,
-                status: 2,
-                error: undefined,
+                loads: undefined,
+                status: 3,
+                error: `${error.statusText}`,
               })
-            ),
-            catchError((error) =>
-              of(
-                PredictionActions.setLoadsResult({
-                  loads: undefined,
-                  status: 3,
-                  error: `${error.statusText}`,
-                })
-              )
             )
           )
+        )
       )
     )
   );

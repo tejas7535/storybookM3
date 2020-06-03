@@ -9,3 +9,10 @@ export interface LoadsRequest extends LoadOptions {
   data: number[];
   error?: string;
 }
+
+export interface LoadsNetworkRequest extends LoadOptions {
+  loads: number[];
+  V90: number;
+  belastungsart: number;
+  haerte: number;
+}

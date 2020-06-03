@@ -7,7 +7,8 @@ import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import {
   BurdeningType,
-  LoadsRequest,
+  Loads,
+  LoadsNetworkRequest,
   Material,
   Model,
   Prediction,
@@ -113,22 +114,7 @@ export class RestService {
   /**
    * posts prediction and load request and returns result of whole calculation
    */
-  public postLoadsData(
-    loadsRequest: LoadsRequest,
-    predictionRequest: PredictionRequest
-  ): Observable<any> {
-    const { data, conversionFactor, repetitionFactor, method } = loadsRequest;
-    const { v90, burdeningType, hv } = predictionRequest;
-    const request = {
-      conversionFactor,
-      repetitionFactor,
-      method,
-      loads: data,
-      V90: v90,
-      belastungsart: burdeningType,
-      haerte: hv,
-    };
-
-    return this.httpService.post<any>(`${this.SERVER_URL}/loads`, request);
+  public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
+    return this.httpService.post<any>(`${this.SERVER_URL}/loads`, loadsRequest);
   }
 }

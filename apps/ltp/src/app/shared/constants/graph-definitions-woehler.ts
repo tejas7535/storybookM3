@@ -25,23 +25,23 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
   {
     value: 'y7',
     name: 'FKM-Richtlinie (P<sub>Ü</sub> 97,5)',
-    color: 'red',
+    color: '#fccf46',
     identifier: 'fkm',
     survivalProbability: 97.5,
     legendDisplay: {
       name: 'prediction.chart.legendFkm',
-      color: 'red',
+      color: '#fccf46',
     },
   },
   {
     value: 'y8',
     name: 'Murakami-Modell (P<sub>Ü</sub> 50)',
-    color: 'blue',
+    color: '#1d9bb2',
     identifier: 'murakami',
     survivalProbability: 50,
     legendDisplay: {
       name: 'prediction.chart.legendMurakami',
-      color: 'blue',
+      color: '#1d9bb2',
     },
   },
   {
