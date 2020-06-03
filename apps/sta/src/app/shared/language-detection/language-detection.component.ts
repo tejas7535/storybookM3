@@ -20,4 +20,8 @@ export class LanguageDetectionComponent {
 
   public detectLanguageIcon = new Icon('language', true);
   public flagIcon = new Icon('flag', true);
+
+  public trackByFn(index: number, _item: any): number {
+    return index;
+  }
 }
