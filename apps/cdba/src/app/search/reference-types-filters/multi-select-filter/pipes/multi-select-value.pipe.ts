@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { IdValue } from '../../../core/store/reducers/search/models';
+import { IdValue } from '../../../../core/store/reducers/search/models';
 
 @Pipe({
   name: 'multiSelectValue',

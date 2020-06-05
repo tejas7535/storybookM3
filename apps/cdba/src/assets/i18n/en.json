@@ -13,7 +13,8 @@
       "plant": "Plant",
       "searchPlaceholder": "Search...",
       "selectAll": "Select all",
-      "msd": "Material Short Description"
+      "msd": "Material Short Description",
+      "noResultsFound": "No results found."
     },
     "referenceTypesTable": {
       "headers": {

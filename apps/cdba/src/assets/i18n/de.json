@@ -13,7 +13,8 @@
       "plant": "Werk",
       "searchPlaceholder": "Suche...",
       "selectAll": "Alle auswählen",
-      "msd": "Material Kurzbeschreibung"
+      "msd": "Material Kurzbeschreibung",
+      "noResultsFound": "Keine Ergebnisse gefunden."
     },
     "referenceTypesTable": {
       "headers": {

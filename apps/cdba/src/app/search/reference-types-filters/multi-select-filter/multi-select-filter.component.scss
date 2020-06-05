@@ -1,6 +1,12 @@
 @import 'libs/shared/styles/src/lib/colors';
 @import 'libs/shared/styles/src/lib/fonts';
 
+.no-results-found {
+  color: $schaeffler-gray-7;
+  font-size: $schaeffler-labels;
+  padding: 0 16px;
+}
+
 ::ng-deep mat-form-field.search-field {
   padding: 0 16px;
 

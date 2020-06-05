@@ -20,7 +20,8 @@ import {
 import { SharedModule } from '../../../shared/shared.module';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
-import { MultiSelectValuePipe } from './multi-select-value.pipe';
+import { MultiSelectValuePipe } from './pipes/multi-select-value.pipe';
+import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
 describe('MultiSelectFilterComponent', () => {
   let component: MultiSelectFilterComponent;
@@ -28,7 +29,11 @@ describe('MultiSelectFilterComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [MultiSelectFilterComponent, MultiSelectValuePipe],
+      declarations: [
+        MultiSelectFilterComponent,
+        MultiSelectValuePipe,
+        NoResultsFoundPipe,
+      ],
       imports: [
         NoopAnimationsModule,
         SharedModule,

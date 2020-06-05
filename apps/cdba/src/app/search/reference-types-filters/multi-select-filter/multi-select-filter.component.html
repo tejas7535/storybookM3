@@ -42,6 +42,7 @@
       *ngIf="filterOptions.length === 0"
       class="dummy-option"
     ></mat-option>
+
     <mat-checkbox
       *ngIf="filterOptions.length > 0"
       class="select-all"
@@ -69,5 +70,19 @@
         >{{ option.value }}</mat-option
       >
     </div>
+
+    <p
+      class="no-results-found"
+      *ngIf="
+        filterOptions
+          | noResultsFound
+            : form.value
+            : searchForm.value
+            : autocompleteLoading
+            : debounceIsActive
+      "
+    >
+      {{ t('noResultsFound') }}
+    </p>
   </mat-select>
 </mat-form-field>
