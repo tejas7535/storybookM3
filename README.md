@@ -2,7 +2,7 @@
 
 ![version](https://img.shields.io/badge/version-v1.0.0-green.svg)
 ![@angular/core: 9.1.9](https://img.shields.io/badge/%40angular%2Fcore-9.1.9-brightgreen)
-![@ngrx/store: 9.1.2](https://img.shields.io/badge/%40ngrx%2Fstore-9.1.2-brightgreen)
+![@ngrx/store: 9.2.0](https://img.shields.io/badge/%40ngrx%2Fstore-9.2.0-brightgreen)
 ![@angular/material: 9.2.4](https://img.shields.io/badge/%40angular%2Fmaterial-9.2.4-brightgreen)
 ![@angular/flex-layout: 9.0.0-beta.31](https://img.shields.io/badge/%40angular%2Fflex--layout-9.0.0--beta.31-brightgreen)
 ![prettier: 2.0.5](https://img.shields.io/badge/prettier-2.0.5-brightgreen)
