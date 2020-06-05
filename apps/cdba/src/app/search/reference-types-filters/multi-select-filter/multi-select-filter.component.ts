@@ -12,7 +12,7 @@ import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core/option';
 
 import { EMPTY, Subscription, timer } from 'rxjs';
-import { debounce } from 'rxjs/operators';
+import { debounce, tap } from 'rxjs/operators';
 
 import {
   FilterItemIdValue,
@@ -50,6 +50,8 @@ export class MultiSelectFilterComponent
   filterOptions: IdValue[] = [];
   filterName = '';
 
+  debounceIsActive = false;
+
   readonly subscription: Subscription = new Subscription();
 
   public constructor(private readonly searchUtilities: SearchUtilityService) {}
@@ -58,6 +60,7 @@ export class MultiSelectFilterComponent
     this.subscription.add(
       this.searchForm.valueChanges
         .pipe(
+          tap(() => (this.debounceIsActive = true)),
           debounce(() =>
             this.filter && this.filter.autocomplete
               ? timer(this.debounceTime)
@@ -66,6 +69,7 @@ export class MultiSelectFilterComponent
         )
         .subscribe((val) => {
           this.searchFieldChange(val);
+          this.debounceIsActive = false;
         })
     );
   }

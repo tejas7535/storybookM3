@@ -1,4 +1,4 @@
-import { IdValue } from '../../../core/store/reducers/search/models';
+import { IdValue } from '../../../../core/store/reducers/search/models';
 import { MultiSelectValuePipe } from './multi-select-value.pipe';
 
 describe('MultiSelectValuePipe', () => {
