@@ -1,10 +1,10 @@
+import { REFRENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import {
   FilterItemIdValue,
   FilterItemIdValueUpdate,
   FilterItemRange,
   FilterItemRangeUpdate,
   IdValue,
-  ReferenceType,
 } from '../../reducers/search/models';
 import { initialState } from '../../reducers/search/search.reducer';
 import {
@@ -34,7 +34,7 @@ describe('Search Selector', () => {
       },
       referenceTypes: {
         ...initialState.referenceTypes,
-        items: [new ReferenceType()],
+        items: [REFRENCE_TYPE_MOCK],
       },
     },
   };

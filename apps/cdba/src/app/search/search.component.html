@@ -8,7 +8,9 @@
     <cdba-filter-panel>
       <cdba-reference-types-filters></cdba-reference-types-filters>
     </cdba-filter-panel>
-    <cdba-reference-types-table></cdba-reference-types-table>
+    <cdba-reference-types-table
+      [rowData]="referenceTypesData$ | async"
+    ></cdba-reference-types-table>
   </div>
 </ng-container>
 

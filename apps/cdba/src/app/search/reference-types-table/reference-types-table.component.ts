@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import {
   AllModules,
@@ -12,6 +12,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { ReferenceType } from '../../core/store/reducers/search/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { ColumnState } from './column-state';
 import {
@@ -21,7 +22,6 @@ import {
   SIDE_BAR_CONFIG,
   STATUS_BAR_CONFIG,
 } from './config';
-import { SAMPLE_DATA } from './sample-data';
 import { SortState } from './sort-state';
 import { DetailViewButtonComponent } from './status-bar/detail-view-button/detail-view-button.component';
 
@@ -50,7 +50,7 @@ export class ReferenceTypesTableComponent implements OnInit {
 
   public sideBar: SideBarDef = SIDE_BAR_CONFIG;
 
-  public rowData = SAMPLE_DATA;
+  @Input() rowData: ReferenceType[];
 
   public constructor(private readonly agGridStateService: AgGridStateService) {}
 

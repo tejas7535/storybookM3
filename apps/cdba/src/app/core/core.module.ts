@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -11,6 +13,8 @@ import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
+
+registerLocaleData(de, 'de-DE');
 
 @NgModule({
   declarations: [AppComponent],

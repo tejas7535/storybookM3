@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getSearchSuccessful } from '../core/store';
+import { getReferenceTypes, getSearchSuccessful } from '../core/store';
+import { ReferenceType } from '../core/store/reducers/search/models';
 import { SearchState } from '../core/store/reducers/search/search.reducer';
 
 @Component({
@@ -14,10 +15,12 @@ import { SearchState } from '../core/store/reducers/search/search.reducer';
 })
 export class SearchComponent implements OnInit {
   searchSuccessful$: Observable<boolean>;
+  referenceTypesData$: Observable<ReferenceType[]>;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
   ngOnInit(): void {
     this.searchSuccessful$ = this.store.pipe(select(getSearchSuccessful));
+    this.referenceTypesData$ = this.store.pipe(select(getReferenceTypes));
   }
 }
