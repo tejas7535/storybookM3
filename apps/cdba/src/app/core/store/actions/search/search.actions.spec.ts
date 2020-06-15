@@ -15,11 +15,11 @@ import {
   shareSearchResult,
   updateFilter,
 } from '../';
+import { REFRENCE_TYPE_MOCK } from '../../../../../testing/mocks/reference-type.mock';
 import {
   FilterItemIdValue,
   FilterItemRange,
   IdValue,
-  ReferenceType,
   SearchResult,
   TextSearch,
 } from '../../reducers/search/models';
@@ -74,7 +74,7 @@ describe('Search Actions', () => {
         [new IdValue('23', 'Super Plant', false)],
         false
       );
-      const ref = new ReferenceType();
+      const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult([item], [ref]);
       const action = searchSuccess({ searchResult });
 
@@ -131,7 +131,7 @@ describe('Search Actions', () => {
         [new IdValue('23', 'Super Plant', false)],
         false
       );
-      const ref = new ReferenceType();
+      const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult([item], [ref]);
       const action = applyTextSearchSuccess({ searchResult });
 

@@ -1,15 +1,93 @@
 import { ColumnState } from '../column-state';
 
 export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
+  materialDesignation: {
+    colId: 'materialDesignation',
+    pinned: 'left',
+  },
   materialNumber: {
     colId: 'materialNumber',
-    pinned: 'left',
+  },
+  pcmQuantity: {
+    colId: 'pcmQuantity',
+  },
+  pcmSqv: {
+    colId: 'pcmSqv',
+  },
+  budgetQuantityCurrentYear: {
+    colId: 'budgetQuantityCurrentYear',
+  },
+  sqvSapLatestMonth: {
+    colId: 'sqvSapLatestMonth',
+  },
+  gpcLatesYear: {
+    colId: 'gpcLatestYear',
+  },
+  averagePrice: {
+    colId: 'averagePrice',
+  },
+  currency: {
+    colId: 'currency',
+  },
+  puUm: {
+    colId: 'puUm',
+  },
+  procurementType: {
+    colId: 'procurementType',
   },
   plant: {
     colId: 'plant',
   },
-  materialDesignation: {
-    colId: 'materialDesignation',
+  salesOrganization: {
+    colId: 'salesOrganization',
+  },
+  customerGroup: {
+    colId: 'customerGroup',
+  },
+  actualQuantityLastYear: {
+    colId: 'actualQuantityLastYear',
+  },
+  actualQuantityLastYearMinus1: {
+    colId: 'actualQuantityLastYearMinus1',
+  },
+  actualQuantityLastYearMinus2: {
+    colId: 'actualQuantityLastYearMinus2',
+  },
+  actualQuantityLastYearMinus3: {
+    colId: 'actualQuantityLastYearMinus3',
+  },
+  netSalesLastYear: {
+    colId: 'netSalesLastYear',
+  },
+  netSalesLastYearMinus1: {
+    colId: 'netSalesLastYearMinus1',
+  },
+  netSalesLastYearMinus2: {
+    colId: 'netSalesLastYearMinus2',
+  },
+  netSalesLastYearMinus3: {
+    colId: 'netSalesLastYearMinus3',
+  },
+  budgetQuantitySoco: {
+    colId: 'budgetQuantitiySoco',
+  },
+  plannedQuantityCurrentYear: {
+    colId: 'plannedQuantityCurrentYear',
+  },
+  plannedQuantityCurrentYearPlus1: {
+    colId: 'plannedQuantityCurrentYearPlus1',
+  },
+  plannedQuantityCurrentYearPlus2: {
+    colId: 'plannedQuantityCurrentYearPlus2',
+  },
+  plannedQuantityCurrentYearPlus3: {
+    colId: 'plannedQuantityCurrentYearPlus3',
+  },
+  projectName: {
+    colId: 'projectName',
+  },
+  productDescription: {
+    colId: 'productDescription',
   },
   msd: {
     colId: 'msd',
@@ -17,10 +95,47 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   productLine: {
     colId: 'productLine',
   },
-  pcmQuantity: {
-    colId: 'pcmQuantity',
+  inquiryType: {
+    colId: 'inquiryType',
   },
+  length: { colId: 'length' },
   width: {
     colId: 'width',
   },
+  height: { colId: 'height' },
+  unitOfDimension: {
+    colId: 'unitOfDimension',
+  },
+  weight: { colId: 'weight' },
+  weightUnit: { colId: 'weightUnit' },
+  volumeCubic: {
+    colId: 'volumeCubic',
+  },
+  volumeUnit: {
+    colId: 'volumeUnit',
+  },
+  customer: {
+    colId: 'customer',
+  },
+  rfq: {
+    colId: 'rfq',
+  },
+  quotationNumber: {
+    colId: 'quotationNumber',
+  },
+  toolingCost: {
+    colId: 'toolingCost',
+  },
+  pcmCalculationDate: {
+    colId: 'pcmCalculationDate',
+  },
+  saleableItem: {
+    colId: 'saleableItem',
+  },
+  gpcDate: { colId: 'gpcDate' },
+  sqvDate: { colId: 'sqvDate' },
+  specialProcurement: { colId: 'specialProcurement' },
+  supplier: { colId: 'supplier' },
+  purchasePriceValidFrom: { colId: 'purchasePriceValidFrom' },
+  purchasePriceValidUntil: { colId: 'purchasePriceValidUntil' },
 };
