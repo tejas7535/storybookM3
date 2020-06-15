@@ -1,4 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+<div
+  fxLayout="row"
+  fxLayoutAlign="center center"
+  fxLayoutGap="20px"
+  *transloco="let t; read: 'search.referenceTypesFilters'"
+>
   <ng-container
     *ngFor="let filter of filters$ | async; trackBy: trackByFn"
     [ngSwitch]="filter.type"
@@ -18,13 +23,15 @@
     ></cdba-range-filter>
   </ng-container>
 
-  <button
-    mat-flat-button
-    color="primary"
-    *transloco="let t; read: 'search.referenceTypesFilters'"
-    (click)="search()"
-  >
+  <button mat-flat-button color="primary" (click)="search()">
     <mat-icon>poll</mat-icon>
     {{ t('search') }}
+  </button>
+  <button
+    mat-stroked-button
+    *ngIf="(tooManyResults$ | async) || (searchSuccessful$ | async)"
+    (click)="resetFilters()"
+  >
+    {{ t('resetFilter') }}
   </button>
 </div>

@@ -18,6 +18,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
+  resetFilters,
   search,
   updateFilter,
 } from '../../core/store/actions/search/search.actions';
@@ -155,6 +156,16 @@ describe('ReferenceTypesFiltersComponent', () => {
       component.search();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(search());
+    });
+  });
+
+  describe('reset', () => {
+    test('should dispatch reset action', () => {
+      mockStore.dispatch = jest.fn();
+
+      component.resetFilters();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(resetFilters());
     });
   });
 
