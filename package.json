@@ -151,7 +151,7 @@
     "jest-junit": "10.0.0",
     "jest-marbles": "2.5.1",
     "jest-preset-angular": "8.2.0",
-    "lint-staged": "10.2.8",
+    "lint-staged": "10.2.10",
     "markdown-include": "0.4.3",
     "markdown-magic": "1.0.0",
     "markdown-magic-version-badge": "1.1.1",
