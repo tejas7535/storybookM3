@@ -101,8 +101,19 @@
     },
     {
       "packageNames": [
-        "@ag-grid-enterprise/all-modules",
-        "@ag-grid-community/angular"
+        "@ag-grid-community/core",
+        "@ag-grid-community/client-side-row-model",
+        "@ag-grid-community/angular",
+        "@ag-grid-enterprise/clipboard",
+        "@ag-grid-enterprise/core",
+        "@ag-grid-enterprise/column-tool-panel",
+        "@ag-grid-enterprise/filter-tool-panel",
+        "@ag-grid-enterprise/menu",
+        "@ag-grid-enterprise/range-selection",
+        "@ag-grid-enterprise/row-grouping",
+        "@ag-grid-enterprise/set-filter",
+        "@ag-grid-enterprise/side-bar",
+        "@ag-grid-enterprise/status-bar"
       ],
       "groupName": "ag-grid"
     }

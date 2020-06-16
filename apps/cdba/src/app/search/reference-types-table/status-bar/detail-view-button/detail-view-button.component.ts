@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { IStatusPanelParams } from '@ag-grid-community/core';
 
 @Component({
   selector: 'cdba-detail-view-button',

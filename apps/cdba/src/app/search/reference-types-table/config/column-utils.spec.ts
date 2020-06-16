@@ -4,7 +4,7 @@ import de from '@angular/common/locales/de';
 import {
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-enterprise/all-modules';
+} from '@ag-grid-community/core';
 
 import {
   currentYear,
@@ -57,6 +57,14 @@ describe('ColumnUtils', () => {
   });
 
   describe('valueGetterDate', () => {
+    it('should return undefined if data is not defined yet', () => {
+      const params = ({} as unknown) as ValueGetterParams;
+
+      const result = valueGetterDate(params, 'gpcDate');
+
+      expect(result).toBeUndefined();
+    });
+
     it('should transform timestamp into Date', () => {
       const params = ({
         data: { gpcDate: 1591354306000 },
@@ -76,7 +84,17 @@ describe('ColumnUtils', () => {
     let key: string;
     let result: number;
 
-    it('should return undefined', () => {
+    it('should return undefined if data is not defined', () => {
+      result = valueGetterArray(
+        ({} as unknown) as ValueGetterParams,
+        undefined,
+        0
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return undefined if key is not defined', () => {
       key = 'plannedQuantities';
 
       result = valueGetterArray(params, key, 0);

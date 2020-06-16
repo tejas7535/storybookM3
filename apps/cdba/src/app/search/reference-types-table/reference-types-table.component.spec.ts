@@ -8,7 +8,7 @@ import {
   GetMainMenuItemsParams,
   MenuItemDef,
   SortChangedEvent,
-} from '@ag-grid-enterprise/all-modules';
+} from '@ag-grid-community/core';
 import { configureTestSuite } from 'ng-bullet';
 
 import {

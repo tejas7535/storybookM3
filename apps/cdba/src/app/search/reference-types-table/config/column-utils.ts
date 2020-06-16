@@ -3,7 +3,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-enterprise/all-modules';
+} from '@ag-grid-community/core';
 
 const decimalPipe = new DecimalPipe('de-DE');
 const datePipe = new DatePipe('de-DE');
@@ -17,7 +17,7 @@ export const formatDate = (params: ValueFormatterParams) =>
   datePipe.transform(params.value);
 
 export const valueGetterDate = (params: ValueGetterParams, key: string) =>
-  new Date(params.data[key]);
+  params.data ? new Date(params.data[key]) : undefined;
 
 export const valueGetterArray = (
   params: ValueGetterParams,
@@ -26,5 +26,9 @@ export const valueGetterArray = (
 ) => {
   const { data } = params;
 
-  return data[key] ? data[key][index] : undefined;
+  if (data) {
+    return data[key] ? data[key][index] : undefined;
+  }
+
+  return undefined;
 };
