@@ -13,16 +13,16 @@ export const getBuildConfigurations = (projectPath: string) => ({
     fileReplacements: [
       {
         replace: `${projectPath}/src/environments/environment.ts`,
-        with: `${projectPath}/src/environments/environment.dev.ts`
-      }
+        with: `${projectPath}/src/environments/environment.dev.ts`,
+      },
     ],
     budgets: [
       {
         type: 'anyComponentStyle',
         maximumWarning: '6kb',
-        maximumError: '10kb'
-      }
-    ]
+        maximumError: '10kb',
+      },
+    ],
   },
   qa: {
     statsJson: true,
@@ -38,28 +38,28 @@ export const getBuildConfigurations = (projectPath: string) => ({
     fileReplacements: [
       {
         replace: `${projectPath}/src/environments/environment.ts`,
-        with: `${projectPath}/src/environments/environment.dev.ts`
-      }
+        with: `${projectPath}/src/environments/environment.dev.ts`,
+      },
     ],
     budgets: [
       {
         type: 'initial',
         maximumWarning: '2mb',
-        maximumError: '5mb'
+        maximumError: '5mb',
       },
       {
         type: 'anyComponentStyle',
         maximumWarning: '6kb',
-        maximumError: '10kb'
-      }
-    ]
+        maximumError: '10kb',
+      },
+    ],
   },
   prod: {
     fileReplacements: [
       {
         replace: `${projectPath}/src/environments/environment.ts`,
-        with: `${projectPath}/src/environments/environment.prod.ts`
-      }
+        with: `${projectPath}/src/environments/environment.prod.ts`,
+      },
     ],
     optimization: true,
     outputHashing: 'all',
@@ -74,14 +74,14 @@ export const getBuildConfigurations = (projectPath: string) => ({
       {
         type: 'initial',
         maximumWarning: '2mb',
-        maximumError: '5mb'
+        maximumError: '5mb',
       },
       {
         type: 'anyComponentStyle',
         maximumWarning: '6kb',
-        maximumError: '10kb'
-      }
-    ]
+        maximumError: '10kb',
+      },
+    ],
   },
   e2e: {
     optimization: true,
@@ -90,37 +90,48 @@ export const getBuildConfigurations = (projectPath: string) => ({
     extractCss: true,
     namedChunks: true,
     vendorChunk: false,
-    buildOptimizer: true
-  }
+    buildOptimizer: true,
+  },
 });
 
 export const getServeConfigurations = (project: string) => ({
   e2e: {
-    browserTarget: `${project}:build:e2e`
+    browserTarget: `${project}:build:e2e`,
   },
   prod: {
-    browserTarget: `${project}:build:prod`
-  }
+    browserTarget: `${project}:build:prod`,
+  },
 });
 
 export const getE2eConfigurations = (project: string) => ({
   e2e: {
-    devServerTarget: `${project}:serve:e2e`
+    devServerTarget: `${project}:serve:e2e`,
   },
   prod: {
-    devServerTarget: `${project}:serve:prod`
-  }
+    devServerTarget: `${project}:serve:prod`,
+  },
+});
+
+export const getStandardVersionConfigurations = (projectPath: string) => ({
+  builder: `@nrwl/workspace:run-commands`,
+  options: {
+    commands: [
+      {
+        command: `cd ${projectPath} && npx standard-version --no-verify`,
+      },
+    ],
+  },
 });
 
 export const getCypressReportConfiguration = (project: string) => ({
   reporter: 'junit',
   reporterOptions: {
     mochaFile: `../../dist/cypress/apps/${project}-e2e/junit/cypress-report.xml`,
-    toConsole: false
-  }
+    toConsole: false,
+  },
 });
 
 export const getTsLintRules = (name: string) => ({
   'directive-selector': [true, 'attribute', name, 'camelCase'],
-  'component-selector': [true, 'element', name, 'kebab-case']
+  'component-selector': [true, 'element', name, 'kebab-case'],
 });

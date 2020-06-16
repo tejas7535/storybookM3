@@ -3,11 +3,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -20,6 +22,7 @@ import { StoreModule } from './store/store.module';
     RouterModule,
 
     // UI Modules
+    FooterModule,
     HeaderModule,
     MatButtonModule,
 
@@ -30,8 +33,11 @@ import { StoreModule } from './store/store.module';
       'en', // default -> undefined would lead to browser detection
       'en',
       true
-    )
+    ),
+
+    // HTTP
+    HttpModule.forRoot({ environment }),
   ],
-  exports: [AppComponent]
+  exports: [AppComponent],
 })
 export class CoreModule {}

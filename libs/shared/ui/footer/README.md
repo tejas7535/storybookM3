@@ -2,7 +2,7 @@
 Import into your project like:
 
 ```typescript
-// app.modules.ts
+// app.modules.ts or core.modules.ts
 
 import { FooterModule } from '@schaeffler/footer';
 
@@ -16,7 +16,7 @@ import { FooterModule } from '@schaeffler/footer';
 })
 ```
 
-API of FileDrop Component:
+API of Footer Component:
 
 ```typescript
   @Input() public footerLinks: FooterLink[];

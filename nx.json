@@ -158,6 +158,14 @@
     "shared-ui-settings-sidebar-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-settings-sidebar"]
+    },
+    "goldwind": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "goldwind-e2e": {
+      "tags": [],
+      "implicitDependencies": ["goldwind"]
     }
   },
   "tasksRunnerOptions": {

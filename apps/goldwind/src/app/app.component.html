@@ -1,0 +1,15 @@
+<schaeffler-header [platformTitle]="title" class="full-height">
+  <schaeffler-user-menu
+    user-menu
+    [user]="username"
+    [entries]="userMenuEntries"
+  ></schaeffler-user-menu>
+  <div class="page-container">
+    <div class="site-content">
+      <div class="router-content">
+        <router-outlet></router-outlet>
+      </div>
+      <schaeffler-footer></schaeffler-footer>
+    </div>
+  </div>
+</schaeffler-header>

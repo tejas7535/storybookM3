@@ -27,6 +27,7 @@ import {
   getCypressReportConfiguration,
   getE2eConfigurations,
   getServeConfigurations,
+  getStandardVersionConfigurations,
   getTsLintRules,
 } from './config';
 import { NewAppSchematicSchema } from './schema';
@@ -169,6 +170,12 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
       // adjust e2e configurations
       const e2eConfiguration = workspace.projects.get(
         `${options.projectName}-e2e`
+      );
+
+      // add standard-version configuration
+      appConfiguration.targets.set(
+        'standard-version',
+        getStandardVersionConfigurations(`${options.projectRoot}`)
       );
 
       e2eConfiguration.targets.get('e2e').configurations = getE2eConfigurations(
