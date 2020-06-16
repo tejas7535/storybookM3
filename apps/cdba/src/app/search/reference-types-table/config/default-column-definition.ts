@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from '@ag-grid-community/core';
 
 export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   sortable: true,

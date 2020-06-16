@@ -1,5 +1,5 @@
-@import '~@ag-grid-enterprise/all-modules/dist/styles/ag-grid.scss';
-@import '~@ag-grid-enterprise/all-modules/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
 
 .ag-theme-material {
   @include ag-theme-material();

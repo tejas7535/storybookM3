@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
-  AllModules,
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
@@ -9,7 +9,16 @@ import {
   SideBarDef,
   SortChangedEvent,
   StatusPanelDef,
-} from '@ag-grid-enterprise/all-modules';
+} from '@ag-grid-community/core';
+import { ClipboardModule } from '@ag-grid-enterprise/clipboard';
+import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel';
+import { FiltersToolPanelModule } from '@ag-grid-enterprise/filter-tool-panel';
+import { MenuModule } from '@ag-grid-enterprise/menu';
+import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
+import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
+import { SetFilterModule } from '@ag-grid-enterprise/set-filter';
+import { SideBarModule } from '@ag-grid-enterprise/side-bar';
+import { StatusBarModule } from '@ag-grid-enterprise/status-bar';
 import { translate } from '@ngneat/transloco';
 
 import { ReferenceType } from '../../core/store/reducers/search/models';
@@ -33,7 +42,18 @@ import { DetailViewButtonComponent } from './status-bar/detail-view-button/detai
 export class ReferenceTypesTableComponent implements OnInit {
   private static readonly TABLE_KEY = 'referenceTypes';
 
-  public modules = AllModules;
+  public modules = [
+    ClientSideRowModelModule,
+    FiltersToolPanelModule,
+    ColumnsToolPanelModule,
+    MenuModule,
+    RangeSelectionModule,
+    RowGroupingModule,
+    StatusBarModule,
+    ClipboardModule,
+    SetFilterModule,
+    SideBarModule,
+  ];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = [];

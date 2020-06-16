@@ -1,5 +1,5 @@
 // tslint:disable:max-file-line-count
-import { ColDef } from '@ag-grid-enterprise/all-modules';
+import { ColDef } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 
 import {
