@@ -31,10 +31,10 @@ apps/steel-e2e @krausrbe
 apps/cdba @kauppfbi @herpisef
 apps/cdba-e2e @kauppfbi @herpisef
 
+# GOLDWIND
+apps/goldwind @krausrbe 
+apps/goldwind-e2e @krausrbe 
+
 ############
 ### Libs ###
 ############
-
-
-
-

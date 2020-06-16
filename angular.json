@@ -2621,6 +2621,216 @@
           }
         }
       }
+    },
+    "goldwind": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/goldwind",
+      "sourceRoot": "apps/goldwind/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/goldwind",
+            "index": "apps/goldwind/src/index.html",
+            "main": "apps/goldwind/src/main.ts",
+            "polyfills": "apps/goldwind/src/polyfills.ts",
+            "tsConfig": "apps/goldwind/tsconfig.app.json",
+            "aot": true,
+            "assets": [
+              "apps/goldwind/src/favicon.ico",
+              "apps/goldwind/src/assets"
+            ],
+            "styles": [
+              "apps/goldwind/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/goldwind/src/environments/environment.ts",
+                  "with": "apps/goldwind/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/goldwind/src/environments/environment.ts",
+                  "with": "apps/goldwind/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/goldwind/src/environments/environment.ts",
+                  "with": "apps/goldwind/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "goldwind:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "goldwind:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "goldwind:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "goldwind:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/goldwind/tsconfig.app.json",
+              "apps/goldwind/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/goldwind/**"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/goldwind/jest.config.js",
+            "tsConfig": "apps/goldwind/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/goldwind/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/goldwind && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "goldwind-e2e": {
+      "root": "apps/goldwind-e2e",
+      "sourceRoot": "apps/goldwind-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/goldwind-e2e/cypress.json",
+            "tsConfig": "apps/goldwind-e2e/tsconfig.e2e.json",
+            "devServerTarget": "goldwind:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "goldwind:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "goldwind:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/goldwind-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/goldwind-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

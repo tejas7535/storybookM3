@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -20,10 +21,11 @@ describe('AppComponent', () => {
         NoopAnimationsModule,
         HeaderModule,
         MatButtonModule,
-        RouterTestingModule
+        RouterTestingModule,
+        FooterModule,
       ],
       providers: [provideMockStore()],
-      declarations: [AppComponent]
+      declarations: [AppComponent],
     });
   });
 
