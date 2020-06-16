@@ -159,7 +159,7 @@
               "apps/kitchen-sink/tsconfig.app.json",
               "apps/kitchen-sink/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/kitchen-sink/**"]
+            "exclude": ["**/node_modules/**", "!apps/kitchen-sink/**/*"]
           }
         },
         "test": {
@@ -208,7 +208,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/kitchen-sink-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/kitchen-sink-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/kitchen-sink-e2e/**/*"]
           }
         }
       }
@@ -223,7 +223,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["libs/shared/styles/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**", "!libs/shared/styles/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/styles/**/*"]
           }
         },
         "standard-version": {
@@ -399,7 +399,7 @@
               "apps/sta/tsconfig.app.json",
               "apps/sta/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/sta/**"]
+            "exclude": ["**/node_modules/**", "!apps/sta/**/*"]
           }
         },
         "test": {
@@ -448,7 +448,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/sta-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/sta-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/sta-e2e/**/*"]
           }
         }
       }
@@ -466,7 +466,7 @@
               "libs/shared/cypress-utils/tsconfig.lib.json",
               "libs/shared/cypress-utils/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/cypress-utils/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/cypress-utils/**/*"]
           }
         },
         "standard-version": {
@@ -495,7 +495,7 @@
               "libs/shared/empty-states/tsconfig.lib.json",
               "libs/shared/empty-states/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/empty-states/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/empty-states/**/*"]
           }
         },
         "test": {
@@ -705,7 +705,7 @@
               "apps/ltp/tsconfig.app.json",
               "apps/ltp/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/ltp/**"]
+            "exclude": ["**/node_modules/**", "!apps/ltp/**/*"]
           }
         },
         "test": {
@@ -754,7 +754,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/ltp-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/ltp-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/ltp-e2e/**/*"]
           }
         }
       }
@@ -917,7 +917,7 @@
               "apps/steel/tsconfig.app.json",
               "apps/steel/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/steel/**"]
+            "exclude": ["**/node_modules/**", "!apps/steel/**/*"]
           }
         },
         "test": {
@@ -966,7 +966,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/steel-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/steel-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/steel-e2e/**/*"]
           }
         }
       }
@@ -981,7 +981,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["libs/shared/assets/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**", "!libs/shared/assets/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/assets/**/*"]
           }
         },
         "standard-version": {
@@ -1152,7 +1152,7 @@
               "apps/helloworld-azure/tsconfig.app.json",
               "apps/helloworld-azure/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/helloworld-azure/**"]
+            "exclude": ["**/node_modules/**", "!apps/helloworld-azure/**/*"]
           }
         },
         "test": {
@@ -1201,7 +1201,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/helloworld-azure-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/helloworld-azure-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/helloworld-azure-e2e/**/*"]
           }
         }
       }
@@ -1360,7 +1360,7 @@
               "apps/cdba/tsconfig.app.json",
               "apps/cdba/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!apps/cdba/**"]
+            "exclude": ["**/node_modules/**", "!apps/cdba/**/*"]
           }
         },
         "test": {
@@ -1409,7 +1409,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/cdba-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/cdba-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/cdba-e2e/**/*"]
           }
         }
       }
@@ -1438,7 +1438,7 @@
             "tsConfig": ["apps/shared-empty-states-e2e/tsconfig.e2e.json"],
             "exclude": [
               "**/node_modules/**",
-              "!apps/shared-empty-states-e2e/**"
+              "!apps/shared-empty-states-e2e/**/*"
             ]
           }
         }
@@ -1457,7 +1457,7 @@
               "libs/shared/auth/tsconfig.lib.json",
               "libs/shared/auth/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/auth/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/auth/**/*"]
           }
         },
         "test": {
@@ -1506,7 +1506,7 @@
               "libs/shared/ui/header/tsconfig.lib.json",
               "libs/shared/ui/header/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/header/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/header/**/*"]
           }
         },
         "test": {
@@ -1587,7 +1587,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/shared/utils/responsive/**"
+              "!libs/shared/utils/responsive/**/*"
             ]
           }
         },
@@ -1639,7 +1639,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/shared-ui-header-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-header-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/shared-ui-header-e2e/**/*"]
           }
         }
       }
@@ -1664,7 +1664,10 @@
               "libs/shared/utils/transloco/tsconfig.lib.json",
               "libs/shared/utils/transloco/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/utils/transloco/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/transloco/**/*"
+            ]
           }
         },
         "test": {
@@ -1713,7 +1716,7 @@
               "libs/shared/ui/sidebar/tsconfig.lib.json",
               "libs/shared/ui/sidebar/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/sidebar/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/sidebar/**/*"]
           }
         },
         "test": {
@@ -1792,7 +1795,7 @@
               "libs/shared/ui/icons/tsconfig.lib.json",
               "libs/shared/ui/icons/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/icons/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/icons/**/*"]
           }
         },
         "test": {
@@ -1843,7 +1846,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/shared-ui-sidebar-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-sidebar-e2e/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/shared-ui-sidebar-e2e/**/*"
+            ]
           }
         }
       }
@@ -1868,7 +1874,7 @@
               "libs/shared/ui/footer/tsconfig.lib.json",
               "libs/shared/ui/footer/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/footer/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/footer/**/*"]
           }
         },
         "test": {
@@ -1949,7 +1955,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/shared-ui-footer-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-footer-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/shared-ui-footer-e2e/**/*"]
           }
         }
       }
@@ -1974,7 +1980,7 @@
               "libs/shared/ui/file-drop/tsconfig.lib.json",
               "libs/shared/ui/file-drop/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/file-drop/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/file-drop/**/*"]
           }
         },
         "test": {
@@ -2057,7 +2063,7 @@
             "tsConfig": ["apps/shared-ui-file-drop-e2e/tsconfig.e2e.json"],
             "exclude": [
               "**/node_modules/**",
-              "!apps/shared-ui-file-drop-e2e/**"
+              "!apps/shared-ui-file-drop-e2e/**/*"
             ]
           }
         }
@@ -2083,7 +2089,7 @@
               "libs/shared/ui/snackbar/tsconfig.lib.json",
               "libs/shared/ui/snackbar/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/snackbar/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/snackbar/**/*"]
           }
         },
         "test": {
@@ -2164,7 +2170,10 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/shared-ui-snackbar-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-snackbar-e2e/**"]
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/shared-ui-snackbar-e2e/**/*"
+            ]
           }
         }
       }
@@ -2191,7 +2200,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/shared/ui/scroll-to-top/**"
+              "!libs/shared/ui/scroll-to-top/**/*"
             ]
           }
         },
@@ -2275,7 +2284,7 @@
             "tsConfig": ["apps/shared-ui-scroll-to-top-e2e/tsconfig.e2e.json"],
             "exclude": [
               "**/node_modules/**",
-              "!apps/shared-ui-scroll-to-top-e2e/**"
+              "!apps/shared-ui-scroll-to-top-e2e/**/*"
             ]
           }
         }
@@ -2303,7 +2312,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/shared/ui/speed-dial-fab/**"
+              "!libs/shared/ui/speed-dial-fab/**/*"
             ]
           }
         },
@@ -2387,7 +2396,7 @@
             "tsConfig": ["apps/shared-ui-speed-dial-fab-e2e/tsconfig.e2e.json"],
             "exclude": [
               "**/node_modules/**",
-              "!apps/shared-ui-speed-dial-fab-e2e/**"
+              "!apps/shared-ui-speed-dial-fab-e2e/**/*"
             ]
           }
         }
@@ -2413,7 +2422,7 @@
               "libs/shared/ui/banner/tsconfig.lib.json",
               "libs/shared/ui/banner/tsconfig.spec.json"
             ],
-            "exclude": ["**/node_modules/**", "!libs/shared/ui/banner/**"]
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/banner/**/*"]
           }
         },
         "test": {
@@ -2494,7 +2503,7 @@
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
             "tsConfig": ["apps/shared-ui-banner-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-banner-e2e/**"]
+            "exclude": ["**/node_modules/**", "!apps/shared-ui-banner-e2e/**/*"]
           }
         }
       }
@@ -2521,7 +2530,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!libs/shared/ui/settings-sidebar/**"
+              "!libs/shared/ui/settings-sidebar/**/*"
             ]
           }
         },
@@ -2607,7 +2616,7 @@
             ],
             "exclude": [
               "**/node_modules/**",
-              "!apps/shared-ui-settings-sidebar-e2e/**"
+              "!apps/shared-ui-settings-sidebar-e2e/**/*"
             ]
           }
         }
