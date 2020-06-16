@@ -6,7 +6,7 @@
     "url": "https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend.git"
   },
   "scripts": {
-    "ng": "ng",
+    "ng": "nx",
     "nx": "nx",
     "start": "ng serve",
     "build": "ng build",
@@ -39,7 +39,7 @@
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
-    "postinstall": "npm run ngcc && npm run generate-readme && npm run version",
+    "postinstall": "npm run ngcc && npm run generate-readme && npm run version && node ./decorate-angular-cli.js",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
     "ngcc": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
@@ -104,13 +104,13 @@
     "@ngneat/transloco-keys-manager": "2.0.7",
     "@ngneat/transloco-optimize": "1.0.1",
     "@ngneat/transloco-validator": "1.0.0",
-    "@nrwl/angular": "9.3.0",
+    "@nrwl/angular": "9.4.0",
     "@nrwl/cli": "9.3.0",
-    "@nrwl/cypress": "9.3.0",
-    "@nrwl/jest": "9.3.0",
+    "@nrwl/cypress": "9.4.0",
+    "@nrwl/jest": "9.4.0",
     "@ngrx/store-devtools": "9.2.0",
-    "@nrwl/storybook": "9.3.0",
-    "@nrwl/workspace": "9.3.0",
+    "@nrwl/storybook": "9.4.0",
+    "@nrwl/workspace": "9.4.0",
     "@storybook/addon-a11y": "5.3.19",
     "@storybook/addon-actions": "5.3.19",
     "@storybook/addon-knobs": "5.3.19",
@@ -160,7 +160,8 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.8.3",
-    "webpack-bundle-analyzer": "3.8.0"
+    "webpack-bundle-analyzer": "3.8.0",
+    "eslint-plugin-cypress": "2.10.3"
   },
   "config": {
     "commitizen": {
