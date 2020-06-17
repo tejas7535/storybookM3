@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
+import READMEMd from '../../README.md';
 import { SpeedDialFabComponent } from './speed-dial-fab.component';
 import { SpeedDialFabModule } from './speed-dial-fab.module';
 
@@ -25,6 +26,9 @@ const baseComponent = {
 // tslint:disable-next-line: no-default-export
 export default {
   title: 'SpeedDialFabButton',
+  parameters: {
+    notes: { markdown: READMEMd },
+  },
 };
 
 export const primary = () => ({
