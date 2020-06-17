@@ -1,5 +1,8 @@
 {
   "search": {
+    "tooManyResults": "Too many results.",
+    "tooManyEntriesInDatabase": "We found too many entries in our Database.",
+    "useFilter": "Please use filters to reduce the number of results.",
     "filterPanel": {
       "open": "open filter panel",
       "collapse": "collapse filter panel"
