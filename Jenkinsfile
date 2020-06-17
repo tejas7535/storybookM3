@@ -10,10 +10,10 @@ def rtServer = Artifactory.server('artifactory.schaeffler.com')
 def gitEnv
 
 def builds 
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
-def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
@@ -568,7 +568,7 @@ pipeline {
         stage('Deploy') {
             when {
                 expression {
-                    return !skipBuild && (isMaster() || isRelease()) && !isNightly()
+                    return !skipBuild && !isNightly()
                 }
             }
             failFast true
@@ -598,13 +598,22 @@ pipeline {
                                                 }
                                             ]
                                         }"""
-                                    } else {
-                                         uploadSpec = """{
+                                    } else if (isRelease()) {
+                                        uploadSpec = """{
                                             "files": [
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
                                                     "target": "${artifactoryBasePath}/${app}/latest.zip"
                                                 },
+                                                {
+                                                    "pattern": "dist/zips/${app}/next.zip",
+                                                    "target": "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
+                                                }
+                                            ]
+                                        }"""
+                                    } else {
+                                        uploadSpec = """{
+                                            "files": [
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
                                                     "target": "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
@@ -710,7 +719,7 @@ pipeline {
         stage('Trigger Deployments'){
             when {
                 expression {
-                    return !skipBuild && !isNightly() && (isMaster() || isRelease())
+                    return !skipBuild && !isNightly()
                 }
             }
             steps {
