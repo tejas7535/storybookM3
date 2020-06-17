@@ -5,3 +5,34 @@
 .container {
   height: 100%;
 }
+
+.too-many-results-group {
+  margin-bottom: 48px !important;
+  margin-top: 48px;
+}
+
+.too-many-results {
+  color: rgba(0, 0, 0, 0.87);
+  font-family: Arial;
+  font-size: 34px;
+  font-weight: 500;
+  height: 48px;
+  letter-spacing: 0.25px;
+  line-height: 40px;
+  margin: 0 !important;
+  text-align: center;
+  width: 640px;
+}
+
+.we-found-too-many-en {
+  color: rgba(0, 0, 0, 0.6);
+  font-family: Arial;
+  font-size: 20px;
+  font-weight: 600;
+  height: 48px;
+  letter-spacing: 0.25px;
+  line-height: 24px;
+  margin: 0 !important;
+  text-align: center;
+  width: 640px;
+}
