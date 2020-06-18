@@ -1,17 +1,50 @@
+import { APP_BASE_HREF, CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
+
 import { text } from '@storybook/addon-knobs';
 
+import README from '../../README.md';
 import { FooterComponent } from './footer.component';
+import { FooterModule } from './footer.module';
+
+const moduleMetadata = {
+  imports: [
+    CommonModule,
+    FooterModule,
+    RouterModule.forRoot([{ path: '**', redirectTo: '/', pathMatch: 'full' }]),
+  ],
+  providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
+};
+
+const baseComponent = {
+  moduleMetadata,
+  component: FooterComponent,
+};
 
 export default {
   title: 'FooterComponent',
+  parameters: {
+    notes: { markdown: README },
+  },
 };
 
+const externalGroupId = 'External Link';
+const internalGroupId = 'Internal Link';
+
 export const primary = () => ({
-  moduleMetadata: {
-    imports: [],
-  },
-  component: FooterComponent,
+  ...baseComponent,
   props: {
-    footerLinks: text('footerLinks'),
+    footerLinks: [
+      {
+        link: text('link', '/data-security', internalGroupId),
+        title: text('title', 'Data Security', internalGroupId),
+        external: false,
+      },
+      {
+        link: text('link', 'https://www.schaeffler.com', externalGroupId),
+        title: text('title', 'Schaefffler Homepage', externalGroupId),
+        external: true,
+      },
+    ],
   },
 });
