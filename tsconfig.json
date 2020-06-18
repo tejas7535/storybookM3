@@ -57,5 +57,6 @@
     "resolveJsonModule": true,
     "esModuleInterop": true
   },
-  "exclude": ["node_modules", "tmp"]
+  "exclude": ["node_modules", "tmp"],
+  "files": ["./.storybook/typings.d.ts"]
 }
