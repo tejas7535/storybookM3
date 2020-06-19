@@ -3,6 +3,7 @@ import { ColDef } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 
 import {
+  columnDefinitionToReferenceTypeProp,
   currentYear,
   formatDate,
   formatNumber,
@@ -12,7 +13,7 @@ import {
 
 export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   materialDesignation: {
-    field: 'materialDesignation',
+    field: columnDefinitionToReferenceTypeProp('materialDesignation'),
     headerName: translate(
       'search.referenceTypesTable.headers.materialDesignation'
     ),
@@ -22,28 +23,28 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     checkboxSelection: true,
   },
   materialNumber: {
-    field: 'materialNumber',
+    field: columnDefinitionToReferenceTypeProp('materialNumber'),
     headerName: translate('search.referenceTypesTable.headers.materialNumber'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.materialNumber'
     ),
   },
   pcmQuantity: {
-    field: 'pcmQuantity',
+    field: columnDefinitionToReferenceTypeProp('pcmQuantity'),
     headerName: translate('search.referenceTypesTable.headers.pcmQuantity'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.pcmQuantity'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   pcmSqv: {
-    field: 'pcmSqv',
+    field: columnDefinitionToReferenceTypeProp('pcmSqv'),
     headerName: translate('search.referenceTypesTable.headers.pcmSqv'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.pcmSqv'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   budgetQuantityCurrentYear: {
-    field: 'budgetQuantityCurrentYear',
+    field: columnDefinitionToReferenceTypeProp('budgetQuantityCurrentYear'),
     headerName: translate('search.referenceTypesTable.headers.budgetQuantity', {
       year: currentYear,
     }),
@@ -55,7 +56,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     valueFormatter: formatNumber,
   },
   sqvSapLatestMonth: {
-    field: 'sqvSapLatestMonth',
+    field: columnDefinitionToReferenceTypeProp('sqvSapLatestMonth'),
     headerName: translate(
       'search.referenceTypesTable.headers.sqvSapLatestMonth'
     ),
@@ -66,7 +67,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     valueFormatter: formatNumber,
   },
   gpcLatestYear: {
-    field: 'gpcLatestYear',
+    field: columnDefinitionToReferenceTypeProp('gpcLatestYear'),
     headerName: translate('search.referenceTypesTable.headers.gpcLatestYear', {
       year: currentYear,
     }),
@@ -86,32 +87,37 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     }),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
-    valueGetter: (params) => valueGetterArray(params, 'averagePrices', 0),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('averagePrices'),
+        0
+      ),
   },
   currency: {
-    field: 'currency',
+    field: columnDefinitionToReferenceTypeProp('currency'),
     headerName: translate('search.referenceTypesTable.headers.currency'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.currency'),
   },
   puUm: {
-    field: 'puUm',
+    field: columnDefinitionToReferenceTypeProp('puUm'),
     headerName: translate('search.referenceTypesTable.headers.puUm'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.puUm'),
   },
   procurementType: {
-    field: 'procurementType',
+    field: columnDefinitionToReferenceTypeProp('procurementType'),
     headerName: translate('search.referenceTypesTable.headers.procurementType'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.procurementType'
     ),
   },
   plant: {
-    field: 'plant',
+    field: columnDefinitionToReferenceTypeProp('plant'),
     headerName: translate('search.referenceTypesTable.headers.plant'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.plant'),
   },
   salesOrganization: {
-    field: 'salesOrganization',
+    field: columnDefinitionToReferenceTypeProp('salesOrganization'),
     headerName: translate(
       'search.referenceTypesTable.headers.salesOrganization'
     ),
@@ -120,7 +126,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     ),
   },
   customerGroup: {
-    field: 'customerGroup',
+    field: columnDefinitionToReferenceTypeProp('customerGroup'),
     headerName: translate('search.referenceTypesTable.headers.customerGroup'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.customerGroup'
@@ -134,7 +140,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.actualQuantity'
     ),
-    valueGetter: (params) => valueGetterArray(params, 'actualQuantities', 0),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('actualQuantities'),
+        0
+      ),
     valueFormatter: formatNumber,
   },
   actualQuantityLastYearMinus1: {
@@ -145,7 +156,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.actualQuantity'
     ),
-    valueGetter: (params) => valueGetterArray(params, 'actualQuantities', 1),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('actualQuantities'),
+        1
+      ),
     valueFormatter: formatNumber,
   },
   actualQuantityLastYearMinus2: {
@@ -156,7 +172,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.actualQuantity'
     ),
-    valueGetter: (params) => valueGetterArray(params, 'actualQuantities', 2),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('actualQuantities'),
+        2
+      ),
     valueFormatter: formatNumber,
   },
   actualQuantityLastYearMinus3: {
@@ -167,7 +188,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.actualQuantity'
     ),
-    valueGetter: (params) => valueGetterArray(params, 'actualQuantities', 3),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('actualQuantities'),
+        3
+      ),
     valueFormatter: formatNumber,
   },
   netSalesLastYear: {
@@ -178,7 +204,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate('search.referenceTypesTable.tooltips.netSales', {
       year: currentYear - 1,
     }),
-    valueGetter: (params) => valueGetterArray(params, 'netSales', 0),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('netSales'),
+        0
+      ),
     valueFormatter: formatNumber,
   },
 
@@ -191,7 +222,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate('search.referenceTypesTable.tooltips.netSales', {
       year: currentYear - 2,
     }),
-    valueGetter: (params) => valueGetterArray(params, 'netSales', 1),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('netSales'),
+        1
+      ),
   },
   netSalesLastYearMinus2: {
     filter: 'agNumberColumnFilter',
@@ -202,7 +238,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate('search.referenceTypesTable.tooltips.netSales', {
       year: currentYear - 3,
     }),
-    valueGetter: (params) => valueGetterArray(params, 'netSales', 2),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('netSales'),
+        2
+      ),
   },
   netSalesLastYearMinus3: {
     filter: 'agNumberColumnFilter',
@@ -213,12 +254,17 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate('search.referenceTypesTable.tooltips.netSales', {
       year: currentYear - 4,
     }),
-    valueGetter: (params) => valueGetterArray(params, 'netSales', 3),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('netSales'),
+        3
+      ),
   },
   budgetQuantitySoco: {
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
-    field: 'budgetQuantitySoco',
+    field: columnDefinitionToReferenceTypeProp('budgetQuantitySoco'),
     headerName: translate(
       'search.referenceTypesTable.headers.budgetQuantitySoco',
       { year: currentYear }
@@ -239,7 +285,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       'search.referenceTypesTable.tooltips.plannedQuantity'
     ),
     filter: 'agNumberColumnFilter',
-    valueGetter: (params) => valueGetterArray(params, 'plannedQuantities', 0),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('plannedQuantities'),
+        0
+      ),
     valueFormatter: formatNumber,
   },
   plannedQuantityCurrentYearPlus1: {
@@ -253,7 +304,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       'search.referenceTypesTable.tooltips.plannedQuantity'
     ),
     filter: 'agNumberColumnFilter',
-    valueGetter: (params) => valueGetterArray(params, 'plannedQuantities', 1),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('plannedQuantities'),
+        1
+      ),
     valueFormatter: formatNumber,
   },
   plannedQuantityCurrentYearPlus2: {
@@ -267,7 +323,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       'search.referenceTypesTable.tooltips.plannedQuantity'
     ),
     filter: 'agNumberColumnFilter',
-    valueGetter: (params) => valueGetterArray(params, 'plannedQuantities', 2),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('plannedQuantities'),
+        2
+      ),
     valueFormatter: formatNumber,
   },
   plannedQuantityCurrentYearPlus3: {
@@ -281,16 +342,21 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       'search.referenceTypesTable.tooltips.plannedQuantity'
     ),
     filter: 'agNumberColumnFilter',
-    valueGetter: (params) => valueGetterArray(params, 'plannedQuantities', 3),
+    valueGetter: (params) =>
+      valueGetterArray(
+        params,
+        columnDefinitionToReferenceTypeProp('plannedQuantities'),
+        3
+      ),
     valueFormatter: formatNumber,
   },
   projectName: {
-    field: 'projectName',
+    field: columnDefinitionToReferenceTypeProp('projectName'),
     headerName: translate('search.referenceTypesTable.headers.projectName'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.projectName'),
   },
   productDescription: {
-    field: 'productDescription',
+    field: columnDefinitionToReferenceTypeProp('productDescription'),
     headerName: translate(
       'search.referenceTypesTable.headers.productDescription'
     ),
@@ -299,7 +365,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     ),
   },
   msd: {
-    field: 'materialShortDescription',
+    field: columnDefinitionToReferenceTypeProp('materialShortDescription'),
     headerName: translate(
       'search.referenceTypesTable.headers.materialShortDescription'
     ),
@@ -308,86 +374,86 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     ),
   },
   productLine: {
-    field: 'productLine',
+    field: columnDefinitionToReferenceTypeProp('productLine'),
     headerName: translate('search.referenceTypesTable.headers.productLine'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.productLine'),
   },
   inquiryType: {
-    field: 'inquiryType',
+    field: columnDefinitionToReferenceTypeProp('inquiryType'),
     headerName: translate('search.referenceTypesTable.headers.inquiryType'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.inquiryType'),
   },
   length: {
-    field: 'length',
+    field: columnDefinitionToReferenceTypeProp('length'),
     headerName: translate('search.referenceTypesTable.headers.length'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.length'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   width: {
-    field: 'width',
+    field: columnDefinitionToReferenceTypeProp('width'),
     headerName: translate('search.referenceTypesTable.headers.width'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.width'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   height: {
-    field: 'height',
+    field: columnDefinitionToReferenceTypeProp('height'),
     headerName: translate('search.referenceTypesTable.headers.height'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.height'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   unitOfDimension: {
-    field: 'unitOfDimension',
+    field: columnDefinitionToReferenceTypeProp('unitOfDimension'),
     headerName: translate('search.referenceTypesTable.headers.unitOfDimension'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.unitOfDimension'
     ),
   },
   weight: {
-    field: 'weight',
+    field: columnDefinitionToReferenceTypeProp('weight'),
     headerName: translate('search.referenceTypesTable.headers.weight'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.weight'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   weightUnit: {
-    field: 'weightUnit',
+    field: columnDefinitionToReferenceTypeProp('weightUnit'),
     headerName: translate('search.referenceTypesTable.headers.weightUnit'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.weightUnit'),
   },
   volumeCubic: {
-    field: 'volumeCubic',
+    field: columnDefinitionToReferenceTypeProp('volumeCubic'),
     headerName: translate('search.referenceTypesTable.headers.volumeCubic'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.volumeCubic'),
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
   },
   volumeUnit: {
-    field: 'volumeUnit',
+    field: columnDefinitionToReferenceTypeProp('volumeUnit'),
     headerName: translate('search.referenceTypesTable.headers.volumeUnit'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.volumeUnit'),
   },
   customer: {
-    field: 'customer',
+    field: columnDefinitionToReferenceTypeProp('customer'),
     headerName: translate('search.referenceTypesTable.headers.customer'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.customer'),
   },
   rfq: {
-    field: 'rfq',
+    field: columnDefinitionToReferenceTypeProp('rfq'),
     headerName: translate('search.referenceTypesTable.headers.rfq'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.rfq'),
   },
   quotationNumber: {
-    field: 'quotationNumber',
+    field: columnDefinitionToReferenceTypeProp('quotationNumber'),
     headerName: translate('search.referenceTypesTable.headers.quotationNumber'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.quotationNumber'
     ),
   },
   toolingCost: {
-    field: 'toolingCost',
+    field: columnDefinitionToReferenceTypeProp('toolingCost'),
     headerName: translate('search.referenceTypesTable.headers.toolingCost'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.toolingCost'),
     filter: 'agNumberColumnFilter',
@@ -401,11 +467,15 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.pcmCalculationDate'
     ),
-    valueGetter: (params) => valueGetterDate(params, 'pcmCalculationDate'),
+    valueGetter: (params) =>
+      valueGetterDate(
+        params,
+        columnDefinitionToReferenceTypeProp('pcmCalculationDate')
+      ),
     valueFormatter: formatDate,
   },
   saleableItem: {
-    field: 'saleableItem',
+    field: columnDefinitionToReferenceTypeProp('saleableItem'),
     headerName: translate('search.referenceTypesTable.headers.saleableItem'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.saleableItem'
@@ -417,18 +487,20 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate('search.referenceTypesTable.tooltips.gpcDate', {
       year: currentYear,
     }),
-    valueGetter: (params) => valueGetterDate(params, 'gpcDate'),
+    valueGetter: (params) =>
+      valueGetterDate(params, columnDefinitionToReferenceTypeProp('gpcDate')),
     valueFormatter: formatDate,
   },
   sqvDate: {
     filter: 'agDateColumnFilter',
     headerName: translate('search.referenceTypesTable.headers.sqvDate'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.sqvDate'),
-    valueGetter: (params) => valueGetterDate(params, 'sqvDate'),
+    valueGetter: (params) =>
+      valueGetterDate(params, columnDefinitionToReferenceTypeProp('sqvDate')),
     valueFormatter: formatDate,
   },
   specialProcurement: {
-    field: 'specialProcurement',
+    field: columnDefinitionToReferenceTypeProp('specialProcurement'),
     headerName: translate(
       'search.referenceTypesTable.headers.specialProcurement'
     ),
@@ -437,7 +509,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     ),
   },
   supplier: {
-    field: 'supplier',
+    field: columnDefinitionToReferenceTypeProp('supplier'),
     headerName: translate('search.referenceTypesTable.headers.supplier'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.supplier'),
   },
@@ -449,7 +521,11 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.purchasePriceValidFrom'
     ),
-    valueGetter: (params) => valueGetterDate(params, 'purchasePriceValidFrom'),
+    valueGetter: (params) =>
+      valueGetterDate(
+        params,
+        columnDefinitionToReferenceTypeProp('purchasePriceValidFrom')
+      ),
     valueFormatter: formatDate,
   },
   purchasePriceValidUntil: {
@@ -460,7 +536,11 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.purchasePriceValidUntil'
     ),
-    valueGetter: (params) => valueGetterDate(params, 'purchasePriceValidUntil'),
+    valueGetter: (params) =>
+      valueGetterDate(
+        params,
+        columnDefinitionToReferenceTypeProp('purchasePriceValidUntil')
+      ),
     valueFormatter: formatDate,
   },
 };

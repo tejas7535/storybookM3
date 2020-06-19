@@ -1,3 +1,4 @@
+import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -16,9 +17,12 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
+import { REFRENCE_TYPE_MOCK } from '../../../testing/mocks/reference-type.mock';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { SharedModule } from '../../shared/shared.module';
 import { ColumnState } from './column-state';
+import { COLUMN_DEFINITIONS } from './config';
+import { columnDefinitionToReferenceTypeProp } from './config/column-utils';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 import { DetailViewButtonComponent } from './status-bar/detail-view-button/detail-view-button.component';
 
@@ -69,22 +73,76 @@ describe('ReferenceTypesTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    it('should call getColumnState && getSortState of stateService', () => {
+  describe('getUpdatedDefaultColumnDefinitions', () => {
+    it('should only contain columns that are part of provided update', () => {
+      const mock = { ...REFRENCE_TYPE_MOCK };
+      const update = [mock];
+
+      // delete two props
+      delete mock.netSales;
+      delete mock.productLine;
+
+      const result = ReferenceTypesTableComponent[
+        'getUpdatedDefaultColumnDefinitions'
+      ](update);
+
+      let size: any[] = [];
+
+      Object.keys(mock).forEach((key: string) => {
+        size = [...size, key];
+      });
+
+      const mapDefaultColumnDefinitions = new Map<string, string>();
+      Object.keys(COLUMN_DEFINITIONS).forEach((key: string) => {
+        mapDefaultColumnDefinitions.set(
+          columnDefinitionToReferenceTypeProp(key),
+          key
+        );
+      });
+
+      expect(Object.keys(result).length).toBeGreaterThanOrEqual(size.length);
+      size.forEach((elem: string) => {
+        if (!result[mapDefaultColumnDefinitions.get(elem)]) {
+          expect(Object.keys(COLUMN_DEFINITIONS).includes(elem)).toBeFalsy();
+        } else {
+          expect(result[mapDefaultColumnDefinitions.get(elem)]).toBeDefined();
+        }
+      });
+    });
+  });
+
+  describe('ngOnChanges', () => {
+    beforeEach(() => {
+      ReferenceTypesTableComponent[
+        'getUpdatedDefaultColumnDefinitions'
+      ] = jest.fn(() => ({}));
+      component['setColumnDefinitions'] = jest.fn();
+    });
+
+    it('should set column definitions when rowData changes', () => {
+      const change = { rowData: new SimpleChange(undefined, [], true) };
+
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.ngOnChanges(change);
 
       expect(stateService.getColumnState).toHaveBeenCalled();
       expect(stateService.getSortState).toHaveBeenCalled();
+      expect(component['setColumnDefinitions']).toHaveBeenCalled();
+      expect(
+        ReferenceTypesTableComponent['getUpdatedDefaultColumnDefinitions']
+      ).toHaveBeenCalled();
     });
 
-    it('should call setColumnDefinitions', () => {
-      component['setColumnDefinitions'] = jest.fn();
+    it('should do nothing when change is not rowData', () => {
+      const change = { anyThing: new SimpleChange(undefined, [], true) };
 
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.ngOnChanges(change);
 
-      expect(component['setColumnDefinitions']).toHaveBeenCalled();
+      expect(component['setColumnDefinitions']).not.toHaveBeenCalled();
+      expect(
+        ReferenceTypesTableComponent['getUpdatedDefaultColumnDefinitions']
+      ).not.toHaveBeenCalled();
     });
   });
 

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
@@ -31,6 +31,7 @@ import {
   SIDE_BAR_CONFIG,
   STATUS_BAR_CONFIG,
 } from './config';
+import { columnDefinitionToReferenceTypeProp } from './config/column-utils';
 import { SortState } from './sort-state';
 import { DetailViewButtonComponent } from './status-bar/detail-view-button/detail-view-button.component';
 
@@ -39,7 +40,7 @@ import { DetailViewButtonComponent } from './status-bar/detail-view-button/detai
   templateUrl: './reference-types-table.component.html',
   styleUrls: ['./reference-types-table.component.scss'],
 })
-export class ReferenceTypesTableComponent implements OnInit {
+export class ReferenceTypesTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
 
   public modules = [
@@ -72,26 +73,59 @@ export class ReferenceTypesTableComponent implements OnInit {
 
   @Input() rowData: ReferenceType[];
 
-  public constructor(private readonly agGridStateService: AgGridStateService) {}
+  /**
+   * Identify necessary column definitions on provided data.
+   */
+  private static getUpdatedDefaultColumnDefinitions(
+    update: ReferenceType[]
+  ): { [key: string]: ColDef } {
+    const defaultColumnDefinitions: { [key: string]: ColDef } = {};
 
-  public ngOnInit(): void {
-    this.setColumnDefinitions(
-      COLUMN_DEFINITIONS,
-      DEFAULT_COLUMN_STATE,
-      this.agGridStateService.getColumnState(
-        ReferenceTypesTableComponent.TABLE_KEY
-      ),
-      this.agGridStateService.getSortState(
-        ReferenceTypesTableComponent.TABLE_KEY
-      )
-    );
+    Object.keys(COLUMN_DEFINITIONS).forEach((column: string) => {
+      const showColumn =
+        update.length > 0 &&
+        (update[0] as any)[columnDefinitionToReferenceTypeProp(column)] !==
+          undefined;
+
+      if (showColumn) {
+        defaultColumnDefinitions[column] = COLUMN_DEFINITIONS[column];
+      }
+    });
+
+    return defaultColumnDefinitions;
   }
 
+  public constructor(private readonly agGridStateService: AgGridStateService) {}
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.rowData) {
+      // get updated default column definitions
+      const updatedDefaultColumnDefinitions = ReferenceTypesTableComponent.getUpdatedDefaultColumnDefinitions(
+        changes.rowData.currentValue
+      );
+
+      // set column definitions
+      this.setColumnDefinitions(
+        updatedDefaultColumnDefinitions,
+        DEFAULT_COLUMN_STATE,
+        this.agGridStateService.getColumnState(
+          ReferenceTypesTableComponent.TABLE_KEY
+        ),
+        this.agGridStateService.getSortState(
+          ReferenceTypesTableComponent.TABLE_KEY
+        )
+      );
+    }
+  }
+
+  /**
+   * Provide custom items for main menu of the table.
+   */
   public getMainMenuItems(
     params: GetMainMenuItemsParams
   ): (string | MenuItemDef)[] {
     const menuItems: (string | MenuItemDef)[] = params.defaultItems.filter(
-      (item) => item !== 'resetColumns'
+      (item: any) => item !== 'resetColumns'
     );
 
     const resetMenuItem: MenuItemDef = {
@@ -110,6 +144,9 @@ export class ReferenceTypesTableComponent implements OnInit {
     return menuItems;
   }
 
+  /**
+   * Column change listener for table.
+   */
   public columnChange(event: ColumnEvent): void {
     const columnState = event.columnApi.getColumnState();
 
@@ -119,6 +156,9 @@ export class ReferenceTypesTableComponent implements OnInit {
     );
   }
 
+  /**
+   * Sort listener for table.
+   */
   public sortChange(event: SortChangedEvent): void {
     const sortState = event.api.getSortModel();
 
@@ -128,6 +168,9 @@ export class ReferenceTypesTableComponent implements OnInit {
     );
   }
 
+  /**
+   * Set complete column config for AG Grid table.
+   */
   private setColumnDefinitions(
     defaultColumnDefinitions: { [key: string]: ColDef },
     defaultColumnState: { [key: string]: ColumnState },
