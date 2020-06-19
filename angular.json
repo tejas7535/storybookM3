@@ -1268,7 +1268,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/cdba/src/environments/environment.ts",
-                  "with": "apps/cdba/src/environments/environment.dev.ts"
+                  "with": "apps/cdba/src/environments/environment.qa.ts"
                 }
               ],
               "statsJson": true,
