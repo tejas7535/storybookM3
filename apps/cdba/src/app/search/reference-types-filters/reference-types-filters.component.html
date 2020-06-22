@@ -29,7 +29,11 @@
   </button>
   <button
     mat-stroked-button
-    *ngIf="(tooManyResults$ | async) || (searchSuccessful$ | async)"
+    *ngIf="
+      (tooManyResults$ | async) ||
+      (searchSuccessful$ | async) ||
+      showResetButton
+    "
     (click)="resetFilters()"
   >
     {{ t('resetFilter') }}

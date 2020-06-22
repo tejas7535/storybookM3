@@ -36,6 +36,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   searchSuccessful$: Observable<boolean>;
 
   filterType = FilterItemType;
+  showResetButton: boolean;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
@@ -51,6 +52,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
    */
   public updateFilter(filter: FilterItem): void {
     this.store.dispatch(updateFilter({ item: filter }));
+    this.showResetButton = true;
   }
 
   /**
@@ -79,5 +81,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
    */
   public resetFilters(): void {
     this.store.dispatch(resetFilters());
+    this.showResetButton = false;
   }
 }
