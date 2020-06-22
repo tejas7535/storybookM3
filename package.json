@@ -110,7 +110,7 @@
     "@angular/compiler-cli": "9.1.11",
     "@angular/language-service": "9.1.11",
     "@babel/core": "7.10.2",
-    "@commitlint/cli": "8.3.5",
+    "@commitlint/cli": "9.0.1",
     "@commitlint/config-conventional": "8.3.4",
     "@ngneat/transloco-keys-manager": "2.2.0",
     "@ngneat/transloco-optimize": "1.0.1",
