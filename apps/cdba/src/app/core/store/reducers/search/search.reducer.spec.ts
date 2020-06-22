@@ -399,4 +399,5 @@ describe('Search Reducer', () => {
       );
     });
   });
+  // tslint:disable-next-line: max-file-line-count
 });
