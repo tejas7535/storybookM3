@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-community/core';
 
@@ -11,6 +12,8 @@ export class DetailViewButtonComponent {
   selections: any[] = [];
 
   private params: IStatusPanelParams;
+
+  constructor(private readonly router: Router) {}
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -31,6 +34,11 @@ export class DetailViewButtonComponent {
   }
 
   showDetailView(): void {
-    console.log('Show detail view');
+    this.router.navigate(['/detail'], {
+      queryParams: {
+        materialNumber: this.selections[0].materialNumber,
+        plant: this.selections[0].plant,
+      },
+    });
   }
 }

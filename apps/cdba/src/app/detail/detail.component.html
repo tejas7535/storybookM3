@@ -1,0 +1,330 @@
+<div fxLayout="column" class="container">
+  <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
+    <mat-icon
+      class="user-menu-icon icon icon-arrow-west"
+      color="secondary"
+      (click)="backToSearch()"
+    ></mat-icon>
+    <h1>F-446065.43.SLH>B | 089024192-00-00</h1>
+    <pre>
+ (MaterialNumber: {{ materialNumber$ | async }} Plant: {{
+        plant$ | async
+      }})</pre
+    >
+    <!-- TODO remove show case-->
+  </div>
+  <mat-tab-group
+    class="tabs"
+    mat-stretch-tabs
+    *transloco="let t; read: 'detail'"
+  >
+    <mat-tab label="{{ t('tabs.detail') }}">
+      <div
+        gdColumns="repeat(15, 1fr)"
+        gdRows="repeat(14, 1fr)"
+        gdColumns.lt-md="repeat(6, 1fr)"
+        gdRows.lt-md="repeat(35, 1fr)"
+        gdColumns.xs="repeat(3, 1fr)"
+        gdRows.xs="repeat(56, 1fr)"
+        gdGap="16px"
+        class="grid-container"
+      >
+        <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
+          <div class="widget-content">
+            <h6>Sales & Description</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
+          <div class="widget-content">
+            <h6>Dimensions & Weight</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card
+          gdColumn="auto / span 3"
+          gdRow="auto / span 7"
+          gdColumn.lt-md="auto / span 3"
+          gdRow.lt-md="15 / span 7"
+        >
+          <div class="widget-content">
+            <h6>Customer</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card
+          gdColumn="auto / span 6"
+          gdRow="auto / span 14"
+          gdColumn.lt-md="1 / span 6"
+          gdRow.lt-md="auto / span 14"
+          gdColumn.xs="auto / span 3"
+          gdRow.xs="auto / span 14"
+        >
+          <div class="widget-content">
+            <h6>Drawing: F-446065.43-HLB</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card
+          gdColumn="1 / span 3"
+          gdRow="9 / span 6"
+          gdColumn.xs="auto / span 3"
+          gdRow.xs="22 / span 6"
+        >
+          <div class="widget-content">
+            <h6>Pricing</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card
+          gdColumn="4 / span 3"
+          gdRow="7 / span 8"
+          gdColumn.lt-md="4 / span 3"
+          gdRow.lt-md="7 / span 7"
+          gdColumn.xs="auto / span 3"
+          gdRow.xs="28 / span 8"
+        >
+          <div class="widget-content">
+            <h6>Quantities</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+        <mat-card
+          gdColumn="7 / span 3"
+          gdRow="auto / span 7"
+          gdColumn.lt-md="auto / span 3"
+          gdRow.lt-md="14 / span 8"
+          gdColumn.xs="auto / span 3"
+          gdRow.xs="36 / span 7"
+        >
+          <div class="widget-content">
+            <h6>Production</h6>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+            <div class="widget-group">
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+              <div>
+                <label>Label:</label>
+                Text
+              </div>
+            </div>
+          </div>
+        </mat-card>
+      </div>
+    </mat-tab>
+    <mat-tab label="{{ t('tabs.billOfMaterial') }}" [disabled]="true">
+      Bill of Material Content
+    </mat-tab>
+    <mat-tab label="{{ t('tabs.calculations') }}" [disabled]="true">
+      Calculations Content
+    </mat-tab>
+    <mat-tab label="{{ t('tabs.drawings') }}" [disabled]="true">
+      Drawings Content
+    </mat-tab>
+  </mat-tab-group>
+</div>

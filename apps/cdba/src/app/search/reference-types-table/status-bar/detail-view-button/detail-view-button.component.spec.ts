@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { IStatusPanelParams } from '@ag-grid-community/core';
 import { configureTestSuite } from 'ng-bullet';
@@ -13,6 +15,7 @@ describe('DetailViewButtonComponent', () => {
   let component: DetailViewButtonComponent;
   let fixture: ComponentFixture<DetailViewButtonComponent>;
   let params: IStatusPanelParams;
+  let router: Router;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -20,6 +23,7 @@ describe('DetailViewButtonComponent', () => {
       imports: [
         MatIconModule,
         MatButtonModule,
+        RouterTestingModule.withRoutes([]),
         provideTranslocoTestingModule({}),
       ],
     });
@@ -27,6 +31,8 @@ describe('DetailViewButtonComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DetailViewButtonComponent);
+
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
     params = ({
@@ -70,11 +76,11 @@ describe('DetailViewButtonComponent', () => {
   });
 
   describe('showDetailView', () => {
-    test('should conole log', () => {
-      jest.spyOn(console, 'log');
+    test('should navigate', () => {
+      component.selections = [{ materialNumber: '', plant: '' }];
+      spyOn(router, 'navigate');
       component.showDetailView();
-
-      expect(console.log).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalled();
     });
   });
 });

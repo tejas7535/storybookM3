@@ -1,0 +1,62 @@
+@import 'libs/shared/styles/src/lib/colors';
+
+:host {
+  width: 100%;
+
+  .container {
+    height: 100%;
+  }
+
+  .details-page-header {
+    mat-icon {
+      color: $schaeffler-carbon-gray;
+      cursor: pointer;
+      margin-right: 10px;
+    }
+  }
+
+  ::ng-deep .tabs {
+    flex-grow: 1;
+
+    .mat-tab-body-wrapper {
+      flex-grow: 1;
+    }
+
+    .mat-tab-body-content {
+      background-color: #f5f5f5;
+      box-sizing: border-box;
+      display: flex;
+      flex-grow: 1;
+      padding: 16px;
+    }
+  }
+
+  .grid-container {
+    height: 100%;
+    width: 100%;
+  }
+
+  mat-card {
+    .widget-content {
+      margin: 16px;
+
+      h6 {
+        margin: 0;
+      }
+
+      .widget-group {
+        border-bottom: 1px solid $schaeffler-gray-4;
+        padding-bottom: 16px;
+        padding-top: 16px;
+
+        div {
+          margin: 4px;
+        }
+
+        &:last-child {
+          border: none;
+        }
+      }
+    }
+  }
+}
