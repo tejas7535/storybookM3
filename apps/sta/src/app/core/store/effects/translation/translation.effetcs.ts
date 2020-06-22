@@ -1,11 +1,22 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, concatMap, map, tap } from 'rxjs/operators';
+import {
+  catchError,
+  concatMap,
+  delay,
+  map,
+  retryWhen,
+  tap,
+} from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
+import { SnackBarService } from '@schaeffler/snackbar';
+
+import { Translation } from '../../../../shared/result/models/translation.model';
 import { DataService } from '../../../../shared/result/services/data.service';
 import {
   loadTranslationForFile,
@@ -35,14 +46,28 @@ export class TranslationEffects {
       map((action: any) => {
         return action.textInput;
       }),
-      concatMap((textInput: TranslationTextInput) =>
-        this.dataService.postTranslationText(textInput).pipe(
-          map((translation: string) =>
-            loadTranslationForTextSuccess({ translation })
+      concatMap((textInput: TranslationTextInput) => {
+        return this.dataService.postTranslationText(textInput).pipe(
+          map((translation: Translation) => {
+            if (translation.code === '-100') {
+              throw translation;
+            }
+
+            return loadTranslationForTextSuccess({
+              translation: translation.translation,
+            });
+          }),
+          retryWhen((errors) =>
+            errors.pipe(
+              map((_, count) => {
+                this.handleMaxRetries(count);
+              }),
+              delay(5000)
+            )
           ),
           catchError((_e) => of(loadTranslationForTextFailure()))
-        )
-      )
+        );
+      })
     )
   );
 
@@ -57,8 +82,22 @@ export class TranslationEffects {
       }),
       concatMap((fileInput: TranslationFileInput) =>
         this.dataService.postTranslationFile(fileInput).pipe(
-          map((translation: string) =>
-            loadTranslationForFileSuccess({ translation })
+          map((translation: Translation) => {
+            if (translation.code === '-100') {
+              throw translation;
+            }
+
+            return loadTranslationForFileSuccess({
+              translation: translation.translation,
+            });
+          }),
+          retryWhen((errors) =>
+            errors.pipe(
+              map((_, count) => {
+                this.handleMaxRetries(count);
+              }),
+              delay(5000)
+            )
           ),
           catchError((_e) => of(loadTranslationForFileFailure()))
         )
@@ -83,6 +122,15 @@ export class TranslationEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly dataService: DataService,
-    protected readonly store: Store<TranslationState>
+    protected readonly store: Store<TranslationState>,
+    private readonly snackBarService: SnackBarService
   ) {}
+
+  public handleMaxRetries(count: number): void {
+    if (count >= 4) {
+      const errorMessage = translate('20', {}, 'errorMessages');
+      this.snackBarService.showWarningMessage(errorMessage);
+      throw count;
+    }
+  }
 }

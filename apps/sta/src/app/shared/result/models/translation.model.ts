@@ -1,3 +1,5 @@
 export interface Translation {
-  translation: string;
+  translation?: string;
+  code?: string;
+  reason?: string;
 }
