@@ -1,4 +1,12 @@
 {
+  "detail": {
+    "tabs": {
+      "detail": "Details",
+      "billOfMaterial": "Bill of Material",
+      "calculations": "Calculations",
+      "drawings": "Drawings"
+    }
+  },
   "search": {
     "tooManyResults": "Too many results.",
     "tooManyEntriesInDatabase": "We found too many entries in our Database.",

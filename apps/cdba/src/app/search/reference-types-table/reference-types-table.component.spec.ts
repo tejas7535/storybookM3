@@ -10,6 +10,7 @@ import {
   MenuItemDef,
   SortChangedEvent,
 } from '@ag-grid-community/core';
+import { RouterTestingModule } from '@angular/router/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import {
@@ -44,6 +45,7 @@ describe('ReferenceTypesTableComponent', () => {
         SharedModule,
         AgGridModule.withComponents([DetailViewButtonComponent]),
         MatIconModule,
+        RouterTestingModule,
         provideTranslocoTestingModule({}),
       ],
       declarations: [ReferenceTypesTableComponent, DetailViewButtonComponent],

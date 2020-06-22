@@ -12,6 +12,12 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
+    path: AppRoutePath.DetailPath,
+    loadChildren: () =>
+      import('./detail/detail.module').then((m) => m.DetailModule),
+    canActivateChild: [RoleGuard],
+  },
+  {
     path: AppRoutePath.SearchPath,
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),
