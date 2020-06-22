@@ -184,6 +184,11 @@ export const searchReducer = createReducer(
       ...state.filters,
       items: filterItemAdapter.map(resetFilterItems, state.filters.items),
     },
+    referenceTypes: {
+      ...state.referenceTypes,
+      items: undefined,
+      loading: false,
+    },
   })),
 
   // additional functionality

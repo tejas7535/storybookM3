@@ -306,6 +306,11 @@ describe('Search Reducer', () => {
               length,
             },
           },
+          referenceTypes: {
+            ...initialState.referenceTypes,
+            items: [''],
+            loading: false,
+          },
         },
       };
 
@@ -339,6 +344,7 @@ describe('Search Reducer', () => {
           minSelected: length.min,
         },
       });
+      expect(state.referenceTypes.items).toEqual(undefined);
     });
   });
 
@@ -393,4 +399,5 @@ describe('Search Reducer', () => {
       );
     });
   });
+  // tslint:disable-next-line: max-file-line-count
 });

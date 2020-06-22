@@ -17,7 +17,8 @@
       "searchPlaceholder": "Search...",
       "selectAll": "Select all",
       "msd": "Material Short Description",
-      "noResultsFound": "No results found."
+      "noResultsFound": "No results found.",
+      "resetFilter": "reset filters"
     },
     "referenceTypesTable": {
       "headers": {
