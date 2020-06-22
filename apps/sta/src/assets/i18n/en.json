@@ -13,6 +13,7 @@
     "13": "We're sorry, your file is too large. Please upload a file with <10MB.",
     "14": "We're sorry, your language is currently not supported. We can work with German or English text only.",
     "17": "We're sorry, your text is too long. Please enter less than 1 million characters.",
-    "19": "We're sorry, we're not able to detect the language of your text. Please select it below the text field."
+    "19": "We're sorry, we're not able to detect the language of your text. Please select it below the text field.",
+    "20": "We're sorry, our service is currently busy. Please try again later."
   }
 }

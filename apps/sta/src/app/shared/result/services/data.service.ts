@@ -51,7 +51,7 @@ export class DataService {
       .pipe(map((response: Tags) => response.tags));
   }
 
-  public postTranslationText(textInput: TextInput): Observable<string> {
+  public postTranslationText(textInput: TextInput): Observable<Translation> {
     const postTextInput: TextInput = {
       text: textInput.text,
       textLang: textInput.textLang ? textInput.textLang : Language.EN,
@@ -60,12 +60,12 @@ export class DataService {
 
     return this.http
       .post<Translation>(`${this.apiUrl}/translation/text`, postTextInput)
-      .pipe(map((response: Translation) => response.translation));
+      .pipe(map((response: Translation) => response));
   }
 
   public postTranslationFile(
     fileInput: TranslationFileInput
-  ): Observable<string> {
+  ): Observable<Translation> {
     const formData: FormData = new FormData();
     const file = new File(
       [Int8Array.from(fileInput.file.content)],
@@ -84,7 +84,7 @@ export class DataService {
 
     return this.http
       .post<Translation>(`${this.apiUrl}/translation/file`, formData)
-      .pipe(map((response: Translation) => response.translation));
+      .pipe(map((response: Translation) => response));
   }
 
   public postLanguageDetectionText(

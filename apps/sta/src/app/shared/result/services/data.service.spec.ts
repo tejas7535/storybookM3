@@ -10,7 +10,7 @@ import { Answer } from '../../../core/store/reducers/question-answering/models/a
 import { QuestionAnsweringFileInput } from '../../../core/store/reducers/question-answering/models/question-answering-file-input.model';
 import { QuestionAnsweringTextInput } from '../../../core/store/reducers/question-answering/models/question-answering-text-input.model';
 import { TranslationFileInput } from '../../../core/store/reducers/translation/models/translation-file-input.model';
-import { FileReplacement, Language, TextInput } from '../models';
+import { FileReplacement, Language, TextInput, Translation } from '../models';
 import { DataService } from './data.service';
 
 describe('DataService', () => {
@@ -105,7 +105,8 @@ describe('DataService', () => {
       };
 
       service.postTranslationText(textInput).subscribe((trans) => {
-        expect(trans).toEqual(expectedTranslation);
+        const expectedTrans: Translation = { translation: expectedTranslation };
+        expect(trans).toEqual(expectedTrans);
         done();
       });
 
@@ -170,7 +171,8 @@ describe('DataService', () => {
       };
 
       service.postTranslationFile(input).subscribe((trans) => {
-        expect(trans).toEqual(expectedTranslation);
+        const expectedTrans: Translation = { translation: expectedTranslation };
+        expect(trans).toEqual(expectedTrans);
         done();
       });
 
