@@ -94,6 +94,7 @@ def defineAffectedAppsAndLibs() {
 
     affectedApps = mapAffectedStringToArray(apps)
     affectedLibs = mapAffectedStringToArray(libs)
+    affectedLibs -= "shared-ui-storybook"
 }
 
 def ciSkip() {
@@ -540,14 +541,9 @@ pipeline {
                             echo "Build Storybooks for Shared Libraries"
                             
                             script {
-                                def storybooksToBuild = ['shared-empty-states']
-
-                                for (storybook in storybooksToBuild) { 
-                                    if (affectedLibs.contains(storybook)){
-                                        sh "npx nx run ${storybook}:build-storybook"
-                                        publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/${storybook}", reportFiles: 'index.html', reportName: "Storybook ${storybook}", reportTitles: ''])
-                                    }
-                                }
+                                sh "npx nx affected --base=${buildBase} --target=build-storybook"
+                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/shared-ui-storybook", reportFiles: 'index.html', reportName: "Storybook Components", reportTitles: ''])
+                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/shared-empty-states", reportFiles: 'index.html', reportName: "Storybook Empty States", reportTitles: ''])
                             }
                         }
                     }

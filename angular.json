@@ -1518,36 +1518,6 @@
             "setupFile": "libs/shared/ui/header/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/header/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-header",
-            "config": {
-              "configFolder": "libs/shared/ui/header/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -1614,33 +1584,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-header-e2e": {
-      "root": "apps/shared-ui-header-e2e",
-      "sourceRoot": "apps/shared-ui-header-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-header-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-header-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-header:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-header:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-header-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-header-e2e/**/*"]
-          }
         }
       }
     },
@@ -1728,36 +1671,6 @@
             "setupFile": "libs/shared/ui/sidebar/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/sidebar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-sidebar",
-            "config": {
-              "configFolder": "libs/shared/ui/sidebar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -1824,36 +1737,6 @@
         }
       }
     },
-    "shared-ui-sidebar-e2e": {
-      "root": "apps/shared-ui-sidebar-e2e",
-      "sourceRoot": "apps/shared-ui-sidebar-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-sidebar-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-sidebar-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-sidebar:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-sidebar:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-sidebar-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-sidebar-e2e/**/*"
-            ]
-          }
-        }
-      }
-    },
     "shared-ui-footer": {
       "projectType": "library",
       "root": "libs/shared/ui/footer",
@@ -1886,36 +1769,6 @@
             "setupFile": "libs/shared/ui/footer/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/footer/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-footer",
-            "config": {
-              "configFolder": "libs/shared/ui/footer/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -1930,33 +1783,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-footer-e2e": {
-      "root": "apps/shared-ui-footer-e2e",
-      "sourceRoot": "apps/shared-ui-footer-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-footer-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-footer-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-footer:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-footer:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-footer-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-footer-e2e/**/*"]
-          }
         }
       }
     },
@@ -1992,36 +1818,6 @@
             "setupFile": "libs/shared/ui/file-drop/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/file-drop/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-file-drop",
-            "config": {
-              "configFolder": "libs/shared/ui/file-drop/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2036,36 +1832,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-file-drop-e2e": {
-      "root": "apps/shared-ui-file-drop-e2e",
-      "sourceRoot": "apps/shared-ui-file-drop-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-file-drop-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-file-drop-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-file-drop:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-file-drop:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-file-drop-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-file-drop-e2e/**/*"
-            ]
-          }
         }
       }
     },
@@ -2101,36 +1867,6 @@
             "setupFile": "libs/shared/ui/snackbar/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/snackbar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-snackbar",
-            "config": {
-              "configFolder": "libs/shared/ui/snackbar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2145,36 +1881,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-snackbar-e2e": {
-      "root": "apps/shared-ui-snackbar-e2e",
-      "sourceRoot": "apps/shared-ui-snackbar-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-snackbar-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-snackbar-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-snackbar:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-snackbar:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-snackbar-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-snackbar-e2e/**/*"
-            ]
-          }
         }
       }
     },
@@ -2213,36 +1919,6 @@
             "setupFile": "libs/shared/ui/scroll-to-top/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/scroll-to-top/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-scroll-to-top",
-            "config": {
-              "configFolder": "libs/shared/ui/scroll-to-top/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2257,36 +1933,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-scroll-to-top-e2e": {
-      "root": "apps/shared-ui-scroll-to-top-e2e",
-      "sourceRoot": "apps/shared-ui-scroll-to-top-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-scroll-to-top-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-scroll-to-top-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-scroll-to-top:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-scroll-to-top:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-scroll-to-top-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-scroll-to-top-e2e/**/*"
-            ]
-          }
         }
       }
     },
@@ -2325,36 +1971,6 @@
             "setupFile": "libs/shared/ui/speed-dial-fab/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/speed-dial-fab/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-speed-dial-fab",
-            "config": {
-              "configFolder": "libs/shared/ui/speed-dial-fab/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2369,36 +1985,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-speed-dial-fab-e2e": {
-      "root": "apps/shared-ui-speed-dial-fab-e2e",
-      "sourceRoot": "apps/shared-ui-speed-dial-fab-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-speed-dial-fab-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-speed-dial-fab-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-speed-dial-fab:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-speed-dial-fab:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-speed-dial-fab-e2e/tsconfig.e2e.json"],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-speed-dial-fab-e2e/**/*"
-            ]
-          }
         }
       }
     },
@@ -2434,36 +2020,6 @@
             "setupFile": "libs/shared/ui/banner/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/banner/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-banner",
-            "config": {
-              "configFolder": "libs/shared/ui/banner/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2478,33 +2034,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-banner-e2e": {
-      "root": "apps/shared-ui-banner-e2e",
-      "sourceRoot": "apps/shared-ui-banner-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-banner-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-banner-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-banner:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-banner:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["apps/shared-ui-banner-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/shared-ui-banner-e2e/**/*"]
-          }
         }
       }
     },
@@ -2543,36 +2072,6 @@
             "setupFile": "libs/shared/ui/settings-sidebar/src/test-setup.ts"
           }
         },
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/settings-sidebar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-settings-sidebar",
-            "config": {
-              "configFolder": "libs/shared/ui/settings-sidebar/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
@@ -2587,38 +2086,6 @@
       "schematics": {
         "@nrwl/angular:component": {
           "style": "scss"
-        }
-      }
-    },
-    "shared-ui-settings-sidebar-e2e": {
-      "root": "apps/shared-ui-settings-sidebar-e2e",
-      "sourceRoot": "apps/shared-ui-settings-sidebar-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-settings-sidebar-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-settings-sidebar-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-settings-sidebar:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-settings-sidebar:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "apps/shared-ui-settings-sidebar-e2e/tsconfig.e2e.json"
-            ],
-            "exclude": [
-              "**/node_modules/**",
-              "!apps/shared-ui-settings-sidebar-e2e/**/*"
-            ]
-          }
         }
       }
     },
@@ -2828,6 +2295,84 @@
           "options": {
             "tsConfig": ["apps/goldwind-e2e/tsconfig.e2e.json"],
             "exclude": ["**/node_modules/**", "!apps/goldwind-e2e/**/*"]
+          }
+        }
+      }
+    },
+    "shared-ui-storybook": {
+      "root": "libs/shared/ui/storybook",
+      "sourceRoot": "libs/shared/ui/storybook/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared/ui/storybook/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/shared-ui-storybook",
+            "config": {
+              "configFolder": "libs/shared/ui/storybook/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/ui/storybook && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-storybook-e2e": {
+      "root": "apps/shared-ui-storybook-e2e",
+      "sourceRoot": "apps/shared-ui-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shared-ui-storybook-e2e/cypress.json",
+            "tsConfig": "apps/shared-ui-storybook-e2e/tsconfig.e2e.json",
+            "devServerTarget": "shared-ui-storybook:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "shared-ui-storybook:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/shared-ui-storybook-e2e/tsconfig.e2e.json"],
+            "exclude": [
+              "**/node_modules/**",
+              "!apps/shared-ui-storybook-e2e/**/*"
+            ]
           }
         }
       }

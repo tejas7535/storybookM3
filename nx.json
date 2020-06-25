@@ -85,10 +85,6 @@
     "shared-utils-responsive": {
       "tags": ["scope:shared", "type:utils"]
     },
-    "shared-ui-header-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-header"]
-    },
     "shared-utils-transloco": {
       "tags": ["scope:shared", "type:utils"]
     },
@@ -99,65 +95,33 @@
     "shared-ui-icons": {
       "tags": ["scope:shared", "type:ui"]
     },
-    "shared-ui-sidebar-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-sidebar"]
-    },
     "shared-ui-footer": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
-    },
-    "shared-ui-footer-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-footer"]
     },
     "shared-ui-file-drop": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
     },
-    "shared-ui-file-drop-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-file-drop"]
-    },
     "shared-ui-snackbar": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
-    },
-    "shared-ui-snackbar-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-snackbar"]
     },
     "shared-ui-banner": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
     },
-    "shared-ui-banner-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-banner"]
-    },
     "shared-ui-scroll-to-top": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
-    },
-    "shared-ui-scroll-to-top-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-scroll-to-top"]
     },
     "shared-ui-speed-dial-fab": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
     },
-    "shared-ui-speed-dial-fab-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-speed-dial-fab"]
-    },
     "shared-ui-settings-sidebar": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles"]
-    },
-    "shared-ui-settings-sidebar-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-settings-sidebar"]
     },
     "goldwind": {
       "tags": [],
@@ -166,6 +130,13 @@
     "goldwind-e2e": {
       "tags": [],
       "implicitDependencies": ["goldwind"]
+    },
+    "shared-ui-storybook": {
+      "tags": []
+    },
+    "shared-ui-storybook-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-storybook"]
     }
   },
   "tasksRunnerOptions": {
