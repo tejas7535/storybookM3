@@ -134,8 +134,9 @@ describe('TranslationEffects', () => {
       snackBarService.showWarningMessage = jest
         .fn()
         .mockReturnValue(of('action'));
+      const er = { code: '-100' };
 
-      expect(() => effects.handleMaxRetries(4)).toThrowError();
+      expect(() => effects.handleMaxRetries(er, 4)).toThrowError();
       expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
         'translate it'
       );
@@ -145,8 +146,19 @@ describe('TranslationEffects', () => {
       snackBarService.showWarningMessage = jest
         .fn()
         .mockReturnValue(of('action'));
+      const er = { code: '-100' };
 
-      expect(() => effects.handleMaxRetries(3)).not.toThrowError();
+      expect(() => effects.handleMaxRetries(er, 3)).not.toThrowError();
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
+    });
+
+    test('should  trigger no Snackbar and throw error when other code than -100 is returned', () => {
+      snackBarService.showWarningMessage = jest
+        .fn()
+        .mockReturnValue(of('action'));
+      const er = { message: 'example backend error', errorId: 1 };
+
+      expect(() => effects.handleMaxRetries(er, 0)).toThrowError();
       expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
     });
   });
