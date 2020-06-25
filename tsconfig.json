@@ -52,6 +52,9 @@
       ],
       "@schaeffler/settings-sidebar": [
         "libs/shared/ui/settings-sidebar/src/index.ts"
+      ],
+      "@schaeffler/shared/ui/storybook": [
+        "libs/shared/ui/storybook/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
