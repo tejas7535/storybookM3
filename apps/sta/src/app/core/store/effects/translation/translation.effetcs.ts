@@ -59,8 +59,8 @@ export class TranslationEffects {
           }),
           retryWhen((errors) =>
             errors.pipe(
-              map((_, count) => {
-                this.handleMaxRetries(count);
+              map((er, count) => {
+                this.handleMaxRetries(er, count);
               }),
               delay(5000)
             )
@@ -93,8 +93,8 @@ export class TranslationEffects {
           }),
           retryWhen((errors) =>
             errors.pipe(
-              map((_, count) => {
-                this.handleMaxRetries(count);
+              map((er, count) => {
+                this.handleMaxRetries(er, count);
               }),
               delay(5000)
             )
@@ -126,8 +126,10 @@ export class TranslationEffects {
     private readonly snackBarService: SnackBarService
   ) {}
 
-  public handleMaxRetries(count: number): void {
-    if (count >= 4) {
+  public handleMaxRetries(er: any, count: number): void {
+    if (!er.code) {
+      throw count;
+    } else if (count >= 4) {
       const errorMessage = translate('20', {}, 'errorMessages');
       this.snackBarService.showWarningMessage(errorMessage);
       throw count;
