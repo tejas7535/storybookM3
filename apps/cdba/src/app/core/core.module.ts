@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -26,6 +27,7 @@ registerLocaleData(de, 'de-DE');
     RouterModule,
 
     // UI Modules
+    IconsModule,
     HeaderModule,
     FooterModule,
     MatButtonModule,
