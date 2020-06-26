@@ -35,9 +35,10 @@ Thus, this lib does only support the _implicit flow_
   ```js
     export const environment = {
         production: false,
-        azureTenantId: 'XXX',
-        azureClientId: 'XXX',
-        azureBackendAPI: 'api://XXX/YYY',
+        tenantId: 'XXX',
+        clientId: 'XXX',
+        appId: 'api://XXX/YYY',
+        loginUrl: 'https://login.xxx.xx/', // only required if you use another azure tenant
     };
 
   ```
@@ -49,7 +50,8 @@ Thus, this lib does only support the _implicit flow_
         environment.tenantId,
         environment.clientId,
         environment.appId,
-        !environment.production
+        !environment.production,
+        environment.loginUrl,
     );
 
     @NgModule({
