@@ -8,14 +8,14 @@ import { AzureConfig } from './models';
 import {
   loginStatusFactory,
   SharedAuthModule,
-  storageFactory
+  storageFactory,
 } from './shared-auth.module';
 import { loginSuccess } from './store';
 
 describe('SharedAuthModule', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [SharedAuthModule]
+      imports: [SharedAuthModule],
     });
   });
 
@@ -30,7 +30,13 @@ describe('SharedAuthModule', () => {
   });
 
   test('should return module on forRoot', () => {
-    const azureConf = new AzureConfig('tenant', 'client', 'app', true);
+    const azureConf = new AzureConfig(
+      'tenant',
+      'client',
+      'app',
+      true,
+      'loginUrl'
+    );
     const module = SharedAuthModule.forRoot(azureConf);
 
     expect(module).toBeDefined();
@@ -62,16 +68,16 @@ describe('SharedAuthModule', () => {
   });
 
   describe('loginStatusFactory', () => {
-    test('should try to login', done => {
+    test('should try to login', (done) => {
       const user = {};
       const authService = {
         tryAutomaticLogin: jest.fn(() => of(true)),
         getUser: jest.fn().mockImplementation(() => user),
-        navigateToState: jest.fn()
+        navigateToState: jest.fn(),
       };
 
       const store = {
-        dispatch: jest.fn()
+        dispatch: jest.fn(),
       };
 
       const func = loginStatusFactory(authService, store);

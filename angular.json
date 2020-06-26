@@ -2111,7 +2111,8 @@
             "aot": true,
             "assets": [
               "apps/goldwind/src/favicon.ico",
-              "apps/goldwind/src/assets"
+              "apps/goldwind/src/assets",
+              "apps/goldwind/src/silent-refresh.html"
             ],
             "styles": [
               "apps/goldwind/src/styles.scss",

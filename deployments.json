@@ -3,5 +3,6 @@
   "sta": "/SchaefflerTextAssistant/Schaeffler-Text-Assistant-Frontend/master",
   "ltp": "/AIsolutions/ltp/ltp-deployment",
   "helloworld-azure": "/hello-world/hw-frontend-deployment/master/",
-  "cdba": "/cdba/cdba-fe-deployment/master/"
+  "cdba": "/cdba/cdba-fe-deployment/master/",
+  "goldwind": "/goldwind/gw/master/"
 }
