@@ -9,7 +9,7 @@ import { number, text } from '@storybook/addon-knobs';
 import { HeaderModule } from '@schaeffler/header';
 import { SidebarComponent, SidebarModule } from '@schaeffler/sidebar';
 
-import README from '../../../sidebar/README.md';
+import READMEMd from '../../../sidebar/README.md';
 
 const moduleMetadata = {
   imports: [
@@ -32,7 +32,7 @@ const baseComponent = {
 export default {
   title: 'Sidebar',
   parameters: {
-    notes: { markdown: README },
+    notes: { markdown: READMEMd },
   },
 };
 
