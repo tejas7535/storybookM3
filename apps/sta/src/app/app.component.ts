@@ -33,6 +33,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public isDesktop$: Observable<boolean>;
   public isDesktop: boolean;
   public isMobile$: Observable<boolean>;
+  public isMobile: boolean;
   public isAuthenticated$: Observable<boolean>;
   public isDoneLoading$: Observable<boolean>;
   public username$: Observable<string>;
@@ -120,7 +121,7 @@ export class AppComponent implements OnInit, OnDestroy {
             this.isSidebarExpanded =
               this.currentRoute === this.translationRoute && this.isDesktop;
 
-            this.settingsSidebarOpen = !this.isHome;
+            this.settingsSidebarOpen = this.isHome ? false : !this.isMobile;
           })
         )
         .subscribe()
@@ -130,6 +131,15 @@ export class AppComponent implements OnInit, OnDestroy {
         this.isDesktop = isDesktopValue;
         this.isSidebarExpanded =
           this.currentRoute === this.translationRoute && isDesktopValue;
+      })
+    );
+
+    this.subscription.add(
+      this.isMobile$.subscribe((isMobileValue: boolean) => {
+        this.isMobile = isMobileValue;
+        if (!this.isHome) {
+          this.settingsSidebarOpenedChanges(!isMobileValue);
+        }
       })
     );
   }

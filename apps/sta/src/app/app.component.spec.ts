@@ -158,27 +158,46 @@ describe('AppComponent', () => {
     });
 
     test('should set isHome and settingsSidebarOpen correctly I', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      component.home = '/overview';
+      await router.navigateByUrl('/overview');
       component.addSubscriptions();
-
-      await router.navigateByUrl('/');
 
       expect(component.isHome).toBeTruthy();
       expect(component.settingsSidebarOpen).toBeFalsy();
     });
 
     test('should set isHome and settingsSidebarOpen correctly II', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.addSubscriptions();
-
       await router.navigateByUrl('/overview');
+      component.addSubscriptions();
 
       expect(component.isHome).toBeFalsy();
       expect(component.settingsSidebarOpen).toBeTruthy();
     });
+    test('should set isHome and settingsSidebarOpen correctly on mobile', () => {
+      const spy = jest.spyOn(component, 'settingsSidebarOpenedChanges');
+      component.isMobile$ = of(true);
+      component.isHome = false;
+
+      component.addSubscriptions();
+
+      expect(component.settingsSidebarOpen).toBeFalsy();
+      expect(component.isMobile).toBeTruthy();
+      expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledWith(!component.isMobile);
+    });
+    test('should set isHome and settingsSidebarOpen correctly on mobile when isHome', () => {
+      const spy = jest.spyOn(component, 'settingsSidebarOpenedChanges');
+      component.isMobile$ = of(true);
+      component.isHome = true;
+
+      component.addSubscriptions();
+
+      expect(component.settingsSidebarOpen).toBeFalsy();
+      expect(component.isMobile).toBeTruthy();
+      expect(spy).toHaveBeenCalledTimes(0);
+    });
 
     test('should set isSideBarExpanded to true when translation and Desktop', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       component.isDesktop = true;
@@ -189,7 +208,6 @@ describe('AppComponent', () => {
     });
 
     test('should set isSideBarExpanded to false when not translation and Desktop', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       component.isDesktop = true;
@@ -199,7 +217,6 @@ describe('AppComponent', () => {
     });
 
     test('should set isSideBarExpanded to false when translation and not Desktop', async () => {
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       component.isDesktop = false;
@@ -213,7 +230,6 @@ describe('AppComponent', () => {
       component.isDesktop$ = of(true);
       component.currentRoute = component.translationRoute;
 
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       expect(component.isSidebarExpanded).toBeTruthy();
@@ -224,7 +240,6 @@ describe('AppComponent', () => {
       component.isDesktop$ = of(false);
       component.currentRoute = component.translationRoute;
 
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       expect(component.isSidebarExpanded).toBeFalsy();
@@ -235,7 +250,6 @@ describe('AppComponent', () => {
       component.isDesktop$ = of(true);
       component.currentRoute = '/tagging';
 
-      // tslint:disable-next-line: no-lifecycle-call
       component.addSubscriptions();
 
       expect(component.isSidebarExpanded).toBeFalsy();
