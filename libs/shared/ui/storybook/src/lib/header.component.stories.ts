@@ -8,7 +8,7 @@ import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-men
 
 import { HeaderComponent, HeaderModule } from '@schaeffler/header';
 
-import README from '../../../header/README.md';
+import READMEMd from '../../../header/README.md';
 
 const moduleMetadata = {
   imports: [
@@ -29,7 +29,8 @@ const baseComponent = {
 export default {
   title: 'Header',
   parameters: {
-    notes: { markdown: README },
+    backgrounds: [{ name: 'Schaeffler', value: '#dee4e7', default: true }],
+    notes: { markdown: READMEMd },
   },
 };
 

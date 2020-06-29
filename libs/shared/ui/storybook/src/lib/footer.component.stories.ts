@@ -1,17 +1,19 @@
 import { APP_BASE_HREF, CommonModule } from '@angular/common';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
 import { text } from '@storybook/addon-knobs';
 
 import { FooterComponent, FooterModule } from '@schaeffler/footer';
 
-import README from '../../../footer/README.md';
+import READMEMd from '../../../footer/README.md';
 
 const moduleMetadata = {
   imports: [
     CommonModule,
     FooterModule,
     RouterModule.forRoot([{ path: '**', redirectTo: '/', pathMatch: 'full' }]),
+    MatIconModule,
   ],
   providers: [{ provide: APP_BASE_HREF, useValue: '/' }],
 };
@@ -21,10 +23,11 @@ const baseComponent = {
   component: FooterComponent,
 };
 
+// tslint:disable-next-line: no-default-export
 export default {
   title: 'Footer',
   parameters: {
-    notes: { markdown: README },
+    notes: { markdown: READMEMd },
   },
 };
 

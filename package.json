@@ -115,15 +115,16 @@
     "@ngneat/transloco-keys-manager": "2.2.1",
     "@ngneat/transloco-optimize": "1.0.1",
     "@ngneat/transloco-validator": "1.0.0",
+    "@ngrx/store-devtools": "9.2.0",
     "@nrwl/angular": "9.4.5",
     "@nrwl/cli": "9.4.5",
     "@nrwl/cypress": "9.4.5",
     "@nrwl/jest": "9.4.5",
-    "@ngrx/store-devtools": "9.2.0",
     "@nrwl/storybook": "9.4.5",
     "@nrwl/workspace": "9.4.5",
     "@storybook/addon-a11y": "5.3.19",
     "@storybook/addon-actions": "5.3.19",
+    "@storybook/addon-backgrounds": "5.3.19",
     "@storybook/addon-knobs": "5.3.19",
     "@storybook/addon-notes": "5.3.19",
     "@storybook/addon-storysource": "5.3.19",
@@ -142,6 +143,7 @@
     "cz-conventional-changelog": "3.2.0",
     "dotenv": "8.2.0",
     "eslint": "7.3.1",
+    "eslint-plugin-cypress": "2.11.1",
     "git-branch": "2.0.1",
     "htmlhint": "0.14.1",
     "husky": "4.2.5",
@@ -171,8 +173,7 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "3.8.3",
-    "webpack-bundle-analyzer": "3.8.0",
-    "eslint-plugin-cypress": "2.11.1"
+    "webpack-bundle-analyzer": "3.8.0"
   },
   "config": {
     "commitizen": {

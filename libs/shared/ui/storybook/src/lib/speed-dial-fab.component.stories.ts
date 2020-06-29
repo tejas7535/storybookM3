@@ -10,7 +10,7 @@ import {
   SpeedDialFabModule,
 } from '@schaeffler/speed-dial-fab';
 
-import README from '../../../speed-dial-fab/README.md';
+import READMEMd from '../../../speed-dial-fab/README.md';
 
 const moduleMetadata = {
   imports: [
@@ -30,7 +30,7 @@ const baseComponent = {
 export default {
   title: 'SpeedDialFabButton',
   parameters: {
-    notes: { markdown: README },
+    notes: { markdown: READMEMd },
   },
 };
 
