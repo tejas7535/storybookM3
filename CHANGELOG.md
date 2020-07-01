@@ -2,6 +2,52 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.1.0) (2020-07-01)
+
+
+### 🏭 Automation
+
+* **workspace:** deploy feature and bugfix builds ([e2899a4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e2899a4bfbe4ea271b19c2813190f01eedd01281))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix aad credentials for dev ([37d12d0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/37d12d07828ab057d79a74b1900a5e938be64e13))
+* **cdba:** update email for support (DSCDA-1750) ([e778c35](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e778c353d4166a5a2282a77521c89622e725b773))
+* **ltp:** adjust chart and legend colors, chart bugfix (ADAPLD-6714) ([b6f16d7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b6f16d7a0d7228bc94ab1da1b0f0a17ba8c92594))
+* **sta:** bugfix for handle busy AI response (UFTABI-2388) ([fd0df49](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fd0df49f5220c70db5f84d0c73abb45cbbf8d523))
+* **sta:** green color for buttons ([60085d9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/60085d91c177d7001d435915b838f2351d410482))
+* **sta:** hide sidebar on default on mobile (UFTABI-2539) ([5825774](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5825774b061b29c53e3183898f84264bf0550e67))
+
+
+### 🎸 Features
+
+* **banner:** add storybook stories (UFTABI-2511) ([0168a1a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0168a1a8edbca9817a571d220d73f35ae9a1d1da))
+* **cdba:** adapt to new REST API without filter merge logic (DSCDA-1663) ([03e5904](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/03e59049bd9865f323e2c0073ea31e28c40b2655))
+* **cdba:** added reset filter button (DSCDA-1713) ([e1b3722](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e1b3722aba2afeea19eaa7033d41f1ffc7e85f66))
+* **cdba:** connect reference types table to backend (DSCDA-1493) ([4549af2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4549af2196705ae2f3f8af11c7cd7a7971d21514))
+* **cdba:** hide forbidden columns in RT table (DSCDA-1610) ([a2dfc3e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a2dfc3ec354cb87c035a213568ccd13f98518cd5))
+* **cdba:** implement Detail Page Layout (DSCDA-1638) ([449e693](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/449e693c9552825f0ea068b2b2123fc8b4e721a0))
+* **cdba:** implement UI for "too many results" (DSCDA-1597) ([121a9d9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/121a9d9f2b9305488839736af0db7b16de21ecca))
+* **cdba:** make use of shared icon lib (DSCDA-1767) ([e941798](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e94179860094987dbec85feab0367ebb0baad3a9))
+* **cdba:** no results found msg for search in autocomplete (DSCDA-1670) ([94257b7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/94257b7b991c5ff3e3a7354aa2d6643a938696bc))
+* **cdba:** only load necessary table modules (DSCDA-1676) ([abf3a03](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/abf3a03b67550fc3f1e0e130a987057693fa7201))
+* **cdba:** update aad credentials for environments ([43e8caf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/43e8caf0c9b6ce426c422a9d9474c592545db472))
+* **file-drop:** create storybook (UFTABI-2512) ([4385504](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4385504e3d79f4145b3d1831fe5d01297b19c4c1))
+* **footer:** add storybook stories (UFTABI-2513) ([25d8a36](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/25d8a3646ab6db0fad19fcacad0bec61d1f6a26a))
+* **goldwind:** add authentication (DIGDTGW-330) ([a83e794](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a83e79426f15464d67eb7fb150fa4eb69bdd47ec))
+* **goldwind:** add goldwind app boilerplate (DIGDTGW-310) ([f8d4cc2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f8d4cc298dc4ed9296ecd26100b16a110355531e))
+* **header:** add storybook stories (UFTABI-2510) ([5f4564e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5f4564e57b5a18d9bdde9a8a7e72949bfc100def))
+* **scroll-to-top:** add storybook stories (UFTABI-2514) ([397c2a6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/397c2a69454f043eaab4cb6b474dcdcafa5965ef))
+* **settings-sidebar:** add storybook stories (UFTABI-2515) ([fd67e76](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fd67e760086bc3baf13c53ca954678ec5dfec4a6))
+* **sidebar:** add storybook stories (UFTABI-2516) ([983ff75](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/983ff7543a52c564b3b60c5d02f2b438a3a19fa1))
+* **snackbar:** add story for snackbar ([de3debd](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/de3debdcd5cb1d73f44307014c21f74f2a791c1c))
+* **speed-dial-fab:** add storybook stories (UFTABI-2518) ([5d4f092](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5d4f092a14c6e8e4d926d29a4d1cd532957a6eee))
+* **sta:** handle busy response (UFTABI-2388) ([aa460b1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/aa460b193b0f0996e0bc175012f4d60815707db3))
+* **sta:** remove unwanted color on button icon ([4c6dc18](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4c6dc18d45b258d98f78c143d3f78c89699b952e))
+* **workspace:** fix remaining checkstyle issues (UFTABI-2475) ([85e60c6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/85e60c64358058127774aec52f72082721e984d8))
+* release v1 (UFTABI-2483) ([79c1ba7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79c1ba7c6c1af8ccd909083d91fffbe0ae017ebb))
+
 ## [1.0.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.0.0) (2020-06-02)
 
 **Contains all previous changes / releases from start**

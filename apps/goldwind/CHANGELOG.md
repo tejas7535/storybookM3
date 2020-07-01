@@ -8,8 +8,4 @@ All notable changes to this project will be documented in this file. See [standa
 ### 🎸 Features
 
 * **goldwind:** add authentication (DIGDTGW-330) ([a83e794](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a83e79426f15464d67eb7fb150fa4eb69bdd47ec))
-* release v1 (UFTABI-2483) ([79c1ba7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79c1ba7c6c1af8ccd909083d91fffbe0ae017ebb))
-
-## [1.0.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.0.0) (2020-06-02)
-
-**⚠ First official release that contains all previous releases ⚠**
+* **goldwind:** add goldwind app boilerplate (DIGDTGW-310) ([f8d4cc2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f8d4cc298dc4ed9296ecd26100b16a110355531e))

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.5.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v0.5.1) (2020-07-01)
+
+
+### 🐛 Bug Fixes
+
+* **sta:** bugfix for handle busy AI response (UFTABI-2388) ([fd0df49](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fd0df49f5220c70db5f84d0c73abb45cbbf8d523))
+* **sta:** green color for buttons ([60085d9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/60085d91c177d7001d435915b838f2351d410482))
+* **sta:** hide sidebar on default on mobile (UFTABI-2539) ([5825774](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5825774b061b29c53e3183898f84264bf0550e67))
+
+
+### 🎸 Features
+
+* **settings-sidebar:** add storybook stories (UFTABI-2515) ([fd67e76](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/fd67e760086bc3baf13c53ca954678ec5dfec4a6))
+* **sta:** handle busy response (UFTABI-2388) ([aa460b1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/aa460b193b0f0996e0bc175012f4d60815707db3))
+* **sta:** remove unwanted color on button icon ([4c6dc18](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4c6dc18d45b258d98f78c143d3f78c89699b952e))
+* **workspace:** fix remaining checkstyle issues (UFTABI-2475) ([85e60c6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/85e60c64358058127774aec52f72082721e984d8))
+* release v1 (UFTABI-2483) ([79c1ba7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79c1ba7c6c1af8ccd909083d91fffbe0ae017ebb))
+
 ## [1.0.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.0.0) (2020-06-02)
 
 **⚠ First official release that contains all previous releases ⚠**
