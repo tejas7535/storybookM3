@@ -26,6 +26,7 @@
               [open]="settingsSidebarOpen"
               [openSidebarBtn]="!isHome"
               (openedChange)="settingsSidebarOpenedChanges($event)"
+              [triggerBtnIcon]="triggerBtnIcon"
               [width]="
                 isSidebarExpanded
                   ? (isLessThanMedium$ | async)

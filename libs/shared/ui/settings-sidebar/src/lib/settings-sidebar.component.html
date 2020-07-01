@@ -19,10 +19,13 @@
           aria-label="Filter"
         >
           <mat-icon
-            class="icon-font-size"
-            fontSet="schaeffler-icons"
-            [fontIcon]="triggerBtnIcon.icon"
-          ></mat-icon>
+            [fontSet]="!triggerBtnIcon.materialIcon ? 'icon' : null"
+            [fontIcon]="
+              !triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : null
+            "
+          >
+            {{ triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : '' }}
+          </mat-icon>
         </button>
       </div>
       <ng-content select="[settings-header]"></ng-content>
@@ -38,7 +41,12 @@
       aria-label="Filter"
       (click)="sidebar.toggle()"
     >
-      <mat-icon>format_quote</mat-icon>
+      <mat-icon
+        [fontSet]="!triggerBtnIcon.materialIcon ? 'icon' : null"
+        [fontIcon]="!triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : null"
+      >
+        {{ triggerBtnIcon.materialIcon ? triggerBtnIcon.icon : '' }}
+      </mat-icon>
     </button>
     <ng-content select="[container]"></ng-content>
   </mat-sidenav-content>
