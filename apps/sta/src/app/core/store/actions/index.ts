@@ -3,6 +3,7 @@ import { createAction, union } from '@ngrx/store';
 export * from './tagging/tagging.actions';
 export * from './translation/translation.actions';
 export * from './question-answering/question-answering.actions';
+export * from './drei-d-master/dreid-d-master.actions';
 
 export const resetAll = createAction('[All] Reset all');
 

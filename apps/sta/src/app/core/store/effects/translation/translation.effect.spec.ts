@@ -25,7 +25,7 @@ import {
   resetTranslation,
 } from '../../actions';
 import { initialState } from '../../reducers/translation/translation.reducer';
-import { TranslationEffects } from './translation.effetcs';
+import { TranslationEffects } from './translation.effects';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),

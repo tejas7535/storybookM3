@@ -10,7 +10,13 @@ import { Answer } from '../../../core/store/reducers/question-answering/models/a
 import { QuestionAnsweringFileInput } from '../../../core/store/reducers/question-answering/models/question-answering-file-input.model';
 import { QuestionAnsweringTextInput } from '../../../core/store/reducers/question-answering/models/question-answering-text-input.model';
 import { TranslationFileInput } from '../../../core/store/reducers/translation/models/translation-file-input.model';
-import { FileReplacement, Language, TextInput, Translation } from '../models';
+import {
+  Classification,
+  FileReplacement,
+  Language,
+  TextInput,
+  Translation,
+} from '../models';
 import { DataService } from './data.service';
 
 describe('DataService', () => {
@@ -337,6 +343,26 @@ describe('DataService', () => {
       expect(req.request.body).toEqual(formData);
 
       req.flush(expectedAnswer);
+    });
+  });
+
+  describe('postClassificationTextText', () => {
+    test('should return an Observable<Classification>', (done) => {
+      const text: TextInput = { text: 'Heya I wanna send something to ya!' };
+      const expectedClassification: Classification = {
+        categories: [[1]],
+        probabilities: [[0.5]],
+      };
+      const url = `${basePath}/dreidmaster/text`;
+
+      service.postClassificationText(text).subscribe((classification) => {
+        expect(classification).toEqual(expectedClassification);
+        done();
+      });
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('POST');
+      req.flush(expectedClassification);
     });
   });
 });

@@ -56,13 +56,8 @@ export class TranslationComponent implements OnInit {
     );
   }
 
-  public getTranslationForText(textInput: TextInput): void {
-    const input: TextInput = {
-      text: textInput.text,
-      targetLang: textInput.targetLang,
-      textLang: textInput.textLang,
-    };
-    this.store.dispatch(loadTranslationForText({ textInput: input }));
+  public getTranslationForText(input: TextInput): void {
+    this.store.dispatch(loadTranslationForText({ textInput: { ...input } }));
   }
 
   public async getTranslationForFile(file: File): Promise<void> {

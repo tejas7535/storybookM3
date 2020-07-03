@@ -124,4 +124,14 @@ export const APP_STATE_MOCK = {
     },
     selectedTabIndex: 0,
   },
+  dreiDMaster: {
+    classificationTextInput: {
+      text: 'input text',
+    },
+    classificationForText: {
+      categories: [[10, 12]],
+      probabilities: [[0.4, 0.6]],
+      loading: false,
+    },
+  },
 };

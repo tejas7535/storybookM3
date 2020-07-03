@@ -16,8 +16,10 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/shared/app-state.mock';
 import { AppState, resetAll } from '../../core/store';
+import { DreiDMasterModule } from '../../feature/drei-d-master/drei-d-master.module';
 import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
+import { ResultDreiDMasterComponent } from './result-drei-d-master/result-drei-d-master.component';
 import { ResultQuestionAnsweringModule } from './result-question-answering/result-question-answering.module';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
@@ -41,11 +43,13 @@ describe('ResultComponent', () => {
         NoopAnimationsModule,
         GhostLineElementsModule,
         ResultQuestionAnsweringModule,
+        DreiDMasterModule,
       ],
       declarations: [
         ResultComponent,
         ResultAutoTaggingComponent,
         ResultTranslationComponent,
+        ResultDreiDMasterComponent,
       ],
       providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });

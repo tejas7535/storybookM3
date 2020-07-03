@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input';
 
 import { GhostLineElementsModule } from '../ghost-elements/ghost-line-elements.module';
 import { ResultAutoTaggingComponent } from './result-auto-tagging/result-auto-tagging.component';
+import { ResultDreiDMasterComponent } from './result-drei-d-master/result-drei-d-master.component';
 import { ResultQuestionAnsweringModule } from './result-question-answering/result-question-answering.module';
 import { ResultTranslationComponent } from './result-translation/result-translation.component';
 import { ResultComponent } from './result.component';
@@ -21,6 +22,7 @@ import { ResultComponent } from './result.component';
     ResultComponent,
     ResultAutoTaggingComponent,
     ResultTranslationComponent,
+    ResultDreiDMasterComponent,
   ],
   imports: [
     CommonModule,

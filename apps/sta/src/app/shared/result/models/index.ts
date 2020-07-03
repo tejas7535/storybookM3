@@ -7,3 +7,4 @@ export * from './language-detection-response.model';
 export * from './key-value.model';
 export * from './text-input.model';
 export * from './file-replacement.model';
+export * from './drei-d-master.model';

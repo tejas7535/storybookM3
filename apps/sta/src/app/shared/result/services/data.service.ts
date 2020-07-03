@@ -10,6 +10,7 @@ import { QuestionAnsweringFileInput } from '../../../core/store/reducers/questio
 import { QuestionAnsweringTextInput } from '../../../core/store/reducers/question-answering/models/question-answering-text-input.model';
 import { TranslationFileInput } from '../../../core/store/reducers/translation/models/translation-file-input.model';
 import {
+  Classification,
   FileReplacement,
   Language,
   LanguageDetection,
@@ -51,6 +52,15 @@ export class DataService {
       .pipe(map((response: Tags) => response.tags));
   }
 
+  public postClassificationText(
+    textInput: TextInput
+  ): Observable<Classification> {
+    return this.http
+      .post<Classification>(`${this.apiUrl}/dreidmaster/text`, {
+        text: textInput.text,
+      })
+      .pipe(map((response: Classification) => response));
+  }
   public postTranslationText(textInput: TextInput): Observable<Translation> {
     const postTextInput: TextInput = {
       text: textInput.text,

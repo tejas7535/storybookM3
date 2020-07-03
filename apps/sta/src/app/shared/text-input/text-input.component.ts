@@ -55,7 +55,7 @@ export class TextInputComponent implements OnDestroy, OnInit {
   @Input() public showTargetLanguage = true;
   @Input() public disabledLanguages: string[] = [];
   @Input() public showSubmitButton = true;
-
+  @Input() public languageDetectionEnabled = true;
   @Output() public readonly btnClicked = new EventEmitter<TextInput>();
   @Output() public readonly textUpdate = new EventEmitter<TextInput>();
 
