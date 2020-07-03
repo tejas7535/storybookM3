@@ -1,7 +1,9 @@
-import { de, en, PageNotFoundModule } from './page-not-found.module';
-
 import * as testJsonDe from './i18n/de.json';
 import * as testJsonEn from './i18n/en.json';
+import {
+  pageNotFoundLoader,
+  PageNotFoundModule,
+} from './page-not-found.module';
 
 describe('PageNotFoundModule', () => {
   let module: PageNotFoundModule;
@@ -15,15 +17,15 @@ describe('PageNotFoundModule', () => {
   });
 
   describe('importer', () => {
-    test('de should import language from root path', async () => {
-      const result = await de();
-
-      expect(result).toEqual(testJsonDe);
+    test('de should import language from root path', () => {
+      pageNotFoundLoader['de']().then((result: any) => {
+        expect(result).toStrictEqual(testJsonDe);
+      });
     });
-    test('en should import language from root path', async () => {
-      const result = await en();
-
-      expect(result).toEqual(testJsonEn);
+    test('en should import language from root path', () => {
+      pageNotFoundLoader['en']().then((result: any) => {
+        expect(result).toStrictEqual(testJsonEn);
+      });
     });
   });
 });

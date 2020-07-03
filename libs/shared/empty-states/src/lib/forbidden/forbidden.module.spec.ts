@@ -1,20 +1,26 @@
-import { bannerLoader, BannerModule } from './banner.module';
+import { forbiddenLoader, ForbiddenModule } from './forbidden.module';
 import * as testJsonDe from './i18n/de.json';
 import * as testJsonEn from './i18n/en.json';
 
-describe('BannerModule', () => {
-  test('should work', () => {
-    expect(new BannerModule()).toBeDefined();
+describe('ForbiddenModule', () => {
+  let module: ForbiddenModule;
+
+  beforeEach(() => {
+    module = new ForbiddenModule();
+  });
+
+  test('should exist', () => {
+    expect(module).toBeDefined();
   });
 
   describe('importer', () => {
     test('de should import language from root path', () => {
-      bannerLoader['de']().then((result: any) => {
+      forbiddenLoader['de']().then((result: any) => {
         expect(result).toStrictEqual(testJsonDe);
       });
     });
     test('en should import language from root path', () => {
-      bannerLoader['en']().then((result: any) => {
+      forbiddenLoader['en']().then((result: any) => {
         expect(result).toStrictEqual(testJsonEn);
       });
     });

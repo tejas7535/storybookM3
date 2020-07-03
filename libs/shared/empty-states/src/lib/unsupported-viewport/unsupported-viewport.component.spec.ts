@@ -5,13 +5,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import * as testJsonDe from './i18n/de.json';
-import * as testJsonEn from './i18n/en.json';
-import {
-  de,
-  en,
-  UnsupportedViewportComponent,
-} from './unsupported-viewport.component';
+import { UnsupportedViewportComponent } from './unsupported-viewport.component';
 
 describe('UnsupportedViewportComponent', () => {
   let component: UnsupportedViewportComponent;
@@ -31,18 +25,5 @@ describe('UnsupportedViewportComponent', () => {
 
   it('Should create a component', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('importer', () => {
-    test('de should import language from root path', async () => {
-      const result = await de();
-
-      expect(result).toEqual(testJsonDe);
-    });
-    test('en should import language from root path', async () => {
-      const result = await en();
-
-      expect(result).toEqual(testJsonEn);
-    });
   });
 });

@@ -4,8 +4,6 @@ import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
 import {
@@ -23,7 +21,7 @@ describe('BannerComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [BannerComponent],
-      imports: [BannerTextModule, provideTranslocoTestingModule({})],
+      imports: [BannerTextModule],
       providers: [
         provideMockStore({
           initialState: { banner: initialState },

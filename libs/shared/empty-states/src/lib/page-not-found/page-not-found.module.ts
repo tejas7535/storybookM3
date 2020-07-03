@@ -14,21 +14,21 @@ const routes = [
   },
 ];
 
-// tslint:disable: only-arrow-functions
-export function de(): any {
-  return import('./i18n/de.json');
-}
+export const pageNotFoundLoader = ['en', 'de'].reduce(
+  (acc: any, lang: string) => {
+    acc[lang] = () => import(`./i18n/${lang}.json`);
 
-export function en(): any {
-  return import('./i18n/en.json');
-}
+    return acc;
+  },
+  {}
+);
 
 @NgModule({
   declarations: [PageNotFoundComponent],
   imports: [
     FlexLayoutModule,
     MatButtonModule,
-    SharedTranslocoModule.forChild('pageNotFound', { en, de }),
+    SharedTranslocoModule.forChild('pageNotFound', pageNotFoundLoader),
     RouterModule.forChild(routes),
   ],
   exports: [PageNotFoundComponent],
