@@ -8,6 +8,7 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import * as fromDreiDMaster from './drei-d-master/drei-d-master.reducer';
 import * as fromQuestionAnswering from './question-answering/question-answering.reducer';
 import * as fromTagging from './tagging/tagging.reducer';
 import * as fromTranslation from './translation/translation.reducer';
@@ -23,6 +24,7 @@ export interface AppState {
   tagging: fromTagging.TaggingState;
   translation: fromTranslation.TranslationState;
   questionAnswering: fromQuestionAnswering.QuestionAnsweringState;
+  dreiDMaster: fromDreiDMaster.DreiDMasterState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -30,6 +32,7 @@ export const reducers: ActionReducerMap<AppState> = {
   tagging: fromTagging.taggingReducer,
   translation: fromTranslation.translationReducer,
   questionAnswering: fromQuestionAnswering.questionAnsweringReducer,
+  dreiDMaster: fromDreiDMaster.dreiDMasterReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -51,6 +54,10 @@ export const getTranslationState = createFeatureSelector<
 export const getQuestionAnsweringState = createFeatureSelector<
   fromQuestionAnswering.QuestionAnsweringState
 >('questionAnswering');
+
+export const getDreiDMasterState = createFeatureSelector<
+  fromDreiDMaster.DreiDMasterState
+>('dreiDMaster');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

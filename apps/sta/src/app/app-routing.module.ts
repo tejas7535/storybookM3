@@ -38,6 +38,14 @@ const routes: Routes = [
     data: { service: ServiceType.QUESTION_ANSWERING },
   },
   {
+    path: 'drei-d-master',
+    loadChildren: () =>
+      import('./feature/drei-d-master/drei-d-master.module').then(
+        (m) => m.DreiDMasterModule
+      ),
+    data: { service: ServiceType.DREI_D_MASTER },
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('@schaeffler/shared/empty-states').then(
