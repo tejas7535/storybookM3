@@ -15,14 +15,20 @@ const routes = [
   },
 ];
 
+export const forbiddenLoader = ['en', 'de'].reduce((acc: any, lang: string) => {
+  acc[lang] = () => import(`./i18n/${lang}.json`);
+
+  return acc;
+}, {});
+
 @NgModule({
   declarations: [ForbiddenComponent],
   imports: [
     CommonModule,
-    SharedTranslocoModule,
     FlexLayoutModule,
     MatButtonModule,
     RouterModule.forChild(routes),
+    SharedTranslocoModule.forChild('forbidden', forbiddenLoader),
   ],
 })
 export class ForbiddenModule {}

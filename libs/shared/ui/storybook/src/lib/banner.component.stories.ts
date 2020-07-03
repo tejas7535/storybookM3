@@ -1,13 +1,19 @@
 import { CommonModule } from '@angular/common';
 
-import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { StoreModule } from '@ngrx/store';
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
 
-import { BannerModule, BannerTextComponent, loader } from '@schaeffler/banner';
+import {
+  bannerLoader,
+  BannerModule,
+  BannerTextComponent,
+} from '@schaeffler/banner';
 import { IconsModule } from '@schaeffler/icons';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import {
+  provideTranslocoTestingModule,
+  SharedTranslocoModule,
+} from '@schaeffler/transloco';
 
 import READMEMd from '../../../banner/README.md';
 import enJson from '../../../banner/src/lib/i18n/en.json';
@@ -18,16 +24,8 @@ const moduleMetadata = {
     BannerModule,
     StoreModule.forRoot({}),
     provideTranslocoTestingModule({ enJson }),
+    SharedTranslocoModule.forChild('banner', bannerLoader),
     IconsModule,
-  ],
-  providers: [
-    {
-      provide: TRANSLOCO_SCOPE,
-      useValue: {
-        loader,
-        scope: 'banner',
-      },
-    },
   ],
 };
 
