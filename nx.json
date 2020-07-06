@@ -137,6 +137,14 @@
     "shared-ui-storybook-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-storybook"]
+    },
+    "seli": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "seli-e2e": {
+      "tags": [],
+      "implicitDependencies": ["seli"]
     }
   },
   "tasksRunnerOptions": {

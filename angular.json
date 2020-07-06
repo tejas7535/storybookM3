@@ -10,7 +10,7 @@
       },
       "root": "apps/kitchen-sink",
       "sourceRoot": "apps/kitchen-sink/src",
-      "prefix": "schaeffler",
+      "prefix": "kitchen-sink",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -252,7 +252,7 @@
       },
       "root": "apps/sta",
       "sourceRoot": "apps/sta/src",
-      "prefix": "schaeffler",
+      "prefix": "sta",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -563,7 +563,7 @@
       },
       "root": "apps/ltp",
       "sourceRoot": "apps/ltp/src",
-      "prefix": "schaeffler",
+      "prefix": "ltp",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -768,7 +768,7 @@
       },
       "root": "apps/steel",
       "sourceRoot": "apps/steel/src",
-      "prefix": "schaeffler",
+      "prefix": "steel",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -1006,7 +1006,7 @@
       },
       "root": "apps/helloworld-azure",
       "sourceRoot": "apps/helloworld-azure/src",
-      "prefix": "schaeffler",
+      "prefix": "helloworld-azure",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -2098,7 +2098,7 @@
       },
       "root": "apps/goldwind",
       "sourceRoot": "apps/goldwind/src",
-      "prefix": "schaeffler",
+      "prefix": "goldwind",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
@@ -2374,6 +2374,213 @@
               "**/node_modules/**",
               "!apps/shared-ui-storybook-e2e/**/*"
             ]
+          }
+        }
+      }
+    },
+    "seli": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/seli",
+      "sourceRoot": "apps/seli/src",
+      "prefix": "seli",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/seli",
+            "index": "apps/seli/src/index.html",
+            "main": "apps/seli/src/main.ts",
+            "polyfills": "apps/seli/src/polyfills.ts",
+            "tsConfig": "apps/seli/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/seli/src/favicon.ico", "apps/seli/src/assets"],
+            "styles": [
+              "apps/seli/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/seli/src/environments/environment.ts",
+                  "with": "apps/seli/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/seli/src/environments/environment.ts",
+                  "with": "apps/seli/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/seli/src/environments/environment.ts",
+                  "with": "apps/seli/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "seli:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "seli:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "seli:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "seli:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/seli/tsconfig.app.json",
+              "apps/seli/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/seli/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/seli/jest.config.js",
+            "tsConfig": "apps/seli/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/seli/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/seli && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "seli-e2e": {
+      "root": "apps/seli-e2e",
+      "sourceRoot": "apps/seli-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/seli-e2e/cypress.json",
+            "tsConfig": "apps/seli-e2e/tsconfig.e2e.json",
+            "devServerTarget": "seli:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "seli:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "seli:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/seli-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/seli-e2e/**/*"]
           }
         }
       }

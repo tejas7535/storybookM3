@@ -35,6 +35,10 @@ apps/cdba-e2e @kauppfbi @herpisef
 apps/goldwind @krausrbe 
 apps/goldwind-e2e @krausrbe 
 
+# SELI
+apps/seli @birketho @soehnpsc 
+apps/seli-e2e @birketho @soehnpsc 
+
 ############
 ### Libs ###
 ############

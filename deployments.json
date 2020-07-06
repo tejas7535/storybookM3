@@ -4,5 +4,6 @@
   "ltp": "/AIsolutions/ltp/ltp-deployment",
   "helloworld-azure": "/hello-world/hw-frontend-deployment/master/",
   "cdba": "/cdba/cdba-fe-deployment/master/",
-  "goldwind": "/goldwind/gw/master/"
+  "goldwind": "/goldwind/gw/master/",
+  "seli": "/seli/seli-frontend-deployment/master/"
 }

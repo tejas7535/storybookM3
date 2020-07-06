@@ -143,6 +143,10 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
 
     return updateWorkspace((workspace) => {
       const appConfiguration = workspace.projects.get(options.projectName);
+
+      // Set app prefix
+      appConfiguration.prefix = strings.dasherize(options.projectName);
+
       // Add icons to styles array
       const styles = appConfiguration.targets.get('build').options[
         'styles'
