@@ -132,7 +132,7 @@
     "@storybook/angular": "5.3.19",
     "@testing-library/jest-dom": "5.11.0",
     "@types/jest": "26.0.3",
-    "@types/node": "13.13.12",
+    "@types/node": "13.13.13",
     "angular-tslint-rules": "1.20.4",
     "babel-loader": "8.1.0",
     "codelyzer": "6.0.0",
