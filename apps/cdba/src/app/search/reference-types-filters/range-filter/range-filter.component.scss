@@ -1,11 +1,19 @@
 @import 'libs/shared/styles/src/lib/colors';
 @import 'libs/shared/styles/src/lib/fonts';
 
+:host {
+  width: 100%;
+}
+
+mat-form-field {
+  width: 100% !important;
+}
+
 ::ng-deep .range-menu {
   margin-left: 4px;
   margin-top: 30px;
-  min-width: 204px !important;
-  width: 204px !important;
+  min-width: 233px !important;
+  width: 233px !important;
 
   &.ng-animating {
     visibility: hidden;

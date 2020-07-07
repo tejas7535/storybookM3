@@ -1,41 +1,38 @@
-<div
-  fxLayout="row"
-  fxLayoutAlign="center center"
-  fxLayoutGap="20px"
-  *transloco="let t; read: 'search.referenceTypesFilters'"
->
-  <ng-container
-    *ngFor="let filter of filters$ | async; trackBy: trackByFn"
-    [ngSwitch]="filter.type"
-  >
-    <cdba-multi-select-filter
-      *ngSwitchCase="filterType.ID_VALUE"
-      [filter]="filter"
-      [autocompleteLoading]="autocompleteLoading$ | async"
-      (autocomplete)="autocomplete($event)"
-      (updateFilter)="updateFilter($event)"
-    ></cdba-multi-select-filter>
+<div *transloco="let t; read: 'search.referenceTypesFilters'">
+  <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+    <ng-container
+      *ngFor="let filter of filters$ | async; trackBy: trackByFn"
+      [ngSwitch]="filter.type"
+    >
+      <cdba-multi-select-filter
+        fxFlex="233px"
+        *ngSwitchCase="filterType.ID_VALUE"
+        [filter]="filter"
+        [autocompleteLoading]="autocompleteLoading$ | async"
+        (autocomplete)="autocomplete($event)"
+        (updateFilter)="updateFilter($event)"
+      ></cdba-multi-select-filter>
 
-    <cdba-range-filter
-      *ngSwitchCase="filterType.RANGE"
-      [filter]="filter"
-      (updateFilter)="updateFilter($event)"
-    ></cdba-range-filter>
-  </ng-container>
-
-  <button mat-flat-button color="primary" (click)="search()">
-    <mat-icon>poll</mat-icon>
-    {{ t('search') }}
-  </button>
-  <button
-    mat-stroked-button
-    *ngIf="
-      (tooManyResults$ | async) ||
-      (searchSuccessful$ | async) ||
-      showResetButton
-    "
-    (click)="resetFilters()"
-  >
-    {{ t('resetFilter') }}
-  </button>
+      <cdba-range-filter
+        fxFlex="233px"
+        *ngSwitchCase="filterType.RANGE"
+        [filter]="filter"
+        (updateFilter)="updateFilter($event)"
+      ></cdba-range-filter>
+    </ng-container>
+  </div>
+  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
+    <button fxFlex="nogrow" mat-flat-button color="primary" (click)="search()">
+      <mat-icon>poll</mat-icon>
+      {{ t('search') }}
+    </button>
+    <button
+      fxFlex="nogrow"
+      mat-stroked-button
+      [disabled]="!showResetButton"
+      (click)="resetFilters()"
+    >
+      {{ t('resetFilter') }}
+    </button>
+  </div>
 </div>
