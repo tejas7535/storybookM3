@@ -56,13 +56,6 @@
       "tags": [],
       "implicitDependencies": ["shared-styles"]
     },
-    "steel-e2e": {
-      "tags": [],
-      "implicitDependencies": ["steel"]
-    },
-    "steel": {
-      "implicitDependencies": ["shared-styles"]
-    },
     "cdba": {
       "tags": [],
       "implicitDependencies": ["shared-styles"]
