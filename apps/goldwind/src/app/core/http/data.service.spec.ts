@@ -1,4 +1,3 @@
-import { HttpParams } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -45,19 +44,15 @@ describe('Data Service', () => {
     test('should call GET for given path', () => {
       const mockIotThingID = '123';
       const mock = 'mockData';
-      const httpParams = new HttpParams().set('test', '123');
 
-      service
-        .getIotThings<string>(mockIotThingID, httpParams)
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
+      service.getIotThings<string>(mockIotThingID).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
 
       const req = httpMock.expectOne(
-        `${BASE_URL}/iot/things/${mockIotThingID}?test=123`
+        `${BASE_URL}/iot/things/${mockIotThingID}`
       );
       expect(req.request.method).toBe('GET');
-      expect(req.request.params).toEqual(httpParams);
       req.flush(mock);
     });
   });

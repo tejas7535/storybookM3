@@ -15,7 +15,7 @@ import { AppState } from './core/store';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'GOLDWIND';
+  title = 'Goldwind';
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];

@@ -5,6 +5,6 @@ describe('goldwind', () => {
 
   it('should display platform title', () => {
     // Function helper example, see `../support/app.po.ts` file
-    getPlatformTitle().contains('GOLDWIND');
+    getPlatformTitle().contains('Goldwind');
   });
 });
