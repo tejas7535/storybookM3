@@ -46,7 +46,7 @@ describe('AppComponent', () => {
   });
 
   test(`should have as title 'GOLDWIND'`, () => {
-    expect(component.title).toEqual('GOLDWIND');
+    expect(component.title).toEqual('Goldwind');
   });
 
   describe('ngOnInit', () => {

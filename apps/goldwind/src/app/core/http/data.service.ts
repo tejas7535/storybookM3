@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -18,9 +18,7 @@ export class DataService {
     this.apiUrl = `${this.config.environment.baseUrl}`;
   }
 
-  public getIotThings<T>(path: string, params?: HttpParams): Observable<T> {
-    const options = params ? { params } : {};
-
-    return this.http.get<T>(`${this.apiUrl}/iot/things/${path}`, options);
+  public getIotThings<T>(path: string): Observable<T> {
+    return this.http.get<T>(`${this.apiUrl}/iot/things/${path}`);
   }
 }
