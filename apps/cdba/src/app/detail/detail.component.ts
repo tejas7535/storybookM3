@@ -2,11 +2,12 @@ import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import * as fromRouter from '../core/store/reducers';
+import { DetailState } from '../core/store/reducers/detail/detail.reducer';
+import { ReferenceType } from '../core/store/reducers/shared/models';
+import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 
 @Component({
   selector: 'cdba-detail',
@@ -14,25 +15,15 @@ import * as fromRouter from '../core/store/reducers';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  public plant$: Observable<string>;
-  public materialNumber$: Observable<string>;
+  public referenceType$: Observable<ReferenceType>;
 
   public constructor(
-    private readonly store: Store<fromRouter.AppState>,
+    private readonly store: Store<DetailState>,
     private readonly location: Location
   ) {}
 
   ngOnInit(): void {
-    this.materialNumber$ = this.store.pipe(
-      select(fromRouter.getRouterState),
-      map((routerState) => routerState.state),
-      map((state) => state.queryParams.materialNumber)
-    );
-    this.plant$ = this.store.pipe(
-      select(fromRouter.getRouterState),
-      map((routerState) => routerState.state),
-      map((state) => state.queryParams.plant)
-    );
+    this.referenceType$ = this.store.pipe(select(getReferenceType));
   }
 
   backToSearch(): void {

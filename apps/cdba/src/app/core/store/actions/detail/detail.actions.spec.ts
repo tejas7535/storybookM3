@@ -8,10 +8,10 @@ import {
   getDrawings,
   getDrawingsFailure,
   getDrawingsSuccess,
-  getItem,
-  getItemFailure,
-  getItemSuccess,
   getReferenceTypeDetails,
+  getReferenceTypeItem,
+  getReferenceTypeItemFailure,
+  getReferenceTypeItemSuccess,
   getRfqs,
   getRfqsFailure,
   getRfqsSuccess,
@@ -39,7 +39,7 @@ describe('Detail Actions', () => {
 
   describe('Get Item Actions', () => {
     test('getItem', () => {
-      const action = getItem({ referenceTypeId });
+      const action = getReferenceTypeItem({ referenceTypeId });
 
       expect(action).toEqual({
         referenceTypeId,
@@ -49,7 +49,7 @@ describe('Detail Actions', () => {
 
     test('getItemSuccess', () => {
       const item: any = {};
-      const action = getItemSuccess({ item });
+      const action = getReferenceTypeItemSuccess({ item });
 
       expect(action).toEqual({
         item,
@@ -58,7 +58,7 @@ describe('Detail Actions', () => {
     });
 
     test('getItemFailure', () => {
-      const action = getItemFailure();
+      const action = getReferenceTypeItemFailure();
 
       expect(action).toEqual({
         type: '[Detail] Load Reference Type Item Failure',

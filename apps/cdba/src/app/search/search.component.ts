@@ -9,8 +9,8 @@ import {
   getSearchSuccessful,
   getTooManyResults,
 } from '../core/store';
-import { ReferenceType } from '../core/store/reducers/search/models';
 import { SearchState } from '../core/store/reducers/search/search.reducer';
+import { ReferenceType } from '../core/store/reducers/shared/models';
 
 @Component({
   selector: 'cdba-search',

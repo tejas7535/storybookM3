@@ -11,6 +11,8 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
+import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { SharedModule } from '../shared/shared.module';
 import { DetailComponent } from './detail.component';
 
@@ -45,7 +47,12 @@ describe('DetailComponent', () => {
           initialState: {
             detail: {},
           },
-          selectors: [],
+          selectors: [
+            {
+              selector: getReferenceType,
+              value: REFRENCE_TYPE_MOCK,
+            },
+          ],
         }),
         { provide: Location, useValue: locationStub },
       ],

@@ -6,12 +6,11 @@
       color="secondary"
       (click)="backToSearch()"
     ></mat-icon>
-    <h1>F-446065.43.SLH>B | 089024192-00-00</h1>
-    <pre>
- (MaterialNumber: {{ materialNumber$ | async }} Plant: {{
-        plant$ | async
-      }})</pre
-    >
+    <h1 *ngIf="referenceType$ | async">
+      {{ (referenceType$ | async)?.materialDesignation }} |
+      {{ (referenceType$ | async)?.materialNumber }}
+    </h1>
+
     <!-- TODO remove show case-->
   </div>
   <mat-tab-group

@@ -21,7 +21,7 @@ import { SideBarModule } from '@ag-grid-enterprise/side-bar';
 import { StatusBarModule } from '@ag-grid-enterprise/status-bar';
 import { translate } from '@ngneat/transloco';
 
-import { ReferenceType } from '../../core/store/reducers/search/models';
+import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { ColumnState } from './column-state';
 import {
