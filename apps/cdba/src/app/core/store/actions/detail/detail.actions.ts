@@ -1,20 +1,25 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import {
+  ReferenceTypeIdModel,
+  ReferenceTypeResultModel,
+} from '../../reducers/detail/models';
+
 export const getReferenceTypeDetails = createAction(
   '[Detail] Load Reference Type Data'
 );
 
-export const getItem = createAction(
+export const getReferenceTypeItem = createAction(
   '[Detail] Load Reference Type Item',
-  props<{ referenceTypeId: any }>()
+  props<{ referenceTypeId: ReferenceTypeIdModel }>()
 );
 
-export const getItemSuccess = createAction(
+export const getReferenceTypeItemSuccess = createAction(
   '[Detail] Load Reference Type Item Success',
-  props<{ item: any }>()
+  props<{ item: ReferenceTypeResultModel }>()
 );
 
-export const getItemFailure = createAction(
+export const getReferenceTypeItemFailure = createAction(
   '[Detail] Load Reference Type Item Failure'
 );
 
@@ -71,22 +76,22 @@ export const getRfqsSuccess = createAction(
 export const getRfqsFailure = createAction('[Detail] Load RFQs Failure');
 
 const all = union({
-  getReferenceTypeDetails,
-  getItem,
-  getItemSuccess,
-  getItemFailure,
   getBom,
+  getRfqs,
+  getDrawings,
   getBomSuccess,
   getBomFailure,
-  getCalculations,
-  getCalculationsSuccess,
-  getCalculationsFailure,
-  getDrawings,
-  getDrawingsSuccess,
-  getDrawingsFailure,
-  getRfqs,
   getRfqsSuccess,
   getRfqsFailure,
+  getCalculations,
+  getDrawingsSuccess,
+  getDrawingsFailure,
+  getCalculationsSuccess,
+  getCalculationsFailure,
+  getReferenceTypeDetails,
+  getItem: getReferenceTypeItem,
+  getItemSuccess: getReferenceTypeItemSuccess,
+  getItemFailure: getReferenceTypeItemFailure,
 });
 
 export type DetailActions = typeof all;

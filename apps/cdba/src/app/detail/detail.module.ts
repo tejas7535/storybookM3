@@ -3,10 +3,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
@@ -22,6 +24,7 @@ import { DetailComponent } from './detail.component';
     StoreModule.forFeature('detail', detailReducer),
     MatIconModule,
     MatCardModule,
+    EffectsModule.forFeature([DetailEffects]),
   ],
 })
 export class DetailModule {}

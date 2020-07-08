@@ -1,4 +1,4 @@
-import { ReferenceType } from '../../app/core/store/reducers/search/models';
+import { ReferenceType } from '../../app/core/store/reducers/shared/models';
 
 export const REFRENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
   '0781403820000',
