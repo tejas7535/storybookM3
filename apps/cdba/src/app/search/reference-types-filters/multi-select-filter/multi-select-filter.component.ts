@@ -20,6 +20,7 @@ import {
   TextSearch,
 } from '../../../core/store/reducers/search/models';
 import { SearchUtilityService } from '../../services/search-utility.service';
+import { Filter } from '../filter';
 
 @Component({
   selector: 'cdba-multi-select-filter',
@@ -27,7 +28,7 @@ import { SearchUtilityService } from '../../services/search-utility.service';
   styleUrls: ['./multi-select-filter.component.scss'],
 })
 export class MultiSelectFilterComponent
-  implements OnChanges, OnDestroy, OnInit {
+  implements OnChanges, OnDestroy, OnInit, Filter {
   @Input() filter: FilterItemIdValue;
 
   @Input() autocompleteLoading = false;
@@ -106,6 +107,14 @@ export class MultiSelectFilterComponent
 
   public ngOnDestroy(): void {
     this.subscription.unsubscribe();
+  }
+
+  /**
+   * Reset search field and the form itself.
+   */
+  public reset(): void {
+    this.resetSearchField();
+    this.form.setValue([]);
   }
 
   /**

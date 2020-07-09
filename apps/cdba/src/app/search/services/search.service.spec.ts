@@ -65,7 +65,7 @@ describe('SearchService', () => {
 
   describe('search', () => {
     test('should get search result', () => {
-      const mock = new SearchResult([], []);
+      const mock = new SearchResult([], [], 0);
 
       service.search([]).subscribe((response) => {
         expect(response).toEqual(mock);
@@ -106,7 +106,7 @@ describe('SearchService', () => {
       };
 
       service.textSearch(textSearch).subscribe((response) => {
-        expect(response).toEqual(new SearchResult([], []));
+        expect(response).toEqual(new SearchResult([], [], 0));
         done();
       });
     });

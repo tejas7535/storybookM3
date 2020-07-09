@@ -38,6 +38,7 @@ export interface SearchState {
     loading: boolean;
     items: any[];
     tooManyResults: boolean;
+    resultCount: number;
   };
 }
 
@@ -55,6 +56,7 @@ export const initialState: SearchState = {
     loading: false,
     items: undefined,
     tooManyResults: false,
+    resultCount: 0,
   },
 };
 
@@ -124,7 +126,8 @@ export const searchReducer = createReducer(
       ...state.referenceTypes,
       items: searchResult.result,
       loading: false,
-      tooManyResults: !searchResult.result,
+      tooManyResults: searchResult.resultCount > 500,
+      resultCount: searchResult.resultCount,
     },
   })),
   on(searchFailure, (state: SearchState) => ({

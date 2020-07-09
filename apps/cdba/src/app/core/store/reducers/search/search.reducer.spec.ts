@@ -94,7 +94,8 @@ describe('Search Reducer', () => {
       const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref]
+        [ref],
+        2
       );
       const expectedEntities = {
         plant: filterItemIdVal,
@@ -118,10 +119,11 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
-    test('should unset loading and tooManyResults if results undefined', () => {
+    test('should unset loading and tooManyResults if too many results', () => {
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        undefined
+        [],
+        501
       );
       const expectedEntities = {
         plant: filterItemIdVal,
@@ -178,7 +180,8 @@ describe('Search Reducer', () => {
       const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref]
+        [ref],
+        2
       );
       const expectedEntities = {
         plant: filterItemIdVal,
@@ -205,7 +208,8 @@ describe('Search Reducer', () => {
     test('should unset loading and tooManyResults if results undefined', () => {
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        undefined
+        undefined,
+        2
       );
       const expectedEntities = {
         plant: filterItemIdVal,

@@ -10,6 +10,7 @@ import {
 import { FormControl } from '@angular/forms';
 
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
+import { Filter } from '../filter';
 import { InputType } from './input-type.enum';
 
 @Component({
@@ -18,7 +19,7 @@ import { InputType } from './input-type.enum';
   styleUrls: ['./range-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RangeFilterComponent implements OnChanges {
+export class RangeFilterComponent implements OnChanges, Filter {
   public form = new FormControl();
   public inputType = InputType;
 
@@ -41,7 +42,17 @@ export class RangeFilterComponent implements OnChanges {
     }
   }
 
-  public reset(input: InputType): void {
+  /**
+   * Reset form.
+   */
+  public reset(): void {
+    this.form.reset();
+  }
+
+  /**
+   * Reset input and emit update.
+   */
+  public resetInput(input: InputType): void {
     const toUpdate = `${input}Selected`;
     const newValue: number = undefined;
 
@@ -50,56 +61,77 @@ export class RangeFilterComponent implements OnChanges {
     this.updateFilter.emit(updatedFilter);
   }
 
+  /**
+   * Change listener for min/max slider.
+   */
   public update(input: InputType, newValue: number | string): void {
     const value = +newValue;
 
     if (input === InputType.Min) {
       if (value === this.filter.min) {
-        this.reset(input);
+        this.resetInput(input);
       } else {
         this.updateMinInput(value);
       }
     } else {
       if (value === this.filter.max) {
-        this.reset(input);
+        this.resetInput(input);
       } else {
         this.updateMaxInput(value);
       }
     }
   }
 
+  /**
+   * Update filter selection dependent on new min input.
+   */
   private updateMinInput(newValue: number): void {
     let value = newValue;
+    let maxSelected = this.filter.maxSelected;
+
+    // no max value yet selected
+    if (!maxSelected) {
+      maxSelected = this.filter.max;
+    }
 
     // check if new min value > max selected
     if (value >= this.filter.maxSelected) {
       // check if value < max
       if (value < this.filter.max) {
         // define ticks, 1 may be to large for some filters
-        this.filter.maxSelected = value + 1;
+        maxSelected = maxSelected === 0 ? this.filter.max : value + 1;
       } else {
         value = this.filter.max - 1;
-        this.filter.maxSelected = this.filter.max;
+        maxSelected = this.filter.max;
       }
     }
 
-    this.updateFilter.emit({ ...this.filter, minSelected: value });
+    this.updateFilter.emit({ ...this.filter, maxSelected, minSelected: value });
   }
 
+  /**
+   * Update filter selection dependent on new max input.
+   */
   private updateMaxInput(newValue: number): void {
     let value = newValue;
+    let minSelected = this.filter.minSelected;
+
+    // no min value yet selected
+    if (!minSelected) {
+      minSelected = this.filter.min;
+    }
 
     // check if new max value is smaller than min selected
     if (value <= this.filter.minSelected) {
       // check if value > min
       if (value > this.filter.min) {
-        this.filter.minSelected = value - 1;
+        minSelected = value - 1;
       } else {
         value += 1;
-        this.filter.minSelected = this.filter.min;
+        minSelected = this.filter.min;
       }
     }
 
-    this.updateFilter.emit({ ...this.filter, maxSelected: value });
+    this.updateFilter.emit({ ...this.filter, minSelected, maxSelected: value });
   }
 }

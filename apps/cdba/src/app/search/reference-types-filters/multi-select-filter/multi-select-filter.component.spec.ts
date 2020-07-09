@@ -270,6 +270,17 @@ describe('MultiSelectFilterComponent', () => {
     });
   });
 
+  describe('reset', () => {
+    it('should reset the form', () => {
+      component.resetSearchField = jest.fn();
+
+      component.reset();
+
+      expect(component.resetSearchField).toHaveBeenCalled();
+      expect(component.form.value).toEqual([]);
+    });
+  });
+
   describe('resetSearchField', () => {
     it('should reset searchForm', () => {
       component.searchForm.reset = jest.fn();

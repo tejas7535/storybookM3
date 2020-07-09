@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -22,12 +22,21 @@ import {
   getAutocompleteLoading,
   getFilters,
 } from '../../core/store/selectors/search/search.selector';
+import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
+import { RangeFilterComponent } from './range-filter/range-filter.component';
 
 @Component({
   selector: 'cdba-reference-types-filters',
   templateUrl: './reference-types-filters.component.html',
 })
 export class ReferenceTypesFiltersComponent implements OnInit {
+  @ViewChildren(MultiSelectFilterComponent) multiSelectFilters: QueryList<
+    MultiSelectFilterComponent
+  >;
+  @ViewChildren(RangeFilterComponent) rangeFilters: QueryList<
+    RangeFilterComponent
+  >;
+
   filters$: Observable<FilterItem[]>;
 
   // can be used for all filters for now since only one filter can be opened anyway
@@ -82,5 +91,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   public resetFilters(): void {
     this.store.dispatch(resetFilters());
     this.showResetButton = false;
+    this.multiSelectFilters.forEach((filter) => filter.reset());
+    this.rangeFilters.forEach((filter) => filter.reset());
   }
 }
