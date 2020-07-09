@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'cdba-filter-panel',
   templateUrl: './filter-panel.component.html',
   styleUrls: ['./filter-panel.component.scss'],
 })
-export class FilterPanelComponent {}
+export class FilterPanelComponent {
+  @Input() public resultCount: number;
+}

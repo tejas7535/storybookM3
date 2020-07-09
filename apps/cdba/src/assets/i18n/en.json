@@ -9,8 +9,8 @@
   },
   "search": {
     "tooManyResults": "Too many results.",
-    "tooManyEntriesInDatabase": "We found too many entries in our Database.",
-    "useFilter": "Please use filters to reduce the number of results.",
+    "tooManyEntriesInDatabase": "We found {{ resultCount }} entries in our Database.",
+    "useFilter": "Please use filters to reduce the number of results to a maximum of 500.",
     "filterPanel": {
       "open": "open filter panel",
       "collapse": "collapse filter panel"
