@@ -9,6 +9,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import * as rxjs from 'rxjs';
+
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -77,9 +79,11 @@ describe('MultiSelectFilterComponent', () => {
       expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
     });
 
-    it('should add valueChanges subscription after debounce time on searchRemote', (done) => {
+    it('should add valueChanges subscription after DEBOUNCE_TIME_DEFAULT on searchRemote with > 1 chars', (done) => {
       component.searchFieldChange = jest.fn();
       component.filter.autocomplete = true;
+      component.searchForm.setValue('test');
+      const spy = jest.spyOn(rxjs, 'timer');
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
@@ -91,8 +95,31 @@ describe('MultiSelectFilterComponent', () => {
 
       setTimeout(() => {
         expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
+        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_DEFAULT);
         done();
-      }, component.debounceTime);
+      }, component.DEBOUNCE_TIME_DEFAULT);
+    });
+
+    it('should add valueChanges subscription after DEBOUNCE_TIME_ONE_CHAR on searchRemote with 1 char', (done) => {
+      component.searchFieldChange = jest.fn();
+      component.filter.autocomplete = true;
+      component.searchForm.setValue('t');
+      const spy = jest.spyOn(rxjs, 'timer');
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      const testVal = 'test2';
+      component.searchForm.setValue(testVal);
+
+      expect(component.searchFieldChange).not.toHaveBeenCalledWith(testVal);
+
+      setTimeout(() => {
+        expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
+        expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_ONE_CHAR);
+        done();
+        done();
+      }, component.DEBOUNCE_TIME_ONE_CHAR);
     });
   });
 
