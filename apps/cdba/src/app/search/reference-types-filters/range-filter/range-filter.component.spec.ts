@@ -91,8 +91,16 @@ describe('RangeFilterComponent', () => {
   });
 
   describe('reset', () => {
-    beforeEach(() => {});
+    it('should reset the form', () => {
+      component.form.reset = jest.fn();
 
+      component.reset();
+
+      expect(component.form.reset).toHaveBeenCalled();
+    });
+  });
+
+  describe('resetInput', () => {
     it('should emit updateFilter in order to reset min|max input', () => {
       const input: InputType = InputType.Max;
 
@@ -101,7 +109,7 @@ describe('RangeFilterComponent', () => {
       component['updateFilter'].emit = jest.fn();
 
       component.filter = filter;
-      component.reset(input);
+      component.resetInput(input);
 
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
@@ -120,7 +128,7 @@ describe('RangeFilterComponent', () => {
 
       component['updateMinInput'] = jest.fn();
       component['updateMaxInput'] = jest.fn();
-      component.reset = jest.fn();
+      component.resetInput = jest.fn();
     });
 
     it('should call reset, if value equals min', () => {
@@ -130,7 +138,7 @@ describe('RangeFilterComponent', () => {
 
       component.update(input, value);
 
-      expect(component.reset).toHaveBeenCalledWith(input);
+      expect(component.resetInput).toHaveBeenCalledWith(input);
     });
 
     it('should call updateMinInput', () => {
@@ -151,7 +159,7 @@ describe('RangeFilterComponent', () => {
 
       component.update(input, value);
 
-      expect(component.reset).toHaveBeenCalledWith(input);
+      expect(component.resetInput).toHaveBeenCalledWith(input);
     });
 
     it('should call updateMaxInput', () => {
@@ -185,6 +193,7 @@ describe('RangeFilterComponent', () => {
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         minSelected: 20,
+        maxSelected: filter.max,
       });
     });
 
@@ -236,6 +245,7 @@ describe('RangeFilterComponent', () => {
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
         maxSelected: 80,
+        minSelected: filter.min,
       });
     });
 

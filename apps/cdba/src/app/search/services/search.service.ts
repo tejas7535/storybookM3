@@ -61,6 +61,6 @@ export class SearchService {
   }
 
   public textSearch(_textSearch: any): Observable<SearchResult> {
-    return of(new SearchResult([], []));
+    return of(new SearchResult([], [], 0));
   }
 }

@@ -143,7 +143,8 @@ describe('Search Effects', () => {
       const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref]
+        [ref],
+        2
       );
       const result = searchSuccess({
         searchResult,
@@ -205,7 +206,8 @@ describe('Search Effects', () => {
       const ref = REFRENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
-        [ref]
+        [ref],
+        2
       );
       const result = applyTextSearchSuccess({
         searchResult,

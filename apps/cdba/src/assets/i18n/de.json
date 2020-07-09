@@ -22,7 +22,7 @@
       "material_number": "Materialnummer",
       "material_designation": "Material Designation",
       "customer": "Kunde",
-      "msd": "Material Kurzbeschreibung",
+      "material_short_description": "Material Kurzbeschreibung",
       "budget_quantity": "Budgetierte Menge",
       "length": "Länge",
       "width": "Breite",

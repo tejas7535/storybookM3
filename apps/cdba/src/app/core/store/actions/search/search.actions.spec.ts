@@ -75,7 +75,7 @@ describe('Search Actions', () => {
         false
       );
       const ref = REFRENCE_TYPE_MOCK;
-      const searchResult = new SearchResult([item], [ref]);
+      const searchResult = new SearchResult([item], [ref], 1);
       const action = searchSuccess({ searchResult });
 
       expect(action).toEqual({
@@ -132,7 +132,7 @@ describe('Search Actions', () => {
         false
       );
       const ref = REFRENCE_TYPE_MOCK;
-      const searchResult = new SearchResult([item], [ref]);
+      const searchResult = new SearchResult([item], [ref], 1);
       const action = applyTextSearchSuccess({ searchResult });
 
       expect(action).toEqual({
