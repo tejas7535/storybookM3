@@ -41,7 +41,9 @@ export class MultiSelectFilterComponent
     TextSearch
   > = new EventEmitter();
 
-  debounceTime = 250;
+  ONE_CHAR_LENGTH = 1;
+  DEBOUNCE_TIME_DEFAULT = 500;
+  DEBOUNCE_TIME_ONE_CHAR = 1000;
 
   form = new FormControl();
   searchForm = new FormControl();
@@ -64,7 +66,10 @@ export class MultiSelectFilterComponent
           tap(() => (this.debounceIsActive = true)),
           debounce(() =>
             this.filter && this.filter.autocomplete
-              ? timer(this.debounceTime)
+              ? this.searchForm.value &&
+                this.searchForm.value.length > this.ONE_CHAR_LENGTH
+                ? timer(this.DEBOUNCE_TIME_DEFAULT)
+                : timer(this.DEBOUNCE_TIME_ONE_CHAR)
               : EMPTY
           )
         )
