@@ -27,6 +27,8 @@
       "length": "Length",
       "width": "Width",
       "height": "Height",
+      "project_name": "Project Name",
+      "rfq": "RFQ",
       "searchPlaceholder": "Search...",
       "selectAll": "Select all",
       "noResultsFound": "No results found.",
