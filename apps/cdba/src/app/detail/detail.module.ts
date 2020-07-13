@@ -13,6 +13,7 @@ import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
+import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 @NgModule({
   declarations: [DetailComponent],
@@ -25,6 +26,7 @@ import { DetailComponent } from './detail.component';
     MatIconModule,
     MatCardModule,
     EffectsModule.forFeature([DetailEffects]),
+    SalesAndDescriptionModule,
   ],
 })
 export class DetailModule {}

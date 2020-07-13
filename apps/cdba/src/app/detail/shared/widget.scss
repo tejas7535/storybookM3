@@ -1,0 +1,33 @@
+@import 'libs/shared/styles/src/lib/colors';
+
+.widget-content {
+  margin: 16px;
+
+  h6 {
+    margin: 0;
+  }
+
+  .widget-group {
+    border-bottom: 1px solid $schaeffler-gray-4;
+    padding-bottom: 16px;
+    padding-top: 16px;
+
+    > div {
+      label {
+        font-size: 14px;
+        margin: 4px 0 4px 0;
+      }
+
+      > div {
+        font-size: 14px;
+        margin: 4px 0 4px 0;
+        max-height: 32px;
+        overflow: auto;
+      }
+    }
+
+    &:last-child {
+      border: none;
+    }
+  }
+}

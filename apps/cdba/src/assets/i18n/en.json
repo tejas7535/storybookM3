@@ -5,6 +5,17 @@
       "billOfMaterial": "Bill of Material",
       "calculations": "Calculations",
       "drawings": "Drawings"
+    },
+    "sales_and_description": {
+      "title": "Sales & Description",
+      "material_designation": "Material Designation",
+      "material_number": "Material Number",
+      "material_short_description": "Material Short Description",
+      "product_line": "Product Line",
+      "rfq": "RFQ-Number",
+      "sales_organization": "Sales Organization",
+      "project_name": "Project Name",
+      "product_description": "Product Description"
     }
   },
   "search": {
