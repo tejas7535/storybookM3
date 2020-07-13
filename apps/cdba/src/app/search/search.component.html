@@ -5,7 +5,7 @@
     fxLayoutAlign="start center"
     fxLayoutGap="20px"
   >
-    <cdba-filter-panel>
+    <cdba-filter-panel [resultCount]="resultCount$ | async">
       <cdba-reference-types-filters></cdba-reference-types-filters>
     </cdba-filter-panel>
     <cdba-reference-types-table
@@ -28,7 +28,11 @@
           {{ t('tooManyResults') }}
         </h4>
         <h6 class="we-found-too-many-en" *transloco="let t; read: 'search'">
-          {{ t('tooManyEntriesInDatabase') }}<br />{{ t('useFilter') }}
+          {{
+            t('tooManyEntriesInDatabase', {
+              resultCount: resultCount$ | async
+            })
+          }}<br />{{ t('useFilter') }}
         </h6>
       </div>
     </ng-container>

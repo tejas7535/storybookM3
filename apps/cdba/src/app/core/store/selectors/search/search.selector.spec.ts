@@ -13,6 +13,7 @@ import {
   getInitialFiltersLoading,
   getReferenceTypes,
   getReferenceTypesLoading,
+  getResultCount,
   getSearchSuccessful,
   getSearchText,
   getSelectedFilterIdValueOptionsByFilterName,
@@ -97,6 +98,16 @@ describe('Search Selector', () => {
         new FilterItemIdValueUpdate('plant', ['32']),
         new FilterItemRangeUpdate('length', 0, 200),
       ]);
+    });
+  });
+
+  describe('getResultCount', () => {
+    test('should return provided result count', () => {
+      fakeState.search.referenceTypes.resultCount = 32;
+
+      expect(getResultCount(fakeState)).toEqual(
+        fakeState.search.referenceTypes.resultCount
+      );
     });
   });
 

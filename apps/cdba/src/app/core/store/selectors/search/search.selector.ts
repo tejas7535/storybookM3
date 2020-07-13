@@ -94,6 +94,11 @@ export const getSelectedFilterIdValueOptionsByFilterName = createSelector(
   getSelectedOptionsByName
 );
 
+export const getResultCount = createSelector(
+  getSearchState,
+  (state: SearchState) => state.referenceTypes.resultCount
+);
+
 export const getSearchText = createSelector(
   getSearchState,
   (state: SearchState) => state.filters.searchText
