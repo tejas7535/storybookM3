@@ -5,6 +5,17 @@
       "billOfMaterial": "Stückliste",
       "calculations": "Kalkulationen",
       "drawings": "Zeichnungen"
+    },
+    "sales_and_description": {
+      "title": "Sales & Description",
+      "material_designation": "Materialbezeichnung",
+      "material_number": "Materialnummer",
+      "material_short_description": "Materialkurzbeschreibung",
+      "product_line": "Produktlinie",
+      "rfq": "RFQ-Nummer",
+      "sales_organization": "Verkaufsorganisation",
+      "project_name": "Projektname",
+      "product_description": "Produktbeschreibung"
     }
   },
   "search": {

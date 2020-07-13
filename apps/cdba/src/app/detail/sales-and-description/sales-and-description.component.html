@@ -1,0 +1,65 @@
+<div class="widget-content" *ngIf="salesDetails$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>{{ t('sales_and_description.title') }}</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.material_designation') }}:&nbsp;
+        </label>
+        <div>{{ (salesDetails$ | async)?.materialDesignation }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.material_number') }}:&nbsp;
+        </label>
+        <div>{{ (salesDetails$ | async)?.materialNumber }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.material_short_description') }}:&nbsp;
+        </label>
+        <div>{{ (salesDetails$ | async)?.materialShortDescription }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.product_line') }}:&nbsp;
+        </label>
+        <div>{{ (salesDetails$ | async)?.productLine }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.rfq') }}:&nbsp;
+        </label>
+        <div>{{ (salesDetails$ | async)?.rfq }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.sales_organization') }}:&nbsp;
+        </label>
+        <div fxFlex="100%">
+          {{ (salesDetails$ | async)?.salesOrganization }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.project_name') }}:&nbsp;
+        </label>
+        <div fxFlex="100%">{{ (salesDetails$ | async)?.projectName }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">
+          {{ t('sales_and_description.product_description') }}:&nbsp;
+        </label>
+        <div fxFlex="100%">
+          {{ (salesDetails$ | async)?.productDescription }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

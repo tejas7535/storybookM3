@@ -15,6 +15,7 @@ import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { SharedModule } from '../shared/shared.module';
 import { DetailComponent } from './detail.component';
+import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -40,6 +41,7 @@ describe('DetailComponent', () => {
         SharedModule,
         RouterTestingModule,
         provideTranslocoTestingModule({}),
+        SalesAndDescriptionModule,
       ],
       declarations: [DetailComponent],
       providers: [

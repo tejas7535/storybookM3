@@ -30,49 +30,9 @@
         class="grid-container"
       >
         <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
-          <div class="widget-content">
-            <h6>Sales & Description</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
+          <cdba-sales-and-description
+            *ngIf="referenceType$ | async"
+          ></cdba-sales-and-description>
         </mat-card>
         <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
           <div class="widget-content">
