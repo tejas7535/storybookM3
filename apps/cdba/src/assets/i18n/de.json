@@ -1,10 +1,14 @@
 {
   "detail": {
-    "tabs": {
-      "detail": "Details",
-      "billOfMaterial": "Stückliste",
-      "calculations": "Kalkulationen",
-      "drawings": "Zeichnungen"
+    "pricing": {
+      "title": "Preisgestaltung",
+      "pcm_sqv": "SQV PCM",
+      "pcm_calculation_date": "SQV PCM Berechnungsdatum",
+      "sqv_sap_latest_month": "SQV SAP (Im vergangenen Monat)",
+      "sqv_date": "SQV Datum",
+      "gpc_latest_year": "GPC {{year}}",
+      "gpc_date": "GPC Datum",
+      "pu_um": "PU / UM"
     },
     "sales_and_description": {
       "title": "Sales & Description",
@@ -16,6 +20,12 @@
       "sales_organization": "Verkaufsorganisation",
       "project_name": "Projektname",
       "product_description": "Produktbeschreibung"
+    },
+    "tabs": {
+      "detail": "Details",
+      "billOfMaterial": "Stückliste",
+      "calculations": "Kalkulationen",
+      "drawings": "Zeichnungen"
     }
   },
   "search": {

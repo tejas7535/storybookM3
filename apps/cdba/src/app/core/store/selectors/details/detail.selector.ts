@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
 import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
@@ -21,6 +22,21 @@ export const getSalesDetails = createSelector(
       referenceType.salesOrganization,
       referenceType.projectName,
       referenceType.productDescription
+    );
+  }
+);
+
+export const getPriceDetails = createSelector(
+  getReferenceType,
+  (referenceType) => {
+    return new PriceDetails(
+      referenceType.pcmSqv,
+      referenceType.pcmCalculationDate,
+      referenceType.sqvSapLatestMonth,
+      referenceType.sqvDate,
+      referenceType.gpcLatestYear,
+      referenceType.gpcDate,
+      referenceType.puUm
     );
   }
 );
