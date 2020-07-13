@@ -13,6 +13,7 @@ import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
+import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
@@ -29,6 +30,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     EffectsModule.forFeature([DetailEffects]),
     SalesAndDescriptionModule,
     PricingModule,
+    DimensionAndWeightModule,
   ],
 })
 export class DetailModule {}

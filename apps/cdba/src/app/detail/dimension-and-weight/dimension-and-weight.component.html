@@ -1,0 +1,55 @@
+<div class="widget-content" *ngIf="dimensionAndWeight$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>Dimensions & Weight</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('dimension-and-weight.height') }}:&nbsp;</label
+        >
+        <div>
+          {{ (dimensionAndWeight$ | async)?.height
+          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('dimension-and-weight.width') }}:&nbsp;</label
+        >
+        <div>
+          {{ (dimensionAndWeight$ | async)?.width
+          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('dimension-and-weight.length') }}:&nbsp;</label
+        >
+        <div>
+          {{ (dimensionAndWeight$ | async)?.length
+          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('dimension-and-weight.weight') }}:&nbsp;</label
+        >
+        <div>
+          {{ (dimensionAndWeight$ | async)?.weight
+          }}{{ (dimensionAndWeight$ | async)?.weightUnit }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('dimension-and-weight.volumeCubic') }}:&nbsp;</label
+        >
+        <div>
+          {{ (dimensionAndWeight$ | async)?.volumeCubic }}&nbsp;{{
+            (dimensionAndWeight$ | async)?.volumeUnit
+          }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

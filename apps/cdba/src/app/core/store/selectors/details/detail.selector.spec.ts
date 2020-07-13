@@ -1,8 +1,12 @@
-import { REFRENCE_TYPE_MOCK } from '../../../../../testing/mocks';
-import { PRICE_DETAILS_MOCK } from '../../../../../testing/mocks/price-details.mock';
-import { SALES_DETAILS_MOCK } from '../../../../../testing/mocks/sales-details.mock';
+import {
+  DIMENSION_AND_WEIGHT_DETAILS_MOCK,
+  PRICE_DETAILS_MOCK,
+  REFRENCE_TYPE_MOCK,
+  SALES_DETAILS_MOCK,
+} from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/detail/detail.reducer';
 import {
+  getDimensionAndWeightDetails,
   getPriceDetails,
   getReferenceType,
   getSalesDetails,
@@ -39,6 +43,13 @@ describe('Detail Selector', () => {
     test('should return price details', () => {
       const expected = PRICE_DETAILS_MOCK;
       expect(getPriceDetails(fakeState)).toEqual(expected);
+    });
+  });
+
+  describe('getDimensionAndWeightDetails', () => {
+    test('should return dimension and weight details', () => {
+      const expected = DIMENSION_AND_WEIGHT_DETAILS_MOCK;
+      expect(getDimensionAndWeightDetails(fakeState)).toEqual(expected);
     });
   });
 });

@@ -1,5 +1,12 @@
 {
   "detail": {
+    "dimension-and-weight": {
+      "height": "Höhe (H)",
+      "length": "Länge (L)",
+      "volumeCubic": "Kubikvolumen",
+      "weight": "Net. Gewicht",
+      "width": "Breite (B)"
+    },
     "pricing": {
       "title": "Preisgestaltung",
       "pcm_sqv": "SQV PCM",
