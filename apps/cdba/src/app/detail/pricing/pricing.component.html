@@ -1,0 +1,49 @@
+<div class="widget-content" *ngIf="salesPrice$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>{{ t('pricing.title') }}</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('pricing.pcm_sqv') }}:&nbsp;</label>
+        <div>{{ (salesPrice$ | async)?.pcmSqv }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('pricing.pcm_calculation_date') }}:&nbsp;</label
+        >
+        <div>{{ (salesPrice$ | async)?.pcmCalculationDate | date }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('pricing.sqv_sap_latest_month') }}:&nbsp;</label
+        >
+        <div>{{ (salesPrice$ | async)?.sqvSapLatestMonth }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('pricing.sqv_date') }}:&nbsp;</label>
+        <div>{{ (salesPrice$ | async)?.sqvDate | date }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{
+            t('pricing.gpc_latest_year', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>{{ (salesPrice$ | async)?.gpcLatestYear }}</div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('pricing.gpc_date') }}:&nbsp;</label>
+        <div>{{ (salesPrice$ | async)?.gpcDate | date }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('pricing.pu_um') }}:&nbsp;</label>
+        <div>{{ (salesPrice$ | async)?.puUm }}</div>
+      </div>
+    </div>
+  </div>
+</div>
