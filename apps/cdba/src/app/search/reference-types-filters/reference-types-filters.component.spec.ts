@@ -171,11 +171,11 @@ describe('ReferenceTypesFiltersComponent', () => {
 
   describe('trackByFn', () => {
     test('should return index', () => {
-      const idx = 5;
+      const filter = new FilterItemIdValue('test', [], true, false);
 
-      const result = component.trackByFn(idx, {});
+      const result = component.trackByFn(undefined, filter);
 
-      expect(result).toEqual(idx);
+      expect(result).toEqual(filter.name);
     });
   });
 });

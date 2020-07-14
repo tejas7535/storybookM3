@@ -81,8 +81,8 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   /**
    * Improves performance of ngFor.
    */
-  public trackByFn(index: number, _item: any): number {
-    return index;
+  public trackByFn(_index: number, item: FilterItem): string {
+    return item.name;
   }
 
   /**
