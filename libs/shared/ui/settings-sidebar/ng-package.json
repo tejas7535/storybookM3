@@ -2,6 +2,10 @@
   "$schema": "../../../../node_modules/ng-packagr/ng-package.schema.json",
   "dest": "../../../../dist/libs/shared/ui/settings-sidebar",
   "lib": {
-    "entryFile": "src/index.ts"
+    "entryFile": "src/index.ts",
+    "umdModuleIds": {
+      "@schaeffler/icons": "@schaeffler/icons",
+      "@schaeffler/responsive": "@schaeffler/responsive"
+    }
   }
 }
