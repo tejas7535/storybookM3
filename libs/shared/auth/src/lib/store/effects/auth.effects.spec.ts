@@ -1,4 +1,5 @@
 import { async, TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
@@ -14,10 +15,10 @@ import { AuthState } from '..';
 import { AuthService } from '../../auth.service';
 import {
   login,
-  loginImplicitFlow,
   loginSuccess,
   logout,
   setToken,
+  startLoginFlow,
 } from '../actions/auth.actions';
 import { getIsLoggedIn } from '../selectors/auth.selectors';
 import { AuthEffects } from './auth.effects';
@@ -28,7 +29,6 @@ describe('Auth Effects', () => {
   let metadata: EffectsMetadata<AuthEffects>;
   let authService: AuthService;
   let store: MockStore<AuthState>;
-  // let authEvents = new Observable<OAuthEvent>();
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -49,6 +49,13 @@ describe('Auth Effects', () => {
             oauthService: {
               events: of(new OAuthSuccessEvent('token_received')),
             },
+          },
+        },
+        {
+          provide: Router,
+          useValue: {
+            navigateByUrl: jest.fn(),
+            url: 'test',
           },
         },
         provideMockStore(),
@@ -99,18 +106,18 @@ describe('Auth Effects', () => {
     });
   });
 
-  describe('loginImplicitFlow$', () => {
+  describe('startLoginFlow$', () => {
     test('should return loginSuccess if try login succeeds', () => {
       const tryAutomaticResponse = cold('b', { b: true });
       authService.tryAutomaticLogin = jest.fn(() => tryAutomaticResponse);
 
       actions$ = hot('-a', {
-        a: loginImplicitFlow(),
+        a: startLoginFlow(),
       });
 
       const expected = cold('-b', { b: loginSuccess({ user: undefined }) });
 
-      expect(effects.loginImplicitFlow$).toBeObservable(expected);
+      expect(effects.startLoginFlow$).toBeObservable(expected);
     });
 
     test('should return login if try login failed', () => {
@@ -118,12 +125,12 @@ describe('Auth Effects', () => {
       authService.tryAutomaticLogin = jest.fn(() => tryAutomaticResponse);
 
       actions$ = hot('a', {
-        a: loginImplicitFlow(),
+        a: startLoginFlow(),
       });
 
       const expected = cold('b', { b: login() });
 
-      expect(effects.loginImplicitFlow$).toBeObservable(expected);
+      expect(effects.startLoginFlow$).toBeObservable(expected);
     });
   });
 
@@ -159,8 +166,9 @@ describe('Auth Effects', () => {
 
   describe('tokenChange$', () => {
     test('should return setToken action on correct event', () => {
-      const expected = cold('(b|)', {
+      const expected = cold('(bc|)', {
         b: setToken({ token: undefined }),
+        c: loginSuccess({ user: undefined }),
       });
 
       expect(effects.tokenChange$).toBeObservable(expected);

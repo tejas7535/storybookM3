@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
@@ -12,9 +13,9 @@ import { getIsLoggedIn } from '../selectors/auth.selectors';
 
 @Injectable()
 export class AuthEffects {
-  public loginImplicitFlow$ = createEffect(() =>
+  public startLoginFlow$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(authActions.loginImplicitFlow),
+      ofType(authActions.startLoginFlow),
       withLatestFrom(this.store.pipe(select(getIsLoggedIn))),
       filter(([_action, isLoggedIn]) => !isLoggedIn),
       mergeMap(() =>
@@ -86,19 +87,32 @@ export class AuthEffects {
           e.type
         )
       ),
-      map(() =>
-        authActions.setToken({
-          token: AuthService.getDecodedAccessToken(
-            this.authService.accessToken
-          ),
-        })
-      )
+      tap((e) => {
+        if (e.type === 'token_received') {
+          this.router.navigateByUrl(
+            String(this.authService.oauthService.state)
+          );
+        }
+      }),
+      mergeMap(() => {
+        const user = this.authService.getUser();
+
+        return [
+          authActions.setToken({
+            token: AuthService.getDecodedAccessToken(
+              this.authService.accessToken
+            ),
+          }),
+          authActions.loginSuccess({ user }),
+        ];
+      })
     )
   );
 
   constructor(
     private readonly actions$: Actions,
     private readonly authService: AuthService,
-    private readonly store: Store<AuthState>
+    private readonly store: Store<AuthState>,
+    private readonly router: Router
   ) {}
 }

@@ -1,11 +1,26 @@
-import { login, loginSuccess, logout } from './auth.actions';
+import { AccessToken } from '../../models/access-token.model';
+import {
+  login,
+  loginSuccess,
+  logout,
+  setToken,
+  startLoginFlow,
+} from './auth.actions';
 
 describe('Auth Actions', () => {
+  test('startLoginFlow should create action', () => {
+    const action = startLoginFlow();
+
+    expect(action).toEqual({
+      type: '[Auth] Login with implicit / code flow',
+    });
+  });
+
   test('login should create action', () => {
     const action = login();
 
     expect(action).toEqual({
-      type: '[Auth] Login'
+      type: '[Auth] Login',
     });
   });
 
@@ -13,20 +28,31 @@ describe('Auth Actions', () => {
     const action = logout();
 
     expect(action).toEqual({
-      type: '[Auth] Logout'
+      type: '[Auth] Logout',
     });
   });
 
   test('loginSuccess should create action', () => {
     const user = {
-      username: 'Gerd'
+      username: 'Gerd',
     };
 
     const action = loginSuccess({ user });
 
     expect(action).toEqual({
       user,
-      type: '[Auth] Login successful'
+      type: '[Auth] Login successful',
+    });
+  });
+
+  test('setToken should create action', () => {
+    const token = ({} as unknown) as AccessToken;
+
+    const action = setToken({ token });
+
+    expect(action).toEqual({
+      token,
+      type: '[Auth] Set token',
     });
   });
 });

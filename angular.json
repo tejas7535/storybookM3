@@ -807,8 +807,7 @@
             "aot": true,
             "assets": [
               "apps/helloworld-azure/src/favicon.ico",
-              "apps/helloworld-azure/src/assets",
-              "apps/helloworld-azure/src/silent-refresh.html"
+              "apps/helloworld-azure/src/assets"
             ],
             "styles": [
               "apps/helloworld-azure/src/styles.scss",
@@ -1899,8 +1898,7 @@
             "aot": true,
             "assets": [
               "apps/goldwind/src/favicon.ico",
-              "apps/goldwind/src/assets",
-              "apps/goldwind/src/silent-refresh.html"
+              "apps/goldwind/src/assets"
             ],
             "styles": [
               "apps/goldwind/src/styles.scss",

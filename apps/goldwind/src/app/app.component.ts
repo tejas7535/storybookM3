@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { UserMenuEntry } from '@schaeffler/header';
-import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
+import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppState } from './core/store';
 
@@ -25,6 +25,6 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
 
-    this.store.dispatch(loginImplicitFlow());
+    this.store.dispatch(startLoginFlow());
   }
 }

@@ -2,8 +2,8 @@ import { createAction, props } from '@ngrx/store';
 
 import { AccessToken } from '../../models';
 
-export const loginImplicitFlow = createAction(
-  '[Auth] Login with implicit flow'
+export const startLoginFlow = createAction(
+  '[Auth] Login with implicit / code flow'
 );
 
 export const login = createAction('[Auth] Login');

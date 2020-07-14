@@ -2,18 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppComponent } from './app.component';
-import { AuthService } from './core/auth.service';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let store: MockStore;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -23,16 +24,7 @@ describe('AppComponent', () => {
         FooterModule,
         NoopAnimationsModule,
       ],
-      providers: [
-        provideMockStore(),
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn(),
-            getUserName: jest.fn(),
-          },
-        },
-      ],
+      providers: [provideMockStore()],
       declarations: [AppComponent],
     });
   });
@@ -40,6 +32,8 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(getUsername, 'John');
     fixture.detectChanges();
   });
 
@@ -55,10 +49,11 @@ describe('AppComponent', () => {
 
   describe('ngOnInit', () => {
     test('should call getUserName', () => {
+      store.dispatch = jest.fn();
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component['authService'].getUserName).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
   });
 });
