@@ -15,6 +15,7 @@ import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { SharedModule } from '../shared/shared.module';
 import { DetailComponent } from './detail.component';
+import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
@@ -44,6 +45,7 @@ describe('DetailComponent', () => {
         provideTranslocoTestingModule({}),
         SalesAndDescriptionModule,
         PricingModule,
+        DimensionAndWeightModule,
       ],
       declarations: [DetailComponent],
       providers: [

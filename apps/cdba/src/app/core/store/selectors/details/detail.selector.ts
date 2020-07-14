@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { DimensionAndWeightDetails } from '../../../../detail/dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
 import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
@@ -37,6 +38,22 @@ export const getPriceDetails = createSelector(
       referenceType.gpcLatestYear,
       referenceType.gpcDate,
       referenceType.puUm
+    );
+  }
+);
+
+export const getDimensionAndWeightDetails = createSelector(
+  getReferenceType,
+  (referenceType) => {
+    return new DimensionAndWeightDetails(
+      referenceType.height,
+      referenceType.width,
+      referenceType.length,
+      referenceType.unitOfDimension,
+      referenceType.volumeCubic,
+      referenceType.volumeUnit,
+      referenceType.weight,
+      referenceType.weightUnit
     );
   }
 );

@@ -35,43 +35,9 @@
           ></cdba-sales-and-description>
         </mat-card>
         <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
-          <div class="widget-content">
-            <h6>Dimensions & Weight</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
+          <cdba-dimension-and-weight
+            *ngIf="referenceType$ | async"
+          ></cdba-dimension-and-weight>
         </mat-card>
         <mat-card
           gdColumn="auto / span 3"

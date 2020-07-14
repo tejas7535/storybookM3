@@ -5,18 +5,18 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PRICE_DETAILS_MOCK } from '../../../testing/mocks';
-import { getPriceDetails } from '../../core/store/selectors/details/detail.selector';
-import { PricingComponent } from './pricing.component';
+import { DIMENSION_AND_WEIGHT_DETAILS_MOCK } from '../../../testing/mocks';
+import { getDimensionAndWeightDetails } from '../../core/store/selectors/details/detail.selector';
+import { DimensionAndWeightComponent } from './dimension-and-weight.component';
 
-describe('PricingComponent', () => {
-  let component: PricingComponent;
-  let fixture: ComponentFixture<PricingComponent>;
+describe('DimensionAndWeightComponent', () => {
+  let component: DimensionAndWeightComponent;
+  let fixture: ComponentFixture<DimensionAndWeightComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [provideTranslocoTestingModule({})],
-      declarations: [PricingComponent],
+      declarations: [DimensionAndWeightComponent],
       providers: [
         provideMockStore({
           initialState: {
@@ -24,8 +24,8 @@ describe('PricingComponent', () => {
           },
           selectors: [
             {
-              selector: getPriceDetails,
-              value: PRICE_DETAILS_MOCK,
+              selector: getDimensionAndWeightDetails,
+              value: DIMENSION_AND_WEIGHT_DETAILS_MOCK,
             },
           ],
         }),
@@ -34,7 +34,7 @@ describe('PricingComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PricingComponent);
+    fixture = TestBed.createComponent(DimensionAndWeightComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
