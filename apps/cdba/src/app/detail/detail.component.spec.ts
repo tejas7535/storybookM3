@@ -14,6 +14,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { SharedModule } from '../shared/shared.module';
+import { CustomerModule } from './customer/customer.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
@@ -46,6 +47,7 @@ describe('DetailComponent', () => {
         SalesAndDescriptionModule,
         PricingModule,
         DimensionAndWeightModule,
+        CustomerModule,
       ],
       declarations: [DetailComponent],
       providers: [

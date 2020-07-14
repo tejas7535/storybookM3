@@ -1,0 +1,19 @@
+<div class="widget-content" *ngIf="customerDetails$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>Dimensions & Weight</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('customer.customers') }}:&nbsp;</label>
+        <div fxFlex="100%">{{ (customerDetails$ | async)?.customer }}</div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('customer.customerGroup') }}:&nbsp;</label
+        >
+        <div fxFlex="100%">{{ (customerDetails$ | async)?.customerGroup }}</div>
+      </div>
+    </div>
+  </div>
+</div>

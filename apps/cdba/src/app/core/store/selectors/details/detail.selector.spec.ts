@@ -1,4 +1,5 @@
 import {
+  CUSTOMER_DETAILS_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
   REFRENCE_TYPE_MOCK,
@@ -6,6 +7,7 @@ import {
 } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/detail/detail.reducer';
 import {
+  getCustomerDetails,
   getDimensionAndWeightDetails,
   getPriceDetails,
   getReferenceType,
@@ -50,6 +52,13 @@ describe('Detail Selector', () => {
     test('should return dimension and weight details', () => {
       const expected = DIMENSION_AND_WEIGHT_DETAILS_MOCK;
       expect(getDimensionAndWeightDetails(fakeState)).toEqual(expected);
+    });
+  });
+
+  describe('getCustomerDetails', () => {
+    test('should return dimension and weight details', () => {
+      const expected = CUSTOMER_DETAILS_MOCK;
+      expect(getCustomerDetails(fakeState)).toEqual(expected);
     });
   });
 });

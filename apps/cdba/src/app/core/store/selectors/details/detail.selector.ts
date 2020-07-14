@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { CustomerDetailsModel } from '../../../../detail/customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from '../../../../detail/dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
 import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
@@ -54,6 +55,16 @@ export const getDimensionAndWeightDetails = createSelector(
       referenceType.volumeUnit,
       referenceType.weight,
       referenceType.weightUnit
+    );
+  }
+);
+
+export const getCustomerDetails = createSelector(
+  getReferenceType,
+  (referenceType) => {
+    return new CustomerDetailsModel(
+      referenceType.customer,
+      referenceType.customerGroup
     );
   }
 );

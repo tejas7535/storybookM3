@@ -11,6 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
+import { CustomerModule } from './customer/customer.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
@@ -31,6 +32,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     SalesAndDescriptionModule,
     PricingModule,
     DimensionAndWeightModule,
+    CustomerModule,
   ],
 })
 export class DetailModule {}
