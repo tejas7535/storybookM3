@@ -2,7 +2,8 @@
   "extends": "../../../../tslint.json",
   "rules": {
     "directive-selector": [true, "attribute", "schaeffler", "camelCase"],
-    "component-selector": [true, "element", "schaeffler", "kebab-case"]
+    "component-selector": [true, "element", "schaeffler", "kebab-case"],
+    "no-implicit-dependencies": false
   },
   "linterOptions": {
     "exclude": ["!**/*"]
