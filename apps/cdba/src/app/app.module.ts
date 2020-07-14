@@ -17,7 +17,7 @@ const azureConfig = new AzureConfig(
   environment.tenantId,
   environment.clientId,
   environment.appId,
-  FlowType.IMPLICIT_FLOW,
+  FlowType.CODE_FLOW,
   !environment.production
 );
 

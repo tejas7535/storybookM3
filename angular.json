@@ -1013,11 +1013,7 @@
             "polyfills": "apps/cdba/src/polyfills.ts",
             "tsConfig": "apps/cdba/tsconfig.app.json",
             "aot": true,
-            "assets": [
-              "apps/cdba/src/favicon.ico",
-              "apps/cdba/src/assets",
-              "apps/cdba/src/silent-refresh.html"
-            ],
+            "assets": ["apps/cdba/src/favicon.ico", "apps/cdba/src/assets"],
             "styles": [
               "apps/cdba/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"
