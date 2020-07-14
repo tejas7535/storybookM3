@@ -13,6 +13,16 @@ This library can be used to authenticate users with Azure AD. It supports the pr
 
 ### Prequisites
 
+### Azure AD
+
+Go to your `app registration` -> `Authentication` and `Add a platform`.  
+Choose `Single Page Application` for `Code Flow` (recommended) or `Web` for `Implicit Flow`.  
+Either way, you need to add the following redirect URIs to it:  
+- localhost:4200/index.html (for local development)
+- https://<your-domain>/index.html (for your environment)
+- localhost:4200/silent-refresh.html (only needed for `implicit flow`)
+- https://<your-domain>/silent-refresh.html (only needed for `implicit flow`)
+
 #### `CODE FLOW` (Recommended Approach):
 
 - Get the `client id`, `tenant id` as well as the `app id` of your application in Azure and set them in your `environment` files:
