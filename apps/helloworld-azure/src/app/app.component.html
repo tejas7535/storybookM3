@@ -2,7 +2,7 @@
   <schaeffler-header [platformTitle]="platformTitle" [toggleEnabled]="false">
     <schaeffler-user-menu
       user-menu
-      [user]="username | async"
+      [user]="username$ | async"
     ></schaeffler-user-menu>
     <div class="site-content">
       <div class="router-content">

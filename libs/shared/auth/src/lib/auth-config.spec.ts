@@ -1,5 +1,5 @@
 import { getAuthConfig } from './auth-config';
-import { AzureConfig } from './models';
+import { AzureConfig, FlowType } from './models';
 
 describe('Auth Config', () => {
   test('should return config', () => {
@@ -14,6 +14,7 @@ describe('Auth Config', () => {
       'tenant',
       'client',
       'app',
+      FlowType.CODE_FLOW,
       true,
       'loginUrl'
     );
@@ -25,16 +26,17 @@ describe('Auth Config', () => {
       tokenEndpoint: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/token`,
       loginUrl: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/authorize`,
       logoutUrl: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/logout`,
-      redirectUri: origin,
+      redirectUri: `${origin}/index.html`,
       silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
       silentRefreshTimeout: 1000,
+      useSilentRefresh: false,
       postLogoutRedirectUri: origin,
       clientId: `${azureConfig.clientId}`,
-      scope: `openid profile email ${azureConfig.appId}`,
+      scope: `openid profile email offline_access ${azureConfig.appId}`,
       strictDiscoveryDocumentValidation: false,
       oidc: true,
       skipIssuerCheck: true,
-      responseType: 'id_token token',
+      responseType: 'code',
       clearHashAfterLogin: false,
       disableAtHashCheck: true,
       showDebugInformation: azureConfig.showDebugInfo,

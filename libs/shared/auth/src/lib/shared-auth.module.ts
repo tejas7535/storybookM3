@@ -4,7 +4,7 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
 } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -15,13 +15,13 @@ import {
   AuthConfig,
   OAuthModule,
   OAuthStorage,
-  ValidationHandler
+  ValidationHandler,
 } from 'angular-oauth2-oidc';
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
 import { getAuthConfig } from './auth-config';
 import { AuthService } from './auth.service';
-import { AzureConfig } from './models';
+import { AzureConfig, FlowType } from './models';
 import { loginSuccess } from './store';
 import { StoreModule } from './store/store.module';
 import { TokenInterceptor } from './token.interceptor';
@@ -33,7 +33,7 @@ export const loginStatusFactory: Function = (
   store: Store
 ) => (): Observable<boolean> => {
   return authService.tryAutomaticLogin().pipe(
-    tap(isLoggedin => {
+    tap((isLoggedin) => {
       if (isLoggedin) {
         const user = authService.getUser();
         store.dispatch(loginSuccess({ user }));
@@ -47,12 +47,12 @@ export const initializer = {
   provide: APP_INITIALIZER,
   multi: true,
   useFactory: loginStatusFactory,
-  deps: [AuthService, Store]
+  deps: [AuthService, Store],
 };
 
 @NgModule({
   imports: [OAuthModule.forRoot(), StoreModule],
-  providers: [AuthService, initializer]
+  providers: [AuthService, initializer],
 })
 export class SharedAuthModule {
   static forRoot(
@@ -62,14 +62,16 @@ export class SharedAuthModule {
       ngModule: SharedAuthModule,
       providers: [
         { provide: AuthConfig, useValue: getAuthConfig(azureConfig) },
-        { provide: ValidationHandler, useClass: JwksValidationHandler },
         { provide: OAuthStorage, useFactory: storageFactory },
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+        ...(azureConfig.flow === FlowType.IMPLICIT_FLOW
+          ? [{ provide: ValidationHandler, useClass: JwksValidationHandler }]
+          : []),
+      ],
     };
   }
 

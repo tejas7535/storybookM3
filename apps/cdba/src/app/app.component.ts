@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
-import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
+import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppState } from './core/store';
 
@@ -41,6 +41,6 @@ export class AppComponent implements OnInit {
     this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
     this.username$ = this.store.pipe(select(getUsername));
 
-    this.store.dispatch(loginImplicitFlow());
+    this.store.dispatch(startLoginFlow());
   }
 }

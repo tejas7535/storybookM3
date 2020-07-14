@@ -4,7 +4,7 @@ import { of } from 'rxjs';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { AzureConfig } from './models';
+import { AzureConfig, FlowType } from './models';
 import {
   loginStatusFactory,
   SharedAuthModule,
@@ -34,6 +34,7 @@ describe('SharedAuthModule', () => {
       'tenant',
       'client',
       'app',
+      FlowType.CODE_FLOW,
       true,
       'loginUrl'
     );
@@ -46,7 +47,13 @@ describe('SharedAuthModule', () => {
     let throwError = false;
 
     try {
-      const azureConf = new AzureConfig('tenant', 'client', 'app', true);
+      const azureConf = new AzureConfig(
+        'tenant',
+        'client',
+        'app',
+        FlowType.CODE_FLOW,
+        true
+      );
       const module = SharedAuthModule.forRoot(azureConf);
 
       // tslint:disable-next-line: no-unused-expression

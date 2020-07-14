@@ -10,7 +10,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { getUsername, loginImplicitFlow } from '@schaeffler/shared/auth';
+import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppComponent } from './app.component';
 
@@ -62,7 +62,7 @@ describe('AppComponent', () => {
           expect(response).toEqual('Jefferson');
         })
       );
-      expect(store.dispatch).toHaveBeenCalledWith(loginImplicitFlow());
+      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
   });
 });

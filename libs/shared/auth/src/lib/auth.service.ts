@@ -2,7 +2,6 @@ import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { from, Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import jwtDecode from 'jwt-decode';
@@ -16,9 +15,7 @@ export class AuthService {
   constructor(
     public readonly oauthService: OAuthService,
     private readonly injector: Injector
-  ) {
-    this.initConfig();
-  }
+  ) {}
 
   public static getDecodedAccessToken(token: string): AccessToken {
     try {
@@ -37,11 +34,10 @@ export class AuthService {
         if (this.oauthService.hasValidAccessToken()) {
           return Promise.resolve();
         }
-
         // 2) try silent refresh first
         return this.oauthService.silentRefresh().catch(() => {
-          // 3) silent refresh not possible -> login via implicit flow
-          this.oauthService.initImplicitFlow(targetUrl || '/');
+          // 3) silent refresh not possible -> login via implicit flow / code flow
+          this.oauthService.initLoginFlow(targetUrl || '/');
         });
       })
       .then(() => {
@@ -111,15 +107,5 @@ export class AuthService {
     } else {
       this.injector.get<Router>(Router).initialNavigation();
     }
-  }
-
-  private initConfig(): void {
-    this.oauthService.events
-      .pipe(filter((e) => ['token_received'].includes(e.type)))
-      .subscribe((_e) => {
-        this.injector
-          .get<Router>(Router)
-          .navigateByUrl(String(this.oauthService.state));
-      });
   }
 }

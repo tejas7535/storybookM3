@@ -1,58 +1,20 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import {
-  ModuleWithProviders,
-  NgModule,
-  Optional,
-  SkipSelf
-} from '@angular/core';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
 
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
-import {
-  AuthConfig,
-  OAuthModule,
-  OAuthStorage,
-  ValidationHandler
-} from 'angular-oauth2-oidc';
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
+import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
 
-import { authConfig } from './auth-config';
-import { AuthGuard } from './auth.guard';
-import { AuthService } from './auth.service';
-import { TokenInterceptor } from './token.interceptor';
+import { AuthGuard } from './guards/auth.guard';
+import { StoreModule } from './store/store.module';
 
 export const storageFactory = (): OAuthStorage => localStorage;
 
 @NgModule({
   imports: [
     OAuthModule.forRoot(),
-    StoreModule.forRoot({}),
-    EffectsModule.forRoot([])
+    // NgRx Setup
+    StoreModule,
+    RouterModule,
   ],
-  providers: [AuthGuard, AuthService]
+  providers: [AuthGuard],
 })
-export class CoreModule {
-  static forRoot(): ModuleWithProviders<CoreModule> {
-    return {
-      ngModule: CoreModule,
-      providers: [
-        { provide: AuthConfig, useValue: authConfig },
-        { provide: ValidationHandler, useClass: JwksValidationHandler },
-        { provide: OAuthStorage, useFactory: storageFactory },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true
-        }
-      ]
-    };
-  }
-
-  constructor(@Optional() @SkipSelf() parentModule: CoreModule) {
-    if (parentModule) {
-      throw new Error(
-        'CoreModule is already loaded. Import it in the AppModule only'
-      );
-    }
-  }
-}
+export class CoreModule {}
