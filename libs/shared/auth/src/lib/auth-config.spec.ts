@@ -26,7 +26,7 @@ describe('Auth Config', () => {
       tokenEndpoint: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/token`,
       loginUrl: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/authorize`,
       logoutUrl: `${azureConfig.loginUrl}${azureConfig.tenantId}/oauth2/v2.0/logout`,
-      redirectUri: `${origin}/index.html`,
+      redirectUri: origin,
       silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
       silentRefreshTimeout: 1000,
       useSilentRefresh: false,
