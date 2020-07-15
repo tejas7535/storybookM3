@@ -1,5 +1,9 @@
 {
   "detail": {
+    "customer": {
+      "customers": "Kunden",
+      "customerGroup": "Kundengrupppe"
+    },
     "dimension-and-weight": {
       "height": "Höhe (H)",
       "length": "Länge (L)",

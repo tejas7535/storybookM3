@@ -45,21 +45,7 @@
           gdColumn.lt-md="auto / span 3"
           gdRow.lt-md="15 / span 7"
         >
-          <div class="widget-content">
-            <h6>Customer</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
+          <cdba-customer *ngIf="referenceType$ | async"> </cdba-customer>
         </mat-card>
         <mat-card
           gdColumn="auto / span 6"
