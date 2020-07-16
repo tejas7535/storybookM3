@@ -7,7 +7,7 @@
           >{{ t('quantities.pcmQuantity') }}:&nbsp;</label
         >
         <div>
-          {{ (quantitiesDetails$ | async)?.pcmQuantity | number }}
+          {{ (quantitiesDetails$ | async)?.pcmQuantity | number: '':'de-DE' }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -19,9 +19,9 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.netSales)[0] | number }}&nbsp;{{
-            (quantitiesDetails$ | async)?.currency
-          }}
+          {{
+            ((quantitiesDetails$ | async)?.netSales)[0] | number: '':'de-DE'
+          }}&nbsp;{{ (quantitiesDetails$ | async)?.currency }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -31,7 +31,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ (quantitiesDetails$ | async)?.budgetQuantityCurrentYear | number }}
+          {{
+            (quantitiesDetails$ | async)?.budgetQuantityCurrentYear
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -41,7 +44,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ (quantitiesDetails$ | async)?.budgetQuantitySoco | number }}
+          {{
+            (quantitiesDetails$ | async)?.budgetQuantitySoco
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
     </div>
@@ -56,7 +62,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.actualQuantities)[0] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.actualQuantities)[0]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -69,7 +78,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.actualQuantities)[1] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.actualQuantities)[1]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -82,7 +94,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.actualQuantities)[2] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.actualQuantities)[2]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -95,7 +110,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.actualQuantities)[3] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.actualQuantities)[3]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
     </div>
@@ -110,7 +128,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[0] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.plannedQuantities)[0]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -123,7 +144,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[1] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.plannedQuantities)[1]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -136,7 +160,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[2] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.plannedQuantities)[2]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
       <div
@@ -149,7 +176,10 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[3] | number }}
+          {{
+            ((quantitiesDetails$ | async)?.plannedQuantities)[3]
+              | number: '':'de-DE'
+          }}
         </div>
       </div>
     </div>

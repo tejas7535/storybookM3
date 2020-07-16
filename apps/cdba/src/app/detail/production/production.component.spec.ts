@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
@@ -8,6 +10,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { PRODUCTION_DETAILS_MOCK } from '../../../testing/mocks';
 import { getProductionDetails } from '../../core/store/selectors/details/detail.selector';
 import { ProductionComponent } from './production.component';
+
+registerLocaleData(de);
 
 describe('ProductionComponent', () => {
   let component: ProductionComponent;

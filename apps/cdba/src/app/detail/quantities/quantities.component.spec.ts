@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
@@ -8,6 +10,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { QUANTITIES_DETAILS_MOCK } from '../../../testing/mocks';
 import { getQuantitiesDetails } from '../../core/store/selectors/details/detail.selector';
 import { QuantitiesComponent } from './quantities.component';
+
+registerLocaleData(de);
 
 describe('QuantitiesComponent', () => {
   let component: QuantitiesComponent;

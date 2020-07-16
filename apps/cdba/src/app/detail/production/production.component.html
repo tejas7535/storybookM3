@@ -57,7 +57,10 @@
           >{{ t('production.purchasePriceValidFrom') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.purchasePriceValidFrom | date }}
+          {{
+            (productionDetails$ | async)?.purchasePriceValidFrom
+              | date: 'mediumDate':'':'de-DE'
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -65,7 +68,10 @@
           >{{ t('production.purchasePriceValidUntil') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.purchasePriceValidUntil | date }}
+          {{
+            (productionDetails$ | async)?.purchasePriceValidUntil
+              | date: 'mediumDate':'':'de-DE'
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">

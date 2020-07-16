@@ -5,7 +5,7 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
         <div>
-          {{ (salesPrice$ | async)?.pcmSqv | number }}&nbsp;{{
+          {{ (salesPrice$ | async)?.pcmSqv | number: '':'de-DE' }}&nbsp;{{
             t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
@@ -16,7 +16,12 @@
         <label fxFlexAlign="end"
           >{{ t('pricing.pcmCalculationDate') }}:&nbsp;</label
         >
-        <div>{{ (salesPrice$ | async)?.pcmCalculationDate | date }}</div>
+        <div>
+          {{
+            (salesPrice$ | async)?.pcmCalculationDate
+              | date: 'shortDate':'':'de-DE'
+          }}
+        </div>
       </div>
     </div>
     <div class="widget-group">
@@ -25,7 +30,9 @@
           >{{ t('pricing.sqvSapLatestMonth') }}:&nbsp;</label
         >
         <div>
-          {{ (salesPrice$ | async)?.sqvSapLatestMonth | number }}&nbsp;{{
+          {{
+            (salesPrice$ | async)?.sqvSapLatestMonth | number: '':'de-DE'
+          }}&nbsp;{{
             t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
@@ -34,7 +41,9 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
-        <div>{{ (salesPrice$ | async)?.sqvDate | date }}</div>
+        <div>
+          {{ (salesPrice$ | async)?.sqvDate | date: 'mediumDate':'':'de-DE' }}
+        </div>
       </div>
     </div>
     <div class="widget-group">
@@ -43,7 +52,9 @@
           >{{ t('pricing.gpcLatestYear', { year: currentYear }) }}:&nbsp;</label
         >
         <div>
-          {{ (salesPrice$ | async)?.gpcLatestYear | number }}&nbsp;{{
+          {{
+            (salesPrice$ | async)?.gpcLatestYear | number: '':'de-DE'
+          }}&nbsp;{{
             t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
@@ -52,7 +63,9 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
-        <div>{{ (salesPrice$ | async)?.gpcDate | date }}</div>
+        <div>
+          {{ (salesPrice$ | async)?.gpcDate | date: 'mediumDate':'':'de-DE' }}
+        </div>
       </div>
     </div>
     <div class="widget-group">
