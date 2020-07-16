@@ -1,10 +1,10 @@
 <div class="widget-content" *ngIf="dimensionAndWeight$ | async">
   <div *transloco="let t; read: 'detail'">
-    <h6>{{ t('dimension-and-weight.title') }}</h6>
+    <h6>{{ t('dimensionAndWeight.title') }}</h6>
     <div class="widget-group">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimension-and-weight.height') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
         >
         <div>
           {{ (dimensionAndWeight$ | async)?.height | number
@@ -13,7 +13,7 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimension-and-weight.width') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.width') }}:&nbsp;</label
         >
         <div>
           {{ (dimensionAndWeight$ | async)?.width | number
@@ -22,7 +22,7 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimension-and-weight.length') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
         >
         <div>
           {{ (dimensionAndWeight$ | async)?.length | number
@@ -33,7 +33,7 @@
     <div class="widget-group">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimension-and-weight.weight') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.weight') }}:&nbsp;</label
         >
         <div>
           {{ (dimensionAndWeight$ | async)?.weight | number
@@ -42,7 +42,7 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('dimension-and-weight.volumeCubic') }}:&nbsp;</label
+          >{{ t('dimensionAndWeight.volumeCubic') }}:&nbsp;</label
         >
         <div>
           {{ (dimensionAndWeight$ | async)?.volumeCubic | number }}&nbsp;{{

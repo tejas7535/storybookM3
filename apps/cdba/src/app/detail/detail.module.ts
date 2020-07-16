@@ -16,6 +16,7 @@ import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
+import { ProductionModule } from './production/production.module';
 import { QuantitiesModule } from './quantities/quantities.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
@@ -35,6 +36,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     DimensionAndWeightModule,
     CustomerModule,
     QuantitiesModule,
+    ProductionModule,
   ],
 })
 export class DetailModule {}

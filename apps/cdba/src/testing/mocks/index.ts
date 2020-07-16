@@ -4,3 +4,4 @@ export * from './price-details.mock';
 export * from './dimension-and-weight-details.mock';
 export * from './customer-details.mock';
 export * from './quantities-detail.mock';
+export * from './production-details.mock';
