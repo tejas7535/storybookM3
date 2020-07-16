@@ -1,0 +1,157 @@
+<div class="widget-content" *ngIf="quantitiesDetails$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>{{ t('quantities.title') }}</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('quantities.pcmQuantity') }}:&nbsp;</label
+        >
+        <div>
+          {{ (quantitiesDetails$ | async)?.pcmQuantity | number }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label
+          fxFlexAlign="end"
+          *ngIf="(quantitiesDetails$ | async)?.netSales.length"
+          >{{
+            t('quantities.netSales', { year: currentYear - 1 })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.netSales)[0] | number }}&nbsp;{{
+            (quantitiesDetails$ | async)?.currency
+          }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.budgetQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ (quantitiesDetails$ | async)?.budgetQuantityCurrentYear | number }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.budgetQuantitySoco', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ (quantitiesDetails$ | async)?.budgetQuantitySoco | number }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.actualQuantities.length"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.actualQuantities)[0] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.actualQuantities.length > 1"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.actualQuantities)[1] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.actualQuantities.length > 2"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.actualQuantities)[2] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.actualQuantities.length > 3"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.actualQuantities)[3] | number }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.plannedQuantities.length"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[0] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.plannedQuantities.length > 1"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[1] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.plannedQuantities.length > 2"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[2] | number }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="(quantitiesDetails$ | async)?.plannedQuantities.length > 3"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.plannedQuantity', { year: currentYear })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ ((quantitiesDetails$ | async)?.plannedQuantities)[3] | number }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,10 +1,12 @@
 {
   "detail": {
     "customer": {
+      "title": "Kunde",
       "customers": "Kunden",
       "customerGroup": "Kundengrupppe"
     },
     "dimension-and-weight": {
+      "title": "Abmessungen & Gewicht",
       "height": "Höhe (H)",
       "length": "Länge (L)",
       "volumeCubic": "Kubikvolumen",
@@ -19,7 +21,17 @@
       "sqv_date": "SQV Datum",
       "gpc_latest_year": "GPC {{year}}",
       "gpc_date": "GPC Datum",
-      "pu_um": "PU / UM"
+      "pu_um": "PU / UM",
+      "price_per_unit": "{{currency}}/ST"
+    },
+    "quantities ": {
+      "title": "Quantities",
+      "actualQuantity": "Quantity {{year}}",
+      "budgetQuantity": "Budget Quantity {{year}}",
+      "budgetQuantitySoco": "Budget Quantity {{year}} Soco",
+      "netSales": "Net Sales {{year}}",
+      "pcmQuantity": "PCM Quantity",
+      "plannedQuantity": "Planned Quantity {{year}}"
     },
     "sales_and_description": {
       "title": "Sales & Description",

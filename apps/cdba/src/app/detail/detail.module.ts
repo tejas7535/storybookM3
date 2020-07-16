@@ -16,6 +16,7 @@ import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
+import { QuantitiesModule } from './quantities/quantities.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 @NgModule({
@@ -33,6 +34,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     PricingModule,
     DimensionAndWeightModule,
     CustomerModule,
+    QuantitiesModule,
   ],
 })
 export class DetailModule {}

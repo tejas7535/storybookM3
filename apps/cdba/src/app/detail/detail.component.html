@@ -85,55 +85,7 @@
           gdColumn.xs="auto / span 3"
           gdRow.xs="28 / span 8"
         >
-          <div class="widget-content">
-            <h6>Quantities</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
+          <cdba-quantities *ngIf="referenceType$ | async"></cdba-quantities>
         </mat-card>
         <mat-card
           gdColumn="7 / span 3"

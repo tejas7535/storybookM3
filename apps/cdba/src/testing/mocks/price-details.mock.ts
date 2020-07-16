@@ -8,5 +8,6 @@ export const PRICE_DETAILS_MOCK = new PriceDetails(
   REFRENCE_TYPE_MOCK.sqvDate,
   REFRENCE_TYPE_MOCK.gpcLatestYear,
   REFRENCE_TYPE_MOCK.gpcDate,
-  REFRENCE_TYPE_MOCK.puUm
+  REFRENCE_TYPE_MOCK.puUm,
+  REFRENCE_TYPE_MOCK.currency
 );
