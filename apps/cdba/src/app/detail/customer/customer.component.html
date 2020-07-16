@@ -1,6 +1,6 @@
 <div class="widget-content" *ngIf="customerDetails$ | async">
   <div *transloco="let t; read: 'detail'">
-    <h6>Dimensions & Weight</h6>
+    <h6>{{ t('customer.title') }}</h6>
     <div class="widget-group">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('customer.customers') }}:&nbsp;</label>

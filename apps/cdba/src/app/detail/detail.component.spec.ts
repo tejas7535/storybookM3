@@ -18,6 +18,7 @@ import { CustomerModule } from './customer/customer.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
+import { QuantitiesModule } from './quantities/quantities.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -48,6 +49,7 @@ describe('DetailComponent', () => {
         PricingModule,
         DimensionAndWeightModule,
         CustomerModule,
+        QuantitiesModule,
       ],
       declarations: [DetailComponent],
       providers: [

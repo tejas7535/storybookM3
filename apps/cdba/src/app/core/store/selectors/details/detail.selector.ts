@@ -1,8 +1,9 @@
 import { createSelector } from '@ngrx/store';
 
-import { CustomerDetailsModel } from '../../../../detail/customer/model/customer.details.model';
+import { CustomerDetails } from '../../../../detail/customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from '../../../../detail/dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
+import { QuantitiesDetails } from '../../../../detail/quantities/model/quantities.model';
 import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
@@ -38,7 +39,8 @@ export const getPriceDetails = createSelector(
       referenceType.sqvDate,
       referenceType.gpcLatestYear,
       referenceType.gpcDate,
-      referenceType.puUm
+      referenceType.puUm,
+      referenceType.currency
     );
   }
 );
@@ -62,9 +64,24 @@ export const getDimensionAndWeightDetails = createSelector(
 export const getCustomerDetails = createSelector(
   getReferenceType,
   (referenceType) => {
-    return new CustomerDetailsModel(
+    return new CustomerDetails(
       referenceType.customer,
       referenceType.customerGroup
+    );
+  }
+);
+
+export const getQuantitiesDetails = createSelector(
+  getReferenceType,
+  (referenceType) => {
+    return new QuantitiesDetails(
+      referenceType.pcmQuantity,
+      referenceType.netSales,
+      referenceType.budgetQuantityCurrentYear,
+      referenceType.budgetQuantitySoco,
+      referenceType.actualQuantities,
+      referenceType.plannedQuantities,
+      referenceType.currency
     );
   }
 );

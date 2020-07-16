@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import { getCustomerDetails } from '../../core/store/selectors/details/detail.selector';
-import { CustomerDetailsModel } from './model/customer.details.model';
+import { CustomerDetails } from './model/customer.details.model';
 
 @Component({
   selector: 'cdba-customer',
@@ -14,7 +14,7 @@ import { CustomerDetailsModel } from './model/customer.details.model';
   styleUrls: ['./customer.component.scss'],
 })
 export class CustomerComponent implements OnInit {
-  public customerDetails$: Observable<CustomerDetailsModel>;
+  public customerDetails$: Observable<CustomerDetails>;
 
   public constructor(private readonly store: Store<DetailState>) {}
 
