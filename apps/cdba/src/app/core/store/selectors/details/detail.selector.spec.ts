@@ -2,6 +2,7 @@ import {
   CUSTOMER_DETAILS_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
+  PRODUCTION_DETAILS_MOCK,
   QUANTITIES_DETAILS_MOCK,
   REFRENCE_TYPE_MOCK,
   SALES_DETAILS_MOCK,
@@ -11,6 +12,7 @@ import {
   getCustomerDetails,
   getDimensionAndWeightDetails,
   getPriceDetails,
+  getProductionDetails,
   getQuantitiesDetails,
   getReferenceType,
   getSalesDetails,
@@ -68,6 +70,13 @@ describe('Detail Selector', () => {
     test('should return dimension and weight details', () => {
       const expected = QUANTITIES_DETAILS_MOCK;
       expect(getQuantitiesDetails(fakeState)).toEqual(expected);
+    });
+  });
+
+  describe('getQuantitiesDetails', () => {
+    test('should return dimension and weight details', () => {
+      const expected = PRODUCTION_DETAILS_MOCK;
+      expect(getProductionDetails(fakeState)).toEqual(expected);
     });
   });
 });

@@ -1,0 +1,79 @@
+<div class="widget-content" *ngIf="productionDetails$ | async">
+  <div *transloco="let t; read: 'detail'">
+    <h6>{{ t('production.title') }}</h6>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.procurementType') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.procurementType }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('production.plant') }}:&nbsp;</label>
+        <div>
+          {{ (productionDetails$ | async)?.plant }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.saleableItem') }}:&nbsp;</label
+        >
+        <div>
+          {{ t('production.' + (productionDetails$ | async)?.saleableItem) }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.productionTechnology') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.productionTechnology }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.manufacturingProcess') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.manufacturingProcess }}
+        </div>
+      </div>
+    </div>
+    <div class="widget-group">
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.specialProcurement') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.specialProcurement }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.purchasePriceValidFrom') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.purchasePriceValidFrom | date }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end"
+          >{{ t('production.purchasePriceValidUntil') }}:&nbsp;</label
+        >
+        <div>
+          {{ (productionDetails$ | async)?.purchasePriceValidUntil | date }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('production.supplier') }}:&nbsp;</label>
+        <div fxFlex="100%">
+          {{ (productionDetails$ | async)?.supplier }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -18,6 +18,7 @@ import { CustomerModule } from './customer/customer.module';
 import { DetailComponent } from './detail.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
 import { PricingModule } from './pricing/pricing.module';
+import { ProductionModule } from './production/production.module';
 import { QuantitiesModule } from './quantities/quantities.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
@@ -50,6 +51,7 @@ describe('DetailComponent', () => {
         DimensionAndWeightModule,
         CustomerModule,
         QuantitiesModule,
+        ProductionModule,
       ],
       declarations: [DetailComponent],
       providers: [

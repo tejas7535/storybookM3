@@ -95,51 +95,7 @@
           gdColumn.xs="auto / span 3"
           gdRow.xs="36 / span 7"
         >
-          <div class="widget-content">
-            <h6>Production</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
+          <cdba-production *ngIf="referenceType$ | async"></cdba-production>
         </mat-card>
       </div>
     </mat-tab>

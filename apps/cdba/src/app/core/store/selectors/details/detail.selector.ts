@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { CustomerDetails } from '../../../../detail/customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from '../../../../detail/dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
+import { ProductionDetails } from '../../../../detail/production/model/production.details.model';
 import { QuantitiesDetails } from '../../../../detail/quantities/model/quantities.model';
 import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
@@ -82,6 +83,23 @@ export const getQuantitiesDetails = createSelector(
       referenceType.actualQuantities,
       referenceType.plannedQuantities,
       referenceType.currency
+    );
+  }
+);
+
+export const getProductionDetails = createSelector(
+  getReferenceType,
+  (referenceType) => {
+    return new ProductionDetails(
+      referenceType.procurementType,
+      referenceType.plant,
+      referenceType.saleableItem,
+      '', // TODO add productionTechnology and manufacturingProcess
+      '',
+      referenceType.specialProcurement,
+      referenceType.purchasePriceValidFrom,
+      referenceType.purchasePriceValidUntil,
+      referenceType.supplier
     );
   }
 );

@@ -3,10 +3,10 @@
     <h6>{{ t('pricing.title') }}</h6>
     <div class="widget-group">
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.pcm_sqv') }}:&nbsp;</label>
+        <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
         <div>
           {{ (salesPrice$ | async)?.pcmSqv | number }}&nbsp;{{
-            t('pricing.price_per_unit', {
+            t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
           }}
@@ -14,7 +14,7 @@
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('pricing.pcm_calculation_date') }}:&nbsp;</label
+          >{{ t('pricing.pcmCalculationDate') }}:&nbsp;</label
         >
         <div>{{ (salesPrice$ | async)?.pcmCalculationDate | date }}</div>
       </div>
@@ -22,44 +22,42 @@
     <div class="widget-group">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{ t('pricing.sqv_sap_latest_month') }}:&nbsp;</label
+          >{{ t('pricing.sqvSapLatestMonth') }}:&nbsp;</label
         >
         <div>
           {{ (salesPrice$ | async)?.sqvSapLatestMonth | number }}&nbsp;{{
-            t('pricing.price_per_unit', {
+            t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.sqv_date') }}:&nbsp;</label>
+        <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
         <div>{{ (salesPrice$ | async)?.sqvDate | date }}</div>
       </div>
     </div>
     <div class="widget-group">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
-          >{{
-            t('pricing.gpc_latest_year', { year: currentYear })
-          }}:&nbsp;</label
+          >{{ t('pricing.gpcLatestYear', { year: currentYear }) }}:&nbsp;</label
         >
         <div>
           {{ (salesPrice$ | async)?.gpcLatestYear | number }}&nbsp;{{
-            t('pricing.price_per_unit', {
+            t('pricing.pricePerUnit', {
               currency: (salesPrice$ | async)?.currency
             })
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.gpc_date') }}:&nbsp;</label>
+        <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
         <div>{{ (salesPrice$ | async)?.gpcDate | date }}</div>
       </div>
     </div>
     <div class="widget-group">
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end">{{ t('pricing.pu_um') }}:&nbsp;</label>
+        <label fxFlexAlign="end">{{ t('pricing.puUm') }}:&nbsp;</label>
         <div>{{ (salesPrice$ | async)?.puUm }}</div>
       </div>
     </div>

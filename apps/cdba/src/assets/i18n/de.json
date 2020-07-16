@@ -5,7 +5,7 @@
       "customers": "Kunden",
       "customerGroup": "Kundengrupppe"
     },
-    "dimension-and-weight": {
+    "dimensionAndWeight": {
       "title": "Abmessungen & Gewicht",
       "height": "Höhe (H)",
       "length": "Länge (L)",
@@ -15,14 +15,28 @@
     },
     "pricing": {
       "title": "Preisgestaltung",
-      "pcm_sqv": "SQV PCM",
-      "pcm_calculation_date": "SQV PCM Berechnungsdatum",
-      "sqv_sap_latest_month": "SQV SAP (Im vergangenen Monat)",
-      "sqv_date": "SQV Datum",
-      "gpc_latest_year": "GPC {{year}}",
-      "gpc_date": "GPC Datum",
-      "pu_um": "PU / UM",
-      "price_per_unit": "{{currency}}/ST"
+      "pcmSqv": "SQV PCM",
+      "pcmCalculationDate": "SQV PCM Berechnungsdatum",
+      "sqvSapLatestMonth": "SQV SAP (Im vergangenen Monat)",
+      "sqvDate": "SQV Datum",
+      "gpcLatestYear": "GPC {{year}}",
+      "gpcDate": "GPC Datum",
+      "puUm": "PU / UM",
+      "pricePerUnit": "{{currency}}/ST"
+    },
+    "production": {
+      "title": "Production",
+      "false": "no",
+      "manufacturingProcess": "Manufacturing process",
+      "plant": "Plant",
+      "procurementType": "Procurement Type",
+      "productionTechnology": "Production technology",
+      "purchasePriceValidFrom": "Purchase price valid from",
+      "purchasePriceValidUntil": "Purchase Price valid until",
+      "saleableItem": "Saleable Item",
+      "specialProcurement": "Special Procurement",
+      "supplier": "Supplier",
+      "true": "yes"
     },
     "quantities ": {
       "title": "Quantities",
@@ -35,14 +49,14 @@
     },
     "sales_and_description": {
       "title": "Sales & Description",
-      "material_designation": "Materialbezeichnung",
-      "material_number": "Materialnummer",
-      "material_short_description": "Materialkurzbeschreibung",
-      "product_line": "Produktlinie",
+      "materialDesignation": "Materialbezeichnung",
+      "materialNumber": "Materialnummer",
+      "materialShortDescription": "Materialkurzbeschreibung",
+      "productLine": "Produktlinie",
       "rfq": "RFQ-Nummer",
-      "sales_organization": "Verkaufsorganisation",
-      "project_name": "Projektname",
-      "product_description": "Produktbeschreibung"
+      "salesOrganization": "Verkaufsorganisation",
+      "projectName": "Projektname",
+      "productDescription": "Produktbeschreibung"
     },
     "tabs": {
       "detail": "Details",
