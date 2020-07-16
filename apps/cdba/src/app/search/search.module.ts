@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SearchEffects } from '../core/store/effects/search/search.effects';
+import { SearchEffects } from '../core/store/effects';
 import { searchReducer } from '../core/store/reducers/search/search.reducer';
+import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
@@ -24,6 +26,7 @@ import { SearchComponent } from './search.component';
     ReferenceTypesTableModule,
     StoreModule.forFeature('search', searchReducer),
     EffectsModule.forFeature([SearchEffects]),
+    BlockUiModule,
   ],
 })
 export class SearchModule {}

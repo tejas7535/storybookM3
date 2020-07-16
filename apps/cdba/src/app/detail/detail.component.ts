@@ -7,7 +7,10 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../core/store/reducers/detail/detail.reducer';
 import { ReferenceType } from '../core/store/reducers/shared/models';
-import { getReferenceType } from '../core/store/selectors/details/detail.selector';
+import {
+  getReferenceType,
+  getReferenceTypeLoading,
+} from '../core/store/selectors/details/detail.selector';
 
 @Component({
   selector: 'cdba-detail',
@@ -15,7 +18,8 @@ import { getReferenceType } from '../core/store/selectors/details/detail.selecto
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  public referenceType$: Observable<ReferenceType>;
+  referenceType$: Observable<ReferenceType>;
+  loading$: Observable<boolean>;
 
   public constructor(
     private readonly store: Store<DetailState>,
@@ -24,6 +28,7 @@ export class DetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.referenceType$ = this.store.pipe(select(getReferenceType));
+    this.loading$ = this.store.pipe(select(getReferenceTypeLoading));
   }
 
   backToSearch(): void {

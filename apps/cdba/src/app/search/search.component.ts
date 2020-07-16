@@ -6,6 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import {
   getReferenceTypes,
+  getReferenceTypesLoading,
   getResultCount,
   getSearchSuccessful,
   getTooManyResults,
@@ -23,6 +24,7 @@ export class SearchComponent implements OnInit {
   tooManyResults$: Observable<boolean>;
   referenceTypesData$: Observable<ReferenceType[]>;
   resultCount$: Observable<number>;
+  loading$: Observable<boolean>;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
@@ -31,5 +33,6 @@ export class SearchComponent implements OnInit {
     this.tooManyResults$ = this.store.pipe(select(getTooManyResults));
     this.referenceTypesData$ = this.store.pipe(select(getReferenceTypes));
     this.resultCount$ = this.store.pipe(select(getResultCount));
+    this.loading$ = this.store.pipe(select(getReferenceTypesLoading));
   }
 }

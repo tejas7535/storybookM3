@@ -15,6 +15,7 @@ import {
   getProductionDetails,
   getQuantitiesDetails,
   getReferenceType,
+  getReferenceTypeLoading,
   getSalesDetails,
 } from './detail.selector';
 
@@ -24,7 +25,7 @@ describe('Detail Selector', () => {
       ...initialState,
       detail: {
         ...initialState.detail,
-        loading: false,
+        loading: true,
         referenceType: REFRENCE_TYPE_MOCK,
       },
     },
@@ -38,45 +39,49 @@ describe('Detail Selector', () => {
     });
   });
 
+  describe('getReferenceTypeLoading', () => {
+    test('should return true', () => {
+      expect(getReferenceTypeLoading(fakeState)).toEqual(
+        fakeState.detail.detail.loading
+      );
+    });
+  });
+
   describe('getSalesDetails', () => {
     test('should return sales details', () => {
-      const expected = SALES_DETAILS_MOCK;
-      expect(getSalesDetails(fakeState)).toEqual(expected);
+      expect(getSalesDetails(fakeState)).toEqual(SALES_DETAILS_MOCK);
     });
   });
 
   describe('getPriceDetails', () => {
     test('should return price details', () => {
-      const expected = PRICE_DETAILS_MOCK;
-      expect(getPriceDetails(fakeState)).toEqual(expected);
+      expect(getPriceDetails(fakeState)).toEqual(PRICE_DETAILS_MOCK);
     });
   });
 
   describe('getDimensionAndWeightDetails', () => {
     test('should return dimension and weight details', () => {
-      const expected = DIMENSION_AND_WEIGHT_DETAILS_MOCK;
-      expect(getDimensionAndWeightDetails(fakeState)).toEqual(expected);
+      expect(getDimensionAndWeightDetails(fakeState)).toEqual(
+        DIMENSION_AND_WEIGHT_DETAILS_MOCK
+      );
     });
   });
 
   describe('getCustomerDetails', () => {
     test('should return dimension and weight details', () => {
-      const expected = CUSTOMER_DETAILS_MOCK;
-      expect(getCustomerDetails(fakeState)).toEqual(expected);
+      expect(getCustomerDetails(fakeState)).toEqual(CUSTOMER_DETAILS_MOCK);
     });
   });
 
   describe('getQuantitiesDetails', () => {
     test('should return dimension and weight details', () => {
-      const expected = QUANTITIES_DETAILS_MOCK;
-      expect(getQuantitiesDetails(fakeState)).toEqual(expected);
+      expect(getQuantitiesDetails(fakeState)).toEqual(QUANTITIES_DETAILS_MOCK);
     });
   });
 
   describe('getQuantitiesDetails', () => {
     test('should return dimension and weight details', () => {
-      const expected = PRODUCTION_DETAILS_MOCK;
-      expect(getProductionDetails(fakeState)).toEqual(expected);
+      expect(getProductionDetails(fakeState)).toEqual(PRODUCTION_DETAILS_MOCK);
     });
   });
 });

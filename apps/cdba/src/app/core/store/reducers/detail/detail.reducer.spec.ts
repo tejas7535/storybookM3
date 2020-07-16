@@ -1,15 +1,19 @@
-import { REFRENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFRENCE_TYPE_MOCK } from '../../../../../testing/mocks';
 import {
-  getReferenceTypeDetails,
+  getReferenceTypeItem,
   getReferenceTypeItemSuccess,
-} from '../../actions/detail/detail.actions';
-import { initialState, detailReducer } from './detail.reducer';
-import { ReferenceTypeResultModel } from './models';
+} from '../../actions';
+import { detailReducer, initialState } from './detail.reducer';
+import { ReferenceTypeIdModel, ReferenceTypeResultModel } from './models';
 
 describe('Detail Reducer', () => {
-  describe('getReferenceTypeDetails', () => {
+  describe('getReferenceTypeItem', () => {
     test('should set loading', () => {
-      const action = getReferenceTypeDetails();
+      const referenceTypeId = new ReferenceTypeIdModel(
+        REFRENCE_TYPE_MOCK.materialNumber,
+        REFRENCE_TYPE_MOCK.plant
+      );
+      const action = getReferenceTypeItem({ referenceTypeId });
       const state = detailReducer(initialState, action);
 
       expect(state.detail.loading).toBeTruthy();
@@ -18,8 +22,7 @@ describe('Detail Reducer', () => {
 
   describe('getReferenceTypeItemSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const ref = REFRENCE_TYPE_MOCK;
-      const item = new ReferenceTypeResultModel(ref);
+      const item = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
 
       const action = getReferenceTypeItemSuccess({ item });
 

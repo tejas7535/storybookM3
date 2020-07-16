@@ -1,4 +1,7 @@
 {
+  "block_ui": {
+    "in_progress": "Your request is being processed!"
+  },
   "detail": {
     "customer": {
       "title": "Kunde",

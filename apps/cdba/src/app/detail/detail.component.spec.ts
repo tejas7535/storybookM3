@@ -12,7 +12,11 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
-import { getReferenceType } from '../core/store/selectors/details/detail.selector';
+import {
+  getReferenceType,
+  getReferenceTypeLoading,
+} from '../core/store/selectors/details/detail.selector';
+import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailComponent } from './detail.component';
@@ -52,6 +56,7 @@ describe('DetailComponent', () => {
         CustomerModule,
         QuantitiesModule,
         ProductionModule,
+        BlockUiModule,
       ],
       declarations: [DetailComponent],
       providers: [
@@ -63,6 +68,10 @@ describe('DetailComponent', () => {
             {
               selector: getReferenceType,
               value: REFRENCE_TYPE_MOCK,
+            },
+            {
+              selector: getReferenceTypeLoading,
+              value: false,
             },
           ],
         }),
