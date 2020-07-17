@@ -1,7 +1,7 @@
 <div
   fxLayout="column"
   class="container"
-  *ngIf="!(loading$ | async); else blockUi"
+  *ngIf="(loading$ | async) === false; else blockUi"
 >
   <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
     <mat-icon
