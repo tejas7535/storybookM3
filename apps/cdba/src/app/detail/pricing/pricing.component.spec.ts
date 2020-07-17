@@ -1,3 +1,5 @@
+import { registerLocaleData } from '@angular/common';
+import de from '@angular/common/locales/de';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
@@ -8,6 +10,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { PRICE_DETAILS_MOCK } from '../../../testing/mocks';
 import { getPriceDetails } from '../../core/store/selectors/details/detail.selector';
 import { PricingComponent } from './pricing.component';
+
+registerLocaleData(de);
 
 describe('PricingComponent', () => {
   let component: PricingComponent;
