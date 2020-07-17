@@ -6,7 +6,9 @@
     fxLayoutGap="20px"
   >
     <cdba-filter-panel [resultCount]="resultCount$ | async">
-      <cdba-reference-types-filters></cdba-reference-types-filters>
+      <cdba-reference-types-filters
+        *ngIf="(loading$ | async) === false; else blockUi"
+      ></cdba-reference-types-filters>
     </cdba-filter-panel>
     <cdba-reference-types-table
       [rowData]="referenceTypesData$ | async"
@@ -36,6 +38,12 @@
         </h6>
       </div>
     </ng-container>
-    <cdba-reference-types-filters></cdba-reference-types-filters>
+    <cdba-reference-types-filters
+      *ngIf="(loading$ | async) === false; else blockUi"
+    ></cdba-reference-types-filters>
   </div>
+</ng-template>
+
+<ng-template #blockUi>
+  <cdba-block-ui></cdba-block-ui>
 </ng-template>

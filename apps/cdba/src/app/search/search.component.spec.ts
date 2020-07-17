@@ -1,14 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { RouterTestingModule } from '@angular/router/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { getReferenceTypes, getSearchSuccessful } from '../core/store';
+import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { AgGridStateService } from '../shared/services/ag-grid-state.service';
 import { SharedModule } from '../shared/shared.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
@@ -37,6 +38,7 @@ describe('SearchComponent', () => {
         ReferenceTypesTableModule,
         RouterTestingModule,
         AgGridModule.withComponents([DetailViewButtonComponent]),
+        BlockUiModule,
       ],
       declarations: [SearchComponent],
       providers: [

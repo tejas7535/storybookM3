@@ -1,7 +1,7 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
-  getReferenceTypeDetails,
+  getReferenceTypeItem,
   getReferenceTypeItemSuccess,
 } from '../../actions';
 import { ReferenceType } from '../shared/models';
@@ -22,7 +22,7 @@ export const initialState: DetailState = {
 
 export const detailReducer = createReducer(
   initialState,
-  on(getReferenceTypeDetails, (state: DetailState) => ({
+  on(getReferenceTypeItem, (state: DetailState) => ({
     ...state,
     detail: { ...state.detail, loading: true },
   })),

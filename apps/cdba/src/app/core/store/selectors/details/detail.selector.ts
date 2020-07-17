@@ -14,6 +14,11 @@ export const getReferenceType = createSelector(
   (state: DetailState) => state.detail.referenceType
 );
 
+export const getReferenceTypeLoading = createSelector(
+  getDetailState,
+  (state: DetailState) => state.detail.loading
+);
+
 export const getSalesDetails = createSelector(
   getReferenceType,
   (referenceType) => {

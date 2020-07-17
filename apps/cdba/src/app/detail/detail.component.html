@@ -1,4 +1,8 @@
-<div fxLayout="column" class="container">
+<div
+  fxLayout="column"
+  class="container"
+  *ngIf="(loading$ | async) === false; else blockUi"
+>
   <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
     <mat-icon
       fontSet="schaeffler-icons"
@@ -110,3 +114,7 @@
     </mat-tab>
   </mat-tab-group>
 </div>
+
+<ng-template #blockUi>
+  <cdba-block-ui></cdba-block-ui>
+</ng-template>
