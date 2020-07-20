@@ -1,17 +1,18 @@
 import { createSelector } from '@ngrx/store';
 
-import { CustomerDetails } from '../../../../detail/customer/model/customer.details.model';
-import { DimensionAndWeightDetails } from '../../../../detail/dimension-and-weight/model/dimension-and-weight-details.model';
-import { PriceDetails } from '../../../../detail/pricing/model/price.details.model';
-import { ProductionDetails } from '../../../../detail/production/model/production.details.model';
-import { QuantitiesDetails } from '../../../../detail/quantities/model/quantities.model';
-import { SalesDetails } from '../../../../detail/sales-and-description/model/sales-details.model';
+import { CustomerDetails } from '../../../../detail/detail-tab/customer/model/customer.details.model';
+import { DimensionAndWeightDetails } from '../../../../detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
+import { PriceDetails } from '../../../../detail/detail-tab/pricing/model/price.details.model';
+import { ProductionDetails } from '../../../../detail/detail-tab/production/model/production.details.model';
+import { QuantitiesDetails } from '../../../../detail/detail-tab/quantities/model/quantities.model';
+import { SalesDetails } from '../../../../detail/detail-tab/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
+import { ReferenceType } from '../../reducers/shared/models';
 
 export const getReferenceType = createSelector(
   getDetailState,
-  (state: DetailState) => state.detail.referenceType
+  (state: DetailState): ReferenceType => state.detail.referenceType
 );
 
 export const getReferenceTypeLoading = createSelector(
@@ -21,90 +22,93 @@ export const getReferenceTypeLoading = createSelector(
 
 export const getSalesDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new SalesDetails(
-      referenceType.materialNumber,
-      referenceType.materialDesignation,
-      referenceType.materialShortDescription,
-      referenceType.productLine,
-      referenceType.rfq,
-      referenceType.salesOrganization,
-      referenceType.projectName,
-      referenceType.productDescription
-    );
-  }
+  (referenceType: ReferenceType): SalesDetails =>
+    referenceType
+      ? new SalesDetails(
+          referenceType.materialNumber,
+          referenceType.materialDesignation,
+          referenceType.materialShortDescription,
+          referenceType.productLine,
+          referenceType.rfq,
+          referenceType.salesOrganization,
+          referenceType.projectName,
+          referenceType.productDescription
+        )
+      : undefined
 );
 
 export const getPriceDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new PriceDetails(
-      referenceType.pcmSqv,
-      referenceType.pcmCalculationDate,
-      referenceType.sqvSapLatestMonth,
-      referenceType.sqvDate,
-      referenceType.gpcLatestYear,
-      referenceType.gpcDate,
-      referenceType.puUm,
-      referenceType.currency
-    );
-  }
+  (referenceType: ReferenceType): PriceDetails =>
+    referenceType
+      ? new PriceDetails(
+          referenceType.pcmSqv,
+          referenceType.pcmCalculationDate,
+          referenceType.sqvSapLatestMonth,
+          referenceType.sqvDate,
+          referenceType.gpcLatestYear,
+          referenceType.gpcDate,
+          referenceType.puUm,
+          referenceType.currency
+        )
+      : undefined
 );
 
 export const getDimensionAndWeightDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new DimensionAndWeightDetails(
-      referenceType.height,
-      referenceType.width,
-      referenceType.length,
-      referenceType.unitOfDimension,
-      referenceType.volumeCubic,
-      referenceType.volumeUnit,
-      referenceType.weight,
-      referenceType.weightUnit
-    );
-  }
+  (referenceType: ReferenceType): DimensionAndWeightDetails =>
+    referenceType
+      ? new DimensionAndWeightDetails(
+          referenceType.height,
+          referenceType.width,
+          referenceType.length,
+          referenceType.unitOfDimension,
+          referenceType.volumeCubic,
+          referenceType.volumeUnit,
+          referenceType.weight,
+          referenceType.weightUnit
+        )
+      : undefined
 );
 
 export const getCustomerDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new CustomerDetails(
-      referenceType.customer,
-      referenceType.customerGroup
-    );
-  }
+  (referenceType: ReferenceType) =>
+    referenceType
+      ? new CustomerDetails(referenceType.customer, referenceType.customerGroup)
+      : undefined
 );
 
 export const getQuantitiesDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new QuantitiesDetails(
-      referenceType.pcmQuantity,
-      referenceType.netSales,
-      referenceType.budgetQuantityCurrentYear,
-      referenceType.budgetQuantitySoco,
-      referenceType.actualQuantities,
-      referenceType.plannedQuantities,
-      referenceType.currency
-    );
-  }
+  (referenceType: ReferenceType): QuantitiesDetails =>
+    referenceType
+      ? new QuantitiesDetails(
+          referenceType.pcmQuantity,
+          referenceType.netSales,
+          referenceType.budgetQuantityCurrentYear,
+          referenceType.budgetQuantitySoco,
+          referenceType.actualQuantities,
+          referenceType.plannedQuantities,
+          referenceType.currency
+        )
+      : undefined
 );
 
 export const getProductionDetails = createSelector(
   getReferenceType,
-  (referenceType) => {
-    return new ProductionDetails(
-      referenceType.procurementType,
-      referenceType.plant,
-      referenceType.saleableItem,
-      '', // TODO add productionTechnology and manufacturingProcess
-      '',
-      referenceType.specialProcurement,
-      referenceType.purchasePriceValidFrom,
-      referenceType.purchasePriceValidUntil,
-      referenceType.supplier
-    );
-  }
+  (referenceType: ReferenceType): ProductionDetails =>
+    referenceType
+      ? new ProductionDetails(
+          referenceType.procurementType,
+          referenceType.plant,
+          referenceType.saleableItem,
+          '', // TODO add productionTechnology and manufacturingProcess
+          '',
+          referenceType.specialProcurement,
+          referenceType.purchasePriceValidFrom,
+          referenceType.purchasePriceValidUntil,
+          referenceType.supplier
+        )
+      : undefined
 );

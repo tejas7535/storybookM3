@@ -18,13 +18,7 @@ import {
 } from '../core/store/selectors/details/detail.selector';
 import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
-import { CustomerModule } from './customer/customer.module';
 import { DetailComponent } from './detail.component';
-import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
-import { PricingModule } from './pricing/pricing.module';
-import { ProductionModule } from './production/production.module';
-import { QuantitiesModule } from './quantities/quantities.module';
-import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -50,12 +44,6 @@ describe('DetailComponent', () => {
         SharedModule,
         RouterTestingModule,
         provideTranslocoTestingModule({}),
-        SalesAndDescriptionModule,
-        PricingModule,
-        DimensionAndWeightModule,
-        CustomerModule,
-        QuantitiesModule,
-        ProductionModule,
         BlockUiModule,
       ],
       declarations: [DetailComponent],

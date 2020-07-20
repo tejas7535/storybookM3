@@ -1,4 +1,4 @@
-import { DimensionAndWeightDetails } from '../../app/detail/dimension-and-weight/model/dimension-and-weight-details.model';
+import { DimensionAndWeightDetails } from '../../app/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 import { REFRENCE_TYPE_MOCK } from './reference-type.mock';
 
 export const DIMENSION_AND_WEIGHT_DETAILS_MOCK = new DimensionAndWeightDetails(

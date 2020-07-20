@@ -1,4 +1,4 @@
-import { ProductionDetails } from '../../app/detail/production/model/production.details.model';
+import { ProductionDetails } from '../../app/detail/detail-tab/production/model/production.details.model';
 import { REFRENCE_TYPE_MOCK } from './reference-type.mock';
 
 export const PRODUCTION_DETAILS_MOCK = new ProductionDetails(
