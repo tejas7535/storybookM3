@@ -1,0 +1,11 @@
+@import '../shared/widget';
+
+.widget-content {
+  .widget-group {
+    > div {
+      > div {
+        max-height: 96px;
+      }
+    }
+  }
+}

@@ -14,105 +14,22 @@
       {{ (referenceType$ | async)?.materialDesignation }} |
       {{ (referenceType$ | async)?.materialNumber }}
     </h1>
-
-    <!-- TODO remove show case-->
   </div>
-  <mat-tab-group
-    class="tabs"
-    mat-stretch-tabs
-    *transloco="let t; read: 'detail'"
-  >
-    <mat-tab label="{{ t('tabs.detail') }}">
-      <div
-        gdColumns="repeat(15, 1fr)"
-        gdRows="repeat(14, 1fr)"
-        gdColumns.lt-md="repeat(6, 1fr)"
-        gdRows.lt-md="repeat(35, 1fr)"
-        gdColumns.xs="repeat(3, 1fr)"
-        gdRows.xs="repeat(56, 1fr)"
-        gdGap="16px"
-        class="grid-container"
-      >
-        <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
-          <cdba-sales-and-description
-            *ngIf="referenceType$ | async"
-          ></cdba-sales-and-description>
-        </mat-card>
-        <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
-          <cdba-dimension-and-weight
-            *ngIf="referenceType$ | async"
-          ></cdba-dimension-and-weight>
-        </mat-card>
-        <mat-card
-          gdColumn="auto / span 3"
-          gdRow="auto / span 7"
-          gdColumn.lt-md="auto / span 3"
-          gdRow.lt-md="15 / span 7"
-        >
-          <cdba-customer *ngIf="referenceType$ | async"> </cdba-customer>
-        </mat-card>
-        <mat-card
-          gdColumn="auto / span 6"
-          gdRow="auto / span 14"
-          gdColumn.lt-md="1 / span 6"
-          gdRow.lt-md="auto / span 14"
-          gdColumn.xs="auto / span 3"
-          gdRow.xs="auto / span 14"
-        >
-          <div class="widget-content">
-            <h6>Drawing: F-446065.43-HLB</h6>
-            <div class="widget-group">
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-              <div>
-                <label>Label:</label>
-                Text
-              </div>
-            </div>
-          </div>
-        </mat-card>
-        <mat-card
-          gdColumn="1 / span 3"
-          gdRow="9 / span 6"
-          gdColumn.xs="auto / span 3"
-          gdRow.xs="22 / span 6"
-        >
-          <cdba-pricing *ngIf="referenceType$ | async"></cdba-pricing>
-        </mat-card>
-        <mat-card
-          gdColumn="4 / span 3"
-          gdRow="7 / span 8"
-          gdColumn.lt-md="4 / span 3"
-          gdRow.lt-md="7 / span 7"
-          gdColumn.xs="auto / span 3"
-          gdRow.xs="28 / span 8"
-        >
-          <cdba-quantities *ngIf="referenceType$ | async"></cdba-quantities>
-        </mat-card>
-        <mat-card
-          gdColumn="7 / span 3"
-          gdRow="auto / span 7"
-          gdColumn.lt-md="auto / span 3"
-          gdRow.lt-md="14 / span 8"
-          gdColumn.xs="auto / span 3"
-          gdRow.xs="36 / span 7"
-        >
-          <cdba-production *ngIf="referenceType$ | async"></cdba-production>
-        </mat-card>
-      </div>
-    </mat-tab>
-    <mat-tab label="{{ t('tabs.billOfMaterial') }}" [disabled]="true">
-      Bill of Material Content
-    </mat-tab>
-    <mat-tab label="{{ t('tabs.calculations') }}" [disabled]="true">
-      Calculations Content
-    </mat-tab>
-    <mat-tab label="{{ t('tabs.drawings') }}" [disabled]="true">
-      Drawings Content
-    </mat-tab>
-  </mat-tab-group>
+  <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'detail'">
+    <a
+      *ngFor="let tab of tabs; trackBy: trackByFn()"
+      mat-tab-link
+      queryParamsHandling="merge"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLink]="tab.link"
+      [active]="rla.isActive"
+      >{{ t(tab.label) }}</a
+    >
+  </nav>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
 </div>
 
 <ng-template #blockUi>

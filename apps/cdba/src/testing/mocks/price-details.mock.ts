@@ -1,4 +1,4 @@
-import { PriceDetails } from '../../app/detail/pricing/model/price.details.model';
+import { PriceDetails } from '../../app/detail/detail-tab/pricing/model/price.details.model';
 import { REFRENCE_TYPE_MOCK } from './reference-type.mock';
 
 export const PRICE_DETAILS_MOCK = new PriceDetails(
