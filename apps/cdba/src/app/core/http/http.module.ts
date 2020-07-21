@@ -7,7 +7,7 @@ import { EnvironmentConfig, ENV_CONFIG } from './environment-config.interface';
   imports: [CommonModule],
 })
 export class HttpModule {
-  static forRoot(config: EnvironmentConfig): ModuleWithProviders {
+  static forRoot(config: EnvironmentConfig): ModuleWithProviders<HttpModule> {
     return {
       ngModule: HttpModule,
       providers: [
