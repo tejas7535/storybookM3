@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -10,9 +10,9 @@ import { select, Store } from '@ngrx/store';
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
   getReferenceTypeDetails,
+  getReferenceTypeItem,
   getReferenceTypeItemFailure,
   getReferenceTypeItemSuccess,
-  getReferenceTypeItem,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 import { ReferenceTypeResultModel } from '../../reducers/detail/models';
@@ -32,7 +32,8 @@ export class DetailEffects {
           this.store.dispatch(
             getReferenceTypeItem({
               referenceTypeId: {
-                materialNumber: routerState.state.queryParams.materialNumber,
+                materialNumber:
+                  routerState.state.queryParams['material-number'],
                 plant: routerState.state.queryParams.plant,
               },
             })
