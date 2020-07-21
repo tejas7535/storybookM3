@@ -27,17 +27,16 @@ export class AuthService {
 
   public async login(targetUrl?: string): Promise<void> {
     return this.oauthService
-      .loadDiscoveryDocument()
-      .then(() => this.oauthService.tryLogin())
+      .loadDiscoveryDocumentAndTryLogin()
       .then(async () => {
-        // 1) is already logged in?
         if (this.oauthService.hasValidAccessToken()) {
+          // 1) is already logged in?
           return Promise.resolve();
         }
-        // 2) try silent refresh first
+
         return this.oauthService.silentRefresh().catch(() => {
-          // 3) silent refresh not possible -> login via implicit flow / code flow
-          this.oauthService.initLoginFlow(targetUrl || '/');
+          // 2) try silent refresh first
+          this.oauthService.initLoginFlow(targetUrl || '/'); // 3) silent refresh not possible -> login via implicit flow / code flow
         });
       })
       .then(() => {
@@ -98,12 +97,16 @@ export class AuthService {
   }
 
   public navigateToState(): void {
-    if (
-      this.oauthService.state &&
-      this.oauthService.state !== 'undefined' &&
-      this.oauthService.state !== 'null'
-    ) {
-      this.injector.get<Router>(Router).navigateByUrl(this.oauthService.state);
+    const oauthServiceState = this.oauthService.state;
+    const state =
+      oauthServiceState &&
+      oauthServiceState !== 'undefined' &&
+      oauthServiceState !== 'null'
+        ? decodeURIComponent(oauthServiceState)
+        : undefined;
+
+    if (state) {
+      this.injector.get<Router>(Router).navigateByUrl(state);
     } else {
       this.injector.get<Router>(Router).initialNavigation();
     }

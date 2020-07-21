@@ -9,12 +9,13 @@ export const getAuthConfig = ({
   flow,
   showDebugInfo,
   loginUrl,
+  redirectUrl,
 }: AzureConfig) => ({
   issuer: `${loginUrl}${tenantId}/v2.0`,
   tokenEndpoint: `${loginUrl}${tenantId}/oauth2/v2.0/token`,
   loginUrl: `${loginUrl}${tenantId}/oauth2/v2.0/authorize`,
   logoutUrl: `${loginUrl}${tenantId}/oauth2/v2.0/logout`,
-  redirectUri: origin,
+  redirectUri: `${origin}${redirectUrl}`,
   silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
   silentRefreshTimeout: 1000,
   // timeoutFactor:0, good for testing

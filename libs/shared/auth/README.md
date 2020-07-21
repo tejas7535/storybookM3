@@ -33,6 +33,7 @@ Either way, you need to add the following redirect URIs to it:
         clientId: 'XXX',
         appId: 'api://XXX/YYY',
         loginUrl: 'https://login.xxx.xx/', // only required if you use another azure tenant
+        redirectUrl: '/callback-example' // only required if the redirect url should not be root
     };
 
   ```
@@ -47,6 +48,7 @@ Either way, you need to add the following redirect URIs to it:
         FlowType.CODE_FLOW,
         !environment.production,
         environment.loginUrl,
+        environment.redirectUrl
     );
 
     @NgModule({

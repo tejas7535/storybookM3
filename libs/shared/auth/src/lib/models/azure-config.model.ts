@@ -7,6 +7,7 @@ export class AzureConfig {
     public appId: string,
     public flow: FlowType,
     public showDebugInfo: boolean,
-    public loginUrl: string = 'https://login.microsoftonline.com/'
+    public loginUrl: string = 'https://login.microsoftonline.com/',
+    public redirectUrl: string = ''
   ) {}
 }

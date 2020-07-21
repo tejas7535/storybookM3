@@ -50,6 +50,7 @@ export class AuthEffects {
           if (location.hash && location.hash.indexOf('#/') === 0) {
             targetUrl = location.hash.substr(2);
           }
+
           this.authService.login(targetUrl);
         })
       ),
