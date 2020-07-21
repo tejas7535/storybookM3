@@ -4,7 +4,7 @@ import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
 } from '@angular/core';
 
 import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
@@ -13,7 +13,7 @@ import {
   AuthConfig,
   OAuthModule,
   OAuthStorage,
-  ValidationHandler
+  ValidationHandler,
 } from 'angular-oauth2-oidc';
 
 import { AuthGuard } from './guards';
@@ -26,10 +26,10 @@ export const storageFactory = (): OAuthStorage => localStorage;
 
 @NgModule({
   imports: [OAuthModule.forRoot()],
-  providers: [AuthGuard, RoleGuard, AuthService]
+  providers: [AuthGuard, RoleGuard, AuthService],
 })
 export class CoreModule {
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
       providers: [
@@ -39,15 +39,15 @@ export class CoreModule {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,
-          multi: true
+          multi: true,
         },
         {
           provide: APP_INITIALIZER,
           useFactory: initializer,
           deps: [AuthService],
-          multi: true
-        }
-      ]
+          multi: true,
+        },
+      ],
     };
   }
 

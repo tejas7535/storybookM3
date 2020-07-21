@@ -8,7 +8,7 @@ import {
 import { Injectable } from '@angular/core';
 
 import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/internal/operators';
+import { catchError } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 

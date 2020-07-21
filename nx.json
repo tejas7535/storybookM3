@@ -4,11 +4,11 @@
     "angular.json": "*",
     "package.json": "*",
     "package-lock.json": "*",
-    "tsconfig.json": "*",
     "tslint.json": "*",
     "nx.json": "*",
     "Jenkinsfile": "*",
-    "deployments.json": "*"
+    "deployments.json": "*",
+    "tsconfig.base.json": "*"
   },
   "projects": {
     "kitchen-sink-e2e": {
@@ -153,5 +153,8 @@
         ]
       }
     }
+  },
+  "affected": {
+    "defaultBase": "master"
   }
 }

@@ -6,7 +6,7 @@ input {
 }
 
 .drop-zone {
-  background: url('libs/shared/ui/file-drop/src/lib/border.svg') no-repeat;
+  background: url('./border.svg') no-repeat;
   background-size: cover;
   height: 170px;
   margin: auto;
@@ -23,7 +23,6 @@ input {
 }
 
 .dropover-image {
-  background: url('libs/shared/ui/file-drop/src/lib/dropzone-hover.png')
-    no-repeat center;
+  background: url('./dropzone-hover.png') no-repeat center;
   height: 170px;
 }

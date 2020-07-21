@@ -5,10 +5,10 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@angular/core+@ngrx/store+@angular/material+@angular/flex-layout+prettier+commitizen) -->
 
-![@angular/core: 9.1.12](https://img.shields.io/badge/%40angular%2Fcore-9.1.12-brightgreen)
+![@angular/core: 10.0.4](https://img.shields.io/badge/%40angular%2Fcore-10.0.4-brightgreen)
 ![@ngrx/store: 9.2.0](https://img.shields.io/badge/%40ngrx%2Fstore-9.2.0-brightgreen)
-![@angular/material: 9.2.4](https://img.shields.io/badge/%40angular%2Fmaterial-9.2.4-brightgreen)
-![@angular/flex-layout: 9.0.0-beta.31](https://img.shields.io/badge/%40angular%2Fflex--layout-9.0.0--beta.31-brightgreen)
+![@angular/material: 10.1.0](https://img.shields.io/badge/%40angular%2Fmaterial-10.1.0-brightgreen)
+![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)
 ![prettier: 2.0.5](https://img.shields.io/badge/prettier-2.0.5-brightgreen)
 ![commitizen: 4.1.2](https://img.shields.io/badge/commitizen-4.1.2-brightgreen)
 
