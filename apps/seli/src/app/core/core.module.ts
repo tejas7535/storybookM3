@@ -8,10 +8,12 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { AuthGuard } from './auth.guard';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
   declarations: [AppComponent],
+  providers: [AuthGuard],
   imports: [
     BrowserAnimationsModule,
 
