@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.1.0...v1.2.0) (2020-07-21)
+
+
+### 🐛 Bug Fixes
+
+* **auth:** fix code flow (DSCDA-1831) ([e602477](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e602477fb049a96f9be26813fb9b72d846d6e9ab))
+* **cdba:** correct localization on detail page (DSCDA-1827) ([f1b34e2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f1b34e254a897d2edc48b521753c333b9c09f933))
+* **cdba:** fix translation keys ([b49edf9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b49edf978484698c5f02bb66e50757511c4f85bf))
+* **cdba:** wrong options in filter after update (DSCDA-1813) ([546ca80](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/546ca80bf9d0be2cdd8de600bffffa02c66728ed))
+
+
+### 🎸 Features
+
+* **auth:** enable code flow (UFTABI-2237) ([d9b4ffa](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d9b4ffa0452b69f4547db98f0698f8f9d8eabd91))
+* **cdba:** add customer details widget (DSCDA-1709) ([4802ab0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4802ab0ac89c95b5fcc9bf706550efaa40732c70))
+* **cdba:** add dimension and wight widget (DSCDA-1705) ([af5bab3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/af5bab36a2bed95691dba784b895b337ed697627))
+* **cdba:** add production details widget (DSCDA-1710) ([506588d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/506588daa9c24da1801ab2d7eb027a70e9bb192b))
+* **cdba:** add quantities details widget (DSCDA-1708) ([a50d5c6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a50d5c66e1e92ed59bfe95539ef80ee210274c6b))
+* **cdba:** add reducer, rest service, effect and selector for calculations (DSCDA-1745) ([95a81a3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/95a81a3342140150c03545a50177c7e86fddd1b3))
+* **cdba:** add responsive behaviour for filter panel ([3e4c8e0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3e4c8e0d08f8a5d7d40118a08354c8c721058ae0))
+* **cdba:** add rudimentary progress bar (DSCDA-1825) ([29d3bad](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/29d3badf3f2d2fd7ce67a2c3be3ad27512a8d6c5))
+* **cdba:** add service and store for detail page (DSCDA-1701) ([45f90c9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/45f90c9ba3adec1c30fdc716989e17310caa6f9f))
+* **cdba:** add subrouting for detail page (DSCDA-1815) ([5e0555d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5e0555db2b4f75e556c0961bf9ee42ccb12d74c6))
+* **cdba:** add translation for new filters (DSCDA-1806) ([3a3a32e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3a3a32e2279dd9924773404fa9ab5769731d8c12))
+* **cdba:** added pricing details widget (DSCDA-1704) ([7b7983b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7b7983bee7858130d7545523c88c436f3070a7cb))
+* **cdba:** added sales and description details widget (DSCDA-1680) ([2a1acf0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2a1acf00d8d6962726dc3b9f0b011942e0e24467))
+* **cdba:** handle 1 character for autocomplete differently (DSCDA-1774) ([6882874](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/68828741cc0d739e1f94e58efefef68f64b181f4))
+* **cdba:** show result count for search (DSCDA-1697) ([7d0b581](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7d0b58166b6f8646ca00d66056f20484c8e161cf))
+* **cdba:** update REST API due to new SP call in BE (DSCDA-1771) ([03add37](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/03add377eead113767790e9ef25e983deb590f52))
+* **cdba:** use code flow for authentication (DSCDA-1814) ([5e9c6bd](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5e9c6bdfe13dfa86521d19afe12e4eb3613b0d76))
+* **empty-states:** adjust language file loaders to best practice (UFTABI-2477) ([0c77432](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0c77432220b228e35108494de32872e3d8b7fcb8))
+* **goldwind:** add device overview (DIGDTGW-393) ([585f98e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/585f98ef75a0033080dbc00f0c624a2cb3725c3b))
+* **seli:** add authentication for seli (UFTABI-2608) ([1636105](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/163610568944417b4150132600c9082e5a25bb00))
+* **seli:** create seli app (UFTABI-2542) ([5dd7b41](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5dd7b41a859fb0dacf0ffd85c0767b74fc77ce36))
+* **sta:** add text classification (UFTABI-2553) ([e90b7c8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e90b7c86a728d146760dfdadd6b0714b6529d675))
+* **steel:** remove steel from workspace (UFTABI-2494) ([c780b94](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c780b947c3e2064e8f9f00bb787ccf93afc271f7))
+* **workspace:** enable auto-populated publishable library dependencies (UFTABI-2390) ([471e246](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/471e246144837957500060590020b380a0940c39))
+
 ## [1.1.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v1.1.0) (2020-07-01)
 
 

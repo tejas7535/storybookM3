@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](///compare/v1.1.0...v1.2.0) (2020-07-21)
+
+
+### 🎸 Features
+
+* **workspace:** enable auto-populated publishable library dependencies (UFTABI-2390) ([471e246](///commit/471e246144837957500060590020b380a0940c39))
+
 ## [1.1.0](///compare/v0.5.0...v1.1.0) (2020-07-01)
 
 
