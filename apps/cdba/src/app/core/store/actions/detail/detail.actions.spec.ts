@@ -16,15 +16,20 @@ import {
   getRfqsFailure,
   getRfqsSuccess,
 } from '..';
+import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
+import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
 
 describe('Detail Actions', () => {
   let referenceTypeId: any;
+  let materialNumber: string;
 
   beforeEach(() => {
     referenceTypeId = {
       materialNumber: '1234',
       plant: 'Beautiful Plant',
     };
+
+    materialNumber = referenceTypeId.materialNumber;
   });
 
   describe('Get Reference Type Details Actions', () => {
@@ -97,20 +102,20 @@ describe('Detail Actions', () => {
 
   describe('Get Calculations Actions', () => {
     test('getCalculations', () => {
-      const action = getCalculations({ referenceTypeId });
+      const action = getCalculations({ materialNumber });
 
       expect(action).toEqual({
-        referenceTypeId,
+        materialNumber,
         type: '[Detail] Load Calculations',
       });
     });
 
     test('getCalculationsSuccess', () => {
-      const items: any[] = [];
-      const action = getCalculationsSuccess({ items });
+      const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
+      const action = getCalculationsSuccess({ item });
 
       expect(action).toEqual({
-        items,
+        item,
         type: '[Detail] Load Calculations Success',
       });
     });

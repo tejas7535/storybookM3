@@ -9,6 +9,9 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
+  getCalculations,
+  getCalculationsFailure,
+  getCalculationsSuccess,
   getReferenceTypeDetails,
   getReferenceTypeItem,
   getReferenceTypeItemFailure,
@@ -16,6 +19,7 @@ import {
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 import { ReferenceTypeResultModel } from '../../reducers/detail/models';
+import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -38,6 +42,11 @@ export class DetailEffects {
               },
             })
           );
+          this.store.dispatch(
+            getCalculations({
+              materialNumber: routerState.state.queryParams['material-number'],
+            })
+          );
         })
       );
     },
@@ -53,6 +62,20 @@ export class DetailEffects {
             getReferenceTypeItemSuccess({ item })
           ),
           catchError((_e) => of(getReferenceTypeItemFailure()))
+        )
+      )
+    );
+  });
+
+  calculations$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(getCalculations),
+      mergeMap((action) =>
+        this.detailService.calculations(action.materialNumber).pipe(
+          map((item: CalculationsResultModel) =>
+            getCalculationsSuccess({ item })
+          ),
+          catchError((_e) => of(getCalculationsFailure()))
         )
       )
     );

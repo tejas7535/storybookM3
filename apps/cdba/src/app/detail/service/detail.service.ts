@@ -8,6 +8,7 @@ import {
   ReferenceTypeIdModel,
   ReferenceTypeResultModel,
 } from '../../core/store/reducers/detail/models';
+import { CalculationsResultModel } from '../../core/store/reducers/detail/models/calculations-result-model';
 
 @Injectable({
   providedIn: 'root',
@@ -26,5 +27,19 @@ export class DetailService {
       .set(this.PARAM_PLANT, item.plant);
 
     return this.dataService.getAll<ReferenceTypeResultModel>('detail', params);
+  }
+
+  public calculations(
+    materialNumber: string
+  ): Observable<CalculationsResultModel> {
+    const params = new HttpParams().set(
+      this.PARAM_MATERIAL_NUMBER,
+      materialNumber
+    );
+
+    return this.dataService.getAll<CalculationsResultModel>(
+      'calculations',
+      params
+    );
   }
 }

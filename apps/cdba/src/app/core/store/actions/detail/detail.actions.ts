@@ -4,6 +4,7 @@ import {
   ReferenceTypeIdModel,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
+import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
 
 export const getReferenceTypeDetails = createAction(
   '[Detail] Load Reference Type Data'
@@ -37,12 +38,12 @@ export const getBomFailure = createAction('[Detail] Load BOM Failure');
 
 export const getCalculations = createAction(
   '[Detail] Load Calculations',
-  props<{ referenceTypeId: any }>()
+  props<{ materialNumber: string }>()
 );
 
 export const getCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
-  props<{ items: any[] }>()
+  props<{ item: CalculationsResultModel }>()
 );
 
 export const getCalculationsFailure = createAction(
