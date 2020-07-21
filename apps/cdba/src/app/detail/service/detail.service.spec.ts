@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
@@ -42,13 +43,19 @@ describe('DetailService', () => {
 
   test('should get search result', () => {
     const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
+    const expectedParams = new HttpParams()
+      .set('material-number', '10000')
+      .set('plant', 'IWS');
 
-    service.detail(new ReferenceTypeIdModel('', '')).subscribe((response) => {
-      expect(response).toEqual(mock);
-    });
+    service
+      .detail(new ReferenceTypeIdModel('10000', 'IWS'))
+      .subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
 
-    const req = httpMock.expectOne('/detail');
-    expect(req.request.method).toBe('POST');
+    const req = httpMock.expectOne(`/detail?${expectedParams.toString()}`);
+    expect(req.request.method).toBe('GET');
+    expect(req.request.params).toEqual(expectedParams);
     req.flush(mock);
   });
 });
