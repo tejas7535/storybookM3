@@ -1,16 +1,9 @@
 import { TestBed } from '@angular/core/testing';
 
-import { of } from 'rxjs';
-
 import { configureTestSuite } from 'ng-bullet';
 
 import { AzureConfig, FlowType } from './models';
-import {
-  loginStatusFactory,
-  SharedAuthModule,
-  storageFactory,
-} from './shared-auth.module';
-import { loginSuccess } from './store';
+import { SharedAuthModule, storageFactory } from './shared-auth.module';
 
 describe('SharedAuthModule', () => {
   configureTestSuite(() => {
@@ -72,30 +65,5 @@ describe('SharedAuthModule', () => {
     const module = new SharedAuthModule(undefined);
 
     expect(module).toBeDefined();
-  });
-
-  describe('loginStatusFactory', () => {
-    test('should try to login', (done) => {
-      const user = {};
-      const authService = {
-        tryAutomaticLogin: jest.fn(() => of(true)),
-        getUser: jest.fn().mockImplementation(() => user),
-        navigateToState: jest.fn(),
-      };
-
-      const store = {
-        dispatch: jest.fn(),
-      };
-
-      const func = loginStatusFactory(authService, store);
-
-      func().subscribe(() => {
-        expect(authService.tryAutomaticLogin).toHaveBeenCalledTimes(1);
-        expect(authService.getUser).toHaveBeenCalledTimes(1);
-        expect(store.dispatch).toHaveBeenCalledWith(loginSuccess({ user }));
-        expect(authService.navigateToState).toHaveBeenCalledTimes(1);
-        done();
-      });
-    });
   });
 });
