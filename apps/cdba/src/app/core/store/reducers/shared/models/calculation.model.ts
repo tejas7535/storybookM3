@@ -1,0 +1,31 @@
+export class Calculation {
+  constructor(
+    public plant: string,
+    public quantity: number,
+    public costingDateFrom: string,
+    public costingVariant: string,
+    public costingNumber: number,
+    public priceEur: number,
+    public priceEurCurrency: string,
+    public priceOriginal: number,
+    public priceOriginalCurrency: string,
+    public priceUnit: number,
+    public valuationArea: string,
+    public materialNumber: string,
+    public materialNum: string,
+    public valuationClass: string,
+    public standardPrice: number,
+    public lotSize: number,
+    public quotationNumber: string,
+    public rfqNumber: string,
+    public inquiryType: string,
+    public linkToSource: string,
+    public bomCostingDate: string,
+    public bomCostingNumber: string,
+    public bomCostingType: string,
+    public bomCostingVersion: string,
+    public bomEnteredManually: string,
+    public bomReferenceObject: string,
+    public bomValuationVariant: string
+  ) {}
+}
