@@ -1,6 +1,7 @@
 import { ColumnState } from '../column-state';
 
 export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
+  checkbox: { colId: 'checkbox', pinned: 'left' },
   materialDesignation: {
     colId: 'materialDesignation',
     pinned: 'left',

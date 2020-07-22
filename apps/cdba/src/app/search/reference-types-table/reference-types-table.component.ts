@@ -87,7 +87,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
         (update[0] as any)[columnDefinitionToReferenceTypeProp(column)] !==
           undefined;
 
-      if (showColumn) {
+      if (showColumn || column === 'checkbox') {
         defaultColumnDefinitions[column] = COLUMN_DEFINITIONS[column];
       }
     });

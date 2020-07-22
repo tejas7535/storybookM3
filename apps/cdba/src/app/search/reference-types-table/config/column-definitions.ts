@@ -12,6 +12,19 @@ import {
 } from './column-utils';
 
 export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
+  checkbox: {
+    suppressMovable: true,
+    checkboxSelection: true,
+    sortable: false,
+    filter: false,
+    resizable: false,
+    enablePivot: false,
+    enableRowGroup: false,
+    filterParams: false,
+    suppressMenu: true,
+    suppressColumnsToolPanel: true,
+    width: 70,
+  },
   materialDesignation: {
     field: columnDefinitionToReferenceTypeProp('materialDesignation'),
     headerName: translate(
@@ -20,7 +33,6 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.materialDesignation'
     ),
-    checkboxSelection: true,
   },
   materialNumber: {
     field: columnDefinitionToReferenceTypeProp('materialNumber'),
