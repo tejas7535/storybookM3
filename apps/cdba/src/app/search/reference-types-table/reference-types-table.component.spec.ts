@@ -1,6 +1,7 @@
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
@@ -10,7 +11,6 @@ import {
   MenuItemDef,
   SortChangedEvent,
 } from '@ag-grid-community/core';
-import { RouterTestingModule } from '@angular/router/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import {
@@ -110,6 +110,7 @@ describe('ReferenceTypesTableComponent', () => {
           expect(result[mapDefaultColumnDefinitions.get(elem)]).toBeDefined();
         }
       });
+      expect(Object.keys(result).includes('checkbox')).toBeTruthy();
     });
   });
 
