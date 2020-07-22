@@ -9,8 +9,8 @@ import { reducer } from './reducers/auth.reducer';
 @NgModule({
   imports: [
     NgrxStoreModule.forFeature('auth', reducer),
-    EffectsModule.forRoot([AuthEffects])
+    EffectsModule.forFeature([AuthEffects]),
   ],
-  exports: []
+  exports: [],
 })
 export class StoreModule {}

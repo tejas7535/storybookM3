@@ -9,6 +9,11 @@ import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
+import {
+  AzureConfig,
+  FlowType,
+  SharedAuthModule,
+} from '@schaeffler/shared/auth';
 import { SidebarModule } from '@schaeffler/sidebar';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -21,12 +26,21 @@ import { LandingModule } from './feature/landing/landing.module';
 import { HttpErrorInterceptor } from './interceptors/http-error.interceptor';
 import { ResultModule } from './shared/result/result.module';
 
+const azureConfig = new AzureConfig(
+  environment.azureTenantId,
+  environment.azureClientId,
+  environment.azureBackendAPI,
+  FlowType.CODE_FLOW,
+  !environment.production
+);
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
     AppRoutingModule,
     BrowserAnimationsModule,
     CoreModule.forRoot(),
+    SharedAuthModule.forRoot(azureConfig),
     FlexLayoutModule,
     FooterModule,
     HttpClientModule,

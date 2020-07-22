@@ -3,13 +3,10 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of } from 'rxjs';
-
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { APP_STATE_MOCK } from '../../../../testing/mocks/shared/app-state.mock';
-import { AuthService } from '../../../core/auth.service';
 import { QaChatModule } from './qa-chat/qa-chat.module';
 import { ResultQuestionAnsweringComponent } from './result-question-answering.component';
 
@@ -26,17 +23,7 @@ describe('ResultQuestionAnsweringComponent', () => {
         QaChatModule,
         NoopAnimationsModule,
       ],
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            getUserGivenName: jest
-              .fn()
-              .mockImplementation(() => of('Username')),
-          },
-        },
-        provideMockStore({ initialState: APP_STATE_MOCK }),
-      ],
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 

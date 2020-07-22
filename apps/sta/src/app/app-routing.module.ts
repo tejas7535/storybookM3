@@ -11,7 +11,7 @@ const routes: Routes = [
       import('./feature/overview/overview.module').then(
         (m) => m.OverviewModule
       ),
-    canLoad: [AuthGuard],
+    canActivate: [AuthGuard],
   },
   {
     path: 'tagging',
