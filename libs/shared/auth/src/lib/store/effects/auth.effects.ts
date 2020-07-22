@@ -23,7 +23,6 @@ export class AuthEffects {
         this.authService.tryAutomaticLogin().pipe(
           map((isLoggedIn) => {
             let action;
-
             if (isLoggedIn) {
               const user = this.authService.getUser();
               action = authActions.loginSuccess({ user });

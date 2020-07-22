@@ -5,27 +5,33 @@ import {
   CanLoad,
   Route,
   RouterStateSnapshot,
-  UrlSegment
+  UrlSegment,
 } from '@angular/router';
 
-import { AuthService } from './auth.service';
+import { Observable } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+
+import { getIsLoggedIn } from '@schaeffler/shared/auth';
+
+import { AppState } from './store';
 
 @Injectable()
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly store: Store<AppState>) {}
 
-  public canLoad(_route: Route, _segments: UrlSegment[]): boolean {
+  public canLoad(_route: Route, _segments: UrlSegment[]): Observable<boolean> {
     return this.isAuthenticated();
   }
 
   public canActivate(
     _route: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): boolean {
+  ): Observable<boolean> {
     return this.isAuthenticated();
   }
 
-  private isAuthenticated(): boolean {
-    return this.authService.hasValidAccessToken();
+  private isAuthenticated(): Observable<boolean> {
+    return this.store.pipe(select(getIsLoggedIn));
   }
 }

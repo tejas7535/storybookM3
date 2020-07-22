@@ -1,58 +1,47 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { LandingComponent } from './landing.component';
+import { startLoginFlow } from '@schaeffler/shared/auth';
 
-import { AuthService } from '../../core/auth.service';
+import { LandingComponent } from './landing.component';
 
 describe('LandingComponent', () => {
   let component: LandingComponent;
   let fixture: ComponentFixture<LandingComponent>;
+  let store: MockStore;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatButtonModule],
       declarations: [LandingComponent],
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn()
-          }
-        }
-      ]
+      providers: [provideMockStore()],
     });
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LandingComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(MockStore);
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(store).toBeTruthy();
   });
 
   describe('login', () => {
-    test('should call login of service with targetUrl when hash avl', () => {
-      location.hash = '#/tagging';
-      component['authService'].login = jest.fn();
+    test('should dispatch loginFlow and set local storage', () => {
+      store.dispatch = jest.fn();
 
       component.login();
 
-      expect(component['authService'].login).toHaveBeenCalledWith('tagging');
-    });
-
-    test('should call login of service hash url when hash valid angular routing', () => {
-      location.hash = 'soeinquatsch/#/tagging';
-      component['authService'].login = jest.fn();
-
-      component.login();
-
-      expect(component['authService'].login).toHaveBeenCalledWith('/');
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(localStorage.getItem('alreadyVisited')).toEqual('TRUE');
     });
   });
 });

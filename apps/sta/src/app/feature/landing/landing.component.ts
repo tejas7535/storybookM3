@@ -1,21 +1,21 @@
 import { Component } from '@angular/core';
 
-import { AuthService } from '../../core/auth.service';
+import { Store } from '@ngrx/store';
+
+import { startLoginFlow } from '@schaeffler/shared/auth';
+
+import { AppState } from '../../core/store';
 
 @Component({
   selector: 'sta-landing',
   templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss']
+  styleUrls: ['./landing.component.scss'],
 })
 export class LandingComponent {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   public login(): void {
-    let targetUrl = '/';
-
-    if (location.hash && location.hash.indexOf('#/') === 0) {
-      targetUrl = location.hash.substr(2);
-    }
-    this.authService.login(targetUrl);
+    this.store.dispatch(startLoginFlow());
+    localStorage.setItem('alreadyVisited', 'TRUE');
   }
 }

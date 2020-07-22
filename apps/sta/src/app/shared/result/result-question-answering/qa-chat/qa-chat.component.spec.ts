@@ -6,14 +6,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of } from 'rxjs';
-
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { APP_STATE_MOCK } from '../../../../../testing/mocks/shared/app-state.mock';
-import { AuthService } from '../../../../core/auth.service';
 import {
   AppState,
   loadAnswerForFile,
@@ -45,18 +42,7 @@ describe('QaChatComponent', () => {
         MatButtonModule,
         FormsModule,
       ],
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            getUserGivenName: jest
-              .fn()
-              .mockImplementation(() => of('Username')),
-            initConfig: jest.fn(),
-          },
-        },
-        provideMockStore({ initialState: APP_STATE_MOCK }),
-      ],
+      providers: [provideMockStore({ initialState: APP_STATE_MOCK })],
     });
   });
 

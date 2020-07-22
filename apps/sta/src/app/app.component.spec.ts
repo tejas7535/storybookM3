@@ -10,18 +10,21 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Observable, of } from 'rxjs';
 
 import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
+import { Store, StoreModule } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
+import { startLoginFlow } from '@schaeffler/shared/auth';
 import { SidebarModule } from '@schaeffler/sidebar';
 
+import { APP_STATE_MOCK } from '../testing/mocks/shared/app-state.mock';
 import { AppComponent } from './app.component';
 import { AuthGuard } from './core/auth.guard';
-import { AuthService } from './core/auth.service';
+import { AppState } from './core/store';
 import { LandingModule } from './feature/landing/landing.module';
 import { ServiceType } from './shared/result/models';
 import { ResultComponent } from './shared/result/result.component';
@@ -60,10 +63,10 @@ export const testRoutes: Routes = [
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let service: AuthService;
   let router: Router;
+  let store: Store<AppState>;
 
-  configureTestSuite(() => {
+  configureTestSuite(() =>
     TestBed.configureTestingModule({
       imports: [
         FooterModule,
@@ -81,17 +84,9 @@ describe('AppComponent', () => {
       ],
       declarations: [AppComponent, ResultStubComponent],
       providers: [
-        AuthGuard,
         BreakpointService,
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn(),
-            hasValidAccessToken: jest.fn(),
-            getUserName: jest.fn(),
-            configureImplicitFlow: jest.fn(),
-          },
-        },
+        provideMockStore({ initialState: APP_STATE_MOCK }),
+        AuthGuard,
         {
           provide: ActivatedRoute,
           useValue: {
@@ -105,21 +100,20 @@ describe('AppComponent', () => {
           },
         },
       ],
-    });
-  });
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    service = TestBed.inject(AuthService);
     router = TestBed.inject(Router);
+    store = TestBed.inject(Store);
   });
 
   test('should create the app', () => {
     const app = fixture.debugElement.componentInstance;
     expect(app).toBeTruthy();
-    expect(service.configureImplicitFlow).toHaveBeenCalled();
   });
 
   test(`should have as title 'STA - Schaeffler Text Assistant'`, () => {
@@ -129,6 +123,8 @@ describe('AppComponent', () => {
 
   describe('ngOnInit()', () => {
     test('should set Observables', () => {
+      localStorage.setItem('alreadyVisited', 'TRUE');
+      store.dispatch = jest.fn();
       component.addSubscriptions = jest.fn();
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
@@ -138,6 +134,11 @@ describe('AppComponent', () => {
       expect(component.isMedium$).toBeDefined();
       expect(component.isDesktop$).toBeDefined();
       expect(component.addSubscriptions).toHaveBeenCalledTimes(1);
+      expect(component.alreadyVisited).toBeDefined();
+      expect(component.alreadyVisited).toEqual('TRUE');
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
   });
 
@@ -211,7 +212,7 @@ describe('AppComponent', () => {
       component.addSubscriptions();
 
       component.isDesktop = true;
-      await router.navigateByUrl('/tagging');
+      await router.navigateByUrl('/question-answering');
 
       expect(component.isSidebarExpanded).toBeFalsy();
     });

@@ -2,9 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 
-import { AuthService } from '../../../../core/auth.service';
+import { getUsername } from '@schaeffler/shared/auth';
+
 import {
   AppState,
   loadAnswerForFile,
@@ -36,10 +37,7 @@ export class QaChatComponent implements OnInit, OnDestroy {
 
   public readonly subscription: Subscription = new Subscription();
 
-  constructor(
-    private readonly authService: AuthService,
-    private readonly store: Store<AppState>
-  ) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   public ngOnInit(): void {
     this.setObservables();
@@ -55,7 +53,7 @@ export class QaChatComponent implements OnInit, OnDestroy {
   }
 
   private setObservables(): void {
-    this.userGivenName$ = this.authService.getUserGivenName();
+    this.userGivenName$ = this.store.pipe(select(getUsername));
   }
 
   public sendQuestion(): void {

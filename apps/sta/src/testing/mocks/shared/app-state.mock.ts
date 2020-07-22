@@ -134,4 +134,10 @@ export const APP_STATE_MOCK = {
       loading: false,
     },
   },
+  auth: {
+    isLoggedIn: true,
+  },
+  sidebar: {
+    mode: 2,
+  },
 };

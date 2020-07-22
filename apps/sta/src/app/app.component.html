@@ -79,7 +79,7 @@
       <ng-template #showLandingPage>
         <sta-landing
           class="full-height"
-          *ngIf="isDoneLoading$ | async"
+          *ngIf="!alreadyVisited && (isAuthenticated$ | async) === false"
         ></sta-landing>
       </ng-template>
     </ng-container>

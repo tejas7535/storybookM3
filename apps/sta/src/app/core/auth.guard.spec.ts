@@ -1,61 +1,47 @@
-import { of } from 'rxjs';
-
 import { TestBed } from '@angular/core/testing';
 import { Router, RouterStateSnapshot } from '@angular/router';
 
-import { OAuthService } from 'angular-oauth2-oidc';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { AuthService } from './auth.service';
+import { getIsLoggedIn } from '@schaeffler/shared/auth';
 
 import { AuthGuard } from './auth.guard';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
+  let store: MockStore;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [],
-
       providers: [
         AuthGuard,
-        AuthService,
+        provideMockStore(),
         {
           provide: Router,
           useValue: {
-            navigateByUrl: () => jest.fn()
-          }
+            navigateByUrl: () => jest.fn(),
+          },
         },
-        {
-          provide: OAuthService,
-          useValue: {
-            tryLogin: jest.fn(),
-            hasValidAccessToken: jest.fn().mockImplementation(() => false),
-            events: of({ type: 'token_received' }),
-            setupAutomaticSilentRefresh: jest.fn(),
-            loadDiscoveryDocument: jest
-              .fn()
-              .mockImplementation(() => Promise.resolve()),
-            initImplicitFlow: jest.fn(),
-            state: 'state/link'
-          }
-        }
-      ]
+      ],
     });
-
-    guard = TestBed.inject(AuthGuard);
   });
-
+  beforeEach(() => {
+    guard = TestBed.inject(AuthGuard);
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(getIsLoggedIn, true);
+  });
   it('should be created', () => {
     expect(guard).toBeTruthy();
   });
 
   describe('isAuthenticated', () => {
-    test('should call hasValidAcessToken', () => {
-      guard['authService'].hasValidAccessToken = jest.fn();
-      guard['isAuthenticated']();
-
-      expect(guard['authService'].hasValidAccessToken).toHaveBeenCalledTimes(1);
+    test('should call hasValidAcessToken', (done) => {
+      guard['isAuthenticated']().subscribe((isLoggedIn: boolean) => {
+        expect(isLoggedIn).toBeTruthy();
+        done();
+      });
     });
   });
 
@@ -64,7 +50,7 @@ describe('AuthGuard', () => {
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => false);
 
       const result = guard.canActivate(undefined, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(result).toBeFalsy();
@@ -74,7 +60,7 @@ describe('AuthGuard', () => {
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
       const result = guard.canActivate(undefined, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(result).toBeTruthy();

@@ -4,12 +4,19 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map, tap } from 'rxjs/operators';
 
+import { select, Store } from '@ngrx/store';
+
 import { FooterLink } from '@schaeffler/footer';
 import { Icon } from '@schaeffler/icons';
 import { BreakpointService } from '@schaeffler/responsive';
+import {
+  getIsLoggedIn,
+  getUsername,
+  startLoginFlow,
+} from '@schaeffler/shared/auth';
 import { SidebarElement } from '@schaeffler/sidebar';
 
-import { AuthService } from './core/auth.service';
+import { AppState } from './core/store';
 import { ServiceType } from './shared/result/models';
 
 @Component({
@@ -35,11 +42,10 @@ export class AppComponent implements OnInit, OnDestroy {
   public isMobile$: Observable<boolean>;
   public isMobile: boolean;
   public isAuthenticated$: Observable<boolean>;
-  public isDoneLoading$: Observable<boolean>;
   public username$: Observable<string>;
   public settingsSidebarOpen = false;
   public currentRoute: string;
-
+  public alreadyVisited: string;
   public currentService: ServiceType;
 
   public iconEnlarge = 'icon-resize-enlarge';
@@ -84,23 +90,25 @@ export class AppComponent implements OnInit, OnDestroy {
   ];
 
   constructor(
-    private readonly authService: AuthService,
     private readonly breakpointService: BreakpointService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {
-    this.authService.configureImplicitFlow();
-  }
+    private readonly route: ActivatedRoute,
+    private readonly store: Store<AppState>
+  ) {}
 
   public ngOnInit(): void {
-    this.isAuthenticated$ = this.authService.isAuthenticated$;
-    this.isDoneLoading$ = this.authService.isDoneLoading$;
+    this.alreadyVisited = localStorage.getItem('alreadyVisited');
+    this.isAuthenticated$ = this.store.pipe(select(getIsLoggedIn));
     this.isMobile$ = this.breakpointService.isMobileViewPort();
     this.isLessThanMedium$ = this.breakpointService.isLessThanMedium();
     this.isMedium$ = this.breakpointService.isMedium();
-    this.username$ = this.authService.getUserName();
+    this.username$ = this.store.pipe(select(getUsername));
     this.isDesktop$ = this.breakpointService.isDesktop();
     this.addSubscriptions();
+
+    if (this.alreadyVisited) {
+      this.store.dispatch(startLoginFlow());
+    }
   }
 
   public ngOnDestroy(): void {

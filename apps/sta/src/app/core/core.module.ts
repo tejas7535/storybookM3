@@ -1,49 +1,21 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   ModuleWithProviders,
   NgModule,
   Optional,
-  SkipSelf
+  SkipSelf,
 } from '@angular/core';
 
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-
-import {
-  AuthConfig,
-  OAuthModule,
-  OAuthStorage,
-  ValidationHandler
-} from 'angular-oauth2-oidc';
-
+import { AuthGuard } from './auth.guard';
 import { StoreModule } from './store/store.module';
 
-import { AuthService } from './auth.service';
-
-import { TokenInterceptor } from './token.interceptor';
-
-import { authConfig } from './auth-config';
-import { AuthGuard } from './auth.guard';
-
-export const storageFactory = (): OAuthStorage => localStorage;
-
 @NgModule({
-  imports: [OAuthModule.forRoot(), StoreModule],
-  providers: [AuthGuard, AuthService]
+  imports: [StoreModule],
+  providers: [AuthGuard],
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
-      providers: [
-        { provide: AuthConfig, useValue: authConfig },
-        { provide: ValidationHandler, useClass: JwksValidationHandler },
-        { provide: OAuthStorage, useFactory: storageFactory },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true
-        }
-      ]
     };
   }
 
