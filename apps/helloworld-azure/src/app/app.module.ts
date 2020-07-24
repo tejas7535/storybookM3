@@ -1,11 +1,7 @@
-import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { FooterModule } from '@schaeffler/footer';
-import { HeaderModule } from '@schaeffler/header';
 import {
   AzureConfig,
   FlowType,
@@ -26,19 +22,13 @@ const azureConfig = new AzureConfig(
 );
 
 @NgModule({
-  declarations: [AppComponent],
   imports: [
-    BrowserAnimationsModule,
-    CommonModule,
-    HttpClientModule,
-    HeaderModule,
-    FooterModule,
-    FlexLayoutModule,
     AppRoutingModule,
+    HttpClientModule,
     CoreModule,
     SharedAuthModule.forRoot(azureConfig),
+    FlexLayoutModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

@@ -1,20 +1,39 @@
 import { NgModule } from '@angular/core';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { OAuthModule, OAuthStorage } from 'angular-oauth2-oidc';
+import { FooterModule } from '@schaeffler/footer';
+import { HeaderModule } from '@schaeffler/header';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { environment } from '../../environments/environment';
+import { AppComponent } from '../app.component';
 import { AuthGuard } from './guards/auth.guard';
 import { StoreModule } from './store/store.module';
 
-export const storageFactory = (): OAuthStorage => localStorage;
-
 @NgModule({
+  declarations: [AppComponent],
   imports: [
-    OAuthModule.forRoot(),
+    BrowserAnimationsModule,
+
     // NgRx Setup
     StoreModule,
     RouterModule,
+
+    // UI Modules
+    HeaderModule,
+    FooterModule,
+
+    // Translation
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['en'],
+      'en', // default -> undefined would lead to browser detection
+      'en',
+      true
+    ),
   ],
   providers: [AuthGuard],
+  exports: [AppComponent],
 })
 export class CoreModule {}
