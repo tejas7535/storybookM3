@@ -1,24 +1,28 @@
-import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
-
 import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
+
 import { select, Store } from '@ngrx/store';
 
+import * as fromStore from '../../core/store';
+import {
+  BurdeningType,
+  Display,
+  HvLimits,
+  PredictionRequest,
+} from '../../shared/models';
 import { CustomFormControl, InputCategory } from './input.model';
+import { SelectControlOption } from './select/select-control-option.model';
 import { SelectControl } from './select/select-control.model';
 import { SliderControl } from './slider/slider.model';
 import { ToggleControl } from './toggle/toggle.model';
 
-import * as fromStore from '../../core/store';
-import { BurdeningType, Display, PredictionRequest } from '../../shared/models';
-import { SelectControlOption } from './select/select-control-option.model';
-
 @Component({
   selector: 'ltp-input',
   templateUrl: './input.component.html',
-  styleUrls: ['./input.component.scss']
+  styleUrls: ['./input.component.scss'],
 })
 export class InputComponent implements OnInit {
   public burdeningTypes: Observable<BurdeningType[]>;
@@ -47,33 +51,33 @@ export class InputComponent implements OnInit {
         name: 'display',
         description: 'prediction.display.infoDisplay',
         controls: this.commonControls,
-        alwaysVisible: true
+        alwaysVisible: true,
       },
       {
         name: 'hv',
         description: 'prediction.display.infoHv',
-        controls: this.hardnessControls
+        controls: this.hardnessControls,
       },
       {
         name: 'materialParams',
         description: 'prediction.display.infoMaterial',
-        controls: this.materialControls
+        controls: this.materialControls,
       },
       {
         name: 'mechanicalLoad',
         description: 'prediction.display.infoLoad',
-        controls: this.loadControls
-      }
+        controls: this.loadControls,
+      },
     ];
 
-    this.inputCategories.forEach(inputCategory => {
-      inputCategory.controls.forEach(control => {
+    this.inputCategories.forEach((inputCategory) => {
+      inputCategory.controls.forEach((control) => {
         this.inputForm.registerControl(control.key, control.formControl);
       });
     });
 
-    this.predictionRequest.subscribe(request => this.patchForm(request));
-    this.display.subscribe(request => this.patchForm(request));
+    this.predictionRequest.subscribe((request) => this.patchForm(request));
+    this.display.subscribe((request) => this.patchForm(request));
   }
 
   public ngOnInit(): void {
@@ -92,11 +96,9 @@ export class InputComponent implements OnInit {
               false
             );
             if (displayFormChange) {
-              this.store.dispatch(fromStore.setDisplay({ display: curr }));
+              this.setDisplay(curr);
             } else if (prev !== curr) {
-              this.store.dispatch(
-                fromStore.setPredictionRequest({ predictionRequest: curr })
-              );
+              this.setPredictionRequest(curr, prev);
             }
 
             return true;
@@ -110,11 +112,51 @@ export class InputComponent implements OnInit {
     const formControls = this.inputForm.controls;
     formControls['hv'].valueChanges
       .pipe(debounceTime(200))
-      .subscribe(selectedHV => {
+      .subscribe((selectedHV) => {
         if (formControls['hv'].dirty) {
           this.adjustES(formControls['es'], selectedHV);
         }
       });
+  }
+
+  /**
+   * Prepare and dispatch predictionRequest
+   */
+  public setPredictionRequest(
+    predictionRequestControls: PredictionRequest & Display,
+    previousPredicionRequestControls: PredictionRequest & Display
+  ): void {
+    const { showMurakami, showFKM, ...rest } = predictionRequestControls;
+    let predictionRequest: PredictionRequest = rest;
+
+    if (previousPredicionRequestControls.hv !== predictionRequestControls.hv) {
+      predictionRequest = {
+        ...predictionRequest,
+        ...{
+          hv_upper: predictionRequestControls.hv,
+          hv_lower: predictionRequestControls.hv,
+        },
+      };
+    }
+
+    this.store.dispatch(
+      fromStore.setPredictionRequest({
+        predictionRequest,
+      })
+    );
+  }
+
+  /**
+   * Prepare and dispatch setDisplay
+   */
+  public setDisplay(displayControls: PredictionRequest & Display): void {
+    const { showMurakami, showFKM } = displayControls;
+    const display: Display = {
+      showMurakami,
+      showFKM,
+    };
+
+    this.store.dispatch(fromStore.setDisplay({ display }));
   }
 
   /**
@@ -133,12 +175,12 @@ export class InputComponent implements OnInit {
     const esLimit = Math.round((selectedHV * 0.5) / 10) * 10;
 
     const esIndex = this.materialControls.findIndex(
-      control => control.key === 'es'
+      (control) => control.key === 'es'
     );
     this.materialControls[esIndex] = new SliderControl({
       ...this.materialControls[esIndex],
       min: -esLimit,
-      max: esLimit
+      max: esLimit,
     });
 
     if (Math.abs(esFormControls.value) > esLimit) {
@@ -185,7 +227,7 @@ export class InputComponent implements OnInit {
     );
   }
 
-  public adjustLimits(limits: PredictionRequest): void {
+  public adjustLimits(limits: HvLimits): void {
     this.store.dispatch(
       fromStore.setPredictionRequest({ predictionRequest: limits })
     );
@@ -208,14 +250,14 @@ export class InputComponent implements OnInit {
         name: 'showMurakami',
         formControl: new FormControl(),
         disabled: false,
-        default: false
+        default: false,
       }),
       new ToggleControl({
         key: 'showFKM',
         name: 'showFkm',
         formControl: new FormControl(),
         disabled: false,
-        default: false
+        default: false,
       }),
       new SliderControl({
         key: 'spreading',
@@ -223,9 +265,11 @@ export class InputComponent implements OnInit {
         min: 0.0,
         max: 0.1,
         step: 0.005,
-        disabled: this.predictionRequest.pipe(map(req => req.prediction !== 0)),
-        formControl: new FormControl()
-      })
+        disabled: this.predictionRequest.pipe(
+          map((req) => req.prediction !== 0)
+        ),
+        formControl: new FormControl(),
+      }),
     ];
 
     this.hardnessControls = [
@@ -236,8 +280,8 @@ export class InputComponent implements OnInit {
         max: 800,
         step: 1,
         disabled: false,
-        formControl: new FormControl()
-      })
+        formControl: new FormControl(),
+      }),
     ];
 
     this.materialControls = [
@@ -248,7 +292,7 @@ export class InputComponent implements OnInit {
         max: 25,
         step: 0.1,
         disabled: false,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'hv_core',
@@ -257,7 +301,7 @@ export class InputComponent implements OnInit {
         max: 800,
         step: 1,
         disabled: false,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'rArea',
@@ -278,7 +322,7 @@ export class InputComponent implements OnInit {
 
           return label + addedString;
         },
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'es',
@@ -287,8 +331,8 @@ export class InputComponent implements OnInit {
         max: 90,
         step: 10,
         disabled: false,
-        formControl: new FormControl()
-      })
+        formControl: new FormControl(),
+      }),
     ];
 
     this.loadControls = [
@@ -298,8 +342,10 @@ export class InputComponent implements OnInit {
         min: 400,
         max: 1500,
         step: 1,
-        disabled: this.predictionRequest.pipe(map(req => req.prediction !== 0)),
-        formControl: new FormControl()
+        disabled: this.predictionRequest.pipe(
+          map((req) => req.prediction !== 0)
+        ),
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'v90',
@@ -308,7 +354,7 @@ export class InputComponent implements OnInit {
         max: 1000,
         step: 1,
         disabled: false,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'gradient',
@@ -317,7 +363,7 @@ export class InputComponent implements OnInit {
         max: 10,
         step: 0.1,
         disabled: true,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'rrelation',
@@ -326,7 +372,7 @@ export class InputComponent implements OnInit {
         max: 0,
         step: 1,
         disabled: false,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'a90',
@@ -335,7 +381,7 @@ export class InputComponent implements OnInit {
         max: 2000,
         step: 1,
         disabled: true,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SliderControl({
         key: 'multiaxiality',
@@ -344,13 +390,13 @@ export class InputComponent implements OnInit {
         max: 1.33,
         step: 0.01,
         disabled: true,
-        formControl: new FormControl()
+        formControl: new FormControl(),
       }),
       new SelectControl({
         key: 'burdeningType',
         name: 'burdeningType',
         options: this.burdeningTypes.pipe(
-          map(burdeningTypes => {
+          map((burdeningTypes) => {
             const options: SelectControlOption[] = [];
             for (const burdeningType of burdeningTypes) {
               options.push(
@@ -362,8 +408,9 @@ export class InputComponent implements OnInit {
           })
         ),
         disabled: false,
-        formControl: new FormControl()
-      })
+        formControl: new FormControl(),
+      }),
     ];
   }
+  // tslint:disable-next-line: max-file-line-count
 }

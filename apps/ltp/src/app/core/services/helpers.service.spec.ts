@@ -512,6 +512,8 @@ describe('HelpersService', () => {
     let predictionResult: PredictionResult = {
       woehler: {
         snCurve: undefined,
+        snCurveLow: undefined,
+        snCurveHigh: undefined,
         appliedStress: {
           0: {
             x: 2022,
@@ -599,6 +601,8 @@ describe('HelpersService', () => {
     const predictionResult: PredictionResult = {
       woehler: {
         snCurve: undefined,
+        snCurveLow: undefined,
+        snCurveHigh: undefined,
         appliedStress: undefined,
         percentile1: undefined,
         percentile10: undefined,
@@ -1037,6 +1041,55 @@ describe('HelpersService', () => {
     const val = 100;
     const reduced = helpersService.increase10Percent(val);
     expect(reduced).toEqual(110);
+  });
+
+  it('should calculate hardness diversivication range coordinates', () => {
+    const mockPredictionResultWoehler = {
+      ...getDefaultConstants.defaultPredictionResult,
+      snCurveLow: {
+        '0': {
+          x: 123,
+          y: 456,
+        },
+        '1': {
+          x: 789,
+          y: 135,
+        },
+        '2': {
+          x: 791,
+          y: 147,
+        },
+      },
+      snCurveHigh: {
+        '0': {
+          x: 258,
+          y: 369,
+        },
+        '1': {
+          x: 963,
+          y: 852,
+        },
+        '2': {
+          x: 741,
+          y: 159,
+        },
+      },
+    };
+    const hardnessCoordinates = helpersService.constructHardnessGraph(
+      mockPredictionResultWoehler
+    );
+    expect(hardnessCoordinates).toEqual([
+      {
+        x: 791,
+        yLow: 147,
+        yHigh: 159,
+      },
+      {
+        x: 789,
+        yLow: 135,
+        yHigh: 852,
+      },
+    ]);
   });
   // tslint:disable-next-line: max-file-line-count
 });

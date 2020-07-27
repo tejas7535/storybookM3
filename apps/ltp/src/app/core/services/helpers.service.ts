@@ -141,22 +141,33 @@ export class HelpersService {
           ),
         ];
       }
+
+      // for new high and low limit
+      data = [
+        ...data,
+        ...this.constructHardnessGraph(predictionResult.woehler),
+      ];
+
       // parse display
       Object.entries(predictionResult.woehler).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_WOEHLER.sources.find(
           (src) => src.identifier === value[0]
         );
-        data = [
-          ...data,
-          ...this.transformGraph(
-            this.calculateStartPoint(value[1], predictionResult.kpi.slope),
-            source.value
-          ),
-        ];
+        if (
+          source.identifier !== 'snCurveLow' &&
+          source.identifier !== 'snCurveHigh'
+        ) {
+          data = [
+            ...data,
+            ...this.transformGraph(
+              this.calculateStartPoint(value[1], predictionResult.kpi.slope),
+              source.value
+            ),
+          ];
+        }
       });
 
       limits = this.calculateLimitsWoehler(data);
-
       data.map((point) => {
         const keys = Object.keys(point);
         if (point[keys[1]] === 0) {
@@ -220,6 +231,35 @@ export class HelpersService {
     }
 
     return { data, limits, lines, kpi: undefined };
+  }
+
+  /**
+   * Calculates hardness diversivication range coordinates
+   */
+  public constructHardnessGraph({
+    snCurveLow,
+    snCurveHigh,
+  }: {
+    snCurveLow?: Graph;
+    snCurveHigh?: Graph;
+  }): { x: number; yLow: number; yHigh: number }[] {
+    return snCurveLow &&
+      snCurveHigh &&
+      Object.keys(snCurveLow).length !== 0 &&
+      Object.keys(snCurveHigh).length !== 0
+      ? [
+          {
+            x: snCurveLow[2].x,
+            yLow: snCurveLow[2].y,
+            yHigh: snCurveHigh[2].y,
+          },
+          {
+            x: snCurveLow[1].x,
+            yLow: snCurveLow[1].y,
+            yHigh: snCurveHigh[1].y,
+          },
+        ]
+      : [];
   }
 
   /**

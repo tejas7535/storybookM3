@@ -16,27 +16,22 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
 import { configureTestSuite } from 'ng-bullet';
 
-import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
+import * as fromStore from '../../core/store';
+import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
+import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
+import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { InputComponent } from './input.component';
 import { LimitsComponent } from './limits/limits.component';
 import { MaterialComponent } from './material/material.component';
 import { SelectComponent } from './select/select.component';
 import { SliderComponent } from './slider/slider.component';
-import { ToggleComponent } from './toggle/toggle.component';
-
-import { initialState as initialInputState } from '../../core/store/reducers/input.reducer';
-import { initialState as initialPredictionState } from '../../core/store/reducers/prediction.reducer';
-
 import { SliderControl } from './slider/slider.model';
-
-import * as en from '../../../assets/i18n/en.json';
-import * as fromStore from '../../core/store';
-import { PredictionRequest } from '../../shared/models';
+import { ToggleComponent } from './toggle/toggle.component';
 
 describe('InputComponent', () => {
   let component: InputComponent;
@@ -129,6 +124,97 @@ describe('InputComponent', () => {
     });
   });
 
+  describe('#setPredictionRequest', () => {
+    it('should trigger a dispatch setPredictionRequest to store', () => {
+      store.dispatch = jest.fn();
+
+      const mockPredictionRequestControls = {
+        showMurakami: false,
+        showFKM: true,
+        spreading: 0,
+        hv: 699,
+        rz: 12.9,
+        hv_core: 500,
+        rArea: 5,
+        es: 0,
+        mpa: 400,
+        v90: 0,
+        rrelation: -1,
+        burdeningType: 0,
+      };
+      const mockPreviourPredictionRequestControls = {
+        showMurakami: false,
+        showFKM: true,
+        spreading: 0,
+        hv: 800,
+        rz: 12.9,
+        hv_core: 500,
+        rArea: 5,
+        es: 0,
+        mpa: 400,
+        v90: 0,
+        rrelation: -1,
+        burdeningType: 0,
+      };
+
+      const expectedPredictionRequest = {
+        spreading: 0,
+        hv: 699,
+        hv_lower: 699,
+        hv_upper: 699,
+        rz: 12.9,
+        hv_core: 500,
+        rArea: 5,
+        es: 0,
+        mpa: 400,
+        v90: 0,
+        rrelation: -1,
+        burdeningType: 0,
+      };
+      component.setPredictionRequest(
+        mockPredictionRequestControls,
+        mockPreviourPredictionRequestControls
+      );
+      expect(store.dispatch).toHaveBeenCalledWith(
+        fromStore.setPredictionRequest({
+          predictionRequest: expectedPredictionRequest,
+        })
+      );
+    });
+  });
+
+  describe('#setDisplay', () => {
+    it('should trigger a dispatch setDisplay to store', () => {
+      store.dispatch = jest.fn();
+
+      const mockDisplayControls = {
+        showMurakami: false,
+        showFKM: true,
+        spreading: 0,
+        hv: 699,
+        rz: 12.9,
+        hv_core: 500,
+        rArea: 5,
+        es: 0,
+        mpa: 400,
+        v90: 0,
+        rrelation: -1,
+        burdeningType: 0,
+      };
+
+      const expectedDisplay = {
+        showMurakami: false,
+        showFKM: true,
+      };
+      component.setDisplay(mockDisplayControls);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        fromStore.setDisplay({
+          display: expectedDisplay,
+        })
+      );
+    });
+  });
+
   describe('#isSlider', () => {});
 
   describe('#isSelect', () => {});
@@ -142,7 +228,7 @@ describe('InputComponent', () => {
   describe('#adjustLimits', () => {
     it('should dispatch setPredictionRequest', () => {
       store.dispatch = jest.fn();
-      const limits: PredictionRequest = {
+      const limits = {
         prediction: 0,
         mpa: 400,
         v90: 0,

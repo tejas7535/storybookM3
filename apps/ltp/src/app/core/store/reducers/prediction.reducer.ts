@@ -48,49 +48,16 @@ export const initialState: PredictionState = {
 
 export const predictionReducer = createReducer(
   initialState,
-  on(PredictionActions.setPredictionRequest, (state, { predictionRequest }) => {
-    const {
-      mpa,
-      v90,
-      hv,
-      hv_lower,
-      hv_upper,
-      rrelation,
-      burdeningType,
-      model,
-      spreading,
-      rArea,
-      es,
-      rz,
-      hv_core,
-      a90,
-      gradient,
-      multiaxiality,
-    } = predictionRequest;
-
-    return {
+  on(
+    PredictionActions.setPredictionRequest,
+    (state, { predictionRequest }) => ({
       ...state,
       predictionRequest: {
         ...state.predictionRequest,
-        mpa,
-        v90,
-        hv,
-        hv_lower,
-        hv_upper,
-        rrelation,
-        burdeningType,
-        model,
-        spreading,
-        rArea,
-        es,
-        rz,
-        hv_core,
-        a90,
-        gradient,
-        multiaxiality,
+        ...predictionRequest,
       },
-    };
-  }),
+    })
+  ),
   on(PredictionActions.unsetPredictionRequest, (state) => ({
     ...state,
     predictionRequest: initialState.predictionRequest,
