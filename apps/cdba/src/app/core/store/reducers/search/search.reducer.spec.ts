@@ -119,6 +119,31 @@ describe('Search Reducer', () => {
       expect(state.filters.items.entities).toEqual(expectedEntities);
     });
 
+    test('should unset loading and keep old filter if searchCount is zero', () => {
+      const ref = REFRENCE_TYPE_MOCK;
+      const searchResult = new SearchResult(
+        [filterItemIdVal, filterItemRange],
+        [ref],
+        0
+      );
+
+      const action = searchSuccess({ searchResult });
+
+      const fakeState = {
+        ...initialState,
+        referenceTypes: {
+          ...initialState.referenceTypes,
+          loading: true,
+        },
+      };
+      const state = searchReducer(fakeState, action);
+
+      expect(state.referenceTypes.loading).toBeFalsy();
+      expect(state.referenceTypes.tooManyResults).toBeFalsy();
+      expect(state.referenceTypes.items).toEqual(searchResult.result);
+      expect(state.filters.items).toEqual(fakeState.filters.items);
+    });
+
     test('should unset loading and tooManyResults if too many results', () => {
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
