@@ -1,0 +1,34 @@
+<div *transloco="let t; read: 'condition_monitoring'">
+  <mat-card class="cm-card">
+    <mat-card-header>
+      <mat-card-title>{{ t('condition_measuring_equipment') }} </mat-card-title>
+      <mat-card-subtitle>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+          <div
+            class="status-indicator"
+            [ngClass]="{ live: (socketStatus$ | async) === 1 }"
+          ></div>
+          <span *transloco="let t; read: 'bearing'">{{
+            (socketStatus$ | async) === 1 ? t('live') : t('offline')
+          }}</span>
+        </div>
+      </mat-card-subtitle>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="https://material.angular.io/assets/img/examples/shiba2.jpg"
+      alt="Photo of a Shiba Inu"
+    />
+    <mat-card-content>
+      <div *ngIf="thing$ | async">
+        <h4>Result:</h4>
+        <p>Description: {{ (thing$ | async).description }}</p>
+      </div>
+      <div *ngIf="currentMessage$ | async">
+        <h4>Current Message:</h4>
+        <p>Date: {{ (currentMessage$ | async).timestamp | date: 'medium' }}</p>
+        <span>{{ (currentMessage$ | async).body | json }}</span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

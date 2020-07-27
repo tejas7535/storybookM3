@@ -13,6 +13,11 @@ export const getIsLoggedIn = createSelector(
 
 export const getToken = createSelector(getAuthState, (state) => state.token);
 
+export const getAccessToken = createSelector(
+  getAuthState,
+  (state) => state.accessToken
+);
+
 export const getClaim = (claim: string) =>
   createSelector(getToken, (token) => {
     if (!token) {

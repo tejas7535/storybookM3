@@ -1,9 +1,5 @@
 <div id="overview" *transloco="let t; read: 'overview'">
   <h1>Overview</h1>
-  <div *ngIf="thing$ | async">
-    <h3>Result:</h3>
-    <span>{{ thing$ | async | json }}</span>
-  </div>
   <mat-card
     *ngFor="let device of devices; trackBy: trackByFn"
     fxLayout="row"
@@ -12,12 +8,16 @@
   >
     <mat-card-header>
       <div mat-card-avatar class="device-header-image"></div>
-      <mat-card-title>GW Tianfeng 024</mat-card-title>
+      <mat-card-title>GW Tianfeng {{ device }}</mat-card-title>
       <mat-card-subtitle>GW136-4.8MW</mat-card-subtitle>
     </mat-card-header>
 
     <div>
-      <button mat-raised-button color="primary">
+      <button
+        mat-raised-button
+        color="primary"
+        [routerLink]="['/bearing', device]"
+      >
         {{ t('details').toUpperCase() }}
       </button>
     </div>

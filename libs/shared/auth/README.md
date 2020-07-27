@@ -128,3 +128,15 @@ If you want (for whatever reason) still want to use the old implicit follow do t
       this.claim$ = this.store.pipe(select(getClaim('myClaim')));
       this.roles$ = this.store.pipe(select(getRoles));
     ```
+* Adjust your `routing.module.ts` to prevent a redirect before authentication is completed
+    ```js
+      @NgModule({
+        imports: [
+          RouterModule.forRoot(appRoutePaths, {
+            ...
+            initialNavigation: false,
+          }),
+        ],
+        ...
+      })
+    ```

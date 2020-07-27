@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {
@@ -13,6 +14,13 @@ export const appRoutePaths: Routes = [
     path: AppRoutePath.OverviewPath,
     loadChildren: () =>
       import('./overview/overview.module').then((m) => m.OverviewModule),
+    canActivate: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.BearingPath,
+    loadChildren: () =>
+      import('./bearing/bearing.module').then((m) => m.BearingModule),
+    canActivate: [RoleGuard],
   },
   {
     path: AppRoutePath.ForbiddenPath,
@@ -32,6 +40,7 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
+      initialNavigation: false,
     }),
   ],
   exports: [RouterModule],

@@ -1,27 +1,25 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../shared/shared.module';
-import { OverviewRoutingModule } from './overview-routing.module';
-import { OverviewComponent } from './overview.component';
+import { SharedModule } from '../../shared/shared.module';
+import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
+import { ConditionMonitoringComponent } from './condition-monitoring.component';
 
 @NgModule({
-  declarations: [OverviewComponent],
+  declarations: [ConditionMonitoringComponent],
   imports: [
     CommonModule,
-    OverviewRoutingModule,
+    ConditionMonitoringRoutingModule,
     SharedModule,
 
     // UI Modules
-    MatButtonModule,
     MatCardModule,
 
     // Translation
     SharedTranslocoModule,
   ],
 })
-export class OverviewModule {}
+export class ConditionMonitoringModule {}

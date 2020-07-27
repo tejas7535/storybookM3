@@ -47,11 +47,13 @@ describe('Auth Actions', () => {
 
   test('setToken should create action', () => {
     const token = ({} as unknown) as AccessToken;
+    const accessToken = 'crypticTestToken';
 
-    const action = setToken({ token });
+    const action = setToken({ token, accessToken });
 
     expect(action).toEqual({
       token,
+      accessToken,
       type: '[Auth] Set token',
     });
   });

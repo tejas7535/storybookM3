@@ -158,7 +158,9 @@ describe('Auth Effects', () => {
       });
 
       // tslint:disable-next-line: no-object-literal-type-assertion
-      const expected = cold('-b', { b: setToken({ token: undefined }) });
+      const expected = cold('-b', {
+        b: setToken({ token: undefined, accessToken: undefined }),
+      });
 
       expect(effects.loginSuccess$).toBeObservable(expected);
     });
@@ -167,7 +169,7 @@ describe('Auth Effects', () => {
   describe('tokenChange$', () => {
     test('should return setToken action on correct event', () => {
       const expected = cold('(bc|)', {
-        b: setToken({ token: undefined }),
+        b: setToken({ token: undefined, accessToken: undefined }),
         c: loginSuccess({ user: undefined }),
       });
 

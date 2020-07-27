@@ -1,5 +1,16 @@
 {
   "overview": {
     "details": "Details"
+  },
+  "bearing": {
+    "overview": "Overview",
+    "bearing_load_and_assessment": "Bearing Load and Assessment",
+    "grease_status": "Grease Status",
+    "data_view": "Data View",
+    "live": "Live",
+    "offline": "Offline"
+  },
+  "condition_monitoring": {
+    "condition_measuring_equipment": "Condition measuring equipment"
   }
 }
