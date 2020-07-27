@@ -149,7 +149,7 @@
     "jasmine-marbles": "0.6.0",
     "jest": "26.1.0",
     "jest-canvas-mock": "2.2.0",
-    "jest-junit": "11.0.1",
+    "jest-junit": "11.1.0",
     "jest-marbles": "2.5.1",
     "jest-preset-angular": "8.2.1",
     "lint-staged": "10.2.11",
