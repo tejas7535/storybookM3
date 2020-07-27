@@ -84,4 +84,13 @@ describe('Auth selectors', () => {
 
     expect(fromAuthSelectors.getRoles.projector(roles)).toEqual([]);
   });
+
+  test('should return accessToken', () => {
+    // tslint:disable-next-line: no-object-literal-type-assertion
+    const accessToken = 'nothingToSeeJustAToken';
+
+    expect(fromAuthSelectors.getAccessToken.projector({ accessToken })).toEqual(
+      accessToken
+    );
+  });
 });

@@ -9,6 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { RoleGuard } from './guards/role.guard';
 import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
@@ -38,6 +39,7 @@ import { StoreModule } from './store/store.module';
     // HTTP
     HttpModule.forRoot({ environment }),
   ],
+  providers: [RoleGuard],
   exports: [AppComponent],
 })
 export class CoreModule {}

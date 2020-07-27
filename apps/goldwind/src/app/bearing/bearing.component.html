@@ -1,0 +1,14 @@
+<h1>Bearing Name</h1>
+<nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'bearing'">
+  <a
+    mat-tab-link
+    *ngFor="let tabLink of tabLinks; trackBy: trackByFn"
+    [routerLink]="tabLink.link"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [active]="rla.isActive"
+  >
+    {{ t(tabLink.name) }}
+  </a>
+</nav>
+<router-outlet></router-outlet>

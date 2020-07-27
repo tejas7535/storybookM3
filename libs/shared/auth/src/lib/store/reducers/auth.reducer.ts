@@ -7,12 +7,14 @@ export interface AuthState {
   user: User;
   loggedIn: boolean;
   token: AccessToken | string;
+  accessToken: string;
 }
 
 export const initialState: AuthState = {
   user: undefined,
   loggedIn: false,
   token: undefined,
+  accessToken: undefined,
 };
 
 export const authReducer = createReducer(
@@ -24,7 +26,11 @@ export const authReducer = createReducer(
     loggedIn: true,
   })),
   on(logout, (state) => ({ ...state, user: undefined, loggedIn: false })),
-  on(setToken, (state, { token }) => ({ ...state, token }))
+  on(setToken, (state, { token, accessToken }) => ({
+    ...state,
+    token,
+    accessToken,
+  }))
 );
 
 // tslint:disable-next-line: only-arrow-functions

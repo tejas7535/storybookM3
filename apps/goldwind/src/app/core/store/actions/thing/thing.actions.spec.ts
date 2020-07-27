@@ -1,4 +1,4 @@
-import { getThing, getThingFailure, getThingSuccess } from '..';
+import { getThing, getThingFailure, getThingId, getThingSuccess } from '..';
 
 describe('Thing Actions', () => {
   let thingId: number;
@@ -8,6 +8,14 @@ describe('Thing Actions', () => {
   });
 
   describe('Get Thing Actions', () => {
+    test('getThingId', () => {
+      const action = getThingId();
+
+      expect(action).toEqual({
+        type: '[Thing] Load Thing ID',
+      });
+    });
+
     test('getItem', () => {
       const action = getThing({ thingId });
 

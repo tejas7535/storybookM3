@@ -1,35 +1,37 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatCardModule } from '@angular/material/card';
+import { MatTabsModule } from '@angular/material/tabs';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { OverviewComponent } from './overview.component';
+import { BearingComponent } from './bearing.component';
 
-describe('OverviewComponent', () => {
-  let component: OverviewComponent;
-  let fixture: ComponentFixture<OverviewComponent>;
+describe('BearingComponent', () => {
+  let component: BearingComponent;
+  let fixture: ComponentFixture<BearingComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
         RouterTestingModule,
-        MatCardModule,
+        MatTabsModule,
         provideTranslocoTestingModule({}),
       ],
-      declarations: [OverviewComponent],
-    });
+      declarations: [BearingComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OverviewComponent);
+    fixture = TestBed.createComponent(BearingComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 

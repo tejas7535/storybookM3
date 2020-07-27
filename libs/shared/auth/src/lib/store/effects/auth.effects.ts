@@ -71,11 +71,10 @@ export class AuthEffects {
     this.actions$.pipe(
       ofType(authActions.loginSuccess),
       map(() => {
-        const token = AuthService.getDecodedAccessToken(
-          this.authService.accessToken
-        );
+        const accessToken = this.authService.accessToken;
+        const token = AuthService.getDecodedAccessToken(accessToken);
 
-        return authActions.setToken({ token });
+        return authActions.setToken({ token, accessToken });
       })
     )
   );
@@ -96,12 +95,13 @@ export class AuthEffects {
       }),
       mergeMap(() => {
         const user = this.authService.getUser();
+        const accessToken = this.authService.accessToken;
+        const token = AuthService.getDecodedAccessToken(accessToken);
 
         return [
           authActions.setToken({
-            token: AuthService.getDecodedAccessToken(
-              this.authService.accessToken
-            ),
+            token,
+            accessToken,
           }),
           authActions.loginSuccess({ user }),
         ];

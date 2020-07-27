@@ -10,6 +10,7 @@ describe('Auth Reducer', () => {
       user: undefined,
       loggedIn: false,
       token: undefined,
+      accessToken: undefined,
     };
   });
 
@@ -47,8 +48,9 @@ describe('Auth Reducer', () => {
     const token = {
       iss: 'test',
     } as AccessToken;
+    const accessToken = 'veryEncodedToken';
 
-    const result = reducer(state, setToken({ token }));
+    const result = reducer(state, setToken({ token, accessToken }));
 
     expect(result.token).toEqual(token);
   });

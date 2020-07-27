@@ -16,5 +16,5 @@ export const logout = createAction('[Auth] Logout');
 
 export const setToken = createAction(
   '[Auth] Set token',
-  props<{ token: AccessToken }>()
+  props<{ token: AccessToken; accessToken: string }>()
 );
