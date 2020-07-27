@@ -3,17 +3,17 @@ export interface PredictionRequest {
   mpa: number;
   v90: number;
   hv: number;
-  hv_lower: number;
-  hv_upper: number;
   rrelation: number;
   burdeningType: number;
-  model: number;
   spreading: number;
   rArea: number;
   es: number;
   rz: number;
   hv_core: number;
-  a90: number;
-  gradient: number;
-  multiaxiality: number;
+  hv_lower?: number; // only present once altered
+  hv_upper?: number; // only present once altered
+  model?: number; // these are not optional once the input fields are active
+  a90?: number;
+  gradient?: number;
+  multiaxiality?: number;
 }

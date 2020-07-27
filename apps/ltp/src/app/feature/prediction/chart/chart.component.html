@@ -19,8 +19,11 @@
       [name]="source.name"
       [color]="source.color"
       [dashStyle]="source.dashStyle"
+      [type]="source.type ? source.type : 'line'"
+      rangeValue1Field="yLow"
+      rangeValue2Field="yHigh"
     ></dxi-series>
-    <dxo-common-series-settings #seriesSettings argumentField="x" type="line">
+    <dxo-common-series-settings #seriesSettings argumentField="x">
     </dxo-common-series-settings>
     <dxo-argument-axis
       [valueMarginsEnabled]="false"

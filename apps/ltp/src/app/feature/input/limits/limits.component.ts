@@ -5,31 +5,29 @@ import {
   OnChanges,
   Output,
   SimpleChanges,
-  ViewEncapsulation
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
-interface Limits {
-  hv_lower: number;
-  hv_upper: number;
-}
+import { HvLimits } from '../../../shared/models';
+
 @Component({
   selector: 'ltp-limits',
   templateUrl: './limits.component.html',
   styleUrls: ['./limits.component.scss'],
   // tslint:disable-next-line: use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class LimitsComponent implements OnChanges {
   @Input() hv: number;
   @Input() hv_upper: number;
   @Input() hv_lower: number;
-  @Output() public readonly adjust: EventEmitter<Limits> = new EventEmitter();
+  @Output() public readonly adjust: EventEmitter<HvLimits> = new EventEmitter();
   upperMax: number;
   lowerMin: number;
   limitForm = new FormGroup({
     hv_lower: new FormControl({ value: '', disabled: true }),
-    hv_upper: new FormControl({ value: '', disabled: true })
+    hv_upper: new FormControl({ value: '', disabled: true }),
   });
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -44,14 +42,8 @@ export class LimitsComponent implements OnChanges {
   public adjustSliders(): void {
     this.upperMax = Math.round(this.hv * 1.1);
     this.lowerMin = Math.round(this.hv * 0.9);
-    this.limitForm.controls.hv_lower.patchValue(
-      this.hv
-      // Validators.compose([Validators.min(this.lowerMin), Validators.max(this.hv)]),
-    );
-    this.limitForm.controls.hv_upper.patchValue(
-      this.hv
-      // Validators.compose([Validators.min(this.hv), Validators.max(this.upperMax)]),
-    );
+    this.limitForm.controls.hv_lower.patchValue(this.hv);
+    this.limitForm.controls.hv_upper.patchValue(this.hv);
   }
 
   /**
@@ -59,9 +51,9 @@ export class LimitsComponent implements OnChanges {
    */
   public patchLimits(value: number, type: string): void {
     this.limitForm.controls[type].patchValue(value);
-    const limits: Limits = {
+    const limits: HvLimits = {
       hv_lower: this.limitForm.controls.hv_lower.value,
-      hv_upper: this.limitForm.controls.hv_upper.value
+      hv_upper: this.limitForm.controls.hv_upper.value,
     };
     this.adjust.emit(limits);
   }

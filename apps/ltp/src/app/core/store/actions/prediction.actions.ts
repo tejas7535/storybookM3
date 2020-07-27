@@ -1,6 +1,7 @@
 import { createAction, props } from '@ngrx/store';
 
 import {
+  HvLimits,
   Loads,
   LoadsRequest,
   PredictionRequest,
@@ -13,7 +14,7 @@ export const postPrediction = createAction(
 
 export const setPredictionRequest = createAction(
   '[Input Component] Set Prediction Request',
-  props<{ predictionRequest: PredictionRequest }>()
+  props<{ predictionRequest: PredictionRequest | HvLimits }>()
 );
 
 export const unsetPredictionRequest = createAction(

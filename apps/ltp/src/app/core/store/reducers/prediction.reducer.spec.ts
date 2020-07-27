@@ -79,6 +79,23 @@ describe('predictionReducer', () => {
       });
     });
 
+    it('should set state on setPredictionRequest with incomplete params', () => {
+      const mockedHvLimitsPredictionRequest = {
+        hv_lower: 200,
+        hv_upper: 300,
+      };
+      const newState = predictionReducer(
+        state,
+        PredictionActions.setPredictionRequest({
+          predictionRequest: mockedHvLimitsPredictionRequest,
+        })
+      );
+      expect(newState.predictionRequest).toEqual({
+        ...state.predictionRequest,
+        ...mockedHvLimitsPredictionRequest,
+      });
+    });
+
     it('should set state on unsetPredictionRequest', () => {
       const newState = predictionReducer(
         state,

@@ -10,6 +10,7 @@ export * from './kpi.model';
 export * from './model.model';
 export * from './loads-request.model';
 export * from './limits.model';
+export * from './hv-limits.model';
 export * from './prediction-result-parsed.model';
 export * from './kpi-parsed-haigh.model';
 export * from './kpi-parsed-woehler.model';

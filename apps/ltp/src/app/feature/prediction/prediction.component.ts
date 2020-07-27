@@ -159,10 +159,23 @@ export class PredictionComponent implements OnInit {
    * cusomizes the tooltip for a certain point on the graph. Is passed as Input to the chart component
    */
   public customizeTooltip = (arg: any): Object => {
-    const { argument, value, seriesName } = arg;
+    const {
+      argument,
+      value,
+      rangeValue1Text,
+      rangeValue2Text,
+      seriesName,
+    } = arg;
+
+    const fixedValue = value
+      ? value.toFixed(2)
+      : `${parseFloat(rangeValue1Text).toFixed(2)} - ${parseFloat(
+          rangeValue2Text
+        ).toFixed(2)}`;
+
     if (argument < 10000000 && argument > 10000) {
       let text = translate('prediction.chart.tooltip', {
-        value: value.toFixed(2),
+        value: fixedValue,
       });
 
       GRAPH_DEFINITIONS_WOEHLER.forEach((graphDefinition) => {

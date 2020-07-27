@@ -88,9 +88,27 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     name: 'Lastkurve',
     color: '#e62c27',
     identifier: 'loads',
+    type: 'spline',
     legendDisplay: {
       name: 'ld',
       color: '#e62c27',
+    },
+  },
+  {
+    identifier: 'snCurveLow',
+  },
+  {
+    identifier: 'snCurveHigh',
+  },
+  {
+    name: 'ML-Modell Härtegrenzen',
+    color: '#1d9bb2',
+    identifier: 'snCurveLimits',
+    survivalProbability: 50,
+    type: 'rangeArea',
+    legendDisplay: {
+      name: 'hvLowerAndUpperLimit',
+      color: '#1d9bb2',
     },
   },
 ];

@@ -3,6 +3,8 @@ import { Graph, Kpi } from '.';
 export interface PredictionResult {
   woehler: {
     snCurve: Graph;
+    snCurveLow: Graph;
+    snCurveHigh: Graph;
     appliedStress: Graph;
     percentile1: Graph;
     percentile10: Graph;

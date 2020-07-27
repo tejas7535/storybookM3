@@ -63,22 +63,31 @@ export class RestService {
     predictionRequest: PredictionRequest,
     mode: number
   ): Observable<PredictionResult> {
+    const {
+      rrelation,
+      v90,
+      burdeningType,
+      hv,
+      hv_lower,
+      hv_upper,
+      model,
+      mpa,
+      spreading,
+    } = predictionRequest;
+
     const prediction = {
       mode,
-      R: predictionRequest.rrelation,
-      V90: predictionRequest.v90,
-      belastungsart: predictionRequest.burdeningType,
-      haerte: predictionRequest.hv,
-      haerte_low: predictionRequest.hv_lower
-        ? predictionRequest.hv_lower
-        : predictionRequest.hv,
-      haerte_up: predictionRequest.hv_upper
-        ? predictionRequest.hv_upper
-        : predictionRequest.hv,
-      model_type: predictionRequest.model,
-      stress_amplitude: predictionRequest.mpa,
-      streubreite: predictionRequest.spreading,
+      R: rrelation,
+      V90: v90,
+      belastungsart: burdeningType,
+      haerte: hv,
+      haerte_low: hv_lower,
+      haerte_up: hv_upper,
+      model_type: model,
+      stress_amplitude: mpa,
+      streubreite: spreading,
     };
+
     if (mode === 2) {
       return this.httpService
         .post<any>(`${this.SERVER_URL}/predictor`, prediction)
@@ -89,6 +98,12 @@ export class RestService {
             return ({
               woehler: {
                 snCurve: result.woehler.sn_curve,
+                snCurveLow: result.woehler.sn_curve_low
+                  ? result.woehler.sn_curve_low
+                  : {},
+                snCurveHigh: result.woehler.sn_curve_up
+                  ? result.woehler.sn_curve_up
+                  : {},
                 appliedStress: result.woehler.applied_stress,
                 percentile1: result.woehler.percentile_1,
                 percentile10: result.woehler.percentile_10,
