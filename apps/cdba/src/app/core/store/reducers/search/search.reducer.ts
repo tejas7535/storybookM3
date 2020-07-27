@@ -117,10 +117,13 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      items: filterItemAdapter.setAll(
-        sortFilterItems(searchResult.filters),
-        state.filters.items
-      ),
+      items:
+        +searchResult.resultCount === 0
+          ? state.filters.items
+          : filterItemAdapter.upsertMany(
+              sortFilterItems(searchResult.filters),
+              state.filters.items
+            ),
     },
     referenceTypes: {
       ...state.referenceTypes,
