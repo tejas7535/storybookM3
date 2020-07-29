@@ -3,9 +3,9 @@ import {
   REFRENCE_TYPE_MOCK,
 } from '../../../../../testing/mocks';
 import {
-  getCalculationsSuccess,
-  getReferenceTypeItem,
-  getReferenceTypeItemSuccess,
+  loadCalculationsSuccess,
+  loadReferenceType,
+  loadReferenceTypeSuccess,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
 import { ReferenceTypeIdModel, ReferenceTypeResultModel } from './models';
@@ -24,13 +24,13 @@ describe('Detail Reducer', () => {
     },
   };
 
-  describe('getReferenceTypeItem', () => {
+  describe('loadReferenceType', () => {
     test('should set loading', () => {
       const referenceTypeId = new ReferenceTypeIdModel(
         REFRENCE_TYPE_MOCK.materialNumber,
         REFRENCE_TYPE_MOCK.plant
       );
-      const action = getReferenceTypeItem({ referenceTypeId });
+      const action = loadReferenceType({ referenceTypeId });
       const state = detailReducer(initialState, action);
 
       expect(state.detail.loading).toBeTruthy();
@@ -38,11 +38,11 @@ describe('Detail Reducer', () => {
     });
   });
 
-  describe('getReferenceTypeItemSuccess', () => {
+  describe('loadReferenceTypeSuccess', () => {
     test('should unset loading and set ref types', () => {
       const item = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
 
-      const action = getReferenceTypeItemSuccess({ item });
+      const action = loadReferenceTypeSuccess({ item });
 
       const state = detailReducer(fakeState, action);
 
@@ -52,11 +52,11 @@ describe('Detail Reducer', () => {
     });
   });
 
-  describe('getCalculationsSuccess', () => {
+  describe('loadCalculationsSuccess', () => {
     test('should unset loading and set calculations', () => {
       const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
 
-      const action = getCalculationsSuccess({ item });
+      const action = loadCalculationsSuccess({ item });
 
       const state = detailReducer(fakeState, action);
 

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../../../core/store/reducers/detail/detail.reducer';
-import { getSalesDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getSalesDetails } from '../../../core/store/selectors';
 import { SalesDetails } from './model/sales-details.model';
 
 @Component({

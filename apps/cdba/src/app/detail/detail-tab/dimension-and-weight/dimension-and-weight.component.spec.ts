@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DIMENSION_AND_WEIGHT_DETAILS_MOCK } from '../../../../testing/mocks';
-import { getDimensionAndWeightDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getDimensionAndWeightDetails } from '../../../core/store/selectors';
 import { DimensionAndWeightComponent } from './dimension-and-weight.component';
 
 registerLocaleData(de);

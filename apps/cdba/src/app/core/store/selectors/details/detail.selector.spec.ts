@@ -1,4 +1,5 @@
 import {
+  CALCULATIONS_TYPE_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
@@ -12,6 +13,8 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
+  getCalculations,
+  getCalculationsLoading,
   getCustomerDetails,
   getDimensionAndWeightDetails,
   getPriceDetails,
@@ -30,6 +33,11 @@ describe('Detail Selector', () => {
         ...initialState.detail,
         loading: true,
         referenceType: REFRENCE_TYPE_MOCK,
+      },
+      calculations: {
+        ...initialState.calculations,
+        loading: true,
+        items: CALCULATIONS_TYPE_MOCK,
       },
     },
   };
@@ -93,7 +101,7 @@ describe('Detail Selector', () => {
   });
 
   describe('getCustomerDetails', () => {
-    test('should return dimension and weight details', () => {
+    test('should return customer details', () => {
       expect(getCustomerDetails(fakeState)).toEqual(CUSTOMER_DETAILS_MOCK);
     });
 
@@ -103,7 +111,7 @@ describe('Detail Selector', () => {
   });
 
   describe('getQuantitiesDetails', () => {
-    test('should return dimension and weight details', () => {
+    test('should return quantities details', () => {
       expect(getQuantitiesDetails(fakeState)).toEqual(QUANTITIES_DETAILS_MOCK);
     });
 
@@ -112,13 +120,33 @@ describe('Detail Selector', () => {
     });
   });
 
-  describe('getQuantitiesDetails', () => {
-    test('should return dimension and weight details', () => {
+  describe('getProductionDetails', () => {
+    test('should return production details', () => {
       expect(getProductionDetails(fakeState)).toEqual(PRODUCTION_DETAILS_MOCK);
     });
 
     test('should return undefined', () => {
       expect(getProductionDetails(initialDetailState)).toBeUndefined();
+    });
+  });
+
+  describe('getCalculations', () => {
+    test('should return calculations', () => {
+      expect(getCalculations(fakeState)).toEqual(CALCULATIONS_TYPE_MOCK);
+    });
+
+    test('should return undefined', () => {
+      expect(getCalculations(initialDetailState)).toBeUndefined();
+    });
+  });
+
+  describe('getProductionDetails', () => {
+    test('should return production details', () => {
+      expect(getCalculationsLoading(fakeState)).toBeTruthy();
+    });
+
+    test('should return undefined', () => {
+      expect(getCalculationsLoading(initialDetailState)).toBeFalsy();
     });
   });
 });

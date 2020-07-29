@@ -14,9 +14,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  getInitialFilters,
-  getInitialFiltersFailure,
-  getInitialFiltersSuccess,
+  loadInitialFilters,
+  loadInitialFiltersFailure,
+  loadInitialFiltersSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -40,11 +40,11 @@ export class SearchEffects implements OnInitEffects {
    */
   loadInitialFilters$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getInitialFilters.type),
+      ofType(loadInitialFilters.type),
       mergeMap(() =>
         this.searchService.getInitialFilters().pipe(
-          map((items: FilterItem[]) => getInitialFiltersSuccess({ items })),
-          catchError((_e) => of(getInitialFiltersFailure()))
+          map((items: FilterItem[]) => loadInitialFiltersSuccess({ items })),
+          catchError((_e) => of(loadInitialFiltersFailure()))
         )
       )
     )
@@ -91,7 +91,7 @@ export class SearchEffects implements OnInitEffects {
     () =>
       this.actions$.pipe(
         ofType(resetFilters.type),
-        tap(() => this.store.dispatch(getInitialFilters()))
+        tap(() => this.store.dispatch(loadInitialFilters()))
       ),
     { dispatch: false }
   );
@@ -148,6 +148,6 @@ export class SearchEffects implements OnInitEffects {
    * Load initial filters initially
    */
   ngrxOnInitEffects(): Action {
-    return getInitialFilters();
+    return loadInitialFilters();
   }
 }

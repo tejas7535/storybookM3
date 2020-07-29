@@ -12,12 +12,12 @@ import {
 } from '../../../../../testing/mocks';
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
-  getCalculations,
-  getCalculationsFailure,
-  getCalculationsSuccess,
-  getReferenceTypeItem,
-  getReferenceTypeItemFailure,
-  getReferenceTypeItemSuccess,
+  loadCalculations,
+  loadCalculationsFailure,
+  loadCalculationsSuccess,
+  loadReferenceType,
+  loadReferenceTypeFailure,
+  loadReferenceTypeSuccess,
 } from '../../actions';
 import {
   ReferenceTypeIdModel,
@@ -54,15 +54,15 @@ describe('Detail Effects', () => {
     detailService = TestBed.inject(DetailService);
   });
 
-  describe('referenceTypeItem$', () => {
+  describe('referenceType$', () => {
     beforeEach(() => {
       const referenceTypeIdModel = { materialNumber: '12345', plant: 'IWS' };
-      action = getReferenceTypeItem({ referenceTypeId: referenceTypeIdModel });
+      action = loadReferenceType({ referenceTypeId: referenceTypeIdModel });
     });
 
-    test('should return getReferenceItemSuccess action', () => {
+    test('should return loadReferenceSuccess action', () => {
       const item = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
-      const result = getReferenceTypeItemSuccess({ item });
+      const result = loadReferenceTypeSuccess({ item });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
@@ -72,16 +72,16 @@ describe('Detail Effects', () => {
 
       detailService.detail = jest.fn(() => response);
 
-      expect(effects.referenceTypeItem$).toBeObservable(expected);
+      expect(effects.referenceType$).toBeObservable(expected);
       expect(detailService.detail).toHaveBeenCalledTimes(1);
       expect(detailService.detail).toHaveBeenCalledWith(
         new ReferenceTypeIdModel('12345', 'IWS')
       );
     });
 
-    test('should return getReferenceItemFailure action on REST error', () => {
+    test('should return loadReferenceFailure action on REST error', () => {
       const error = new Error('damn');
-      const result = getReferenceTypeItemFailure();
+      const result = loadReferenceTypeFailure();
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#|', undefined, error);
@@ -89,19 +89,19 @@ describe('Detail Effects', () => {
 
       detailService.detail = jest.fn(() => response);
 
-      expect(effects.referenceTypeItem$).toBeObservable(expected);
+      expect(effects.referenceType$).toBeObservable(expected);
       expect(detailService.detail).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('calculations$', () => {
     beforeEach(() => {
-      action = getCalculations({ materialNumber: '12345' });
+      action = loadCalculations({ materialNumber: '12345' });
     });
 
-    test('should return getCalculationsSuccess action', () => {
+    test('should return loadCalculationsSuccess action', () => {
       const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
-      const result = getCalculationsSuccess({ item });
+      const result = loadCalculationsSuccess({ item });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
@@ -118,9 +118,9 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return getCalculationsFailure action on REST error', () => {
+    test('should return loadCalculationsFailure action on REST error', () => {
       const error = new Error('damn');
-      const result = getCalculationsFailure();
+      const result = loadCalculationsFailure();
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#|', undefined, error);

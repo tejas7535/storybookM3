@@ -9,13 +9,13 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
-  getCalculations,
-  getCalculationsFailure,
-  getCalculationsSuccess,
-  getReferenceTypeDetails,
-  getReferenceTypeItem,
-  getReferenceTypeItemFailure,
-  getReferenceTypeItemSuccess,
+  loadCalculations,
+  loadCalculationsFailure,
+  loadCalculationsSuccess,
+  loadReferenceType,
+  loadReferenceTypeDetails,
+  loadReferenceTypeFailure,
+  loadReferenceTypeSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 import { ReferenceTypeResultModel } from '../../reducers/detail/models';
@@ -29,12 +29,12 @@ export class DetailEffects {
   referenceTypeDetails$ = createEffect(
     () => {
       return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED, getReferenceTypeDetails.type),
+        ofType(ROUTER_NAVIGATED, loadReferenceTypeDetails.type),
         withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
         map(([_action, routerState]) => routerState),
         tap((routerState) => {
           this.store.dispatch(
-            getReferenceTypeItem({
+            loadReferenceType({
               referenceTypeId: {
                 materialNumber:
                   routerState.state.queryParams['material-number'],
@@ -43,7 +43,7 @@ export class DetailEffects {
             })
           );
           this.store.dispatch(
-            getCalculations({
+            loadCalculations({
               materialNumber: routerState.state.queryParams['material-number'],
             })
           );
@@ -53,15 +53,15 @@ export class DetailEffects {
     { dispatch: false }
   );
 
-  referenceTypeItem$ = createEffect(() => {
+  referenceType$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getReferenceTypeItem),
+      ofType(loadReferenceType),
       mergeMap((action) =>
         this.detailService.detail(action.referenceTypeId).pipe(
           map((item: ReferenceTypeResultModel) =>
-            getReferenceTypeItemSuccess({ item })
+            loadReferenceTypeSuccess({ item })
           ),
-          catchError((_e) => of(getReferenceTypeItemFailure()))
+          catchError((_e) => of(loadReferenceTypeFailure()))
         )
       )
     );
@@ -69,13 +69,13 @@ export class DetailEffects {
 
   calculations$ = createEffect(() => {
     return this.actions$.pipe(
-      ofType(getCalculations),
+      ofType(loadCalculations),
       mergeMap((action) =>
         this.detailService.calculations(action.materialNumber).pipe(
           map((item: CalculationsResultModel) =>
-            getCalculationsSuccess({ item })
+            loadCalculationsSuccess({ item })
           ),
-          catchError((_e) => of(getCalculationsFailure()))
+          catchError((_e) => of(loadCalculationsFailure()))
         )
       )
     );

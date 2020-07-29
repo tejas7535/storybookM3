@@ -1,0 +1,8 @@
+<button
+  mat-raised-button
+  *transloco="let t; read: 'shared.statusBar'"
+  [disabled]="selections.length === 0"
+  (click)="showBomView()"
+>
+  {{ t('bom') | uppercase }}
+</button>

@@ -3,63 +3,88 @@
     "in_progress": "Your request is being processed!"
   },
   "detail": {
-    "customer": {
-      "title": "Customer",
-      "customers": "Customers",
-      "customerGroup": "Customer Group"
+    "calculationTable": {
+      "headers": {
+        "costingDateFrom": "Calculation Date",
+        "costingVariant": "Cost Type",
+        "priceEur": "Cost",
+        "priceEurCurrency": "Currency",
+        "priceUnit": "PU/UM",
+        "plant": "Plant",
+        "quantity": "Quantity",
+        "lotSize": "Lot Size"
+      },
+      "tooltips": {
+        "costingDateFrom": "Calculation Date",
+        "costingVariant": "Cost Type",
+        "priceEur": "Cost",
+        "priceEurCurrency": "Currency",
+        "priceUnit": "PU/UM",
+        "plant": "Plant",
+        "quantity": "Quantity",
+        "lotSize": "Lot Size"
+      },
+      "title": "Calculations"
     },
-    "dimensionAndWeight": {
-      "title": "Dimensions & Weight",
-      "height": "Height (H)",
-      "length": "Length (L)",
-      "volumeCubic": "Cubic Volume",
-      "weight": "Net. weight",
-      "width": "Width (W)"
-    },
-    "pricing": {
-      "title": "Pricing",
-      "pcmSqv": "SQV PCM",
-      "pcmCalculationDate": "SQV PCM Calculation Date",
-      "sqvSapLatestMonth": "SQV SAP (last month)",
-      "sqvDate": "SQV Date",
-      "gpcLatestYear": "GPC {{year}}",
-      "gpcDate": "GPC Date",
-      "puUm": "PU / UM",
-      "pricePerUnit": "{{currency}}/ST"
-    },
-    "production": {
-      "title": "Production",
-      "false": "no",
-      "manufacturingProcess": "Manufacturing process",
-      "plant": "Plant",
-      "procurementType": "Procurement Type",
-      "productionTechnology": "Production technology",
-      "purchasePriceValidFrom": "Purchase price valid from",
-      "purchasePriceValidUntil": "Purchase Price valid until",
-      "saleableItem": "Saleable Item",
-      "specialProcurement": "Special Procurement",
-      "supplier": "Supplier",
-      "true": "yes"
-    },
-    "quantities": {
-      "title": "Quantities",
-      "actualQuantity": "Quantity {{year}}",
-      "budgetQuantity": "Budget Quantity {{year}}",
-      "budgetQuantitySoco": "Budget Quantity {{year}} Soco",
-      "netSales": "Net Sales {{year}}",
-      "pcmQuantity": "PCM Quantity",
-      "plannedQuantity": "Planned Quantity {{year}}"
-    },
-    "salesAndDescription": {
-      "title": "Sales & Description",
-      "materialDesignation": "Material Designation",
-      "materialNumber": "Material Number",
-      "materialShortDescription": "Material Short Description",
-      "productLine": "Product Line",
-      "rfq": "RFQ-Number",
-      "salesOrganization": "Sales Organization",
-      "projectName": "Project Name",
-      "productDescription": "Product Description"
+    "detailTab": {
+      "customer": {
+        "title": "Customer",
+        "customers": "Customers",
+        "customerGroup": "Customer Group"
+      },
+      "dimensionAndWeight": {
+        "title": "Dimensions & Weight",
+        "height": "Height (H)",
+        "length": "Length (L)",
+        "volumeCubic": "Cubic Volume",
+        "weight": "Net. weight",
+        "width": "Width (W)"
+      },
+      "pricing": {
+        "title": "Pricing",
+        "pcmSqv": "SQV PCM",
+        "pcmCalculationDate": "SQV PCM Calculation Date",
+        "sqvSapLatestMonth": "SQV SAP (last month)",
+        "sqvDate": "SQV Date",
+        "gpcLatestYear": "GPC {{year}}",
+        "gpcDate": "GPC Date",
+        "puUm": "PU / UM",
+        "pricePerUnit": "{{currency}}/ST"
+      },
+      "production": {
+        "title": "Production",
+        "false": "no",
+        "manufacturingProcess": "Manufacturing process",
+        "plant": "Plant",
+        "procurementType": "Procurement Type",
+        "productionTechnology": "Production technology",
+        "purchasePriceValidFrom": "Purchase price valid from",
+        "purchasePriceValidUntil": "Purchase Price valid until",
+        "saleableItem": "Saleable Item",
+        "specialProcurement": "Special Procurement",
+        "supplier": "Supplier",
+        "true": "yes"
+      },
+      "quantities": {
+        "title": "Quantities",
+        "actualQuantity": "Quantity {{year}}",
+        "budgetQuantity": "Budget Quantity {{year}}",
+        "budgetQuantitySoco": "Budget Quantity {{year}} Soco",
+        "netSales": "Net Sales {{year}}",
+        "pcmQuantity": "PCM Quantity",
+        "plannedQuantity": "Planned Quantity {{year}}"
+      },
+      "salesAndDescription": {
+        "title": "Sales & Description",
+        "materialDesignation": "Material Designation",
+        "materialNumber": "Material Number",
+        "materialShortDescription": "Material Short Description",
+        "productLine": "Product Line",
+        "rfq": "RFQ-Number",
+        "salesOrganization": "Sales Organization",
+        "projectName": "Project Name",
+        "productDescription": "Product Description"
+      }
     },
     "tabs": {
       "detail": "Details",
@@ -186,12 +211,15 @@
         "purchasePriceValidFrom": "Purchase price valid from",
         "purchasePriceValidUntil": "Purchase Price valid until"
       },
-      "statusBar": {
-        "detail": "Detail View"
-      },
       "menu": {
         "resetAll": "Reset table to its default settings"
       }
+    }
+  },
+  "shared": {
+    "statusBar": {
+      "detail": "Show Details",
+      "bom": "View Bill of Material"
     }
   }
 }

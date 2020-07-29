@@ -9,6 +9,7 @@ import { SalesDetails } from '../../../../detail/detail-tab/sales-and-descriptio
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
 import { ReferenceType } from '../../reducers/shared/models';
+import { Calculation } from '../../reducers/shared/models/calculation.model';
 
 export const getReferenceType = createSelector(
   getDetailState,
@@ -111,4 +112,14 @@ export const getProductionDetails = createSelector(
           referenceType.supplier
         )
       : undefined
+);
+
+export const getCalculations = createSelector(
+  getDetailState,
+  (state: DetailState): Calculation[] => state.calculations.items
+);
+
+export const getCalculationsLoading = createSelector(
+  getDetailState,
+  (state: DetailState) => state.calculations.loading
 );

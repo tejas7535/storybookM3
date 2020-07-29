@@ -6,93 +6,93 @@ import {
 } from '../../reducers/detail/models';
 import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
 
-export const getReferenceTypeDetails = createAction(
+export const loadReferenceTypeDetails = createAction(
   '[Detail] Load Reference Type Data'
 );
 
-export const getReferenceTypeItem = createAction(
-  '[Detail] Load Reference Type Item',
+export const loadReferenceType = createAction(
+  '[Detail] Load Reference Type',
   props<{ referenceTypeId: ReferenceTypeIdModel }>()
 );
 
-export const getReferenceTypeItemSuccess = createAction(
-  '[Detail] Load Reference Type Item Success',
+export const loadReferenceTypeSuccess = createAction(
+  '[Detail] Load Reference Type Success',
   props<{ item: ReferenceTypeResultModel }>()
 );
 
-export const getReferenceTypeItemFailure = createAction(
-  '[Detail] Load Reference Type Item Failure'
+export const loadReferenceTypeFailure = createAction(
+  '[Detail] Load Reference Type Failure'
 );
 
-export const getBom = createAction(
+export const loadBom = createAction(
   '[Detail] Load BOM',
   props<{ referenceTypeId: any }>()
 );
 
-export const getBomSuccess = createAction(
+export const loadBomSuccess = createAction(
   '[Detail] Load BOM Success',
   props<{ items: any[] }>()
 );
 
-export const getBomFailure = createAction('[Detail] Load BOM Failure');
+export const loadBomFailure = createAction('[Detail] Load BOM Failure');
 
-export const getCalculations = createAction(
+export const loadCalculations = createAction(
   '[Detail] Load Calculations',
   props<{ materialNumber: string }>()
 );
 
-export const getCalculationsSuccess = createAction(
+export const loadCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
   props<{ item: CalculationsResultModel }>()
 );
 
-export const getCalculationsFailure = createAction(
+export const loadCalculationsFailure = createAction(
   '[Detail] Load Calculations Failure'
 );
 
-export const getDrawings = createAction(
+export const loadDrawings = createAction(
   '[Detail] Load Drawings',
   props<{ referenceTypeId: any }>()
 );
 
-export const getDrawingsSuccess = createAction(
+export const loadDrawingsSuccess = createAction(
   '[Detail] Load Drawings Success',
   props<{ items: any[] }>()
 );
 
-export const getDrawingsFailure = createAction(
+export const loadDrawingsFailure = createAction(
   '[Detail] Load Drawings Failure'
 );
 
-export const getRfqs = createAction(
+export const loadRfqs = createAction(
   '[Detail] Load RFQs',
   props<{ referenceTypeId: any }>()
 );
 
-export const getRfqsSuccess = createAction(
+export const loadRfqsSuccess = createAction(
   '[Detail] Load RFQs Success',
   props<{ items: any[] }>()
 );
 
-export const getRfqsFailure = createAction('[Detail] Load RFQs Failure');
+export const loadRfqsFailure = createAction('[Detail] Load RFQs Failure');
 
 const all = union({
-  getBom,
-  getRfqs,
-  getDrawings,
-  getBomSuccess,
-  getBomFailure,
-  getRfqsSuccess,
-  getRfqsFailure,
-  getCalculations,
-  getDrawingsSuccess,
-  getDrawingsFailure,
-  getCalculationsSuccess,
-  getCalculationsFailure,
-  getReferenceTypeDetails,
-  getItem: getReferenceTypeItem,
-  getItemSuccess: getReferenceTypeItemSuccess,
-  getItemFailure: getReferenceTypeItemFailure,
+  loadBom,
+  loadBomSuccess,
+  loadBomFailure,
+  loadDrawings,
+  loadDrawingsSuccess,
+  loadDrawingsFailure,
+  loadRfqs,
+  loadRfqsSuccess,
+  loadRfqsFailure,
+  loadCalculations,
+  loadCalculationsSuccess,
+  loadCalculationsFailure,
+  loadReferenceTypeDetails,
+  loadReferenceType,
+  loadReferenceTypeSuccess,
+  loadReferenceTypeFailure,
 });
 
 export type DetailActions = typeof all;

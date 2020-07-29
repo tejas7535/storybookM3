@@ -6,7 +6,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SALES_DETAILS_MOCK } from '../../../../testing/mocks';
-import { getSalesDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getSalesDetails } from '../../../core/store/selectors';
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 describe('SalesAndDescriptionComponent', () => {

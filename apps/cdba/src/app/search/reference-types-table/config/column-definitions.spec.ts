@@ -1,13 +1,13 @@
+import * as utils from '../../../shared/table/column-utils';
 import { COLUMN_DEFINITIONS } from './column-definitions';
-import * as utils from './column-utils';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 
-jest.mock('./column-utils', () => ({
-  ...jest.requireActual('./column-utils'),
+jest.mock('../../../shared/table/column-utils', () => ({
+  ...jest.requireActual('../../../shared/table/column-utils'),
   valueGetterDate: jest.fn(),
   valueGetterArray: jest.fn(),
 }));
