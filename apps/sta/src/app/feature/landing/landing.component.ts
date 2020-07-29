@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { startLoginFlow } from '@schaeffler/shared/auth';
+import { startLoginFlow } from '@schaeffler/auth';
 
 import { AppState } from '../../core/store';
 

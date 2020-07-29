@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * **auth:** fix code flow (DSCDA-1831) ([e602477](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e602477fb049a96f9be26813fb9b72d846d6e9ab))
 
-### [0.5.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v0.5.0...v0.5.1) (2020-07-01)
+### [1.1.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.0.0...v1.1.0) (2020-07-01)
 
 
 ### 🎸 Features

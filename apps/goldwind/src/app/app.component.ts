@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { getUsername, startLoginFlow } from '@schaeffler/auth';
 import { UserMenuEntry } from '@schaeffler/header';
-import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppState } from './core/store';
 

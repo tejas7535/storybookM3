@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { startLoginFlow } from '@schaeffler/shared/auth';
+import { startLoginFlow } from '@schaeffler/auth';
 
 import { LandingComponent } from './landing.component';
 

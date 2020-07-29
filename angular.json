@@ -1215,46 +1215,6 @@
         }
       }
     },
-    "shared-auth": {
-      "projectType": "library",
-      "root": "libs/shared/auth",
-      "sourceRoot": "libs/shared/auth/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": [
-              "libs/shared/auth/tsconfig.lib.json",
-              "libs/shared/auth/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!libs/shared/auth/**/*"]
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/auth/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "cd libs/shared/auth && npx standard-version --no-verify"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "styleext": "scss"
-        }
-      }
-    },
     "shared-ui-header": {
       "projectType": "library",
       "root": "libs/shared/ui/header",
@@ -2324,6 +2284,51 @@
           }
         }
       }
+    },
+    "shared-utils-auth": {
+      "projectType": "library",
+      "root": "libs/shared/utils/auth",
+      "sourceRoot": "libs/shared/utils/auth/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/utils/auth/tsconfig.lib.json",
+            "project": "libs/shared/utils/auth/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/auth/tsconfig.lib.json",
+              "libs/shared/utils/auth/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/utils/auth/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/auth/jest.config.js",
+            "tsConfig": "libs/shared/utils/auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/auth/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd libs/shared/utils/auth && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {

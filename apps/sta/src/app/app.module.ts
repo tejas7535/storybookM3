@@ -5,15 +5,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
-import {
-  AzureConfig,
-  FlowType,
-  SharedAuthModule,
-} from '@schaeffler/shared/auth';
 import { SidebarModule } from '@schaeffler/sidebar';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';

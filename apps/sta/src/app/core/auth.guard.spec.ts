@@ -4,7 +4,7 @@ import { Router, RouterStateSnapshot } from '@angular/router';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { getIsLoggedIn } from '@schaeffler/shared/auth';
+import { getIsLoggedIn } from '@schaeffler/auth';
 
 import { AuthGuard } from './auth.guard';
 

@@ -1,12 +1,6 @@
 module.exports = {
-  name: 'shared-auth',
-  preset: '../../../jest.config.js',
-  coverageDirectory: '../../../coverage/libs/shared/auth',
-  snapshotSerializers: [
-    'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
-    'jest-preset-angular/build/AngularSnapshotSerializer.js',
-    'jest-preset-angular/build/HTMLCommentSerializer.js',
-  ],
+  name: 'shared-utils-auth',
+  preset: '../../../../jest.config.js',
   setupFilesAfterEnv: ['<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
@@ -18,4 +12,10 @@ module.exports = {
       ],
     },
   },
+  coverageDirectory: '../../../../coverage/libs/shared/utils/auth',
+  snapshotSerializers: [
+    'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
+    'jest-preset-angular/build/AngularSnapshotSerializer.js',
+    'jest-preset-angular/build/HTMLCommentSerializer.js',
+  ],
 };

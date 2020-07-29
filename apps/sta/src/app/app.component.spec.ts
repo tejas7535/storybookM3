@@ -14,11 +14,11 @@ import { Store, StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
-import { startLoginFlow } from '@schaeffler/shared/auth';
 import { SidebarModule } from '@schaeffler/sidebar';
 
 import { APP_STATE_MOCK } from '../testing/mocks/shared/app-state.mock';

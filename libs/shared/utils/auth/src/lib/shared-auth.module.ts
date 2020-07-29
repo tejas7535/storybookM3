@@ -20,7 +20,10 @@ import { AzureConfig, FlowType } from './models';
 import { StoreModule } from './store/store.module';
 import { TokenInterceptor } from './token.interceptor';
 
-export const storageFactory = (): OAuthStorage => localStorage;
+// tslint:disable-next-line: only-arrow-functions
+export function storageFactory(): OAuthStorage {
+  return localStorage;
+}
 
 @NgModule({
   imports: [OAuthModule.forRoot(), StoreModule],
