@@ -1,0 +1,7 @@
+{
+  "name": "@schaeffler/auth",
+  "version": "1.2.0",
+  "dependencies": {
+    "tslib": "^2.0.0"
+  }
+}

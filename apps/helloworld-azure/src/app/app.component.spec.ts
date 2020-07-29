@@ -5,9 +5,9 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { getUsername, startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { getUsername, startLoginFlow } from '@schaeffler/shared/auth';
 
 import { AppComponent } from './app.component';
 

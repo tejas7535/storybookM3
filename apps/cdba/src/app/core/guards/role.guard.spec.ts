@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { getRoles } from '@schaeffler/shared/auth';
+import { getRoles } from '@schaeffler/auth';
 
 import { RoleGuard } from './role.guard';
 

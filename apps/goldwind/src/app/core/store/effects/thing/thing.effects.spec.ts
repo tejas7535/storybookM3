@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
-import { getAccessToken } from '@schaeffler/shared/auth';
+import { getAccessToken } from '@schaeffler/auth';
 
 import { IOT_THING_MOCK } from '../../../../../testing/mocks';
 import { DataService } from '../../../http/data.service';

@@ -7,7 +7,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
-import { getAccessToken } from '@schaeffler/shared/auth';
+import { getAccessToken } from '@schaeffler/auth';
 
 import { DataService } from '../../../http/data.service';
 import {

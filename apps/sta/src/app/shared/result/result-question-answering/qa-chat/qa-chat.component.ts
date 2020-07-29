@@ -4,7 +4,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getUsername } from '@schaeffler/shared/auth';
+import { getUsername } from '@schaeffler/auth';
 
 import {
   AppState,

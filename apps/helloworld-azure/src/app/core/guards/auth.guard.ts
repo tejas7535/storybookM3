@@ -10,7 +10,7 @@ import { filter } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
-import { getIsLoggedIn } from '@schaeffler/shared/auth';
+import { getIsLoggedIn } from '@schaeffler/auth';
 
 import { AppState } from '../store/reducers/reducer';
 

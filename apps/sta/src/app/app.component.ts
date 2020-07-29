@@ -6,14 +6,10 @@ import { filter, map, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
+import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
 import { FooterLink } from '@schaeffler/footer';
 import { Icon } from '@schaeffler/icons';
 import { BreakpointService } from '@schaeffler/responsive';
-import {
-  getIsLoggedIn,
-  getUsername,
-  startLoginFlow,
-} from '@schaeffler/shared/auth';
 import { SidebarElement } from '@schaeffler/sidebar';
 
 import { AppState } from './core/store';

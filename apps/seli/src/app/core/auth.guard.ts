@@ -5,9 +5,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getIsLoggedIn } from '@schaeffler/shared/auth';
-
-import { AuthState } from '../../../../../libs/shared/auth/src/lib/store';
+import { AuthState, getIsLoggedIn } from '@schaeffler/auth';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

@@ -4,7 +4,7 @@ import {
   HttpEvent,
   HttpHandler,
   HttpInterceptor,
-  HttpRequest
+  HttpRequest,
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthService } from './auth.service';
@@ -27,7 +27,7 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     const authorizedRequest = request.clone({
-      headers: request.headers.set('Authorization', `Bearer ${token}`)
+      headers: request.headers.set('Authorization', `Bearer ${token}`),
     });
 
     return next.handle(authorizedRequest);

@@ -68,9 +68,6 @@
       "tags": [],
       "implicitDependencies": ["shared-empty-states"]
     },
-    "shared-auth": {
-      "tags": ["scope:shared", "type:authentication"]
-    },
     "shared-ui-header": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-styles", "shared-assets"]
@@ -138,6 +135,9 @@
     "seli-e2e": {
       "tags": [],
       "implicitDependencies": ["seli"]
+    },
+    "shared-utils-auth": {
+      "tags": ["scope:shared", "type:utils"]
     }
   },
   "tasksRunnerOptions": {

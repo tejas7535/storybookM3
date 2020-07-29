@@ -33,7 +33,6 @@
         "libs/shared/empty-states/src/index.ts"
       ],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"],
-      "@schaeffler/shared/auth": ["libs/shared/auth/src/index.ts"],
       "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
       "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
       "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
@@ -55,7 +54,8 @@
       ],
       "@schaeffler/shared/ui/storybook": [
         "libs/shared/ui/storybook/src/index.ts"
-      ]
+      ],
+      "@schaeffler/auth": ["libs/shared/utils/auth/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

@@ -2,11 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import {
-  AzureConfig,
-  FlowType,
-  SharedAuthModule,
-} from '@schaeffler/shared/auth';
+import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
