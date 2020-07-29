@@ -16,9 +16,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  getInitialFilters,
-  getInitialFiltersFailure,
-  getInitialFiltersSuccess,
+  loadInitialFilters,
+  loadInitialFiltersFailure,
+  loadInitialFiltersSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -77,10 +77,10 @@ describe('Search Effects', () => {
 
   describe('loadInitialFilters$', () => {
     beforeEach(() => {
-      action = getInitialFilters();
+      action = loadInitialFilters();
     });
 
-    test('should return getInitialFiltersSuccess action when REST call is successful', () => {
+    test('should return loadInitialFiltersSuccess action when REST call is successful', () => {
       const items = [
         new FilterItemIdValue(
           'customer',
@@ -88,7 +88,7 @@ describe('Search Effects', () => {
           true
         ),
       ];
-      const result = getInitialFiltersSuccess({
+      const result = loadInitialFiltersSuccess({
         items,
       });
 
@@ -105,9 +105,9 @@ describe('Search Effects', () => {
       expect(searchService.getInitialFilters).toHaveBeenCalledTimes(1);
     });
 
-    test('should return getInitialFiltersFailure on REST error', () => {
+    test('should return loadInitialFiltersFailure on REST error', () => {
       const error = new Error('damn');
-      const result = getInitialFiltersFailure();
+      const result = loadInitialFiltersFailure();
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#|', undefined, error);
@@ -251,12 +251,12 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getInitialFilters', () => {
+    test('should dispatch loadInitialFilters', () => {
       store.dispatch = jest.fn();
       actions$ = cold('-a', { a: resetFilters() });
 
       expect(effects.resetFilters$).toBeObservable(actions$);
-      expect(store.dispatch).toHaveBeenCalledWith(getInitialFilters());
+      expect(store.dispatch).toHaveBeenCalledWith(loadInitialFilters());
     });
   });
 
@@ -317,10 +317,10 @@ describe('Search Effects', () => {
   });
 
   describe('ngrxOnInitEffects', () => {
-    test('should return getInitialFilters', () => {
+    test('should return loadInitialFilters', () => {
       const result = effects.ngrxOnInitEffects();
 
-      expect(result).toEqual(getInitialFilters());
+      expect(result).toEqual(loadInitialFilters());
     });
   });
 });

@@ -1,20 +1,20 @@
 import {
-  getBom,
-  getBomFailure,
-  getBomSuccess,
-  getCalculations,
-  getCalculationsFailure,
-  getCalculationsSuccess,
-  getDrawings,
-  getDrawingsFailure,
-  getDrawingsSuccess,
-  getReferenceTypeDetails,
-  getReferenceTypeItem,
-  getReferenceTypeItemFailure,
-  getReferenceTypeItemSuccess,
-  getRfqs,
-  getRfqsFailure,
-  getRfqsSuccess,
+  loadBom,
+  loadBomFailure,
+  loadBomSuccess,
+  loadCalculations,
+  loadCalculationsFailure,
+  loadCalculationsSuccess,
+  loadDrawings,
+  loadDrawingsFailure,
+  loadDrawingsSuccess,
+  loadReferenceType,
+  loadReferenceTypeDetails,
+  loadReferenceTypeFailure,
+  loadReferenceTypeSuccess,
+  loadRfqs,
+  loadRfqsFailure,
+  loadRfqsSuccess,
 } from '..';
 import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
 import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
@@ -33,8 +33,8 @@ describe('Detail Actions', () => {
   });
 
   describe('Get Reference Type Details Actions', () => {
-    test('getReferenceTypeDetails', () => {
-      const action = getReferenceTypeDetails();
+    test('loadReferenceTypeDetails', () => {
+      const action = loadReferenceTypeDetails();
 
       expect(action).toEqual({
         type: '[Detail] Load Reference Type Data',
@@ -43,37 +43,37 @@ describe('Detail Actions', () => {
   });
 
   describe('Get Item Actions', () => {
-    test('getItem', () => {
-      const action = getReferenceTypeItem({ referenceTypeId });
+    test('loadItem', () => {
+      const action = loadReferenceType({ referenceTypeId });
 
       expect(action).toEqual({
         referenceTypeId,
-        type: '[Detail] Load Reference Type Item',
+        type: '[Detail] Load Reference Type',
       });
     });
 
-    test('getItemSuccess', () => {
+    test('loadItemSuccess', () => {
       const item: any = {};
-      const action = getReferenceTypeItemSuccess({ item });
+      const action = loadReferenceTypeSuccess({ item });
 
       expect(action).toEqual({
         item,
-        type: '[Detail] Load Reference Type Item Success',
+        type: '[Detail] Load Reference Type Success',
       });
     });
 
-    test('getItemFailure', () => {
-      const action = getReferenceTypeItemFailure();
+    test('loadItemFailure', () => {
+      const action = loadReferenceTypeFailure();
 
       expect(action).toEqual({
-        type: '[Detail] Load Reference Type Item Failure',
+        type: '[Detail] Load Reference Type Failure',
       });
     });
   });
 
   describe('Get BOM Actions', () => {
-    test('getBom', () => {
-      const action = getBom({ referenceTypeId });
+    test('loadBom', () => {
+      const action = loadBom({ referenceTypeId });
 
       expect(action).toEqual({
         referenceTypeId,
@@ -81,9 +81,9 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getBomSuccess', () => {
+    test('loadBomSuccess', () => {
       const items: any[] = [];
-      const action = getBomSuccess({ items });
+      const action = loadBomSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -91,8 +91,8 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getBomFailure', () => {
-      const action = getBomFailure();
+    test('loadBomFailure', () => {
+      const action = loadBomFailure();
 
       expect(action).toEqual({
         type: '[Detail] Load BOM Failure',
@@ -101,8 +101,8 @@ describe('Detail Actions', () => {
   });
 
   describe('Get Calculations Actions', () => {
-    test('getCalculations', () => {
-      const action = getCalculations({ materialNumber });
+    test('loadCalculations', () => {
+      const action = loadCalculations({ materialNumber });
 
       expect(action).toEqual({
         materialNumber,
@@ -110,9 +110,9 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getCalculationsSuccess', () => {
+    test('loadCalculationsSuccess', () => {
       const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
-      const action = getCalculationsSuccess({ item });
+      const action = loadCalculationsSuccess({ item });
 
       expect(action).toEqual({
         item,
@@ -120,8 +120,8 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getCalculationsFailure', () => {
-      const action = getCalculationsFailure();
+    test('loadCalculationsFailure', () => {
+      const action = loadCalculationsFailure();
 
       expect(action).toEqual({
         type: '[Detail] Load Calculations Failure',
@@ -130,8 +130,8 @@ describe('Detail Actions', () => {
   });
 
   describe('Get Drawings Actions', () => {
-    test('getDrawings', () => {
-      const action = getDrawings({ referenceTypeId });
+    test('loadDrawings', () => {
+      const action = loadDrawings({ referenceTypeId });
 
       expect(action).toEqual({
         referenceTypeId,
@@ -139,9 +139,9 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getDrawingsSuccess', () => {
+    test('loadDrawingsSuccess', () => {
       const items: any[] = [];
-      const action = getDrawingsSuccess({ items });
+      const action = loadDrawingsSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -149,8 +149,8 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getDrawingsFailure', () => {
-      const action = getDrawingsFailure();
+    test('loadDrawingsFailure', () => {
+      const action = loadDrawingsFailure();
 
       expect(action).toEqual({
         type: '[Detail] Load Drawings Failure',
@@ -159,8 +159,8 @@ describe('Detail Actions', () => {
   });
 
   describe('Get RFQs Actions', () => {
-    test('getRfqs', () => {
-      const action = getRfqs({ referenceTypeId });
+    test('loadRfqs', () => {
+      const action = loadRfqs({ referenceTypeId });
 
       expect(action).toEqual({
         referenceTypeId,
@@ -168,9 +168,9 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getRfqsSuccess', () => {
+    test('loadRfqsSuccess', () => {
       const items: any[] = [];
-      const action = getRfqsSuccess({ items });
+      const action = loadRfqsSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -178,8 +178,8 @@ describe('Detail Actions', () => {
       });
     });
 
-    test('getRfqsFailure', () => {
-      const action = getRfqsFailure();
+    test('loadRfqsFailure', () => {
+      const action = loadRfqsFailure();
 
       expect(action).toEqual({
         type: '[Detail] Load RFQs Failure',

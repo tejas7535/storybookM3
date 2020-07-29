@@ -5,9 +5,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  getInitialFilters,
-  getInitialFiltersFailure,
-  getInitialFiltersSuccess,
+  loadInitialFilters,
+  loadInitialFiltersFailure,
+  loadInitialFiltersSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -26,15 +26,15 @@ import {
 
 describe('Search Actions', () => {
   describe('Get initial filters actions', () => {
-    test('getInitialFilters', () => {
-      const action = getInitialFilters();
+    test('loadInitialFilters', () => {
+      const action = loadInitialFilters();
 
       expect(action).toEqual({
         type: '[Search] Load Initial Filters',
       });
     });
 
-    test('getInitialFiltersSuccess', () => {
+    test('loadInitialFiltersSuccess', () => {
       const items = [
         new FilterItemIdValue(
           'plant',
@@ -42,7 +42,7 @@ describe('Search Actions', () => {
           false
         ),
       ];
-      const action = getInitialFiltersSuccess({ items });
+      const action = loadInitialFiltersSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -50,8 +50,8 @@ describe('Search Actions', () => {
       });
     });
 
-    test('getInitialFiltersFailure', () => {
-      const action = getInitialFiltersFailure();
+    test('loadInitialFiltersFailure', () => {
+      const action = loadInitialFiltersFailure();
 
       expect(action).toEqual({
         type: '[Search] Load Initial Filters Failure',

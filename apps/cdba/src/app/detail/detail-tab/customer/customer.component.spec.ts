@@ -6,7 +6,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_DETAILS_MOCK } from '../../../../testing/mocks';
-import { getDimensionAndWeightDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getDimensionAndWeightDetails } from '../../../core/store/selectors';
 import { CustomerComponent } from './customer.component';
 
 describe('DimensionAndWeightComponent', () => {

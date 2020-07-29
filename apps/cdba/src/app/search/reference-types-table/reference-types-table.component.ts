@@ -23,17 +23,19 @@ import { translate } from '@ngneat/transloco';
 
 import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
+import {
+  columnDefinitionToReferenceTypeProp,
+  SIDE_BAR_CONFIG,
+} from '../../shared/table';
+import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   DEFAULT_COLUMN_STATE,
-  SIDE_BAR_CONFIG,
   STATUS_BAR_CONFIG,
 } from './config';
-import { columnDefinitionToReferenceTypeProp } from './config/column-utils';
 import { SortState } from './sort-state';
-import { DetailViewButtonComponent } from './status-bar/detail-view-button/detail-view-button.component';
 
 @Component({
   selector: 'cdba-reference-types-table',

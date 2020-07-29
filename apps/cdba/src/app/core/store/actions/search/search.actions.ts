@@ -6,14 +6,14 @@ import {
   TextSearch,
 } from '../../reducers/search/models';
 
-export const getInitialFilters = createAction('[Search] Load Initial Filters');
+export const loadInitialFilters = createAction('[Search] Load Initial Filters');
 
-export const getInitialFiltersSuccess = createAction(
+export const loadInitialFiltersSuccess = createAction(
   '[Search] Load Initial Filters Success',
   props<{ items: FilterItem[] }>()
 );
 
-export const getInitialFiltersFailure = createAction(
+export const loadInitialFiltersFailure = createAction(
   '[Search] Load Initial Filters Failure'
 );
 
@@ -65,9 +65,9 @@ export const autocompleteFailure = createAction(
 );
 
 const all = union({
-  getInitialFilters,
-  getInitialFiltersSuccess,
-  getInitialFiltersFailure,
+  loadInitialFilters,
+  loadInitialFiltersSuccess,
+  loadInitialFiltersFailure,
   search,
   searchSuccess,
   searchFailure,

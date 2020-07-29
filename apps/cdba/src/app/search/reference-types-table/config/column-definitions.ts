@@ -1,4 +1,3 @@
-// tslint:disable:max-file-line-count
 import { ColDef } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 
@@ -9,7 +8,7 @@ import {
   formatNumber,
   valueGetterArray,
   valueGetterDate,
-} from './column-utils';
+} from '../../../shared/table';
 
 export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   checkbox: {
@@ -555,4 +554,5 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       ),
     valueFormatter: formatDate,
   },
+  // tslint:disable-next-line: max-file-line-count
 };

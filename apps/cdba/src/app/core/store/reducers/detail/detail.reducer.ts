@@ -1,9 +1,9 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
-  getCalculationsSuccess,
-  getReferenceTypeItem,
-  getReferenceTypeItemSuccess,
+  loadCalculationsSuccess,
+  loadReferenceType,
+  loadReferenceTypeSuccess,
 } from '../../actions';
 import { ReferenceType } from '../shared/models';
 import { Calculation } from '../shared/models/calculation.model';
@@ -32,12 +32,12 @@ export const initialState: DetailState = {
 
 export const detailReducer = createReducer(
   initialState,
-  on(getReferenceTypeItem, (state: DetailState) => ({
+  on(loadReferenceType, (state: DetailState) => ({
     ...state,
     detail: { ...state.detail, loading: true },
     calculations: { ...state.calculations, loading: true },
   })),
-  on(getReferenceTypeItemSuccess, (state: DetailState, { item }) => ({
+  on(loadReferenceTypeSuccess, (state: DetailState, { item }) => ({
     ...state,
     detail: {
       ...state.detail,
@@ -45,7 +45,7 @@ export const detailReducer = createReducer(
       referenceType: item.referenceTypeDto,
     },
   })),
-  on(getCalculationsSuccess, (state: DetailState, { item }) => ({
+  on(loadCalculationsSuccess, (state: DetailState, { item }) => ({
     ...state,
     calculations: {
       ...state.calculations,

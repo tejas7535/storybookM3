@@ -18,14 +18,16 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { REFRENCE_TYPE_MOCK } from '../../../testing/mocks/reference-type.mock';
+import { REFRENCE_TYPE_MOCK } from '../../../testing/mocks';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { SharedModule } from '../../shared/shared.module';
+import { columnDefinitionToReferenceTypeProp } from '../../shared/table';
+import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
+import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
 import { COLUMN_DEFINITIONS } from './config';
-import { columnDefinitionToReferenceTypeProp } from './config/column-utils';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
-import { DetailViewButtonComponent } from './status-bar/detail-view-button/detail-view-button.component';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -43,12 +45,16 @@ describe('ReferenceTypesTableComponent', () => {
       imports: [
         SharedTranslocoModule,
         SharedModule,
-        AgGridModule.withComponents([DetailViewButtonComponent]),
+        AgGridModule.withComponents([
+          DetailViewButtonComponent,
+          BomViewButtonComponent,
+        ]),
         MatIconModule,
         RouterTestingModule,
         provideTranslocoTestingModule({}),
+        CustomStatusBarModule,
       ],
-      declarations: [ReferenceTypesTableComponent, DetailViewButtonComponent],
+      declarations: [ReferenceTypesTableComponent],
       providers: [
         {
           provide: AgGridStateService,

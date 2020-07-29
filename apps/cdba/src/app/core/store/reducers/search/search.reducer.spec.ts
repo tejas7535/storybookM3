@@ -8,9 +8,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  getInitialFilters,
-  getInitialFiltersFailure,
-  getInitialFiltersSuccess,
+  loadInitialFilters,
+  loadInitialFiltersFailure,
+  loadInitialFiltersSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -35,16 +35,16 @@ describe('Search Reducer', () => {
   );
   const filterItemRange = new FilterItemRange('length', 0, 200, 0, 200, 'cm');
 
-  describe('getInitialFilters', () => {
+  describe('loadInitialFilters', () => {
     test('should set loading', () => {
-      const action = getInitialFilters();
+      const action = loadInitialFilters();
       const state = searchReducer(initialState, action);
 
       expect(state.filters.loading).toBeTruthy();
     });
   });
 
-  describe('getInitialFiltersSuccess', () => {
+  describe('loadInitialFiltersSuccess', () => {
     test('should unset loading and set possible filters', () => {
       const items = [filterItemIdVal, filterItemRange];
 
@@ -52,7 +52,7 @@ describe('Search Reducer', () => {
         plant: filterItemIdVal,
         length: filterItemRange,
       };
-      const action = getInitialFiltersSuccess({ items });
+      const action = loadInitialFiltersSuccess({ items });
 
       const fakeState = {
         ...initialState,
@@ -66,9 +66,9 @@ describe('Search Reducer', () => {
     });
   });
 
-  describe('getInitialFiltersFailure', () => {
+  describe('loadInitialFiltersFailure', () => {
     test('should unset loading', () => {
-      const action = getInitialFiltersFailure();
+      const action = loadInitialFiltersFailure();
       const fakeState = {
         ...initialState,
         filters: { ...initialState.filters, loading: true },

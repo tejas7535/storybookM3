@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { PRICE_DETAILS_MOCK } from '../../../../testing/mocks';
-import { getPriceDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getPriceDetails } from '../../../core/store/selectors';
 import { PricingComponent } from './pricing.component';
 
 registerLocaleData(de);

@@ -10,7 +10,7 @@ import { ReferenceType } from '../core/store/reducers/shared/models';
 import {
   getReferenceType,
   getReferenceTypeLoading,
-} from '../core/store/selectors/details/detail.selector';
+} from '../core/store/selectors';
 import { DetailRoutePath } from './detail-route-path.enum';
 
 interface Tab {

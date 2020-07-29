@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../../../core/store/reducers/detail/detail.reducer';
-import { getDimensionAndWeightDetails } from '../../../core/store/selectors/details/detail.selector';
+import { getDimensionAndWeightDetails } from '../../../core/store/selectors';
 import { DimensionAndWeightDetails } from './model/dimension-and-weight-details.model';
 
 @Component({

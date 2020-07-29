@@ -7,9 +7,9 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  getInitialFilters,
-  getInitialFiltersFailure,
-  getInitialFiltersSuccess,
+  loadInitialFilters,
+  loadInitialFiltersFailure,
+  loadInitialFiltersSuccess,
   resetFilters,
   search,
   searchFailure,
@@ -85,11 +85,11 @@ const sortFilterItems = (items: FilterItem[]) => {
 export const searchReducer = createReducer(
   initialState,
   // initial filters
-  on(getInitialFilters, (state: SearchState) => ({
+  on(loadInitialFilters, (state: SearchState) => ({
     ...state,
     filters: { ...state.filters, loading: true },
   })),
-  on(getInitialFiltersSuccess, (state: SearchState, { items }) => ({
+  on(loadInitialFiltersSuccess, (state: SearchState, { items }) => ({
     ...state,
     filters: {
       ...state.filters,
@@ -100,7 +100,7 @@ export const searchReducer = createReducer(
       ),
     },
   })),
-  on(getInitialFiltersFailure, (state: SearchState) => ({
+  on(loadInitialFiltersFailure, (state: SearchState) => ({
     ...state,
     filters: { ...state.filters, loading: false },
   })),

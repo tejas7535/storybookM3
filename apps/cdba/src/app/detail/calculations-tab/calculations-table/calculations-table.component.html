@@ -1,0 +1,35 @@
+<mat-card>
+  <div
+    class="mat-card-inner"
+    fxLayout="column"
+    *transloco="let t; read: 'detail.calculationTable'"
+  >
+    <h3>{{ t('title') }}</h3>
+
+    <div class="table-container">
+      <ag-grid-angular
+        class="ag-theme-material"
+        [rowData]="rowData"
+        [defaultColDef]="defaultColDef"
+        [columnDefs]="columnDefs"
+        [modules]="modules"
+        [sideBar]="sideBar"
+        [rowSelection]="rowSelection"
+        [frameworkComponents]="frameworkComponents"
+        [statusBar]="statusBar"
+        [getMainMenuItems]="getMainMenuItems"
+        rowGroupPanelShow="always"
+        valueCache
+        enableRangeSelection
+        animateRows
+        suppressCsvExport
+        suppressExcelExport
+        (columnMoved)="columnChange($event)"
+        (columnVisible)="columnChange($event)"
+        (columnPinned)="columnChange($event)"
+        (sortChanged)="sortChange($event)"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</mat-card>

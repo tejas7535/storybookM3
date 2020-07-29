@@ -12,10 +12,10 @@ import { getReferenceTypes, getSearchSuccessful } from '../core/store';
 import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { AgGridStateService } from '../shared/services/ag-grid-state.service';
 import { SharedModule } from '../shared/shared.module';
+import { DetailViewButtonComponent } from '../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
-import { DetailViewButtonComponent } from './reference-types-table/status-bar/detail-view-button/detail-view-button.component';
 import { SearchComponent } from './search.component';
 
 jest.mock('@ngneat/transloco', () => ({
