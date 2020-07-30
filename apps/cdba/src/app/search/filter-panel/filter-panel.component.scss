@@ -7,17 +7,21 @@
   mat-expansion-panel {
     box-shadow: none;
 
-    .expansion-panel-header {
-      width: 100%;
+    mat-expansion-panel-header {
+      padding: 0 !important;
 
-      .title {
-        font-size: 34px;
-      }
+      .expansion-panel-header {
+        width: 100%;
 
-      .helper-text {
-        color: $schaeffler-carbon-gray;
-        font-size: $schaeffler-labels;
-        margin-right: 20px;
+        .title {
+          font-size: 34px;
+        }
+
+        .helper-text {
+          color: $schaeffler-carbon-gray;
+          font-size: $schaeffler-labels;
+          margin-right: 20px;
+        }
       }
     }
   }
