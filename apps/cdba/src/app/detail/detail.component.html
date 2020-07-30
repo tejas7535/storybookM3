@@ -1,8 +1,4 @@
-<div
-  fxLayout="column"
-  class="container"
-  *ngIf="(loading$ | async) === false; else blockUi"
->
+<div fxLayout="column" class="container">
   <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
     <mat-icon
       fontSet="schaeffler-icons"
@@ -31,7 +27,3 @@
     <router-outlet></router-outlet>
   </div>
 </div>
-
-<ng-template #blockUi>
-  <cdba-block-ui></cdba-block-ui>
-</ng-template>
