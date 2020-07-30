@@ -1,5 +1,5 @@
 import { SidebarMode } from '../../models';
-import * as fromSidebarActions from '../actions';
+import * as fromSidebarActions from '../actions/sidebar.actions';
 import {
   initialState,
   reducer,

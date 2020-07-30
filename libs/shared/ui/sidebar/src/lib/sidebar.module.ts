@@ -9,7 +9,7 @@ import { RouterModule } from '@angular/router';
 
 import { SidebarElementsComponent } from './sidebar-elements/sidebar-elements.component';
 import { SidebarComponent } from './sidebar.component';
-import { StoreModule } from './store';
+import { StoreModule } from './store/store.module';
 
 @NgModule({
   imports: [

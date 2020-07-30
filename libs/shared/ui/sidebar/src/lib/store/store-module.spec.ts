@@ -1,4 +1,4 @@
-import { StoreModule } from './store.module';
+import { StoreModule } from '../store/store.module';
 
 describe('StoreModule', () => {
   it('should work', () => {

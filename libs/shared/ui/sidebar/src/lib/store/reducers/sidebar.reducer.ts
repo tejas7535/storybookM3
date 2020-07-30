@@ -1,7 +1,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { SidebarMode } from '../../models';
-import { setSidebarMode, toggleSidebar } from '../actions';
+import { setSidebarMode, toggleSidebar } from '../actions/sidebar.actions';
 
 export interface SidebarState {
   mode: SidebarMode;

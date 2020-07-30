@@ -1,4 +1,4 @@
-export * from './sidebar-animation-style.model';
-export * from './sidebar-element.model';
-export * from './sidebar-mode.enum';
-export * from './viewport.enum';
+export { SidebarAnimationStyle } from './sidebar-animation-style.model';
+export { Viewport } from './viewport.enum';
+export { SidebarElement } from './sidebar-element.model';
+export { SidebarMode } from './sidebar-mode.enum';

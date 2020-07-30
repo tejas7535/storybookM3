@@ -10,7 +10,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { SidebarMode } from './models';
 import { SidebarComponent } from './sidebar.component';
-import { initialState } from './store/reducers';
+import { initialState } from './store/reducers/sidebar.reducer';
 
 describe('In SidebarComponent', () => {
   let component: SidebarComponent;
