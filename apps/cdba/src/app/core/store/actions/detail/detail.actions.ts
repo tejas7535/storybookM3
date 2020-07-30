@@ -1,10 +1,12 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
+  BomIdentifier,
+  BomItem,
   ReferenceTypeIdModel,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
-import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
+import { Calculation } from '../../reducers/shared/models/calculation.model';
 
 export const loadReferenceTypeDetails = createAction(
   '[Detail] Load Reference Type Data'
@@ -26,12 +28,12 @@ export const loadReferenceTypeFailure = createAction(
 
 export const loadBom = createAction(
   '[Detail] Load BOM',
-  props<{ referenceTypeId: any }>()
+  props<{ bomIdentifier: BomIdentifier }>()
 );
 
 export const loadBomSuccess = createAction(
   '[Detail] Load BOM Success',
-  props<{ items: any[] }>()
+  props<{ items: BomItem[] }>()
 );
 
 export const loadBomFailure = createAction('[Detail] Load BOM Failure');
@@ -43,7 +45,7 @@ export const loadCalculations = createAction(
 
 export const loadCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
-  props<{ item: CalculationsResultModel }>()
+  props<{ items: Calculation[] }>()
 );
 
 export const loadCalculationsFailure = createAction(

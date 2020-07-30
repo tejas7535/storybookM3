@@ -17,11 +17,12 @@ import {
   loadRfqsSuccess,
 } from '..';
 import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
-import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
+import { BomIdentifier, BomItem } from '../../reducers/detail/models';
 
 describe('Detail Actions', () => {
   let referenceTypeId: any;
   let materialNumber: string;
+  let bomIdentifier: BomIdentifier;
 
   beforeEach(() => {
     referenceTypeId = {
@@ -30,6 +31,16 @@ describe('Detail Actions', () => {
     };
 
     materialNumber = referenceTypeId.materialNumber;
+
+    bomIdentifier = new BomIdentifier(
+      'date',
+      'number',
+      'type',
+      'version',
+      'entered',
+      'ref',
+      'variant'
+    );
   });
 
   describe('Get Reference Type Details Actions', () => {
@@ -73,16 +84,16 @@ describe('Detail Actions', () => {
 
   describe('Get BOM Actions', () => {
     test('loadBom', () => {
-      const action = loadBom({ referenceTypeId });
+      const action = loadBom({ bomIdentifier });
 
       expect(action).toEqual({
-        referenceTypeId,
+        bomIdentifier,
         type: '[Detail] Load BOM',
       });
     });
 
     test('loadBomSuccess', () => {
-      const items: any[] = [];
+      const items: BomItem[] = [];
       const action = loadBomSuccess({ items });
 
       expect(action).toEqual({
@@ -111,11 +122,11 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsSuccess', () => {
-      const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
-      const action = loadCalculationsSuccess({ item });
+      const items = CALCULATIONS_TYPE_MOCK;
+      const action = loadCalculationsSuccess({ items });
 
       expect(action).toEqual({
-        item,
+        items,
         type: '[Detail] Load Calculations Success',
       });
     });

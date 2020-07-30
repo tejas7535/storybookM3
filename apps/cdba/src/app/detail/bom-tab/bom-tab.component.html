@@ -1,1 +1,38 @@
-<p>bom-tab works!</p>
+<mat-card>
+  <div
+    class="mat-card-inner"
+    fxLayout="column"
+    *transloco="let t; read: 'detail.bom'"
+  >
+    <div fxLayout="row" fxLayoutAlign="center">
+      <h3>{{ t('title') }}</h3>
+      <div class="additional-information">
+        <button mat-button [disabled]="true">
+          <mat-icon>insert_chart_outlined</mat-icon>
+          {{ t('additionalInformation') }}
+        </button>
+      </div>
+    </div>
+    <div class="table-container">
+      <ag-grid-angular
+        class="ag-theme-material"
+        [rowData]="bomItems$ | async"
+        [defaultColDef]="defaultColDef"
+        [columnDefs]="columnDefs"
+        [modules]="modules"
+        [autoGroupColumnDef]="autoGroupColumnDef"
+        [treeData]="true"
+        [animateRows]="true"
+        [groupDefaultExpanded]="groupDefaultExpanded"
+        [getDataPath]="getDataPath"
+        (gridReady)="onGridReady($event)"
+        [getRowClass]="getRowClass.bind(this)"
+        [rowSelection]="rowSelection"
+        [suppressCellSelection]="suppressCellSelection"
+        (rowClicked)="onRowClicked($event)"
+        [rowClassRules]="rowClassRules"
+      >
+      </ag-grid-angular>
+    </div>
+  </div>
+</mat-card>
