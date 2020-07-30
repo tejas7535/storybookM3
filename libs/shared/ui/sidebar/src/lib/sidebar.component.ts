@@ -11,7 +11,8 @@ import {
   sidebarAnimation,
 } from './animations/sidebar-animations';
 import { SidebarAnimationStyle, SidebarMode } from './models';
-import { getSidebarMode, SidebarState } from './store';
+import { SidebarState } from './store/reducers/sidebar.reducer';
+import { getSidebarMode } from './store/selectors/sidebar.selectors';
 
 @Component({
   selector: 'schaeffler-sidebar',

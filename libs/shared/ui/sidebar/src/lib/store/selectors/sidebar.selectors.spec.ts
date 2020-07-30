@@ -7,7 +7,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { SidebarMode } from '../../models';
-import { initialState, SidebarState } from '../reducers';
+import { initialState, SidebarState } from '../reducers/sidebar.reducer';
 import { getSidebarMode } from './sidebar.selectors';
 
 describe('SidebarSelector', () => {

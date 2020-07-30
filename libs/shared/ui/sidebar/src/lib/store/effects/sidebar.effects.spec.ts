@@ -12,9 +12,9 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { SidebarMode, Viewport } from '../../models';
 import { SidebarService } from '../../sidebar.service';
-import { setSidebarMode, toggleSidebar } from '../actions';
-import { SidebarState } from '../reducers';
-import { getSidebarMode } from '../selectors';
+import { setSidebarMode, toggleSidebar } from '../actions/sidebar.actions';
+import { SidebarState } from '../reducers/sidebar.reducer';
+import { getSidebarMode } from '../selectors/sidebar.selectors';
 import { SidebarEffects } from './sidebar.effects';
 
 interface State {
