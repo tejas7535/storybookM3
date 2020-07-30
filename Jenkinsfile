@@ -513,7 +513,7 @@ pipeline {
                                     sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=prod --parallel"
                                     for (app in affectedApps) {
                                         try {
-                                            sh "transloco-optimize dist/apps/${app}/assets/i18n"
+                                            sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
                                         } catch (error) {
                                             echo "No translations found to optimize in app ${app}"
                                         }
