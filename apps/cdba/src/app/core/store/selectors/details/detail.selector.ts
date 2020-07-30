@@ -123,3 +123,8 @@ export const getCalculationsLoading = createSelector(
   getDetailState,
   (state: DetailState) => state.calculations.loading
 );
+
+export const getBomItems = createSelector(
+  getDetailState,
+  (state: DetailState) => state.bom.items
+);

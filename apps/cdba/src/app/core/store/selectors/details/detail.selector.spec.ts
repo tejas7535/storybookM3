@@ -13,6 +13,7 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
+  getBomItems,
   getCalculations,
   getCalculationsLoading,
   getCustomerDetails,
@@ -147,6 +148,12 @@ describe('Detail Selector', () => {
 
     test('should return undefined', () => {
       expect(getCalculationsLoading(initialDetailState)).toBeFalsy();
+    });
+  });
+
+  describe('getBomItems', () => {
+    test('should return bom entries', () => {
+      expect(getBomItems(initialDetailState)).toEqual([]);
     });
   });
 });

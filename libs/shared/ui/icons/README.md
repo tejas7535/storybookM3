@@ -11,7 +11,7 @@ First check if your application already has schaeffler-icons loaded. There are m
 Example:
 ``` json
             "styles": [
-              "apps/sta/src/styles.scss",
+              "apps/<your-app>/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"
             ],
 ```

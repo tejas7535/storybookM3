@@ -91,6 +91,23 @@
       "billOfMaterial": "Stückliste",
       "calculations": "Kalkulationen",
       "drawings": "Zeichnungen"
+    },
+    "bom": {
+      "additionalInformation": "Zusätzliche Informationen",
+      "title": "Bill of Material",
+      "headers": {
+        "totalPricePerPc": "Cost",
+        "currency": "Currency",
+        "materialNumber": "Material Number",
+        "plant": "Plant",
+        "lotsize": "Lot Size",
+        "setupTime": "Setup Time",
+        "cycleTime": "Cycle Time",
+        "toolingFactor": "Tooling Factor",
+        "quantityPerParent": "Quantity Per Parent",
+        "unitOfMeasure": "Unit",
+        "costCenter": "Cost Center"
+      }
     }
   },
   "search": {

@@ -21,6 +21,12 @@ import { SearchUtilityService } from './search-utility.service';
   providedIn: 'root',
 })
 export class SearchService {
+  private readonly INITIAL_FILTER = 'initial-filter';
+
+  private readonly SEARCH = 'search';
+
+  private readonly POSSIBLE_FILTER = 'possible-filter';
+
   public constructor(
     private readonly dataService: DataService,
     private readonly searchUtilities: SearchUtilityService
@@ -28,14 +34,14 @@ export class SearchService {
 
   public getInitialFilters(): Observable<FilterItem[]> {
     return this.dataService
-      .getAll<InitialFiltersResponse>('initial-filter')
+      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER)
       .pipe(map((response) => response.items));
   }
 
   public search(
     items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
   ): Observable<SearchResult> {
-    return this.dataService.post<SearchResult>('search', { items });
+    return this.dataService.post<SearchResult>(this.SEARCH, { items });
   }
 
   public autocomplete(
@@ -46,7 +52,7 @@ export class SearchService {
 
     return this.dataService
       .getAll<FilterItemIdValue>(
-        `possible-filter/${textSearch.field}`,
+        `${this.POSSIBLE_FILTER}/${textSearch.field}`,
         httpParams
       )
       .pipe(

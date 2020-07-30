@@ -9,6 +9,9 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
+  loadBom,
+  loadBomFailure,
+  loadBomSuccess,
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
@@ -18,12 +21,12 @@ import {
   loadReferenceTypeSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { ReferenceTypeResultModel } from '../../reducers/detail/models';
-import { CalculationsResultModel } from '../../reducers/detail/models/calculations-result-model';
+import {
+  BomItem,
+  ReferenceTypeResultModel,
+} from '../../reducers/detail/models';
+import { Calculation } from '../../reducers/shared/models/calculation.model';
 
-/**
- * Effect class for all tagging related actions which trigger side effects
- */
 @Injectable()
 export class DetailEffects {
   referenceTypeDetails$ = createEffect(
@@ -67,14 +70,48 @@ export class DetailEffects {
     );
   });
 
+  bom$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadBom),
+      mergeMap((action) =>
+        this.detailService.getBom(action.bomIdentifier).pipe(
+          map((items: BomItem[]) => loadBomSuccess({ items })),
+          catchError((_e) => of(loadBomFailure()))
+        )
+      )
+    );
+  });
+
   calculations$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(loadCalculations),
       mergeMap((action) =>
         this.detailService.calculations(action.materialNumber).pipe(
-          map((item: CalculationsResultModel) =>
-            loadCalculationsSuccess({ item })
-          ),
+          tap((items: Calculation[]) => {
+            if (items.length > 0) {
+              const {
+                bomCostingDate,
+                bomCostingNumber,
+                bomCostingType,
+                bomCostingVersion,
+                bomEnteredManually,
+                bomReferenceObject,
+                bomValuationVariant,
+              } = items[0];
+              const bomIdentifier = {
+                bomCostingDate,
+                bomCostingNumber,
+                bomCostingType,
+                bomCostingVersion,
+                bomEnteredManually,
+                bomReferenceObject,
+                bomValuationVariant,
+              };
+
+              this.store.dispatch(loadBom({ bomIdentifier }));
+            }
+          }),
+          map((items: Calculation[]) => loadCalculationsSuccess({ items })),
           catchError((_e) => of(loadCalculationsFailure()))
         )
       )

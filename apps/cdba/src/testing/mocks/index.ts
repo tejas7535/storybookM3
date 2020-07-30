@@ -6,3 +6,4 @@ export * from './customer-details.mock';
 export * from './quantities-detail.mock';
 export * from './production-details.mock';
 export * from './calculations-type.mock';
+export * from './bom.mock';
