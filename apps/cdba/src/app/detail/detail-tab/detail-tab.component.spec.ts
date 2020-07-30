@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -31,6 +32,7 @@ describe('DetailTabComponent', () => {
         ProductionModule,
         QuantitiesModule,
         SalesAndDescriptionModule,
+        UnderConstructionModule,
       ],
       declarations: [DetailTabComponent],
       providers: [

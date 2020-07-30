@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -26,6 +27,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     CustomerModule,
     QuantitiesModule,
     ProductionModule,
+    UnderConstructionModule,
   ],
 })
 export class DetailTabModule {}
