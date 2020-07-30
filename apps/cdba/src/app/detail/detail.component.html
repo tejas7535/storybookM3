@@ -4,7 +4,7 @@
       fontSet="schaeffler-icons"
       fontIcon="icon-arrow-west"
       color="secondary"
-      (click)="backToSearch()"
+      routerLink="/search"
     ></mat-icon>
     <h1 *ngIf="referenceType$ | async">
       {{ (referenceType$ | async)?.materialDesignation }} |

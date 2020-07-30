@@ -1,4 +1,3 @@
-import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -31,17 +30,10 @@ export class DetailComponent implements OnInit {
     // { label: 'tabs.drawings', link: DetailRoutePath.DrawingsPath },
   ];
 
-  public constructor(
-    private readonly store: Store<DetailState>,
-    private readonly location: Location
-  ) {}
+  public constructor(private readonly store: Store<DetailState>) {}
 
   public ngOnInit(): void {
     this.referenceType$ = this.store.pipe(select(getReferenceType));
-  }
-
-  public backToSearch(): void {
-    this.location.back();
   }
 
   /**
