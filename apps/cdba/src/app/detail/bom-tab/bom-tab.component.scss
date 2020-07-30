@@ -5,8 +5,8 @@
   width: 100%;
 
   mat-card {
-    height: 100%;
-    width: 100%;
+    height: calc(100% - 32px);
+    width: calc(100% - 32px);
 
     .mat-card-inner {
       height: 100%;

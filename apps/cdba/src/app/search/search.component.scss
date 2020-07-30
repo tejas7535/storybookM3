@@ -1,9 +1,16 @@
+@import 'libs/shared/styles/src/lib/mediaqueries';
+
 :host {
   width: 100%;
 }
 
 .container {
   height: 100%;
+  margin: 30px;
+
+  @media screen and (max-width: $screen-sm-max) {
+    margin: 30px 20px;
+  }
 }
 
 .too-many-results-group {

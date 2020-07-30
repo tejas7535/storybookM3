@@ -4,12 +4,10 @@
     [user]="username$ | async"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
-  <div class="page-container">
-    <div class="site-content">
-      <div class="router-content">
-        <router-outlet></router-outlet>
-      </div>
-      <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
+  <div class="site-content">
+    <div class="router-content">
+      <router-outlet></router-outlet>
     </div>
+    <schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
   </div>
 </schaeffler-header>
