@@ -32,7 +32,7 @@ export class DetailComponent implements OnInit {
     { label: 'tabs.detail', link: DetailRoutePath.DetailsPath },
     { label: 'tabs.billOfMaterial', link: DetailRoutePath.BomPath },
     { label: 'tabs.calculations', link: DetailRoutePath.CalculationsPath },
-    { label: 'tabs.drawings', link: DetailRoutePath.DrawingsPath },
+    // { label: 'tabs.drawings', link: DetailRoutePath.DrawingsPath },
   ];
 
   public constructor(

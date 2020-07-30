@@ -28,13 +28,13 @@ const routes: Routes = [
             (m) => m.CalculationsTabModule
           ),
       },
-      {
-        path: DetailRoutePath.DrawingsPath,
-        loadChildren: () =>
-          import('./drawings-tab/drawings-tab.module').then(
-            (m) => m.DrawingsTabModule
-          ),
-      },
+      // {
+      //   path: DetailRoutePath.DrawingsPath,
+      //   loadChildren: () =>
+      //     import('./drawings-tab/drawings-tab.module').then(
+      //       (m) => m.DrawingsTabModule
+      //     ),
+      // },
       {
         path: '',
         redirectTo: DetailRoutePath.DetailsPath,
