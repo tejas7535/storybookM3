@@ -9,7 +9,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
-import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
@@ -24,7 +23,6 @@ import { DetailComponent } from './detail.component';
     StoreModule.forFeature('detail', detailReducer),
     MatIconModule,
     EffectsModule.forFeature([DetailEffects]),
-    BlockUiModule,
   ],
 })
 export class DetailModule {}

@@ -7,10 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../core/store/reducers/detail/detail.reducer';
 import { ReferenceType } from '../core/store/reducers/shared/models';
-import {
-  getReferenceType,
-  getReferenceTypeLoading,
-} from '../core/store/selectors';
+import { getReferenceType } from '../core/store/selectors';
 import { DetailRoutePath } from './detail-route-path.enum';
 
 interface Tab {
@@ -24,7 +21,6 @@ interface Tab {
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
-  public loading$: Observable<boolean>;
   public referenceType$: Observable<ReferenceType>;
   public activeRoutPath$: Observable<string>;
 
@@ -42,7 +38,6 @@ export class DetailComponent implements OnInit {
 
   public ngOnInit(): void {
     this.referenceType$ = this.store.pipe(select(getReferenceType));
-    this.loading$ = this.store.pipe(select(getReferenceTypeLoading));
   }
 
   public backToSearch(): void {
