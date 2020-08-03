@@ -10,6 +10,7 @@ import {
   FilterItemIdValue,
   FilterItemIdValueUpdate,
   FilterItemRangeUpdate,
+  FilterItemType,
   IdValue,
   SearchResult,
   TextSearch,
@@ -41,7 +42,17 @@ export class SearchService {
   public search(
     items: (FilterItemRangeUpdate | FilterItemIdValueUpdate)[]
   ): Observable<SearchResult> {
-    return this.dataService.post<SearchResult>(this.SEARCH, { items });
+    return this.dataService
+      .post<SearchResult>(this.SEARCH, { items })
+      .pipe(
+        map((result: SearchResult) => ({
+          ...result,
+          filters: result.filters.filter(
+            (filterItem: FilterItem) =>
+              filterItem.type === FilterItemType.ID_VALUE
+          ),
+        }))
+      );
   }
 
   public autocomplete(

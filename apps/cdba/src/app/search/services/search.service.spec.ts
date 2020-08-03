@@ -10,6 +10,8 @@ import { DataService } from '../../core/http/data.service';
 import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import {
   FilterItem,
+  FilterItemIdValue,
+  FilterItemRange,
   IdValue,
   SearchResult,
   TextSearch,
@@ -69,6 +71,21 @@ describe('SearchService', () => {
 
       service.search([]).subscribe((response) => {
         expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne('/search');
+      expect(req.request.method).toBe('POST');
+      req.flush(mock);
+    });
+
+    test('should filter range filter', () => {
+      const idValueFilter = new FilterItemIdValue('IdValue', [], false);
+      const rangeFilter = new FilterItemRange('Range', 0, 100, 10, 90, 'mm');
+      const mock = new SearchResult([idValueFilter, rangeFilter], [], 0);
+
+      service.search([]).subscribe((response) => {
+        expect(response.filters).toEqual([idValueFilter]);
+        expect(response.filters).not.toContain(rangeFilter);
       });
 
       const req = httpMock.expectOne('/search');
