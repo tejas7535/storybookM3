@@ -16,6 +16,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BomItem } from '../../core/store/reducers/detail/models';
 import { getBomItems } from '../../core/store/selectors/details/detail.selector';
+import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../../shared/table/custom-overlay/custom-overlay.module';
 import { BomTabComponent } from './bom-tab.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -32,8 +34,9 @@ describe('BomTabComponent', () => {
       imports: [
         MatCardModule,
         MatIconModule,
-        AgGridModule.withComponents([]),
+        AgGridModule.withComponents([CustomLoadingOverlayComponent]),
         provideTranslocoTestingModule({}),
+        CustomOverlayModule,
       ],
       declarations: [BomTabComponent],
       providers: [
@@ -76,6 +79,7 @@ describe('BomTabComponent', () => {
       const params: IStatusPanelParams = {
         api: ({
           addEventListener: jest.fn(),
+          showLoadingOverlay: jest.fn(),
         } as unknown) as GridApi,
         columnApi: ({} as unknown) as ColumnApi,
         context: {},
@@ -86,6 +90,7 @@ describe('BomTabComponent', () => {
       expect(component['gridApi']).toEqual(params.api);
       expect(component['gridColumnApi']).toEqual(params.columnApi);
       expect(params.api.addEventListener).toHaveBeenCalled();
+      expect(params.api.showLoadingOverlay).toHaveBeenCalled();
     });
   });
 

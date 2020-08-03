@@ -31,6 +31,11 @@
         [suppressCellSelection]="suppressCellSelection"
         (rowClicked)="onRowClicked($event)"
         [rowClassRules]="rowClassRules"
+        [frameworkComponents]="frameworkComponents"
+        [loadingOverlayComponent]="loadingOverlayComponent"
+        [suppressNoRowsOverlay]="
+          (bomItems$ | async) === undefined || (bomLoading$ | async) === true
+        "
       >
       </ag-grid-angular>
     </div>

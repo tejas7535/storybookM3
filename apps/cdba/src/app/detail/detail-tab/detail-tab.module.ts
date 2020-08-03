@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';
@@ -28,6 +29,7 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     QuantitiesModule,
     ProductionModule,
     UnderConstructionModule,
+    LoadingSpinnerModule,
   ],
 })
 export class DetailTabModule {}

@@ -1,7 +1,7 @@
-<div class="widget-content" *ngIf="salesDetails$ | async">
+<div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('salesAndDescription.title') }}</h6>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="salesDetails$ | async">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialDesignation') }}:&nbsp;
@@ -27,7 +27,7 @@
         <div>{{ (salesDetails$ | async)?.productLine }}</div>
       </div>
     </div>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="salesDetails$ | async">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.rfq') }}:&nbsp;
@@ -43,7 +43,7 @@
         </div>
       </div>
     </div>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="salesDetails$ | async">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.projectName') }}:&nbsp;
@@ -51,7 +51,7 @@
         <div fxFlex="100%">{{ (salesDetails$ | async)?.projectName }}</div>
       </div>
     </div>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="salesDetails$ | async">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.productDescription') }}:&nbsp;

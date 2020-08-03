@@ -16,7 +16,11 @@ import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import { BomItem } from '../../core/store/reducers/detail/models';
-import { getBomItems } from '../../core/store/selectors/details/detail.selector';
+import {
+  getBomItems,
+  getBomLoading,
+} from '../../core/store/selectors/details/detail.selector';
+import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 
 @Component({
   selector: 'cdba-bom-tab',
@@ -28,6 +32,7 @@ export class BomTabComponent implements OnInit {
   private gridColumnApi: ColumnApi;
 
   bomItems$: Observable<BomItem[]>;
+  bomLoading$: Observable<boolean>;
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -132,10 +137,16 @@ export class BomTabComponent implements OnInit {
     },
   };
 
+  frameworkComponents = {
+    customLoadingOverlay: CustomLoadingOverlayComponent,
+  };
+  loadingOverlayComponent = 'customLoadingOverlay';
+
   public constructor(private readonly store: Store<DetailState>) {}
 
   ngOnInit(): void {
     this.bomItems$ = this.store.pipe(select(getBomItems));
+    this.bomLoading$ = this.store.pipe(select(getBomLoading));
   }
 
   onGridReady(params: IStatusPanelParams): void {
@@ -146,6 +157,8 @@ export class BomTabComponent implements OnInit {
       'rowGroupOpened',
       this.onRowGroupOpened.bind(this)
     );
+
+    params.api.showLoadingOverlay();
   }
 
   getDataPath(data: BomItem): string[] {

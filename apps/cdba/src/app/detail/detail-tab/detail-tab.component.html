@@ -10,9 +10,15 @@
 >
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
     <cdba-sales-and-description></cdba-sales-and-description>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
     <cdba-dimension-and-weight></cdba-dimension-and-weight>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="auto / span 3"
@@ -21,6 +27,9 @@
     gdRow.lt-md="15 / span 7"
   >
     <cdba-customer> </cdba-customer>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="auto / span 6"
@@ -48,6 +57,9 @@
     gdRow.xs="22 / span 6"
   >
     <cdba-pricing></cdba-pricing>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="4 / span 3"
@@ -58,6 +70,9 @@
     gdRow.xs="28 / span 8"
   >
     <cdba-quantities></cdba-quantities>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="7 / span 3"
@@ -68,5 +83,8 @@
     gdRow.xs="36 / span 7"
   >
     <cdba-production></cdba-production>
+    <cdba-loading-spinner
+      [show]="(isLoading$ | async) === true"
+    ></cdba-loading-spinner>
   </mat-card>
 </div>

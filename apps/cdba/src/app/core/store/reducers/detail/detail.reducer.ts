@@ -41,7 +41,7 @@ export const initialState: DetailState = {
   },
   bom: {
     loading: false,
-    items: [],
+    items: undefined,
   },
 };
 
@@ -86,6 +86,7 @@ export const detailReducer = createReducer(
     ...state,
     calculations: {
       ...state.calculations,
+      items: [],
       loading: false,
     },
   })),
@@ -108,6 +109,7 @@ export const detailReducer = createReducer(
     ...state,
     bom: {
       ...state.bom,
+      items: [],
       loading: false,
     },
   }))

@@ -14,6 +14,7 @@ import {
 } from '../../reducers/detail/detail.reducer';
 import {
   getBomItems,
+  getBomLoading,
   getCalculations,
   getCalculationsLoading,
   getCustomerDetails,
@@ -153,7 +154,13 @@ describe('Detail Selector', () => {
 
   describe('getBomItems', () => {
     test('should return bom entries', () => {
-      expect(getBomItems(initialDetailState)).toEqual([]);
+      expect(getBomItems(initialDetailState)).toBeUndefined();
+    });
+  });
+
+  describe('getBomLoading', () => {
+    test('should return bom loading status', () => {
+      expect(getBomLoading(initialDetailState)).toBeFalsy();
     });
   });
 });
