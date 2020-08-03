@@ -59,4 +59,21 @@ describe('DetailComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    it('should set referenceType$ observable', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.referenceType$).toBeDefined();
+    });
+  });
+
+  describe('trackByFn', () => {
+    it('should return index', () => {
+      const result = component.trackByFn(3);
+
+      expect(result).toEqual(3);
+    });
+  });
 });

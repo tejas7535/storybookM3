@@ -1,7 +1,7 @@
-<div class="widget-content" *ngIf="quantitiesDetails$ | async">
+<div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('quantities.title') }}</h6>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="quantitiesDetails$ | async">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('quantities.pcmQuantity') }}:&nbsp;</label
@@ -51,7 +51,7 @@
         </div>
       </div>
     </div>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="quantitiesDetails$ | async">
       <div
         fxLayout="row wrap"
         *ngIf="(quantitiesDetails$ | async)?.actualQuantities.length"
@@ -117,7 +117,7 @@
         </div>
       </div>
     </div>
-    <div class="widget-group">
+    <div class="widget-group" *ngIf="quantitiesDetails$ | async">
       <div
         fxLayout="row wrap"
         *ngIf="(quantitiesDetails$ | async)?.plannedQuantities.length"

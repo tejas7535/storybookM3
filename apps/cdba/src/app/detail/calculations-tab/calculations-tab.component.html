@@ -1,9 +1,6 @@
-<div *ngIf="(loading$ | async) === false; else blockUi" class="container">
+<div class="container">
   <cdba-calculation-table
     [rowData]="calculations$ | async"
+    [isLoading]="loading$ | async"
   ></cdba-calculation-table>
 </div>
-
-<ng-template #blockUi>
-  <cdba-block-ui></cdba-block-ui>
-</ng-template>

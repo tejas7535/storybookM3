@@ -7,6 +7,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabComponent } from './detail-tab.component';
@@ -33,6 +34,7 @@ describe('DetailTabComponent', () => {
         QuantitiesModule,
         SalesAndDescriptionModule,
         UnderConstructionModule,
+        LoadingSpinnerModule,
       ],
       declarations: [DetailTabComponent],
       providers: [
@@ -53,5 +55,14 @@ describe('DetailTabComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should set isLoading$', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.isLoading$).toBeDefined();
+    });
   });
 });

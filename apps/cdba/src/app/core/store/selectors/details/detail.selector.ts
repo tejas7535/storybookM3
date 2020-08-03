@@ -128,3 +128,8 @@ export const getBomItems = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.items
 );
+
+export const getBomLoading = createSelector(
+  getDetailState,
+  (state: DetailState) => state.bom.loading
+);

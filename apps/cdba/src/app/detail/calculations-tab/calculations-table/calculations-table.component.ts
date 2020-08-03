@@ -5,6 +5,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  IStatusPanelParams,
   MenuItemDef,
   SideBarDef,
   SortChangedEvent,
@@ -25,6 +26,7 @@ import { Calculation } from '../../../core/store/reducers/shared/models/calculat
 import { SortState } from '../../../search/reference-types-table/sort-state';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service';
 import { SIDE_BAR_CONFIG } from '../../../shared/table';
+import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
@@ -44,6 +46,7 @@ export class CalculationsTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'calculations';
 
   @Input() rowData: Calculation[];
+  @Input() isLoading: boolean;
 
   public modules = [
     ClientSideRowModelModule,
@@ -66,7 +69,10 @@ export class CalculationsTableComponent implements OnChanges {
   public frameworkComponents = {
     detailViewButtonComponent: DetailViewButtonComponent,
     bomViewButtonComponent: BomViewButtonComponent,
+    customLoadingOverlay: CustomLoadingOverlayComponent,
   };
+
+  public loadingOverlayComponent = 'customLoadingOverlay';
 
   public statusBar: {
     statusPanels: StatusPanelDef[];
@@ -97,7 +103,7 @@ export class CalculationsTableComponent implements OnChanges {
   public constructor(private readonly agGridStateService: AgGridStateService) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rowData) {
+    if (changes.rowData && changes.rowData.currentValue) {
       // get updated default column definitions
       const updatedDefaultColumnDefinitions = CalculationsTableComponent.getUpdatedDefaultColumnDefinitions(
         changes.rowData.currentValue
@@ -193,5 +199,9 @@ export class CalculationsTableComponent implements OnChanges {
     });
 
     this.columnDefs = columnDefinitions;
+  }
+
+  onGridReady(params: IStatusPanelParams): void {
+    params.api.showLoadingOverlay();
   }
 }

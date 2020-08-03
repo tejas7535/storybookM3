@@ -6,6 +6,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared/shared.module';
+import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../../../shared/table/custom-overlay/custom-overlay.module';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../../../shared/table/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
@@ -20,8 +22,10 @@ import { CalculationsTableComponent } from './calculations-table.component';
     AgGridModule.withComponents([
       DetailViewButtonComponent,
       BomViewButtonComponent,
+      CustomLoadingOverlayComponent,
     ]),
     MatCardModule,
+    CustomOverlayModule,
   ],
   exports: [CalculationsTableComponent],
 })

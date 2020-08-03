@@ -9,6 +9,8 @@ import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
+import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../../shared/table/custom-overlay/custom-overlay.module';
 import { BomTabRoutingModule } from './bom-tab-routing.module';
 import { BomTabComponent } from './bom-tab.component';
 
@@ -22,7 +24,8 @@ import { BomTabComponent } from './bom-tab.component';
     IconsModule,
     MatButtonModule,
     SharedTranslocoModule,
-    AgGridModule.withComponents([]),
+    AgGridModule.withComponents([CustomLoadingOverlayComponent]),
+    CustomOverlayModule,
   ],
 })
 export class BomTabModule {}

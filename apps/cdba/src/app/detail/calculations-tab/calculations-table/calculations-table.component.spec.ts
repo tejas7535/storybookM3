@@ -9,6 +9,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  IStatusPanelParams,
   MenuItemDef,
   SortChangedEvent,
 } from '@ag-grid-community/core';
@@ -22,6 +23,8 @@ import {
 import { CALCULATIONS_TYPE_MOCK } from '../../../../testing/mocks';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../../../shared/table/custom-overlay/custom-overlay.module';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../../../shared/table/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
@@ -48,12 +51,14 @@ describe('CalculationsTableComponent', () => {
         AgGridModule.withComponents([
           DetailViewButtonComponent,
           BomViewButtonComponent,
+          CustomLoadingOverlayComponent,
         ]),
         MatCardModule,
         MatIconModule,
         RouterTestingModule,
         provideTranslocoTestingModule({}),
         CustomStatusBarModule,
+        CustomOverlayModule,
       ],
       declarations: [CalculationsTableComponent],
       providers: [
@@ -322,6 +327,20 @@ describe('CalculationsTableComponent', () => {
       );
 
       expect(component.columnDefs).toEqual(expected);
+    });
+  });
+
+  describe('onGridReady', () => {
+    it('should show loading overlay when loading data', () => {
+      const params = ({
+        api: {
+          showLoadingOverlay: jest.fn(),
+        },
+      } as unknown) as IStatusPanelParams;
+
+      component.onGridReady(params);
+
+      expect(params.api.showLoadingOverlay).toHaveBeenCalled();
     });
   });
 });

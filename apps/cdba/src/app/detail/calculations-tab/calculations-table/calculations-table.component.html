@@ -28,6 +28,9 @@
         (columnVisible)="columnChange($event)"
         (columnPinned)="columnChange($event)"
         (sortChanged)="sortChange($event)"
+        [loadingOverlayComponent]="loadingOverlayComponent"
+        [suppressNoRowsOverlay]="rowData === undefined || isLoading"
+        (gridReady)="onGridReady($event)"
       >
       </ag-grid-angular>
     </div>
