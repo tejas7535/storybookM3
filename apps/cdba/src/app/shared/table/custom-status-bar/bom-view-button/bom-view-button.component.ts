@@ -36,7 +36,8 @@ export class BomViewButtonComponent {
   showBomView(): void {
     this.router.navigate(['/detail/bom'], {
       queryParams: {
-        'material-number': this.selections[0].materialNumber,
+        material_number: this.selections[0].materialNumber,
+        plant: this.selections[0].plant,
       },
     });
   }

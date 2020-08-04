@@ -40,14 +40,18 @@ export class DetailEffects {
             loadReferenceType({
               referenceTypeId: {
                 materialNumber:
-                  routerState.state.queryParams['material-number'],
+                  routerState.state.queryParams['material_number'],
                 plant: routerState.state.queryParams.plant,
+                rfq: routerState.state.queryParams.rfq,
+                pcmCalculationDate:
+                  routerState.state.queryParams['pcm_calculation_date'],
+                pcmQuantity: routerState.state.queryParams['pcm_quantity'],
               },
             })
           );
           this.store.dispatch(
             loadCalculations({
-              materialNumber: routerState.state.queryParams['material-number'],
+              materialNumber: routerState.state.queryParams['material_number'],
             })
           );
         })
@@ -60,7 +64,7 @@ export class DetailEffects {
     return this.actions$.pipe(
       ofType(loadReferenceType),
       mergeMap((action) =>
-        this.detailService.detail(action.referenceTypeId).pipe(
+        this.detailService.getDetails(action.referenceTypeId).pipe(
           map((item: ReferenceTypeResultModel) =>
             loadReferenceTypeSuccess({ item })
           ),
