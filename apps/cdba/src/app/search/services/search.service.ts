@@ -27,6 +27,7 @@ export class SearchService {
   private readonly SEARCH = 'search';
 
   private readonly POSSIBLE_FILTER = 'possible-filter';
+  private readonly PARAM_SEARCH_FOR = 'search_for';
 
   public constructor(
     private readonly dataService: DataService,
@@ -59,7 +60,10 @@ export class SearchService {
     textSearch: TextSearch,
     selectedOptions: IdValue[]
   ): Observable<FilterItemIdValue> {
-    const httpParams = new HttpParams().set('search_for', textSearch.value);
+    const httpParams = new HttpParams().set(
+      this.PARAM_SEARCH_FOR,
+      textSearch.value
+    );
 
     return this.dataService
       .getAll<FilterItemIdValue>(

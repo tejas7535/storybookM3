@@ -23,17 +23,20 @@ export class DetailService {
 
   private readonly CALCULATIONS = 'calculations';
 
-  private readonly PARAM_MATERIAL_NUMBER = 'material-number';
+  private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
+  private readonly PARAM_RFQ = 'rfq';
+  private readonly PARAM_PCM_CALCULATION_DATE = 'pcm_calculation_date'; // == RFQ Date
+  private readonly PARAM_PCM_QUANTITY = 'pcm_quantity'; // RFQ Volume
 
   private readonly BOM = 'bom';
-  private readonly PARAM_BOM_COSTING_DATE = 'bom-costing-date';
-  private readonly PARAM_BOM_COSTING_NUMBER = 'bom-costing-number';
-  private readonly PARAM_BOM_COSTING_TYPE = 'bom-costing-type';
-  private readonly PARAM_BOM_COSTING_VERSION = 'bom-costing-version';
-  private readonly PARAM_BOM_ENTERED_MANUALLY = 'bom-entered-manually';
-  private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom-reference-object';
-  private readonly PARAM_BOM_VALUATION_VARIANT = 'bom-valuation-variant';
+  private readonly PARAM_BOM_COSTING_DATE = 'bom_costing_date';
+  private readonly PARAM_BOM_COSTING_NUMBER = 'bom_costing_number';
+  private readonly PARAM_BOM_COSTING_TYPE = 'bom_costing_type';
+  private readonly PARAM_BOM_COSTING_VERSION = 'bom_costing_version';
+  private readonly PARAM_BOM_ENTERED_MANUALLY = 'bom_entered_manually';
+  private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
+  private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
   private static defineBomTreeForAgGrid(
     items: BomItem[],
@@ -103,12 +106,22 @@ export class DetailService {
 
   public constructor(private readonly dataService: DataService) {}
 
-  public detail(
+  public getDetails(
     item: ReferenceTypeIdModel
   ): Observable<ReferenceTypeResultModel> {
-    const params: HttpParams = new HttpParams()
+    let params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant);
+
+    // set RFQ information if available
+    if (item.rfq && item.pcmCalculationDate && item.pcmQuantity) {
+      params = params.append(this.PARAM_RFQ, item.rfq);
+      params = params.append(
+        this.PARAM_PCM_CALCULATION_DATE,
+        String(item.pcmCalculationDate)
+      );
+      params = params.append(this.PARAM_PCM_QUANTITY, String(item.pcmQuantity));
+    }
 
     return this.dataService.getAll<ReferenceTypeResultModel>(
       this.DETAIL,

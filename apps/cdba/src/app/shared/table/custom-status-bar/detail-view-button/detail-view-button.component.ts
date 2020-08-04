@@ -36,7 +36,11 @@ export class DetailViewButtonComponent {
   showDetailView(): void {
     this.router.navigate(['/detail/detail'], {
       queryParams: {
-        'material-number': this.selections[0].materialNumber,
+        material_number: this.selections[0].materialNumber,
+        plant: this.selections[0].plant,
+        rfq: this.selections[0].rfq || '',
+        pcm_calculation_date: this.selections[0].pcmCalculationDate || '',
+        pcm_quantity: this.selections[0].pcmQuantity || '',
       },
     });
   }

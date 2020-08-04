@@ -48,15 +48,52 @@ describe('DetailService', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  describe('detail', () => {
+  describe('getDetails', () => {
     test('should get detail result', () => {
       const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
       const expectedParams = new HttpParams()
-        .set('material-number', '10000')
-        .set('plant', 'IWS');
+        .set('material_number', mock.referenceTypeDto.materialNumber)
+        .set('plant', mock.referenceTypeDto.plant);
 
       service
-        .detail(new ReferenceTypeIdModel('10000', 'IWS'))
+        .getDetails(
+          new ReferenceTypeIdModel(
+            mock.referenceTypeDto.materialNumber,
+            mock.referenceTypeDto.plant
+          )
+        )
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
+
+      const req = httpMock.expectOne(`/detail?${expectedParams.toString()}`);
+      expect(req.request.method).toBe('GET');
+      expect(req.request.params).toEqual(expectedParams);
+      req.flush(mock);
+    });
+
+    test('should include RFQ info if provided', () => {
+      const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
+      const expectedParams = new HttpParams()
+        .set('material_number', mock.referenceTypeDto.materialNumber)
+        .set('plant', mock.referenceTypeDto.plant)
+        .set('rfq', mock.referenceTypeDto.rfq)
+        .set(
+          'pcm_calculation_date',
+          String(mock.referenceTypeDto.pcmCalculationDate)
+        )
+        .set('pcm_quantity', String(mock.referenceTypeDto.pcmQuantity));
+
+      service
+        .getDetails(
+          new ReferenceTypeIdModel(
+            mock.referenceTypeDto.materialNumber,
+            mock.referenceTypeDto.plant,
+            mock.referenceTypeDto.rfq,
+            mock.referenceTypeDto.pcmCalculationDate,
+            mock.referenceTypeDto.pcmQuantity
+          )
+        )
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
@@ -76,7 +113,7 @@ describe('DetailService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/calculations?material-number=');
+      const req = httpMock.expectOne('/calculations?material_number=');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -100,7 +137,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/bom?bom-costing-date=${bomIdentifier.bomCostingDate}&bom-costing-number=${bomIdentifier.bomCostingNumber}&bom-costing-type=${bomIdentifier.bomCostingType}&bom-costing-version=${bomIdentifier.bomCostingVersion}&bom-entered-manually=${bomIdentifier.bomEnteredManually}&bom-reference-object=${bomIdentifier.bomReferenceObject}&bom-valuation-variant=${bomIdentifier.bomValuationVariant}`
+        `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

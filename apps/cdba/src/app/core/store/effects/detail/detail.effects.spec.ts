@@ -78,11 +78,11 @@ describe('Detail Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      detailService.detail = jest.fn(() => response);
+      detailService.getDetails = jest.fn(() => response);
 
       expect(effects.referenceType$).toBeObservable(expected);
-      expect(detailService.detail).toHaveBeenCalledTimes(1);
-      expect(detailService.detail).toHaveBeenCalledWith(
+      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
+      expect(detailService.getDetails).toHaveBeenCalledWith(
         new ReferenceTypeIdModel('12345', 'IWS')
       );
     });
@@ -95,10 +95,10 @@ describe('Detail Effects', () => {
       const response = cold('-#|', undefined, error);
       const expected = cold('--b', { b: result });
 
-      detailService.detail = jest.fn(() => response);
+      detailService.getDetails = jest.fn(() => response);
 
       expect(effects.referenceType$).toBeObservable(expected);
-      expect(detailService.detail).toHaveBeenCalledTimes(1);
+      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -179,8 +179,8 @@ describe('Detail Effects', () => {
       detailService.calculations = jest.fn(() => response);
 
       expect(effects.calculations$).toBeObservable(expected);
-      expect(detailService.detail).toHaveBeenCalledTimes(1);
-      expect(detailService.detail).toHaveBeenCalledWith(
+      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
+      expect(detailService.getDetails).toHaveBeenCalledWith(
         new ReferenceTypeIdModel('12345', 'IWS')
       );
 
@@ -201,8 +201,8 @@ describe('Detail Effects', () => {
       detailService.calculations = jest.fn(() => response);
 
       expect(effects.calculations$).toBeObservable(expected);
-      expect(detailService.detail).toHaveBeenCalledTimes(1);
-      expect(detailService.detail).toHaveBeenCalledWith(
+      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
+      expect(detailService.getDetails).toHaveBeenCalledWith(
         new ReferenceTypeIdModel('12345', 'IWS')
       );
       expect(store.dispatch).not.toHaveBeenCalled();
@@ -219,7 +219,7 @@ describe('Detail Effects', () => {
       detailService.calculations = jest.fn(() => response);
 
       expect(effects.calculations$).toBeObservable(expected);
-      expect(detailService.detail).toHaveBeenCalledTimes(1);
+      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
     });
   });
 });
