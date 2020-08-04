@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
+import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
