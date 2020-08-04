@@ -54,9 +54,7 @@ export const testRoutes: Routes = [
   {
     path: '**',
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then(
-        (m) => m.PageNotFoundModule
-      ),
+      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];
 

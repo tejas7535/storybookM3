@@ -26,7 +26,7 @@ export const appRoutes: Routes = [
   {
     path: AppRoutePath.ForbiddenPath,
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then((m) => m.ForbiddenModule),
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     data: {
       action: encodeURI(FORBIDDEN_ACTION),
     },
@@ -34,9 +34,7 @@ export const appRoutes: Routes = [
   {
     path: '**',
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then(
-        (m) => m.PageNotFoundModule
-      ),
+      import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];
 

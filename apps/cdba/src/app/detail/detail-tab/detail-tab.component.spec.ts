@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { UnderConstructionModule } from '@schaeffler/shared/empty-states';
+import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';

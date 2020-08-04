@@ -33,10 +33,6 @@
     "shared-cypress-utils": {
       "tags": ["scope:shared", "type:utils"]
     },
-    "shared-empty-states": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
-    },
     "ltp-e2e": {
       "tags": [],
       "implicitDependencies": ["ltp"]
@@ -63,10 +59,6 @@
     "cdba-e2e": {
       "tags": [],
       "implicitDependencies": ["cdba"]
-    },
-    "shared-empty-states-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-empty-states"]
     },
     "shared-ui-header": {
       "tags": ["scope:shared", "type:ui"],
@@ -138,6 +130,9 @@
     },
     "shared-utils-auth": {
       "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-ui-empty-states": {
+      "tags": ["scope:shared", "type:ui"]
     }
   },
   "tasksRunnerOptions": {

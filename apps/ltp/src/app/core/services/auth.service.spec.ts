@@ -1,9 +1,9 @@
-import { NEVER, of } from 'rxjs';
-
 import { Injector } from '@angular/core';
 import { async, TestBed } from '@angular/core/testing';
 import { Route, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { NEVER, of } from 'rxjs';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
@@ -20,10 +20,8 @@ describe('AuthService', () => {
     {
       path: '**',
       loadChildren: () =>
-        import('@schaeffler/shared/empty-states').then(
-          m => m.PageNotFoundModule
-        )
-    }
+        import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
+    },
   ];
 
   configureTestSuite(() => {
@@ -49,11 +47,11 @@ describe('AuthService', () => {
               .mockImplementation(() => Promise.resolve(true)),
             silentRefresh: jest
               .fn()
-              .mockImplementation(() => Promise.resolve(true))
-          }
+              .mockImplementation(() => Promise.resolve(true)),
+          },
         },
-        Injector
-      ]
+        Injector,
+      ],
     });
   });
 
@@ -97,7 +95,7 @@ describe('AuthService', () => {
 
       expect(service.silentRefresh).toHaveBeenCalledTimes(1);
       expect(service['navigateToState']).toHaveBeenCalledTimes(1);
-      service.isAuthenticated$.subscribe(val => {
+      service.isAuthenticated$.subscribe((val) => {
         expect(val).toBeTruthy();
       });
     });
@@ -132,7 +130,7 @@ describe('AuthService', () => {
       oAuthService.hasValidAccessToken = jest
         .fn()
         .mockImplementation(() => false);
-      service.isAuthenticated$.subscribe(a => (authenticated = a));
+      service.isAuthenticated$.subscribe((a) => (authenticated = a));
     });
 
     test('should navigate to state on token_received', async(() => {
@@ -170,7 +168,7 @@ describe('AuthService', () => {
       window.dispatchEvent(
         new StorageEvent('storage', {
           key: 'access_token',
-          newValue: 'test_value'
+          newValue: 'test_value',
         })
       );
 
@@ -190,7 +188,7 @@ describe('AuthService', () => {
       window.dispatchEvent(
         new StorageEvent('storage', {
           key: 'access_token',
-          newValue: 'test_value'
+          newValue: 'test_value',
         })
       );
 
@@ -247,7 +245,7 @@ describe('AuthService', () => {
 
       expect.assertions(1);
 
-      return service['silentRefresh']().then(_ => {
+      return service['silentRefresh']().then((_) => {
         expect(oAuthService['initImplicitFlow']).toHaveBeenCalledTimes(1);
       });
     });
@@ -267,7 +265,7 @@ describe('AuthService', () => {
         .mockImplementation(() => false);
       service['navigateToState'] = jest.fn();
       service['isAuthenticatedSubject$'].next(false);
-      service.isDoneLoading$.subscribe(val => (isDoneLoading = val));
+      service.isDoneLoading$.subscribe((val) => (isDoneLoading = val));
     });
 
     test('should set isDoneLoading and automatic silent refresh', async () => {
@@ -337,40 +335,40 @@ describe('AuthService', () => {
   });
 
   describe('getUserName', () => {
-    test('should return undefined when not authenticated', done => {
+    test('should return undefined when not authenticated', (done) => {
       service['isAuthenticatedSubject$'].next(false);
 
-      service.getUserName().subscribe(username => {
+      service.getUserName().subscribe((username) => {
         expect(username).toBeUndefined();
         done();
       });
     });
 
-    test('should return undefined when decoding access token fails', done => {
+    test('should return undefined when decoding access token fails', (done) => {
       service['isAuthenticatedSubject$'].next(true);
 
       AuthService['getDecodedAccessToken'] = jest
         .fn()
         .mockImplementation(() => undefined);
 
-      service.getUserName().subscribe(username => {
+      service.getUserName().subscribe((username) => {
         expect(username).toBeUndefined();
         expect(AuthService['getDecodedAccessToken']).toHaveBeenCalled();
         done();
       });
     });
 
-    test('should return username', done => {
+    test('should return username', (done) => {
       service['isAuthenticatedSubject$'].next(true);
 
       AuthService['getDecodedAccessToken'] = jest
         .fn()
         .mockImplementation(() => ({
           given_name: 'given name',
-          family_name: 'family name'
+          family_name: 'family name',
         }));
 
-      service.getUserName().subscribe(username => {
+      service.getUserName().subscribe((username) => {
         expect(username).toBeDefined();
         expect(AuthService['getDecodedAccessToken']).toHaveBeenCalled();
         done();

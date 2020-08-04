@@ -29,9 +29,6 @@
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"
       ],
-      "@schaeffler/shared/empty-states": [
-        "libs/shared/empty-states/src/index.ts"
-      ],
       "jszip": ["node_modules/jszip/dist/jszip.min.js"],
       "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
       "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
@@ -55,7 +52,8 @@
       "@schaeffler/shared/ui/storybook": [
         "libs/shared/ui/storybook/src/index.ts"
       ],
-      "@schaeffler/auth": ["libs/shared/utils/auth/src/index.ts"]
+      "@schaeffler/auth": ["libs/shared/utils/auth/src/index.ts"],
+      "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
