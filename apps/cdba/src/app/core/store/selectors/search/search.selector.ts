@@ -133,3 +133,8 @@ export const getAutocompleteLoading = createSelector(
   getSearchState,
   (state: SearchState) => state.filters.autocompleteLoading
 );
+
+export const getIsDirty = createSelector(
+  getSearchState,
+  (state: SearchState) => state.filters.dirty
+);

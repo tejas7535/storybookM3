@@ -305,6 +305,22 @@ describe('Search Reducer', () => {
 
       expect(state.filters.items.entities.customer).toEqual(item);
     });
+
+    test('should set dirty flag to true', () => {
+      const item = new FilterItemIdValue(
+        'customer',
+        [new IdValue('audi', 'Audi', false), new IdValue('vw', 'VW', false)],
+        true
+      );
+      const fakeState = {
+        ...initialState,
+      };
+
+      const action = updateFilter({ item });
+      const state = searchReducer(fakeState, action);
+
+      expect(state.filters.dirty).toBeTruthy();
+    });
   });
 
   describe('resetFilters', () => {
@@ -374,6 +390,21 @@ describe('Search Reducer', () => {
         },
       });
       expect(state.referenceTypes.items).toEqual(undefined);
+    });
+
+    test('should set dirty flag to false', () => {
+      const fakeState = {
+        ...initialState,
+        filters: {
+          ...initialState.filters,
+          dirty: true,
+        },
+      };
+
+      const action = resetFilters();
+      const state = searchReducer(fakeState, action);
+
+      expect(state.filters.dirty).toEqual(false);
     });
   });
 

@@ -29,7 +29,7 @@
     <button
       fxFlex="nogrow"
       mat-stroked-button
-      [disabled]="!showResetButton"
+      [disabled]="(showResetButton$ | async) === false"
       (click)="resetFilters()"
     >
       {{ t('resetFilter') }}
