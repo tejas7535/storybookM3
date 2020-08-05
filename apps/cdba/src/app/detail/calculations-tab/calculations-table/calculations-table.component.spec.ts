@@ -28,7 +28,6 @@ import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-over
 import { CustomOverlayModule } from '../../../shared/table/custom-overlay/custom-overlay.module';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../../../shared/table/custom-status-bar/custom-status-bar.module';
-import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { CalculationsTableComponent } from './calculations-table.component';
 import { ColumnState } from './column-state';
 import { COLUMN_DEFINITIONS } from './config';
@@ -50,7 +49,6 @@ describe('CalculationsTableComponent', () => {
         SharedTranslocoModule,
         SharedModule,
         AgGridModule.withComponents([
-          DetailViewButtonComponent,
           BomViewButtonComponent,
           CustomLoadingOverlayComponent,
         ]),

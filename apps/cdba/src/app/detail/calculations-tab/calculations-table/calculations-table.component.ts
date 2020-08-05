@@ -33,7 +33,6 @@ import {
   NoRowsParams,
 } from '../../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
-import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
 import {
   COLUMN_DEFINITIONS,
@@ -75,7 +74,6 @@ export class CalculationsTableComponent implements OnChanges {
   public rowSelection = 'single';
 
   public frameworkComponents = {
-    detailViewButtonComponent: DetailViewButtonComponent,
     bomViewButtonComponent: BomViewButtonComponent,
     customLoadingOverlay: CustomLoadingOverlayComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
