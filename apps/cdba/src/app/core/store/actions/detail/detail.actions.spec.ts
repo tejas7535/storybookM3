@@ -9,7 +9,6 @@ import {
   loadDrawingsFailure,
   loadDrawingsSuccess,
   loadReferenceType,
-  loadReferenceTypeDetails,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
   loadRfqs,
@@ -23,6 +22,7 @@ describe('Detail Actions', () => {
   let referenceTypeId: any;
   let materialNumber: string;
   let bomIdentifier: BomIdentifier;
+  let errorMessage: string;
 
   beforeEach(() => {
     referenceTypeId = {
@@ -41,16 +41,7 @@ describe('Detail Actions', () => {
       'ref',
       'variant'
     );
-  });
-
-  describe('Get Reference Type Details Actions', () => {
-    test('loadReferenceTypeDetails', () => {
-      const action = loadReferenceTypeDetails();
-
-      expect(action).toEqual({
-        type: '[Detail] Load Reference Type Data',
-      });
-    });
+    errorMessage = 'An error occured';
   });
 
   describe('Get Item Actions', () => {
@@ -74,9 +65,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadItemFailure', () => {
-      const action = loadReferenceTypeFailure();
+      const action = loadReferenceTypeFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Detail] Load Reference Type Failure',
       });
     });
@@ -103,9 +95,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadBomFailure', () => {
-      const action = loadBomFailure();
+      const action = loadBomFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Detail] Load BOM Failure',
       });
     });
@@ -113,10 +106,12 @@ describe('Detail Actions', () => {
 
   describe('Get Calculations Actions', () => {
     test('loadCalculations', () => {
-      const action = loadCalculations({ materialNumber });
+      const includeBom = true;
+      const action = loadCalculations({ materialNumber, includeBom });
 
       expect(action).toEqual({
         materialNumber,
+        includeBom,
         type: '[Detail] Load Calculations',
       });
     });
@@ -132,9 +127,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsFailure', () => {
-      const action = loadCalculationsFailure();
+      const action = loadCalculationsFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Detail] Load Calculations Failure',
       });
     });
@@ -161,9 +157,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadDrawingsFailure', () => {
-      const action = loadDrawingsFailure();
+      const action = loadDrawingsFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Detail] Load Drawings Failure',
       });
     });
@@ -190,9 +187,10 @@ describe('Detail Actions', () => {
     });
 
     test('loadRfqsFailure', () => {
-      const action = loadRfqsFailure();
+      const action = loadRfqsFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Detail] Load RFQs Failure',
       });
     });

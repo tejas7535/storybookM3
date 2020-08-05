@@ -8,6 +8,7 @@ import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
 import {
   getCalculations,
+  getCalculationsErrorMessage,
   getCalculationsLoading,
 } from '../../core/store/selectors';
 
@@ -19,11 +20,13 @@ import {
 export class CalculationsTabComponent implements OnInit {
   calculations$: Observable<Calculation[]>;
   loading$: Observable<boolean>;
+  errorMessage$: Observable<string>;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
   ngOnInit(): void {
     this.calculations$ = this.store.pipe(select(getCalculations));
     this.loading$ = this.store.pipe(select(getCalculationsLoading));
+    this.errorMessage$ = this.store.pipe(select(getCalculationsErrorMessage));
   }
 }

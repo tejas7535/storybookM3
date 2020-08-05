@@ -1,14 +1,14 @@
 <div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('dimensionAndWeight.title') }}</h6>
-    <div class="widget-group" *ngIf="dimensionAndWeight$ | async">
+    <div class="widget-group" *ngIf="dimensionAndWeight && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
         >
         <div>
-          {{ (dimensionAndWeight$ | async)?.height | number: '':'de-DE'
-          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+          {{ dimensionAndWeight?.height | number: '':'de-DE'
+          }}{{ dimensionAndWeight?.unitOfDimension }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -16,8 +16,8 @@
           >{{ t('dimensionAndWeight.width') }}:&nbsp;</label
         >
         <div>
-          {{ (dimensionAndWeight$ | async)?.width | number: '':'de-DE'
-          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+          {{ dimensionAndWeight?.width | number: '':'de-DE'
+          }}{{ dimensionAndWeight?.unitOfDimension }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -25,19 +25,19 @@
           >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
         >
         <div>
-          {{ (dimensionAndWeight$ | async)?.length | number: '':'de-DE'
-          }}{{ (dimensionAndWeight$ | async)?.unitOfDimension }}
+          {{ dimensionAndWeight?.length | number: '':'de-DE'
+          }}{{ dimensionAndWeight?.unitOfDimension }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="dimensionAndWeight$ | async">
+    <div class="widget-group" *ngIf="dimensionAndWeight && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('dimensionAndWeight.weight') }}:&nbsp;</label
         >
         <div>
-          {{ (dimensionAndWeight$ | async)?.weight | number: '':'de-DE'
-          }}{{ (dimensionAndWeight$ | async)?.weightUnit }}
+          {{ dimensionAndWeight?.weight | number: '':'de-DE'
+          }}{{ dimensionAndWeight?.weightUnit }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -45,11 +45,19 @@
           >{{ t('dimensionAndWeight.volumeCubic') }}:&nbsp;</label
         >
         <div>
-          {{
-            (dimensionAndWeight$ | async)?.volumeCubic | number: '':'de-DE'
-          }}&nbsp;{{ (dimensionAndWeight$ | async)?.volumeUnit }}
+          {{ dimensionAndWeight?.volumeCubic | number: '':'de-DE' }}&nbsp;{{
+            dimensionAndWeight?.volumeUnit
+          }}
         </div>
       </div>
+    </div>
+    <div
+      class="error-box"
+      *ngIf="errorMessage"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </div>

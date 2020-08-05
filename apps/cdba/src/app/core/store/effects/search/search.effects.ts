@@ -44,7 +44,9 @@ export class SearchEffects implements OnInitEffects {
       mergeMap(() =>
         this.searchService.getInitialFilters().pipe(
           map((items: FilterItem[]) => loadInitialFiltersSuccess({ items })),
-          catchError((_e) => of(loadInitialFiltersFailure()))
+          catchError((errorMessage) =>
+            of(loadInitialFiltersFailure({ errorMessage }))
+          )
         )
       )
     )
@@ -61,7 +63,7 @@ export class SearchEffects implements OnInitEffects {
       mergeMap((items) =>
         this.searchService.search(items).pipe(
           map((searchResult) => searchSuccess({ searchResult })),
-          catchError((_e) => of(searchFailure()))
+          catchError((errorMessage) => of(searchFailure({ errorMessage })))
         )
       )
     )
@@ -77,7 +79,9 @@ export class SearchEffects implements OnInitEffects {
       mergeMap((textSearch) =>
         this.searchService.textSearch(textSearch).pipe(
           map((searchResult) => applyTextSearchSuccess({ searchResult })),
-          catchError((_e) => of(applyTextSearchFailure()))
+          catchError((errorMessage) =>
+            of(applyTextSearchFailure({ errorMessage }))
+          )
         )
       )
     )

@@ -34,12 +34,14 @@ export interface SearchState {
       field: string;
       value: string;
     };
+    errorMessage: string;
   };
   referenceTypes: {
     loading: boolean;
     items: any[];
     tooManyResults: boolean;
     resultCount: number;
+    errorMessage: string;
   };
 }
 
@@ -53,12 +55,14 @@ export const initialState: SearchState = {
       field: undefined,
       value: undefined,
     },
+    errorMessage: undefined,
   },
   referenceTypes: {
     loading: false,
     items: undefined,
     tooManyResults: false,
     resultCount: 0,
+    errorMessage: undefined,
   },
 };
 
@@ -89,7 +93,7 @@ export const searchReducer = createReducer(
   // initial filters
   on(loadInitialFilters, (state: SearchState) => ({
     ...state,
-    filters: { ...state.filters, loading: true },
+    filters: { ...state.filters, loading: true, errorMessage: undefined },
   })),
   on(loadInitialFiltersSuccess, (state: SearchState, { items }) => ({
     ...state,
@@ -102,9 +106,9 @@ export const searchReducer = createReducer(
       ),
     },
   })),
-  on(loadInitialFiltersFailure, (state: SearchState) => ({
+  on(loadInitialFiltersFailure, (state: SearchState, { errorMessage }) => ({
     ...state,
-    filters: { ...state.filters, loading: false },
+    filters: { ...state.filters, errorMessage, loading: false },
   })),
 
   // search
@@ -113,6 +117,7 @@ export const searchReducer = createReducer(
     referenceTypes: {
       ...state.referenceTypes,
       loading: true,
+      errorMessage: undefined,
     },
   })),
   on(searchSuccess, (state: SearchState, { searchResult }) => ({
@@ -135,10 +140,11 @@ export const searchReducer = createReducer(
       resultCount: searchResult.resultCount,
     },
   })),
-  on(searchFailure, (state: SearchState) => ({
+  on(searchFailure, (state: SearchState, { errorMessage }) => ({
     ...state,
     referenceTypes: {
       ...state.referenceTypes,
+      errorMessage,
       loading: false,
     },
   })),
@@ -149,6 +155,7 @@ export const searchReducer = createReducer(
     referenceTypes: {
       ...state.referenceTypes,
       loading: true,
+      errorMessage: undefined,
     },
   })),
   on(applyTextSearchSuccess, (state: SearchState, { searchResult }) => ({
@@ -167,10 +174,11 @@ export const searchReducer = createReducer(
       tooManyResults: !searchResult.result,
     },
   })),
-  on(applyTextSearchFailure, (state: SearchState) => ({
+  on(applyTextSearchFailure, (state: SearchState, { errorMessage }) => ({
     ...state,
     referenceTypes: {
       ...state.referenceTypes,
+      errorMessage,
       loading: false,
     },
   })),

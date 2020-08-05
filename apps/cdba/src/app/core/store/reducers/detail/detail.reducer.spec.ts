@@ -35,6 +35,7 @@ describe('Detail Reducer', () => {
       loading: true,
     },
   };
+  const errorMessage = 'An error occured';
 
   describe('loadReferenceType', () => {
     test('should set loading', () => {
@@ -46,7 +47,6 @@ describe('Detail Reducer', () => {
       const state = detailReducer(initialState, action);
 
       expect(state.detail.loading).toBeTruthy();
-      expect(state.calculations.loading).toBeTruthy();
     });
   });
 
@@ -65,20 +65,22 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadReferenceTypeFailure', () => {
-    test('should unset loading', () => {
-      const action = loadReferenceTypeFailure();
+    test('should unset loading / set error message', () => {
+      const action = loadReferenceTypeFailure({ errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.detail.loading).toBeFalsy();
+      expect(state.detail.errorMessage).toEqual(errorMessage);
     });
   });
 
   describe('loadCalculations', () => {
     test('should set loading', () => {
       const materialNumber = '123';
+      const includeBom = true;
 
-      const action = loadCalculations({ materialNumber });
+      const action = loadCalculations({ materialNumber, includeBom });
       const state = detailReducer(initialState, action);
 
       expect(state.calculations.loading).toBeTruthy();
@@ -100,12 +102,13 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadCalculationsFailure', () => {
-    test('should unset loading', () => {
-      const action = loadCalculationsFailure();
+    test('should unset loading / set error message', () => {
+      const action = loadCalculationsFailure({ errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.calculations.loading).toBeFalsy();
+      expect(state.calculations.errorMessage).toEqual(errorMessage);
     });
   });
 
@@ -142,12 +145,13 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadBomFailure', () => {
-    test('should unset loading', () => {
-      const action = loadBomFailure();
+    test('should unset loading / set error message', () => {
+      const action = loadBomFailure({ errorMessage });
 
       const state = detailReducer(fakeState, action);
 
       expect(state.bom.loading).toBeFalsy();
+      expect(state.bom.errorMessage).toEqual(errorMessage);
     });
   });
 });

@@ -1,65 +1,74 @@
 <div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('salesAndDescription.title') }}</h6>
-    <div class="widget-group" *ngIf="salesDetails$ | async">
+    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialDesignation') }}:&nbsp;
         </label>
-        <div>{{ (salesDetails$ | async)?.materialDesignation }}</div>
+        <div>{{ salesDetails?.materialDesignation }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialNumber') }}:&nbsp;
         </label>
-        <div>{{ (salesDetails$ | async)?.materialNumber }}</div>
+        <div>{{ salesDetails?.materialNumber }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialShortDescription') }}:&nbsp;
         </label>
-        <div>{{ (salesDetails$ | async)?.materialShortDescription }}</div>
+        <div>{{ salesDetails?.materialShortDescription }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.productLine') }}:&nbsp;
         </label>
-        <div>{{ (salesDetails$ | async)?.productLine }}</div>
+        <div>{{ salesDetails?.productLine }}</div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesDetails$ | async">
+    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.rfq') }}:&nbsp;
         </label>
-        <div>{{ (salesDetails$ | async)?.rfq }}</div>
+        <div>{{ salesDetails?.rfq }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.salesOrganization') }}:&nbsp;
         </label>
         <div fxFlex="100%">
-          {{ (salesDetails$ | async)?.salesOrganization }}
+          {{ salesDetails?.salesOrganization }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesDetails$ | async">
+    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.projectName') }}:&nbsp;
         </label>
-        <div fxFlex="100%">{{ (salesDetails$ | async)?.projectName }}</div>
+        <div fxFlex="100%">{{ salesDetails?.projectName }}</div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesDetails$ | async">
+    <div class="widget-group" *ngIf="salesDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.productDescription') }}:&nbsp;
         </label>
         <div fxFlex="100%">
-          {{ (salesDetails$ | async)?.productDescription }}
+          {{ salesDetails?.productDescription }}
         </div>
       </div>
+    </div>
+
+    <div
+      class="error-box"
+      *ngIf="errorMessage"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </div>

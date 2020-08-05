@@ -14,30 +14,11 @@
       </div>
     </div>
     <div class="table-container">
-      <ag-grid-angular
-        class="ag-theme-material"
+      <cdba-bom-table
         [rowData]="bomItems$ | async"
-        [defaultColDef]="defaultColDef"
-        [columnDefs]="columnDefs"
-        [modules]="modules"
-        [autoGroupColumnDef]="autoGroupColumnDef"
-        [treeData]="true"
-        [animateRows]="true"
-        [groupDefaultExpanded]="groupDefaultExpanded"
-        [getDataPath]="getDataPath"
-        (gridReady)="onGridReady($event)"
-        [getRowClass]="getRowClass.bind(this)"
-        [rowSelection]="rowSelection"
-        [suppressCellSelection]="suppressCellSelection"
-        (rowClicked)="onRowClicked($event)"
-        [rowClassRules]="rowClassRules"
-        [frameworkComponents]="frameworkComponents"
-        [loadingOverlayComponent]="loadingOverlayComponent"
-        [suppressNoRowsOverlay]="
-          (bomItems$ | async) === undefined || (bomLoading$ | async) === true
-        "
-      >
-      </ag-grid-angular>
+        [isLoading]="bomLoading$ | async"
+        [errorMessage]="bomErrorMessage$ | async"
+      ></cdba-bom-table>
     </div>
   </div>
 </mat-card>

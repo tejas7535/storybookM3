@@ -58,11 +58,18 @@ describe('DetailTabComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should set isLoading$', () => {
+    it('should set observables', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLoading$).toBeDefined();
+      expect(component.errorMessageDetails$).toBeDefined();
+      expect(component.customerDetails$).toBeDefined();
+      expect(component.dimensionAndWeight$).toBeDefined();
+      expect(component.salesPrice$).toBeDefined();
+      expect(component.productionDetails$).toBeDefined();
+      expect(component.quantitiesDetails$).toBeDefined();
+      expect(component.salesDetails$).toBeDefined();
     });
   });
 });

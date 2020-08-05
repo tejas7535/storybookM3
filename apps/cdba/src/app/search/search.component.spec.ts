@@ -12,7 +12,8 @@ import { getReferenceTypes, getSearchSuccessful } from '../core/store';
 import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { AgGridStateService } from '../shared/services/ag-grid-state.service';
 import { SharedModule } from '../shared/shared.module';
-import { DetailViewButtonComponent } from '../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
+import { CustomNoRowsOverlayComponent } from '../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { CustomOverlayModule } from '../shared/table/custom-overlay/custom-overlay.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
@@ -37,8 +38,9 @@ describe('SearchComponent', () => {
         ReferenceTypesFiltersModule,
         ReferenceTypesTableModule,
         RouterTestingModule,
-        AgGridModule.withComponents([DetailViewButtonComponent]),
+        AgGridModule.withComponents([CustomNoRowsOverlayComponent]),
         BlockUiModule,
+        CustomOverlayModule,
       ],
       declarations: [SearchComponent],
       providers: [

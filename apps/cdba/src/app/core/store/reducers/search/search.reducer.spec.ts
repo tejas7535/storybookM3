@@ -34,6 +34,7 @@ describe('Search Reducer', () => {
     false
   );
   const filterItemRange = new FilterItemRange('length', 0, 200, 0, 200, 'cm');
+  const errorMessage = 'An error occured';
 
   describe('loadInitialFilters', () => {
     test('should set loading', () => {
@@ -67,8 +68,8 @@ describe('Search Reducer', () => {
   });
 
   describe('loadInitialFiltersFailure', () => {
-    test('should unset loading', () => {
-      const action = loadInitialFiltersFailure();
+    test('should unset loading / set error message', () => {
+      const action = loadInitialFiltersFailure({ errorMessage });
       const fakeState = {
         ...initialState,
         filters: { ...initialState.filters, loading: true },
@@ -77,6 +78,7 @@ describe('Search Reducer', () => {
       const state = searchReducer(fakeState, action);
 
       expect(state.filters.loading).toBeFalsy();
+      expect(state.filters.errorMessage).toEqual(errorMessage);
     });
   });
 
@@ -174,8 +176,8 @@ describe('Search Reducer', () => {
   });
 
   describe('searchFailure', () => {
-    test('should unset loading', () => {
-      const action = searchFailure();
+    test('should unset loading / set error message', () => {
+      const action = searchFailure({ errorMessage });
       const fakeState = {
         ...initialState,
         referenceTypes: {
@@ -187,6 +189,7 @@ describe('Search Reducer', () => {
       const state = searchReducer(fakeState, action);
 
       expect(state.referenceTypes.loading).toBeFalsy();
+      expect(state.referenceTypes.errorMessage).toEqual(errorMessage);
     });
   });
 
@@ -261,7 +264,7 @@ describe('Search Reducer', () => {
 
   describe('applyTextSearchFailure', () => {
     test('should unset loading', () => {
-      const action = applyTextSearchFailure();
+      const action = applyTextSearchFailure({ errorMessage });
       const fakeState = {
         ...initialState,
         referenceTypes: {

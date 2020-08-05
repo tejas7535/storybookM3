@@ -1,19 +1,28 @@
 <div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('customer.title') }}</h6>
-    <div class="widget-group" *ngIf="customerDetails$ | async">
+    <div class="widget-group" *ngIf="customerDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('customer.customers') }}:&nbsp;</label>
-        <div fxFlex="100%">{{ (customerDetails$ | async)?.customer }}</div>
+        <div fxFlex="100%">{{ customerDetails?.customer }}</div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="customerDetails$ | async">
+    <div class="widget-group" *ngIf="customerDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('customer.customerGroup') }}:&nbsp;</label
         >
-        <div fxFlex="100%">{{ (customerDetails$ | async)?.customerGroup }}</div>
+        <div fxFlex="100%">{{ customerDetails$?.customerGroup }}</div>
       </div>
+    </div>
+
+    <div
+      class="error-box"
+      *ngIf="errorMessage"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </div>

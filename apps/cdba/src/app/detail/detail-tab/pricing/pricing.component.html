@@ -1,13 +1,13 @@
 <div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('pricing.title') }}</h6>
-    <div class="widget-group" *ngIf="salesPrice$ | async">
+    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
         <div>
-          {{ (salesPrice$ | async)?.pcmSqv | number: '':'de-DE' }}&nbsp;{{
+          {{ salesPrice?.pcmSqv | number: '':'de-DE' }}&nbsp;{{
             t('pricing.pricePerUnit', {
-              currency: (salesPrice$ | async)?.currency
+              currency: salesPrice?.currency
             })
           }}
         </div>
@@ -17,24 +17,19 @@
           >{{ t('pricing.pcmCalculationDate') }}:&nbsp;</label
         >
         <div>
-          {{
-            (salesPrice$ | async)?.pcmCalculationDate
-              | date: 'shortDate':'':'de-DE'
-          }}
+          {{ salesPrice?.pcmCalculationDate | date: 'shortDate':'':'de-DE' }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesPrice$ | async">
+    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('pricing.sqvSapLatestMonth') }}:&nbsp;</label
         >
         <div>
-          {{
-            (salesPrice$ | async)?.sqvSapLatestMonth | number: '':'de-DE'
-          }}&nbsp;{{
+          {{ salesPrice?.sqvSapLatestMonth | number: '':'de-DE' }}&nbsp;{{
             t('pricing.pricePerUnit', {
-              currency: (salesPrice$ | async)?.currency
+              currency: salesPrice?.currency
             })
           }}
         </div>
@@ -42,21 +37,19 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
         <div>
-          {{ (salesPrice$ | async)?.sqvDate | date: 'mediumDate':'':'de-DE' }}
+          {{ salesPrice?.sqvDate | date: 'mediumDate':'':'de-DE' }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesPrice$ | async">
+    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('pricing.gpcLatestYear', { year: currentYear }) }}:&nbsp;</label
         >
         <div>
-          {{
-            (salesPrice$ | async)?.gpcLatestYear | number: '':'de-DE'
-          }}&nbsp;{{
+          {{ salesPrice?.gpcLatestYear | number: '':'de-DE' }}&nbsp;{{
             t('pricing.pricePerUnit', {
-              currency: (salesPrice$ | async)?.currency
+              currency: salesPrice?.currency
             })
           }}
         </div>
@@ -64,15 +57,23 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
         <div>
-          {{ (salesPrice$ | async)?.gpcDate | date: 'mediumDate':'':'de-DE' }}
+          {{ salesPrice?.gpcDate | date: 'mediumDate':'':'de-DE' }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="salesPrice$ | async">
+    <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.puUm') }}:&nbsp;</label>
-        <div>{{ (salesPrice$ | async)?.puUm }}</div>
+        <div>{{ salesPrice?.puUm }}</div>
       </div>
+    </div>
+    <div
+      class="error-box"
+      *ngIf="errorMessage"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </div>

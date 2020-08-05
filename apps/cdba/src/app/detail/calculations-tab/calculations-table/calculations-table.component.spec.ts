@@ -9,6 +9,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  GridApi,
   IStatusPanelParams,
   MenuItemDef,
   SortChangedEvent,
@@ -117,6 +118,15 @@ describe('CalculationsTableComponent', () => {
     });
   });
 
+  describe('noRowsOverlayComponentParams', () => {
+    it('should return errorMessage on getMessage', () => {
+      component.errorMessage = 'test';
+      const result = component.noRowsOverlayComponentParams.getMessage();
+
+      expect(result).toEqual(component.errorMessage);
+    });
+  });
+
   describe('ngOnChanges', () => {
     beforeEach(() => {
       CalculationsTableComponent[
@@ -149,6 +159,21 @@ describe('CalculationsTableComponent', () => {
       expect(
         CalculationsTableComponent['getUpdatedDefaultColumnDefinitions']
       ).not.toHaveBeenCalled();
+    });
+
+    it('should showLoadingOverlay when grid loaded and isLoading active', () => {
+      component['gridApi'] = ({
+        showLoadingOverlay: jest.fn(),
+      } as unknown) as GridApi;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges({
+        isLoading: ({
+          currentValue: true,
+        } as unknown) as SimpleChange,
+      });
+
+      expect(component['gridApi'].showLoadingOverlay).toHaveBeenCalled();
     });
   });
 
@@ -331,7 +356,7 @@ describe('CalculationsTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    it('should show loading overlay when loading data', () => {
+    it('should set grid api', () => {
       const params = ({
         api: {
           showLoadingOverlay: jest.fn(),
@@ -340,7 +365,7 @@ describe('CalculationsTableComponent', () => {
 
       component.onGridReady(params);
 
-      expect(params.api.showLoadingOverlay).toHaveBeenCalled();
+      expect(component['gridApi']).toEqual(params.api);
     });
   });
 });

@@ -9,13 +9,19 @@
   class="grid-container"
 >
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
-    <cdba-sales-and-description></cdba-sales-and-description>
+    <cdba-sales-and-description
+      [salesDetails]="salesDetails$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    ></cdba-sales-and-description>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>
   </mat-card>
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
-    <cdba-dimension-and-weight></cdba-dimension-and-weight>
+    <cdba-dimension-and-weight
+      [dimensionAndWeight]="dimensionAndWeight$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    ></cdba-dimension-and-weight>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>
@@ -26,7 +32,11 @@
     gdColumn.lt-md="auto / span 3"
     gdRow.lt-md="15 / span 7"
   >
-    <cdba-customer> </cdba-customer>
+    <cdba-customer
+      [customerDetails]="customerDetails$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    >
+    </cdba-customer>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>
@@ -56,7 +66,10 @@
     gdColumn.xs="auto / span 3"
     gdRow.xs="22 / span 6"
   >
-    <cdba-pricing></cdba-pricing>
+    <cdba-pricing
+      [salesPrice]="salesPrice$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    ></cdba-pricing>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>
@@ -69,7 +82,10 @@
     gdColumn.xs="auto / span 3"
     gdRow.xs="28 / span 8"
   >
-    <cdba-quantities></cdba-quantities>
+    <cdba-quantities
+      [quantitiesDetails]="quantitiesDetails$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    ></cdba-quantities>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>
@@ -82,7 +98,10 @@
     gdColumn.xs="auto / span 3"
     gdRow.xs="36 / span 7"
   >
-    <cdba-production></cdba-production>
+    <cdba-production
+      [productionDetails]="productionDetails$ | async"
+      [errorMessage]="errorMessageDetails$ | async"
+    ></cdba-production>
     <cdba-loading-spinner
       [show]="(isLoading$ | async) === true"
     ></cdba-loading-spinner>

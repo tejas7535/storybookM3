@@ -21,6 +21,11 @@ export const getReferenceTypeLoading = createSelector(
   (state: DetailState) => state.detail.loading
 );
 
+export const getReferenceTypeErrorMessage = createSelector(
+  getDetailState,
+  (state: DetailState) => state.detail.errorMessage
+);
+
 export const getSalesDetails = createSelector(
   getReferenceType,
   (referenceType: ReferenceType): SalesDetails =>
@@ -124,6 +129,11 @@ export const getCalculationsLoading = createSelector(
   (state: DetailState) => state.calculations.loading
 );
 
+export const getCalculationsErrorMessage = createSelector(
+  getDetailState,
+  (state: DetailState) => state.calculations.errorMessage
+);
+
 export const getBomItems = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.items
@@ -132,4 +142,9 @@ export const getBomItems = createSelector(
 export const getBomLoading = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.loading
+);
+
+export const getBomErrorMessage = createSelector(
+  getDetailState,
+  (state: DetailState) => state.bom.errorMessage
 );

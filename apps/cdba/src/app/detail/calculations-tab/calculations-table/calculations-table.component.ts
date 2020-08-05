@@ -5,6 +5,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  GridApi,
   IStatusPanelParams,
   MenuItemDef,
   SideBarDef,
@@ -27,6 +28,10 @@ import { SortState } from '../../../search/reference-types-table/sort-state';
 import { AgGridStateService } from '../../../shared/services/ag-grid-state.service';
 import { SIDE_BAR_CONFIG } from '../../../shared/table';
 import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import {
+  CustomNoRowsOverlayComponent,
+  NoRowsParams,
+} from '../../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { DetailViewButtonComponent } from '../../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
@@ -45,8 +50,11 @@ import {
 export class CalculationsTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'calculations';
 
+  private gridApi: GridApi;
+
   @Input() rowData: Calculation[];
   @Input() isLoading: boolean;
+  @Input() errorMessage: string;
 
   public modules = [
     ClientSideRowModelModule,
@@ -70,9 +78,15 @@ export class CalculationsTableComponent implements OnChanges {
     detailViewButtonComponent: DetailViewButtonComponent,
     bomViewButtonComponent: BomViewButtonComponent,
     customLoadingOverlay: CustomLoadingOverlayComponent,
+    customNoRowsOverlay: CustomNoRowsOverlayComponent,
+  };
+
+  public noRowsOverlayComponentParams: NoRowsParams = {
+    getMessage: () => this.errorMessage,
   };
 
   public loadingOverlayComponent = 'customLoadingOverlay';
+  public noRowsOverlayComponent = 'customNoRowsOverlay';
 
   public statusBar: {
     statusPanels: StatusPanelDef[];
@@ -120,6 +134,10 @@ export class CalculationsTableComponent implements OnChanges {
           CalculationsTableComponent.TABLE_KEY
         )
       );
+    }
+
+    if (changes.isLoading && changes.isLoading.currentValue && this.gridApi) {
+      this.gridApi.showLoadingOverlay();
     }
   }
 
@@ -202,6 +220,6 @@ export class CalculationsTableComponent implements OnChanges {
   }
 
   onGridReady(params: IStatusPanelParams): void {
-    params.api.showLoadingOverlay();
+    this.gridApi = params.api;
   }
 }

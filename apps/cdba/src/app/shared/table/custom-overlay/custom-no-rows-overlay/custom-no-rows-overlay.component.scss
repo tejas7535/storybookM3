@@ -1,0 +1,8 @@
+@import 'libs/shared/styles/src/lib/colors';
+@import 'libs/shared/styles/src/lib/fonts';
+
+p {
+  color: $schaeffler-gray-7;
+  font-size: $schaeffler-labels;
+  font-style: italic;
+}

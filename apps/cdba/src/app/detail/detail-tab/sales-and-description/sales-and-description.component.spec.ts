@@ -1,12 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { SALES_DETAILS_MOCK } from '../../../../testing/mocks';
-import { getSalesDetails } from '../../../core/store/selectors';
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 describe('SalesAndDescriptionComponent', () => {
@@ -17,19 +14,7 @@ describe('SalesAndDescriptionComponent', () => {
     TestBed.configureTestingModule({
       imports: [provideTranslocoTestingModule({})],
       declarations: [SalesAndDescriptionComponent],
-      providers: [
-        provideMockStore({
-          initialState: {
-            detail: {},
-          },
-          selectors: [
-            {
-              selector: getSalesDetails,
-              value: SALES_DETAILS_MOCK,
-            },
-          ],
-        }),
-      ],
+      providers: [],
     });
   });
 
