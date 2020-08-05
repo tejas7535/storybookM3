@@ -1,4 +1,4 @@
-<div fxLayout="column" class="container">
+<div fxLayout="column" class="container" *transloco="let t; read: 'detail'">
   <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
     <mat-icon
       fontSet="schaeffler-icons"
@@ -10,8 +10,11 @@
       {{ (referenceType$ | async)?.materialDesignation }} |
       {{ (referenceType$ | async)?.materialNumber }}
     </h1>
+    <h1 *ngIf="(referenceType$ | async) === undefined">
+      {{ t('errorTitle') }}
+    </h1>
   </div>
-  <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'detail'">
+  <nav mat-tab-nav-bar mat-stretch-tabs>
     <a
       *ngFor="let tab of tabs; trackBy: trackByFn()"
       mat-tab-link

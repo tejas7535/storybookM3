@@ -8,10 +8,6 @@ import {
 } from '../../reducers/detail/models';
 import { Calculation } from '../../reducers/shared/models/calculation.model';
 
-export const loadReferenceTypeDetails = createAction(
-  '[Detail] Load Reference Type Data'
-);
-
 export const loadReferenceType = createAction(
   '[Detail] Load Reference Type',
   props<{ referenceTypeId: ReferenceTypeIdModel }>()
@@ -23,7 +19,8 @@ export const loadReferenceTypeSuccess = createAction(
 );
 
 export const loadReferenceTypeFailure = createAction(
-  '[Detail] Load Reference Type Failure'
+  '[Detail] Load Reference Type Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const loadBom = createAction(
@@ -36,11 +33,14 @@ export const loadBomSuccess = createAction(
   props<{ items: BomItem[] }>()
 );
 
-export const loadBomFailure = createAction('[Detail] Load BOM Failure');
+export const loadBomFailure = createAction(
+  '[Detail] Load BOM Failure',
+  props<{ errorMessage: string }>()
+);
 
 export const loadCalculations = createAction(
   '[Detail] Load Calculations',
-  props<{ materialNumber: string }>()
+  props<{ materialNumber: string; includeBom: boolean }>()
 );
 
 export const loadCalculationsSuccess = createAction(
@@ -49,7 +49,8 @@ export const loadCalculationsSuccess = createAction(
 );
 
 export const loadCalculationsFailure = createAction(
-  '[Detail] Load Calculations Failure'
+  '[Detail] Load Calculations Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const loadDrawings = createAction(
@@ -63,7 +64,8 @@ export const loadDrawingsSuccess = createAction(
 );
 
 export const loadDrawingsFailure = createAction(
-  '[Detail] Load Drawings Failure'
+  '[Detail] Load Drawings Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const loadRfqs = createAction(
@@ -76,7 +78,10 @@ export const loadRfqsSuccess = createAction(
   props<{ items: any[] }>()
 );
 
-export const loadRfqsFailure = createAction('[Detail] Load RFQs Failure');
+export const loadRfqsFailure = createAction(
+  '[Detail] Load RFQs Failure',
+  props<{ errorMessage: string }>()
+);
 
 const all = union({
   loadBom,
@@ -91,7 +96,6 @@ const all = union({
   loadCalculations,
   loadCalculationsSuccess,
   loadCalculationsFailure,
-  loadReferenceTypeDetails,
   loadReferenceType,
   loadReferenceTypeSuccess,
   loadReferenceTypeFailure,

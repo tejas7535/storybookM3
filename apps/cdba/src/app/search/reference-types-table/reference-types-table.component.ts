@@ -27,6 +27,10 @@ import {
   columnDefinitionToReferenceTypeProp,
   SIDE_BAR_CONFIG,
 } from '../../shared/table';
+import {
+  CustomNoRowsOverlayComponent,
+  NoRowsParams,
+} from '../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnState } from './column-state';
 import {
@@ -65,6 +69,12 @@ export class ReferenceTypesTableComponent implements OnChanges {
 
   public frameworkComponents = {
     detailViewButtonComponent: DetailViewButtonComponent,
+    customNoRowsOverlay: CustomNoRowsOverlayComponent,
+  };
+
+  noRowsOverlayComponent = 'customNoRowsOverlay';
+  noRowsOverlayComponentParams: NoRowsParams = {
+    getMessage: () => translate('search.referenceTypesTable.noRowsMessage'),
   };
 
   public statusBar: {

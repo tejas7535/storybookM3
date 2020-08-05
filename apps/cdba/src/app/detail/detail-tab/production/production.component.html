@@ -1,19 +1,19 @@
 <div class="widget-content">
   <div *transloco="let t; read: 'detail.detailTab'">
     <h6>{{ t('production.title') }}</h6>
-    <div class="widget-group" *ngIf="productionDetails$ | async">
+    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('production.procurementType') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.procurementType }}
+          {{ productionDetails?.procurementType }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('production.plant') }}:&nbsp;</label>
         <div>
-          {{ (productionDetails$ | async)?.plant }}
+          {{ productionDetails?.plant }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -21,17 +21,17 @@
           >{{ t('production.saleableItem') }}:&nbsp;</label
         >
         <div>
-          {{ t('production.' + (productionDetails$ | async)?.saleableItem) }}
+          {{ t('production.' + productionDetails?.saleableItem) }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="productionDetails$ | async">
+    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('production.productionTechnology') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.productionTechnology }}
+          {{ productionDetails?.productionTechnology }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -39,17 +39,17 @@
           >{{ t('production.manufacturingProcess') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.manufacturingProcess }}
+          {{ productionDetails?.manufacturingProcess }}
         </div>
       </div>
     </div>
-    <div class="widget-group" *ngIf="productionDetails$ | async">
+    <div class="widget-group" *ngIf="productionDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end"
           >{{ t('production.specialProcurement') }}:&nbsp;</label
         >
         <div>
-          {{ (productionDetails$ | async)?.specialProcurement }}
+          {{ productionDetails?.specialProcurement }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -58,7 +58,7 @@
         >
         <div>
           {{
-            (productionDetails$ | async)?.purchasePriceValidFrom
+            productionDetails?.purchasePriceValidFrom
               | date: 'mediumDate':'':'de-DE'
           }}
         </div>
@@ -69,7 +69,7 @@
         >
         <div>
           {{
-            (productionDetails$ | async)?.purchasePriceValidUntil
+            productionDetails?.purchasePriceValidUntil
               | date: 'mediumDate':'':'de-DE'
           }}
         </div>
@@ -77,9 +77,17 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('production.supplier') }}:&nbsp;</label>
         <div fxFlex="100%">
-          {{ (productionDetails$ | async)?.supplier }}
+          {{ productionDetails?.supplier }}
         </div>
       </div>
+    </div>
+    <div
+      class="error-box"
+      *ngIf="errorMessage"
+      fxLayout="row"
+      fxLayoutAlign="space-around center"
+    >
+      <p>{{ errorMessage }}</p>
     </div>
   </div>
 </div>

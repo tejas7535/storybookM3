@@ -45,6 +45,8 @@ describe('Search Effects', () => {
   let effects: SearchEffects;
   let searchService: SearchService;
 
+  const errorMessage = 'An error message occured';
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       providers: [
@@ -106,11 +108,10 @@ describe('Search Effects', () => {
     });
 
     test('should return loadInitialFiltersFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = loadInitialFiltersFailure();
+      const result = loadInitialFiltersFailure({ errorMessage });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       searchService.getInitialFilters = jest.fn(() => response);
@@ -165,11 +166,10 @@ describe('Search Effects', () => {
     });
 
     test('should return searchFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = searchFailure();
+      const result = searchFailure({ errorMessage });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       searchService.search = jest.fn(() => response);
@@ -228,11 +228,10 @@ describe('Search Effects', () => {
     });
 
     test('should return applyTextSearchFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = applyTextSearchFailure();
+      const result = applyTextSearchFailure({ errorMessage });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       searchService.textSearch = jest.fn(() => response);

@@ -20,6 +20,8 @@
     (columnVisible)="columnChange($event)"
     (columnPinned)="columnChange($event)"
     (sortChanged)="sortChange($event)"
+    [noRowsOverlayComponent]="noRowsOverlayComponent"
+    [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
   >
   </ag-grid-angular>
 </div>

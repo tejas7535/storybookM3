@@ -14,7 +14,8 @@ export const loadInitialFiltersSuccess = createAction(
 );
 
 export const loadInitialFiltersFailure = createAction(
-  '[Search] Load Initial Filters Failure'
+  '[Search] Load Initial Filters Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const search = createAction('[Search] Search Reference Types');
@@ -25,7 +26,8 @@ export const searchSuccess = createAction(
 );
 
 export const searchFailure = createAction(
-  '[Search] Search Reference Types Failure'
+  '[Search] Search Reference Types Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const updateFilter = createAction(
@@ -43,7 +45,8 @@ export const applyTextSearchSuccess = createAction(
   props<{ searchResult: SearchResult }>()
 );
 export const applyTextSearchFailure = createAction(
-  '[Search] Apply Text Search Failure'
+  '[Search] Apply Text Search Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const resetFilters = createAction('[Search] Reset All Filters');

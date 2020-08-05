@@ -108,7 +108,8 @@
         "unitOfMeasure": "Unit",
         "costCenter": "Cost Center"
       }
-    }
+    },
+    "errorTitle": "??? | ???"
   },
   "search": {
     "tooManyResults": "Too many results.",
@@ -230,7 +231,8 @@
       },
       "menu": {
         "resetAll": "Reset table to its default settings"
-      }
+      },
+      "noRowsMessage": "We are sorry, we could not find any search results for your provided filters"
     }
   },
   "shared": {

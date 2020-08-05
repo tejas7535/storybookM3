@@ -25,6 +25,8 @@ import {
 } from '../../reducers/search/models';
 
 describe('Search Actions', () => {
+  const errorMessage = 'An error occured';
+
   describe('Get initial filters actions', () => {
     test('loadInitialFilters', () => {
       const action = loadInitialFilters();
@@ -51,9 +53,10 @@ describe('Search Actions', () => {
     });
 
     test('loadInitialFiltersFailure', () => {
-      const action = loadInitialFiltersFailure();
+      const action = loadInitialFiltersFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Search] Load Initial Filters Failure',
       });
     });
@@ -85,9 +88,10 @@ describe('Search Actions', () => {
     });
 
     test('searchFailure', () => {
-      const action = searchFailure();
+      const action = searchFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Search] Search Reference Types Failure',
       });
     });
@@ -142,9 +146,10 @@ describe('Search Actions', () => {
     });
 
     test('applyTextSearchFailure', () => {
-      const action = applyTextSearchFailure();
+      const action = applyTextSearchFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Search] Apply Text Search Failure',
       });
     });

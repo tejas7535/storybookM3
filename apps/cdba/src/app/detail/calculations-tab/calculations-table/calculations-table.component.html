@@ -31,6 +31,8 @@
         [loadingOverlayComponent]="loadingOverlayComponent"
         [suppressNoRowsOverlay]="rowData === undefined || isLoading"
         (gridReady)="onGridReady($event)"
+        [noRowsOverlayComponent]="noRowsOverlayComponent"
+        [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
       >
       </ag-grid-angular>
     </div>
