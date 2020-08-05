@@ -31,6 +31,9 @@ import {
 import {
   getAutocompleteLoading,
   getFilters,
+  getIsDirty,
+  getSearchSuccessful,
+  getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -110,6 +113,9 @@ describe('ReferenceTypesFiltersComponent', () => {
 
     mockStore.overrideSelector(getFilters, filters);
     mockStore.overrideSelector(getAutocompleteLoading, true);
+    mockStore.overrideSelector(getSearchSuccessful, false);
+    mockStore.overrideSelector(getTooManyResults, false);
+    mockStore.overrideSelector(getIsDirty, true);
   });
 
   it('should create', () => {

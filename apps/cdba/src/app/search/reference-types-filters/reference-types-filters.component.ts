@@ -21,6 +21,7 @@ import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import {
   getAutocompleteLoading,
   getFilters,
+  getIsDirty,
 } from '../../core/store/selectors/search/search.selector';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
@@ -43,9 +44,9 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   autocompleteLoading$: Observable<boolean>;
   tooManyResults$: Observable<boolean>;
   searchSuccessful$: Observable<boolean>;
+  showResetButton$: Observable<boolean>;
 
   filterType = FilterItemType;
-  showResetButton: boolean;
 
   public constructor(private readonly store: Store<SearchState>) {}
 
@@ -54,6 +55,7 @@ export class ReferenceTypesFiltersComponent implements OnInit {
     this.autocompleteLoading$ = this.store.pipe(select(getAutocompleteLoading));
     this.searchSuccessful$ = this.store.pipe(select(getSearchSuccessful));
     this.tooManyResults$ = this.store.pipe(select(getTooManyResults));
+    this.showResetButton$ = this.store.pipe(select(getIsDirty));
   }
 
   /**
@@ -61,7 +63,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
    */
   public updateFilter(filter: FilterItem): void {
     this.store.dispatch(updateFilter({ item: filter }));
-    this.showResetButton = true;
   }
 
   /**
@@ -90,7 +91,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
    */
   public resetFilters(): void {
     this.store.dispatch(resetFilters());
-    this.showResetButton = false;
     this.multiSelectFilters.forEach((filter) => filter.reset());
     this.rangeFilters.forEach((filter) => filter.reset());
   }

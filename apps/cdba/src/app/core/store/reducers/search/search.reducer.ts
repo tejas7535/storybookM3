@@ -26,6 +26,7 @@ import { FilterItem, FilterItemIdValue, FilterItemType } from './models';
 
 export interface SearchState {
   filters: {
+    dirty: boolean;
     loading: boolean;
     autocompleteLoading: boolean;
     items: FilterItemState;
@@ -44,6 +45,7 @@ export interface SearchState {
 
 export const initialState: SearchState = {
   filters: {
+    dirty: false,
     loading: false,
     autocompleteLoading: false,
     items: filterItemAdapter.getInitialState(),
@@ -178,6 +180,7 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
+      dirty: true,
       items: filterItemAdapter.upsertOne(
         sortFilterItem(item),
         state.filters.items
@@ -188,6 +191,7 @@ export const searchReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
+      dirty: false,
       items: filterItemAdapter.map(resetFilterItems, state.filters.items),
     },
     referenceTypes: {

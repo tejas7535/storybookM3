@@ -11,6 +11,7 @@ import {
   getAutocompleteLoading,
   getFilters,
   getInitialFiltersLoading,
+  getIsDirty,
   getReferenceTypes,
   getReferenceTypesLoading,
   getResultCount,
@@ -27,6 +28,7 @@ describe('Search Selector', () => {
       ...initialState,
       filters: {
         ...initialState.filters,
+        dirty: true,
         autocompleteLoading: true,
         searchText: {
           field: 'customer',
@@ -175,6 +177,12 @@ describe('Search Selector', () => {
   describe('getAutocompleteLoading', () => {
     test('should return true if autocomplete is currently loading', () => {
       expect(getAutocompleteLoading(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getIsDirty', () => {
+    test('should return true after updateFilter', () => {
+      expect(getIsDirty(fakeState)).toBeTruthy();
     });
   });
 });
