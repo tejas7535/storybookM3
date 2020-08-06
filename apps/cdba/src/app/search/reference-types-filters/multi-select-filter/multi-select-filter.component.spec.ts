@@ -445,23 +445,45 @@ describe('MultiSelectFilterComponent', () => {
     });
   });
 
-  describe('updateFiltersOnDropdownClose', () => {
-    it('should do nothing when dropdown opens', () => {
+  describe('dropdownOpenedChange', () => {
+    it('should autofocus autocomplete input on open', () => {
+      jest.useFakeTimers();
       component['emitUpdate'] = jest.fn();
+      component.autocompleteInput = {
+        nativeElement: {
+          focus: jest.fn(),
+        },
+      };
 
-      component.updateFiltersOnDropdownClose(true);
+      component.dropdownOpenedChange(true);
 
       expect(component['emitUpdate']).not.toHaveBeenCalled();
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 100);
+      jest.advanceTimersByTime(101);
+      expect(
+        component.autocompleteInput.nativeElement.focus
+      ).toHaveBeenCalled();
     });
 
-    it('should update filter', () => {
+    it('should update filter on close', () => {
       component.form.setValue([new IdValue('001', 'val', true)]);
+      jest.useFakeTimers();
+      component.autocompleteInput = {
+        nativeElement: {
+          focus: jest.fn(),
+        },
+      };
 
       component['emitUpdate'] = jest.fn();
 
-      component.updateFiltersOnDropdownClose(false);
+      component.dropdownOpenedChange(false);
 
       expect(component['emitUpdate']).toHaveBeenCalled();
+      expect(
+        component.autocompleteInput.nativeElement.focus
+      ).not.toHaveBeenCalled();
+      expect(setTimeout).not.toHaveBeenCalledTimes(1);
     });
   });
 
