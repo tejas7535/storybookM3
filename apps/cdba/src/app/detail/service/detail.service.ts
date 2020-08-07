@@ -9,7 +9,7 @@ import {
   BomIdentifier,
   BomItem,
   BomResult,
-  ReferenceTypeIdModel,
+  ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../core/store/reducers/detail/models';
 import { CalculationsResultModel } from '../../core/store/reducers/detail/models/calculations-result-model';
@@ -107,7 +107,7 @@ export class DetailService {
   public constructor(private readonly dataService: DataService) {}
 
   public getDetails(
-    item: ReferenceTypeIdModel
+    item: ReferenceTypeIdentifier
   ): Observable<ReferenceTypeResultModel> {
     let params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)

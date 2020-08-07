@@ -6,7 +6,6 @@ import {
   filter,
   map,
   mergeMap,
-  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -14,12 +13,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
-import { DetailRoutePath } from '../../../../detail/detail-route-path.enum';
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailService } from '../../../../detail/service/detail.service';
-import {
-  ERROR_BOM_NO_CALCULATION_FOUND,
-  ERROR_CALCULATIONS_EMPTY_RESULT,
-} from '../../../../shared/constants';
 import {
   loadBom,
   loadBomFailure,
@@ -30,89 +25,33 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectCalculation,
+  selectReferenceType,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 import {
+  BomIdentifier,
   BomItem,
+  ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
 import { Calculation } from '../../reducers/shared/models/calculation.model';
 import {
-  getBomItems,
-  getCalculations,
-  getReferenceType,
+  getBomIdentifierForSelectedCalculation,
+  getSelectedReferenceTypeIdentifier,
 } from '../../selectors/details/detail.selector';
 
 @Injectable()
 export class DetailEffects {
-  referenceTypeDetails$ = createEffect(
-    () => {
-      return this.actions$.pipe(
-        ofType(ROUTER_NAVIGATED),
-        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
-        map(([_action, routerState]) => routerState),
-        tap((routerState) => {
-          const path = routerState.state.url
-            .split('/detail/')[1]
-            ?.split('?')[0];
-
-          if (path === DetailRoutePath.DetailsPath) {
-            this.store.dispatch(
-              loadReferenceType({
-                referenceTypeId: {
-                  materialNumber:
-                    routerState.state.queryParams['material_number'],
-                  plant: routerState.state.queryParams.plant,
-                  rfq: routerState.state.queryParams.rfq,
-                  pcmCalculationDate:
-                    routerState.state.queryParams['pcm_calculation_date'],
-                  pcmQuantity: routerState.state.queryParams['pcm_quantity'],
-                },
-              })
-            );
-          } else if (path === DetailRoutePath.BomPath) {
-            this.store.dispatch(
-              loadCalculations({
-                materialNumber:
-                  routerState.state.queryParams['material_number'],
-                includeBom: true,
-              })
-            );
-          } else if (path === DetailRoutePath.CalculationsPath) {
-            this.store.dispatch(
-              loadCalculations({
-                materialNumber:
-                  routerState.state.queryParams['material_number'],
-                includeBom: false,
-              })
-            );
-          }
-        })
-      );
-    },
-    { dispatch: false }
-  );
-
-  referenceType$ = createEffect(() => {
-    return this.actions$.pipe(
+  loadReferenceType$ = createEffect(() =>
+    this.actions$.pipe(
       ofType(loadReferenceType),
-      withLatestFrom(this.store.pipe(select(getReferenceType))),
-      filter(
-        // only load data if not already loaded
-        ([action, refType]) =>
-          refType === undefined ||
-          !(
-            refType.materialNumber === action.referenceTypeId.materialNumber &&
-            refType.plant === action.referenceTypeId.plant &&
-            refType.rfq === action.referenceTypeId.rfq &&
-            refType.pcmCalculationDate ===
-              action.referenceTypeId.pcmCalculationDate &&
-            refType.pcmQuantity === action.referenceTypeId.pcmQuantity
-          )
+      withLatestFrom(
+        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
       ),
-      map(([action, _refType]) => action),
-      mergeMap((action) =>
-        this.detailService.getDetails(action.referenceTypeId).pipe(
+      map(([_action, refTypeIdentifier]) => refTypeIdentifier),
+      mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
+        this.detailService.getDetails(refTypeIdentifier).pipe(
           map((item: ReferenceTypeResultModel) =>
             loadReferenceTypeSuccess({ item })
           ),
@@ -121,113 +60,130 @@ export class DetailEffects {
           )
         )
       )
-    );
-  });
+    )
+  );
 
-  bom$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadBom),
-      withLatestFrom(this.store.pipe(select(getBomItems))),
-      filter(
-        // only load data if not already loaded
-        ([action, items]) =>
-          items === undefined ||
-          items.length === 0 ||
-          !(
-            items[0].bomCostingDate === action.bomIdentifier.bomCostingDate &&
-            items[0].bomCostingNumber ===
-              action.bomIdentifier.bomCostingNumber &&
-            items[0].bomCostingType === action.bomIdentifier.bomCostingType &&
-            items[0].bomCostingVersion ===
-              action.bomIdentifier.bomCostingVersion &&
-            items[0].bomEnteredManually ===
-              action.bomIdentifier.bomEnteredManually &&
-            items[0].bomReferenceObject ===
-              action.bomIdentifier.bomReferenceObject &&
-            items[0].bomValuationVariant ===
-              action.bomIdentifier.bomValuationVariant
-          )
+  loadCalculations$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadCalculations),
+      withLatestFrom(
+        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
       ),
-      map(([action, _refType]) => action),
-      mergeMap((action) =>
-        this.detailService.getBom(action.bomIdentifier).pipe(
+      map(([_action, refTypeIdentifier]) => refTypeIdentifier),
+      map(
+        (refTypeIdentifier: ReferenceTypeIdentifier) =>
+          refTypeIdentifier.materialNumber
+      ),
+      mergeMap((materialNumber: string) =>
+        this.detailService.calculations(materialNumber).pipe(
+          map((items: Calculation[]) => loadCalculationsSuccess({ items })),
+          catchError((errorMessage) =>
+            of(loadCalculationsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
+  triggerBomLoad$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectCalculation, loadCalculationsSuccess),
+      map(loadBom)
+    )
+  );
+
+  loadBom$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadBom),
+      withLatestFrom(
+        this.store.pipe(select(getBomIdentifierForSelectedCalculation))
+      ),
+      map(([_action, bomIdentifier]) => bomIdentifier),
+      mergeMap((bomIdentifier: BomIdentifier) =>
+        this.detailService.getBom(bomIdentifier).pipe(
           map((items: BomItem[]) => loadBomSuccess({ items })),
           catchError((errorMessage) => of(loadBomFailure({ errorMessage })))
         )
       )
-    );
-  });
+    )
+  );
 
-  calculations$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(loadCalculations),
-      withLatestFrom(this.store.pipe(select(getCalculations))),
+  triggerDataLoad$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectReferenceType),
+      mergeMap(() => {
+        return [loadReferenceType(), loadCalculations()];
+      })
+    )
+  );
+
+  selectReferenceType$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(ROUTER_NAVIGATED),
+      map((action: any) => action.payload.routerState),
       filter(
-        // only load data if not already loaded
-        ([action, calculations]) =>
-          calculations === undefined ||
-          calculations.length === 0 ||
-          action.includeBom || // always reload calculations if BOM should be loaded
-          calculations[0].materialNumber !== action.materialNumber
+        (routerState) => routerState.url.indexOf(AppRoutePath.DetailPath) >= 0
       ),
-      map(([action, _refType]) => action),
-      mergeMap((action) =>
-        this.detailService.calculations(action.materialNumber).pipe(
-          tap((items: Calculation[]) =>
-            this.loadBomEventually(action.includeBom, items)
-          ),
-          map((items: Calculation[]) => {
-            if (items.length > 0) {
-              return loadCalculationsSuccess({ items });
-            }
-
-            const errorMessage = ERROR_CALCULATIONS_EMPTY_RESULT;
-
-            return loadCalculationsFailure({ errorMessage });
-          }),
-          catchError((errorMessage) => {
-            this.loadBomEventually(action.includeBom, []);
-
-            return of(loadCalculationsFailure({ errorMessage }));
-          })
-        )
+      map((routerState) =>
+        DetailEffects.mapQueryParamsToIdentifier(routerState.queryParams)
+      ),
+      filter(
+        (referenceTypeIdentifier: ReferenceTypeIdentifier) =>
+          referenceTypeIdentifier !== undefined
+      ),
+      withLatestFrom(
+        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
+      ),
+      filter(
+        ([identifierFromRoute, identifierCurrent]) =>
+          !DetailEffects.checkEqualityOfIdentifier(
+            identifierFromRoute,
+            identifierCurrent
+          )
+      ),
+      map(([identifierFromRoute, _identifierCurrent]) => identifierFromRoute),
+      map((referenceTypeIdentifier: ReferenceTypeIdentifier) =>
+        selectReferenceType({ referenceTypeIdentifier })
       )
-    );
-  });
-
-  private loadBomEventually(includeBom: boolean, items: Calculation[]): void {
-    if (includeBom) {
-      if (items.length > 0) {
-        const {
-          bomCostingDate,
-          bomCostingNumber,
-          bomCostingType,
-          bomCostingVersion,
-          bomEnteredManually,
-          bomReferenceObject,
-          bomValuationVariant,
-        } = items[0];
-        const bomIdentifier = {
-          bomCostingDate,
-          bomCostingNumber,
-          bomCostingType,
-          bomCostingVersion,
-          bomEnteredManually,
-          bomReferenceObject,
-          bomValuationVariant,
-        };
-
-        this.store.dispatch(loadBom({ bomIdentifier }));
-      } else {
-        const errorMessage = ERROR_BOM_NO_CALCULATION_FOUND;
-        this.store.dispatch(loadBomFailure({ errorMessage }));
-      }
-    }
-  }
+    )
+  );
 
   constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
+
+  private static mapQueryParamsToIdentifier(
+    queryParams: any
+  ): ReferenceTypeIdentifier {
+    const materialNumber = queryParams['material_number'];
+    const pcmCalculationDate = queryParams['pcm_calculation_date'];
+    const pcmQuantity = queryParams['pcm_quantity'];
+
+    const { plant, rfq } = queryParams;
+
+    return materialNumber && plant
+      ? {
+          materialNumber,
+          plant,
+          rfq,
+          pcmCalculationDate,
+          pcmQuantity,
+        }
+      : undefined;
+  }
+
+  private static checkEqualityOfIdentifier(
+    fromRoute: ReferenceTypeIdentifier,
+    current: ReferenceTypeIdentifier
+  ): boolean {
+    return (
+      fromRoute.materialNumber === current?.materialNumber &&
+      fromRoute.plant === current.plant &&
+      fromRoute.rfq === current.rfq &&
+      fromRoute.pcmCalculationDate === current.pcmCalculationDate &&
+      fromRoute.pcmQuantity === current.pcmQuantity
+    );
+  }
 }

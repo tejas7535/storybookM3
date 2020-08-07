@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
@@ -52,8 +59,14 @@ export class CalculationsTableComponent implements OnChanges {
   private gridApi: GridApi;
 
   @Input() rowData: Calculation[];
+  @Input() selectedNodeId: string;
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
+
+  @Output() readonly selectionChange: EventEmitter<{
+    nodeId: string;
+    calculation: Calculation;
+  }> = new EventEmitter();
 
   public modules = [
     ClientSideRowModelModule,
@@ -160,6 +173,21 @@ export class CalculationsTableComponent implements OnChanges {
     menuItems.push(resetMenuItem);
 
     return menuItems;
+  }
+
+  public onSelectionChanged(): void {
+    const nodeId: string = this.gridApi.getSelectedNodes()[0].id;
+    const calculation: Calculation = this.gridApi.getSelectedRows()[0];
+
+    this.selectionChange.emit({ nodeId, calculation });
+  }
+
+  public setSelectedNode(): void {
+    if (this.selectedNodeId) {
+      this.gridApi
+        .getRowNode(this.selectedNodeId)
+        .setSelected(true, true, true);
+    }
   }
 
   /**

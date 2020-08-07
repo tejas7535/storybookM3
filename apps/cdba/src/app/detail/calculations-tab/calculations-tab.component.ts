@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { SearchState } from '../../core/store/reducers/search/search.reducer';
+import { selectCalculation } from '../../core/store';
+import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
 import {
   getCalculations,
   getCalculationsErrorMessage,
   getCalculationsLoading,
+  getSelectedNodeId,
 } from '../../core/store/selectors';
 
 @Component({
@@ -19,14 +21,23 @@ import {
 })
 export class CalculationsTabComponent implements OnInit {
   calculations$: Observable<Calculation[]>;
+  selectedNodeId$: Observable<string>;
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
-  public constructor(private readonly store: Store<SearchState>) {}
+  public constructor(private readonly store: Store<DetailState>) {}
 
   ngOnInit(): void {
     this.calculations$ = this.store.pipe(select(getCalculations));
+    this.selectedNodeId$ = this.store.pipe(select(getSelectedNodeId));
     this.loading$ = this.store.pipe(select(getCalculationsLoading));
     this.errorMessage$ = this.store.pipe(select(getCalculationsErrorMessage));
+  }
+
+  public selectCalculation(event: {
+    nodeId: string;
+    calculation: Calculation;
+  }): void {
+    this.store.dispatch(selectCalculation(event));
   }
 }

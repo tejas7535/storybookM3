@@ -1,17 +1,18 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
-  BomIdentifier,
   BomItem,
-  ReferenceTypeIdModel,
+  ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
 import { Calculation } from '../../reducers/shared/models/calculation.model';
 
-export const loadReferenceType = createAction(
-  '[Detail] Load Reference Type',
-  props<{ referenceTypeId: ReferenceTypeIdModel }>()
+export const selectReferenceType = createAction(
+  '[Detail] Select Reference Type',
+  props<{ referenceTypeIdentifier: ReferenceTypeIdentifier }>()
 );
+
+export const loadReferenceType = createAction('[Detail] Load Reference Type');
 
 export const loadReferenceTypeSuccess = createAction(
   '[Detail] Load Reference Type Success',
@@ -23,10 +24,7 @@ export const loadReferenceTypeFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadBom = createAction(
-  '[Detail] Load BOM',
-  props<{ bomIdentifier: BomIdentifier }>()
-);
+export const loadBom = createAction('[Detail] Load BOM');
 
 export const loadBomSuccess = createAction(
   '[Detail] Load BOM Success',
@@ -38,10 +36,7 @@ export const loadBomFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadCalculations = createAction(
-  '[Detail] Load Calculations',
-  props<{ materialNumber: string; includeBom: boolean }>()
-);
+export const loadCalculations = createAction('[Detail] Load Calculations');
 
 export const loadCalculationsSuccess = createAction(
   '[Detail] Load Calculations Success',
@@ -51,6 +46,11 @@ export const loadCalculationsSuccess = createAction(
 export const loadCalculationsFailure = createAction(
   '[Detail] Load Calculations Failure',
   props<{ errorMessage: string }>()
+);
+
+export const selectCalculation = createAction(
+  '[Detail] Select Calculation',
+  props<{ nodeId: string; calculation: Calculation }>()
 );
 
 export const loadDrawings = createAction(
@@ -84,6 +84,7 @@ export const loadRfqsFailure = createAction(
 );
 
 const all = union({
+  selectReferenceType,
   loadBom,
   loadBomSuccess,
   loadBomFailure,
@@ -96,6 +97,7 @@ const all = union({
   loadCalculations,
   loadCalculationsSuccess,
   loadCalculationsFailure,
+  selectCalculation,
   loadReferenceType,
   loadReferenceTypeSuccess,
   loadReferenceTypeFailure,
