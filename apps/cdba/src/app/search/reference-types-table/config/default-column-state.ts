@@ -130,9 +130,9 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   pcmCalculationDate: {
     colId: 'pcmCalculationDate',
   },
-  saleableItem: {
-    colId: 'saleableItem',
-  },
+  // saleableItem: {
+  //   colId: 'saleableItem',
+  // },
   gpcDate: { colId: 'gpcDate' },
   sqvDate: { colId: 'sqvDate' },
   specialProcurement: { colId: 'specialProcurement' },
