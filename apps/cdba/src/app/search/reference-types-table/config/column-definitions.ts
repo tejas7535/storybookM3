@@ -483,13 +483,13 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       ),
     valueFormatter: formatDate,
   },
-  saleableItem: {
-    field: columnDefinitionToReferenceTypeProp('saleableItem'),
-    headerName: translate('search.referenceTypesTable.headers.saleableItem'),
-    headerTooltip: translate(
-      'search.referenceTypesTable.tooltips.saleableItem'
-    ),
-  },
+  // saleableItem: {
+  //   field: columnDefinitionToReferenceTypeProp('saleableItem'),
+  //   headerName: translate('search.referenceTypesTable.headers.saleableItem'),
+  //   headerTooltip: translate(
+  //     'search.referenceTypesTable.tooltips.saleableItem'
+  //   ),
+  // },
   gpcDate: {
     filter: 'agDateColumnFilter',
     headerName: translate('search.referenceTypesTable.headers.gpcDate'),
