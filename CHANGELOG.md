@@ -2,6 +2,47 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
+
+
+### 🎸 Features
+
+* **auth:** make auth library publishable (UFTABI-2636) ([26833ff](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/26833ffdccd5dc448e99130de7fd240462721e02))
+* **cdba:** add calculation table (DSCDA-1744) ([526a8bf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/526a8bfd2c13ea97d5468111ce10049cf91c3018))
+* **cdba:** add empty state to drawings widget (DSCDA-1867 ([91f240e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/91f240e667fe9579e0266e91560018664bd813f0))
+* **cdba:** add new favicon ([24e181b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/24e181b2b0561e0ffec3e7ca65ef99568d550a90))
+* **cdba:** autofocus autocomplete input on open (DSCDA-1887) ([14c9d4d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/14c9d4d8e111a26c812ca109d2d4f551a765a586))
+* **cdba:** error handling of REST calls (DSCDA-1860) ([47777ef](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/47777ef47904cd032b1af5339a10390f3a20c9d8))
+* **cdba:** fix translations in production builds (DSCDA-1866) ([164ca33](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/164ca337164e48f98ec8d055e27e7c5e50854486))
+* **cdba:** improve app styling ([d531fc9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d531fc975d0f041eaace223a551643e4c3aef8c0))
+* **cdba:** integrate BOM (DSCDA-1687) ([d655927](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d655927406895b0c7315b37ed313dc6df605c655))
+* **cdba:** only update filters when necessary (DSCDA-1809) ([665f418](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/665f4180f21806f2044816ab344a1cb010e8ba16))
+* **cdba:** remove drawings tab (DSCDA-1859) ([e88582c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e88582c698c44d501bfda2d3529ac1bd126ac84c))
+* **cdba:** remove flickering loading bar ([750ce3b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/750ce3b4fd67c05d8f23261e7b1d7f795dfcfed3))
+* **cdba:** use loading spinner for each widget (DSCDA-1861) ([28763a7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/28763a78de94fb029586077a362add07b4f193e6))
+* **empty-states:** migrate lib to publishable lib (UFTABI-2635) ([977435f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/977435f2481c68dcb842cbe3f3aaa93302e0175d))
+* **goldwind:** add initial bearing condition-monitoring (DIGDTGW-407) ([47880c6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/47880c66bc43a114f5eeedce3b2d67506b198d29))
+* **ltp:** display hardness diversification in chart (ADAPLD-5838) ([593e9e2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/593e9e29964098586d00bb0c4ee8dfc98f9b56ce))
+* **sidebar:** build lib with ViewEngine (UFTABI-2671) ([ab56af8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ab56af8fe3c56bf55dfd94b5c277add56fe7d104))
+* **sta:** use shared auth library (UFTABI-2265) ([3eb7c69](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3eb7c69b3c6aec1b05766205d06f87ce4c821d7a))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** always show checkbox in ref types table (DSCDA-1812) ([003ace7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/003ace79541cd5ccafdb5d4ec524eb84d480b6f2))
+* **cdba:** back button on detail page navigates to search (DSCDA-1874) ([3fac057](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3fac057919dc7770401b8fccdfe21a086cc30244))
+* **cdba:** enter should not break filter (DSCDA-1900) ([b0de17e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b0de17e4e8e163fc0ddac011c612dc963f39739e))
+* **cdba:** fix reset button disabled condition (DSCDA-1876) ([16791b2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/16791b2f7e313984b69a3c07f88799d387f465fc))
+* **hw-azure:** add missing EffectsModule.forRoot ([d3ca951](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d3ca951037e7676875cd018999a2a65d1daee3ad))
+
+
+### 📈 Improvements
+
+* **cdba:** ensure data consistency on detail page (DSCDA-1844) ([563be60](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/563be6040a5ea18a0e49687949ec7183588a67c7))
+* **cdba:** hide range filter (DSCDA-1840) ([a74b1df](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a74b1df5dfe22530ffa0098eedb768ef8cbae2b4))
+* **cdba:** id-value label for product line and plant (DSCDA-1914) ([91d2a96](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/91d2a9605b5bb323e1ed976e0eeb16746b4d7c1b))
+* **cdba:** update REST API for unique results (DSCDA-1839) ([658df98](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/658df98c1ed6e7247b6c8e165f4fedd28685dfb2))
+
 ## [1.2.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.1.0...v1.2.0) (2020-07-21)
 
 

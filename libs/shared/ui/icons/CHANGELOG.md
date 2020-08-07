@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](///compare/v1.2.0...v1.3.0) (2020-08-07)
+
+
+### 🎸 Features
+
+* **cdba:** integrate BOM (DSCDA-1687) ([d655927](///commit/d655927406895b0c7315b37ed313dc6df605c655))
+
 ## [1.2.0](///compare/v1.1.0...v1.2.0) (2020-07-21)
 
 
