@@ -22,6 +22,7 @@ import {
 import { SharedModule } from '../../../shared/shared.module';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
+import { FormatValuePipe } from './pipes/format-value.pipe';
 import { MultiSelectValuePipe } from './pipes/multi-select-value.pipe';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
@@ -35,6 +36,7 @@ describe('MultiSelectFilterComponent', () => {
         MultiSelectFilterComponent,
         MultiSelectValuePipe,
         NoResultsFoundPipe,
+        FormatValuePipe,
       ],
       imports: [
         NoopAnimationsModule,
