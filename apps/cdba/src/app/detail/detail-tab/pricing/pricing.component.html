@@ -43,9 +43,7 @@
     </div>
     <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end"
-          >{{ t('pricing.gpcLatestYear', { year: currentYear }) }}:&nbsp;</label
-        >
+        <label fxFlexAlign="end">{{ t('pricing.gpcLatestYear') }}:&nbsp;</label>
         <div>
           {{ salesPrice?.gpcLatestYear | number: '':'de-DE' }}&nbsp;{{
             t('pricing.pricePerUnit', {
