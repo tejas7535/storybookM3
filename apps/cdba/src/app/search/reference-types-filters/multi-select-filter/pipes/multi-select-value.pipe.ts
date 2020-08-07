@@ -10,7 +10,7 @@ export class MultiSelectValuePipe implements PipeTransform {
    * Transform selected values like '(count) item1, item2'
    */
   public transform(values: IdValue[]): any {
-    if (!values) {
+    if (!values || (values.length === 1 && values[0] === undefined)) {
       return '';
     }
 
