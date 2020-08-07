@@ -9,13 +9,14 @@
     multiple
     disableOptionCentering
     panelClass="custom-select-panel"
-    (openedChange)="updateFiltersOnDropdownClose($event)"
+    (openedChange)="dropdownOpenedChange($event)"
   >
     <mat-select-trigger>
       {{ form.value | multiSelectValue }}
     </mat-select-trigger>
     <mat-form-field class="search-field" floatLabel="never">
       <input
+        #autocomplete
         matInput
         placeholder="{{ t('searchPlaceholder') }}"
         [formControl]="searchForm"

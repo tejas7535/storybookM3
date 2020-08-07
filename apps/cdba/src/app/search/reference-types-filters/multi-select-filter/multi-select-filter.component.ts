@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   OnChanges,
@@ -7,6 +8,7 @@ import {
   OnInit,
   Output,
   SimpleChanges,
+  ViewChild,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core/option';
@@ -40,6 +42,8 @@ export class MultiSelectFilterComponent
   @Output() private readonly autocomplete: EventEmitter<
     TextSearch
   > = new EventEmitter();
+
+  @ViewChild('autocomplete') autocompleteInput: ElementRef;
 
   ONE_CHAR_LENGTH = 1;
   DEBOUNCE_TIME_DEFAULT = 500;
@@ -205,11 +209,15 @@ export class MultiSelectFilterComponent
   }
 
   /**
-   * Update store when dropdown is closed.
+   * Update store when dropdown is closed / focus input on open.
    */
-  public updateFiltersOnDropdownClose(isOpened: boolean): void {
+  public dropdownOpenedChange(isOpened: boolean): void {
     if (!isOpened) {
       this.emitUpdate(this.form.value);
+    } else {
+      setTimeout(() => {
+        this.autocompleteInput.nativeElement.focus();
+      }, 100);
     }
   }
 
