@@ -79,9 +79,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   },
   gpcLatestYear: {
     field: columnDefinitionToReferenceTypeProp('gpcLatestYear'),
-    headerName: translate('search.referenceTypesTable.headers.gpcLatestYear', {
-      year: currentYear,
-    }),
+    headerName: translate('search.referenceTypesTable.headers.gpcLatestYear'),
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.gpcLatestYear',
       { year: currentYear - 1 }
@@ -495,9 +493,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   gpcDate: {
     filter: 'agDateColumnFilter',
     headerName: translate('search.referenceTypesTable.headers.gpcDate'),
-    headerTooltip: translate('search.referenceTypesTable.tooltips.gpcDate', {
-      year: currentYear,
-    }),
+    headerTooltip: translate('search.referenceTypesTable.tooltips.gpcDate'),
     valueGetter: (params) =>
       valueGetterDate(params, columnDefinitionToReferenceTypeProp('gpcDate')),
     valueFormatter: formatDate,
