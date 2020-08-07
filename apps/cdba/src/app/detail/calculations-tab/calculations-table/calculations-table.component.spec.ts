@@ -12,6 +12,7 @@ import {
   GridApi,
   IStatusPanelParams,
   MenuItemDef,
+  RowNode,
   SortChangedEvent,
 } from '@ag-grid-community/core';
 import { configureTestSuite } from 'ng-bullet';
@@ -232,6 +233,48 @@ describe('CalculationsTableComponent', () => {
     });
   });
 
+  describe('onSelectionChanged', () => {
+    it('should emit selectionChange Event', () => {
+      component['gridApi'] = ({
+        getSelectedNodes: jest.fn(() => [({ id: 7 } as unknown) as RowNode]),
+        getSelectedRows: jest.fn(() => [CALCULATIONS_TYPE_MOCK[0]]),
+      } as unknown) as GridApi;
+
+      component.selectionChange.emit = jest.fn();
+
+      component.onSelectionChanged();
+
+      expect(component.selectionChange.emit).toHaveBeenCalledWith({
+        nodeId: 7,
+        calculation: CALCULATIONS_TYPE_MOCK[0],
+      });
+    });
+  });
+
+  describe('setSelectedNode', () => {
+    beforeEach(() => {
+      component['gridApi'] = ({
+        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+      } as unknown) as GridApi;
+    });
+
+    it('should set node selected if nodeId is set', () => {
+      component.selectedNodeId = '7';
+
+      component.setSelectedNode();
+
+      expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+    });
+
+    it('should do nothing, if nodeId is not present', () => {
+      component.selectedNodeId = undefined;
+
+      component.setSelectedNode();
+
+      expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
+    });
+  });
+
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
       const mockEvent = ({
@@ -366,4 +409,5 @@ describe('CalculationsTableComponent', () => {
       expect(component['gridApi']).toEqual(params.api);
     });
   });
+  // tslint:disable-next-line: max-file-line-count
 });

@@ -1,7 +1,9 @@
 <div class="container">
   <cdba-calculation-table
     [rowData]="calculations$ | async"
+    [selectedNodeId]="selectedNodeId$ | async"
     [isLoading]="loading$ | async"
     [errorMessage]="errorMessage$ | async"
+    (selectionChange)="selectCalculation($event)"
   ></cdba-calculation-table>
 </div>

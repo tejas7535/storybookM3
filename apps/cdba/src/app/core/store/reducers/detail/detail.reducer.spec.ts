@@ -13,12 +13,13 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectCalculation,
+  selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
 import {
-  BomIdentifier,
   BomResult,
-  ReferenceTypeIdModel,
+  ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from './models';
 import { CalculationsResultModel } from './models/calculations-result-model';
@@ -37,16 +38,48 @@ describe('Detail Reducer', () => {
   };
   const errorMessage = 'An error occured';
 
+  const referenceTypeIdentifier: ReferenceTypeIdentifier = new ReferenceTypeIdentifier(
+    REFRENCE_TYPE_MOCK.materialNumber,
+    REFRENCE_TYPE_MOCK.plant
+  );
+
+  describe('selectReferenceType', () => {
+    test('should set selectedReferenceType', () => {
+      const action = selectReferenceType({ referenceTypeIdentifier });
+      const state = detailReducer(initialState, action);
+
+      expect(state.selectedReferenceType).toEqual(referenceTypeIdentifier);
+    });
+  });
+
   describe('loadReferenceType', () => {
     test('should set loading', () => {
-      const referenceTypeId = new ReferenceTypeIdModel(
-        REFRENCE_TYPE_MOCK.materialNumber,
-        REFRENCE_TYPE_MOCK.plant
-      );
-      const action = loadReferenceType({ referenceTypeId });
+      const action = loadReferenceType();
       const state = detailReducer(initialState, action);
 
       expect(state.detail.loading).toBeTruthy();
+    });
+
+    test('should set reset previous reference type', () => {
+      const mockState = {
+        ...fakeState,
+        detail: { ...fakeState.detail, referenceType: REFRENCE_TYPE_MOCK },
+      };
+      const action = loadReferenceType();
+      const state = detailReducer(mockState, action);
+
+      expect(state.detail.referenceType).toBeUndefined();
+    });
+
+    test('should reset previous error', () => {
+      const mockState = {
+        ...fakeState,
+        detail: { ...fakeState.detail, errorMessage },
+      };
+      const action = loadReferenceType();
+      const state = detailReducer(mockState, action);
+
+      expect(state.detail.errorMessage).toBeUndefined();
     });
   });
 
@@ -59,8 +92,8 @@ describe('Detail Reducer', () => {
       const state = detailReducer(fakeState, action);
 
       expect(state.detail.loading).toBeFalsy();
-      expect(state.calculations.loading).toBeTruthy();
       expect(state.detail.referenceType).toEqual(item.referenceTypeDto);
+      expect(state.detail.errorMessage).toBeUndefined();
     });
   });
 
@@ -77,13 +110,19 @@ describe('Detail Reducer', () => {
 
   describe('loadCalculations', () => {
     test('should set loading', () => {
-      const materialNumber = '123';
-      const includeBom = true;
-
-      const action = loadCalculations({ materialNumber, includeBom });
+      const action = loadCalculations();
       const state = detailReducer(initialState, action);
 
       expect(state.calculations.loading).toBeTruthy();
+    });
+
+    test('should reset calculations state', () => {
+      const action = loadCalculations();
+      const state = detailReducer(initialState, action);
+
+      expect(state.calculations.items).toBeUndefined();
+      expect(state.calculations.selected).toBeUndefined();
+      expect(state.calculations.errorMessage).toBeUndefined();
     });
   });
 
@@ -99,6 +138,19 @@ describe('Detail Reducer', () => {
       expect(state.calculations.loading).toBeFalsy();
       expect(state.calculations.items).toEqual(item.items);
     });
+
+    test('should select the first calculation', () => {
+      const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
+
+      const action = loadCalculationsSuccess({ items: item.items });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.calculations.selected.nodeId).toEqual('0');
+      expect(state.calculations.selected.calculation).toEqual(
+        CALCULATIONS_TYPE_MOCK[0]
+      );
+    });
   });
 
   describe('loadCalculationsFailure', () => {
@@ -112,22 +164,33 @@ describe('Detail Reducer', () => {
     });
   });
 
+  describe('selectCalculation', () => {
+    test('should set new selected calculation', () => {
+      const nodeId = '7';
+      const calculation = CALCULATIONS_TYPE_MOCK[7];
+      const action = selectCalculation({ nodeId, calculation });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.calculations.selected.nodeId).toEqual(nodeId);
+      expect(state.calculations.selected.calculation).toEqual(calculation);
+    });
+  });
+
   describe('loadBom', () => {
     test('should set loading', () => {
-      const bomIdentifier = new BomIdentifier(
-        'date',
-        'number',
-        'type',
-        'version',
-        'entered',
-        'ref',
-        'variant'
-      );
-
-      const action = loadBom({ bomIdentifier });
+      const action = loadBom();
       const state = detailReducer(initialState, action);
 
       expect(state.bom.loading).toBeTruthy();
+    });
+
+    test('should reset bom state', () => {
+      const action = loadBom();
+      const state = detailReducer(initialState, action);
+
+      expect(state.bom.items).toBeUndefined();
+      expect(state.bom.errorMessage).toBeUndefined();
     });
   });
 

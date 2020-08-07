@@ -5,6 +5,7 @@ import {
   PRICE_DETAILS_MOCK,
   PRODUCTION_DETAILS_MOCK,
   QUANTITIES_DETAILS_MOCK,
+  REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFRENCE_TYPE_MOCK,
   SALES_DETAILS_MOCK,
 } from '../../../../../testing/mocks';
@@ -13,6 +14,7 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
+  getBomIdentifierForSelectedCalculation,
   getBomItems,
   getBomLoading,
   getCalculations,
@@ -25,12 +27,15 @@ import {
   getReferenceType,
   getReferenceTypeLoading,
   getSalesDetails,
+  getSelectedNodeId,
+  getSelectedReferenceTypeIdentifier,
 } from './detail.selector';
 
 describe('Detail Selector', () => {
   const fakeState: { detail: DetailState } = {
     detail: {
       ...initialState,
+      selectedReferenceType: REFERENCE_TYPE_IDENTIFIER_MOCK,
       detail: {
         ...initialState.detail,
         loading: true,
@@ -40,6 +45,10 @@ describe('Detail Selector', () => {
         ...initialState.calculations,
         loading: true,
         items: CALCULATIONS_TYPE_MOCK,
+        selected: {
+          nodeId: '7',
+          calculation: CALCULATIONS_TYPE_MOCK[6],
+        },
       },
     },
   };
@@ -161,6 +170,47 @@ describe('Detail Selector', () => {
   describe('getBomLoading', () => {
     test('should return bom loading status', () => {
       expect(getBomLoading(initialDetailState)).toBeFalsy();
+    });
+  });
+
+  describe('getSelectedReferenceTypeIdentifier', () => {
+    test('should return currently selected refTypeIdentifier', () => {
+      expect(getSelectedReferenceTypeIdentifier(fakeState)).toEqual(
+        REFERENCE_TYPE_IDENTIFIER_MOCK
+      );
+    });
+  });
+
+  describe('getSelectedNodeId', () => {
+    test('should return undefined if selected is undefined', () => {
+      expect(getSelectedNodeId(initialDetailState)).toBeUndefined();
+    });
+
+    test('should return string of the node id', () => {
+      expect(getSelectedNodeId(fakeState)).toEqual('7');
+    });
+  });
+
+  describe('getBomIdentifierForSelectedCalculation', () => {
+    test('should return undefined if selected is undefined', () => {
+      expect(
+        getBomIdentifierForSelectedCalculation(initialDetailState)
+      ).toBeUndefined();
+    });
+
+    test('should return the BomIdentifier of the selected calculation', () => {
+      const expectedIdentifier = {
+        bomCostingDate: '20170701',
+        bomCostingNumber: '145760472',
+        bomCostingType: 'K1',
+        bomCostingVersion: '61',
+        bomEnteredManually: '',
+        bomReferenceObject: '0',
+        bomValuationVariant: 'SQB',
+      };
+      expect(getBomIdentifierForSelectedCalculation(fakeState)).toEqual(
+        expectedIdentifier
+      );
     });
   });
 });

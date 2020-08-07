@@ -8,6 +8,10 @@ import { QuantitiesDetails } from '../../../../detail/detail-tab/quantities/mode
 import { SalesDetails } from '../../../../detail/detail-tab/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
+import {
+  BomIdentifier,
+  ReferenceTypeIdentifier,
+} from '../../reducers/detail/models';
 import { ReferenceType } from '../../reducers/shared/models';
 import { Calculation } from '../../reducers/shared/models/calculation.model';
 
@@ -147,4 +151,45 @@ export const getBomLoading = createSelector(
 export const getBomErrorMessage = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.errorMessage
+);
+
+export const getSelectedNodeId = createSelector(
+  getDetailState,
+  (state: DetailState): string => state.calculations.selected?.nodeId
+);
+
+export const getBomIdentifierForSelectedCalculation = createSelector(
+  getDetailState,
+  (state: DetailState): BomIdentifier => {
+    const calculation = state.calculations.selected?.calculation;
+
+    if (calculation) {
+      const {
+        bomCostingDate,
+        bomCostingNumber,
+        bomCostingType,
+        bomCostingVersion,
+        bomEnteredManually,
+        bomReferenceObject,
+        bomValuationVariant,
+      } = calculation;
+
+      return {
+        bomCostingDate,
+        bomCostingNumber,
+        bomCostingType,
+        bomCostingVersion,
+        bomEnteredManually,
+        bomReferenceObject,
+        bomValuationVariant,
+      };
+    }
+
+    return undefined;
+  }
+);
+
+export const getSelectedReferenceTypeIdentifier = createSelector(
+  getDetailState,
+  (state: DetailState): ReferenceTypeIdentifier => state.selectedReferenceType
 );

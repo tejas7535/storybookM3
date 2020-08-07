@@ -1,4 +1,7 @@
+import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
+import { BomItem, ReferenceTypeIdentifier } from '../../reducers/detail/models';
 import {
+  DetailActions,
   loadBom,
   loadBomFailure,
   loadBomSuccess,
@@ -14,49 +17,46 @@ import {
   loadRfqs,
   loadRfqsFailure,
   loadRfqsSuccess,
-} from '..';
-import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
-import { BomIdentifier, BomItem } from '../../reducers/detail/models';
+  selectReferenceType,
+} from '../detail/detail.actions';
 
 describe('Detail Actions', () => {
-  let referenceTypeId: any;
-  let materialNumber: string;
-  let bomIdentifier: BomIdentifier;
+  let action: DetailActions;
+  let referenceTypeIdentifier: ReferenceTypeIdentifier;
   let errorMessage: string;
 
   beforeEach(() => {
-    referenceTypeId = {
+    action = undefined;
+
+    referenceTypeIdentifier = {
       materialNumber: '1234',
       plant: 'Beautiful Plant',
     };
 
-    materialNumber = referenceTypeId.materialNumber;
-
-    bomIdentifier = new BomIdentifier(
-      'date',
-      'number',
-      'type',
-      'version',
-      'entered',
-      'ref',
-      'variant'
-    );
     errorMessage = 'An error occured';
+  });
+
+  test('selectReferenceType', () => {
+    action = selectReferenceType({ referenceTypeIdentifier });
+
+    expect(action).toEqual({
+      referenceTypeIdentifier,
+      type: '[Detail] Select Reference Type',
+    });
   });
 
   describe('Get Item Actions', () => {
     test('loadItem', () => {
-      const action = loadReferenceType({ referenceTypeId });
+      action = loadReferenceType();
 
       expect(action).toEqual({
-        referenceTypeId,
         type: '[Detail] Load Reference Type',
       });
     });
 
     test('loadItemSuccess', () => {
       const item: any = {};
-      const action = loadReferenceTypeSuccess({ item });
+      action = loadReferenceTypeSuccess({ item });
 
       expect(action).toEqual({
         item,
@@ -65,7 +65,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadItemFailure', () => {
-      const action = loadReferenceTypeFailure({ errorMessage });
+      action = loadReferenceTypeFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
@@ -76,17 +76,16 @@ describe('Detail Actions', () => {
 
   describe('Get BOM Actions', () => {
     test('loadBom', () => {
-      const action = loadBom({ bomIdentifier });
+      action = loadBom();
 
       expect(action).toEqual({
-        bomIdentifier,
         type: '[Detail] Load BOM',
       });
     });
 
     test('loadBomSuccess', () => {
       const items: BomItem[] = [];
-      const action = loadBomSuccess({ items });
+      action = loadBomSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -95,7 +94,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadBomFailure', () => {
-      const action = loadBomFailure({ errorMessage });
+      action = loadBomFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
@@ -106,19 +105,16 @@ describe('Detail Actions', () => {
 
   describe('Get Calculations Actions', () => {
     test('loadCalculations', () => {
-      const includeBom = true;
-      const action = loadCalculations({ materialNumber, includeBom });
+      action = loadCalculations();
 
       expect(action).toEqual({
-        materialNumber,
-        includeBom,
         type: '[Detail] Load Calculations',
       });
     });
 
     test('loadCalculationsSuccess', () => {
       const items = CALCULATIONS_TYPE_MOCK;
-      const action = loadCalculationsSuccess({ items });
+      action = loadCalculationsSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -127,7 +123,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsFailure', () => {
-      const action = loadCalculationsFailure({ errorMessage });
+      action = loadCalculationsFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
@@ -138,17 +134,17 @@ describe('Detail Actions', () => {
 
   describe('Get Drawings Actions', () => {
     test('loadDrawings', () => {
-      const action = loadDrawings({ referenceTypeId });
+      action = loadDrawings({ referenceTypeId: referenceTypeIdentifier });
 
       expect(action).toEqual({
-        referenceTypeId,
+        referenceTypeId: referenceTypeIdentifier,
         type: '[Detail] Load Drawings',
       });
     });
 
     test('loadDrawingsSuccess', () => {
       const items: any[] = [];
-      const action = loadDrawingsSuccess({ items });
+      action = loadDrawingsSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -157,7 +153,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadDrawingsFailure', () => {
-      const action = loadDrawingsFailure({ errorMessage });
+      action = loadDrawingsFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
@@ -168,17 +164,17 @@ describe('Detail Actions', () => {
 
   describe('Get RFQs Actions', () => {
     test('loadRfqs', () => {
-      const action = loadRfqs({ referenceTypeId });
+      action = loadRfqs({ referenceTypeId: referenceTypeIdentifier });
 
       expect(action).toEqual({
-        referenceTypeId,
+        referenceTypeId: referenceTypeIdentifier,
         type: '[Detail] Load RFQs',
       });
     });
 
     test('loadRfqsSuccess', () => {
       const items: any[] = [];
-      const action = loadRfqsSuccess({ items });
+      action = loadRfqsSuccess({ items });
 
       expect(action).toEqual({
         items,
@@ -187,7 +183,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadRfqsFailure', () => {
-      const action = loadRfqsFailure({ errorMessage });
+      action = loadRfqsFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,

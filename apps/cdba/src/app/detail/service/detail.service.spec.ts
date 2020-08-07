@@ -16,7 +16,7 @@ import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import {
   BomIdentifier,
   BomResult,
-  ReferenceTypeIdModel,
+  ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../core/store/reducers/detail/models';
 import { CalculationsResultModel } from '../../core/store/reducers/detail/models/calculations-result-model';
@@ -57,7 +57,7 @@ describe('DetailService', () => {
 
       service
         .getDetails(
-          new ReferenceTypeIdModel(
+          new ReferenceTypeIdentifier(
             mock.referenceTypeDto.materialNumber,
             mock.referenceTypeDto.plant
           )
@@ -86,7 +86,7 @@ describe('DetailService', () => {
 
       service
         .getDetails(
-          new ReferenceTypeIdModel(
+          new ReferenceTypeIdentifier(
             mock.referenceTypeDto.materialNumber,
             mock.referenceTypeDto.plant,
             mock.referenceTypeDto.rfq,

@@ -1,6 +1,6 @@
-export * from './reference-type-result.model';
-export * from './reference-type-id.model';
-export * from './bom-item.model';
-export * from './bom-result.model';
-export * from './calculations-result-model';
-export * from './bom-identifier.model';
+export { ReferenceTypeResultModel } from './reference-type-result.model';
+export { ReferenceTypeIdentifier } from './reference-type-identifier.model';
+export { BomItem } from './bom-item.model';
+export { BomResult } from './bom-result.model';
+export { CalculationsResultModel } from './calculations-result-model';
+export { BomIdentifier } from './bom-identifier.model';

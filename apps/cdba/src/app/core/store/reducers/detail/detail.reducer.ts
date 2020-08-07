@@ -10,12 +10,14 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectCalculation,
+  selectReferenceType,
 } from '../../actions';
-import { ReferenceType } from '../shared/models';
-import { Calculation } from '../shared/models/calculation.model';
-import { BomItem } from './models';
+import { Calculation, ReferenceType } from '../shared/models';
+import { BomItem, ReferenceTypeIdentifier } from './models';
 
 export interface DetailState {
+  selectedReferenceType: ReferenceTypeIdentifier;
   detail: {
     loading: boolean;
     referenceType: ReferenceType;
@@ -24,6 +26,7 @@ export interface DetailState {
   calculations: {
     loading: boolean;
     items: Calculation[];
+    selected: { nodeId: string; calculation: Calculation };
     errorMessage: string;
   };
   bom: {
@@ -34,6 +37,7 @@ export interface DetailState {
 }
 
 export const initialState: DetailState = {
+  selectedReferenceType: undefined,
   detail: {
     loading: false,
     referenceType: undefined,
@@ -42,6 +46,7 @@ export const initialState: DetailState = {
   calculations: {
     loading: false,
     items: undefined,
+    selected: undefined,
     errorMessage: undefined,
   },
   bom: {
@@ -53,9 +58,20 @@ export const initialState: DetailState = {
 
 export const detailReducer = createReducer(
   initialState,
+  on(
+    selectReferenceType,
+    (state: DetailState, { referenceTypeIdentifier }) => ({
+      ...state,
+      selectedReferenceType: referenceTypeIdentifier,
+    })
+  ),
   on(loadReferenceType, (state: DetailState) => ({
     ...state,
-    detail: { ...state.detail, loading: true, errorMessage: undefined },
+    detail: {
+      referenceType: undefined,
+      loading: true,
+      errorMessage: undefined,
+    },
   })),
   on(loadReferenceTypeSuccess, (state: DetailState, { item }) => ({
     ...state,
@@ -77,7 +93,8 @@ export const detailReducer = createReducer(
   on(loadCalculations, (state: DetailState) => ({
     ...state,
     calculations: {
-      ...state.calculations,
+      items: undefined,
+      selected: undefined,
       loading: true,
       errorMessage: undefined,
     },
@@ -87,6 +104,10 @@ export const detailReducer = createReducer(
     calculations: {
       ...state.calculations,
       items,
+      selected: {
+        nodeId: '0',
+        calculation: items[0],
+      },
       loading: false,
     },
   })),
@@ -95,14 +116,17 @@ export const detailReducer = createReducer(
     calculations: {
       ...state.calculations,
       errorMessage,
-      items: [],
       loading: false,
     },
+  })),
+  on(selectCalculation, (state: DetailState, { nodeId, calculation }) => ({
+    ...state,
+    calculations: { ...state.calculations, selected: { nodeId, calculation } },
   })),
   on(loadBom, (state: DetailState) => ({
     ...state,
     bom: {
-      ...state.bom,
+      items: undefined,
       loading: true,
       errorMessage: undefined,
     },
@@ -120,7 +144,6 @@ export const detailReducer = createReducer(
     bom: {
       ...state.bom,
       errorMessage,
-      items: [],
       loading: false,
     },
   }))

@@ -28,9 +28,11 @@
         (columnVisible)="columnChange($event)"
         (columnPinned)="columnChange($event)"
         (sortChanged)="sortChange($event)"
+        (selectionChanged)="onSelectionChanged($event)"
         [loadingOverlayComponent]="loadingOverlayComponent"
         [suppressNoRowsOverlay]="rowData === undefined || isLoading"
         (gridReady)="onGridReady($event)"
+        (firstDataRendered)="setSelectedNode($event)"
         [noRowsOverlayComponent]="noRowsOverlayComponent"
         [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
       >
