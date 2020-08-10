@@ -10,8 +10,10 @@ const datePipe = new DatePipe('de-DE');
 
 export const currentYear = new Date().getFullYear();
 
-export const formatNumber = (params: ValueFormatterParams) =>
-  decimalPipe.transform(params.value, '1.0-2');
+export const formatNumber = (
+  params: ValueFormatterParams,
+  digitsInfo: string = '1.0-2'
+) => decimalPipe.transform(params.value, digitsInfo);
 
 export const formatDate = (params: ValueFormatterParams) =>
   datePipe.transform(params.value);

@@ -52,7 +52,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerName: translate('search.referenceTypesTable.headers.pcmSqv'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.pcmSqv'),
     filter: 'agNumberColumnFilter',
-    valueFormatter: formatNumber,
+    valueFormatter: (params) => formatNumber(params, '1.3-3'),
   },
   budgetQuantityCurrentYear: {
     field: columnDefinitionToReferenceTypeProp('budgetQuantityCurrentYear'),
@@ -75,7 +75,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       'search.referenceTypesTable.tooltips.sqvSapLatestMonth'
     ),
     filter: 'agNumberColumnFilter',
-    valueFormatter: formatNumber,
+    valueFormatter: (params) => formatNumber(params, '1.3-3'),
   },
   gpcLatestYear: {
     field: columnDefinitionToReferenceTypeProp('gpcLatestYear'),
@@ -85,7 +85,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       { year: currentYear - 1 }
     ),
     filter: 'agNumberColumnFilter',
-    valueFormatter: formatNumber,
+    valueFormatter: (params) => formatNumber(params, '1.3-3'),
   },
   averagePrice: {
     headerName: translate('search.referenceTypesTable.headers.averagePrice', {
@@ -95,7 +95,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       year: currentYear - 1,
     }),
     filter: 'agNumberColumnFilter',
-    valueFormatter: formatNumber,
+    valueFormatter: (params) => formatNumber(params, '1.3-3'),
     valueGetter: (params) =>
       valueGetterArray(
         params,
