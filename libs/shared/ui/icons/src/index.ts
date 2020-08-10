@@ -1,2 +1,2 @@
-export * from './lib/icons.module';
-export * from './lib/icon.model';
+export { IconsModule } from './lib/icons.module';
+export { Icon } from './lib/icon.model';
