@@ -4,11 +4,22 @@ import {
   UnsupportedViewportComponent,
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
 
 const moduleMetadata = {
-  imports: [UnsupportedViewportModule, HttpClientModule],
+  imports: [
+    UnsupportedViewportModule,
+    HttpClientModule,
+    SharedTranslocoModule.forRoot(
+      false,
+      ['en'],
+      'en', // default -> undefined would lead to browser detection
+      'en',
+      false
+    ),
+  ],
 };
 
 const baseComponent = {

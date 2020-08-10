@@ -5,6 +5,7 @@ import {
   PageNotFoundComponent,
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
 
@@ -23,6 +24,13 @@ export const primary = () => ({
         useHash: true,
       }),
       HttpClientModule,
+      SharedTranslocoModule.forRoot(
+        false,
+        ['en'],
+        'en', // default -> undefined would lead to browser detection
+        'en',
+        false
+      ),
     ],
   },
   component: PageNotFoundComponent,

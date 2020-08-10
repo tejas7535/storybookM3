@@ -4,11 +4,22 @@ import {
   UnderConstructionComponent,
   UnderConstructionModule,
 } from '@schaeffler/empty-states';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import READMEMd from '../../../empty-states/src/lib/under-construction/README.md';
 
 const moduleMetadata = {
-  imports: [UnderConstructionModule, HttpClientModule],
+  imports: [
+    UnderConstructionModule,
+    HttpClientModule,
+    SharedTranslocoModule.forRoot(
+      false,
+      ['en'],
+      'en', // default -> undefined would lead to browser detection
+      'en',
+      false
+    ),
+  ],
 };
 
 const baseComponent = {
