@@ -4,10 +4,11 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { IotThing, Message } from '../../core/store/reducers/thing/models';
+import { Edm, IotThing, Message } from '../../core/store/reducers/thing/models';
 import { ThingState } from '../../core/store/reducers/thing/thing.reducer';
 import {
   getCurrentMessage,
+  getEdm,
   getSocketStatus,
   getThingThing,
 } from '../../core/store/selectors/thing/thing.selector';
@@ -19,6 +20,7 @@ import {
 })
 export class ConditionMonitoringComponent implements OnInit {
   thing$: Observable<IotThing>;
+  edm$: Observable<Edm>;
   currentMessage$: Observable<Message>;
   socketStatus$: Observable<number>;
 
@@ -26,6 +28,7 @@ export class ConditionMonitoringComponent implements OnInit {
 
   ngOnInit(): void {
     this.thing$ = this.store.pipe(select(getThingThing));
+    this.edm$ = this.store.pipe(select(getEdm));
     this.currentMessage$ = this.store.pipe(select(getCurrentMessage));
     this.socketStatus$ = this.store.pipe(select(getSocketStatus));
   }

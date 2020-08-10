@@ -9,12 +9,6 @@ import { configureTestSuite } from 'ng-bullet';
 import { DataService } from './data.service';
 import { ENV_CONFIG } from './environment-config.interface';
 
-jest.mock('@stomp/rx-stomp', () => ({
-  ...jest.requireActual('@stomp/rx-stomp'),
-  activate: jest.fn(),
-  configure: jest.fn(),
-}));
-
 describe('Data Service', () => {
   const BASE_URL = 'http://localhost:8080';
   let service: DataService;
@@ -46,12 +40,27 @@ describe('Data Service', () => {
     httpMock.verify();
   });
 
-  describe('getIotThings', () => {
+  describe('getIot', () => {
     test('should call GET for given path', () => {
-      const mockIotThingID = '123';
+      const mockPath = 'many/paths/should/be/handled';
       const mock = 'mockData';
 
-      service.getIotThings(mockIotThingID).subscribe((response) => {
+      service.getIot(mockPath).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(`${BASE_URL}/iot/things/${mockPath}`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getThing', () => {
+    test('should call GET for given path', () => {
+      const mockIotThingID = '123';
+      const mock = 'mockThing';
+
+      service.getThing(mockIotThingID).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
@@ -63,21 +72,18 @@ describe('Data Service', () => {
     });
   });
 
-  describe('connect', () => {
-    test('should establish a socket connection', () => {
-      const token = 'fantasyToken';
+  describe('getEdm', () => {
+    test('should call GET for given path', () => {
+      const mockEdmID = 'ich1-bin2-top3';
+      const mock = 'mockMeasurements';
 
-      service.connect(token).subscribe((response) => {
-        expect(response).toBeDefined();
+      service.getEdm(mockEdmID).subscribe((response) => {
+        expect(response).toEqual(mock);
       });
-    });
-  });
 
-  describe('getTopicBroadcast', () => {
-    test('should return Observable containing false if no connection', () => {
-      service.getTopicBroadcast().subscribe((response) => {
-        expect(response).toBeDefined();
-      });
+      const req = httpMock.expectOne(`${BASE_URL}/iot/things/${mockEdmID}/edm`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
     });
   });
 });
