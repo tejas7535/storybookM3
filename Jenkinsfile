@@ -366,21 +366,8 @@ pipeline {
                             echo "Run TSLint"
 
                             script {
-                                for(app in affectedApps) { 
-                                    sh "npx ng lint ${app} --force --format msbuild > ${app}-checkstyle-result.txt"
-                                    sh "npx ng lint ${app}-e2e --force --format msbuild > ${app}-e2e-checkstyle-result.txt"
-                                }
-
-                                for(lib in affectedLibs) {                                
-                                    sh "npx ng lint ${lib} --force --format msbuild > ${lib}-checkstyle-result.txt"
-                                }
+                                sh "npm run affected:lint -- --base=${buildBase}  --parallel"
                             }
-                        }
-                    }
-                    post {
-                        success {
-                            // TSLint checkstyle results
-                            recordIssues(tools: [msBuild(id: 'ts-lint', pattern: '*checkstyle-result.txt', reportEncoding: 'UTF-8')], aggregatingResults: true)
                         }
                     }
                 }
