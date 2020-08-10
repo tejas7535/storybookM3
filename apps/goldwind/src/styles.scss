@@ -1,2 +1,15 @@
+@import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+
+.ag-theme-material {
+  @include ag-theme-material();
+}
+
 @import 'libs/shared/styles/src';
 @import 'libs/shared/styles/src/lib/tabs';
+
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+.material-icons {
+  font-family: 'Material Icons' !important;
+}

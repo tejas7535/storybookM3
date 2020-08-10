@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -19,10 +21,12 @@ describe('BearingComponent', () => {
         NoopAnimationsModule,
         RouterTestingModule,
         MatTabsModule,
+        MatIconModule,
         provideTranslocoTestingModule({}),
       ],
+      providers: [provideMockStore()],
       declarations: [BearingComponent],
-    }).compileComponents();
+    });
   });
 
   beforeEach(() => {

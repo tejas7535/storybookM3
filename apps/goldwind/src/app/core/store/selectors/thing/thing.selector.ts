@@ -14,9 +14,19 @@ export const getThingThing = createSelector(
   (state: ThingState) => state.thing.thing
 );
 
+export const getThingSensorId = createSelector(
+  getThingState,
+  () => 'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
+); // will later access a valid id within the inital wot thing result
+
 export const getSocketStatus = createSelector(
   getThingState,
   (state: ThingState) => state.thing.socketStatus
+);
+
+export const getEdm = createSelector(
+  getThingState,
+  (state: ThingState) => state.thing.measurements
 );
 
 export const getMessages = createSelector(

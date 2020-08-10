@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { IotThing } from '../../reducers/thing/models';
+import { Edm, IotThing } from '../../reducers/thing/models';
 
 export const getThingId = createAction('[Thing] Load Thing ID');
 
@@ -16,7 +16,25 @@ export const getThingSuccess = createAction(
 
 export const getThingFailure = createAction('[Thing] Load Thing Failure');
 
-export const getStomp = createAction('[Thing] Establish Stomp Connection');
+export const getThingEdmId = createAction('[Thing] Load Thing EDM Sensor ID');
+
+export const getThingEdm = createAction(
+  '[Thing] Load Thing EDM',
+  props<{ sensorId: string }>()
+);
+
+export const getThingEdmSuccess = createAction(
+  '[Thing] Load Thing EDM Success',
+  props<{ measurements: Edm }>()
+);
+
+export const getThingEdmFailure = createAction(
+  '[Thing] Load Thing EDM Failure'
+);
+
+export const connectStomp = createAction('[Thing] Establish Stomp Connection');
+
+export const disconnectStomp = createAction('[Thing] End Stomp Connection');
 
 export const getStompStatus = createAction(
   '[Thing] Establish Stomp Connection Status',
@@ -32,10 +50,15 @@ export const subscribeBroadcastSuccess = createAction(
 
 const all = union({
   getThingId,
+  getThingEdmId,
   getThing,
   getThingSuccess,
   getThingFailure,
-  getStomp,
+  getThingEdm,
+  getThingEdmSuccess,
+  getThingEdmFailure,
+  connectStomp,
+  disconnectStomp,
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,

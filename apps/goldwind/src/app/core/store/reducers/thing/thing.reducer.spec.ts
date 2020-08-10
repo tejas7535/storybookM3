@@ -4,6 +4,9 @@ import { IOT_THING_MOCK } from '../../../../../testing/mocks';
 import {
   getStompStatus,
   getThing,
+  getThingEdm,
+  getThingEdmFailure,
+  getThingEdmSuccess,
   getThingFailure,
   getThingSuccess,
   subscribeBroadcastSuccess,
@@ -14,6 +17,15 @@ describe('Search Reducer', () => {
   describe('getThing', () => {
     test('should set loading', () => {
       const action = getThing({ thingId: 123 });
+      const state = thingReducer(initialState, action);
+
+      expect(state.thing.loading).toBeTruthy();
+    });
+  });
+
+  describe('getThingEdm', () => {
+    test('should set loading', () => {
+      const action = getThingEdm({ sensorId: 'fantasyId' });
       const state = thingReducer(initialState, action);
 
       expect(state.thing.loading).toBeTruthy();
@@ -36,9 +48,50 @@ describe('Search Reducer', () => {
     });
   });
 
+  describe('getThingEdmSuccess', () => {
+    test('should unset loading and set measurements', () => {
+      const mockMeasurements = [
+        {
+          id: 0,
+          sensorId: 'fantasyID',
+          endDate: '2020-07-30T11:02:35',
+          startDate: '2020-07-30T11:02:25',
+          sampleRatio: 500,
+          edmValue1Counter: 100,
+          edmValue2Counter: 200,
+        },
+      ];
+      const action = getThingEdmSuccess({ measurements: mockMeasurements });
+
+      const fakeState = {
+        ...initialState,
+        thing: { ...initialState.thing, loading: true },
+      };
+
+      const state = thingReducer(fakeState, action);
+
+      expect(state.thing.loading).toBeFalsy();
+      expect(state.thing.measurements).toEqual(mockMeasurements);
+    });
+  });
+
   describe('getThingFailure', () => {
     test('should unset loading', () => {
       const action = getThingFailure();
+      const fakeState = {
+        ...initialState,
+        thing: { ...initialState.thing, loading: true },
+      };
+
+      const state = thingReducer(fakeState, action);
+
+      expect(state.thing.loading).toBeFalsy();
+    });
+  });
+
+  describe('getThingEdmFailure', () => {
+    test('should unset loading', () => {
+      const action = getThingEdmFailure();
       const fakeState = {
         ...initialState,
         thing: { ...initialState.thing, loading: true },

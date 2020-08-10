@@ -2,18 +2,16 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
-import { ConditionMonitoringComponent } from './condition-monitoring.component';
-import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
+import { EdmMonitorComponent } from './edm-monitor.component';
 
-describe('ConditionMonitoringComponent', () => {
-  let component: ConditionMonitoringComponent;
-  let fixture: ComponentFixture<ConditionMonitoringComponent>;
+describe('EdmMonitorComponent', () => {
+  let component: EdmMonitorComponent;
+  let fixture: ComponentFixture<EdmMonitorComponent>;
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
@@ -21,17 +19,12 @@ describe('ConditionMonitoringComponent', () => {
         provideTranslocoTestingModule({}),
         AgGridModule.withComponents([]),
       ],
-      providers: [provideMockStore()],
-      declarations: [
-        ConditionMonitoringComponent,
-        EdmMonitorComponent,
-        CmEquipmentComponent,
-      ],
+      declarations: [EdmMonitorComponent],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ConditionMonitoringComponent);
+    fixture = TestBed.createComponent(EdmMonitorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -2,9 +2,11 @@ import { initialState } from '../../reducers/thing/thing.reducer';
 import {
   getCurrentMessage,
   getCurrentMessageId,
+  getEdm,
   getMessagesEvents,
   getSocketStatus,
   getThingLoading,
+  getThingSensorId,
   getThingThing,
 } from './thing.selector';
 
@@ -18,6 +20,17 @@ describe('Thing Selector', () => {
         },
         loading: false,
         socketStatus: 0,
+        measurements: [
+          {
+            id: 0,
+            sensorId: 'fantasyID',
+            endDate: '2020-07-30T11:02:35',
+            startDate: '2020-07-30T11:02:25',
+            sampleRatio: 500,
+            edmValue1Counter: 100,
+            edmValue2Counter: 200,
+          },
+        ],
         messages: {
           events: [
             {
@@ -41,6 +54,21 @@ describe('Thing Selector', () => {
   describe('getThingLoading', () => {
     test('should return loading status', () => {
       expect(getThingLoading(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getThingSensorId', () => {
+    test('should a a static id, will change to actual one', () => {
+      // adjust in future
+      expect(getThingSensorId(fakeState)).toEqual(
+        'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
+      );
+    });
+  });
+
+  describe('getEdm', () => {
+    test('should return EDM measurements', () => {
+      expect(getEdm(fakeState)).toEqual(fakeState.thing.thing.measurements);
     });
   });
 

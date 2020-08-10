@@ -3,17 +3,21 @@ import { Action, createReducer, on } from '@ngrx/store';
 import {
   getStompStatus,
   getThing,
+  getThingEdm,
+  getThingEdmFailure,
+  getThingEdmSuccess,
   getThingFailure,
   getThingSuccess,
   subscribeBroadcastSuccess,
 } from '../../actions/thing/thing.actions';
-import { IotThing, MessageEvent } from './models';
+import { Edm, IotThing, MessageEvent } from './models';
 
 export interface ThingState {
   thing: {
     loading: boolean;
     thing: IotThing;
     socketStatus: number;
+    measurements: Edm;
     messages: {
       events: MessageEvent[];
       contents: any;
@@ -26,6 +30,7 @@ export const initialState: ThingState = {
     loading: false,
     thing: undefined,
     socketStatus: undefined,
+    measurements: undefined,
     messages: {
       events: [],
       contents: undefined,
@@ -39,6 +44,10 @@ export const thingReducer = createReducer(
     ...state,
     thing: { ...state.thing, loading: true },
   })),
+  on(getThingEdm, (state: ThingState) => ({
+    ...state,
+    thing: { ...state.thing, loading: true },
+  })),
   on(getThingSuccess, (state: ThingState, { thing }) => ({
     ...state,
     thing: {
@@ -47,7 +56,19 @@ export const thingReducer = createReducer(
       loading: false,
     },
   })),
+  on(getThingEdmSuccess, (state: ThingState, { measurements }) => ({
+    ...state,
+    thing: {
+      ...state.thing,
+      measurements,
+      loading: false,
+    },
+  })),
   on(getThingFailure, (state: ThingState) => ({
+    ...state,
+    thing: { ...state.thing, loading: false },
+  })),
+  on(getThingEdmFailure, (state: ThingState) => ({
     ...state,
     thing: { ...state.thing, loading: false },
   })),

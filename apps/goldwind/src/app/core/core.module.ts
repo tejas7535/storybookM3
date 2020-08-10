@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -23,6 +24,7 @@ import { StoreModule } from './store/store.module';
     RouterModule,
 
     // UI Modules
+    IconsModule,
     FooterModule,
     HeaderModule,
     MatButtonModule,
