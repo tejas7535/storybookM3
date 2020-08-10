@@ -17,6 +17,7 @@ import { BannerModule } from '@schaeffler/banner';
 ```
 
 API of Banner Store:
+
 ```typescript
 
   // Actions:

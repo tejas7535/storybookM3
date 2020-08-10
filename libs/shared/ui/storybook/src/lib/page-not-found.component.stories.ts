@@ -6,8 +6,13 @@ import {
   PageNotFoundModule,
 } from '@schaeffler/empty-states';
 
+import READMEMd from '../../../empty-states/src/lib/page-not-found/README.md';
+
 export default {
   title: 'Page Not Found',
+  parameters: {
+    notes: { markdown: READMEMd },
+  },
 };
 
 export const primary = () => ({

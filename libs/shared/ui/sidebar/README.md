@@ -26,11 +26,13 @@ API of SidebarComponent:
 ```
 
 API of SidebarElements: 
+
 ```typescript
     @Input() elements: SidebarElement[]; 
 ```
 
 API of Sidebar Store:
+
 ```typescript
   // Selectors:
     export const getSidebarMode = createSelector(...); // will return a value of enum SidebarMode (open, minified, closed) 
