@@ -25,8 +25,9 @@ export class StompService {
   }
 
   public connect(token: string): Observable<RxStompState> {
-    const socketUrl = this.apiUrl.replace('http', 'ws');
-    const brokerURL = `${socketUrl}/gw-ws/websocket?token=${token}`;
+    const brokerURL = `${this.getSocketUrl(
+      this.apiUrl
+    )}/gw-ws/websocket?token=${token}`;
     this.stompConfig = {
       ...this.stompConfig,
       brokerURL,
@@ -55,5 +56,11 @@ export class StompService {
 
   public getTopicBroadcast(): Observable<IMessage> {
     return this.rxStomp.watch('/topic/broadcast');
+  }
+
+  public getSocketUrl(apiUrl: string): string {
+    return apiUrl.includes('http')
+      ? apiUrl.replace('http', 'ws')
+      : `wss://${window.location.host}${apiUrl}`;
   }
 }

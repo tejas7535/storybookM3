@@ -65,4 +65,21 @@ describe('Data Service', () => {
       });
     });
   });
+
+  describe('getSocketUrl', () => {
+    test('should return a url string that starts with wss in any case', () => {
+      Object.defineProperty(global, 'window', {
+        value: {
+          location: {
+            host: 'server:6969',
+          },
+        },
+      });
+
+      expect(service.getSocketUrl('/api')).toBe('wss://server:6969/api');
+      expect(service.getSocketUrl('https://localhost:6969/api')).toBe(
+        'wss://localhost:6969/api'
+      );
+    });
+  });
 });
