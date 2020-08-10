@@ -17,7 +17,13 @@ export default {
 
 export const primary = () => ({
   moduleMetadata: {
-    imports: [PageNotFoundModule, RouterModule.forRoot([]), HttpClientModule],
+    imports: [
+      PageNotFoundModule,
+      RouterModule.forRoot([], {
+        useHash: true,
+      }),
+      HttpClientModule,
+    ],
   },
   component: PageNotFoundComponent,
   props: {},
