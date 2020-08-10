@@ -2,7 +2,8 @@
   "extends": "../../tslint.json",
   "rules": {
     "directive-selector": [true, "attribute", "sta", "camelCase"],
-    "component-selector": [true, "element", "sta", "kebab-case"]
+    "component-selector": [true, "element", "sta", "kebab-case"],
+    "template-conditional-complexity": [true, 5]
   },
   "linterOptions": {
     "exclude": ["!**/*"]
