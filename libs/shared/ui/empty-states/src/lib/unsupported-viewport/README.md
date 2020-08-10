@@ -19,7 +19,16 @@ import { UnsupportedViewportModule } from '@schaeffler/shared/empty-states';
 
 Use like:
 
-```typescript
-  ...
+```html
+<div>
+  <my-app-component
+      *ngIf="(unsupportedViewport$ | async) === false; else unsupportedViewport"
+    ></my-app-component>
+</div>
+
+<ng-template #unsupportedViewport>
+  <schaeffler-unsupported-viewport></schaeffler-unsupported-viewport>
+</ng-template>
+
 ```
 
