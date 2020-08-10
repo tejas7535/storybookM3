@@ -3,11 +3,15 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { IconsService } from './icons.service';
 
-export const iconsFactory: Function = (
-  iconsService: IconsService
-) => (): void => {
-  iconsService.registerFontClassAlias();
-};
+// tslint:disable-next-line: only-arrow-functions
+export function iconsFactory(iconsService: IconsService): Function {
+  // tslint:disable-next-line: only-arrow-functions
+  const func = function (): void {
+    iconsService.registerFontClassAlias();
+  };
+
+  return func;
+}
 
 export const initializer = {
   provide: APP_INITIALIZER,

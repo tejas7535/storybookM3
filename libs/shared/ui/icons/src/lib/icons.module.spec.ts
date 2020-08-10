@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { iconsFactory, IconsModule } from './icons.module';
+import { IconsService } from './icons.service';
 
 describe('IconsModule', () => {
   configureTestSuite(() => {
@@ -21,7 +22,7 @@ describe('IconsModule', () => {
         registerFontClassAlias: jest.fn(),
       };
 
-      const func = iconsFactory(iconsService);
+      const func = iconsFactory((iconsService as unknown) as IconsService);
       func();
       expect(iconsService.registerFontClassAlias).toHaveBeenCalledTimes(1);
     });

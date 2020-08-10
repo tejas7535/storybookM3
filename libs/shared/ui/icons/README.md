@@ -16,11 +16,12 @@ Example:
             ],
 ```
 
-To be able to use schaeffler-icons with ``` mat-icon ``` and "schaeffler-icons" as ``` fontSet ``` import the ``` IconsModule ```
+To be able to use schaeffler-icons with ``` mat-icon ``` and "schaeffler-icons" as ``` fontSet ``` import the ``` IconsModule ``` and ``` MatIconModule ```
 into your app module:
 
 ``` typescript
 import { IconsModule } from '@schaeffler/icons';
+import { MatIconModule } from '@angular/material/icon';
 ```
 
 Also dont forget to add it into the app module imports array.
@@ -33,7 +34,7 @@ Now the schaeffler-icons set is registered in your application and you can use i
 
 Example:
 ```html
- <mat-icon fontSet="schaeffler-icons" fontIcon="icon-resize-enlarge"></mat-icon>
+ <mat-icon fontSet="schaeffler-icons" fontIcon="icon-resize-enlarge"></mat-icon> 
 ```
 
 ``` fontSet="schaeffler-icons" ``` sets the specific mat-icon tag to use the schaeffler-icon font instead of the material icon one
@@ -47,6 +48,16 @@ You can still use ``` mat-icon ``` with material-icons as usual like
 Example:
 ```html
  <mat-icon>chevron_right</mat-icon>
+```
+
+You have to set the font-family, ideally for the whole appp in the `styles.css`
+
+```css
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+.material-icons {
+  font-family: 'Material Icons' !important;
+}
 ```
 
 ## Running unit tests
