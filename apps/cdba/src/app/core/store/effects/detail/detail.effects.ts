@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import {
@@ -127,10 +128,13 @@ export class DetailEffects {
       map((routerState) =>
         DetailEffects.mapQueryParamsToIdentifier(routerState.queryParams)
       ),
-      filter(
-        (referenceTypeIdentifier: ReferenceTypeIdentifier) =>
-          referenceTypeIdentifier !== undefined
-      ),
+      filter((referenceTypeIdentifier: ReferenceTypeIdentifier) => {
+        if (referenceTypeIdentifier === undefined) {
+          this.router.navigate(['not-found']);
+        }
+
+        return referenceTypeIdentifier !== undefined;
+      }),
       withLatestFrom(
         this.store.pipe(select(getSelectedReferenceTypeIdentifier))
       ),
@@ -151,7 +155,8 @@ export class DetailEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
-    private readonly store: Store<fromRouter.AppState>
+    private readonly store: Store<fromRouter.AppState>,
+    private readonly router: Router
   ) {}
 
   private static mapQueryParamsToIdentifier(

@@ -1,4 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -44,12 +46,13 @@ describe('Detail Effects', () => {
   let effects: DetailEffects;
   let detailService: DetailService;
   let store: any;
-  // let refType: ReferenceType;
+  let router: Router;
 
   const errorMessage = 'An error occured';
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
+      imports: [RouterTestingModule],
       providers: [
         DetailEffects,
         provideMockActions(() => actions$),
@@ -71,6 +74,7 @@ describe('Detail Effects', () => {
     effects = TestBed.inject(DetailEffects);
     detailService = TestBed.inject(DetailService);
     store = TestBed.inject(MockStore);
+    router = TestBed.inject(Router);
   });
 
   describe('loadReferenceType$', () => {
@@ -287,6 +291,27 @@ describe('Detail Effects', () => {
 
       expect(effects.selectReferenceType$).toBeObservable(expected);
     });
+
+    test('should navigate to not-found if URL is not valid', () => {
+      router.navigate = jest.fn();
+      action = {
+        type: ROUTER_NAVIGATED,
+        payload: {
+          routerState: {
+            url: '/detail/details',
+            queryParams: {
+              material_number: '456789',
+            },
+          },
+        },
+      };
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('---');
+
+      expect(effects.selectReferenceType$).toBeObservable(expected);
+      expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+    });
   });
 
   describe('DetailsEffects.mapQueryParamsToIdentifier', () => {
@@ -339,50 +364,5 @@ describe('Detail Effects', () => {
 
       expect(result).toBeFalsy();
     });
-
-    /* test('should return false, if one value differs', () => {
-      fromRoute = new ReferenceTypeIdentifier('mat', 'plant', 'rfq', 11, 99);
-      current = {
-        ...fromRoute,
-        plant: undefined,
-      };
-
-      result = DetailEffects['checkEqualityOfIdentifier'](fromRoute, current);
-
-      expect(result).toBeFalsy();
-    });
-    test('should return false, if one value differs', () => {
-      fromRoute = new ReferenceTypeIdentifier('mat', 'plant', 'rfq', 11, 99);
-      current = {
-        ...fromRoute,
-        rfq: undefined,
-      };
-
-      result = DetailEffects['checkEqualityOfIdentifier'](fromRoute, current);
-
-      expect(result).toBeFalsy();
-    });
-    test('should return false, if one value differs', () => {
-      fromRoute = new ReferenceTypeIdentifier('mat', 'plant', 'rfq', 11, 99);
-      current = {
-        ...fromRoute,
-        pcmQuantity: undefined,
-      };
-
-      result = DetailEffects['checkEqualityOfIdentifier'](fromRoute, current);
-
-      expect(result).toBeFalsy();
-    });
-    test('should return false, if one value differs', () => {
-      fromRoute = new ReferenceTypeIdentifier('mat', 'plant', 'rfq', 11, 99);
-      current = {
-        ...fromRoute,
-        pcmQuantity: undefined,
-      };
-
-      result = DetailEffects['checkEqualityOfIdentifier'](fromRoute, current);
-
-      expect(result).toBeFalsy();
-    }); */
   });
 });
