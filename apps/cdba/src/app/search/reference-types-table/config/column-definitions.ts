@@ -22,7 +22,8 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     filterParams: false,
     suppressMenu: true,
     suppressColumnsToolPanel: true,
-    width: 70,
+    width: 0,
+    maxWidth: 50,
   },
   materialDesignation: {
     field: columnDefinitionToReferenceTypeProp('materialDesignation'),
@@ -221,7 +222,6 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       ),
     valueFormatter: formatNumber,
   },
-
   netSalesLastYearMinus1: {
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
@@ -488,7 +488,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   //   headerName: translate('search.referenceTypesTable.headers.saleableItem'),
   //   headerTooltip: translate(
   //     'search.referenceTypesTable.tooltips.saleableItem'
-  //   ),
+  //   ),cellClass: 'line-height-30'
   // },
   gpcDate: {
     filter: 'agDateColumnFilter',

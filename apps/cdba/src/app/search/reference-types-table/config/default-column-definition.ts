@@ -10,4 +10,5 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
     resetButton: true,
   },
   menuTabs: ['filterMenuTab', 'generalMenuTab'],
+  cellClass: 'line-height-30',
 };

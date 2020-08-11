@@ -32,9 +32,11 @@
         [loadingOverlayComponent]="loadingOverlayComponent"
         [suppressNoRowsOverlay]="rowData === undefined || isLoading"
         (gridReady)="onGridReady($event)"
-        (firstDataRendered)="setSelectedNode($event)"
+        (firstDataRendered)="onFirstDataRendered($event)"
         [noRowsOverlayComponent]="noRowsOverlayComponent"
         [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+        (firstDataRendered)="onFirstDataRendered($event)"
+        [rowHeight]="rowHeight"
       >
       </ag-grid-angular>
     </div>

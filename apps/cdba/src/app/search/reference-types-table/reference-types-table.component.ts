@@ -5,6 +5,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  IStatusPanelParams,
   MenuItemDef,
   SideBarDef,
   SortChangedEvent,
@@ -66,6 +67,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
   public columnDefs: ColDef[] = [];
 
   public rowSelection = 'single';
+
+  public rowHeight = 30;
 
   public frameworkComponents = {
     detailViewButtonComponent: DetailViewButtonComponent,
@@ -178,6 +181,13 @@ export class ReferenceTypesTableComponent implements OnChanges {
       ReferenceTypesTableComponent.TABLE_KEY,
       sortState
     );
+  }
+
+  /**
+   * Autosize columns width when data is loaded.
+   */
+  public onFirstDataRendered(params: IStatusPanelParams): void {
+    params.columnApi.autoSizeAllColumns(false);
   }
 
   /**
