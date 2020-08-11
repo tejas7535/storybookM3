@@ -497,7 +497,7 @@ pipeline {
                             
                             script {
                                 if(isRelease()) {
-                                    sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=prod --parallel"
+                                    sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=prod"
                                     for (app in affectedApps) {
                                         try {
                                             sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
@@ -507,9 +507,9 @@ pipeline {
                                     }
                                 } else {
                                     if (isMaster()) {
-                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
+                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa"
                                     } else {
-                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
+                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev"
                                     } 
                                         
                                     for (app in affectedApps) {
