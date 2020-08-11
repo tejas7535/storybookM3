@@ -18,7 +18,7 @@ export const getAuthConfig = ({
   redirectUri: `${origin}${redirectUrl}`,
   silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
   silentRefreshTimeout: 1000,
-  // timeoutFactor:0, good for testing
+  // timeoutFactor: 0.01, //good for testing
   useSilentRefresh: flow === FlowType.IMPLICIT_FLOW,
   postLogoutRedirectUri: origin,
   clientId: `${clientId}`,

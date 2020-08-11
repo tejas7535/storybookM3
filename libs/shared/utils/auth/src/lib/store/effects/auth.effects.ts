@@ -87,10 +87,17 @@ export class AuthEffects {
         )
       ),
       tap((e) => {
-        if (e.type === 'token_received') {
-          this.router.navigateByUrl(
-            String(this.authService.oauthService.state)
+        if (
+          e.type === 'token_received' &&
+          this.authService.oauthService.state !== undefined
+        ) {
+          // state is only important for the login not for token refresh
+          const originalRoute = decodeURIComponent(
+            this.authService.oauthService.state
           );
+          this.authService.oauthService.state = undefined;
+
+          this.router.navigateByUrl(String(originalRoute));
         }
       }),
       mergeMap(() => {
