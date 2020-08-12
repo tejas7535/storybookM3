@@ -174,6 +174,36 @@ describe('CalculationsTableComponent', () => {
 
       expect(component['gridApi'].showLoadingOverlay).toHaveBeenCalled();
     });
+
+    it('should do nothing with the overlays when gridApi is not loaded', () => {
+      component['gridApi'] = undefined;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges({
+        isLoading: ({
+          currentValue: true,
+        } as unknown) as SimpleChange,
+      });
+
+      // should just succeed - otherwise this test should throw an error
+    });
+
+    it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
+      component['gridApi'] = ({
+        showLoadingOverlay: jest.fn(),
+        showNoRowsOverlay: jest.fn(),
+      } as unknown) as GridApi;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges({
+        isLoading: ({
+          currentValue: false,
+        } as unknown) as SimpleChange,
+      });
+
+      expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
+      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+    });
   });
 
   describe('getMainMenuItems', () => {
@@ -413,10 +443,24 @@ describe('CalculationsTableComponent', () => {
           showLoadingOverlay: jest.fn(),
         },
       } as unknown) as IStatusPanelParams;
+      component.isLoading = true;
 
       component.onGridReady(params);
 
       expect(component['gridApi']).toEqual(params.api);
+    });
+
+    it('should hide loading spinner when data is not loading', () => {
+      const params = ({
+        api: {
+          showNoRowsOverlay: jest.fn(),
+        },
+      } as unknown) as IStatusPanelParams;
+      component.isLoading = false;
+
+      component.onGridReady(params);
+
+      expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
     });
   });
   // tslint:disable-next-line: max-file-line-count

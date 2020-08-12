@@ -116,6 +116,7 @@ export const detailReducer = createReducer(
     calculations: {
       ...state.calculations,
       errorMessage,
+      items: [],
       loading: false,
     },
   })),
@@ -144,6 +145,7 @@ export const detailReducer = createReducer(
     bom: {
       ...state.bom,
       errorMessage,
+      items: [],
       loading: false,
     },
   }))

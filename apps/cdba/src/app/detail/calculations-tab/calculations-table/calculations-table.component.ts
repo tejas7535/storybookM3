@@ -148,8 +148,14 @@ export class CalculationsTableComponent implements OnChanges {
       );
     }
 
-    if (changes.isLoading && changes.isLoading.currentValue && this.gridApi) {
+    if (!this.gridApi) {
+      return;
+    }
+
+    if (changes.isLoading && changes.isLoading.currentValue) {
       this.gridApi.showLoadingOverlay();
+    } else {
+      this.gridApi.showNoRowsOverlay();
     }
   }
 
@@ -185,6 +191,7 @@ export class CalculationsTableComponent implements OnChanges {
 
   public onFirstDataRendered(params: IStatusPanelParams): void {
     if (this.selectedNodeId) {
+      console.log(this.selectedNodeId);
       this.gridApi
         .getRowNode(this.selectedNodeId)
         .setSelected(true, true, true);
@@ -250,5 +257,9 @@ export class CalculationsTableComponent implements OnChanges {
 
   onGridReady(params: IStatusPanelParams): void {
     this.gridApi = params.api;
+
+    if (!this.isLoading) {
+      this.gridApi.showNoRowsOverlay();
+    }
   }
 }
