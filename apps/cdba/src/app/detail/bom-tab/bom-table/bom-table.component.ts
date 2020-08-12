@@ -148,8 +148,14 @@ export class BomTableComponent implements OnChanges {
   };
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.isLoading && changes.isLoading.currentValue && this.gridApi) {
+    if (!this.gridApi) {
+      return;
+    }
+
+    if (changes.isLoading && changes.isLoading.currentValue) {
       this.gridApi.showLoadingOverlay();
+    } else {
+      this.gridApi.showNoRowsOverlay();
     }
   }
 
@@ -161,6 +167,10 @@ export class BomTableComponent implements OnChanges {
       'rowGroupOpened',
       this.onRowGroupOpened.bind(this)
     );
+
+    if (!this.isLoading) {
+      this.gridApi.showNoRowsOverlay();
+    }
   }
 
   onFirstDataRendered(params: IStatusPanelParams): void {
