@@ -222,7 +222,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       ),
     valueFormatter: formatNumber,
   },
-  netSalesLastYearMinus1: {
+  /* netSalesLastYearMinus1: {
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,
     headerName: translate('search.referenceTypesTable.headers.netSales', {
@@ -269,7 +269,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
         columnDefinitionToReferenceTypeProp('netSales'),
         3
       ),
-  },
+  }, */
   budgetQuantitySoco: {
     filter: 'agNumberColumnFilter',
     valueFormatter: formatNumber,

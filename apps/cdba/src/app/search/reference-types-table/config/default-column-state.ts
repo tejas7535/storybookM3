@@ -60,7 +60,7 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   netSalesLastYear: {
     colId: 'netSalesLastYear',
   },
-  netSalesLastYearMinus1: {
+  /* netSalesLastYearMinus1: {
     colId: 'netSalesLastYearMinus1',
   },
   netSalesLastYearMinus2: {
@@ -68,7 +68,7 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   },
   netSalesLastYearMinus3: {
     colId: 'netSalesLastYearMinus3',
-  },
+  }, */
   budgetQuantitySoco: {
     colId: 'budgetQuantitiySoco',
   },
