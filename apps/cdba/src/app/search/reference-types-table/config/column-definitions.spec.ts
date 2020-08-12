@@ -23,7 +23,7 @@ describe('ColumnDefinitions', () => {
       }
     });
 
-    expect(utils.valueGetterArray).toHaveBeenCalledTimes(13);
+    expect(utils.valueGetterArray).toHaveBeenCalledTimes(10);
     expect(utils.valueGetterDate).toHaveBeenCalledTimes(5);
   });
 });
