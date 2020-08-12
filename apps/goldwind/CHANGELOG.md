@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
+
+
+### 🎸 Features
+
+* **goldwind:** connect frontend to EDM API (DIGDTGW-435) ([122c9de](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/122c9def9a72512d7349465db9d82075b3efd282))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** fix apiurl socket transformation ([4929be8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4929be8e1e031e4e58e9ae908953aecb08df01db))
+
 ## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
 
 

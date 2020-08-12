@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](///compare/v1.3.0...v1.4.0) (2020-08-12)
+
+
+### 🎸 Features
+
+* **icons:** build lib with ViewEngine (UFTABI-2669) ([dc54dbf](///commit/dc54dbfd3230957e128d702f38c27e4e595142c1))
+
 ## [1.3.0](///compare/v1.2.0...v1.3.0) (2020-08-07)
 
 

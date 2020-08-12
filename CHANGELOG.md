@@ -2,6 +2,36 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
+
+
+### 🏭 Automation
+
+* **workspace:** run tslint in parallel (UFTABI-2750) ([94c6c7e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/94c6c7e196be1a304f85559a4f35f4d1adccc439))
+
+
+### ✏️ Documentation
+
+* **empty-states:** update empty states docs (UFTABI-2748) ([5d2a8d9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5d2a8d9b90172eea026e4368fefb4baf434b3d75))
+
+
+### 🎸 Features
+
+* **cdba:** improve decimals of prices ([e9ec7ec](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e9ec7ec3de343eaf288dbc9eab34df88e72d315c))
+* **goldwind:** connect frontend to EDM API (DIGDTGW-435) ([122c9de](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/122c9def9a72512d7349465db9d82075b3efd282))
+* **header:** migrate lib to publishable lib (UFTABI-2670) ([68e711a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/68e711afe8b69a2c216031c527b9e84b5c551c22))
+* **icons:** build lib with ViewEngine (UFTABI-2669) ([dc54dbf](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/dc54dbfd3230957e128d702f38c27e4e595142c1))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** only route user after login not each refresh (DSCDA-1921) ([7ff5f9c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7ff5f9cff20e219be4c9ca72a775ae9195ad084f))
+* **cdba:** route to not found on invalid URL (DSCDA-1899) ([2a8e8e1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2a8e8e156b59c25d03b4a118928e84c8a6038893))
+* **cdba:** stop loading spinner on error (DSCDA-1925) ([3d2dbe6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3d2dbe67966cac7730382d2771fdf79deb3a9d8c))
+* **goldwind:** fix apiurl socket transformation ([4929be8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4929be8e1e031e4e58e9ae908953aecb08df01db))
+* **storybook:** fix translation issues of empty states (UFTABI-2747) ([f52ddf6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f52ddf6ca7efeca9025b573c160f4674f09d95a2))
+* enable page not found story ([4c9405e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4c9405eff36f2edc95f15a366956dcfeb6715b04))
+
 ## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
 
 

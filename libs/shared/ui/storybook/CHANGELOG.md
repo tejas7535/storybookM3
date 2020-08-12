@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.3.1) (2020-08-12)
+
+
+### ✏️ Documentation
+
+* **empty-states:** update empty states docs (UFTABI-2748) ([5d2a8d9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5d2a8d9b90172eea026e4368fefb4baf434b3d75))
+
+
+### 🐛 Bug Fixes
+
+* **storybook:** fix translation issues of empty states (UFTABI-2747) ([f52ddf6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f52ddf6ca7efeca9025b573c160f4674f09d95a2))
+* enable page not found story ([4c9405e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4c9405eff36f2edc95f15a366956dcfeb6715b04))
+
 ## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
 
 

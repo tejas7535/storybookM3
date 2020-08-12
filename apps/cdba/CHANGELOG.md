@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
+
+
+### 🎸 Features
+
+* **cdba:** improve decimals of prices ([e9ec7ec](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e9ec7ec3de343eaf288dbc9eab34df88e72d315c))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** route to not found on invalid URL (DSCDA-1899) ([2a8e8e1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2a8e8e156b59c25d03b4a118928e84c8a6038893))
+* **cdba:** stop loading spinner on error (DSCDA-1925) ([3d2dbe6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3d2dbe67966cac7730382d2771fdf79deb3a9d8c))
+
 ## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
 
 

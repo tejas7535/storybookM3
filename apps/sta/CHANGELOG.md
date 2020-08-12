@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.3.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.3.1) (2020-08-12)
+
+
+### 🏭 Automation
+
+* **workspace:** run tslint in parallel (UFTABI-2750) ([94c6c7e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/94c6c7e196be1a304f85559a4f35f4d1adccc439))
+
 ## [1.3.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.2.0...v1.3.0) (2020-08-07)
 
 
