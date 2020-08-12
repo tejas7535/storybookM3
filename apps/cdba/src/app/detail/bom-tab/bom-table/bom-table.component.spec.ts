@@ -121,6 +121,20 @@ describe('BomTableComponent', () => {
     });
   });
 
+  describe('onFirstDataRendered', () => {
+    it('should call autoSizeAllColumns', () => {
+      const params = ({
+        columnApi: {
+          autoSizeAllColumns: jest.fn(),
+        },
+      } as unknown) as IStatusPanelParams;
+
+      component.onFirstDataRendered(params);
+
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+    });
+  });
+
   describe('getDataPath', () => {
     it('should return predecessors of item', () => {
       const item = new BomItem(

@@ -251,27 +251,37 @@ describe('CalculationsTableComponent', () => {
     });
   });
 
-  describe('setSelectedNode', () => {
+  describe('onFirstDataRendered', () => {
+    let params: IStatusPanelParams;
+
     beforeEach(() => {
       component['gridApi'] = ({
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
       } as unknown) as GridApi;
+
+      params = ({
+        columnApi: {
+          autoSizeAllColumns: jest.fn(),
+        },
+      } as unknown) as IStatusPanelParams;
     });
 
     it('should set node selected if nodeId is set', () => {
       component.selectedNodeId = '7';
 
-      component.setSelectedNode();
+      component.onFirstDataRendered(params);
 
       expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
     });
 
     it('should do nothing, if nodeId is not present', () => {
       component.selectedNodeId = undefined;
 
-      component.setSelectedNode();
+      component.onFirstDataRendered(params);
 
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
     });
   });
 

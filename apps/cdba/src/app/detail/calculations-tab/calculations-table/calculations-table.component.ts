@@ -85,6 +85,7 @@ export class CalculationsTableComponent implements OnChanges {
   public columnDefs: ColDef[] = [];
 
   public rowSelection = 'single';
+  public rowHeight = 30;
 
   public frameworkComponents = {
     bomViewButtonComponent: BomViewButtonComponent,
@@ -182,12 +183,14 @@ export class CalculationsTableComponent implements OnChanges {
     this.selectionChange.emit({ nodeId, calculation });
   }
 
-  public setSelectedNode(): void {
+  public onFirstDataRendered(params: IStatusPanelParams): void {
     if (this.selectedNodeId) {
       this.gridApi
         .getRowNode(this.selectedNodeId)
         .setSelected(true, true, true);
     }
+
+    params.columnApi.autoSizeAllColumns(false);
   }
 
   /**

@@ -20,5 +20,6 @@
   [suppressNoRowsOverlay]="rowData === undefined || isLoading"
   [noRowsOverlayComponent]="noRowsOverlayComponent"
   [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+  (firstDataRendered)="onFirstDataRendered($event)"
 >
 </ag-grid-angular>

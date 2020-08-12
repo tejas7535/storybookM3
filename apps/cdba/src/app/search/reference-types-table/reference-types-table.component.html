@@ -22,6 +22,8 @@
     (sortChanged)="sortChange($event)"
     [noRowsOverlayComponent]="noRowsOverlayComponent"
     [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+    (firstDataRendered)="onFirstDataRendered($event)"
+    [rowHeight]="rowHeight"
   >
   </ag-grid-angular>
 </div>

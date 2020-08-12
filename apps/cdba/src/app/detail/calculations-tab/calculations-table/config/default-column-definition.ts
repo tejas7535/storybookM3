@@ -9,4 +9,5 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
     resetButton: true,
   },
   filter: 'agTextColumnFilter',
+  cellClass: 'line-height-30',
 };

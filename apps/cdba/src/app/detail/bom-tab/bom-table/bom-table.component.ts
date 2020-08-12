@@ -163,6 +163,10 @@ export class BomTableComponent implements OnChanges {
     );
   }
 
+  onFirstDataRendered(params: IStatusPanelParams): void {
+    params.columnApi.autoSizeAllColumns(false);
+  }
+
   getDataPath(data: BomItem): string[] {
     return data.predecessorsInTree;
   }

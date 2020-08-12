@@ -8,6 +8,7 @@ import {
   ColDef,
   ColumnEvent,
   GetMainMenuItemsParams,
+  IStatusPanelParams,
   MenuItemDef,
   SortChangedEvent,
 } from '@ag-grid-community/core';
@@ -241,6 +242,20 @@ describe('ReferenceTypesTableComponent', () => {
         'referenceTypes',
         []
       );
+    });
+  });
+
+  describe('onFirstDataRendered', () => {
+    it('should call autoSizeAllColumns', () => {
+      const params = ({
+        columnApi: {
+          autoSizeAllColumns: jest.fn(),
+        },
+      } as unknown) as IStatusPanelParams;
+
+      component.onFirstDataRendered(params);
+
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
     });
   });
 
