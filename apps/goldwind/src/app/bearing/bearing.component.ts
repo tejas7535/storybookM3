@@ -5,9 +5,9 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import * as fromStore from '../core/store';
-import { IotThing } from '../core/store/reducers/thing/models';
-import { ThingState } from '../core/store/reducers/thing/thing.reducer';
-import { getThingThing } from '../core/store/selectors/thing/thing.selector';
+import { BearingState } from '../core/store/reducers/bearing/bearing.reducer';
+import { IotThing } from '../core/store/reducers/bearing/models';
+import { getBearingResult } from '../core/store/selectors/bearing/bearing.selector';
 import { BearingRoutePath } from './bearing-route-path.enum';
 
 interface TabLinks {
@@ -20,9 +20,9 @@ interface TabLinks {
   styleUrls: ['./bearing.component.scss'],
 })
 export class BearingComponent implements OnInit, OnDestroy {
-  thing$: Observable<IotThing>;
+  bearing$: Observable<IotThing>;
 
-  public constructor(private readonly store: Store<ThingState>) {}
+  public constructor(private readonly store: Store<BearingState>) {}
 
   tabLinks: TabLinks[] = [
     {
@@ -44,7 +44,7 @@ export class BearingComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    this.thing$ = this.store.pipe(select(getThingThing));
+    this.bearing$ = this.store.pipe(select(getBearingResult));
   }
 
   ngOnDestroy(): void {

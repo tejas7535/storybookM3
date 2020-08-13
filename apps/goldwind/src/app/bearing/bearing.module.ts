@@ -8,8 +8,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ThingEffects } from '../core/store/effects/thing/thing.effects';
-import { thingReducer } from '../core/store/reducers/thing/thing.reducer';
+import { BearingEffects } from '../core/store/effects/bearing/bearing.effects';
+import { bearingReducer } from '../core/store/reducers/bearing/bearing.reducer';
 import { SharedModule } from '../shared/shared.module';
 import { BearingRoutingModule } from './bearing-routing.module';
 import { BearingComponent } from './bearing.component';
@@ -29,8 +29,8 @@ import { BearingComponent } from './bearing.component';
     SharedTranslocoModule,
 
     // Store
-    EffectsModule.forFeature([ThingEffects]),
-    StoreModule.forFeature('thing', thingReducer),
+    EffectsModule.forFeature([BearingEffects]),
+    StoreModule.forFeature('bearing', bearingReducer),
   ],
 })
 export class BearingModule {}

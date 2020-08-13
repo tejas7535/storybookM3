@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 
-import { Edm } from '../../../core/store/reducers/thing/models';
+import { Edm } from '../../../core/store/reducers/condition-monitoring/models';
 
 @Component({
   selector: 'goldwind-edm-monitor',

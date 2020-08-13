@@ -8,7 +8,8 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
-import * as fromThing from './thing/thing.reducer';
+import * as fromBearing from './bearing/bearing.reducer';
+import * as fromConditionMonitoring from './condition-monitoring/condition-monitoring.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -18,12 +19,14 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  thing: fromThing.ThingState;
+  bearing: fromBearing.BearingState;
+  conditionMonitoring: fromConditionMonitoring.ConditionMonitoringState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  thing: fromThing.thingReducer,
+  bearing: fromBearing.bearingReducer,
+  conditionMonitoring: fromConditionMonitoring.conditionMonitoringReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -34,9 +37,13 @@ export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const getThingState = createFeatureSelector<fromThing.ThingState>(
-  'thing'
+export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
+  'bearing'
 );
+
+export const getConditionMonitoringState = createFeatureSelector<
+  fromConditionMonitoring.ConditionMonitoringState
+>('conditionMonitoring');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

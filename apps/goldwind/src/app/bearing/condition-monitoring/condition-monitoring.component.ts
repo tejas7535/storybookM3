@@ -4,14 +4,18 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Edm, IotThing, Message } from '../../core/store/reducers/thing/models';
-import { ThingState } from '../../core/store/reducers/thing/thing.reducer';
+import { AppState } from '../../core/store/reducers';
+import { IotThing } from '../../core/store/reducers/bearing/models';
 import {
+  Edm,
+  Message,
+} from '../../core/store/reducers/condition-monitoring/models';
+import {
+  getBearingResult,
   getCurrentMessage,
-  getEdm,
+  getEdmResult,
   getSocketStatus,
-  getThingThing,
-} from '../../core/store/selectors/thing/thing.selector';
+} from '../../core/store/selectors/';
 
 @Component({
   selector: 'goldwind-condition-monitoring',
@@ -19,16 +23,16 @@ import {
   styleUrls: ['./condition-monitoring.component.scss'],
 })
 export class ConditionMonitoringComponent implements OnInit {
-  thing$: Observable<IotThing>;
+  bearing$: Observable<IotThing>;
   edm$: Observable<Edm>;
   currentMessage$: Observable<Message>;
   socketStatus$: Observable<number>;
 
-  public constructor(private readonly store: Store<ThingState>) {}
+  public constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.thing$ = this.store.pipe(select(getThingThing));
-    this.edm$ = this.store.pipe(select(getEdm));
+    this.bearing$ = this.store.pipe(select(getBearingResult));
+    this.edm$ = this.store.pipe(select(getEdmResult));
     this.currentMessage$ = this.store.pipe(select(getCurrentMessage));
     this.socketStatus$ = this.store.pipe(select(getSocketStatus));
   }

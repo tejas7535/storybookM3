@@ -57,16 +57,14 @@ describe('Data Service', () => {
 
   describe('getThing', () => {
     test('should call GET for given path', () => {
-      const mockIotThingID = '123';
+      const mockBearingId = '123';
       const mock = 'mockThing';
 
-      service.getThing(mockIotThingID).subscribe((response) => {
+      service.getBearing(mockBearingId).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne(
-        `${BASE_URL}/iot/things/${mockIotThingID}`
-      );
+      const req = httpMock.expectOne(`${BASE_URL}/iot/things/${mockBearingId}`);
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

@@ -10,32 +10,28 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
-import { IOT_THING_MOCK } from '../../../../../testing/mocks';
 import { DataService } from '../../../http/data.service';
 import { StompService } from '../../../http/stomp.service';
 import {
   connectStomp,
   disconnectStomp,
+  getEdm,
+  getEdmId,
+  getEdmSuccess,
   getStompStatus,
-  getThing,
-  getThingEdm,
-  getThingEdmId,
-  getThingEdmSuccess,
-  getThingId,
-  getThingSuccess,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
-} from '../../actions/thing/thing.actions';
+} from '../../actions/condition-monitoring/condition-monitoring.actions';
 import * as fromRouter from '../../reducers';
-import { getThingSensorId } from '../../selectors/thing/thing.selector';
-import { ThingEffects } from './thing.effects';
+import { getSensorId } from '../../selectors/condition-monitoring/condition-monitoring.selector';
+import { ConditionMonitoringEffects } from './condition-monitoring.effects';
 
 describe('Search Effects', () => {
   let actions$: any;
   let action: any;
   let store: any;
-  let metadata: EffectsMetadata<ThingEffects>;
-  let effects: ThingEffects;
+  let metadata: EffectsMetadata<ConditionMonitoringEffects>;
+  let effects: ConditionMonitoringEffects;
   let dataService: DataService;
   let stompService: StompService;
 
@@ -45,7 +41,7 @@ describe('Search Effects', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       providers: [
-        ThingEffects,
+        ConditionMonitoringEffects,
         provideMockActions(() => actions$),
         provideMockStore(),
         {
@@ -69,13 +65,13 @@ describe('Search Effects', () => {
   beforeEach(() => {
     actions$ = TestBed.inject(Actions);
     store = TestBed.inject(Store);
-    effects = TestBed.inject(ThingEffects);
+    effects = TestBed.inject(ConditionMonitoringEffects);
     metadata = getEffectsMetadata(effects);
     dataService = TestBed.inject(DataService);
     stompService = TestBed.inject(StompService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
-    store.overrideSelector(getThingSensorId, mockSensorID);
+    store.overrideSelector(getSensorId, mockSensorID);
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: 666 } },
     });
@@ -98,67 +94,18 @@ describe('Search Effects', () => {
         },
       });
 
-      const expected = cold('-b', { b: 'bearing' });
+      const expected = cold('-b', { b: 'condition-monitoring' });
 
       expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getThingId());
       expect(store.dispatch).toHaveBeenCalledWith(connectStomp());
       expect(store.dispatch).toHaveBeenCalledWith(subscribeBroadcast());
-      expect(store.dispatch).toHaveBeenCalledWith(getThingEdmId()); // will also be moved
+      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
     });
   });
 
-  describe('thingId$', () => {
+  describe('edmId$', () => {
     test('should not return an action', () => {
-      expect(metadata.thingId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
-    test('should dispatch getThing', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getThingId() });
-
-      const expected = cold('-b', { b: 666 });
-
-      expect(effects.thingId$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getThing({
-          thingId: 666,
-        })
-      );
-    });
-  });
-
-  describe('thing$', () => {
-    beforeEach(() => {
-      action = getThing({ thingId: 123 });
-    });
-
-    test('should return getThingSuccess action when REST call is successful', () => {
-      const result = getThingSuccess({
-        thing: IOT_THING_MOCK,
-      });
-
-      actions$ = hot('-a', { a: action });
-
-      const response = cold('-a|', {
-        a: IOT_THING_MOCK,
-      });
-      const expected = cold('--b', { b: result });
-
-      dataService.getThing = jest.fn(() => response);
-
-      expect(effects.thing$).toBeObservable(expected);
-      expect(dataService.getThing).toHaveBeenCalledTimes(1);
-      expect(dataService.getThing).toHaveBeenCalledWith(123);
-    });
-  });
-
-  describe('thingEdmId$', () => {
-    test('should not return an action', () => {
-      expect(metadata.thingEdmId$).toEqual({
+      expect(metadata.edmId$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
@@ -166,29 +113,29 @@ describe('Search Effects', () => {
 
     test('should dispatch getThingEdm', () => {
       store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getThingEdmId() });
+      actions$ = hot('-a', { a: getEdmId() });
 
       const expected = cold('-b', {
         b: mockSensorID,
       });
 
-      expect(effects.thingEdmId$).toBeObservable(expected);
+      expect(effects.edmId$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(
-        getThingEdm({
+        getEdm({
           sensorId: mockSensorID,
         })
       );
     });
   });
 
-  describe('thingEdm$', () => {
+  describe('edm$', () => {
     beforeEach(() => {
-      action = getThingEdm({
+      action = getEdm({
         sensorId: mockSensorID,
       });
     });
 
-    test('should return getThingEdmSuccess action when REST call is successful', () => {
+    test('should return getEdmSuccess action when REST call is successful', () => {
       const mockMeasurements = [
         {
           id: 0,
@@ -201,7 +148,7 @@ describe('Search Effects', () => {
         },
       ];
 
-      const result = getThingEdmSuccess({
+      const result = getEdmSuccess({
         measurements: mockMeasurements,
       });
 
@@ -214,13 +161,13 @@ describe('Search Effects', () => {
 
       dataService.getEdm = jest.fn(() => response);
 
-      expect(effects.thingEdm$).toBeObservable(expected);
+      expect(effects.edm$).toBeObservable(expected);
       expect(dataService.getEdm).toHaveBeenCalledTimes(1);
       expect(dataService.getEdm).toHaveBeenCalledWith(mockSensorID);
     });
   });
 
-  describe('thingStream$', () => {
+  describe('stream$', () => {
     beforeEach(() => {
       action = connectStomp();
     });
@@ -243,13 +190,13 @@ describe('Search Effects', () => {
 
       stompService.connect = jest.fn(() => response);
 
-      expect(effects.thingStream$).toBeObservable(expected);
+      expect(effects.stream$).toBeObservable(expected);
       expect(stompService.connect).toHaveBeenCalledTimes(1);
       expect(stompService.connect).toHaveBeenCalledWith(mockToken);
     });
   });
 
-  describe('thingStreamEnd$', () => {
+  describe('streamEnd$', () => {
     beforeEach(() => {
       action = disconnectStomp();
     });
@@ -270,7 +217,7 @@ describe('Search Effects', () => {
 
       stompService.disconnect = jest.fn(() => response);
 
-      expect(effects.thingStreamEnd$).toBeObservable(expected);
+      expect(effects.streamEnd$).toBeObservable(expected);
       expect(stompService.disconnect).toHaveBeenCalledTimes(1);
     });
   });
