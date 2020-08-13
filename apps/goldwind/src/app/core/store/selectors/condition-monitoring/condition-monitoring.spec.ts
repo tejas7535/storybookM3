@@ -1,25 +1,19 @@
-import { initialState } from '../../reducers/thing/thing.reducer';
+import { initialState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
 import {
   getCurrentMessage,
   getCurrentMessageId,
-  getEdm,
+  getEdmResult,
   getMessagesEvents,
+  getSensorId,
   getSocketStatus,
-  getThingLoading,
-  getThingSensorId,
-  getThingThing,
-} from './thing.selector';
+} from './condition-monitoring.selector';
 
-describe('Thing Selector', () => {
+describe('ConditionMonitoring Selector', () => {
   const fakeState = {
-    thing: {
+    conditionMonitoring: {
       ...initialState,
-      thing: {
-        thing: {
-          name: 'Thingname',
-        },
+      edm: {
         loading: false,
-        socketStatus: 0,
         measurements: [
           {
             id: 0,
@@ -31,50 +25,41 @@ describe('Thing Selector', () => {
             edmValue2Counter: 200,
           },
         ],
-        messages: {
-          events: [
-            {
-              id: 'olderEvent',
-              timestamp: 1594987541846,
-            },
-            {
-              id: 'newerEvent',
-              timestamp: 1594987541847,
-            },
-          ],
-          contents: {
-            olderEvent: 'olderEventBody',
-            newerEvent: 'newerEventBody',
+      },
+      centerLoad: {
+        socketStatus: 0,
+        events: [
+          {
+            id: 'olderEvent',
+            timestamp: 1594987541846,
           },
+          {
+            id: 'newerEvent',
+            timestamp: 1594987541847,
+          },
+        ],
+        contents: {
+          olderEvent: 'olderEventBody',
+          newerEvent: 'newerEventBody',
         },
       },
     },
   };
 
-  describe('getThingLoading', () => {
-    test('should return loading status', () => {
-      expect(getThingLoading(fakeState)).toBeFalsy();
-    });
-  });
-
-  describe('getThingSensorId', () => {
+  describe('getSensorId', () => {
     test('should a a static id, will change to actual one', () => {
       // adjust in future
-      expect(getThingSensorId(fakeState)).toEqual(
+      expect(getSensorId(fakeState)).toEqual(
         'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
       );
     });
   });
 
-  describe('getEdm', () => {
+  describe('getEdmResult', () => {
     test('should return EDM measurements', () => {
-      expect(getEdm(fakeState)).toEqual(fakeState.thing.thing.measurements);
-    });
-  });
-
-  describe('getThingThing', () => {
-    test('should return a thing', () => {
-      expect(getThingThing(fakeState)).toEqual(fakeState.thing.thing.thing);
+      expect(getEdmResult(fakeState)).toEqual(
+        fakeState.conditionMonitoring.edm.measurements
+      );
     });
   });
 
@@ -84,10 +69,10 @@ describe('Thing Selector', () => {
     });
   });
 
-  describe('getMessagesEvents  ', () => {
+  describe('getMessagesEvents', () => {
     test('should return array of events', () => {
       expect(getMessagesEvents(fakeState)).toEqual(
-        fakeState.thing.thing.messages.events
+        fakeState.conditionMonitoring.centerLoad.events
       );
     });
   });
@@ -104,7 +89,7 @@ describe('Thing Selector', () => {
 
     test('should return undefined when there are no events', () => {
       const emptyFakeState = {
-        thing: {
+        conditionMonitoring: {
           ...initialState,
         },
       };
@@ -121,7 +106,7 @@ describe('Thing Selector', () => {
 
       const expectedResult = {
         timestamp: newestEvent.timestamp,
-        body: fakeState.thing.thing.messages.contents['newerEvent'],
+        body: fakeState.conditionMonitoring.centerLoad.contents['newerEvent'],
       };
 
       expect(getCurrentMessage(fakeState)).toEqual(expectedResult);
@@ -129,7 +114,7 @@ describe('Thing Selector', () => {
 
     test('should return undefined when there are no events', () => {
       const emptyFakeState = {
-        thing: {
+        conditionMonitoring: {
           ...initialState,
         },
       };

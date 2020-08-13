@@ -1,1 +1,1 @@
-export * from './iot-thing.mock';
+export * from './bearing.mock';

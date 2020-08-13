@@ -1,8 +1,8 @@
 <div *transloco="let t; read: 'conditionMonitoring'" class="grid-container">
   <div id="ms-equipment" class="grid-element">
     <goldwind-cm-equipment
-      *ngIf="thing$ | async; else loading_card"
-      [thing]="thing$ | async"
+      *ngIf="bearing$ | async; else loading_card"
+      [bearing]="bearing$ | async"
       [currentMessage]="currentMessage$ | async"
       [socketStatus]="socketStatus$ | async"
     ></goldwind-cm-equipment>

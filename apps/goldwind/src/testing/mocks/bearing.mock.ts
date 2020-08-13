@@ -1,6 +1,6 @@
-import { IotThing } from '../../app/core/store/reducers/thing/models';
+import { IotThing } from '../../app/core/store/reducers/bearing/models';
 
-export const IOT_THING_MOCK: IotThing = {
+export const BEARING_MOCK: IotThing = {
   '@context': [
     'https://www.w3.org/2019/wot/td/v1',
     {

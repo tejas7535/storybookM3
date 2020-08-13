@@ -1,1 +1,2 @@
-export * from './thing/thing.actions';
+export * from './bearing/bearing.actions';
+export * from './condition-monitoring/condition-monitoring.actions';
