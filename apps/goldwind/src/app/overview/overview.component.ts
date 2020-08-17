@@ -6,7 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent {
-  devices = [123, 456];
+  devices = [
+    'a3d3668d-aae8-47ee-a033-7bfbe152fda7',
+    'a3d3668d-aae8-47ee-a033-7bfbe152fda7',
+  ];
 
   public trackByFn(index: number, _item: any): number {
     return index;

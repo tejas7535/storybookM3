@@ -1,0 +1,12 @@
+@import 'libs/shared/styles/src/lib/colors';
+
+.status-indicator {
+  background-color: $schaeffler-gray-7;
+  border-radius: 50%;
+  height: 15px;
+  width: 15px;
+
+  &.live {
+    background-color: $schaeffler-red;
+  }
+}

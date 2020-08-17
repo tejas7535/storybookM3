@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { IotThing } from '../../reducers/bearing/models';
+import { BearingMetadata } from '../../reducers/bearing/models';
 
 export const getBearingId = createAction('[Bearing] Load Bearing ID');
 
@@ -11,7 +11,7 @@ export const getBearing = createAction(
 
 export const getBearingSuccess = createAction(
   '[Bearing] Load Bearing Success',
-  props<{ bearing: IotThing }>()
+  props<{ bearing: BearingMetadata }>()
 );
 
 export const getBearingFailure = createAction('[Bearing] Load Bearing Failure');

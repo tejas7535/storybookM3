@@ -1,3 +1,5 @@
+@import 'libs/shared/styles/src/lib/colors';
+
 :host {
   width: 100%;
 }
@@ -16,6 +18,7 @@
 }
 
 .device-header-image {
-  background-image: url('https://material.angular.io/assets/img/examples/shiba1.jpg');
+  background-image: url('/assets/images/turbine-bearing-thumbnail.jpg');
   background-size: cover;
+  border: 1px solid $schaeffler-carbon-gray;
 }

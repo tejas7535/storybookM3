@@ -7,7 +7,7 @@
       routerLink="/overview"
     ></mat-icon>
     <h1 *ngIf="bearing$ | async">
-      {{ (bearing$ | async)?.description }}
+      {{ (bearing$ | async)?.model }}
     </h1>
   </div>
   <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'bearing'">

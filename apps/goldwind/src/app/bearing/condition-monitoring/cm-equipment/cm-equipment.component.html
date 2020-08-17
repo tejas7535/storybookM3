@@ -1,32 +1,25 @@
 <mat-card
   *transloco="let t; read: 'conditionMonitoring.conditionMeasuringEquipment'"
+  class="full-height-card"
 >
   <mat-card-header>
     <mat-card-title>{{ t('title') }} </mat-card-title>
-    <mat-card-subtitle>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
-        <div
-          class="status-indicator"
-          [ngClass]="{ live: socketStatus === 1 }"
-        ></div>
-        <span *transloco="let t; read: 'bearing'">{{
-          socketStatus === 1 ? t('live') : t('offline')
-        }}</span>
-      </div>
-    </mat-card-subtitle>
   </mat-card-header>
   <img
     mat-card-image
-    src="https://material.angular.io/assets/img/examples/shiba2.jpg"
-    alt="Photo of a Shiba Inu"
+    src="/assets/images/turbine-bearing.jpg"
+    [alt]="t('windturbineImage')"
   />
-  <mat-card-content>
-    <h4>Result:</h4>
-    <p>Description: {{ bearing?.description }}</p>
-    <div *ngIf="currentMessage">
-      <h4>Current Message:</h4>
-      <p>Date: {{ currentMessage?.timestamp | date: 'medium' }}</p>
-      <span>{{ currentMessage?.body | json }}</span>
+  <mat-card-content *ngIf="mainBearing">
+    <div
+      *ngFor="let bearingProperty of bearingProperties; trackBy: trackByFn"
+      class="bearingMetaData"
+    >
+      <label>{{ t(bearingProperty.name) }}: </label>
+      <span>
+        {{ mainBearing[bearingProperty.property] || 'n/a' }}
+        {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
+      </span>
     </div>
   </mat-card-content>
 </mat-card>

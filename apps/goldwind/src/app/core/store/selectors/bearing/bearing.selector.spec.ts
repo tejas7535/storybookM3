@@ -1,12 +1,19 @@
 import { initialState } from '../../reducers/bearing/bearing.reducer';
-import { getBearingLoading, getBearingResult } from './bearing.selector';
+import {
+  getBearingLoading,
+  getBearingResult,
+  getMainBearing,
+} from './bearing.selector';
 
 describe('Bearing Selector', () => {
   const fakeState = {
     bearing: {
       ...initialState,
-      bearing: {
-        name: 'Thingname',
+      result: {
+        title: 'BearingTitle',
+        mainBearing: {
+          model: 'BearingModel',
+        },
       },
       loading: false,
     },
@@ -21,6 +28,14 @@ describe('Bearing Selector', () => {
   describe('getBearingResult', () => {
     test('should return a bearing', () => {
       expect(getBearingResult(fakeState)).toEqual(fakeState.bearing.result);
+    });
+  });
+
+  describe('getMainBearing', () => {
+    test('should return the main bearing', () => {
+      expect(getMainBearing(fakeState)).toEqual(
+        fakeState.bearing.result.mainBearing
+      );
     });
   });
 });

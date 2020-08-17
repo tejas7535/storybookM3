@@ -7,6 +7,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
@@ -24,8 +25,9 @@ describe('ConditionMonitoringComponent', () => {
       providers: [provideMockStore()],
       declarations: [
         ConditionMonitoringComponent,
-        EdmMonitorComponent,
+        CenterLoadComponent,
         CmEquipmentComponent,
+        EdmMonitorComponent,
       ],
     });
   });

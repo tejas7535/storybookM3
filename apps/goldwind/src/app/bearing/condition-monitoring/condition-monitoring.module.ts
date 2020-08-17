@@ -11,6 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { ConditionMonitoringEffects } from '../../core/store/effects/condition-monitoring/condition-monitoring.effects';
 import { conditionMonitoringReducer } from '../../core/store/reducers/condition-monitoring/condition-monitoring.reducer';
 import { SharedModule } from '../../shared/shared.module';
+import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -19,8 +20,9 @@ import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
 @NgModule({
   declarations: [
     ConditionMonitoringComponent,
-    EdmMonitorComponent,
+    CenterLoadComponent,
     CmEquipmentComponent,
+    EdmMonitorComponent,
   ],
   imports: [
     CommonModule,

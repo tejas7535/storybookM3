@@ -1,1 +1,1 @@
-export * from './iot-thing.model';
+export * from './bearing-metadata.model';

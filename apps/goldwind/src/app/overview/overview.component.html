@@ -1,14 +1,14 @@
 <div id="overview" *transloco="let t; read: 'overview'">
   <h1>Overview</h1>
   <mat-card
-    *ngFor="let device of devices; trackBy: trackByFn"
+    *ngFor="let device of devices; trackBy: trackByFn; let i = index"
     fxLayout="row"
     fxLayoutAlign="space-between"
     class="device-card"
   >
     <mat-card-header>
       <div mat-card-avatar class="device-header-image"></div>
-      <mat-card-title>GW Tianfeng {{ device }}</mat-card-title>
+      <mat-card-title>GW Tianfeng {{ i + 1 }}</mat-card-title>
       <mat-card-subtitle>GW136-4.8MW</mat-card-subtitle>
     </mat-card-header>
 

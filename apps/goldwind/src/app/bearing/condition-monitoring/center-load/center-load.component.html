@@ -1,0 +1,30 @@
+<mat-card
+  *transloco="let t; read: 'conditionMonitoring.centerLoad'"
+  class="full-height-card"
+>
+  <mat-card-header>
+    <mat-card-title>{{ t('title') }} </mat-card-title>
+    <mat-card-subtitle *transloco="let t; read: 'bearing'">
+      {{ t('mainBearing') }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div
+      *transloco="let t; read: 'bearing'"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      fxLayoutGap="5px"
+    >
+      <div
+        class="status-indicator"
+        [ngClass]="{ live: socketStatus === 1 }"
+      ></div>
+      <span>{{ socketStatus === 1 ? t('live') : t('offline') }}</span>
+    </div>
+    <div *ngIf="currentMessage">
+      <h4>Current Message:</h4>
+      <p>Date: {{ currentMessage?.timestamp | date: 'medium' }}</p>
+      <span>{{ currentMessage?.body | json }}</span>
+    </div>
+  </mat-card-content>
+</mat-card>

@@ -55,7 +55,7 @@ describe('Data Service', () => {
     });
   });
 
-  describe('getThing', () => {
+  describe('getBearing', () => {
     test('should call GET for given path', () => {
       const mockBearingId = '123';
       const mock = 'mockThing';
@@ -64,7 +64,9 @@ describe('Data Service', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne(`${BASE_URL}/iot/things/${mockBearingId}`);
+      const req = httpMock.expectOne(
+        `${BASE_URL}/iot/things/${mockBearingId}/metadata`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

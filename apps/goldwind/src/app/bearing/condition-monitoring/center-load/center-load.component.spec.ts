@@ -5,36 +5,26 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CmEquipmentComponent } from './cm-equipment.component';
+import { CenterLoadComponent } from './center-load.component';
 
 describe('ConditionMeasuringEquipmentComponent', () => {
-  let component: CmEquipmentComponent;
-  let fixture: ComponentFixture<CmEquipmentComponent>;
+  let component: CenterLoadComponent;
+  let fixture: ComponentFixture<CenterLoadComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatCardModule, provideTranslocoTestingModule({})],
-      declarations: [CmEquipmentComponent],
+      declarations: [CenterLoadComponent],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CmEquipmentComponent);
+    fixture = TestBed.createComponent(CenterLoadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const idx = 5;
-
-      const result = component.trackByFn(idx, {});
-
-      expect(result).toEqual(idx);
-    });
   });
 });
