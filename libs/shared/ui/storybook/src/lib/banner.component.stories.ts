@@ -38,7 +38,10 @@ const baseComponent = {
 export default {
   title: 'Banner',
   parameters: {
-    backgrounds: [{ name: 'Schaeffler', value: '#dee4e7', default: true }],
+    backgrounds: {
+      default: 'Schaeffler',
+      values: [{ name: 'Schaeffler', value: '#dee4e7' }],
+    },
     notes: { markdown: READMEMd },
   },
 };
