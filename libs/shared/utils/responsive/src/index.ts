@@ -1,1 +1,1 @@
-export * from './lib/breakpoint.service';
+export { BreakpointService } from './lib/breakpoint.service';
