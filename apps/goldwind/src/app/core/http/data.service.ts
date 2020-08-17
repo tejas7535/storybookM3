@@ -3,7 +3,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { IotThing } from '../store/reducers/bearing/models';
+import { BearingMetadata } from '../store/reducers/bearing/models';
 import { Edm } from '../store/reducers/condition-monitoring/models';
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
@@ -21,11 +21,13 @@ export class DataService {
   }
 
   public getIot(path: string): Observable<any> {
-    return this.http.get<IotThing | Edm>(`${this.apiUrl}/iot/things/${path}`);
+    return this.http.get<BearingMetadata | Edm>(
+      `${this.apiUrl}/iot/things/${path}`
+    );
   }
 
-  public getBearing(id: string): Observable<IotThing> {
-    return this.getIot(id);
+  public getBearing(id: string): Observable<BearingMetadata> {
+    return this.getIot(`${id}/metadata`);
   }
 
   public getEdm(id: string): Observable<Edm> {

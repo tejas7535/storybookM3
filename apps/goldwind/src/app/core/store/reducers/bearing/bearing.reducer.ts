@@ -5,11 +5,11 @@ import {
   getBearingFailure,
   getBearingSuccess,
 } from '../../actions/bearing/bearing.actions';
-import { IotThing } from './models';
+import { BearingMetadata } from './models';
 
 export interface BearingState {
   loading: boolean;
-  result: IotThing;
+  result: BearingMetadata;
 }
 
 export const initialState: BearingState = {

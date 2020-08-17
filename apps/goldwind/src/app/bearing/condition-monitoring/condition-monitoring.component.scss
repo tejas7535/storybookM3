@@ -11,11 +11,7 @@
     grid-row-gap: 16px;
     grid-template-columns: repeat(12, 1fr);
     grid-template-rows: repeat(2, 1fr);
-    width: 100%;
-  }
-
-  .grid-element {
-    width: 100%;
+    height: 100%;
   }
 
   #ms-equipment {
@@ -26,11 +22,14 @@
     grid-area: 2 / 9 / 3 / 13;
   }
 
+  #center-load {
+    grid-area: 1 / 8 / 2 / 13;
+  }
+
   // #rotor-speed { grid-area: 1 / 4 / 2 / 6; }
   // #safety-factor { grid-area: 2 / 4 / 3 / 6; }
   // #power-output { grid-area: 1 / 6 / 2 / 8; }
   // #grease-status { grid-area: 2 / 6 / 3 / 9; }
-  // #bearing-center { grid-area: 1 / 8 / 2 / 13; }
 }
 
 @media only screen and (max-width: $screen-sm-max) {

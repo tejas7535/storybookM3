@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import * as fromStore from '../core/store';
 import { BearingState } from '../core/store/reducers/bearing/bearing.reducer';
-import { IotThing } from '../core/store/reducers/bearing/models';
+import { BearingMetadata } from '../core/store/reducers/bearing/models';
 import { getBearingResult } from '../core/store/selectors/bearing/bearing.selector';
 import { BearingRoutePath } from './bearing-route-path.enum';
 
@@ -20,7 +20,7 @@ interface TabLinks {
   styleUrls: ['./bearing.component.scss'],
 })
 export class BearingComponent implements OnInit, OnDestroy {
-  bearing$: Observable<IotThing>;
+  bearing$: Observable<BearingMetadata>;
 
   public constructor(private readonly store: Store<BearingState>) {}
 

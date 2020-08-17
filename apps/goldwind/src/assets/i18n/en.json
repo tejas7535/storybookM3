@@ -8,15 +8,30 @@
     "greaseStatus": "Grease Status",
     "dataView": "Data View",
     "live": "Live",
-    "offline": "Offline"
+    "offline": "Offline",
+    "mainBearing": "Main Bearing"
   },
   "conditionMonitoring": {
     "conditionMeasuringEquipment": {
-      "title": "Condition measuring equipment"
+      "title": "Condition measuring equipment",
+      "designation": "Designation",
+      "shortDescription": "Short description",
+      "manufacturer": "Manufacturer",
+      "outerDiameter": "Outer diameter (D)",
+      "innerDiameter": "Inner diameter (d)",
+      "overallWidth": "Overall width (B)",
+      "mass": "Mass (m)",
+      "windturbineImage": "Image of a wind turbine"
     },
     "edmMonitor": {
-      "title": "EDM Monitor",
-      "mainBearing": "Main Bearing"
+      "title": "EDM Monitor"
+    },
+    "centerLoad": {
+      "title": "Bearing center load and temperature",
+      "bearingTemperature": "Bearing Temperature",
+      "bearingCenterLoad": "Bearing Center Load",
+      "generatorSide": "Generator Side",
+      "time": "Time"
     }
   }
 }
