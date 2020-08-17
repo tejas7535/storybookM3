@@ -6,6 +6,7 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { environment } from '../../../../environments/environment';
 import { Answer } from '../../../core/store/reducers/question-answering/models/answer.model';
 import { QuestionAnsweringFileInput } from '../../../core/store/reducers/question-answering/models/question-answering-file-input.model';
 import { QuestionAnsweringTextInput } from '../../../core/store/reducers/question-answering/models/question-answering-text-input.model';
@@ -23,8 +24,6 @@ describe('DataService', () => {
   let service: DataService;
   let injector: TestBed;
   let httpMock: HttpTestingController;
-
-  const basePath = 'https://sta-d.dev.dp.schaeffler/api/v1';
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -51,7 +50,7 @@ describe('DataService', () => {
     test('should return an Observable<string[]>', (done) => {
       const text = 'Get me some tags please.';
       const expectedTags = ['First', 'Tag', 'Artificial'];
-      const url = `${basePath}/tagging/text`;
+      const url = `${environment.apiManagementBaseUrl}/tagging/text`;
 
       service.postTaggingText(text).subscribe((tags) => {
         expect(tags).toEqual(expectedTags);
@@ -80,7 +79,7 @@ describe('DataService', () => {
       );
 
       const expectedTags = ['First', 'Tag', 'Artificial'];
-      const url = `${basePath}/tagging/file`;
+      const url = `${environment.apiManagementBaseUrl}/tagging/file`;
       const form = new FormData();
       form.append('file', expectedFile, expectedFile.name);
 
@@ -102,7 +101,7 @@ describe('DataService', () => {
       const expectedTranslation = 'Please translate once.';
       const targetLang = Language.EN;
       const textLang = Language.DE;
-      const url = `${basePath}/translation/text`;
+      const url = `${environment.apiManagementBaseUrl}/translation/text`;
 
       const textInput: TextInput = {
         text,
@@ -127,7 +126,7 @@ describe('DataService', () => {
       const expectedTranslation = 'Please translate once.';
       const defaultTargetLang = Language.DE;
       const defaultTextLang = Language.EN;
-      const url = `${basePath}/translation/text`;
+      const url = `${environment.apiManagementBaseUrl}/translation/text`;
 
       const textInput: TextInput = {
         text,
@@ -152,7 +151,7 @@ describe('DataService', () => {
   describe('postTranslationFile', () => {
     test('should return response as observable', (done) => {
       const expectedTranslation = 'Please translate once.';
-      const url = `${basePath}/translation/file`;
+      const url = `${environment.apiManagementBaseUrl}/translation/file`;
       const targetLang = Language.EN;
       const textLang = Language.DE;
 
@@ -196,7 +195,7 @@ describe('DataService', () => {
 
     test('should set default values for textLang and targetLang', () => {
       jest.spyOn(service['http'], 'post');
-      const url = `${basePath}/translation/file`;
+      const url = `${environment.apiManagementBaseUrl}/translation/file`;
       const expectedTranslation = 'Please translate once.';
       const defaultTargetLang = Language.DE;
       const defaultTextLang = Language.EN;
@@ -229,7 +228,7 @@ describe('DataService', () => {
   describe('postLanguageDetectionText', () => {
     test('should return response correctly as observable', (done) => {
       const text = 'Was für eine Sprache bin ich?';
-      const url = `${basePath}/language-detection/text`;
+      const url = `${environment.apiBaseUrl}/language-detection/text`;
       const expectedLang = 'de';
       const userLang = Language.DE;
 
@@ -249,7 +248,7 @@ describe('DataService', () => {
   describe('postLanguageDetectionFile', () => {
     test('should return response correctly as observable', (done) => {
       const file = new File([], 'test');
-      const url = `${basePath}/language-detection/file`;
+      const url = `${environment.apiBaseUrl}/language-detection/file`;
       const expectedLang = 'de';
       const userLang = Language.DE;
 
@@ -279,7 +278,7 @@ describe('DataService', () => {
         textLang: Language.EN,
       };
 
-      const url = `${basePath}/question-answering/text`;
+      const url = `${environment.apiManagementBaseUrl}/question-answering/text`;
 
       const expectedAnswer: Answer = {
         answer: 'ja moin',
@@ -311,7 +310,7 @@ describe('DataService', () => {
         question: 'Was sagt der Tacho?',
       };
 
-      const url = `${basePath}/question-answering/file`;
+      const url = `${environment.apiManagementBaseUrl}/question-answering/file`;
 
       const expectedFile = new File(
         [Int8Array.from(fileInput.file.content)],
@@ -353,7 +352,7 @@ describe('DataService', () => {
         categories: [[1]],
         probabilities: [[0.5]],
       };
-      const url = `${basePath}/dreidmaster/text`;
+      const url = `${environment.apiBaseUrl}/dreidmaster/text`;
 
       service.postClassificationText(text).subscribe((classification) => {
         expect(classification).toEqual(expectedClassification);
