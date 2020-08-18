@@ -1,3 +1,3 @@
-export * from './lib/footer.module';
-export * from './lib/footer.component';
-export * from './lib/footer-link.model';
+export { FooterModule } from './lib/footer.module';
+export { FooterComponent } from './lib/footer.component';
+export { FooterLink } from './lib/footer-link.model';
