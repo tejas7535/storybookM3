@@ -24,13 +24,14 @@ import {
   providedIn: 'root',
 })
 export class DataService {
-  private readonly apiUrl = environment.apiBaseUrl;
-
   constructor(private readonly http: HttpClient) {}
 
   public postTaggingText(text: string): Observable<string[]> {
     return this.http
-      .post<Tags>(`${this.apiUrl}/tagging/text`, new TextInput(text))
+      .post<Tags>(
+        `${environment.apiManagementBaseUrl}/tagging/text`,
+        new TextInput(text)
+      )
       .pipe(map((tags: Tags) => tags.tags));
   }
 
@@ -48,7 +49,7 @@ export class DataService {
     formData.append('file', file, file.name);
 
     return this.http
-      .post<Tags>(`${this.apiUrl}/tagging/file`, formData)
+      .post<Tags>(`${environment.apiManagementBaseUrl}/tagging/file`, formData)
       .pipe(map((response: Tags) => response.tags));
   }
 
@@ -56,7 +57,7 @@ export class DataService {
     textInput: TextInput
   ): Observable<Classification> {
     return this.http
-      .post<Classification>(`${this.apiUrl}/dreidmaster/text`, {
+      .post<Classification>(`${environment.apiBaseUrl}/dreidmaster/text`, {
         text: textInput.text,
       })
       .pipe(map((response: Classification) => response));
@@ -69,7 +70,10 @@ export class DataService {
     };
 
     return this.http
-      .post<Translation>(`${this.apiUrl}/translation/text`, postTextInput)
+      .post<Translation>(
+        `${environment.apiManagementBaseUrl}/translation/text`,
+        postTextInput
+      )
       .pipe(map((response: Translation) => response));
   }
 
@@ -93,7 +97,10 @@ export class DataService {
     );
 
     return this.http
-      .post<Translation>(`${this.apiUrl}/translation/file`, formData)
+      .post<Translation>(
+        `${environment.apiManagementBaseUrl}/translation/file`,
+        formData
+      )
       .pipe(map((response: Translation) => response));
   }
 
@@ -103,7 +110,7 @@ export class DataService {
   ): Observable<LanguageDetectionResponse> {
     return this.http
       .post<LanguageDetectionResponse>(
-        `${this.apiUrl}/language-detection/text`,
+        `${environment.apiBaseUrl}/language-detection/text`,
         new LanguageDetection(text, userLang)
       )
       .pipe(map((response: LanguageDetectionResponse) => response));
@@ -119,7 +126,7 @@ export class DataService {
 
     return this.http
       .post<LanguageDetectionResponse>(
-        `${this.apiUrl}/language-detection/file`,
+        `${environment.apiBaseUrl}/language-detection/file`,
         formData
       )
       .pipe(map((response: LanguageDetectionResponse) => response));
@@ -129,7 +136,10 @@ export class DataService {
     textInput: QuestionAnsweringTextInput
   ): Observable<Answer> {
     return this.http
-      .post<Answer>(`${this.apiUrl}/question-answering/text`, textInput)
+      .post<Answer>(
+        `${environment.apiManagementBaseUrl}/question-answering/text`,
+        textInput
+      )
       .pipe(map((response: Answer) => response));
   }
 
@@ -148,7 +158,10 @@ export class DataService {
     formData.append('question', fileInput.question);
 
     return this.http
-      .post<Answer>(`${this.apiUrl}/question-answering/file`, formData)
+      .post<Answer>(
+        `${environment.apiManagementBaseUrl}/question-answering/file`,
+        formData
+      )
       .pipe(map((response: Answer) => response));
   }
 }
