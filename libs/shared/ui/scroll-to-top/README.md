@@ -1,4 +1,19 @@
 # frontend@schaeffler ScrollToTop Documentation
+
+
+This lib depends on the `schaeffler-icons`, can be installed with npm:
+
+`npm i --save schaeffler-icons`
+
+Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+
+```
+"styles": [
+  ...
+  "node_modules/schaeffler-icons/style.css"
+],
+```
+
 Import into your project like:
 
 ```typescript
