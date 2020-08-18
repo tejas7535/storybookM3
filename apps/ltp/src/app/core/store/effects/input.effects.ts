@@ -1,12 +1,11 @@
-import { EMPTY } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
-
 import { Injectable } from '@angular/core';
+
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { RestService } from '../../services/rest.service';
-
 import * as InputActions from '../actions/input.actions';
 
 @Injectable()
@@ -21,10 +20,10 @@ export class InputEffects {
       ofType(InputActions.getFormOptions),
       mergeMap(() =>
         this.restService.getPredictions().pipe(
-          map(predictions =>
+          map((predictions) =>
             InputActions.setPredictionOptions({ predictions })
           ),
-          catchError(() => EMPTY)
+          catchError(() => of(InputActions.getPredictionsFailure()))
         )
       )
     )
@@ -35,10 +34,10 @@ export class InputEffects {
       ofType(InputActions.getFormOptions),
       mergeMap(() =>
         this.restService.getBurdeningTypes().pipe(
-          map(burdeningTypes =>
+          map((burdeningTypes) =>
             InputActions.setBurdeningTypeOptions({ burdeningTypes })
           ),
-          catchError(() => EMPTY)
+          catchError(() => of(InputActions.getBurdeningTypesFailure()))
         )
       )
     )
@@ -49,8 +48,8 @@ export class InputEffects {
       ofType(InputActions.getFormOptions),
       mergeMap(() =>
         this.restService.getMaterials().pipe(
-          map(materials => InputActions.setMaterialOptions({ materials })),
-          catchError(() => EMPTY)
+          map((materials) => InputActions.setMaterialOptions({ materials })),
+          catchError(() => of(InputActions.getMaterialsFailure()))
         )
       )
     )
