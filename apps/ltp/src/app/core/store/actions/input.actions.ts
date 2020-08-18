@@ -5,7 +5,7 @@ import {
   BurdeningType,
   Display,
   Material,
-  Prediction
+  Prediction,
 } from '../../../shared/models';
 
 export const getFormOptions = createAction(
@@ -17,14 +17,26 @@ export const setPredictionOptions = createAction(
   props<{ predictions: Prediction[] }>()
 );
 
+export const getPredictionsFailure = createAction(
+  '[Predict Lifetime Container Component] Get Predictions Failure'
+);
+
 export const setBurdeningTypeOptions = createAction(
   '[Predict Lifetime Container Component] Set BurdeningType Options',
   props<{ burdeningTypes: BurdeningType[] }>()
 );
 
+export const getBurdeningTypesFailure = createAction(
+  '[Predict Lifetime Container Component] Get Burdening Types Failure'
+);
+
 export const setMaterialOptions = createAction(
   '[Material Component] Set Material Options',
   props<{ materials: Material[] }>()
+);
+
+export const getMaterialsFailure = createAction(
+  '[Predict Lifetime Container Component] Get Materials Failure'
 );
 
 export const setChartType = createAction(
