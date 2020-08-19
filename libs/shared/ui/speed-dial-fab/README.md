@@ -1,4 +1,18 @@
 # frontend@schaeffler Speed Dial Fab Documentation
+
+## Preconditions
+
+1. `npm i schaeffler-icons`
+2. Add the related css file to your `angular.json` config:  
+   Example:
+    ``` json
+      "styles": [
+        "apps/<your-app>/src/styles.scss",
+        "node_modules/schaeffler-icons/style.css"
+      ],
+    ```
+
+## Usage
 Import into your project like:
 
 ```typescript
@@ -16,12 +30,12 @@ import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
 })
 ```
 
-API of FileDrop Component:
+API of Speed Dial Fab Component:
 
 ```typescript
 @Input() primaryButton: SpeedDialFabItem = {
   key: 'add',
-  icon: 'plus',
+  icon: new Icon('icon-plus', false),
   color: 'primary',
   label: true,
   title: 'Edit'
@@ -29,7 +43,7 @@ API of FileDrop Component:
 
 public primaryButtonOpen: SpeedDialFabItem = {
   key: 'cancel',
-  icon: 'cross',
+  icon: new Icon('icon-cross', false),
   color: 'primary',
   label: true,
   title: 'Cancel'
@@ -59,10 +73,11 @@ Use like:
 ```typescript
 // comp-xy.component.ts
 import { SpeedDialFabItem } from '@schaeffler/speed-dial-fab';
+import { Icon } from '@schaeffler/icons';
 
 public speedDialFabPrimaryBtn: SpeedDialFabItem = {
   key: 'conversation',
-  icon: 'bubbles',
+  icon: new Icon('icon-bubbles', false),
   color: 'primary',
   label: true,
   title: 'new conversation'
@@ -71,19 +86,22 @@ public speedDialFabPrimaryBtn: SpeedDialFabItem = {
 public speedDialFabSecondaryBtns: SpeedDialFabItem[] = [
   {
     key: 'mail',
-    icon: 'mail',
+    icon: new Icon('icon-mail', false),
     color: 'accent',
     label: true,
     title: 'new mail'
   },
   {
     key: 'phone',
-    icon: 'phone',
+    icon: new Icon('icon-phone', false),
     color: 'accent',
     label: true,
     title: 'new call'
   }
 ];
+
+public speedDialFabOpen = false;
+public speedDialFabDisabled = false;
 
 public speedDialFabClicked(key: string): void {
   if (key === 'conversation' || key === 'cancel') {

@@ -8,7 +8,17 @@
       [color]="primaryButton.color"
       class="fab-button-primary"
     >
-      <i class="icon icon-{{ primaryButton.icon }}"></i>
+      <ng-container
+        *ngIf="primaryButton.icon.materialIcon; else schaefflerIconBtnClose"
+      >
+        <mat-icon>{{ primaryButton.icon.icon }}</mat-icon>
+      </ng-container>
+      <ng-template #schaefflerIconBtnClose>
+        <mat-icon
+          fontSet="schaeffler-icons"
+          [fontIcon]="primaryButton.icon.icon"
+        ></mat-icon>
+      </ng-template>
     </button>
 
     <button
@@ -19,10 +29,20 @@
       [color]="primaryButtonOpen.color"
       class="fab-button-primary"
     >
-      <i
-        class="icon icon-{{ primaryButtonOpen.icon }}"
-        [@fabToggler]="{ value: open ? 'active' : 'inactive' }"
-      ></i>
+      <ng-container
+        *ngIf="primaryButton.icon.materialIcon; else schaefflerIconBtnOpen"
+      >
+        <mat-icon [@fabToggler]="{ value: open ? 'active' : 'inactive' }">{{
+          primaryButton.icon.icon
+        }}</mat-icon>
+      </ng-container>
+      <ng-template #schaefflerIconBtnOpen>
+        <mat-icon
+          fontSet="schaeffler-icons"
+          [fontIcon]="primaryButton.icon.icon"
+          [@fabToggler]="{ value: open ? 'active' : 'inactive' }"
+        ></mat-icon>
+      </ng-template>
     </button>
   </ng-container>
   <div [@speedDialStagger]="fabButtons.length">
@@ -36,7 +56,15 @@
       [disabled]="disabled[iButton] ? disabled[iButton] : false"
       class="fab-button-secondary"
     >
-      <i class="icon icon-{{ button.icon }}"></i>
+      <ng-container *ngIf="button.icon.materialIcon; else schaefflerIconBtn">
+        <mat-icon>{{ primaryButton.icon.icon }}</mat-icon>
+      </ng-container>
+      <ng-template #schaefflerIconBtn>
+        <mat-icon
+          fontSet="schaeffler-icons"
+          [fontIcon]="button.icon.icon"
+        ></mat-icon>
+      </ng-template>
       <span class="btn-title" *ngIf="button.label">{{
         button.title ? button.title : ''
       }}</span>

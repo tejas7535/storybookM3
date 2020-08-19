@@ -4,6 +4,7 @@ import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { openBanner } from '@schaeffler/banner';
+import { Icon } from '@schaeffler/icons';
 import { SnackBarService } from '@schaeffler/snackbar';
 import { SpeedDialFabItem } from '@schaeffler/speed-dial-fab';
 
@@ -26,7 +27,7 @@ export class HomeComponent implements OnInit {
 
   public speedDialFabPrimaryBtn: SpeedDialFabItem = {
     key: 'conversation',
-    icon: 'bubbles',
+    icon: new Icon('icon-bubbles', false),
     color: 'primary',
     label: true,
     title: 'new conversation',
@@ -35,14 +36,14 @@ export class HomeComponent implements OnInit {
   public speedDialFabSecondaryBtns: SpeedDialFabItem[] = [
     {
       key: 'mail',
-      icon: 'mail',
+      icon: new Icon('icon-mail', false),
       color: 'accent',
       label: true,
       title: 'new mail',
     },
     {
       key: 'phone',
-      icon: 'phone',
+      icon: new Icon('icon-phone', false),
       color: 'accent',
       label: true,
       title: 'new call',
