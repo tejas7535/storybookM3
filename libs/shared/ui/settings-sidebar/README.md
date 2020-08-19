@@ -2,6 +2,8 @@
 
 [Angular Material Documentation](https://material.angular.io/components/sidenav/overview)
 
+**Note: Should be used in combination with the `@schaeffler/header`**
+
 Import into your project like:
 
 ```typescript
