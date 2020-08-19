@@ -8,6 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
+import { Icon } from '@schaeffler/icons';
+
 import { SpeedDialFabItem } from './speed-dial-fab-item';
 import { speedDialFabAnimations } from './speed-dial-fab.animations';
 
@@ -21,7 +23,7 @@ import { speedDialFabAnimations } from './speed-dial-fab.animations';
 export class SpeedDialFabComponent implements OnChanges {
   @Input() primaryButton: SpeedDialFabItem = {
     key: 'add',
-    icon: 'plus',
+    icon: new Icon('icon-plus', false),
     color: 'primary',
     label: true,
     title: 'Edit',
@@ -29,7 +31,7 @@ export class SpeedDialFabComponent implements OnChanges {
 
   public primaryButtonOpen: SpeedDialFabItem = {
     key: 'cancel',
-    icon: 'cross',
+    icon: new Icon('icon-cross', false),
     color: 'primary',
     label: true,
     title: 'Cancel',

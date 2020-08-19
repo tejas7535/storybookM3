@@ -5,6 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { action } from '@storybook/addon-actions';
 import { boolean, text } from '@storybook/addon-knobs';
 
+import { Icon } from '@schaeffler/icons';
 import {
   SpeedDialFabComponent,
   SpeedDialFabModule,
@@ -47,7 +48,7 @@ export const customButton = () => ({
     clicked: action('clicked'),
     primaryButton: {
       key: text('key', 'edit'),
-      icon: text('icon', 'draft'),
+      icon: new Icon(text('icon', 'icon-draft'), false),
       color: text('color', 'warn'),
       label: boolean('label', true),
       title: text('title', 'Edit'),
@@ -62,7 +63,7 @@ export const withSecondaryButtons = () => ({
     open: boolean('open', true),
     primaryButton: {
       key: 'conversation',
-      icon: 'bubbles',
+      icon: new Icon('icon-bubbles', false),
       color: 'primary',
       label: true,
       title: 'new conversation',
@@ -70,14 +71,14 @@ export const withSecondaryButtons = () => ({
     secondaryButtons: [
       {
         key: text('key', 'mail', 'button1'),
-        icon: text('icon', 'mail', 'button1'),
+        icon: new Icon(text('icon', 'icon-mail', 'button1'), false),
         color: text('color', 'accent', 'button1'),
         label: boolean('label', true, 'button1'),
         title: text('title', 'New Mail', 'button1'),
       },
       {
         key: text('key', 'phone', 'button2'),
-        icon: text('icon', 'phone', 'button2'),
+        icon: new Icon(text('icon', 'icon-phone', 'button2'), false),
         color: text('color', 'accent', 'button2'),
         label: boolean('label', true, 'button2'),
         title: text('title', 'New Call', 'button2'),
@@ -93,7 +94,7 @@ export const disabledSecondaryButtons = () => ({
     open: boolean('open', true),
     primaryButton: {
       key: 'edit',
-      icon: 'draft',
+      icon: new Icon('icon-draft', false),
       color: 'primary',
       label: false,
       title: 'Start edit mode',
@@ -101,7 +102,7 @@ export const disabledSecondaryButtons = () => ({
     secondaryButtons: [
       {
         key: 'save',
-        icon: 'disk',
+        icon: new Icon('icon-disk', false),
         color: 'accent',
         label: false,
         title: 'Save changes',
