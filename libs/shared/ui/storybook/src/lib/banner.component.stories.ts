@@ -4,27 +4,21 @@ import { StoreModule } from '@ngrx/store';
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
 
-import {
-  bannerLoader,
-  BannerModule,
-  BannerTextComponent,
-} from '@schaeffler/banner';
+import { BannerModule, BannerTextComponent } from '@schaeffler/banner';
 import { IconsModule } from '@schaeffler/icons';
-import {
-  provideTranslocoTestingModule,
-  SharedTranslocoModule,
-} from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { TranslocoModule } from '@ngneat/transloco';
 
 import READMEMd from '../../../banner/README.md';
-import enJson from '../../../banner/src/lib/i18n/en.json';
 
 const moduleMetadata = {
   imports: [
     CommonModule,
     BannerModule,
     StoreModule.forRoot({}),
-    provideTranslocoTestingModule({ enJson }),
-    SharedTranslocoModule.forChild('banner', bannerLoader),
+    provideTranslocoTestingModule({}),
+    TranslocoModule,
     IconsModule,
   ],
 };

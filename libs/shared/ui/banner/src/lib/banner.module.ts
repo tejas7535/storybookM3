@@ -1,26 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { TranslocoService, TranslocoModule } from '@ngneat/transloco';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
+// tslint:disable: no-default-import */
+import deJson from './i18n/de.json';
+import enJson from './i18n/en.json';
+/* tslint:enable: no-default-import */
 import { StoreModule } from './store/store.module';
-
-export const bannerLoader = ['en', 'de'].reduce((acc: any, lang: string) => {
-  acc[lang] = () => import(`./i18n/${lang}.json`);
-
-  return acc;
-}, {});
 
 @NgModule({
   declarations: [BannerComponent],
-  imports: [
-    CommonModule,
-    StoreModule,
-    BannerTextModule,
-    SharedTranslocoModule.forChild('banner', bannerLoader),
-  ],
+  imports: [CommonModule, StoreModule, BannerTextModule, TranslocoModule],
   exports: [BannerComponent],
 })
-export class BannerModule {}
+export class BannerModule {
+  constructor(private readonly translocoService: TranslocoService) {
+    this.translocoService.setTranslation(enJson, 'en');
+    this.translocoService.setTranslation(deJson, 'de');
+  }
+}

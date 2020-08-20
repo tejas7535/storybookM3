@@ -23,14 +23,10 @@
     <p *ngIf="showFullText" [innerHTML]="text"></p>
     <span *ngIf="truncateSize > 0" class="read-more">
       <span *ngIf="!showFullText" (click)="toggleText()">
-        {{ t('banner.readMore') }}
+        {{ t('readMore') }}
       </span>
-      <span
-        *ngIf="showFullText"
-        transloco="banner.readLess"
-        (click)="toggleText()"
-      >
-        {{ t('banner.readLess') }}
+      <span *ngIf="showFullText" (click)="toggleText()">
+        {{ t('readLess') }}
       </span>
     </span>
   </div>

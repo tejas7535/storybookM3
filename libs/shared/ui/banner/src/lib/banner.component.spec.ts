@@ -6,12 +6,8 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
-import {
-  BannerState,
-  closeBanner,
-  initialState,
-  toggleFullText,
-} from './store';
+import { closeBanner, toggleFullText } from './store/actions/banner.actions';
+import { BannerState, initialState } from './store/reducers/banner.reducer';
 
 describe('BannerComponent', () => {
   let component: BannerComponent;
