@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -21,8 +22,29 @@ describe('ConditionMonitoringComponent', () => {
         MatCardModule,
         provideTranslocoTestingModule({}),
         AgGridModule.withComponents([]),
+        ReactiveComponentModule,
       ],
-      providers: [provideMockStore()],
+      providers: [
+        provideMockStore({
+          initialState: {
+            bearing: {
+              loading: false,
+              result: undefined,
+            },
+            conditionMonitoring: {
+              centerLoad: {
+                socketStatus: undefined,
+                events: [],
+                contents: undefined,
+              },
+              edm: {
+                loading: false,
+                measurements: undefined,
+              },
+            },
+          },
+        }),
+      ],
       declarations: [
         ConditionMonitoringComponent,
         CenterLoadComponent,

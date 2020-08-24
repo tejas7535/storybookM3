@@ -61,6 +61,7 @@
     },
     {
       "packageNames": [
+        "@ngrx/component",
         "@ngrx/effects",
         "@ngrx/entity",
         "@ngrx/router-store",

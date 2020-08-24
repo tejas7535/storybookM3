@@ -1,7 +1,7 @@
 <schaeffler-header [platformTitle]="title" class="full-height">
   <schaeffler-user-menu
     user-menu
-    [user]="username$ | async"
+    [user]="username$ | ngrxPush"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
   <div class="page-container">

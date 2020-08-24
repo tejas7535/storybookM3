@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -41,6 +42,7 @@ import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
     // Store
     EffectsModule.forFeature([ConditionMonitoringEffects]),
     StoreModule.forFeature('conditionMonitoring', conditionMonitoringReducer),
+    ReactiveComponentModule,
   ],
 })
 export class ConditionMonitoringModule {}
