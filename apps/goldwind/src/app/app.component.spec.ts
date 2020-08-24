@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { tap } from 'rxjs/operators';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -27,6 +28,7 @@ describe('AppComponent', () => {
         MatButtonModule,
         RouterTestingModule,
         FooterModule,
+        ReactiveComponentModule,
       ],
       providers: [provideMockStore()],
       declarations: [AppComponent],

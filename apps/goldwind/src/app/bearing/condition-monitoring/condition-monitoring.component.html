@@ -1,20 +1,20 @@
 <div *transloco="let t; read: 'conditionMonitoring'" class="grid-container">
   <div id="ms-equipment" class="grid-element">
     <goldwind-cm-equipment
-      *ngIf="mainBearing$ | async; else loading_card"
-      [mainBearing]="mainBearing$ | async"
+      *ngIf="mainBearing$ | ngrxPush as mainBearing; else loading_card"
+      [mainBearing]="mainBearing"
     ></goldwind-cm-equipment>
   </div>
   <div id="edm-monitoring" class="grid-element">
     <goldwind-edm-monitor
-      *ngIf="edm$ | async; else loading_card"
-      [edm]="edm$ | async"
+      *ngIf="edm$ | ngrxPush as edm; else loading_card"
+      [edm]="edm"
     ></goldwind-edm-monitor>
   </div>
   <div id="center-load" class="grid-element">
     <goldwind-center-load
-      [currentMessage]="currentMessage$ | async"
-      [socketStatus]="socketStatus$ | async"
+      [currentMessage]="currentMessage$ | ngrxPush"
+      [socketStatus]="socketStatus$ | ngrxPush"
     ></goldwind-center-load>
   </div>
 </div>

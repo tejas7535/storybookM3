@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -31,6 +32,7 @@ import { BearingComponent } from './bearing.component';
     // Store
     EffectsModule.forFeature([BearingEffects]),
     StoreModule.forFeature('bearing', bearingReducer),
+    ReactiveComponentModule,
   ],
 })
 export class BearingModule {}

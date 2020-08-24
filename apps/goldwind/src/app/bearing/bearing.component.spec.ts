@@ -4,6 +4,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -23,8 +24,18 @@ describe('BearingComponent', () => {
         MatTabsModule,
         MatIconModule,
         provideTranslocoTestingModule({}),
+        ReactiveComponentModule,
       ],
-      providers: [provideMockStore()],
+      providers: [
+        provideMockStore({
+          initialState: {
+            bearing: {
+              loading: false,
+              result: undefined,
+            },
+          },
+        }),
+      ],
       declarations: [BearingComponent],
     });
   });

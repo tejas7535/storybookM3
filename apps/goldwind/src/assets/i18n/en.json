@@ -33,5 +33,10 @@
       "generatorSide": "Generator Side",
       "time": "Time"
     }
+  },
+  "dateRange": {
+    "enterDateRange": "Enter a date range",
+    "invalidStartDate": "Invalid start date",
+    "invalidEndDate": "Invalid end date"
   }
 }
