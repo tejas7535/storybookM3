@@ -5,12 +5,14 @@
   fxFlexAlign="start"
 >
   <mat-icon
+    data-cy="user-menu-mobile"
     class="head-icon icon icon-user"
     [matMenuTriggerFor]="appMenu"
   ></mat-icon>
 </div>
 
 <div
+  data-cy="user-menu"
   [matMenuTriggerFor]="appMenu"
   fxHide.xs="true"
   fxShow.sm="true"
@@ -18,7 +20,6 @@
   [ngClass]="{ pointer: entries.length > 0 }"
   fxLayout="row"
   fxLayoutAlign="end center"
-  data-cy="logoutDiv"
   fxFlexAlign="end"
 >
   <div id="headerUserName" fxLayout="row" fxLayoutAlign="center center">
