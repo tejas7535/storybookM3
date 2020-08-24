@@ -69,7 +69,7 @@ export const withUserName = () => ({
 export const withUserMenu = () => ({
   ...baseComponent,
   template: `<schaeffler-header platformTitle="Storybook Demo">
-                <schaeffler-user-menu 
+                <schaeffler-user-menu
                     user-menu 
                     [user]="userName"
                     [entries]="menuEntries"
