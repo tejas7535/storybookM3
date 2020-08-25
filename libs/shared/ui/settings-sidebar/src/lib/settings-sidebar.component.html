@@ -13,6 +13,7 @@
     <div fxLayout="row">
       <div fxFlex>
         <button
+          data-cy="close-settings-sidebar"
           *ngIf="closeSidebarBtn"
           (click)="sidebar.toggle()"
           mat-icon-button
@@ -36,7 +37,7 @@
     <button
       *ngIf="!sidebar.opened && openSidebarBtn"
       mat-mini-fab
-      data-cy="toggle-settings-sidebar"
+      data-cy="open-settings-sidebar"
       class="upper-right"
       aria-label="Filter"
       (click)="sidebar.toggle()"

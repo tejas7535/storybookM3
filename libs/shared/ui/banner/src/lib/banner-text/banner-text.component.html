@@ -25,13 +25,17 @@
       <span *ngIf="!showFullText" (click)="toggleText()">
         {{ t('readMore') }}
       </span>
-      <span *ngIf="showFullText" (click)="toggleText()">
+      <span
+        *ngIf="showFullText"
+        (click)="toggleText()"
+        data-cy="read-less-span"
+      >
         {{ t('readLess') }}
       </span>
     </span>
   </div>
   <button
-    id="infoBannerButton"
+    id="info-banner-button"
     fxFlex="nogrow"
     (click)="clickButton()"
     mat-button

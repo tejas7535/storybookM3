@@ -4,17 +4,38 @@ import { SnackBarService } from '@schaeffler/snackbar';
 
 @Component({
   // tslint:disable-next-line: component-max-inline-declarations
-  template: `<button (click)="showInformationToast()" mat-raised-button>
+  template: `<button
+      (click)="showInformationToast()"
+      data-cy="showInformationToast"
+      mat-raised-button
+    >
       Show Information Toast
     </button>
-    <button (click)="showSuccessToast()" mat-raised-button color="primary">
+
+    <button
+      (click)="showSuccessToast()"
+      data-cy="showSuccessToast"
+      mat-raised-button
+      color="primary"
+    >
       Show Success Toast
     </button>
 
-    <button (click)="showWarningToast()" mat-raised-button color="accent">
+    <button
+      (click)="showWarningToast()"
+      data-cy="showWarningToast"
+      mat-raised-button
+      color="accent"
+    >
       Show Warning Toast
     </button>
-    <button (click)="showErrorToast()" mat-raised-button color="warn">
+
+    <button
+      (click)="showErrorToast()"
+      data-cy="showErrorToast"
+      mat-raised-button
+      color="warn"
+    >
       Show Error Toast
     </button>`,
   styles: [
