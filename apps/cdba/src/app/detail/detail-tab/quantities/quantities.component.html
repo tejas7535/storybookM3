@@ -17,7 +17,7 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ (quantitiesDetail?.netSales)[0] | number: '':'de-DE' }}&nbsp;{{
+          {{ quantitiesDetails.netSales[0] | number: '':'de-DE' }}&nbsp;{{
             quantitiesDetails.currency
           }}
         </div>
@@ -50,7 +50,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.actualQuantity', { year: currentYear - 1 })
           }}:&nbsp;</label
         >
         <div>
@@ -63,7 +63,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.actualQuantity', { year: currentYear - 2 })
           }}:&nbsp;</label
         >
         <div>
@@ -76,7 +76,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.actualQuantity', { year: currentYear - 3 })
           }}:&nbsp;</label
         >
         <div>
@@ -89,7 +89,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.actualQuantity', { year: currentYear - 4 })
           }}:&nbsp;</label
         >
         <div>
@@ -117,7 +117,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.plannedQuantity', { year: currentYear + 1 })
           }}:&nbsp;</label
         >
         <div>
@@ -130,7 +130,7 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.plannedQuantity', { year: currentYear + 2 })
           }}:&nbsp;</label
         >
         <div>
@@ -143,11 +143,11 @@
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.plannedQuantity', { year: currentYear })
+            t('quantities.plannedQuantity', { year: currentYear + 3 })
           }}:&nbsp;</label
         >
         <div>
-          {{ (quantitiesDetails?.plannedQuantities)[3] | number: '':'de-DE' }}
+          {{ quantitiesDetails.plannedQuantities[3] | number: '':'de-DE' }}
         </div>
       </div>
     </div>
