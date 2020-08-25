@@ -46,28 +46,15 @@
     <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length"
+        *ngIf="quantitiesDetails.actualQuantities.length > 3"
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.actualQuantity', { year: currentYear - 1 })
+            t('quantities.actualQuantity', { year: currentYear - 4 })
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[0] | number: '':'de-DE' }}
-        </div>
-      </div>
-      <div
-        fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length > 1"
-      >
-        <label fxFlexAlign="end"
-          >{{
-            t('quantities.actualQuantity', { year: currentYear - 2 })
-          }}:&nbsp;</label
-        >
-        <div>
-          {{ quantitiesDetails.actualQuantities[1] | number: '':'de-DE' }}
+          {{ quantitiesDetails.actualQuantities[3] | number: '':'de-DE' }}
         </div>
       </div>
       <div
@@ -85,15 +72,28 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length > 3"
+        *ngIf="quantitiesDetails.actualQuantities.length > 1"
       >
         <label fxFlexAlign="end"
           >{{
-            t('quantities.actualQuantity', { year: currentYear - 4 })
+            t('quantities.actualQuantity', { year: currentYear - 2 })
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[3] | number: '':'de-DE' }}
+          {{ quantitiesDetails.actualQuantities[1] | number: '':'de-DE' }}
+        </div>
+      </div>
+      <div
+        fxLayout="row wrap"
+        *ngIf="quantitiesDetails.actualQuantities.length"
+      >
+        <label fxFlexAlign="end"
+          >{{
+            t('quantities.actualQuantity', { year: currentYear - 1 })
+          }}:&nbsp;</label
+        >
+        <div>
+          {{ quantitiesDetails.actualQuantities[0] | number: '':'de-DE' }}
         </div>
       </div>
     </div>
