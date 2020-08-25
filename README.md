@@ -1,7 +1,7 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v1.4.0-green.svg)
-![@angular/core: 10.0.11](https://img.shields.io/badge/%40angular%2Fcore-10.0.11-brightgreen)
+![@angular/core: 10.0.12](https://img.shields.io/badge/%40angular%2Fcore-10.0.12-brightgreen)
 ![@ngrx/store: 10.0.0](https://img.shields.io/badge/%40ngrx%2Fstore-10.0.0-brightgreen)
 ![@angular/material: 10.1.3](https://img.shields.io/badge/%40angular%2Fmaterial-10.1.3-brightgreen)
 ![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)
