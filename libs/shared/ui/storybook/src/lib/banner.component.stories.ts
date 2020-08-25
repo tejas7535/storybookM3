@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 
+import { TranslocoModule } from '@ngneat/transloco';
 import { StoreModule } from '@ngrx/store';
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
@@ -7,8 +8,6 @@ import { boolean, number, text } from '@storybook/addon-knobs';
 import { BannerModule, BannerTextComponent } from '@schaeffler/banner';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
-import { TranslocoModule } from '@ngneat/transloco';
 
 import READMEMd from '../../../banner/README.md';
 
@@ -40,12 +39,12 @@ export default {
   },
 };
 
-const props = (icon: string) => ({
+const props = (icon: string, fullText = false) => ({
   text: text(
     'text',
     'This text can be modified to be longer. At a certain length it makes sense to use the "showFullText" and "truncateSize" parameter to prevent the banner from taking up to much sceenspace.'
   ),
-  showFullText: boolean('showFullText', false),
+  showFullText: boolean('showFullText', fullText),
   bannerIcon: text('bannerIcon', icon),
   truncateSize: number('truncateSize', 180),
   buttonText: text('buttonText', 'Okay'),
@@ -78,5 +77,12 @@ export const success = () => ({
   ...baseComponent,
   props: {
     ...props('success'),
+  },
+});
+
+export const expanded = () => ({
+  ...baseComponent,
+  props: {
+    ...props('info', true),
   },
 });
