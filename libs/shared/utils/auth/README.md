@@ -20,8 +20,8 @@ Choose `Single Page Application` for `Code Flow` (recommended) or `Web` for `Imp
 Either way, you need to add the following redirect URIs to it:  
 - localhost:4200 (for local development)
 - https://<your-domain>(for your environment)
-- localhost:4200/silent-refresh.html (only needed for `implicit flow`)
-- https://<your-domain>/silent-refresh.html (only needed for `implicit flow`)
+- localhost:4200/silent-refresh.html (needed for `implicit flow`, but also required to set for `code flow`)
+- https://<your-domain>/silent-refresh.html (needed for `implicit flow`, but also required to set for `code flow`)
 
 #### `CODE FLOW` (Recommended Approach):
 
