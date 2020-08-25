@@ -6,6 +6,7 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -29,6 +30,9 @@ import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
     CommonModule,
     ConditionMonitoringRoutingModule,
     SharedModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
 
     // UI Modules
     MatCardModule,

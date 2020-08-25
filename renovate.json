@@ -80,6 +80,10 @@
       "groupName": "devextreme"
     },
     {
+      "packageNames": ["@types/echarts", "echarts", "ngx-echarts"],
+      "groupName": "echarts"
+    },
+    {
       "packageNames": [
         "@ngneat/transloco",
         "@ngneat/transloco-keys-manager",

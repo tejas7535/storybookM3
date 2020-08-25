@@ -1,8 +1,8 @@
 import { Component, Input } from '@angular/core';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { EChartOption } from 'echarts';
 
-import { Edm } from '../../../core/store/reducers/condition-monitoring/models';
+import { EdmGraphData } from '../../../core/store/reducers/condition-monitoring/models';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -10,15 +10,26 @@ import { Edm } from '../../../core/store/reducers/condition-monitoring/models';
   styleUrls: ['./edm-monitor.component.scss'],
 })
 export class EdmMonitorComponent {
-  public modules = [ClientSideRowModelModule];
-  public columnDefs = [
-    { field: 'id' },
-    { field: 'sensorId' },
-    { field: 'startDate' },
-    { field: 'endDate' },
-    { field: 'edmValue1Counter' },
-    { field: 'edmValue2Counter' },
-    { field: 'sampleRatio' },
-  ];
-  @Input() edm: Edm;
+  @Input() edmGraphData: EdmGraphData;
+  options: EChartOption = {
+    xAxis: {
+      type: 'time',
+      boundaryGap: false,
+    },
+    yAxis: {
+      type: 'value',
+    },
+    dataZoom: [
+      {
+        type: 'inside',
+      },
+      {}, // for slider zoom
+    ],
+    series: [
+      {
+        type: 'bar',
+        large: true,
+      },
+    ],
+  };
 }

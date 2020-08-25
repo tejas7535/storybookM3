@@ -6,12 +6,11 @@
     }}</mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <ag-grid-angular
-      class="ag-theme-material"
-      [modules]="modules"
-      [rowData]="edm"
-      [columnDefs]="columnDefs"
-    >
-    </ag-grid-angular>
+    <div
+      echarts
+      [options]="options"
+      [merge]="edmGraphData"
+      class="edm-chart"
+    ></div>
   </mat-card-content>
 </mat-card>

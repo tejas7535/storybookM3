@@ -2,6 +2,7 @@ import { initialState } from '../../reducers/condition-monitoring/condition-moni
 import {
   getCurrentMessage,
   getCurrentMessageId,
+  getEdmGraphData,
   getEdmResult,
   getMessagesEvents,
   getSensorId,
@@ -60,6 +61,16 @@ describe('ConditionMonitoring Selector', () => {
       expect(getEdmResult(fakeState)).toEqual(
         fakeState.conditionMonitoring.edm.measurements
       );
+    });
+  });
+
+  describe('getEdmGraphData', () => {
+    test('should return graph series data value tupels', () => {
+      const expectedResult = {
+        series: { data: [{ value: [new Date('2020-07-30T11:02:35'), 100] }] },
+      };
+
+      expect(getEdmGraphData(fakeState)).toEqual(expectedResult);
     });
   });
 
