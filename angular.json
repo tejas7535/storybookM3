@@ -1154,6 +1154,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/header --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1201,6 +1211,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/utils/responsive && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/utils/responsive --tag latest"
               }
             ]
           }
@@ -1254,6 +1274,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/utils/transloco --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1298,6 +1328,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/ui/sidebar && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/sidebar --tag latest"
               }
             ]
           }
@@ -1348,6 +1388,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/icons --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1395,6 +1445,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/footer --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1439,6 +1499,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/ui/file-drop && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/file-drop --tag latest"
               }
             ]
           }
@@ -1539,6 +1609,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/scroll-to-top --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1589,6 +1669,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/speed-dial-fab --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {
@@ -1633,6 +1723,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/ui/banner && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/banner --tag latest"
               }
             ]
           }
@@ -1683,6 +1783,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/ui/settings-sidebar && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/settings-sidebar --tag latest"
               }
             ]
           }
@@ -2223,6 +2333,16 @@
             "commands": [
               {
                 "command": "cd libs/shared/utils/auth && npx standard-version --no-verify"
+              }
+            ]
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/utils/auth --tag latest"
               }
             ]
           }

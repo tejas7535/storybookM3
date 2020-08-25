@@ -36,14 +36,12 @@ import { FooterLink } from '@schaeffler/footer';
 
 public footerLinks: FooterLink[] = [
   {
-    link:
-      'https://external.link.com/community,
+    link: 'https://external.link.com/community',
     title: 'External Link',
     external: true
   },
   {
-    link:
-      '/interal-link,
+    link: '/interal-link',
     title: 'Internal Link',
     external: false
   }
