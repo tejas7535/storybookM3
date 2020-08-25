@@ -10,12 +10,12 @@ def rtServer = Artifactory.server('artifactory.schaeffler.com')
 def gitEnv
 
 def builds 
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Apps', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
@@ -490,10 +490,10 @@ pipeline {
             }
             failFast true
             parallel {
-                stage('Build:Apps'){
+                stage('Build:Projects'){
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            echo "Build Apps"
+                            echo "Build Projects"
                             
                             script {
                                 if(isRelease()) {
@@ -615,10 +615,23 @@ pipeline {
                 }
 
                 stage('Deploy:Packages'){
+                    when {
+                        expression {
+                            return isRelease()
+                        }
+                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Deploy Libraries as npm packages to Artifactory"
-                            
+
+                             script {
+                                withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+                                    sh "echo 'email=${USERNAME}' > ~/.npmrc"
+                                    sh "echo '//artifactory.schaeffler.com/artifactory/api/npm/npm/:_authToken=${API_KEY}' > ~/.npmrc"
+
+                                    sh "npx nx affected --base=${buildBase} --target=publish"
+                                }
+                            }                           
                         }
                     }
                 }
