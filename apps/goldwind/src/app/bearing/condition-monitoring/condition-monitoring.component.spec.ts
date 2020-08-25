@@ -5,6 +5,7 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -23,6 +24,9 @@ describe('ConditionMonitoringComponent', () => {
         provideTranslocoTestingModule({}),
         AgGridModule.withComponents([]),
         ReactiveComponentModule,
+        NgxEchartsModule.forRoot({
+          echarts: () => import('echarts'),
+        }),
       ],
       providers: [
         provideMockStore({

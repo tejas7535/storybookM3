@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -17,7 +17,9 @@ describe('EdmMonitorComponent', () => {
       imports: [
         MatCardModule,
         provideTranslocoTestingModule({}),
-        AgGridModule.withComponents([]),
+        NgxEchartsModule.forRoot({
+          echarts: () => import('echarts'),
+        }),
       ],
       declarations: [EdmMonitorComponent],
     });

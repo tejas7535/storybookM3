@@ -1,2 +1,3 @@
+export * from './edm-graph-data.model';
 export * from './edm.model';
 export * from './message-event.model';

@@ -2,7 +2,12 @@ import { createSelector } from '@ngrx/store';
 
 import { getConditionMonitoringState } from '../../reducers';
 import { ConditionMonitoringState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
-import { MessageEvent } from '../../reducers/condition-monitoring/models';
+import {
+  Edm,
+  EdmGraphData,
+  EdmMeasurement,
+  MessageEvent,
+} from '../../reducers/condition-monitoring/models';
 
 export const getSensorId = createSelector(
   getConditionMonitoringState,
@@ -11,12 +16,24 @@ export const getSensorId = createSelector(
 
 export const getSocketStatus = createSelector(
   getConditionMonitoringState,
-  (state: ConditionMonitoringState) => state.centerLoad.socketStatus
+  (state: ConditionMonitoringState): number => state.centerLoad.socketStatus
 );
 
 export const getEdmResult = createSelector(
   getConditionMonitoringState,
-  (state: ConditionMonitoringState) => state.edm.measurements
+  (state: ConditionMonitoringState): Edm => state.edm.measurements
+);
+
+export const getEdmGraphData = createSelector(
+  getEdmResult,
+  (edm: any): EdmGraphData =>
+    edm && {
+      series: {
+        data: edm.map((measurement: EdmMeasurement) => ({
+          value: [new Date(measurement.endDate), measurement.edmValue1Counter],
+        })),
+      },
+    }
 );
 
 export const getCenterLoad = createSelector(
