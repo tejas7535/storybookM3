@@ -33,7 +33,11 @@ apps/goldwind-e2e @krausrbe
 
 # SELI
 apps/seli @birketho @soehnpsc 
-apps/seli-e2e @birketho @soehnpsc 
+apps/seli-e2e @birketho @soehnpsc
+ 
+# GQ
+apps/gq @andrafnk @soehnpsc @herpisef 
+apps/gq-e2e @andrafnk @soehnpsc @herpisef
 
 ############
 ### Libs ###
