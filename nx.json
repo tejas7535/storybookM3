@@ -133,6 +133,14 @@
     },
     "shared-ui-empty-states": {
       "tags": ["scope:shared", "type:ui"]
+    },
+    "gq": {
+      "tags": [],
+      "implicitDependencies": ["shared-styles"]
+    },
+    "gq-e2e": {
+      "tags": [],
+      "implicitDependencies": ["gq"]
     }
   },
   "tasksRunnerOptions": {

@@ -2401,6 +2401,213 @@
           "style": "scss"
         }
       }
+    },
+    "gq": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/gq",
+      "sourceRoot": "apps/gq/src",
+      "prefix": "gq",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/gq",
+            "index": "apps/gq/src/index.html",
+            "main": "apps/gq/src/main.ts",
+            "polyfills": "apps/gq/src/polyfills.ts",
+            "tsConfig": "apps/gq/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/gq/src/favicon.ico", "apps/gq/src/assets"],
+            "styles": [
+              "apps/gq/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/gq/src/environments/environment.ts",
+                  "with": "apps/gq/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/gq/src/environments/environment.ts",
+                  "with": "apps/gq/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/gq/src/environments/environment.ts",
+                  "with": "apps/gq/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "gq:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "gq:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "gq:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "gq:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/gq/tsconfig.app.json",
+              "apps/gq/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/gq/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/gq/jest.config.js",
+            "tsConfig": "apps/gq/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "apps/gq/src/test-setup.ts"
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/gq && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "gq-e2e": {
+      "root": "apps/gq-e2e",
+      "sourceRoot": "apps/gq-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/gq-e2e/cypress.json",
+            "tsConfig": "apps/gq-e2e/tsconfig.e2e.json",
+            "devServerTarget": "gq:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "gq:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "gq:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/gq-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/gq-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {
