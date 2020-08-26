@@ -40,7 +40,8 @@ describe('Detail Reducer', () => {
 
   const referenceTypeIdentifier: ReferenceTypeIdentifier = new ReferenceTypeIdentifier(
     REFRENCE_TYPE_MOCK.materialNumber,
-    REFRENCE_TYPE_MOCK.plant
+    REFRENCE_TYPE_MOCK.plant,
+    REFRENCE_TYPE_MOCK.identificationHash
   );
 
   describe('selectReferenceType', () => {

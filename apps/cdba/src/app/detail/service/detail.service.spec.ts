@@ -53,45 +53,15 @@ describe('DetailService', () => {
       const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
-        .set('plant', mock.referenceTypeDto.plant);
-
-      service
-        .getDetails(
-          new ReferenceTypeIdentifier(
-            mock.referenceTypeDto.materialNumber,
-            mock.referenceTypeDto.plant
-          )
-        )
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
-
-      const req = httpMock.expectOne(`/detail?${expectedParams.toString()}`);
-      expect(req.request.method).toBe('GET');
-      expect(req.request.params).toEqual(expectedParams);
-      req.flush(mock);
-    });
-
-    test('should include RFQ info if provided', () => {
-      const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
-      const expectedParams = new HttpParams()
-        .set('material_number', mock.referenceTypeDto.materialNumber)
         .set('plant', mock.referenceTypeDto.plant)
-        .set('rfq', mock.referenceTypeDto.rfq)
-        .set(
-          'pcm_calculation_date',
-          String(mock.referenceTypeDto.pcmCalculationDate)
-        )
-        .set('pcm_quantity', String(mock.referenceTypeDto.pcmQuantity));
+        .set('identification_hash', mock.referenceTypeDto.identificationHash);
 
       service
         .getDetails(
           new ReferenceTypeIdentifier(
             mock.referenceTypeDto.materialNumber,
             mock.referenceTypeDto.plant,
-            mock.referenceTypeDto.rfq,
-            mock.referenceTypeDto.pcmCalculationDate,
-            mock.referenceTypeDto.pcmQuantity
+            mock.referenceTypeDto.identificationHash
           )
         )
         .subscribe((response) => {

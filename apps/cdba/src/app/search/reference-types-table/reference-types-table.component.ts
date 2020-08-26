@@ -188,6 +188,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
    */
   public onFirstDataRendered(params: IStatusPanelParams): void {
     params.columnApi.autoSizeAllColumns(false);
+    params.columnApi.setColumnVisible('identificationHash', false);
   }
 
   /**

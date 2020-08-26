@@ -25,9 +25,7 @@ export class DetailService {
 
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
-  private readonly PARAM_RFQ = 'rfq';
-  private readonly PARAM_PCM_CALCULATION_DATE = 'pcm_calculation_date'; // == RFQ Date
-  private readonly PARAM_PCM_QUANTITY = 'pcm_quantity'; // RFQ Volume
+  private readonly PARAM_IDENTIFICATION_HASH = 'identification_hash';
 
   private readonly BOM = 'bom';
   private readonly PARAM_BOM_COSTING_DATE = 'bom_costing_date';
@@ -109,19 +107,10 @@ export class DetailService {
   public getDetails(
     item: ReferenceTypeIdentifier
   ): Observable<ReferenceTypeResultModel> {
-    let params: HttpParams = new HttpParams()
+    const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
-      .set(this.PARAM_PLANT, item.plant);
-
-    // set RFQ information if available
-    if (item.rfq && item.pcmCalculationDate && item.pcmQuantity) {
-      params = params.append(this.PARAM_RFQ, item.rfq);
-      params = params.append(
-        this.PARAM_PCM_CALCULATION_DATE,
-        String(item.pcmCalculationDate)
-      );
-      params = params.append(this.PARAM_PCM_QUANTITY, String(item.pcmQuantity));
-    }
+      .set(this.PARAM_PLANT, item.plant)
+      .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash);
 
     return this.dataService.getAll<ReferenceTypeResultModel>(
       this.DETAIL,

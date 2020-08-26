@@ -163,18 +163,15 @@ export class DetailEffects {
     queryParams: any
   ): ReferenceTypeIdentifier {
     const materialNumber = queryParams['material_number'];
-    const pcmCalculationDate = queryParams['pcm_calculation_date'];
-    const pcmQuantity = queryParams['pcm_quantity'];
+    const identificationHash = queryParams['identification_hash'];
 
-    const { plant, rfq } = queryParams;
+    const { plant } = queryParams;
 
-    return materialNumber && plant
+    return materialNumber && plant && identificationHash
       ? {
           materialNumber,
           plant,
-          rfq,
-          pcmCalculationDate,
-          pcmQuantity,
+          identificationHash,
         }
       : undefined;
   }
@@ -186,9 +183,7 @@ export class DetailEffects {
     return (
       fromRoute.materialNumber === current?.materialNumber &&
       fromRoute.plant === current.plant &&
-      fromRoute.rfq === current.rfq &&
-      fromRoute.pcmCalculationDate === current.pcmCalculationDate &&
-      fromRoute.pcmQuantity === current.pcmQuantity
+      fromRoute.identificationHash === current.identificationHash
     );
   }
 }

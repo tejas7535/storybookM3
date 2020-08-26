@@ -44,5 +44,6 @@ export const REFRENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
   'BMW AG',
   '0060',
   'description lorem ipsum',
-  0.566
+  0.566,
+  'uniqueIdentifier'
 );

@@ -550,5 +550,10 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
       ),
     valueFormatter: formatDate,
   },
+  identificationHash: {
+    field: columnDefinitionToReferenceTypeProp('identificationHash'),
+    hide: true,
+    suppressToolPanel: true,
+  },
   // tslint:disable-next-line: max-file-line-count
 };
