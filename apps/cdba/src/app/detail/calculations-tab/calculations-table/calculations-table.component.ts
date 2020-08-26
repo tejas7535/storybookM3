@@ -191,7 +191,6 @@ export class CalculationsTableComponent implements OnChanges {
 
   public onFirstDataRendered(params: IStatusPanelParams): void {
     if (this.selectedNodeId) {
-      console.log(this.selectedNodeId);
       this.gridApi
         .getRowNode(this.selectedNodeId)
         .setSelected(true, true, true);

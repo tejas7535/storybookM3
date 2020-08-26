@@ -43,6 +43,7 @@ export class ReferenceType {
     public customer: string,
     public salesOrganization: string,
     public productDescription: string,
-    public sqvSapLatestMonth: number
+    public sqvSapLatestMonth: number,
+    public identificationHash: string
   ) {}
 }

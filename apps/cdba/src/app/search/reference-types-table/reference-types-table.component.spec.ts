@@ -250,6 +250,7 @@ describe('ReferenceTypesTableComponent', () => {
       const params = ({
         columnApi: {
           autoSizeAllColumns: jest.fn(),
+          setColumnVisible: jest.fn(),
         },
       } as unknown) as IStatusPanelParams;
 

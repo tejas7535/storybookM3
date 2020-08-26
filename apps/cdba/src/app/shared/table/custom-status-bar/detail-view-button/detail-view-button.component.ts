@@ -38,15 +38,7 @@ export class DetailViewButtonComponent {
       queryParams: {
         material_number: this.selections[0].materialNumber,
         plant: this.selections[0].plant,
-        rfq: this.selections[0].rfq !== undefined ? this.selections[0].rfq : '',
-        pcm_calculation_date:
-          this.selections[0].pcmCalculationDate !== undefined
-            ? this.selections[0].pcmCalculationDate
-            : '',
-        pcm_quantity:
-          this.selections[0].pcmQuantity !== undefined
-            ? this.selections[0].pcmQuantity
-            : '',
+        identification_hash: this.selections[0].identificationHash,
       },
     });
   }
