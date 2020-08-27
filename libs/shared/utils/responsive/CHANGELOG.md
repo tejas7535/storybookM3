@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](///compare/v1.4.0...v1.3.0) (2020-08-27)
+
+
+### 🎸 Features
+
+* **responsive:** use view engine and prevent barrel imports (UFTABI-2740) ([b431cc2](///commit/b431cc200df5c430535ee63a620ba323ba6ab8f6))
+
 ### [1.2.2](///compare/v1.3.0...v1.2.2) (2020-08-12)
 
 ### [1.2.1](///compare/v1.2.0...v1.2.1) (2020-08-07)

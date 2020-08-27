@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](///compare/v1.4.0...v1.3.0) (2020-08-27)
+
+
+### 🎸 Features
+
+* **settings-sidebar:** use view engine and prevent barrel imports (UFTABI-2737) ([a6fc0ed](///commit/a6fc0ed137d702381b9bc34086ac876ae8380982))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](///commit/245e355c6de4dafff18bdf03301074adb41669c3))
+
 ### [1.2.2](///compare/v1.3.0...v1.2.2) (2020-08-12)
 
 ### [1.2.1](///compare/v1.2.0...v1.2.1) (2020-08-07)

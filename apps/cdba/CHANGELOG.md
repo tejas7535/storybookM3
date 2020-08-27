@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** use correct labels for quantities (DSCDA-1965) ([bcd8069](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/bcd80698c4fd737e08e0e2cbba1962c168ffe5aa))
+
+
+### 🎸 Features
+
+* **cdba:** update REST API to support ref type uniqueness (DSCDA-1898) ([da6ece4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/da6ece426f84ed604f6d3750f9cc305a67321cde))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/245e355c6de4dafff18bdf03301074adb41669c3))
+
 ## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
 
 

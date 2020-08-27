@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
+
+
+### 📈 Improvements
+
+* **goldwind:** add @ngrx/component features ([730113a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/730113a736076f56c3c33e905548244671b211cd))
+
+
+### 🎸 Features
+
+* **goldwind:** add condition measuring equipment (DIGDTGW-573) ([3d117a8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3d117a8eb9b84ac3a99369fdac0ccf8a3481f91c))
+* **goldwind:** adjust edm from table to chart ([0429fcd](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0429fcd3bb32230aae85160b167bf0ca9c711bcd))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/245e355c6de4dafff18bdf03301074adb41669c3))
+
 ## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
 
 

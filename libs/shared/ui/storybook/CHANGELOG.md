@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
+
+
+### 🎸 Features
+
+* **deps:** update storybook to v6 (major) ([f2af3c1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f2af3c1775dc23c308bb78246affd46a5940c5af))
+* **libs:** use view engine and prevent barrel imports in banner and transloco (UFTABI-2733, UFTABI-2741) ([79024d5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79024d550448ec650a612566e85009158fb9788f))
+* **speed-dial-fab:** use view engine and prevent barrel exports (UFTABI-2739) ([95cf204](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/95cf204f4d7420cd366f7453da41a3c98946df59))
+
 ### [1.3.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.3.1) (2020-08-12)
 
 

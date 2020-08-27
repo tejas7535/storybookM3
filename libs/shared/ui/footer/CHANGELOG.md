@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](///compare/v1.4.0...v1.3.0) (2020-08-27)
+
+
+### 🎸 Features
+
+* **footer:** use view engine and prevent barrel imports (UFABTI-2735) ([68ad5d1](///commit/68ad5d1205538d42b15f4e9cce99ed6ca4731f2e))
+* **libs:** add automatic npm package deployment (UFTABI-2637) ([8e6a297](///commit/8e6a29702edbf348d540016a77814f5fce6193d5))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](///commit/245e355c6de4dafff18bdf03301074adb41669c3))
+
 ### [1.2.2](///compare/v1.3.0...v1.2.2) (2020-08-12)
 
 ### [1.2.1](///compare/v1.2.0...v1.2.1) (2020-08-07)

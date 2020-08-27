@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
+
+
+### 📈 Improvements
+
+* **goldwind:** add @ngrx/component features ([730113a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/730113a736076f56c3c33e905548244671b211cd))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** use correct labels for quantities (DSCDA-1965) ([bcd8069](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/bcd80698c4fd737e08e0e2cbba1962c168ffe5aa))
+
+
+### 🎸 Features
+
+* **cdba:** update REST API to support ref type uniqueness (DSCDA-1898) ([da6ece4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/da6ece426f84ed604f6d3750f9cc305a67321cde))
+* **deps:** update storybook to v6 (major) ([f2af3c1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f2af3c1775dc23c308bb78246affd46a5940c5af))
+* **file-drop:** use view engine and prevent barrel imports (UFTABI-2734) ([4c97764](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4c97764c974c74f9eec81cb70d627ad51c0aa2db))
+* **footer:** use view engine and prevent barrel imports (UFABTI-2735) ([68ad5d1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/68ad5d1205538d42b15f4e9cce99ed6ca4731f2e))
+* **goldwind:** add condition measuring equipment (DIGDTGW-573) ([3d117a8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3d117a8eb9b84ac3a99369fdac0ccf8a3481f91c))
+* **goldwind:** adjust edm from table to chart ([0429fcd](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0429fcd3bb32230aae85160b167bf0ca9c711bcd))
+* **gq:** create guided quoting application (GQUOTE-100) ([973d76a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/973d76a77d7ceb25b150fcf0b2ae3a083c4a7695))
+* **libs:** add automatic npm package deployment (UFTABI-2637) ([8e6a297](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8e6a29702edbf348d540016a77814f5fce6193d5))
+* **libs:** use view engine and prevent barrel imports in banner and transloco (UFTABI-2733, UFTABI-2741) ([79024d5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79024d550448ec650a612566e85009158fb9788f))
+* **responsive:** use view engine and prevent barrel imports (UFTABI-2740) ([b431cc2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b431cc200df5c430535ee63a620ba323ba6ab8f6))
+* **scroll-to-top:** use view engine and prevent barrel imports (UFTABI-2736) ([d0557c8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d0557c864eb8cc4841c4949f40a66111e0c87460))
+* **settings-sidebar:** use view engine and prevent barrel imports (UFTABI-2737) ([a6fc0ed](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a6fc0ed137d702381b9bc34086ac876ae8380982))
+* **speed-dial-fab:** use view engine and prevent barrel exports (UFTABI-2739) ([95cf204](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/95cf204f4d7420cd366f7453da41a3c98946df59))
+* **sta:** use api management urls ([5c876e4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5c876e4d39eb1238eb3f00a8cc2c34d9d967588a))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/245e355c6de4dafff18bdf03301074adb41669c3))
+
 ## [1.4.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.3.0...v1.4.0) (2020-08-12)
 
 
