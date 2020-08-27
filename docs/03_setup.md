@@ -14,5 +14,5 @@ Configuration:
 
 Styles:
 
-- Import common styles from the `@schaeffler/styles` package with `@import 'libs/shared/styles/src/<package>';` to your app's `styles.scss`. Be cautious: Only import what you need, in order to keep the bundle size small.
+- Import common styles from the `@schaeffler/styles` package with `@import 'libs/shared/ui/styles/src/<package>';` to your app's `styles.scss`. Be cautious: Only import what you need, in order to keep the bundle size small.
 - Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons

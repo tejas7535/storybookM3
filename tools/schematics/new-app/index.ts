@@ -110,7 +110,7 @@ function updateNxJson(options: NormalizedSchema): Rule {
     context.logger.info('Updating the dependency graph for you...');
 
     const project = json.projects[options.projectName];
-    project.implicitDependencies = ['shared-styles'];
+    project.implicitDependencies = ['shared-ui-styles'];
 
     const resultJson = {
       ...json,
@@ -158,7 +158,7 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
       appConfiguration.targets.get('build').options[
         'stylePreprocessorOptions'
       ] = {
-        includePaths: ['libs/shared/styles/src'],
+        includePaths: ['libs/shared/ui/styles/src'],
       };
 
       // adjust build configurations

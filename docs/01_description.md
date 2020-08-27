@@ -10,7 +10,7 @@
 ![@angular/material: 10.1.3](https://img.shields.io/badge/%40angular%2Fmaterial-10.1.3-brightgreen)
 ![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)
 ![prettier: 2.0.5](https://img.shields.io/badge/prettier-2.0.5-brightgreen)
-![commitizen: 4.1.5](https://img.shields.io/badge/commitizen-4.1.5-brightgreen)
+![commitizen: 4.2.0](https://img.shields.io/badge/commitizen-4.2.0-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
