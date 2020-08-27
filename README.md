@@ -6,7 +6,7 @@
 ![@angular/material: 10.1.3](https://img.shields.io/badge/%40angular%2Fmaterial-10.1.3-brightgreen)
 ![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)
 ![prettier: 2.0.5](https://img.shields.io/badge/prettier-2.0.5-brightgreen)
-![commitizen: 4.1.5](https://img.shields.io/badge/commitizen-4.1.5-brightgreen)
+![commitizen: 4.2.0](https://img.shields.io/badge/commitizen-4.2.0-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
@@ -52,7 +52,7 @@ Configuration:
 
 Styles:
 
-- Import common styles from the `@schaeffler/styles` package with `@import 'libs/shared/styles/src/<package>';` to your app's `styles.scss`. Be cautious: Only import what you need, in order to keep the bundle size small.
+- Import common styles from the `@schaeffler/styles` package with `@import 'libs/shared/ui/styles/src/<package>';` to your app's `styles.scss`. Be cautious: Only import what you need, in order to keep the bundle size small.
 - Add `@import 'https://fonts.googleapis.com/icon?family=Material+Icons';` to your app's `styles.scss` to support Material Icons
 
 ## Contribution and Terms of Admission

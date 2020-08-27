@@ -17,7 +17,7 @@
     },
     "kitchen-sink": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "sta-e2e": {
       "tags": [],
@@ -25,10 +25,7 @@
     },
     "sta": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
-    },
-    "shared-styles": {
-      "tags": ["scope:shared", "type:styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-cypress-utils": {
       "tags": ["scope:shared", "type:utils"]
@@ -39,7 +36,7 @@
     },
     "ltp": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-assets": {
       "tags": ["scope:shared", "type:assets"]
@@ -50,11 +47,11 @@
     },
     "helloworld-azure": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "cdba": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "cdba-e2e": {
       "tags": [],
@@ -62,7 +59,7 @@
     },
     "shared-ui-header": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles", "shared-assets"]
+      "implicitDependencies": ["shared-ui-styles", "shared-assets"]
     },
     "shared-utils-responsive": {
       "tags": ["scope:shared", "type:utils"]
@@ -72,42 +69,42 @@
     },
     "shared-ui-sidebar": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-icons": {
       "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-footer": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-file-drop": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-snackbar": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-banner": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-scroll-to-top": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-speed-dial-fab": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-settings-sidebar": {
       "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "goldwind": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "goldwind-e2e": {
       "tags": [],
@@ -122,7 +119,7 @@
     },
     "seli": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "seli-e2e": {
       "tags": [],
@@ -134,9 +131,12 @@
     "shared-ui-empty-states": {
       "tags": ["scope:shared", "type:ui"]
     },
+    "shared-ui-styles": {
+      "tags": ["scope:shared", "type:styles"]
+    },
     "gq": {
       "tags": [],
-      "implicitDependencies": ["shared-styles"]
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "gq-e2e": {
       "tags": [],

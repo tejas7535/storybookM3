@@ -35,7 +35,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -211,36 +211,6 @@
         }
       }
     },
-    "shared-styles": {
-      "projectType": "library",
-      "root": "libs/shared/styles",
-      "sourceRoot": "libs/shared/styles/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
-          "options": {
-            "tsConfig": ["libs/shared/styles/tsconfig.lib.json"],
-            "exclude": ["**/node_modules/**", "!libs/shared/styles/**/*"]
-          }
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "cd libs/shared/styles && npx standard-version --no-verify"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "styleext": "scss"
-        }
-      }
-    },
     "sta": {
       "projectType": "application",
       "schematics": {
@@ -273,7 +243,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -505,7 +475,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -737,7 +707,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -940,7 +910,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -1834,7 +1804,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -2117,7 +2087,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
@@ -2402,6 +2372,45 @@
         }
       }
     },
+    "shared-ui-styles": {
+      "projectType": "library",
+      "root": "libs/shared/ui/styles",
+      "sourceRoot": "libs/shared/ui/styles/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
+            "project": "libs/shared/ui/styles/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/ui/styles/tsconfig.lib.json",
+              "libs/shared/ui/styles/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!libs/shared/ui/styles/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/styles/jest.config.js",
+            "tsConfig": "libs/shared/ui/styles/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
     "gq": {
       "projectType": "application",
       "schematics": {
@@ -2429,7 +2438,7 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/styles/src"]
+              "includePaths": ["libs/shared/ui/styles/src"]
             }
           },
           "configurations": {
