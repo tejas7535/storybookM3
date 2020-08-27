@@ -8,10 +8,10 @@ import {
 } from '../../actions/bearing/bearing.actions';
 import { bearingReducer, initialState, reducer } from './bearing.reducer';
 
-describe('Search Reducer', () => {
+describe('Bearing Reducer', () => {
   describe('getBearing', () => {
     test('should set loading', () => {
-      const action = getBearing({ bearingId: 123 });
+      const action = getBearing({ bearingId: '123' });
       const state = bearingReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();

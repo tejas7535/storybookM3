@@ -23,6 +23,13 @@ const routes: Routes = [
                 (m) => m.ConditionMonitoringModule
               ),
           },
+          {
+            path: BearingRoutePath.GreaseStatusPath,
+            loadChildren: () =>
+              import('./grease-status/grease-status.module').then(
+                (m) => m.GreaseStatusModule
+              ),
+          },
         ],
       },
     ],

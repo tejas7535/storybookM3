@@ -12,7 +12,6 @@ import { getAccessToken } from '@schaeffler/auth';
 
 import { BEARING_MOCK } from '../../../../../testing/mocks';
 import { DataService } from '../../../http/data.service';
-import { StompService } from '../../../http/stomp.service';
 import {
   getBearing,
   getBearingId,
@@ -41,14 +40,6 @@ describe('Search Effects', () => {
           provide: DataService,
           useValue: {
             getBearing: jest.fn(),
-            getEdm: jest.fn(),
-          },
-        },
-        {
-          provide: StompService,
-          useValue: {
-            connect: jest.fn(),
-            getTopicBroadcast: jest.fn(),
           },
         },
       ],
@@ -64,7 +55,7 @@ describe('Search Effects', () => {
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {
-      state: { params: { id: 666 } },
+      state: { params: { id: '666' } },
     });
   });
 
@@ -76,7 +67,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getBearingId, connectStomp, subscribeBroadcast and for now getBearingEdmId', () => {
+    test('should dispatch getBearingId', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', {
         a: {
@@ -104,12 +95,12 @@ describe('Search Effects', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', { a: getBearingId() });
 
-      const expected = cold('-b', { b: 666 });
+      const expected = cold('-b', { b: '666' });
 
       expect(effects.bearingId$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(
         getBearing({
-          bearingId: 666,
+          bearingId: '666',
         })
       );
     });
@@ -117,7 +108,7 @@ describe('Search Effects', () => {
 
   describe('bearing$', () => {
     beforeEach(() => {
-      action = getBearing({ bearingId: 123 });
+      action = getBearing({ bearingId: '123' });
     });
 
     test('should return getBearingSuccess action when REST call is successful', () => {
@@ -136,7 +127,7 @@ describe('Search Effects', () => {
 
       expect(effects.bearing$).toBeObservable(expected);
       expect(dataService.getBearing).toHaveBeenCalledTimes(1);
-      expect(dataService.getBearing).toHaveBeenCalledWith(123);
+      expect(dataService.getBearing).toHaveBeenCalledWith('123');
     });
   });
 });

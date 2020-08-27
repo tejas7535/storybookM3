@@ -13,6 +13,7 @@ import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
+import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
@@ -46,6 +47,10 @@ describe('ConditionMonitoringComponent', () => {
                 measurements: undefined,
               },
             },
+            greaseStatus: {
+              loading: false,
+              result: undefined,
+            },
           },
         }),
       ],
@@ -54,6 +59,7 @@ describe('ConditionMonitoringComponent', () => {
         CenterLoadComponent,
         CmEquipmentComponent,
         EdmMonitorComponent,
+        GreaseMonitorComponent,
       ],
     });
   });

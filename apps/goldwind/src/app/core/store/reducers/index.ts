@@ -10,6 +10,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromBearing from './bearing/bearing.reducer';
 import * as fromConditionMonitoring from './condition-monitoring/condition-monitoring.reducer';
+import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -21,12 +22,14 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   bearing: fromBearing.BearingState;
   conditionMonitoring: fromConditionMonitoring.ConditionMonitoringState;
+  greaseStatus: fromGreaseStatus.GreaseStatusState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   bearing: fromBearing.bearingReducer,
   conditionMonitoring: fromConditionMonitoring.conditionMonitoringReducer,
+  greaseStatus: fromGreaseStatus.greaseStatusReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -44,6 +47,10 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
 export const getConditionMonitoringState = createFeatureSelector<
   fromConditionMonitoring.ConditionMonitoringState
 >('conditionMonitoring');
+
+export const getGreaseStatusState = createFeatureSelector<
+  fromGreaseStatus.GreaseStatusState
+>('greaseStatus');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

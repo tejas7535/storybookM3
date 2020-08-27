@@ -17,6 +17,12 @@
       [socketStatus]="socketStatus$ | ngrxPush"
     ></goldwind-center-load>
   </div>
+  <div id="grease-status" class="grid-element">
+    <goldwind-grease-monitor
+      *ngIf="greaseStatus$ | ngrxPush as greaseStatus; else loading_card"
+      [greaseStatus]="greaseStatus"
+    ></goldwind-grease-monitor>
+  </div>
 </div>
 
 <ng-template #loading_card>

@@ -10,7 +10,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ConditionMonitoringEffects } from '../../core/store/effects/condition-monitoring/condition-monitoring.effects';
+import {
+  ConditionMonitoringEffects,
+  GreaseStatusEffects,
+} from '../../core/store/effects';
 import { conditionMonitoringReducer } from '../../core/store/reducers/condition-monitoring/condition-monitoring.reducer';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadComponent } from './center-load/center-load.component';
@@ -18,6 +21,7 @@ import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
+import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +29,7 @@ import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
     CenterLoadComponent,
     CmEquipmentComponent,
     EdmMonitorComponent,
+    GreaseMonitorComponent,
   ],
   imports: [
     CommonModule,
@@ -44,7 +49,7 @@ import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
     SharedTranslocoModule,
 
     // Store
-    EffectsModule.forFeature([ConditionMonitoringEffects]),
+    EffectsModule.forFeature([ConditionMonitoringEffects, GreaseStatusEffects]),
     StoreModule.forFeature('conditionMonitoring', conditionMonitoringReducer),
     ReactiveComponentModule,
   ],

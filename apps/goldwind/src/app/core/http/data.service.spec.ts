@@ -86,4 +86,21 @@ describe('Data Service', () => {
       req.flush(mock);
     });
   });
+
+  describe('getGreaseStatus', () => {
+    test('should call GET for given path', () => {
+      const mockGreaseSensorId = 'du1-bist2-flop3';
+      const mock = 'mockGreaseStatus';
+
+      service.getGreaseStatus(mockGreaseSensorId).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        `${BASE_URL}/iot/things/${mockGreaseSensorId}/greasecheck`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
 });
