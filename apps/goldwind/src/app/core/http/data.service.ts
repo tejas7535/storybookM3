@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { BearingMetadata } from '../store/reducers/bearing/models';
 import { Edm } from '../store/reducers/condition-monitoring/models';
+import { GreaseStatus } from '../store/reducers/grease-status/models';
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
 @Injectable({
@@ -32,5 +33,9 @@ export class DataService {
 
   public getEdm(id: string): Observable<Edm> {
     return this.getIot(`${id}/edm`);
+  }
+
+  public getGreaseStatus(id: string): Observable<GreaseStatus> {
+    return this.getIot(`${id}/greasecheck`);
   }
 }

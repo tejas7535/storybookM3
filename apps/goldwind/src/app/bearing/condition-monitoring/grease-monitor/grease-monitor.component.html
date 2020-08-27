@@ -1,4 +1,4 @@
-<mat-card *transloco="let t; read: 'conditionMonitoring.edmMonitor'">
+<mat-card *transloco="let t; read: 'greaseStatus'">
   <mat-card-header>
     <mat-card-title>{{ t('title') }}</mat-card-title>
     <mat-card-subtitle *transloco="let t; read: 'bearing'">
@@ -6,11 +6,11 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div
-      echarts
-      [options]="options"
-      [merge]="edmGraphData"
-      class="edm-chart"
-    ></div>
+    <ag-grid-angular
+      class="ag-theme-material"
+      [modules]="modules"
+      [rowData]="greaseStatus"
+      [columnDefs]="columnDefs"
+    ></ag-grid-angular>
   </mat-card-content>
 </mat-card>

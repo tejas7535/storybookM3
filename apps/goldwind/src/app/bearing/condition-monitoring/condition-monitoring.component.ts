@@ -10,9 +10,11 @@ import {
   EdmGraphData,
   Message,
 } from '../../core/store/reducers/condition-monitoring/models';
+import { GreaseStatus } from '../../core/store/reducers/grease-status/models';
 import {
   getCurrentMessage,
   getEdmGraphData,
+  getGreaseStatusResult,
   getMainBearing,
   getSocketStatus,
 } from '../../core/store/selectors/';
@@ -27,6 +29,7 @@ export class ConditionMonitoringComponent implements OnInit {
   edmGraphData$: Observable<EdmGraphData>;
   currentMessage$: Observable<Message>;
   socketStatus$: Observable<number>;
+  greaseStatus$: Observable<GreaseStatus>;
 
   public constructor(private readonly store: Store<AppState>) {}
 
@@ -35,5 +38,6 @@ export class ConditionMonitoringComponent implements OnInit {
     this.edmGraphData$ = this.store.pipe(select(getEdmGraphData));
     this.currentMessage$ = this.store.pipe(select(getCurrentMessage));
     this.socketStatus$ = this.store.pipe(select(getSocketStatus));
+    this.greaseStatus$ = this.store.pipe(select(getGreaseStatusResult));
   }
 }

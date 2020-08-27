@@ -6,10 +6,10 @@ import {
 } from '..';
 
 describe('Bearing Actions', () => {
-  let bearingId: number;
+  let bearingId: string;
 
   beforeEach(() => {
-    bearingId = 123;
+    bearingId = '123';
   });
 
   describe('Get Bearing Actions', () => {

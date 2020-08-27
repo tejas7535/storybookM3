@@ -13,7 +13,7 @@ import {
   reducer,
 } from './condition-monitoring.reducer';
 
-describe('Search Reducer', () => {
+describe('Condition Monitoring Reducer', () => {
   describe('getEdm', () => {
     test('should set loading', () => {
       const action = getEdm({ sensorId: 'fantasyId' });

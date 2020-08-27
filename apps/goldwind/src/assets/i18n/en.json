@@ -34,6 +34,15 @@
       "time": "Time"
     }
   },
+  "greaseStatus": {
+    "title": "Grease Status",
+    "grease": "Grease",
+    "greaseTemperatur": "Grease Temperatur",
+    "waterContent": "Water Content",
+    "deteroration": "Deterioration",
+    "rotationalSpeed": "Rotational Speed",
+    "pleaseSelectTrendsToShow": "Please select trends to show"
+  },
   "dateRange": {
     "enterDateRange": "Enter a date range",
     "invalidStartDate": "Invalid start date",

@@ -21,8 +21,7 @@ import {
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
-} from '../../actions/condition-monitoring/condition-monitoring.actions';
-import * as fromRouter from '../../reducers';
+} from '../../actions';
 import { getSensorId } from '../../selectors/condition-monitoring/condition-monitoring.selector';
 import { ConditionMonitoringEffects } from './condition-monitoring.effects';
 
@@ -47,7 +46,6 @@ describe('Search Effects', () => {
         {
           provide: DataService,
           useValue: {
-            getThing: jest.fn(),
             getEdm: jest.fn(),
           },
         },
@@ -72,9 +70,6 @@ describe('Search Effects', () => {
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getSensorId, mockSensorID);
-    store.overrideSelector(fromRouter.getRouterState, {
-      state: { params: { id: 666 } },
-    });
   });
 
   describe('router$', () => {
@@ -111,7 +106,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getThingEdm', () => {
+    test('should dispatch getEdm', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', { a: getEdmId() });
 

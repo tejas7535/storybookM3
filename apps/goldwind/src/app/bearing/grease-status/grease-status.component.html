@@ -1,0 +1,36 @@
+<mat-card *transloco="let t; read: 'greaseStatus'">
+  <mat-card-header>
+    <mat-card-title>{{ t('title') }}</mat-card-title>
+    <mat-card-subtitle *transloco="let t; read: 'bearing'">
+      {{ t('mainBearing') }}
+    </mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <div
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="space-between"
+      fxLayoutGap="30px"
+    >
+      <div fxFlex="20">
+        <label>{{ t('pleaseSelectTrendsToShow') }}</label>
+        <ul [formGroup]="displayForm">
+          <li *ngFor="let checkBox of checkBoxes; trackBy: trackByFn">
+            <mat-checkbox
+              [formControlName]="checkBox.formControl"
+              [color]="'primary'"
+            >
+              {{ t(checkBox.label) }}
+            </mat-checkbox>
+          </li>
+        </ul>
+      </div>
+      <ag-grid-angular
+        class="ag-theme-material"
+        [modules]="modules"
+        [rowData]="greaseStatus$ | ngrxPush"
+        [columnDefs]="columnDefs"
+      ></ag-grid-angular>
+    </div>
+  </mat-card-content>
+</mat-card>

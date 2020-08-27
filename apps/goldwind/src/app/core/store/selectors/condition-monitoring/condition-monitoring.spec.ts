@@ -48,7 +48,7 @@ describe('ConditionMonitoring Selector', () => {
   };
 
   describe('getSensorId', () => {
-    test('should a a static id, will change to actual one', () => {
+    test('should return a static id, will change to actual one', () => {
       // adjust in future
       expect(getSensorId(fakeState)).toEqual(
         'ee7bffbe-2e87-49f0-b763-ba235dd7c876'

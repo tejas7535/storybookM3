@@ -6,7 +6,7 @@ export const getBearingId = createAction('[Bearing] Load Bearing ID');
 
 export const getBearing = createAction(
   '[Bearing] Load Bearing',
-  props<{ bearingId: number }>()
+  props<{ bearingId: string }>()
 );
 
 export const getBearingSuccess = createAction(
