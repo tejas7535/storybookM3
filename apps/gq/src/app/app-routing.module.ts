@@ -1,20 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export enum RoutePath {
-  BasePath = '',
-  HomePath = 'home',
-}
+import { AppRoutePath } from './app-route-path.enum';
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
+    path: AppRoutePath.BasePath,
+    redirectTo: `/${AppRoutePath.PricingViewPath}`,
     pathMatch: 'full',
   },
   {
-    path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    path: AppRoutePath.PricingViewPath,
+    loadChildren: () =>
+      import('./pricing-view/pricing-view.module').then(
+        (m) => m.PricingViewModule
+      ),
+  },
+  {
+    path: AppRoutePath.DetailViewPath,
+    loadChildren: () =>
+      import('./detail-view/detail-view.module').then(
+        (m) => m.DetailViewModule
+      ),
   },
   {
     path: '**',

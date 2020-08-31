@@ -2,25 +2,25 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { HomeComponent } from './home.component';
+import { ResultSectionComponent } from './result-section.component';
 
-describe('HomeComponent', () => {
-  let component: HomeComponent;
-  let fixture: ComponentFixture<HomeComponent>;
+describe('resultComponent', () => {
+  let component: ResultSectionComponent;
+  let fixture: ComponentFixture<ResultSectionComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [HomeComponent],
+      declarations: [ResultSectionComponent],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
+    fixture = TestBed.createComponent(ResultSectionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 });

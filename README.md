@@ -10,17 +10,20 @@
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
 
-- [Usage](#usage)
-  - [Demo Application](#demo-application)
-  - [NX Quick Start & Documentation](#nx-quick-start-&-documentation)
-- [Project Setup](#project-setup)
-- [Contribution and Terms of Admission](#contribution-and-terms-of-admission)
-- [Changelog](#changelog)
-- [References](#references)
-  - [Update Strategy](#update-strategy)
-  - [Exit Strategy](#exit-strategy)
-  - [Further Documentation](#further-documentation)
-- [Contributors](#contributors)
+- [Frontend@Schaeffler](#frontendschaeffler)
+  - [Usage](#usage)
+    - [Demo Application](#demo-application)
+    - [NX Quick Start & Documentation](#nx-quick-start--documentation)
+  - [Project Setup](#project-setup)
+    - [Create a new application](#create-a-new-application)
+    - [Further Adaptions](#further-adaptions)
+  - [Contribution and Terms of Admission](#contribution-and-terms-of-admission)
+  - [Changelog](#changelog)
+  - [References](#references)
+    - [Update Strategy](#update-strategy)
+    - [Exit Strategy](#exit-strategy)
+    - [Further Documentation](#further-documentation)
+  - [Contributors](#contributors)
 
 ## Usage
 
@@ -89,4 +92,4 @@ Made with ❤️ by
 - [Christian Berndt](https://gitlab.schaeffler.com/berndcri) 👇
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
 - [Thomas Birke](https://gitlab.schaeffler.com/birketho) 🍼
-
+- [Pascal Söhnlein](https://gitlab.schaeffler.com/soehnpsc) 🚀
