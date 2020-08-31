@@ -1,0 +1,21 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
+:host {
+  height: 100%;
+  width: 100%;
+
+  .additional-information-container {
+    height: 100%;
+  }
+
+  mat-tab-group {
+    height: calc(100% - 50px);
+  }
+}
+
+mat-icon {
+  color: $schaeffler-carbon-gray;
+  cursor: pointer;
+  font-size: 24px;
+  margin: 0 16px;
+}

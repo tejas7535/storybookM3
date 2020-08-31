@@ -93,7 +93,11 @@
       "drawings": "Drawings"
     },
     "bom": {
-      "additionalInformation": "Additional Information",
+      "additionalInformation": {
+        "title": "Additional Information",
+        "calculations": "Calculations",
+        "chart": "Chart"
+      },
       "title": "Bill of Material",
       "headers": {
         "totalPricePerPc": "Cost",
