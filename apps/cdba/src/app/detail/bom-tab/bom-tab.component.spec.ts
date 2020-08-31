@@ -1,6 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { provideMockStore } from '@ngrx/store/testing';
@@ -10,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../../shared/table/custom-overlay/custom-overlay.module';
+import { AdditionalInformationModule } from './additional-information/additional-information.module';
 import { BomTabComponent } from './bom-tab.component';
 import { BomTableModule } from './bom-table/bom-table.module';
 
@@ -20,12 +24,16 @@ describe('BomTabComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
+        CommonModule,
+        NoopAnimationsModule,
         MatCardModule,
         MatIconModule,
         AgGridModule.withComponents([CustomLoadingOverlayComponent]),
         provideTranslocoTestingModule({}),
         CustomOverlayModule,
         BomTableModule,
+        MatSidenavModule,
+        AdditionalInformationModule,
       ],
       declarations: [BomTabComponent],
       providers: [provideMockStore({})],
