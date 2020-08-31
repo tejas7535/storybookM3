@@ -2,17 +2,40 @@
 
 [Angular Material Documentation](https://material.angular.io/components/snack-bar/overview)
 
-Import into your project like:
+This lib depends on the `schaeffler-icons`, which can be installed with npm:
+
+`npm i schaeffler-icons`
+
+Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+
+```
+"styles": [
+  ...
+  "node_modules/schaeffler-icons/style.css"
+],
+```
+
+This lib depends on the `@schaeffler/styles`, which can be installed with npm:
+
+`npm i --save @schaeffler/styles`
+
+```css
+/* styles.scss */
+
+@import '@schaeffler/styles/src';
+```
 
 ```typescript
 // myModule.module.ts
 
-import { SnackbarModule } from '@schaeffler/snackbar';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SnackBarModule } from '@schaeffler/snackbar';
 
 @NgModule({
   ...
   imports: [
-    SnackbarModule,
+    BrowserAnimationsModule,
+    SnackBarModule,
     ...
   ]
   ...
