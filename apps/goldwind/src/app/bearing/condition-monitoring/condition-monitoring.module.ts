@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -41,6 +42,7 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
 
     // UI Modules
     MatCardModule,
+    MatSlideToggleModule,
 
     // ag-Grid
     AgGridModule.withComponents([]),

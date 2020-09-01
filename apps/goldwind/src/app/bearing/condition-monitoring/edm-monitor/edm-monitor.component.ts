@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { EChartOption } from 'echarts';
 
-import { EdmGraphData } from '../../../core/store/reducers/condition-monitoring/models';
+import {
+  AntennaName,
+  EdmGraphData,
+} from '../../../core/store/reducers/condition-monitoring/models';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -11,6 +14,11 @@ import { EdmGraphData } from '../../../core/store/reducers/condition-monitoring/
 })
 export class EdmMonitorComponent {
   @Input() edmGraphData: EdmGraphData;
+  @Output() readonly antennaChange: EventEmitter<{
+    antennaName: AntennaName;
+  }> = new EventEmitter();
+
+  antenna = false;
   options: EChartOption = {
     xAxis: {
       type: 'time',
@@ -32,4 +40,13 @@ export class EdmMonitorComponent {
       },
     ],
   };
+
+  toggleAntenna(): void {
+    this.antenna = !this.antenna;
+
+    const antennaName = this.antenna
+      ? AntennaName.Antenna2
+      : AntennaName.Antenna1;
+    this.antennaChange.emit({ antennaName });
+  }
 }

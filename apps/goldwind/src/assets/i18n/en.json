@@ -24,7 +24,8 @@
       "windturbineImage": "Image of a wind turbine"
     },
     "edmMonitor": {
-      "title": "EDM Monitor"
+      "title": "EDM Monitor",
+      "antenna": "Antenna"
     },
     "centerLoad": {
       "title": "Bearing center load and temperature",

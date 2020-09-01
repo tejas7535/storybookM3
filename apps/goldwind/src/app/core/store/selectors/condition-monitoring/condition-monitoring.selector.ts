@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { getConditionMonitoringState } from '../../reducers';
 import { ConditionMonitoringState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
 import {
+  Antenna,
   Edm,
   EdmGraphData,
   EdmMeasurement,
@@ -26,11 +27,14 @@ export const getEdmResult = createSelector(
 
 export const getEdmGraphData = createSelector(
   getEdmResult,
-  (edm: any): EdmGraphData =>
+  (edm: any, props: Antenna): EdmGraphData =>
     edm && {
       series: {
         data: edm.map((measurement: EdmMeasurement) => ({
-          value: [new Date(measurement.endDate), measurement.edmValue1Counter],
+          value: [
+            new Date(measurement.endDate),
+            measurement[props.antennaName],
+          ],
         })),
       },
     }
