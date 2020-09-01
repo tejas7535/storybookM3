@@ -9,6 +9,7 @@
     <goldwind-edm-monitor
       *ngIf="edmGraphData$ | ngrxPush as edmGraphData; else loading_card"
       [edmGraphData]="edmGraphData"
+      (antennaChange)="getEdmGraphData($event)"
     ></goldwind-edm-monitor>
   </div>
   <div id="center-load" class="grid-element">

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { configureTestSuite } from 'ng-bullet';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -16,6 +17,7 @@ describe('EdmMonitorComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         MatCardModule,
+        MatSlideToggleModule,
         provideTranslocoTestingModule({}),
         NgxEchartsModule.forRoot({
           echarts: () => import('echarts'),
@@ -33,5 +35,22 @@ describe('EdmMonitorComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('toggleAntenna', () => {
+    test('should toggle the boolean antenna var and call an event emit', () => {
+      spyOn(component.antennaChange, 'emit');
+
+      component.toggleAntenna();
+      expect(component.antennaChange.emit).toHaveBeenCalled();
+
+      component.antenna = true;
+      component.toggleAntenna();
+
+      expect(component.antenna).toBe(false);
+      expect(component.antennaChange.emit).toHaveBeenCalledWith({
+        antennaName: 'edmValue1Counter',
+      });
+    });
   });
 });

@@ -1,4 +1,5 @@
 import { initialState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
+import { AntennaName } from '../../reducers/condition-monitoring/models';
 import {
   getCurrentMessage,
   getCurrentMessageId,
@@ -70,7 +71,9 @@ describe('ConditionMonitoring Selector', () => {
         series: { data: [{ value: [new Date('2020-07-30T11:02:35'), 100] }] },
       };
 
-      expect(getEdmGraphData(fakeState)).toEqual(expectedResult);
+      expect(
+        getEdmGraphData(fakeState, { antennaName: AntennaName.Antenna1 })
+      ).toEqual(expectedResult);
     });
   });
 

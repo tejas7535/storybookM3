@@ -1,10 +1,25 @@
 <mat-card *transloco="let t; read: 'conditionMonitoring.edmMonitor'">
-  <mat-card-header>
-    <mat-card-title>{{ t('title') }}</mat-card-title>
-    <mat-card-subtitle *transloco="let t; read: 'bearing'">
-      {{ t('mainBearing') }}
-    </mat-card-subtitle>
-  </mat-card-header>
+  <div fxLayout="row" fxLayoutAlign="space-between start">
+    <mat-card-header>
+      <mat-card-title>{{ t('title') }}</mat-card-title>
+      <mat-card-subtitle *transloco="let t; read: 'bearing'">
+        {{ t('mainBearing') }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
+      <label (click)="toggleAntenna()" class="toggle-label">
+        {{ t('antenna').toUpperCase() }} 1
+      </label>
+      <mat-slide-toggle
+        [checked]="antenna"
+        (change)="toggleAntenna()"
+        color="primary"
+        class="antenna-toggle"
+      >
+        {{ t('antenna').toUpperCase() }} 2
+      </mat-slide-toggle>
+    </div>
+  </div>
   <mat-card-content>
     <div
       echarts

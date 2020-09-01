@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -18,10 +19,12 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
   let fixture: ComponentFixture<ConditionMonitoringComponent>;
+
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
         MatCardModule,
+        MatSlideToggleModule,
         provideTranslocoTestingModule({}),
         AgGridModule.withComponents([]),
         ReactiveComponentModule,
