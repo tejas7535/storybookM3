@@ -1,11 +1,11 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v1.5.0-green.svg)
-![@angular/core: 10.0.12](https://img.shields.io/badge/%40angular%2Fcore-10.0.12-brightgreen)
+![@angular/core: 10.0.14](https://img.shields.io/badge/%40angular%2Fcore-10.0.14-brightgreen)
 ![@ngrx/store: 10.0.0](https://img.shields.io/badge/%40ngrx%2Fstore-10.0.0-brightgreen)
 ![@angular/material: 10.1.3](https://img.shields.io/badge/%40angular%2Fmaterial-10.1.3-brightgreen)
 ![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)
-![prettier: 2.0.5](https://img.shields.io/badge/prettier-2.0.5-brightgreen)
+![prettier: 2.1.1](https://img.shields.io/badge/prettier-2.1.1-brightgreen)
 ![commitizen: 4.2.1](https://img.shields.io/badge/commitizen-4.2.1-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
@@ -93,3 +93,4 @@ Made with ❤️ by
 - [Stefan Herpich](https://gitlab.schaeffler.com/herpisef) 🚴
 - [Thomas Birke](https://gitlab.schaeffler.com/birketho) 🍼
 - [Pascal Söhnlein](https://gitlab.schaeffler.com/soehnpsc) 🚀
+
