@@ -170,7 +170,7 @@
     "prettier": "2.1.1",
     "pretty-quick": "3.0.0",
     "standard-version": "9.0.0",
-    "stylelint": "13.6.1",
+    "stylelint": "13.7.0",
     "stylelint-order": "4.1.0",
     "ts-jest": "26.3.0",
     "ts-node": "9.0.0",
