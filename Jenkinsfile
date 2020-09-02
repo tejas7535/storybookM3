@@ -173,7 +173,7 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS 12.13'
+        nodejs 'NodeJS 12.18'
     }
 
     stages {
