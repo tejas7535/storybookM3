@@ -3,8 +3,15 @@
   class="mat-elevation-z12 additional-information-container"
   *transloco="let t; read: 'detail.bom.additionalInformation'"
 >
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon (click)="onClose()">close</mat-icon>
+  <div
+    class="additional-information-title"
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    matRipple
+    matRippleColor="primary"
+    (click)="onClose()"
+  >
+    <mat-icon>close</mat-icon>
     <p>{{ t('title') }}</p>
   </div>
   <mat-tab-group mat-stretch-tabs>
@@ -12,7 +19,11 @@
       <schaeffler-under-construction></schaeffler-under-construction>
     </mat-tab>
     <mat-tab label="{{ t('chart') }}">
-      <schaeffler-under-construction></schaeffler-under-construction>
+      <cdba-bom-chart *ngIf="children" [data]="children"></cdba-bom-chart>
+      <cdba-loading-spinner
+        *ngIf="bomLoading"
+        show="true"
+      ></cdba-loading-spinner>
     </mat-tab>
   </mat-tab-group>
 </div>

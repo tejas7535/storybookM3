@@ -28,7 +28,8 @@ export const BOM_MOCK: BomItem[] = [
     'exp',
     'yes',
     'ref',
-    'var'
+    'var',
+    1
   ),
   new BomItem(
     2,
@@ -57,7 +58,9 @@ export const BOM_MOCK: BomItem[] = [
     'exp',
     'yes',
     'ref',
-    'var'
+    'var',
+    2,
+    ['FE-2313', 'FE-2315']
   ),
   new BomItem(
     2,
@@ -86,7 +89,8 @@ export const BOM_MOCK: BomItem[] = [
     'exp',
     'yes',
     'ref',
-    'var'
+    'var',
+    3
   ),
   new BomItem(
     3,
@@ -115,7 +119,8 @@ export const BOM_MOCK: BomItem[] = [
     'exp',
     'yes',
     'ref',
-    'var'
+    'var',
+    4
   ),
   new BomItem(
     2,
@@ -144,6 +149,7 @@ export const BOM_MOCK: BomItem[] = [
     'exp',
     'yes',
     'ref',
-    'var'
+    'var',
+    5
   ),
 ];

@@ -11,6 +11,8 @@
     class="additional-information-sidenav"
   >
     <cdba-additional-information
+      [children]="childrenOfSelectedItem$ | async"
+      [bomLoading]="bomLoading$ | async"
       (closeOverlay)="additionalInformation.close()"
     ></cdba-additional-information>
   </mat-sidenav>
@@ -36,6 +38,7 @@
             [rowData]="bomItems$ | async"
             [isLoading]="bomLoading$ | async"
             [errorMessage]="bomErrorMessage$ | async"
+            (rowSelected)="selectBomItem($event)"
           ></cdba-bom-table>
         </div>
       </div>

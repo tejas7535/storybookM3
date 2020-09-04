@@ -1,4 +1,11 @@
-import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
 
 import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
@@ -6,6 +13,7 @@ import {
   ColumnApi,
   GridApi,
   IStatusPanelParams,
+  RowClickedEvent,
   RowNode,
 } from '@ag-grid-community/core';
 import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
@@ -31,6 +39,8 @@ export class BomTableComponent implements OnChanges {
   @Input() rowData: BomItem[];
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
+
+  @Output() readonly rowSelected: EventEmitter<BomItem> = new EventEmitter();
 
   defaultColDef: ColDef = {
     sortable: true,
@@ -186,7 +196,9 @@ export class BomTableComponent implements OnChanges {
     this.gridApi.redrawRows();
   }
 
-  onRowClicked(evt: any): any {
+  onRowClicked(evt: RowClickedEvent): void {
+    this.rowSelected.emit(evt.data);
+
     this.nonLevel2Children = [];
     this.currentSelectedRow = evt;
     this.updateNonLevel2Children(evt.node);

@@ -6,16 +6,23 @@
 
   .additional-information-container {
     height: 100%;
+
+    .additional-information-title {
+      cursor: pointer;
+    }
+    mat-icon {
+      color: $schaeffler-carbon-gray;
+      font-size: 24px;
+      margin: 0 16px;
+    }
   }
 
   mat-tab-group {
     height: calc(100% - 50px);
+    width: 100%;
   }
 }
 
-mat-icon {
-  color: $schaeffler-carbon-gray;
-  cursor: pointer;
-  font-size: 24px;
-  margin: 0 16px;
+::ng-deep .mat-tab-body-wrapper {
+  height: 100% !important;
 }

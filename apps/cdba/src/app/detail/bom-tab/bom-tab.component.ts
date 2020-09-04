@@ -4,12 +4,14 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { selectBomItem } from '../../core/store';
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import { BomItem } from '../../core/store/reducers/detail/models';
 import {
   getBomErrorMessage,
   getBomItems,
   getBomLoading,
+  getChildrenOfSelectedBomItem,
 } from '../../core/store/selectors/details/detail.selector';
 
 @Component({
@@ -21,6 +23,7 @@ export class BomTabComponent implements OnInit {
   bomItems$: Observable<BomItem[]>;
   bomLoading$: Observable<boolean>;
   bomErrorMessage$: Observable<string>;
+  childrenOfSelectedItem$: Observable<BomItem[]>;
 
   public constructor(private readonly store: Store<DetailState>) {}
 
@@ -28,5 +31,12 @@ export class BomTabComponent implements OnInit {
     this.bomItems$ = this.store.pipe(select(getBomItems));
     this.bomLoading$ = this.store.pipe(select(getBomLoading));
     this.bomErrorMessage$ = this.store.pipe(select(getBomErrorMessage));
+    this.childrenOfSelectedItem$ = this.store.pipe(
+      select(getChildrenOfSelectedBomItem)
+    );
+  }
+
+  selectBomItem(item: BomItem): void {
+    this.store.dispatch(selectBomItem({ item }));
   }
 }

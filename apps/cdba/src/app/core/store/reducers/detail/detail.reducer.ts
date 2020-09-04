@@ -10,6 +10,7 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectBomItem,
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
@@ -32,6 +33,7 @@ export interface DetailState {
   bom: {
     loading: boolean;
     items: BomItem[];
+    selectedItem: BomItem;
     errorMessage: string;
   };
 }
@@ -52,6 +54,7 @@ export const initialState: DetailState = {
   bom: {
     loading: false,
     items: undefined,
+    selectedItem: undefined,
     errorMessage: undefined,
   },
 };
@@ -98,6 +101,12 @@ export const detailReducer = createReducer(
       loading: true,
       errorMessage: undefined,
     },
+    bom: {
+      items: undefined,
+      loading: true,
+      selectedItem: undefined,
+      errorMessage: undefined,
+    },
   })),
   on(loadCalculationsSuccess, (state: DetailState, { items }) => ({
     ...state,
@@ -129,6 +138,7 @@ export const detailReducer = createReducer(
     bom: {
       items: undefined,
       loading: true,
+      selectedItem: undefined,
       errorMessage: undefined,
     },
   })),
@@ -137,6 +147,7 @@ export const detailReducer = createReducer(
     bom: {
       ...state.bom,
       items,
+      selectedItem: items[0],
       loading: false,
     },
   })),
@@ -148,5 +159,9 @@ export const detailReducer = createReducer(
       items: [],
       loading: false,
     },
+  })),
+  on(selectBomItem, (state: DetailState, { item }) => ({
+    ...state,
+    bom: { ...state.bom, selectedItem: item },
   }))
 );

@@ -27,6 +27,7 @@ export class BomItem {
     public bomEnteredManually: string,
     public bomReferenceObject: string,
     public bomValuationVariant: string,
+    public rowId: number,
     public predecessorsInTree: string[] = []
   ) {}
 }

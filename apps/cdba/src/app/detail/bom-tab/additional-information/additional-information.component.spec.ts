@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -8,8 +9,10 @@ import { configureTestSuite } from 'ng-bullet';
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { AdditionalInformationComponent } from './additional-information.component';
+import { BomChartModule } from './bom-chart/bom-chart.module';
 
 describe('AdditionalInformationComponent', () => {
   let component: AdditionalInformationComponent;
@@ -24,7 +27,10 @@ describe('AdditionalInformationComponent', () => {
         provideTranslocoTestingModule({}),
         MatIconModule,
         MatTabsModule,
+        MatRippleModule,
         UnderConstructionModule,
+        BomChartModule,
+        LoadingSpinnerModule,
       ],
     });
   });
