@@ -13,6 +13,7 @@ import {
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
+  selectBomItem,
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
@@ -110,11 +111,12 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadCalculations', () => {
-    test('should set loading', () => {
+    test('should set loading of calculations and bom', () => {
       const action = loadCalculations();
       const state = detailReducer(initialState, action);
 
       expect(state.calculations.loading).toBeTruthy();
+      expect(state.bom.loading).toBeTruthy();
     });
 
     test('should reset calculations state', () => {
@@ -216,6 +218,17 @@ describe('Detail Reducer', () => {
 
       expect(state.bom.loading).toBeFalsy();
       expect(state.bom.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('selectBomItem', () => {
+    test('should set selected Bom Item', () => {
+      const item = BOM_MOCK[0];
+      const action = selectBomItem({ item });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.bom.selectedItem).toEqual(BOM_MOCK[0]);
     });
   });
 });

@@ -1,4 +1,4 @@
-import { CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
+import { BOM_MOCK, CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
 import { BomItem, ReferenceTypeIdentifier } from '../../reducers/detail/models';
 import {
   DetailActions,
@@ -17,6 +17,7 @@ import {
   loadRfqs,
   loadRfqsFailure,
   loadRfqsSuccess,
+  selectBomItem,
   selectReferenceType,
 } from '../detail/detail.actions';
 
@@ -100,6 +101,19 @@ describe('Detail Actions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Detail] Load BOM Failure',
+      });
+    });
+  });
+
+  describe('Select Bom Action', () => {
+    test('selectBomItem', () => {
+      const item: BomItem = BOM_MOCK[0];
+
+      action = selectBomItem({ item });
+
+      expect(action).toEqual({
+        item,
+        type: '[Detail] Select BOM Item',
       });
     });
   });

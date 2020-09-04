@@ -36,6 +36,11 @@ export const loadBomFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const selectBomItem = createAction(
+  '[Detail] Select BOM Item',
+  props<{ item: BomItem }>()
+);
+
 export const loadCalculations = createAction('[Detail] Load Calculations');
 
 export const loadCalculationsSuccess = createAction(
@@ -88,6 +93,7 @@ const all = union({
   loadBom,
   loadBomSuccess,
   loadBomFailure,
+  selectBomItem,
   loadDrawings,
   loadDrawingsSuccess,
   loadDrawingsFailure,

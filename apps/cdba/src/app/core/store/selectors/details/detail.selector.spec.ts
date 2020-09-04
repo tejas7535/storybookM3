@@ -1,4 +1,5 @@
 import {
+  BOM_MOCK,
   CALCULATIONS_TYPE_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
@@ -14,11 +15,13 @@ import {
   initialState,
 } from '../../reducers/detail/detail.reducer';
 import {
+  getBomErrorMessage,
   getBomIdentifierForSelectedCalculation,
   getBomItems,
   getBomLoading,
   getCalculations,
   getCalculationsLoading,
+  getChildrenOfSelectedBomItem,
   getCustomerDetails,
   getDimensionAndWeightDetails,
   getPriceDetails,
@@ -49,6 +52,12 @@ describe('Detail Selector', () => {
           nodeId: '7',
           calculation: CALCULATIONS_TYPE_MOCK[6],
         },
+      },
+      bom: {
+        loading: true,
+        items: BOM_MOCK,
+        selectedItem: BOM_MOCK[0],
+        errorMessage: 'Error',
       },
     },
   };
@@ -164,12 +173,28 @@ describe('Detail Selector', () => {
   describe('getBomItems', () => {
     test('should return bom entries', () => {
       expect(getBomItems(initialDetailState)).toBeUndefined();
+      expect(getBomItems(fakeState)).toEqual(BOM_MOCK);
     });
   });
 
   describe('getBomLoading', () => {
     test('should return bom loading status', () => {
       expect(getBomLoading(initialDetailState)).toBeFalsy();
+      expect(getBomLoading(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getBomErrorMessage', () => {
+    test('should return the bom error message', () => {
+      expect(getBomErrorMessage(initialDetailState)).toBeUndefined();
+      expect(getBomErrorMessage(fakeState)).toEqual('Error');
+    });
+  });
+
+  describe('getChildrenOfSelectedBomItem', () => {
+    test('should return the direct children of the selected bom item', () => {
+      expect(getChildrenOfSelectedBomItem(initialDetailState)).toBeUndefined();
+      expect(getChildrenOfSelectedBomItem(fakeState)).toEqual([BOM_MOCK[1]]);
     });
   });
 

@@ -10,6 +10,7 @@ import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
 import {
   BomIdentifier,
+  BomItem,
   ReferenceTypeIdentifier,
 } from '../../reducers/detail/models';
 import { ReferenceType } from '../../reducers/shared/models';
@@ -151,6 +152,18 @@ export const getBomLoading = createSelector(
 export const getBomErrorMessage = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.errorMessage
+);
+
+export const getChildrenOfSelectedBomItem = createSelector(
+  getDetailState,
+  (state: DetailState): BomItem[] =>
+    state.bom.items
+      ? state.bom.items.filter(
+          (item: BomItem) =>
+            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+            state.bom.selectedItem.materialDesignation
+        )
+      : undefined
 );
 
 export const getSelectedNodeId = createSelector(

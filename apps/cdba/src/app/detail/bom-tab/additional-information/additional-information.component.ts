@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { BomItem } from '../../../core/store/reducers/detail/models';
 
 @Component({
   selector: 'cdba-additional-information',
@@ -6,6 +8,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrls: ['./additional-information.component.scss'],
 })
 export class AdditionalInformationComponent {
+  @Input() children: BomItem[];
+  @Input() bomLoading: boolean;
+
   @Output() private readonly closeOverlay: EventEmitter<
     void
   > = new EventEmitter();

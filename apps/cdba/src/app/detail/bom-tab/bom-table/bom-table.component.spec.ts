@@ -6,6 +6,7 @@ import {
   ColumnApi,
   GridApi,
   IStatusPanelParams,
+  RowClickedEvent,
   RowNode,
 } from '@ag-grid-community/core';
 import { configureTestSuite } from 'ng-bullet';
@@ -210,6 +211,7 @@ describe('BomTableComponent', () => {
         'entered',
         'ref',
         'variant',
+        1,
         ['root', 'current']
       );
 
@@ -239,18 +241,30 @@ describe('BomTableComponent', () => {
   });
 
   describe('onRowClicked', () => {
-    it('should update level 2 children and redraw', () => {
+    const evt = ({
+      node: {
+        id: '2',
+      },
+      data: {
+        id: 1,
+      },
+    } as unknown) as RowClickedEvent;
+
+    beforeEach(() => {
+      component.rowSelected.emit = jest.fn();
       component.updateNonLevel2Children = jest.fn();
       component['gridApi'] = ({
         redrawRows: jest.fn(),
       } as unknown) as GridApi;
+    });
 
-      const evt = {
-        node: {
-          id: '2',
-        },
-      };
+    it('should emit rowSelected event', () => {
+      component.onRowClicked(evt);
 
+      expect(component.rowSelected.emit).toHaveBeenCalledWith({ id: 1 });
+    });
+
+    it('should update level 2 children and redraw', () => {
       component.onRowClicked(evt);
 
       expect(component.currentSelectedRow.node.id).toEqual(evt.node.id);
