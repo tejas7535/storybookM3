@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
@@ -64,13 +64,13 @@ describe('Auth Effects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     effects = TestBed.inject(AuthEffects);
     metadata = getEffectsMetadata(effects);
     authService = TestBed.inject(AuthService);
     store = TestBed.inject(MockStore);
     store.overrideSelector(getIsLoggedIn, false);
-  }));
+  });
 
   describe('login$', () => {
     test('should not return an action', () => {

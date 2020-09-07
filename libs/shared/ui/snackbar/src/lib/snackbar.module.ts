@@ -4,8 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  MatSnackBarModule,
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBarModule,
 } from '@angular/material/snack-bar';
 
 import { SnackBarComponent } from './snackbar.component';

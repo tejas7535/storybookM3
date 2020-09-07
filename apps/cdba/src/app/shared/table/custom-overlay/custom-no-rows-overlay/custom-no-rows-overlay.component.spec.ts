@@ -1,4 +1,6 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { CustomNoRowsOverlayComponent } from './custom-no-rows-overlay.component';
 
@@ -6,11 +8,11 @@ describe('CustomNoRowsOverlayComponent', () => {
   let component: CustomNoRowsOverlayComponent;
   let fixture: ComponentFixture<CustomNoRowsOverlayComponent>;
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [CustomNoRowsOverlayComponent],
-    }).compileComponents();
-  }));
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomNoRowsOverlayComponent);

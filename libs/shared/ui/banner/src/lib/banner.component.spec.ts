@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Store } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -48,7 +48,7 @@ describe('BannerComponent', () => {
       expect(component.showFullText$).toBeDefined();
     });
 
-    it('selectors should return correct values', async(() => {
+    it('selectors should return correct values', () => {
       store.setState({
         banner: {
           text: 'banner text',
@@ -80,7 +80,7 @@ describe('BannerComponent', () => {
       component.showFullText$.subscribe((showFullText) =>
         expect(showFullText).toEqual(false)
       );
-    }));
+    });
 
     describe('closeBanner', () => {
       it('should dispatch action closeBanner', () => {

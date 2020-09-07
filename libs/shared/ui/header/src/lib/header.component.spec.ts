@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -74,7 +74,7 @@ describe('In HeaderComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should be triggered by click at burgerButton', async(() => {
+    it('should be triggered by click at burgerButton', () => {
       const burgerButton: Element = Array.from(
         document.querySelectorAll('mat-icon')
       ).find((element: Element) => element.id === 'burger-menu');
@@ -82,7 +82,7 @@ describe('In HeaderComponent', () => {
 
       burgerButton.dispatchEvent(new Event('click'));
       expect(component.toggleClicked).toHaveBeenCalled();
-    }));
+    });
 
     it('should emit event', () => {
       component.toggle.emit = jest.fn();

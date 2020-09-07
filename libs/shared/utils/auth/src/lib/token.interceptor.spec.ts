@@ -1,10 +1,10 @@
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
@@ -114,14 +114,17 @@ describe(`TokenInterceptor`, () => {
       httpRequest.flush('data');
     });
 
-    test('should do nothing when no error occurs', async(() => {
-      service.getPosts().subscribe((response) => {
-        expect(response).toBeTruthy();
-        expect(response).toEqual('data');
-      });
-      const httpRequest = httpMock.expectOne(`/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-      httpRequest.flush('data');
-    }));
+    test(
+      'should do nothing when no error occurs',
+      waitForAsync(() => {
+        service.getPosts().subscribe((response) => {
+          expect(response).toBeTruthy();
+          expect(response).toEqual('data');
+        });
+        const httpRequest = httpMock.expectOne(`/test`);
+        expect(httpRequest.request.method).toEqual('GET');
+        httpRequest.flush('data');
+      })
+    );
   });
 });

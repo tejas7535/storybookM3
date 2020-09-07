@@ -1,22 +1,23 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { HomeComponent } from './home.component';
+import { configureTestSuite } from 'ng-bullet';
 
 import { GreetingService } from '../greeting.service';
+import { HomeComponent } from './home.component';
 
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
 
-  beforeEach(async(() => {
+  configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatProgressBarModule, HttpClientTestingModule],
       declarations: [HomeComponent],
-      providers: [GreetingService]
-    }).compileComponents();
-  }));
+      providers: [GreetingService],
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HomeComponent);

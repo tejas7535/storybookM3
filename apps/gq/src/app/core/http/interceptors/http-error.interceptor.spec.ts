@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
@@ -79,58 +79,67 @@ describe(`HttpErrorInterceptor`, () => {
       httpMock.verify();
     });
 
-    test('should do nothing when no error occurs', async(() => {
-      service.getPosts().subscribe((response) => {
-        expect(response).toBeTruthy();
-        expect(response).toEqual('data');
-      });
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-      httpRequest.flush('data');
-    }));
-
-    test('should show error on client error', async(() => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (response) => {
+    test(
+      'should do nothing when no error occurs',
+      waitForAsync(() => {
+        service.getPosts().subscribe((response) => {
           expect(response).toBeTruthy();
-          expect(response).toEqual(
-            'An error occurred. Please try again later.'
-          );
-        }
-      );
+          expect(response).toEqual('data');
+        });
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+        expect(httpRequest.request.method).toEqual('GET');
+        httpRequest.flush('data');
+      })
+    );
 
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+    test(
+      'should show error on client error',
+      waitForAsync(() => {
+        service.getPosts().subscribe(
+          () => {
+            expect(true).toEqual(false);
+          },
+          (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toEqual(
+              'An error occurred. Please try again later.'
+            );
+          }
+        );
 
-      expect(httpRequest.request.method).toEqual('GET');
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-      httpRequest.error(error);
-    }));
+        expect(httpRequest.request.method).toEqual('GET');
 
-    test('should show error on server error', async(() => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (response) => {
-          expect(response).toBeTruthy();
-          expect(response).toEqual('Service Unavailable - Damn monkey');
-        }
-      );
+        httpRequest.error(error);
+      })
+    );
 
-      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+    test(
+      'should show error on server error',
+      waitForAsync(() => {
+        service.getPosts().subscribe(
+          () => {
+            expect(true).toEqual(false);
+          },
+          (response) => {
+            expect(response).toBeTruthy();
+            expect(response).toEqual('Service Unavailable - Damn monkey');
+          }
+        );
 
-      expect(httpRequest.request.method).toEqual('GET');
+        const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
 
-      httpRequest.error(({
-        status: 0,
-        message: 'error',
-        title: 'Service Unavailable',
-        detail: 'Damn monkey',
-      } as unknown) as ErrorEvent);
-    }));
+        expect(httpRequest.request.method).toEqual('GET');
+
+        httpRequest.error(({
+          status: 0,
+          message: 'error',
+          title: 'Service Unavailable',
+          detail: 'Damn monkey',
+        } as unknown) as ErrorEvent);
+      })
+    );
 
     test('should toast error message in error case', () => {
       service.getPosts().subscribe(

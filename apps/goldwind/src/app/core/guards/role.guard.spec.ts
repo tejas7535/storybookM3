@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -29,30 +29,36 @@ describe('RoleGuard', () => {
   });
 
   describe('canActivateChild', () => {
-    test('should grant access, if user has base role', async(() => {
-      store.overrideSelector(getRoles, ['User']);
+    test(
+      'should grant access, if user has base role',
+      waitForAsync(() => {
+        store.overrideSelector(getRoles, ['User']);
 
-      guard
-        .canActivate(undefined, undefined)
-        .subscribe((granted) => expect(granted).toBeTruthy());
-    }));
+        guard
+          .canActivate(undefined, undefined)
+          .subscribe((granted) => expect(granted).toBeTruthy());
+      })
+    );
 
-    test('should not grant access if user is lacking base role', async(() => {
-      store.overrideSelector(getRoles, []);
-      guard['router'].navigate = jest.fn().mockImplementation();
+    test(
+      'should not grant access if user is lacking base role',
+      waitForAsync(() => {
+        store.overrideSelector(getRoles, []);
+        guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard
-        .canActivate(undefined, undefined)
-        .subscribe((granted) => expect(granted).toBeFalsy());
-    }));
+        guard
+          .canActivate(undefined, undefined)
+          .subscribe((granted) => expect(granted).toBeFalsy());
+      })
+    );
 
-    test('should redirect to forbidden page if user is not authorized', async(() => {
+    test('should redirect to forbidden page if user is not authorized', () => {
       store.overrideSelector(getRoles, []);
       guard['router'].navigate = jest.fn().mockImplementation();
 
       guard.canActivate(undefined, undefined).subscribe();
 
       expect(guard['router'].navigate).toHaveBeenCalledWith(['forbidden']);
-    }));
+    });
   });
 });
