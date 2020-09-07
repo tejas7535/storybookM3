@@ -1,5 +1,5 @@
 import { Injector } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { Route, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -133,16 +133,16 @@ describe('AuthService', () => {
       service.isAuthenticated$.subscribe((a) => (authenticated = a));
     });
 
-    test('should navigate to state on token_received', async(() => {
+    test('should navigate to state on token_received', () => {
       service['injector'].get<Router>(Router).navigateByUrl = jest.fn();
       service['initConfig']();
 
       expect(
         service['injector'].get<Router>(Router).navigateByUrl
       ).toHaveBeenLastCalledWith('state/link');
-    }));
+    });
 
-    test('should do nothing when storage events on certain keys', async(() => {
+    test('should do nothing when storage events on certain keys', () => {
       const spy = jest.spyOn(console, 'warn').mockImplementation();
       oAuthService.events = NEVER;
       service['initConfig']();
@@ -152,9 +152,9 @@ describe('AuthService', () => {
       );
 
       expect(spy).not.toHaveBeenCalled();
-    }));
+    });
 
-    test('should set isAuthenticatedSubject on access_token event', async(() => {
+    test('should set isAuthenticatedSubject on access_token event', () => {
       service[
         'oauthService'
       ].hasValidAccessToken = jest.fn().mockImplementation(() => true);
@@ -174,9 +174,9 @@ describe('AuthService', () => {
 
       expect(authenticated).toBeTruthy();
       expect(service['login']).not.toHaveBeenCalled();
-    }));
+    });
 
-    test('should call login if token not valid and access_token event received', async(() => {
+    test('should call login if token not valid and access_token event received', () => {
       oAuthService.hasValidAccessToken = jest
         .fn()
         .mockImplementation(() => false);
@@ -194,7 +194,7 @@ describe('AuthService', () => {
 
       expect(authenticated).toBeFalsy();
       expect(service['login']).toHaveBeenCalled();
-    }));
+    });
   });
 
   describe('navigateToState', () => {

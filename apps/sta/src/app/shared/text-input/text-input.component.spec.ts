@@ -1,5 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -288,28 +288,31 @@ describe('TextInputComponent', () => {
       subject.next('This should also lead to a new language detection');
     });
 
-    test('should not validate on changes when text is smaller than min length', async(() => {
-      const userLang = 'de';
-      const resp = {
-        textLang: 'en',
-        displayName: 'Englisch',
-        supported: true,
-      };
-      component['dataService'].postLanguageDetectionText = jest.fn(() =>
-        of(resp)
-      );
-      component.minLength = 10;
+    test(
+      'should not validate on changes when text is smaller than min length',
+      waitForAsync(() => {
+        const userLang = 'de';
+        const resp = {
+          textLang: 'en',
+          displayName: 'Englisch',
+          supported: true,
+        };
+        component['dataService'].postLanguageDetectionText = jest.fn(() =>
+          of(resp)
+        );
+        component.minLength = 10;
 
-      observable
-        .pipe(component['validateTextInput'](userLang))
-        .subscribe(() => {
-          // should not come here
-          expect(true).toBeFalsy();
-        });
+        observable
+          .pipe(component['validateTextInput'](userLang))
+          .subscribe(() => {
+            // should not come here
+            expect(true).toBeFalsy();
+          });
 
-      subject.next('too short');
-      expect(component.disableSubmit).toBeTruthy();
-    }));
+        subject.next('too short');
+        expect(component.disableSubmit).toBeTruthy();
+      })
+    );
 
     test('should set text input error when detected lang not supported', (done) => {
       const userLang = 'de';
@@ -336,29 +339,34 @@ describe('TextInputComponent', () => {
       subject.next('Hasta pronto muchacho.');
     });
 
-    test('should call error handler on REST error', async(() => {
-      const userLang = 'de';
+    test(
+      'should call error handler on REST error',
+      waitForAsync(() => {
+        const userLang = 'de';
 
-      component['dataService'].postLanguageDetectionText = jest.fn(() => {
-        return throwError('This is an error!');
-      });
-      component['handlePostLanguageDetectionTextError'] = jest.fn(() => EMPTY);
-      component.defaultText =
-        'Das ist ein Standardtext - nicht mehr und nicht weniger.';
-
-      observable
-        .pipe(component['validateTextInput'](userLang))
-        .subscribe(() => {
-          // should not come here
-          expect(true).toBeFalsy();
+        component['dataService'].postLanguageDetectionText = jest.fn(() => {
+          return throwError('This is an error!');
         });
+        component['handlePostLanguageDetectionTextError'] = jest.fn(
+          () => EMPTY
+        );
+        component.defaultText =
+          'Das ist ein Standardtext - nicht mehr und nicht weniger.';
 
-      subject.next('absdasdasdsadegfd.');
+        observable
+          .pipe(component['validateTextInput'](userLang))
+          .subscribe(() => {
+            // should not come here
+            expect(true).toBeFalsy();
+          });
 
-      expect(
-        component['handlePostLanguageDetectionTextError']
-      ).toHaveBeenLastCalledWith('This is an error!');
-    }));
+        subject.next('absdasdasdsadegfd.');
+
+        expect(
+          component['handlePostLanguageDetectionTextError']
+        ).toHaveBeenLastCalledWith('This is an error!');
+      })
+    );
   });
 
   describe('handleTextInput', () => {

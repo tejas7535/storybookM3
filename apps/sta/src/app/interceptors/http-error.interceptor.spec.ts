@@ -4,7 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { Observable } from 'rxjs';
@@ -88,64 +88,79 @@ describe(`HttpErrorInterceptor`, () => {
       httpMock.verify();
     });
 
-    test('should do nothing when no error occurs', async(() => {
-      service.getPosts().subscribe((response) => {
-        expect(response).toBeTruthy();
-        expect(response).toEqual('data');
-      });
-      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-      httpRequest.flush('data');
-    }));
-
-    test('should show error on client error', async(() => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (response) => {
+    test(
+      'should do nothing when no error occurs',
+      waitForAsync(() => {
+        service.getPosts().subscribe((response) => {
           expect(response).toBeTruthy();
-          expect(transloco.translate).toHaveBeenCalledWith(
-            '0',
-            {},
-            'errorMessages'
-          );
-          expect(response).toEqual('test');
-        }
-      );
+          expect(response).toEqual('data');
+        });
+        const httpRequest = httpMock.expectOne(
+          `${environment.apiBaseUrl}/test`
+        );
+        expect(httpRequest.request.method).toEqual('GET');
+        httpRequest.flush('data');
+      })
+    );
 
-      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
+    test(
+      'should show error on client error',
+      waitForAsync(() => {
+        service.getPosts().subscribe(
+          () => {
+            expect(true).toEqual(false);
+          },
+          (response) => {
+            expect(response).toBeTruthy();
+            expect(transloco.translate).toHaveBeenCalledWith(
+              '0',
+              {},
+              'errorMessages'
+            );
+            expect(response).toEqual('test');
+          }
+        );
 
-      expect(httpRequest.request.method).toEqual('GET');
+        const httpRequest = httpMock.expectOne(
+          `${environment.apiBaseUrl}/test`
+        );
 
-      httpRequest.error(error);
-    }));
+        expect(httpRequest.request.method).toEqual('GET');
 
-    test('should show error on server error', async(() => {
-      service.getPosts().subscribe(
-        () => {
-          expect(true).toEqual(false);
-        },
-        (response) => {
-          expect(response).toBeTruthy();
-          expect(transloco.translate).toHaveBeenCalledWith(
-            '10',
-            {},
-            'errorMessages'
-          );
-          expect(response).toEqual('test');
-        }
-      );
+        httpRequest.error(error);
+      })
+    );
 
-      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
+    test(
+      'should show error on server error',
+      waitForAsync(() => {
+        service.getPosts().subscribe(
+          () => {
+            expect(true).toEqual(false);
+          },
+          (response) => {
+            expect(response).toBeTruthy();
+            expect(transloco.translate).toHaveBeenCalledWith(
+              '10',
+              {},
+              'errorMessages'
+            );
+            expect(response).toEqual('test');
+          }
+        );
 
-      expect(httpRequest.request.method).toEqual('GET');
+        const httpRequest = httpMock.expectOne(
+          `${environment.apiBaseUrl}/test`
+        );
 
-      httpRequest.error(({
-        status: 0,
-        errorId: 10,
-      } as unknown) as ErrorEvent);
-    }));
+        expect(httpRequest.request.method).toEqual('GET');
+
+        httpRequest.error(({
+          status: 0,
+          errorId: 10,
+        } as unknown) as ErrorEvent);
+      })
+    );
 
     test('should toast error message in error case', () => {
       service.getPosts().subscribe(

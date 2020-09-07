@@ -1,4 +1,4 @@
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing';
 import { ActivationEnd, Router } from '@angular/router';
 
 import { of } from 'rxjs';
@@ -53,13 +53,13 @@ describe('SidebarEffects', () => {
     });
   });
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     store = TestBed.inject(MockStore);
     actions$ = TestBed.inject(Actions);
     sidebarEffects = TestBed.inject(SidebarEffects);
     sidebarService = TestBed.inject(SidebarService);
     router = TestBed.inject(Router);
-  }));
+  });
 
   describe('setSidebarState$', () => {
     it('should return setSidebarMode Action', (done) => {

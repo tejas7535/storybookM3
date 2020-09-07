@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarConfig } from '@angular/material/snack-bar';
+import { TestBed } from '@angular/core/testing';
+import {
+  MAT_SNACK_BAR_DEFAULT_OPTIONS,
+  MatSnackBar,
+  MatSnackBarConfig,
+} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { configureTestSuite } from 'ng-bullet';
@@ -12,19 +15,20 @@ import { SnackBarComponent } from './snackbar.component';
 import { SnackBarModule } from './snackbar.module';
 import { SnackBarService } from './snackbar.service';
 
-@NgModule({
-  imports: [SnackBarModule],
-})
-class SnackBarTestModule {}
-
 describe('SnackBarService', () => {
   let snackBarService: SnackBarService;
   let snackBar: MatSnackBar;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [CommonModule, BrowserAnimationsModule, SnackBarTestModule],
-      providers: [SnackBarService],
+      imports: [CommonModule, BrowserAnimationsModule, SnackBarModule],
+      providers: [
+        SnackBarService,
+        {
+          provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+          useValue: { duration: 100 },
+        },
+      ],
     });
   });
 
@@ -146,10 +150,17 @@ describe('SnackBarService', () => {
       expect(spy).toHaveBeenCalledWith(SnackBarComponent, snackBarConfig);
     });
 
-    test('should return dismissed as Observable after dismissed', async(() => {
-      snackBarService.showSuccessMessage().subscribe((result) => {
+    xtest('should return dismissed as Observable after dismissed', (done) => {
+      const snackBarConfig: MatSnackBarConfig = {
+        panelClass: 'success-message',
+        data: new SnackBarData('message', 'action', SnackBarType.SUCCESS),
+        // duration: 100
+      };
+
+      snackBarService['showMessage'](snackBarConfig).subscribe((result) => {
         expect(result).toEqual('dismissed');
+        done();
       });
-    }));
+    });
   });
 });

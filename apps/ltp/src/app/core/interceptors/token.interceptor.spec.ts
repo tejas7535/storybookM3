@@ -1,23 +1,21 @@
-import { Observable, of } from 'rxjs';
-
-import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
+import { TestBed, waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
+
+import { Observable, of } from 'rxjs';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
 
-import { AuthService } from '../services';
-
-import { TokenInterceptor } from './token.interceptor';
-
 import { environment } from '../../../environments/environment';
+import { AuthService } from '../services';
+import { TokenInterceptor } from './token.interceptor';
 
 @Injectable()
 export class ExampleService {
@@ -45,7 +43,7 @@ describe(`TokenInterceptor`, () => {
         {
           provide: HTTP_INTERCEPTORS,
           useClass: TokenInterceptor,
-          multi: true
+          multi: true,
         },
         {
           provide: OAuthService,
@@ -58,17 +56,17 @@ describe(`TokenInterceptor`, () => {
               .fn()
               .mockImplementation(() => Promise.resolve()),
             initImplicitFlow: jest.fn(),
-            state: 'state/link'
-          }
+            state: 'state/link',
+          },
         },
         {
           provide: Router,
           useValue: {
             navigateByUrl: jest.fn(),
-            url: 'test'
-          }
-        }
-      ]
+            url: 'test',
+          },
+        },
+      ],
     });
   });
 
@@ -92,7 +90,7 @@ describe(`TokenInterceptor`, () => {
     });
 
     test('should add bearer token when possible', () => {
-      service.getPosts().subscribe(response => {
+      service.getPosts().subscribe((response) => {
         expect(response).toBeTruthy();
         expect(response).toEqual('data');
       });
@@ -107,7 +105,7 @@ describe(`TokenInterceptor`, () => {
     test('should not add bearer token if not avl', () => {
       mockOAuth2.getAccessToken = jest.fn().mockImplementation(() => undefined);
 
-      service.getPosts().subscribe(response => {
+      service.getPosts().subscribe((response) => {
         expect(response).toBeTruthy();
         expect(response).toEqual('data');
       });
@@ -117,14 +115,19 @@ describe(`TokenInterceptor`, () => {
       httpRequest.flush('data');
     });
 
-    test('should do nothing when no error occurs', async(() => {
-      service.getPosts().subscribe(response => {
-        expect(response).toBeTruthy();
-        expect(response).toEqual('data');
-      });
-      const httpRequest = httpMock.expectOne(`${environment.apiBaseUrl}/test`);
-      expect(httpRequest.request.method).toEqual('GET');
-      httpRequest.flush('data');
-    }));
+    test(
+      'should do nothing when no error occurs',
+      waitForAsync(() => {
+        service.getPosts().subscribe((response) => {
+          expect(response).toBeTruthy();
+          expect(response).toEqual('data');
+        });
+        const httpRequest = httpMock.expectOne(
+          `${environment.apiBaseUrl}/test`
+        );
+        expect(httpRequest.request.method).toEqual('GET');
+        httpRequest.flush('data');
+      })
+    );
   });
 });
