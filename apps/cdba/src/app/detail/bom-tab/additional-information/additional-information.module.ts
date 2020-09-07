@@ -11,6 +11,7 @@ import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-sp
 import { SharedModule } from '../../../shared/shared.module';
 import { AdditionalInformationComponent } from './additional-information.component';
 import { BomChartModule } from './bom-chart/bom-chart.module';
+import { BomLegendModule } from './bom-legend/bom-legend.module';
 
 @NgModule({
   declarations: [AdditionalInformationComponent],
@@ -23,6 +24,7 @@ import { BomChartModule } from './bom-chart/bom-chart.module';
     MatRippleModule,
     UnderConstructionModule,
     BomChartModule,
+    BomLegendModule,
     LoadingSpinnerModule,
   ],
   exports: [AdditionalInformationComponent],

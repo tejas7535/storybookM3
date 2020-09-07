@@ -19,7 +19,11 @@
       <schaeffler-under-construction></schaeffler-under-construction>
     </mat-tab>
     <mat-tab label="{{ t('chart') }}">
-      <cdba-bom-chart *ngIf="children" [data]="children"></cdba-bom-chart>
+      <ng-container *ngIf="children">
+        <cdba-bom-chart [data]="children"></cdba-bom-chart>
+        <cdba-bom-legend [data]="children"></cdba-bom-legend>
+         </ng-container
+      >
       <cdba-loading-spinner
         *ngIf="bomLoading"
         show="true"

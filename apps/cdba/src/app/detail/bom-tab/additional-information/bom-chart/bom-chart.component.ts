@@ -1,4 +1,9 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnChanges,
+} from '@angular/core';
 
 import { BomItem } from '../../../../core/store/reducers/detail/models';
 import {
@@ -13,6 +18,7 @@ import { DataPoint } from './data-point.model';
 @Component({
   selector: 'cdba-bom-chart',
   templateUrl: './bom-chart.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomChartComponent implements OnChanges {
   @Input('data') set chartData(data: BomItem[]) {
