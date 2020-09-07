@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+} from '@angular/core';
 
 import { BomItem } from '../../../core/store/reducers/detail/models';
 
@@ -6,6 +12,7 @@ import { BomItem } from '../../../core/store/reducers/detail/models';
   selector: 'cdba-additional-information',
   templateUrl: './additional-information.component.html',
   styleUrls: ['./additional-information.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdditionalInformationComponent {
   @Input() children: BomItem[];
