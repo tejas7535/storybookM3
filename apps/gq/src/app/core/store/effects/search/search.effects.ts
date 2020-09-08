@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+
+import { of } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete/autocomplete.service';
+import {
+  autocomplete,
+  autocompleteFailure,
+  autocompleteSuccess,
+} from '../../actions';
+
+/**
+ * Effect class for all tagging related actions which trigger side effects
+ */
+@Injectable()
+export class SearchEffects {
+  /**
+   * Get possible values for a form field
+   *
+   */
+  autocomplete$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(autocomplete.type),
+      mergeMap((action: any) =>
+        this.autocompleteService.autocomplete(action.textSearch).pipe(
+          map((item) => autocompleteSuccess({ item })),
+          catchError((_e) => of(autocompleteFailure()))
+        )
+      )
+    )
+  );
+
+  constructor(
+    private readonly actions$: Actions,
+    private readonly autocompleteService: AutocompleteService
+  ) {}
+}

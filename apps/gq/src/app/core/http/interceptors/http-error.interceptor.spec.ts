@@ -52,7 +52,7 @@ describe(`HttpErrorInterceptor`, () => {
     snackBarService = TestBed.inject(SnackBarService);
   });
 
-  it('should be truthy', () => {
+  test('should be truthy', () => {
     expect(service).toBeTruthy();
   });
 
