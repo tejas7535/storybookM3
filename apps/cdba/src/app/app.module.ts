@@ -3,12 +3,14 @@ import { NgModule } from '@angular/core';
 
 import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 
+import { CoreModule } from '@cdba/core';
+import { SharedModule } from '@cdba/shared';
+
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CoreModule } from './core/core.module';
-import { SharedModule } from './shared/shared.module';
 
+// tslint:disable-next-line: no-implicit-dependencies
 const azureConfig = new AzureConfig(
   environment.tenantId,
   environment.clientId,

@@ -1,0 +1,32 @@
+<ag-grid-angular
+  class="ag-theme-material"
+  [rowData]="rowData"
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="columnDefs"
+  [modules]="modules"
+  [sideBar]="sideBar"
+  [frameworkComponents]="frameworkComponents"
+  [statusBar]="statusBar"
+  [getMainMenuItems]="getMainMenuItems"
+  [loadingOverlayComponent]="loadingOverlayComponent"
+  [suppressNoRowsOverlay]="rowData === undefined || isLoading"
+  [noRowsOverlayComponent]="noRowsOverlayComponent"
+  [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+  [rowGroupPanelShow]="rowGroupPanelShow"
+  [enableRangeSelection]="enableRangeSelection"
+  rowSelection="single"
+  rowHeight="30"
+  valueCache
+  animateRows
+  suppressCsvExport
+  suppressExcelExport
+  (columnMoved)="columnChange($event)"
+  (columnVisible)="columnChange($event)"
+  (columnPinned)="columnChange($event)"
+  (sortChanged)="sortChange($event)"
+  (selectionChanged)="onSelectionChanged()"
+  (gridReady)="onGridReady($event)"
+  (firstDataRendered)="onFirstDataRendered($event)"
+  (firstDataRendered)="onFirstDataRendered($event)"
+>
+</ag-grid-angular>

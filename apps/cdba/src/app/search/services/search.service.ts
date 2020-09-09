@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '../../core/http/data.service';
+import { DataService } from '@cdba/core';
+
 import {
   FilterItem,
   FilterItemIdValue,

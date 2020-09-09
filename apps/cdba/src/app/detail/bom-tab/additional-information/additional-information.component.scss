@@ -20,6 +20,12 @@
   mat-tab-group {
     height: calc(100% - 50px);
     width: 100%;
+
+    .table-container {
+      height: calc(100% - 20px);
+      margin: 10px;
+      width: calc(100% - 20px);
+    }
   }
 }
 

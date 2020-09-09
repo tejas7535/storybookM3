@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { CalculationsTableModule } from '../../shared/calculations-table/calculations-table.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
-import { CalculationsTableModule } from './calculations-table/calculations-table.module';
 import { CalculationsTabRoutingModule } from './caluclations-tab-routing.module';
 
 @NgModule({
@@ -10,6 +13,8 @@ import { CalculationsTabRoutingModule } from './caluclations-tab-routing.module'
   imports: [
     CommonModule,
     CalculationsTabRoutingModule,
+    MatCardModule,
+    SharedTranslocoModule,
     CalculationsTableModule,
   ],
 })

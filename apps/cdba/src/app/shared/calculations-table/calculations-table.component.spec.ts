@@ -22,13 +22,13 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { CALCULATIONS_TYPE_MOCK } from '../../../../testing/mocks';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state.service';
-import { SharedModule } from '../../../shared/shared.module';
-import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomOverlayModule } from '../../../shared/table/custom-overlay/custom-overlay.module';
-import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
-import { CustomStatusBarModule } from '../../../shared/table/custom-status-bar/custom-status-bar.module';
+import { CALCULATIONS_TYPE_MOCK } from '../../../testing/mocks';
+import { AgGridStateService } from '../services/ag-grid-state.service';
+import { SharedModule } from '../shared.module';
+import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
+import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
 import { ColumnState } from './column-state';
 import { COLUMN_DEFINITIONS } from './config';
@@ -291,7 +291,8 @@ describe('CalculationsTableComponent', () => {
 
       params = ({
         columnApi: {
-          autoSizeAllColumns: jest.fn(),
+          getAllColumns: jest.fn(() => []),
+          autoSizeColumns: jest.fn(),
         },
       } as unknown) as IStatusPanelParams;
     });
@@ -302,7 +303,8 @@ describe('CalculationsTableComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(component['gridApi'].getRowNode).toHaveBeenCalled();
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
+      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
     });
 
     it('should do nothing, if nodeId is not present', () => {
@@ -311,7 +313,8 @@ describe('CalculationsTableComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
-      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
+      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
     });
   });
 

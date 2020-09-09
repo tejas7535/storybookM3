@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -16,11 +16,9 @@ import {
   getCalculationsLoading,
   getSelectedNodeId,
 } from '../../core/store/selectors';
-import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CalculationsTableModule } from '../../shared/calculations-table/calculations-table.module';
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
-import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { CalculationsTabComponent } from './calculations-tab.component';
-import { CalculationsTableModule } from './calculations-table/calculations-table.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -37,13 +35,10 @@ describe('CalculationsTabComponent', () => {
       declarations: [CalculationsTabComponent],
       imports: [
         CalculationsTableModule,
-        AgGridModule.withComponents([
-          DetailViewButtonComponent,
-          BomViewButtonComponent,
-        ]),
         provideTranslocoTestingModule({}),
         CustomStatusBarModule,
         RouterTestingModule,
+        MatCardModule,
       ],
       providers: [
         provideMockStore({

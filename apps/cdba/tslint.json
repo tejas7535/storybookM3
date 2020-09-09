@@ -3,7 +3,8 @@
   "rules": {
     "directive-selector": [true, "attribute", "cdba", "camelCase"],
     "component-selector": [true, "element", "cdba", "kebab-case"],
-    "template-cyclomatic-complexity": [true, 15]
+    "template-cyclomatic-complexity": [true, 15],
+    "no-implicit-dependencies": [true, "dev", ["@schaeffler", "@cdba"]]
   },
   "linterOptions": {
     "exclude": ["!**/*"]

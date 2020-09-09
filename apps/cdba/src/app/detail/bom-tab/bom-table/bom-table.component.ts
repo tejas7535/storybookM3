@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -31,6 +32,7 @@ import {
   selector: 'cdba-bom-table',
   templateUrl: './bom-table.component.html',
   styleUrls: ['./bom-table.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomTableComponent implements OnChanges {
   private gridApi: GridApi;

@@ -1,9 +1,21 @@
 <div class="container">
-  <cdba-calculation-table
-    [rowData]="calculations$ | async"
-    [selectedNodeId]="selectedNodeId$ | async"
-    [isLoading]="loading$ | async"
-    [errorMessage]="errorMessage$ | async"
-    (selectionChange)="selectCalculation($event)"
-  ></cdba-calculation-table>
+  <mat-card>
+    <div
+      class="mat-card-inner"
+      fxLayout="column"
+      *transloco="let t; read: 'detail.calculationTable'"
+    >
+      <h3>{{ t('title') }}</h3>
+
+      <div class="table-container">
+        <cdba-calculations-table
+          [rowData]="calculations$ | async"
+          [selectedNodeId]="selectedNodeId$ | async"
+          [isLoading]="loading$ | async"
+          [errorMessage]="errorMessage$ | async"
+          (selectionChange)="selectCalculation($event)"
+        ></cdba-calculations-table>
+      </div>
+    </div>
+  </mat-card>
 </div>
