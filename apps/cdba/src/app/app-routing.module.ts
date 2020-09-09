@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { RoleGuard } from '@cdba/core';
+
 import { AppRoutePath } from './app-route-path.enum';
-import { RoleGuard } from './core/guards';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutes: Routes = [

@@ -18,7 +18,7 @@ import { DataPoint } from './data-point.model';
 @Component({
   selector: 'cdba-bom-chart',
   templateUrl: './bom-chart.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BomChartComponent implements OnChanges {
   @Input('data') set chartData(data: BomItem[]) {

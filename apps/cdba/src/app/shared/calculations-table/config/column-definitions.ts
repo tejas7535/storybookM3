@@ -1,9 +1,8 @@
 import { ColDef } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 
-import { formatDate, valueGetterDate } from '../../../../shared/table';
+import { formatDate, valueGetterDate } from '../../table';
 
-// tslint:disable:max-file-line-count
 export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   checkbox: {
     suppressMovable: true,
@@ -16,6 +15,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     filterParams: false,
     suppressMenu: true,
     suppressColumnsToolPanel: true,
+    minWidth: 70,
     width: 70,
   },
   costingDateFrom: {

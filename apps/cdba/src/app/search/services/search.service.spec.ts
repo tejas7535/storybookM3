@@ -6,8 +6,8 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService } from '../../core/http/data.service';
-import { ENV_CONFIG } from '../../core/http/environment-config.interface';
+import { DataService, ENV_CONFIG } from '@cdba/core';
+
 import {
   FilterItem,
   FilterItemIdValue,

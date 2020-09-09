@@ -4,9 +4,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CalculationsTableModule } from '../../../shared/calculations-table/calculations-table.module';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { AdditionalInformationComponent } from './additional-information.component';
@@ -22,7 +22,7 @@ import { BomLegendModule } from './bom-legend/bom-legend.module';
     MatTabsModule,
     MatIconModule,
     MatRippleModule,
-    UnderConstructionModule,
+    CalculationsTableModule,
     BomChartModule,
     BomLegendModule,
     LoadingSpinnerModule,

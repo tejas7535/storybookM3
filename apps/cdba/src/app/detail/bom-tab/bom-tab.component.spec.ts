@@ -19,6 +19,11 @@ import { AdditionalInformationModule } from './additional-information/additional
 import { BomTabComponent } from './bom-tab.component';
 import { BomTableModule } from './bom-table/bom-table.module';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('BomTabComponent', () => {
   let component: BomTabComponent;
   let fixture: ComponentFixture<BomTabComponent>;
@@ -63,7 +68,6 @@ describe('BomTabComponent', () => {
       expect(component.bomItems$).toBeDefined();
       expect(component.bomLoading$).toBeDefined();
       expect(component.bomErrorMessage$).toBeDefined();
-      expect(component.childrenOfSelectedItem$).toBeDefined();
     });
   });
 

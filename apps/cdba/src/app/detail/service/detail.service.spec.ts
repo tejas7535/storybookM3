@@ -7,12 +7,13 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { ENV_CONFIG } from '@cdba/core';
+
 import {
   BOM_MOCK,
   CALCULATIONS_TYPE_MOCK,
   REFRENCE_TYPE_MOCK,
 } from '../../../testing/mocks';
-import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import {
   BomIdentifier,
   BomResult,

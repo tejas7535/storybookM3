@@ -16,16 +16,25 @@
   </div>
   <mat-tab-group mat-stretch-tabs>
     <mat-tab label="{{ t('calculations') }}">
-      <schaeffler-under-construction></schaeffler-under-construction>
+      <div class="table-container">
+        <cdba-calculations-table
+          minified="true"
+          [rowData]="calculations$ | async"
+          [selectedNodeId]="selectedCalculationNodeId$ | async"
+          [isLoading]="calculationsLoading$ | async"
+          [errorMessage]="calculationsErrorMessage$ | async"
+          (selectionChange)="selectCalculation($event)"
+        ></cdba-calculations-table>
+      </div>
     </mat-tab>
     <mat-tab label="{{ t('chart') }}">
-      <ng-container *ngIf="children">
+      <ng-container *ngIf="childrenOfSelectedBomItem$ | async as children">
         <cdba-bom-chart [data]="children"></cdba-bom-chart>
         <cdba-bom-legend [data]="children"></cdba-bom-legend>
          </ng-container
       >
       <cdba-loading-spinner
-        *ngIf="bomLoading"
+        *ngIf="bomLoading$ | async"
         show="true"
       ></cdba-loading-spinner>
     </mat-tab>

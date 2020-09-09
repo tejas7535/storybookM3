@@ -11,8 +11,6 @@
     class="additional-information-sidenav"
   >
     <cdba-additional-information
-      [children]="childrenOfSelectedItem$ | async"
-      [bomLoading]="bomLoading$ | async"
       (closeOverlay)="additionalInformation.close()"
     ></cdba-additional-information>
   </mat-sidenav>

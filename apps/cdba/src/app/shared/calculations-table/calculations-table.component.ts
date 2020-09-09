@@ -3,13 +3,14 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
   ColDef,
+  Column,
   ColumnEvent,
   GetMainMenuItemsParams,
   GridApi,
@@ -19,45 +20,36 @@ import {
   SortChangedEvent,
   StatusPanelDef,
 } from '@ag-grid-community/core';
-import { ClipboardModule } from '@ag-grid-enterprise/clipboard';
-import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel';
-import { FiltersToolPanelModule } from '@ag-grid-enterprise/filter-tool-panel';
-import { MenuModule } from '@ag-grid-enterprise/menu';
-import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
-import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
-import { SetFilterModule } from '@ag-grid-enterprise/set-filter';
-import { SideBarModule } from '@ag-grid-enterprise/side-bar';
-import { StatusBarModule } from '@ag-grid-enterprise/status-bar';
 import { translate } from '@ngneat/transloco';
 
-import { Calculation } from '../../../core/store/reducers/shared/models/calculation.model';
-import { SortState } from '../../../search/reference-types-table/sort-state';
-import { AgGridStateService } from '../../../shared/services/ag-grid-state.service';
-import { SIDE_BAR_CONFIG } from '../../../shared/table';
-import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import {
-  CustomNoRowsOverlayComponent,
-  NoRowsParams,
-} from '../../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { BomViewButtonComponent } from '../../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
+import { SortState } from '../../search/reference-types-table/sort-state';
+import { AgGridStateService } from '../services/ag-grid-state.service';
+import { SIDE_BAR_CONFIG } from '../table';
+import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { ColumnState } from './column-state';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   DEFAULT_COLUMN_STATE,
+  FRAMEWORK_COMPONENTS,
+  FRAMEWORK_COMPONENTS_MINIFIED,
+  MODULES,
+  MODULES_MINIFIED,
   STATUS_BAR_CONFIG,
 } from './config';
 
 @Component({
-  selector: 'cdba-calculation-table',
+  selector: 'cdba-calculations-table',
   templateUrl: './calculations-table.component.html',
   styleUrls: ['./calculations-table.component.scss'],
 })
-export class CalculationsTableComponent implements OnChanges {
+export class CalculationsTableComponent implements OnInit, OnChanges {
   private static readonly TABLE_KEY = 'calculations';
 
   private gridApi: GridApi;
 
+  @Input() minified = false;
   @Input() rowData: Calculation[];
   @Input() selectedNodeId: string;
   @Input() isLoading: boolean;
@@ -68,30 +60,12 @@ export class CalculationsTableComponent implements OnChanges {
     calculation: Calculation;
   }> = new EventEmitter();
 
-  public modules = [
-    ClientSideRowModelModule,
-    FiltersToolPanelModule,
-    ColumnsToolPanelModule,
-    MenuModule,
-    RangeSelectionModule,
-    RowGroupingModule,
-    StatusBarModule,
-    ClipboardModule,
-    SetFilterModule,
-    SideBarModule,
-  ];
+  public modules: any[];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = [];
 
-  public rowSelection = 'single';
-  public rowHeight = 30;
-
-  public frameworkComponents = {
-    bomViewButtonComponent: BomViewButtonComponent,
-    customLoadingOverlay: CustomLoadingOverlayComponent,
-    customNoRowsOverlay: CustomNoRowsOverlayComponent,
-  };
+  public frameworkComponents: any;
 
   public noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => this.errorMessage,
@@ -102,9 +76,11 @@ export class CalculationsTableComponent implements OnChanges {
 
   public statusBar: {
     statusPanels: StatusPanelDef[];
-  } = STATUS_BAR_CONFIG;
+  };
 
-  public sideBar: SideBarDef = SIDE_BAR_CONFIG;
+  public sideBar: SideBarDef;
+  public enableRangeSelection: boolean;
+  public rowGroupPanelShow: string;
 
   /**
    * Identify necessary column definitions on provided data.
@@ -127,6 +103,10 @@ export class CalculationsTableComponent implements OnChanges {
   }
 
   public constructor(private readonly agGridStateService: AgGridStateService) {}
+
+  ngOnInit(): void {
+    this.setTableProperties(this.minified);
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData && changes.rowData.currentValue) {
@@ -196,7 +176,12 @@ export class CalculationsTableComponent implements OnChanges {
         .setSelected(true, true, true);
     }
 
-    params.columnApi.autoSizeAllColumns(false);
+    params.columnApi.autoSizeColumns(
+      params.columnApi
+        .getAllColumns()
+        .filter((column: Column) => column.getId() !== 'checkbox'),
+      this.minified
+    );
   }
 
   /**
@@ -221,6 +206,19 @@ export class CalculationsTableComponent implements OnChanges {
       CalculationsTableComponent.TABLE_KEY,
       sortState
     );
+  }
+
+  private setTableProperties(minified: boolean): void {
+    this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
+    this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
+    this.frameworkComponents = minified
+      ? FRAMEWORK_COMPONENTS_MINIFIED
+      : FRAMEWORK_COMPONENTS;
+
+    this.modules = minified ? MODULES_MINIFIED : MODULES;
+
+    this.enableRangeSelection = minified ? false : true;
+    this.rowGroupPanelShow = minified ? 'never' : 'always';
   }
 
   /**
