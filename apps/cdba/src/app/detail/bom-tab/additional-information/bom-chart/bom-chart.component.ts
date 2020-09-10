@@ -9,8 +9,8 @@ import { BomItem } from '../../../../core/store/reducers/detail/models';
 import {
   COLOR_PLATTE,
   getChartSeries,
+  getXAxisConfig,
   TOOLTIP_CONFIG,
-  X_AXIS_CONFIG,
   Y_AXIS_CONFIG,
 } from './bom-chart.config';
 import { DataPoint } from './data-point.model';
@@ -18,18 +18,24 @@ import { DataPoint } from './data-point.model';
 @Component({
   selector: 'cdba-bom-chart',
   templateUrl: './bom-chart.component.html',
+  styleUrls: ['./bom-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BomChartComponent implements OnChanges {
-  @Input('data') set chartData(data: BomItem[]) {
+  @Input('data') public set chartData(data: BomItem[]) {
     this.barChartData = [];
     this.lineChartData = [];
 
     let accumulatedCosts = 0;
     let totalCosts = 0;
+
     data.forEach((value: BomItem, index: number) => {
       this.barChartData.push(BomChartComponent.createDataPoint(value, index));
       totalCosts += value.totalPricePerPc;
+
+      this.hasNegativeCostValues = this.hasNegativeCostValues
+        ? true
+        : value.totalPricePerPc < 0;
     });
 
     this.barChartData.forEach((datapoint: DataPoint) => {
@@ -38,8 +44,9 @@ export class BomChartComponent implements OnChanges {
     });
   }
 
-  private barChartData: DataPoint[];
+  public barChartData: DataPoint[];
   private lineChartData: number[];
+  private hasNegativeCostValues = false;
 
   options: any;
 
@@ -56,7 +63,7 @@ export class BomChartComponent implements OnChanges {
       color: ['black', '#B00020'],
       tooltip: TOOLTIP_CONFIG,
       yAxis: Y_AXIS_CONFIG,
-      xAxis: X_AXIS_CONFIG,
+      xAxis: getXAxisConfig(this.hasNegativeCostValues),
       series: getChartSeries(this.barChartData, this.lineChartData),
     };
   }

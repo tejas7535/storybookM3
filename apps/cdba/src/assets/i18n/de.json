@@ -96,7 +96,9 @@
       "additionalInformation": {
         "title": "Zusätzliche Informationen",
         "calculations": "Kalkulationen",
-        "chart": "Diagramm"
+        "chart": "Diagramm",
+        "selectionStatus": "Sie haben eine Komponente / Arbeitsgang ohne Folgeelemente ausgewählt.",
+        "selectionHint": "Bitte wählen Sie eine Baugruppe mit mindestens einem Folgeelement für die Diagrammdarstellung aus."
       },
       "title": "Bill of Material",
       "headers": {

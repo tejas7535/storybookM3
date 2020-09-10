@@ -96,7 +96,9 @@
       "additionalInformation": {
         "title": "Additional Information",
         "calculations": "Calculations",
-        "chart": "Chart"
+        "chart": "Chart",
+        "selectionStatus": "You selected a component / workstep without any subelements.",
+        "selectionHint": "Please choose a assembly with at least one subelement to display the chart."
       },
       "title": "Bill of Material",
       "headers": {

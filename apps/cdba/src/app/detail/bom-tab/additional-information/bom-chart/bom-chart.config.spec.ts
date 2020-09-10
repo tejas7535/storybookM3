@@ -5,6 +5,7 @@ import {
   barchartTooltipFormatter,
   COLOR_PLATTE,
   getChartSeries,
+  getXAxisConfig,
   linechartTooltipFormatter,
 } from './bom-chart.config';
 
@@ -59,6 +60,27 @@ describe('BOM Chart Config', () => {
       const result = linechartTooltipFormatter(params);
 
       expect(result).toEqual('84,35%');
+    });
+  });
+
+  describe('getXAxisConfig', () => {
+    let hasNegativeCostValues;
+    let xAxisConfig;
+
+    it('should set -20 as min of % axis when param true', () => {
+      hasNegativeCostValues = true;
+
+      xAxisConfig = getXAxisConfig(hasNegativeCostValues);
+
+      expect(xAxisConfig[1].min).toEqual(-20);
+    });
+
+    it('should set 0 as min of % axis when param false', () => {
+      hasNegativeCostValues = false;
+
+      xAxisConfig = getXAxisConfig(hasNegativeCostValues);
+
+      expect(xAxisConfig[1].min).toEqual(0);
     });
   });
 });

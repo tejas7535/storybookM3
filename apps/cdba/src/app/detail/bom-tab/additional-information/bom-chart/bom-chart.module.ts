@@ -1,17 +1,23 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NgxEchartsModule } from 'ngx-echarts';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { SharedModule } from '@cdba/shared';
 
 import { BomChartComponent } from './bom-chart.component';
 
 @NgModule({
   declarations: [BomChartComponent],
   imports: [
-    CommonModule,
+    SharedModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    SharedTranslocoModule,
+    MatIconModule,
   ],
   exports: [BomChartComponent],
 })

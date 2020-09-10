@@ -34,7 +34,7 @@ export const Y_AXIS_CONFIG = [
   },
 ];
 
-export const X_AXIS_CONFIG = [
+export const getXAxisConfig = (hasNegativeCostValues: boolean) => [
   {
     type: 'value',
     axisLine: { show: false },
@@ -59,7 +59,7 @@ export const X_AXIS_CONFIG = [
     splitLine: {
       show: false,
     },
-    min: -20,
+    min: hasNegativeCostValues ? -20 : 0,
     itemStyle: {
       color: 'red',
     },
