@@ -1,25 +1,37 @@
 <div id="overview" *transloco="let t; read: 'overview'">
   <h1>Overview</h1>
-  <mat-card
-    *ngFor="let device of devices; trackBy: trackByFn; let i = index"
-    fxLayout="row"
-    fxLayoutAlign="space-between"
-    class="device-card"
-  >
-    <mat-card-header>
-      <div mat-card-avatar class="device-header-image"></div>
-      <mat-card-title>GW Tianfeng {{ i + 1 }}</mat-card-title>
-      <mat-card-subtitle>GW136-4.8MW</mat-card-subtitle>
-    </mat-card-header>
-
-    <div>
-      <button
-        mat-raised-button
-        color="primary"
-        [routerLink]="['/bearing', device]"
-      >
-        {{ t('details').toUpperCase() }}
-      </button>
-    </div>
-  </mat-card>
+  <ng-container *ngrxLet="devices$ as devices">
+    <mat-card
+      *ngFor="let device of devices; trackBy: trackByFn"
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="space-between"
+      fxLayoutGap="15px"
+      fxLayoutGap.gt-sm="30px"
+      class="device-card"
+    >
+      <mat-card-header fxFlex>
+        <div mat-card-avatar class="device-header-image"></div>
+        <mat-card-title>{{ device.deviceId }}</mat-card-title>
+        <mat-card-subtitle
+          >{{ t('version') }} {{ device.version }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <goldwind-status-indicator
+        [status]="composeStatus(device.connectionState, t('overallStatus'))"
+      ></goldwind-status-indicator>
+      <div>
+        <mat-divider fxFlex [vertical]="!isHandsetViewPort"></mat-divider>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="end center">
+        <button
+          mat-raised-button
+          color="primary"
+          [routerLink]="['/bearing', 'a3d3668d-aae8-47ee-a033-7bfbe152fda7']"
+        >
+          {{ t('details').toUpperCase() }}
+        </button>
+      </div>
+    </mat-card>
+  </ng-container>
 </div>

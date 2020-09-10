@@ -103,4 +103,18 @@ describe('Data Service', () => {
       req.flush(mock);
     });
   });
+
+  describe('getDevices', () => {
+    test('should call GET for given path', () => {
+      const mock = 'mockDevices';
+
+      service.getDevices().subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(`${BASE_URL}/device/listedgedevices`);
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
 });

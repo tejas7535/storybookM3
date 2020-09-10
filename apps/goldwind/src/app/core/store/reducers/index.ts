@@ -10,6 +10,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromBearing from './bearing/bearing.reducer';
 import * as fromConditionMonitoring from './condition-monitoring/condition-monitoring.reducer';
+import * as fromDevices from './devices/devices.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 
 export interface RouterStateUrl {
@@ -22,6 +23,7 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   bearing: fromBearing.BearingState;
   conditionMonitoring: fromConditionMonitoring.ConditionMonitoringState;
+  devices: fromDevices.DevicesState;
   greaseStatus: fromGreaseStatus.GreaseStatusState;
 }
 
@@ -29,6 +31,7 @@ export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   bearing: fromBearing.bearingReducer,
   conditionMonitoring: fromConditionMonitoring.conditionMonitoringReducer,
+  devices: fromDevices.devicesReducer,
   greaseStatus: fromGreaseStatus.greaseStatusReducer,
 };
 
@@ -47,6 +50,10 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
 export const getConditionMonitoringState = createFeatureSelector<
   fromConditionMonitoring.ConditionMonitoringState
 >('conditionMonitoring');
+
+export const getDevicesState = createFeatureSelector<fromDevices.DevicesState>(
+  'devices'
+);
 
 export const getGreaseStatusState = createFeatureSelector<
   fromGreaseStatus.GreaseStatusState

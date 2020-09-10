@@ -4,5 +4,5 @@ export enum AntennaName {
 }
 
 export interface Antenna {
-  antennaName: AntennaName.Antenna1 | AntennaName.Antenna2;
+  antennaName: AntennaName;
 }
