@@ -5,7 +5,7 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@angular/core+@ngrx/store+@angular/material+@angular/flex-layout+prettier+commitizen) -->
 
-![@angular/core: 10.1.0](https://img.shields.io/badge/%40angular%2Fcore-10.1.0-brightgreen)
+![@angular/core: 10.1.1](https://img.shields.io/badge/%40angular%2Fcore-10.1.1-brightgreen)
 ![@ngrx/store: 10.0.0](https://img.shields.io/badge/%40ngrx%2Fstore-10.0.0-brightgreen)
 ![@angular/material: 10.2.0](https://img.shields.io/badge/%40angular%2Fmaterial-10.2.0-brightgreen)
 ![@angular/flex-layout: 10.0.0-beta.32](https://img.shields.io/badge/%40angular%2Fflex--layout-10.0.0--beta.32-brightgreen)

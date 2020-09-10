@@ -30,7 +30,10 @@
     <mat-tab label="{{ t('chart') }}">
       <ng-container *ngIf="childrenOfSelectedBomItem$ | async as children">
         <cdba-bom-chart [data]="children"></cdba-bom-chart>
-        <cdba-bom-legend [data]="children"></cdba-bom-legend>
+        <cdba-bom-legend
+          *ngIf="children.length > 0"
+          [data]="children"
+        ></cdba-bom-legend>
          </ng-container
       >
       <cdba-loading-spinner
