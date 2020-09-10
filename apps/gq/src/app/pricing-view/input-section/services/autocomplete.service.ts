@@ -4,8 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '../../../../core/http/data.service';
-import { FilterItem, IdValue, TextSearch } from '../../../../core/store/models';
+import { DataService } from '../../../core/http/data.service';
+import { FilterItem, IdValue, TextSearch } from '../../../core/store/models';
 
 /**
  *  Auto-complete service

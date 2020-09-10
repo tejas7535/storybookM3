@@ -7,7 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
 import { APP_STATE_MOCK } from '../../../../../testing/mocks/app-state.mock';
-import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete/autocomplete.service';
+import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
 import {
   autocomplete,
   autocompleteFailure,

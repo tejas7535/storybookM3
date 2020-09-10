@@ -1,0 +1,34 @@
+import { Pipe, PipeTransform } from '@angular/core';
+
+import { IdValue } from '../../../../core/store/models';
+
+@Pipe({
+  name: 'noResultsFound',
+})
+export class NoResultsFoundPipe implements PipeTransform {
+  /**
+   * Check if search has been active and no results are found.
+   */
+  public transform(
+    filterOptions: IdValue[],
+    selectedOption: IdValue,
+    searchStr: string,
+    autoCompleteLoading: boolean,
+    debounceIsActive: boolean
+  ): boolean {
+    const noOptionsAtAll = filterOptions.length === 0;
+    const onlySelectedOptions =
+      filterOptions.filter(
+        (it: IdValue) =>
+          (selectedOption && selectedOption === it) ||
+          (searchStr && it.value.toLowerCase().indexOf(searchStr) === -1)
+      ).length === filterOptions.length;
+
+    return (
+      (noOptionsAtAll || onlySelectedOptions) &&
+      searchStr &&
+      !autoCompleteLoading &&
+      !debounceIsActive
+    );
+  }
+}

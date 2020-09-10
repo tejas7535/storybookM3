@@ -1,1 +1,62 @@
-<p>input-section works!</p>
+<h3 class="column-header">Search</h3>
+
+<div fxLayoutAlign="start start" fxLayout="column">
+  <gq-filter-input
+    fxFill
+    *ngIf="filters$ | async"
+    [filter]="filter"
+    [autocompleteLoading]="autocompleteLoading$ | async"
+    (autocomplete)="autocomplete($event)"
+    (updateFilter)="updateFilter($event)"
+  ></gq-filter-input>
+
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Customer Number</mat-label>
+    <mat-select [(value)]="selectedFilter">
+      <mat-option value="customer">Customer Number</mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
+
+<h6 class="headline">OPTIONAL INFORMATION</h6>
+
+<div fxLayoutAlign="start start" fxLayout="column">
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Sector GPSD</mat-label>
+    <input matInput />
+    <mat-hint>Please enter one or several search terms</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Main Sector</mat-label>
+    <input matInput />
+    <mat-hint>Please enter one or several search terms</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Subsector</mat-label>
+    <input matInput />
+    <mat-hint>Please enter one or several search terms</mat-hint>
+  </mat-form-field>
+</div>
+
+<h6 class="headline">MATERIAL NUMBER AND QUANTITY</h6>
+
+<div fxLayoutAlign="start start" fxLayout="column">
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Material Number</mat-label>
+    <input matInput />
+    <mat-hint>Please enter one or several search terms</mat-hint>
+  </mat-form-field>
+
+  <mat-form-field appearance="outline" class="input-field">
+    <mat-label>Quantity</mat-label>
+    <input matInput />
+    <mat-hint>Please enter one or several search terms</mat-hint>
+  </mat-form-field>
+</div>
+
+<br />
+
+<button class="search-button" mat-stroked-button>SEARCH</button>
+<button class="multiple-input-button" mat-stroked-button>MULTIPLE INPUT</button>
