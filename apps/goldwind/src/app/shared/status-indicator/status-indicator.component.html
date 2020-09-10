@@ -1,0 +1,26 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="10px"
+  *transloco="let t; read: 'statusIndicator'"
+>
+  <div
+    fxLayoutAlign="center center"
+    class="indicator"
+    [class.error]="status.type === statusType.error"
+  >
+    {{ status.type }}
+  </div>
+  <div fxLayout="column" fxLayoutAlign="space-around start">
+    <span>{{ status.text }}</span>
+    <div *ngIf="status.notifications.length; else no_notifications">
+      <!-- coming later -->
+    </div>
+    <ng-template #no_notifications>
+      <label fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="3px">
+        <mat-icon class="notificationIcon">info_outline</mat-icon>
+        <span>{{ t('noNotifications') }}</span>
+      </label>
+    </ng-template>
+  </div>
+</div>

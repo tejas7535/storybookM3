@@ -1,6 +1,8 @@
 {
   "overview": {
-    "details": "Details"
+    "details": "Details",
+    "version": "Version",
+    "overallStatus": "Overall Status"
   },
   "bearing": {
     "overview": "Overview",
@@ -48,5 +50,8 @@
     "enterDateRange": "Enter a date range",
     "invalidStartDate": "Invalid start date",
     "invalidEndDate": "Invalid end date"
+  },
+  "statusIndicator": {
+    "noNotifications": "no notifications"
   }
 }
