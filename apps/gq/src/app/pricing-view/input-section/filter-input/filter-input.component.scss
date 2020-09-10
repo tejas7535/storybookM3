@@ -1,0 +1,86 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+.no-results-found {
+  color: $schaeffler-gray-7;
+  font-size: $schaeffler-labels;
+  padding: 0 16px;
+}
+
+::ng-deep mat-form-field.search-field {
+  padding: 0 16px;
+  width: calc(100% - 32px);
+
+  .mat-form-field-wrapper {
+    width: 100%;
+
+    .mat-form-field-flex {
+      padding-top: 0;
+    }
+
+    .autocomplete-loading {
+      float: right;
+      margin-left: 8px;
+    }
+
+    .mat-form-field-underline {
+      background-color: $schaeffler-gray-3;
+    }
+  }
+}
+
+.divider {
+  padding: 0 16px;
+
+  hr {
+    border-top: 1px solid $schaeffler-gray-3;
+  }
+}
+
+.input-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+.custom-options-container {
+  flex: 1;
+  overflow-x: hidden;
+  overflow-y: auto;
+
+  &::-webkit-scrollbar {
+    background-color: $schaeffler-gray-0;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $schaeffler-gray-7;
+    border-radius: 20px;
+  }
+}
+
+.dummy-option {
+  display: none;
+}
+
+// always open select dropdown below mat-select
+::ng-deep .custom-select-panel {
+  display: flex;
+  flex-direction: column;
+  margin-left: 8px !important;
+  margin-top: 30px !important;
+  max-height: 350px !important;
+  min-width: calc(100% + 16px);
+  width: calc(100% + 16px);
+
+  mat-option {
+    width: calc(100% + 16px);
+
+    &.mat-active {
+      background-color: rgba(0, 0, 0, 0);
+    }
+  }
+
+  &.ng-animating {
+    visibility: hidden;
+  }
+}

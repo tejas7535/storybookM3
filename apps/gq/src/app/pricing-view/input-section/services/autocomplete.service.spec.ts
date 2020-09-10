@@ -3,9 +3,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService } from '../../../../core/http/data.service';
-import { ENV_CONFIG } from '../../../../core/http/environment-config.interface';
-import { IdValue } from '../../../../core/store/models';
+import { DataService } from '../../../core/http/data.service';
+import { ENV_CONFIG } from '../../../core/http/environment-config.interface';
+import { IdValue } from '../../../core/store/models';
 import { AutocompleteService } from './autocomplete.service';
 
 describe('AutocompleteService', (): void => {

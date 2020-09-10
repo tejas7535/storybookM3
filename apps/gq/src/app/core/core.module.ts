@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { HeaderModule } from '@schaeffler/header';
+import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -35,6 +36,9 @@ import { StoreModule } from './store/store.module';
 
     // HTTP
     HttpModule.forRoot({ environment }),
+
+    // notifications
+    SnackBarModule,
   ],
   exports: [AppComponent],
 })
