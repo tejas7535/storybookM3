@@ -1,31 +1,31 @@
-import * as testJsonDe from './i18n/de.json';
-import * as testJsonEn from './i18n/en.json';
-import {
-  pageNotFoundLoader,
-  PageNotFoundModule,
-} from './page-not-found.module';
+// tslint:disable: no-default-import
+import { TestBed } from '@angular/core/testing';
+
+import { TranslocoModule, TranslocoService } from '@ngneat/transloco';
+import { configureTestSuite } from 'ng-bullet';
+
+import deJson from './i18n/de.json';
+import enJson from './i18n/en.json';
+import { PageNotFoundModule } from './page-not-found.module';
 
 describe('PageNotFoundModule', () => {
-  let module: PageNotFoundModule;
-
-  beforeEach(() => {
-    module = new PageNotFoundModule();
-  });
-
-  test('should exist', () => {
-    expect(module).toBeDefined();
-  });
-
-  describe('importer', () => {
-    test('de should import language from root path', () => {
-      pageNotFoundLoader['de']().then((result: any) => {
-        expect(result).toStrictEqual(testJsonDe);
-      });
+  configureTestSuite(() => {
+    TestBed.configureTestingModule({
+      imports: [TranslocoModule],
     });
-    test('en should import language from root path', () => {
-      pageNotFoundLoader['en']().then((result: any) => {
-        expect(result).toStrictEqual(testJsonEn);
-      });
+  });
+
+  describe('setLanguageFiles', () => {
+    test('should set the german language file for "de"', () => {
+      const service = TestBed.inject(TranslocoService);
+      service.setTranslation = jest.fn();
+
+      // tslint:disable-next-line: no-unused-expression
+      new PageNotFoundModule(service);
+
+      expect(service.setTranslation).toHaveBeenCalledTimes(2);
+      expect(service.setTranslation).toHaveBeenCalledWith(deJson, 'de');
+      expect(service.setTranslation).toHaveBeenCalledWith(enJson, 'en');
     });
   });
 });

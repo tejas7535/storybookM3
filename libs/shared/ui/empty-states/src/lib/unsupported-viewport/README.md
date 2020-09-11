@@ -5,7 +5,7 @@ Import into your project like:
 ```typescript
 // myModule.module.ts
 
-import { UnsupportedViewportModule } from '@schaeffler/shared/empty-states';
+import { UnsupportedViewportModule } from '@schaeffler/empty-states';
 
 @NgModule({
   ...
