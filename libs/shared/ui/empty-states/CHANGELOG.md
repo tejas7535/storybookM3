@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](///compare/v1.5.0...v1.4.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **cdba:** show additional information overlay (DSCDA-1688) ([8c9237b](///commit/8c9237ba56c4bfb29ff9c7790bfbbebe53e8dc56))
+* **empty-state:** use view engine for build (UFTABI-2917) ([34a16b1](///commit/34a16b189b73e97dd86d10bbf936a836468ac0f3))
+
 ### [1.3.2](///compare/v1.4.0...v1.3.2) (2020-08-27)
 
 ### [1.3.1](///compare/v1.3.0...v1.3.1) (2020-08-12)

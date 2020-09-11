@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **cdba:** add bom pareto chart in additional info widget (DSCDA-1967) ([6f89e4d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6f89e4df9714e3770ce7c0e07ef4a7c85409eca9))
+* **cdba:** add calculations table in additional info widget (DSCDA-1747) ([43a7816](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/43a781608a46b0de73b7d25335c7bf71891d3593))
+* **cdba:** add legend for bom chart (DSCDA-1968) ([6b9025c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6b9025c4c1038c736546c75033e1be25b692a71d))
+* **cdba:** show additional information overlay (DSCDA-1688) ([8c9237b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8c9237ba56c4bfb29ff9c7790bfbbebe53e8dc56))
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+* **empty-state:** use view engine for build (UFTABI-2917) ([34a16b1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/34a16b189b73e97dd86d10bbf936a836468ac0f3))
+* **footer:** decrease margin top ([f4341bc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f4341bc373b6616d492dea256cd9034cfb2d3610))
+* **goldwind:** add grease check data from api (DIGDTGW-448) ([cf571f1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cf571f1b57c6d8e5a3fe26d58d9599955ff0a544))
+* **goldwind:** add windfarm overview from api data (DIGDTGW-393) ([3dc55d4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3dc55d41f0e9b214d811438366d634baec92ca60))
+* **goldwind:** show edm data per antenna (DIGDTGW-621) ([e3246fc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e3246fca42ecb148b8b42e6430834476d8198fb0))
+* **gq:** add http interceptor (GQUOTE-106) ([d97d71c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d97d71ca1191123317d22b4637702f8092d67216))
+* **gq:** created modularized app structure (GQUOTE-105) ([669cd6a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/669cd6ab544f2c549f10630980209edb83d10eb0))
+* **gq:** migrate input section (GQUOTE-108) ([0a73a7b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0a73a7bf9c3e00a0395918bc8fd0666975c53058))
+* **gq:** migrate query section (GQUOTE-109) ([b3f6c68](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b3f6c68ca518d83c3eb91618aeb50dad158c3aff))
+* **gq:** ngrx store migration (GQUOTE-107) ([1e3339a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1e3339ae8f267e61cb76776b683278e16adbfaec))
+* **snackbar:** use view engine and prevent barrel imports (UFTABI-2738) ([e036ab9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e036ab9e7e388a787681329ca8ede035d4d9e596))
+
+
+### 📈 Improvements
+
+* **cdba:** always show loading spinner for bom table when loading ([f15df66](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f15df66c16ae86b2422f052a9caea9f19e1b5345))
+* **cdba:** improve chart visualisation (DSCDA-1977) ([1c1662d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1c1662d1edf3dc7494fec71005942a3caa1f46d4))
+
 ## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
 
 

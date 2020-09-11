@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](///compare/v1.5.0...v1.4.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](///commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+
 ### [1.3.2](///compare/v1.4.0...v1.3.2) (2020-08-27)
 
 ### [1.3.1](///compare/v1.3.0...v1.3.1) (2020-08-12)

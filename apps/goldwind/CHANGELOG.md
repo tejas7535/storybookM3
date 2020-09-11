@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+* **goldwind:** add grease check data from api (DIGDTGW-448) ([cf571f1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/cf571f1b57c6d8e5a3fe26d58d9599955ff0a544))
+* **goldwind:** add windfarm overview from api data (DIGDTGW-393) ([3dc55d4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3dc55d41f0e9b214d811438366d634baec92ca60))
+* **goldwind:** show edm data per antenna (DIGDTGW-621) ([e3246fc](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e3246fca42ecb148b8b42e6430834476d8198fb0))
+
 ## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
 
 

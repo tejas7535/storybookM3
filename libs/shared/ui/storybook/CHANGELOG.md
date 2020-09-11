@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **empty-state:** use view engine for build (UFTABI-2917) ([34a16b1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/34a16b189b73e97dd86d10bbf936a836468ac0f3))
+
 ## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
 
 

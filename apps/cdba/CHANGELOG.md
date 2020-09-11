@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **cdba:** add bom pareto chart in additional info widget (DSCDA-1967) ([6f89e4d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6f89e4df9714e3770ce7c0e07ef4a7c85409eca9))
+* **cdba:** add calculations table in additional info widget (DSCDA-1747) ([43a7816](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/43a781608a46b0de73b7d25335c7bf71891d3593))
+* **cdba:** add legend for bom chart (DSCDA-1968) ([6b9025c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6b9025c4c1038c736546c75033e1be25b692a71d))
+* **cdba:** show additional information overlay (DSCDA-1688) ([8c9237b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8c9237ba56c4bfb29ff9c7790bfbbebe53e8dc56))
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+
+
+### 📈 Improvements
+
+* **cdba:** always show loading spinner for bom table when loading ([f15df66](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f15df66c16ae86b2422f052a9caea9f19e1b5345))
+* **cdba:** improve chart visualisation (DSCDA-1977) ([1c1662d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1c1662d1edf3dc7494fec71005942a3caa1f46d4))
+
 ## [1.5.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.4.0...v1.5.0) (2020-08-27)
 
 

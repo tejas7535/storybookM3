@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.4.0](///compare/v1.5.0...v1.4.0) (2020-09-11)
+
+
+### 🎸 Features
+
+* **footer:** decrease margin top ([f4341bc](///commit/f4341bc373b6616d492dea256cd9034cfb2d3610))
+
 ## [1.3.0](///compare/v1.4.0...v1.3.0) (2020-08-27)
 
 
