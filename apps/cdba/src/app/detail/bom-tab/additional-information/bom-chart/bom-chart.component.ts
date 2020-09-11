@@ -28,6 +28,7 @@ export class BomChartComponent implements OnChanges {
 
     let accumulatedCosts = 0;
     let totalCosts = 0;
+    this.hasNegativeCostValues = false;
 
     data.forEach((value: BomItem, index: number) => {
       this.barChartData.push(BomChartComponent.createDataPoint(value, index));
