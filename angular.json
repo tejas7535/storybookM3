@@ -2364,6 +2364,16 @@
               }
             ]
           }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/empty-states --tag latest"
+              }
+            ]
+          }
         }
       },
       "schematics": {

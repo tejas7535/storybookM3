@@ -8,6 +8,9 @@ Import into your project like:
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { environment } from '../environments/environment';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 export enum RoutePath {
   BasePath = '',
   ForbiddenPath = 'forbidden',
@@ -18,14 +21,9 @@ export const appRoutePaths: Routes = [
     ...
   },
   {
-    path: RoutePath.ForbiddenPath,
-    loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then((m) => m.ForbiddenModule),
-  },
-  {
     path: '**',
     loadChildren: () =>
-      import('@schaeffler/shared/empty-states').then(
+      import('@schaeffler/empty-states').then(
         (m) => m.PageNotFoundModule
       ),
   },
@@ -35,8 +33,14 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: false,
     }),
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['en'],
+      'en',
+      'en',
+      true
+    ),
   ],
   exports: [RouterModule],
 })

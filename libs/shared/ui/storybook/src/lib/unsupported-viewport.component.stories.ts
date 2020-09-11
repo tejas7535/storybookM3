@@ -1,10 +1,12 @@
 import { HttpClientModule } from '@angular/common/http';
 
+import { TranslocoModule } from '@ngneat/transloco';
+
 import {
   UnsupportedViewportComponent,
   UnsupportedViewportModule,
 } from '@schaeffler/empty-states';
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import READMEmd from '../../../empty-states/src/lib/unsupported-viewport/README.md';
 
@@ -12,13 +14,8 @@ const moduleMetadata = {
   imports: [
     UnsupportedViewportModule,
     HttpClientModule,
-    SharedTranslocoModule.forRoot(
-      false,
-      ['en'],
-      'en', // default -> undefined would lead to browser detection
-      'en',
-      false
-    ),
+    provideTranslocoTestingModule({}),
+    TranslocoModule,
   ],
 };
 
