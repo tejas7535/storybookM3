@@ -128,6 +128,12 @@ export const detailReducer = createReducer(
       items: [],
       loading: false,
     },
+    bom: {
+      ...state.bom,
+      errorMessage,
+      items: [],
+      loading: false,
+    },
   })),
   on(selectCalculation, (state: DetailState, { nodeId, calculation }) => ({
     ...state,

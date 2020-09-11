@@ -164,8 +164,12 @@ export class BomTableComponent implements OnChanges {
       return;
     }
 
-    if (changes.isLoading && changes.isLoading.currentValue) {
-      this.gridApi.showLoadingOverlay();
+    if (changes.isLoading?.currentValue) {
+      /**
+       * timeout is necessary, so that the table can meanwhile check, if there is data to display or not
+       * the table only shows overlays, if there is no data to display
+       */
+      setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
     } else {
       this.gridApi.showNoRowsOverlay();
     }

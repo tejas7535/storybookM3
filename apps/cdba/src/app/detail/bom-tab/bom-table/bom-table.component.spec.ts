@@ -87,6 +87,8 @@ describe('BomTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
+    jest.useFakeTimers();
+
     it('should showLoadingOverlay if grid loaded and isLoading active', () => {
       component['gridApi'] = ({
         showLoadingOverlay: jest.fn(),
@@ -99,7 +101,8 @@ describe('BomTableComponent', () => {
         } as unknown) as SimpleChange,
       });
 
-      expect(component['gridApi'].showLoadingOverlay).toHaveBeenCalled();
+      expect(setTimeout).toHaveBeenCalled();
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10);
     });
 
     it('should do nothing when gridApi is not loaded', () => {
