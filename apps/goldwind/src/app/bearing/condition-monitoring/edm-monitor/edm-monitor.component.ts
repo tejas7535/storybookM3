@@ -1,28 +1,38 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
 import { EChartOption } from 'echarts';
 
+import { setInterval } from '../../../core/store/actions/';
+import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import {
+  Antenna,
   AntennaName,
   EdmGraphData,
-} from '../../../core/store/reducers/condition-monitoring/models';
+  Interval,
+} from '../../../core/store/reducers/edm-monitor/models';
+import { getEdmGraphData, getInterval } from '../../../core/store/selectors/';
 
 @Component({
   selector: 'goldwind-edm-monitor',
   templateUrl: './edm-monitor.component.html',
   styleUrls: ['./edm-monitor.component.scss'],
 })
-export class EdmMonitorComponent {
-  @Input() edmGraphData: EdmGraphData;
-  @Output() readonly antennaChange: EventEmitter<{
-    antennaName: AntennaName;
-  }> = new EventEmitter();
-
+export class EdmMonitorComponent implements OnInit {
+  edmGraphData$: Observable<EdmGraphData>;
+  interval$: Observable<Interval>;
   antenna = false;
   options: EChartOption = {
     xAxis: {
       type: 'time',
       boundaryGap: false,
+    },
+    grid: {
+      left: 75,
+      top: 10,
+      right: 50,
     },
     yAxis: {
       type: 'value',
@@ -39,7 +49,25 @@ export class EdmMonitorComponent {
         large: true,
       },
     ],
+    tooltip: {
+      trigger: 'axis',
+    },
   };
+
+  public constructor(private readonly store: Store<EdmMonitorState>) {}
+
+  ngOnInit(): void {
+    this.getEdmGraphData({ antennaName: AntennaName.Antenna1 });
+    this.interval$ = this.store.pipe(select(getInterval));
+  }
+
+  getEdmGraphData(antenna: Antenna): void {
+    this.edmGraphData$ = this.store.pipe(select(getEdmGraphData, antenna));
+  }
+
+  setInterval(interval: Interval): void {
+    this.store.dispatch(setInterval({ interval }));
+  }
 
   toggleAntenna(): void {
     this.antenna = !this.antenna;
@@ -47,6 +75,6 @@ export class EdmMonitorComponent {
     const antennaName = this.antenna
       ? AntennaName.Antenna2
       : AntennaName.Antenna1;
-    this.antennaChange.emit({ antennaName });
+    this.getEdmGraphData({ antennaName });
   }
 }

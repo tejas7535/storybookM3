@@ -21,11 +21,22 @@
     </div>
   </div>
   <mat-card-content>
-    <div
-      echarts
-      [options]="options"
-      [merge]="edmGraphData"
-      class="edm-chart"
-    ></div>
+    <goldwind-date-range
+      fxLayout="column"
+      fxLayoutAlign="space-between end"
+      [interval]="interval$ | ngrxPush"
+      (rangeChange)="setInterval($event)"
+    ></goldwind-date-range>
+    <ng-container *ngrxLet="edmGraphData$ as edmGraphData">
+      <p *ngIf="edmGraphData?.series?.data?.length === 0">
+        {{ t('noMeasurements') }}
+      </p>
+      <div
+        echarts
+        [options]="options"
+        [merge]="edmGraphData"
+        class="edm-chart"
+      ></div>
+    </ng-container>
   </mat-card-content>
 </mat-card>

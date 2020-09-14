@@ -74,14 +74,20 @@ describe('Data Service', () => {
 
   describe('getEdm', () => {
     test('should call GET for given path', () => {
-      const mockEdmID = 'ich1-bin2-top3';
+      const mockEdm = {
+        id: 'ich1-bin2-top3',
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
       const mock = 'mockMeasurements';
 
-      service.getEdm(mockEdmID).subscribe((response) => {
+      service.getEdm(mockEdm).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne(`${BASE_URL}/iot/things/${mockEdmID}/edm`);
+      const req = httpMock.expectOne(
+        `${BASE_URL}/iot/things/${mockEdm.id}/edm/${mockEdm.startDate}/${mockEdm.endDate}`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

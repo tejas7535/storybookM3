@@ -1,0 +1,65 @@
+import { initialState } from '../../reducers/edm-monitor/edm-monitor.reducer';
+import { AntennaName } from '../../reducers/edm-monitor/models';
+import {
+  getEdmGraphData,
+  getEdmResult,
+  getInterval,
+  getSensorId,
+} from './edm-monitor.selector';
+
+describe('EdmMonitor Selector', () => {
+  const fakeState = {
+    edmMonitor: {
+      ...initialState,
+      loading: false,
+      measurements: [
+        {
+          startDate: '2020-07-30T11:02:25',
+          edmValue1Counter: 100,
+          edmValue2Counter: 200,
+          edmValue1CounterMax: 300,
+          edmValue2CounterMax: 400,
+        },
+      ],
+      interval: {
+        startDate: 123456789,
+        endDate: 987654321,
+      },
+    },
+  };
+
+  describe('getSensorId', () => {
+    test('should return a static id, will change to actual one', () => {
+      // adjust in future
+      expect(getSensorId(fakeState)).toEqual(
+        'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
+      );
+    });
+  });
+
+  describe('getEdmResult', () => {
+    test('should return EDM measurements', () => {
+      expect(getEdmResult(fakeState)).toEqual(
+        fakeState.edmMonitor.measurements
+      );
+    });
+  });
+
+  describe('getEdmGraphData', () => {
+    test('should return graph series data value tupels', () => {
+      const expectedResult = {
+        series: { data: [{ value: [new Date('2020-07-30T11:02:25'), 100] }] },
+      };
+
+      expect(
+        getEdmGraphData(fakeState, { antennaName: AntennaName.Antenna1 })
+      ).toEqual(expectedResult);
+    });
+  });
+
+  describe('getInterval', () => {
+    test('should return a time interval with two timestamps', () => {
+      expect(getInterval(fakeState)).toEqual(fakeState.edmMonitor.interval);
+    });
+  });
+});

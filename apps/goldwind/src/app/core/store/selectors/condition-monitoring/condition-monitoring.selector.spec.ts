@@ -1,12 +1,8 @@
 import { initialState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
-import { AntennaName } from '../../reducers/condition-monitoring/models';
 import {
   getCurrentMessage,
   getCurrentMessageId,
-  getEdmGraphData,
-  getEdmResult,
   getMessagesEvents,
-  getSensorId,
   getSocketStatus,
 } from './condition-monitoring.selector';
 
@@ -14,20 +10,6 @@ describe('ConditionMonitoring Selector', () => {
   const fakeState = {
     conditionMonitoring: {
       ...initialState,
-      edm: {
-        loading: false,
-        measurements: [
-          {
-            id: 0,
-            sensorId: 'fantasyID',
-            endDate: '2020-07-30T11:02:35',
-            startDate: '2020-07-30T11:02:25',
-            sampleRatio: 500,
-            edmValue1Counter: 100,
-            edmValue2Counter: 200,
-          },
-        ],
-      },
       centerLoad: {
         socketStatus: 0,
         events: [
@@ -47,35 +29,6 @@ describe('ConditionMonitoring Selector', () => {
       },
     },
   };
-
-  describe('getSensorId', () => {
-    test('should return a static id, will change to actual one', () => {
-      // adjust in future
-      expect(getSensorId(fakeState)).toEqual(
-        'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
-      );
-    });
-  });
-
-  describe('getEdmResult', () => {
-    test('should return EDM measurements', () => {
-      expect(getEdmResult(fakeState)).toEqual(
-        fakeState.conditionMonitoring.edm.measurements
-      );
-    });
-  });
-
-  describe('getEdmGraphData', () => {
-    test('should return graph series data value tupels', () => {
-      const expectedResult = {
-        series: { data: [{ value: [new Date('2020-07-30T11:02:35'), 100] }] },
-      };
-
-      expect(
-        getEdmGraphData(fakeState, { antennaName: AntennaName.Antenna1 })
-      ).toEqual(expectedResult);
-    });
-  });
 
   describe('getSocketStatus ', () => {
     test('should return numeric socket status', () => {

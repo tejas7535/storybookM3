@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -13,7 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
-import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
+import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
 
 describe('ConditionMonitoringComponent', () => {
@@ -23,8 +23,9 @@ describe('ConditionMonitoringComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
+        NoopAnimationsModule,
+        EdmMonitorModule,
         MatCardModule,
-        MatSlideToggleModule,
         provideTranslocoTestingModule({}),
         AgGridModule.withComponents([]),
         ReactiveComponentModule,
@@ -45,9 +46,13 @@ describe('ConditionMonitoringComponent', () => {
                 events: [],
                 contents: undefined,
               },
-              edm: {
-                loading: false,
-                measurements: undefined,
+            },
+            edmMonitor: {
+              loading: false,
+              measurements: undefined,
+              interval: {
+                startDate: 123456789,
+                endDate: 987654321,
               },
             },
             greaseStatus: {
@@ -61,7 +66,6 @@ describe('ConditionMonitoringComponent', () => {
         ConditionMonitoringComponent,
         CenterLoadComponent,
         CmEquipmentComponent,
-        EdmMonitorComponent,
         GreaseMonitorComponent,
       ],
     });

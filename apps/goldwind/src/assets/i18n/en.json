@@ -27,7 +27,8 @@
     },
     "edmMonitor": {
       "title": "EDM Monitor",
-      "antenna": "Antenna"
+      "antenna": "Antenna",
+      "noMeasurements": "There are no measurements for the selected daterange"
     },
     "centerLoad": {
       "title": "Bearing center load and temperature",
