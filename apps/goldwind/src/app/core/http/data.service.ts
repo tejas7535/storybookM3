@@ -4,11 +4,16 @@ import { Inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { BearingMetadata } from '../store/reducers/bearing/models';
-import { Edm } from '../store/reducers/condition-monitoring/models';
 import { Devices } from '../store/reducers/devices/models';
+import { Edm } from '../store/reducers/edm-monitor/models';
 import { GreaseStatus } from '../store/reducers/grease-status/models';
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
+interface EdmParams {
+  id: string;
+  startDate: number;
+  endDate: number;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -32,8 +37,8 @@ export class DataService {
     return this.getIot(`${id}/metadata`);
   }
 
-  public getEdm(id: string): Observable<Edm> {
-    return this.getIot(`${id}/edm`);
+  public getEdm({ id, startDate, endDate }: EdmParams): Observable<Edm> {
+    return this.getIot(`${id}/edm/${startDate}/${endDate}`);
   }
 
   public getGreaseStatus(id: string): Observable<GreaseStatus> {

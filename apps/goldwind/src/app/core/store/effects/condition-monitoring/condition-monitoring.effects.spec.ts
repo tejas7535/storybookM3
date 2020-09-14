@@ -10,19 +10,14 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
-import { DataService } from '../../../http/data.service';
 import { StompService } from '../../../http/stomp.service';
 import {
   connectStomp,
   disconnectStomp,
-  getEdm,
-  getEdmId,
-  getEdmSuccess,
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
 } from '../../actions';
-import { getSensorId } from '../../selectors/condition-monitoring/condition-monitoring.selector';
 import { ConditionMonitoringEffects } from './condition-monitoring.effects';
 
 describe('Search Effects', () => {
@@ -31,11 +26,9 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<ConditionMonitoringEffects>;
   let effects: ConditionMonitoringEffects;
-  let dataService: DataService;
   let stompService: StompService;
 
   const mockUrl = '/bearing/666/condition-monitoring';
-  const mockSensorID = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -43,12 +36,6 @@ describe('Search Effects', () => {
         ConditionMonitoringEffects,
         provideMockActions(() => actions$),
         provideMockStore(),
-        {
-          provide: DataService,
-          useValue: {
-            getEdm: jest.fn(),
-          },
-        },
         {
           provide: StompService,
           useValue: {
@@ -65,11 +52,9 @@ describe('Search Effects', () => {
     store = TestBed.inject(Store);
     effects = TestBed.inject(ConditionMonitoringEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = TestBed.inject(DataService);
     stompService = TestBed.inject(StompService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
-    store.overrideSelector(getSensorId, mockSensorID);
   });
 
   describe('router$', () => {
@@ -94,71 +79,6 @@ describe('Search Effects', () => {
       expect(effects.router$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(connectStomp());
       expect(store.dispatch).toHaveBeenCalledWith(subscribeBroadcast());
-      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
-    });
-  });
-
-  describe('edmId$', () => {
-    test('should not return an action', () => {
-      expect(metadata.edmId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
-    test('should dispatch getEdm', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getEdmId() });
-
-      const expected = cold('-b', {
-        b: mockSensorID,
-      });
-
-      expect(effects.edmId$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getEdm({
-          sensorId: mockSensorID,
-        })
-      );
-    });
-  });
-
-  describe('edm$', () => {
-    beforeEach(() => {
-      action = getEdm({
-        sensorId: mockSensorID,
-      });
-    });
-
-    test('should return getEdmSuccess action when REST call is successful', () => {
-      const mockMeasurements = [
-        {
-          id: 0,
-          sensorId: 'fantasyID',
-          endDate: '2020-07-30T11:02:35',
-          startDate: '2020-07-30T11:02:25',
-          sampleRatio: 500,
-          edmValue1Counter: 100,
-          edmValue2Counter: 200,
-        },
-      ];
-
-      const result = getEdmSuccess({
-        measurements: mockMeasurements,
-      });
-
-      actions$ = hot('-a', { a: action });
-
-      const response = cold('-a|', {
-        a: mockMeasurements,
-      });
-      const expected = cold('--b', { b: result });
-
-      dataService.getEdm = jest.fn(() => response);
-
-      expect(effects.edm$).toBeObservable(expected);
-      expect(dataService.getEdm).toHaveBeenCalledTimes(1);
-      expect(dataService.getEdm).toHaveBeenCalledWith(mockSensorID);
     });
   });
 

@@ -1,0 +1,174 @@
+import { TestBed } from '@angular/core/testing';
+
+import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { provideMockActions } from '@ngrx/effects/testing';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { cold, hot } from 'jasmine-marbles';
+import { configureTestSuite } from 'ng-bullet';
+
+import { getAccessToken } from '@schaeffler/auth';
+
+import { DataService } from '../../../http/data.service';
+import { getEdm, getEdmId, getEdmSuccess, setInterval } from '../../actions';
+import {
+  getInterval,
+  getSensorId,
+} from '../../selectors/edm-monitor/edm-monitor.selector';
+import { EdmMonitorEffects } from './edm-monitor.effects';
+
+describe('Search Effects', () => {
+  let actions$: any;
+  let action: any;
+  let store: any;
+  let metadata: EffectsMetadata<EdmMonitorEffects>;
+  let effects: EdmMonitorEffects;
+  let dataService: DataService;
+
+  const mockUrl = '/bearing/666/condition-monitoring';
+  const mockSensorID = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
+
+  configureTestSuite(() => {
+    TestBed.configureTestingModule({
+      providers: [
+        EdmMonitorEffects,
+        provideMockActions(() => actions$),
+        provideMockStore(),
+        {
+          provide: DataService,
+          useValue: {
+            getEdm: jest.fn(),
+          },
+        },
+      ],
+    });
+  });
+
+  beforeEach(() => {
+    actions$ = TestBed.inject(Actions);
+    store = TestBed.inject(Store);
+    effects = TestBed.inject(EdmMonitorEffects);
+    metadata = getEffectsMetadata(effects);
+    dataService = TestBed.inject(DataService);
+
+    store.overrideSelector(getAccessToken, 'mockedAccessToken');
+    store.overrideSelector(getInterval, {
+      startDate: 1599651508,
+      endDate: 1599651509,
+    });
+    store.overrideSelector(getSensorId, mockSensorID);
+  });
+
+  describe('router$', () => {
+    test('should not return an action', () => {
+      expect(metadata.router$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    test('should dispatch getEdmId', () => {
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', {
+        a: {
+          type: ROUTER_NAVIGATED,
+          payload: { routerState: { url: mockUrl } },
+        },
+      });
+
+      const expected = cold('-b', { b: 'condition-monitoring' });
+
+      expect(effects.router$).toBeObservable(expected);
+      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
+    });
+  });
+
+  describe('setInterval$', () => {
+    test('should not return an action', () => {
+      expect(metadata.interval$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    test('should dispatch getEdmId', () => {
+      const mockInterval = {
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
+
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', { a: setInterval({ interval: mockInterval }) });
+
+      expect(effects.interval$).toBeObservable(actions$);
+      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
+    });
+  });
+
+  describe('edmId$', () => {
+    test('should not return an action', () => {
+      expect(metadata.edmId$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    test('should dispatch getEdm', () => {
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', { a: getEdmId() });
+
+      const expected = cold('-b', {
+        b: mockSensorID,
+      });
+
+      expect(effects.edmId$).toBeObservable(expected);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        getEdm({
+          sensorId: mockSensorID,
+        })
+      );
+    });
+  });
+
+  describe('edm$', () => {
+    beforeEach(() => {
+      action = getEdm({
+        sensorId: mockSensorID,
+      });
+    });
+
+    test('should return getEdmSuccess action when REST call is successful', () => {
+      const mockMeasurements = [
+        {
+          startDate: '2020-07-30T11:02:25',
+          edmValue1Counter: 100,
+          edmValue2Counter: 200,
+          edmValue1CounterMax: 300,
+          edmValue2CounterMax: 400,
+        },
+      ];
+
+      const result = getEdmSuccess({
+        measurements: mockMeasurements,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: mockMeasurements,
+      });
+      const expected = cold('--b', { b: result });
+
+      dataService.getEdm = jest.fn(() => response);
+
+      expect(effects.edm$).toBeObservable(expected);
+      expect(dataService.getEdm).toHaveBeenCalledTimes(1);
+      expect(dataService.getEdm).toHaveBeenCalledWith({
+        id: mockSensorID,
+        startDate: 1599651508,
+        endDate: 1599651509,
+      });
+    });
+  });
+});

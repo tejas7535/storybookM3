@@ -9,9 +9,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DateRangeComponent } from './date-range.component';
 
-// import { EffectsModule } from '@ngrx/effects';
-// import { StoreModule } from '@ngrx/store';
-
 @NgModule({
   declarations: [DateRangeComponent],
   imports: [
@@ -19,16 +16,12 @@ import { DateRangeComponent } from './date-range.component';
     ReactiveFormsModule,
 
     // UI Modules
-    MatNativeDateModule,
     MatDatepickerModule,
+    MatNativeDateModule,
     MatFormFieldModule,
 
     // Translation
     SharedTranslocoModule,
-
-    // Store
-    // EffectsModule.forFeature([BearingEffects]),
-    // StoreModule.forFeature('bearing', bearingReducer),
   ],
   exports: [DateRangeComponent],
 })

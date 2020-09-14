@@ -1,14 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  tap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -17,21 +9,15 @@ import { select, Store } from '@ngrx/store';
 import { getAccessToken } from '@schaeffler/auth';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { DataService } from '../../../http/data.service';
 import { StompService } from '../../../http/stomp.service';
 import {
   connectStomp,
   disconnectStomp,
-  getEdm,
-  getEdmFailure,
-  getEdmId,
-  getEdmSuccess,
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { getSensorId } from '../../selectors';
 
 @Injectable()
 export class ConditionMonitoringEffects {
@@ -53,42 +39,9 @@ export class ConditionMonitoringEffects {
         tap(() => {
           this.store.dispatch(connectStomp());
           this.store.dispatch(subscribeBroadcast());
-          this.store.dispatch(getEdmId()); // will later be dispatched once sensor ids are there
         })
       ),
     { dispatch: false }
-  );
-
-  /**
-   * Load Edm ID
-   */
-  edmId$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(getEdmId.type),
-        withLatestFrom(this.store.pipe(select(getSensorId))),
-        map(([_action, sensorId]) => sensorId),
-        tap((sensorId) => {
-          this.store.dispatch(getEdm({ sensorId }));
-        })
-      ),
-    { dispatch: false }
-  );
-
-  /**
-   * Load EDM
-   */
-  edm$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getEdm.type),
-      map((action: any) => action.sensorId),
-      mergeMap((sensorId) =>
-        this.dataService.getEdm(`${sensorId}`).pipe(
-          map((measurements) => getEdmSuccess({ measurements })),
-          catchError((_e) => of(getEdmFailure()))
-        )
-      )
-    )
   );
 
   /**
@@ -144,7 +97,6 @@ export class ConditionMonitoringEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly dataService: DataService,
     private readonly stompService: StompService,
     private readonly store: Store<fromRouter.AppState>
   ) {}

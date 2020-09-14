@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -13,15 +12,18 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
   ConditionMonitoringEffects,
+  EdmMonitorEffects,
   GreaseStatusEffects,
 } from '../../core/store/effects';
 import { conditionMonitoringReducer } from '../../core/store/reducers/condition-monitoring/condition-monitoring.reducer';
+import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
+import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
-import { EdmMonitorComponent } from './edm-monitor/edm-monitor.component';
+import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
 
 @NgModule({
@@ -29,12 +31,12 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
     ConditionMonitoringComponent,
     CenterLoadComponent,
     CmEquipmentComponent,
-    EdmMonitorComponent,
     GreaseMonitorComponent,
   ],
   imports: [
     CommonModule,
     ConditionMonitoringRoutingModule,
+    EdmMonitorModule,
     SharedModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
@@ -42,7 +44,6 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
 
     // UI Modules
     MatCardModule,
-    MatSlideToggleModule,
 
     // ag-Grid
     AgGridModule.withComponents([]),
@@ -51,8 +52,14 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
     SharedTranslocoModule,
 
     // Store
-    EffectsModule.forFeature([ConditionMonitoringEffects, GreaseStatusEffects]),
+    EffectsModule.forFeature([
+      ConditionMonitoringEffects,
+      GreaseStatusEffects,
+      EdmMonitorEffects,
+    ]),
     StoreModule.forFeature('conditionMonitoring', conditionMonitoringReducer),
+    StoreModule.forFeature('greaseStatus', greaseStatusReducer),
+    StoreModule.forFeature('edmMonitor', edmMonitorReducer),
     ReactiveComponentModule,
   ],
 })
