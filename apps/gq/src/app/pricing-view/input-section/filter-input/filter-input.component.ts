@@ -102,7 +102,7 @@ export class FilterInputComponent implements OnInit, OnChanges {
     search: string,
     selectedValues: string[]
   ): IdValue[] {
-    const result = this.filter.options
+    return this.filter.options
       .slice()
       .filter(
         (item: IdValue) =>
@@ -111,8 +111,6 @@ export class FilterInputComponent implements OnInit, OnChanges {
           item.value.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
           selectedValues.includes(item.id)
       );
-
-    return result;
   }
 
   /**

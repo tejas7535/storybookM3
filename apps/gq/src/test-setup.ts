@@ -1,8 +1,8 @@
 // tslint:disable ordered-imports
 import { LicenseManager } from '@ag-grid-enterprise/core';
+import 'jest-preset-angular';
 
 import '../../../global-mocks';
-import 'jest-preset-angular';
 
 global.beforeEach(() => {
   LicenseManager.setLicenseKey(

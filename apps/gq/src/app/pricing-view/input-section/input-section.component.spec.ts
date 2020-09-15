@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of } from 'rxjs';
+import { of, Subject } from 'rxjs';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -13,6 +14,7 @@ import { autocomplete, updateFilter } from '../../core/store/actions';
 import { FilterItem, IdValue, TextSearch } from '../../core/store/models';
 import { FilterInputModule } from './filter-input/filter-input.module';
 import { InputSectionComponent } from './input-section.component';
+import { MultiInputComponent } from './multi-input/multi-input.component';
 
 describe('InputSectionComponent', () => {
   let component: InputSectionComponent;
@@ -27,6 +29,7 @@ describe('InputSectionComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
+        MatDialogModule,
       ],
       declarations: [InputSectionComponent],
       providers: [provideMockStore({})],
@@ -95,6 +98,29 @@ describe('InputSectionComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         autocomplete({ textSearch })
       );
+    });
+  });
+
+  describe('openDialog', () => {
+    it('should open dialog with params and save result on close', () => {
+      const observableMock = new Subject();
+      const dialogMock = ({
+        afterClosed: jest.fn(() => observableMock),
+      } as unknown) as any;
+      component.dialog.open = jest.fn(() => dialogMock);
+
+      component.openDialog();
+
+      expect(component.dialog.open).toHaveBeenCalledWith(MultiInputComponent, {
+        width: '80%',
+        height: '80%',
+      });
+
+      const testResult = 'result';
+
+      observableMock.next(testResult);
+
+      expect(component.multiQuery).toEqual(testResult);
     });
   });
 });

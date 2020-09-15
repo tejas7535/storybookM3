@@ -1,13 +1,15 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-
-import { Observable } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
 
 import { select, Store } from '@ngrx/store';
+
+import { Observable } from 'rxjs';
 
 import { autocomplete, updateFilter } from '../../core/store/actions';
 import { FilterItem, TextSearch } from '../../core/store/models';
 import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import { getAutocompleteLoading, getFilters } from '../../core/store/selectors';
+import { MultiInputComponent } from './multi-input/multi-input.component';
 
 @Component({
   selector: 'gq-input-section',
@@ -21,8 +23,12 @@ export class InputSectionComponent implements OnInit {
   filters$: Observable<FilterItem[]>;
   filter: FilterItem;
   selectedFilter = 'customer';
+  multiQuery: any;
 
-  constructor(private readonly store: Store<SearchState>) {}
+  constructor(
+    private readonly store: Store<SearchState>,
+    public dialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.filters$ = this.store.pipe(select(getFilters));
@@ -50,5 +56,16 @@ export class InputSectionComponent implements OnInit {
 
   public updateFilter(filter: FilterItem): void {
     this.store.dispatch(updateFilter({ item: filter }));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(MultiInputComponent, {
+      width: '80%',
+      height: '80%',
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.multiQuery = result;
+    });
   }
 }
