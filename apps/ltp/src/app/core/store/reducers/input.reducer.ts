@@ -7,7 +7,7 @@ import {
   BurdeningType,
   Display,
   Material,
-  Prediction
+  Prediction,
 } from '../../../shared/models';
 
 export interface InputState {
@@ -26,56 +26,58 @@ export const initialState: InputState = {
   display: {
     showMurakami: false,
     showFKM: false,
+    showStatistical: false,
     chartType: ChartType.Woehler,
-    bannerOpen: false
-  }
+    bannerOpen: false,
+  },
 };
 
 export const inputReducer = createReducer(
   initialState,
   on(InputActions.setPredictionOptions, (state, { predictions }) => ({
     ...state,
-    predictions
+    predictions,
   })),
   on(InputActions.setBurdeningTypeOptions, (state, { burdeningTypes }) => ({
     ...state,
-    burdeningTypes
+    burdeningTypes,
   })),
   on(InputActions.setMaterialOptions, (state, { materials }) => ({
     ...state,
-    materials
+    materials,
   })),
   on(InputActions.setMaterial, (state, { selectedMaterial }) => ({
     ...state,
-    selectedMaterial
+    selectedMaterial,
   })),
-  on(InputActions.unsetMaterial, state => ({
+  on(InputActions.unsetMaterial, (state) => ({
     ...state,
-    selectedMaterial: undefined
+    selectedMaterial: undefined,
   })),
   on(InputActions.setDisplay, (state, { display }) => {
-    const { showMurakami, showFKM } = display;
+    const { showMurakami, showFKM, showStatistical } = display;
 
     return {
       ...state,
       display: {
         ...state.display,
         showMurakami,
-        showFKM
-      }
+        showFKM,
+        showStatistical,
+      },
     };
   }),
   on(InputActions.setChartType, (state, { chartType }) => ({
     ...state,
-    display: { ...state.display, chartType }
+    display: { ...state.display, chartType },
   })),
-  on(InputActions.unsetDisplay, state => ({
+  on(InputActions.unsetDisplay, (state) => ({
     ...state,
-    display: initialState.display
+    display: initialState.display,
   })),
   on(InputActions.setBannerVisible, (state, { bannerOpen }) => ({
     ...state,
-    display: { ...state.display, bannerOpen }
+    display: { ...state.display, bannerOpen },
   }))
 );
 

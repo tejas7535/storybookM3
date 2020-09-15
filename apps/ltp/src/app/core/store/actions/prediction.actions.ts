@@ -6,19 +6,46 @@ import {
   LoadsRequest,
   PredictionRequest,
   PredictionResult,
+  StatisticalPrediction,
+  StatisticalRequest,
 } from '../../../shared/models';
 
 export const postPrediction = createAction(
   '[Predict Lifetime Container Component] Post Prediction'
 );
 
+export const postMLPrediction = createAction(
+  '[Predict Lifetime Container Component] Post ML Prediction'
+);
+
+export const postStatisticalPrediction = createAction(
+  '[Predict Lifetime Container Component] Post Statistical Prediction'
+);
+
 export const setPredictionRequest = createAction(
   '[Input Component] Set Prediction Request',
+  props<{
+    predictionRequest: PredictionRequest | HvLimits;
+    statisticalRequest: StatisticalRequest | HvLimits;
+  }>()
+);
+
+export const setMLRequest = createAction(
+  '[Input Component] Set ML Request',
   props<{ predictionRequest: PredictionRequest | HvLimits }>()
+);
+
+export const setStatisticalRequest = createAction(
+  '[Input Component] Set Statistical Request',
+  props<{ statisticalRequest: StatisticalRequest | HvLimits }>()
 );
 
 export const unsetPredictionRequest = createAction(
   '[Home Component] Unset Prediction Request'
+);
+
+export const unsetStatisticalRequest = createAction(
+  '[Home Component] Unset Statistical Request'
 );
 
 export const setPredictionType = createAction(
@@ -29,6 +56,11 @@ export const setPredictionType = createAction(
 export const setPredictionResult = createAction(
   '[Prediction Component] Set Prediction Results',
   props<{ predictionResult: PredictionResult }>()
+);
+
+export const setStatisticalResult = createAction(
+  '[Prediction Component] Set Statistical Results',
+  props<{ statisticalResult: StatisticalPrediction }>()
 );
 
 export const setLoadsRequest = createAction(

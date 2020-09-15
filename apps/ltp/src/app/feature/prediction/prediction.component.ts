@@ -36,7 +36,6 @@ export class PredictionComponent implements OnInit {
 
   legendGraphs: LegendSquare[];
 
-  // TODO: model definition
   chartSettings = CHART_SETTINGS_WOEHLER;
 
   constructor(

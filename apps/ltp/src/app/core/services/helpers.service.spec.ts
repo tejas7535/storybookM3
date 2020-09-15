@@ -2,6 +2,11 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import {
+  mockedPredictionResult,
+  mockedStatisticalResult,
+} from '../../mocks/mock.constants';
+import { CHART_SETTINGS_HAIGH } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
 import {
   Display,
@@ -13,6 +18,7 @@ import {
   PredictionResult,
   PredictionResultParsed,
 } from '../../shared/models';
+import { CHART_SETTINGS_WOEHLER } from './../../shared/constants/chart-settings-woehler';
 import { HelpersService } from './helpers.service';
 
 // Constants
@@ -301,6 +307,8 @@ const getDefaultConstants = {
     },
     lines: [],
   } as unknown) as PredictionResultParsed,
+
+  defaultStatisticalResult: mockedStatisticalResult,
 };
 
 describe('HelpersService', () => {
@@ -656,13 +664,14 @@ describe('HelpersService', () => {
       showFKM: true,
       showMurakami: true,
       bannerOpen: false,
+      showStatistical: false,
     };
 
     const expectedResult = defaults.defaultPredictionResultParsedWoehler;
     const result = helpersService.preparePredictionResult(
       defaults.defaultPredictionResult,
+      defaults.defaultStatisticalResult,
       display,
-      defaults.defaultPredictionRequest,
       defaults.loads
     );
     expect(result).toEqual(expectedResult);
@@ -674,13 +683,14 @@ describe('HelpersService', () => {
       showFKM: true,
       showMurakami: true,
       bannerOpen: false,
+      showStatistical: false,
     };
 
     const expectedResult = defaults.defaultPredictionResultParsedHaigh;
     const result = helpersService.preparePredictionResult(
       defaults.defaultPredictionResult,
+      defaults.defaultStatisticalResult,
       display,
-      defaults.defaultPredictionRequest,
       defaults.loads
     );
     expect(result).toEqual(expectedResult);
@@ -837,32 +847,6 @@ describe('HelpersService', () => {
     expect(transformedGraph).toEqual(expectedArray);
   });
 
-  it('should calculate an fkm sn graph with rrelation = -1', () => {
-    const request = defaults.defaultPredictionRequest;
-    const krs = 1;
-
-    const expectedGraph = {
-      0: { x: 10000, y: 671.4272431425106 },
-      1: { x: 1000000, y: 267.29999999999995 },
-      2: { x: 10000000, y: 267.29999999999995 },
-    };
-    const fkm = helpersService.calculateFKMWoehler(krs, request);
-    expect(fkm).toEqual(expectedGraph);
-  });
-
-  it('should calculate an fkm sn graph with rrelation = 0', () => {
-    const request = { ...defaults.defaultPredictionRequest, rrelation: 0 };
-    const krs = 1;
-
-    const expectedGraph = {
-      0: { x: 10000, y: 606.035962760638 },
-      1: { x: 1000000, y: 241.26726238830219 },
-      2: { x: 10000000, y: 241.26726238830219 },
-    };
-    const fkm = helpersService.calculateFKMWoehler(krs, request);
-    expect(fkm).toEqual(expectedGraph);
-  });
-
   it('should return a valid sn graph', () => {
     const start = 1000;
     const sa = 100;
@@ -874,54 +858,6 @@ describe('HelpersService', () => {
     };
     const sn = helpersService.createGraphObjectWoehler(start, sa);
     expect(sn).toEqual(expectedGraph);
-  });
-
-  it('should calculate an fkm haigh graph', () => {
-    const request = defaults.defaultPredictionRequest;
-
-    const expectedGraph = {
-      0: { x: 0, y: 267.29999999999995 },
-      1: { x: 241.26726238830219, y: 241.26726238830219 },
-    };
-    const fkm = helpersService.calculateFKMHaigh(request);
-    expect(fkm).toEqual(expectedGraph);
-  });
-
-  it('should calculate an murakami woehler graph', () => {
-    let request = defaults.defaultPredictionRequest;
-    const krs = 1;
-
-    let expectedGraph = {
-      0: { x: 10000, y: 898.9817024538035 },
-      1: { x: 1000000, y: 357.89106194324967 },
-      2: { x: 10000000, y: 357.89106194324967 },
-    };
-    let murakami = helpersService.calculateMurakamiWoehler(krs, request);
-    expect(murakami).toEqual(expectedGraph);
-
-    request = {
-      ...defaults.defaultPredictionRequest,
-      rrelation: 0,
-    };
-
-    expectedGraph = {
-      0: { x: 10000, y: 759.100947329734 },
-      1: { x: 1000000, y: 302.20353030591974 },
-      2: { x: 10000000, y: 302.20353030591974 },
-    };
-    murakami = helpersService.calculateMurakamiWoehler(krs, request);
-    expect(murakami).toEqual(expectedGraph);
-  });
-
-  it('should calculate an murakami haigh graph', () => {
-    const request = defaults.defaultPredictionRequest;
-
-    const expectedGraph = {
-      0: { x: 0, y: 357.89106194324967 },
-      1: { x: 302.20353030591974, y: 302.20353030591974 },
-    };
-    const murakami = helpersService.calculateMurakamiHaigh(request);
-    expect(murakami).toEqual(expectedGraph);
   });
 
   it('should return a graph object', () => {
@@ -1041,6 +977,88 @@ describe('HelpersService', () => {
     const val = 100;
     const reduced = helpersService.increase10Percent(val);
     expect(reduced).toEqual(110);
+  });
+
+  it('should return empty result for corrupted chart settings in haigh', () => {
+    const mockedChartSettingsHaigh = CHART_SETTINGS_HAIGH;
+    mockedChartSettingsHaigh.sources[0].value = undefined;
+    mockedChartSettingsHaigh.sources[0].identifier = undefined;
+    mockedChartSettingsHaigh.sources[1].value = undefined;
+    mockedChartSettingsHaigh.sources[2].value = undefined;
+    mockedChartSettingsHaigh.sources[3].value = undefined;
+    mockedChartSettingsHaigh.sources[4].value = undefined;
+    CHART_SETTINGS_HAIGH.sources = mockedChartSettingsHaigh.sources;
+
+    const result = helpersService.preparePredictionResult(
+      mockedPredictionResult,
+      mockedStatisticalResult,
+      {
+        showFKM: true,
+        showMurakami: true,
+        showStatistical: true,
+        chartType: 1,
+      },
+      []
+    );
+
+    expect(result).toEqual({
+      data: [],
+      kpi: undefined,
+      limits: {
+        x_max: -Infinity,
+        x_min: 0,
+        y_max: -Infinity,
+        y_min: 0,
+      },
+      lines: [],
+    });
+  });
+
+  it('tranformGraph should return empty array if argumentKey is not defined', () => {
+    const mockedGraph: Graph = {
+      0: { x: 0, y: 1 },
+      1: { x: 0, y: 1 },
+    };
+
+    const result = helpersService.transformGraph(mockedGraph, undefined);
+
+    expect(result).toEqual([]);
+  });
+
+  it('tranformGraph should return undefined if argumentKey is not defined', () => {
+    const mockedGraph: Graph = {
+      0: undefined,
+      1: { x: 0, y: 1 },
+    };
+
+    const result = helpersService.transformGraph(mockedGraph, 'myKey');
+
+    expect(result).toEqual([
+      { myKey: undefined, x: undefined },
+      { myKey: 1, x: 0 },
+    ]);
+  });
+
+  it('should return empty result for corrupted chart settings in woehler', () => {
+    const mockedChartSettingsWoehler = CHART_SETTINGS_WOEHLER;
+    mockedChartSettingsWoehler.sources[2].value = undefined;
+    mockedChartSettingsWoehler.sources[3].value = undefined;
+    mockedChartSettingsWoehler.sources[4].value = undefined;
+    CHART_SETTINGS_WOEHLER.sources = mockedChartSettingsWoehler.sources;
+
+    const result = helpersService.preparePredictionResult(
+      mockedPredictionResult,
+      mockedStatisticalResult,
+      { showFKM: true, showMurakami: true, showStatistical: true },
+      []
+    );
+
+    expect(result).toEqual({
+      data: [],
+      kpi: undefined,
+      limits: undefined,
+      lines: [],
+    });
   });
 
   it('should calculate hardness diversivication range coordinates', () => {

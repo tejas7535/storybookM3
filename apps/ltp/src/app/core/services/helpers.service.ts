@@ -14,6 +14,9 @@ import {
   PredictionRequest,
   PredictionResult,
   PredictionResultParsed,
+  Series,
+  StatisticalPrediction,
+  StatisticalPredictionParsed,
 } from '../../shared/models';
 
 export class HelpersService {
@@ -90,12 +93,63 @@ export class HelpersService {
   }
 
   /**
+   * Parses a given response from statistical backend into Graph objects
+   */
+  public prepareStatisticalResult(
+    statisticalResult: StatisticalPrediction
+  ): StatisticalPredictionParsed {
+    // woehler
+    const saFKM = statisticalResult.woehler.analytical.sa_fkm;
+    const saMurakami = statisticalResult.woehler.analytical.sa_murakami;
+    const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
+    const fkmWoehler = this.createGraphObjectWoehler(startFKM, saFKM);
+    const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
+    const murakamiWoehler = this.createGraphObjectWoehler(
+      startMurakami,
+      saMurakami
+    );
+
+    // haigh
+    const r0FKM = statisticalResult.haigh.analytical.r0_fkm;
+    const r1FKM = statisticalResult.haigh.analytical.r1_fkm;
+    const r0Murakami = statisticalResult.haigh.analytical.r0_murakami;
+    const r1Murakami = statisticalResult.haigh.analytical.r1_murakami;
+    const r0Statistical = statisticalResult.haigh.statistical.r0;
+    const r1Statistical = statisticalResult.haigh.statistical.r1;
+    const fkmHaigh = this.createGraphObjectHaigh(r0FKM, r1FKM);
+    const murakamiHaigh = this.createGraphObjectHaigh(r0Murakami, r1Murakami);
+    const statistical = this.createGraphObjectHaigh(
+      r0Statistical,
+      r1Statistical
+    );
+
+    return {
+      woehler: {
+        analytical: {
+          fkm: fkmWoehler,
+          murakami: murakamiWoehler,
+        },
+        statistical_sn_curve: {
+          ...statisticalResult.woehler.statistical_sn_curve,
+        },
+      },
+      haigh: {
+        statistical,
+        analytical: {
+          fkm: fkmHaigh,
+          murakami: murakamiHaigh,
+        },
+      },
+    };
+  }
+
+  /**
    * Calculates all required values to display the selected chart correctly from the given state
    */
   public preparePredictionResult(
     predictionResult: PredictionResult,
+    statisticalResult: StatisticalPrediction,
     display: Display,
-    request: PredictionRequest,
     loadsPoints: Point[]
   ): PredictionResultParsed {
     if (!predictionResult) {
@@ -107,37 +161,47 @@ export class HelpersService {
     let limits: Limits;
     let lines: any[] = [];
     // calculate FKM and Murakami
-    // rz Shieberegler Rauheit 0 - 25 step 0.1
-    const krs =
-      request.rz !== 0
-        ? 1 -
-          Math.log10(request.rz) *
-            Math.log10((2 * 3.3 * request.hv) / 400) *
-            0.22
-        : 1;
 
     if (display.chartType === ChartType.Woehler) {
       if (display.showFKM) {
-        const fkm = this.calculateFKMWoehler(krs, request);
+        const saFKM = statisticalResult.woehler.analytical.sa_fkm;
+        const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
+        const fkm = this.createGraphObjectWoehler(startFKM, saFKM);
         data = [
           ...data,
           ...this.transformGraph(
             fkm,
             CHART_SETTINGS_WOEHLER.sources.find(
               (src) => src.identifier === 'fkm'
-            ).value
+            )?.value
           ),
         ];
       }
       if (display.showMurakami) {
-        const murakami = this.calculateMurakamiWoehler(krs, request);
+        const saMurakami = statisticalResult.woehler.analytical.sa_murakami;
+        const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
+        const murakami = this.createGraphObjectWoehler(
+          startMurakami,
+          saMurakami
+        );
         data = [
           ...data,
           ...this.transformGraph(
             murakami,
             CHART_SETTINGS_WOEHLER.sources.find(
               (src) => src.identifier === 'murakami'
-            ).value
+            )?.value
+          ),
+        ];
+      }
+      if (display.showStatistical) {
+        data = [
+          ...data,
+          ...this.transformGraph(
+            statisticalResult.woehler.statistical_sn_curve.percentile_50,
+            CHART_SETTINGS_WOEHLER.sources.find(
+              (src) => src.identifier === 'statistical'
+            )?.value
           ),
         ];
       }
@@ -183,15 +247,25 @@ export class HelpersService {
     }
 
     if (display.chartType === ChartType.Haigh) {
-      const fkm = this.calculateFKMHaigh(request);
-      const murakami = this.calculateMurakamiHaigh(request);
+      const r0FKM = statisticalResult.haigh.analytical.r0_fkm;
+      const r1FKM = statisticalResult.haigh.analytical.r1_fkm;
+      const r0Murakami = statisticalResult.haigh.analytical.r0_murakami;
+      const r1Murakami = statisticalResult.haigh.analytical.r1_murakami;
+      const r0Statistical = statisticalResult.haigh.statistical.r0;
+      const r1Statistical = statisticalResult.haigh.statistical.r1;
+      const fkm = this.createGraphObjectHaigh(r0FKM, r1FKM);
+      const murakami = this.createGraphObjectHaigh(r0Murakami, r1Murakami);
+      const statistical = this.createGraphObjectHaigh(
+        r0Statistical,
+        r1Statistical
+      );
       if (display.showFKM) {
         data = [
           ...data,
           ...this.transformGraph(
             fkm,
             CHART_SETTINGS_HAIGH.sources.find((src) => src.identifier === 'fkm')
-              .value
+              ?.value
           ),
         ];
       }
@@ -202,7 +276,18 @@ export class HelpersService {
             murakami,
             CHART_SETTINGS_HAIGH.sources.find(
               (src) => src.identifier === 'murakami'
-            ).value
+            )?.value
+          ),
+        ];
+      }
+      if (display.showStatistical) {
+        data = [
+          ...data,
+          ...this.transformGraph(
+            statistical,
+            CHART_SETTINGS_HAIGH.sources.find(
+              (src) => src.identifier === 'statistical'
+            )?.value
           ),
         ];
       }
@@ -212,10 +297,10 @@ export class HelpersService {
       // parse display
       Object.entries(predictionResult.haigh).map((value: [string, Graph]) => {
         const source = CHART_SETTINGS_HAIGH.sources.find(
-          (src) => src.identifier === value[0]
+          (src: Series) => src.identifier === value[0]
         );
         // TODO: see if that can be solved better...
-        if (source.identifier === 'appliedStress') {
+        if (source?.identifier === 'appliedStress') {
           data = [
             ...data,
             ...this.transformGraph(
@@ -224,7 +309,7 @@ export class HelpersService {
             ),
           ];
         } else {
-          data = [...data, ...this.transformGraph(value[1], source.value)];
+          data = [...data, ...this.transformGraph(value[1], source?.value)];
         }
       });
       limits = this.calculateLimitsHaigh(data);
@@ -313,10 +398,16 @@ export class HelpersService {
    * Transforms a graph object into an Array of Objects, each with the specified key for the y-value
    */
   public transformGraph(graph: Graph, argumentKey: string): Object[] {
-    return Object.entries(graph).map((value: [string, Point]) => ({
-      x: value[1].x,
-      [argumentKey]: value[1].y,
-    }));
+    return argumentKey
+      ? Object.entries(graph).map((value: [string, Point]) => {
+          return value
+            ? {
+                x: value[1]?.x,
+                [argumentKey]: value[1]?.y,
+              }
+            : undefined;
+        })
+      : [];
   }
 
   /**
@@ -324,25 +415,6 @@ export class HelpersService {
    */
   public graphToArray(graph: Graph): Point[] {
     return Object.entries(graph).map((value: [string, Point]) => value[1]);
-  }
-
-  /**
-   * Calculates the graph for the FKM guideline in the Woehler chart and returns its data points
-   */
-  public calculateFKMWoehler(krs: number, request: PredictionRequest): Graph {
-    // add FKM graph
-    let saFKM =
-      krs * 3.3 * 0.45 * request.hv - request.es < 700
-        ? krs * 3.3 * 0.45 * request.hv - request.es
-        : 700;
-    if (request.rrelation === 0) {
-      // recalc
-      const m = (0.35 * 3.3 * request.hv) / 1000 - 0.1;
-      saFKM = saFKM / (m + 1);
-    }
-    const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
-
-    return this.createGraphObjectWoehler(startFKM, saFKM);
   }
 
   /**
@@ -354,50 +426,6 @@ export class HelpersService {
       1: { x: 1000000, y: sa },
       2: { x: 10000000, y: sa },
     };
-  }
-
-  /**
-   * Calculates the graph for the Murakami model in the Woehler chart and returns its data points
-   */
-  public calculateFKMHaigh(request: PredictionRequest): Graph {
-    // add FKM graph
-    const r0FKM = 3.3 * 0.45 * request.hv;
-    const m = (0.35 * 3.3 * request.hv) / 1000 - 0.1;
-    const r1FKM = r0FKM / (m + 1);
-
-    return this.createGraphObjectHaigh(r0FKM, r1FKM);
-  }
-
-  /**
-   * Calculates the graph for the FKM guideline in the Woehler chart and returns its data points
-   */
-  public calculateMurakamiWoehler(
-    krs: number,
-    request: PredictionRequest
-  ): Graph {
-    let saMurakami =
-      (krs * 1.56 * (request.hv + 120)) / Math.pow(request.rArea, 1 / 6) -
-      request.es * 0.32;
-    if (request.rrelation === 0) {
-      // recalc
-      saMurakami =
-        saMurakami * Math.pow(0.5, request.hv * Math.pow(10, -4) + 0.226);
-    }
-    const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
-
-    return this.createGraphObjectWoehler(startMurakami, saMurakami);
-  }
-
-  /**
-   * Calculates the graph for the Murakami model in the Haigh chart and returns its data points
-   */
-  public calculateMurakamiHaigh(request: PredictionRequest): Graph {
-    const r0Murakami =
-      ((request.hv + 120) * 1.56) / Math.pow(request.rArea, 1 / 6);
-    const r1Murakami =
-      r0Murakami * Math.pow(0.5, request.hv * Math.pow(10, -4) + 0.226);
-
-    return this.createGraphObjectHaigh(r0Murakami, r1Murakami);
   }
 
   /**

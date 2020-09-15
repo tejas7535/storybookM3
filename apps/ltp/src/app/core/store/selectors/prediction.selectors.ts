@@ -9,6 +9,11 @@ export const getPredictionRequest = createSelector(
   (prediction) => prediction.predictionRequest
 );
 
+export const getStatisticalRequest = createSelector(
+  fromStore.getPredictionState,
+  (prediction) => prediction.statisticalRequest
+);
+
 export const getLoads = createSelector(
   fromStore.getPredictionState,
   (prediction) => prediction.loadsRequest
@@ -92,11 +97,23 @@ export const getPredictionResult = createSelector(
     const helpersService = new HelpersService();
     const result = helpersService.preparePredictionResult(
       prediction.predictionResult,
+      prediction.statisticalResult,
       display,
-      prediction.predictionRequest,
       loadsPoints
     );
 
     return { ...result, kpi };
+  }
+);
+
+export const getStatisticalResult = createSelector(
+  fromStore.getPredictionState,
+  (prediction) => {
+    const helpersService = new HelpersService();
+    const result = helpersService.prepareStatisticalResult(
+      prediction.statisticalResult
+    );
+
+    return { ...result };
   }
 );

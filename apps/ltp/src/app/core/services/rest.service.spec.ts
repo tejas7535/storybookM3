@@ -12,7 +12,9 @@ import {
   Model,
   Prediction,
   PredictionRequest,
+  StatisticalRequest,
 } from '../../shared/models';
+import { mockedStatisticalResult } from './../../mocks/mock.constants';
 import { RestService } from './rest.service';
 
 describe('RestService', () => {
@@ -49,7 +51,9 @@ describe('RestService', () => {
         expect(models).toEqual(mockedModels);
       });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/getModels`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/getModels`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mockedModels);
     });
@@ -67,7 +71,9 @@ describe('RestService', () => {
         expect(models).toEqual(mockedPredictions);
       });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/getPredictions`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/getPredictions`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mockedPredictions);
     });
@@ -86,7 +92,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL}/getBurdeningTypes`
+        `${myProvider.SERVER_URL_PREDICTION}/getBurdeningTypes`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mockedBurdeningTypes);
@@ -99,7 +105,9 @@ describe('RestService', () => {
         .getMaterials()
         .subscribe((materials) => expect(materials).toEqual(mockedMaterials));
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/getMaterials`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/getMaterials`
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mockedMaterials);
     });
@@ -146,7 +154,9 @@ describe('RestService', () => {
           expect(haighResult).toEqual(mockedHaighPrediction);
         });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/predictor`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/predictor`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -158,7 +168,9 @@ describe('RestService', () => {
           expect(woehlerResult).toEqual(undefined);
         });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/predictor`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/predictor`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -184,9 +196,39 @@ describe('RestService', () => {
         expect(loadsResult).toEqual(mockedLoadsPrediction);
       });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL}/loads`);
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_PREDICTION}/loads`
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
+    });
+  });
+
+  describe('postStatisticalService', () => {
+    it('should return an Observable<StatisticalRequest>', () => {
+      const mockedStatisticalRequest: StatisticalRequest = {
+        es: 0,
+        hardness: 400,
+        loadingType: 0,
+        r: 0,
+        rArea: 1,
+        rz: 0,
+        v90: 1,
+      };
+
+      const statisticalResult = mockedStatisticalResult;
+
+      myProvider
+        .postStatisticalService(mockedStatisticalRequest)
+        .subscribe((loadsResult) => {
+          expect(loadsResult).toEqual(statisticalResult);
+        });
+
+      const req = httpMock.expectOne(
+        `${myProvider.SERVER_URL_STATISTICAL}/score`
+      );
+      expect(req.request.method).toBe('POST');
+      req.flush(statisticalResult);
     });
   });
 });

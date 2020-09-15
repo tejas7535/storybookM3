@@ -1,4 +1,7 @@
-import { mockedPredictionResult } from '../../../mocks/mock.constants';
+import {
+  mockedPredictionResult,
+  mockedStatisticalResult,
+} from '../../../mocks/mock.constants';
 import { LoadsRequest } from '../../../shared/models';
 import * as PredictionActions from '../actions/prediction.actions';
 import { predictionReducer } from './prediction.reducer';
@@ -11,7 +14,7 @@ describe('predictionReducer', () => {
         predictionRequest: {
           prediction: 0,
           mpa: 400,
-          v90: 0,
+          v90: 1,
           hv: 180,
           hv_lower: 180,
           hv_upper: 180,
@@ -26,6 +29,15 @@ describe('predictionReducer', () => {
           a90: 100,
           gradient: 1,
           multiaxiality: 0,
+        },
+        statisticalRequest: {
+          rz: 0,
+          es: 0,
+          hardness: 180,
+          r: -1,
+          rArea: 5,
+          v90: 1,
+          loadingType: 0,
         },
         predictionResult: undefined,
         loadsRequest: {
@@ -51,7 +63,7 @@ describe('predictionReducer', () => {
       const mockedPredictionRequest = {
         prediction: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         hv: 180,
         hv_lower: 180,
         hv_upper: 180,
@@ -67,26 +79,42 @@ describe('predictionReducer', () => {
         gradient: 1,
         multiaxiality: 0,
       };
+
+      const mockedStatisticalRequest = {
+        rz: 0,
+        es: 0,
+        hardness: 180,
+        r: -1,
+        rArea: 5,
+        v90: 1,
+        loadingType: 0,
+      };
+
       const newState = predictionReducer(
         state,
         PredictionActions.setPredictionRequest({
           predictionRequest: mockedPredictionRequest,
+          statisticalRequest: mockedStatisticalRequest,
         })
       );
       expect(newState.predictionRequest).toEqual({
         ...state.prediction,
         ...mockedPredictionRequest,
       });
+      expect(newState.statisticalRequest).toEqual({
+        ...state.prediction,
+        ...mockedStatisticalRequest,
+      });
     });
 
-    it('should set state on setPredictionRequest with incomplete params', () => {
+    it('should set state on setMLRequest with incomplete params', () => {
       const mockedHvLimitsPredictionRequest = {
         hv_lower: 200,
         hv_upper: 300,
       };
       const newState = predictionReducer(
         state,
-        PredictionActions.setPredictionRequest({
+        PredictionActions.setMLRequest({
           predictionRequest: mockedHvLimitsPredictionRequest,
         })
       );
@@ -96,12 +124,42 @@ describe('predictionReducer', () => {
       });
     });
 
+    it('should set state on setStatisticalRequest', () => {
+      const mockedStatisticalRequest = {
+        rz: 1,
+        es: 1,
+        hardness: 200,
+        r: 0,
+        rArea: 15,
+        v90: 10,
+        loadingType: 1,
+      };
+      const newState = predictionReducer(
+        state,
+        PredictionActions.setStatisticalRequest({
+          statisticalRequest: mockedStatisticalRequest,
+        })
+      );
+      expect(newState.statisticalRequest).toEqual({
+        ...state.statisticalRequest,
+        ...mockedStatisticalRequest,
+      });
+    });
+
     it('should set state on unsetPredictionRequest', () => {
       const newState = predictionReducer(
         state,
         PredictionActions.unsetPredictionRequest()
       );
       expect(newState.predictionRequest).toEqual(state.predictionRequest);
+    });
+
+    it('should set state on unsetStatisticalRequest', () => {
+      const newState = predictionReducer(
+        state,
+        PredictionActions.unsetStatisticalRequest()
+      );
+      expect(newState.statisticalRequest).toEqual(state.statisticalRequest);
     });
 
     it('should set state on setPredictionType', () => {
@@ -175,6 +233,16 @@ describe('predictionReducer', () => {
         PredictionActions.setPredictionResult({ predictionResult })
       );
       expect(newState.predictionResult).toEqual(mockedPredictionResult);
+    });
+
+    it('should set state on setStatisticalResult', () => {
+      const statisticalResult = mockedStatisticalResult;
+
+      const newState = predictionReducer(
+        state,
+        PredictionActions.setStatisticalResult({ statisticalResult })
+      );
+      expect(newState.statisticalResult).toEqual(mockedStatisticalResult);
     });
   });
 });

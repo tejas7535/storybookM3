@@ -131,6 +131,7 @@ describe('InputComponent', () => {
       const mockPredictionRequestControls = {
         showMurakami: false,
         showFKM: true,
+        showStatistical: true,
         spreading: 0,
         hv: 699,
         rz: 12.9,
@@ -138,13 +139,14 @@ describe('InputComponent', () => {
         rArea: 5,
         es: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         rrelation: -1,
         burdeningType: 0,
       };
       const mockPreviourPredictionRequestControls = {
         showMurakami: false,
         showFKM: true,
+        showStatistical: true,
         spreading: 0,
         hv: 800,
         rz: 12.9,
@@ -152,7 +154,7 @@ describe('InputComponent', () => {
         rArea: 5,
         es: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         rrelation: -1,
         burdeningType: 0,
       };
@@ -167,10 +169,21 @@ describe('InputComponent', () => {
         rArea: 5,
         es: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         rrelation: -1,
         burdeningType: 0,
       };
+
+      const expectedStatisticalRequest = {
+        rz: 12.9,
+        es: 0,
+        rArea: 5,
+        v90: 1,
+        hardness: 699,
+        r: -1,
+        loadingType: 0,
+      };
+
       component.setPredictionRequest(
         mockPredictionRequestControls,
         mockPreviourPredictionRequestControls
@@ -178,6 +191,7 @@ describe('InputComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         fromStore.setPredictionRequest({
           predictionRequest: expectedPredictionRequest,
+          statisticalRequest: expectedStatisticalRequest,
         })
       );
     });
@@ -190,6 +204,7 @@ describe('InputComponent', () => {
       const mockDisplayControls = {
         showMurakami: false,
         showFKM: true,
+        showStatistical: true,
         spreading: 0,
         hv: 699,
         rz: 12.9,
@@ -197,7 +212,7 @@ describe('InputComponent', () => {
         rArea: 5,
         es: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         rrelation: -1,
         burdeningType: 0,
       };
@@ -205,6 +220,7 @@ describe('InputComponent', () => {
       const expectedDisplay = {
         showMurakami: false,
         showFKM: true,
+        showStatistical: true,
       };
       component.setDisplay(mockDisplayControls);
       expect(store.dispatch).toHaveBeenCalledWith(
@@ -231,7 +247,7 @@ describe('InputComponent', () => {
       const limits = {
         prediction: 0,
         mpa: 400,
-        v90: 0,
+        v90: 1,
         hv: 180,
         hv_lower: 180,
         hv_upper: 180,
@@ -253,6 +269,7 @@ describe('InputComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         fromStore.setPredictionRequest({
           predictionRequest: limits,
+          statisticalRequest: limits,
         })
       );
     });

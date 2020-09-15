@@ -34,6 +34,17 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     },
   },
   {
+    value: 'y9',
+    name: 'Statistisches Modell (P<sub>Ü</sub> 50)',
+    color: '#9c27b0',
+    identifier: 'statistical',
+    survivalProbability: 50,
+    legendDisplay: {
+      name: 'prediction.chart.legendStatistical',
+      color: '#9c27b0',
+    },
+  },
+  {
     value: 'y8',
     name: 'Murakami-Modell (P<sub>Ü</sub> 50)',
     color: '#1d9bb2',

@@ -14,13 +14,16 @@ import {
   Prediction,
   PredictionRequest,
   PredictionResult,
+  StatisticalPrediction,
+  StatisticalRequest,
 } from '../../shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RestService {
-  public SERVER_URL = environment.SERVER_URL;
+  public SERVER_URL_PREDICTION = environment.SERVER_URL_PREDICTION;
+  public SERVER_URL_STATISTICAL = environment.SERVER_URL_STATISTICAL;
 
   constructor(private readonly httpService: HttpClient) {}
 
@@ -28,7 +31,9 @@ export class RestService {
    * gets all model types from API
    */
   public getModels(): Observable<Model[]> {
-    return this.httpService.get<Model[]>(`${this.SERVER_URL}/getModels`);
+    return this.httpService.get<Model[]>(
+      `${this.SERVER_URL_PREDICTION}/getModels`
+    );
   }
 
   /**
@@ -36,7 +41,7 @@ export class RestService {
    */
   public getPredictions(): Observable<Prediction[]> {
     return this.httpService.get<Prediction[]>(
-      `${this.SERVER_URL}/getPredictions`
+      `${this.SERVER_URL_PREDICTION}/getPredictions`
     );
   }
 
@@ -45,7 +50,7 @@ export class RestService {
    */
   public getBurdeningTypes(): Observable<BurdeningType[]> {
     return this.httpService.get<BurdeningType[]>(
-      `${this.SERVER_URL}/getBurdeningTypes`
+      `${this.SERVER_URL_PREDICTION}/getBurdeningTypes`
     );
   }
 
@@ -53,7 +58,9 @@ export class RestService {
    * gets all materials from static json file for now
    */
   public getMaterials(): Observable<Material[]> {
-    return this.httpService.get<Material[]>(`${this.SERVER_URL}/getMaterials`);
+    return this.httpService.get<Material[]>(
+      `${this.SERVER_URL_PREDICTION}/getMaterials`
+    );
   }
 
   /**
@@ -90,7 +97,7 @@ export class RestService {
 
     if (mode === 2) {
       return this.httpService
-        .post<any>(`${this.SERVER_URL}/predictor`, prediction)
+        .post<any>(`${this.SERVER_URL_PREDICTION}/predictor`, prediction)
         .pipe(
           map((res) => {
             const result = res.prediction;
@@ -121,7 +128,7 @@ export class RestService {
     }
 
     return this.httpService.post<any>(
-      `${this.SERVER_URL}/predictor`,
+      `${this.SERVER_URL_PREDICTION}/predictor`,
       prediction
     );
   }
@@ -130,6 +137,18 @@ export class RestService {
    * posts prediction and load request and returns result of whole calculation
    */
   public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
-    return this.httpService.post<any>(`${this.SERVER_URL}/loads`, loadsRequest);
+    return this.httpService.post<any>(
+      `${this.SERVER_URL_PREDICTION}/loads`,
+      loadsRequest
+    );
+  }
+
+  public postStatisticalService(
+    statisticalRequest: StatisticalRequest
+  ): Observable<StatisticalPrediction> {
+    return this.httpService.post<any>(
+      `${this.SERVER_URL_STATISTICAL}/score`,
+      statisticalRequest
+    );
   }
 }
