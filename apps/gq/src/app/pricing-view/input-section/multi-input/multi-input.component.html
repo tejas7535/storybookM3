@@ -1,0 +1,38 @@
+<h3 mat-dialog-title>Table Querying</h3>
+<div mat-dialog-content fxLayout="column">
+  <div>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-select [formControl]="form">
+        <mat-option value="customer">Customer Number</mat-option>
+        <mat-option value="keyaccount">Key Account Number</mat-option>
+        <mat-option value="subkeyaccount">Sub-Key Account Number</mat-option>
+        <mat-option value="sector">Country</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="table-container">
+    <ag-grid-angular
+      (gridReady)="onGridReady($event)"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColumnDefs"
+      [enableRangeSelection]="true"
+      [modules]="modules"
+      [processCellFromClipboard]="processCellFromClipboard"
+      [rowData]="rowData"
+      [rowSelection]="rowSelection"
+      class="ag-theme-material"
+    >
+    </ag-grid-angular>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button
+    [mat-dialog-close]="rowData"
+    cdkFocusInitial
+    color="primary"
+    mat-flat-button
+  >
+    Search
+  </button>
+  <button (click)="onNoClick()" mat-button>Cancel</button>
+</div>

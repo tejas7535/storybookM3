@@ -1,0 +1,17 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
+.mat-dialog-content {
+  height: 100%;
+}
+
+.table-container {
+  height: 100%;
+
+  ag-grid-angular {
+    height: 100%;
+  }
+}
+
+::ng-deep .ag-theme-material .ag-ltr .ag-cell {
+  border: 1px solid $schaeffler-carbon-gray-10;
+}
