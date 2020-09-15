@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { ResultSectionComponent } from './result-section.component';
@@ -11,6 +12,7 @@ describe('resultComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [ResultSectionComponent],
+      imports: [AgGridModule.withComponents([])],
     });
   });
 
