@@ -13,13 +13,18 @@ import {
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 
-import { Loads, PredictionResult } from '../../../shared/models';
+import {
+  Loads,
+  PredictionResult,
+  StatisticalPrediction,
+} from '../../../shared/models';
 import { RestService } from '../../services/rest.service';
 import * as PredictionActions from '../actions/prediction.actions';
 import { LTPState } from '../reducers';
 import {
   getLoadsRequest,
   getPredictionRequest,
+  getStatisticalRequest,
 } from '../selectors/prediction.selectors';
 
 @Injectable()
@@ -33,13 +38,29 @@ export class PredictionEffects {
   public setPredictionRequest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(PredictionActions.setPredictionRequest),
-      map(() => PredictionActions.postPrediction())
+      switchMap((requests) => {
+        return [
+          PredictionActions.setMLRequest({
+            predictionRequest: requests.predictionRequest,
+          }),
+          PredictionActions.setStatisticalRequest({
+            statisticalRequest: requests.statisticalRequest,
+          }),
+        ];
+      })
     )
   );
 
   public postPrediction$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(PredictionActions.postPrediction, PredictionActions.setHardness),
+      ofType(PredictionActions.setHardness),
+      map(() => PredictionActions.postPrediction())
+    )
+  );
+
+  public postMLPrediction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(PredictionActions.postPrediction, PredictionActions.setMLRequest),
       concatMap((action) =>
         of(action).pipe(withLatestFrom(this.store.select(getPredictionRequest)))
       ),
@@ -47,6 +68,28 @@ export class PredictionEffects {
         this.restService.postPrediction(predictionRequest, 2).pipe(
           map((predictionResult: PredictionResult) =>
             PredictionActions.setPredictionResult({ predictionResult })
+          ),
+          catchError(() => EMPTY)
+        )
+      )
+    )
+  );
+
+  public postStatisticalPrediction$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        PredictionActions.postPrediction,
+        PredictionActions.setStatisticalRequest
+      ),
+      concatMap((action) =>
+        of(action).pipe(
+          withLatestFrom(this.store.select(getStatisticalRequest))
+        )
+      ),
+      switchMap(([_action, statisticalRequest]) =>
+        this.restService.postStatisticalService(statisticalRequest).pipe(
+          map((statisticalResult: StatisticalPrediction) =>
+            PredictionActions.setStatisticalResult({ statisticalResult })
           ),
           catchError(() => EMPTY)
         )

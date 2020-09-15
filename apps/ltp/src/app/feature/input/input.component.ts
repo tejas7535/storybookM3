@@ -12,6 +12,7 @@ import {
   Display,
   HvLimits,
   PredictionRequest,
+  StatisticalRequest,
 } from '../../shared/models';
 import { CustomFormControl, InputCategory } from './input.model';
 import { SelectControlOption } from './select/select-control-option.model';
@@ -83,7 +84,7 @@ export class InputComponent implements OnInit {
   public ngOnInit(): void {
     this.store.dispatch(fromStore.getFormOptions());
 
-    const displayFormControls = ['showMurakami', 'showFKM'];
+    const displayFormControls = ['showMurakami', 'showFKM', 'showStatistical'];
 
     // TODO: remove any
     this.inputForm.valueChanges
@@ -126,7 +127,12 @@ export class InputComponent implements OnInit {
     predictionRequestControls: PredictionRequest & Display,
     previousPredicionRequestControls: PredictionRequest & Display
   ): void {
-    const { showMurakami, showFKM, ...rest } = predictionRequestControls;
+    const {
+      showMurakami,
+      showFKM,
+      showStatistical,
+      ...rest
+    } = predictionRequestControls;
     let predictionRequest: PredictionRequest = rest;
 
     if (previousPredicionRequestControls.hv !== predictionRequestControls.hv) {
@@ -139,9 +145,20 @@ export class InputComponent implements OnInit {
       };
     }
 
+    const statisticalRequest: StatisticalRequest = {
+      rz: predictionRequest.rz,
+      es: predictionRequest.es,
+      rArea: predictionRequest.rArea,
+      v90: predictionRequest.v90,
+      hardness: predictionRequest.hv,
+      r: predictionRequest.rrelation,
+      loadingType: predictionRequest.burdeningType,
+    };
+
     this.store.dispatch(
       fromStore.setPredictionRequest({
         predictionRequest,
+        statisticalRequest,
       })
     );
   }
@@ -150,10 +167,11 @@ export class InputComponent implements OnInit {
    * Prepare and dispatch setDisplay
    */
   public setDisplay(displayControls: PredictionRequest & Display): void {
-    const { showMurakami, showFKM } = displayControls;
+    const { showMurakami, showFKM, showStatistical } = displayControls;
     const display: Display = {
       showMurakami,
       showFKM,
+      showStatistical,
     };
 
     this.store.dispatch(fromStore.setDisplay({ display }));
@@ -229,7 +247,10 @@ export class InputComponent implements OnInit {
 
   public adjustLimits(limits: HvLimits): void {
     this.store.dispatch(
-      fromStore.setPredictionRequest({ predictionRequest: limits })
+      fromStore.setPredictionRequest({
+        predictionRequest: limits,
+        statisticalRequest: limits,
+      })
     );
   }
 
@@ -255,6 +276,13 @@ export class InputComponent implements OnInit {
       new ToggleControl({
         key: 'showFKM',
         name: 'showFkm',
+        formControl: new FormControl(),
+        disabled: false,
+        default: false,
+      }),
+      new ToggleControl({
+        key: 'showStatistical',
+        name: 'showStatistical',
         formControl: new FormControl(),
         disabled: false,
         default: false,
@@ -350,7 +378,7 @@ export class InputComponent implements OnInit {
       new SliderControl({
         key: 'v90',
         name: 'v90',
-        min: 0,
+        min: 1,
         max: 1000,
         step: 1,
         disabled: false,

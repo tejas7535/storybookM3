@@ -9,7 +9,7 @@ import { ChartSettings, Limits } from '../../../shared/models';
 @Component({
   selector: 'ltp-chart',
   templateUrl: './chart.component.html',
-  styleUrls: ['./chart.component.scss']
+  styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent implements OnInit, OnChanges {
   @Input() limits: Limits;
@@ -48,8 +48,9 @@ export class ChartComponent implements OnInit, OnChanges {
    */
   public generateDatetime(): string {
     const today = new Date();
-    const date = `${today.getFullYear()}-${today.getMonth() +
-      1}-${today.getDate()}`;
+    const date = `${today.getFullYear()}-${
+      today.getMonth() + 1
+    }-${today.getDate()}`;
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     return `${date} ${time}`;
@@ -63,7 +64,7 @@ export class ChartComponent implements OnInit, OnChanges {
       let size = { height: 450 };
       this.chart1.instance.option(size);
       size = {
-        height: Math.max(450, this.chartContainer.nativeElement.offsetHeight)
+        height: Math.max(450, this.chartContainer.nativeElement.offsetHeight),
       };
       this.chart1.instance.option(size);
       this.chart1.instance.render({ animate: true, force: true });

@@ -7,18 +7,18 @@ import {
   mockedLoadsResult,
   mockedMaterials,
   mockedPredictionResult,
-  mockedPredictions
+  mockedPredictions,
 } from './mock.constants';
 
 import {
   BurdeningType,
   Material,
   Prediction,
-  PredictionRequest
+  PredictionRequest,
 } from '../shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MockService {
   getMaterials(): Observable<Material[]> {

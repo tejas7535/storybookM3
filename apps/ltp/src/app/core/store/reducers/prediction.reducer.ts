@@ -4,12 +4,16 @@ import {
   LoadsRequest,
   PredictionRequest,
   PredictionResult,
+  StatisticalPrediction,
+  StatisticalRequest,
 } from '../../../shared/models';
 import * as PredictionActions from '../actions/prediction.actions';
 
 export interface PredictionState {
   predictionRequest: PredictionRequest;
   predictionResult: PredictionResult;
+  statisticalRequest: StatisticalRequest;
+  statisticalResult: StatisticalPrediction;
   loadsRequest: LoadsRequest;
   loads: any;
 }
@@ -18,7 +22,7 @@ export const initialState: PredictionState = {
   predictionRequest: {
     prediction: 0,
     mpa: 400,
-    v90: 0,
+    v90: 1,
     hv: 180,
     hv_lower: 180,
     hv_upper: 180,
@@ -34,7 +38,17 @@ export const initialState: PredictionState = {
     gradient: 1,
     multiaxiality: 0,
   },
+  statisticalRequest: {
+    rz: 0,
+    es: 0,
+    hardness: 180,
+    r: -1,
+    rArea: 5,
+    v90: 1,
+    loadingType: 0,
+  },
   predictionResult: undefined,
+  statisticalResult: undefined,
   loadsRequest: {
     status: 0, // 0 initial, 1 pending, 2 success, 3 error
     error: undefined,
@@ -48,19 +62,30 @@ export const initialState: PredictionState = {
 
 export const predictionReducer = createReducer(
   initialState,
+  on(PredictionActions.setMLRequest, (state, { predictionRequest }) => ({
+    ...state,
+    predictionRequest: {
+      ...state.predictionRequest,
+      ...predictionRequest,
+    },
+  })),
   on(
-    PredictionActions.setPredictionRequest,
-    (state, { predictionRequest }) => ({
+    PredictionActions.setStatisticalRequest,
+    (state, { statisticalRequest }) => ({
       ...state,
-      predictionRequest: {
-        ...state.predictionRequest,
-        ...predictionRequest,
+      statisticalRequest: {
+        ...state.statisticalRequest,
+        ...statisticalRequest,
       },
     })
   ),
   on(PredictionActions.unsetPredictionRequest, (state) => ({
     ...state,
     predictionRequest: initialState.predictionRequest,
+  })),
+  on(PredictionActions.unsetStatisticalRequest, (state) => ({
+    ...state,
+    statisticalRequest: initialState.statisticalRequest,
   })),
   on(PredictionActions.setPredictionType, (state, { prediction }) => ({
     ...state,
@@ -73,6 +98,13 @@ export const predictionReducer = createReducer(
     ...state,
     predictionResult,
   })),
+  on(
+    PredictionActions.setStatisticalResult,
+    (state, { statisticalResult }) => ({
+      ...state,
+      statisticalResult,
+    })
+  ),
   on(PredictionActions.setLoadsRequest, (state, { loadsRequest }) => ({
     ...state,
     loadsRequest,

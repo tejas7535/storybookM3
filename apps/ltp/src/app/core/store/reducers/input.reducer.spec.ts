@@ -16,9 +16,10 @@ describe('inputReducer', () => {
         display: {
           showMurakami: false,
           showFKM: false,
+          showStatistical: false,
           chartType: ChartType.Woehler,
-          bannerOpen: false
-        }
+          bannerOpen: false,
+        },
       };
     });
 
@@ -41,7 +42,7 @@ describe('inputReducer', () => {
 
     it('should set state on setMaterialOptions', () => {
       const mockMaterial = [
-        { name: 'plastik', heatTreatment: 'volleHitze', hardness: 90001 }
+        { name: 'plastik', heatTreatment: 'volleHitze', hardness: 90001 },
       ];
 
       const newState = inputReducer(
@@ -54,7 +55,7 @@ describe('inputReducer', () => {
     it('should set state on setPredictionOptions', () => {
       const mockPredictions = [
         { id: 0, name: 'gehypermockteprediction' },
-        { id: 1, name: 'gehypermockteprediction2' }
+        { id: 1, name: 'gehypermockteprediction2' },
       ];
 
       const newState = inputReducer(
@@ -70,7 +71,7 @@ describe('inputReducer', () => {
       const newState = inputReducer(
         state,
         InputActions.setBurdeningTypeOptions({
-          burdeningTypes: mockBurdeningTypes
+          burdeningTypes: mockBurdeningTypes,
         })
       );
       expect(newState.burdeningTypes).toEqual(mockBurdeningTypes);
@@ -80,8 +81,9 @@ describe('inputReducer', () => {
       const mockDisplay = {
         showFKM: true,
         showMurakami: false,
+        showStatistical: false,
         chartType: ChartType.Woehler,
-        bannerOpen: false
+        bannerOpen: false,
       };
 
       const newState = inputReducer(
@@ -95,8 +97,9 @@ describe('inputReducer', () => {
       const mockDisplay = {
         showFKM: true,
         showMurakami: false,
+        showStatistical: false,
         chartType: ChartType.Woehler,
-        bannerOpen: false
+        bannerOpen: false,
       };
 
       let newState = inputReducer(
@@ -112,8 +115,9 @@ describe('inputReducer', () => {
       const mockDisplay = {
         showFKM: false,
         showMurakami: false,
+        showStatistical: false,
         chartType: ChartType.Woehler,
-        bannerOpen: true
+        bannerOpen: true,
       };
 
       const newState = inputReducer(
@@ -132,7 +136,7 @@ describe('inputReducer', () => {
       );
       expect(newState.display).toEqual({
         ...initialState.display,
-        ...mockChartType
+        ...mockChartType,
       });
     });
   });
