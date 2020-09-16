@@ -28,6 +28,8 @@ export class FilterInputComponent implements OnInit, OnChanges {
 
   @Input() autocompleteLoading = false;
 
+  @Input() selectedFilter: string;
+
   @Output() private readonly updateFilter: EventEmitter<
     FilterItem
   > = new EventEmitter();

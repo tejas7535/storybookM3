@@ -1,4 +1,6 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 
 import { select, Store } from '@ngrx/store';
@@ -10,6 +12,10 @@ import { FilterItem, TextSearch } from '../../core/store/models';
 import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import { getAutocompleteLoading, getFilters } from '../../core/store/selectors';
 import { MultiInputComponent } from './multi-input/multi-input.component';
+
+export interface Item {
+  name: string;
+}
 
 @Component({
   selector: 'gq-input-section',
@@ -24,6 +30,20 @@ export class InputSectionComponent implements OnInit {
   filter: FilterItem;
   selectedFilter = 'customer';
   multiQuery: any;
+
+  customers: Item[] = [];
+  regions: Item[] = [];
+  subRegions: Item[] = [];
+  sectorManagements: Item[] = [];
+  mainSectors: Item[] = [];
+  subSectors: Item[] = [];
+  sectorGPSDs: Item[] = [];
+  soldToPartys: Item[] = [];
+  materialNumbers: Item[] = [];
+  quantitys: Item[] = [];
+
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  addOnBlur = true;
 
   constructor(
     private readonly store: Store<SearchState>,
@@ -67,5 +87,35 @@ export class InputSectionComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       this.multiQuery = result;
     });
+  }
+
+  public add(event: MatChipInputEvent, items: Item[]): void {
+    const input = event.input;
+    const value = event.value;
+
+    // Add our item
+    if (value && value.trim()) {
+      items.push({ name: value.trim() });
+    }
+
+    // Reset the input value
+    if (input) {
+      input.value = '';
+    }
+  }
+
+  public remove(item: Item, items: Item[]): void {
+    const index = items.indexOf(item);
+
+    if (index >= 0) {
+      items.splice(index, 1);
+    }
+  }
+
+  /**
+   * Helps Angular to track array
+   */
+  public trackByFn(index: number): number {
+    return index;
   }
 }

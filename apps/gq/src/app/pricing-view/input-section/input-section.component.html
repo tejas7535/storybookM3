@@ -5,15 +5,26 @@
     fxFill
     *ngIf="filters$ | async"
     [filter]="filter"
+    [selectedFilter]="selectedFilter"
     [autocompleteLoading]="autocompleteLoading$ | async"
     (autocomplete)="autocomplete($event)"
     (updateFilter)="updateFilter($event)"
   ></gq-filter-input>
 
   <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Customer Number</mat-label>
+    <mat-label>{{ selectedFilter }}</mat-label>
+    <!--TODO add translation pipe-->
     <mat-select [(value)]="selectedFilter">
+      <mat-option value="quotation">Quotation Number</mat-option>
+      <!--TODO add translation-->
       <mat-option value="customer">Customer Number</mat-option>
+      <!--TODO add translation-->
+      <mat-option value="keyaccount">Key Account Number</mat-option>
+      <!--TODO add translation-->
+      <mat-option value="subkeyaccount">Sub-Key Account Number</mat-option>
+      <!--TODO add translation-->
+      <mat-option value="sector">Country</mat-option>
+      <!--TODO add translation-->
     </mat-select>
   </mat-form-field>
 </div>
@@ -21,37 +32,270 @@
 <h6 class="headline">OPTIONAL INFORMATION</h6>
 
 <div fxLayoutAlign="start start" fxLayout="column">
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Sector GPSD</mat-label>
-    <input matInput />
+  <mat-form-field
+    *ngIf="selectedFilter === 'quotation'"
+    appearance="outline"
+    class="input-field"
+  >
+    <mat-label>Customer Number</mat-label>
+    <!--TODO add translation-->
+    <mat-chip-list #customerChipList>
+      <mat-chip
+        *ngFor="let customer of customers; trackBy: trackByFn"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(customer, customers)"
+      >
+        {{ customer.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        [matChipInputFor]="customerChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event, customers)"
+      />
+    </mat-chip-list>
     <mat-hint>Please enter one or several search terms</mat-hint>
+    <!--TODO add translation-->
   </mat-form-field>
+  <div
+    *ngIf="
+      selectedFilter === 'keyaccount' || selectedFilter === 'subkeyaccount'
+    "
+  >
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Region</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #regionChipList>
+        <mat-chip
+          *ngFor="let region of regions; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(region, regions)"
+        >
+          {{ region.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="regionChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, regions)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sub-Region</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #subRegionChipList>
+        <mat-chip
+          *ngFor="let subRegion of subRegions; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(subRegion, subRegions)"
+        >
+          {{ subRegion.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="subRegionChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, subRegions)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sector Management</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #sectorManagementChipList>
+        <mat-chip
+          *ngFor="let sectorManagement of sectorManagements; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(sectorManagement, sectorManagements)"
+        >
+          {{ sectorManagement.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="sectorManagementChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, sectorManagements)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Main Sector</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #mainSectorChipList>
+        <mat-chip
+          *ngFor="let mainSector of mainSectors; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(mainSector, mainSectors)"
+        >
+          {{ mainSector.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="mainSectorChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, mainSectors)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
 
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Main Sector</mat-label>
-    <input matInput />
-    <mat-hint>Please enter one or several search terms</mat-hint>
-  </mat-form-field>
-
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Subsector</mat-label>
-    <input matInput />
-    <mat-hint>Please enter one or several search terms</mat-hint>
-  </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sub Sector</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #subSectorChipList>
+        <mat-chip
+          *ngFor="let subSector of subSectors; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(subSector, subSectors)"
+        >
+          {{ subSector.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="subSectorChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, subSectors)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+  </div>
+  <div *ngIf="selectedFilter !== 'sector'">
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sub Sector</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #subSectorChipList>
+        <mat-chip
+          *ngFor="let subSector of subSectors; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(subSector, subSectors)"
+        >
+          {{ subSector.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="subSectorChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, subSectors)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sector GPSD</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #sectorGPSDChipList>
+        <mat-chip
+          *ngFor="let sectorGPSD of sectorGPSDs; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(sectorGPSD, sectorGPSDs)"
+        >
+          {{ sectorGPSD.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="sectorGPSDChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, sectorGPSDs)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="input-field">
+      <mat-label>Sold to Party</mat-label>
+      <!--TODO add translation-->
+      <mat-chip-list #soldToPartyChipList>
+        <mat-chip
+          *ngFor="let soldToParty of soldToPartys; trackBy: trackByFn"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="remove(soldToParty, soldToPartys)"
+        >
+          {{ soldToParty.name }}
+          <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+          [matChipInputFor]="soldToPartyChipList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="addOnBlur"
+          (matChipInputTokenEnd)="add($event, soldToPartys)"
+        />
+      </mat-chip-list>
+      <mat-hint>Please enter one or several search terms</mat-hint>
+      <!--TODO add translation-->
+    </mat-form-field>
+  </div>
 </div>
 
 <h6 class="headline">MATERIAL NUMBER AND QUANTITY</h6>
-
 <div fxLayoutAlign="start start" fxLayout="column">
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Material Number</mat-label>
-    <input matInput />
+    <mat-chip-list #materialNumberChipList>
+      <mat-chip
+        *ngFor="let materialNumber of materialNumbers; trackBy: trackByFn"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(materialNumber, materialNumbers)"
+      >
+        {{ materialNumber.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        [matChipInputFor]="materialNumberChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event, materialNumbers)"
+      />
+    </mat-chip-list>
     <mat-hint>Please enter one or several search terms</mat-hint>
   </mat-form-field>
-
   <mat-form-field appearance="outline" class="input-field">
     <mat-label>Quantity</mat-label>
-    <input matInput />
+    <mat-chip-list #quantityChipList>
+      <mat-chip
+        *ngFor="let quantity of quantitys; trackBy: trackByFn"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="remove(quantity, quantitys)"
+      >
+        {{ quantity.name }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        [matChipInputFor]="quantityChipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matChipInputAddOnBlur]="addOnBlur"
+        (matChipInputTokenEnd)="add($event, quantitys)"
+      />
+    </mat-chip-list>
     <mat-hint>Please enter one or several search terms</mat-hint>
   </mat-form-field>
 </div>
