@@ -1,19 +1,21 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { of, Subject } from 'rxjs';
-
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
+
+import { of, Subject } from 'rxjs';
 
 import { autocomplete, updateFilter } from '../../core/store/actions';
 import { FilterItem, IdValue, TextSearch } from '../../core/store/models';
 import { FilterInputModule } from './filter-input/filter-input.module';
-import { InputSectionComponent } from './input-section.component';
+import { InputSectionComponent, Item } from './input-section.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
 
 describe('InputSectionComponent', () => {
@@ -30,6 +32,8 @@ describe('InputSectionComponent', () => {
         MatSelectModule,
         MatInputModule,
         MatDialogModule,
+        MatChipsModule,
+        MatIconModule,
       ],
       declarations: [InputSectionComponent],
       providers: [provideMockStore({})],
@@ -121,6 +125,64 @@ describe('InputSectionComponent', () => {
       observableMock.next(testResult);
 
       expect(component.multiQuery).toEqual(testResult);
+    });
+  });
+
+  describe('add', () => {
+    it('should add a Item', () => {
+      const items: Item[] = [];
+      const testValue = 'test ';
+      const expectedValue = 'test';
+      component.add(
+        ({ value: testValue, input: {} } as unknown) as MatChipInputEvent,
+        items
+      );
+
+      expect(items.length).toEqual(1);
+      expect(items[0].name).toEqual(expectedValue);
+    });
+
+    it('shouldn´t add a empty Item', () => {
+      const items: Item[] = [];
+      const testValue = '';
+      component.add(
+        ({ value: testValue, input: {} } as unknown) as MatChipInputEvent,
+        items
+      );
+
+      expect(items.length).toEqual(0);
+    });
+
+    it('should add no Item', () => {
+      const items: Item[] = [];
+      component.add(({} as unknown) as MatChipInputEvent, items);
+
+      expect(items.length).toEqual(0);
+    });
+  });
+
+  describe('remove', () => {
+    it('should remove a Item', () => {
+      const items: Item[] = [{ name: 'test' }];
+      component.remove(items[0], items);
+
+      expect(items.length).toEqual(0);
+    });
+
+    it('should not remove a Item', () => {
+      const items: Item[] = [{ name: 'test' }];
+      component.remove({ name: 'cake' }, items);
+
+      expect(items.length).toEqual(1);
+      expect(items[0].name).toEqual('test');
+    });
+  });
+
+  describe('trackByFn()', () => {
+    test('should return the loop index to track usersArray', () => {
+      const indexNum = 1337;
+      const retId = component.trackByFn(indexNum);
+      expect(retId).toEqual(indexNum);
     });
   });
 });
