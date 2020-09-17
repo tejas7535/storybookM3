@@ -74,19 +74,19 @@ describe('Data Service', () => {
 
   describe('getEdm', () => {
     test('should call GET for given path', () => {
-      const mockEdm = {
+      const mockEdmDevice = {
         id: 'ich1-bin2-top3',
         startDate: 1599651508,
         endDate: 1599651509,
       };
       const mock = 'mockMeasurements';
 
-      service.getEdm(mockEdm).subscribe((response) => {
+      service.getEdm(mockEdmDevice).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `${BASE_URL}/iot/things/${mockEdm.id}/edm/${mockEdm.startDate}/${mockEdm.endDate}`
+        `${BASE_URL}/iot/things/${mockEdmDevice.id}/edm/${mockEdmDevice.startDate}/${mockEdmDevice.endDate}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -95,15 +95,19 @@ describe('Data Service', () => {
 
   describe('getGreaseStatus', () => {
     test('should call GET for given path', () => {
-      const mockGreaseSensorId = 'du1-bist2-flop3';
+      const mockGreaseDevice = {
+        id: 'du1-bist2-flop3',
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
       const mock = 'mockGreaseStatus';
 
-      service.getGreaseStatus(mockGreaseSensorId).subscribe((response) => {
+      service.getGreaseStatus(mockGreaseDevice).subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        `${BASE_URL}/iot/things/${mockGreaseSensorId}/greasecheck`
+        `${BASE_URL}/iot/things/${mockGreaseDevice.id}/greasecheck/${mockGreaseDevice.startDate}/${mockGreaseDevice.endDate}`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

@@ -4,7 +4,7 @@ import {
   getEdm,
   getEdmFailure,
   getEdmSuccess,
-  setInterval,
+  setEdmInterval,
 } from '../../actions/edm-monitor/edm-monitor.actions';
 import {
   edmMonitorReducer,
@@ -61,13 +61,13 @@ describe('Condition Monitoring Reducer', () => {
     });
   });
 
-  describe('setInterval', () => {
+  describe('setEdmInterval', () => {
     test('should set interval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
       };
-      const action = setInterval({ interval: mockInterval });
+      const action = setEdmInterval({ interval: mockInterval });
 
       const fakeState = {
         ...initialState,

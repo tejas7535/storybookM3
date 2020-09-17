@@ -4,6 +4,7 @@ import {
   getGreaseStatusId,
   getGreaseStatusSuccess,
   setGreaseDisplay,
+  setGreaseInterval,
 } from '..';
 
 describe('GreaseStatus Actions', () => {
@@ -56,6 +57,19 @@ describe('GreaseStatus Actions', () => {
       expect(action).toEqual({
         greaseDisplay,
         type: '[Grease Status] Set Grease Display',
+      });
+    });
+
+    test('setGreaseInterval', () => {
+      const mockInterval = {
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
+      const action = setGreaseInterval({ interval: mockInterval });
+
+      expect(action).toEqual({
+        interval: mockInterval,
+        type: '[Grease Status] Set Interval',
       });
     });
   });

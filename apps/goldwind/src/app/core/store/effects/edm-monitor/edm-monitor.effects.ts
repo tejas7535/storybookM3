@@ -21,11 +21,11 @@ import {
   getEdmFailure,
   getEdmId,
   getEdmSuccess,
-  setInterval,
-} from '../../actions';
+  setEdmInterval,
+} from '../../actions/edm-monitor/edm-monitor.actions';
 import * as fromRouter from '../../reducers';
-import { Interval } from '../../reducers/edm-monitor/models';
-import { getInterval, getSensorId } from '../../selectors';
+import { Interval } from '../../reducers/shared/models';
+import { getEdmInterval, getSensorId } from '../../selectors';
 
 @Injectable()
 export class EdmMonitorEffects {
@@ -57,7 +57,7 @@ export class EdmMonitorEffects {
   interval$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(setInterval.type),
+        ofType(setEdmInterval.type),
         tap(() => this.store.dispatch(getEdmId()))
       ),
     { dispatch: false }
@@ -85,7 +85,7 @@ export class EdmMonitorEffects {
   edm$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getEdm.type),
-      withLatestFrom(this.store.pipe(select(getInterval))),
+      withLatestFrom(this.store.pipe(select(getEdmInterval))),
       map(([action, interval]: [any, Interval]) => ({
         id: action.sensorId,
         ...interval,

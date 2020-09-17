@@ -29,7 +29,9 @@
     ></goldwind-date-range>
     <ng-container *ngrxLet="edmGraphData$ as edmGraphData">
       <p *ngIf="edmGraphData?.series?.data?.length === 0">
-        {{ t('noMeasurements') }}
+        <span *transloco="let t; read: 'bearing'">
+          {{ t('noMeasurements') }}
+        </span>
       </p>
       <div
         echarts

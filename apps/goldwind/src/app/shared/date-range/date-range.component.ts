@@ -10,7 +10,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { debounceTime, filter, map } from 'rxjs/operators';
 
-import { Interval } from '../../core/store/reducers/edm-monitor/models';
+import { Interval } from '../../core/store/reducers/shared/models';
 
 @Component({
   selector: 'goldwind-date-range',

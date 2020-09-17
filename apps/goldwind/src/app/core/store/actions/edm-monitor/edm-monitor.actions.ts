@@ -1,6 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { Edm, Interval } from '../../reducers/edm-monitor/models';
+import { Edm } from '../../reducers/edm-monitor/models';
+import { Interval } from '../../reducers/shared/models';
 
 export const getEdmId = createAction('[EDM Monitor] Load EDM Sensor ID');
 
@@ -14,7 +15,7 @@ export const getEdmSuccess = createAction(
   props<{ measurements: Edm }>()
 );
 
-export const setInterval = createAction(
+export const setEdmInterval = createAction(
   '[EDM Monitor] Set Interval',
   props<{ interval: Interval }>()
 );
@@ -26,7 +27,7 @@ const all = union({
   getEdm,
   getEdmSuccess,
   getEdmFailure,
-  setInterval,
+  setEdmInterval,
 });
 
 export type EdmMonitorActions = typeof all;

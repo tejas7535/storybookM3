@@ -7,8 +7,8 @@ import {
   Edm,
   EdmGraphData,
   EdmMeasurement,
-  Interval,
 } from '../../reducers/edm-monitor/models';
+import { Interval } from '../../reducers/shared/models';
 
 export const getSensorId = createSelector(
   getEdmMonitorState,
@@ -35,7 +35,7 @@ export const getEdmGraphData = createSelector(
     }
 );
 
-export const getInterval = createSelector(
+export const getEdmInterval = createSelector(
   getEdmMonitorState,
   (state: EdmMonitorState): Interval => state.interval
 );

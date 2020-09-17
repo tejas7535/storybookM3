@@ -4,7 +4,7 @@ import {
   getEdm,
   getEdmFailure,
   getEdmSuccess,
-  setInterval,
+  setEdmInterval,
 } from '../../actions/edm-monitor/edm-monitor.actions';
 import { Edm } from './models';
 
@@ -43,7 +43,7 @@ export const edmMonitorReducer = createReducer(
     ...state,
     loading: false,
   })),
-  on(setInterval, (state: EdmMonitorState, { interval }) => ({
+  on(setEdmInterval, (state: EdmMonitorState, { interval }) => ({
     ...state,
     interval,
   }))

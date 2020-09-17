@@ -3,7 +3,7 @@ import {
   getEdmFailure,
   getEdmId,
   getEdmSuccess,
-  setInterval,
+  setEdmInterval,
 } from '..';
 import { Edm } from '../../reducers/edm-monitor/models';
 
@@ -58,12 +58,12 @@ describe('EdmMonitor Actions', () => {
       });
     });
 
-    test('setInterval', () => {
+    test('setEdmInterval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
       };
-      const action = setInterval({ interval: mockInterval });
+      const action = setEdmInterval({ interval: mockInterval });
 
       expect(action).toEqual({
         interval: mockInterval,
