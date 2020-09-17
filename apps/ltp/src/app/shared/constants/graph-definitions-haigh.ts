@@ -47,7 +47,7 @@ export const GRAPH_DEFINITIONS_HAIGH: Series[] = [
     color: '#9c27b0',
     identifier: 'statistical',
     legendDisplay: {
-      name: 'prediction.chart.legendMurakami',
+      name: 'prediction.chart.legendStatistical',
       color: '#9c27b0',
     },
   },
