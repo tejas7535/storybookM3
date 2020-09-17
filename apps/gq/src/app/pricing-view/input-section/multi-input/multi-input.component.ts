@@ -11,6 +11,7 @@ import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
+import { translate } from '@ngneat/transloco';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -37,11 +38,36 @@ export class MultiInputComponent implements OnInit, OnDestroy {
     ClipboardModule,
   ];
   columnDefs = [
-    { headerName: 'Customer Number', field: 'cutomer-number' },
-    { headerName: 'Sector GPSD', field: 'sector-GPSD' },
-    { headerName: 'Sold to Party', field: 'sold-to-Party' },
-    { headerName: 'Material Number', field: 'material-number' },
-    { headerName: 'Quantity', field: 'quantity' },
+    {
+      headerName: translate(
+        'pricingView.inputSection.multiInput.tableHeader.customerNumber'
+      ),
+      field: 'cutomer-number',
+    },
+    {
+      headerName: translate(
+        'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+      ),
+      field: 'sector-GPSD',
+    },
+    {
+      headerName: translate(
+        'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+      ),
+      field: 'sold-to-Party',
+    },
+    {
+      headerName: translate(
+        'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+      ),
+      field: 'material-number',
+    },
+    {
+      headerName: translate(
+        'pricingView.inputSection.multiInput.tableHeader.quantity'
+      ),
+      field: 'quantity',
+    },
   ];
 
   readonly subscription: Subscription = new Subscription();
@@ -65,51 +91,183 @@ export class MultiInputComponent implements OnInit, OnDestroy {
     switch (value) {
       case 'keyaccount':
         this.columnDefs = [
-          { headerName: 'Key Account Number', field: 'key-account-number' },
-          { headerName: 'Region', field: 'region' },
-          { headerName: 'Sub-Region', field: 'sub-region' },
-          { headerName: 'Sector Management', field: 'sector-management' },
-          { headerName: 'Main Sector', field: 'sub-sector' },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.keyAccount'
+            ),
+            field: 'key-account-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.country'
+            ),
+            field: 'region',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.subRegion'
+            ),
+            field: 'sub-region',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sectorManagement'
+            ),
+            field: 'sector-management',
+          },
+          { headerName: 'Main Sector', field: 'main-sector' },
           { headerName: 'Sub Sector', field: 'sub-Sector' },
-          { headerName: 'Sector GPSD', field: 'sector-GPSD' },
-          { headerName: 'Sold to Party', field: 'sold-to-Party' },
-          { headerName: 'Material Number', field: 'material-number' },
-          { headerName: 'Quantity', field: 'quantity' },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+            ),
+            field: 'sector-GPSD',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+            ),
+            field: 'sold-to-Party',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            ),
+            field: 'material-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.quantity'
+            ),
+            field: 'quantity',
+          },
         ];
         break;
       case 'subkeyaccount':
         this.columnDefs = [
           {
-            headerName: 'Sub Key Account Number',
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.subKeyAccount'
+            ),
             field: 'sub-key-account-number',
           },
-          { headerName: 'Region', field: 'region' },
-          { headerName: 'Sub-Region', field: 'sub-region' },
-          { headerName: 'Sector Management', field: 'sector-management' },
-          { headerName: 'Main Sector', field: 'sub-sector' },
-          { headerName: 'Sub Sector', field: 'sub-Sector' },
-          { headerName: 'Sector GPSD', field: 'sector-GPSD' },
-          { headerName: 'Sold to Party', field: 'sold-to-Party' },
-          { headerName: 'Material Number', field: 'material-number' },
-          { headerName: 'Quantity', field: 'quantity' },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.country'
+            ),
+            field: 'region',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.subRegion'
+            ),
+            field: 'sub-region',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sectorManagement'
+            ),
+            field: 'sector-management',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.mainSector'
+            ),
+            field: 'main-sector',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.subSector'
+            ),
+            field: 'sub-Sector',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+            ),
+            field: 'sector-GPSD',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+            ),
+            field: 'sold-to-Party',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            ),
+            field: 'material-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.quantity'
+            ),
+            field: 'quantity',
+          },
         ];
         break;
       case 'sector':
         this.columnDefs = [
-          { headerName: 'Country', field: 'country' },
-          { headerName: '(Sub-) Sector', field: 'sector' },
-          { headerName: 'Material Number', field: 'material-number' },
-          { headerName: 'Quantity', field: 'quantity' },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.country'
+            ),
+            field: 'country',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sector'
+            ),
+            field: 'sector',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            ),
+            field: 'material-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.quantity'
+            ),
+            field: 'quantity',
+          },
         ];
         break;
       case 'customer':
       default:
         this.columnDefs = [
-          { headerName: 'Customer Number', field: 'cutomer-number' },
-          { headerName: 'Sector GPSD', field: 'sector-GPSD' },
-          { headerName: 'Sold to Party', field: 'sold-to-Party' },
-          { headerName: 'Material Number', field: 'material-number' },
-          { headerName: 'Quantity', field: 'quantity' },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.customerNumber'
+            ),
+            field: 'cutomer-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+            ),
+            field: 'sector-GPSD',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+            ),
+            field: 'sold-to-Party',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            ),
+            field: 'material-number',
+          },
+          {
+            headerName: translate(
+              'pricingView.inputSection.multiInput.tableHeader.quantity'
+            ),
+            field: 'quantity',
+          },
         ];
         break;
     }

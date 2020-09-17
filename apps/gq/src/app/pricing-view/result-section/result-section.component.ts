@@ -7,6 +7,7 @@ import { FiltersToolPanelModule } from '@ag-grid-enterprise/filter-tool-panel';
 import { MenuModule } from '@ag-grid-enterprise/menu';
 import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 import { SideBarModule } from '@ag-grid-enterprise/side-bar';
+import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'gq-result-section',
@@ -35,27 +36,37 @@ export class ResultSectionComponent {
 
   columnDefs: any = [
     {
-      headerName: 'General Information',
+      headerName: translate(
+        'pricingView.resultSection.tableHeader.generalInformation'
+      ),
       children: [
         {
-          headerName: 'Nr',
+          headerName: translate('pricingView.resultSection.tableHeader.number'),
           field: 'nr',
           checkboxSelection: true,
         },
         {
-          headerName: 'Quotation Number',
+          headerName: translate(
+            'pricingView.resultSection.tableHeader.quotationNumber'
+          ),
           field: 'qnr',
         },
         {
-          headerName: 'Pos. Nr.',
+          headerName: translate(
+            'pricingView.resultSection.tableHeader.positionNumber'
+          ),
           field: 'posnr',
         },
         {
-          headerName: 'Customer ID',
+          headerName: translate(
+            'pricingView.resultSection.tableHeader.customerID'
+          ),
           field: 'cusid',
         },
         {
-          headerName: 'Customer',
+          headerName: translate(
+            'pricingView.resultSection.tableHeader.customer'
+          ),
           field: 'customer',
         },
       ],

@@ -1,5 +1,10 @@
 <div class="table-container" fxLayout="column">
-  <h3 class="column-header">Results</h3>
+  <h3
+    class="column-header"
+    *transloco="let t; read: 'pricingView.querySection'"
+  >
+    {{ t('title') }}
+  </h3>
   <ag-grid-angular
     class="ag-theme-material"
     [rowData]="rowData"

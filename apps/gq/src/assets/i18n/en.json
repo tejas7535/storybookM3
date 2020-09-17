@@ -1,1 +1,96 @@
-{}
+{
+  "pricingView": {
+    "inputSection": {
+      "materialNumberAndQuantity": "MATERIAL NUMBER AND QUANTITY",
+      "multipleInputButton": "MULTIPLE INPUT",
+      "optionalInformation": "OPTIONAL INFORMATION",
+      "search": "Search",
+      "searchButton": "ADD TO SEARCH QUERY",
+      "dropdown": {
+        "country": "Country",
+        "customerNumber": "Customer Number",
+        "keyAccount": "Key Account Number",
+        "quotation": "Quotation Number",
+        "subKeyAccount": "Sub-Key Account Number"
+      },
+      "filterInput": {
+        "country": "Country",
+        "customerNumber": "Customer Number",
+        "keyAccount": "Key Account Number",
+        "nothingFound": "Nothing found",
+        "quotation": "Quotation Number",
+        "sixDigitNumber": "Enter a six-digit number",
+        "subKeyAccount": "Sub-Key Account Number"
+      },
+      "optionalInput": {
+        "customerNumber": "Customer Number",
+        "customerNumberHint": "Please enter one or several search terms",
+        "country": "Country",
+        "countryNumberHint": "Please enter one or several search terms",
+        "subRegion": "Sub-Region",
+        "subRegionHint": "Please enter one or several search terms",
+        "sectorManagement": "Sector Management",
+        "sectorManagementHint": "Please enter one or several search terms",
+        "sectorGPSD": "Sector GPSD",
+        "sectorGPSDHint": "Please enter one or several search terms",
+        "mainSector": "Main Sector",
+        "mainSectorHint": "Please enter one or several search terms",
+        "subSector": "Sub-Sector",
+        "subSectorHint": "Please enter one or several search terms",
+        "soldToParty": "Sold to Party",
+        "soldToPartyHint": "Please enter one or several search terms"
+      },
+      "materialInput": {
+        "materialNumber": "Material Number",
+        "materialNumberHint": "Please enter one or several search terms",
+        "quantity": "Quantity",
+        "quantityHint": "Please enter one or several search terms"
+      },
+      "multiInput": {
+        "cancel": "CANCEL,",
+        "country": "Country",
+        "customerNumber": "Customer Number",
+        "keyAccount": "Key Account Number",
+        "search": "SEARCH",
+        "subKeyAccount": "Sub-Key Account Number",
+        "tableQueryingTitle": "Table Querying",
+        "tableHeader": {
+          "country": "Country",
+          "customerNumber": "Customer Number",
+          "keyAccount": "Key Account Number",
+          "mainSector": "Main Sector",
+          "materialNumber": "Material Number",
+          "quantity": "Quantity",
+          "sector": "(Sub) Sector",
+          "sectorGPSD": "Sector GPSD",
+          "sectorManagement": "Sector Management",
+          "soldToParty": "Sold to Party",
+          "subKeyAccount": "Sub-Key Account Number",
+          "subRegion": "Sub-Region",
+          "subSector": "Sub-Sector"
+        }
+      }
+    },
+    "querySection": {
+      "title": "Search Query"
+    },
+    "resultSection": {
+      "title": "Results",
+      "tableHeader": {
+        "generalInformation": "General Information",
+        "number": "Nr",
+        "quotationNumber": "Quotation Number",
+        "positionNumber": "Pos. Nr.",
+        "customerID": "Customer ID",
+        "customer": "Customer",
+        "customerInformation": "Customer Information",
+        "customerSegment": "Cust. Segm (A,B,C)",
+        "incoterms": "Incoterms",
+        "paymentTerms": "Payment Terms",
+        "keyaccountID": "Keyaccount ID",
+        "keyaccount": "Keyaccount",
+        "subKeyaccount": "Sub Keyaccount"
+      }
+    }
+  }
+}

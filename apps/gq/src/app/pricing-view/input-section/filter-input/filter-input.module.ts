@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { FilterInputComponent } from './filter-input.component';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
@@ -26,6 +27,7 @@ import { SelectValuePipe } from './pipes/select-value.pipe';
     MatTooltipModule,
     FormsModule,
     ReactiveFormsModule,
+    SharedTranslocoModule,
   ],
   exports: [FilterInputComponent],
 })

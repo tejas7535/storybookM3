@@ -7,6 +7,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MultiInputComponent } from './multi-input.component';
 
@@ -21,6 +22,7 @@ import { MultiInputComponent } from './multi-input.component';
     MatSelectModule,
     ReactiveFormsModule,
     FlexModule,
+    SharedTranslocoModule,
   ],
 })
 export class MultiInputModule {}

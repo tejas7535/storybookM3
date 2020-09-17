@@ -1,6 +1,9 @@
-<mat-form-field appearance="outline" class="input-field">
-  <mat-label>{{ selectedFilter }}</mat-label>
-  <!--TODO add translation pipe-->
+<mat-form-field
+  appearance="outline"
+  class="input-field"
+  *transloco="let t; read: 'pricingView.inputSection.filterInput'"
+>
+  <mat-label>{{ t(selectedFilter) }}</mat-label>
   <mat-select
     [formControl]="form"
     disableOptionCentering
@@ -18,7 +21,7 @@
         [formControl]="searchForm"
         (keydown)="$event.stopPropagation()"
       />
-      <mat-hint>Enter a six-digit number</mat-hint>
+      <mat-hint>{{ t('sixDigitNumber') }}</mat-hint>
       <button
         mat-button
         *ngIf="searchForm.value && !autocompleteLoading"
@@ -68,7 +71,7 @@
             : debounceIsActive
       "
     >
-      !!Nichts Gefunden.
+      {{ t('nothingFound') }}
     </p>
   </mat-select>
 </mat-form-field>

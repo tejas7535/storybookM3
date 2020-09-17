@@ -1,0 +1,96 @@
+{
+  "pricingView": {
+    "inputSection": {
+      "materialNumberAndQuantity": "MATERIALNUMMER UND STÜCKZAHL",
+      "multipleInputButton": "MULTIPLE INPUT",
+      "optionalInformation": "OPTIONALE INFORMATIONEN",
+      "search": "Suche",
+      "searchButton": "ZUR SUCHANFRAGE HINZUFÜGEN",
+      "dropdown": {
+        "country": "Land",
+        "customerNumber": "Kundennummer",
+        "keyAccount": "Key Account Number",
+        "quotation": "Quotation Number",
+        "subKeyAccount": "Sub-Key Account Number"
+      },
+      "filterInput": {
+        "country": "Land",
+        "customerNumber": "Kundennummer",
+        "keyAccount": "Key Account Number",
+        "nothingFound": "Nichts gefunden",
+        "quotation": "Quotation Number",
+        "sixDigitNumber": "Geben Sie eine 6-stellige Zahl ein",
+        "subKeyAccount": "Sub-Key Account Number"
+      },
+      "optionalInput": {
+        "customerNumber": "Kundennummer",
+        "customerNumberHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "country": "Land",
+        "countryHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "subRegion": "Unterregion",
+        "subRegionHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "sectorManagement": "Branchenmanagement",
+        "sectorManagementHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "sectorGPSD": "Brancchen GPSD",
+        "sectorGPSDHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "mainSector": "Hauptbranche",
+        "mainSectorHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "subSector": "Untersector",
+        "subSectorHint": "Geben Sie einen oder mehrere Suchbegriffe ein",
+        "soldToParty": "an Partei verkauft",
+        "soldToPartyHint": "Please enter one or several search terms"
+      },
+      "materialInput": {
+        "materialNumber": "Materialnummer",
+        "materialNumberHint": "Please enter one or several search terms",
+        "quantity": "Stückzahl",
+        "quantityHint": "Please enter one or several search terms"
+      },
+      "multiInput": {
+        "cancel": "ABBRECHEN,",
+        "country": "Land",
+        "customerNumber": "Kundennummer",
+        "keyAccount": "Key Account Number",
+        "search": "SUCHEN",
+        "subKeyAccount": "Sub-Key Account Number",
+        "tableQueryingTitle": "Tabellenabfrage",
+        "tableHeader": {
+          "country": "Land",
+          "customerNumber": "Kundennummer",
+          "keyAccount": "Key Account Number",
+          "mainSector": "Hauptbranche",
+          "materialNumber": "Materialnummer",
+          "quantity": "Stückzahl",
+          "sector": "(Unter) Branche",
+          "sectorGPSD": "Brancchen GPSD",
+          "sectorManagement": "Branchenmanagement",
+          "soldToParty": "an Partei verkauft",
+          "subKeyAccount": "Sub-Key Account Number",
+          "subRegion": "Unterregion",
+          "subSector": "Unterbranche"
+        }
+      }
+    },
+    "querySection": {
+      "title": "Suchanfrage"
+    },
+    "resultSection": {
+      "title": "Ergebnisse",
+      "tableHeader": {
+        "generalInformation": "Allgemeine Information",
+        "number": "Nr",
+        "quotationNumber": "Angebotsnummer",
+        "positionNumber": "Pos. Nr.",
+        "customerID": "Kundennummer",
+        "customer": "Kunde",
+        "customerInformation": "Kundeninformation",
+        "customerSegment": "Kunden Segm. (A,B,C)",
+        "incoterms": "Incoterms",
+        "paymentTerms": "Zahlungsbedingungen",
+        "keyaccountID": "Keyaccount ID",
+        "keyaccount": "Keyaccount",
+        "subKeyaccount": "Sub Keyaccount"
+      }
+    }
+  }
+}

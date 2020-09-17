@@ -1,4 +1,6 @@
-<h3 class="column-header">Search Query</h3>
+<h3 class="column-header" *transloco="let t; read: 'pricingView.querySection'">
+  {{ t('title') }}
+</h3>
 
 <mat-chip-list #chipList aria-label="Fruit selection">
   <mat-chip

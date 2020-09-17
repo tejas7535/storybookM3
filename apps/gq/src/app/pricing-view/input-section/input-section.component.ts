@@ -28,7 +28,7 @@ export class InputSectionComponent implements OnInit {
   autocompleteLoading$: Observable<boolean>;
   filters$: Observable<FilterItem[]>;
   filter: FilterItem;
-  selectedFilter = 'customer';
+  selectedFilter = 'customerNumber';
   multiQuery: any;
 
   customers: Item[] = [];

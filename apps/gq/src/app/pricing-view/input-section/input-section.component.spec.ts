@@ -8,6 +8,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
 import { of, Subject } from 'rxjs';
@@ -18,6 +19,10 @@ import { FilterInputModule } from './filter-input/filter-input.module';
 import { InputSectionComponent, Item } from './input-section.component';
 import { MultiInputComponent } from './multi-input/multi-input.component';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 describe('InputSectionComponent', () => {
   let component: InputSectionComponent;
   let fixture: ComponentFixture<InputSectionComponent>;
@@ -34,6 +39,7 @@ describe('InputSectionComponent', () => {
         MatDialogModule,
         MatChipsModule,
         MatIconModule,
+        provideTranslocoTestingModule({}),
       ],
       declarations: [InputSectionComponent],
       providers: [provideMockStore({})],
@@ -67,7 +73,7 @@ describe('InputSectionComponent', () => {
 
     it('should update customer filter when change contains customer', () => {
       const filter = [
-        new FilterItem('customer', [new IdValue('id', 'val', false)]),
+        new FilterItem('customerNumber', [new IdValue('id', 'val', false)]),
       ];
       component.filter = undefined;
       component.filters$ = of(filter);
