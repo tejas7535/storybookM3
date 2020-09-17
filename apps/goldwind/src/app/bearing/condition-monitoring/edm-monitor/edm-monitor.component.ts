@@ -5,15 +5,18 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { EChartOption } from 'echarts';
 
-import { setInterval } from '../../../core/store/actions/';
+import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import {
   Antenna,
   AntennaName,
   EdmGraphData,
-  Interval,
 } from '../../../core/store/reducers/edm-monitor/models';
-import { getEdmGraphData, getInterval } from '../../../core/store/selectors/';
+import { Interval } from '../../../core/store/reducers/shared/models';
+import {
+  getEdmGraphData,
+  getEdmInterval,
+} from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -58,7 +61,7 @@ export class EdmMonitorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEdmGraphData({ antennaName: AntennaName.Antenna1 });
-    this.interval$ = this.store.pipe(select(getInterval));
+    this.interval$ = this.store.pipe(select(getEdmInterval));
   }
 
   getEdmGraphData(antenna: Antenna): void {
@@ -66,7 +69,7 @@ export class EdmMonitorComponent implements OnInit {
   }
 
   setInterval(interval: Interval): void {
-    this.store.dispatch(setInterval({ interval }));
+    this.store.dispatch(setEdmInterval({ interval }));
   }
 
   toggleAntenna(): void {

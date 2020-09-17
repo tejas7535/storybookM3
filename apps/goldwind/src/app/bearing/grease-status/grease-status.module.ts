@@ -4,15 +4,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { GreaseStatusEffects } from '../../core/store/effects/grease-status/grease-status.effects';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
+import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { SharedModule } from '../../shared/shared.module';
 import { GreaseStatusRoutingModule } from './grease-status-routing.module';
 import { GreaseStatusComponent } from './grease-status.component';
@@ -24,13 +25,14 @@ import { GreaseStatusComponent } from './grease-status.component';
     GreaseStatusRoutingModule,
     ReactiveFormsModule,
     SharedModule,
+    DateRangeModule,
+    NgxEchartsModule.forRoot({
+      echarts: () => import('echarts'),
+    }),
 
     // UI Modules
     MatCardModule,
     MatCheckboxModule,
-
-    // ag-Grid
-    AgGridModule.withComponents([]),
 
     // Translation
     SharedTranslocoModule,

@@ -5,6 +5,7 @@ import {
   getGreaseStatusFailure,
   getGreaseStatusSuccess,
   setGreaseDisplay,
+  setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
 import { GreaseDisplay, GreaseStatus } from './models';
 
@@ -12,6 +13,10 @@ export interface GreaseStatusState {
   loading: boolean;
   result: GreaseStatus;
   display: GreaseDisplay;
+  interval: {
+    startDate: number;
+    endDate: number;
+  };
 }
 
 export const initialState: GreaseStatusState = {
@@ -21,7 +26,13 @@ export const initialState: GreaseStatusState = {
     deteriorationPercent: true,
     temperatureCelsius: true,
     waterContentPercent: true,
-    rotationalSpeed: true,
+    rotationalSpeed: false,
+  },
+  interval: {
+    startDate: Math.floor(
+      +new Date().setFullYear(new Date().getFullYear() - 1) / 1000
+    ),
+    endDate: Math.floor(+new Date() / 1000),
   },
 };
 
@@ -43,6 +54,10 @@ export const greaseStatusReducer = createReducer(
   on(setGreaseDisplay, (state: GreaseStatusState, { greaseDisplay }) => ({
     ...state,
     display: greaseDisplay,
+  })),
+  on(setGreaseInterval, (state: GreaseStatusState, { interval }) => ({
+    ...state,
+    interval,
   }))
 );
 

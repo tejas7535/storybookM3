@@ -13,8 +13,12 @@ import {
   getGreaseStatus,
   getGreaseStatusId,
   getGreaseStatusSuccess,
+  setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
-import { getGreaseSensorId } from '../../selectors/grease-status/grease-status.selector';
+import {
+  getGreaseInterval,
+  getGreaseSensorId,
+} from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
 describe('Search Effects', () => {
@@ -52,6 +56,10 @@ describe('Search Effects', () => {
     dataService = TestBed.inject(DataService);
 
     store.overrideSelector(getGreaseSensorId, mockGreaseSensorId);
+    store.overrideSelector(getGreaseInterval, {
+      startDate: 1599651508,
+      endDate: 1599651509,
+    });
   });
 
   describe('router$', () => {
@@ -75,6 +83,30 @@ describe('Search Effects', () => {
 
       expect(effects.router$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(getGreaseStatusId());
+    });
+  });
+
+  describe('setGreaseInterval$', () => {
+    test('should not return an action', () => {
+      expect(metadata.interval$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
+    test('should dispatch getGreaseStatusId', () => {
+      const mockInterval = {
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
+
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', {
+        a: setGreaseInterval({ interval: mockInterval }),
+      });
+
+      expect(effects.interval$).toBeObservable(actions$);
+      expect(store.dispatch).toHaveBeenCalledWith(getGreaseStatusId()); // will also be moved
     });
   });
 
@@ -136,9 +168,11 @@ describe('Search Effects', () => {
 
       expect(effects.greaseStatus$).toBeObservable(expected);
       expect(dataService.getGreaseStatus).toHaveBeenCalledTimes(1);
-      expect(dataService.getGreaseStatus).toHaveBeenCalledWith(
-        mockGreaseSensorId
-      );
+      expect(dataService.getGreaseStatus).toHaveBeenCalledWith({
+        id: mockGreaseSensorId,
+        startDate: 1599651508,
+        endDate: 1599651509,
+      });
     });
   });
 });

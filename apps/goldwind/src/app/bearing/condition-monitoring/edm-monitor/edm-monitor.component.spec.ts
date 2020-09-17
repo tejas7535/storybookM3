@@ -10,7 +10,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { setInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
+import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
 import { EdmMonitorComponent } from './edm-monitor.component';
@@ -18,7 +18,7 @@ import { EdmMonitorComponent } from './edm-monitor.component';
 describe('EdmMonitorComponent', () => {
   let component: EdmMonitorComponent;
   let fixture: ComponentFixture<EdmMonitorComponent>;
-  let store: MockStore;
+  let mockStore: MockStore;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -54,7 +54,7 @@ describe('EdmMonitorComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(EdmMonitorComponent);
     component = fixture.componentInstance;
-    store = TestBed.inject(MockStore);
+    mockStore = TestBed.inject(MockStore);
     fixture.detectChanges();
   });
 
@@ -78,9 +78,9 @@ describe('EdmMonitorComponent', () => {
     });
   });
 
-  describe('setInterval', () => {
-    test('should dispatch the setInterval action', () => {
-      store.dispatch = jest.fn();
+  describe('setEdmInterval', () => {
+    test('should dispatch the setEdmInterval action', () => {
+      mockStore.dispatch = jest.fn();
 
       const mockInterval = {
         startDate: 1599651508,
@@ -89,8 +89,8 @@ describe('EdmMonitorComponent', () => {
 
       component.setInterval(mockInterval);
 
-      expect(store.dispatch).toHaveBeenCalledWith(
-        setInterval({ interval: mockInterval })
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        setEdmInterval({ interval: mockInterval })
       );
     });
   });

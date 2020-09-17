@@ -5,6 +5,7 @@ import {
   getGreaseStatusFailure,
   getGreaseStatusSuccess,
   setGreaseDisplay,
+  setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
 import {
   greaseStatusReducer,
@@ -82,6 +83,25 @@ describe('Grease Status Reducer', () => {
       const state = greaseStatusReducer(fakeState, action);
 
       expect(state.display).toEqual(mockGreaseDisplay);
+    });
+  });
+
+  describe('setEdmInterval', () => {
+    test('should set interval', () => {
+      const mockInterval = {
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
+      const action = setGreaseInterval({ interval: mockInterval });
+
+      const fakeState = {
+        ...initialState,
+        interval: mockInterval,
+      };
+
+      const state = greaseStatusReducer(fakeState, action);
+
+      expect(state.loading).toBeFalsy();
     });
   });
 

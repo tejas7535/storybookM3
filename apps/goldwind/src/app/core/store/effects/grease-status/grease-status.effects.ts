@@ -21,9 +21,11 @@ import {
   getGreaseStatusFailure,
   getGreaseStatusId,
   getGreaseStatusSuccess,
-} from '../../actions';
+  setGreaseInterval,
+} from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
-import { getGreaseSensorId } from '../../selectors';
+import { Interval } from '../../reducers/shared/models';
+import { getGreaseInterval, getGreaseSensorId } from '../../selectors';
 
 @Injectable()
 export class GreaseStatusEffects {
@@ -43,6 +45,18 @@ export class GreaseStatusEffects {
             (currentRoute === BearingRoutePath.GreaseStatusPath ||
               currentRoute === BearingRoutePath.ConditionMonitoringPath)
         ),
+        tap(() => this.store.dispatch(getGreaseStatusId()))
+      ),
+    { dispatch: false }
+  );
+
+  /**
+   * Set Interval
+   */
+  interval$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(setGreaseInterval.type),
         tap(() => this.store.dispatch(getGreaseStatusId()))
       ),
     { dispatch: false }
@@ -70,9 +84,13 @@ export class GreaseStatusEffects {
   greaseStatus$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getGreaseStatus.type),
-      map((action: any) => action.greaseStatusId),
-      mergeMap((greaseStatusId) =>
-        this.dataService.getGreaseStatus(greaseStatusId).pipe(
+      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.greaseStatusId,
+        ...interval,
+      })),
+      mergeMap((edmParams) =>
+        this.dataService.getGreaseStatus(edmParams).pipe(
           map((greaseStatus) => getGreaseStatusSuccess({ greaseStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
         )

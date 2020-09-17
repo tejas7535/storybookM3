@@ -4,6 +4,7 @@ import {
   GreaseDisplay,
   GreaseStatus,
 } from '../../reducers/grease-status/models';
+import { Interval } from '../../reducers/shared/models';
 
 export const getGreaseStatusId = createAction(
   '[Grease Status] Load Grease Sensor ID'
@@ -28,12 +29,18 @@ export const setGreaseDisplay = createAction(
   props<{ greaseDisplay: GreaseDisplay }>()
 );
 
+export const setGreaseInterval = createAction(
+  '[Grease Status] Set Interval',
+  props<{ interval: Interval }>()
+);
+
 const all = union({
   getGreaseStatusId,
   getGreaseStatus,
   getGreaseStatusSuccess,
   getGreaseStatusFailure,
   setGreaseDisplay,
+  setGreaseInterval,
 });
 
 export type GreaseStatusActions = typeof all;

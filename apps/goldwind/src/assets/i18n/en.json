@@ -11,7 +11,8 @@
     "dataView": "Data View",
     "live": "Live",
     "offline": "Offline",
-    "mainBearing": "Main Bearing"
+    "mainBearing": "Main Bearing",
+    "noMeasurements": "There are no measurements for the selected daterange"
   },
   "conditionMonitoring": {
     "conditionMeasuringEquipment": {
@@ -27,8 +28,7 @@
     },
     "edmMonitor": {
       "title": "EDM Monitor",
-      "antenna": "Antenna",
-      "noMeasurements": "There are no measurements for the selected daterange"
+      "antenna": "Antenna"
     },
     "centerLoad": {
       "title": "Bearing center load and temperature",

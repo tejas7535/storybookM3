@@ -6,6 +6,20 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
+    <goldwind-date-range
+      fxLayout="column"
+      fxLayoutAlign="space-between start"
+      [interval]="interval$ | ngrxPush"
+      (rangeChange)="setInterval($event)"
+    ></goldwind-date-range>
+    <ng-container *ngrxLet="greaseStatusGraphData$ as greaseStatusGraphData">
+      <p *ngIf="emptyGreaseStatusGraphData(greaseStatusGraphData)">
+        <span *transloco="let t; read: 'bearing'">
+          {{ t('noMeasurements') }}
+        </span>
+      </p>
+    </ng-container>
+
     <div
       fxLayout="column"
       fxLayout.gt-sm="row"
@@ -25,12 +39,14 @@
           </li>
         </ul>
       </div>
-      <ag-grid-angular
-        class="ag-theme-material"
-        [modules]="modules"
-        [rowData]="greaseStatus$ | ngrxPush"
-        [columnDefs]="columnDefs"
-      ></ag-grid-angular>
+
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="greaseStatusGraphData$ | ngrxPush"
+        class="grease-chart"
+      ></div>
     </div>
   </mat-card-content>
 </mat-card>

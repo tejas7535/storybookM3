@@ -9,7 +9,7 @@ import { Edm } from '../store/reducers/edm-monitor/models';
 import { GreaseStatus } from '../store/reducers/grease-status/models';
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
-interface EdmParams {
+interface IotParams {
   id: string;
   startDate: number;
   endDate: number;
@@ -37,12 +37,16 @@ export class DataService {
     return this.getIot(`${id}/metadata`);
   }
 
-  public getEdm({ id, startDate, endDate }: EdmParams): Observable<Edm> {
+  public getEdm({ id, startDate, endDate }: IotParams): Observable<Edm> {
     return this.getIot(`${id}/edm/${startDate}/${endDate}`);
   }
 
-  public getGreaseStatus(id: string): Observable<GreaseStatus> {
-    return this.getIot(`${id}/greasecheck`);
+  public getGreaseStatus({
+    id,
+    startDate,
+    endDate,
+  }: IotParams): Observable<GreaseStatus> {
+    return this.getIot(`${id}/greasecheck/${startDate}/${endDate}`);
   }
 
   public getDevices(): Observable<Devices> {

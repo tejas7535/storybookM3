@@ -11,9 +11,14 @@ import { configureTestSuite } from 'ng-bullet';
 import { getAccessToken } from '@schaeffler/auth';
 
 import { DataService } from '../../../http/data.service';
-import { getEdm, getEdmId, getEdmSuccess, setInterval } from '../../actions';
 import {
-  getInterval,
+  getEdm,
+  getEdmId,
+  getEdmSuccess,
+  setEdmInterval,
+} from '../../actions/edm-monitor/edm-monitor.actions';
+import {
+  getEdmInterval,
   getSensorId,
 } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
@@ -53,7 +58,7 @@ describe('Search Effects', () => {
     dataService = TestBed.inject(DataService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
-    store.overrideSelector(getInterval, {
+    store.overrideSelector(getEdmInterval, {
       startDate: 1599651508,
       endDate: 1599651509,
     });
@@ -84,7 +89,7 @@ describe('Search Effects', () => {
     });
   });
 
-  describe('setInterval$', () => {
+  describe('setEdmInterval$', () => {
     test('should not return an action', () => {
       expect(metadata.interval$).toEqual({
         dispatch: false,
@@ -99,7 +104,7 @@ describe('Search Effects', () => {
       };
 
       store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: setInterval({ interval: mockInterval }) });
+      actions$ = hot('-a', { a: setEdmInterval({ interval: mockInterval }) });
 
       expect(effects.interval$).toBeObservable(actions$);
       expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved

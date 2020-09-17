@@ -2,8 +2,8 @@ import { initialState } from '../../reducers/edm-monitor/edm-monitor.reducer';
 import { AntennaName } from '../../reducers/edm-monitor/models';
 import {
   getEdmGraphData,
+  getEdmInterval,
   getEdmResult,
-  getInterval,
   getSensorId,
 } from './edm-monitor.selector';
 
@@ -57,9 +57,9 @@ describe('EdmMonitor Selector', () => {
     });
   });
 
-  describe('getInterval', () => {
+  describe('getEdmInterval', () => {
     test('should return a time interval with two timestamps', () => {
-      expect(getInterval(fakeState)).toEqual(fakeState.edmMonitor.interval);
+      expect(getEdmInterval(fakeState)).toEqual(fakeState.edmMonitor.interval);
     });
   });
 });
