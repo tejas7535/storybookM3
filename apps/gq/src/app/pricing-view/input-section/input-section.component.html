@@ -1,4 +1,6 @@
-<h3 class="column-header">Search</h3>
+<h3 class="column-header" *transloco="let t; read: 'pricingView.inputSection'">
+  {{ t('search') }}
+</h3>
 
 <div fxLayoutAlign="start start" fxLayout="column">
   <gq-filter-input
@@ -11,34 +13,37 @@
     (updateFilter)="updateFilter($event)"
   ></gq-filter-input>
 
-  <mat-form-field appearance="outline" class="input-field">
-    <mat-label>{{ selectedFilter }}</mat-label>
-    <!--TODO add translation pipe-->
+  <mat-form-field
+    appearance="outline"
+    class="input-field"
+    *transloco="let t; read: 'pricingView.inputSection.dropdown'"
+  >
+    <mat-label>{{ t(selectedFilter) }}</mat-label>
     <mat-select [(value)]="selectedFilter">
-      <mat-option value="quotation">Quotation Number</mat-option>
-      <!--TODO add translation-->
-      <mat-option value="customer">Customer Number</mat-option>
-      <!--TODO add translation-->
-      <mat-option value="keyaccount">Key Account Number</mat-option>
-      <!--TODO add translation-->
-      <mat-option value="subkeyaccount">Sub-Key Account Number</mat-option>
-      <!--TODO add translation-->
-      <mat-option value="sector">Country</mat-option>
-      <!--TODO add translation-->
+      <mat-option value="quotation">{{ t('quotation') }}</mat-option>
+      <mat-option value="customerNumber">{{ t('customerNumber') }}</mat-option>
+      <mat-option value="keyAccount">{{ t('keyAccount') }}</mat-option>
+      <mat-option value="subKeyAccount">{{ t('subKeyAccount') }}</mat-option>
+      <mat-option value="country">{{ t('country') }}</mat-option>
     </mat-select>
   </mat-form-field>
 </div>
 
-<h6 class="headline">OPTIONAL INFORMATION</h6>
+<h6 class="headline" *transloco="let t; read: 'pricingView.inputSection'">
+  {{ t('optionalInformation') }}
+</h6>
 
-<div fxLayoutAlign="start start" fxLayout="column">
+<div
+  fxLayoutAlign="start start"
+  fxLayout="column"
+  *transloco="let t; read: 'pricingView.inputSection.optionalInput'"
+>
   <mat-form-field
     *ngIf="selectedFilter === 'quotation'"
     appearance="outline"
     class="input-field"
   >
-    <mat-label>Customer Number</mat-label>
-    <!--TODO add translation-->
+    <mat-label>{{ t('customerNumber') }}</mat-label>
     <mat-chip-list #customerChipList>
       <mat-chip
         *ngFor="let customer of customers; trackBy: trackByFn"
@@ -56,17 +61,15 @@
         (matChipInputTokenEnd)="add($event, customers)"
       />
     </mat-chip-list>
-    <mat-hint>Please enter one or several search terms</mat-hint>
-    <!--TODO add translation-->
+    <mat-hint>{{ t('customerNumberHint') }}</mat-hint>
   </mat-form-field>
   <div
     *ngIf="
-      selectedFilter === 'keyaccount' || selectedFilter === 'subkeyaccount'
+      selectedFilter === 'keyAccount' || selectedFilter === 'subKeyAccount'
     "
   >
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Region</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('country') }}</mat-label>
       <mat-chip-list #regionChipList>
         <mat-chip
           *ngFor="let region of regions; trackBy: trackByFn"
@@ -84,12 +87,10 @@
           (matChipInputTokenEnd)="add($event, regions)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('countryNumberHint') }}</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sub-Region</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('subRegion') }}</mat-label>
       <mat-chip-list #subRegionChipList>
         <mat-chip
           *ngFor="let subRegion of subRegions; trackBy: trackByFn"
@@ -107,12 +108,10 @@
           (matChipInputTokenEnd)="add($event, subRegions)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('subRegionHint') }}</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sector Management</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('sectorManagement') }}</mat-label>
       <mat-chip-list #sectorManagementChipList>
         <mat-chip
           *ngFor="let sectorManagement of sectorManagements; trackBy: trackByFn"
@@ -130,12 +129,10 @@
           (matChipInputTokenEnd)="add($event, sectorManagements)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('sectorManagementHint') }}</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Main Sector</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('mainSector') }}</mat-label>
       <mat-chip-list #mainSectorChipList>
         <mat-chip
           *ngFor="let mainSector of mainSectors; trackBy: trackByFn"
@@ -153,13 +150,11 @@
           (matChipInputTokenEnd)="add($event, mainSectors)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('mainSectorHint') }}</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sub Sector</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('subSector') }}</mat-label>
       <mat-chip-list #subSectorChipList>
         <mat-chip
           *ngFor="let subSector of subSectors; trackBy: trackByFn"
@@ -177,14 +172,12 @@
           (matChipInputTokenEnd)="add($event, subSectors)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('subSectorHint') }}</mat-hint>
     </mat-form-field>
   </div>
-  <div *ngIf="selectedFilter !== 'sector'">
+  <div *ngIf="selectedFilter !== 'country'">
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sub Sector</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('subSector') }}</mat-label>
       <mat-chip-list #subSectorChipList>
         <mat-chip
           *ngFor="let subSector of subSectors; trackBy: trackByFn"
@@ -202,12 +195,10 @@
           (matChipInputTokenEnd)="add($event, subSectors)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('subSectorHint') }}</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sector GPSD</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('sectorGPSD') }}</mat-label>
       <mat-chip-list #sectorGPSDChipList>
         <mat-chip
           *ngFor="let sectorGPSD of sectorGPSDs; trackBy: trackByFn"
@@ -225,12 +216,10 @@
           (matChipInputTokenEnd)="add($event, sectorGPSDs)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('sectorGPSDHint') }}</mat-hint>
     </mat-form-field>
     <mat-form-field appearance="outline" class="input-field">
-      <mat-label>Sold to Party</mat-label>
-      <!--TODO add translation-->
+      <mat-label>{{ t('soldToParty') }}</mat-label>
       <mat-chip-list #soldToPartyChipList>
         <mat-chip
           *ngFor="let soldToParty of soldToPartys; trackBy: trackByFn"
@@ -248,16 +237,21 @@
           (matChipInputTokenEnd)="add($event, soldToPartys)"
         />
       </mat-chip-list>
-      <mat-hint>Please enter one or several search terms</mat-hint>
-      <!--TODO add translation-->
+      <mat-hint>{{ t('soldToPartyHint') }}</mat-hint>
     </mat-form-field>
   </div>
 </div>
 
-<h6 class="headline">MATERIAL NUMBER AND QUANTITY</h6>
-<div fxLayoutAlign="start start" fxLayout="column">
+<h6 class="headline" *transloco="let t; read: 'pricingView.inputSection'">
+  {{ t('materialNumberAndQuantity') }}
+</h6>
+<div
+  fxLayoutAlign="start start"
+  fxLayout="column"
+  *transloco="let t; read: 'pricingView.inputSection.materialInput'"
+>
   <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Material Number</mat-label>
+    <mat-label>{{ t('materialNumber') }}</mat-label>
     <mat-chip-list #materialNumberChipList>
       <mat-chip
         *ngFor="let materialNumber of materialNumbers; trackBy: trackByFn"
@@ -275,10 +269,10 @@
         (matChipInputTokenEnd)="add($event, materialNumbers)"
       />
     </mat-chip-list>
-    <mat-hint>Please enter one or several search terms</mat-hint>
+    <mat-hint>{{ t('materialNumberHint') }}</mat-hint>
   </mat-form-field>
   <mat-form-field appearance="outline" class="input-field">
-    <mat-label>Quantity</mat-label>
+    <mat-label>{{ t('quantity') }}</mat-label>
     <mat-chip-list #quantityChipList>
       <mat-chip
         *ngFor="let quantity of quantitys; trackBy: trackByFn"
@@ -296,13 +290,22 @@
         (matChipInputTokenEnd)="add($event, quantitys)"
       />
     </mat-chip-list>
-    <mat-hint>Please enter one or several search terms</mat-hint>
+    <mat-hint>{{ t('quantityHint') }}</mat-hint>
   </mat-form-field>
 </div>
-
 <br />
-
-<button class="search-button" mat-stroked-button>SEARCH</button>
-<button class="multiple-input-button" mat-stroked-button (click)="openDialog()">
-  MULTIPLE INPUT
+<button
+  class="search-button"
+  mat-stroked-button
+  *transloco="let t; read: 'pricingView.inputSection'"
+>
+  {{ t('searchButton') }}
+</button>
+<button
+  class="multiple-input-button"
+  mat-stroked-button
+  (click)="openDialog()"
+  *transloco="let t; read: 'pricingView.inputSection'"
+>
+  {{ t('multipleInputButton') }}
 </button>

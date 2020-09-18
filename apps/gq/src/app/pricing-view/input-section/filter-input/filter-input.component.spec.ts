@@ -8,6 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as rxjs from 'rxjs';
 
@@ -18,6 +19,11 @@ import { AutocompleteService } from '../services/autocomplete.service';
 import { FilterInputComponent } from './filter-input.component';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 import { SelectValuePipe } from './pipes/select-value.pipe';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('FilterInputComponent', () => {
   let component: FilterInputComponent;
@@ -36,6 +42,7 @@ describe('FilterInputComponent', () => {
         MatTooltipModule,
         FormsModule,
         ReactiveFormsModule,
+        provideTranslocoTestingModule({}),
       ],
       declarations: [FilterInputComponent, NoResultsFoundPipe, SelectValuePipe],
       providers: [

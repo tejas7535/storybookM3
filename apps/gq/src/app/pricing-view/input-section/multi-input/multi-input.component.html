@@ -1,12 +1,21 @@
-<h3 mat-dialog-title>Table Querying</h3>
-<div mat-dialog-content fxLayout="column">
+<h3
+  mat-dialog-title
+  *transloco="let t; read: 'pricingView.inputSection.multiInput'"
+>
+  {{ t('tableQueryingTitle') }}
+</h3>
+<div
+  mat-dialog-content
+  fxLayout="column"
+  *transloco="let t; read: 'pricingView.inputSection.multiInput'"
+>
   <div>
     <mat-form-field appearance="outline" class="input-field">
       <mat-select [formControl]="form">
-        <mat-option value="customer">Customer Number</mat-option>
-        <mat-option value="keyaccount">Key Account Number</mat-option>
-        <mat-option value="subkeyaccount">Sub-Key Account Number</mat-option>
-        <mat-option value="sector">Country</mat-option>
+        <mat-option value="customer">{{ t('customerNumber') }}</mat-option>
+        <mat-option value="keyaccount">{{ t('keyAccount') }}</mat-option>
+        <mat-option value="subkeyaccount">{{ t('subKeyAccount') }}</mat-option>
+        <mat-option value="sector">{{ t('country') }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -25,14 +34,16 @@
     </ag-grid-angular>
   </div>
 </div>
-<div mat-dialog-actions>
+<div mat-dialog-actions *transloco="let t; read: 'pricingView.multiInput'">
   <button
     [mat-dialog-close]="rowData"
     cdkFocusInitial
     color="primary"
     mat-flat-button
   >
-    Search
+    {{ t('search') }}
   </button>
-  <button (click)="onNoClick()" mat-button>Cancel</button>
+  <button (click)="onNoClick()" mat-button>
+    {{ t('cancel') }}
+  </button>
 </div>
