@@ -8,20 +8,37 @@
   <div id="edm-monitoring" class="grid-element">
     <goldwind-edm-monitor></goldwind-edm-monitor>
   </div>
-  <div id="center-load" class="grid-element">
-    <goldwind-center-load
-      [currentMessage]="currentMessage$ | ngrxPush"
-      [socketStatus]="socketStatus$ | ngrxPush"
-    ></goldwind-center-load>
-  </div>
   <div id="grease-status" class="grid-element">
     <goldwind-grease-monitor
       *ngIf="greaseStatus$ | ngrxPush as greaseStatus; else loading_card"
       [greaseStatus]="greaseStatus"
     ></goldwind-grease-monitor>
   </div>
+  <div id="center-load" class="grid-element">
+    <goldwind-center-load
+      [currentMessage]="currentMessage$ | ngrxPush"
+      [socketStatus]="socketStatus$ | ngrxPush"
+    ></goldwind-center-load>
+  </div>
+  <div id="rotor-speed" class="grid-element">
+    <ng-container *ngTemplateOutlet="construction_card"></ng-container>
+  </div>
+  <div id="power-output" class="grid-element">
+    <ng-container *ngTemplateOutlet="construction_card"></ng-container>
+  </div>
+  <div id="safety-factor" class="grid-element">
+    <ng-container *ngTemplateOutlet="construction_card"></ng-container>
+  </div>
 </div>
 
 <ng-template #loading_card>
-  <mat-card class="full-height-card">Loading...</mat-card>
+  <mat-card class="full-height-card">
+    <goldwind-loading-spinner></goldwind-loading-spinner>
+  </mat-card>
+</ng-template>
+
+<ng-template #construction_card>
+  <mat-card class="full-height-card">
+    <schaeffler-under-construction></schaeffler-under-construction>
+  </mat-card>
 </ng-template>

@@ -1,4 +1,4 @@
-<div fxLayout="column" class="container">
+<div fxLayout="column" class="container" *transloco="let t; read: 'bearing'">
   <div fxLayout="row" fxLayoutAlign="start center" id="bearing-page-header">
     <mat-icon
       fontSet="schaeffler-icons"
@@ -6,11 +6,14 @@
       color="secondary"
       routerLink="/overview"
     ></mat-icon>
-    <h1 *ngIf="bearing$ | ngrxPush as bearing">
+    <h1 *ngIf="bearing$ | ngrxPush as bearing; else bearing_loading">
       {{ bearing.model }}
     </h1>
+    <ng-template #bearing_loading>
+      <h1>{{ t('bearingLoading') }}</h1>
+    </ng-template>
   </div>
-  <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'bearing'">
+  <nav mat-tab-nav-bar mat-stretch-tabs>
     <a
       mat-tab-link
       *ngFor="let tabLink of tabLinks; trackBy: trackByFn"

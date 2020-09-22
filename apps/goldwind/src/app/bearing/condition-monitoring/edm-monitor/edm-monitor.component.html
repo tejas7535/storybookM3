@@ -1,4 +1,9 @@
-<mat-card *transloco="let t; read: 'conditionMonitoring.edmMonitor'">
+<mat-card
+  *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
+  class="full-height-card"
+  fxFill
+  fxLayout="column"
+>
   <div fxLayout="row" fxLayoutAlign="space-between start">
     <mat-card-header>
       <mat-card-title>{{ t('title') }}</mat-card-title>
@@ -20,25 +25,25 @@
       </mat-slide-toggle>
     </div>
   </div>
-  <mat-card-content>
+  <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="space-between end">
     <goldwind-date-range
-      fxLayout="column"
-      fxLayoutAlign="space-between end"
       [interval]="interval$ | ngrxPush"
       (rangeChange)="setInterval($event)"
     ></goldwind-date-range>
-    <ng-container *ngrxLet="edmGraphData$ as edmGraphData">
+
+    <div *ngrxLet="edmGraphData$ as edmGraphData">
       <p *ngIf="edmGraphData?.series?.data?.length === 0">
         <span *transloco="let t; read: 'bearing'">
           {{ t('noMeasurements') }}
         </span>
       </p>
-      <div
-        echarts
-        [options]="options"
-        [merge]="edmGraphData"
-        class="edm-chart"
-      ></div>
-    </ng-container>
+    </div>
+    <div
+      fxFlex
+      echarts
+      [options]="chartOptions"
+      [merge]="edmGraphData$ | ngrxPush"
+      class="edm-chart"
+    ></div>
   </mat-card-content>
 </mat-card>

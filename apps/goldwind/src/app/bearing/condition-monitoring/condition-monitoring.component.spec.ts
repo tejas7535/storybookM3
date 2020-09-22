@@ -8,8 +8,10 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -24,6 +26,8 @@ describe('ConditionMonitoringComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
+        UnderConstructionModule,
+        LoadingSpinnerModule,
         EdmMonitorModule,
         MatCardModule,
         provideTranslocoTestingModule({}),
