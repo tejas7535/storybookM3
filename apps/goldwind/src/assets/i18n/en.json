@@ -12,7 +12,8 @@
     "live": "Live",
     "offline": "Offline",
     "mainBearing": "Main Bearing",
-    "noMeasurements": "There are no measurements for the selected daterange"
+    "noMeasurements": "There are no measurements for the selected daterange",
+    "bearingLoading": "Bearing loading..."
   },
   "conditionMonitoring": {
     "conditionMeasuringEquipment": {

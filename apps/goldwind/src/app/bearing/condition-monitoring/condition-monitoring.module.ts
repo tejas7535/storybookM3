@@ -8,6 +8,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -18,6 +19,7 @@ import {
 import { conditionMonitoringReducer } from '../../core/store/reducers/condition-monitoring/condition-monitoring.reducer';
 import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
@@ -36,6 +38,8 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
   imports: [
     CommonModule,
     ConditionMonitoringRoutingModule,
+    UnderConstructionModule,
+    LoadingSpinnerModule,
     EdmMonitorModule,
     SharedModule,
     NgxEchartsModule.forRoot({

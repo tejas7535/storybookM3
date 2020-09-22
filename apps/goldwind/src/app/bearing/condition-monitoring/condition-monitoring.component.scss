@@ -30,9 +30,17 @@
     grid-area: 2 / 6 / 3 / 9;
   }
 
-  // #rotor-speed { grid-area: 1 / 4 / 2 / 6; }
-  // #safety-factor { grid-area: 2 / 4 / 3 / 6; }
-  // #power-output { grid-area: 1 / 6 / 2 / 8; }
+  #rotor-speed {
+    grid-area: 1 / 4 / 2 / 6;
+  }
+
+  #safety-factor {
+    grid-area: 2 / 4 / 3 / 6;
+  }
+
+  #power-output {
+    grid-area: 1 / 6 / 2 / 8;
+  }
 }
 
 @media only screen and (max-width: $screen-sm-max) {

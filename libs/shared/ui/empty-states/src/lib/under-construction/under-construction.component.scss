@@ -4,7 +4,10 @@
 
 .page-under-construction {
   background: url('./png/under-construction.png') no-repeat center;
+  background-size: contain;
   height: 236px;
+  max-height: 100%;
+  max-width: 100%;
   width: 244px;
 }
 

@@ -27,7 +27,7 @@ export class EdmMonitorComponent implements OnInit {
   edmGraphData$: Observable<EdmGraphData>;
   interval$: Observable<Interval>;
   antenna = false;
-  options: EChartOption = {
+  chartOptions: EChartOption = {
     xAxis: {
       type: 'time',
       boundaryGap: false,
