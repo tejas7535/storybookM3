@@ -1,4 +1,4 @@
-export interface GreaseStatusGraphData {
+export interface GraphData {
   legend: {
     data: string[];
   };

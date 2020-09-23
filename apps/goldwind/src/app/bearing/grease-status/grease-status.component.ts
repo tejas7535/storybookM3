@@ -13,16 +13,14 @@ import {
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
 import { GreaseStatusState } from '../../core/store/reducers/grease-status/grease-status.reducer';
-import {
-  GreaseDisplay,
-  GreaseStatusGraphData,
-} from '../../core/store/reducers/grease-status/models';
-import { Interval } from '../../core/store/reducers/shared/models';
+import { GreaseDisplay } from '../../core/store/reducers/grease-status/models';
+import { GraphData, Interval } from '../../core/store/reducers/shared/models';
 import {
   getGreaseDisplay,
   getGreaseInterval,
   getGreaseStatusGraphData,
 } from '../../core/store/selectors/';
+import { chartOptions } from '../../shared/chart/chart';
 
 enum Unit {
   percent = '%',
@@ -41,7 +39,7 @@ interface Checkbox {
   styleUrls: ['./grease-status.component.scss'],
 })
 export class GreaseStatusComponent implements OnInit, OnDestroy {
-  greaseStatusGraphData$: Observable<GreaseStatusGraphData>;
+  greaseStatusGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
 
   public checkBoxes: Checkbox[] = [
@@ -76,36 +74,13 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   });
 
   chartOptions: EChartOption = {
-    xAxis: {
-      type: 'time',
-      boundaryGap: false,
-    },
-    yAxis: {
-      type: 'value',
-    },
-    dataZoom: [
-      {
-        type: 'inside',
-      },
-      {}, // for slider zoom
-    ],
-    series: [
-      {
-        type: 'line',
-        large: true,
-      },
-    ],
+    ...chartOptions,
     legend: {
-      selectedMode: false,
+      ...chartOptions.legend,
       formatter: (name: string) => this.formatLegend(name),
     },
     tooltip: {
-      trigger: 'axis',
-      backgroundColor: '#fff',
-      borderColor: '#ced5da',
-      borderWidth: 1,
-      textStyle: { color: '#646464' },
-      padding: 10,
+      ...chartOptions.tooltip,
       formatter: (params) => this.formatTooltip(params),
     },
   };

@@ -4,10 +4,9 @@ import { getGreaseStatusState } from '../../reducers';
 import { GreaseStatusState } from '../../reducers/grease-status/grease-status.reducer';
 import {
   GreaseDisplay,
-  GreaseStatusGraphData,
   GreaseStatusMeasurement,
 } from '../../reducers/grease-status/models';
-import { Interval } from '../../reducers/shared/models';
+import { GraphData, Interval } from '../../reducers/shared/models';
 
 type GreaseDisplayKeys = keyof GreaseDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
@@ -35,7 +34,7 @@ export const getGreaseDisplay = createSelector(
 export const getGreaseStatusGraphData = createSelector(
   getGreaseStatusResult,
   getGreaseDisplay,
-  (greaseStatus: any, display: GreaseDisplay): GreaseStatusGraphData =>
+  (greaseStatus: any, display: GreaseDisplay): GraphData =>
     greaseStatus && {
       legend: {
         data: Object.entries(display)
