@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { EChartOption } from 'echarts';
 
@@ -10,13 +11,16 @@ import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-mo
 import {
   Antenna,
   AntennaName,
-  EdmGraphData,
 } from '../../../core/store/reducers/edm-monitor/models';
-import { Interval } from '../../../core/store/reducers/shared/models';
+import {
+  GraphData,
+  Interval,
+} from '../../../core/store/reducers/shared/models';
 import {
   getEdmGraphData,
   getEdmInterval,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
+import { chartOptions } from '../../../shared/chart/chart';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -24,36 +28,22 @@ import {
   styleUrls: ['./edm-monitor.component.scss'],
 })
 export class EdmMonitorComponent implements OnInit {
-  edmGraphData$: Observable<EdmGraphData>;
+  edmGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
   antenna = false;
   chartOptions: EChartOption = {
-    xAxis: {
-      type: 'time',
-      boundaryGap: false,
-    },
+    ...chartOptions,
     grid: {
       left: 75,
-      top: 10,
       right: 50,
     },
-    yAxis: {
-      type: 'value',
+    legend: {
+      ...chartOptions.legend,
+      formatter: (name: string) => this.formatLegend(name),
     },
-    dataZoom: [
-      {
-        type: 'inside',
-      },
-      {}, // for slider zoom
-    ],
-    series: [
-      {
-        type: 'bar',
-        large: true,
-      },
-    ],
     tooltip: {
-      trigger: 'axis',
+      ...chartOptions.tooltip,
+      formatter: (params) => this.formatTooltip(params),
     },
   };
 
@@ -79,5 +69,46 @@ export class EdmMonitorComponent implements OnInit {
       ? AntennaName.Antenna2
       : AntennaName.Antenna1;
     this.getEdmGraphData({ antennaName });
+  }
+
+  formatLegend(name: string): string {
+    let result: string;
+    if (Object.values(AntennaName as any).includes(name)) {
+      result = translate(
+        'conditionMonitoring.edmMonitor.relativeAmountOfEvents'
+      );
+    } else if (
+      Object.values(AntennaName as any).includes(name.replace('Max', ''))
+    ) {
+      result = translate('conditionMonitoring.edmMonitor.peakValues');
+    }
+
+    return `${result} (${this.getAntennaLabel(name)})`;
+  }
+
+  formatTooltip(
+    params: EChartOption.Tooltip.Format[] | EChartOption.Tooltip.Format
+  ): string {
+    return (
+      Array.isArray(params) &&
+      params.reduce((acc, param, index) => {
+        const result = `${acc}${this.formatLegend(param.seriesName)}: ${
+          param.data.value[1]
+        }<br>`;
+
+        return index === params.length - 1
+          ? `${result}${new Date(param.data.value[0]).toLocaleString()}`
+          : `${result}`;
+      }, '')
+    );
+  }
+
+  getAntennaLabel(name: string): string {
+    const antennaNumber =
+      Object.values(AntennaName as any).indexOf(name.replace('Max', '')) + 1;
+
+    return `${translate(
+      'conditionMonitoring.edmMonitor.antenna'
+    )} ${antennaNumber}`;
   }
 }

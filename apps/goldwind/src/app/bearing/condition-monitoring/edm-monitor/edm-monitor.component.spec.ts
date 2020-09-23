@@ -15,6 +15,11 @@ import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
 import { EdmMonitorComponent } from './edm-monitor.component';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('EdmMonitorComponent', () => {
   let component: EdmMonitorComponent;
   let fixture: ComponentFixture<EdmMonitorComponent>;
@@ -92,6 +97,82 @@ describe('EdmMonitorComponent', () => {
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         setEdmInterval({ interval: mockInterval })
       );
+    });
+  });
+
+  describe('chartOptions', () => {
+    it('should call legend formatter method', () => {
+      const mockLabelName = 'edmValue1CounterMax';
+      component.formatLegend = jest.fn();
+
+      const legendFormatter = component.chartOptions.legend
+        .formatter as Function;
+      legendFormatter(mockLabelName);
+
+      expect(component.formatLegend).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call tooltip formatter method', () => {
+      const mockParams = [
+        {
+          seriesName: 'edmValue1CounterMax',
+          data: {
+            value: [new Date(), 123],
+          },
+        },
+      ];
+      component.formatTooltip = jest.fn();
+
+      const tooltipFormatter = component.chartOptions.tooltip
+        .formatter as Function;
+      tooltipFormatter(mockParams);
+
+      expect(component.formatTooltip).toHaveBeenCalledTimes(1);
+    });
+
+    describe('formatLegend', () => {
+      it('should return a translated text with physical symbold ', () => {
+        const mockLabelName = 'edmValue1CounterMax';
+        const formattedMockLabel = 'translate it (translate it 1)';
+
+        expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
+
+        const mockLabelName2 = 'edmValue2Counter';
+        const formattedMockLabel2 = 'translate it (translate it 2)';
+
+        expect(component.formatLegend(mockLabelName2)).toBe(
+          formattedMockLabel2
+        );
+      });
+    });
+
+    describe('formatTooltip', () => {
+      it('should return a translated texts, antenna number and date', () => {
+        const mockDate = new Date(1466424490000);
+        jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
+        const mockParams = [
+          {
+            seriesName: 'edmValue1CounterMax',
+            data: {
+              value: [new Date(), 123],
+            },
+          },
+        ];
+        const formattedMockTooltip = `translate it (translate it 1): 123<br>${mockDate.toLocaleString()}`;
+
+        expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
+      });
+    });
+
+    describe('getAntennaLabel', () => {
+      it('should return a translated antenna text and number', () => {
+        const mockAntennaName = 'edmValue1CounterMax';
+        const formattedMockAntennaName = 'translate it 1';
+
+        expect(component.getAntennaLabel(mockAntennaName)).toBe(
+          formattedMockAntennaName
+        );
+      });
     });
   });
 });

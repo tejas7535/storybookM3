@@ -4,11 +4,11 @@ import { getEdmMonitorState } from '../../reducers';
 import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer';
 import {
   Antenna,
+  AntennaName,
   Edm,
-  EdmGraphData,
   EdmMeasurement,
 } from '../../reducers/edm-monitor/models';
-import { Interval } from '../../reducers/shared/models';
+import { GraphData, Interval } from '../../reducers/shared/models';
 
 export const getSensorId = createSelector(
   getEdmMonitorState,
@@ -20,18 +20,39 @@ export const getEdmResult = createSelector(
   (state: EdmMonitorState): Edm => state.measurements
 );
 
+const edmGraphSeries = [
+  {
+    type: 'bar',
+  },
+  {
+    name: (antennaName: AntennaName) => `${antennaName}Max`,
+    type: 'line',
+  },
+];
+
 export const getEdmGraphData = createSelector(
   getEdmResult,
-  (edm: any, props: Antenna): EdmGraphData =>
+  (edm: any, { antennaName }: Antenna): GraphData =>
     edm && {
-      series: {
-        data: edm.map((measurement: EdmMeasurement) => ({
-          value: [
-            new Date(measurement.startDate),
-            measurement[props.antennaName],
-          ],
-        })),
+      legend: {
+        data: edmGraphSeries.map(({ name }) =>
+          name ? name(antennaName) : antennaName
+        ),
       },
+      series: edmGraphSeries.map(({ name, type }) => {
+        const seriesName = name ? name(antennaName) : antennaName;
+
+        return {
+          type,
+          name: seriesName,
+          data: edm.map((measurement: EdmMeasurement) => ({
+            value: [
+              new Date(measurement.startDate),
+              (measurement as any)[seriesName],
+            ],
+          })),
+        };
+      }),
     }
 );
 

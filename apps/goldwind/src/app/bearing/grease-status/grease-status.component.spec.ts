@@ -15,7 +15,7 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
-import { GreaseStatusGraphData } from '../../core/store/reducers/grease-status/models';
+import { GraphData } from '../../core/store/reducers/shared/models';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { GreaseStatusComponent } from './grease-status.component';
 
@@ -141,6 +141,7 @@ describe('GreaseStatusComponent', () => {
     it('should call tooltip formatter method', () => {
       const mockParams = [
         {
+          seriesName: 'waterContentPercent',
           data: {
             value: [new Date(), 123],
           },
@@ -157,7 +158,7 @@ describe('GreaseStatusComponent', () => {
   });
 
   describe('formatLegend', () => {
-    it('should return a translated text with physical symbold ', () => {
+    it('should return a translated text with physical symbol ', () => {
       const mockLabelName = 'waterContentPercent';
       const formattedMockLabel = 'translate it (%)';
 
@@ -185,7 +186,7 @@ describe('GreaseStatusComponent', () => {
 
   describe('emptyGreaseStatusGraphData', () => {
     it('should return true if none of the grease status graph datas contain data', () => {
-      const mockGreaseStatusGraphData: GreaseStatusGraphData = {
+      const mockGreaseStatusGraphData: GraphData = {
         legend: {
           data: ['deteriorationPercent', 'temperatureCelsius'],
         },

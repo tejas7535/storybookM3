@@ -48,7 +48,19 @@ describe('EdmMonitor Selector', () => {
   describe('getEdmGraphData', () => {
     test('should return graph series data value tupels', () => {
       const expectedResult = {
-        series: { data: [{ value: [new Date('2020-07-30T11:02:25'), 100] }] },
+        legend: { data: ['edmValue1Counter', 'edmValue1CounterMax'] },
+        series: [
+          {
+            name: 'edmValue1Counter',
+            type: 'bar',
+            data: [{ value: [new Date('2020-07-30T11:02:25'), 100] }],
+          },
+          {
+            name: 'edmValue1CounterMax',
+            type: 'line',
+            data: [{ value: [new Date('2020-07-30T11:02:25'), 300] }],
+          },
+        ],
       };
 
       expect(

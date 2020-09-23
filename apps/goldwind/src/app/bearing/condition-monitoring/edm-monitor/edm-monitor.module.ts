@@ -19,7 +19,7 @@ import { EdmMonitorComponent } from './edm-monitor.component';
     SharedModule,
     DateRangeModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
+      echarts: () => import('../../../shared/chart/echarts'),
     }),
 
     // UI Modules

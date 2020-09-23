@@ -29,7 +29,9 @@
     },
     "edmMonitor": {
       "title": "EDM Monitor",
-      "antenna": "Antenna"
+      "antenna": "Antenna",
+      "relativeAmountOfEvents": "Relative amount of events",
+      "peakValues": "Peak values"
     },
     "centerLoad": {
       "title": "Bearing center load and temperature",
