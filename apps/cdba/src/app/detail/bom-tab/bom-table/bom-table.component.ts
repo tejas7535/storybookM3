@@ -89,6 +89,7 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'lotsize',
       headerName: translate('detail.bom.headers.lotsize'),
+      valueFormatter: formatNumber,
     },
     {
       field: 'setupTime',
