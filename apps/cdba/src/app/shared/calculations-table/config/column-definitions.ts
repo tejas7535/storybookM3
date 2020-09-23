@@ -1,7 +1,7 @@
 import { ColDef } from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
 
-import { formatDate, valueGetterDate } from '../../table';
+import { formatDate, formatNumber, valueGetterDate } from '../../table';
 
 export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   checkbox: {
@@ -59,10 +59,12 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     field: 'quantity',
     headerName: translate('detail.calculationTable.headers.quantity'),
     headerTooltip: translate('detail.calculationTable.tooltips.quantity'),
+    valueFormatter: formatNumber,
   },
   lotSize: {
     field: 'lotSize',
     headerName: translate('detail.calculationTable.headers.lotSize'),
     headerTooltip: translate('detail.calculationTable.tooltips.lotSize'),
+    valueFormatter: formatNumber,
   },
 };
