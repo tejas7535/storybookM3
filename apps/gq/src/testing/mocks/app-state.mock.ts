@@ -1,16 +1,52 @@
-export const APP_STATE_MOCK = {
-  textSearch: {
-    filter: 'customer',
-    searchFor: 'Aud',
-  },
-  item: {
-    filter: 'customer',
-    options: [
+import { SearchState } from '../../app/core/store/reducers/search/search.reducer';
+
+export const APP_STATE_MOCK: SearchState = {
+  filters: {
+    autocompleteLoading: undefined,
+    items: [
       {
-        id: 'audi',
-        value: 'Audi',
-        selected: true,
+        filter: 'customer',
+        options: [],
+        hasAutoComplete: false,
+        optionalParents: [],
+        multiSelect: true,
       },
+      {
+        filter: 'quotation',
+        options: [],
+        hasAutoComplete: false,
+        optionalParents: [],
+        multiSelect: false,
+      },
+      {
+        filter: 'keyAccount',
+        options: [{ id: 'key', value: 'key', selected: true }],
+        hasAutoComplete: false,
+        optionalParents: [],
+        multiSelect: true,
+      },
+      {
+        filter: 'subKeyAccount',
+        options: [],
+        hasAutoComplete: false,
+        optionalParents: [],
+        multiSelect: true,
+      },
+      {
+        filter: 'sector',
+        options: [],
+        hasAutoComplete: false,
+        optionalParents: [],
+        multiSelect: true,
+      },
+    ],
+    selected: 'customer',
+    queryInputs: [
+      'customer',
+      'quotation',
+      'keyaccount',
+      'subkeyaccount',
+      'sector',
     ],
   },
 };

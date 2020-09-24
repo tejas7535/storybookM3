@@ -6,14 +6,13 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
-import { APP_STATE_MOCK } from '../../../../../testing/mocks/app-state.mock';
 import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
 import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
 } from '../../actions';
-import { TextSearch } from '../../models/text-search.model';
+import { AutocompleteSearch, IdValue } from '../../models';
 import { initialState } from '../../reducers/search/search.reducer';
 import { SearchEffects } from './search.effects';
 
@@ -33,7 +32,6 @@ describe('Search Effects', () => {
           provide: AutocompleteService,
           useValue: {
             autocomplete: jest.fn(),
-            mergeOptionsWithSelectedOptions: jest.fn(),
           },
         },
       ],
@@ -47,29 +45,30 @@ describe('Search Effects', () => {
   });
 
   describe('autocomplete$', () => {
-    let textSearch: TextSearch;
+    let autocompleteSearch: AutocompleteSearch;
 
     beforeEach(() => {
-      textSearch = new TextSearch('customer', 'Aud');
-      action = autocomplete({ textSearch });
+      autocompleteSearch = new AutocompleteSearch('customer', 'Aud');
+      action = autocomplete({ autocompleteSearch });
     });
 
     test('should return autocompleteSuccess action when REST call is successful', () => {
       autocompleteService.autocomplete = jest.fn(() => response);
-
-      const result = autocompleteSuccess({ item: APP_STATE_MOCK.item });
+      const options: IdValue[] = [];
+      const filter = autocompleteSearch.filter;
+      const result = autocompleteSuccess({ options, filter });
 
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: APP_STATE_MOCK.item,
+        a: options,
       });
       const expected = cold('--b', { b: result });
 
       expect(effects.autocomplete$).toBeObservable(expected);
       expect(autocompleteService.autocomplete).toHaveBeenCalledTimes(1);
       expect(autocompleteService.autocomplete).toHaveBeenCalledWith(
-        APP_STATE_MOCK.textSearch
+        autocompleteSearch
       );
     });
 

@@ -2,121 +2,130 @@ import { Action } from '@ngrx/store';
 
 import { APP_STATE_MOCK } from '../../../../../testing/mocks/app-state.mock';
 import {
+  addOption,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  updateFilter,
+  removeOption,
+  selectedFilterChange,
 } from '../../actions';
-import { FilterItem, IdValue } from '../../models';
-import { initialState, reducer, searchReducer } from './search.reducer';
+import { AutocompleteSearch, FilterItem, IdValue } from '../../models';
+import { reducer, searchReducer } from './search.reducer';
 
 describe('Search Reducer', () => {
   describe('autocomplete', () => {
     test('should set autocomplete loading', () => {
-      const action = autocomplete({
-        textSearch: APP_STATE_MOCK.textSearch,
-      });
-      const state = searchReducer(initialState, action);
+      const autocompleteSearch = new AutocompleteSearch('customer', 'Audi');
+      const action = autocomplete({ autocompleteSearch });
+      const state = searchReducer(APP_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...initialState,
-        filters: { ...initialState.filters, autocompleteLoading: true },
+        ...APP_STATE_MOCK,
+        filters: {
+          ...APP_STATE_MOCK.filters,
+          autocompleteLoading: autocompleteSearch.filter,
+        },
       });
     });
   });
 
   describe('autocompleteSuccess', () => {
     test('should upsert possible filters', () => {
-      const action = autocompleteSuccess({ item: APP_STATE_MOCK.item });
-      const state = searchReducer(initialState, action);
+      const item = new FilterItem(
+        'customer',
+        [new IdValue('mcd', 'mercedes', true)],
+        true,
+        ['customer'],
+        true
+      );
+      const fakeOptions = [
+        new IdValue('aud', 'audi', true),
+        new IdValue('bm', 'bmw', false),
+      ];
 
-      expect(state.filters.items.entities.customer.filter).toEqual(
-        APP_STATE_MOCK.item.filter
+      const fakeState = {
+        ...APP_STATE_MOCK,
+        filters: {
+          ...APP_STATE_MOCK.filters,
+          items: [
+            {
+              filter: 'customer',
+              options: fakeOptions,
+              hasAutoComplete: false,
+              optionalParents: [] as string[],
+              multiSelect: true,
+            },
+          ],
+        },
+      };
+      const action = autocompleteSuccess({
+        filter: item.filter,
+        options: item.options,
+      });
+      const state = searchReducer(fakeState, action);
+
+      const stateItem = state.filters.items.find(
+        (it) => it.filter === item.filter
       );
-      expect(state.filters.items.entities.customer.options).toEqual(
-        APP_STATE_MOCK.item.options
-      );
+      const expected = [fakeOptions[0], item.options[0]];
+      expect(stateItem.options).toEqual(expected);
     });
   });
 
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
       const action = autocompleteFailure();
-      const state = searchReducer(initialState, action);
+      const state = searchReducer(APP_STATE_MOCK, action);
 
-      expect(state).toEqual(initialState);
+      expect(state).toEqual(APP_STATE_MOCK);
     });
   });
 
-  describe('updateFilter', () => {
-    test('should udate filter', () => {
-      const action = updateFilter({ item: APP_STATE_MOCK.item });
-      const state = searchReducer(initialState, action);
+  describe('addOption', () => {
+    test('should add option to filter', () => {
+      const option = new IdValue('customer1', 'customer1', true);
+      const filterName = 'customer';
+      const action = addOption({ option, filterName });
+      const state = searchReducer(APP_STATE_MOCK, action);
 
-      expect(state.filters.items.entities.customer.filter).toBe(
-        APP_STATE_MOCK.item.filter
-      );
-      expect(state.filters.items.entities.customer.options).toEqual(
-        APP_STATE_MOCK.item.options
-      );
+      expect(state.filters.items[0].options[0]).toEqual(option);
+    });
+    test('should not add already existing option', () => {
+      const option = new IdValue('key', 'key', true);
+      const filterName = 'keyAccount';
+      const action = addOption({ option, filterName });
+      const state = searchReducer(APP_STATE_MOCK, action);
+
+      expect(state).toEqual(APP_STATE_MOCK);
+      expect(state.filters.items[2].options[0].selected).toBeTruthy();
     });
   });
-  describe('sortFilterItem', () => {
-    test('should revert array', () => {
-      const filterItem = new FilterItem('customer', [
-        new IdValue('23', 'The customer', false),
-        new IdValue('24', 'The customer', true),
-      ]);
 
-      const action = updateFilter({ item: filterItem });
-      const state = searchReducer(initialState, action);
-
-      expect(state.filters.items.entities.customer.filter).toEqual(
-        filterItem.filter
-      );
-      expect(state.filters.items.entities.customer.options).toEqual(
-        filterItem.options.reverse()
-      );
+  describe('removeOption', () => {
+    test('should remove option from filter', () => {
+      const option = new IdValue('key', 'key', true);
+      const filterName = 'keyAccount';
+      const action = removeOption({ option, filterName });
+      const state = searchReducer(APP_STATE_MOCK, action);
+      expect(state.filters.items[2].options[0].selected).toBeFalsy();
     });
-    test('should not revert array', () => {
-      const filterItem = new FilterItem('customer', [
-        new IdValue('23', 'The customer', true),
-        new IdValue('24', 'The customer', false),
-      ]);
+  });
 
-      const action = updateFilter({ item: filterItem });
-      const state = searchReducer(initialState, action);
+  describe('selectedFilterChange', () => {
+    test('should change selected Filter', () => {
+      const filterName = 'keyAccount';
+      const action = selectedFilterChange({ filterName });
+      const state = searchReducer(APP_STATE_MOCK, action);
 
-      expect(state.filters.items.entities.customer.filter).toEqual(
-        filterItem.filter
-      );
-      expect(state.filters.items.entities.customer.options).toEqual(
-        filterItem.options
-      );
-    });
-    test('should not revert array 2', () => {
-      const filterItem = new FilterItem('customer', [
-        new IdValue('23', 'The customer', true),
-        new IdValue('24', 'The customer', true),
-      ]);
-
-      const action = updateFilter({ item: filterItem });
-      const state = searchReducer(initialState, action);
-
-      expect(state.filters.items.entities.customer.filter).toEqual(
-        filterItem.filter
-      );
-      expect(state.filters.items.entities.customer.options).toEqual(
-        filterItem.options
-      );
+      expect(state.filters.selected).toEqual(filterName);
     });
   });
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
       const action: Action = autocompleteFailure();
-      expect(reducer(initialState, action)).toEqual(
-        searchReducer(initialState, action)
+      expect(reducer(APP_STATE_MOCK, action)).toEqual(
+        searchReducer(APP_STATE_MOCK, action)
       );
     });
   });

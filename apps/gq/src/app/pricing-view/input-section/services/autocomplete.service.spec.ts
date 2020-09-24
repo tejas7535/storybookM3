@@ -1,15 +1,19 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { DataService } from '../../../core/http/data.service';
 import { ENV_CONFIG } from '../../../core/http/environment-config.interface';
-import { IdValue } from '../../../core/store/models';
+import { AutocompleteSearch, FilterItem } from '../../../core/store/models';
 import { AutocompleteService } from './autocomplete.service';
 
 describe('AutocompleteService', (): void => {
   let service: AutocompleteService;
+  let httpMock: HttpTestingController;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -29,33 +33,47 @@ describe('AutocompleteService', (): void => {
     });
   });
 
-  beforeEach((): void => {
+  beforeEach(() => {
     service = TestBed.inject(AutocompleteService);
+    httpMock = TestBed.inject(HttpTestingController);
+  });
+
+  afterEach(() => {
+    httpMock.verify();
   });
 
   test('should be created', (): void => {
     expect(service).toBeTruthy();
   });
-  describe('mergeOptionsWithSelectedOptions', () => {
-    test('should return IdValue[]', () => {
-      const options: IdValue[] = [
-        { id: '23', value: 'The customer', selected: false },
-        { id: '24', value: 'The customer', selected: false },
-      ];
-      const selectedOptions: IdValue[] = [
-        { id: '23', value: 'The customer', selected: true },
-      ];
-      const expectedResponse = [
-        { id: '23', value: 'The customer', selected: true },
-        { id: '24', value: 'The customer', selected: false },
-      ];
 
-      const response = service.mergeOptionsWithSelectedOptions(
-        options,
-        selectedOptions
+  describe('autocomplete', () => {
+    test('should call ', () => {
+      const search: AutocompleteSearch = new AutocompleteSearch(
+        'testParam',
+        'hallo'
       );
+      const mock: FilterItem = new FilterItem(
+        'house',
+        [
+          {
+            id: 'id',
+            value: 'val',
+            selected: false,
+          },
+        ],
+        true,
+        [],
+        true
+      );
+      service.autocomplete(search).subscribe((response) => {
+        expect(response).toEqual(mock.options);
+      });
 
-      expect(response).toEqual(expectedResponse);
+      const req = httpMock.expectOne(
+        '/auto-complete/testparam?search_for=hallo'
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
     });
   });
 });

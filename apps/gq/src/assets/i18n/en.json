@@ -2,61 +2,83 @@
   "pricingView": {
     "inputSection": {
       "materialNumberAndQuantity": "MATERIAL NUMBER AND QUANTITY",
-      "multipleInputButton": "MULTIPLE INPUT",
+      "multipleInputButton": "TABLE QUERYING",
       "optionalInformation": "OPTIONAL INFORMATION",
       "search": "Search",
-      "searchButton": "ADD TO SEARCH QUERY",
+      "searchButton": "ADD TO QUERIES",
       "dropdown": {
         "country": "Country",
-        "customerNumber": "Customer Number",
+        "customer": "Customer Number",
         "keyAccount": "Key Account Number",
         "quotation": "Quotation Number",
         "subKeyAccount": "Sub-Key Account Number"
       },
-      "filterInput": {
-        "country": "Country",
-        "customerNumber": "Customer Number",
-        "keyAccount": "Key Account Number",
-        "nothingFound": "Nothing found",
-        "quotation": "Quotation Number",
-        "sixDigitNumber": "Enter a six-digit number",
-        "subKeyAccount": "Sub-Key Account Number"
+      "multiSelectInput": {
+        "country": {
+          "label": "Country",
+          "hint": "Please enter one or several search terms"
+        },
+        "customer": {
+          "label": "Customer Number",
+          "hint": "Enter a six-digit number"
+        },
+        "keyAccount": {
+          "label": "Key Account Number",
+          "hint": "Enter a six-digit number"
+        },
+        "quotation": {
+          "label": "Quotation Number",
+          "hint": "Enter a six-digit number"
+        },
+        "subKeyAccount": {
+          "label": "Sub-Key Account Number",
+          "hint": "Enter a six-digit number"
+        },
+        "subRegion": {
+          "label": "Sub-Region",
+          "hint": "Please enter one or several search terms"
+        },
+        "sectorManagement": {
+          "label": "Sector Management",
+          "hint": "Please enter one or several search terms"
+        },
+        "sectorGPSD": {
+          "label": "Sector GPSD",
+          "hint": "Please enter one or several search terms"
+        },
+        "mainSector": {
+          "label": "Main Sector",
+          "hint": "Please enter one or several search terms"
+        },
+        "subSector": {
+          "label": "Sub-Sector",
+          "hint": "Please enter one or several search terms"
+        },
+        "soldToParty": {
+          "label": "Sold to Party",
+          "hint": "Please enter one or several search terms"
+        },
+        "materialNumber": {
+          "label": "Material Number",
+          "hint": "Please enter one or several search terms"
+        },
+        "quantity": {
+          "label": "Quantity",
+          "hint": "Please enter one or several search terms"
+        },
+        "nothingFound": "Nothing found"
       },
-      "optionalInput": {
-        "customerNumber": "Customer Number",
-        "customerNumberHint": "Please enter one or several search terms",
+      "multipleInputDialog": {
+        "cancel": "CANCEL",
         "country": "Country",
-        "countryNumberHint": "Please enter one or several search terms",
-        "subRegion": "Sub-Region",
-        "subRegionHint": "Please enter one or several search terms",
-        "sectorManagement": "Sector Management",
-        "sectorManagementHint": "Please enter one or several search terms",
-        "sectorGPSD": "Sector GPSD",
-        "sectorGPSDHint": "Please enter one or several search terms",
-        "mainSector": "Main Sector",
-        "mainSectorHint": "Please enter one or several search terms",
-        "subSector": "Sub-Sector",
-        "subSectorHint": "Please enter one or several search terms",
-        "soldToParty": "Sold to Party",
-        "soldToPartyHint": "Please enter one or several search terms"
-      },
-      "materialInput": {
-        "materialNumber": "Material Number",
-        "materialNumberHint": "Please enter one or several search terms",
-        "quantity": "Quantity",
-        "quantityHint": "Please enter one or several search terms"
-      },
-      "multiInput": {
-        "cancel": "CANCEL,",
-        "country": "Country",
-        "customerNumber": "Customer Number",
+        "customer": "Customer Number",
         "keyAccount": "Key Account Number",
         "search": "SEARCH",
         "subKeyAccount": "Sub-Key Account Number",
         "tableQueryingTitle": "Table Querying",
         "tableHeader": {
           "country": "Country",
-          "customerNumber": "Customer Number",
+          "customer": "Customer Number",
           "keyAccount": "Key Account Number",
           "mainSector": "Main Sector",
           "materialNumber": "Material Number",
@@ -72,7 +94,7 @@
       }
     },
     "querySection": {
-      "title": "Search Query"
+      "title": "Queries"
     },
     "resultSection": {
       "title": "Results",

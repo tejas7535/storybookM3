@@ -13,7 +13,7 @@ describe('NoResultsFoundPipe', () => {
 
   it('should return false when no searchStr is provided', () => {
     const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue = undefined;
+    const selected: IdValue[] = [];
 
     const autoCompleteLoading = false;
     const debounceIsActive = false;
@@ -31,7 +31,7 @@ describe('NoResultsFoundPipe', () => {
 
   it('should return false when debounceIsActive', () => {
     const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue = undefined;
+    const selected: IdValue[] = [];
 
     const searchStr = 'te';
 
@@ -51,7 +51,7 @@ describe('NoResultsFoundPipe', () => {
 
   it('should return false when autoCompleteLoading', () => {
     const filterOptions = [new IdValue('001', 'test', false)];
-    const selected: IdValue = undefined;
+    const selected: IdValue[] = [];
 
     const searchStr = 'te';
 
@@ -71,7 +71,7 @@ describe('NoResultsFoundPipe', () => {
 
   it('should return true when no options avl', () => {
     const filterOptions: IdValue[] = [];
-    const selected: IdValue = undefined;
+    const selected: IdValue[] = [];
 
     const searchStr = 'te';
 
@@ -92,7 +92,7 @@ describe('NoResultsFoundPipe', () => {
   it('should return true when only selected options avl', () => {
     const opt = new IdValue('001', 'test', false);
     const filterOptions: IdValue[] = [opt];
-    const selected: IdValue = opt;
+    const selected: IdValue[] = [opt];
 
     const searchStr = 'te';
 
@@ -114,7 +114,7 @@ describe('NoResultsFoundPipe', () => {
     const opt = new IdValue('001', 'test', false);
     const opt2 = new IdValue('002', 'yikes', false);
     const filterOptions: IdValue[] = [opt, opt2];
-    const selected: IdValue = opt;
+    const selected: IdValue[] = [opt];
 
     const searchStr = 'te';
 

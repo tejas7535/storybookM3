@@ -1,20 +1,20 @@
 <h3
   mat-dialog-title
-  *transloco="let t; read: 'pricingView.inputSection.multiInput'"
+  *transloco="let t; read: 'pricingView.inputSection.multipleInputDialog'"
 >
   {{ t('tableQueryingTitle') }}
 </h3>
 <div
   mat-dialog-content
   fxLayout="column"
-  *transloco="let t; read: 'pricingView.inputSection.multiInput'"
+  *transloco="let t; read: 'pricingView.inputSection.multipleInputDialog'"
 >
   <div>
     <mat-form-field appearance="outline" class="input-field">
       <mat-select [formControl]="form">
-        <mat-option value="customer">{{ t('customerNumber') }}</mat-option>
-        <mat-option value="keyaccount">{{ t('keyAccount') }}</mat-option>
-        <mat-option value="subkeyaccount">{{ t('subKeyAccount') }}</mat-option>
+        <mat-option value="customer">{{ t('customer') }}</mat-option>
+        <mat-option value="keyAccount">{{ t('keyAccount') }}</mat-option>
+        <mat-option value="subKeyAccount">{{ t('subKeyAccount') }}</mat-option>
         <mat-option value="sector">{{ t('country') }}</mat-option>
       </mat-select>
     </mat-form-field>
@@ -34,7 +34,10 @@
     </ag-grid-angular>
   </div>
 </div>
-<div mat-dialog-actions *transloco="let t; read: 'pricingView.multiInput'">
+<div
+  mat-dialog-actions
+  *transloco="let t; read: 'pricingView.inputSection.multipleInputDialog'"
+>
   <button
     [mat-dialog-close]="rowData"
     cdkFocusInitial

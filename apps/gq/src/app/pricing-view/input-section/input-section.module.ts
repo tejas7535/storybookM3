@@ -8,26 +8,29 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { FilterInputModule } from './filter-input/filter-input.module';
 import { InputSectionComponent } from './input-section.component';
-import { MultiInputModule } from './multi-input/multi-input.module';
+import { MultiSelectInputModule } from './multi-select-input/multi-select-input.module';
+import { MultipleInputDialogModule } from './multiple-input-dialog/multiple-input-dialog.module';
 
 @NgModule({
   declarations: [InputSectionComponent],
   imports: [
     CommonModule,
-    FilterInputModule,
     FlexLayoutModule,
     MatButtonModule,
     MatDialogModule,
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    MultiInputModule,
+    MultipleInputDialogModule,
     MatChipsModule,
     MatIconModule,
+    MultiSelectInputModule,
+    SharedTranslocoModule,
+    MultiSelectInputModule,
     SharedTranslocoModule,
   ],
   exports: [InputSectionComponent],

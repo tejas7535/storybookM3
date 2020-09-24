@@ -25,8 +25,13 @@ export class SearchEffects {
     this.actions$.pipe(
       ofType(autocomplete.type),
       mergeMap((action: any) =>
-        this.autocompleteService.autocomplete(action.textSearch).pipe(
-          map((item) => autocompleteSuccess({ item })),
+        this.autocompleteService.autocomplete(action.autocompleteSearch).pipe(
+          map((options) =>
+            autocompleteSuccess({
+              options,
+              filter: action.autocompleteSearch.filter,
+            })
+          ),
           catchError((_e) => of(autocompleteFailure()))
         )
       )

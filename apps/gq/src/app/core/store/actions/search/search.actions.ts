@@ -1,31 +1,43 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { FilterItem, TextSearch } from '../../models';
-
-export const updateFilter = createAction(
-  '[Search] Update Filter',
-  props<{ item: FilterItem }>()
-);
+import { AutocompleteSearch, IdValue } from '../../models';
 
 export const autocomplete = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type',
-  props<{ textSearch: TextSearch }>()
+  props<{ autocompleteSearch: AutocompleteSearch }>()
 );
 
 export const autocompleteSuccess = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type Success',
-  props<{ item: FilterItem }>()
+  props<{ filter: string; options: IdValue[] }>()
 );
 
 export const autocompleteFailure = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure'
 );
 
+export const selectedFilterChange = createAction(
+  '[Search] Update Selected Input For Selection Change',
+  props<{ filterName: string }>()
+);
+
+export const addOption = createAction(
+  '[Search] Add Option For Filter',
+  props<{ option: IdValue; filterName: string }>()
+);
+
+export const removeOption = createAction(
+  '[Search] Remove Action Of Filter',
+  props<{ option: IdValue; filterName: string }>()
+);
+
 const all = union({
   autocomplete,
   autocompleteSuccess,
   autocompleteFailure,
-  updateFilter,
+  selectedFilterChange,
+  addOption,
+  removeOption,
 });
 
 export type SearchActions = typeof all;
