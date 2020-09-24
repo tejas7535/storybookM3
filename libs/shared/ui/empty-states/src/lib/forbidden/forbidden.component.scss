@@ -9,7 +9,10 @@
 
 .forbidden {
   background: url('./img/403-error.svg') no-repeat center;
+  background-size: contain;
   height: 96px;
+  max-height: 100%;
+  max-width: 100%;
   width: 246px;
 }
 
