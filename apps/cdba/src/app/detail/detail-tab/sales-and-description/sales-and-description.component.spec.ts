@@ -4,6 +4,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { MaterialNumberModule } from '../../../shared/pipes';
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 describe('SalesAndDescriptionComponent', () => {
@@ -12,7 +13,7 @@ describe('SalesAndDescriptionComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({})],
+      imports: [provideTranslocoTestingModule({}), MaterialNumberModule],
       declarations: [SalesAndDescriptionComponent],
       providers: [],
     });

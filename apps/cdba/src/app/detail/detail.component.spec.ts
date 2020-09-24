@@ -11,6 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
+import { MaterialNumberModule } from '../shared/pipes';
 import { SharedModule } from '../shared/shared.module';
 import { DetailComponent } from './detail.component';
 
@@ -32,6 +33,7 @@ describe('DetailComponent', () => {
         SharedModule,
         RouterTestingModule,
         provideTranslocoTestingModule({}),
+        MaterialNumberModule,
       ],
       declarations: [DetailComponent],
       providers: [

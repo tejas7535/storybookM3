@@ -21,7 +21,7 @@ import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../../core/store/reducers/detail/models';
-import { formatNumber } from '../../../shared/table';
+import { formatMaterialNumber, formatNumber } from '../../../shared/table';
 import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import {
   CustomNoRowsOverlayComponent,
@@ -81,6 +81,7 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'materialNumber',
       headerName: translate('detail.bom.headers.materialNumber'),
+      valueFormatter: formatMaterialNumber,
     },
     {
       field: 'plant',

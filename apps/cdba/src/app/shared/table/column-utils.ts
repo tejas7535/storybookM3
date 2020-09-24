@@ -5,8 +5,11 @@ import {
   ValueGetterParams,
 } from '@ag-grid-community/core';
 
+import { MaterialNumberPipe } from '../pipes';
+
 const decimalPipe = new DecimalPipe('de-DE');
 const datePipe = new DatePipe('de-DE');
+const materialNumberPipe = new MaterialNumberPipe();
 
 export const currentYear = new Date().getFullYear();
 
@@ -17,6 +20,9 @@ export const formatNumber = (
 
 export const formatDate = (params: ValueFormatterParams) =>
   datePipe.transform(params.value);
+
+export const formatMaterialNumber = (params: ValueFormatterParams) =>
+  materialNumberPipe.transform(params.value);
 
 export const valueGetterDate = (params: ValueGetterParams, key: string) =>
   params?.data?.[key] ? new Date(params.data[key]) : undefined;

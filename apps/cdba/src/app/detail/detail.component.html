@@ -8,7 +8,7 @@
     ></mat-icon>
     <h1 *ngIf="referenceType$ | async">
       {{ (referenceType$ | async)?.materialDesignation }} |
-      {{ (referenceType$ | async)?.materialNumber }}
+      {{ (referenceType$ | async)?.materialNumber | materialNumber }}
     </h1>
     <h1 *ngIf="(referenceType$ | async) === undefined">
       {{ t('errorTitle') }}

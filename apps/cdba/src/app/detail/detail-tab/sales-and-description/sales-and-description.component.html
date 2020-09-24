@@ -12,7 +12,7 @@
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialNumber') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.materialNumber }}</div>
+        <div>{{ salesDetails?.materialNumber | materialNumber }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
