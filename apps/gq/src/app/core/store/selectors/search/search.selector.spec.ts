@@ -1,10 +1,5 @@
-import { FilterItem, IdValue } from '../../models';
 import { initialState } from '../../reducers/search/search.reducer';
-import {
-  getAutocompleteLoading,
-  getFilters,
-  getFiltersEntityState,
-} from './search.selectors';
+import * as searchSelectors from './search.selectors';
 
 describe('Search Selector', () => {
   const fakeState = {
@@ -12,44 +7,69 @@ describe('Search Selector', () => {
       ...initialState,
       filters: {
         ...initialState.filters,
-        autocompleteLoading: true,
-        searchText: {
-          field: 'customer',
-          value: 'aud',
-        },
+        items: [...initialState.filters.items],
+        autocompleteLoading: 'customer',
       },
     },
   };
 
-  describe('getFiltersEntityState', () => {
-    it('should return true if autocomplete is currently loading', () => {
-      expect(getFiltersEntityState(fakeState)).toBeTruthy();
+  describe('getFilters', () => {
+    test('should return all filters', () => {
+      expect(searchSelectors.getFilters.projector(fakeState.search)).toEqual(
+        fakeState.search.filters.items
+      );
     });
   });
 
-  describe('getFilters', () => {
-    test('should return all filters', () => {
-      const customer = new FilterItem('customer', [
-        new IdValue('vw', 'VW', false),
-        new IdValue('vw2', 'VW 2', false),
-        new IdValue('vw3', 'VW 3', false),
-      ]);
-      const items = [customer];
-
-      const entityState = {
-        ids: ['customer'],
-        entities: {
-          customer,
-        },
-      };
-
-      expect(getFilters.projector(entityState)).toEqual(items);
+  describe('getSelectedFilter', () => {
+    test('should return selectedFilter', () => {
+      expect(
+        searchSelectors.getSelectedFilter.projector(fakeState.search)
+      ).toEqual(
+        fakeState.search.filters.items.find(
+          (elem) => elem.filter === 'customer'
+        )
+      );
     });
   });
 
   describe('getAutocompleteLoading', () => {
     test('should return true if autocomplete is currently loading', () => {
-      expect(getAutocompleteLoading(fakeState)).toBeTruthy();
+      expect(
+        searchSelectors.getAutocompleteLoading.projector(fakeState.search)
+      ).toEqual('customer');
+    });
+  });
+
+  describe('getFilterQueryInputs', () => {
+    test('should return query inputs', () => {
+      expect(
+        searchSelectors.getFilterQueryInputs.projector(fakeState.search)
+      ).toEqual(fakeState.search.filters.queryInputs);
+    });
+  });
+
+  describe('getOptionalFilters', () => {
+    test('should return optional Filters', () => {
+      expect(
+        searchSelectors.getOptionalFilters.projector(
+          fakeState.search,
+          'country'
+        )
+      ).toEqual([]);
+    });
+  });
+
+  describe('getMaterialNumberAndQuantity', () => {
+    test('should return mandatory filters', () => {
+      expect(
+        searchSelectors.getMaterialNumberAndQuantity.projector(fakeState.search)
+      ).toEqual(
+        fakeState.search.filters.items.filter(
+          (item) =>
+            item.filter === 'materialNumber' || item.filter === 'quantity'
+        )
+      );
     });
   });
 });

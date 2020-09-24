@@ -5,7 +5,11 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DataService } from '../../../core/http/data.service';
-import { FilterItem, IdValue, TextSearch } from '../../../core/store/models';
+import {
+  AutocompleteSearch,
+  FilterItem,
+  IdValue,
+} from '../../../core/store/models';
 
 /**
  *  Auto-complete service
@@ -20,48 +24,25 @@ export class AutocompleteService {
 
   constructor(private readonly dataService: DataService) {}
 
-  public autocomplete(textSearch: TextSearch): Observable<FilterItem> {
+  public autocomplete(
+    autocompleteSearch: AutocompleteSearch
+  ): Observable<IdValue[]> {
     const httpParams = new HttpParams().set(
       this.PARAM_SEARCH_FOR,
-      textSearch.searchFor
+      autocompleteSearch.searchFor
     );
 
+    const filterPath = autocompleteSearch.filter.toLowerCase();
+
     return this.dataService
-      .getAll<FilterItem>(
-        `${this.AUTO_COMPLETE}/${textSearch.filter}`,
-        httpParams
-      )
+      .getAll<FilterItem>(`${this.AUTO_COMPLETE}/${filterPath}`, httpParams)
       .pipe(
-        map((item: FilterItem) => ({
-          ...item,
-          options: item.options,
-        }))
+        map((item: FilterItem) =>
+          item.options.map((option) => ({
+            ...option,
+            selected: false,
+          }))
+        )
       );
-  }
-
-  public mergeOptionsWithSelectedOptions(
-    options: IdValue[],
-    selectedOptions: IdValue[]
-  ): IdValue[] {
-    const currentSelections: IdValue[] = [];
-    const newItems = options.map((option: IdValue) => ({
-      ...option,
-      selected: selectedOptions.find(
-        (selectedOption) => selectedOption.id === option.id
-      )
-        ? true
-        : option.selected,
-    }));
-
-    selectedOptions.forEach((option: IdValue) => {
-      const selectedOptionFound = newItems.find(
-        (item) => item.id === option.id
-      );
-      if (!selectedOptionFound) {
-        currentSelections.push(option);
-      }
-    });
-
-    return newItems.concat(currentSelections);
   }
 }

@@ -1,11 +1,3 @@
-import { AgGridModule } from '@ag-grid-community/angular';
-import {
-  ColDef,
-  Column,
-  ColumnApi,
-  GridApi,
-  RowNode,
-} from '@ag-grid-community/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -14,24 +6,30 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { AgGridModule } from '@ag-grid-community/angular';
+import {
+  ColDef,
+  Column,
+  ColumnApi,
+  GridApi,
+  RowNode,
+} from '@ag-grid-community/core';
 import { translate } from '@ngneat/transloco';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import { MultiInputComponent } from './multi-input.component';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
+import * as en from '../../../../assets/i18n/en.json';
+import { MultipleInputDialogComponent } from './multiple-input-dialog.component';
 
-describe('MultiInputComponent', () => {
-  let component: MultiInputComponent;
-  let fixture: ComponentFixture<MultiInputComponent>;
+describe('MultipleInputDialogComponent', () => {
+  let component: MultipleInputDialogComponent;
+  let fixture: ComponentFixture<MultipleInputDialogComponent>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [MultiInputComponent],
+      declarations: [MultipleInputDialogComponent],
       imports: [
         AgGridModule.withComponents([]),
         MatButtonModule,
@@ -41,14 +39,14 @@ describe('MultiInputComponent', () => {
         ReactiveFormsModule,
         FlexModule,
         NoopAnimationsModule,
-        provideTranslocoTestingModule({}),
+        provideTranslocoTestingModule({ en }),
       ],
       providers: [{ provide: MatDialogRef, useValue: {} }],
     });
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MultiInputComponent);
+    fixture = TestBed.createComponent(MultipleInputDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -64,155 +62,165 @@ describe('MultiInputComponent', () => {
       expect(component.columnDefs).toEqual([
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.customerNumber'
+            'pricingView.inputSection.multiInputDialog.tableHeader.customer'
           ),
-          field: 'cutomer-number',
+          field: 'customer',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+            'pricingView.inputSection.multiInputDialog.tableHeader.sectorGPSD'
           ),
-          field: 'sector-GPSD',
+          field: 'sectorGPSD',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+            'pricingView.inputSection.multiInputDialog.tableHeader.soldToParty'
           ),
-          field: 'sold-to-Party',
+          field: 'soldToParty',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            'pricingView.inputSection.multiInputDialog.tableHeader.materialNumber'
           ),
-          field: 'material-number',
+          field: 'materialNumber',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.quantity'
-          ),
-          field: 'quantity',
-        },
-      ]);
-    });
-
-    test('to keyaccount', () => {
-      component.changeColumnDefs('keyaccount');
-
-      expect(component.columnDefs).toEqual([
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.keyAccount'
-          ),
-          field: 'key-account-number',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.country'
-          ),
-          field: 'region',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.subRegion'
-          ),
-          field: 'sub-region',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sectorManagement'
-          ),
-          field: 'sector-management',
-        },
-        { headerName: 'Main Sector', field: 'main-sector' },
-        { headerName: 'Sub Sector', field: 'sub-Sector' },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
-          ),
-          field: 'sector-GPSD',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.soldToParty'
-          ),
-          field: 'sold-to-Party',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.materialNumber'
-          ),
-          field: 'material-number',
-        },
-        {
-          headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.quantity'
+            'pricingView.inputSection.multiInputDialog.tableHeader.quantity'
           ),
           field: 'quantity',
         },
       ]);
     });
 
-    test('to subkeyaccount', () => {
-      component.changeColumnDefs('subkeyaccount');
+    test('to keyAccount', () => {
+      component.changeColumnDefs('keyAccount');
 
       expect(component.columnDefs).toEqual([
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.subKeyAccount'
+            'pricingView.inputSection.multiInputDialog.tableHeader.keyAccount'
           ),
-          field: 'sub-key-account-number',
+          field: 'keyAccount',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.country'
+            'pricingView.inputSection.multiInputDialog.tableHeader.region'
           ),
           field: 'region',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.subRegion'
+            'pricingView.inputSection.multiInputDialog.tableHeader.subRegion'
           ),
-          field: 'sub-region',
+          field: 'subRegion',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sectorManagement'
+            'pricingView.inputSection.multiInputDialog.tableHeader.sectorManagement'
           ),
-          field: 'sector-management',
+          field: 'sectorManagement',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.mainSector'
+            'pricingView.inputSection.multiInputDialog.tableHeader.mainSector'
           ),
-          field: 'main-sector',
+          field: 'mainSector',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.subSector'
+            'pricingView.inputSection.multiInputDialog.tableHeader.subSector'
           ),
-          field: 'sub-Sector',
+          field: 'subSector',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sectorGPSD'
+            'pricingView.inputSection.multiInputDialog.tableHeader.sectorGPSD'
           ),
-          field: 'sector-GPSD',
+          field: 'sectorGPSD',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.soldToParty'
+            'pricingView.inputSection.multiInputDialog.tableHeader.soldToParty'
           ),
-          field: 'sold-to-Party',
+          field: 'soldToParty',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            'pricingView.inputSection.multiInputDialog.tableHeader.materialNumber'
           ),
-          field: 'material-number',
+          field: 'materialNumber',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.quantity'
+            'pricingView.inputSection.multiInputDialog.tableHeader.quantity'
+          ),
+          field: 'quantity',
+        },
+      ]);
+    });
+
+    test('to subKeyAccount', () => {
+      component.changeColumnDefs('subKeyAccount');
+
+      expect(component.columnDefs).toEqual([
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.subKeyAccount'
+          ),
+          field: 'subKeyAccount',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.country'
+          ),
+          field: 'country',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.subRegion'
+          ),
+          field: 'subRegion',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.sectorManagement'
+          ),
+          field: 'sectorManagement',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.mainSector'
+          ),
+          field: 'mainSector',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.subSector'
+          ),
+          field: 'subSector',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.sectorGPSD'
+          ),
+          field: 'sectorGPSD',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.soldToParty'
+          ),
+          field: 'soldToParty',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.materialNumber'
+          ),
+          field: 'materialNumber',
+        },
+        {
+          headerName: translate(
+            'pricingView.inputSection.multiInputDialog.tableHeader.quantity'
           ),
           field: 'quantity',
         },
@@ -225,25 +233,25 @@ describe('MultiInputComponent', () => {
       expect(component.columnDefs).toEqual([
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.country'
+            'pricingView.inputSection.multiInputDialog.tableHeader.country'
           ),
           field: 'country',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.sector'
+            'pricingView.inputSection.multiInputDialog.tableHeader.sector'
           ),
           field: 'sector',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.materialNumber'
+            'pricingView.inputSection.multiInputDialog.tableHeader.materialNumber'
           ),
-          field: 'material-number',
+          field: 'materialNumber',
         },
         {
           headerName: translate(
-            'pricingView.inputSection.multiInput.tableHeader.quantity'
+            'pricingView.inputSection.multiInputDialog.tableHeader.quantity'
           ),
           field: 'quantity',
         },

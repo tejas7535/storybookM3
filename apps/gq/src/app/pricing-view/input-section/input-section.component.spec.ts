@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatChipInputEvent, MatChipsModule } from '@angular/material/chips';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { MatButtonModule } from '@angular/material/button';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -7,17 +9,25 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { Subject } from 'rxjs';
+
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import { of, Subject } from 'rxjs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { autocomplete, updateFilter } from '../../core/store/actions';
-import { FilterItem, IdValue, TextSearch } from '../../core/store/models';
-import { FilterInputModule } from './filter-input/filter-input.module';
-import { InputSectionComponent, Item } from './input-section.component';
-import { MultiInputComponent } from './multi-input/multi-input.component';
+import {
+  addOption,
+  autocomplete,
+  removeOption,
+  selectedFilterChange,
+} from '../../core/store/actions';
+import { AutocompleteSearch, IdValue } from '../../core/store/models';
+import { initialState } from '../../core/store/reducers/search/search.reducer';
+import { InputSectionComponent } from './input-section.component';
+import { MultiSelectInputModule } from './multi-select-input/multi-select-input.module';
+import { MultipleInputDialogComponent } from './multiple-input-dialog/multiple-input-dialog.component';
+import { MultipleInputDialogModule } from './multiple-input-dialog/multiple-input-dialog.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -32,17 +42,20 @@ describe('InputSectionComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         NoopAnimationsModule,
-        FilterInputModule,
+        provideTranslocoTestingModule({}),
+        MultiSelectInputModule,
+        MultipleInputDialogModule,
         MatFormFieldModule,
         MatSelectModule,
         MatInputModule,
         MatDialogModule,
         MatChipsModule,
         MatIconModule,
-        provideTranslocoTestingModule({}),
+        MatButtonModule,
+        FlexLayoutModule,
       ],
       declarations: [InputSectionComponent],
-      providers: [provideMockStore({})],
+      providers: [provideMockStore({ initialState })],
     });
   });
 
@@ -53,66 +66,61 @@ describe('InputSectionComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getFilter', () => {
-    it('should set/reset customer filter when change does not originate from customer', () => {
-      const filter = [
-        new FilterItem('test', [new IdValue('id', 'val', false)]),
-      ];
-      component.filter = undefined;
-      component.filters$ = of(filter);
-
-      component.getFilter();
-
-      expect(component.filter.filter).toEqual(component.selectedFilter);
-      expect(component.filter.options).toEqual([]);
-    });
-
-    it('should update customer filter when change contains customer', () => {
-      const filter = [
-        new FilterItem('customerNumber', [new IdValue('id', 'val', false)]),
-      ];
-      component.filter = undefined;
-      component.filters$ = of(filter);
-
-      component.getFilter();
-
-      expect(component.filter.filter).toEqual(filter[0].filter);
-      expect(component.filter.options).toEqual(filter[0].options);
-    });
-  });
-
-  describe('updateFilter', () => {
-    it('should disptach action updateFilter', () => {
+  describe('autocomplete', () => {
+    test('should dispatch autocomplete action', () => {
       mockStore.dispatch = jest.fn();
-      const filter: FilterItem = new FilterItem('name', []);
+      const autocompleteSearch = new AutocompleteSearch('name', 'Hans');
 
-      component.updateFilter(filter);
+      component.autocomplete(autocompleteSearch);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        updateFilter({ item: filter })
+        autocomplete({ autocompleteSearch })
       );
     });
   });
-
-  describe('autocomplete', () => {
-    it('should dispatch autocomplete action', () => {
+  describe('selectedFilterChange', () => {
+    test('should dispatch selectedFilterChange action', () => {
       mockStore.dispatch = jest.fn();
-      const textSearch = new TextSearch('name', 'Hans');
-
-      component.autocomplete(textSearch);
+      component.selectedFilterChange(({
+        value: 'customer',
+      } as unknown) as any);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        autocomplete({ textSearch })
+        selectedFilterChange({ filterName: 'customer' })
+      );
+    });
+  });
+  describe('removeOption', () => {
+    test('should dispatch removeOption action', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filterName = 'customer';
+      component.removeOption(option, filterName);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        removeOption({ option, filterName })
+      );
+    });
+  });
+  describe('addOption', () => {
+    test('should dispatch addOption action', () => {
+      mockStore.dispatch = jest.fn();
+      const option = new IdValue('aud', 'Audi', true);
+      const filterName = 'customer';
+      component.addOption(option, filterName);
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        addOption({ option, filterName })
       );
     });
   });
 
   describe('openDialog', () => {
-    it('should open dialog with params and save result on close', () => {
+    test('should open dialog with params and save result on close', () => {
       const observableMock = new Subject();
       const dialogMock = ({
         afterClosed: jest.fn(() => observableMock),
@@ -121,66 +129,19 @@ describe('InputSectionComponent', () => {
 
       component.openDialog();
 
-      expect(component.dialog.open).toHaveBeenCalledWith(MultiInputComponent, {
-        width: '80%',
-        height: '80%',
-      });
+      expect(component.dialog.open).toHaveBeenCalledWith(
+        MultipleInputDialogComponent,
+        {
+          width: '80%',
+          height: '80%',
+        }
+      );
 
       const testResult = 'result';
 
       observableMock.next(testResult);
 
       expect(component.multiQuery).toEqual(testResult);
-    });
-  });
-
-  describe('add', () => {
-    it('should add a Item', () => {
-      const items: Item[] = [];
-      const testValue = 'test ';
-      const expectedValue = 'test';
-      component.add(
-        ({ value: testValue, input: {} } as unknown) as MatChipInputEvent,
-        items
-      );
-
-      expect(items.length).toEqual(1);
-      expect(items[0].name).toEqual(expectedValue);
-    });
-
-    it('shouldn´t add a empty Item', () => {
-      const items: Item[] = [];
-      const testValue = '';
-      component.add(
-        ({ value: testValue, input: {} } as unknown) as MatChipInputEvent,
-        items
-      );
-
-      expect(items.length).toEqual(0);
-    });
-
-    it('should add no Item', () => {
-      const items: Item[] = [];
-      component.add(({} as unknown) as MatChipInputEvent, items);
-
-      expect(items.length).toEqual(0);
-    });
-  });
-
-  describe('remove', () => {
-    it('should remove a Item', () => {
-      const items: Item[] = [{ name: 'test' }];
-      component.remove(items[0], items);
-
-      expect(items.length).toEqual(0);
-    });
-
-    it('should not remove a Item', () => {
-      const items: Item[] = [{ name: 'test' }];
-      component.remove({ name: 'cake' }, items);
-
-      expect(items.length).toEqual(1);
-      expect(items[0].name).toEqual('test');
     });
   });
 

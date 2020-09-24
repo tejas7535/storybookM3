@@ -1,0 +1,63 @@
+<ng-container *ngIf="filter">
+  <mat-form-field
+    appearance="outline"
+    *transloco="let t; read: 'pricingView.inputSection.multiSelectInput'"
+  >
+    <mat-label>{{ t(filter.filter + '.label') }}</mat-label>
+
+    <mat-chip-list #chipList aria-label="Value selection">
+      <mat-chip
+        *ngFor="let selectedIdValue of selectedIdValues; trackBy: trackByFn"
+        selectable="true"
+        removable="true"
+        (removed)="remove(selectedIdValue)"
+      >
+        {{ selectedIdValue.value }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        class="input-field"
+        [formControl]="searchForm"
+        matInput
+        #valueInput
+        [matAutocomplete]="auto"
+        [matAutocompleteDisabled]="!filter.hasAutoComplete"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        matChipInputAddOnBlur="true"
+        (matChipInputTokenEnd)="add($event)"
+      />
+
+      <mat-spinner
+        *ngIf="autocompleteLoading"
+        matSuffix
+        [diameter]="18"
+      ></mat-spinner>
+    </mat-chip-list>
+    <mat-hint>{{ t(filter.filter + '.hint') }}</mat-hint>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selected($event)"
+    >
+      <mat-option
+        *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
+        [value]="idValue"
+      >
+        {{ idValue.id }} | {{ idValue.value }}
+      </mat-option>
+      <mat-option
+        disabled
+        *ngIf="
+          unselectedOptions
+            | noResultsFound
+              : selectedIdValues
+              : searchForm.value
+              : autocompleteLoading
+              : debounceIsActive
+        "
+      >
+        {{ t('nothingFound') }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-container>

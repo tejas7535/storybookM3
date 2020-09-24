@@ -11,7 +11,7 @@ export class NoResultsFoundPipe implements PipeTransform {
    */
   public transform(
     filterOptions: IdValue[],
-    selectedOption: IdValue,
+    selectedOptions: IdValue[],
     searchStr: string,
     autoCompleteLoading: boolean,
     debounceIsActive: boolean
@@ -20,7 +20,7 @@ export class NoResultsFoundPipe implements PipeTransform {
     const onlySelectedOptions =
       filterOptions.filter(
         (it: IdValue) =>
-          (selectedOption && selectedOption === it) ||
+          (selectedOptions && selectedOptions.find((sel) => sel === it)) ||
           (searchStr && it.value.toLowerCase().indexOf(searchStr) === -1)
       ).length === filterOptions.length;
 
