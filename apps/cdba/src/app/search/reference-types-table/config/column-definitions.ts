@@ -5,6 +5,7 @@ import {
   columnDefinitionToReferenceTypeProp,
   currentYear,
   formatDate,
+  formatMaterialNumber,
   formatNumber,
   valueGetterArray,
   valueGetterDate,
@@ -40,6 +41,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.materialNumber'
     ),
+    valueFormatter: formatMaterialNumber,
   },
   pcmQuantity: {
     field: columnDefinitionToReferenceTypeProp('pcmQuantity'),

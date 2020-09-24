@@ -9,6 +9,7 @@ import {
 import {
   currentYear,
   formatDate,
+  formatMaterialNumber,
   formatNumber,
   valueGetterArray,
   valueGetterDate,
@@ -53,6 +54,18 @@ describe('ColumnUtils', () => {
       const result = formatDate(params);
 
       expect(result).toEqual('05.06.2020');
+    });
+  });
+
+  describe('formatMaterialNumber', () => {
+    it('should transform to a material number format', () => {
+      const params = ({
+        value: '1111111112222',
+      } as unknown) as ValueFormatterParams;
+
+      const result = formatMaterialNumber(params);
+
+      expect(result).toEqual('111111111-2222');
     });
   });
 

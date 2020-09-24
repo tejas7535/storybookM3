@@ -7,6 +7,8 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialNumberModule } from '@cdba/shared';
+
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
@@ -23,6 +25,7 @@ import { DetailComponent } from './detail.component';
     StoreModule.forFeature('detail', detailReducer),
     MatIconModule,
     EffectsModule.forFeature([DetailEffects]),
+    MaterialNumberModule,
   ],
 })
 export class DetailModule {}
