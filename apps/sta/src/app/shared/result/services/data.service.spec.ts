@@ -50,7 +50,7 @@ describe('DataService', () => {
     test('should return an Observable<string[]>', (done) => {
       const text = 'Get me some tags please.';
       const expectedTags = ['First', 'Tag', 'Artificial'];
-      const url = `${environment.apiManagementBaseUrl}/tagging/text`;
+      const url = `${environment.apiBaseUrl}/tagging/text`;
 
       service.postTaggingText(text).subscribe((tags) => {
         expect(tags).toEqual(expectedTags);
@@ -79,7 +79,7 @@ describe('DataService', () => {
       );
 
       const expectedTags = ['First', 'Tag', 'Artificial'];
-      const url = `${environment.apiManagementBaseUrl}/tagging/file`;
+      const url = `${environment.apiBaseUrl}/tagging/file`;
       const form = new FormData();
       form.append('file', expectedFile, expectedFile.name);
 
@@ -101,7 +101,7 @@ describe('DataService', () => {
       const expectedTranslation = 'Please translate once.';
       const targetLang = Language.EN;
       const textLang = Language.DE;
-      const url = `${environment.apiManagementBaseUrl}/translation/text`;
+      const url = `${environment.apiBaseUrl}/translation/text`;
 
       const textInput: TextInput = {
         text,
@@ -126,7 +126,7 @@ describe('DataService', () => {
       const expectedTranslation = 'Please translate once.';
       const defaultTargetLang = Language.DE;
       const defaultTextLang = Language.EN;
-      const url = `${environment.apiManagementBaseUrl}/translation/text`;
+      const url = `${environment.apiBaseUrl}/translation/text`;
 
       const textInput: TextInput = {
         text,
@@ -151,7 +151,7 @@ describe('DataService', () => {
   describe('postTranslationFile', () => {
     test('should return response as observable', (done) => {
       const expectedTranslation = 'Please translate once.';
-      const url = `${environment.apiManagementBaseUrl}/translation/file`;
+      const url = `${environment.apiBaseUrl}/translation/file`;
       const targetLang = Language.EN;
       const textLang = Language.DE;
 
@@ -195,7 +195,7 @@ describe('DataService', () => {
 
     test('should set default values for textLang and targetLang', () => {
       jest.spyOn(service['http'], 'post');
-      const url = `${environment.apiManagementBaseUrl}/translation/file`;
+      const url = `${environment.apiBaseUrl}/translation/file`;
       const expectedTranslation = 'Please translate once.';
       const defaultTargetLang = Language.DE;
       const defaultTextLang = Language.EN;
@@ -278,7 +278,7 @@ describe('DataService', () => {
         textLang: Language.EN,
       };
 
-      const url = `${environment.apiManagementBaseUrl}/question-answering/text`;
+      const url = `${environment.apiBaseUrl}/question-answering/text`;
 
       const expectedAnswer: Answer = {
         answer: 'ja moin',
@@ -310,7 +310,7 @@ describe('DataService', () => {
         question: 'Was sagt der Tacho?',
       };
 
-      const url = `${environment.apiManagementBaseUrl}/question-answering/file`;
+      const url = `${environment.apiBaseUrl}/question-answering/file`;
 
       const expectedFile = new File(
         [Int8Array.from(fileInput.file.content)],

@@ -28,10 +28,7 @@ export class DataService {
 
   public postTaggingText(text: string): Observable<string[]> {
     return this.http
-      .post<Tags>(
-        `${environment.apiManagementBaseUrl}/tagging/text`,
-        new TextInput(text)
-      )
+      .post<Tags>(`${environment.apiBaseUrl}/tagging/text`, new TextInput(text))
       .pipe(map((tags: Tags) => tags.tags));
   }
 
@@ -49,7 +46,7 @@ export class DataService {
     formData.append('file', file, file.name);
 
     return this.http
-      .post<Tags>(`${environment.apiManagementBaseUrl}/tagging/file`, formData)
+      .post<Tags>(`${environment.apiBaseUrl}/tagging/file`, formData)
       .pipe(map((response: Tags) => response.tags));
   }
 
@@ -71,7 +68,7 @@ export class DataService {
 
     return this.http
       .post<Translation>(
-        `${environment.apiManagementBaseUrl}/translation/text`,
+        `${environment.apiBaseUrl}/translation/text`,
         postTextInput
       )
       .pipe(map((response: Translation) => response));
@@ -97,10 +94,7 @@ export class DataService {
     );
 
     return this.http
-      .post<Translation>(
-        `${environment.apiManagementBaseUrl}/translation/file`,
-        formData
-      )
+      .post<Translation>(`${environment.apiBaseUrl}/translation/file`, formData)
       .pipe(map((response: Translation) => response));
   }
 
@@ -137,7 +131,7 @@ export class DataService {
   ): Observable<Answer> {
     return this.http
       .post<Answer>(
-        `${environment.apiManagementBaseUrl}/question-answering/text`,
+        `${environment.apiBaseUrl}/question-answering/text`,
         textInput
       )
       .pipe(map((response: Answer) => response));
@@ -159,7 +153,7 @@ export class DataService {
 
     return this.http
       .post<Answer>(
-        `${environment.apiManagementBaseUrl}/question-answering/file`,
+        `${environment.apiBaseUrl}/question-answering/file`,
         formData
       )
       .pipe(map((response: Answer) => response));
