@@ -1,14 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { NgxEchartsModule } from 'ngx-echarts';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
@@ -22,45 +17,40 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('EdmMonitorComponent', () => {
   let component: EdmMonitorComponent;
-  let fixture: ComponentFixture<EdmMonitorComponent>;
+  let spectator: Spectator<EdmMonitorComponent>;
   let mockStore: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        DateRangeModule,
-        MatCardModule,
-        MatSlideToggleModule,
-        provideTranslocoTestingModule({}),
-        ReactiveComponentModule,
-        NgxEchartsModule.forRoot({
-          echarts: () => import('echarts'),
-        }),
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            edmMonitor: {
-              loading: false,
-              measurements: undefined,
-              interval: {
-                startDate: 123456789,
-                endDate: 987654321,
-              },
+  const createComponent = createComponentFactory({
+    component: EdmMonitorComponent,
+    imports: [
+      DateRangeModule,
+      MatCardModule,
+      MatSlideToggleModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          edmMonitor: {
+            loading: false,
+            measurements: undefined,
+            interval: {
+              startDate: 123456789,
+              endDate: 987654321,
             },
           },
-        }),
-      ],
-      declarations: [EdmMonitorComponent],
-    });
+        },
+      }),
+    ],
+    declarations: [EdmMonitorComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EdmMonitorComponent);
-    component = fixture.componentInstance;
-    mockStore = TestBed.inject(MockStore);
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    mockStore = spectator.inject(MockStore);
   });
 
   it('should create', () => {

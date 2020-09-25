@@ -2,9 +2,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService } from './data.service';
 import { ENV_CONFIG } from './environment-config.interface';
@@ -12,28 +11,29 @@ import { ENV_CONFIG } from './environment-config.interface';
 describe('Data Service', () => {
   const BASE_URL = 'http://localhost:8080';
   let service: DataService;
+  let spectator: SpectatorService<DataService>;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        DataService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: BASE_URL,
-            },
+  const createService = createServiceFactory({
+    service: DataService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      DataService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: BASE_URL,
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(DataService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.service;
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {

@@ -1,12 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
@@ -21,6 +19,7 @@ import {
 import { ConditionMonitoringEffects } from './condition-monitoring.effects';
 
 describe('Search Effects', () => {
+  let spectator: SpectatorService<ConditionMonitoringEffects>;
   let actions$: any;
   let action: any;
   let store: any;
@@ -30,29 +29,28 @@ describe('Search Effects', () => {
 
   const mockUrl = '/bearing/666/condition-monitoring';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        ConditionMonitoringEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: StompService,
-          useValue: {
-            connect: jest.fn(),
-            getTopicBroadcast: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: ConditionMonitoringEffects,
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: StompService,
+        useValue: {
+          connect: jest.fn(),
+          getTopicBroadcast: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    store = TestBed.inject(Store);
-    effects = TestBed.inject(ConditionMonitoringEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    store = spectator.inject(Store);
+    effects = spectator.inject(ConditionMonitoringEffects);
     metadata = getEffectsMetadata(effects);
-    stompService = TestBed.inject(StompService);
+    stompService = spectator.inject(StompService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
   });

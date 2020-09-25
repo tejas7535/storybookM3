@@ -1,49 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BearingComponent } from './bearing.component';
 
 describe('BearingComponent', () => {
   let component: BearingComponent;
-  let fixture: ComponentFixture<BearingComponent>;
+  let spectator: Spectator<BearingComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        RouterTestingModule,
-        MatTabsModule,
-        MatIconModule,
-        provideTranslocoTestingModule({}),
-        ReactiveComponentModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            bearing: {
-              loading: false,
-              result: undefined,
-            },
+  const createComponent = createComponentFactory({
+    component: BearingComponent,
+    imports: [RouterTestingModule, MatTabsModule, MatIconModule],
+    providers: [
+      provideMockStore({
+        initialState: {
+          bearing: {
+            loading: false,
+            result: undefined,
           },
-        }),
-      ],
-      declarations: [BearingComponent],
-    });
+        },
+      }),
+    ],
+    declarations: [BearingComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BearingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

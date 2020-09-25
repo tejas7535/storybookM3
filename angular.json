@@ -2639,6 +2639,9 @@
     },
     "@nrwl/angular:library": {
       "unitTestRunner": "jest"
+    },
+    "@ngneat/spectator:spectator-component": {
+      "jest": true
     }
   },
   "defaultProject": "kitchen-sink"
