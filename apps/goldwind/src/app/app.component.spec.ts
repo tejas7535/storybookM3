@@ -1,46 +1,55 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { tap } from 'rxjs/operators';
-
-import { ReactiveComponentModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
+import { startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
 
+Object.defineProperty(window, 'matchMedia', {
+  writable: true,
+  value: jest.fn().mockImplementation((query) => ({
+    matches: false,
+    media: query,
+    onchange: null, // tslint:disable-line no-null-keyword
+    addListener: jest.fn(), // deprecated
+    removeListener: jest.fn(), // deprecated
+    addEventListener: jest.fn(),
+    removeEventListener: jest.fn(),
+    dispatchEvent: jest.fn(),
+  })),
+});
+
 describe('AppComponent', () => {
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
+  let spectator: Spectator<AppComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        HeaderModule,
-        MatButtonModule,
-        RouterTestingModule,
-        FooterModule,
-        ReactiveComponentModule,
-      ],
-      providers: [provideMockStore()],
-      declarations: [AppComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    imports: [HeaderModule, MatButtonModule, RouterTestingModule, FooterModule],
+    providers: [
+      provideMockStore({
+        initialState: {
+          auth: {
+            user: {
+              username: 'Jefferson',
+            },
+          },
+        },
+      }),
+    ],
+    declarations: [AppComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.debugElement.componentInstance;
-    store = TestBed.inject(MockStore);
-    store.overrideSelector(getUsername, 'Jefferson');
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create the app', () => {
@@ -59,11 +68,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-      component.username$.pipe(
-        tap((response) => {
-          expect(response).toEqual('Jefferson');
-        })
-      );
       expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
   });

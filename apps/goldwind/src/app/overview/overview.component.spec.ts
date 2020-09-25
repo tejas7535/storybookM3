@@ -1,13 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { ConnectionState } from '../core/store/reducers/devices/models';
 import { StatusType } from '../shared/status-indicator/status-indicator.component';
@@ -16,36 +12,32 @@ import { OverviewComponent } from './overview.component';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
-  let fixture: ComponentFixture<OverviewComponent>;
+  let spectator: Spectator<OverviewComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        StatusIndicatorModule,
-        MatCardModule,
-        MatDividerModule,
-        provideTranslocoTestingModule({}),
-        ReactiveComponentModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            devices: {
-              loading: false,
-              result: undefined,
-            },
+  const createComponent = createComponentFactory({
+    component: OverviewComponent,
+    imports: [
+      RouterTestingModule,
+      StatusIndicatorModule,
+      MatCardModule,
+      MatDividerModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          devices: {
+            loading: false,
+            result: undefined,
           },
-        }),
-      ],
-      declarations: [OverviewComponent],
-    });
+        },
+      }),
+    ],
+    declarations: [OverviewComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OverviewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {

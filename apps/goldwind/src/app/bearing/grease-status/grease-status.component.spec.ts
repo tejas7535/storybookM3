@@ -1,15 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ReactiveComponentModule } from '@ngrx/component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 import { NgxEchartsModule } from 'ngx-echarts';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   setGreaseDisplay,
@@ -26,52 +21,47 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('GreaseStatusComponent', () => {
   let component: GreaseStatusComponent;
-  let fixture: ComponentFixture<GreaseStatusComponent>;
+  let spectator: Spectator<GreaseStatusComponent>;
   let mockStore: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        ReactiveFormsModule,
-        DateRangeModule,
-        MatCardModule,
-        MatCheckboxModule,
-        provideTranslocoTestingModule({}),
-        NgxEchartsModule.forRoot({
-          echarts: () => import('echarts'),
-        }),
-        ReactiveComponentModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            greaseStatus: {
-              loading: false,
-              result: undefined,
-              display: {
-                waterContentPercent: true,
-                deteriorationPercent: true,
-                temperatureCelsius: true,
-                rotationalSpeed: true,
-              },
-              interval: {
-                startDate: 123456789,
-                endDate: 987654321,
-              },
+  const createComponent = createComponentFactory({
+    component: GreaseStatusComponent,
+    imports: [
+      ReactiveFormsModule,
+      DateRangeModule,
+      MatCardModule,
+      MatCheckboxModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          greaseStatus: {
+            loading: false,
+            result: undefined,
+            display: {
+              waterContentPercent: true,
+              deteriorationPercent: true,
+              temperatureCelsius: true,
+              rotationalSpeed: true,
+            },
+            interval: {
+              startDate: 123456789,
+              endDate: 987654321,
             },
           },
-        }),
-      ],
-      declarations: [GreaseStatusComponent],
-    });
+        },
+      }),
+    ],
+    declarations: [GreaseStatusComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GreaseStatusComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    mockStore = TestBed.inject(MockStore);
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    mockStore = spectator.inject(MockStore);
   });
 
   it('should create', () => {

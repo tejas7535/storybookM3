@@ -1,12 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
@@ -24,6 +22,7 @@ import {
 import { EdmMonitorEffects } from './edm-monitor.effects';
 
 describe('Search Effects', () => {
+  let spectator: SpectatorService<EdmMonitorEffects>;
   let actions$: any;
   let action: any;
   let store: any;
@@ -34,28 +33,27 @@ describe('Search Effects', () => {
   const mockUrl = '/bearing/666/condition-monitoring';
   const mockSensorID = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        EdmMonitorEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: DataService,
-          useValue: {
-            getEdm: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: EdmMonitorEffects,
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: DataService,
+        useValue: {
+          getEdm: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    store = TestBed.inject(Store);
-    effects = TestBed.inject(EdmMonitorEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    store = spectator.inject(Store);
+    effects = spectator.inject(EdmMonitorEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = TestBed.inject(DataService);
+    dataService = spectator.inject(DataService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getEdmInterval, {

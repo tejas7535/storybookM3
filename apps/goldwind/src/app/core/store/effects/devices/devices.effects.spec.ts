@@ -1,12 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
@@ -19,6 +17,7 @@ import {
 import { DevicesEffects } from './devices.effects';
 
 describe('Search Effects', () => {
+  let spectator: SpectatorService<DevicesEffects>;
   let actions$: any;
   let action: any;
   let store: any;
@@ -28,28 +27,27 @@ describe('Search Effects', () => {
 
   const mockUrl = '/overview';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        DevicesEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: DataService,
-          useValue: {
-            getDevices: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: DevicesEffects,
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: DataService,
+        useValue: {
+          getDevices: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    store = TestBed.inject(Store);
-    effects = TestBed.inject(DevicesEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    store = spectator.inject(Store);
+    effects = spectator.inject(DevicesEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = TestBed.inject(DataService);
+    dataService = spectator.inject(DataService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
   });

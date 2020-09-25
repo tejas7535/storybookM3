@@ -1,39 +1,30 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from './environment-config.interface';
 import { StompService } from './stomp.service';
 
-// jest.mock('@stomp/rx-stomp', () => ({
-// ...jest.requireActual('@stomp/rx-stomp'),
-// activate: jest.fn(),
-// deactivate: jest.fn(),
-// configure: jest.fn(),
-// }));
-
 describe('Data Service', () => {
   const BASE_URL = 'http://localhost:8080';
   let service: StompService;
+  let spectator: SpectatorService<StompService>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        StompService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: BASE_URL,
-            },
+  const createService = createServiceFactory({
+    service: StompService,
+    providers: [
+      StompService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: BASE_URL,
           },
         },
-      ],
-    });
+      },
+    ],
   });
-
   beforeEach(() => {
-    service = TestBed.inject(StompService);
+    spectator = createService();
+    service = spectator.service;
   });
 
   describe('connect', () => {

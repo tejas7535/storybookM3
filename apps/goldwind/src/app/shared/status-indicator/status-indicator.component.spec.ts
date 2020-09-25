@@ -1,27 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { StatusIndicatorComponent } from './status-indicator.component';
 
 describe('StatusIndicatorComponent', () => {
   let component: StatusIndicatorComponent;
-  let fixture: ComponentFixture<StatusIndicatorComponent>;
+  let spectator: Spectator<StatusIndicatorComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatIconModule, provideTranslocoTestingModule({})],
-      declarations: [StatusIndicatorComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: StatusIndicatorComponent,
+    imports: [MatIconModule],
+    declarations: [StatusIndicatorComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StatusIndicatorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

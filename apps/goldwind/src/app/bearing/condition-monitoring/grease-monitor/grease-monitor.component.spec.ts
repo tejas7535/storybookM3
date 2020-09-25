@@ -1,32 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { GreaseMonitorComponent } from './grease-monitor.component';
 
 describe('GreaseStatusComponent', () => {
   let component: GreaseMonitorComponent;
-  let fixture: ComponentFixture<GreaseMonitorComponent>;
+  let spectator: Spectator<GreaseMonitorComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        MatCardModule,
-        provideTranslocoTestingModule({}),
-        AgGridModule.withComponents([]),
-      ],
-      declarations: [GreaseMonitorComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: GreaseMonitorComponent,
+    imports: [MatCardModule, AgGridModule.withComponents([])],
+    declarations: [GreaseMonitorComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(GreaseMonitorComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

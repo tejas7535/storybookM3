@@ -1,41 +1,31 @@
-import {
-  ComponentFixture,
-  fakeAsync,
-  TestBed,
-  tick,
-} from '@angular/core/testing';
+import { fakeAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { DateRangeComponent } from './date-range.component';
 
 describe('DateRangeComponent', () => {
   let component: DateRangeComponent;
-  let fixture: ComponentFixture<DateRangeComponent>;
+  let spectator: Spectator<DateRangeComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        ReactiveFormsModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        provideTranslocoTestingModule({}),
-      ],
-      declarations: [DateRangeComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: DateRangeComponent,
+    imports: [
+      ReactiveFormsModule,
+      MatDatepickerModule,
+      MatNativeDateModule,
+      MatFormFieldModule,
+    ],
+    declarations: [DateRangeComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DateRangeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {
@@ -55,7 +45,7 @@ describe('DateRangeComponent', () => {
       component.rangeForm.patchValue({ startDate: mockInterval.startDate });
       component.rangeForm.patchValue({ endDate: mockInterval.endDate });
 
-      tick(500);
+      spectator.tick(500);
 
       expect(component['rangeChange'].emit).toHaveBeenCalledTimes(1);
       expect(component['rangeChange'].emit).toHaveBeenCalledWith({

@@ -1,12 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { getAccessToken } from '@schaeffler/auth';
 
@@ -21,6 +19,7 @@ import * as fromRouter from '../../reducers';
 import { BearingEffects } from './bearing.effects';
 
 describe('Search Effects', () => {
+  let spectator: SpectatorService<BearingEffects>;
   let actions$: any;
   let action: any;
   let store: any;
@@ -30,28 +29,27 @@ describe('Search Effects', () => {
 
   const mockUrl = '/bearing/666/condition-monitoring';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        BearingEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: DataService,
-          useValue: {
-            getBearing: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: BearingEffects,
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: DataService,
+        useValue: {
+          getBearing: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    store = TestBed.inject(Store);
-    effects = TestBed.inject(BearingEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    store = spectator.inject(Store);
+    effects = spectator.inject(BearingEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = TestBed.inject(DataService);
+    dataService = spectator.inject(DataService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {

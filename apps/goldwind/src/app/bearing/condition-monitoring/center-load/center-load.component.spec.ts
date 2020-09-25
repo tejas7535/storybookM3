@@ -1,27 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { CenterLoadComponent } from './center-load.component';
 
 describe('ConditionMeasuringEquipmentComponent', () => {
   let component: CenterLoadComponent;
-  let fixture: ComponentFixture<CenterLoadComponent>;
+  let spectator: Spectator<CenterLoadComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatCardModule, provideTranslocoTestingModule({})],
-      declarations: [CenterLoadComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: CenterLoadComponent,
+    imports: [MatCardModule],
+    declarations: [CenterLoadComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CenterLoadComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {
