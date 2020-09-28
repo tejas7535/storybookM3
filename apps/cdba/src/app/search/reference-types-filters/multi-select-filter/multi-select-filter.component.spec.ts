@@ -321,21 +321,38 @@ describe('MultiSelectFilterComponent', () => {
   });
 
   describe('filterItemsLocally', () => {
-    it('should filter items according provided search string', () => {
-      const idValue1 = new IdValue('001', 'baum', true);
-      const idValue2 = new IdValue('002', 'cdba', true);
-      const idValue3 = new IdValue('003', 'dont find me', true);
+    const idValue1 = new IdValue('001', 'baum', true);
+    const idValue2 = new IdValue('002', 'cdba', true);
+    const idValue3 = new IdValue('003', 'goldwind', true);
 
+    let search;
+    let result;
+
+    beforeEach(() => {
       component.filter = new FilterItemIdValue(
         'test',
         [idValue1, idValue2, idValue3],
         false
       );
-      const search = 'ba';
 
-      const result = component.filterItemsLocally(search, []);
+      search = undefined;
+      result = undefined;
+    });
+
+    it('should filter items according provided search string', () => {
+      search = 'ba';
+
+      result = component.filterItemsLocally(search, []);
 
       expect(result).toEqual([idValue1, idValue2]);
+    });
+
+    it('should filter items by their id', () => {
+      search = '002';
+
+      result = component.filterItemsLocally(search, []);
+
+      expect(result).toEqual([idValue2]);
     });
   });
 
