@@ -175,6 +175,7 @@ export class MultiSelectFilterComponent
           !search ||
           search.length === 0 ||
           item.value.toLowerCase().indexOf(search.toLowerCase()) !== -1 ||
+          item.id.indexOf(search.toLowerCase()) !== -1 ||
           selectedValues.includes(item.id)
       );
 
