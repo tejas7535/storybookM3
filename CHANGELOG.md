@@ -2,6 +2,43 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
+
+
+### 🏭 Automation
+
+* **gq:** added url for gq deployment in the deployments.json ([30b922c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/30b922c99e114282757770747f27d35a56718bc5))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed gq url in deployments.json ([db5043f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/db5043f985fe2c689877f2fbc4a823287153f72e))
+* **sta:** switch back to nest base url instead of api management (UFTABI-3130) ([e399a69](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e399a698f09db716110624330800d329bbed9759))
+
+
+### 📈 Improvements
+
+* **cdba:** show dashes in material numbers (DSCDA-1928) ([c130ff1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c130ff1d57187d9dcc5507ae80e6d164ebfdc597))
+* **cdba:** support ids within local search (DSCDA-1960) ([ccd57bb](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ccd57bb5518d3c6cbd00db9a9e1d787870d47e8d))
+* **goldwind:** add construction hint and spinner to overview ([b5b6689](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b5b66896aeb1edaf1410c50a6bef1c7335f028e0))
+
+
+### 🎸 Features
+
+* **cdba:** add localization to tables ([d15cc0f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d15cc0f5892de0ebac679d469e38cad0c0d6ca05))
+* **empty-states:** adjust empty-states to be responsive ([ce26591](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ce265911614a2e6b7e95b82f3c94b270a98eee47))
+* **goldwind:** add daterange picker to edm monitor (DIGDTGW-622) ([a395a7a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a395a7a04467f8a9b1033507fb6cd2958844141c))
+* **goldwind:** add grease status detail diagramm (DIGDTGW-714) ([7fc177a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7fc177a46990d682915e87a8f74496d5960bc5cd))
+* **goldwind:** display max value in edm monitor (DIGDTGW-781) ([bd64157](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/bd641577ae1fcfda1ac9723ee5426c201bc7e4c1))
+* **gq:** add dialog for querrying table (GQUOTE-111) ([1ade529](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1ade5299975b341c915d2cb50acdb044fca4767a))
+* **gq:** add input field according to dropdown selections (GQUOTE-98) ([b526f69](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b526f6920ccb65c04f8f495f5e7671c5bf1eb2fa))
+* **gq:** Input Check for Enabling "Add to Queries" (GQUOTE-29) ([ae4fc96](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ae4fc965b9cca0dfd6088ee90637b4c489d67456))
+* **gq:** migrate result section (GQUOTE-110) ([473275f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/473275fa48ceddce7a259c4c6f1e01efcd8af8e3))
+* **gq:** multiselect for inputs (GQUOTE-119) ([11f7407](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/11f7407959fd1e72716828338f63a34ae1d438ee))
+* **gq:** translate all templates (GQUOTE-99) ([eb0de17](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/eb0de174a58ed0b8614dc6277890f06440f0fb1e))
+* **ltp:** fix wrong legend entry ([01c6322](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/01c6322313e709aa8799db2c9233fdea9273221e))
+* **ltp:** integrate non linear regression model (ADAPLD-6763) ([c0d5900](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c0d5900ea3be0db3dc13ea79e1e7c27f7b87b306))
+
 ## [1.6.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.6.1) (2020-09-25)
 
 

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
+
+
+### 🎸 Features
+
+* **ltp:** fix wrong legend entry ([01c6322](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/01c6322313e709aa8799db2c9233fdea9273221e))
+* **ltp:** integrate non linear regression model (ADAPLD-6763) ([c0d5900](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c0d5900ea3be0db3dc13ea79e1e7c27f7b87b306))
+
 ## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
 
 

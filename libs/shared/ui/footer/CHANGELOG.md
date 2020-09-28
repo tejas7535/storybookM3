@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](///compare/v1.6.0...v1.4.1) (2020-09-28)
+
+
+### 📈 Improvements
+
+* **goldwind:** add construction hint and spinner to overview ([b5b6689](///commit/b5b66896aeb1edaf1410c50a6bef1c7335f028e0))
+
 ## [1.4.0](///compare/v1.5.0...v1.4.0) (2020-09-11)
 
 

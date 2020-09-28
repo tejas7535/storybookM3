@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
+
+
+### 🎸 Features
+
+* **gq:** add dialog for querrying table (GQUOTE-111) ([1ade529](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1ade5299975b341c915d2cb50acdb044fca4767a))
+* **gq:** add input field according to dropdown selections (GQUOTE-98) ([b526f69](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b526f6920ccb65c04f8f495f5e7671c5bf1eb2fa))
+* **gq:** Input Check for Enabling "Add to Queries" (GQUOTE-29) ([ae4fc96](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ae4fc965b9cca0dfd6088ee90637b4c489d67456))
+* **gq:** migrate result section (GQUOTE-110) ([473275f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/473275fa48ceddce7a259c4c6f1e01efcd8af8e3))
+* **gq:** multiselect for inputs (GQUOTE-119) ([11f7407](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/11f7407959fd1e72716828338f63a34ae1d438ee))
+* **gq:** translate all templates (GQUOTE-99) ([eb0de17](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/eb0de174a58ed0b8614dc6277890f06440f0fb1e))
+
 ## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
 
 

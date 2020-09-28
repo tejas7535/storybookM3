@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
+
+
+### 📈 Improvements
+
+* **goldwind:** add construction hint and spinner to overview ([b5b6689](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b5b66896aeb1edaf1410c50a6bef1c7335f028e0))
+
+
+### 🎸 Features
+
+* **goldwind:** add daterange picker to edm monitor (DIGDTGW-622) ([a395a7a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a395a7a04467f8a9b1033507fb6cd2958844141c))
+* **goldwind:** add grease status detail diagramm (DIGDTGW-714) ([7fc177a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7fc177a46990d682915e87a8f74496d5960bc5cd))
+* **goldwind:** display max value in edm monitor (DIGDTGW-781) ([bd64157](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/bd641577ae1fcfda1ac9723ee5426c201bc7e4c1))
+
 ## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
 
 

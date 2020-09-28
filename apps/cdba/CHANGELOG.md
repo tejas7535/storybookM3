@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
+
+
+### 🎸 Features
+
+* **cdba:** add localization to tables ([d15cc0f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/d15cc0f5892de0ebac679d469e38cad0c0d6ca05))
+
+
+### 📈 Improvements
+
+* **cdba:** show dashes in material numbers (DSCDA-1928) ([c130ff1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c130ff1d57187d9dcc5507ae80e6d164ebfdc597))
+* **cdba:** support ids within local search (DSCDA-1960) ([ccd57bb](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ccd57bb5518d3c6cbd00db9a9e1d787870d47e8d))
+
 ## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
 
 
