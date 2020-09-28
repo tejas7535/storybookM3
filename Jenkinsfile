@@ -463,11 +463,11 @@ pipeline {
                             sh 'git fetch --all'
                             sh "git checkout ${targetBranch}"
 
-                            // run standard version in root to generate general changelog
-                            sh 'npm run release'
-
                             // generate project specific changelogs
                             sh "npx nx affected --base=${buildBase} --target=standard-version --parallel"
+                            
+                            // run standard version in root to generate general changelog
+                            sh 'npm run release'
                             
                             sh 'npm run generate-readme'
                             sh 'git add .'
