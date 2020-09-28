@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.6.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.6.1) (2020-09-25)
+
+
+### 🐛 Bug Fixes
+
+* **sta:** switch back to nest base url instead of api management (UFTABI-3130) ([e399a69](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e399a698f09db716110624330800d329bbed9759))
+
+
 ## [1.6.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.6.0) (2020-09-11)
 
 
