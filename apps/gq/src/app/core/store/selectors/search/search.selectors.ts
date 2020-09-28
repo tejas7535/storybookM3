@@ -41,3 +41,39 @@ export const getMaterialNumberAndQuantity = createSelector(
       (item) => item.filter === 'materialNumber' || item.filter === 'quantity'
     )
 );
+
+export const getIsInvalidTransaction = createSelector(
+  getSearchState,
+  (state: SearchState): boolean => !isValidTransaction(state)
+);
+
+const isValidTransaction = (state: SearchState): boolean => {
+  // Valid Case 1: quotation number is entered
+  // Valid Case 2: queryKeyExists, matNumberExists and quanitityExists
+
+  let queryKeyValid = false;
+  let quotationValid = false;
+  let matNumberValid = false;
+  let quantityValid = false;
+
+  const { items } = state.filters;
+
+  for (const item of items) {
+    if (item.filter === state.filters.selected) {
+      for (const option of item.options) {
+        if (option.selected) {
+          queryKeyValid = true;
+          quotationValid = state.filters.selected === 'quotation';
+          break;
+        }
+      }
+    }
+    if (item.filter === 'materialNumber') {
+      matNumberValid = item.options.some((el) => el.selected);
+    } else if (item.filter === 'quantity') {
+      quantityValid = item.options.some((el) => el.selected);
+    }
+  }
+
+  return quotationValid || (queryKeyValid && matNumberValid && quantityValid);
+};

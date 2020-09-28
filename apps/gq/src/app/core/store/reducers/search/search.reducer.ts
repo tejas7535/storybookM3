@@ -158,7 +158,7 @@ export const searchReducer = createReducer(
       autocompleteLoading: undefined,
       items: [...state.filters.items].map((it) => {
         const tmp = { ...it };
-        const itemOptions = options;
+        const itemOptions = [...options];
         if (tmp.filter === filter) {
           const mergedOptions: IdValue[] = [];
 
