@@ -23,6 +23,7 @@ import {
   getAutocompleteLoading,
   getFilterQueryInputs,
   getFilters,
+  getIsInvalidTransaction,
   getMaterialNumberAndQuantity,
   getOptionalFilters,
   getSelectedFilter,
@@ -47,6 +48,7 @@ export class InputSectionComponent implements OnInit {
   selectedFilter$: Observable<FilterItem>;
   optionalFilters$: Observable<FilterItem[]>;
   materialNumberAndQuantities$: Observable<FilterItem[]>;
+  searchButtonDisabled$: Observable<boolean>;
 
   multiQuery: any;
 
@@ -63,6 +65,9 @@ export class InputSectionComponent implements OnInit {
     this.filterQueryInputs$ = this.store.pipe(select(getFilterQueryInputs));
     this.selectedFilter$ = this.store.pipe(select(getSelectedFilter));
     this.optionalFilters$ = this.store.pipe(select(getOptionalFilters));
+    this.searchButtonDisabled$ = this.store.pipe(
+      select(getIsInvalidTransaction)
+    );
     this.materialNumberAndQuantities$ = this.store.pipe(
       select(getMaterialNumberAndQuantity)
     );

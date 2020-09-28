@@ -1,3 +1,4 @@
+import { IdValue } from '../../models';
 import { initialState } from '../../reducers/search/search.reducer';
 import * as searchSelectors from './search.selectors';
 
@@ -70,6 +71,22 @@ describe('Search Selector', () => {
             item.filter === 'materialNumber' || item.filter === 'quantity'
         )
       );
+    });
+  });
+
+  describe('getIsInvalidTransaction', () => {
+    test('should return false when QueryKey, Quantity and materialNumber are selected', () => {
+      const selectedOption = new IdValue('test', 'test', true);
+      const setOptionsfor = ['customer', 'quantity', 'materialNumber'];
+      setOptionsfor.forEach((filter) => {
+        fakeState.search.filters.items[
+          fakeState.search.filters.items.findIndex((el) => el.filter === filter)
+        ].options.push(selectedOption);
+      });
+
+      expect(
+        searchSelectors.getIsInvalidTransaction.projector(fakeState.search)
+      ).toBeFalsy();
     });
   });
 });
