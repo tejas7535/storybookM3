@@ -38,7 +38,7 @@ export const getBuildConfigurations = (projectPath: string) => ({
     fileReplacements: [
       {
         replace: `${projectPath}/src/environments/environment.ts`,
-        with: `${projectPath}/src/environments/environment.dev.ts`,
+        with: `${projectPath}/src/environments/environment.qa.ts`,
       },
     ],
     budgets: [
