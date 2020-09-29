@@ -6,11 +6,17 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  createQueries,
   removeOption,
   selectedFilterChange,
 } from '../../actions';
-import { AutocompleteSearch, FilterItem, IdValue } from '../../models';
-import { reducer, searchReducer } from './search.reducer';
+import {
+  AutocompleteSearch,
+  FilterItem,
+  IdValue,
+  QueryItem,
+} from '../../models';
+import { reducer, searchReducer, SearchState } from './search.reducer';
 
 describe('Search Reducer', () => {
   describe('autocomplete', () => {
@@ -120,6 +126,46 @@ describe('Search Reducer', () => {
       expect(state.filters.selected).toEqual(filterName);
     });
   });
+
+  describe('createQueries', () => {
+    test('should create queries', () => {
+      const expected = [new QueryItem('audi', '10', '1500')];
+      const fakeState: SearchState = {
+        ...APP_STATE_MOCK,
+        filters: {
+          ...APP_STATE_MOCK.filters,
+          items: [
+            {
+              filter: 'customer',
+              options: [new IdValue('audi', 'audi', true)],
+              hasAutoComplete: false,
+              optionalParents: [],
+              multiSelect: true,
+            },
+            {
+              filter: 'materialNumber',
+              options: [{ id: '1500', value: '1500', selected: true }],
+              hasAutoComplete: false,
+              optionalParents: [],
+              multiSelect: true,
+            },
+            {
+              filter: 'quantity',
+              options: [{ id: '10', value: '10', selected: true }],
+              hasAutoComplete: false,
+              optionalParents: [],
+              multiSelect: true,
+            },
+          ],
+        },
+      };
+
+      const action = createQueries();
+      const state = searchReducer(fakeState, action);
+      expect(state.queryList).toEqual(expected);
+    });
+  });
+
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action

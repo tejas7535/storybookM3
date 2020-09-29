@@ -88,6 +88,7 @@
   class="search-button"
   mat-stroked-button
   [disabled]="searchButtonDisabled$ | async"
+  (click)="createQueries()"
   *transloco="let t; read: 'pricingView.inputSection'"
 >
   {{ t('searchButton') }}

@@ -5,10 +5,11 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  createQueries,
   removeOption,
   selectedFilterChange,
 } from '../../actions';
-import { FilterItem, IdValue } from '../../models';
+import { FilterItem, IdValue, QueryItem } from '../../models';
 
 export interface SearchState {
   filters: {
@@ -17,6 +18,7 @@ export interface SearchState {
     selected: string;
     queryInputs: string[];
   };
+  queryList: QueryItem[];
 }
 
 export const initialState: SearchState = {
@@ -140,6 +142,7 @@ export const initialState: SearchState = {
       'country',
     ],
   },
+  queryList: [],
 };
 
 export const searchReducer = createReducer(
@@ -239,8 +242,44 @@ export const searchReducer = createReducer(
       items: [...state.filters.items].map((item) => ({ ...item, options: [] })),
       selected: filterName,
     },
+  })),
+  on(createQueries, (state: SearchState) => ({
+    ...state,
+    queryList: createQueryList(state),
   }))
 );
+
+const createQueryList = (state: SearchState): QueryItem[] => {
+  const queryList: QueryItem[] = [];
+  const { items } = state.filters;
+
+  let customers: IdValue[] = [];
+  let quantities: IdValue[] = [];
+  let materialNumber: IdValue[] = [];
+
+  items.forEach((item) => {
+    if (item.filter === 'customer') {
+      customers = item.options.filter((opt) => opt.selected);
+    }
+    if (item.filter === 'quantity') {
+      quantities = item.options.filter((opt) => opt.selected);
+    }
+    if (item.filter === 'materialNumber') {
+      materialNumber = item.options.filter((opt) => opt.selected);
+    }
+  });
+
+  customers.forEach((cust) => {
+    quantities.forEach((quant) => {
+      materialNumber.forEach((mat) => {
+        const queryItem = new QueryItem(cust.id, quant.id, mat.id);
+        queryList.push(queryItem);
+      });
+    });
+  });
+
+  return queryList;
+};
 
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: SearchState, action: Action): SearchState {

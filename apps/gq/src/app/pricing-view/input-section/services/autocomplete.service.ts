@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '../../../core/http/data.service';
 import {
+  AutocompleteResponse,
   AutocompleteSearch,
-  FilterItem,
   IdValue,
 } from '../../../core/store/models';
 
@@ -35,11 +35,14 @@ export class AutocompleteService {
     const filterPath = autocompleteSearch.filter.toLowerCase();
 
     return this.dataService
-      .getAll<FilterItem>(`${this.AUTO_COMPLETE}/${filterPath}`, httpParams)
+      .getAll<AutocompleteResponse>(
+        `${this.AUTO_COMPLETE}/${filterPath}`,
+        httpParams
+      )
       .pipe(
-        map((item: FilterItem) =>
-          item.options.map((option) => ({
-            ...option,
+        map((res: AutocompleteResponse) =>
+          res.items.map((opt: IdValue) => ({
+            ...opt,
             selected: false,
           }))
         )
