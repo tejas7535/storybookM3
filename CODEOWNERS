@@ -41,4 +41,8 @@ apps/gq-e2e @andrafnk @soehnpsc @herpisef
 
 ############
 ### Libs ###
-############
+############ IA
+apps/ia @herpisef 
+apps/ia-e2e @herpisef 
+
+#

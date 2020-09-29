@@ -141,6 +141,14 @@
     "gq-e2e": {
       "tags": [],
       "implicitDependencies": ["gq"]
+    },
+    "ia": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "ia-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ia"]
     }
   },
   "tasksRunnerOptions": {

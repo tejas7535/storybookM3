@@ -2627,6 +2627,211 @@
           }
         }
       }
+    },
+    "ia": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/ia",
+      "sourceRoot": "apps/ia/src",
+      "prefix": "ia",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/ia",
+            "index": "apps/ia/src/index.html",
+            "main": "apps/ia/src/main.ts",
+            "polyfills": "apps/ia/src/polyfills.ts",
+            "tsConfig": "apps/ia/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/ia/src/favicon.ico", "apps/ia/src/assets"],
+            "styles": [
+              "apps/ia/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ia/src/environments/environment.ts",
+                  "with": "apps/ia/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ia/src/environments/environment.ts",
+                  "with": "apps/ia/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ia/src/environments/environment.ts",
+                  "with": "apps/ia/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "ia:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "ia:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "ia:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ia:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/ia/tsconfig.app.json",
+              "apps/ia/tsconfig.spec.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/ia/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/ia/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/ia && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ia-e2e": {
+      "root": "apps/ia-e2e",
+      "sourceRoot": "apps/ia-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ia-e2e/cypress.json",
+            "tsConfig": "apps/ia-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ia:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "ia:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "ia:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/ia-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/ia-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {
