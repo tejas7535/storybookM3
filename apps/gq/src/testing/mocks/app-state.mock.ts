@@ -49,4 +49,5 @@ export const APP_STATE_MOCK: SearchState = {
       'sector',
     ],
   },
+  queryList: [],
 };

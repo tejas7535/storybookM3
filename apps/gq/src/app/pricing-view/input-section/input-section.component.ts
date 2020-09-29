@@ -10,6 +10,7 @@ import { select, Store } from '@ngrx/store';
 import {
   addOption,
   autocomplete,
+  createQueries,
   removeOption,
   selectedFilterChange,
 } from '../../core/store/actions';
@@ -49,7 +50,6 @@ export class InputSectionComponent implements OnInit {
   optionalFilters$: Observable<FilterItem[]>;
   materialNumberAndQuantities$: Observable<FilterItem[]>;
   searchButtonDisabled$: Observable<boolean>;
-
   multiQuery: any;
 
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
@@ -87,6 +87,9 @@ export class InputSectionComponent implements OnInit {
 
   addOption(option: IdValue, filterName: string): void {
     this.store.dispatch(addOption({ option, filterName }));
+  }
+  createQueries(): void {
+    this.store.dispatch(createQueries());
   }
 
   openDialog(): void {

@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { FilterItem } from '../../models';
+import { FilterItem, QueryItem } from '../../models';
 import { getSearchState } from '../../reducers';
 import { SearchState } from '../../reducers/search/search.reducer';
 
@@ -45,6 +45,11 @@ export const getMaterialNumberAndQuantity = createSelector(
 export const getIsInvalidTransaction = createSelector(
   getSearchState,
   (state: SearchState): boolean => !isValidTransaction(state)
+);
+
+export const getQueryList = createSelector(
+  getSearchState,
+  (state: SearchState): QueryItem[] => state.queryList
 );
 
 const isValidTransaction = (state: SearchState): boolean => {

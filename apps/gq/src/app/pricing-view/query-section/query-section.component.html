@@ -2,12 +2,14 @@
   {{ t('title') }}
 </h3>
 
-<mat-chip-list #chipList aria-label="Fruit selection">
-  <mat-chip
-    *ngFor="let item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]; trackBy: trackByFn"
-    class="chip"
-  >
-    Customer #: 26605 | GPSD: F04 | Qty: 10
+<mat-chip-list
+  #chipList
+  aria-label="Query list"
+  *ngIf="(queryList$ | async)?.length > 0 && (queryList$ | async) as queryList"
+>
+  <mat-chip *ngFor="let query of queryList; trackBy: trackByFn" class="chip">
+    Customer #: {{ query.customer }} | materialNumber:
+    {{ query.materialNumber }} | Qty: {{ query.quantity }}
     <mat-icon matChipRemove>cancel</mat-icon>
   </mat-chip>
 </mat-chip-list>

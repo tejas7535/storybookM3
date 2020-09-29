@@ -31,6 +31,8 @@ export const removeOption = createAction(
   props<{ option: IdValue; filterName: string }>()
 );
 
+export const createQueries = createAction('[Search] Create Queries For Filter');
+
 const all = union({
   autocomplete,
   autocompleteSuccess,
