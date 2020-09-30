@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { removeQueryItem } from '../../core/store/actions';
 import { QueryItem } from '../../core/store/models';
 import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import { getQueryList } from '../../core/store/selectors';
@@ -24,7 +25,9 @@ export class QuerySectionComponent implements OnInit {
   public ngOnInit(): void {
     this.queryList$ = this.store.pipe(select(getQueryList));
   }
-
+  removeItem(queryItem: QueryItem): void {
+    this.store.dispatch(removeQueryItem({ queryItem }));
+  }
   public trackByFn(index: number): number {
     return index;
   }
