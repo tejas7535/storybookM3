@@ -7,7 +7,12 @@
   aria-label="Query list"
   *ngIf="(queryList$ | async)?.length > 0 && (queryList$ | async) as queryList"
 >
-  <mat-chip *ngFor="let query of queryList; trackBy: trackByFn" class="chip">
+  <mat-chip
+    *ngFor="let query of queryList; trackBy: trackByFn"
+    class="chip"
+    removable="true"
+    (removed)="removeItem(query)"
+  >
     Customer #: {{ query.customer }} | materialNumber:
     {{ query.materialNumber }} | Qty: {{ query.quantity }}
     <mat-icon matChipRemove>cancel</mat-icon>

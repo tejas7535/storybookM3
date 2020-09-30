@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AutocompleteSearch, IdValue } from '../../models';
+import { AutocompleteSearch, IdValue, QueryItem } from '../../models';
 
 export const autocomplete = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type',
@@ -33,6 +33,11 @@ export const removeOption = createAction(
 
 export const createQueries = createAction('[Search] Create Queries For Filter');
 
+export const removeQueryItem = createAction(
+  '[Search] Remove Query Item',
+  props<{ queryItem: QueryItem }>()
+);
+
 const all = union({
   autocomplete,
   autocompleteSuccess,
@@ -40,6 +45,7 @@ const all = union({
   selectedFilterChange,
   addOption,
   removeOption,
+  removeQueryItem,
 });
 
 export type SearchActions = typeof all;

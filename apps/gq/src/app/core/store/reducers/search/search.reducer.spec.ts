@@ -8,6 +8,7 @@ import {
   autocompleteSuccess,
   createQueries,
   removeOption,
+  removeQueryItem,
   selectedFilterChange,
 } from '../../actions';
 import {
@@ -129,7 +130,7 @@ describe('Search Reducer', () => {
 
   describe('createQueries', () => {
     test('should create queries', () => {
-      const expected = [new QueryItem('audi', '10', '1500')];
+      const expected = [new QueryItem('audi', '1500', '10')];
       const fakeState: SearchState = {
         ...APP_STATE_MOCK,
         filters: {
@@ -163,6 +164,20 @@ describe('Search Reducer', () => {
       const action = createQueries();
       const state = searchReducer(fakeState, action);
       expect(state.queryList).toEqual(expected);
+    });
+  });
+
+  describe('removeQueryItem', () => {
+    test('should create queries', () => {
+      const queryItem = new QueryItem('audi', '1450', '100');
+      const fakeState: SearchState = {
+        ...APP_STATE_MOCK,
+        queryList: [queryItem],
+      };
+
+      const action = removeQueryItem({ queryItem });
+      const state = searchReducer(fakeState, action);
+      expect(state.queryList).toEqual([]);
     });
   });
 

@@ -1,11 +1,13 @@
-import { AutocompleteSearch } from '../../models';
+import { AutocompleteSearch, QueryItem } from '../../models';
 import { IdValue } from '../../models/id-value.model';
 import {
   addOption,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
+  createQueries,
   removeOption,
+  removeQueryItem,
   selectedFilterChange,
 } from './search.actions';
 
@@ -76,6 +78,24 @@ describe('Search Actions', () => {
         option,
         filterName,
         type: '[Search] Remove Action Of Filter',
+      });
+    });
+
+    test('createQueries', () => {
+      const action = createQueries();
+
+      expect(action).toEqual({
+        type: '[Search] Create Queries For Filter',
+      });
+    });
+
+    test('removeQueryItem', () => {
+      const queryItem = new QueryItem('audi', '234', '10');
+      const action = removeQueryItem({ queryItem });
+
+      expect(action).toEqual({
+        queryItem,
+        type: '[Search] Remove Query Item',
       });
     });
   });

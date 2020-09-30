@@ -7,6 +7,7 @@ import {
   autocompleteSuccess,
   createQueries,
   removeOption,
+  removeQueryItem,
   selectedFilterChange,
 } from '../../actions';
 import { FilterItem, IdValue, QueryItem } from '../../models';
@@ -246,8 +247,28 @@ export const searchReducer = createReducer(
   on(createQueries, (state: SearchState) => ({
     ...state,
     queryList: createQueryList(state),
+  })),
+  on(removeQueryItem, (state: SearchState, { queryItem }) => ({
+    ...state,
+    queryList: deleteQueryItem(state, queryItem),
   }))
 );
+
+const deleteQueryItem = (
+  state: SearchState,
+  queryItem: QueryItem
+): QueryItem[] => {
+  const index = state.queryList.findIndex(
+    (el) =>
+      el.customer === queryItem.customer &&
+      el.materialNumber === queryItem.materialNumber &&
+      el.quantity === queryItem.quantity
+  );
+  const updatedList = [...state.queryList];
+  updatedList.splice(index, 1);
+
+  return updatedList;
+};
 
 const createQueryList = (state: SearchState): QueryItem[] => {
   const queryList: QueryItem[] = [];
@@ -272,7 +293,11 @@ const createQueryList = (state: SearchState): QueryItem[] => {
   customers.forEach((cust) => {
     quantities.forEach((quant) => {
       materialNumber.forEach((mat) => {
-        const queryItem = new QueryItem(cust.id, quant.id, mat.id);
+        const queryItem: QueryItem = {
+          customer: cust.id,
+          materialNumber: mat.id,
+          quantity: quant.id,
+        };
         queryList.push(queryItem);
       });
     });
