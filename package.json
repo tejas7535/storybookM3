@@ -119,7 +119,7 @@
     "@babel/core": "7.11.6",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "9.1.2",
-    "@ngneat/spectator": "5.13.3",
+    "@ngneat/spectator": "5.13.4",
     "@ngneat/transloco-keys-manager": "2.6.0",
     "@ngneat/transloco-optimize": "1.0.2",
     "@ngneat/transloco-validator": "1.0.1",
