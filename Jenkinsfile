@@ -247,12 +247,7 @@ pipeline {
                                     sh 'curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 --output ~/jq-bin/jq'
                                     sh 'chmod +x ~/jq-bin/jq'
                                     env.PATH = "${PATH}:/home/jnkp1usr/jq-bin"
-                                    sshagent(['SSH_JUMPER']) {
-                                        doggoUrl = sh (
-                                            script: 'ssh -o StrictHostKeyChecking=no -l ltpuser 10.115.66.4  curl -L -s https://dog.ceo/api/breeds/image/random | jq .message',
-                                            returnStdout: true
-                                        ).trim()
-                                    }
+                                    
                                     sshagent(['GITLAB_USER_SSH_KEY']) {
                                         // check if there is already a hotfix/security-patch branch
                                         // wc (word count) returns the number of words of an input. The -l flag lets it return the number of lines.
@@ -278,7 +273,7 @@ pipeline {
                                         )
                                         if (changesDone.toInteger() > 0) {
                                             sh 'git add -u'
-                                            sh "git commit -m 'chore(workspace): fix security vulnerabilities'"
+                                            sh "git commit -m 'chore(deps): fix security vulnerabilities'"
                                         }
 
                                         // find vulnerabilities which could not be auto fixed
@@ -296,7 +291,7 @@ pipeline {
 
                                             sh 'sed -i s#@@FIXES@@##g ./gitlab-templates/security-patch-description-template.md'
                                             description = sh (
-                                                script: "cat ./gitlab-templates/security-patch-description-template.md | sed 's#@@DOGGO@@#${doggoUrl}#g'",
+                                                script: "cat ./gitlab-templates/security-patch-description-template.md",
                                                 returnStdout: true
                                             )
                                             description = "${description}".replaceAll('\n', '<br>')
@@ -309,7 +304,7 @@ pipeline {
                                             git push -u origin hotfix/security-patch \
                                             -o merge_request.create \
                                             -o merge_request.target=master \
-                                            -o merge_request.title='WIP: chore(workspace): fix security vulnerabilities' \
+                                            -o merge_request.title='WIP: chore(deps): fix security vulnerabilities' \
                                             -o merge_request.description="${description}" \
                                             -o merge_request.label='hotfix' \
                                             -o merge_request.remove_source_branch=true""".stripIndent()
@@ -323,7 +318,7 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '', reportFiles: 'npm-audit.html', reportName: 'NPM Vulnerabilities', reportTitles: ''])
+                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, includes: 'npm-audit.html', keepAll: true, reportDir: '', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
                         }
                     }
                 }
