@@ -82,25 +82,16 @@ describe('Search Effects', () => {
   });
 
   describe('bearingId$', () => {
-    test('should not return an action', () => {
-      expect(metadata.bearingId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
+    test('should return getBearing', () => {
+      action = getBearingId();
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getBearing({ bearingId: '666' }),
       });
-    });
-
-    test('should dispatch getBearing', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getBearingId() });
-
-      const expected = cold('-b', { b: '666' });
 
       expect(effects.bearingId$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getBearing({
-          bearingId: '666',
-        })
-      );
     });
   });
 

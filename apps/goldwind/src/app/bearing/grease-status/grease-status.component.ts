@@ -20,18 +20,8 @@ import {
   getGreaseInterval,
   getGreaseStatusGraphData,
 } from '../../core/store/selectors/';
-import { chartOptions } from '../../shared/chart/chart';
-
-enum Unit {
-  percent = '%',
-  degree = '°C',
-}
-
-interface Checkbox {
-  label: string;
-  formControl: string;
-  unit: Unit;
-}
+import { axisChartOptions } from '../../shared/chart/chart';
+import { GREASE_CONTROLS } from '../../shared/constants';
 
 @Component({
   selector: 'goldwind-grease-status-monitoring',
@@ -41,30 +31,7 @@ interface Checkbox {
 export class GreaseStatusComponent implements OnInit, OnDestroy {
   greaseStatusGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
-
-  public checkBoxes: Checkbox[] = [
-    {
-      label: 'waterContent',
-      formControl: 'waterContentPercent',
-      unit: Unit.percent,
-    },
-    {
-      label: 'deteroration',
-      formControl: 'deteriorationPercent',
-      unit: Unit.percent,
-    },
-    {
-      label: 'greaseTemperatur',
-      formControl: 'temperatureCelsius',
-      unit: Unit.degree,
-    },
-    // will be activated later on
-    // {
-    //   label: 'rotationalSpeed',
-    //   formControl: 'rotationalSpeed',
-    //   unit: Unit.percent,
-    // },
-  ];
+  checkBoxes = GREASE_CONTROLS;
 
   displayForm = new FormGroup({
     waterContentPercent: new FormControl(''),
@@ -74,13 +41,13 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   });
 
   chartOptions: EChartOption = {
-    ...chartOptions,
+    ...axisChartOptions,
     legend: {
-      ...chartOptions.legend,
+      ...axisChartOptions.legend,
       formatter: (name: string) => this.formatLegend(name),
     },
     tooltip: {
-      ...chartOptions.tooltip,
+      ...axisChartOptions.tooltip,
       formatter: (params) => this.formatTooltip(params),
     },
   };
@@ -121,8 +88,8 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   }
 
   formatLegend(name: string): string {
-    const { label, unit } = this.checkBoxes.find(
-      ({ formControl }: Checkbox) => formControl === name
+    const { label, unit } = GREASE_CONTROLS.find(
+      ({ formControl }) => formControl === name
     );
 
     return `${translate(`greaseStatus.${label}`)} (${unit})`;
@@ -134,8 +101,8 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     return (
       Array.isArray(params) &&
       params.reduce((acc, param, index) => {
-        const { label, unit } = this.checkBoxes.find(
-          ({ formControl }: Checkbox) => formControl === param.seriesName
+        const { label, unit } = GREASE_CONTROLS.find(
+          ({ formControl }) => formControl === param.seriesName
         );
 
         const result = `${acc}${translate(`greaseStatus.${label}`)}: ${
@@ -146,15 +113,6 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
           ? `${result}${new Date(param.data.value[0]).toLocaleString()}`
           : `${result}`;
       }, '')
-    );
-  }
-
-  emptyGreaseStatusGraphData(greaseStatusGraphData: any): boolean {
-    return (
-      greaseStatusGraphData &&
-      greaseStatusGraphData?.series?.filter(
-        (series: any) => series.data.length > 0
-      ).length === 0
     );
   }
 

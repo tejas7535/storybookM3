@@ -1,4 +1,5 @@
 /* tslint:disable:ordered-imports */
+import 'jest-canvas-mock';
 import 'jest-preset-angular';
 
 import { defineGlobalsInjections } from '@ngneat/spectator';

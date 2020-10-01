@@ -3,6 +3,9 @@ import { Action } from '@ngrx/store';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
+  getGreaseStatusLatest,
+  getGreaseStatusLatestFailure,
+  getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
   setGreaseDisplay,
   setGreaseInterval,
@@ -20,6 +23,15 @@ describe('Grease Status Reducer', () => {
       const state = greaseStatusReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();
+    });
+  });
+
+  describe('getGreaseStatusLatest', () => {
+    test('should set latest status loading', () => {
+      const action = getGreaseStatusLatest({ greaseStatusId: 'greasyId' });
+      const state = greaseStatusReducer(initialState, action);
+
+      expect(state.status.loading).toBeTruthy();
     });
   });
 
@@ -53,6 +65,35 @@ describe('Grease Status Reducer', () => {
     });
   });
 
+  describe('getGreaseStatusLatestSuccess', () => {
+    test('should unset status loading and set latest grease status', () => {
+      const mockGreaseStatus = {
+        id: 1,
+        sensorId: '123-abc-456',
+        endDate: '2020-08-12T18:09:25',
+        startDate: '2020-08-12T18:09:19',
+        sampleRatio: 9999,
+        waterContentPercent: 69,
+        deteriorationPercent: 96,
+        temperatureCelsius: 9000,
+        isAlarm: true,
+      };
+      const action = getGreaseStatusLatestSuccess({
+        greaseStatusLatest: mockGreaseStatus,
+      });
+
+      const fakeState = {
+        ...initialState,
+        result: { ...initialState.status.result, loading: true },
+      };
+
+      const state = greaseStatusReducer(fakeState, action);
+
+      expect(state.status.loading).toBeFalsy();
+      expect(state.status.result).toEqual(mockGreaseStatus);
+    });
+  });
+
   describe('getGreaseStatusFailure', () => {
     test('should unset loading', () => {
       const action = getGreaseStatusFailure();
@@ -64,6 +105,20 @@ describe('Grease Status Reducer', () => {
       const state = greaseStatusReducer(fakeState, action);
 
       expect(state.loading).toBeFalsy();
+    });
+  });
+
+  describe('getGreaseStatusLatestFailure', () => {
+    test('should unset latest status loading', () => {
+      const action = getGreaseStatusLatestFailure();
+      const fakeState = {
+        ...initialState,
+        result: { ...initialState, status: { loading: true } },
+      };
+
+      const state = greaseStatusReducer(fakeState, action);
+
+      expect(state.status.loading).toBeFalsy();
     });
   });
 

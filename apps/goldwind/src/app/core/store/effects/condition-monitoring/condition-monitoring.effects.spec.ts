@@ -12,6 +12,7 @@ import { StompService } from '../../../http/stomp.service';
 import {
   connectStomp,
   disconnectStomp,
+  getGreaseStatusId,
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
@@ -77,6 +78,9 @@ describe('Search Effects', () => {
       expect(effects.router$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(connectStomp());
       expect(store.dispatch).toHaveBeenCalledWith(subscribeBroadcast());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        getGreaseStatusId({ source: 'condition-monitoring' })
+      );
     });
   });
 

@@ -14,6 +14,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { GreaseStatusEffects } from '../../core/store/effects/grease-status/grease-status.effects';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
+import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../shared/shared.module';
 import { GreaseStatusRoutingModule } from './grease-status-routing.module';
 import { GreaseStatusComponent } from './grease-status.component';
@@ -26,6 +27,7 @@ import { GreaseStatusComponent } from './grease-status.component';
     ReactiveFormsModule,
     SharedModule,
     DateRangeModule,
+    EmptyGraphModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('../../shared/chart/echarts'),
     }),

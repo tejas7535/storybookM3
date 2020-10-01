@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -21,6 +22,7 @@ describe('ConditionMonitoringComponent', () => {
   const createComponent = createComponentFactory({
     component: ConditionMonitoringComponent,
     imports: [
+      RouterTestingModule,
       UnderConstructionModule,
       LoadingSpinnerModule,
       EdmMonitorModule,
@@ -55,6 +57,10 @@ describe('ConditionMonitoringComponent', () => {
           greaseStatus: {
             loading: false,
             result: undefined,
+            status: {
+              loading: false,
+              result: undefined,
+            },
           },
         },
       }),

@@ -20,7 +20,7 @@ import {
   getEdmGraphData,
   getEdmInterval,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
-import { chartOptions } from '../../../shared/chart/chart';
+import { axisChartOptions } from '../../../shared/chart/chart';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -32,17 +32,17 @@ export class EdmMonitorComponent implements OnInit {
   interval$: Observable<Interval>;
   antenna = false;
   chartOptions: EChartOption = {
-    ...chartOptions,
+    ...axisChartOptions,
     grid: {
       left: 75,
       right: 50,
     },
     legend: {
-      ...chartOptions.legend,
+      ...axisChartOptions.legend,
       formatter: (name: string) => this.formatLegend(name),
     },
     tooltip: {
-      ...chartOptions.tooltip,
+      ...axisChartOptions.tooltip,
       formatter: (params) => this.formatTooltip(params),
     },
   };

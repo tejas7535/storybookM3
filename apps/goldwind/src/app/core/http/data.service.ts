@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { BearingMetadata } from '../store/reducers/bearing/models';
 import { Devices } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
-import { GreaseStatus } from '../store/reducers/grease-status/models';
+import {
+  GreaseStatus,
+  GreaseStatusMeasurement,
+} from '../store/reducers/grease-status/models';
 import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
 interface IotParams {
@@ -47,6 +50,12 @@ export class DataService {
     endDate,
   }: IotParams): Observable<GreaseStatus> {
     return this.getIot(`${id}/greasecheck/${startDate}/${endDate}`);
+  }
+
+  public getGreaseStatusLatest(
+    id: string
+  ): Observable<GreaseStatusMeasurement> {
+    return this.getIot(`${id}/greasecheck/latest`);
   }
 
   public getDevices(): Observable<Devices> {

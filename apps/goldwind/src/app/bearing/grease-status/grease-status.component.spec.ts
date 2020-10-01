@@ -10,8 +10,8 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
-import { GraphData } from '../../core/store/reducers/shared/models';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
+import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { GreaseStatusComponent } from './grease-status.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -29,6 +29,7 @@ describe('GreaseStatusComponent', () => {
     imports: [
       ReactiveFormsModule,
       DateRangeModule,
+      EmptyGraphModule,
       MatCardModule,
       MatCheckboxModule,
       NgxEchartsModule.forRoot({
@@ -171,32 +172,6 @@ describe('GreaseStatusComponent', () => {
       const formattedMockTooltip = `translate it: 123 %<br>${mockDate.toLocaleString()}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
-    });
-  });
-
-  describe('emptyGreaseStatusGraphData', () => {
-    it('should return true if none of the grease status graph datas contain data', () => {
-      const mockGreaseStatusGraphData: GraphData = {
-        legend: {
-          data: ['deteriorationPercent', 'temperatureCelsius'],
-        },
-        series: [
-          {
-            name: 'deteriorationPercent',
-            type: 'line',
-            data: [],
-          },
-          {
-            name: 'temperatureCelsius',
-            type: 'line',
-            data: [],
-          },
-        ],
-      };
-
-      expect(
-        component.emptyGreaseStatusGraphData(mockGreaseStatusGraphData)
-      ).toBe(true);
     });
   });
 });

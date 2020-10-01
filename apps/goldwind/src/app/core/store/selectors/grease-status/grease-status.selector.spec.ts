@@ -1,12 +1,21 @@
+import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getGreaseDisplay,
   getGreaseInterval,
   getGreaseSensorId,
   getGreaseStatusGraphData,
+  getGreaseStatusLatestGraphData,
+  getGreaseStatusLatestLoading,
+  getGreaseStatusLatestResult,
   getGreaseStatusLoading,
   getGreaseStatusResult,
 } from './grease-status.selector';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('Grease Status Selector', () => {
   const fakeState = {
@@ -20,6 +29,15 @@ describe('Grease Status Selector', () => {
         },
       ],
       loading: false,
+      status: {
+        result: {
+          startDate: '2020-07-31T11:02:35',
+          deteriorationPercent: 55,
+          waterContentPercent: 12,
+          temperatureCelsius: 99,
+        },
+        loading: false,
+      },
       display: {
         deteriorationPercent: true,
         temperatureCelsius: false,
@@ -48,10 +66,24 @@ describe('Grease Status Selector', () => {
     });
   });
 
+  describe('getGreaseStatusLatestLoading', () => {
+    test('should return latest loading status', () => {
+      expect(getGreaseStatusLatestLoading(fakeState)).toBeFalsy();
+    });
+  });
+
   describe('getGreaseStatusResult', () => {
     test('should return the grease status', () => {
       expect(getGreaseStatusResult(fakeState)).toEqual(
         fakeState.greaseStatus.result
+      );
+    });
+  });
+
+  describe('getGreaseStatusLatestResult', () => {
+    test('should return latest grease status', () => {
+      expect(getGreaseStatusLatestResult(fakeState)).toEqual(
+        fakeState.greaseStatus.status.result
       );
     });
   });
@@ -103,6 +135,13 @@ describe('Grease Status Selector', () => {
       };
 
       expect(getGreaseStatusGraphData(fakeState)).toEqual(expectedResult);
+    });
+  });
+
+  describe('getGreaseStatusLatestGraphData', () => {
+    test('should return latest grease status series data', () => {
+      const expectedResult = GREASE_STATUS_MOCK;
+      expect(getGreaseStatusLatestGraphData(fakeState)).toEqual(expectedResult);
     });
   });
 

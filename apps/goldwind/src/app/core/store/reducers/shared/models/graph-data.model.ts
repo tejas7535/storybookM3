@@ -1,5 +1,5 @@
 export interface GraphData {
-  legend: {
+  legend?: {
     data: string[];
   };
   series: {
@@ -8,7 +8,8 @@ export interface GraphData {
       type: string;
       data: {
         [index: number]: {
-          value: [string, number];
+          value: [string, number] | number;
+          name?: string;
         };
       };
     };

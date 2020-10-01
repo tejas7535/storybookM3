@@ -13,6 +13,7 @@ import { StompService } from '../../../http/stomp.service';
 import {
   connectStomp,
   disconnectStomp,
+  getGreaseStatusId,
   getStompStatus,
   subscribeBroadcast,
   subscribeBroadcastSuccess,
@@ -36,9 +37,10 @@ export class ConditionMonitoringEffects {
             currentRoute &&
             currentRoute === BearingRoutePath.ConditionMonitoringPath
         ),
-        tap(() => {
+        tap((currentRoute) => {
           this.store.dispatch(connectStomp());
           this.store.dispatch(subscribeBroadcast());
+          this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
         })
       ),
     { dispatch: false }

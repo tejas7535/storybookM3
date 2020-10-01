@@ -2,6 +2,9 @@ import {
   getGreaseStatus,
   getGreaseStatusFailure,
   getGreaseStatusId,
+  getGreaseStatusLatest,
+  getGreaseStatusLatestFailure,
+  getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
   setGreaseDisplay,
   setGreaseInterval,
@@ -16,9 +19,11 @@ describe('GreaseStatus Actions', () => {
 
   describe('Get GreaseStatus Actions', () => {
     test('getGreaseStatusId', () => {
-      const action = getGreaseStatusId();
+      const source = 'fantasy-route';
+      const action = getGreaseStatusId({ source });
 
       expect(action).toEqual({
+        source,
         type: '[Grease Status] Load Grease Sensor ID',
       });
     });
@@ -47,6 +52,33 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         type: '[Grease Status] Load Grease Status Failure',
+      });
+    });
+
+    test('getGreaseStatusLatest', () => {
+      const action = getGreaseStatusLatest({ greaseStatusId });
+
+      expect(action).toEqual({
+        greaseStatusId,
+        type: '[Grease Status] Load Latest Grease Status',
+      });
+    });
+
+    test('getGreaseStatusLatestSuccess', () => {
+      const greaseStatusLatest: any = {};
+      const action = getGreaseStatusLatestSuccess({ greaseStatusLatest });
+
+      expect(action).toEqual({
+        greaseStatusLatest,
+        type: '[Grease Status] Load Latest Grease Status Success',
+      });
+    });
+
+    test('getGreaseStatusLatestFailure', () => {
+      const action = getGreaseStatusLatestFailure();
+
+      expect(action).toEqual({
+        type: '[Grease Status] Load Latest Grease Status Failure',
       });
     });
 

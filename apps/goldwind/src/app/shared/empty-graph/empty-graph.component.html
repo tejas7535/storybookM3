@@ -1,0 +1,12 @@
+<div
+  *ngIf="emptyGraphData()"
+  fxLayout="row"
+  fxLayoutAlign="start center"
+  fxLayoutGap="10px"
+  class="empty-graph-container m-b-15"
+>
+  <mat-icon>warning</mat-icon>
+  <span *transloco="let t; read: 'bearing'">
+    {{ t('noMeasurements') }}
+  </span>
+</div>

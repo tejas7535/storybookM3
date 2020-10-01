@@ -87,50 +87,36 @@ describe('Search Effects', () => {
     });
   });
 
-  describe('setEdmInterval$', () => {
-    test('should not return an action', () => {
-      expect(metadata.interval$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
-    test('should dispatch getEdmId', () => {
+  describe('interval$', () => {
+    test('should return getEdmId', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
       };
 
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: setEdmInterval({ interval: mockInterval }) });
+      action = setEdmInterval({ interval: mockInterval });
 
-      expect(effects.interval$).toBeObservable(actions$);
-      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getEdmId(),
+      });
+
+      expect(effects.interval$).toBeObservable(expected);
     });
   });
 
   describe('edmId$', () => {
-    test('should not return an action', () => {
-      expect(metadata.edmId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
+    test('should return getEdm', () => {
+      action = getEdmId();
 
-    test('should dispatch getEdm', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getEdmId() });
+      actions$ = hot('-a', { a: action });
 
-      const expected = cold('-b', {
-        b: mockSensorID,
+      const expected = cold('-(b)', {
+        b: getEdm({ sensorId: 'ee7bffbe-2e87-49f0-b763-ba235dd7c876' }),
       });
 
       expect(effects.edmId$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getEdm({
-          sensorId: mockSensorID,
-        })
-      );
     });
   });
 

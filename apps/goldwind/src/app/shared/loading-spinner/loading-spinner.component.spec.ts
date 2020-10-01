@@ -1,25 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LoadingSpinnerComponent } from './loading-spinner.component';
 
 describe('LoadingSpinnerComponent', () => {
   let component: LoadingSpinnerComponent;
-  let fixture: ComponentFixture<LoadingSpinnerComponent>;
+  let spectator: Spectator<LoadingSpinnerComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatProgressSpinnerModule],
-      declarations: [LoadingSpinnerComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: LoadingSpinnerComponent,
+    imports: [MatProgressSpinnerModule],
+    declarations: [LoadingSpinnerComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(LoadingSpinnerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {
