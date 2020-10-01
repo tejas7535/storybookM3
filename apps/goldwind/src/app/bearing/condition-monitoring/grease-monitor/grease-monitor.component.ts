@@ -1,8 +1,11 @@
 import { Component, Input } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
+import { EChartOption } from 'echarts';
 
-import { GreaseStatus } from '../../../core/store/reducers/grease-status/models';
+import { GraphData } from '../../../core/store/reducers/shared/models';
+import { chartOptions } from '../../../shared/chart/chart';
+import { BearingRoutePath } from '../../bearing-route-path.enum';
 
 @Component({
   selector: 'goldwind-grease-monitor',
@@ -10,17 +13,23 @@ import { GreaseStatus } from '../../../core/store/reducers/grease-status/models'
   styleUrls: ['./grease-monitor.component.scss'],
 })
 export class GreaseMonitorComponent {
-  public modules = [ClientSideRowModelModule];
-  public columnDefs = [
-    { field: 'id' },
-    { field: 'sensorId' },
-    { field: 'startDate' },
-    { field: 'endDate' },
-    { field: 'waterContentPercent' },
-    { field: 'deteriorationPercent' },
-    { field: 'temperatureCelsius' },
-    { field: 'isAlarm' },
-    { field: 'sampleRatio' },
-  ];
-  @Input() greaseStatus: GreaseStatus;
+  @Input() greaseStatusLatestGraphData: GraphData;
+  chartOptions: EChartOption = {
+    ...chartOptions,
+    legend: {
+      ...chartOptions.legend,
+      show: false,
+    },
+  };
+
+  constructor(
+    private readonly router: Router,
+    private readonly activatedRoute: ActivatedRoute
+  ) {}
+
+  navigateToGreaseStatus(): void {
+    this.router.navigate([`../${BearingRoutePath.GreaseStatusPath}`], {
+      relativeTo: this.activatedRoute.parent,
+    });
+  }
 }

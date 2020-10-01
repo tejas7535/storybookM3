@@ -5,22 +5,16 @@
       {{ t('mainBearing') }}
     </mat-card-subtitle>
   </mat-card-header>
-  <mat-card-content>
+  <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
     <goldwind-date-range
-      fxLayout="column"
-      fxLayoutAlign="space-between start"
       [interval]="interval$ | ngrxPush"
       (rangeChange)="setInterval($event)"
     ></goldwind-date-range>
-    <ng-container *ngrxLet="greaseStatusGraphData$ as greaseStatusGraphData">
-      <p *ngIf="emptyGreaseStatusGraphData(greaseStatusGraphData)">
-        <span *transloco="let t; read: 'bearing'">
-          {{ t('noMeasurements') }}
-        </span>
-      </p>
+    <ng-container *ngrxLet="greaseStatusGraphData$ as graphData">
+      <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
     </ng-container>
-
     <div
+      fxFill
       fxLayout="column"
       fxLayout.gt-sm="row"
       fxLayoutAlign="space-between"

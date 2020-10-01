@@ -10,8 +10,11 @@
   </div>
   <div id="grease-status" class="grid-element">
     <goldwind-grease-monitor
-      *ngIf="greaseStatus$ | ngrxPush as greaseStatus; else loading_card"
-      [greaseStatus]="greaseStatus"
+      *ngIf="
+        greaseStatusLatestGraphData$ | ngrxPush as greaseStatusLatestGraphData;
+        else loading_card
+      "
+      [greaseStatusLatestGraphData]="greaseStatusLatestGraphData"
     ></goldwind-grease-monitor>
   </div>
   <div id="center-load" class="grid-element">

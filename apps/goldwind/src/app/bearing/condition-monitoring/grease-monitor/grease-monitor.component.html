@@ -6,11 +6,16 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <ag-grid-angular
-      class="ag-theme-material"
-      [modules]="modules"
-      [rowData]="greaseStatus"
-      [columnDefs]="columnDefs"
-    ></ag-grid-angular>
+    <div
+      echarts
+      [options]="chartOptions"
+      [merge]="greaseStatusLatestGraphData"
+      class="grease-monitor-chart"
+    ></div>
   </mat-card-content>
+  <mat-card-actions *transloco="let t; read: 'overview'">
+    <button (click)="navigateToGreaseStatus()" mat-button color="primary">
+      {{ t('details') }}
+    </button>
+  </mat-card-actions>
 </mat-card>

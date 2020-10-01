@@ -20,6 +20,9 @@ import {
   getGreaseStatus,
   getGreaseStatusFailure,
   getGreaseStatusId,
+  getGreaseStatusLatest,
+  getGreaseStatusLatestFailure,
+  getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
   setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
@@ -41,11 +44,11 @@ export class GreaseStatusEffects {
         ),
         filter(
           (currentRoute: string) =>
-            currentRoute &&
-            (currentRoute === BearingRoutePath.GreaseStatusPath ||
-              currentRoute === BearingRoutePath.ConditionMonitoringPath)
+            currentRoute && currentRoute === BearingRoutePath.GreaseStatusPath
         ),
-        tap(() => this.store.dispatch(getGreaseStatusId()))
+        tap((currentRoute) =>
+          this.store.dispatch(getGreaseStatusId({ source: currentRoute }))
+        )
       ),
     { dispatch: false }
   );
@@ -53,29 +56,32 @@ export class GreaseStatusEffects {
   /**
    * Set Interval
    */
-  interval$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(setGreaseInterval.type),
-        tap(() => this.store.dispatch(getGreaseStatusId()))
-      ),
-    { dispatch: false }
+  interval$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(setGreaseInterval.type),
+      map(() =>
+        getGreaseStatusId({ source: BearingRoutePath.GreaseStatusPath })
+      )
+    )
   );
 
   /**
    * Load Grease Status ID
    */
-  greaseStatusId$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(getGreaseStatusId.type),
-        withLatestFrom(this.store.pipe(select(getGreaseSensorId))),
-        map(([_action, greaseStatusId]) => greaseStatusId),
-        tap((greaseStatusId) => {
-          this.store.dispatch(getGreaseStatus({ greaseStatusId }));
-        })
-      ),
-    { dispatch: false }
+  greaseStatusId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getGreaseStatusId.type),
+      withLatestFrom(this.store.pipe(select(getGreaseSensorId))),
+      map(([action, greaseStatusId]: [any, string]) => ({
+        greaseStatusId,
+        source: action.source,
+      })),
+      map(({ greaseStatusId, source }) =>
+        source === BearingRoutePath.ConditionMonitoringPath
+          ? getGreaseStatusLatest({ greaseStatusId })
+          : getGreaseStatus({ greaseStatusId })
+      )
+    )
   );
 
   /**
@@ -93,6 +99,24 @@ export class GreaseStatusEffects {
         this.dataService.getGreaseStatus(edmParams).pipe(
           map((greaseStatus) => getGreaseStatusSuccess({ greaseStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
+        )
+      )
+    )
+  );
+
+  /**
+   * Load Latest Grease Status
+   */
+  greaseStatusLatest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getGreaseStatusLatest.type),
+      map((action: any) => action.greaseStatusId),
+      mergeMap((edmParams) =>
+        this.dataService.getGreaseStatusLatest(edmParams).pipe(
+          map((greaseStatusLatest) =>
+            getGreaseStatusLatestSuccess({ greaseStatusLatest })
+          ),
+          catchError((_e) => of(getGreaseStatusLatestFailure()))
         )
       )
     )

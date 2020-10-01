@@ -3,11 +3,13 @@ import { createAction, props, union } from '@ngrx/store';
 import {
   GreaseDisplay,
   GreaseStatus,
+  GreaseStatusMeasurement,
 } from '../../reducers/grease-status/models';
 import { Interval } from '../../reducers/shared/models';
 
 export const getGreaseStatusId = createAction(
-  '[Grease Status] Load Grease Sensor ID'
+  '[Grease Status] Load Grease Sensor ID',
+  props<{ source: string }>()
 );
 
 export const getGreaseStatus = createAction(
@@ -22,6 +24,20 @@ export const getGreaseStatusSuccess = createAction(
 
 export const getGreaseStatusFailure = createAction(
   '[Grease Status] Load Grease Status Failure'
+);
+
+export const getGreaseStatusLatest = createAction(
+  '[Grease Status] Load Latest Grease Status',
+  props<{ greaseStatusId: string }>()
+);
+
+export const getGreaseStatusLatestSuccess = createAction(
+  '[Grease Status] Load Latest Grease Status Success',
+  props<{ greaseStatusLatest: GreaseStatusMeasurement }>()
+);
+
+export const getGreaseStatusLatestFailure = createAction(
+  '[Grease Status] Load Latest Grease Status Failure'
 );
 
 export const setGreaseDisplay = createAction(

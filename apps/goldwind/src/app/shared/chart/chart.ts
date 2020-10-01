@@ -2,19 +2,6 @@ import { EChartOption } from 'echarts';
 
 // echarts default configuration
 export const chartOptions: EChartOption = {
-  xAxis: {
-    type: 'time',
-    boundaryGap: false,
-  },
-  yAxis: {
-    type: 'value',
-  },
-  dataZoom: [
-    {
-      type: 'inside',
-    },
-    {}, // for slider zoom
-  ],
   legend: {
     selectedMode: false,
   },
@@ -36,4 +23,61 @@ export const chartOptions: EChartOption = {
     '#43635b',
     '#707b6e',
   ],
+};
+
+export const axisChartOptions: EChartOption = {
+  ...chartOptions,
+  xAxis: {
+    type: 'time',
+    boundaryGap: false,
+  },
+  yAxis: {
+    type: 'value',
+  },
+  dataZoom: [
+    {
+      type: 'inside',
+    },
+    {}, // for slider zoom
+  ],
+};
+
+export const GREASE_GAUGE_SERIES = {
+  type: 'gauge',
+  splitNumber: 4,
+  title: {
+    show: true,
+    fontWeight: 'bolder',
+    fontSize: 14,
+    offsetCenter: [0, '110%'],
+  },
+  detail: {
+    color: '#646464',
+    fontSize: 18,
+    fontWeight: 'bolder',
+  },
+  pointer: {
+    // show: false, // screendesign does hide it
+  },
+  axisLine: {
+    lineStyle: {
+      width: 12,
+      color: [
+        [0.75, '#0ebc5b'], // green
+        [0.85, '#fccf46'], // yellow
+        [1, '#e62c27'], // red
+      ],
+    },
+  },
+  splitLine: {
+    show: false,
+    length: 20,
+  },
+  axisTick: {
+    show: false, // only show outside
+  },
+  axisLabel: {
+    // position outside would be awesome
+    distance: 0,
+  },
 };

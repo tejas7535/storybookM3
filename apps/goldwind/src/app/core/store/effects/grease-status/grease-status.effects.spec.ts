@@ -10,6 +10,8 @@ import { DataService } from '../../../http/data.service';
 import {
   getGreaseStatus,
   getGreaseStatusId,
+  getGreaseStatusLatest,
+  getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
   setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
@@ -29,6 +31,7 @@ describe('Search Effects', () => {
   let dataService: DataService;
 
   const mockUrl = '/bearing/sensor-id-in-url/grease-status';
+  const mockRoute = 'grease-status';
   const mockGreaseSensorId = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
 
   const createService = createServiceFactory({
@@ -40,6 +43,7 @@ describe('Search Effects', () => {
         provide: DataService,
         useValue: {
           getGreaseStatus: jest.fn(),
+          getGreaseStatusLatest: jest.fn(),
         },
       },
     ],
@@ -77,57 +81,57 @@ describe('Search Effects', () => {
         },
       });
 
-      const expected = cold('-b', { b: 'grease-status' });
+      const expected = cold('-b', { b: mockRoute });
 
       expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getGreaseStatusId());
+      expect(store.dispatch).toHaveBeenCalledWith(
+        getGreaseStatusId({ source: mockRoute })
+      );
     });
   });
 
   describe('setGreaseInterval$', () => {
-    test('should not return an action', () => {
-      expect(metadata.interval$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
-
-    test('should dispatch getGreaseStatusId', () => {
-      const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
-      };
-
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: setGreaseInterval({ interval: mockInterval }),
+    test('should return return getGreaseStatusId', () => {
+      action = setGreaseInterval({
+        interval: {
+          endDate: 1599651509,
+          startDate: 1599651508,
+        },
       });
 
-      expect(effects.interval$).toBeObservable(actions$);
-      expect(store.dispatch).toHaveBeenCalledWith(getGreaseStatusId()); // will also be moved
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getGreaseStatusId({ source: 'grease-status' }),
+      });
+
+      expect(effects.interval$).toBeObservable(expected);
     });
   });
 
   describe('greaseStatusId$', () => {
-    test('should not return an action', () => {
-      expect(metadata.greaseStatusId$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
+    test('should return getGreaseStatus', () => {
+      action = getGreaseStatusId({ source: 'grease-status' });
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getGreaseStatus({ greaseStatusId: mockGreaseSensorId }),
       });
-    });
-
-    test('should dispatch getGreaseStatus', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', { a: getGreaseStatusId() });
-
-      const expected = cold('-b', { b: mockGreaseSensorId });
 
       expect(effects.greaseStatusId$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getGreaseStatus({
-          greaseStatusId: mockGreaseSensorId,
-        })
-      );
+    });
+
+    test('should return getGreaseStatusLatest', () => {
+      action = getGreaseStatusId({ source: 'condition-monitoring' });
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId }),
+      });
+
+      expect(effects.greaseStatusId$).toBeObservable(expected);
     });
   });
 
@@ -171,6 +175,45 @@ describe('Search Effects', () => {
         startDate: 1599651508,
         endDate: 1599651509,
       });
+    });
+  });
+
+  describe('greaseStatusLatest$', () => {
+    beforeEach(() => {
+      action = getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId });
+    });
+
+    test('should return getGreaseStatusLatest action when REST call is successful', () => {
+      const mockGreaseStatusLatest = {
+        id: 1,
+        sensorId: '123-abc-456',
+        endDate: '2020-08-12T18:09:25',
+        startDate: '2020-08-12T18:09:19',
+        sampleRatio: 9999,
+        waterContentPercent: 69,
+        deteriorationPercent: 96,
+        temperatureCelsius: 9000,
+        isAlarm: true,
+      };
+
+      const result = getGreaseStatusLatestSuccess({
+        greaseStatusLatest: mockGreaseStatusLatest,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: mockGreaseStatusLatest,
+      });
+      const expected = cold('--b', { b: result });
+
+      dataService.getGreaseStatusLatest = jest.fn(() => response);
+
+      expect(effects.greaseStatusLatest$).toBeObservable(expected);
+      expect(dataService.getGreaseStatusLatest).toHaveBeenCalledTimes(1);
+      expect(dataService.getGreaseStatusLatest).toHaveBeenCalledWith(
+        mockGreaseSensorId
+      );
     });
   });
 });

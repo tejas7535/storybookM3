@@ -48,17 +48,13 @@ export class BearingEffects {
   /**
    * Load Bearing ID
    */
-  bearingId$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(getBearingId.type),
-        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
-        map(([_action, routerState]) => routerState.state.params.id),
-        tap((bearingId) => {
-          this.store.dispatch(getBearing({ bearingId }));
-        })
-      ),
-    { dispatch: false }
+  bearingId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getBearingId.type),
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) => routerState.state.params.id),
+      map((bearingId) => getBearing({ bearingId }))
+    )
   );
 
   /**

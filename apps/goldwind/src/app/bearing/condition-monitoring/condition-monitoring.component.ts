@@ -7,10 +7,10 @@ import { select, Store } from '@ngrx/store';
 import { AppState } from '../../core/store/reducers';
 import { MainBearing } from '../../core/store/reducers/bearing/models';
 import { Message } from '../../core/store/reducers/condition-monitoring/models';
-import { GreaseStatus } from '../../core/store/reducers/grease-status/models';
+import { GraphData } from '../../core/store/reducers/shared/models';
 import {
   getCurrentMessage,
-  getGreaseStatusResult,
+  getGreaseStatusLatestGraphData,
   getMainBearing,
   getSocketStatus,
 } from '../../core/store/selectors/';
@@ -24,7 +24,7 @@ export class ConditionMonitoringComponent implements OnInit {
   mainBearing$: Observable<MainBearing>;
   currentMessage$: Observable<Message>;
   socketStatus$: Observable<number>;
-  greaseStatus$: Observable<GreaseStatus>;
+  greaseStatusLatestGraphData$: Observable<GraphData>;
 
   public constructor(private readonly store: Store<AppState>) {}
 
@@ -32,6 +32,8 @@ export class ConditionMonitoringComponent implements OnInit {
     this.mainBearing$ = this.store.pipe(select(getMainBearing));
     this.currentMessage$ = this.store.pipe(select(getCurrentMessage));
     this.socketStatus$ = this.store.pipe(select(getSocketStatus));
-    this.greaseStatus$ = this.store.pipe(select(getGreaseStatusResult));
+    this.greaseStatusLatestGraphData$ = this.store.pipe(
+      select(getGreaseStatusLatestGraphData)
+    );
   }
 }

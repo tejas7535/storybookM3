@@ -9,6 +9,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
+import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { EdmMonitorComponent } from './edm-monitor.component';
 
@@ -18,6 +19,7 @@ import { EdmMonitorComponent } from './edm-monitor.component';
     CommonModule,
     SharedModule,
     DateRangeModule,
+    EmptyGraphModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('../../../shared/chart/echarts'),
     }),

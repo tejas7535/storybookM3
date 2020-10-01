@@ -1,5 +1,6 @@
 // echarts custom build
 import 'echarts/src/chart/bar';
+import 'echarts/src/chart/gauge';
 import 'echarts/src/chart/line';
 import 'echarts/src/component/dataZoom';
 import 'echarts/src/component/legend';

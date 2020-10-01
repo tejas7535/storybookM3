@@ -30,14 +30,9 @@
       [interval]="interval$ | ngrxPush"
       (rangeChange)="setInterval($event)"
     ></goldwind-date-range>
-
-    <div *ngrxLet="edmGraphData$ as edmGraphData">
-      <p *ngIf="edmGraphData?.series?.data?.length === 0">
-        <span *transloco="let t; read: 'bearing'">
-          {{ t('noMeasurements') }}
-        </span>
-      </p>
-    </div>
+    <ng-container *ngrxLet="edmGraphData$ as graphData">
+      <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
+    </ng-container>
     <div
       fxFlex
       echarts

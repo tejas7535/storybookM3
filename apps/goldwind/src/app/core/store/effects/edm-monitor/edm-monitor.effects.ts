@@ -54,29 +54,20 @@ export class EdmMonitorEffects {
   /**
    * Set Interval
    */
-  interval$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(setEdmInterval.type),
-        tap(() => this.store.dispatch(getEdmId()))
-      ),
-    { dispatch: false }
+  interval$ = createEffect(() =>
+    this.actions$.pipe(ofType(setEdmInterval.type), map(getEdmId))
   );
 
   /**
    * Load Edm ID
    */
-  edmId$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(getEdmId.type),
-        withLatestFrom(this.store.pipe(select(getSensorId))),
-        map(([_action, sensorId]) => sensorId),
-        tap((sensorId) => {
-          this.store.dispatch(getEdm({ sensorId }));
-        })
-      ),
-    { dispatch: false }
+  edmId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getEdmId.type),
+      withLatestFrom(this.store.pipe(select(getSensorId))),
+      map(([_action, sensorId]) => sensorId),
+      map((sensorId) => getEdm({ sensorId }))
+    )
   );
 
   /**
