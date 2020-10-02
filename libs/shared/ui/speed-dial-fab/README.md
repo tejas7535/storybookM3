@@ -1,28 +1,30 @@
 # frontend@schaeffler Speed Dial Fab Documentation
 
-## Preconditions
+This lib depends on the `schaeffler-icons`, which can be installed with npm:
 
-1. `npm i schaeffler-icons`
-2. Add the related css file to your `angular.json` config:  
-   Example:
-    ``` json
-      "styles": [
-        "apps/<your-app>/src/styles.scss",
-        "node_modules/schaeffler-icons/style.css"
-      ],
-    ```
+`npm i schaeffler-icons`
 
-## Usage
+Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+
+```
+"styles": [
+  ...
+  "node_modules/schaeffler-icons/style.css"
+],
+```
+
 Import into your project like:
 
 ```typescript
 // app.modules.ts
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SpeedDialFabModule } from '@schaeffler/speed-dial-fab';
 
 @NgModule({
   ...
   imports: [
+    BrowserAnimationsModule,
     SpeedDialFabModule,
     ...
   ]

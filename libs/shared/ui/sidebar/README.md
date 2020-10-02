@@ -2,16 +2,39 @@
 
 [Angular Material Documentation](https://material.angular.io/components/sidenav/overview)
 
+This lib depends on the `schaeffler-icons`, which can be installed with npm:
+
+`npm i schaeffler-icons`
+
+Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+
+```
+"styles": [
+  ...
+  "node_modules/schaeffler-icons/style.css"
+],
+```
+
 Import into your project like:
 
 ```typescript
 // app.modules.ts
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SidebarModule } from '@schaeffler/sidebar';
 
 @NgModule({
   ...
   imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    StoreModule.forRoot({}),
+    EffectsModule.forRoot(),
+    SharedTranslocoModule.forRoot(...),
     SidebarModule,
     ...
   ]

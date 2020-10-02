@@ -5,11 +5,13 @@ Import into your project like:
 ```typescript
 // myModule.module.ts
 
+import { StoreModule } from '@ngrx/store';
 import { HeaderModule } from '@schaeffler/header';
 
 @NgModule({
   ...
   imports: [
+    StoreModule,
     HeaderModule,
     ...
   ]

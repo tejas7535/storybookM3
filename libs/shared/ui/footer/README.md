@@ -5,11 +5,13 @@ Import into your project like:
 // app.modules.ts or core.modules.ts
 
 import { FooterModule } from '@schaeffler/footer';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   ...
   imports: [
     FooterModule,
+    RouterModule,
     ...
   ]
   ...

@@ -1,17 +1,37 @@
 # frontend@schaeffler Under Construction
 
+This lib depends on the `@schaeffler/styles`, which can be installed with npm:
+
+`npm i @schaeffler/styles`
+
+```css
+/* styles.scss */
+
+@import '@schaeffler/styles/src';
+```
+
 Import into your project like:
 
 ```typescript
 // app.module.ts
 
-import { NgModule } from '@angular/core';
 import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { HttpClientModule } from '@angular/common/http';
+
+import { environment } from '../environments/environment';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 @NgModule({
   imports: [
-    ...,
-    UnderConstructionModule
+    UnderConstructionModule,
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['en'],
+      'en',
+      'en',
+      true
+    ),
+    ...
   ],
 })
 export class AppRoutingModule {}

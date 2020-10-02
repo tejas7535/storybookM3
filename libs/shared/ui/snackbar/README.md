@@ -17,7 +17,7 @@ Afterwards the `styles` section in the `angular.json` has to be adjusted:
 
 This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 
-`npm i --save @schaeffler/styles`
+`npm i @schaeffler/styles`
 
 ```css
 /* styles.scss */
@@ -29,12 +29,14 @@ This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 // myModule.module.ts
 
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { StoreModule } from '@ngrx/store';
 import { SnackBarModule } from '@schaeffler/snackbar';
 
 @NgModule({
   ...
   imports: [
     BrowserAnimationsModule,
+    StoreModule,
     SnackBarModule,
     ...
   ]
