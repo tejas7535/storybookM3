@@ -1,11 +1,21 @@
 # frontend@schaeffler Forbidden
 
+This lib depends on the `@schaeffler/styles`, which can be installed with npm:
+
+`npm i @schaeffler/styles`
+
+```css
+/* styles.scss */
+
+@import '@schaeffler/styles/src';
+```
+
 Import into your project like:
 
 ```typescript
 // app-routing.module.ts
 
-import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -30,6 +40,7 @@ export const appRoutePaths: Routes = [
 
 @NgModule({
   imports: [
+    HttpClientModule,
     RouterModule.forRoot(appRoutePaths, {
       useHash: true
     }),

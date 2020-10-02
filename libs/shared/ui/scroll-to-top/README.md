@@ -3,7 +3,7 @@
 
 This lib depends on the `schaeffler-icons`, can be installed with npm:
 
-`npm i --save schaeffler-icons`
+`npm i schaeffler-icons`
 
 Afterwards the `styles` section in the `angular.json` has to be adjusted: 
 
@@ -19,11 +19,13 @@ Import into your project like:
 ```typescript
 // app.modules.ts
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ScrollToTopDirective, ScrollToTopModule} from '@schaeffler/scroll-to-top';
 
 @NgModule({
   ...
   imports: [
+    BrowserAnimationsModule,
     ScrollToTopModule,
     ...
   ]

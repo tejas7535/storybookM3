@@ -4,16 +4,45 @@
 
 **Note: Should be used in combination with the `@schaeffler/header`**
 
+This lib depends on the `@schaeffler/styles`, which can be installed with npm:
+
+`npm i @schaeffler/styles`
+
+```css
+/* styles.scss */
+
+@import '@schaeffler/styles/src';
+```
+
+This lib depends on the `schaeffler-icons`, which can be installed with npm:
+
+`npm i schaeffler-icons`
+
+Afterwards the `styles` section in the `angular.json` has to be adjusted: 
+
+```
+"styles": [
+  ...
+  "node_modules/schaeffler-icons/style.css"
+],
+```
+
 Import into your project like:
 
 ```typescript
 // app.modules.ts
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 
 @NgModule({
   ...
   imports: [
+    BrowserAnimationsModule,
+    HttpClientModule,
+    SharedTranslocoModule.forRoot(...),
     SettingsSidebarModule,
     ...
   ]
