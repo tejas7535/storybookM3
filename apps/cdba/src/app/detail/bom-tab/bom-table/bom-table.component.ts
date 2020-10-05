@@ -114,7 +114,7 @@ export class BomTableComponent implements OnChanges {
     },
     {
       field: 'costCenter',
-      headerName: translate('detail.bom.headers.costCenter'),
+      headerName: translate('detail.bom.headers.workCenter'),
     },
   ];
 
