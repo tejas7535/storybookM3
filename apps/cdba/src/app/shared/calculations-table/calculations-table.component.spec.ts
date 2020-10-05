@@ -4,17 +4,17 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColDef,
   ColumnEvent,
+  ColumnState,
   GetMainMenuItemsParams,
   GridApi,
   IStatusPanelParams,
   MenuItemDef,
   RowNode,
-  SortChangedEvent,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
+import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import {
@@ -30,7 +30,6 @@ import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.modu
 import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
-import { ColumnState } from './column-state';
 import { COLUMN_DEFINITIONS } from './config';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -67,8 +66,6 @@ describe('CalculationsTableComponent', () => {
           useValue: {
             getColumnState: jest.fn(),
             setColumnState: jest.fn(),
-            getSortState: jest.fn(),
-            setSortState: jest.fn(),
           },
         },
       ],
@@ -141,7 +138,6 @@ describe('CalculationsTableComponent', () => {
       component.ngOnChanges(change);
 
       expect(stateService.getColumnState).toHaveBeenCalled();
-      expect(stateService.getSortState).toHaveBeenCalled();
       expect(component['setColumnDefinitions']).toHaveBeenCalled();
       expect(
         CalculationsTableComponent['getUpdatedDefaultColumnDefinitions']
@@ -334,22 +330,6 @@ describe('CalculationsTableComponent', () => {
     });
   });
 
-  describe('sortChange', () => {
-    it('should receive current sort state and set it via state service', () => {
-      const mockEvent = ({
-        api: { getSortModel: jest.fn(() => []) },
-      } as unknown) as SortChangedEvent;
-
-      component.sortChange(mockEvent);
-
-      expect(mockEvent.api.getSortModel).toHaveBeenCalled();
-      expect(stateService.setSortState).toHaveBeenCalledWith(
-        'calculations',
-        []
-      );
-    });
-  });
-
   describe('setColumnDefinitions', () => {
     const defaultDefinitions: { [key: string]: ColDef } = {
       materialNumber: {
@@ -386,7 +366,6 @@ describe('CalculationsTableComponent', () => {
       component['setColumnDefinitions'](
         defaultDefinitions,
         defaultState,
-        undefined,
         undefined
       );
 
@@ -408,31 +387,7 @@ describe('CalculationsTableComponent', () => {
       component['setColumnDefinitions'](
         defaultDefinitions,
         defaultState,
-        usersColumnState,
-        undefined
-      );
-
-      expect(component.columnDefs).toEqual(expected);
-    });
-
-    it('should add sort state of user if present', () => {
-      const usersSortState = [{ colId: 'plant', sort: 'asc' }];
-
-      expected = [
-        {
-          field: 'materialNumber',
-          checkboxSelection: true,
-          colId: 'materialNumber',
-          pinned: 'left',
-        },
-        { field: 'plant', colId: 'plant', sort: 'asc' },
-      ];
-
-      component['setColumnDefinitions'](
-        defaultDefinitions,
-        defaultState,
-        undefined,
-        usersSortState
+        usersColumnState
       );
 
       expect(component.columnDefs).toEqual(expected);

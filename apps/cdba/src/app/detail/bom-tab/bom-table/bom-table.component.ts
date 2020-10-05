@@ -8,16 +8,16 @@ import {
   SimpleChanges,
 } from '@angular/core';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
+  ClientSideRowModelModule,
   ColDef,
   ColumnApi,
   GridApi,
   IStatusPanelParams,
   RowClickedEvent,
   RowNode,
-} from '@ag-grid-community/core';
-import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
+} from '@ag-grid-community/all-modules';
+import { RowGroupingModule } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../../core/store/reducers/detail/models';

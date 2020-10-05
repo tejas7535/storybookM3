@@ -3,7 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IStatusPanelParams } from '@ag-grid-community/core';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';

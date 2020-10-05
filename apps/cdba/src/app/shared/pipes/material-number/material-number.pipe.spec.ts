@@ -42,5 +42,13 @@ describe('MaterialNumberPipe', () => {
 
       expect(result).toEqual('112233');
     });
+
+    it('should return unefined if value is undefined', () => {
+      input = undefined;
+
+      result = pipe.transform(input);
+
+      expect(result).toEqual(undefined);
+    });
   });
 });

@@ -10,6 +10,9 @@
     [frameworkComponents]="frameworkComponents"
     [statusBar]="statusBar"
     [getMainMenuItems]="getMainMenuItems"
+    [rowHeight]="rowHeight"
+    [noRowsOverlayComponent]="noRowsOverlayComponent"
+    [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
     rowGroupPanelShow="always"
     valueCache
     enableRangeSelection
@@ -19,11 +22,10 @@
     (columnMoved)="columnChange($event)"
     (columnVisible)="columnChange($event)"
     (columnPinned)="columnChange($event)"
-    (sortChanged)="sortChange($event)"
-    [noRowsOverlayComponent]="noRowsOverlayComponent"
-    [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+    (columnResized)="columnChange($event)"
+    (columnRowGroupChanged)="columnChange($event)"
+    (sortChanged)="columnChange($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
-    [rowHeight]="rowHeight"
   >
   </ag-grid-angular>
 </div>

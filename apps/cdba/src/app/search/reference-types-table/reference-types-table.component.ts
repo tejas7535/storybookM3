@@ -1,25 +1,27 @@
 import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
+  ClientSideRowModelModule,
   ColDef,
   ColumnEvent,
+  ColumnState,
   GetMainMenuItemsParams,
   IStatusPanelParams,
   MenuItemDef,
   SideBarDef,
-  SortChangedEvent,
   StatusPanelDef,
-} from '@ag-grid-community/core';
-import { ClipboardModule } from '@ag-grid-enterprise/clipboard';
-import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel';
-import { FiltersToolPanelModule } from '@ag-grid-enterprise/filter-tool-panel';
-import { MenuModule } from '@ag-grid-enterprise/menu';
-import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
-import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
-import { SetFilterModule } from '@ag-grid-enterprise/set-filter';
-import { SideBarModule } from '@ag-grid-enterprise/side-bar';
-import { StatusBarModule } from '@ag-grid-enterprise/status-bar';
+} from '@ag-grid-community/all-modules';
+import {
+  ClipboardModule,
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  MenuModule,
+  RangeSelectionModule,
+  RowGroupingModule,
+  SetFilterModule,
+  SideBarModule,
+  StatusBarModule,
+} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { ReferenceType } from '../../core/store/reducers/shared/models';
@@ -33,14 +35,12 @@ import {
   NoRowsParams,
 } from '../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
-import { ColumnState } from './column-state';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
   DEFAULT_COLUMN_STATE,
   STATUS_BAR_CONFIG,
 } from './config';
-import { SortState } from './sort-state';
 
 @Component({
   selector: 'cdba-reference-types-table',
@@ -125,9 +125,6 @@ export class ReferenceTypesTableComponent implements OnChanges {
         DEFAULT_COLUMN_STATE,
         this.agGridStateService.getColumnState(
           ReferenceTypesTableComponent.TABLE_KEY
-        ),
-        this.agGridStateService.getSortState(
-          ReferenceTypesTableComponent.TABLE_KEY
         )
       );
     }
@@ -172,18 +169,6 @@ export class ReferenceTypesTableComponent implements OnChanges {
   }
 
   /**
-   * Sort listener for table.
-   */
-  public sortChange(event: SortChangedEvent): void {
-    const sortState = event.api.getSortModel();
-
-    this.agGridStateService.setSortState(
-      ReferenceTypesTableComponent.TABLE_KEY,
-      sortState
-    );
-  }
-
-  /**
    * Autosize columns width when data is loaded.
    */
   public onFirstDataRendered(params: IStatusPanelParams): void {
@@ -197,8 +182,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
   private setColumnDefinitions(
     defaultColumnDefinitions: { [key: string]: ColDef },
     defaultColumnState: { [key: string]: ColumnState },
-    usersColumnState: ColumnState[],
-    usersSortState: SortState[]
+    usersColumnState: ColumnState[]
   ): void {
     const columnDefinitions: ColDef[] = [];
 
@@ -207,15 +191,10 @@ export class ReferenceTypesTableComponent implements OnChanges {
         ? usersColumnState.find((col) => col.colId === key)
         : undefined;
 
-      const sortStateUser = usersSortState
-        ? usersSortState.find((col) => col.colId === key)
-        : undefined;
-
       columnDefinitions.push({
         ...defaultColumnDefinitions[key],
         ...(defaultColumnState[key] as any),
         ...columnStateUser,
-        sort: sortStateUser ? sortStateUser.sort : undefined,
       });
     });
 

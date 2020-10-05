@@ -1,12 +1,16 @@
 import { Component } from '@angular/core';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
-import { ColDef } from '@ag-grid-community/core';
-import { ColumnsToolPanelModule } from '@ag-grid-enterprise/column-tool-panel';
-import { FiltersToolPanelModule } from '@ag-grid-enterprise/filter-tool-panel';
-import { MenuModule } from '@ag-grid-enterprise/menu';
-import { RowGroupingModule } from '@ag-grid-enterprise/row-grouping';
-import { SideBarModule } from '@ag-grid-enterprise/side-bar';
+import {
+  ClientSideRowModelModule,
+  ColDef,
+} from '@ag-grid-community/all-modules';
+import {
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
+  MenuModule,
+  RowGroupingModule,
+  SideBarModule,
+} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 @Component({

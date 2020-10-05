@@ -6,21 +6,22 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class MaterialNumberPipe implements PipeTransform {
   transform(value: string): string {
     let materialNumber: string;
-
-    switch (value.length) {
-      case 13: {
-        materialNumber = `${value.slice(0, 9)}-${value.slice(9)}`;
-        break;
+    if (value) {
+      switch (value.length) {
+        case 13: {
+          materialNumber = `${value.slice(0, 9)}-${value.slice(9)}`;
+          break;
+        }
+        case 15: {
+          materialNumber = materialNumber = `${value.slice(0, 9)}-${value.slice(
+            9,
+            13
+          )}-${value.slice(13)}`;
+          break;
+        }
+        default:
+          materialNumber = value;
       }
-      case 15: {
-        materialNumber = materialNumber = `${value.slice(0, 9)}-${value.slice(
-          9,
-          13
-        )}-${value.slice(13)}`;
-        break;
-      }
-      default:
-        materialNumber = value;
     }
 
     return materialNumber;

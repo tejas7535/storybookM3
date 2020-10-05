@@ -3,7 +3,7 @@ import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
 
 import { MaterialNumberPipe } from '../pipes';
 

@@ -4,16 +4,18 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { Subscription } from 'rxjs';
 
-import { ClientSideRowModelModule } from '@ag-grid-community/client-side-row-model';
 import {
+  ClientSideRowModelModule,
   ColDef,
   Column,
   ColumnApi,
   GridApi,
   RowNode,
-} from '@ag-grid-community/core';
-import { ClipboardModule } from '@ag-grid-enterprise/clipboard';
-import { RangeSelectionModule } from '@ag-grid-enterprise/range-selection';
+} from '@ag-grid-community/all-modules';
+import {
+  ClipboardModule,
+  RangeSelectionModule,
+} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 @Component({

@@ -1,14 +1,14 @@
 import { SimpleChange } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnApi,
   GridApi,
   IStatusPanelParams,
   RowClickedEvent,
   RowNode,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
+import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
