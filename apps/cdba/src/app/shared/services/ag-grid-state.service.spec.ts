@@ -1,9 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
+import { ColumnState } from '@ag-grid-community/all-modules';
 import { configureTestSuite } from 'ng-bullet';
 
-import { ColumnState } from '../../search/reference-types-table/column-state';
-import { SortState } from '../../search/reference-types-table/sort-state';
 import { AgGridStateService } from './ag-grid-state.service';
 
 describe('AgGridStateService', () => {
@@ -62,7 +61,7 @@ describe('AgGridStateService', () => {
 
     it('should return columns for given key', () => {
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const fakeStore = { key: JSON.stringify({ columns: columnState }) };
+      const fakeStore = { key: JSON.stringify({ columnState }) };
 
       mockLocalStorage(fakeStore);
 
@@ -77,7 +76,7 @@ describe('AgGridStateService', () => {
       mockLocalStorage({});
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const expected = '{"columns":[{"colId":"width","pinned":"left"}]}';
+      const expected = '{"columnState":[{"colId":"width","pinned":"left"}]}';
 
       service.setColumnState('key', columnState);
 
@@ -85,63 +84,15 @@ describe('AgGridStateService', () => {
     });
 
     it('should extend localstorage if key is already present', () => {
-      const sortState: SortState[] = [{ colId: 'width', sort: 'asc' }];
-      const fakeStore = { key: JSON.stringify({ sort: sortState }) };
+      const fakeStore = { key: JSON.stringify({ foo: 'bar' }) };
 
       mockLocalStorage(fakeStore);
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
       const expected =
-        '{"sort":[{"colId":"width","sort":"asc"}],"columns":[{"colId":"width","pinned":"left"}]}';
+        '{"foo":"bar","columnState":[{"colId":"width","pinned":"left"}]}';
 
       service.setColumnState('key', columnState);
-
-      expect(store.key).toEqual(expected);
-    });
-  });
-
-  describe('getSortState', () => {
-    it('should return undefined if theres no entry in localstorage', () => {
-      mockLocalStorage({});
-
-      expect(service.getSortState('any')).toBeUndefined();
-    });
-
-    it('should return sort state for given key', () => {
-      const sortState: SortState[] = [{ colId: 'width', sort: 'asc' }];
-      const fakeStore = { key: JSON.stringify({ sort: sortState }) };
-
-      mockLocalStorage(fakeStore);
-
-      const result = service.getSortState('key');
-
-      expect(result).toEqual(sortState);
-    });
-  });
-
-  describe('setSortState', () => {
-    it('should set the given sort state in localstorage', () => {
-      mockLocalStorage({});
-
-      const sortState: SortState[] = [{ colId: 'width', sort: 'asc' }];
-      const expected = '{"sort":[{"colId":"width","sort":"asc"}]}';
-
-      service.setSortState('key', sortState);
-
-      expect(store.key).toEqual(expected);
-    });
-
-    it('should extend localstorage if key is already present', () => {
-      const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
-      const fakeStore = { key: JSON.stringify({ columns: columnState }) };
-
-      mockLocalStorage(fakeStore);
-
-      const sortState: SortState[] = [{ colId: 'width', sort: 'asc' }];
-      const expected =
-        '{"columns":[{"colId":"width","pinned":"left"}],"sort":[{"colId":"width","sort":"asc"}]}';
-
-      service.setSortState('key', sortState);
 
       expect(store.key).toEqual(expected);
     });

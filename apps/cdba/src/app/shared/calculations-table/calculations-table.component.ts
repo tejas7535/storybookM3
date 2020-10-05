@@ -12,22 +12,20 @@ import {
   ColDef,
   Column,
   ColumnEvent,
+  ColumnState,
   GetMainMenuItemsParams,
   GridApi,
   IStatusPanelParams,
   MenuItemDef,
   SideBarDef,
-  SortChangedEvent,
   StatusPanelDef,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
-import { SortState } from '../../search/reference-types-table/sort-state';
 import { AgGridStateService } from '../services/ag-grid-state.service';
 import { SIDE_BAR_CONFIG } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { ColumnState } from './column-state';
 import {
   COLUMN_DEFINITIONS,
   DEFAULT_COLUMN_DEFINITION,
@@ -121,9 +119,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
         DEFAULT_COLUMN_STATE,
         this.agGridStateService.getColumnState(
           CalculationsTableComponent.TABLE_KEY
-        ),
-        this.agGridStateService.getSortState(
-          CalculationsTableComponent.TABLE_KEY
         )
       );
     }
@@ -196,18 +191,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     );
   }
 
-  /**
-   * Sort listener for table.
-   */
-  public sortChange(event: SortChangedEvent): void {
-    const sortState = event.api.getSortModel();
-
-    this.agGridStateService.setSortState(
-      CalculationsTableComponent.TABLE_KEY,
-      sortState
-    );
-  }
-
   private setTableProperties(minified: boolean): void {
     this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
     this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
@@ -227,8 +210,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   private setColumnDefinitions(
     defaultColumnDefinitions: { [key: string]: ColDef },
     defaultColumnState: { [key: string]: ColumnState },
-    usersColumnState: ColumnState[],
-    usersSortState: SortState[]
+    usersColumnState: ColumnState[]
   ): void {
     const columnDefinitions: ColDef[] = [];
 
@@ -237,15 +219,10 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
         ? usersColumnState.find((col) => col.colId === key)
         : undefined;
 
-      const sortStateUser = usersSortState
-        ? usersSortState.find((col) => col.colId === key)
-        : undefined;
-
       columnDefinitions.push({
         ...defaultColumnDefinitions[key],
         ...(defaultColumnState[key] as any),
         ...columnStateUser,
-        sort: sortStateUser ? sortStateUser.sort : undefined,
       });
     });
 

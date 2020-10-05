@@ -4,7 +4,7 @@ import de from '@angular/common/locales/de';
 import {
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
 
 import {
   currentYear,

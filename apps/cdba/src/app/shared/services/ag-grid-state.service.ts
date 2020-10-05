@@ -1,11 +1,9 @@
 import { Injectable } from '@angular/core';
 
-import { ColumnState } from '../../search/reference-types-table/column-state';
-import { SortState } from '../../search/reference-types-table/sort-state';
+import { ColumnState } from '@ag-grid-enterprise/all-modules';
 
 interface AgGridState {
-  sort: SortState[];
-  columns: ColumnState[];
+  columnState: ColumnState[];
 }
 
 @Injectable({
@@ -13,30 +11,16 @@ interface AgGridState {
 })
 export class AgGridStateService {
   public getColumnState(key: string): ColumnState[] {
-    return JSON.parse(localStorage.getItem(key))?.columns;
+    return JSON.parse(localStorage.getItem(key))?.columnState;
   }
 
-  public setColumnState(key: string, columns: ColumnState[]): void {
+  public setColumnState(key: string, columnState: ColumnState[]): void {
     const state: AgGridState = JSON.parse(localStorage.getItem(key));
 
     if (state) {
-      localStorage.setItem(key, JSON.stringify({ ...state, columns }));
+      localStorage.setItem(key, JSON.stringify({ ...state, columnState }));
     } else {
-      localStorage.setItem(key, JSON.stringify({ columns }));
-    }
-  }
-
-  public getSortState(key: string): SortState[] {
-    return JSON.parse(localStorage.getItem(key))?.sort;
-  }
-
-  public setSortState(key: string, sort: SortState[]): void {
-    const state: AgGridState = JSON.parse(localStorage.getItem(key));
-
-    if (state) {
-      localStorage.setItem(key, JSON.stringify({ ...state, sort }));
-    } else {
-      localStorage.setItem(key, JSON.stringify({ sort }));
+      localStorage.setItem(key, JSON.stringify({ columnState }));
     }
   }
 }

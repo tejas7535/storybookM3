@@ -7,14 +7,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColDef,
   Column,
   ColumnApi,
   GridApi,
   RowNode,
-} from '@ag-grid-community/core';
+} from '@ag-grid-community/all-modules';
+import { AgGridModule } from '@ag-grid-community/angular';
 import { translate } from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
 

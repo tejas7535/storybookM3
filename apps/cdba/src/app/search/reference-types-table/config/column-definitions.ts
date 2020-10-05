@@ -1,4 +1,4 @@
-import { ColDef } from '@ag-grid-community/core';
+import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import {
@@ -555,7 +555,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
   identificationHash: {
     field: columnDefinitionToReferenceTypeProp('identificationHash'),
     hide: true,
-    suppressToolPanel: true,
+    suppressColumnsToolPanel: true,
   },
   // tslint:disable-next-line: max-file-line-count
 };

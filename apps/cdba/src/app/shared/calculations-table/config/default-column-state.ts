@@ -1,4 +1,4 @@
-import { ColumnState } from '../column-state';
+import { ColumnState } from '@ag-grid-community/all-modules';
 
 export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   checkbox: { colId: 'checkbox', pinned: 'left' },
