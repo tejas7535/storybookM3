@@ -111,8 +111,8 @@
         "cycleTime": "Cycle Time",
         "toolingFactor": "Tooling Factor",
         "quantityPerParent": "Quantity Per Parent",
-        "unitOfMeasure": "Unit",
-        "costCenter": "Cost Center"
+        "unitOfMeasure": "Einheit",
+        "workCenter": "Arbeitsplatz"
       }
     },
     "errorTitle": "??? | ???"

@@ -112,7 +112,7 @@
         "toolingFactor": "Tooling Factor",
         "quantityPerParent": "Quantity Per Parent",
         "unitOfMeasure": "Unit",
-        "costCenter": "Cost Center"
+        "workCenter": "Work Center"
       }
     },
     "errorTitle": "??? | ???"
