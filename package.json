@@ -82,7 +82,7 @@
     "@ngrx/store": "10.0.0",
     "@stomp/rx-stomp": "0.3.5",
     "@stomp/stompjs": "5.4.4",
-    "@types/echarts": "4.6.5",
+    "@types/echarts": "4.8.0",
     "@types/jwt-decode": "2.2.1",
     "angular-oauth2-oidc": "10.0.3",
     "angular-oauth2-oidc-jwks": "9.0.0",
