@@ -1,5 +1,5 @@
 export enum AppRoutePath {
   BasePath = '',
-  PricingViewPath = 'pricing-view',
+  CaseViewPath = 'case-view',
   DetailViewPath = 'detail-view/:id',
 }

@@ -6,15 +6,13 @@ import { AppRoutePath } from './app-route-path.enum';
 export const appRoutePaths: Routes = [
   {
     path: AppRoutePath.BasePath,
-    redirectTo: `/${AppRoutePath.PricingViewPath}`,
+    redirectTo: `/${AppRoutePath.CaseViewPath}`,
     pathMatch: 'full',
   },
   {
-    path: AppRoutePath.PricingViewPath,
+    path: AppRoutePath.CaseViewPath,
     loadChildren: () =>
-      import('./pricing-view/pricing-view.module').then(
-        (m) => m.PricingViewModule
-      ),
+      import('./case-view/case-view.module').then((m) => m.CaseViewModule),
   },
   {
     path: AppRoutePath.DetailViewPath,
