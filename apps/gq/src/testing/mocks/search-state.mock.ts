@@ -1,6 +1,6 @@
 import { SearchState } from '../../app/core/store/reducers/search/search.reducer';
 
-export const APP_STATE_MOCK: SearchState = {
+export const SEARCH_STATE_MOCK: SearchState = {
   filters: {
     autocompleteLoading: undefined,
     items: [

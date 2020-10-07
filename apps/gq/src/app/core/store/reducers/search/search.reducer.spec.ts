@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { APP_STATE_MOCK } from '../../../../../testing/mocks/app-state.mock';
+import { SEARCH_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   addOption,
   autocomplete,
@@ -24,12 +24,12 @@ describe('Search Reducer', () => {
     test('should set autocomplete loading', () => {
       const autocompleteSearch = new AutocompleteSearch('customer', 'Audi');
       const action = autocomplete({ autocompleteSearch });
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...APP_STATE_MOCK,
+        ...SEARCH_STATE_MOCK,
         filters: {
-          ...APP_STATE_MOCK.filters,
+          ...SEARCH_STATE_MOCK.filters,
           autocompleteLoading: autocompleteSearch.filter,
         },
       });
@@ -51,9 +51,9 @@ describe('Search Reducer', () => {
       ];
 
       const fakeState = {
-        ...APP_STATE_MOCK,
+        ...SEARCH_STATE_MOCK,
         filters: {
-          ...APP_STATE_MOCK.filters,
+          ...SEARCH_STATE_MOCK.filters,
           items: [
             {
               filter: 'customer',
@@ -82,9 +82,9 @@ describe('Search Reducer', () => {
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
       const action = autocompleteFailure();
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
 
-      expect(state).toEqual(APP_STATE_MOCK);
+      expect(state).toEqual(SEARCH_STATE_MOCK);
     });
   });
 
@@ -93,7 +93,7 @@ describe('Search Reducer', () => {
       const option = new IdValue('customer1', 'customer1', true);
       const filterName = 'customer';
       const action = addOption({ option, filterName });
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
 
       expect(state.filters.items[0].options[0]).toEqual(option);
     });
@@ -101,9 +101,9 @@ describe('Search Reducer', () => {
       const option = new IdValue('key', 'key', true);
       const filterName = 'keyAccount';
       const action = addOption({ option, filterName });
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
 
-      expect(state).toEqual(APP_STATE_MOCK);
+      expect(state).toEqual(SEARCH_STATE_MOCK);
       expect(state.filters.items[2].options[0].selected).toBeTruthy();
     });
   });
@@ -113,7 +113,7 @@ describe('Search Reducer', () => {
       const option = new IdValue('key', 'key', true);
       const filterName = 'keyAccount';
       const action = removeOption({ option, filterName });
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
       expect(state.filters.items[2].options[0].selected).toBeFalsy();
     });
   });
@@ -122,7 +122,7 @@ describe('Search Reducer', () => {
     test('should change selected Filter', () => {
       const filterName = 'keyAccount';
       const action = selectedFilterChange({ filterName });
-      const state = searchReducer(APP_STATE_MOCK, action);
+      const state = searchReducer(SEARCH_STATE_MOCK, action);
 
       expect(state.filters.selected).toEqual(filterName);
     });
@@ -132,9 +132,9 @@ describe('Search Reducer', () => {
     test('should create queries', () => {
       const expected = [new QueryItem('audi', '1500', '10')];
       const fakeState: SearchState = {
-        ...APP_STATE_MOCK,
+        ...SEARCH_STATE_MOCK,
         filters: {
-          ...APP_STATE_MOCK.filters,
+          ...SEARCH_STATE_MOCK.filters,
           items: [
             {
               filter: 'customer',
@@ -171,7 +171,7 @@ describe('Search Reducer', () => {
     test('should create queries', () => {
       const queryItem = new QueryItem('audi', '1450', '100');
       const fakeState: SearchState = {
-        ...APP_STATE_MOCK,
+        ...SEARCH_STATE_MOCK,
         queryList: [queryItem],
       };
 
@@ -185,8 +185,8 @@ describe('Search Reducer', () => {
     test('should return searchReducer', () => {
       // prepare any action
       const action: Action = autocompleteFailure();
-      expect(reducer(APP_STATE_MOCK, action)).toEqual(
-        searchReducer(APP_STATE_MOCK, action)
+      expect(reducer(SEARCH_STATE_MOCK, action)).toEqual(
+        searchReducer(SEARCH_STATE_MOCK, action)
       );
     });
   });
