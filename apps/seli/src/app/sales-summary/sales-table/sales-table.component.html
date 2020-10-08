@@ -1,0 +1,12 @@
+<div class="table-container">
+  <ag-grid-angular
+    [columnDefs]="columnDefs"
+    [defaultColDef]="defaultColDef"
+    [rowData]="items$ | async"
+    [modules]="modules"
+    class="ag-theme-material"
+    animateRows
+    rowBuffer="10"
+  >
+  </ag-grid-angular>
+</div>

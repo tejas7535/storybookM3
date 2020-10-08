@@ -5,18 +5,15 @@ import { AuthGuard } from './core/auth.guard';
 
 export enum RoutePath {
   BasePath = '',
-  HomePath = 'home',
 }
 
 export const appRoutePaths: Routes = [
   {
     path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
-    pathMatch: 'full',
-  },
-  {
-    path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: () =>
+      import('./sales-summary/sales-summary.module').then(
+        (m) => m.SalesSummaryModule
+      ),
     canActivate: [AuthGuard],
   },
   {
@@ -30,6 +27,7 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
+      initialNavigation: false,
     }),
   ],
   exports: [RouterModule],

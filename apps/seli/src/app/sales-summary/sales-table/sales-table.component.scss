@@ -1,0 +1,8 @@
+.table-container {
+  height: calc(100% - 60px);
+  margin: 30px;
+
+  ag-grid-angular {
+    height: 100%;
+  }
+}
