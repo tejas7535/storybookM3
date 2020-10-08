@@ -6,6 +6,7 @@ import {
   createFeatureSelector,
   MetaReducer,
 } from '@ngrx/store';
+import * as fromSalesSummaryData from './sales-summary-data/sales-summary-data.reducer';
 
 import { environment } from '../../../../environments/environment';
 
@@ -17,10 +18,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  salesSummaryData: fromSalesSummaryData.SalesSummaryDataState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
+  salesSummaryData: fromSalesSummaryData.SalesSummaryDataReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -30,6 +33,10 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
+
+export const getSalesSummaryDataState = createFeatureSelector<
+  fromSalesSummaryData.SalesSummaryDataState
+>('salesSummaryData');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

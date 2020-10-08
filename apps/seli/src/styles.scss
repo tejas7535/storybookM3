@@ -1,7 +1,14 @@
+@import '~@ag-grid-community/core/dist/styles/ag-grid.scss';
+@import '~@ag-grid-community/core/dist/styles/ag-theme-material/sass/ag-theme-material-mixin.scss';
+
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/material-theme';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .material-icons {
   font-family: 'Material Icons' !important;
+}
+
+.ag-theme-material {
+  @include ag-theme-material();
 }
