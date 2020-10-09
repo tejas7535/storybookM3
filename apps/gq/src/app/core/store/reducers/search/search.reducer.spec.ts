@@ -3,9 +3,9 @@ import { Action } from '@ngrx/store';
 import { SEARCH_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   addOption,
-  autocomplete,
-  autocompleteFailure,
-  autocompleteSuccess,
+  autocompleteDepr,
+  autocompleteFailureDepr,
+  autocompleteSuccessDepr,
   createQueries,
   removeOption,
   removeQueryItem,
@@ -23,7 +23,7 @@ describe('Search Reducer', () => {
   describe('autocomplete', () => {
     test('should set autocomplete loading', () => {
       const autocompleteSearch = new AutocompleteSearch('customer', 'Audi');
-      const action = autocomplete({ autocompleteSearch });
+      const action = autocompleteDepr({ autocompleteSearch });
       const state = searchReducer(SEARCH_STATE_MOCK, action);
 
       expect(state).toEqual({
@@ -65,7 +65,7 @@ describe('Search Reducer', () => {
           ],
         },
       };
-      const action = autocompleteSuccess({
+      const action = autocompleteSuccessDepr({
         filter: item.filter,
         options: item.options,
       });
@@ -81,7 +81,7 @@ describe('Search Reducer', () => {
 
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
-      const action = autocompleteFailure();
+      const action = autocompleteFailureDepr();
       const state = searchReducer(SEARCH_STATE_MOCK, action);
 
       expect(state).toEqual(SEARCH_STATE_MOCK);
@@ -184,7 +184,7 @@ describe('Search Reducer', () => {
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
-      const action: Action = autocompleteFailure();
+      const action: Action = autocompleteFailureDepr();
       expect(reducer(SEARCH_STATE_MOCK, action)).toEqual(
         searchReducer(SEARCH_STATE_MOCK, action)
       );

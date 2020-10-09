@@ -2,9 +2,9 @@ import { AutocompleteSearch, QueryItem } from '../../models';
 import { IdValue } from '../../models/id-value.model';
 import {
   addOption,
-  autocomplete,
-  autocompleteFailure,
-  autocompleteSuccess,
+  autocompleteDepr,
+  autocompleteFailureDepr,
+  autocompleteSuccessDepr,
   createQueries,
   removeOption,
   removeQueryItem,
@@ -16,7 +16,7 @@ describe('Search Actions', () => {
     test('autocomplete', () => {
       const autocompleteSearch = new AutocompleteSearch('customer', 'Awe');
 
-      const action = autocomplete({ autocompleteSearch });
+      const action = autocompleteDepr({ autocompleteSearch });
 
       expect(action).toEqual({
         autocompleteSearch,
@@ -28,7 +28,7 @@ describe('Search Actions', () => {
       const filter = 'customer';
       const options = [new IdValue('23', 'Test Customer', true)];
 
-      const action = autocompleteSuccess({ filter, options });
+      const action = autocompleteSuccessDepr({ filter, options });
 
       expect(action).toEqual({
         filter,
@@ -39,7 +39,7 @@ describe('Search Actions', () => {
     });
 
     test('autocompleteFailure', () => {
-      const action = autocompleteFailure();
+      const action = autocompleteFailureDepr();
 
       expect(action).toEqual({
         type:

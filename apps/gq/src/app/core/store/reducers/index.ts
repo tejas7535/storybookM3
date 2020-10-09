@@ -8,6 +8,7 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
+import * as fromCase from './create-case/create-case.reducer';
 import * as fromQuotation from './quotation/quotation.reducers';
 import * as fromSearch from './search/search.reducer';
 
@@ -21,12 +22,14 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   search: fromSearch.SearchState;
   quotation: fromQuotation.QuotationState;
+  case: fromCase.CaseState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   search: fromSearch.searchReducer,
   quotation: fromQuotation.quotationReducer,
+  case: fromCase.createCaseReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -44,6 +47,7 @@ export const getSearchState = createFeatureSelector<fromSearch.SearchState>(
 export const getQuotationState = createFeatureSelector<
   fromQuotation.QuotationState
 >('quotation');
+export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
