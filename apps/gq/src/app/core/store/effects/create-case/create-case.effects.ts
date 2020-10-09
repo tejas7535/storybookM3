@@ -7,32 +7,37 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
 import {
-  autocompleteDepr,
-  autocompleteFailureDepr,
-  autocompleteSuccessDepr,
+  autocomplete,
+  autocompleteCustomerSuccess,
+  autocompleteFailure,
+  autocompleteQuotationSuccess,
 } from '../../actions';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
  */
 @Injectable()
-export class SearchEffects {
+export class CreateCaseEffects {
   /**
    * Get possible values for a form field
    *
    */
   autocomplete$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(autocompleteDepr.type),
+      ofType(autocomplete.type),
       mergeMap((action: any) =>
         this.autocompleteService.autocomplete(action.autocompleteSearch).pipe(
-          map((options) =>
-            autocompleteSuccessDepr({
-              options,
-              filter: action.autocompleteSearch.filter,
-            })
-          ),
-          catchError((_e) => of(autocompleteFailureDepr()))
+          map((options) => {
+            switch (action.autocompleteSearch.filter) {
+              case 'customer':
+                return autocompleteCustomerSuccess({ options });
+              case 'quotation':
+                return autocompleteQuotationSuccess({ options });
+              default:
+                return autocompleteFailure();
+            }
+          }),
+          catchError((_e) => of(autocompleteFailure()))
         )
       )
     )

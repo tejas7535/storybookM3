@@ -2,9 +2,9 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   addOption,
-  autocomplete,
-  autocompleteFailure,
-  autocompleteSuccess,
+  autocompleteDepr,
+  autocompleteFailureDepr,
+  autocompleteSuccessDepr,
   createQueries,
   removeOption,
   removeQueryItem,
@@ -148,14 +148,14 @@ export const initialState: SearchState = {
 
 export const searchReducer = createReducer(
   initialState,
-  on(autocomplete, (state: SearchState, { autocompleteSearch }) => ({
+  on(autocompleteDepr, (state: SearchState, { autocompleteSearch }) => ({
     ...state,
     filters: {
       ...state.filters,
       autocompleteLoading: autocompleteSearch.filter,
     },
   })),
-  on(autocompleteSuccess, (state: SearchState, { filter, options }) => ({
+  on(autocompleteSuccessDepr, (state: SearchState, { filter, options }) => ({
     ...state,
     filters: {
       ...state.filters,
@@ -190,7 +190,7 @@ export const searchReducer = createReducer(
       }),
     },
   })),
-  on(autocompleteFailure, (state: SearchState) => ({
+  on(autocompleteFailureDepr, (state: SearchState) => ({
     ...state,
     filters: { ...state.filters, autocompleteLoading: undefined },
   })),

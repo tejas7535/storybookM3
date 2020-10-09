@@ -2,17 +2,26 @@ import { createAction, props, union } from '@ngrx/store';
 
 import { AutocompleteSearch, IdValue, QueryItem } from '../../models';
 
-export const autocomplete = createAction(
+/*
+ * @deprecated
+ */
+export const autocompleteDepr = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type',
   props<{ autocompleteSearch: AutocompleteSearch }>()
 );
 
-export const autocompleteSuccess = createAction(
+/*
+ * @deprecated
+ */
+export const autocompleteSuccessDepr = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type Success',
   props<{ filter: string; options: IdValue[] }>()
 );
 
-export const autocompleteFailure = createAction(
+/*
+ * @deprecated
+ */
+export const autocompleteFailureDepr = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure'
 );
 
@@ -39,9 +48,9 @@ export const removeQueryItem = createAction(
 );
 
 const all = union({
-  autocomplete,
-  autocompleteSuccess,
-  autocompleteFailure,
+  autocompleteDepr,
+  autocompleteSuccessDepr,
+  autocompleteFailureDepr,
   selectedFilterChange,
   addOption,
   removeOption,
