@@ -15,6 +15,13 @@ export const appRoutePaths: Routes = [
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
   },
   {
+    path: AppRoutePath.ProcessCaseViewPath,
+    loadChildren: () =>
+      import('./process-case-view/process-case-view.module').then(
+        (m) => m.ProcessCaseViewModule
+      ),
+  },
+  {
     path: AppRoutePath.DetailViewPath,
     loadChildren: () =>
       import('./detail-view/detail-view.module').then(

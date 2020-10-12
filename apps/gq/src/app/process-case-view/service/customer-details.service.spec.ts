@@ -5,9 +5,9 @@ import {
 import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
+
 import { CUSTOMER_DETAILS_MOCK } from '../../../testing/mocks';
 import { DataService } from '../../core/http/data.service';
-
 import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import { CustomerDetailsService } from './customer-details.service';
 

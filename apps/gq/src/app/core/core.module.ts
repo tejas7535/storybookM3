@@ -3,14 +3,16 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 import { HttpModule } from './http/http.module';
-import { StoreModule } from './store/store.module';
+import { StoreModule } from './store';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,9 @@ import { StoreModule } from './store/store.module';
     RouterModule,
 
     // UI Modules
+    FooterModule,
     HeaderModule,
+    IconsModule,
     MatButtonModule,
 
     // Translation

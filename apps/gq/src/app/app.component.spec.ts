@@ -4,6 +4,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
+import { FooterModule } from '@schaeffler/footer';
 import { configureTestSuite } from 'ng-bullet';
 
 import { HeaderModule } from '@schaeffler/header';
@@ -19,6 +20,7 @@ describe('AppComponent', () => {
       imports: [
         NoopAnimationsModule,
         HeaderModule,
+        FooterModule,
         MatButtonModule,
         RouterTestingModule,
       ],
