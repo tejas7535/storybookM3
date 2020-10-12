@@ -114,5 +114,46 @@
         "subKeyaccount": "Sub Keyaccount"
       }
     }
+  },
+  "processCaseView": {
+    "processCaseHeader": {
+      "seeOffer": "see offer",
+      "customerDetails": {
+        "country": "Country",
+        "customer": "Customer",
+        "customerId": "Customer ID",
+        "details": "Details",
+        "keyAccount": "Key Account",
+        "keyAccountId": "Key Account ID",
+        "region": "Region",
+        "sectorManagement": "Sector Management",
+        "subKeyAccount": "Subkey Account",
+        "subKeyAccountId": "Subkey Account ID",
+        "subRegion": "Sub-Region",
+        "subSector": "Subector",
+        "subSectorOne": "Subector 1"
+      }
+    },
+    "quotationDetailsTable": {
+      "materialDescription": "Material Description",
+      "materialNumber": "Material Nr. (13 digit)",
+      "productionHierarchy": "Production Hierarchy",
+      "productionCost": "Production Cost",
+      "productionPlant": "Production Plant",
+      "plantCity": "Plant City",
+      "plantCountry": "Plant Country",
+      "rsp": "RSP",
+      "info": "Info"
+    }
+  },
+  "shared": {
+    "customStatusBar": {
+      "addToOfferButton": {
+        "addToOffer": "add to offer"
+      },
+      "detailViewButton": {
+        "openDetail": "open details"
+      }
+    }
   }
 }

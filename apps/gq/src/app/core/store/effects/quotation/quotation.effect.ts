@@ -1,15 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+
 import { of } from 'rxjs';
 import { catchError, map, mergeMap } from 'rxjs/operators';
-import { CustomerDetailsService } from '../../../../process-quotation-case-view/service/customer-details.service';
-import { QuotationDetailsService } from '../../../../process-quotation-case-view/service/quotation-details.service';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+
+import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
+import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import {
-  customerDetailsRequest,
   customerDetailsFailure,
+  customerDetailsRequest,
   customerDetailsSuccess,
-  quotationDetailsRequest,
   quotationDetailsFailure,
+  quotationDetailsRequest,
   quotationDetailsSuccess,
 } from '../../actions';
 

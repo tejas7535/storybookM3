@@ -114,5 +114,46 @@
         "subKeyaccount": "Sub-Key-Account"
       }
     }
+  },
+  "processCaseView": {
+    "processCaseHeader": {
+      "seeOffer": "Angebot ansehen",
+      "customerDetails": {
+        "country": "Land",
+        "customer": "Kunder",
+        "customerId": "Kundennummer",
+        "details": "Details",
+        "keyAccount": "Key-Account",
+        "keyAccountId": "Key-Account Nummer",
+        "region": "Region",
+        "sectorManagement": "Sektormanagement",
+        "subKeyAccount": "Sub-Key-Account",
+        "subKeyAccountId": "Sub-Key-Account Nummer",
+        "subRegion": "Subregion",
+        "subSector": "Subsektor",
+        "subSectorOne": "Subsektor 1"
+      }
+    },
+    "quotationDetailsTable": {
+      "info": "Info",
+      "materialDescription": "Materialbescheibung",
+      "materialNumber": "Material Nr. (13 Ziffern)",
+      "plantCity": "Stadt",
+      "plantCountry": "Land",
+      "productionCost": "Produktionskosten",
+      "productionHierarchy": "Produktionshierarchie",
+      "productionPlant": "Werk",
+      "rsp": "RSP"
+    }
+  },
+  "shared": {
+    "customStatusBar": {
+      "addToOfferButton": {
+        "addToOffer": "Zum Angebot hinzufügen"
+      },
+      "detailViewButton": {
+        "openDetail": "Details öffnen"
+      }
+    }
   }
 }

@@ -5,18 +5,19 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
+
 import {
   CUSTOMER_DETAILS_MOCK,
   QUOTATION_DETAILS_MOCK,
 } from '../../../../../testing/mocks';
-import { CustomerDetailsService } from '../../../../process-quotation-case-view/service/customer-details.service';
-import { QuotationDetailsService } from '../../../../process-quotation-case-view/service/quotation-details.service';
+import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
+import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import {
-  customerDetailsRequest,
   customerDetailsFailure,
+  customerDetailsRequest,
   customerDetailsSuccess,
-  quotationDetailsRequest,
   quotationDetailsFailure,
+  quotationDetailsRequest,
   quotationDetailsSuccess,
 } from '../../actions';
 import { initialState } from '../../reducers/search/search.reducer';

@@ -3,11 +3,11 @@ import {
   QUOTATION_DETAILS_MOCK,
 } from '../../../../../testing/mocks';
 import {
-  customerDetailsRequest,
   customerDetailsFailure,
+  customerDetailsRequest,
   customerDetailsSuccess,
-  quotationDetailsRequest,
   quotationDetailsFailure,
+  quotationDetailsRequest,
   quotationDetailsSuccess,
 } from './quotation.action';
 

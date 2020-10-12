@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
+
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
 import { DataService } from '../../core/http/data.service';
 import { QuotationDetails } from '../../core/store/models';
 

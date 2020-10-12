@@ -1,12 +1,15 @@
+import { QuotationInfoEnum } from './quotation-info.enum';
+
 export class QuotationDetails {
   constructor(
-    public materialNumbers: string,
-    public materialDescriptions: string,
-    public quantities: number,
-    public customerNumber: string,
-    public customerName: string,
-    public region: string,
-    public sector: string,
-    public subSector: string
+    public materialDescription: string,
+    public materialNumber: string,
+    public productionHierarchy: string,
+    public productionCost: string,
+    public productionPlant: string,
+    public plantCity: string,
+    public plantCountry: string,
+    public rsp: string,
+    public info: QuotationInfoEnum
   ) {}
 }
