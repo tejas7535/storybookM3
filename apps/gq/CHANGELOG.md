@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix synchronisation of column state with local storage ([a36e746](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a36e746f9169be980f7b4da71f7e2bb7ab135f7a))
+
+
+### 🎸 Features
+
+* **gq:** button functionality for add to search query (GQUOTE-113) ([847eb7f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/847eb7ff62ab091847b070184922e1362d5eb11a))
+* **gq:** create store for creating new cases (GQUOTE-133) ([2d3d03d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2d3d03df4ed6a7d6781e5ff0953daa7879d4f81d))
+* **gq:** create store for process quotation case (GQUOTE-149) ([e046e56](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e046e56933d5526fd6c03bfebb02f3ce288993b8))
+* **gq:** Deletable query list item (GQUOTE-114) ([654c6b8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/654c6b847fb7b6192757b624d75f12768e1e0c22))
+* **gq:** new blank page incl routing for new ui design ([9908fe5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9908fe571581c9d03741a003cde98bfa2c1da58d))
+
 ## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
 
 

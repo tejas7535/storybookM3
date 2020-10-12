@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
+
+
+### 🎸 Features
+
+* **seli:** basic sales summary view (UFTABI-3036) ([2b2d688](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2b2d688ed730616ab76b1552135139a432958279))
+
 ### [1.6.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.6.1) (2020-09-28)
 
 ### [1.5.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.5.0...v1.5.1) (2020-09-11)

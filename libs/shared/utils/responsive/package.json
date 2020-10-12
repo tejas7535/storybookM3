@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/responsive",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "dependencies": {
     "tslib": "^2.0.0"
   },

@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.7.1) (2020-10-12)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix synchronisation of column state with local storage ([a36e746](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a36e746f9169be980f7b4da71f7e2bb7ab135f7a))
+* **cdba:** rename column to work center ([40ec79c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/40ec79c680635f180dfc9ab1ac10eb1b0a8a0ca6))
+
 ## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
 
 

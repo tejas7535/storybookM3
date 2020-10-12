@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
+
+
+### ✏️ Documentation
+
+* **shared-libs:** improve documentation ([18b709a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/18b709a184a4ff7c2c342620bfec4a297831ae6e))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix synchronisation of column state with local storage ([a36e746](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a36e746f9169be980f7b4da71f7e2bb7ab135f7a))
+* **cdba:** rename column to work center ([40ec79c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/40ec79c680635f180dfc9ab1ac10eb1b0a8a0ca6))
+
+
+### 🎸 Features
+
+* **goldwind:** display grease status gauges in overview (DIGDTGW-716) ([f79746e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f79746ee11e29b85402528e179d1889b3144bda2))
+* **gq:** button functionality for add to search query (GQUOTE-113) ([847eb7f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/847eb7ff62ab091847b070184922e1362d5eb11a))
+* **gq:** create store for creating new cases (GQUOTE-133) ([2d3d03d](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2d3d03df4ed6a7d6781e5ff0953daa7879d4f81d))
+* **gq:** create store for process quotation case (GQUOTE-149) ([e046e56](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e046e56933d5526fd6c03bfebb02f3ce288993b8))
+* **gq:** Deletable query list item (GQUOTE-114) ([654c6b8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/654c6b847fb7b6192757b624d75f12768e1e0c22))
+* **gq:** new blank page incl routing for new ui design ([9908fe5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9908fe571581c9d03741a003cde98bfa2c1da58d))
+* **ia:** create app scaffold ([5d0b485](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5d0b4850fea94f8a9c8387db05a63d0041022965))
+* **seli:** basic sales summary view (UFTABI-3036) ([2b2d688](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2b2d688ed730616ab76b1552135139a432958279))
+
 ## [1.7.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.7.0) (2020-09-28)
 
 
