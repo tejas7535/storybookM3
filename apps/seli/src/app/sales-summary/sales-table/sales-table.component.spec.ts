@@ -1,6 +1,7 @@
-import { AgGridModule } from '@ag-grid-community/angular';
 import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { AgGridModule } from '@ag-grid-community/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
