@@ -3052,7 +3052,8 @@
       "unitTestRunner": "jest"
     },
     "@ngneat/spectator:spectator-component": {
-      "jest": true
+      "jest": true,
+      "style": "scss"
     }
   },
   "defaultProject": "kitchen-sink"
