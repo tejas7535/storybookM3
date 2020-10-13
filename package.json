@@ -60,9 +60,9 @@
   },
   "private": true,
   "dependencies": {
-    "@ag-grid-community/angular": "24.0.0",
-    "@ag-grid-community/all-modules": "24.0.0",
-    "@ag-grid-enterprise/all-modules": "24.0.0",
+    "@ag-grid-community/angular": "24.1.0",
+    "@ag-grid-community/all-modules": "24.1.0",
+    "@ag-grid-enterprise/all-modules": "24.1.0",
     "@angular/animations": "10.1.5",
     "@angular/cdk": "10.2.4",
     "@angular/common": "10.1.5",
