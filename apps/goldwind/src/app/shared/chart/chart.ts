@@ -36,6 +36,7 @@ export const axisChartOptions: EChartOption = {
   },
   dataZoom: [
     {
+      filterMode: 'none',
       type: 'inside',
     },
     {}, // for slider zoom
