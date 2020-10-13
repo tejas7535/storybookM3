@@ -6,7 +6,7 @@
   },
   "bearing": {
     "overview": "Overview",
-    "bearingLoadAndAssessment": "Bearing Load and Assessment",
+    "bearingLoadAndAssessment": "Bearing Load",
     "greaseStatus": "Grease Status",
     "dataView": "Data View",
     "live": "Live",
