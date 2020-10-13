@@ -2832,6 +2832,212 @@
           }
         }
       }
+    },
+    "mac": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/mac",
+      "sourceRoot": "apps/mac/src",
+      "prefix": "mac",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/mac",
+            "index": "apps/mac/src/index.html",
+            "main": "apps/mac/src/main.ts",
+            "polyfills": "apps/mac/src/polyfills.ts",
+            "tsConfig": "apps/mac/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/mac/src/favicon.ico", "apps/mac/src/assets"],
+            "styles": [
+              "apps/mac/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mac/src/environments/environment.ts",
+                  "with": "apps/mac/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "extractCss": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mac/src/environments/environment.ts",
+                  "with": "apps/mac/src/environments/environment.qa.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/mac/src/environments/environment.ts",
+                  "with": "apps/mac/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "mac:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "mac:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "mac:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "mac:build"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "apps/mac/tsconfig.app.json",
+              "apps/mac/tsconfig.spec.json",
+              "apps/mac/tsconfig.editor.json"
+            ],
+            "exclude": ["**/node_modules/**", "!apps/mac/**/*"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/mac/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "cd apps/mac && npx standard-version --no-verify"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "mac-e2e": {
+      "root": "apps/mac-e2e",
+      "sourceRoot": "apps/mac-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/mac-e2e/cypress.json",
+            "tsConfig": "apps/mac-e2e/tsconfig.e2e.json",
+            "devServerTarget": "mac:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "mac:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "mac:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": ["apps/mac-e2e/tsconfig.e2e.json"],
+            "exclude": ["**/node_modules/**", "!apps/mac-e2e/**/*"]
+          }
+        }
+      }
     }
   },
   "cli": {

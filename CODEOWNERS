@@ -39,6 +39,10 @@ apps/seli-e2e @birketho @soehnpsc
 apps/gq @andrafnk @soehnpsc @herpisef 
 apps/gq-e2e @andrafnk @soehnpsc @herpisef
 
+# MAC
+apps/mac @berndcri @kauppfbi @birketho
+apps/mac-e2e @berndcri @kauppfbi @birketho
+
 ############
 ### Libs ###
 ############ IA

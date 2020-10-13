@@ -7,5 +7,6 @@
   "goldwind": "/goldwind/gw/master/",
   "seli": "/seli/seli-frontend-deployment/master/",
   "gq": "/guidedquoting/gq-fe-deployment/master",
-  "ia": "/insight-attrition/ia-fe-deployment/master"
+  "ia": "/insight-attrition/ia-fe-deployment/master",
+  "mac": "/material_app_center/MAC-Frontend-Deployment/master"
 }
