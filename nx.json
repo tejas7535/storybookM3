@@ -149,6 +149,14 @@
     "ia-e2e": {
       "tags": [],
       "implicitDependencies": ["ia"]
+    },
+    "mac": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "mac-e2e": {
+      "tags": [],
+      "implicitDependencies": ["mac"]
     }
   },
   "tasksRunnerOptions": {
