@@ -6,7 +6,12 @@ import {
   ClientSideRowModelModule,
   ColDef,
   Module,
+  SideBarDef,
 } from '@ag-grid-community/all-modules';
+import {
+  ColumnsToolPanelModule,
+  SideBarModule,
+} from '@ag-grid-enterprise/all-modules';
 import { select, Store } from '@ngrx/store';
 
 import { getInitialData } from '../../core/store/actions/sales-summary-data/sales-summary-data.actions';
@@ -15,6 +20,7 @@ import { SalesSummaryDataState } from '../../core/store/reducers/sales-summary-d
 import { getItems } from '../../core/store/selectors';
 import { COLUMN_DEFINITIONS } from './config/column-definitions';
 import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definitions';
+import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
 
 @Component({
   selector: 'seli-sales.-table',
@@ -28,7 +34,12 @@ export class SalesTableComponent implements OnInit {
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
-  public modules: Module[] = [ClientSideRowModelModule];
+  public modules: Module[] = [
+    ClientSideRowModelModule,
+    SideBarModule,
+    ColumnsToolPanelModule,
+  ];
+  public sidebar: SideBarDef = SIDE_BAR_CONFIG;
 
   ngOnInit(): void {
     getInitialData();

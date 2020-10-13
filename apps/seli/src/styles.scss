@@ -10,5 +10,9 @@
 }
 
 .ag-theme-material {
-  @include ag-theme-material();
+  @include ag-theme-material(
+    (
+      material-accent-color: $schaeffler-green-1,
+    )
+  );
 }
