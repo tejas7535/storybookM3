@@ -6,7 +6,6 @@ export const testScrollToTop = () => {
       cy.get('[data-cy=scrollToTopContainer]')
         .scrollTo('bottom')
         .get('[data-cy=scrollToTop]')
-        .should('be', 'visible')
         .click()
         .get('[data-cy=scrollToTopContainer]')
         .invoke('prop', 'scrollTop')
@@ -14,7 +13,6 @@ export const testScrollToTop = () => {
     } else {
       cy.scrollTo('bottom')
         .get('[data-cy=scrollToTop]')
-        .should('be', 'visible')
         .click()
         .window()
         .its('pageYOffset')

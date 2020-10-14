@@ -3,7 +3,7 @@ import {
   getBannerCloseButton,
   getHeadline,
   getSnackBarContainer,
-  getToastButton
+  getToastButton,
 } from '../support/app.po';
 
 describe('kitchen-sink', () => {
@@ -18,9 +18,7 @@ describe('kitchen-sink', () => {
   });
 
   it('should display a success toast on button click', () => {
-    getToastButton('Success')
-      .contains('Show Success Toast')
-      .click();
+    getToastButton('Success').contains('Show Success Toast').click();
 
     getSnackBarContainer()
       .should('exist')
@@ -28,19 +26,13 @@ describe('kitchen-sink', () => {
   });
 
   it('should display a information toast on button click', () => {
-    getToastButton('Information')
-      .contains('Show Information Toast')
-      .click();
+    getToastButton('Information').contains('Show Information Toast').click();
 
-    getSnackBarContainer()
-      .should('exist')
-      .should('have.class', 'info-message');
+    getSnackBarContainer().should('exist').should('have.class', 'info-message');
   });
 
   it('should display a warning toast on button click', () => {
-    getToastButton('Warning')
-      .contains('Show Warning Toast')
-      .click();
+    getToastButton('Warning').contains('Show Warning Toast').click();
 
     getSnackBarContainer()
       .should('exist')
@@ -48,9 +40,7 @@ describe('kitchen-sink', () => {
   });
 
   it('should display a error toast on button click', () => {
-    getToastButton('Error')
-      .contains('Show Error Toast')
-      .click();
+    getToastButton('Error').contains('Show Error Toast').click();
 
     getSnackBarContainer()
       .should('exist')
@@ -62,10 +52,9 @@ describe('kitchen-sink', () => {
   });
 
   it('should close the banner on click', () => {
-    getBannerCloseButton()
-      .contains('okay')
-      .click();
+    getBannerCloseButton().contains('okay').click();
 
-    getBanner().should('not', 'be', 'visble');
+    // tslint:disable-next-line
+    expect(getBanner()).not.to.be.visible;
   });
 });
