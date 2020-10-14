@@ -39,6 +39,20 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
 
 [Interactive Tutorial](https://nx.dev/tutorial/01-create-application)
 
+### NX CLI
+
+NX Schematics extend the [Angular CLI Schematics](https://cli.angular.io/), so all commands can be used.
+
+### Generating Components/Services
+
+Components can be generated with the `ng g` commands. To use `scss`, `spectator` and `jest`, the following commands come in handy
+
+```
+nx g @ngneat/spectator:spectator-component component-name
+
+nx g @ngneat/spectator:spectator-service service-name
+```
+
 ## Project Setup
 
 ### Create a new application
