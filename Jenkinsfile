@@ -400,7 +400,7 @@ pipeline {
                     post {
                         success {
                             // Unit tests results
-                            publishCoverage adapters: [coberturaAdapter(mergeToOneReport: true, path: 'coverage/**/*cobertura-coverage.xml')], sourceFileResolver: sourceFiles('STORE_ALL_BUILD')
+                            publishCoverage adapters: [coberturaAdapter(mergeToOneReport: true, path: 'coverage/**/*cobertura-coverage.xml')], sourceFileResolver: sourceFiles('NEVER_STORE')
                             junit allowEmptyResults: true, testResults: 'coverage/junit/test-*.xml'
                         }
                     }
