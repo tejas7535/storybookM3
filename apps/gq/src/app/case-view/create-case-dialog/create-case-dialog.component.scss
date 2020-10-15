@@ -1,0 +1,31 @@
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+.quotation-button {
+  margin-left: 15px;
+  margin-top: 10px;
+  width: 200px;
+}
+button {
+  background-color: $schaeffler-green-1;
+  border: 1px solid $schaeffler-gray-4;
+  color: $schaeffler-white;
+  font-size: $schaeffler-labels;
+  font-weight: bold;
+}
+button[disabled] {
+  background-color: $schaeffler-gray-3;
+  color: $schaeffler-gray-7 !important;
+}
+mat-card {
+  margin-top: 10px;
+}
+mat-card-title {
+  font-size: $schaeffler-h5;
+  font-weight: bold;
+}
+::ng-deep.mat-form-field-flex {
+  /*change color of underline when focused*/
+  background-color: $schaeffler-gray-1 !important;
+}

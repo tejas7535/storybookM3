@@ -1,0 +1,51 @@
+<ng-container *ngIf="filterName">
+  <mat-form-field
+    appearance="outline"
+    *transloco="let t; read: 'caseView.createCaseDialog'"
+    [ngClass]="{ 'error-quotation': !inputIsValid }"
+  >
+    <mat-label class="error-quotation-label">{{
+      t(filterName + '.label')
+    }}</mat-label>
+    <input
+      class="input-field"
+      [formControl]="searchFormControl"
+      matInput
+      #valueInput
+      [matAutocomplete]="auto"
+    />
+    <mat-spinner
+      *ngIf="autocompleteLoading"
+      matSuffix
+      [diameter]="18"
+    ></mat-spinner>
+    <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
+    <mat-error *ngIf="searchFormControl.hasError('invalidQuotation')">{{
+      t(filterName + '.wrongInput')
+    }}</mat-error>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      (optionSelected)="selected($event)"
+    >
+      <mat-option
+        *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
+        [value]="idValue"
+      >
+        {{ idValue.id }} | {{ idValue.value }}
+      </mat-option>
+      <mat-option
+        disabled
+        *ngIf="
+          unselectedOptions
+            | noResultsFound
+              : selectedIdValue
+              : searchFormControl.value
+              : autocompleteLoading
+              : debounceIsActive
+        "
+      >
+        {{ t(filterName + '.nothingFound') }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</ng-container>

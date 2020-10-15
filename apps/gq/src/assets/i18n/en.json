@@ -155,5 +155,16 @@
         "openDetail": "open details"
       }
     }
+  },
+  "caseView": {
+    "createCaseDialog": {
+      "title": "Create New Case",
+      "quotation": {
+        "label": "Quotation Number",
+        "hint": "Enter a Quotation Number of a quotation created in SAP",
+        "nothingFound": "Nothing found",
+        "wrongInput": "Please enter a valid quotation number"
+      }
+    }
   }
 }

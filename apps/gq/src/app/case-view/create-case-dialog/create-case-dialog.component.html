@@ -1,1 +1,43 @@
-<h2 mat-dialog-title>Create New Case</h2>
+<div *transloco="let t; read: 'caseView.createCaseDialog'">
+  <h2 mat-dialog-title>{{ t('title') }}</h2>
+  <div>
+    <mat-card>
+      <mat-card-title>{{ t('quotation.label') }}</mat-card-title>
+      <mat-card-content>
+        <div
+          fxLayout="row"
+          fxLayout.sm="column"
+          fxLayout.xs="column"
+          fxFlexFill
+        >
+          <div
+            fxFlex="100%"
+            fxLayoutAlign="start start"
+            *ngIf="quotation$ | async as quotation"
+          >
+            <gq-autocomplete-input
+              fxFill
+              filterName="quotation"
+              [options]="quotation"
+              (unselected)="unselectQuotationOptions()"
+              (added)="selectQuotationOption($event)"
+              (isValid)="quotationValid($event)"
+              [autocompleteLoading]="autocompleteLoading$ | async"
+              (autocomplete)="autocomplete($event)"
+            ></gq-autocomplete-input>
+          </div>
+          <div fxFlex fxLayoutAlign="start start">
+            <button
+              class="quotation-button"
+              mat-stroked-button
+              [disabled]="!quotationIsValid"
+              (click)="openQuotation()"
+            >
+              OPEN QUOTATION
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

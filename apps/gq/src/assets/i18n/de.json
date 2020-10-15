@@ -155,5 +155,16 @@
         "openDetail": "Details öffnen"
       }
     }
+  },
+  "caseView": {
+    "createCaseDialog": {
+      "title": "Neuen Fall erstellen",
+      "quotation": {
+        "label": "Angebotsnummer",
+        "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
+        "nothingFound": "Keine Ergebnisse",
+        "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+      }
+    }
   }
 }
