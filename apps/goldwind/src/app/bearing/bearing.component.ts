@@ -34,12 +34,11 @@ export class BearingComponent implements OnInit, OnDestroy {
       link: BearingRoutePath.GreaseStatusPath,
     },
     {
-      name: 'bearingLoadAndAssessment',
-      link: BearingRoutePath.BasePath,
-    },
-
-    {
       name: 'dataView',
+      link: BearingRoutePath.DataViewPath,
+    },
+    {
+      name: 'bearingLoadAndAssessment',
       link: BearingRoutePath.BasePath,
     },
   ];

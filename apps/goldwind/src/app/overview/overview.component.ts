@@ -7,10 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { BreakpointService } from '@schaeffler/responsive';
 
 import { DevicesState } from '../core/store/reducers/devices/devices.reducer';
-import {
-  ConnectionState,
-  Devices,
-} from '../core/store/reducers/devices/models';
+import { ConnectionState, Device } from '../core/store/reducers/devices/models';
 import { getDevicesResult } from '../core/store/selectors/devices/devices.selector';
 import {
   Status,
@@ -24,7 +21,7 @@ import {
 })
 export class OverviewComponent implements OnInit, OnDestroy {
   private readonly subscriptions: Subscription = new Subscription();
-  devices$: Observable<Devices>;
+  devices$: Observable<Device[]>;
 
   public isHandsetViewPort: boolean;
 

@@ -10,7 +10,7 @@ import { Edm } from './models';
 
 export interface EdmMonitorState {
   loading: boolean;
-  measurements: Edm;
+  measurements: Edm[];
   interval: {
     startDate: number;
     endDate: number;

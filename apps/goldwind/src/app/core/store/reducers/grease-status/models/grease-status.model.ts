@@ -1,8 +1,4 @@
 export interface GreaseStatus {
-  [index: number]: GreaseStatusMeasurement;
-}
-
-export interface GreaseStatusMeasurement {
   deteriorationPercent: number;
   endDate: string;
   id: number;

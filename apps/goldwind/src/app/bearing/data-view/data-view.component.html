@@ -1,0 +1,45 @@
+<mat-card *transloco="let t; read: 'dataView'">
+  <mat-card-header>
+    <mat-card-title>{{ t('title') }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
+      <goldwind-date-range
+        [interval]="interval$ | ngrxPush"
+        (rangeChange)="setInterval($event)"
+      ></goldwind-date-range>
+      <mat-form-field appearance="fill">
+        <mat-label>{{ t('frequency') }}</mat-label>
+        <mat-select
+          [value]="frequency$ | ngrxPush"
+          (selectionChange)="setFrequency($event.value)"
+        >
+          <mat-option
+            *ngFor="let frequency of frequencies; trackBy: trackByFn"
+            [value]="frequency.value"
+          >
+            {{ frequency.viewValue }}
+          </mat-option>
+        </mat-select>
+        <mat-hint>{{ t('pleaseChooseAFrequency') }}</mat-hint>
+      </mat-form-field>
+      <button (click)="exportAsCsv()" mat-raised-button color="primary">
+        {{ t('exportAsCsv').toUpperCase() }}
+      </button>
+    </div>
+    <ag-grid-angular
+      class="ag-theme-material data-view-table"
+      [modules]="modules"
+      [rowData]="rowData"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColDef"
+      [autoGroupColumnDef]="autoGroupColumnDef"
+      [groupDefaultExpanded]="groupDefaultExpanded"
+      [rowSelection]="rowSelection"
+      [groupSuppressAutoColumn]="groupSuppressAutoColumn"
+      [groupSelectsChildren]="groupSelectsChildren"
+      [suppressRowClickSelection]="suppressRowClickSelection"
+      (gridReady)="onGridReady($event)"
+    ></ag-grid-angular>
+  </mat-card-content>
+</mat-card>

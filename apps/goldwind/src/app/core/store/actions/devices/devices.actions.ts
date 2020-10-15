@@ -1,12 +1,12 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { Devices } from '../../reducers/devices/models/devices.model';
+import { Device } from '../../reducers/devices/models/devices.model';
 
 export const getDevices = createAction('[Devices] Load Devices');
 
 export const getDevicesSuccess = createAction(
   '[Devices] Load Devices Success',
-  props<{ devices: Devices }>()
+  props<{ devices: Device[] }>()
 );
 
 export const getDevicesFailure = createAction('[Devices] Load Devices Failure');

@@ -30,6 +30,13 @@ const routes: Routes = [
                 (m) => m.GreaseStatusModule
               ),
           },
+          {
+            path: BearingRoutePath.DataViewPath,
+            loadChildren: () =>
+              import('./data-view/data-view.module').then(
+                (m) => m.DataViewModule
+              ),
+          },
         ],
       },
     ],

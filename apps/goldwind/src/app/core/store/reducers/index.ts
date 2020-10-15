@@ -10,6 +10,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromBearing from './bearing/bearing.reducer';
 import * as fromConditionMonitoring from './condition-monitoring/condition-monitoring.reducer';
+import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
@@ -43,6 +44,10 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
 export const getConditionMonitoringState = createFeatureSelector<
   fromConditionMonitoring.ConditionMonitoringState
 >('conditionMonitoring');
+
+export const getDataViewState = createFeatureSelector<
+  fromDataView.DataViewState
+>('dataView');
 
 export const getDevicesState = createFeatureSelector<fromDevices.DevicesState>(
   'devices'

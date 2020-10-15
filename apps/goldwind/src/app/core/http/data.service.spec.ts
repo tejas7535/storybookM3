@@ -127,4 +127,32 @@ describe('Data Service', () => {
       req.flush(mock);
     });
   });
+
+  describe('getData', () => {
+    test('should call GET for given path', () => {
+      const mockDataParams = {
+        id: 'du1-bist2-flop3',
+        startDate: 1599651508,
+        endDate: 1599651509,
+      };
+      const mockData = [
+        {
+          type: 'Load',
+          description: 'Radial Load y',
+          abreviation: 'F_y',
+          actualValue: 1635.0,
+          minValue: 1700.0,
+          maxValue: 1900.0,
+        },
+      ];
+
+      service.getData(mockDataParams).subscribe((response) => {
+        expect(response).toEqual(mockData);
+      });
+
+      // const req = httpMock.expectOne(`${BASE_URL}/iot/data/${mockDataParams.id}/greasecheck/${mockDataParams.startDate}/${mockDataParams.endDate}`)
+      // expect(req.request.method).toBe('GET');
+      // req.flush(mockData);
+    });
+  });
 });

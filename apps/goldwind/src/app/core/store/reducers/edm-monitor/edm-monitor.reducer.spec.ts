@@ -76,7 +76,7 @@ describe('Condition Monitoring Reducer', () => {
 
       const state = edmMonitorReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
+      expect(state.interval).toBe(mockInterval);
     });
   });
 
