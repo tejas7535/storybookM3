@@ -5,6 +5,8 @@ import {
   autocomplete,
   autocompleteCustomerSuccess,
   autocompleteFailure,
+  autocompleteQuotationSuccess,
+  selectQuotationOption,
 } from '../../actions';
 import { AutocompleteSearch, IdValue } from '../../models';
 import { createCaseReducer, reducer } from './create-case.reducer';
@@ -27,7 +29,7 @@ describe('Create Case Reducer', () => {
   });
 
   describe('autocompleteCustomerSuccess', () => {
-    test('should upsert possible filters', () => {
+    test('should merge options', () => {
       const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
 
       const fakeOptions = [
@@ -56,6 +58,35 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([fakeOptions[0]]);
     });
   });
+  describe('autocompleteQuotationSuccess', () => {
+    test('should merge options', () => {
+      const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
+
+      const fakeOptions = [
+        new IdValue('mcd', 'mercedes', true),
+        new IdValue('aud', 'audi', false),
+      ];
+
+      const fakeState = {
+        createCase: {
+          ...CREATE_CASE_MOCK.createCase,
+          autocompleteLoading: 'customer',
+          quotation: {
+            options: fakeOptions,
+          },
+        },
+      };
+
+      const action = autocompleteQuotationSuccess({
+        options: autoCompleteOptions,
+      });
+
+      const state = createCaseReducer(fakeState, action);
+
+      const stateItem = state.createCase.quotation.options;
+      expect(stateItem).toEqual([fakeOptions[0]]);
+    });
+  });
 
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
@@ -65,6 +96,34 @@ describe('Create Case Reducer', () => {
       expect(state).toEqual(CREATE_CASE_MOCK);
     });
   });
+  describe('selectQuotationOption', () => {
+    test('should set quotation option', () => {
+      const fakeOptions = [
+        new IdValue('mcd', 'mercedes', false),
+        new IdValue('aud', 'audi', false),
+      ];
+      const selectOption = new IdValue('mcd', 'mercedes', true);
+      const fakeState = {
+        createCase: {
+          ...CREATE_CASE_MOCK.createCase,
+          autocompleteLoading: 'customer',
+          quotation: {
+            options: fakeOptions,
+          },
+        },
+      };
+
+      const action = selectQuotationOption({
+        option: selectOption,
+      });
+
+      const state = createCaseReducer(fakeState, action);
+
+      const stateItem = state.createCase.quotation.options;
+      expect(stateItem).toEqual([selectOption, fakeOptions[1]]);
+    });
+  });
+
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action

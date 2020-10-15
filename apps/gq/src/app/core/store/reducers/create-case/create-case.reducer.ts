@@ -5,6 +5,8 @@ import {
   autocompleteCustomerSuccess,
   autocompleteFailure,
   autocompleteQuotationSuccess,
+  selectQuotationOption,
+  unselectQuotationOptions,
 } from '../../actions';
 import { CustomerItem, IdValue } from '../../models';
 
@@ -53,6 +55,7 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
+      autocompleteLoading: undefined,
       quotation: {
         options: mergeOptions(state.createCase.quotation.options, options),
       },
@@ -62,9 +65,31 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
+      autocompleteLoading: undefined,
       customer: {
         ...state.createCase.customer,
         options: mergeOptions(state.createCase.customer.options, options),
+      },
+    },
+  })),
+  on(selectQuotationOption, (state: CaseState, { option }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      quotation: {
+        options: selectOption(state.createCase.quotation.options, option),
+      },
+    },
+  })),
+  on(unselectQuotationOptions, (state: CaseState) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      quotation: {
+        options: [...state.createCase.quotation.options].map((it) => ({
+          ...it,
+          selected: false,
+        })),
       },
     },
   }))
@@ -98,6 +123,21 @@ const mergeOptions = (
   return [...mergedOptions, ...itemOptions];
 };
 
+const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
+  const itemOptions = [...options];
+  const index = itemOptions.findIndex((idValue) => idValue.id === option.id);
+
+  itemOptions.map((opt) => ({ ...opt, selected: true }));
+
+  // if option already in Array
+  if (index > -1) {
+    itemOptions[index] = { ...itemOptions[index], selected: true };
+  } else {
+    itemOptions.push({ ...option, selected: true });
+  }
+
+  return itemOptions;
+};
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: CaseState, action: Action): CaseState {
   return createCaseReducer(state, action);

@@ -21,11 +21,22 @@ export const autocompleteCustomerSuccess = createAction(
   props<{ options: IdValue[] }>()
 );
 
+export const selectQuotationOption = createAction(
+  '[Create Case] Select Option for Quotation Number',
+  props<{ option: IdValue }>()
+);
+
+export const unselectQuotationOptions = createAction(
+  '[Create Case] UnSelect Options for Quotation Number'
+);
+
 const all = union({
   autocomplete,
   autocompleteQuotationSuccess,
   autocompleteFailure,
   autocompleteCustomerSuccess,
+  selectQuotationOption,
+  unselectQuotationOptions,
 });
 
 export type createCaseActions = typeof all;

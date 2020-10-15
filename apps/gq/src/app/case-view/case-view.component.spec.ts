@@ -3,10 +3,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { CaseViewComponent } from './case-view.component';
+import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input/autocomplete-input.module';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
+import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
 
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
@@ -14,8 +19,15 @@ describe('CaseViewComponent', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [CaseViewComponent, CreateCaseDialogComponent],
-      imports: [MatDialogModule, NoopAnimationsModule],
+      declarations: [CaseViewComponent],
+      imports: [
+        MatDialogModule,
+        NoopAnimationsModule,
+        AutocompleteInputModule,
+        CreateCaseDialogModule,
+        provideTranslocoTestingModule({}),
+      ],
+      providers: [provideMockStore({})],
     }).overrideModule(BrowserDynamicTestingModule, {
       set: { entryComponents: [CreateCaseDialogComponent] },
     });

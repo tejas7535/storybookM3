@@ -14,14 +14,14 @@ describe('Create Case Selector', () => {
 
   describe('getQuotation', () => {
     test('should return quotation', () => {
-      expect(createSelectors.getQuotation.projector(fakeState.case)).toEqual(
-        fakeState.case.createCase.quotation
-      );
+      expect(
+        createSelectors.getCaseQuotationOptions.projector(fakeState.case)
+      ).toEqual(fakeState.case.createCase.quotation.options);
     });
   });
   describe('getCustomer', () => {
     test('should return customer', () => {
-      expect(createSelectors.getCustomer.projector(fakeState.case)).toEqual(
+      expect(createSelectors.getCaseCustomer.projector(fakeState.case)).toEqual(
         fakeState.case.createCase.customer
       );
     });
@@ -29,7 +29,7 @@ describe('Create Case Selector', () => {
   describe('getAutocompleteLoading', () => {
     test('should return true if autocomplete is currently loading', () => {
       expect(
-        createSelectors.getAutocompleteLoading.projector(fakeState.case)
+        createSelectors.getCaseAutocompleteLoading.projector(fakeState.case)
       ).toEqual('customer');
     });
   });
