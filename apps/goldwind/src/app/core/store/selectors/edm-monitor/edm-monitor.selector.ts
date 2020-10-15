@@ -2,12 +2,7 @@ import { createSelector } from '@ngrx/store';
 
 import { getEdmMonitorState } from '../../reducers';
 import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer';
-import {
-  Antenna,
-  AntennaName,
-  Edm,
-  EdmMeasurement,
-} from '../../reducers/edm-monitor/models';
+import { Antenna, AntennaName, Edm } from '../../reducers/edm-monitor/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
 export const getSensorId = createSelector(
@@ -17,7 +12,7 @@ export const getSensorId = createSelector(
 
 export const getEdmResult = createSelector(
   getEdmMonitorState,
-  (state: EdmMonitorState): Edm => state.measurements
+  (state: EdmMonitorState): Edm[] => state.measurements
 );
 
 const edmGraphSeries = [
@@ -45,7 +40,7 @@ export const getEdmGraphData = createSelector(
         return {
           type,
           name: seriesName,
-          data: edm.map((measurement: EdmMeasurement) => ({
+          data: edm.map((measurement: Edm) => ({
             value: [
               new Date(measurement.startDate),
               (measurement as any)[seriesName],

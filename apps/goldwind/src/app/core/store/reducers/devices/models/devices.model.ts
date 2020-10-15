@@ -3,10 +3,6 @@ export enum ConnectionState {
   disconnected = 'DISCONNECTED',
 }
 
-export interface Devices {
-  [index: number]: Device;
-}
-
 export interface Tag {
   key: string;
   value: string;

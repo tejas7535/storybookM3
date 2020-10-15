@@ -10,14 +10,14 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
-import { GreaseDisplay, GreaseStatus, GreaseStatusMeasurement } from './models';
+import { GreaseDisplay, GreaseStatus } from './models';
 
 export interface GreaseStatusState {
   loading: boolean;
-  result: GreaseStatus;
+  result: GreaseStatus[];
   status: {
     loading: boolean;
-    result: GreaseStatusMeasurement;
+    result: GreaseStatus;
   };
   display: GreaseDisplay;
   interval: {

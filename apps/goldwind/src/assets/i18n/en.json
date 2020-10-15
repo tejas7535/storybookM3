@@ -50,7 +50,22 @@
     "rotationalSpeed": "Rotational Speed",
     "pleaseSelectTrendsToShow": "Please select trends to show"
   },
+  "dataView": {
+    "title": "Data View",
+    "frequency": "Frequency",
+    "pleaseChooseAFrequency": "Please choose a frequency",
+    "exportAsCsv": "Export as CSV",
+    "group": "Group",
+    "description": "Description",
+    "abreviation": "Abreviation",
+    "designValue": "Design Value",
+    "actualValue": "Actual Value",
+    "minValue": "Min. Value",
+    "maxValue": "Max. Value",
+    "notification": "Notification"
+  },
   "dateRange": {
+    "title": "Date Range",
     "enterDateRange": "Enter a date range",
     "invalidStartDate": "Invalid start date",
     "invalidEndDate": "Invalid end date"

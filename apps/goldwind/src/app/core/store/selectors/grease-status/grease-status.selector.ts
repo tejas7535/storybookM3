@@ -8,7 +8,7 @@ import { GreaseStatusState } from '../../reducers/grease-status/grease-status.re
 import {
   GreaseControl,
   GreaseDisplay,
-  GreaseStatusMeasurement,
+  GreaseStatus,
 } from '../../reducers/grease-status/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
@@ -32,12 +32,12 @@ export const getGreaseStatusLatestLoading = createSelector(
 
 export const getGreaseStatusResult = createSelector(
   getGreaseStatusState,
-  (state: GreaseStatusState) => state.result
+  (state: GreaseStatusState): GreaseStatus[] => state.result
 );
 
 export const getGreaseStatusLatestResult = createSelector(
   getGreaseStatusState,
-  (state: GreaseStatusState) => state.status.result
+  (state: GreaseStatusState): GreaseStatus => state.status.result
 );
 
 export const getGreaseDisplay = createSelector(
@@ -63,7 +63,7 @@ export const getGreaseStatusGraphData = createSelector(
           type: 'line',
           data:
             (value &&
-              greaseStatus.map((measurement: GreaseStatusMeasurement) => ({
+              greaseStatus.map((measurement: GreaseStatus) => ({
                 value: [
                   new Date(measurement.startDate),
                   (measurement as any)[key],

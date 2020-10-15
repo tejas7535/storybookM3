@@ -5,11 +5,11 @@ import {
   getDevicesFailure,
   getDevicesSuccess,
 } from '../../actions/devices/devices.actions';
-import { Devices } from './models';
+import { Device } from './models';
 
 export interface DevicesState {
   loading: boolean;
-  result: Devices;
+  result: Device[];
 }
 
 export const initialState: DevicesState = {

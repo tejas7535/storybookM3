@@ -12,7 +12,7 @@ export const getEdm = createAction(
 
 export const getEdmSuccess = createAction(
   '[EDM Monitor] Load EDM Success',
-  props<{ measurements: Edm }>()
+  props<{ measurements: Edm[] }>()
 );
 
 export const setEdmInterval = createAction(

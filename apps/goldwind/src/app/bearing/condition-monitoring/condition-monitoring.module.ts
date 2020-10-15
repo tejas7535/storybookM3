@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -50,9 +49,6 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
     // UI Modules
     MatCardModule,
     MatButtonModule,
-
-    // ag-Grid
-    AgGridModule.withComponents([]),
 
     // Translation
     SharedTranslocoModule,

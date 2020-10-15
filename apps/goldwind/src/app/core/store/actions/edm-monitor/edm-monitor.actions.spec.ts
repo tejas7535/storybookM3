@@ -33,7 +33,7 @@ describe('EdmMonitor Actions', () => {
     });
 
     test('getEdmSuccess', () => {
-      const measurements: Edm = [
+      const measurements: Edm[] = [
         {
           startDate: '2020-07-30T11:02:25',
           edmValue1Counter: 100,

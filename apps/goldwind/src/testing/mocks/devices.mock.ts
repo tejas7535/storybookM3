@@ -1,9 +1,9 @@
 import {
   ConnectionState,
-  Devices,
+  Device,
 } from '../../app/core/store/reducers/devices/models';
 
-export const DEVICES_MOCK: Devices = [
+export const DEVICES_MOCK: Device[] = [
   {
     deviceId: 'trilixgoldwinddev',
     moduleId: 'testValue',

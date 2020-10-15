@@ -55,7 +55,7 @@ describe('Grease Status Reducer', () => {
 
       const fakeState = {
         ...initialState,
-        result: { ...initialState.result, loading: true },
+        loading: true,
       };
 
       const state = greaseStatusReducer(fakeState, action);
@@ -84,7 +84,10 @@ describe('Grease Status Reducer', () => {
 
       const fakeState = {
         ...initialState,
-        result: { ...initialState.status.result, loading: true },
+        status: {
+          ...initialState.status,
+          loading: true,
+        },
       };
 
       const state = greaseStatusReducer(fakeState, action);
@@ -99,7 +102,7 @@ describe('Grease Status Reducer', () => {
       const action = getGreaseStatusFailure();
       const fakeState = {
         ...initialState,
-        result: { ...initialState, loading: true },
+        loading: true,
       };
 
       const state = greaseStatusReducer(fakeState, action);
@@ -113,7 +116,10 @@ describe('Grease Status Reducer', () => {
       const action = getGreaseStatusLatestFailure();
       const fakeState = {
         ...initialState,
-        result: { ...initialState, status: { loading: true } },
+        status: {
+          ...initialState.status,
+          loading: true,
+        },
       };
 
       const state = greaseStatusReducer(fakeState, action);
@@ -156,7 +162,7 @@ describe('Grease Status Reducer', () => {
 
       const state = greaseStatusReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
+      expect(state.interval).toBe(mockInterval);
     });
   });
 

@@ -1,7 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
@@ -27,7 +26,6 @@ describe('ConditionMonitoringComponent', () => {
       LoadingSpinnerModule,
       EdmMonitorModule,
       MatCardModule,
-      AgGridModule.withComponents([]),
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),
