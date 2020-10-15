@@ -7,11 +7,16 @@ import {
 import { SharedModule } from '../shared/shared.module';
 import { CaseViewRoutingModule } from './case-view-routing.module';
 import { CaseViewComponent } from './case-view.component';
-import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
+import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
 
 @NgModule({
-  declarations: [CaseViewComponent, CreateCaseDialogComponent],
-  imports: [CaseViewRoutingModule, MatDialogModule, SharedModule],
+  declarations: [CaseViewComponent],
+  imports: [
+    CaseViewRoutingModule,
+    MatDialogModule,
+    SharedModule,
+    CreateCaseDialogModule,
+  ],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
