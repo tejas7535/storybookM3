@@ -99,11 +99,11 @@
     "zone.js": "0.10.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.1001.6",
-    "@angular-devkit/build-ng-packagr": "0.1001.6",
-    "@angular-devkit/core": "10.1.6",
-    "@angular-devkit/schematics": "10.1.6",
-    "@angular/cli": "10.1.6",
+    "@angular-devkit/build-angular": "0.1001.7",
+    "@angular-devkit/build-ng-packagr": "0.1001.7",
+    "@angular-devkit/core": "10.1.7",
+    "@angular-devkit/schematics": "10.1.7",
+    "@angular/cli": "10.1.7",
     "@angular/compiler-cli": "10.1.6",
     "@angular/language-service": "10.1.6",
     "@babel/core": "7.12.0",
