@@ -106,7 +106,7 @@
     "@angular/cli": "10.1.7",
     "@angular/compiler-cli": "10.1.6",
     "@angular/language-service": "10.1.6",
-    "@babel/core": "7.12.1",
+    "@babel/core": "7.12.3",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@ngneat/spectator": "6.0.0",
