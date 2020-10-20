@@ -47,6 +47,7 @@ export class BomTableComponent implements OnChanges {
   defaultColDef: ColDef = {
     sortable: true,
     resizable: true,
+    cellClass: 'line-height-30',
   };
 
   // select first row initially for coloring
