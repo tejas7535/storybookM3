@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -26,6 +27,7 @@ describe('CaseViewComponent', () => {
         AutocompleteInputModule,
         CreateCaseDialogModule,
         provideTranslocoTestingModule({}),
+        RouterTestingModule.withRoutes([]),
       ],
       providers: [provideMockStore({})],
     }).overrideModule(BrowserDynamicTestingModule, {

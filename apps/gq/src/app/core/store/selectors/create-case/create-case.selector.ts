@@ -10,10 +10,27 @@ export const getCaseQuotationOptions = createSelector(
     return state.createCase.quotation.options;
   }
 );
+
+export const getSelectedQuotation = createSelector(
+  getCaseState,
+  (state: CaseState): string => {
+    let quotationNumber = '';
+
+    state.createCase.quotation.options.forEach((value) => {
+      if (value.selected) {
+        quotationNumber = value.value;
+      }
+    });
+
+    return quotationNumber;
+  }
+);
+
 export const getCaseCustomer = createSelector(
   getCaseState,
   (state: CaseState) => state.createCase.customer
 );
+
 export const getCaseAutocompleteLoading = createSelector(
   getCaseState,
   (state: CaseState): string => state.createCase.autocompleteLoading

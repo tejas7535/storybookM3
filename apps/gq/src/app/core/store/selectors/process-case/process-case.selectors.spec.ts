@@ -1,23 +1,23 @@
 import {
-  CUSTOMER_DETAILS_MOCK,
-  QUOTATION_DETAILS_MOCK,
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
 } from '../../../../../testing/mocks';
-import { initialState } from '../../reducers/quotation/quotation.reducers';
-import * as quotationSelectors from './quotation.selectors';
+import { initialState } from '../../reducers/process-case/process-case.reducers';
+import * as quotationSelectors from './process-case.selectors';
 
 describe('Search Selector', () => {
   const fakeState = {
-    quotation: {
+    processCase: {
       ...initialState,
       customer: {
         ...initialState.customer,
-        item: CUSTOMER_DETAILS_MOCK,
-        customerDetailsLoading: true,
+        item: CUSTOMER_MOCK,
+        customerLoading: true,
       },
       quotation: {
         ...initialState.quotation,
-        items: [QUOTATION_DETAILS_MOCK],
-        quotationDetailsLoading: true,
+        item: [QUOTATION_DETAIL_MOCK],
+        quotationLoading: true,
       },
     },
   };
@@ -25,15 +25,15 @@ describe('Search Selector', () => {
   describe('getCustomer', () => {
     test('should return the customer details', () => {
       expect(
-        quotationSelectors.getCustomer.projector(fakeState.quotation)
-      ).toEqual(fakeState.quotation.customer.item);
+        quotationSelectors.getCustomer.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.customer.item);
     });
   });
 
   describe('getCustomerLoading', () => {
     test('should return true if customer details is currently loading', () => {
       expect(
-        quotationSelectors.getCustomerLoading.projector(fakeState.quotation)
+        quotationSelectors.getCustomerLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });
@@ -41,15 +41,15 @@ describe('Search Selector', () => {
   describe('getQuotation', () => {
     test('should return all quotation details', () => {
       expect(
-        quotationSelectors.getQuotation.projector(fakeState.quotation)
-      ).toEqual(fakeState.quotation.quotation.items);
+        quotationSelectors.getQuotation.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item);
     });
   });
 
   describe('getQuotationLoading', () => {
     test('should return true if quotation is currently loading', () => {
       expect(
-        quotationSelectors.getQuotationLoading.projector(fakeState.quotation)
+        quotationSelectors.getQuotationLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });

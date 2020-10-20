@@ -120,8 +120,8 @@
       "seeOffer": "Angebot ansehen",
       "customerDetails": {
         "country": "Land",
-        "customer": "Kunder",
-        "customerId": "Kundennummer",
+        "name": "Kunder",
+        "id": "Kundennummer",
         "details": "Details",
         "keyAccount": "Key-Account",
         "keyAccountId": "Key-Account Nummer",
@@ -163,6 +163,7 @@
         "label": "Angebotsnummer",
         "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
         "nothingFound": "Keine Ergebnisse",
+        "openQuotation": "Angebot öffnen",
         "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
       }
     }

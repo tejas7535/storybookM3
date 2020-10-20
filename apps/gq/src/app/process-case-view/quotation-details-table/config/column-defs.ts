@@ -14,13 +14,13 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialDescription'
     ),
-    field: 'materialDescription',
+    field: 'materialDesignation',
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialNumber'
     ),
-    field: 'materialNumber',
+    field: 'materialNumber13',
   },
   {
     headerName: translate(

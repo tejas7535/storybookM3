@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { CUSTOMER_DETAILS_MOCK } from '../../../testing/mocks';
+import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { DataService } from '../../core/http/data.service';
 import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import { QuotationDetailsService } from './quotation-details.service';
@@ -51,14 +51,13 @@ describe('QuotationDetailsService', (): void => {
       const quotationNumber = '123456';
 
       const mock = {
-        quotationDetails: [CUSTOMER_DETAILS_MOCK],
+        quotationDetails: [CUSTOMER_MOCK],
       };
-      service.quotationDetails(quotationNumber).subscribe((response) => {
+      service.getQuotation(quotationNumber).subscribe((response) => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
-      const req = httpMock.expectOne('/quotation-details/123456');
-
+      const req = httpMock.expectOne('/quotations/123456');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

@@ -12,7 +12,7 @@ describe('Create Case Selector', () => {
     },
   };
 
-  describe('getQuotation', () => {
+  describe('getCaseQuotationOptions', () => {
     test('should return quotation', () => {
       expect(
         createSelectors.getCaseQuotationOptions.projector(fakeState.case)

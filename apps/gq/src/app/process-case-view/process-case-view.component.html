@@ -4,7 +4,13 @@
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
 >
-  <gq-process-case-header></gq-process-case-header>
+  <gq-process-case-header
+    *ngIf="quotation$ | async"
+    [quotationNumber]="(quotation$ | async).quotationNumber"
+  ></gq-process-case-header>
 
-  <gq-result-table [rowData]="rowData"></gq-result-table>
+  <gq-result-table
+    *ngIf="quotation$ | async"
+    [rowData]="(quotation$ | async).quotationDetails"
+  ></gq-result-table>
 </div>

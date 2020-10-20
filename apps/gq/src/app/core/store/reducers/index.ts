@@ -9,7 +9,7 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
-import * as fromQuotation from './quotation/quotation.reducers';
+import * as fromProcessCase from './process-case/process-case.reducers';
 import * as fromSearch from './search/search.reducer';
 
 export interface RouterStateUrl {
@@ -21,14 +21,14 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   search: fromSearch.SearchState;
-  quotation: fromQuotation.QuotationState;
+  processCase: fromProcessCase.ProcessCaseState;
   case: fromCase.CaseState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   search: fromSearch.searchReducer,
-  quotation: fromQuotation.quotationReducer,
+  processCase: fromProcessCase.processCaseReducer,
   case: fromCase.createCaseReducer,
 };
 
@@ -44,9 +44,10 @@ export const getSearchState = createFeatureSelector<fromSearch.SearchState>(
   'search'
 );
 
-export const getQuotationState = createFeatureSelector<
-  fromQuotation.QuotationState
->('quotation');
+export const getProcessCaseState = createFeatureSelector<
+  fromProcessCase.ProcessCaseState
+>('processCase');
+
 export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 
 export class CustomSerializer

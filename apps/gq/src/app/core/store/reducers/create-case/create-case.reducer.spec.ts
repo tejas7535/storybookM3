@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { CREATE_CASE_MOCK } from '../../../../../testing/mocks/create-case-state.mock';
+import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import {
   autocomplete,
   autocompleteCustomerSuccess,
@@ -16,12 +16,12 @@ describe('Create Case Reducer', () => {
     test('should set autocomplete loading', () => {
       const autocompleteSearch = new AutocompleteSearch('customer', 'Audi');
       const action = autocomplete({ autocompleteSearch });
-      const state = createCaseReducer(CREATE_CASE_MOCK, action);
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
       expect(state).toEqual({
-        ...CREATE_CASE_MOCK,
+        ...CREATE_CASE_STORE_STATE_MOCK,
         createCase: {
-          ...CREATE_CASE_MOCK.createCase,
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
           autocompleteLoading: 'customer',
         },
       });
@@ -39,10 +39,10 @@ describe('Create Case Reducer', () => {
 
       const fakeState = {
         createCase: {
-          ...CREATE_CASE_MOCK.createCase,
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
           autocompleteLoading: 'customer',
           customer: {
-            ...CREATE_CASE_MOCK.createCase.customer,
+            ...CREATE_CASE_STORE_STATE_MOCK.createCase.customer,
             options: fakeOptions,
           },
         },
@@ -69,7 +69,7 @@ describe('Create Case Reducer', () => {
 
       const fakeState = {
         createCase: {
-          ...CREATE_CASE_MOCK.createCase,
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
           autocompleteLoading: 'customer',
           quotation: {
             options: fakeOptions,
@@ -91,9 +91,9 @@ describe('Create Case Reducer', () => {
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
       const action = autocompleteFailure();
-      const state = createCaseReducer(CREATE_CASE_MOCK, action);
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
-      expect(state).toEqual(CREATE_CASE_MOCK);
+      expect(state).toEqual(CREATE_CASE_STORE_STATE_MOCK);
     });
   });
   describe('selectQuotationOption', () => {
@@ -105,7 +105,7 @@ describe('Create Case Reducer', () => {
       const selectOption = new IdValue('mcd', 'mercedes', true);
       const fakeState = {
         createCase: {
-          ...CREATE_CASE_MOCK.createCase,
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
           autocompleteLoading: 'customer',
           quotation: {
             options: fakeOptions,
@@ -128,8 +128,8 @@ describe('Create Case Reducer', () => {
     test('should return searchReducer', () => {
       // prepare any action
       const action: Action = autocompleteFailure();
-      expect(reducer(CREATE_CASE_MOCK, action)).toEqual(
-        createCaseReducer(CREATE_CASE_MOCK, action)
+      expect(reducer(CREATE_CASE_STORE_STATE_MOCK, action)).toEqual(
+        createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action)
       );
     });
   });
