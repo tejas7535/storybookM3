@@ -9,18 +9,23 @@
   [animateRows]="true"
   [groupDefaultExpanded]="groupDefaultExpanded"
   [getDataPath]="getDataPath"
-  (gridReady)="onGridReady($event)"
   [getRowClass]="getRowClass.bind(this)"
   [rowSelection]="rowSelection"
   [suppressCellSelection]="suppressCellSelection"
-  rowHeight="30"
-  (rowClicked)="onRowClicked($event)"
   [rowClassRules]="rowClassRules"
   [frameworkComponents]="frameworkComponents"
   [loadingOverlayComponent]="loadingOverlayComponent"
   [suppressNoRowsOverlay]="rowData === undefined || isLoading"
   [noRowsOverlayComponent]="noRowsOverlayComponent"
   [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+  [frameworkComponents]="frameworkComponents"
+  [rowClassRules]="rowClassRules"
+  rowHeight="30"
+  suppressCsvExport
+  suppressExcelExport
+  (rowClicked)="onRowClicked($event)"
+  (gridReady)="onGridReady($event)"
+  (rowClicked)="onRowClicked($event)"
   (firstDataRendered)="onFirstDataRendered($event)"
 >
 </ag-grid-angular>
