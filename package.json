@@ -86,7 +86,7 @@
     "@types/jwt-decode": "2.2.1",
     "angular-oauth2-oidc": "10.0.3",
     "angular-oauth2-oidc-jwks": "9.0.0",
-    "core-js": "3.6.4",
+    "core-js": "3.6.5",
     "devextreme": "20.1.8",
     "devextreme-angular": "20.1.8",
     "echarts": "4.9.0",
