@@ -4,21 +4,19 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { DataService } from '../../core/http/data.service';
-import { QuotationDetails } from '../../core/store/models';
+import { Quotation } from '../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class QuotationDetailsService {
-  private readonly QUOTATION_DETAILS = 'quotation-details';
+  private readonly QUOTATIONS = 'quotations';
 
   constructor(private readonly dataService: DataService) {}
 
-  public quotationDetails(
-    quotationNumber: string
-  ): Observable<QuotationDetails[]> {
+  public getQuotation(quotationNumber: string): Observable<Quotation> {
     return this.dataService
-      .getAll<any>(`${this.QUOTATION_DETAILS}/${quotationNumber}`)
-      .pipe(map((res: any) => res.items));
+      .getAll<any>(`${this.QUOTATIONS}/${quotationNumber}`)
+      .pipe(map((res: any) => res));
   }
 }

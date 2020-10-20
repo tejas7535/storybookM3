@@ -1,7 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
+import { CUSTOMER_MOCK } from '../../../testing/mocks';
 
 import { CustomerDetailsModule } from './customer-details.component/customer-details.module';
 import { ProcessCaseHeaderComponent } from './process-case-header.component';
@@ -22,6 +24,17 @@ describe('ProcessCaseHeaderComponent', () => {
         MatIconModule,
         provideTranslocoTestingModule({}),
         CustomerDetailsModule,
+      ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            processCase: {
+              customer: {
+                item: CUSTOMER_MOCK,
+              },
+            },
+          },
+        }),
       ],
     }).compileComponents();
   });

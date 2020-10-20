@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
+import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 
 import { SharedModule } from '../../../shared';
 import { CustomerDetailsComponent } from './customer-details.component';
@@ -32,6 +33,7 @@ describe('CustomerDetailsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CustomerDetailsComponent);
     component = fixture.componentInstance;
+    component.customer = CUSTOMER_MOCK;
     fixture.detectChanges();
   });
 

@@ -11,7 +11,7 @@
       <div gdColumns="repeat(14, 9%)" gdRows="repeat(2, 1fr)">
         <div
           *ngFor="
-            let costumerDetail of costumerDetails;
+            let customerDetail of customerToArray(customer);
             let index = index;
             trackBy: trackByFn
           "
@@ -21,8 +21,8 @@
           gdRow="{{ (index % 2) + 1 }} / {{ (index % 2) + 1 }}"
           fxLayout="row"
         >
-          <div fxFlex="40">{{ t(costumerDetail.title) }}:</div>
-          <div fxFlex="60">{{ costumerDetail.value }}</div>
+          <div fxFlex="40">{{ t(customerDetail[0]) }}:</div>
+          <div class="customer-detail" fxFlex="60">{{ customerDetail[1] }}</div>
         </div>
       </div>
     </div>

@@ -1,178 +1,22 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { QuotationDetails, QuotationInfoEnum } from '../core/store/models';
+import { Quotation } from '../core/store/models';
+import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducers';
+import { getQuotation } from '../core/store/selectors';
 
 @Component({
   selector: 'gq-case-view',
   templateUrl: './process-case-view.component.html',
   styleUrls: ['./process-case-view.component.scss'],
 })
-export class ProcessCaseViewComponent {
-  rowData: QuotationDetails[] = [
-    {
-      materialDescription: '6052-M-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054007',
-      productionCost: '419,59 €',
-      productionPlant: '3000',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '845,76 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6230-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '69,96 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '132,48 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6306-2Z-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054012',
-      productionCost: '2,62 €',
-      productionPlant: '0254',
-      plantCity: 'Caldas',
-      plantCountry: 'Portugal',
-      rsp: '3,49 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6315-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '25,45 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '33,93 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6324-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '77,9 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '105,55 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6052-M-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054007',
-      productionCost: '419,59 €',
-      productionPlant: '3000',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '845,76 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6230-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '69,96 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '132,48 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6306-2Z-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054012',
-      productionCost: '2,62 €',
-      productionPlant: '0254',
-      plantCity: 'Caldas',
-      plantCountry: 'Portugal',
-      rsp: '3,49 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6315-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '25,45 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '33,93 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6324-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '77,9 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '105,55 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6052-M-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054007',
-      productionCost: '419,59 €',
-      productionPlant: '3000',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '845,76 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6230-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '69,96 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '132,48 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6306-2Z-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054012',
-      productionCost: '2,62 €',
-      productionPlant: '0254',
-      plantCity: 'Caldas',
-      plantCountry: 'Portugal',
-      rsp: '3,49 €',
-      info: QuotationInfoEnum.None,
-    },
-    {
-      materialDescription: '6315-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '25,45 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '33,93 €',
-      info: QuotationInfoEnum.AddedToOffer,
-    },
-    {
-      materialDescription: '6324-C3',
-      materialNumber: '016718798-0030',
-      productionHierarchy: '1406054005',
-      productionCost: '77,9 €',
-      productionPlant: '0200',
-      plantCity: 'Schweinfurt',
-      plantCountry: 'Germany',
-      rsp: '105,55 €',
-      info: QuotationInfoEnum.None,
-    },
-  ];
+export class ProcessCaseViewComponent implements OnInit {
+  public quotation$: Observable<Quotation>;
+
+  constructor(private readonly store: Store<ProcessCaseState>) {}
+
+  public ngOnInit(): void {
+    this.quotation$ = this.store.pipe(select(getQuotation));
+  }
 }

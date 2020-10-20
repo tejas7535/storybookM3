@@ -120,8 +120,8 @@
       "seeOffer": "see offer",
       "customerDetails": {
         "country": "Country",
-        "customer": "Customer",
-        "customerId": "Customer ID",
+        "name": "Customer",
+        "id": "Customer ID",
         "details": "Details",
         "keyAccount": "Key Account",
         "keyAccountId": "Key Account ID",
@@ -163,6 +163,7 @@
         "label": "Quotation Number",
         "hint": "Enter a Quotation Number of a quotation created in SAP",
         "nothingFound": "Nothing found",
+        "openQuotation": "open Quotation",
         "wrongInput": "Please enter a valid quotation number"
       }
     }

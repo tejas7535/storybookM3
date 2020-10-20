@@ -1,7 +1,7 @@
 import { ColDef, StatusPanelDef } from '@ag-grid-community/all-modules';
 import { Component, Input } from '@angular/core';
 
-import { QuotationDetails } from '../../core/store/models';
+import { QuotationDetail } from '../../core/store/models';
 import {
   COLUMN_DEFS,
   DEFAULT_COLUMN_DEFS,
@@ -16,7 +16,7 @@ import {
   styleUrls: ['./quotation-details-table.component.scss'],
 })
 export class QuotationDetailsTableComponent {
-  @Input() rowData: QuotationDetails[];
+  @Input() rowData: QuotationDetail[];
 
   modules: any[] = MODULES;
 

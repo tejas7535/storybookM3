@@ -1,8 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
-import { SharedModule } from '../shared/shared.module';
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import { SharedModule } from '../shared';
 import { ProcessCaseHeaderModule } from './process-case-header/process-case-header.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 
@@ -14,7 +16,7 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn(() => 'translate it'),
 }));
 
-describe('QuotationViewComponent', () => {
+describe('ProcessCaseViewComponent', () => {
   let component: ProcessCaseViewComponent;
   let fixture: ComponentFixture<ProcessCaseViewComponent>;
 
@@ -29,6 +31,20 @@ describe('QuotationViewComponent', () => {
         RouterTestingModule,
       ],
       declarations: [ProcessCaseViewComponent],
+      providers: [
+        provideMockStore({
+          initialState: {
+            processCase: {
+              customer: {
+                item: CUSTOMER_MOCK,
+              },
+              quotation: {
+                item: QUOTATION_MOCK,
+              },
+            },
+          },
+        }),
+      ],
     }).compileComponents();
   });
 

@@ -1,5 +1,7 @@
 export class CustomerItem {
-  matDesc: string;
-  matNumber: string;
-  quantity: string;
+  public constructor(
+    public matDesc: string,
+    public matNumber: string,
+    public quantity: string
+  ) {}
 }

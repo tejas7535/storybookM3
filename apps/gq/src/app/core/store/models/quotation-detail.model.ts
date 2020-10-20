@@ -1,9 +1,9 @@
 import { QuotationInfoEnum } from './quotation-info.enum';
 
-export class QuotationDetails {
+export class QuotationDetail {
   constructor(
-    public materialDescription: string,
-    public materialNumber: string,
+    public materialDesignation: string,
+    public materialNumber13: string,
     public productionHierarchy: string,
     public productionCost: string,
     public productionPlant: string,
