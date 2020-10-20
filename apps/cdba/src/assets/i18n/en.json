@@ -187,7 +187,7 @@
         "sqvDate": "SQV Date",
         "specialProcurement": "Special Procurement",
         "supplier": "Supplier",
-        "purchasePriceValidFrom": "Purchase price valid from",
+        "purchasePriceValidFrom": "Purchase Price valid from",
         "purchasePriceValidUntil": "Purchase Price valid until"
       },
       "tooltips": {
@@ -232,7 +232,7 @@
         "sqvDate": "Date at which the calculation of the SQV SAP year was finished",
         "specialProcurement": "Lot more explicit value then the upper 'Procurement Type'; example: F0 = external procurement",
         "supplier": "The supplier of the part if it is a purchased part",
-        "purchasePriceValidFrom": "Purchase price valid from",
+        "purchasePriceValidFrom": "Purchase Price valid from",
         "purchasePriceValidUntil": "Purchase Price valid until"
       },
       "menu": {
