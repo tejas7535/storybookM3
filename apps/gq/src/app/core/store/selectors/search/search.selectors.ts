@@ -54,11 +54,11 @@ export const getQueryList = createSelector(
 
 const isValidTransaction = (state: SearchState): boolean => {
   // Valid Case 1: quotation number is entered
-  // Valid Case 2: queryKeyExists, matNumberExists and quanitityExists
+  // Valid Case 2: queryKeyExists, materialnumberExists and quanitityExists
 
   let queryKeyValid = false;
   let quotationValid = false;
-  let matNumberValid = false;
+  let materialnumberValid = false;
   let quantityValid = false;
 
   const { items } = state.filters;
@@ -74,11 +74,13 @@ const isValidTransaction = (state: SearchState): boolean => {
       }
     }
     if (item.filter === 'materialNumber') {
-      matNumberValid = item.options.some((el) => el.selected);
+      materialnumberValid = item.options.some((el) => el.selected);
     } else if (item.filter === 'quantity') {
       quantityValid = item.options.some((el) => el.selected);
     }
   }
 
-  return quotationValid || (queryKeyValid && matNumberValid && quantityValid);
+  return (
+    quotationValid || (queryKeyValid && materialnumberValid && quantityValid)
+  );
 };

@@ -28,8 +28,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue && this.autofilled) {
-      this.valueInput.nativeElement.value = this.selectedIdValue.value;
-      this.searchFormControl.setValue(this.selectedIdValue.value);
+      const value =
+        this.filterName === 'customer'
+          ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
+          : this.selectedIdValue.value;
+      this.valueInput.nativeElement.value = value;
+      this.searchFormControl.setValue(value);
       this.autofilled = false;
     }
   }
@@ -88,7 +92,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   isInputValid(control: AbstractControl): ValidationErrors {
-    const formValue = control.value;
+    const formValue =
+      this.filterName === 'customer' &&
+      control.value &&
+      typeof control.value === 'string'
+        ? control.value.split(' | ')[0]
+        : control.value;
 
     const isValid =
       !formValue ||
@@ -120,7 +129,11 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.added.emit(event.option.value);
     this.autofilled = true;
   }
-
+  public clearInput(): void {
+    this.unselect();
+    this.valueInput.nativeElement.value = '';
+    this.searchFormControl.setValue('');
+  }
   public trackByFn(index: number): number {
     return index;
   }

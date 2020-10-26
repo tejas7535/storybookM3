@@ -1,14 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
-import { IdValue } from '../../models';
+import { CaseFilterItem, CaseTableItem } from '../../models';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 
-export const getCaseQuotationOptions = createSelector(
+export const getCaseQuotation = createSelector(
   getCaseState,
-  (state: CaseState): IdValue[] => {
-    return state.createCase.quotation.options;
-  }
+  (state: CaseState): CaseFilterItem =>
+    state.createCase.autocompleteItems.find((it) => it.filter === 'quotation')
 );
 
 export const getSelectedQuotation = createSelector(
@@ -16,7 +15,10 @@ export const getSelectedQuotation = createSelector(
   (state: CaseState): string => {
     let quotationNumber = '';
 
-    state.createCase.quotation.options.forEach((value) => {
+    const quotationOptions = state.createCase.autocompleteItems.find(
+      (it) => it.filter === 'quotation'
+    );
+    quotationOptions.options.forEach((value) => {
       if (value.selected) {
         quotationNumber = value.value;
       }
@@ -28,10 +30,50 @@ export const getSelectedQuotation = createSelector(
 
 export const getCaseCustomer = createSelector(
   getCaseState,
-  (state: CaseState) => state.createCase.customer
+  (state: CaseState): CaseFilterItem =>
+    state.createCase.autocompleteItems.find((it) => it.filter === 'customer')
+);
+export const getCaseMaterialnumber = createSelector(
+  getCaseState,
+  (state: CaseState): CaseFilterItem =>
+    state.createCase.autocompleteItems.find(
+      (it) => it.filter === 'materialNumber'
+    )
 );
 
 export const getCaseAutocompleteLoading = createSelector(
   getCaseState,
-  (state: CaseState): string => state.createCase.autocompleteLoading
+  (state: CaseState, autocompleteItem: string): boolean =>
+    state.createCase.autocompleteLoading === autocompleteItem
+);
+export const getCaseRowData = createSelector(
+  getCaseState,
+  (state: CaseState): CaseTableItem[] => state.createCase.rowData
+);
+
+export const getCustomerConditionsValid = createSelector(
+  getCaseState,
+  (state: CaseState): boolean => {
+    const rowData = [...state.createCase.rowData];
+    let rowDataValid = rowData.length >= 1;
+
+    for (const row of rowData) {
+      if (row.materialNumber || row.quantity) {
+        const error =
+          !row.quantity ||
+          (row.materialNumber && row.materialNumber.length === 0) ||
+          !row.materialNumber;
+
+        if (error) {
+          rowDataValid = false;
+          break;
+        }
+      }
+    }
+    const customerValid = state.createCase.autocompleteItems
+      .find((el) => el.filter === 'customer')
+      .options.find((opt) => opt.selected);
+
+    return customerValid !== undefined ? rowDataValid : false;
+  }
 );

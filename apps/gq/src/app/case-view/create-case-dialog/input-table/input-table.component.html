@@ -1,0 +1,13 @@
+<div class="table-container">
+  <ag-grid-angular
+    class="ag-theme-material"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [modules]="modules"
+    [defaultColDef]="defaultColumnDefs"
+    [enableRangeSelection]="true"
+    (cellValueChanged)="onCellValueChanged()"
+    [frameworkComponents]="frameworkComponents"
+    [statusBar]="statusBar"
+  ></ag-grid-angular>
+</div>

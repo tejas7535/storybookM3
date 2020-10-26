@@ -1,9 +1,13 @@
 import { AutocompleteSearch, IdValue } from '../../models';
 import {
+  addRowDataItem,
   autocomplete,
-  autocompleteCustomerSuccess,
   autocompleteFailure,
-  autocompleteQuotationSuccess,
+  autocompleteSuccess,
+  clearRowData,
+  deleteRowDataItem,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
 } from './create-case.actions';
 
 describe('Create Actions', () => {
@@ -16,7 +20,7 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         autocompleteSearch,
         type:
-          '[Create Case] Get Autocomplete Suggestions For Customer or Quotation',
+          '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',
       });
     });
 
@@ -25,30 +29,78 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         type:
-          '[Create Case] Get Autocomplete Suggestions For Provided Customer or Quotation Failure',
+          '[Create Case] Get Autocomplete Suggestions For Autocomplete Option Failure',
       });
     });
 
-    test('autocompleteCustomerSuccess', () => {
+    test('autocompleteSuccess', () => {
       const options = [new IdValue('23', 'Test Customer', true)];
-
-      const action = autocompleteCustomerSuccess({ options });
+      const filter = 'customer';
+      const action = autocompleteSuccess({ options, filter });
 
       expect(action).toEqual({
         options,
-        type: '[Create Case] Get Autocomplete Suggestions For Customer Success',
-      });
-    });
-
-    test('autocompleteQuotationSuccess', () => {
-      const options = [new IdValue('23', 'Test Customer', true)];
-
-      const action = autocompleteQuotationSuccess({ options });
-
-      expect(action).toEqual({
-        options,
+        filter,
         type:
-          '[Create Case] Get Autocomplete Suggestions For Quotation Success',
+          '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
+      });
+    });
+
+    test('selectAutocompleteOption', () => {
+      const option = new IdValue('23', 'Test Customer', true);
+      const filter = 'customer';
+      const action = selectAutocompleteOption({ option, filter });
+
+      expect(action).toEqual({
+        option,
+        filter,
+        type: '[Create Case] Select Option for selected Autocomplete Option',
+      });
+    });
+
+    test('unselectAutocompleteOption', () => {
+      const filter = 'customer';
+      const action = unselectAutocompleteOptions({ filter });
+
+      expect(action).toEqual({
+        filter,
+        type: '[Create Case] Unselect Options for selected Autocomplete Option',
+      });
+    });
+
+    test('addRowDataItem', () => {
+      const items = [
+        {
+          materialNumber: '1234',
+          quantity: 105,
+          info: true,
+        },
+      ];
+
+      const action = addRowDataItem({ items });
+
+      expect(action).toEqual({
+        items,
+        type: '[Create Case] Add new Items to Customer Table',
+      });
+    });
+
+    test('clearRowData', () => {
+      const action = clearRowData();
+
+      expect(action).toEqual({
+        type: '[Create Case] Clear RowData',
+      });
+    });
+
+    test('deleteRowDataItem', () => {
+      const materialNumber = '12132';
+
+      const action = deleteRowDataItem({ materialNumber });
+
+      expect(action).toEqual({
+        materialNumber,
+        type: '[Create Case] Delete Item from Customer Table',
       });
     });
   });

@@ -9,9 +9,8 @@ import { configureTestSuite } from 'ng-bullet';
 import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
 import {
   autocomplete,
-  autocompleteCustomerSuccess,
   autocompleteFailure,
-  autocompleteQuotationSuccess,
+  autocompleteSuccess,
 } from '../../actions';
 import { AutocompleteSearch, IdValue } from '../../models';
 import { initialState } from '../../reducers/search/search.reducer';
@@ -53,7 +52,7 @@ describe('Search Effects', () => {
       action = autocomplete({ autocompleteSearch });
       autocompleteService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
-      const result = autocompleteCustomerSuccess({ options });
+      const result = autocompleteSuccess({ options, filter: 'customer' });
 
       actions$ = hot('-a', { a: action });
 
@@ -73,7 +72,7 @@ describe('Search Effects', () => {
       action = autocomplete({ autocompleteSearch });
       autocompleteService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
-      const result = autocompleteQuotationSuccess({ options });
+      const result = autocompleteSuccess({ options, filter: 'quotation' });
 
       actions$ = hot('-a', { a: action });
 
@@ -87,25 +86,6 @@ describe('Search Effects', () => {
       expect(autocompleteService.autocomplete).toHaveBeenCalledWith(
         autocompleteSearch
       );
-    });
-    test('should return autocompleteFailure action when REST call is called with diff options', () => {
-      autocompleteSearch = new AutocompleteSearch('1', '12345');
-      action = autocomplete({ autocompleteSearch });
-      autocompleteService.autocomplete = jest.fn(() => response);
-      const options: IdValue[] = [];
-
-      actions$ = hot('-a', { a: action });
-
-      const result = autocompleteFailure();
-      const response = cold('-a|', {
-        a: options,
-      });
-      const expected = cold('--b', { b: result });
-
-      autocompleteService.autocomplete = jest.fn(() => response);
-
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledTimes(1);
     });
 
     test('should return autocompleteFailure on REST error', () => {

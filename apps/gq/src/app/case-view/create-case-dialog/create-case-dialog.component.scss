@@ -2,21 +2,22 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/fonts';
 
-.quotation-button {
-  margin-left: 15px;
-  margin-top: 10px;
-  width: 200px;
-}
 button {
   background-color: $schaeffler-green-1;
   border: 1px solid $schaeffler-gray-4;
   color: $schaeffler-white;
   font-size: $schaeffler-labels;
   font-weight: bold;
+  margin-left: 15px;
+  margin-top: 10px;
+  width: 200px;
 }
 button[disabled] {
   background-color: $schaeffler-gray-3;
   color: $schaeffler-gray-7 !important;
+}
+.title {
+  margin-top: 0;
 }
 mat-card {
   margin-top: 10px;
@@ -28,4 +29,13 @@ mat-card-title {
 ::ng-deep.mat-form-field-flex {
   /*change color of underline when focused*/
   background-color: $schaeffler-gray-1 !important;
+}
+
+::ng-deep ag-grid-angular {
+  .ag-root-wrapper-body {
+    border: #e2e2e2 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  }
 }

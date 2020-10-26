@@ -1,13 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { provideMockStore } from '@ngrx/store/testing';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { configureTestSuite } from 'ng-bullet';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
 import { ProcessCaseHeaderModule } from './process-case-header/process-case-header.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
-
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
 
@@ -45,7 +47,7 @@ describe('ProcessCaseViewComponent', () => {
           },
         }),
       ],
-    }).compileComponents();
+    });
   });
 
   beforeEach(() => {
