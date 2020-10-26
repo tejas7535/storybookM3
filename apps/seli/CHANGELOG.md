@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-26)
+
+
+### 🎸 Features
+
+* **seli:** add configurable table columns (UFTABI-3042) ([4e9f0b0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
+* **seli:** added datasource to table (UFTABI-3034) ([1db86e6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
+
 ## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
 
 

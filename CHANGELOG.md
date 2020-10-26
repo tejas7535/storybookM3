@@ -2,6 +2,32 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.9.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-26)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix design of grouped columns (DSCDA-1939) ([57716d8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/57716d839a15994cafa9601449d69c7cfd457d5f))
+* **cdba:** reduce row height of bom table (DSCDA-2021) ([f0fa40b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f0fa40be44b3753daed371fa6829c65ff2b4753b))
+* **cdba:** show last columns in ref types table again ([c8344a2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c8344a244b9fa6ea77e614500ba36846175ddead))
+* **cdba:** supress csv and excel export of bom table ([c741d3a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c741d3a811eb31ec6661439a493f09764110459f))
+* **goldwind:** fix chartpoints outside of zoom area to be filtered out ([79e8847](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/79e88473915eb7d1ed1657619a642e0a3f94eb9b))
+* **goldwind:** fix text in tabbar to be cut of ([0318fee](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/0318feefcd4d2cb06bfb895e344a6f778970ebc8))
+* **gq:** fix module imports to reenable translations ([220847f](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/220847f6e5ba6363d240f26020cec644d503df48))
+
+
+### 🎸 Features
+
+* **goldwind:** add data view tab and store ([5ab994e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5ab994e6d08a8a4380c9eb83174ef0aa19bfbc20))
+* **gq:** add process case view (GQOUTE-150) ([eed8fb9](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/eed8fb9ce669959a7779edec58ff66e2514aefc8))
+* **gq:** add quotation input with autocomplete (GQUOTE-140) ([9002222](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9002222e2c5d60f2a50370458f62e1390e02b588))
+* **mac:** add empty mac app (UFTABI-2929) ([48acced](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/48acced8eecbf6aa0b4bbbe2c9a18e3f335f6a5a))
+* **qg:** Add get details calls (GQUOTE-152) ([9f05aa7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9f05aa7a4b19dbc2a907009296c2263f22b3afd0))
+* **seli:** add configurable table columns (UFTABI-3042) ([4e9f0b0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
+* **seli:** added datasource to table (UFTABI-3034) ([1db86e6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
+* **workspace:** adjust spectator config and add documentation ([f6d865e](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f6d865e07a23dc098a1715c342d904f899883b80))
+* **workspace:** adjust to never save source files ([8921298](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8921298dfe0135d9323a59f6313b371fbe63558b))
+
 ## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
 
 
