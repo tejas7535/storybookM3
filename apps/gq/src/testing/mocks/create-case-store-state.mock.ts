@@ -3,12 +3,7 @@ import { CaseState } from '../../app/core/store/reducers/create-case/create-case
 export const CREATE_CASE_STORE_STATE_MOCK: CaseState = {
   createCase: {
     autocompleteLoading: undefined,
-    quotation: {
-      options: [],
-    },
-    customer: {
-      options: [],
-      items: [],
-    },
+    autocompleteItems: [],
+    rowData: [],
   },
 };

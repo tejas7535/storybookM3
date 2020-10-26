@@ -14,6 +14,11 @@ import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
 import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
   let fixture: ComponentFixture<CaseViewComponent>;

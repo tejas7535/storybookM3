@@ -1,21 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Observable, Subscription } from 'rxjs';
+
 import { select, Store } from '@ngrx/store';
 
-import { Observable, Subscription } from 'rxjs';
 import { AppRoutePath } from '../../app-route-path.enum';
-
 import {
   autocomplete,
-  selectQuotationOption,
-  unselectQuotationOptions,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
 } from '../../core/store/actions';
-import { AutocompleteSearch, IdValue } from '../../core/store/models';
+import {
+  AutocompleteSearch,
+  CaseFilterItem,
+  CaseTableItem,
+  IdValue,
+} from '../../core/store/models';
 import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
 import {
   getCaseAutocompleteLoading,
-  getCaseQuotationOptions,
+  getCaseCustomer,
+  getCaseQuotation,
+  getCaseRowData,
   getSelectedQuotation,
 } from '../../core/store/selectors/';
 
@@ -25,10 +32,14 @@ import {
   styleUrls: ['./create-case-dialog.component.scss'],
 })
 export class CreateCaseDialogComponent implements OnInit {
-  autocompleteLoading$: Observable<string>;
-  quotation$: Observable<IdValue[]>;
-  quotationIsValid = false;
+  quotationAutocompleteLoading$: Observable<boolean>;
+  customerAutocompleteLoading$: Observable<boolean>;
+  quotation$: Observable<CaseFilterItem>;
+  customer$: Observable<CaseFilterItem>;
+  matNumber$: Observable<CaseFilterItem>;
+  rowData$: Observable<CaseTableItem[]>;
 
+  quotationIsValid = false;
   private selectedQuotation: string;
 
   private readonly subscription: Subscription = new Subscription();
@@ -39,27 +50,31 @@ export class CreateCaseDialogComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.autocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading)
+    this.quotationAutocompleteLoading$ = this.store.pipe(
+      select(getCaseAutocompleteLoading, 'quotation')
     );
-    this.quotation$ = this.store.pipe(select(getCaseQuotationOptions));
+    this.customerAutocompleteLoading$ = this.store.pipe(
+      select(getCaseAutocompleteLoading, 'customer')
+    );
+    this.quotation$ = this.store.pipe(select(getCaseQuotation));
     this.subscription.add(
       this.store.pipe(select(getSelectedQuotation)).subscribe((value) => {
         this.selectedQuotation = value;
       })
     );
+    this.customer$ = this.store.pipe(select(getCaseCustomer));
+    this.rowData$ = this.store.pipe(select(getCaseRowData));
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
-
-  unselectQuotationOptions(): void {
-    this.store.dispatch(unselectQuotationOptions());
+  selectOption(option: IdValue, filter: string): void {
+    this.store.dispatch(selectAutocompleteOption({ option, filter }));
   }
 
-  selectQuotationOption(option: IdValue): void {
-    this.store.dispatch(selectQuotationOption({ option }));
+  unselectOptions(filter: string): void {
+    this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 
   quotationValid(isValid: boolean): void {

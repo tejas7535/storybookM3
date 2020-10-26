@@ -1,43 +1,61 @@
 <div *transloco="let t; read: 'caseView.createCaseDialog'">
-  <h2 mat-dialog-title>{{ t('title') }}</h2>
-  <div>
-    <mat-card>
-      <mat-card-title>{{ t('quotation.label') }}</mat-card-title>
-      <mat-card-content>
+  <h2 mat-dialog-title class="title">{{ t('title') }}</h2>
+  <mat-card>
+    <mat-card-title>{{ t('quotation.label') }}</mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxFlexFill>
         <div
-          fxLayout="row"
-          fxLayout.sm="column"
-          fxLayout.xs="column"
-          fxFlexFill
+          fxFlex="100%"
+          fxLayoutAlign="start start"
+          *ngIf="quotation$ | async as quotation"
         >
-          <div
-            fxFlex="100%"
-            fxLayoutAlign="start start"
-            *ngIf="quotation$ | async as quotation"
-          >
-            <gq-autocomplete-input
-              fxFill
-              filterName="quotation"
-              [options]="quotation"
-              (unselected)="unselectQuotationOptions()"
-              (added)="selectQuotationOption($event)"
-              (isValid)="quotationValid($event)"
-              [autocompleteLoading]="autocompleteLoading$ | async"
-              (autocomplete)="autocomplete($event)"
-            ></gq-autocomplete-input>
-          </div>
-          <div fxFlex fxLayoutAlign="start start">
-            <button
-              class="quotation-button"
-              mat-stroked-button
-              [disabled]="!quotationIsValid"
-              (click)="openQuotation()"
-            >
-              {{ t('openQuotation') | uppercase }}
-            </button>
-          </div>
+          <gq-autocomplete-input
+            fxFill
+            [filterName]="quotation.filter"
+            [options]="quotation.options"
+            (unselected)="unselectOptions(quotation.filter)"
+            (added)="selectOption($event, quotation.filter)"
+            (isValid)="quotationValid($event)"
+            [autocompleteLoading]="quotationAutocompleteLoading$ | async"
+            (autocomplete)="autocomplete($event)"
+          ></gq-autocomplete-input>
         </div>
-      </mat-card-content>
-    </mat-card>
-  </div>
+        <div fxFlex fxLayoutAlign="start start">
+          <button
+            mat-stroked-button
+            [disabled]="!quotationIsValid"
+            (click)="openQuotation()"
+          >
+            {{ t('quotation.button') | uppercase }}
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card>
+    <mat-card-title>{{ t('customer.label') }}</mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxFlexFill>
+        <div
+          fxFlex="100%"
+          fxLayoutAlign="start start"
+          *ngIf="customer$ | async as customer"
+        >
+          <gq-autocomplete-input
+            fxFill
+            [filterName]="customer.filter"
+            [options]="customer.options"
+            (unselected)="unselectOptions(customer.filter)"
+            (added)="selectOption($event, customer.filter)"
+            [autocompleteLoading]="customerAutocompleteLoading$ | async"
+            (autocomplete)="autocomplete($event)"
+          ></gq-autocomplete-input>
+        </div>
+      </div>
+      <gq-add-entry> </gq-add-entry>
+      <div *ngIf="rowData$ | async as rowData">
+        <gq-input-table [rowData]="rowData"></gq-input-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>

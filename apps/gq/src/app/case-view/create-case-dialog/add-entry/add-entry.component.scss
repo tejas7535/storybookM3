@@ -1,0 +1,52 @@
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+.add-entry {
+  align-content: flex-start;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.addRowContainer {
+  margin-bottom: 15px;
+  margin-top: 10px;
+}
+.button-small {
+  width: 150px;
+}
+.close-add-entry {
+  color: $schaeffler-green-1;
+  cursor: pointer;
+  height: 14px;
+  line-height: 14px;
+}
+
+.rowInputField {
+  margin-left: 10px;
+  width: 100%;
+}
+.rowInputContainer {
+  margin-right: 5px;
+}
+.input-field {
+  font-size: 14px;
+}
+.rowInput {
+  width: 100%;
+}
+
+button {
+  color: $schaeffler-green-1;
+  font-weight: bold;
+  margin-top: 10px;
+  padding-left: 0;
+  width: 200px;
+}
+mat-card {
+  margin-top: 10px;
+}
+mat-card-title {
+  font-size: 14px;
+}

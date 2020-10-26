@@ -1,23 +1,33 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatInputModule } from '@angular/material/input';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-import { configureTestSuite } from 'ng-bullet';
 
 import {
   autocomplete,
-  selectQuotationOption,
-  unselectQuotationOptions,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
 } from '../../core/store/actions';
 import { AutocompleteSearch, IdValue } from '../../core/store/models';
+import { SharedModule } from '../../shared';
+import { AddEntryModule } from './add-entry/add-entry.module';
 import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
+import { InputTableModule } from './input-table/input-table.module';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('CreateCaseDialogComponent', () => {
   let component: CreateCaseDialogComponent;
@@ -29,12 +39,17 @@ describe('CreateCaseDialogComponent', () => {
     TestBed.configureTestingModule({
       declarations: [CreateCaseDialogComponent],
       imports: [
-        provideTranslocoTestingModule({}),
+        AddEntryModule,
+        AgGridModule.withComponents([]),
         AutocompleteInputModule,
-        FlexLayoutModule,
+        InputTableModule,
         MatButtonModule,
+        MatInputModule,
         MatCardModule,
+        NoopAnimationsModule,
+        SharedModule,
         RouterTestingModule.withRoutes([]),
+        provideTranslocoTestingModule({}),
       ],
       providers: [provideMockStore({})],
     });
@@ -68,21 +83,23 @@ describe('CreateCaseDialogComponent', () => {
     test('should dispatch unselectQuotationOptions action', () => {
       mockStore.dispatch = jest.fn();
 
-      component.unselectQuotationOptions();
+      component.unselectOptions('customer');
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectQuotationOptions()
+        unselectAutocompleteOptions({ filter: 'customer' })
       );
     });
   });
-  describe('addQuotationOption', () => {
-    test('should dispatch addOption action', () => {
+
+  describe('selectAutocompleteOption', () => {
+    test('should dispatch selectAutocompleteOption action', () => {
       mockStore.dispatch = jest.fn();
       const option = new IdValue('aud', 'Audi', true);
-      component.selectQuotationOption(option);
+      const filter = 'customer';
+      component.selectOption(option, filter);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        selectQuotationOption({ option })
+        selectAutocompleteOption({ option, filter })
       );
     });
   });
@@ -93,14 +110,16 @@ describe('CreateCaseDialogComponent', () => {
       expect(component.quotationIsValid).toBeTruthy();
     });
   });
-
   describe('openQuotation', () => {
     test('should set quotationValid', () => {
-      component.selectQuotationOption({
-        value: '1224',
-        selected: true,
-        id: '12345',
-      });
+      component.selectOption(
+        {
+          value: '1224',
+          selected: true,
+          id: '12345',
+        },
+        'quotation'
+      );
       spyOn(router, 'navigate');
       component.openQuotation();
       expect(router.navigate).toHaveBeenCalled();

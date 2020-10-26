@@ -1,11 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { configureTestSuite } from 'ng-bullet';
-import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { CUSTOMER_MOCK } from '../../../../testing/mocks';
 import { SharedModule } from '../../../shared';
 import { CustomerDetailsComponent } from './customer-details.component';
 
@@ -27,7 +28,7 @@ describe('CustomerDetailsComponent', () => {
         MatCardModule,
         MatButtonModule,
       ],
-    }).compileComponents();
+    });
   });
 
   beforeEach(() => {

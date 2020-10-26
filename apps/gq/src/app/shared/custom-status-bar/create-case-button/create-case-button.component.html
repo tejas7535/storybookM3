@@ -1,0 +1,12 @@
+<div *transloco="let t; read: 'caseView.createCaseDialog.customer'">
+  <div>
+    <button
+      mat-raised-button
+      color="primary"
+      [disabled]="!(createCaseEnabled$ | ngrxPush)"
+      (click)="createCase()"
+    >
+      {{ t('button') | uppercase }}
+    </button>
+  </div>
+</div>

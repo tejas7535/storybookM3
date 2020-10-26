@@ -1,37 +1,42 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
 import {
+  addRowDataItem,
   autocomplete,
-  autocompleteCustomerSuccess,
   autocompleteFailure,
-  autocompleteQuotationSuccess,
-  selectQuotationOption,
-  unselectQuotationOptions,
+  autocompleteSuccess,
+  clearRowData,
+  deleteRowDataItem,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
 } from '../../actions';
-import { CustomerItem, IdValue } from '../../models';
+import { CaseFilterItem, CaseTableItem, IdValue } from '../../models';
 
 export interface CaseState {
   createCase: {
     autocompleteLoading: string;
-    quotation: {
-      options: IdValue[];
-    };
-    customer: {
-      options: IdValue[];
-      items: CustomerItem[];
-    };
+    autocompleteItems: CaseFilterItem[];
+    rowData: CaseTableItem[];
   };
 }
 export const initialState: CaseState = {
   createCase: {
     autocompleteLoading: undefined,
-    quotation: {
-      options: [],
-    },
-    customer: {
-      options: [],
-      items: [],
-    },
+    autocompleteItems: [
+      {
+        filter: 'quotation',
+        options: [],
+      },
+      {
+        filter: 'customer',
+        options: [],
+      },
+      {
+        filter: 'materialNumber',
+        options: [],
+      },
+    ],
+    rowData: [],
   },
 };
 
@@ -51,77 +56,96 @@ export const createCaseReducer = createReducer(
       autocompleteLoading: undefined,
     },
   })),
-  on(autocompleteQuotationSuccess, (state: CaseState, { options }) => ({
+  on(autocompleteSuccess, (state: CaseState, { options, filter }) => ({
     ...state,
     createCase: {
       ...state.createCase,
       autocompleteLoading: undefined,
-      quotation: {
-        options: mergeOptions(state.createCase.quotation.options, options),
-      },
+      autocompleteItems: [...state.createCase.autocompleteItems].map((it) => {
+        const tmp = { ...it };
+        const itemOptions = [...options];
+        if (tmp.filter === filter) {
+          const mergedOptions: IdValue[] = [];
+
+          tmp.options.forEach((oldOption) => {
+            const idxInNewOptions = itemOptions.findIndex(
+              (newOpt) => newOpt.id === oldOption.id
+            );
+
+            // only consider selected options in old options
+            if (idxInNewOptions === -1 && oldOption.selected) {
+              // keep old option if it has been selected but is not part of received options
+              mergedOptions.push(oldOption);
+            } else if (idxInNewOptions > -1 && oldOption.selected) {
+              // update received options with selected info
+              itemOptions[idxInNewOptions] = {
+                ...itemOptions[idxInNewOptions],
+                selected: true,
+              };
+            }
+          });
+          tmp.options = [...mergedOptions, ...itemOptions];
+        }
+
+        return tmp;
+      }),
     },
   })),
-  on(autocompleteCustomerSuccess, (state: CaseState, { options }) => ({
+  on(selectAutocompleteOption, (state: CaseState, { option, filter }) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      autocompleteLoading: undefined,
-      customer: {
-        ...state.createCase.customer,
-        options: mergeOptions(state.createCase.customer.options, options),
-      },
+      autocompleteItems: [...state.createCase.autocompleteItems].map((it) => {
+        const temp = { ...it };
+        if (temp.filter === filter) {
+          return { ...temp, options: selectOption(temp.options, option) };
+        }
+
+        return temp;
+      }),
     },
   })),
-  on(selectQuotationOption, (state: CaseState, { option }) => ({
+  on(unselectAutocompleteOptions, (state: CaseState, { filter }) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      quotation: {
-        options: selectOption(state.createCase.quotation.options, option),
-      },
+      autocompleteItems: [...state.createCase.autocompleteItems].map((it) => {
+        const temp = { ...it };
+        if (temp.filter === filter) {
+          temp.options = temp.options.map((opt) => ({
+            ...opt,
+            selected: false,
+          }));
+        }
+
+        return temp;
+      }),
     },
   })),
-  on(unselectQuotationOptions, (state: CaseState) => ({
+  on(addRowDataItem, (state: CaseState, { items }) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      quotation: {
-        options: [...state.createCase.quotation.options].map((it) => ({
-          ...it,
-          selected: false,
-        })),
-      },
+      rowData: [...items, ...state.createCase.rowData],
+    },
+  })),
+  on(clearRowData, (state: CaseState) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      rowData: [],
+    },
+  })),
+  on(deleteRowDataItem, (state: CaseState, { materialNumber }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      rowData: [...state.createCase.rowData].filter(
+        (it) => it.materialNumber !== materialNumber
+      ),
     },
   }))
 );
-
-const mergeOptions = (
-  stateOptions: IdValue[],
-  options: IdValue[]
-): IdValue[] => {
-  const mergedOptions: IdValue[] = [];
-  const itemOptions = [...options];
-
-  [...stateOptions].forEach((oldOption) => {
-    const idxInNewOptions = itemOptions.findIndex(
-      (newOpt) => newOpt.id === oldOption.id
-    );
-
-    // only consider selected options in old options
-    if (idxInNewOptions === -1 && oldOption.selected) {
-      // keep old option if it has been selected but is not part of received options
-      mergedOptions.push(oldOption);
-    } else if (idxInNewOptions > -1 && oldOption.selected) {
-      // update received options with selected info
-      itemOptions[idxInNewOptions] = {
-        ...itemOptions[idxInNewOptions],
-        selected: true,
-      };
-    }
-  });
-
-  return [...mergedOptions, ...itemOptions];
-};
 
 const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   const itemOptions = [...options];

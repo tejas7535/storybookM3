@@ -8,9 +8,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
 import {
   autocomplete,
-  autocompleteCustomerSuccess,
   autocompleteFailure,
-  autocompleteQuotationSuccess,
+  autocompleteSuccess,
 } from '../../actions';
 
 /**
@@ -27,16 +26,12 @@ export class CreateCaseEffects {
       ofType(autocomplete.type),
       mergeMap((action: any) =>
         this.autocompleteService.autocomplete(action.autocompleteSearch).pipe(
-          map((options) => {
-            switch (action.autocompleteSearch.filter) {
-              case 'customer':
-                return autocompleteCustomerSuccess({ options });
-              case 'quotation':
-                return autocompleteQuotationSuccess({ options });
-              default:
-                return autocompleteFailure();
-            }
-          }),
+          map((options) =>
+            autocompleteSuccess({
+              options,
+              filter: action.autocompleteSearch.filter,
+            })
+          ),
           catchError((_e) => of(autocompleteFailure()))
         )
       )

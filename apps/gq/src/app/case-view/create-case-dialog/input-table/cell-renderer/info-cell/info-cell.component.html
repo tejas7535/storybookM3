@@ -1,0 +1,14 @@
+<div *ngIf="valid; else notValid">
+  <mat-icon
+    fontSet="schaeffler-icons"
+    fontIcon="icon-toast-success"
+    class="valid"
+  ></mat-icon>
+</div>
+<ng-template #notValid>
+  <mat-icon
+    fontSet="schaeffler-icons"
+    fontIcon="icon-toast-warning"
+    class="not_valid"
+  ></mat-icon>
+</ng-template>
