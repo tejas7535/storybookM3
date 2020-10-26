@@ -1,13 +1,13 @@
 <div class="table-container">
+  <h1>SOCO Outlet</h1>
   <ag-grid-angular
+    class="ag-theme-material"
     [columnDefs]="columnDefs"
     [defaultColDef]="defaultColDef"
-    [rowData]="items$ | async"
+    [gridOptions]="gridOptions"
     [modules]="modules"
     [sideBar]="sidebar"
-    class="ag-theme-material"
-    animateRows
-    rowBuffer="10"
+    (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
 </div>

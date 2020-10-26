@@ -5,7 +5,4 @@ export const DEFAULT_COLUMN_DEFINITION: ColDef = {
   filter: true,
   resizable: true,
   enablePivot: false,
-  filterParams: {
-    resetButton: true,
-  },
 };
