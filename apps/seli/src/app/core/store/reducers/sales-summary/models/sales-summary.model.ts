@@ -3,7 +3,7 @@ export enum SalesCategory {
   B = 'B',
 }
 
-export class SalesSummaryData {
+export class SalesSummary {
   public constructor(
     public combinedKey: string,
     public category: string,

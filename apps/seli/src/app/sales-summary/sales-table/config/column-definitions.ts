@@ -1,63 +1,83 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 
+import { FILTER_PARAMS } from './filter-params';
+
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'sectorKey',
-    headerName: 'Branch',
+    headerName: 'Branch Key',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'sectorName',
-    headerName: 'Text',
+    headerName: 'Branch Name',
+    filterParams: FILTER_PARAMS,
   },
   {
-    field: 'keyAccountName',
+    field: 'keyaccountName',
     headerName: 'Key Account',
+    filterParams: FILTER_PARAMS,
   },
   {
-    headerName: 'Name',
+    field: 'socoCustomerNumberGlobalKey',
+    headerName: 'Customer Key',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'socoCustomerNumberGlobalName',
-    headerName: 'Customer',
+    headerName: 'Customer Name',
+    filterParams: FILTER_PARAMS,
   },
   {
-    headerName: 'Name 1',
-  },
-  {
-    field: 'productLineKey',
+    field: 'socoArticleNumberGlobalKey',
     headerName: 'Part Number',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'socoArticleNumberGlobalName',
     headerName: 'Short Text',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'productionPlantKey',
     headerName: 'Production Plant',
+    filterParams: FILTER_PARAMS,
   },
   {
-    field: 'category',
+    field: 'categoryNetSales',
     headerName: 'Category',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'lastModifier',
     headerName: 'Last SOCO Planner',
+    filterParams: FILTER_PARAMS,
   },
   {
     field: 'eopDateVerified',
     headerName: 'EOP',
     filter: 'agDateColumnFilter',
+    filterParams: {
+      ...FILTER_PARAMS,
+      filterOptions: ['equals', 'inRange'],
+    },
   },
   {
     field: 'edoDate',
     headerName: 'EDO',
     filter: 'agDateColumnFilter',
-  },
-  {
-    headerName: 'Status',
+    filterParams: {
+      ...FILTER_PARAMS,
+      filterOptions: ['equals', 'inRange'],
+    },
   },
   {
     field: 'lastUpdated',
     headerName: 'Last Modified',
+    filter: 'agDateColumnFilter',
+    filterParams: {
+      ...FILTER_PARAMS,
+      filterOptions: ['equals', 'inRange'],
+    },
   },
 ];

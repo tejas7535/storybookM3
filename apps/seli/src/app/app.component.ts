@@ -15,7 +15,7 @@ import { AppState } from './core/store/reducers';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'SELI';
+  title = 'SeLi';
 
   username$: Observable<string>;
 

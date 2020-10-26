@@ -1,1 +1,1 @@
-export * from './sales-summary-data/sales-summary-data.selector';
+export * from './sales-summary/sales-summary.selector';

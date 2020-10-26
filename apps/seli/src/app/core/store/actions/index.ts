@@ -1,1 +1,1 @@
-export * from './sales-summary-data/sales-summary-data.actions';
+export * from './sales-summary/sales-summary.actions';
