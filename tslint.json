@@ -87,7 +87,7 @@
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "template-i18n": [false, "check-id", "check-text"],
-    "no-implicit-dependencies": [true, "dev", ["@schaeffler"]],
+    "no-implicit-dependencies": false,
     "array-type": [true, "array"],
     "invalid-void": [
       true,

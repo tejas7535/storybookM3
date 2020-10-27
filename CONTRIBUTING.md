@@ -33,18 +33,20 @@ You will be prompted to install the following extensions upon the first opening 
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [HTMLHint - Static Code Analyzer](https://marketplace.visualstudio.com/items?itemName=mkaufman.HTMLHint)
 - [Stylelint - SCSS/CSS/Less Linter](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)
+- [TypeScript Hero - TypeScript Utilities](https://marketplace.visualstudio.com/items?itemName=rbbit.typescript-hero)
+- [RxJS Cheatsheet](https://marketplace.visualstudio.com/items?itemName=dzhavat.rxjs-cheatsheet)
+- [Nx Console - UI for NX workspace](https://marketplace.visualstudio.com/items?itemName=nrwl.angular-console)
+- [Jest Runner](https://marketplace.visualstudio.com/items?itemName=firsttris.vscode-jest-runner)
 
 ## Git Flow
 
-We decided to go with the so-called _Release Flow_ which is used and introduced by the [Microsoft VSTS Team](https://devblogs.microsoft.com/devops/release-flow-how-we-do-branching-on-the-vsts-team/). It is a trunk-based development approach:
+We decided to go with the so-called _Release Flow_ which is used and introduced by the [Microsoft VSTS Team](https://devblogs.microsoft.com/devops/release-flow-how-we-do-branching-on-the-vsts-team/). It is a trunk-based development approach that we adapted slightly:
 
-- At the end of a sprint a release branch (naming convention: _release/name-of-sprint_) and a release tag are created and pushed to production
+- At the end of a sprint our (by changes affected) libraries are automatically released (git tag creation, version bumping, changelog creation) and pushed to production
+- Applications can be automatically released at any time (triggered by a manual Jenkins trigger)
 - Features are directly merged into the master branch by an approved merge request (naming convention: _feature/jira-id_))
-- Hotfixes (naming convention: _hotfix/description_) are branched from master and merged into the current release branch as well as back into master by using cherry picks
-  - Exception: hotfixes on the release branch that do not affect current master anymore are not merged backed to master
+- Hotfixes are not supported -> Either perform a rollback or trigger a new release from _master_ that contains the fix(es)
 - Features can be hidden on production with feature flags
-
-![Git Flow](https://devblogs.microsoft.com/devops/wp-content/uploads/sites/6/2018/04/branchstrategy-releaseflow.png)
 
 ## Hotfixes & Bugfixes
 
