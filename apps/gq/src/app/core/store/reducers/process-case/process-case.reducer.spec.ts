@@ -1,16 +1,20 @@
 import {
   CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
 import {
+  addQuotationDetailToOffer,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  removeQuotationDetailFromOffer,
 } from '../../actions';
+import { Quotation, QuotationInfoEnum } from '../../models';
 import { processCaseReducer } from './process-case.reducers';
 
 describe('Quotation Reducer', () => {
@@ -119,6 +123,76 @@ describe('Quotation Reducer', () => {
 
         expect(state.quotation.quotationLoading).toBeFalsy();
         expect(state.quotation.errorMessage).toEqual(errorMessage);
+      });
+    });
+  });
+
+  describe('offer', () => {
+    describe('addQuotationDetailToOffer', () => {
+      test('should add a quotationDetail to Offer', () => {
+        const action = addQuotationDetailToOffer({
+          quotationDetailIDs: [QUOTATION_DETAIL_MOCK.quotationItemId],
+        });
+        const mockItem: Quotation = JSON.parse(JSON.stringify(QUOTATION_MOCK));
+
+        const otherMockDetail = JSON.parse(
+          JSON.stringify(QUOTATION_DETAIL_MOCK)
+        );
+        otherMockDetail.quotationItemId = 1234;
+        mockItem.quotationDetails.push(otherMockDetail);
+        expect(mockItem.quotationDetails.length).toEqual(2);
+
+        const fakeState = {
+          ...QUOTATION_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_STATE_MOCK.quotation,
+            item: mockItem,
+          },
+        };
+
+        const state = processCaseReducer(fakeState, action);
+
+        const stateItem = state.quotation;
+        const addedDetail = stateItem.item.quotationDetails[0];
+        const otherDetail = stateItem.item.quotationDetails[1];
+
+        expect(addedDetail.info).toEqual(QuotationInfoEnum.AddedToOffer);
+        expect(otherDetail.info).toEqual(QuotationInfoEnum.None);
+      });
+    });
+
+    describe('removeQuotationDetailFromOffer', () => {
+      test('should remove a quotationDetail from Offer', () => {
+        const quotationDetailToRemove = QUOTATION_DETAIL_MOCK;
+        quotationDetailToRemove.info = QuotationInfoEnum.AddedToOffer;
+        const action = removeQuotationDetailFromOffer({
+          quotationDetailIDs: [quotationDetailToRemove.quotationItemId],
+        });
+        const mockItem = JSON.parse(JSON.stringify(QUOTATION_MOCK));
+
+        const otherMockDetail = JSON.parse(
+          JSON.stringify(QUOTATION_DETAIL_MOCK)
+        );
+        otherMockDetail.quotationItemId = 1234;
+        mockItem.quotationDetails.push(otherMockDetail);
+        expect(mockItem.quotationDetails.length).toEqual(2);
+
+        const fakeState = {
+          ...QUOTATION_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_STATE_MOCK.quotation,
+            item: mockItem,
+          },
+        };
+
+        const state = processCaseReducer(fakeState, action);
+
+        const stateItem = state.quotation;
+        const addedDetail = stateItem.item.quotationDetails[0];
+        const otherDetail = stateItem.item.quotationDetails[1];
+
+        expect(addedDetail.info).toEqual(QuotationInfoEnum.None);
+        expect(otherDetail.info).toEqual(QuotationInfoEnum.AddedToOffer);
       });
     });
   });

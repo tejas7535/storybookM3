@@ -50,4 +50,11 @@ describe('ProcessCaseHeaderComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('toggle drawer', () => {
+    component['toggleOfferDrawer'].emit = jest.fn();
+
+    component.drawerToggle();
+    expect(component['toggleOfferDrawer'].emit).toHaveBeenCalledTimes(1);
+  });
 });

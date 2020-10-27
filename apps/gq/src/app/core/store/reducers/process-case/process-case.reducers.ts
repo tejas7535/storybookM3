@@ -1,5 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
+
 import {
+  addQuotationDetailToOffer,
   createQuotation,
   loadCustomer,
   loadCustomerFailure,
@@ -7,9 +9,15 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  removeQuotationDetailFromOffer,
   selectQuotation,
 } from '../../actions';
-import { Customer, Quotation, QuotationIdentifier } from '../../models';
+import {
+  Customer,
+  Quotation,
+  QuotationIdentifier,
+  QuotationInfoEnum,
+} from '../../models';
 
 export interface ProcessCaseState {
   quotationIdentifier: QuotationIdentifier;
@@ -110,7 +118,51 @@ export const processCaseReducer = createReducer(
       errorMessage,
       quotationLoading: false,
     },
-  }))
+  })),
+  on(
+    addQuotationDetailToOffer,
+    (state: ProcessCaseState, { quotationDetailIDs }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: {
+          ...state.quotation.item,
+          quotationDetails: [
+            ...state.quotation.item.quotationDetails.map((quotationDetail) =>
+              quotationDetailIDs.includes(quotationDetail.quotationItemId)
+                ? {
+                    ...quotationDetail,
+                    info: QuotationInfoEnum.AddedToOffer,
+                  }
+                : quotationDetail
+            ),
+          ],
+        },
+      },
+    })
+  ),
+  on(
+    removeQuotationDetailFromOffer,
+    (state: ProcessCaseState, { quotationDetailIDs }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: {
+          ...state.quotation.item,
+          quotationDetails: [
+            ...state.quotation.item.quotationDetails.map((quotationDetail) =>
+              quotationDetailIDs.includes(quotationDetail.quotationItemId)
+                ? {
+                    ...quotationDetail,
+                    info: QuotationInfoEnum.None,
+                  }
+                : quotationDetail
+            ),
+          ],
+        },
+      },
+    })
+  )
 );
 
 // tslint:disable-next-line: only-arrow-functions

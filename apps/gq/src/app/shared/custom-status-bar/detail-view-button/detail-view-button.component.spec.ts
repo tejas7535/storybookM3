@@ -1,12 +1,13 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { configureTestSuite } from 'ng-bullet';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DetailViewButtonComponent } from './detail-view-button.component';
 

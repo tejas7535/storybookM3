@@ -1,10 +1,13 @@
 import { NgModule } from '@angular/core';
+import { MatSidenavModule } from '@angular/material/sidenav';
+
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effect';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducers';
 import { SharedModule } from '../shared';
+import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { ProcessCaseHeaderModule } from './process-case-header/process-case-header.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
@@ -13,12 +16,14 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
 @NgModule({
   declarations: [ProcessCaseViewComponent],
   imports: [
-    SharedModule,
+    EffectsModule.forFeature([ProcessCaseEffect]),
+    MatSidenavModule,
+    OfferDrawerModule,
+    ProcessCaseHeaderModule,
     ProcessCaseViewRoutingModule,
     QuotationDetailsTableModule,
-    ProcessCaseHeaderModule,
+    SharedModule,
     StoreModule.forFeature('processCase', processCaseReducer),
-    EffectsModule.forFeature([ProcessCaseEffect]),
   ],
 })
 export class ProcessCaseViewModule {}

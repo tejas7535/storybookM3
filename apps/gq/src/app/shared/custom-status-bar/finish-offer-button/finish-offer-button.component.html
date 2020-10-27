@@ -1,0 +1,9 @@
+<button
+  mat-raised-button
+  color="primary"
+  *transloco="let t; read: 'shared.customStatusBar.finishOfferButton'"
+  (click)="showDetailView()"
+>
+  <mat-icon fontSet="schaeffler-icons" fontIcon="icon-toast-success"></mat-icon>
+  {{ t('finishOffer') | uppercase }}
+</button>

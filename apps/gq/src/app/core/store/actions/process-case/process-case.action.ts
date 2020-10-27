@@ -1,49 +1,64 @@
 import { createAction, props, union } from '@ngrx/store';
+
 import { Customer, Quotation, QuotationIdentifier } from '../../models';
 
-export const loadCustomer = createAction('[Case] Get Customer Details');
+export const loadCustomer = createAction('[Process Case] Get Customer Details');
 
 export const loadCustomerSuccess = createAction(
-  '[Case] Get Customer Details Success',
+  '[Process Case] Get Customer Details Success',
   props<{ item: Customer }>()
 );
 
 export const loadCustomerFailure = createAction(
-  '[Case] Get Customer Details Failure',
+  '[Process Case] Get Customer Details Failure',
   props<{ errorMessage: string }>()
 );
 
-export const loadQuotation = createAction('[Case] Get Quotation Details');
+export const loadQuotation = createAction(
+  '[Process Case] Get Quotation Details'
+);
 
 export const loadQuotationSuccess = createAction(
-  '[Case] Get Quotation Details Success',
+  '[Process Case] Get Quotation Details Success',
   props<{ item: Quotation }>()
 );
 
 export const loadQuotationFailure = createAction(
-  '[Case] Get Quotation Details Failure',
+  '[Process Case] Get Quotation Details Failure',
   props<{ errorMessage: string }>()
 );
 
 export const selectQuotation = createAction(
-  '[Case] Select Quotation',
+  '[Process Case] Select Quotation',
   props<{ quotationIdentifier: QuotationIdentifier }>()
 );
 
 export const createQuotation = createAction(
-  '[Case] Create Quotation',
+  '[Process Case] Create Quotation',
   props<{ quotationIdentifier: QuotationIdentifier }>()
 );
 
+export const addQuotationDetailToOffer = createAction(
+  '[Offer] add QuotationDetail to offer',
+  props<{ quotationDetailIDs: string[] }>()
+);
+
+export const removeQuotationDetailFromOffer = createAction(
+  '[Offer] remove QuotationDetail to offer',
+  props<{ quotationDetailIDs: string[] }>()
+);
+
 const all = union({
+  addQuotationDetailToOffer,
   createQuotation,
-  selectQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  removeQuotationDetailFromOffer,
+  selectQuotation,
 });
 
 export type CaseActions = typeof all;

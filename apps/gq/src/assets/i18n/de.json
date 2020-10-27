@@ -151,9 +151,23 @@
       "addToOfferButton": {
         "addToOffer": "Zum Angebot hinzufügen"
       },
+      "finishOfferButton": {
+        "finishOffer": "Angebot abschließen"
+      },
       "detailViewButton": {
         "openDetail": "Details öffnen"
+      },
+      "removeFromOfferButton": {
+        "removeFromOffer": "vom Angebot entfernen"
       }
+    },
+    "offerDrawer": {
+      "title": "Aktuelles Angebot"
+    },
+    "offerTable": {
+      "materialNumber": "Materialnummer",
+      "price": "Preis",
+      "quantity": "Stückzahl"
     }
   },
   "caseView": {

@@ -1,6 +1,11 @@
 import { Component } from '@angular/core';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { Store } from '@ngrx/store';
+
+import { addQuotationDetailToOffer } from '../../../core/store/actions';
+import { QuotationDetail } from '../../../core/store/models';
+import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducers';
 
 @Component({
   selector: 'gq-add-to-offer--button',
@@ -8,9 +13,11 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
   styleUrls: ['./add-to-offer-button.component.scss'],
 })
 export class AddToOfferButtonComponent {
-  selections: any[] = [];
+  selections: QuotationDetail[] = [];
 
   private params: IStatusPanelParams;
+
+  public constructor(private readonly store: Store<ProcessCaseState>) {}
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -31,6 +38,9 @@ export class AddToOfferButtonComponent {
   }
 
   addToOffer(): void {
-    console.log('add to offer');
+    const quotationDetailIDs = this.selections.map(
+      (value) => value.quotationItemId
+    );
+    this.store.dispatch(addQuotationDetailToOffer({ quotationDetailIDs }));
   }
 }

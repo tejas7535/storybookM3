@@ -1,11 +1,8 @@
-import {
-  CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
-} from '../../../../../testing/mocks';
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/process-case/process-case.reducers';
 import * as quotationSelectors from './process-case.selectors';
 
-describe('Search Selector', () => {
+describe('Process Case Selector', () => {
   const fakeState = {
     processCase: {
       ...initialState,
@@ -16,7 +13,7 @@ describe('Search Selector', () => {
       },
       quotation: {
         ...initialState.quotation,
-        item: [QUOTATION_DETAIL_MOCK],
+        item: QUOTATION_MOCK,
         quotationLoading: true,
       },
     },
@@ -50,6 +47,14 @@ describe('Search Selector', () => {
     test('should return true if quotation is currently loading', () => {
       expect(
         quotationSelectors.getQuotationLoading.projector(fakeState.processCase)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getOffer', () => {
+    test('should return true if quotation is currently loading', () => {
+      expect(
+        quotationSelectors.getOffer.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });

@@ -135,15 +135,15 @@
       }
     },
     "quotationDetailsTable": {
+      "info": "Info",
       "materialDescription": "Material Description",
       "materialNumber": "Material Nr. (13 digit)",
-      "productionHierarchy": "Production Hierarchy",
-      "productionCost": "Production Cost",
-      "productionPlant": "Production Plant",
       "plantCity": "Plant City",
       "plantCountry": "Plant Country",
-      "rsp": "RSP",
-      "info": "Info"
+      "productionCost": "Production Cost",
+      "productionHierarchy": "Production Hierarchy",
+      "productionPlant": "Production Plant",
+      "rsp": "RSP"
     }
   },
   "shared": {
@@ -151,9 +151,23 @@
       "addToOfferButton": {
         "addToOffer": "add to offer"
       },
+      "finishOfferButton": {
+        "finishOffer": "finish Offer"
+      },
       "detailViewButton": {
         "openDetail": "open details"
+      },
+      "removeFromOfferButton": {
+        "removeFromOffer": "delete from offer"
       }
+    },
+    "offerDrawer": {
+      "title": "Current Offer"
+    },
+    "offerTable": {
+      "materialNumber": "Material Number",
+      "price": "Price",
+      "quantity": "Quantity"
     }
   },
   "caseView": {

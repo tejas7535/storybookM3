@@ -1,0 +1,23 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
+:host {
+  height: 100%;
+  padding-left: 20px;
+
+  .offer-drawer-header {
+    .icon-cross {
+      color: $schaeffler-carbon-gray;
+      cursor: pointer;
+      font-size: 24px;
+      margin: 0 16px;
+    }
+
+    button {
+      margin: 16px 16px 16px 0;
+
+      mat-icon {
+        vertical-align: initial;
+      }
+    }
+  }
+}
