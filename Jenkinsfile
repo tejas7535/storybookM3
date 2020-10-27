@@ -11,11 +11,8 @@ def gitEnv
 
 def builds 
 def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def hotfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
 def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def cherryPickBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
 def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def releaseBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Packages', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
@@ -30,30 +27,28 @@ def affectedApps
 def affectedLibs
 
 @Field
+def excludedProjects = []
+
+@Field
 def skipBuild = false
 
 /****************************************************************/
 
 // Functions
-def isHotfix() {
-    return "${BRANCH_NAME}".startsWith('hotfix/') 
-}
-
 def isBugfix() {
     return "${BRANCH_NAME}".startsWith('bugfix/') 
-}
-
-// originates from hotfix branch that was merged into master
-def isCherryPick() {
-    return "${BRANCH_NAME}".startsWith('cherry-pick-')
 }
 
 def isMaster() {
     return "${BRANCH_NAME}" == 'master'
 } 
 
-def isRelease() {
-    return "${BRANCH_NAME}".startsWith('release/')
+def isAppRelease() {
+    return params.APP_RELEASE && "${BRANCH_NAME}" == 'master'
+}
+
+def isLibsRelease() {
+    return params.LIBS_RELEASE && "${BRANCH_NAME}" == 'master'
 }
 
 def isNightly() {
@@ -67,12 +62,44 @@ def isNightly() {
 }
 
 def defineBuildBase() {
-    buildBase = sh (
-        script: "git merge-base origin/master HEAD^",
-        returnStdout: true
-    ).trim()
+    if(isAppRelease() || isLibsRelease()){
+        latestTag = getLatestGitTag(env.RELEASE_SCOPE)
+        buildBase = sh (
+            script: "git rev-list -n 1 ${latestTag}",
+            returnStdout: true
+        ).trim()
+    } else {
+        buildBase = sh (
+            script: "git merge-base origin/master HEAD^",
+            returnStdout: true
+        ).trim()
+    }
+    
 
     println("The build base for the 'nx affected' scripts is commit ${buildBase}")
+}
+
+def getLatestGitTag(app) {
+    def tag
+    try {
+        tag = sh (
+            script: "git describe --tags --match='${app}-v*'  --abbrev=0",
+            returnStdout: true
+        ).trim()
+    } catch (error) {
+        println(error)
+        println("Couldn't find a version tag for app ${app}")
+        println("Using last workspace git tag instead ...")
+
+        tag = sh (
+            script: "git describe --tags --match='v*' --abbrev=0",
+            returnStdout: true
+        ).trim()
+    }
+
+    println("Using git tag ${tag} for defining the nx build base.")
+
+    return tag
 }
 
 def mapAffectedStringToArray(String input) {
@@ -95,12 +122,22 @@ def defineAffectedAppsAndLibs() {
     affectedApps = mapAffectedStringToArray(apps)
     affectedLibs = mapAffectedStringToArray(libs)
     affectedLibs -= "shared-ui-storybook"
+
+    if (isAppRelease()) {
+        // save all affected apps that should not be released
+        affectedProjects = affectedApps.clone() + affectedLibs.clone()
+
+        excludedProjects = affectedProjects
+        excludedProjects -= env.RELEASE_SCOPE
+    } else if(isLibsRelease()) {
+        excludedProjects = affectedApps.clone()
+    }
 }
 
 def ciSkip() {
   ciSkip = sh([script: "git log -1 | grep '.*\\[ci skip\\].*'", returnStatus: true])
 
-  if (ciSkip == 0 && (isMaster() || isCherryPick())) {
+  if (ciSkip == 0 && isMaster()) {
     currentBuild.description = "CI SKIP"
     currentBuild.result = 'SUCCESS'
     skipBuild = true
@@ -114,28 +151,38 @@ def setGitUser() {
 }
 
 def getPackageVersion() {
-    packageJSON = readJSON file: 'package.json'
+    def packageJSON
+
+    if(isAppRelease()) {
+        packageJSON = readJSON file: "apps/${env.RELEASE_SCOPE}/package.json"
+    } else {
+        packageJSON = readJSON file: "package.json"
+    }
+    
     return packageJSON.version
+}
+
+def getExcludedAppsAndLibsPaths() {
+    def excludedAppsAndLibsPaths = []
+    for(project in excludedProjects){
+        excludedAppsAndLibsPaths.add("**/" + project + "/**")
+    } 
+
+    return excludedAppsAndLibsPaths
 }
 
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
-if (isHotfix()) {
-    builds = hotfixBuilds
-} else if (isMaster()) {
+if (isMaster()) {
     builds = masterBuilds
 
     if(isNightly()){
         builds = nightlyBuilds
-    } else if (params.RELEASE){
+    } else if (params.APP_RELEASE || params.LIBS_RELEASE){
         builds.add('Pre-Release')
         builds.add('Release')
     }
-} else if (isRelease()) {
-    builds = releaseBuilds
-} else if (isCherryPick()) {
-    builds = cherryPickBuilds
 } else if (isBugfix()){
     builds = bugfixBuilds
 }
@@ -167,9 +214,13 @@ pipeline {
 
     parameters {
         booleanParam(
-            name: 'RELEASE',
+            name: 'APP_RELEASE',
             defaultValue: false,
-            description: 'Set "true" to trigger a production release.')
+            description: 'Set "true" to trigger a production release for an app.')
+        booleanParam(
+            name: 'LIBS_RELEASE',
+            defaultValue: false,
+            description: 'Set "true" to trigger a production release for all libs.')
     }
 
     tools {
@@ -191,8 +242,37 @@ pipeline {
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     echo "Preparation of some variables"
-                    
+
                     ciSkip()
+                    
+                    script {
+                        if (params.APP_RELEASE && params.LIBS_RELEASE) {
+                            // simultanous releases of apps and libs should not be possible
+                            currentBuild.result = 'ABORTED'
+                            error("Build failed because APP_RELEASE and LIBS_RELEASE have both been checked -> not allowed")
+                        }
+
+                        if (isAppRelease()) {
+                            def aborted = false
+                            def deployments = readJSON file: 'deployments.json'
+                            def apps = deployments.keySet()
+
+                            try {
+                                timeout(time: 5, unit: 'MINUTES') {
+                                    env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
+                                        parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join("\n"), description: 'What is the release scope?')]
+                                }
+                            } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {     
+                                aborted = true
+                            }
+                           
+                            if(aborted) {
+                                currentBuild.result = 'ABORTED'
+                                skipBuild = true
+                            } 
+                        }
+                    }
+
                     defineBuildBase()
                     defineAffectedAppsAndLibs()
                     setGitUser()
@@ -341,6 +421,9 @@ pipeline {
                     return !skipBuild && !isNightly()
                 }
             }
+            environment {
+               excludedAppsAndLibsPaths = getExcludedAppsAndLibsPaths()
+            }
             failFast true
             parallel {
                 stage('Format:Check'){
@@ -348,8 +431,12 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run Format Check with prettier"
                             
-                            script {
-                                sh "npm run format:check -- --base=${buildBase}"
+                            script {                                
+                                if(isAppRelease() || isLibsRelease()){
+                                    sh "npm run format:check -- --base=${buildBase} --exclude=${excludedProjects.join(",")}"
+                                } else {
+                                    sh "npm run format:check -- --base=${buildBase}"
+                                }   
                             }
                         }
                     }
@@ -361,7 +448,11 @@ pipeline {
                             echo "Run TSLint"
 
                             script {
-                                sh "npm run affected:lint -- --base=${buildBase}  --parallel"
+                                if(isAppRelease() || isLibsRelease()){
+                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(",")}"
+                                } else {
+                                    sh "npm run affected:lint -- --base=${buildBase} --parallel"
+                                }   
                             }
                         }
                     }
@@ -372,8 +463,15 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run HTML Lint"
 
-                            // no checkstyle output
-                            sh 'npm run lint:html'
+                            // no checkstyle output                         
+                            script {
+                                if(isAppRelease() || isLibsRelease()) {   
+                                    sh "npm run lint:html-apps -- --ignore ${env.excludedAppsAndLibsPaths.join(",")}"
+                                    sh "npm run lint:html-libs -- --ignore ${env.excludedAppsAndLibsPaths.join(",")}"
+                                } else {
+                                    sh 'npm run lint:html'
+                                }
+                            }
                         }
                     }
                 }
@@ -383,8 +481,15 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run SCSS Lint"
                 
-                            // no checkstyle output
-                            sh 'npm run lint:scss'
+                            // no checkstyle output                       
+                            script {
+                                if(isAppRelease() || isLibsRelease()) {
+                                    sh "npm run lint:scss-apps -- --ip ${env.excludedAppsAndLibsPaths.join(" ")}"
+                                    sh "npm run lint:scss-libs -- --ip ${env.excludedAppsAndLibsPaths.join(" ")}"
+                                } else {
+                                    sh 'npm run lint:scss'
+                                }
+                            }
                         }
                     }
                 }
@@ -394,7 +499,13 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Run Unit Tests"
 
-                            sh "npm run affected:test -- --base=${buildBase}  --parallel"                      
+                            script {
+                                if(isAppRelease() || isLibsRelease()){
+                                    sh "npm run affected:test -- --base=${buildBase} --exclude=${excludedProjects.join(",")}"
+                                } else {
+                                    sh "npm run affected:test -- --base=${buildBase} --parallel"
+                                }         
+                            }           
                         }
                     }
                     post {
@@ -412,7 +523,11 @@ pipeline {
                             echo "Run E2E Tests"
                             
                             script {
-                                sh "npm run affected:e2e:headless -- --base=${buildBase}"
+                                if(isAppRelease() || isLibsRelease()){
+                                    sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=${excludedProjects.join(",")}"
+                                } else {
+                                    sh "npm run affected:e2e:headless -- --base=${buildBase}"
+                                }
                             }
                         }
                     }
@@ -442,7 +557,7 @@ pipeline {
         stage('Pre-Release') {
             when {
                 expression {
-                    return !skipBuild && ((isMaster() && params.RELEASE) || isCherryPick() || (isHotfix() && params.RELEASE)) 
+                    return !skipBuild && (isAppRelease() || isLibsRelease())
                 }
             }
             steps {
@@ -452,25 +567,44 @@ pipeline {
                     sshagent(['GITLAB_USER_SSH_KEY']) { 
                         script {
 
-                            def targetBranch = isCherryPick() || isHotfix() ? "${BRANCH_NAME}" : 'master'
+                            def targetBranch = 'master'
 
                             // Generate Changelog, update Readme
                             sh 'git fetch --all'
                             sh "git checkout ${targetBranch}"
 
-                            // generate project specific changelogs
-                            sh "npx nx affected --base=${buildBase} --target=standard-version --parallel"
-                            
+
+                            // generate project specific changelog
+                            if (isAppRelease()) {
+                                def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
+                                if (exists) {
+                                    sh "npx nx run ${env.RELEASE_SCOPE}:standard-version"
+                                } else {
+                                    // first release
+                                    sh "npx nx run ${env.RELEASE_SCOPE}:standard-version -- --first-release"
+                                }                               
+                            } else if (isLibsRelease()) {
+                                sh "npx nx affected --base=${buildBase} --target=standard-version --parallel --exclude=${excludedProjects.join(",")}"
+                            }
+                           
                             // run standard version in root to generate general changelog
-                            sh 'npm run release'
-                            
+                            sh "npm run release"
+
+                            def version = ""
+                            def packageVersion = getPackageVersion()
+
+                            if (isAppRelease()) {
+                                version = "${env.RELEASE_SCOPE}-v${packageVersion}"
+                            } else if(isLibsRelease()) {
+                                version = "v${packageVersion}"
+                            }
+
                             sh 'npm run generate-readme'
                             sh 'git add .'
-                            sh 'git commit --amend --no-edit'
+                            sh 'git commit --amend --no-edit' 
 
-                            // Add new Release Tag
-                            def version = getPackageVersion()
-                            sh "git tag -a v${version} -m 'Release of Version ${version}'"                  
+                            // add new Release Tag
+                            sh "git tag -a ${version} -m 'Release of Version ${version}'"            
                         }
                     }                      
                 }
@@ -491,14 +625,12 @@ pipeline {
                             echo "Build Projects"
                             
                             script {
-                                if(isRelease()) {
-                                    sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=prod --parallel"
-                                    for (app in affectedApps) {
-                                        try {
-                                            sh "npm run transloco:optimize -- dist/apps/${app}/assets/i18n"
-                                        } catch (error) {
-                                            echo "No translations found to optimize in app ${app}"
-                                        }
+                                if(isAppRelease() || isLibsRelease()) {
+                                    sh "npx nx run ${env.RELEASE_SCOPE}:build:prod --with-deps"
+                                    try {
+                                        sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
+                                    } catch (error) {
+                                        echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                                     }
                                 } else {
                                     if (isMaster()) {
@@ -524,6 +656,7 @@ pipeline {
                             
                             script {
                                 sh "npx nx affected --base=${buildBase} --target=build-storybook"
+
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/shared-ui-storybook", reportFiles: 'index.html', reportName: "Storybook Components", reportTitles: ''])
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: "dist/storybook/shared-empty-states", reportFiles: 'index.html', reportName: "Storybook Empty States", reportTitles: ''])
                             }
@@ -552,6 +685,11 @@ pipeline {
             failFast true
             parallel {
                 stage('Deploy:Apps'){
+                    when {
+                        expression {
+                            return !isLibsRelease()
+                        }
+                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Deploy Apps to Artifactory"
@@ -559,14 +697,15 @@ pipeline {
                             script {                             
                                 sh 'mkdir dist/zips'
 
+                                def uploadSpec 
+                                def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
+
                                 // loop over apps and publish them
-                                for (app in affectedApps) {
+                                for (app in appsToDeploy) {
                                     echo "publish ${app} to Artifactory"
 
                                     zip dir: "dist/apps/${app}",  glob: "", zipFile: "dist/zips/${app}/next.zip"
-                                    
-                                    def uploadSpec 
-                                    
+                                                            
                                     if(isMaster()){
                                         uploadSpec = """{
                                             "files": [
@@ -576,8 +715,9 @@ pipeline {
                                                 }
                                             ]
                                         }"""
-                                    } else if (isRelease()) {
-                                        uploadSpec = """{
+                                    } else if(isAppRelease()) {
+                                            def version = getPackageVersion()
+                                            uploadSpec = """{
                                             "files": [
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
@@ -585,7 +725,7 @@ pipeline {
                                                 },
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
+                                                    "target": "${artifactoryBasePath}/${app}/release/${version}.zip"
                                                 }
                                             ]
                                         }"""
@@ -599,11 +739,11 @@ pipeline {
                                             ]
                                         }"""
                                     }
-
-                                    def buildInfo = rtServer.upload(uploadSpec)
-                                    buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
-                                    rtServer.publishBuildInfo(buildInfo)
                                 }
+
+                                def buildInfo = rtServer.upload(uploadSpec)
+                                buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
+                                rtServer.publishBuildInfo(buildInfo)
                             }
                         }
                     }
@@ -612,7 +752,7 @@ pipeline {
                 stage('Deploy:Packages'){
                     when {
                         expression {
-                            return isRelease()
+                            return isLibsRelease()
                         }
                     }
                     steps {
@@ -660,7 +800,7 @@ pipeline {
         stage('Release') {
             when {
                 expression {
-                    return !skipBuild && ((isMaster() && params.RELEASE) || isCherryPick() || (isHotfix() && params.RELEASE))
+                    return !skipBuild && (isAppRelease() || isLibsRelease())
                 }
             }
             steps {
@@ -669,38 +809,7 @@ pipeline {
                     
                     sshagent(['GITLAB_USER_SSH_KEY']) {  
                         script {
-                            sh 'git push --follow-tags'            
-
-                            // get current release branch
-                            currentReleaseBranch = sh(script: "git branch -r | grep 'origin/release/' || echo 'origin/release/0'",  returnStdout: true)
-                            currentReleaseBranch = currentReleaseBranch.replace('origin/', '')
-                            
-                            if(isMaster()) {
-                                 // increase release number for next release branch
-                                nextReleaseNumber = currentReleaseBranch.replace('release/', '').toInteger() + 1
-                                nextReleaseBranch = "release/${nextReleaseNumber}"
-
-                                echo "Creating new release branch release/${nextReleaseNumber}"
-                                sh "git checkout -b ${nextReleaseBranch}"
-
-                                echo "Triggering release by pushing new branch"
-                                sh "git push -u origin ${nextReleaseBranch}" 
-                            } else if(isCherryPick()) {
-                                // Default Hotfix
-                                echo "Checking out current release branch ${currentReleaseBranch}..."
-                                sh "git checkout ${currentReleaseBranch}"
-
-                                echo "Merging ${BRANCH_NAME} into current release branch ${currentReleaseBranch}..."
-                                sh "git merge ${BRANCH_NAME}"
-                                
-                                echo "Release branch updatet. Pushing changes to origin..."
-                                sh "git push origin ${currentReleaseBranch}"
-
-                                echo "Updating master with new version and changelog..."
-                                sh "git checkout master"
-                                sh "git merge ${currentReleaseBranch}"
-                                sh "git push origin master"
-                            }                                       
+                            sh 'git push --follow-tags'                                                
                         }                      
                     }                    
                 }
@@ -710,24 +819,32 @@ pipeline {
         stage('Trigger Deployments'){
             when {
                 expression {
-                    return !skipBuild && !isNightly()
+                    return !skipBuild && !isNightly() && !isLibsRelease()
                 }
             }
             steps {
                 gitlabCommitStatus(name: STAGE_NAME) {
                     script {
                         def deployments = readJSON file: 'deployments.json'
+                        def appsToBuild = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps 
 
-                        for (app in affectedApps) {
+                        for (app in appsToBuild) {
                             def url = deployments[app]
                             def version = getPackageVersion()
+
+                            def branchName = isAppRelease() ? "release/${version}" : "${BRANCH_NAME}"
+                            def configuration = isAppRelease() ? "PROD" : (isMaster() ? "QA" : "DEV")
+                            def artifactoryTargetPath = "${artifactoryBasePath}/${app}/"
+                            artifactoryTargetPath += isMaster() ? "next" : branchName
 
                             try {
                                 build job: "${url}",
                                     parameters: [
-                                            string(name: 'BRANCH', value: "${BRANCH_NAME}"),
+                                            string(name: 'BRANCH', value: "${branchName}"), // deprecated
+                                            string(name: 'ARTIFACTORY_PATH', value: "${artifactoryBasePath}/${app}"), // deprecated
                                             string(name: 'VERSION', value: "${version}"),
-                                            string(name: 'ARTIFACTORY_PATH', value: "${artifactoryBasePath}/${app}")
+                                            string(name: 'CONFIGURATION', value: "${configuration}"),
+                                            string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
                                     ], wait: false
                             } catch (error) {
                                 println("WARNING: Some error occured while triggering deployment for ${app}, see stacktrace below:")

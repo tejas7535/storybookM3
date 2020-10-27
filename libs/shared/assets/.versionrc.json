@@ -1,9 +1,10 @@
 {
   "extends": "../../../.versionrc.json",
   "skip": {
-    "bump": false,
+    "bump": true,
     "commit": true,
     "tag": true
   },
+  "packageFiles": "../../../package.json",
   "path": "."
 }
