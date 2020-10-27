@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/header",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "dependencies": {
     "tslib": "^2.0.0"
   },

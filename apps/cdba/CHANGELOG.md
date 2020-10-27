@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-27)
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix design of grouped columns (DSCDA-1939) ([57716d8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/57716d839a15994cafa9601449d69c7cfd457d5f))
+* **cdba:** reduce row height of bom table (DSCDA-2021) ([f0fa40b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f0fa40be44b3753daed371fa6829c65ff2b4753b))
+* **cdba:** show last columns in ref types table again ([c8344a2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c8344a244b9fa6ea77e614500ba36846175ddead))
+* **cdba:** supress csv and excel export of bom table ([c741d3a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c741d3a811eb31ec6661439a493f09764110459f))
+
+
 ### [1.7.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.7.1) (2020-10-12)
 
 
