@@ -55,7 +55,8 @@
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
       "@cdba/shared": ["apps/cdba/src/app/shared/index.ts"],
-      "@cdba/core": ["apps/cdba/src/app/core/index.ts"]
+      "@cdba/core": ["apps/cdba/src/app/core/index.ts"],
+      "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

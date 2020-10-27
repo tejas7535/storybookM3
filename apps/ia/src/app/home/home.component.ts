@@ -1,9 +1,8 @@
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { DataService } from '@schaeffler/http';
 
 @Component({
   selector: 'ia-home',
@@ -12,10 +11,10 @@ import { environment } from '../../environments/environment';
 export class HomeComponent implements OnInit {
   demo$: Observable<String>;
 
-  public constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly dataService: DataService) {}
 
   ngOnInit(): void {
-    this.demo$ = this.http.get(`${environment.baseUrl}/hello-world`, {
+    this.demo$ = this.dataService.getAll<string>('hello-world', {
       responseType: 'text',
     });
   }
