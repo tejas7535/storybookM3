@@ -157,6 +157,9 @@
     "mac-e2e": {
       "tags": [],
       "implicitDependencies": ["mac"]
+    },
+    "shared-utils-http": {
+      "tags": ["scope:shared", "type:utils"]
     }
   },
   "tasksRunnerOptions": {
