@@ -1,5 +1,6 @@
-import { ColDef, StatusPanelDef } from '@ag-grid-community/all-modules';
 import { Component, Input } from '@angular/core';
+
+import { ColDef, StatusPanelDef } from '@ag-grid-community/all-modules';
 
 import { QuotationDetail } from '../../core/store/models';
 import {

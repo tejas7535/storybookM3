@@ -1,16 +1,32 @@
-<div
+<mat-drawer-container
   class="container"
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
+  [hasBackdrop]="false"
 >
-  <gq-process-case-header
+  <mat-drawer-content
     *ngIf="quotation$ | async"
-    [quotationNumber]="(quotation$ | async).quotationNumber"
-  ></gq-process-case-header>
+    fxLayout="column"
+    fxLayoutAlign="start center"
+    fxFlexFill
+  >
+    <gq-process-case-header
+      [quotationNumber]="(quotation$ | async).quotationNumber"
+      (toggleOfferDrawer)="drawer.toggle()"
+    ></gq-process-case-header>
 
-  <gq-result-table
-    *ngIf="quotation$ | async"
-    [rowData]="(quotation$ | async).quotationDetails"
-  ></gq-result-table>
-</div>
+    <gq-result-table
+      [rowData]="(quotation$ | async).quotationDetails"
+    ></gq-result-table>
+  </mat-drawer-content>
+  <mat-drawer #drawer position="end" (opened)="getOffer()">
+    <gq-offer-drawer
+      fxLayout="column"
+      fxFlexFill
+      *ngIf="offer$ | async"
+      [rowData]="offer$ | async"
+      (toggleOfferDrawer)="drawer.toggle()"
+    ></gq-offer-drawer>
+  </mat-drawer>
+</mat-drawer-container>

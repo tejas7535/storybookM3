@@ -55,6 +55,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.info'),
+    cellRenderer: 'infoCellComponent',
     field: 'info',
   },
 ];

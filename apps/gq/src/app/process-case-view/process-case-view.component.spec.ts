@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
@@ -8,6 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
+import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { ProcessCaseHeaderModule } from './process-case-header/process-case-header.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
@@ -25,12 +28,15 @@ describe('ProcessCaseViewComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
-        SharedModule,
-        ProcessCaseViewRoutingModule,
-        QuotationDetailsTableModule,
+        BrowserAnimationsModule,
+        MatSidenavModule,
+        OfferDrawerModule,
         ProcessCaseHeaderModule,
+        ProcessCaseViewRoutingModule,
         provideTranslocoTestingModule({}),
+        QuotationDetailsTableModule,
         RouterTestingModule,
+        SharedModule,
       ],
       declarations: [ProcessCaseViewComponent],
       providers: [

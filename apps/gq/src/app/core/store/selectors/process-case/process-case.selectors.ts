@@ -1,6 +1,12 @@
 import { createSelector } from '@ngrx/store';
 
-import { Customer, Quotation, QuotationIdentifier } from '../../models';
+import {
+  Customer,
+  Quotation,
+  QuotationDetail,
+  QuotationIdentifier,
+  QuotationInfoEnum,
+} from '../../models';
 import { getProcessCaseState } from '../../reducers';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducers';
 
@@ -27,4 +33,15 @@ export const getQuotationLoading = createSelector(
 export const getSelectedQuotationIdentifier = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): QuotationIdentifier => state.quotationIdentifier
+);
+
+export const getOffer = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): QuotationDetail[] =>
+    state.quotation.item === undefined
+      ? []
+      : state.quotation.item.quotationDetails.filter(
+          (quotationDetail) =>
+            quotationDetail.info === QuotationInfoEnum.AddedToOffer
+        )
 );

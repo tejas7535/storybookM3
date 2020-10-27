@@ -1,18 +1,22 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
+import { addQuotationDetailToOffer } from '../../../core/store/actions';
 import { AddToOfferButtonComponent } from './add-to-offer-button.component';
 
 describe('AddToOfferButtonComponent', () => {
   let component: AddToOfferButtonComponent;
   let fixture: ComponentFixture<AddToOfferButtonComponent>;
   let params: IStatusPanelParams;
+  let store: MockStore;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -21,6 +25,20 @@ describe('AddToOfferButtonComponent', () => {
         MatButtonModule,
         MatIconModule,
         provideTranslocoTestingModule({}),
+      ],
+      providers: [
+        provideMockStore({
+          initialState: {
+            processCase: {
+              customer: {
+                item: CUSTOMER_MOCK,
+              },
+              quotation: {
+                item: QUOTATION_MOCK,
+              },
+            },
+          },
+        }),
       ],
     });
   });
@@ -36,6 +54,7 @@ describe('AddToOfferButtonComponent', () => {
         getSelectedRows: jest.fn(),
       },
     } as unknown) as IStatusPanelParams;
+    store = TestBed.inject(MockStore);
   });
 
   it('should create', () => {
@@ -72,11 +91,13 @@ describe('AddToOfferButtonComponent', () => {
 
   describe('addToOffer', () => {
     test('should addToOffer', () => {
-      console.log = jest.fn();
+      store.dispatch = jest.fn();
 
       component.addToOffer();
 
-      expect(console.log).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalledWith(
+        addQuotationDetailToOffer({ quotationDetailIDs: [] })
+      );
     });
   });
 });

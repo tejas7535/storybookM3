@@ -13,9 +13,10 @@
       mat-stroked-button
       color="primary"
       *transloco="let t; read: 'processCaseView.processCaseHeader'"
+      (click)="drawerToggle()"
     >
       <mat-icon fontSet="schaeffler-icons" fontIcon="icon-cart"></mat-icon>
-      {{ t('seeOffer') }}
+      {{ t('seeOffer') | uppercase }}
     </button>
   </div>
 </div>

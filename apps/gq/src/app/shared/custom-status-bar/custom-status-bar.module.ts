@@ -11,14 +11,18 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { AddToOfferButtonComponent } from './add-to-offer-button/add-to-offer-button.component';
 import { CreateCaseButtonComponent } from './create-case-button/create-case-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
+import { FinishOfferButtonComponent } from './finish-offer-button/finish-offer-button.component';
+import { RemoveFromOfferButtonComponent } from './remove-from-offer-button/remove-from-offer-button.component';
 import { ResetAllButtonComponent } from './reset-all-button/reset-all-button.component';
 
 @NgModule({
   declarations: [
-    DetailViewButtonComponent,
     AddToOfferButtonComponent,
-    ResetAllButtonComponent,
     CreateCaseButtonComponent,
+    DetailViewButtonComponent,
+    FinishOfferButtonComponent,
+    ResetAllButtonComponent,
+    RemoveFromOfferButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -29,10 +33,12 @@ import { ResetAllButtonComponent } from './reset-all-button/reset-all-button.com
     ReactiveComponentModule,
   ],
   exports: [
-    DetailViewButtonComponent,
     AddToOfferButtonComponent,
-    ResetAllButtonComponent,
     CreateCaseButtonComponent,
+    DetailViewButtonComponent,
+    FinishOfferButtonComponent,
+    RemoveFromOfferButtonComponent,
+    ResetAllButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

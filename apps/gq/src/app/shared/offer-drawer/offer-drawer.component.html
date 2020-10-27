@@ -1,0 +1,17 @@
+<div fxLayout="row" fxLayoutAlign="space-between" class="offer-drawer-header">
+  <div
+    fxLayout="row"
+    fxLayoutAlign="start center"
+    *transloco="let t; read: 'shared.offerDrawer'"
+  >
+    <mat-icon
+      fontSet="schaeffler-icons"
+      fontIcon="icon-cross"
+      class="icon-cross"
+      (click)="drawerToggle()"
+    >
+    </mat-icon>
+    <h4>{{ t('title') }}</h4>
+  </div>
+</div>
+<gq-offer-table [rowData]="rowData" [shortTable]="true"></gq-offer-table>
