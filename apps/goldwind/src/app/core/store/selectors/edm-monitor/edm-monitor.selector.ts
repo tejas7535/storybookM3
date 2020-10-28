@@ -5,10 +5,7 @@ import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer'
 import { Antenna, AntennaName, Edm } from '../../reducers/edm-monitor/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
-export const getSensorId = createSelector(
-  getEdmMonitorState,
-  () => 'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
-); // will later access a valid id within the inital bearing result
+export const getSensorId = createSelector(getEdmMonitorState, () => '25'); // will later access a valid id within the inital bearing result
 
 export const getEdmResult = createSelector(
   getEdmMonitorState,
@@ -27,15 +24,15 @@ const edmGraphSeries = [
 
 export const getEdmGraphData = createSelector(
   getEdmResult,
-  (edm: any, { antennaName }: Antenna): GraphData =>
+  (edm: any, { sensorName }: Antenna): GraphData =>
     edm && {
       legend: {
         data: edmGraphSeries.map(({ name }) =>
-          name ? name(antennaName) : antennaName
+          name ? name(sensorName) : sensorName
         ),
       },
       series: edmGraphSeries.map(({ name, type }) => {
-        const seriesName = name ? name(antennaName) : antennaName;
+        const seriesName = name ? name(sensorName) : sensorName;
 
         return {
           type,

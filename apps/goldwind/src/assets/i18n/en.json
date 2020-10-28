@@ -29,7 +29,6 @@
     },
     "edmMonitor": {
       "title": "EDM Monitor",
-      "antenna": "Antenna",
       "relativeAmountOfEvents": "Relative amount of events",
       "peakValues": "Peak values"
     },
@@ -72,5 +71,9 @@
   },
   "statusIndicator": {
     "noNotifications": "no notifications"
+  },
+  "sensor": {
+    "antenna": "Antenna",
+    "gc": "GC"
   }
 }

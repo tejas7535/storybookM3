@@ -34,10 +34,10 @@ export const initialState: GreaseStatusState = {
     result: undefined,
   },
   display: {
-    deteriorationPercent: true,
-    temperatureCelsius: true,
-    waterContentPercent: true,
-    rotationalSpeed: false,
+    deterioration: true,
+    waterContent: true,
+    // temperatureCelsius: true,
+    // rotationalSpeed: false,
   },
   interval: {
     startDate: Math.floor(

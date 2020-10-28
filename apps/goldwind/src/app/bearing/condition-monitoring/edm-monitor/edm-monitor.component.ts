@@ -8,10 +8,7 @@ import { EChartOption } from 'echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-monitor.reducer';
-import {
-  Antenna,
-  AntennaName,
-} from '../../../core/store/reducers/edm-monitor/models';
+import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import {
   GraphData,
   Interval,
@@ -21,6 +18,7 @@ import {
   getEdmInterval,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { axisChartOptions } from '../../../shared/chart/chart';
+import { Sensor } from '../../../shared/sensor/sensor.enum';
 
 @Component({
   selector: 'goldwind-edm-monitor',
@@ -30,7 +28,8 @@ import { axisChartOptions } from '../../../shared/chart/chart';
 export class EdmMonitorComponent implements OnInit {
   edmGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
-  antenna = false;
+  sensor = false;
+  type = Sensor.ANTENNA;
   chartOptions: EChartOption = {
     ...axisChartOptions,
     grid: {
@@ -50,25 +49,20 @@ export class EdmMonitorComponent implements OnInit {
   public constructor(private readonly store: Store<EdmMonitorState>) {}
 
   ngOnInit(): void {
-    this.getEdmGraphData({ antennaName: AntennaName.Antenna1 });
+    this.getEdmGraphData({ sensor: this.sensor });
     this.interval$ = this.store.pipe(select(getEdmInterval));
   }
 
-  getEdmGraphData(antenna: Antenna): void {
-    this.edmGraphData$ = this.store.pipe(select(getEdmGraphData, antenna));
+  getEdmGraphData({ sensor }: { sensor: boolean }): void {
+    const antenna = sensor ? AntennaName.Antenna2 : AntennaName.Antenna1;
+
+    this.edmGraphData$ = this.store.pipe(
+      select(getEdmGraphData, { sensorName: antenna })
+    );
   }
 
   setInterval(interval: Interval): void {
     this.store.dispatch(setEdmInterval({ interval }));
-  }
-
-  toggleAntenna(): void {
-    this.antenna = !this.antenna;
-
-    const antennaName = this.antenna
-      ? AntennaName.Antenna2
-      : AntennaName.Antenna1;
-    this.getEdmGraphData({ antennaName });
   }
 
   formatLegend(name: string): string {
@@ -107,8 +101,6 @@ export class EdmMonitorComponent implements OnInit {
     const antennaNumber =
       Object.values(AntennaName as any).indexOf(name.replace('Max', '')) + 1;
 
-    return `${translate(
-      'conditionMonitoring.edmMonitor.antenna'
-    )} ${antennaNumber}`;
+    return `${translate('sensor.antenna')} ${antennaNumber}`;
   }
 }

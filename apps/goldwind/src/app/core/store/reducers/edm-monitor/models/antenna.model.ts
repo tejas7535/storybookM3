@@ -4,5 +4,5 @@ export enum AntennaName {
 }
 
 export interface Antenna {
-  antennaName: AntennaName;
+  sensorName: AntennaName;
 }

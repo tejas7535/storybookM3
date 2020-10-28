@@ -26,14 +26,13 @@ import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
-import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
+import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 
 @NgModule({
   declarations: [
     ConditionMonitoringComponent,
     CenterLoadComponent,
     CmEquipmentComponent,
-    GreaseMonitorComponent,
   ],
   imports: [
     CommonModule,
@@ -41,6 +40,7 @@ import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.componen
     UnderConstructionModule,
     LoadingSpinnerModule,
     EdmMonitorModule,
+    GreaseMonitorModule,
     SharedModule,
     NgxEchartsModule.forRoot({
       echarts: () => import('../../shared/chart/echarts'),

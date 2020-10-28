@@ -12,7 +12,7 @@ import { CenterLoadComponent } from './center-load/center-load.component';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
-import { GreaseMonitorComponent } from './grease-monitor/grease-monitor.component';
+import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
@@ -25,6 +25,7 @@ describe('ConditionMonitoringComponent', () => {
       UnderConstructionModule,
       LoadingSpinnerModule,
       EdmMonitorModule,
+      GreaseMonitorModule,
       MatCardModule,
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
@@ -67,7 +68,6 @@ describe('ConditionMonitoringComponent', () => {
       ConditionMonitoringComponent,
       CenterLoadComponent,
       CmEquipmentComponent,
-      GreaseMonitorComponent,
     ],
   });
 

@@ -31,9 +31,7 @@ describe('EdmMonitor Selector', () => {
   describe('getSensorId', () => {
     test('should return a static id, will change to actual one', () => {
       // adjust in future
-      expect(getSensorId(fakeState)).toEqual(
-        'ee7bffbe-2e87-49f0-b763-ba235dd7c876'
-      );
+      expect(getSensorId(fakeState)).toEqual('25');
     });
   });
 
@@ -64,7 +62,7 @@ describe('EdmMonitor Selector', () => {
       };
 
       expect(
-        getEdmGraphData(fakeState, { antennaName: AntennaName.Antenna1 })
+        getEdmGraphData(fakeState, { sensorName: AntennaName.Antenna1 })
       ).toEqual(expectedResult);
     });
   });

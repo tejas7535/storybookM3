@@ -1,4 +1,5 @@
 /* tslint:disable:ordered-imports */
+import '../../../global-mocks';
 import 'jest-canvas-mock';
 import 'jest-preset-angular';
 

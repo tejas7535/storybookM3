@@ -11,19 +11,11 @@
         {{ t('mainBearing') }}
       </mat-card-subtitle>
     </mat-card-header>
-    <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="10px">
-      <label (click)="toggleAntenna()" class="toggle-label">
-        {{ t('antenna').toUpperCase() }} 1
-      </label>
-      <mat-slide-toggle
-        [checked]="antenna"
-        (change)="toggleAntenna()"
-        color="primary"
-        class="antenna-toggle"
-      >
-        {{ t('antenna').toUpperCase() }} 2
-      </mat-slide-toggle>
-    </div>
+    <goldwind-sensor
+      [type]="type"
+      [sensor]="sensor"
+      (sensorToggle)="getEdmGraphData($event)"
+    ></goldwind-sensor>
   </div>
   <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="space-between end">
     <goldwind-date-range

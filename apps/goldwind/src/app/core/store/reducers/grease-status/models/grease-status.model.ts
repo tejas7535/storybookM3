@@ -1,11 +1,16 @@
 export interface GreaseStatus {
-  deteriorationPercent: number;
-  endDate: string;
-  id: number;
-  isAlarm: boolean;
-  sampleRatio: number;
-  sensorId: string;
-  startDate: string;
-  temperatureCelsius: number;
-  waterContentPercent: number;
+  deviceId: string;
+  gcm01Deterioration: number;
+  gcm01DeteriorationMax: number;
+  gcm01DeteriorationMin: number;
+  gcm01WaterContent: number;
+  gcm01WaterContentMax: number;
+  gcm01WaterContentMin: number;
+  gcm02Deterioration: number;
+  gcm02DeteriorationMax: number;
+  gcm02DeteriorationMin: number;
+  gcm02WaterContent: number;
+  gcm02WaterContentMax: number;
+  gcm02WaterContentMin: number;
+  timestamp: string;
 }
