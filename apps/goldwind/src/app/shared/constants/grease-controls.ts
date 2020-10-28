@@ -6,19 +6,19 @@ import {
 export const GREASE_CONTROLS: GreaseControl[] = [
   {
     label: 'waterContent',
-    formControl: 'waterContentPercent',
+    formControl: 'waterContent',
     unit: Unit.percent,
   },
   {
     label: 'deteroration',
-    formControl: 'deteriorationPercent',
+    formControl: 'deterioration',
     unit: Unit.percent,
   },
-  {
-    label: 'greaseTemperatur',
-    formControl: 'temperatureCelsius',
-    unit: Unit.degree,
-  },
+  // {
+  //   label: 'greaseTemperatur',
+  //   formControl: 'temperatureCelsius',
+  //   unit: Unit.degree,
+  // },
   // will be activated later on
   // {
   //   label: 'rotationalSpeed',

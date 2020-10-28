@@ -1,5 +1,6 @@
 import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
+import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
   getGreaseDisplay,
   getGreaseInterval,
@@ -23,26 +24,26 @@ describe('Grease Status Selector', () => {
       ...initialState,
       result: [
         {
-          startDate: '2020-07-30T11:02:35',
-          deteriorationPercent: 12,
-          waterContentPercent: 69,
+          timestamp: '2020-07-30T11:02:35',
+          gcm01Deterioration: 12,
+          gcm01WaterContent: 69,
         },
       ],
       loading: false,
       status: {
         result: {
-          startDate: '2020-07-31T11:02:35',
-          deteriorationPercent: 55,
-          waterContentPercent: 12,
-          temperatureCelsius: 99,
+          timestamp: '2020-07-31T11:02:35',
+          gcm01Deterioration: 55,
+          gcm01WaterContent: 12,
+          // temperatureCelsius: 99,
         },
         loading: false,
       },
       display: {
-        deteriorationPercent: true,
-        temperatureCelsius: false,
-        waterContentPercent: true,
-        rotationalSpeed: false,
+        deterioration: true,
+        waterContent: true,
+        // temperatureCelsius: false,
+        // rotationalSpeed: false,
       },
       interval: {
         startDate: 123456789,
@@ -54,9 +55,7 @@ describe('Grease Status Selector', () => {
   describe('getGreaseSensorId', () => {
     test('should return a static id, will change to actual one', () => {
       // adjust in future
-      expect(getGreaseSensorId(fakeState)).toEqual(
-        '887bffbe-2e87-49f0-b763-ba235dd7c876'
-      );
+      expect(getGreaseSensorId(fakeState)).toEqual('1');
     });
   });
 
@@ -100,11 +99,11 @@ describe('Grease Status Selector', () => {
     test('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: ['deteriorationPercent', 'waterContentPercent'],
+          data: ['deterioration', 'waterContent'],
         },
         series: [
           {
-            name: 'deteriorationPercent',
+            name: 'deterioration',
             type: 'line',
             data: [
               {
@@ -112,13 +111,13 @@ describe('Grease Status Selector', () => {
               },
             ],
           },
+          // {
+          //   name: 'temperature',
+          //   type: 'line',
+          //   data: [],
+          // },
           {
-            name: 'temperatureCelsius',
-            type: 'line',
-            data: [],
-          },
-          {
-            name: 'waterContentPercent',
+            name: 'waterContent',
             type: 'line',
             data: [
               {
@@ -126,11 +125,11 @@ describe('Grease Status Selector', () => {
               },
             ],
           },
-          {
-            name: 'rotationalSpeed',
-            type: 'line',
-            data: [],
-          },
+          // {
+          //   name: 'rotationalSpeed',
+          //   type: 'line',
+          //   data: [],
+          // },
         ],
       };
 
@@ -141,7 +140,11 @@ describe('Grease Status Selector', () => {
   describe('getGreaseStatusLatestGraphData', () => {
     test('should return latest grease status series data', () => {
       const expectedResult = GREASE_STATUS_MOCK;
-      expect(getGreaseStatusLatestGraphData(fakeState)).toEqual(expectedResult);
+      expect(
+        getGreaseStatusLatestGraphData(fakeState, {
+          sensorName: GreaseSensorName.GCM01,
+        })
+      ).toEqual(expectedResult);
     });
   });
 

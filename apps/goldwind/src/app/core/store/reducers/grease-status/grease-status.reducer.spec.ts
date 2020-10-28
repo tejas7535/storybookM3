@@ -39,15 +39,20 @@ describe('Grease Status Reducer', () => {
     test('should unset loading and set grease status', () => {
       const mockGreaseStatus = [
         {
-          id: 1,
-          sensorId: '123-abc-456',
-          endDate: '2020-08-12T18:09:25',
-          startDate: '2020-08-12T18:09:19',
-          sampleRatio: 9999,
-          waterContentPercent: 69,
-          deteriorationPercent: 96,
-          temperatureCelsius: 9000,
-          isAlarm: true,
+          deviceId: '1',
+          gcm01Deterioration: 19,
+          gcm01DeteriorationMin: 22,
+          gcm01DeteriorationMax: 33,
+          gcm01WaterContent: 0,
+          gcm01WaterContentMin: 0,
+          gcm01WaterContentMax: 1,
+          gcm02Deterioration: 0,
+          gcm02DeteriorationMin: 0,
+          gcm02DeteriorationMax: 0,
+          gcm02WaterContent: 0,
+          gcm02WaterContentMin: 0,
+          gcm02WaterContentMax: 0,
+          timestamp: '2020-08-02T16:18:59Z',
         },
       ];
 
@@ -68,15 +73,20 @@ describe('Grease Status Reducer', () => {
   describe('getGreaseStatusLatestSuccess', () => {
     test('should unset status loading and set latest grease status', () => {
       const mockGreaseStatus = {
-        id: 1,
-        sensorId: '123-abc-456',
-        endDate: '2020-08-12T18:09:25',
-        startDate: '2020-08-12T18:09:19',
-        sampleRatio: 9999,
-        waterContentPercent: 69,
-        deteriorationPercent: 96,
-        temperatureCelsius: 9000,
-        isAlarm: true,
+        deviceId: '1',
+        gcm01Deterioration: 19,
+        gcm01DeteriorationMin: 22,
+        gcm01DeteriorationMax: 33,
+        gcm01WaterContent: 0,
+        gcm01WaterContentMin: 0,
+        gcm01WaterContentMax: 1,
+        gcm02Deterioration: 0,
+        gcm02DeteriorationMin: 0,
+        gcm02DeteriorationMax: 0,
+        gcm02WaterContent: 0,
+        gcm02WaterContentMin: 0,
+        gcm02WaterContentMax: 0,
+        timestamp: '2020-08-02T16:18:59Z',
       };
       const action = getGreaseStatusLatestSuccess({
         greaseStatusLatest: mockGreaseStatus,
@@ -131,10 +141,10 @@ describe('Grease Status Reducer', () => {
   describe('setGreaseDisplay', () => {
     test('should set grease display', () => {
       const mockGreaseDisplay = {
-        deteriorationPercent: false,
-        temperatureCelsius: true,
-        waterContentPercent: false,
-        rotationalSpeed: true,
+        deterioration: false,
+        waterContent: false,
+        // temperatureCelsius: true,
+        // rotationalSpeed: true,
       };
       const action = setGreaseDisplay({ greaseDisplay: mockGreaseDisplay });
       const fakeState = {

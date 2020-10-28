@@ -1,7 +1,7 @@
 <div *transloco="let t; read: 'conditionMonitoring'" class="grid-container">
   <div id="ms-equipment" class="grid-element">
     <goldwind-cm-equipment
-      *ngIf="mainBearing$ | ngrxPush as mainBearing; else loading_card"
+      *ngIf="mainBearing$ | ngrxPush as mainBearing; else construction_card"
       [mainBearing]="mainBearing"
     ></goldwind-cm-equipment>
   </div>
@@ -9,13 +9,7 @@
     <goldwind-edm-monitor></goldwind-edm-monitor>
   </div>
   <div id="grease-status" class="grid-element">
-    <goldwind-grease-monitor
-      *ngIf="
-        greaseStatusLatestGraphData$ | ngrxPush as greaseStatusLatestGraphData;
-        else loading_card
-      "
-      [greaseStatusLatestGraphData]="greaseStatusLatestGraphData"
-    ></goldwind-grease-monitor>
+    <goldwind-grease-monitor></goldwind-grease-monitor>
   </div>
   <div id="center-load" class="grid-element">
     <goldwind-center-load

@@ -1,6 +1,6 @@
 export interface GreaseDisplay {
-  waterContentPercent: boolean;
-  deteriorationPercent: boolean;
-  temperatureCelsius: boolean;
-  rotationalSpeed: boolean;
+  waterContent: boolean;
+  deterioration: boolean;
+  // temperatureCelsius: boolean;
+  // rotationalSpeed: boolean;
 }

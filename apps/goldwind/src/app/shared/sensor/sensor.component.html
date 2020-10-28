@@ -1,0 +1,18 @@
+<div
+  fxLayout="row"
+  fxLayoutAlign="space-between center"
+  fxLayoutGap="10px"
+  *transloco="let t; read: 'sensor'"
+>
+  <label (click)="toggleSensor()" class="toggle-label">
+    {{ t(type).toUpperCase() }} 1
+  </label>
+  <mat-slide-toggle
+    [checked]="sensor"
+    (change)="toggleSensor()"
+    color="primary"
+    class="sensor-toggle"
+  >
+    {{ t(type).toUpperCase() }} 2
+  </mat-slide-toggle>
+</div>

@@ -8,6 +8,7 @@ import { GreaseStatusState } from '../../reducers/grease-status/grease-status.re
 import {
   GreaseControl,
   GreaseDisplay,
+  GreaseSensor,
   GreaseStatus,
 } from '../../reducers/grease-status/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
@@ -17,7 +18,7 @@ type DisplayOption = [GreaseDisplayKeys, boolean];
 
 export const getGreaseSensorId = createSelector(
   getGreaseStatusState,
-  () => '887bffbe-2e87-49f0-b763-ba235dd7c876'
+  () => '1'
 );
 
 export const getGreaseStatusLoading = createSelector(
@@ -65,8 +66,10 @@ export const getGreaseStatusGraphData = createSelector(
             (value &&
               greaseStatus.map((measurement: GreaseStatus) => ({
                 value: [
-                  new Date(measurement.startDate),
-                  (measurement as any)[key],
+                  new Date(measurement.timestamp),
+                  (measurement as any)[
+                    `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
+                  ],
                 ],
               }))) ||
             [],
@@ -76,11 +79,11 @@ export const getGreaseStatusGraphData = createSelector(
 
 export const getGreaseStatusLatestGraphData = createSelector(
   getGreaseStatusLatestResult,
-  (greaseStatus: any): GraphData => {
+  (greaseStatus: any, { sensorName }: GreaseSensor): GraphData => {
     const gaugePositions = {
-      temperatureCelsius: ['25%', '50%'],
-      waterContentPercent: ['75%', '30%'],
-      deteriorationPercent: ['75%', '75%'],
+      // temperatureCelsius: ['25%', '50%'], // will come back
+      waterContent: ['75%', '30%'],
+      deterioration: ['75%', '75%'],
     };
     const isTempGauge = (formControl: string) =>
       formControl === 'temperatureCelsius';
@@ -99,7 +102,12 @@ export const getGreaseStatusLatestGraphData = createSelector(
             },
             data: [
               {
-                value: greaseStatus[formControl],
+                value:
+                  greaseStatus[
+                    `${sensorName}${formControl
+                      .charAt(0)
+                      .toUpperCase()}${formControl.slice(1)}`
+                  ],
                 name: translate(`greaseStatus.${label}`).toUpperCase(),
               },
             ],
