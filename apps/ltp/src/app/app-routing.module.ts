@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { environment } from '../environments/environment.dev';
+import { environment } from '../environments/environment';
 import { AuthGuard } from './core/guards';
 import { RoleGuard } from './core/guards/role.guard';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
