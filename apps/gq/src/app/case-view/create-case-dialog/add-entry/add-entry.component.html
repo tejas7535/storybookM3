@@ -29,6 +29,8 @@
               #materialNumberInput
               [filterName]="materialNumber.filter"
               [options]="materialNumber.options"
+              [isDisabled]="_isDisabled"
+              (inputContent)="materialHasInput($event)"
               (unselected)="unselectOptions(materialNumber.filter)"
               (added)="selectOption($event, materialNumber.filter)"
               (isValid)="materialNumberValid($event)"

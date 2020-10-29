@@ -150,6 +150,15 @@ describe('InputbarComponent', () => {
       expect(component.quantityFormControl.setValue).toHaveBeenCalledTimes(1);
     });
   });
+  describe('materialHasInput', () => {
+    test('should set materialNumberInput and emitHasInput', () => {
+      component.emitHasInput = jest.fn();
+      component.materialNumberInput = false;
+      component.materialHasInput(true);
+      expect(component.materialNumberInput).toBeTruthy();
+      expect(component.emitHasInput).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('numberOnly', () => {
     test('should return false if not number', () => {
       const eventMock = {

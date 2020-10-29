@@ -13,6 +13,8 @@
             fxFill
             [filterName]="quotation.filter"
             [options]="quotation.options"
+            [isDisabled]="quotationDisabled"
+            (inputContent)="quotationHasInput($event)"
             (unselected)="unselectOptions(quotation.filter)"
             (added)="selectOption($event, quotation.filter)"
             (isValid)="quotationValid($event)"
@@ -45,6 +47,8 @@
             fxFill
             [filterName]="customer.filter"
             [options]="customer.options"
+            [isDisabled]="customerDisabled"
+            (inputContent)="customerHasInput($event)"
             (unselected)="unselectOptions(customer.filter)"
             (added)="selectOption($event, customer.filter)"
             [autocompleteLoading]="customerAutocompleteLoading$ | async"
@@ -52,7 +56,11 @@
           ></gq-autocomplete-input>
         </div>
       </div>
-      <gq-add-entry> </gq-add-entry>
+      <gq-add-entry
+        [isDisabled]="customerDisabled"
+        (inputContent)="customerHasInput($event)"
+      >
+      </gq-add-entry>
       <div *ngIf="rowData$ | async as rowData">
         <gq-input-table [rowData]="rowData"></gq-input-table>
       </div>

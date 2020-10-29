@@ -57,7 +57,6 @@ describe('CreateCaseDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateCaseDialogComponent);
-
     router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -123,6 +122,20 @@ describe('CreateCaseDialogComponent', () => {
       spyOn(router, 'navigate');
       component.openQuotation();
       expect(router.navigate).toHaveBeenCalled();
+    });
+  });
+  describe('quotationHasInput', () => {
+    test('should set quotationInput', () => {
+      component.customerDisabled = false;
+      component.quotationHasInput(true);
+      expect(component.customerDisabled).toBeTruthy();
+    });
+  });
+  describe('customerHasInput', () => {
+    test('should set customerInput', () => {
+      component.quotationDisabled = false;
+      component.customerHasInput(true);
+      expect(component.quotationDisabled).toBeTruthy();
     });
   });
 });
