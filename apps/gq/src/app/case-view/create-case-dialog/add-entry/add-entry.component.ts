@@ -1,5 +1,13 @@
 import { NINE, SPACE, ZERO } from '@angular/cdk/keycodes';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
@@ -32,7 +40,9 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   materialNumber$: Observable<CaseFilterItem>;
   materialNumberAutocompleteLoading$: Observable<boolean>;
 
+  _isDisabled: boolean;
   materialNumber: string;
+  materialNumberInput: boolean;
   quantity: any;
   materialNumberIsValid = false;
   quantityValid = false;
@@ -41,6 +51,15 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   quantityFormControl: FormControl = new FormControl();
   private readonly subscription: Subscription = new Subscription();
 
+  @Input() set isDisabled(isDisabled: boolean) {
+    this._isDisabled = isDisabled;
+    isDisabled
+      ? this.quantityFormControl.disable()
+      : this.quantityFormControl.enable();
+  }
+  @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
+    true
+  );
   @ViewChild('materialNumberInput') matNumberInput: AutocompleteInputComponent;
 
   constructor(private readonly store: Store<CaseState>) {}
@@ -63,7 +82,8 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     );
     this.subscription.add(
       this.quantityFormControl.valueChanges.subscribe((value) => {
-        this.quantityValid = value !== undefined && value.length >= 1;
+        this.quantityValid = value && value.length >= 1;
+        this.emitHasInput();
         this.quantity = value;
         this.rowInputValid();
       })
@@ -86,6 +106,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.materialNumberIsValid = isValid;
     this.rowInputValid();
   }
+  emitHasInput(): void {
+    this.inputContent.emit(this.materialNumberInput || this.quantityValid);
+  }
+  materialHasInput(hasInput: boolean): void {
+    this.materialNumberInput = hasInput;
+    this.emitHasInput();
+  }
+
   rowInputValid(): void {
     this.addRowEnabled = this.materialNumberIsValid
       ? this.quantityValid

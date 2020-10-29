@@ -20,7 +20,7 @@
       [diameter]="18"
     ></mat-spinner>
     <mat-hint>{{ t(filterName + '.hint') }}</mat-hint>
-    <mat-error *ngIf="searchFormControl.hasError('invalidQuotation')">{{
+    <mat-error *ngIf="searchFormControl.hasError('invalidInput')">{{
       t(filterName + '.wrongInput')
     }}</mat-error>
     <mat-autocomplete

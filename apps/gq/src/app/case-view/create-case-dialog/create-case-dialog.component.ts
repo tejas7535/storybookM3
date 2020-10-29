@@ -36,9 +36,11 @@ export class CreateCaseDialogComponent implements OnInit {
   customerAutocompleteLoading$: Observable<boolean>;
   quotation$: Observable<CaseFilterItem>;
   customer$: Observable<CaseFilterItem>;
-  matNumber$: Observable<CaseFilterItem>;
   rowData$: Observable<CaseTableItem[]>;
 
+  quotationDisabled = false;
+  customerDisabled = false;
+  addEntryInput: boolean;
   quotationIsValid = false;
   private selectedQuotation: string;
 
@@ -79,6 +81,13 @@ export class CreateCaseDialogComponent implements OnInit {
 
   quotationValid(isValid: boolean): void {
     this.quotationIsValid = isValid;
+  }
+
+  quotationHasInput(hasInput: boolean): void {
+    this.customerDisabled = hasInput;
+  }
+  customerHasInput(hasInput: boolean): void {
+    this.quotationDisabled = hasInput;
   }
 
   openQuotation(): void {

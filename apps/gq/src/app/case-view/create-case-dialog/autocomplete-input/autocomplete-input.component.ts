@@ -23,7 +23,11 @@ import { AutocompleteSearch, IdValue } from '../../../core/store/models';
 })
 export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() autocompleteLoading = false;
-
+  @Input() set isDisabled(isDisabled: boolean) {
+    isDisabled
+      ? this.searchFormControl.disable()
+      : this.searchFormControl.enable();
+  }
   @Input() set options(itemOptions: IdValue[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
@@ -50,6 +54,10 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   @Output() readonly isValid: EventEmitter<boolean> = new EventEmitter();
 
+  @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
+    true
+  );
+
   @ViewChild('valueInput') valueInput: ElementRef<HTMLInputElement>;
 
   private readonly ONE_CHAR_LENGTH = 1;
@@ -68,12 +76,17 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       this.searchFormControl.valueChanges
         .pipe(
           tap(() => (this.debounceIsActive = true)),
-          filter(
-            () =>
+          filter((value) => {
+            if (!value) {
+              this.inputContent.emit(false);
+            }
+
+            return (
               this.filterName &&
               this.searchFormControl.value &&
               typeof this.searchFormControl.value === 'string'
-          ),
+            );
+          }),
           debounce(() =>
             this.searchFormControl.value.length > this.ONE_CHAR_LENGTH
               ? timer(this.DEBOUNCE_TIME_DEFAULT)
@@ -82,10 +95,10 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
         )
         .subscribe((searchFor) => {
           this.debounceIsActive = false;
+          this.inputContent.emit(true);
+
           this.autocomplete.emit({ searchFor, filter: this.filterName });
-          this.isValid.emit(
-            !this.searchFormControl.hasError('invalidQuotation')
-          );
+          this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
         })
     );
     this.searchFormControl.setValidators([this.isInputValid.bind(this)]);
@@ -110,7 +123,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     if (!isValid) {
       this.unselect();
 
-      return { invalidQuotation: true };
+      return { invalidInput: true };
     }
 
     return undefined;
