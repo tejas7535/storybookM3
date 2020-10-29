@@ -1,6 +1,22 @@
-# Changelog
+ Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+## [1.10.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.10.0) (2020-10-29)
+
+
+### 🎸 Features
+
+* **ci:** enable manual releases (UFTABI-2968) ([a7daa45](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a7daa45700b798bae3340e87400c92288d4dd84b))
+* **gq:** add customer input (GQUOTE-141) ([ed7309c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ed7309c3c160d059f421e793e5eadb83febff182))
+* **ia:** secure application with oAuth2 (IA-29) ([b4fe09a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b4fe09a6446bd2897e90389dba258558162a3bd8))
+* **qg:** Add Offer drawer (GQUOTE-153) ([3c5f111](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3c5f111e8281f78d587280d76d9aad200377dc88))
+
+
+### 🐛 Bug Fixes
+
+* **ltp:** fix env import ([3f323b7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3f323b77d0feb2469d6d0359b658b17a6933751f))
 
 ## [1.9.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-26)
 
