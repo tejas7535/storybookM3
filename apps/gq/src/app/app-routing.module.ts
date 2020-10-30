@@ -29,6 +29,11 @@ export const appRoutePaths: Routes = [
       ),
   },
   {
+    path: AppRoutePath.OfferViewPath,
+    loadChildren: () =>
+      import('./offer-view/offer-view.module').then((m) => m.OfferViewModule),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),

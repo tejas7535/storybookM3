@@ -1,0 +1,12 @@
+<button
+  mat-raised-button
+  color="primary"
+  *transloco="let t; read: 'shared.customStatusBar.uploadToSAPButton'"
+  (click)="uploadToSAP()"
+>
+  <mat-icon
+    fontSet="schaeffler-icons"
+    fontIcon="icon-digitalization"
+  ></mat-icon>
+  {{ t('uploadToSAP') | uppercase }}
+</button>

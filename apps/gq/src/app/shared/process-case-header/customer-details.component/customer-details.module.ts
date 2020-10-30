@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { SharedModule } from '../../../shared';
+
+import { SharedModule } from '../..';
 import { CustomerDetailsComponent } from './customer-details.component';
 
 @NgModule({

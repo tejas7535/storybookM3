@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { AppRoutePath } from '../../../app-route-path.enum';
+
 @Component({
   selector: 'gq-finish-offer',
   templateUrl: './finish-offer-button.component.html',
@@ -11,7 +13,7 @@ export class FinishOfferButtonComponent {
 
   agInit(): void {}
 
-  showDetailView(): void {
-    this.router.navigate(['/offer-view']);
+  finishOffer(): void {
+    this.router.navigate([AppRoutePath.OfferViewPath]);
   }
 }

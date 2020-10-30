@@ -42,7 +42,7 @@ describe('FinishOfferComponent', () => {
   describe('showDetailView', () => {
     test('should navigate', () => {
       spyOn(router, 'navigate');
-      component.showDetailView();
+      component.finishOffer();
       expect(router.navigate).toHaveBeenCalled();
     });
   });
