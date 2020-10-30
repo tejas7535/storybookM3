@@ -6,9 +6,9 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { DataService, ENV_CONFIG } from '@schaeffler/http';
+
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
-import { DataService } from '../../core/http/data.service';
-import { ENV_CONFIG } from '../../core/http/environment-config.interface';
 import { QuotationDetailsService } from './quotation-details.service';
 
 describe('QuotationDetailsService', (): void => {

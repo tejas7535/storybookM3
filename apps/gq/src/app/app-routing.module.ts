@@ -44,6 +44,7 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
+      initialNavigation: false,
     }),
   ],
   exports: [RouterModule],

@@ -5,7 +5,7 @@ import { catchError, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
+import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import {
   autocomplete,
   autocompleteFailure,

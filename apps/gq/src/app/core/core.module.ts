@@ -1,3 +1,4 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -5,13 +6,13 @@ import { RouterModule } from '@angular/router';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
-import { HttpModule } from './http/http.module';
 import { StoreModule } from './store';
 
 @NgModule({
@@ -45,5 +46,12 @@ import { StoreModule } from './store';
     SnackBarModule,
   ],
   exports: [AppComponent],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
+  ],
 })
 export class CoreModule {}

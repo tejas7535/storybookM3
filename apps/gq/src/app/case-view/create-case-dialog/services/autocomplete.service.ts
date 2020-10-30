@@ -4,7 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '../../../core/http/data.service';
+import { DataService, GetOptions } from '@schaeffler/http';
+
 import {
   AutocompleteResponse,
   AutocompleteSearch,
@@ -31,13 +32,15 @@ export class AutocompleteService {
       this.PARAM_SEARCH_FOR,
       autocompleteSearch.searchFor
     );
-
+    const options: GetOptions = {
+      params: httpParams,
+    };
     const filterPath = autocompleteSearch.filter.toLowerCase();
 
     return this.dataService
       .getAll<AutocompleteResponse>(
         `${this.AUTO_COMPLETE}/${filterPath}`,
-        httpParams
+        options
       )
       .pipe(
         map((res: AutocompleteResponse) =>

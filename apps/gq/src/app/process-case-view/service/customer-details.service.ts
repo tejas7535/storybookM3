@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '../../core/http/data.service';
+import { DataService } from '@schaeffler/http';
+
 import { Customer } from '../../core/store/models';
 
 @Injectable({
