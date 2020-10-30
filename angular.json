@@ -2491,7 +2491,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/gq/src/environments/environment.ts",
-                  "with": "apps/gq/src/environments/environment.dev.ts"
+                  "with": "apps/gq/src/environments/environment.qa.ts"
                 }
               ],
               "budgets": [

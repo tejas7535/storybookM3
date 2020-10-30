@@ -6,7 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
-import { AutocompleteService } from '../../../../pricing-view/input-section/services/autocomplete.service';
+import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import {
   autocomplete,
   autocompleteFailure,
