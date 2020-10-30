@@ -8,3 +8,12 @@ export const STATUS_BAR_CONFIG: {
     { statusPanel: 'removeFromOfferButtonComponent', align: 'left' },
   ],
 };
+
+export const STATUS_BAR_CONFIG_FINISH_OFFER: {
+  statusPanels: StatusPanelDef[];
+} = {
+  statusPanels: [
+    { statusPanel: 'uploadToSAPButtonComponent', align: 'left' },
+    { statusPanel: 'exportToCSVButtonComponent', align: 'left' },
+  ],
+};

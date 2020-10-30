@@ -115,6 +115,52 @@
       }
     }
   },
+  "caseView": {
+    "createCaseDialog": {
+      "title": "Create New Case",
+      "customer": {
+        "addEntry": {
+          "button": "Add entry",
+          "title": "Add new entry"
+        },
+        "button": "Create Case",
+        "hint": "Enter a Customer Number or a Customer Name",
+        "label": "Customer",
+        "nothingFound": "Nothing found",
+        "quantity": {
+          "label": "Quantity",
+          "hint": "Enter a quantity"
+        },
+        "table": {
+          "action": "Action",
+          "info": "Info",
+          "matDesc": "Material Description",
+          "materialNumber": "Material Number",
+          "quantity": "Quantity"
+        },
+        "wrongInput": "Please enter a valid customer name or customer number"
+      },
+      "materialNumber": {
+        "hint": "Enter a 15-digit Material Number",
+        "label": "Material Number",
+        "nothingFound": "Nothing found",
+        "wrongInput": "Please enter a valid material number"
+      },
+      "quotation": {
+        "button": "Open quotation",
+        "hint": "Enter a Quotation Number of a quotation created in SAP",
+        "label": "Quotation Number",
+        "nothingFound": "Nothing found",
+        "wrongInput": "Please enter a valid quotation number"
+      }
+    }
+  },
+  "offerView": {
+    "offerHeader": {
+      "newCase": "Create New Case",
+      "title": "Offer"
+    }
+  },
   "processCaseView": {
     "processCaseHeader": {
       "seeOffer": "see offer",
@@ -151,6 +197,9 @@
       "addToOfferButton": {
         "addToOffer": "add to offer"
       },
+      "exportToCSVButton": {
+        "exportToCSV": "Export to CSV"
+      },
       "finishOfferButton": {
         "finishOffer": "finish Offer"
       },
@@ -159,56 +208,29 @@
       },
       "removeFromOfferButton": {
         "removeFromOffer": "delete from offer"
+      },
+      "resetAllButton": {
+        "resetAll": "Reset All"
+      },
+      "uploadToSAPButton": {
+        "uploadToSAP": "Upload to SAP"
       }
     },
     "offerDrawer": {
       "title": "Current Offer"
     },
     "offerTable": {
-      "materialNumber": "Material Number",
+      "info": "Info",
+      "materialDescription": "Material Description",
+      "materialNumber": "Material Nr. (13 digit)",
+      "plantCity": "Plant City",
+      "plantCountry": "Plant Country",
       "price": "Price",
-      "quantity": "Quantity"
-    }
-  },
-  "caseView": {
-    "createCaseDialog": {
-      "title": "Create New Case",
-      "customer": {
-        "addEntry": {
-          "button": "Add entry",
-          "title": "Add new entry"
-        },
-        "button": "Create Case",
-        "hint": "Enter a Customer Number or a Customer Name",
-        "label": "Customer",
-        "nothingFound": "Nothing found",
-        "quantity": {
-          "label": "Quantity",
-          "hint": "Enter a quantity"
-        },
-        "reset-all": "Reset All",
-        "table": {
-          "action": "Action",
-          "info": "Info",
-          "matDesc": "Material Description",
-          "materialNumber": "Material Number",
-          "quantity": "Quantity"
-        },
-        "wrongInput": "Please enter a valid customer name or customer number"
-      },
-      "materialNumber": {
-        "hint": "Enter a 15-digit Material Number",
-        "label": "Material Number",
-        "nothingFound": "Nothing found",
-        "wrongInput": "Please enter a valid material number"
-      },
-      "quotation": {
-        "button": "Open quotation",
-        "hint": "Enter a Quotation Number of a quotation created in SAP",
-        "label": "Quotation Number",
-        "nothingFound": "Nothing found",
-        "wrongInput": "Please enter a valid quotation number"
-      }
+      "productionCost": "Production Cost",
+      "productionHierarchy": "Production Hierarchy",
+      "productionPlant": "Production Plant",
+      "quantity": "Quantity",
+      "rsp": "RSP"
     }
   }
 }

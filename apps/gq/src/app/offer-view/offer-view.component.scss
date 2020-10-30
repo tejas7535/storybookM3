@@ -1,0 +1,15 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
+
+:host {
+  width: 100%;
+}
+
+.container {
+  height: calc(100% - 30px);
+  margin: 30px 30px 0;
+
+  @media screen and (max-width: $screen-sm-max) {
+    margin: 30px 20px 0;
+  }
+}

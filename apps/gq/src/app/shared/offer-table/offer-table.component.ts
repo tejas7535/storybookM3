@@ -8,12 +8,14 @@ import {
 
 import { QuotationDetail } from '../../core/store/models';
 import {
-  COLUMN_DEFS_LONG,
+  COLUMN_DEFS_FINISH_OFFER,
   COLUMN_DEFS_SHORT,
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,
+  FRAMEWORK_COMPONENTS_FINISH_OFFER,
   MODULES,
   STATUS_BAR_CONFIG,
+  STATUS_BAR_CONFIG_FINISH_OFFER,
 } from './config';
 
 @Component({
@@ -24,17 +26,19 @@ import {
 export class OfferTableComponent implements OnChanges {
   @Input() rowData: QuotationDetail[];
 
-  @Input() shortTable = false;
+  @Input() drawerTable = false;
 
   modules: any[] = MODULES;
 
   public defaultColumnDefs: ColDef = DEFAULT_COLUMN_DEFS;
 
-  public statusBar: { statusPanels: StatusPanelDef[] } = STATUS_BAR_CONFIG;
+  public statusBar: {
+    statusPanels: StatusPanelDef[];
+  } = STATUS_BAR_CONFIG_FINISH_OFFER;
 
-  public frameworkComponents = FRAMEWORK_COMPONENTS;
+  public frameworkComponents: any = FRAMEWORK_COMPONENTS_FINISH_OFFER;
 
-  public columnDefs: ColDef[] = COLUMN_DEFS_LONG;
+  public columnDefs: ColDef[] = COLUMN_DEFS_FINISH_OFFER;
 
   public rowSelection = 'multiple';
   public components: any[] = [];
@@ -44,7 +48,15 @@ export class OfferTableComponent implements OnChanges {
   }
 
   ngOnChanges(): void {
-    this.columnDefs = this.shortTable ? COLUMN_DEFS_SHORT : COLUMN_DEFS_LONG;
+    this.columnDefs = this.drawerTable
+      ? COLUMN_DEFS_SHORT
+      : COLUMN_DEFS_FINISH_OFFER;
+    this.frameworkComponents = this.drawerTable
+      ? FRAMEWORK_COMPONENTS
+      : FRAMEWORK_COMPONENTS_FINISH_OFFER;
+    this.statusBar = this.drawerTable
+      ? STATUS_BAR_CONFIG
+      : STATUS_BAR_CONFIG_FINISH_OFFER;
   }
 
   onGridReady(params: any): void {

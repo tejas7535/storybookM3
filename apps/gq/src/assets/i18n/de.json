@@ -115,6 +115,52 @@
       }
     }
   },
+  "caseView": {
+    "createCaseDialog": {
+      "title": "Neuen Fall erstellen",
+      "customer": {
+        "addEntry": {
+          "button": "Eintrag hinzufügen",
+          "title": "Neuen Eintrag hinzufügen"
+        },
+        "button": "Case erstellen",
+        "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
+        "label": "Kunde",
+        "nothingFound": "Keine Ergebnisse",
+        "quantity": {
+          "label": "Anzahl",
+          "hint": "Geben Sie die Anzahl ein"
+        },
+        "table": {
+          "action": "Aktion",
+          "info": "Info",
+          "matDesc": "Material Beschreibung",
+          "materialNumber": "Material Nummer",
+          "quantity": "Anzahl"
+        },
+        "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
+      },
+      "materialNumber": {
+        "hint": "Geben Sie eine 15-stellige Materialnummer ein",
+        "label": "Material Nummer",
+        "nothingFound": "Keine Ergebnisse",
+        "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
+      },
+      "quotation": {
+        "button": "Angebot öffnen",
+        "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
+        "label": "Angebotsnummer",
+        "nothingFound": "Keine Ergebnisse",
+        "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+      }
+    }
+  },
+  "offerView": {
+    "offerHeader": {
+      "newCase": "Neuen Fall erstellen",
+      "title": "Angebot"
+    }
+  },
   "processCaseView": {
     "processCaseHeader": {
       "seeOffer": "Angebot ansehen",
@@ -151,6 +197,9 @@
       "addToOfferButton": {
         "addToOffer": "Zum Angebot hinzufügen"
       },
+      "exportToCSVButton": {
+        "exportToCSV": "als CSV exportieren"
+      },
       "finishOfferButton": {
         "finishOffer": "Angebot abschließen"
       },
@@ -159,56 +208,29 @@
       },
       "removeFromOfferButton": {
         "removeFromOffer": "vom Angebot entfernen"
+      },
+      "resetAllButton": {
+        "resetAll": "Reset All"
+      },
+      "uploadToSAPButton": {
+        "uploadToSAP": "zu SAP hochladen"
       }
     },
     "offerDrawer": {
-      "title": "Aktuelles Angebot"
+      "title": "Alles zurücksetzen"
     },
     "offerTable": {
-      "materialNumber": "Materialnummer",
+      "info": "Info",
+      "materialDescription": "Materialbescheibung",
+      "materialNumber": "Material Nr. (13 Ziffern)",
+      "plantCity": "Stadt",
+      "plantCountry": "Land",
       "price": "Preis",
-      "quantity": "Stückzahl"
-    }
-  },
-  "caseView": {
-    "createCaseDialog": {
-      "title": "Neuen Fall erstellen",
-      "customer": {
-        "addEntry": {
-          "button": "Eintrag hinzufügen",
-          "title": "Neuen Eintrag hinzufügen"
-        },
-        "button": "Case erstellen",
-        "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
-        "label": "Kunde",
-        "nothingFound": "Keine Ergebnisse",
-        "quantity": {
-          "label": "Anzahl",
-          "hint": "Geben Sie die Anzahl ein"
-        },
-        "reset-all": "Alles zurücksetzen",
-        "table": {
-          "action": "Aktion",
-          "info": "Info",
-          "matDesc": "Material Beschreibung",
-          "materialNumber": "Material Nummer",
-          "quantity": "Anzahl"
-        },
-        "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
-      },
-      "materialNumber": {
-        "hint": "Geben Sie eine 15-stellige Materialnummer ein",
-        "label": "Material Nummer",
-        "nothingFound": "Keine Ergebnisse",
-        "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
-      },
-      "quotation": {
-        "button": "Angebot öffnen",
-        "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
-        "label": "Angebotsnummer",
-        "nothingFound": "Keine Ergebnisse",
-        "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
-      }
+      "productionCost": "Produktionskosten",
+      "productionHierarchy": "Produktionshierarchie",
+      "productionPlant": "Werk",
+      "quantity": "Stückzahl",
+      "rsp": "RSP"
     }
   }
 }

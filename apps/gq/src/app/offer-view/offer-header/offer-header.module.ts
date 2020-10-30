@@ -8,10 +8,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { CustomerDetailsModule } from '../../shared/process-case-header/customer-details.component/customer-details.module';
-import { ProcessCaseHeaderComponent } from './process-case-header.component';
+import { OfferHeaderComponent } from './offer-header.component';
 
 @NgModule({
-  declarations: [ProcessCaseHeaderComponent],
+  declarations: [OfferHeaderComponent],
   imports: [
     SharedModule,
     MatIconModule,
@@ -21,6 +21,6 @@ import { ProcessCaseHeaderComponent } from './process-case-header.component';
     SharedTranslocoModule,
     CustomerDetailsModule,
   ],
-  exports: [ProcessCaseHeaderComponent],
+  exports: [OfferHeaderComponent],
 })
-export class ProcessCaseHeaderModule {}
+export class OfferHeaderModule {}
