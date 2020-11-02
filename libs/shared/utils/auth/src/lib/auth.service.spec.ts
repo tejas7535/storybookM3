@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
-import { OAuthEvent, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from './auth.service';
@@ -66,33 +66,15 @@ describe('AuthService', () => {
       expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
 
-    test('should call initLoginFlow when access token invalid and silentRefresh fails', async () => {
+    test('should call initLoginFlow when access token invalid', async () => {
       oAuthService.hasValidAccessToken = jest.fn(() => false);
-      oAuthService.silentRefresh = jest.fn(() => Promise.reject(undefined));
       oAuthService.initLoginFlow = jest.fn();
       service['navigateToState'] = jest.fn();
       const target = 'target';
 
       await service.login(target);
 
-      expect(oAuthService.silentRefresh).toHaveBeenCalledTimes(1);
       expect(oAuthService.initLoginFlow).toHaveBeenCalledTimes(1);
-      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
-    });
-
-    test('should not call initLoginFlow when access token invalid and silentRefresh succeeds', async () => {
-      oAuthService.hasValidAccessToken = jest.fn(() => false);
-      oAuthService.silentRefresh = jest.fn(() =>
-        Promise.resolve(({} as unknown) as OAuthEvent)
-      );
-      oAuthService.initLoginFlow = jest.fn();
-      service['navigateToState'] = jest.fn();
-      const target = 'target';
-
-      await service.login(target);
-
-      expect(oAuthService.silentRefresh).toHaveBeenCalledTimes(1);
-      expect(oAuthService.initLoginFlow).not.toHaveBeenCalled();
       expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
   });

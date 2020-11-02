@@ -16,7 +16,10 @@ export const getAuthConfig = ({
   loginUrl: `${loginUrl}${tenantId}/oauth2/v2.0/authorize`,
   logoutUrl: `${loginUrl}${tenantId}/oauth2/v2.0/logout`,
   redirectUri: `${origin}${redirectUrl}`,
-  silentRefreshRedirectUri: `${origin}/silent-refresh.html`,
+  silentRefreshRedirectUri:
+    flow === FlowType.IMPLICIT_FLOW
+      ? `${origin}/silent-refresh.html`
+      : undefined,
   silentRefreshTimeout: 1000,
   // timeoutFactor: 0.01, //good for testing
   useSilentRefresh: flow === FlowType.IMPLICIT_FLOW,
