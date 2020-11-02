@@ -41,7 +41,13 @@ describe('CustomerDetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
+  describe('customerToArray', () => {
+    test('should return empty array if no customer', () => {
+      const customer = undefined as any;
+      const responseArray = component.customerToArray(customer);
+      expect(responseArray).toEqual([]);
+    });
+  });
   describe('trackByFn()', () => {
     test('should return the loop index to track usersArray', () => {
       const indexNum = 1337;

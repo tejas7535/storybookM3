@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import { AutocompleteSearch, FilterItem } from '../../../core/store/models';
+import { AutocompleteSearch, CaseFilterItem } from '../../../core/store/models';
 import { AutocompleteService } from './autocomplete.service';
 
 describe('AutocompleteService', (): void => {
@@ -52,19 +52,10 @@ describe('AutocompleteService', (): void => {
         'testParam',
         'hallo'
       );
-      const mock: FilterItem = new FilterItem(
-        'house',
-        [
-          {
-            id: 'id',
-            value: 'val',
-            selected: false,
-          },
-        ],
-        true,
-        [],
-        true
-      );
+      const mock: CaseFilterItem = {
+        filter: 'house',
+        options: [{ id: 'test', value: 'test', selected: false }],
+      };
       service.autocomplete(search).subscribe((response) => {
         expect(response).toEqual(mock.options);
       });
