@@ -746,11 +746,11 @@ pipeline {
                                             ]
                                         }"""
                                     }
-                                }
 
-                                def buildInfo = rtServer.upload(uploadSpec)
-                                buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
-                                rtServer.publishBuildInfo(buildInfo)
+                                    def buildInfo = rtServer.upload(uploadSpec)
+                                    buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
+                                    rtServer.publishBuildInfo(buildInfo)
+                                }
                             }
                         }
                     }
