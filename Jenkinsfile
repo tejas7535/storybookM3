@@ -30,6 +30,9 @@ def affectedLibs
 def excludedProjects = []
 
 @Field
+def excludedAppsAndLibsPaths = []
+
+@Field
 def skipBuild = false
 
 /****************************************************************/
@@ -63,7 +66,7 @@ def isNightly() {
 
 def defineBuildBase() {
     if(isAppRelease() || isLibsRelease()){
-        latestTag = getLatestGitTag(env.RELEASE_SCOPE)
+        latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
         buildBase = sh (
             script: "git rev-list -n 1 ${latestTag}",
             returnStdout: true
@@ -81,18 +84,18 @@ def defineBuildBase() {
 
 def getLatestGitTag(app) {
     def tag
-    try {
-        tag = sh (
-            script: "git describe --tags --match='${app}-v*'  --abbrev=0",
-            returnStdout: true
-        ).trim()
-    } catch (error) {
-        println(error)
+
+    tag = sh (
+        script: "git tag --sort=committerdate -l '${app}-v*' | tail -1",
+        returnStdout: true
+    ).trim()
+    
+    if (!tag) {
         println("Couldn't find a version tag for app ${app}")
         println("Using last workspace git tag instead ...")
 
         tag = sh (
-            script: "git describe --tags --match='v*' --abbrev=0",
+            script: "git tag --sort=committerdate -l 'v*' | tail -1",
             returnStdout: true
         ).trim()
     }
@@ -125,7 +128,12 @@ def defineAffectedAppsAndLibs() {
 
     if (isAppRelease()) {
         // save all affected apps that should not be released
-        affectedProjects = affectedApps.clone() + affectedLibs.clone()
+        def affectedE2EApps = []
+        for (app in affectedApps) {
+            affectedE2EApps.add(app + "-e2e")
+        }
+
+        affectedProjects = affectedApps.clone() + affectedE2EApps + affectedLibs.clone()
 
         excludedProjects = affectedProjects
         excludedProjects -= env.RELEASE_SCOPE
@@ -162,13 +170,12 @@ def getPackageVersion() {
     return packageJSON.version
 }
 
-def getExcludedAppsAndLibsPaths() {
-    def excludedAppsAndLibsPaths = []
+def setExcludedAppsAndLibsPaths() {
+    excludedAppsAndLibsPaths = []
+
     for(project in excludedProjects){
         excludedAppsAndLibsPaths.add("**/" + project + "/**")
     } 
-
-    return excludedAppsAndLibsPaths
 }
 
 // define builds (stages), which are reported back to GitLab
@@ -266,16 +273,17 @@ pipeline {
                                 aborted = true
                             }
                            
-                            if(aborted) {
+                            if (aborted) {
                                 currentBuild.result = 'ABORTED'
                                 skipBuild = true
                             } 
                         }
-                    }
-
+                    }                    
+                        
                     defineBuildBase()
                     defineAffectedAppsAndLibs()
-                    setGitUser()
+                    setExcludedAppsAndLibsPaths()
+                    setGitUser()  
                 }
             }
         }
@@ -421,9 +429,6 @@ pipeline {
                     return !skipBuild && !isNightly()
                 }
             }
-            environment {
-               excludedAppsAndLibsPaths = getExcludedAppsAndLibsPaths()
-            }
             failFast true
             parallel {
                 stage('Format:Check'){
@@ -465,9 +470,11 @@ pipeline {
 
                             // no checkstyle output                         
                             script {
+                                
+
                                 if(isAppRelease() || isLibsRelease()) {   
-                                    sh "npm run lint:html-apps -- --ignore ${env.excludedAppsAndLibsPaths.join(",")}"
-                                    sh "npm run lint:html-libs -- --ignore ${env.excludedAppsAndLibsPaths.join(",")}"
+                                    sh "npm run lint:html-apps -- --ignore ${excludedAppsAndLibsPaths.join(",")}"
+                                    sh "npm run lint:html-libs -- --ignore ${excludedAppsAndLibsPaths.join(",")}"
                                 } else {
                                     sh 'npm run lint:html'
                                 }
@@ -484,8 +491,8 @@ pipeline {
                             // no checkstyle output                       
                             script {
                                 if(isAppRelease() || isLibsRelease()) {
-                                    sh "npm run lint:scss-apps -- --ip ${env.excludedAppsAndLibsPaths.join(" ")}"
-                                    sh "npm run lint:scss-libs -- --ip ${env.excludedAppsAndLibsPaths.join(" ")}"
+                                    sh "npm run lint:scss-apps -- --ip ${excludedAppsAndLibsPaths.join(" ")}"
+                                    sh "npm run lint:scss-libs -- --ip ${excludedAppsAndLibsPaths.join(" ")}"
                                 } else {
                                     sh 'npm run lint:scss'
                                 }
@@ -830,17 +837,19 @@ pipeline {
 
                         for (app in appsToBuild) {
                             def url = deployments[app]
-                            def version = getPackageVersion()
 
-                            def branchName = isAppRelease() ? "release/${version}" : "${BRANCH_NAME}"
+                            def version = getPackageVersion()
                             def configuration = isAppRelease() ? "PROD" : (isMaster() ? "QA" : "DEV")
+
+                            def fileName = isAppRelease() ? "release/${version}" : "${BRANCH_NAME}"
                             def artifactoryTargetPath = "${artifactoryBasePath}/${app}/"
-                            artifactoryTargetPath += isMaster() ? "next" : branchName
+                            artifactoryTargetPath += isMaster() ? "next" : fileName
+                            artifactoryTargetPath += ".zip"
 
                             try {
                                 build job: "${url}",
                                     parameters: [
-                                            string(name: 'BRANCH', value: "${branchName}"), // deprecated
+                                            string(name: 'BRANCH', value: "${fileName}"), // deprecated
                                             string(name: 'ARTIFACTORY_PATH', value: "${artifactoryBasePath}/${app}"), // deprecated
                                             string(name: 'VERSION', value: "${version}"),
                                             string(name: 'CONFIGURATION', value: "${configuration}"),
