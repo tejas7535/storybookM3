@@ -30,14 +30,10 @@ export class AuthService {
       .loadDiscoveryDocumentAndTryLogin()
       .then(async () => {
         if (this.oauthService.hasValidAccessToken()) {
-          // 1) is already logged in?
           return Promise.resolve();
         }
 
-        return this.oauthService.silentRefresh().catch(() => {
-          // 2) try silent refresh first
-          this.oauthService.initLoginFlow(targetUrl || '/'); // 3) silent refresh not possible -> login via implicit flow / code flow
-        });
+        this.oauthService.initLoginFlow(targetUrl || '/');
       })
       .then(() => {
         this.navigateToState();
