@@ -13,6 +13,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { FilterSectionModule } from '../filter-section/filter-section.module';
 import { StoreModule } from './store/store.module';
 
 const azureConfig = new AzureConfig(
@@ -52,6 +53,9 @@ const azureConfig = new AzureConfig(
 
     // http
     HttpModule.forRoot({ environment }),
+
+    // filter section at the top
+    FilterSectionModule,
   ],
   exports: [AppComponent],
 })

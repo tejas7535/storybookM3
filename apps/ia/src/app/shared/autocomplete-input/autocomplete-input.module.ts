@@ -1,0 +1,24 @@
+import { CommonModule } from '@angular/common';
+import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { AutocompleteInputComponent } from './autocomplete-input.component';
+import { InputValidatorDirective } from './validation/input-validator.directive';
+
+@NgModule({
+  declarations: [AutocompleteInputComponent, InputValidatorDirective],
+  imports: [
+    CommonModule,
+    FormsModule,
+    MatAutocompleteModule,
+    MatInputModule,
+    ReactiveFormsModule,
+    ReactiveComponentModule,
+  ],
+  exports: [AutocompleteInputComponent],
+})
+export class AutocompleteInputModule {}

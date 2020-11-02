@@ -1,0 +1,29 @@
+<mat-form-field class="input-bg">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    type="text"
+    [attr.aria-label]="label"
+    matInput
+    [formControl]="inputControl"
+    [matAutocomplete]="auto"
+    [errorStateMatcher]="errorStateMatcher"
+    [iaValidInput]="filter.options"
+    #matInput
+    (blur)="inputBlur($event)"
+  />
+  <mat-error>
+    {{ inputControl.errors?.invalidInput }}
+  </mat-error>
+  <mat-hint align="start">{{ hint }} </mat-hint>
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    (optionSelected)="optionSelected($event)"
+  >
+    <mat-option
+      *ngFor="let option of filteredOptions | ngrxPush; trackBy: trackByFn"
+      [value]="option.id"
+    >
+      {{ option.value }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

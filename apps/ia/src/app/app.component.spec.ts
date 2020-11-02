@@ -11,6 +11,7 @@ import { startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
+import { FilterSectionModule } from './filter-section/filter-section.module';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -26,6 +27,7 @@ describe('AppComponent', () => {
       RouterTestingModule,
       ReactiveComponentModule,
       MatProgressSpinnerModule,
+      FilterSectionModule,
     ],
     providers: [
       provideMockStore({

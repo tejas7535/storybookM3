@@ -1,0 +1,17 @@
+<div fxLayout="row" fxLayoutAlign="space-around center">
+  <div fxFlex="16" *transloco="let t; read: 'filters.organization'">
+    <h6 class="m-b-5">{{ t('title') }}</h6>
+    <ia-autocomplete-input
+      [filter]="organizations$ | ngrxPush"
+      [label]="t('organizationLabel')"
+      [hint]="t('organizationHint')"
+      (selected)="optionSelected($event)"
+    ></ia-autocomplete-input>
+  </div>
+  <div fxFlex="48">
+    <h6>Select a region and location</h6>
+  </div>
+  <div fxFlex="32">
+    <h6>Select period of time</h6>
+  </div>
+</div>
