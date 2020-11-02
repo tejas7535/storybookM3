@@ -57,5 +57,20 @@ describe('Process Case Selector', () => {
         quotationSelectors.getOffer.projector(fakeState.processCase)
       ).toBeTruthy();
     });
+    test('should return empty array if quotation is undefined', () => {
+      const mockState = {
+        ...fakeState,
+        processCase: {
+          ...fakeState.processCase,
+          quotation: {
+            ...fakeState.processCase.quotation,
+            item: undefined as any,
+          },
+        },
+      };
+      expect(
+        quotationSelectors.getOffer.projector(mockState.processCase)
+      ).toBeTruthy();
+    });
   });
 });

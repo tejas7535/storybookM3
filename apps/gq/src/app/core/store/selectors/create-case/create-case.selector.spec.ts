@@ -11,6 +11,7 @@ describe('Create Case Selector', () => {
         autocompleteLoading: 'customer',
         autocompleteItems: [
           { filter: 'customer', options: [new IdValue('1', '1', true)] },
+          { filter: 'quotation', options: [new IdValue('1', '1', true)] },
         ],
         rowData: [
           {
@@ -23,7 +24,7 @@ describe('Create Case Selector', () => {
     },
   };
 
-  describe('getCaseQuotationOptions', () => {
+  describe('getCaseQuotation', () => {
     test('should return quotation', () => {
       expect(
         createSelectors.getCaseQuotation.projector(fakeState.case)
@@ -31,6 +32,15 @@ describe('Create Case Selector', () => {
         fakeState.case.createCase.autocompleteItems.find(
           (elm) => elm.filter === 'quotation'
         )
+      );
+    });
+  });
+  describe('getSelectedQuotation', () => {
+    test('should return quotation number', () => {
+      expect(
+        createSelectors.getSelectedQuotation.projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.createCase.autocompleteItems[0].options[0].value
       );
     });
   });

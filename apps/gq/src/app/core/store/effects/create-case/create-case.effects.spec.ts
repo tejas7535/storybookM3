@@ -13,10 +13,10 @@ import {
   autocompleteSuccess,
 } from '../../actions';
 import { AutocompleteSearch, IdValue } from '../../models';
-import { initialState } from '../../reducers/search/search.reducer';
+import { initialState } from '../../reducers/create-case/create-case.reducer';
 import { CreateCaseEffects } from './create-case.effects';
 
-describe('Search Effects', () => {
+describe('Create Case Effects', () => {
   let action: any;
   let actions$: any;
   let effects: CreateCaseEffects;

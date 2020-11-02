@@ -1,5 +1,0 @@
-1	2	3	45	Berliner
-1	2	3	45	Berliner
-1	2	3	45	Berliner
-1	2	3	45	Berliner
-1	2	3	45	Berliner

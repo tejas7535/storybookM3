@@ -10,7 +10,6 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromProcessCase from './process-case/process-case.reducers';
-import * as fromSearch from './search/search.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -20,14 +19,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  search: fromSearch.SearchState;
   processCase: fromProcessCase.ProcessCaseState;
   case: fromCase.CaseState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  search: fromSearch.searchReducer,
   processCase: fromProcessCase.processCaseReducer,
   case: fromCase.createCaseReducer,
 };
@@ -39,10 +36,6 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
-
-export const getSearchState = createFeatureSelector<fromSearch.SearchState>(
-  'search'
-);
 
 export const getProcessCaseState = createFeatureSelector<
   fromProcessCase.ProcessCaseState

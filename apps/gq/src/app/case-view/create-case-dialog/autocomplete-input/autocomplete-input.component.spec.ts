@@ -124,6 +124,21 @@ describe('AutocompleteInputComponent', () => {
       expect(component.autofilled).toBeTruthy();
     });
   });
+  describe('clearInput', () => {
+    test('should call unselect', () => {
+      component.unselect = jest.fn();
+      component.valueInput = ({
+        nativeElement: { value: 'test' },
+      } as unknown) as any;
+      component.searchFormControl = ({
+        setValue: jest.fn(),
+      } as unknown) as any;
+      component.clearInput();
+      expect(component.unselect).toHaveBeenCalledTimes(1);
+      expect(component.valueInput.nativeElement.value).toEqual('');
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('trackByFn()', () => {
     test('should return the loop index to track usersArray', () => {
       const indexNum = 1337;
