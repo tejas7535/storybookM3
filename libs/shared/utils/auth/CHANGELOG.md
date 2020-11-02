@@ -1,6 +1,19 @@
-# Changelog
+ Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### [1.4.4](///compare/v1.9.0...v1.4.4) (2020-11-02)
+
+
+### 🐛 Bug Fixes
+
+* remove silent refresh part ([5bfbeca](///commit/5bfbecaa019d11db5827b41f4956c4af351d8b70))
+
+
+### ✏️ Documentation
+
+* **auth:** improve shared auth documentation ([befadd4](///commit/befadd4f026caa06e8fd6c8e4211ec305249fd0b))
 
 ### [1.4.3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.4.3) (2020-10-27)
 

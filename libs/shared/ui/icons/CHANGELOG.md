@@ -1,6 +1,9 @@
-# Changelog
+ Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+### [1.4.6](///compare/v1.9.0...v1.4.6) (2020-11-02)
 
 ### [1.4.5](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.4.5) (2020-10-27)
 

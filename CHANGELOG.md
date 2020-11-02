@@ -3,6 +3,36 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.11.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.11.0) (2020-11-02)
+
+
+### ✏️ Documentation
+
+* **auth:** improve shared auth documentation ([befadd4](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/befadd4f026caa06e8fd6c8e4211ec305249fd0b))
+* **readme:** update readme ([9f68f90](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/9f68f909b9210f1c3772286f80b4ae12f6075215))
+
+
+### 🎸 Features
+
+* **ci:** enable manual releases (UFTABI-2968) ([a7daa45](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a7daa45700b798bae3340e87400c92288d4dd84b))
+* **gq:** add customer input (GQUOTE-141) ([ed7309c](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ed7309c3c160d059f421e793e5eadb83febff182))
+* **gq:** add offer view (GQUOTE-164) ([ce339a7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ce339a7f44b2785c56174e7ff41a4f9e52a147ab))
+* **gq:** added usage of new shared http module with interceptor, removed old autocompl (deprecated) ([7d2c61a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7d2c61aff7523ecc472a6a8cd02d262b56041f4d))
+* **gq:** Exclusivity for case creation (GQUOTE-142) ([7f86a99](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/7f86a992916c4ec80ff6551536e4047ea97cf4a4))
+* **ia:** implement organization filter (IA-2) ([e0cb478](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e0cb478f38c1898a8b35b16cd5ca67116fea3373))
+* **ia:** secure application with oAuth2 (IA-29) ([b4fe09a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/b4fe09a6446bd2897e90389dba258558162a3bd8))
+* **qg:** Add Offer drawer (GQUOTE-153) ([3c5f111](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3c5f111e8281f78d587280d76d9aad200377dc88))
+
+
+### 🐛 Bug Fixes
+
+* **http:** disable ivy ([423d096](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/423d096a1bbbe85f655f9c1670122cf0644c2bf0))
+* **ltp:** fix env import ([3f323b7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3f323b77d0feb2469d6d0359b658b17a6933751f))
+* **workspace:** fix null pointer in libs release pipeline ([16bc076](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/16bc076ebe9f187bcce68cf430b0263b7a708785))
+* **workspace:** upload builds for every app ([c122b90](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/c122b903fb90c84891f885437c95fb5059b1b60b))
+* remove silent refresh part ([5bfbeca](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5bfbecaa019d11db5827b41f4956c4af351d8b70))
+* **workspace:** fix issues for manual releases ([55014e7](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/55014e7fe4d33cde83b303c5bdf30d3e2ddc4993))
+
 ## [1.10.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.10.0) (2020-10-29)
 
 
