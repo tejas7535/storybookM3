@@ -632,14 +632,17 @@ pipeline {
                             echo "Build Projects"
                             
                             script {
-                                if(isAppRelease() || isLibsRelease()) {
+                                if (isAppRelease()) {
                                     sh "npx nx run ${env.RELEASE_SCOPE}:build:prod --with-deps"
                                     try {
                                         sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                                     } catch (error) {
                                         echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                                     }
-                                } else {
+                                } else if (isLibsRelease()){
+                                    sh "npx nx run-many --target=build --projects=${affectedLibs.join(",")} --with-deps"
+                                } 
+                                else {
                                     if (isMaster()) {
                                         sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
                                     } else {
