@@ -13,6 +13,10 @@ This library can be used to authenticate users with Azure AD. It supports the pr
 
 ### Prequisites
 
+This lib depends on a few node modules`, which can be installed with npm:
+
+`npm i angular-oauth2-oidc angular-oauth2-oidc-jwks jwt-decode`
+
 ### Azure AD
 
 Go to your `app registration` -> `Authentication` and `Add a platform`.  
@@ -39,6 +43,15 @@ Either way, you need to add the following redirect URIs to it:
   ```
 - Import this auth module into your `app.module.ts`:   
   ```js
+    import { HttpClientModule } from '@angular/common/http';
+    import { RouterModule } from '@angular/router';
+
+
+    import { StoreModule } from '@ngrx/store';
+    import { EffectsModule } from '@ngrx/effects';
+
+    import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
+
     import { environment } from '../environments/environment';
 
     const azureConfig = new AzureConfig(
@@ -53,14 +66,43 @@ Either way, you need to add the following redirect URIs to it:
 
     @NgModule({
         imports: [
-            ....
-            SharedAuthModule.forRoot(azureConfig)
+            ...
+            RouterModule.forRoot([], {
+              initialNavigation: false,
+            }),
+            HttpClientModule,
+            SharedAuthModule.forRoot(azureConfig),
+            StoreModule.forRoot({}),
+            EffectsModule.forRoot(),
         ],
         providers: [...],
         bootstrap: [AppComponent]
     })
     export class AppModule {}
   ```
+
+### Implementation
+
+* Use the `startLoginFlow` action in your application for login, e.g.:
+   ```js
+      public constructor(private readonly store: Store){}
+
+      public ngOnInit(): void {
+            this.store.dispatch(startLoginFlow());
+      }
+   ```
+* Use the `logout` action to logout the user:
+    ```js
+      this.store.dispatch(logout());
+    ```
+* Use the provided selectors to get relevant user information in your app, for example:
+    ```js
+      this.username$ = this.store.pipe(select(getUsername));
+      this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+      this.token$ = this.store.pipe(select(getToken));
+      this.claim$ = this.store.pipe(select(getClaim('myClaim')));
+      this.roles$ = this.store.pipe(select(getRoles));
+    ```
 
 #### `IMPLICIT FLOW` (*DEPRECATED*)
 
@@ -104,39 +146,3 @@ If you want (for whatever reason) still want to use the old implicit follow do t
     assets:[..., "apps/<your-app>/src/silent-refresh.html"],
     ...
   ```
-
-
-### Implementation
-
-* Use the `startLoginFlow` action in your application for login, e.g.:
-   ```js
-      public constructor(private readonly store: Store){}
-
-      public ngOnInit(): void {
-            this.store.dispatch(startLoginFlow());
-      }
-   ```
-* Use the `logout` action to logout the user:
-    ```js
-      this.store.dispatch(logout());
-    ```
-* Use the provided selectors to get relevant user information in your app, for example:
-    ```js
-      this.username$ = this.store.pipe(select(getUsername));
-      this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
-      this.token$ = this.store.pipe(select(getToken));
-      this.claim$ = this.store.pipe(select(getClaim('myClaim')));
-      this.roles$ = this.store.pipe(select(getRoles));
-    ```
-* Adjust your `routing.module.ts` to prevent a redirect before authentication is completed
-    ```js
-      @NgModule({
-        imports: [
-          RouterModule.forRoot(appRoutePaths, {
-            ...
-            initialNavigation: false,
-          }),
-        ],
-        ...
-      })
-    ```
