@@ -704,9 +704,8 @@ pipeline {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo "Deploy Apps to Artifactory"
                             
-                            script {                             
-                                sh 'mkdir dist/zips'
-
+                            script {    
+                                sh 'mkdir -p dist/zips'
                                 def uploadSpec 
                                 def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
