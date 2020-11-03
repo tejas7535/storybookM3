@@ -4,7 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../..';
+import { SharedModule } from '../index';
 import { CustomerDetailsComponent } from './customer-details.component';
 
 @NgModule({

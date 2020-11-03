@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { Customer } from '../../../core/store/models';
+import { Customer } from '../../core/store/models';
 
 @Component({
   selector: 'gq-customer-details',
@@ -20,15 +20,11 @@ export class CustomerDetailsComponent {
         name: customer.name,
         id: customer.id,
         keyAccount: customer.keyAccount.name,
-        keyAccountId: customer.keyAccount.id,
         subKeyAccount: customer.subKeyAccount.name,
-        subKeyAccountId: customer.subKeyAccount.id,
-        region: customer.region,
         subRegion: customer.subRegion,
         country: customer.country,
         sectorManagement: customer.sectorManagement,
         subSector: customer.subSector,
-        subSectorOne: '',
       };
 
       return Object.entries(flatCustomer);
