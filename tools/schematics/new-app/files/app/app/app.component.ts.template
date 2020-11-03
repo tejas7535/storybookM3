@@ -5,7 +5,7 @@ import { UserMenuEntry } from '@schaeffler/header';
 @Component({
   selector: '<%= dasherize(name) %>-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = '<%= capsify(name) %>';

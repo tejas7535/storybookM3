@@ -30,8 +30,8 @@ import { StoreModule } from './store/store.module';
       'en', // default -> undefined would lead to browser detection
       'en',
       true
-    )
+    ),
   ],
-  exports: [AppComponent]
+  exports: [AppComponent],
 })
 export class CoreModule {}
