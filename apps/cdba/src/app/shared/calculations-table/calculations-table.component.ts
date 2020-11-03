@@ -13,18 +13,15 @@ import {
   Column,
   ColumnEvent,
   ColumnState,
-  GetMainMenuItemsParams,
   GridApi,
   IStatusPanelParams,
-  MenuItemDef,
   SideBarDef,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
-import { translate } from '@ngneat/transloco';
 
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
 import { AgGridStateService } from '../services/ag-grid-state.service';
-import { SIDE_BAR_CONFIG } from '../table';
+import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {
   COLUMN_DEFINITIONS,
@@ -80,6 +77,8 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public enableRangeSelection: boolean;
   public rowGroupPanelShow: string;
 
+  public getMainMenuItems = getMainMenuItems;
+
   /**
    * Identify necessary column definitions on provided data.
    */
@@ -134,29 +133,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }
   }
 
-  public getMainMenuItems(
-    params: GetMainMenuItemsParams
-  ): (string | MenuItemDef)[] {
-    const menuItems: (string | MenuItemDef)[] = params.defaultItems.filter(
-      (item: any) => item !== 'resetColumns'
-    );
-
-    const resetMenuItem: MenuItemDef = {
-      name: 'Reset Table',
-      tooltip: translate('detail.calculationTable.menu.resetAll'),
-      action: () => {
-        params.columnApi.setColumnState(
-          Object.values(DEFAULT_COLUMN_STATE) as any[]
-        );
-        params.api.setSortModel([]);
-      },
-    };
-
-    menuItems.push(resetMenuItem);
-
-    return menuItems;
-  }
-
   public onSelectionChanged(): void {
     const nodeId: string = this.gridApi.getSelectedNodes()[0].id;
     const calculation: Calculation = this.gridApi.getSelectedRows()[0];
@@ -192,6 +168,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   }
 
   private setTableProperties(minified: boolean): void {
+    this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
     this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
     this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
     this.frameworkComponents = minified

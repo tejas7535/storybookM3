@@ -5,9 +5,7 @@ import {
   ColDef,
   ColumnEvent,
   ColumnState,
-  GetMainMenuItemsParams,
   IStatusPanelParams,
-  MenuItemDef,
   SideBarDef,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
@@ -28,6 +26,7 @@ import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import {
   columnDefinitionToReferenceTypeProp,
+  getMainMenuItems,
   SIDE_BAR_CONFIG,
 } from '../../shared/table';
 import {
@@ -86,6 +85,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
 
   public sideBar: SideBarDef = SIDE_BAR_CONFIG;
 
+  public getMainMenuItems = getMainMenuItems;
+
   @Input() rowData: ReferenceType[];
 
   /**
@@ -128,32 +129,6 @@ export class ReferenceTypesTableComponent implements OnChanges {
         )
       );
     }
-  }
-
-  /**
-   * Provide custom items for main menu of the table.
-   */
-  public getMainMenuItems(
-    params: GetMainMenuItemsParams
-  ): (string | MenuItemDef)[] {
-    const menuItems: (string | MenuItemDef)[] = params.defaultItems.filter(
-      (item: any) => item !== 'resetColumns'
-    );
-
-    const resetMenuItem: MenuItemDef = {
-      name: 'Reset Table',
-      tooltip: translate('search.referenceTypesTable.menu.resetAll'),
-      action: () => {
-        params.columnApi.setColumnState(
-          Object.values(DEFAULT_COLUMN_STATE) as any[]
-        );
-        params.api.setSortModel([]);
-      },
-    };
-
-    menuItems.push(resetMenuItem);
-
-    return menuItems;
   }
 
   /**
