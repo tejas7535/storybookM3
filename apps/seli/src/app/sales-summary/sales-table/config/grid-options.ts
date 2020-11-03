@@ -5,5 +5,4 @@ export const GRID_OPTIONS: GridOptions = {
   pagination: true,
   paginationPageSize: 25,
   cacheBlockSize: 25,
-  animateRows: true,
 };

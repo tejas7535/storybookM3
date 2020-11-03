@@ -13,6 +13,7 @@ import { SalesSummary } from '../core/store/reducers/sales-summary/models/sales-
 import { DataService } from './data.service';
 import { FilterType } from './enums/filter-type.enum';
 import { requestParamsMock } from './mocks/request-params.mock';
+import { UpdateDatesParams } from './models/dates-update.model';
 import { Page } from './models/page.model';
 
 describe('DataService', () => {
@@ -41,6 +42,14 @@ describe('DataService', () => {
       expect(
         DataService['buildFilterParamKey']('filterKey', FilterType.FILTER)
       ).toEqual(`${FilterType.FILTER}FilterKey`);
+    });
+  });
+
+  describe('createIsoDateString', () => {
+    it('should return an ISO date string', () => {
+      expect(DataService['createIsoDateString']('2020-10-01 00:00:00')).toEqual(
+        '2020-10-01T00:00:00.000Z'
+      );
     });
   });
 
@@ -93,6 +102,7 @@ describe('DataService', () => {
   describe('addFilterParams', () => {
     it('should do nothing when no filter params given', () => {
       DataService['buildFilterParamKey'] = jest.fn();
+      DataService['createIsoDateString'] = jest.fn();
 
       const serverSideGetRowParams: IServerSideGetRowsParams = {
         api: undefined,
@@ -107,10 +117,12 @@ describe('DataService', () => {
         DataService['addFilterParams'](new HttpParams(), serverSideGetRowParams)
       ).toEqual(new HttpParams());
       expect(DataService['buildFilterParamKey']).toHaveBeenCalledTimes(0);
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(0);
     });
 
     it('should do nothing when not valid filter type set', () => {
       DataService['buildFilterParamKey'] = jest.fn();
+      DataService['createIsoDateString'] = jest.fn();
 
       const requestParams = { ...requestParamsMock };
       requestParams.filterModel = {
@@ -134,12 +146,15 @@ describe('DataService', () => {
         DataService['addFilterParams'](new HttpParams(), serverSideGetRowParams)
       ).toEqual(new HttpParams());
       expect(DataService['buildFilterParamKey']).toHaveBeenCalledTimes(0);
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(0);
     });
 
-    it('should add (text)filter param', () => {
+    it('should add (text)filter param for non date', () => {
       DataService['buildFilterParamKey'] = jest
         .fn()
         .mockReturnValue(`${FilterType.FILTER}SectorKey`);
+
+      DataService['createIsoDateString'] = jest.fn();
 
       const requestParams = { ...requestParamsMock };
       requestParams.filterModel = {
@@ -174,12 +189,66 @@ describe('DataService', () => {
         'sectorKey',
         FilterType.FILTER
       );
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(0);
+    });
+
+    it('should add (text)filter param for date', () => {
+      DataService['buildFilterParamKey'] = jest
+        .fn()
+        .mockReturnValue(`${FilterType.FILTER}EopDateVerified`);
+
+      DataService['createIsoDateString'] = jest
+        .fn()
+        .mockReturnValue('2020-10-01T00:00:00.000Z');
+
+      const requestParams = { ...requestParamsMock };
+      requestParams.filterModel = {
+        eopDateVerified: {
+          filterType: 'text',
+          type: 'equals',
+          dateFrom: '2020-10-01 00:00:00',
+        },
+      };
+
+      const serverSideGetRowParams: IServerSideGetRowsParams = {
+        api: undefined,
+        parentNode: undefined,
+        successCallback: undefined,
+        failCallback: undefined,
+        columnApi: undefined,
+        request: requestParams,
+      };
+
+      let expectedHttpParams = new HttpParams();
+      expectedHttpParams = expectedHttpParams.set(
+        'filterEopDateVerified',
+        '2020-10-01T00:00:00.000Z'
+      );
+
+      expect(
+        DataService['addFilterParams'](new HttpParams(), serverSideGetRowParams)
+      ).toEqual(expectedHttpParams);
+
+      expect(DataService['buildFilterParamKey']).toHaveBeenCalledTimes(1);
+      expect(DataService['buildFilterParamKey']).toHaveBeenCalledWith(
+        'eopDateVerified',
+        FilterType.FILTER
+      );
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(1);
+      expect(DataService['createIsoDateString']).toHaveBeenCalledWith(
+        '2020-10-01 00:00:00'
+      );
     });
 
     it('should add (date range)filter param', () => {
       DataService['buildFilterParamKey'] = jest
         .fn()
         .mockReturnValue(`${FilterType.DATE_RANGE}LastUpdated`);
+
+      DataService['createIsoDateString'] = jest
+        .fn()
+        .mockReturnValueOnce('2020-10-21T00:00:00.000Z')
+        .mockReturnValueOnce('2020-10-22T00:00:00.000Z');
 
       const requestParams = { ...requestParamsMock };
       requestParams.filterModel = {
@@ -215,6 +284,14 @@ describe('DataService', () => {
         'lastUpdated',
         FilterType.DATE_RANGE
       );
+
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(2);
+      expect(DataService['createIsoDateString']).toHaveBeenCalledWith(
+        '2020-10-22 00:00:00'
+      );
+      expect(DataService['createIsoDateString']).toHaveBeenCalledWith(
+        '2020-10-21 00:00:00'
+      );
     });
 
     it('should add (date range)filter and (text) filter param', () => {
@@ -222,6 +299,11 @@ describe('DataService', () => {
         .fn()
         .mockReturnValueOnce(`${FilterType.DATE_RANGE}LastUpdated`)
         .mockReturnValueOnce(`${FilterType.FILTER}SectorKey`);
+
+      DataService['createIsoDateString'] = jest
+        .fn()
+        .mockReturnValueOnce('2020-10-21T00:00:00.000Z')
+        .mockReturnValueOnce('2020-10-22T00:00:00.000Z');
 
       const requestParams = { ...requestParamsMock };
       requestParams.filterModel = {
@@ -269,6 +351,14 @@ describe('DataService', () => {
       expect(DataService['buildFilterParamKey']).toHaveBeenCalledWith(
         'sectorKey',
         FilterType.FILTER
+      );
+
+      expect(DataService['createIsoDateString']).toHaveReturnedTimes(2);
+      expect(DataService['createIsoDateString']).toHaveBeenCalledWith(
+        '2020-10-22 00:00:00'
+      );
+      expect(DataService['createIsoDateString']).toHaveBeenCalledWith(
+        '2020-10-21 00:00:00'
       );
     });
   });
@@ -350,4 +440,19 @@ describe('DataService', () => {
       })
     );
   });
+
+  describe('updateDates', () => {
+    it('should resolve', () => {
+      const updateDates = new UpdateDatesParams('key', 'date1', 'date2');
+
+      const url = `${environment.apiBaseUrl}/sales/update-dates`;
+
+      expect(dataService.updateDates(updateDates)).resolves.not.toThrow();
+
+      const req = httpMock.expectOne(url);
+      expect(req.request.method).toBe('PUT');
+      req.flush({});
+    });
+  });
 });
+// tslint:disable-next-line: max-file-line-count

@@ -24,7 +24,7 @@ export const salesSummaryMock = new SalesSummary(
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
-  true,
+  '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   'abc',
   SalesCategory.A

@@ -7,7 +7,14 @@
     [gridOptions]="gridOptions"
     [modules]="modules"
     [sideBar]="sidebar"
+    [frameworkComponents]="frameworkComponents"
+    [detailCellRenderer]="detailCellRenderer"
+    [masterDetail]="true"
+    [detailRowHeight]="240"
+    [enableCellTextSelection]="true"
     (gridReady)="onGridReady($event)"
+    (rowClicked)="onRowClicked($event)"
+    (firstDataRendered)="onFirstDataRendered($event)"
   >
   </ag-grid-angular>
 </div>

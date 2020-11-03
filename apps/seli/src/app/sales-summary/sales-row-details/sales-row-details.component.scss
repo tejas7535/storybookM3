@@ -1,0 +1,18 @@
+.expanded-row-wrapper {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .date-form-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    .mat-form-field {
+      margin: 15px 15px 0 15px;
+    }
+  }
+}
+
+button {
+  margin: 16px 16px;
+}

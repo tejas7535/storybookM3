@@ -1,20 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-import { AuthGuard } from './core/auth.guard';
-
-export enum RoutePath {
-  BasePath = '',
-}
+import { AppRoutePath } from './app-route-path.enum';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.BasePath,
+    path: AppRoutePath.BasePath,
     loadChildren: () =>
       import('./sales-summary/sales-summary.module').then(
         (m) => m.SalesSummaryModule
       ),
-    canActivate: [AuthGuard],
+    canActivate: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.ForbiddenPath,
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',

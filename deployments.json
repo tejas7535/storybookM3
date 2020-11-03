@@ -5,7 +5,7 @@
   "helloworld-azure": "/hello-world/hw-frontend-deployment/master/",
   "cdba": "/cdba/cdba-fe-deployment/master/",
   "goldwind": "/goldwind/gw/master/",
-  "seli": "/seli/seli-frontend-deployment/master/",
+  "seli": "/seli/seli-frontend/master",
   "gq": "/guidedquoting/gq-fe-deployment/master",
   "ia": "/insight-attrition/ia-fe-deployment/master",
   "mac": "/material_app_center/MAC-Frontend-Deployment/master"

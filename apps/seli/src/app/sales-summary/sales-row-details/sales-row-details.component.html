@@ -1,0 +1,76 @@
+<div *ngIf="rowData" class="expanded-row-wrapper">
+  <mat-list>
+    <mat-list-item>
+      <div mat-line>{{ rowData.combinedKey }}</div>
+      <div mat-line>Combined Key</div>
+    </mat-list-item>
+    <mat-list-item>
+      <div mat-line>{{ rowData.socoCustomerNumberGlobalKey }}</div>
+      <div mat-line>Customer Key</div>
+    </mat-list-item>
+  </mat-list>
+
+  <mat-list>
+    <mat-list-item>
+      <div mat-line>{{ rowData.socoArticleNumberGlobalName }}</div>
+      <div mat-line>Material Short Description</div>
+    </mat-list-item>
+    <mat-list-item>
+      <div mat-line>{{ rowData.socoCustomerNumberGlobalName }}</div>
+      <div mat-line>Customer Name</div>
+    </mat-list-item>
+  </mat-list>
+
+  <div class="date-form-wrapper" [formGroup]="datesFormGroup">
+    <mat-form-field appearance="fill">
+      <mat-label>Choose EOP</mat-label>
+      <input
+        matInput
+        [matDatepicker]="eopPicker"
+        formControlName="eopDateControl"
+      />
+      <mat-datepicker-toggle
+        color="primary"
+        matSuffix
+        [for]="eopPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #eopPicker
+        [disabled]="rowData.lastModifier !== uniqueUserName"
+      ></mat-datepicker>
+      <mat-error
+        *ngIf="datesFormGroup.controls['eopDateControl'].hasError('required')"
+        >Please choose a valid date. (MM/DD/YYYY)</mat-error
+      >
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+      <mat-label>Choose EDO</mat-label>
+      <input
+        matInput
+        [matDatepicker]="edoPicker"
+        formControlName="edoDateControl"
+      />
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="edoPicker"
+      ></mat-datepicker-toggle>
+      <mat-datepicker
+        #edoPicker
+        [disabled]="rowData.lastModifier !== uniqueUserName"
+      ></mat-datepicker>
+      <mat-error
+        *ngIf="datesFormGroup.controls['edoDateControl'].hasError('required')"
+        >Please choose a valid date. (MM/DD/YYYY)</mat-error
+      >
+    </mat-form-field>
+
+    <button
+      *ngIf="rowData.lastModifier === uniqueUserName"
+      mat-raised-button
+      color="primary"
+      (click)="sendUpdatedDates()"
+    >
+      CONFIRM
+    </button>
+  </div>
+</div>
