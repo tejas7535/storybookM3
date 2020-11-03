@@ -4,6 +4,12 @@ import { FILTER_PARAMS } from './filter-params';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
+    field: 'combinedKey',
+    headerName: 'Combined Key',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: 'agGroupCellRenderer',
+  },
+  {
     field: 'sectorKey',
     headerName: 'Branch Key',
     filterParams: FILTER_PARAMS,

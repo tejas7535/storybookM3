@@ -25,7 +25,7 @@ export class SalesSummary {
     public lastUpdated: string,
     public eopDateTemp: string,
     public lastEopCalculated: string,
-    public eopDateVerified: boolean,
+    public eopDateVerified: string,
     public edoDate: string,
     public lastModifier: string,
     public categoryNetSales: SalesCategory
