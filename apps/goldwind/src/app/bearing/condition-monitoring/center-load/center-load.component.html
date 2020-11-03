@@ -15,16 +15,19 @@
       fxLayoutAlign="start center"
       fxLayoutGap="5px"
     >
-      <div
-        class="status-indicator"
-        [ngClass]="{ live: socketStatus === 1 }"
-      ></div>
-      <span>{{ socketStatus === 1 ? t('live') : t('offline') }}</span>
+      <div class="status-indicator" [ngClass]="{ live: live }"></div>
+      <span>{{ live ? t('live') : t('offline') }}</span>
     </div>
     <div *ngIf="currentMessage">
       <h4>Current Message:</h4>
       <p>Date: {{ currentMessage?.timestamp | date: 'medium' }}</p>
       <span>{{ currentMessage?.body | json }}</span>
     </div>
+    <!-- <div
+      echarts
+      [options]="chartOptions"
+      [merge]="centerLoadGraphData"
+      class="center-load-chart"
+    ></div> -->
   </mat-card-content>
 </mat-card>

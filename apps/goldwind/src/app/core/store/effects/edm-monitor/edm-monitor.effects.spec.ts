@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { getAccessToken } from '@schaeffler/auth';
 
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getEdm,
   getEdmId,
@@ -28,7 +28,7 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<EdmMonitorEffects>;
   let effects: EdmMonitorEffects;
-  let dataService: DataService;
+  let restService: RestService;
 
   const mockUrl = '/bearing/666/condition-monitoring';
   const mockSensorID = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
@@ -39,7 +39,7 @@ describe('Search Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: DataService,
+        provide: RestService,
         useValue: {
           getEdm: jest.fn(),
         },
@@ -53,7 +53,7 @@ describe('Search Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(EdmMonitorEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = spectator.inject(DataService);
+    restService = spectator.inject(RestService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getEdmInterval, {
@@ -149,11 +149,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      dataService.getEdm = jest.fn(() => response);
+      restService.getEdm = jest.fn(() => response);
 
       expect(effects.edm$).toBeObservable(expected);
-      expect(dataService.getEdm).toHaveBeenCalledTimes(1);
-      expect(dataService.getEdm).toHaveBeenCalledWith({
+      expect(restService.getEdm).toHaveBeenCalledTimes(1);
+      expect(restService.getEdm).toHaveBeenCalledWith({
         id: mockSensorID,
         startDate: 1599651508,
         endDate: 1599651509,

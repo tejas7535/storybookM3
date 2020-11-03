@@ -1,3 +1,5 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
 .full-height {
   height: 100%;
 }
@@ -5,4 +7,21 @@
 .router-content {
   display: flex;
   flex: 1;
+}
+
+.progress-spinner-wrapper {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+::ng-deep .progress-spinner {
+  left: calc(50% - 20px);
+  top: calc(50% - 20px);
+
+  circle {
+    stroke: $schaeffler-green-1;
+  }
 }

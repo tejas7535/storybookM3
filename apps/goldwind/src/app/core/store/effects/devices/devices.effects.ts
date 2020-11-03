@@ -8,7 +8,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getDevices,
   getDevicesFailure,
@@ -44,7 +44,7 @@ export class DevicesEffects {
     this.actions$.pipe(
       ofType(getDevices.type),
       mergeMap(() =>
-        this.dataService.getDevices().pipe(
+        this.restService.getDevices().pipe(
           map((devices) => getDevicesSuccess({ devices })),
           catchError((_e) => of(getDevicesFailure()))
         )
@@ -54,7 +54,7 @@ export class DevicesEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly dataService: DataService,
+    private readonly restService: RestService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
 }

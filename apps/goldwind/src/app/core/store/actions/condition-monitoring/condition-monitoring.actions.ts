@@ -1,33 +1,26 @@
 import { createAction, props, union } from '@ngrx/store';
 
-export const connectStomp = createAction(
-  '[ConditionMonitoring] Establish Stomp Connection'
+export const getLoadId = createAction('[ConditionMonitoring] Load Load Id');
+
+export const getLoad = createAction(
+  '[ConditionMonitoring] Get Load',
+  props<{ bearingId: string }>()
 );
 
-export const disconnectStomp = createAction(
-  '[ConditionMonitoring] End Stomp Connection'
-);
-
-export const getStompStatus = createAction(
-  '[ConditionMonitoring] Establish Stomp Connection Status',
-  props<{ status: number }>()
-);
-
-export const subscribeBroadcast = createAction(
-  '[ConditionMonitoring] Subscribe Broadcast'
-);
-
-export const subscribeBroadcastSuccess = createAction(
-  '[ConditionMonitoring] Subscribe Broadcast Success',
+export const getLoadSuccess = createAction(
+  '[ConditionMonitoring] Get Load Success',
   props<{ id: string; body: any }>()
 );
 
+export const getLoadFailure = createAction(
+  '[ConditionMonitoring] Get Load Failure'
+);
+
 const all = union({
-  connectStomp,
-  disconnectStomp,
-  getStompStatus,
-  subscribeBroadcast,
-  subscribeBroadcastSuccess,
+  getLoadId,
+  getLoad,
+  getLoadFailure,
+  getLoadSuccess,
 });
 
 export type ConditionMonitoringActions = typeof all;

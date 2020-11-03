@@ -8,15 +8,14 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { getAccessToken } from '@schaeffler/auth';
 
-import { StompService } from '../../../http/stomp.service';
+import { RestService } from '../../../http/rest.service';
 import {
-  connectStomp,
-  disconnectStomp,
   getGreaseStatusId,
-  getStompStatus,
-  subscribeBroadcast,
-  subscribeBroadcastSuccess,
+  getLoad,
+  getLoadId,
+  getLoadSuccess,
 } from '../../actions';
+import * as fromRouter from '../../reducers';
 import { ConditionMonitoringEffects } from './condition-monitoring.effects';
 
 describe('Search Effects', () => {
@@ -26,7 +25,7 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<ConditionMonitoringEffects>;
   let effects: ConditionMonitoringEffects;
-  let stompService: StompService;
+  let restService: RestService;
 
   const mockUrl = '/bearing/666/condition-monitoring';
 
@@ -36,10 +35,9 @@ describe('Search Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: StompService,
+        provide: RestService,
         useValue: {
-          connect: jest.fn(),
-          getTopicBroadcast: jest.fn(),
+          getLoad: jest.fn(),
         },
       },
     ],
@@ -51,9 +49,12 @@ describe('Search Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(ConditionMonitoringEffects);
     metadata = getEffectsMetadata(effects);
-    stompService = spectator.inject(StompService);
+    restService = spectator.inject(RestService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
+    store.overrideSelector(fromRouter.getRouterState, {
+      state: { params: { id: '666' } },
+    });
   });
 
   describe('router$', () => {
@@ -64,7 +65,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getThingId, connectStomp, subscribeBroadcast and for now getThingEdmId', () => {
+    test('should dispatch  getGreaseStatusId and getLoadId', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', {
         a: {
@@ -76,101 +77,50 @@ describe('Search Effects', () => {
       const expected = cold('-b', { b: 'condition-monitoring' });
 
       expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(connectStomp());
-      expect(store.dispatch).toHaveBeenCalledWith(subscribeBroadcast());
       expect(store.dispatch).toHaveBeenCalledWith(
         getGreaseStatusId({ source: 'condition-monitoring' })
       );
+      expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
     });
   });
 
-  describe('stream$', () => {
+  describe('loadId$', () => {
+    test('should return getLoad', () => {
+      action = getLoadId();
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-(b)', {
+        b: getLoad({ bearingId: '666' }),
+      });
+
+      expect(effects.loadId$).toBeObservable(expected);
+    });
+  });
+
+  describe('load$', () => {
     beforeEach(() => {
-      action = connectStomp();
+      action = getLoad({ bearingId: '123' });
     });
 
-    test('should return connectStompStatus action when websocket connection is done', () => {
-      const mockToken = 'mockedAccessToken';
+    test('should return getLoadSuccess action when REST call is successful', () => {
+      const mockId = 'testID';
+      const mockBody = 'testBody';
 
-      const status = 1;
-
-      const result = getStompStatus({
-        status,
-      });
+      const result = getLoadSuccess({ id: mockId, body: mockBody });
 
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: status,
+        a: { id: mockId, body: mockBody },
       });
       const expected = cold('--b', { b: result });
 
-      stompService.connect = jest.fn(() => response);
+      restService.getLoad = jest.fn(() => response);
 
-      expect(effects.stream$).toBeObservable(expected);
-      expect(stompService.connect).toHaveBeenCalledTimes(1);
-      expect(stompService.connect).toHaveBeenCalledWith(mockToken);
-    });
-  });
-
-  describe('streamEnd$', () => {
-    beforeEach(() => {
-      action = disconnectStomp();
-    });
-
-    test('should return connectStompStatus action when websocket connection close is done', () => {
-      const status = 0;
-
-      const result = getStompStatus({
-        status,
-      });
-
-      actions$ = hot('-a', { a: action });
-
-      const response = cold('-a|', {
-        a: status,
-      });
-      const expected = cold('--b', { b: result });
-
-      stompService.disconnect = jest.fn(() => response);
-
-      expect(effects.streamEnd$).toBeObservable(expected);
-      expect(stompService.disconnect).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('topicBroadcast$', () => {
-    beforeEach(() => {
-      action = subscribeBroadcast();
-    });
-
-    test('should return subscribeBroadcastSuccess action when getTopicBroadcast service returns a message', () => {
-      const id = 'abc1-def2-ghi3-jkl4';
-      const body = { can: 'contain anything for now' };
-
-      const message = {
-        body,
-        headers: {
-          'message-id': id,
-        },
-      };
-
-      const result = subscribeBroadcastSuccess({
-        id,
-        body,
-      });
-
-      actions$ = hot('-a', { a: action });
-
-      const response = cold('-a|', {
-        a: message,
-      });
-      const expected = cold('--b', { b: result });
-
-      stompService.getTopicBroadcast = jest.fn(() => response);
-
-      expect(effects.topicBroadcast$).toBeObservable(expected);
-      expect(stompService.getTopicBroadcast).toHaveBeenCalledTimes(1);
+      expect(effects.load$).toBeObservable(expected);
+      expect(restService.getLoad).toHaveBeenCalledTimes(1);
+      expect(restService.getLoad).toHaveBeenCalledWith('123');
     });
   });
 });

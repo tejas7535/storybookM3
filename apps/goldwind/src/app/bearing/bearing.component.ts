@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import * as fromStore from '../core/store';
 import { BearingState } from '../core/store/reducers/bearing/bearing.reducer';
 import { BearingMetadata } from '../core/store/reducers/bearing/models';
 import { getBearingResult } from '../core/store/selectors/bearing/bearing.selector';
@@ -19,7 +18,7 @@ interface TabLinks {
   templateUrl: './bearing.component.html',
   styleUrls: ['./bearing.component.scss'],
 })
-export class BearingComponent implements OnInit, OnDestroy {
+export class BearingComponent implements OnInit {
   bearing$: Observable<BearingMetadata>;
 
   public constructor(private readonly store: Store<BearingState>) {}
@@ -45,10 +44,6 @@ export class BearingComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.bearing$ = this.store.pipe(select(getBearingResult));
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(fromStore.disconnectStomp());
   }
 
   public trackByFn(index: number, _item: any): number {
