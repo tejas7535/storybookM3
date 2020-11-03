@@ -1,56 +1,45 @@
-import {
-  connectStomp,
-  disconnectStomp,
-  getStompStatus,
-  subscribeBroadcast,
-  subscribeBroadcastSuccess,
-} from '..';
+import { getLoad, getLoadFailure, getLoadId, getLoadSuccess } from '..';
 
 describe('ConditionMonitoring Actions', () => {
+  let bearingId: string;
+
+  beforeEach(() => {
+    bearingId = '123';
+  });
   describe('Get ConditionMonitoring Actions', () => {
-    test('connectStomp', () => {
-      const action = connectStomp();
+    test('getLoadId', () => {
+      const action = getLoadId();
 
       expect(action).toEqual({
-        type: '[ConditionMonitoring] Establish Stomp Connection',
+        type: '[ConditionMonitoring] Load Load Id',
+      });
+    });
+    test('getLoad', () => {
+      const action = getLoad({ bearingId });
+
+      expect(action).toEqual({
+        bearingId,
+        type: '[ConditionMonitoring] Get Load',
       });
     });
 
-    test('disconnectStomp', () => {
-      const action = disconnectStomp();
-
-      expect(action).toEqual({
-        type: '[ConditionMonitoring] End Stomp Connection',
-      });
-    });
-
-    test('getStompStatus', () => {
-      const status = 1;
-      const action = getStompStatus({ status });
-
-      expect(action).toEqual({
-        status,
-        type: '[ConditionMonitoring] Establish Stomp Connection Status',
-      });
-    });
-
-    test('subscribeBroadcast', () => {
-      const action = subscribeBroadcast();
-
-      expect(action).toEqual({
-        type: '[ConditionMonitoring] Subscribe Broadcast',
-      });
-    });
-
-    test('subscribeBroadcastSuccess', () => {
-      const id = 'test-id';
-      const body = 'anything really';
-      const action = subscribeBroadcastSuccess({ id, body });
+    test('getLoadSuccess', () => {
+      const id: any = {};
+      const body: any = {};
+      const action = getLoadSuccess({ id, body });
 
       expect(action).toEqual({
         id,
         body,
-        type: '[ConditionMonitoring] Subscribe Broadcast Success',
+        type: '[ConditionMonitoring] Get Load Success',
+      });
+    });
+
+    test('getLoadFailure', () => {
+      const action = getLoadFailure();
+
+      expect(action).toEqual({
+        type: '[ConditionMonitoring] Get Load Failure',
       });
     });
   });

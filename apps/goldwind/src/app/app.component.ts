@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
+import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { AppState } from './core/store';
@@ -19,11 +19,13 @@ export class AppComponent implements OnInit {
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
+  isLoggedIn$: Observable<boolean>;
 
   public constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
+    this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
 
     this.store.dispatch(startLoginFlow());
   }

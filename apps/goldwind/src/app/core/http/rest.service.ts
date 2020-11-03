@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 import { Observable, of } from 'rxjs';
+
+import { DataService } from '@schaeffler/http';
 
 import { BearingMetadata } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
 import { GreaseStatus } from '../store/reducers/grease-status/models';
-import { ENV_CONFIG, EnvironmentConfig } from './environment-config.interface';
 
 interface IotParams {
   id: string;
@@ -18,19 +18,14 @@ interface IotParams {
 @Injectable({
   providedIn: 'root',
 })
-export class DataService {
+export class RestService {
   public apiUrl: string;
 
-  public constructor(
-    @Inject(ENV_CONFIG) private readonly config: EnvironmentConfig,
-    private readonly http: HttpClient
-  ) {
-    this.apiUrl = `${this.config.environment.baseUrl}`;
-  }
+  public constructor(private readonly dataService: DataService) {}
 
   public getIot(path: string): Observable<any> {
-    return this.http.get<BearingMetadata | Edm[] | GreaseStatus[]>(
-      `${this.apiUrl}/iot/things/${path}`
+    return this.dataService.getAll<BearingMetadata | Edm[] | GreaseStatus[]>(
+      `iot/things/${path}`
     );
   }
 
@@ -55,7 +50,17 @@ export class DataService {
   }
 
   public getDevices(): Observable<Device[]> {
-    return this.http.get<Device[]>(`${this.apiUrl}/device/listedgedevices`);
+    return this.dataService.getAll<Device[]>(`device/listedgedevices`);
+  }
+
+  public getLoad(id: string): Observable<any> {
+    return (
+      id &&
+      of({
+        id: '123',
+        message: 'testmessage',
+      })
+    );
   }
 
   public getData({

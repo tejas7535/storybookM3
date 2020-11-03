@@ -6,7 +6,7 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getGreaseStatus,
   getGreaseStatusId,
@@ -28,7 +28,7 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<GreaseStatusEffects>;
   let effects: GreaseStatusEffects;
-  let dataService: DataService;
+  let restService: RestService;
 
   const mockUrl = '/bearing/sensor-id-in-url/grease-status';
   const mockRoute = 'grease-status';
@@ -40,7 +40,7 @@ describe('Search Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: DataService,
+        provide: RestService,
         useValue: {
           getGreaseStatus: jest.fn(),
           getGreaseStatusLatest: jest.fn(),
@@ -55,7 +55,7 @@ describe('Search Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(GreaseStatusEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = spectator.inject(DataService);
+    restService = spectator.inject(RestService);
 
     store.overrideSelector(getGreaseSensorId, mockGreaseSensorId);
     store.overrideSelector(getGreaseInterval, {
@@ -171,11 +171,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      dataService.getGreaseStatus = jest.fn(() => response);
+      restService.getGreaseStatus = jest.fn(() => response);
 
       expect(effects.greaseStatus$).toBeObservable(expected);
-      expect(dataService.getGreaseStatus).toHaveBeenCalledTimes(1);
-      expect(dataService.getGreaseStatus).toHaveBeenCalledWith({
+      expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
+      expect(restService.getGreaseStatus).toHaveBeenCalledWith({
         id: mockGreaseSensorId,
         startDate: 1599651508,
         endDate: 1599651509,
@@ -217,11 +217,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      dataService.getGreaseStatusLatest = jest.fn(() => response);
+      restService.getGreaseStatusLatest = jest.fn(() => response);
 
       expect(effects.greaseStatusLatest$).toBeObservable(expected);
-      expect(dataService.getGreaseStatusLatest).toHaveBeenCalledTimes(1);
-      expect(dataService.getGreaseStatusLatest).toHaveBeenCalledWith(
+      expect(restService.getGreaseStatusLatest).toHaveBeenCalledTimes(1);
+      expect(restService.getGreaseStatusLatest).toHaveBeenCalledWith(
         mockGreaseSensorId
       );
     });

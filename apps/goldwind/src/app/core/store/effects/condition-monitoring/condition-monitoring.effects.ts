@@ -1,22 +1,27 @@
 import { Injectable } from '@angular/core';
 
-import { filter, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import { of } from 'rxjs';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
-import { getAccessToken } from '@schaeffler/auth';
-
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { StompService } from '../../../http/stomp.service';
+import { RestService } from '../../../http/rest.service';
 import {
-  connectStomp,
-  disconnectStomp,
   getGreaseStatusId,
-  getStompStatus,
-  subscribeBroadcast,
-  subscribeBroadcastSuccess,
+  getLoad,
+  getLoadFailure,
+  getLoadId,
+  getLoadSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
 
@@ -38,60 +43,36 @@ export class ConditionMonitoringEffects {
             currentRoute === BearingRoutePath.ConditionMonitoringPath
         ),
         tap((currentRoute) => {
-          this.store.dispatch(connectStomp());
-          this.store.dispatch(subscribeBroadcast());
           this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
+          this.store.dispatch(getLoadId());
         })
       ),
     { dispatch: false }
   );
 
   /**
-   * Establish Websocket Connection
+   * Load Load ID
    */
-  stream$ = createEffect(() =>
+  loadId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(connectStomp.type),
-      withLatestFrom(this.store.pipe(select(getAccessToken))),
-      mergeMap(([_action, accessToken]) =>
-        this.stompService
-          .connect(accessToken)
-          .pipe(map((status) => getStompStatus({ status })))
-      )
+      ofType(getLoadId.type),
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) => routerState.state.params.id),
+      map((bearingId) => getLoad({ bearingId }))
     )
   );
 
   /**
-   * End Websocket Connection
+   * Load Load
    */
-  streamEnd$ = createEffect(() =>
+  load$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(disconnectStomp.type),
-      mergeMap(() =>
-        this.stompService
-          .disconnect()
-          .pipe(map((status) => getStompStatus({ status })))
-      )
-    )
-  );
-
-  /**
-   * Subscribe to general Broadcast
-   */
-  topicBroadcast$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(subscribeBroadcast.type),
-      mergeMap(() =>
-        this.stompService.getTopicBroadcast().pipe(
-          map(
-            (message) => {
-              const id = message.headers['message-id'];
-              const body = message.body;
-
-              return subscribeBroadcastSuccess({ id, body });
-            }
-            // catchError((_e) => of(subscribeBroadcastFailure()))
-          )
+      ofType(getLoad.type),
+      map((action: any) => action.bearingId),
+      mergeMap((bearingId) =>
+        this.restService.getLoad(bearingId).pipe(
+          map(({ id, body }) => getLoadSuccess({ id, body })),
+          catchError((_e) => of(getLoadFailure()))
         )
       )
     )
@@ -99,7 +80,7 @@ export class ConditionMonitoringEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly stompService: StompService,
+    private readonly restService: RestService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
 }

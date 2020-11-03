@@ -8,7 +8,7 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { getAccessToken } from '@schaeffler/auth';
 
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getData,
   getDataId,
@@ -28,7 +28,7 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<DataViewEffects>;
   let effects: DataViewEffects;
-  let dataService: DataService;
+  let restService: RestService;
 
   const mockUrl = '/bearing/666/data-view';
   const mockDeviceID = '123-456-789';
@@ -39,7 +39,7 @@ describe('Search Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: DataService,
+        provide: RestService,
         useValue: {
           getData: jest.fn(),
         },
@@ -53,7 +53,7 @@ describe('Search Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(DataViewEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = spectator.inject(DataService);
+    restService = spectator.inject(RestService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getDataInterval, {
@@ -150,11 +150,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      dataService.getData = jest.fn(() => response);
+      restService.getData = jest.fn(() => response);
 
       expect(effects.data$).toBeObservable(expected);
-      expect(dataService.getData).toHaveBeenCalledTimes(1);
-      expect(dataService.getData).toHaveBeenCalledWith({
+      expect(restService.getData).toHaveBeenCalledTimes(1);
+      expect(restService.getData).toHaveBeenCalledWith({
         id: mockDeviceID,
         startDate: 1599651508,
         endDate: 1599651509,

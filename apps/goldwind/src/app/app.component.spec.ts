@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -17,7 +18,13 @@ describe('AppComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AppComponent,
-    imports: [HeaderModule, MatButtonModule, RouterTestingModule, FooterModule],
+    imports: [
+      HeaderModule,
+      MatButtonModule,
+      MatProgressSpinnerModule,
+      RouterTestingModule,
+      FooterModule,
+    ],
     providers: [
       provideMockStore({
         initialState: {

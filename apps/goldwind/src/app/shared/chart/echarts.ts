@@ -4,6 +4,7 @@ import 'echarts/src/chart/gauge';
 import 'echarts/src/chart/line';
 import 'echarts/src/component/dataZoom';
 import 'echarts/src/component/legend';
+import 'echarts/src/component/polar';
 import 'echarts/src/component/title';
 import 'echarts/src/component/tooltip';
 

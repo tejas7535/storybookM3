@@ -15,7 +15,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getData,
   getDataFailure,
@@ -81,7 +81,7 @@ export class DataViewEffects {
         ...interval,
       })),
       mergeMap((dataPrams) =>
-        this.dataService.getData(dataPrams).pipe(
+        this.restService.getData(dataPrams).pipe(
           map((result) => getDataSuccess({ result })),
           catchError((_e) => of(getDataFailure()))
         )
@@ -91,7 +91,7 @@ export class DataViewEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly dataService: DataService,
+    private readonly restService: RestService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
 }

@@ -40,7 +40,7 @@ describe('ConditionMonitoringComponent', () => {
           },
           conditionMonitoring: {
             centerLoad: {
-              socketStatus: undefined,
+              loading: undefined,
               events: [],
               contents: undefined,
             },

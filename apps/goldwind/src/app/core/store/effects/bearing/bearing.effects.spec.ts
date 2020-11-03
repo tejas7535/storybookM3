@@ -9,7 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { getAccessToken } from '@schaeffler/auth';
 
 import { BEARING_MOCK } from '../../../../../testing/mocks';
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getBearing,
   getBearingId,
@@ -25,7 +25,7 @@ describe('Search Effects', () => {
   let store: any;
   let metadata: EffectsMetadata<BearingEffects>;
   let effects: BearingEffects;
-  let dataService: DataService;
+  let restService: RestService;
 
   const mockUrl = '/bearing/666/condition-monitoring';
 
@@ -35,7 +35,7 @@ describe('Search Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore(),
       {
-        provide: DataService,
+        provide: RestService,
         useValue: {
           getBearing: jest.fn(),
         },
@@ -49,7 +49,7 @@ describe('Search Effects', () => {
     store = spectator.inject(Store);
     effects = spectator.inject(BearingEffects);
     metadata = getEffectsMetadata(effects);
-    dataService = spectator.inject(DataService);
+    restService = spectator.inject(RestService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {
@@ -112,11 +112,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      dataService.getBearing = jest.fn(() => response);
+      restService.getBearing = jest.fn(() => response);
 
       expect(effects.bearing$).toBeObservable(expected);
-      expect(dataService.getBearing).toHaveBeenCalledTimes(1);
-      expect(dataService.getBearing).toHaveBeenCalledWith('123');
+      expect(restService.getBearing).toHaveBeenCalledTimes(1);
+      expect(restService.getBearing).toHaveBeenCalledWith('123');
     });
   });
 });

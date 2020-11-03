@@ -1,14 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import {
-  getStompStatus,
-  subscribeBroadcastSuccess,
-} from '../../actions/condition-monitoring/condition-monitoring.actions';
+import { getLoad, getLoadFailure, getLoadSuccess } from '../../actions';
 import { MessageEvent } from './models';
 
 export interface ConditionMonitoringState {
   centerLoad: {
-    socketStatus: number;
+    loading: boolean;
     events: MessageEvent[];
     contents: any;
   };
@@ -16,7 +13,7 @@ export interface ConditionMonitoringState {
 
 export const initialState: ConditionMonitoringState = {
   centerLoad: {
-    socketStatus: undefined,
+    loading: false,
     events: [],
     contents: undefined,
   },
@@ -24,28 +21,35 @@ export const initialState: ConditionMonitoringState = {
 
 export const conditionMonitoringReducer = createReducer(
   initialState,
-  on(getStompStatus, (state: ConditionMonitoringState, { status }) => ({
+  on(getLoad, (state: ConditionMonitoringState) => ({
     ...state,
-    centerLoad: { ...state.centerLoad, socketStatus: status },
+    centerLoad: {
+      ...state.centerLoad,
+      loading: true,
+    },
   })),
-  on(
-    subscribeBroadcastSuccess,
-    (state: ConditionMonitoringState, { id, body }) => {
-      const event = {
-        id,
-        timestamp: +new Date(),
-      };
+  on(getLoadSuccess, (state: ConditionMonitoringState, { id, body }) => {
+    const event = {
+      id,
+      timestamp: +new Date(),
+    };
 
-      return {
-        ...state,
-        centerLoad: {
-          ...state.centerLoad,
-          events: [...state.centerLoad.events, event],
-          contents: { ...state.centerLoad.contents, ...{ [id]: body } },
-        },
-      };
-    }
-  )
+    return {
+      ...state,
+      centerLoad: {
+        loading: false,
+        events: [...state.centerLoad.events, event],
+        contents: { ...state.centerLoad.contents, ...{ [id]: body } },
+      },
+    };
+  }),
+  on(getLoadFailure, (state: ConditionMonitoringState) => ({
+    ...state,
+    centerLoad: {
+      ...state.centerLoad,
+      loading: false,
+    },
+  }))
 );
 
 // tslint:disable-next-line: only-arrow-functions

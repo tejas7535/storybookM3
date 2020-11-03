@@ -2,8 +2,8 @@ import { initialState } from '../../reducers/condition-monitoring/condition-moni
 import {
   getCurrentMessage,
   getCurrentMessageId,
+  getLiveStatus,
   getMessagesEvents,
-  getSocketStatus,
 } from './condition-monitoring.selector';
 
 describe('ConditionMonitoring Selector', () => {
@@ -11,7 +11,7 @@ describe('ConditionMonitoring Selector', () => {
     conditionMonitoring: {
       ...initialState,
       centerLoad: {
-        socketStatus: 0,
+        loading: false,
         events: [
           {
             id: 'olderEvent',
@@ -29,18 +29,17 @@ describe('ConditionMonitoring Selector', () => {
       },
     },
   };
-
-  describe('getSocketStatus ', () => {
-    test('should return numeric socket status', () => {
-      expect(getSocketStatus(fakeState)).toEqual(0);
-    });
-  });
-
   describe('getMessagesEvents', () => {
     test('should return array of events', () => {
       expect(getMessagesEvents(fakeState)).toEqual(
         fakeState.conditionMonitoring.centerLoad.events
       );
+    });
+  });
+
+  describe('getLiveStatus ', () => {
+    test('should return numeric socket status', () => {
+      expect(getLiveStatus(fakeState)).toEqual(false);
     });
   });
 

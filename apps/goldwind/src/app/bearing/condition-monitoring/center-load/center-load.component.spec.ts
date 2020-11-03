@@ -1,6 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { CenterLoadComponent } from './center-load.component';
 
@@ -10,7 +11,12 @@ describe('ConditionMeasuringEquipmentComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CenterLoadComponent,
-    imports: [MatCardModule],
+    imports: [
+      MatCardModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+    ],
     declarations: [CenterLoadComponent],
   });
 

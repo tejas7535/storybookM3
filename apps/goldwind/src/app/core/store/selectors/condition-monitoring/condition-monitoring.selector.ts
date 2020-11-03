@@ -4,14 +4,15 @@ import { getConditionMonitoringState } from '../../reducers';
 import { ConditionMonitoringState } from '../../reducers/condition-monitoring/condition-monitoring.reducer';
 import { MessageEvent } from '../../reducers/condition-monitoring/models';
 
-export const getSocketStatus = createSelector(
-  getConditionMonitoringState,
-  (state: ConditionMonitoringState): number => state.centerLoad.socketStatus
-);
-
 export const getCenterLoad = createSelector(
   getConditionMonitoringState,
   (state: ConditionMonitoringState) => state.centerLoad
+);
+
+// Will at some point only return true if last result is not too old
+export const getLiveStatus = createSelector(
+  getCenterLoad,
+  (centerLoad: any): boolean => centerLoad && false
 );
 
 export const getMessagesEvents = createSelector(

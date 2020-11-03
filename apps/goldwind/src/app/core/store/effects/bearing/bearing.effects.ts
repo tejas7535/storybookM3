@@ -15,7 +15,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getBearing,
   getBearingFailure,
@@ -65,7 +65,7 @@ export class BearingEffects {
       ofType(getBearing.type),
       map((action: any) => action.bearingId),
       mergeMap((bearingId) =>
-        this.dataService.getBearing(bearingId).pipe(
+        this.restService.getBearing(bearingId).pipe(
           map((bearing) => getBearingSuccess({ bearing })),
           catchError((_e) => of(getBearingFailure()))
         )
@@ -75,7 +75,7 @@ export class BearingEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly dataService: DataService,
+    private readonly restService: RestService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
 }

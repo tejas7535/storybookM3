@@ -15,7 +15,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
-import { DataService } from '../../../http/data.service';
+import { RestService } from '../../../http/rest.service';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
@@ -96,7 +96,7 @@ export class GreaseStatusEffects {
         ...interval,
       })),
       mergeMap((edmParams) =>
-        this.dataService.getGreaseStatus(edmParams).pipe(
+        this.restService.getGreaseStatus(edmParams).pipe(
           map((greaseStatus) => getGreaseStatusSuccess({ greaseStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
         )
@@ -112,7 +112,7 @@ export class GreaseStatusEffects {
       ofType(getGreaseStatusLatest.type),
       map((action: any) => action.greaseStatusId),
       mergeMap((edmParams) =>
-        this.dataService.getGreaseStatusLatest(edmParams).pipe(
+        this.restService.getGreaseStatusLatest(edmParams).pipe(
           map((greaseStatusLatest) =>
             getGreaseStatusLatestSuccess({ greaseStatusLatest })
           ),
@@ -124,7 +124,7 @@ export class GreaseStatusEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly dataService: DataService,
+    private readonly restService: RestService,
     private readonly store: Store<fromRouter.AppState>
   ) {}
 }

@@ -9,8 +9,8 @@ import { MainBearing } from '../../core/store/reducers/bearing/models';
 import { Message } from '../../core/store/reducers/condition-monitoring/models';
 import {
   getCurrentMessage,
+  getLiveStatus,
   getMainBearing,
-  getSocketStatus,
 } from '../../core/store/selectors/';
 
 @Component({
@@ -21,13 +21,13 @@ import {
 export class ConditionMonitoringComponent implements OnInit {
   mainBearing$: Observable<MainBearing>;
   currentMessage$: Observable<Message>;
-  socketStatus$: Observable<number>;
+  live$: Observable<boolean>;
 
   public constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.mainBearing$ = this.store.pipe(select(getMainBearing));
     this.currentMessage$ = this.store.pipe(select(getCurrentMessage));
-    this.socketStatus$ = this.store.pipe(select(getSocketStatus));
+    this.live$ = this.store.pipe(select(getLiveStatus));
   }
 }
