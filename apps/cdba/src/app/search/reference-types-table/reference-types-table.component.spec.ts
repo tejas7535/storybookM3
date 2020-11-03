@@ -7,9 +7,7 @@ import {
   ColDef,
   ColumnEvent,
   ColumnState,
-  GetMainMenuItemsParams,
   IStatusPanelParams,
-  MenuItemDef,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -149,63 +147,6 @@ describe('ReferenceTypesTableComponent', () => {
       expect(
         ReferenceTypesTableComponent['getUpdatedDefaultColumnDefinitions']
       ).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('getMainMenuItems', () => {
-    it('should remove default "resetColumns" menuItem', () => {
-      let mockParams = ({
-        defaultItems: ['foo', 'bar'],
-      } as unknown) as GetMainMenuItemsParams;
-
-      let result = component.getMainMenuItems(mockParams);
-
-      expect(result).not.toContain('resetColumns');
-
-      mockParams = ({
-        defaultItems: ['foo', 'bar', 'resetColumns'],
-      } as unknown) as GetMainMenuItemsParams;
-
-      result = component.getMainMenuItems(mockParams);
-
-      expect(result).not.toContain('resetColumns');
-    });
-
-    it('should add custom reset menu item', () => {
-      const mockParams = ({
-        defaultItems: ['foo', 'bar', 'resetColumns'],
-      } as unknown) as GetMainMenuItemsParams;
-
-      const result = component.getMainMenuItems(mockParams);
-
-      const menuItem = result.find(
-        (item: string | MenuItemDef) =>
-          typeof item !== 'string' && item.name === 'Reset Table'
-      );
-
-      expect(menuItem).toBeDefined();
-    });
-
-    it('should call api to reset column state and sort state when calling the menu item action', () => {
-      const mockParams = ({
-        defaultItems: ['foo', 'bar', 'resetColumns'],
-        api: {
-          setSortModel: jest.fn(),
-        },
-        columnApi: { setColumnState: jest.fn() },
-      } as unknown) as GetMainMenuItemsParams;
-
-      const result = component.getMainMenuItems(mockParams);
-
-      const menuItem: MenuItemDef = result.find(
-        (item: string | MenuItemDef) =>
-          typeof item !== 'string' && item.name === 'Reset Table'
-      ) as MenuItemDef;
-
-      menuItem.action();
-
-      expect(mockParams.api.setSortModel).toHaveBeenCalled();
-      expect(mockParams.columnApi.setColumnState).toHaveBeenCalled();
     });
   });
 

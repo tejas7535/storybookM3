@@ -1,9 +1,12 @@
 import { DatePipe, DecimalPipe } from '@angular/common';
 
 import {
+  GetMainMenuItemsParams,
+  MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 
 import { MaterialNumberPipe } from '../pipes';
 
@@ -73,4 +76,36 @@ export const columnDefinitionToReferenceTypeProp = (def: string) => {
     default:
       return def;
   }
+};
+
+/**
+ * Provide custom items for main menu of the table.
+ */
+export const getMainMenuItems = (
+  params: GetMainMenuItemsParams
+): (string | MenuItemDef)[] => {
+  const menuItems: (string | MenuItemDef)[] = [...params.defaultItems];
+
+  const resetFilter: MenuItemDef = {
+    name: translate('shared.table.columnMenu.resetFilter.menuEntry'),
+    tooltip: translate('shared.table.columnMenu.resetFilter.tooltip'),
+    action: () => {
+      params.api.setFilterModel(undefined);
+    },
+  };
+
+  const resetTable: MenuItemDef = {
+    name: translate('shared.table.columnMenu.resetTable.menuEntry'),
+    tooltip: translate('shared.table.columnMenu.resetTable.tooltip'),
+    action: () => {
+      params.api.setFilterModel(undefined);
+      params.columnApi.resetColumnGroupState();
+      params.columnApi.resetColumnState();
+    },
+  };
+
+  menuItems.push(resetFilter);
+  menuItems.push(resetTable);
+
+  return menuItems;
 };

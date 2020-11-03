@@ -25,6 +25,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     ),
     valueGetter: (params) => valueGetterDate(params, 'costingDateFrom'),
     valueFormatter: formatDate,
+    filter: 'agDateColumnFilter',
   },
   costingVariant: {
     field: 'costingVariant',
@@ -35,6 +36,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     field: 'priceEur',
     headerName: translate('detail.calculationTable.headers.priceEur'),
     headerTooltip: translate('detail.calculationTable.tooltips.priceEur'),
+    filter: 'agNumberColumnFilter',
   },
   priceEurCurrency: {
     field: 'priceEurCurrency',
@@ -60,11 +62,13 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerName: translate('detail.calculationTable.headers.quantity'),
     headerTooltip: translate('detail.calculationTable.tooltips.quantity'),
     valueFormatter: formatNumber,
+    filter: 'agNumberColumnFilter',
   },
   lotSize: {
     field: 'lotSize',
     headerName: translate('detail.calculationTable.headers.lotSize'),
     headerTooltip: translate('detail.calculationTable.tooltips.lotSize'),
     valueFormatter: formatNumber,
+    filter: 'agNumberColumnFilter',
   },
 };

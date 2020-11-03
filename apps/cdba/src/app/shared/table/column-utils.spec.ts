@@ -2,6 +2,8 @@ import { registerLocaleData } from '@angular/common';
 import de from '@angular/common/locales/de';
 
 import {
+  GetMainMenuItemsParams,
+  MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
 } from '@ag-grid-community/all-modules';
@@ -11,11 +13,17 @@ import {
   formatDate,
   formatMaterialNumber,
   formatNumber,
+  getMainMenuItems,
   valueGetterArray,
   valueGetterDate,
 } from './column-utils';
 
 registerLocaleData(de);
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn((key) => key),
+}));
 
 describe('ColumnUtils', () => {
   describe('currentYear', () => {
@@ -121,6 +129,78 @@ describe('ColumnUtils', () => {
       result = valueGetterArray(params, key, 1);
 
       expect(result).toEqual(20);
+    });
+  });
+
+  describe('getMainMenuItems', () => {
+    it('should add custom reset menu items', () => {
+      const mockParams = ({
+        defaultItems: ['foo', 'bar', 'resetColumns'],
+      } as unknown) as GetMainMenuItemsParams;
+
+      const result = getMainMenuItems(mockParams);
+
+      const resetFilterItem = result.find(
+        (item: string | MenuItemDef) =>
+          typeof item !== 'string' &&
+          item.name === 'shared.table.columnMenu.resetFilter.menuEntry'
+      );
+
+      expect(resetFilterItem).toBeDefined();
+
+      const resetTableItem = result.find(
+        (item: string | MenuItemDef) =>
+          typeof item !== 'string' &&
+          item.name === 'shared.table.columnMenu.resetTable.menuEntry'
+      );
+
+      expect(resetTableItem).toBeDefined();
+    });
+
+    it('should call api to reset filter state when calling the menu item reset filter', () => {
+      const mockParams = ({
+        defaultItems: ['foo', 'bar', 'resetColumns'],
+        api: { setFilterModel: jest.fn() },
+      } as unknown) as GetMainMenuItemsParams;
+
+      const result = getMainMenuItems(mockParams);
+
+      const menuItem: MenuItemDef = result.find(
+        (item: string | MenuItemDef) =>
+          typeof item !== 'string' &&
+          item.name === 'shared.table.columnMenu.resetFilter.menuEntry'
+      ) as MenuItemDef;
+
+      menuItem.action();
+
+      expect(mockParams.api.setFilterModel).toHaveBeenCalled();
+    });
+
+    it('should reset entire table when calling the menu item reset table', () => {
+      const mockParams = ({
+        defaultItems: ['foo', 'bar', 'resetColumns'],
+        api: {
+          setFilterModel: jest.fn(),
+        },
+        columnApi: {
+          resetColumnGroupState: jest.fn(),
+          resetColumnState: jest.fn(),
+        },
+      } as unknown) as GetMainMenuItemsParams;
+
+      const result = getMainMenuItems(mockParams);
+
+      const menuItem: MenuItemDef = result.find(
+        (item: string | MenuItemDef) =>
+          typeof item !== 'string' &&
+          item.name === 'shared.table.columnMenu.resetTable.menuEntry'
+      ) as MenuItemDef;
+
+      menuItem.action();
+
+      expect(mockParams.api.setFilterModel).toHaveBeenCalled();
+      expect(mockParams.columnApi.resetColumnGroupState).toHaveBeenCalled();
+      expect(mockParams.columnApi.resetColumnState).toHaveBeenCalled();
     });
   });
 });
