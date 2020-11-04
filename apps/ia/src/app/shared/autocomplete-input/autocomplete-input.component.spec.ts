@@ -91,6 +91,7 @@ describe('AutocompleteInputComponent', () => {
 
   describe('inputBlur', () => {
     test('should set error when option is not valid', (done) => {
+      component.inputControl.setErrors = jest.fn();
       component.inputBlur({
         target: {
           value: 'test',
@@ -98,23 +99,23 @@ describe('AutocompleteInputComponent', () => {
       });
 
       setTimeout(() => {
-        expect(component.inputControl.invalid).toBeTruthy();
+        expect(component.inputControl.setErrors).toHaveBeenCalled();
         done();
       }, 350);
     });
 
     test('should do nothing when value did not change', (done) => {
-      component['lastEmittedValue'] = 'cherry';
+      component['lastEmittedValue'] = '3';
       component.selected.emit = jest.fn();
       component.inputControl.setErrors = jest.fn();
       component.inputBlur({
         target: {
-          value: 'cherry',
+          value: '3',
         },
       });
 
       setTimeout(() => {
-        expect(component.inputControl.setErrors).toHaveBeenCalled();
+        expect(component.inputControl.setErrors).not.toHaveBeenCalled();
         expect(component.selected.emit).not.toHaveBeenCalled();
         done();
       }, 350);

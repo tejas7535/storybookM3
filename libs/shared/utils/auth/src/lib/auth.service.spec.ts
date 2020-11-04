@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
-import { OAuthService } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from './auth.service';
@@ -31,6 +31,7 @@ describe('AuthService', () => {
               Promise.resolve(true)
             ),
             silentRefresh: jest.fn(() => Promise.resolve(true)),
+            refreshToken: jest.fn(() => Promise.resolve(true)),
             logOut: jest.fn(),
           },
         },
@@ -39,6 +40,12 @@ describe('AuthService', () => {
           useValue: {
             navigateByUrl: jest.fn(),
             url: 'test',
+          },
+        },
+        {
+          provide: AuthConfig,
+          useValue: {
+            useSilentRefresh: jest.fn(() => true),
           },
         },
       ],
@@ -66,9 +73,10 @@ describe('AuthService', () => {
       expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
 
-    test('should call initLoginFlow when access token invalid', async () => {
+    test('should call initLoginFlow when refresh fails', async () => {
       oAuthService.hasValidAccessToken = jest.fn(() => false);
       oAuthService.initLoginFlow = jest.fn();
+      oAuthService.silentRefresh = jest.fn(() => Promise.reject());
       service['navigateToState'] = jest.fn();
       const target = 'target';
 

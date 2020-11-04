@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { from, Observable } from 'rxjs';
 
-import { OAuthService } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import jwtDecode from 'jwt-decode';
 
 import { AccessToken, User } from './models';
@@ -14,7 +14,8 @@ import { AccessToken, User } from './models';
 export class AuthService {
   constructor(
     public readonly oauthService: OAuthService,
-    private readonly injector: Injector
+    private readonly injector: Injector,
+    private readonly authConfig: AuthConfig
   ) {}
 
   public static getDecodedAccessToken(token: string): AccessToken {
@@ -30,10 +31,19 @@ export class AuthService {
       .loadDiscoveryDocumentAndTryLogin()
       .then(async () => {
         if (this.oauthService.hasValidAccessToken()) {
+          // 1) is already logged in?
           return Promise.resolve();
         }
 
-        this.oauthService.initLoginFlow(targetUrl || '/');
+        // 2) try refresh first
+        const refresh = this.authConfig.useSilentRefresh
+          ? () => this.oauthService.silentRefresh()
+          : () => this.oauthService.refreshToken();
+
+        return (refresh as any)().catch(() => {
+          // 3) silent refresh not possible -> login via implicit flow / code flow
+          this.oauthService.initLoginFlow(targetUrl || '/');
+        });
       })
       .then(() => {
         this.navigateToState();
@@ -43,13 +53,12 @@ export class AuthService {
 
   public tryAutomaticLogin(): Observable<boolean> {
     this.oauthService.setStorage(sessionStorage);
+    this.oauthService.setupAutomaticSilentRefresh();
 
     return from(
       this.oauthService
         .loadDiscoveryDocumentAndTryLogin()
         .then(async () => {
-          this.oauthService.setupAutomaticSilentRefresh();
-
           if (this.oauthService.hasValidAccessToken()) {
             return Promise.resolve(true);
           }

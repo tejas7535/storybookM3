@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-export enum RoutePath {
-  BasePath = '',
-  HomePath = 'home',
-}
+import { AppRoutePath } from './app-route-path.enum';
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
-    pathMatch: 'full',
-  },
-  {
-    path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    path: AppRoutePath.BasePath,
+    children: [
+      {
+        path: AppRoutePath.BasePath,
+        redirectTo: AppRoutePath.OverviewPath,
+        pathMatch: 'full',
+      },
+      {
+        path: AppRoutePath.OverviewPath,
+        loadChildren: () =>
+          import('./overview/overview.module').then((m) => m.OverviewModule),
+      },
+    ],
   },
   {
     path: '**',
@@ -27,6 +30,7 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
+      initialNavigation: false,
     }),
   ],
   exports: [RouterModule],

@@ -9,9 +9,25 @@
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
 
-  <ia-filter-section></ia-filter-section>
+  <div class="site-content">
+    <ia-filter-section></ia-filter-section>
 
-  <router-outlet></router-outlet>
+    <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
+      <a
+        *ngFor="let tab of tabs; trackBy: trackByFn()"
+        mat-tab-link
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLink]="tab.link"
+        [active]="rla.isActive"
+        [class.disabled]="tab.disabled"
+        >{{ t(tab.label) }}</a
+      >
+    </nav>
+    <div class="tab-content">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
 </schaeffler-header>
 
 <ng-template #loading>

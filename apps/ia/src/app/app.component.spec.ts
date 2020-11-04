@@ -1,5 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -9,6 +10,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
 import { FilterSectionModule } from './filter-section/filter-section.module';
@@ -28,6 +30,8 @@ describe('AppComponent', () => {
       ReactiveComponentModule,
       MatProgressSpinnerModule,
       FilterSectionModule,
+      MatTabsModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [
       provideMockStore({
@@ -66,6 +70,14 @@ describe('AppComponent', () => {
 
       expect(component.username$).toBeDefined();
       expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+    });
+  });
+
+  describe('trackByFn', () => {
+    it('should return index', () => {
+      const result = component.trackByFn(3);
+
+      expect(result).toEqual(3);
     });
   });
 });
