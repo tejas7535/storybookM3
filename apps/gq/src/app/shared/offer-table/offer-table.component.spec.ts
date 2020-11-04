@@ -8,7 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
 import { CustomStatusBarModule } from '../custom-status-bar/custom-status-bar.module';
-import { ExportToCsvButtonComponent } from '../custom-status-bar/export-to-csv-button/export-to-csv-button.component';
+import { ExportToExcelButtonComponent } from '../custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { UploadToSapButtonComponent } from '../custom-status-bar/upload-to-sap-button/upload-to-sap-button.component';
 import { OfferTableComponent } from './offer-table.component';
 
@@ -28,7 +28,7 @@ describe('OfferTableComponent', () => {
     imports: [
       AgGridModule.withComponents([
         UploadToSapButtonComponent,
-        ExportToCsvButtonComponent,
+        ExportToExcelButtonComponent,
       ]),
       provideTranslocoTestingModule({}),
       CustomStatusBarModule,

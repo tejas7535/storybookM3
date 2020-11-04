@@ -1,0 +1,9 @@
+<button
+  mat-stroked-button
+  color="primary"
+  *transloco="let t; read: 'shared.customStatusBar.exportToExcelButton'"
+  (click)="exportToExcel()"
+>
+  <mat-icon fontSet="schaeffler-icons" fontIcon="icon-download"></mat-icon>
+  {{ t('exportToExcel') | uppercase }}
+</button>

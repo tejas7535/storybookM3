@@ -81,8 +81,8 @@
       "addToOfferButton": {
         "addToOffer": "Zum Angebot hinzufügen"
       },
-      "exportToCSVButton": {
-        "exportToCSV": "als CSV exportieren"
+      "exportToExcelButton": {
+        "exportToExcel": "als Excel Datei exportieren"
       },
       "finishOfferButton": {
         "finishOffer": "Angebot abschließen"
