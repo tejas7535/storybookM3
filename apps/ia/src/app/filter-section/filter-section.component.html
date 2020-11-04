@@ -1,5 +1,14 @@
-<div fxLayout="row" fxLayoutAlign="space-around center">
-  <div fxFlex="16" *transloco="let t; read: 'filters.organization'">
+<div
+  class="filter-wrapper"
+  fxLayout="row wrap"
+  fxLayoutAlign="space-around center"
+  fxLayoutGap="25px"
+>
+  <div
+    fxFlex="calc(16% - 25px)"
+    fxFlex.lt-lg="100%"
+    *transloco="let t; read: 'filters.organization'"
+  >
     <h6 class="m-b-5">{{ t('title') }}</h6>
     <ia-autocomplete-input
       [filter]="organizations$ | ngrxPush"
@@ -8,10 +17,10 @@
       (selected)="optionSelected($event)"
     ></ia-autocomplete-input>
   </div>
-  <div fxFlex="48">
+  <div fxFlex="calc(48% - 25px)" fxFlex.lt-lg="100%">
     <h6>Select a region and location</h6>
   </div>
-  <div fxFlex="32">
+  <div fxFlex="calc(32% - 25px)" fxFlex.lt-lg="100%">
     <h6>Select period of time</h6>
   </div>
 </div>

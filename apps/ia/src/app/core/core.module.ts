@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
@@ -56,6 +57,9 @@ const azureConfig = new AzureConfig(
 
     // filter section at the top
     FilterSectionModule,
+
+    // Tabs
+    MatTabsModule,
   ],
   exports: [AppComponent],
 })

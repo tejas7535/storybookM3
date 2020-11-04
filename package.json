@@ -60,8 +60,8 @@
   },
   "private": true,
   "dependencies": {
-    "@ag-grid-community/angular": "24.1.0",
     "@ag-grid-community/all-modules": "24.1.0",
+    "@ag-grid-community/angular": "24.1.0",
     "@ag-grid-enterprise/all-modules": "24.1.0",
     "@angular/animations": "10.2.1",
     "@angular/cdk": "10.2.7",
@@ -85,6 +85,7 @@
     "angular-oauth2-oidc": "10.0.3",
     "angular-oauth2-oidc-jwks": "9.0.0",
     "core-js": "3.6.5",
+    "d3-org-chart": "1.1.1",
     "devextreme": "20.2.3",
     "devextreme-angular": "20.2.3",
     "echarts": "4.9.0",

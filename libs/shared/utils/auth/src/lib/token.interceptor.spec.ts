@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 
 import { provideMockStore } from '@ngrx/store/testing';
-import { OAuthService } from 'angular-oauth2-oidc';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from './auth.service';
@@ -56,6 +56,12 @@ describe(`TokenInterceptor`, () => {
               .mockImplementation(() => Promise.resolve()),
             initImplicitFlow: jest.fn(),
             state: 'state/link',
+          },
+        },
+        {
+          provide: AuthConfig,
+          useValue: {
+            useSilentRefresh: jest.fn(() => true),
           },
         },
         {

@@ -23,5 +23,21 @@
       "monthYearHint": "Select month and year"
     },
     "invalidInputHint": "Please select a valid input from the dropdown."
+  },
+  "tabs": {
+    "overview": "Overview",
+    "lossOfSkill": "Loss Of Skill",
+    "reasonsAndCounterMeasures": "Reasons & Counter Measures",
+    "attritionAnalytics": "Attrition Analytics",
+    "persona": "Persona",
+    "summary": "Summary"
+  },
+  "orgChart": {
+    "table": {
+      "columnDirect": "Direct",
+      "columnOverall": "Overall",
+      "rowEmployees": "Employees",
+      "rowAttrition": "Attrition"
+    }
   }
 }
