@@ -5,6 +5,7 @@ import {
   columnDefinitionToReferenceTypeProp,
   currentYear,
   formatDate,
+  formatLongValue,
   formatMaterialNumber,
   formatNumber,
   valueGetterArray,
@@ -136,6 +137,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.salesOrganization'
     ),
+    valueFormatter: formatLongValue,
   },
   customerGroup: {
     field: columnDefinitionToReferenceTypeProp('customerGroup'),
@@ -143,6 +145,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     headerTooltip: translate(
       'search.referenceTypesTable.tooltips.customerGroup'
     ),
+    valueFormatter: formatLongValue,
   },
   actualQuantityLastYear: {
     filter: 'agNumberColumnFilter',
@@ -450,6 +453,7 @@ export const COLUMN_DEFINITIONS: { [key: string]: ColDef } = {
     field: columnDefinitionToReferenceTypeProp('customer'),
     headerName: translate('search.referenceTypesTable.headers.customer'),
     headerTooltip: translate('search.referenceTypesTable.tooltips.customer'),
+    valueFormatter: formatLongValue,
   },
   rfq: {
     field: columnDefinitionToReferenceTypeProp('rfq'),

@@ -27,6 +27,15 @@ export const formatDate = (params: ValueFormatterParams) =>
 export const formatMaterialNumber = (params: ValueFormatterParams) =>
   materialNumberPipe.transform(params.value);
 
+export const formatLongValue = (
+  params: ValueFormatterParams,
+  maxChars = 100
+) => {
+  const { value } = params;
+
+  return value?.length > maxChars ? `${value.slice(0, maxChars)}...` : value;
+};
+
 export const valueGetterDate = (params: ValueGetterParams, key: string) =>
   params?.data?.[key] ? new Date(params.data[key]) : undefined;
 

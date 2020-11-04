@@ -11,6 +11,7 @@ import {
 import {
   currentYear,
   formatDate,
+  formatLongValue,
   formatMaterialNumber,
   formatNumber,
   getMainMenuItems,
@@ -74,6 +75,21 @@ describe('ColumnUtils', () => {
       const result = formatMaterialNumber(params);
 
       expect(result).toEqual('111111111-2222');
+    });
+  });
+
+  describe('formatLongValue', () => {
+    it('should transform a string that has a value that is too long', () => {
+      const params = ({
+        value:
+          'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam volu',
+      } as unknown) as ValueFormatterParams;
+
+      const result = formatLongValue(params);
+
+      expect(result).toEqual(
+        'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut l...'
+      );
     });
   });
 
