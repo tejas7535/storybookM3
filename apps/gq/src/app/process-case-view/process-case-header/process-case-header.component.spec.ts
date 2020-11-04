@@ -7,7 +7,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
-import { CustomerDetailsModule } from '../../shared/process-case-header/customer-details.component/customer-details.module';
+import { CustomerDetailsModule } from '../../shared/customer-details/customer-details.module';
 import { ProcessCaseHeaderComponent } from './process-case-header.component';
 
 jest.mock('@ngneat/transloco', () => ({

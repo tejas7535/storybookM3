@@ -9,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   addRowDataItem,
@@ -21,6 +21,11 @@ import { AutocompleteSearch, IdValue } from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('InputbarComponent', () => {
   let component: AddEntryComponent;
@@ -36,7 +41,7 @@ describe('InputbarComponent', () => {
         MatButtonModule,
         MatCardModule,
         MatIconModule,
-        SharedTranslocoModule,
+        provideTranslocoTestingModule({}),
         SharedModule,
         ReactiveFormsModule,
       ],

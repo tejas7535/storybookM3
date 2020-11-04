@@ -8,7 +8,11 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../testing/mocks';
+import {
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../testing/mocks';
 import { removeQuotationDetailFromOffer } from '../../../core/store/actions';
 import { RemoveFromOfferButtonComponent } from './remove-from-offer-button.component';
 
@@ -89,14 +93,14 @@ describe('RemoveFromOfferComponent', () => {
     });
   });
 
-  describe('addToOffer', () => {
-    test('should addToOffer', () => {
+  describe('removeFromOffer', () => {
+    test('should removeFromOffer', () => {
       store.dispatch = jest.fn();
-
+      component.selections = [QUOTATION_DETAIL_MOCK];
       component.removeFromOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        removeQuotationDetailFromOffer({ quotationDetailIDs: [] })
+        removeQuotationDetailFromOffer({ quotationDetailIDs: ['34643567'] })
       );
     });
   });
