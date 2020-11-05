@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '@cdba/core';
+import { DataService } from '@schaeffler/http';
 
 import {
   BomIdentifier,
@@ -113,10 +113,9 @@ export class DetailService {
       .set(this.PARAM_PLANT, item.plant)
       .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash);
 
-    return this.dataService.getAll<ReferenceTypeResultModel>(
-      this.DETAIL,
-      params
-    );
+    return this.dataService.getAll<ReferenceTypeResultModel>(this.DETAIL, {
+      params,
+    });
   }
 
   public calculations(materialNumber: string): Observable<Calculation[]> {
@@ -126,7 +125,7 @@ export class DetailService {
     );
 
     return this.dataService
-      .getAll<CalculationsResultModel>(this.CALCULATIONS, params)
+      .getAll<CalculationsResultModel>(this.CALCULATIONS, { params })
       .pipe(map((response: CalculationsResultModel) => response.items));
   }
 
@@ -140,14 +139,18 @@ export class DetailService {
       .set(this.PARAM_BOM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
       .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
 
-    return this.dataService.getAll<BomResult>(this.BOM, params).pipe(
-      map((response: BomResult) =>
-        response.items.map((item) => ({
-          ...item,
-          predecessorsInTree: [],
-        }))
-      ),
-      map((items: BomItem[]) => DetailService.defineBomTreeForAgGrid(items, 0))
-    );
+    return this.dataService
+      .getAll<BomResult>(this.BOM, { params })
+      .pipe(
+        map((response: BomResult) =>
+          response.items.map((item) => ({
+            ...item,
+            predecessorsInTree: [],
+          }))
+        ),
+        map((items: BomItem[]) =>
+          DetailService.defineBomTreeForAgGrid(items, 0)
+        )
+      );
   }
 }

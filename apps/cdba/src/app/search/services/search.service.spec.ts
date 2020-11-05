@@ -6,7 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { DataService, ENV_CONFIG } from '@cdba/core';
+import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import {
   FilterItem,

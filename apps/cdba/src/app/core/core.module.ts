@@ -1,4 +1,5 @@
 import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import de from '@angular/common/locales/de';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
@@ -7,13 +8,13 @@ import { RouterModule } from '@angular/router';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
+import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
-import { HttpModule } from './http/http.module';
 import { StoreModule } from './store/store.module';
 
 registerLocaleData(de, 'de-DE');
@@ -47,6 +48,13 @@ registerLocaleData(de, 'de-DE');
 
     // notifications
     SnackBarModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
   ],
   exports: [AppComponent],
 })

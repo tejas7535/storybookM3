@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { DataService } from '@cdba/core';
+import { DataService } from '@schaeffler/http';
 
 import {
   FilterItem,
@@ -61,7 +61,7 @@ export class SearchService {
     textSearch: TextSearch,
     selectedOptions: IdValue[]
   ): Observable<FilterItemIdValue> {
-    const httpParams = new HttpParams().set(
+    const params = new HttpParams().set(
       this.PARAM_SEARCH_FOR,
       textSearch.value
     );
@@ -69,7 +69,7 @@ export class SearchService {
     return this.dataService
       .getAll<FilterItemIdValue>(
         `${this.POSSIBLE_FILTER}/${textSearch.field}`,
-        httpParams
+        { params }
       )
       .pipe(
         map((item: FilterItemIdValue) => ({
