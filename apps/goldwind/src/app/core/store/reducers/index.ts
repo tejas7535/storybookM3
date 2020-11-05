@@ -9,11 +9,11 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromBearing from './bearing/bearing.reducer';
-import * as fromConditionMonitoring from './condition-monitoring/condition-monitoring.reducer';
 import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
+import * as fromLoadSense from './load-sense/load-sense.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -41,9 +41,9 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
   'bearing'
 );
 
-export const getConditionMonitoringState = createFeatureSelector<
-  fromConditionMonitoring.ConditionMonitoringState
->('conditionMonitoring');
+export const getLoadSenseState = createFeatureSelector<
+  fromLoadSense.LoadSenseState
+>('loadSense');
 
 export const getDataViewState = createFeatureSelector<
   fromDataView.DataViewState

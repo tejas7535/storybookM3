@@ -16,9 +16,9 @@ import {
   EdmMonitorEffects,
   GreaseStatusEffects,
 } from '../../core/store/effects';
-import { conditionMonitoringReducer } from '../../core/store/reducers/condition-monitoring/condition-monitoring.reducer';
 import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
+import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadComponent } from './center-load/center-load.component';
@@ -59,7 +59,7 @@ import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
       GreaseStatusEffects,
       EdmMonitorEffects,
     ]),
-    StoreModule.forFeature('conditionMonitoring', conditionMonitoringReducer),
+    StoreModule.forFeature('loadSense', loadSenseReducer),
     StoreModule.forFeature('greaseStatus', greaseStatusReducer),
     StoreModule.forFeature('edmMonitor', edmMonitorReducer),
     ReactiveComponentModule,

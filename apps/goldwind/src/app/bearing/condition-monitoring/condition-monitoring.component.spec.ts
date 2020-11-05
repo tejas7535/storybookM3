@@ -38,12 +38,10 @@ describe('ConditionMonitoringComponent', () => {
             loading: false,
             result: undefined,
           },
-          conditionMonitoring: {
-            centerLoad: {
-              loading: undefined,
-              events: [],
-              contents: undefined,
-            },
+          loadSense: {
+            loading: undefined,
+            result: [],
+            contents: undefined,
           },
           edmMonitor: {
             loading: false,

@@ -9,6 +9,7 @@ import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
 import { GreaseStatus } from '../store/reducers/grease-status/models';
+import { LoadSense } from '../store/reducers/load-sense/models';
 
 interface IotParams {
   id: string;
@@ -24,9 +25,9 @@ export class RestService {
   public constructor(private readonly dataService: DataService) {}
 
   public getIot(path: string): Observable<any> {
-    return this.dataService.getAll<BearingMetadata | Edm[] | GreaseStatus[]>(
-      `iot/things/${path}`
-    );
+    return this.dataService.getAll<
+      BearingMetadata | Edm[] | GreaseStatus[] | LoadSense[]
+    >(`iot/things/${path}`);
   }
 
   public getBearing(id: string): Observable<BearingMetadata> {
@@ -53,14 +54,12 @@ export class RestService {
     return this.dataService.getAll<Device[]>(`device/listedgedevices`);
   }
 
-  public getLoad(id: string): Observable<any> {
-    return (
-      id &&
-      of({
-        id: '123',
-        message: 'testmessage',
-      })
-    );
+  public getLoad({
+    id,
+    startDate,
+    endDate,
+  }: IotParams): Observable<LoadSense[]> {
+    return this.getIot(`${id}/lsp/detail/${startDate}/${endDate}`);
   }
 
   public getData({

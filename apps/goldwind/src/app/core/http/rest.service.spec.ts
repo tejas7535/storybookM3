@@ -100,15 +100,17 @@ describe('Rest Service', () => {
   });
 
   describe('getLoad', () => {
-    test('should call GET for given path', () => {
-      const mockId = 'very-data-much-response';
-      const mockData = {
-        id: '123',
-        message: 'testmessage',
+    test('should call dataService getAll with the load params', () => {
+      const mockLoadSenseParams = {
+        id: 'du1-bist2-flop3',
+        startDate: 1599651508,
+        endDate: 1599651509,
       };
-      service.getLoad(mockId).subscribe((response) => {
-        expect(response).toEqual(mockData);
-      });
+
+      service.getLoad(mockLoadSenseParams);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `iot/things/${mockLoadSenseParams.id}/lsp/detail/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
+      );
     });
   });
 

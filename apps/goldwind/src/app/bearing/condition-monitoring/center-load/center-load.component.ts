@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { EChartOption } from 'echarts';
 
-import { Message } from '../../../core/store/reducers/condition-monitoring/models';
+import { LoadSense } from '../../../core/store/reducers/load-sense/models';
 import { chartOptions } from '../../../shared/chart/chart';
 
 @Component({
@@ -11,7 +11,7 @@ import { chartOptions } from '../../../shared/chart/chart';
   styleUrls: ['./center-load.component.scss'],
 })
 export class CenterLoadComponent {
-  @Input() currentMessage: Message;
+  @Input() loadSense: LoadSense[];
   @Input() live: boolean;
 
   data: any = [];

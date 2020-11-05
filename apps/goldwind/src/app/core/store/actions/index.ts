@@ -1,5 +1,5 @@
 export * from './bearing/bearing.actions';
-export * from './condition-monitoring/condition-monitoring.actions';
+export * from './load-sense/load-sense.actions';
 export * from './data-view/data-view.actions';
 export * from './devices/devices.actions';
 export * from './edm-monitor/edm-monitor.actions';
