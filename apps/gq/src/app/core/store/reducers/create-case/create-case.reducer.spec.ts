@@ -8,10 +8,12 @@ import {
   autocompleteSuccess,
   clearRowData,
   deleteRowDataItem,
+  pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../actions';
-import { AutocompleteSearch, IdValue } from '../../models';
+import { AutocompleteSearch, CaseTableItem, IdValue } from '../../models';
+import { dummyRowData } from './config/dummy-row-data';
 import { CaseState, createCaseReducer, reducer } from './create-case.reducer';
 
 describe('Create Case Reducer', () => {
@@ -136,6 +138,7 @@ describe('Create Case Reducer', () => {
   describe('addRowDataItem', () => {
     test('should addItem to Row Data', () => {
       const fakeData = [
+        dummyRowData,
         {
           materialNumber: '123',
           quantity: 10,
@@ -161,9 +164,42 @@ describe('Create Case Reducer', () => {
       const state = createCaseReducer(fakeState, action);
 
       const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([...items, ...fakeData]);
+      expect(stateItem).toEqual([...items, fakeData[1]]);
     });
   });
+  describe('pasteRowDataItems', () => {
+    test('should paste items in table', () => {
+      const fakeData: CaseTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          info: false,
+        },
+      ];
+      const items: CaseTableItem[] = [
+        { materialNumber: '1', quantity: 10, info: false },
+        { materialNumber: '12', quantity: 10, info: false },
+      ];
+      const pasteDestination: CaseTableItem = {
+        materialNumber: '123',
+        quantity: 10,
+        info: false,
+      };
+      const fakeState: CaseState = {
+        createCase: {
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
+          rowData: fakeData,
+        },
+      };
+
+      const action = pasteRowDataItems({ items, pasteDestination });
+
+      const state = createCaseReducer(fakeState, action);
+      const stateItem = state.createCase.rowData;
+      expect(stateItem).toEqual([...fakeData, ...items]);
+    });
+  });
+
   describe('clearRowData', () => {
     test('should clear Row Data', () => {
       const fakeData = [
@@ -186,7 +222,7 @@ describe('Create Case Reducer', () => {
       const state = createCaseReducer(fakeState, action);
 
       const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([]);
+      expect(stateItem).toEqual([dummyRowData]);
     });
   });
 

@@ -62,7 +62,8 @@ export const getCustomerConditionsValid = createSelector(
         const error =
           !row.quantity ||
           (row.materialNumber && row.materialNumber.length === 0) ||
-          !row.materialNumber;
+          !row.materialNumber ||
+          !row.info;
 
         if (error) {
           rowDataValid = false;

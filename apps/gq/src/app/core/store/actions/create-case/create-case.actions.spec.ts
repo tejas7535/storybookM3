@@ -1,4 +1,4 @@
-import { AutocompleteSearch, IdValue } from '../../models';
+import { AutocompleteSearch, CaseTableItem, IdValue } from '../../models';
 import {
   addRowDataItem,
   autocomplete,
@@ -6,6 +6,7 @@ import {
   autocompleteSuccess,
   clearRowData,
   deleteRowDataItem,
+  pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from './create-case.actions';
@@ -82,6 +83,27 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         items,
         type: '[Create Case] Add new Items to Customer Table',
+      });
+    });
+    test('pasteRowDataItems', () => {
+      const items = [
+        {
+          materialNumber: '1234',
+          quantity: 105,
+          info: true,
+        },
+      ];
+      const pasteDestination: CaseTableItem = {
+        materialNumber: '12321',
+        quantity: 123,
+        info: true,
+      };
+      const action = pasteRowDataItems({ items, pasteDestination });
+
+      expect(action).toEqual({
+        items,
+        pasteDestination,
+        type: '[Create Case] Paste new Items to Customer Table',
       });
     });
 

@@ -31,6 +31,10 @@ export const addRowDataItem = createAction(
   props<{ items: CaseTableItem[] }>()
 );
 
+export const pasteRowDataItems = createAction(
+  '[Create Case] Paste new Items to Customer Table',
+  props<{ items: CaseTableItem[]; pasteDestination: CaseTableItem }>()
+);
 export const clearRowData = createAction('[Create Case] Clear RowData');
 
 export const deleteRowDataItem = createAction(
@@ -45,6 +49,7 @@ const all = union({
   selectAutocompleteOption,
   unselectAutocompleteOptions,
   addRowDataItem,
+  pasteRowDataItems,
   clearRowData,
   deleteRowDataItem,
 });
