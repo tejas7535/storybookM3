@@ -11,7 +11,6 @@ import { MatListModule } from '@angular/material/list';
 import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
 import { ActivatedRoute } from '@angular/router';
 
-import { RowClickedEvent } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnsToolPanelModule,
@@ -19,6 +18,7 @@ import {
   IServerSideGetRowsParams,
   IServerSideGetRowsRequest,
   IStatusPanelParams,
+  RowClickedEvent,
   ServerSideRowModelModule,
   SideBarModule,
 } from '@ag-grid-enterprise/all-modules';
@@ -192,35 +192,43 @@ describe('SalesTableComponent', () => {
       })
     );
 
-    it('should do nothing', (done: any) => {
-      const fakeNode = {
-        setExpanded: jest.fn(() => {}),
-      };
+    it(
+      'should expand node',
+      waitForAsync(() => {
+        const fakeNode = {
+          setExpanded: jest.fn(() => {}),
+        };
 
-      const fakeParams = {
-        api: {
-          getDisplayedRowAtIndex: jest.fn().mockReturnValue(fakeNode),
-        },
-      };
+        const fakeParams = {
+          api: {
+            getDisplayedRowAtIndex: jest.fn().mockReturnValue(fakeNode),
+          },
+        };
 
-      component.combinedKeyQueryParam = 'abc';
+        component.combinedKeyQueryParam = 'abc';
 
-      component.onFirstDataRendered(fakeParams).then(() => {
-        expect(fakeNode.setExpanded).toHaveBeenCalledTimes(1);
-        expect(fakeNode.setExpanded).toHaveBeenCalledWith(true);
+        jest.useFakeTimers();
 
-        expect(fakeParams.api.getDisplayedRowAtIndex).toHaveBeenCalledTimes(1);
-        expect(fakeParams.api.getDisplayedRowAtIndex).toHaveBeenCalledWith(0);
+        component.onFirstDataRendered(fakeParams).then(() => {
+          expect(fakeNode.setExpanded).toHaveBeenCalledTimes(1);
+          expect(fakeNode.setExpanded).toHaveBeenCalledWith(true);
 
-        done();
-      });
-    });
+          expect(fakeParams.api.getDisplayedRowAtIndex).toHaveBeenCalledTimes(
+            1
+          );
+          expect(fakeParams.api.getDisplayedRowAtIndex).toHaveBeenCalledWith(0);
+          jest.useRealTimers();
+        });
+
+        jest.advanceTimersByTime(1501);
+      })
+    );
   });
 
   describe('fetchRows', () => {
     it(
       'should call successCallback and showNoRowsOverlay',
-      waitForAsync(() => {
+      waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
           endRow: 25,
@@ -238,23 +246,7 @@ describe('SalesTableComponent', () => {
             showNoRowsOverlay: jest.fn(),
           } as unknown) as GridApi,
           parentNode: undefined,
-          successCallback: jest.fn(() => {
-            expect(
-              serverSideGetRowParams.successCallback
-            ).toHaveBeenCalledTimes(1);
-            expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
-              fakeResponse.content,
-              fakeResponse.totalItemsCount
-            );
-
-            expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(
-              0
-            );
-
-            expect(
-              serverSideGetRowParams.api.showNoRowsOverlay
-            ).toHaveBeenCalledTimes(1);
-          }),
+          successCallback: jest.fn(),
           failCallback: jest.fn(),
           columnApi: undefined,
           request: requestParams,
@@ -272,13 +264,25 @@ describe('SalesTableComponent', () => {
           .fn()
           .mockResolvedValue(fakeResponse);
 
-        component['fetchRows'](serverSideGetRowParams);
+        await component['fetchRows'](serverSideGetRowParams);
+
+        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(1);
+        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
+          fakeResponse.content,
+          fakeResponse.totalItemsCount
+        );
+
+        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(0);
+
+        expect(
+          serverSideGetRowParams.api.showNoRowsOverlay
+        ).toHaveBeenCalledTimes(1);
       })
     );
 
     it(
       'should call successCallback but not showNoRowsOverlay',
-      waitForAsync(() => {
+      waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
           endRow: 25,
@@ -296,23 +300,7 @@ describe('SalesTableComponent', () => {
             showNoRowsOverlay: jest.fn(),
           } as unknown) as GridApi,
           parentNode: undefined,
-          successCallback: jest.fn(() => {
-            expect(
-              serverSideGetRowParams.successCallback
-            ).toHaveBeenCalledTimes(1);
-            expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
-              fakeResponse.content,
-              fakeResponse.totalItemsCount
-            );
-
-            expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(
-              0
-            );
-
-            expect(
-              serverSideGetRowParams.api.showNoRowsOverlay
-            ).toHaveBeenCalledTimes(0);
-          }),
+          successCallback: jest.fn(),
           failCallback: jest.fn(),
           columnApi: undefined,
           request: requestParams,
@@ -330,13 +318,25 @@ describe('SalesTableComponent', () => {
           .fn()
           .mockResolvedValue(fakeResponse);
 
-        component['fetchRows'](serverSideGetRowParams);
+        await component['fetchRows'](serverSideGetRowParams);
+
+        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(1);
+        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
+          fakeResponse.content,
+          fakeResponse.totalItemsCount
+        );
+
+        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(0);
+
+        expect(
+          serverSideGetRowParams.api.showNoRowsOverlay
+        ).toHaveBeenCalledTimes(0);
       })
     );
 
     it(
       'should call failCallback',
-      waitForAsync(() => {
+      waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
           endRow: 25,
@@ -353,14 +353,7 @@ describe('SalesTableComponent', () => {
           api: undefined,
           parentNode: undefined,
           successCallback: jest.fn(),
-          failCallback: jest.fn(() => {
-            expect(
-              serverSideGetRowParams.successCallback
-            ).toHaveBeenCalledTimes(0);
-            expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(
-              1
-            );
-          }),
+          failCallback: jest.fn(),
           columnApi: undefined,
           request: requestParams,
         };
@@ -369,7 +362,10 @@ describe('SalesTableComponent', () => {
           .fn()
           .mockRejectedValue('testing logging error');
 
-        component['fetchRows'](serverSideGetRowParams);
+        await component['fetchRows'](serverSideGetRowParams);
+
+        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(0);
+        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(1);
       })
     );
   });

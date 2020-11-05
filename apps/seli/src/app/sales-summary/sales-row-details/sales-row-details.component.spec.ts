@@ -125,7 +125,7 @@ describe('SalesRowDetailsComponent', () => {
     it('should set the uniqueUserName', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
-        lastModifier: 'user',
+        lastModifier: 'USER',
       } as unknown) as SalesSummary;
       component['setUniqueUserName']();
 
