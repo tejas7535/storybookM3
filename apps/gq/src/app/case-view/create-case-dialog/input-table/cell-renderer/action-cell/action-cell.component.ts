@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { deleteRowDataItem } from '../../../../../core/store';
+import { isDummyData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { CaseState } from '../../../../../core/store/reducers/create-case/create-case.reducer';
 
 @Component({
@@ -12,11 +13,13 @@ import { CaseState } from '../../../../../core/store/reducers/create-case/create
 })
 export class ActionCellComponent {
   public params: any;
+  public isDummy: boolean;
 
   constructor(private readonly store: Store<CaseState>) {}
 
   agInit(params: any): void {
     this.params = params;
+    this.isDummy = isDummyData(params.data);
   }
 
   deleteItem(): void {

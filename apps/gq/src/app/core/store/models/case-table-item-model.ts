@@ -1,5 +1,5 @@
 export class CaseTableItem {
   materialNumber?: string;
-  quantity?: number;
+  quantity?: number | string;
   info?: boolean;
 }

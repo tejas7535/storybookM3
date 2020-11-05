@@ -5,6 +5,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { deleteRowDataItem } from '../../../../../core/store';
+import { dummyRowData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { ActionCellComponent } from './action-cell.component';
 
 describe('ActionCellComponent', () => {
@@ -35,10 +36,12 @@ describe('ActionCellComponent', () => {
     test('should set params', () => {
       const params: any = {
         test: '123',
+        data: dummyRowData,
       };
       component.agInit(params);
 
       expect(component.params).toEqual(params);
+      expect(component.isDummy).toBeTruthy();
     });
   });
 

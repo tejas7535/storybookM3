@@ -3,6 +3,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { configureTestSuite } from 'ng-bullet';
 
+import { dummyRowData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { InfoCellComponent } from './info-cell.component';
 
 describe('InfoCellComponent', () => {
@@ -30,10 +31,12 @@ describe('InfoCellComponent', () => {
     test('should set params', () => {
       const params: any = {
         value: true,
+        data: dummyRowData,
       };
       component.agInit(params);
 
       expect(component.valid).toBeTruthy();
+      expect(component.isDummy).toBeTruthy();
     });
   });
 });

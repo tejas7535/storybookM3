@@ -7,10 +7,12 @@ import {
   autocompleteSuccess,
   clearRowData,
   deleteRowDataItem,
+  pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../actions';
 import { CaseFilterItem, CaseTableItem, IdValue } from '../../models';
+import { dummyRowData, isDummyData } from './config/dummy-row-data';
 
 export interface CaseState {
   createCase: {
@@ -36,7 +38,7 @@ export const initialState: CaseState = {
         options: [],
       },
     ],
-    rowData: [],
+    rowData: [dummyRowData],
   },
 };
 
@@ -126,23 +128,33 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
-      rowData: [...items, ...state.createCase.rowData],
+      rowData: [
+        ...items,
+        ...state.createCase.rowData.filter((val) => !isDummyData(val)),
+      ],
+    },
+  })),
+  on(pasteRowDataItems, (state: CaseState, { items, pasteDestination }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      rowData: pasteItems(items, pasteDestination, [
+        ...state.createCase.rowData,
+      ]),
     },
   })),
   on(clearRowData, (state: CaseState) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      rowData: [],
+      rowData: [dummyRowData],
     },
   })),
   on(deleteRowDataItem, (state: CaseState, { materialNumber }) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      rowData: [...state.createCase.rowData].filter(
-        (it) => it.materialNumber !== materialNumber
-      ),
+      rowData: deleteItem(materialNumber, [...state.createCase.rowData]),
     },
   }))
 );
@@ -161,6 +173,43 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   }
 
   return itemOptions;
+};
+
+const pasteItems = (
+  items: CaseTableItem[],
+  pasteDestination: CaseTableItem,
+  currentRowData: CaseTableItem[]
+): CaseTableItem[] => {
+  let updatedRowData = [];
+  const currentRowDataFiltered = currentRowData.filter(
+    (el) => !isDummyData(el)
+  );
+  const index = currentRowData.findIndex(
+    (value) =>
+      pasteDestination &&
+      value.materialNumber === pasteDestination.materialNumber &&
+      value.quantity === pasteDestination.quantity
+  );
+
+  updatedRowData =
+    index >= 0
+      ? [...currentRowDataFiltered.slice(0, index + 1), ...items]
+      : currentRowData;
+
+  return updatedRowData;
+};
+
+const deleteItem = (
+  materialNumber: string,
+  rowData: CaseTableItem[]
+): CaseTableItem[] => {
+  const filteredRowData = rowData.filter(
+    (it) => it.materialNumber !== materialNumber
+  );
+  const updatedRowData =
+    filteredRowData.length > 0 ? filteredRowData : [dummyRowData];
+
+  return updatedRowData;
 };
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: CaseState, action: Action): CaseState {
