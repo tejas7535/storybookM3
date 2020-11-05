@@ -101,7 +101,10 @@ export class SalesRowDetailsComponent implements ICellRendererAngularComp {
   private setUniqueUserName(): void {
     this.store.pipe(select(getClaim('upn'))).subscribe((upn: string) => {
       this.uniqueUserName = upn.split('@')[0];
-      if (this.rowData.lastModifier !== this.uniqueUserName) {
+      if (
+        this.rowData.lastModifier.toLowerCase() !==
+        this.uniqueUserName.toLowerCase()
+      ) {
         this.datesFormGroup.disable();
       }
     });

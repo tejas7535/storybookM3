@@ -93,18 +93,22 @@ export class SalesTableComponent {
     });
   }
 
-  private fetchRows(params: IServerSideGetRowsParams): void {
-    this.dataService
-      .getSalesSummaryPromise(params)
-      .then((response) => {
-        if (response.content.length === 0) {
-          params.api.showNoRowsOverlay();
-        }
-        params.successCallback(response.content, response.totalItemsCount);
-      })
-      .catch((error) => {
-        console.error(error);
-        params.failCallback();
-      });
+  private async fetchRows(params: IServerSideGetRowsParams): Promise<void> {
+    return new Promise<void>((resolve) => {
+      this.dataService
+        .getSalesSummaryPromise(params)
+        .then((response) => {
+          if (response.content.length === 0) {
+            params.api.showNoRowsOverlay();
+          }
+          params.successCallback(response.content, response.totalItemsCount);
+          resolve();
+        })
+        .catch((error) => {
+          console.error(error);
+          params.failCallback();
+          resolve();
+        });
+    });
   }
 }
