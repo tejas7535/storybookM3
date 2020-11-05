@@ -122,18 +122,19 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('setUniqueUserName', () => {
-    it('should set the uniqueUserName', () => {
+    it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
-        lastModifier: 'USER',
+        // tslint:disable-next-line: no-null-keyword
+        lastModifier: null,
       } as unknown) as SalesSummary;
       component['setUniqueUserName']();
 
       expect(component.uniqueUserName).toEqual('user');
-      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
     });
 
-    it('should disable the datesFormGroup', () => {
+    it('should disable the datesFormGroup because of wrong user', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
         lastModifier: 'wrong user',
@@ -142,6 +143,18 @@ describe('SalesRowDetailsComponent', () => {
 
       expect(component.uniqueUserName).toEqual('user');
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
+    });
+
+    it('should not disable the form group', () => {
+      component.datesFormGroup.disable = jest.fn();
+      component.rowData = ({
+        // tslint:disable-next-line: no-null-keyword
+        lastModifier: 'USER',
+      } as unknown) as SalesSummary;
+      component['setUniqueUserName']();
+
+      expect(component.uniqueUserName).toEqual('user');
+      expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
     });
   });
 
