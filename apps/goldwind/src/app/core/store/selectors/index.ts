@@ -1,5 +1,5 @@
 export * from './bearing/bearing.selector';
-export * from './condition-monitoring/condition-monitoring.selector';
+export * from './load-sense/load-sense.selector';
 export * from './data-view/data-view.selector';
 export * from './devices/devices.selector';
 export * from './edm-monitor/edm-monitor.selector';

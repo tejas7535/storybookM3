@@ -1,5 +1,5 @@
 export * from './bearing/bearing.effects';
-export * from './condition-monitoring/condition-monitoring.effects';
+export * from './load-sense/load-sense.effects';
 export * from './data-view/data-view.effects';
 export * from './devices/devices.effects';
 export * from './edm-monitor/edm-monitor.effects';

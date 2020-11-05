@@ -1,17 +1,17 @@
 import { getLoad, getLoadFailure, getLoadId, getLoadSuccess } from '..';
 
-describe('ConditionMonitoring Actions', () => {
+describe('LoadSense Actions', () => {
   let bearingId: string;
 
   beforeEach(() => {
     bearingId = '123';
   });
-  describe('Get ConditionMonitoring Actions', () => {
+  describe('Get LoadSense Actions', () => {
     test('getLoadId', () => {
       const action = getLoadId();
 
       expect(action).toEqual({
-        type: '[ConditionMonitoring] Load Load Id',
+        type: '[Load Sense] Load Load Id',
       });
     });
     test('getLoad', () => {
@@ -19,19 +19,17 @@ describe('ConditionMonitoring Actions', () => {
 
       expect(action).toEqual({
         bearingId,
-        type: '[ConditionMonitoring] Get Load',
+        type: '[Load Sense] Get Load',
       });
     });
 
     test('getLoadSuccess', () => {
-      const id: any = {};
-      const body: any = {};
-      const action = getLoadSuccess({ id, body });
+      const loadSense: any = {};
+      const action = getLoadSuccess({ loadSense });
 
       expect(action).toEqual({
-        id,
-        body,
-        type: '[ConditionMonitoring] Get Load Success',
+        loadSense,
+        type: '[Load Sense] Get Load Success',
       });
     });
 
@@ -39,7 +37,7 @@ describe('ConditionMonitoring Actions', () => {
       const action = getLoadFailure();
 
       expect(action).toEqual({
-        type: '[ConditionMonitoring] Get Load Failure',
+        type: '[Load Sense] Get Load Failure',
       });
     });
   });

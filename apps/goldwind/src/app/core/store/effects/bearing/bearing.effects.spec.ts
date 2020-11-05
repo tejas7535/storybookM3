@@ -27,7 +27,7 @@ describe('Search Effects', () => {
   let effects: BearingEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/666/condition-monitoring';
+  const mockUrl = '/bearing/666/load-sense';
 
   const createService = createServiceFactory({
     service: BearingEffects,

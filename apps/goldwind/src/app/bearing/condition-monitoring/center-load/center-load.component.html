@@ -18,11 +18,11 @@
       <div class="status-indicator" [ngClass]="{ live: live }"></div>
       <span>{{ live ? t('live') : t('offline') }}</span>
     </div>
-    <div *ngIf="currentMessage">
+    <!-- <div *ngIf="currentMessage">
       <h4>Current Message:</h4>
       <p>Date: {{ currentMessage?.timestamp | date: 'medium' }}</p>
       <span>{{ currentMessage?.body | json }}</span>
-    </div>
+    </div> -->
     <!-- <div
       echarts
       [options]="chartOptions"

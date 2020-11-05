@@ -16,7 +16,8 @@ import {
   getLoadSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { ConditionMonitoringEffects } from './condition-monitoring.effects';
+import { getLoadInterval } from '../../selectors/load-sense/load-sense.selector';
+import { ConditionMonitoringEffects } from './load-sense.effects';
 
 describe('Search Effects', () => {
   let spectator: SpectatorService<ConditionMonitoringEffects>;
@@ -55,6 +56,10 @@ describe('Search Effects', () => {
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: '666' } },
     });
+    store.overrideSelector(getLoadInterval, {
+      startDate: 1599651508,
+      endDate: 1599651509,
+    });
   });
 
   describe('router$', () => {
@@ -65,7 +70,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch  getGreaseStatusId and getLoadId', () => {
+    test('should dispatch getGreaseStatusId and getLoadId', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', {
         a: {
@@ -104,15 +109,36 @@ describe('Search Effects', () => {
     });
 
     test('should return getLoadSuccess action when REST call is successful', () => {
-      const mockId = 'testID';
-      const mockBody = 'testBody';
+      const mockLoadSense = [
+        {
+          deviceId: 'string',
+          id: 'string',
+          lsp01Strain: 0,
+          lsp02Strain: 0,
+          lsp03Strain: 0,
+          lsp04Strain: 0,
+          lsp05Strain: 0,
+          lsp06Strain: 0,
+          lsp07Strain: 0,
+          lsp08Strain: 0,
+          lsp09Strain: 0,
+          lsp10Strain: 0,
+          lsp11Strain: 0,
+          lsp12Strain: 0,
+          lsp13Strain: 0,
+          lsp14Strain: 0,
+          lsp15Strain: 0,
+          lsp16Strain: 0,
+          timestamp: '2020-11-04T09:39:19.499Z',
+        },
+      ];
 
-      const result = getLoadSuccess({ id: mockId, body: mockBody });
+      const result = getLoadSuccess({ loadSense: mockLoadSense });
 
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: { id: mockId, body: mockBody },
+        a: mockLoadSense,
       });
       const expected = cold('--b', { b: result });
 
@@ -120,7 +146,11 @@ describe('Search Effects', () => {
 
       expect(effects.load$).toBeObservable(expected);
       expect(restService.getLoad).toHaveBeenCalledTimes(1);
-      expect(restService.getLoad).toHaveBeenCalledWith('123');
+      expect(restService.getLoad).toHaveBeenCalledWith({
+        id: '1',
+        startDate: 1599651508,
+        endDate: 1599651509,
+      });
     });
   });
 });

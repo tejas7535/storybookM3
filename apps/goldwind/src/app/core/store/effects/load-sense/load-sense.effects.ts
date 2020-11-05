@@ -24,6 +24,8 @@ import {
   getLoadSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { Interval } from '../../reducers/shared/models';
+import { getLoadInterval } from '../../selectors';
 
 @Injectable()
 export class ConditionMonitoringEffects {
@@ -68,12 +70,18 @@ export class ConditionMonitoringEffects {
   load$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getLoad.type),
-      map((action: any) => action.bearingId),
-      mergeMap((bearingId) =>
-        this.restService.getLoad(bearingId).pipe(
-          map(({ id, body }) => getLoadSuccess({ id, body })),
-          catchError((_e) => of(getLoadFailure()))
-        )
+      withLatestFrom(this.store.pipe(select(getLoadInterval))),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.bearingId,
+        ...interval,
+      })),
+      mergeMap((edmParams) =>
+        this.restService
+          .getLoad({ ...edmParams, id: '1' }) // will later come from route again
+          .pipe(
+            map((loadSense) => getLoadSuccess({ loadSense })),
+            catchError((_e) => of(getLoadFailure()))
+          )
       )
     )
   );
