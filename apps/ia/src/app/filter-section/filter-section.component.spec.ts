@@ -6,9 +6,11 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { filterSelected } from '../core/store/actions';
+import { filterSelected, timeRangeSelected } from '../core/store/actions';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
-import { Filter } from '../shared/models';
+import { DateInputModule } from '../shared/date-input/date-input.module';
+import { Filter, IdValue, TimePeriod } from '../shared/models';
+import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { FilterSectionComponent } from './filter-section.component';
 
 describe('FilterSectionComponent', () => {
@@ -24,6 +26,8 @@ describe('FilterSectionComponent', () => {
       AutocompleteInputModule,
       provideTranslocoTestingModule({}),
       ReactiveComponentModule,
+      SelectInputModule,
+      DateInputModule,
     ],
     providers: [
       provideMockStore({
@@ -31,6 +35,10 @@ describe('FilterSectionComponent', () => {
           employee: {
             filters: {
               organizations: [],
+              regionsAndSubRegions: [],
+              locations: [],
+              countries: [],
+              timePeriods: [],
             },
           },
         },
@@ -44,7 +52,7 @@ describe('FilterSectionComponent', () => {
     store = spectator.inject(MockStore);
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
@@ -67,6 +75,54 @@ describe('FilterSectionComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
 
       expect(component.organizations$).toBeDefined();
+    });
+  });
+
+  describe('setTimeRangeHint', () => {
+    test('set correct hint value - year', () => {
+      component.setTimeRangeHint(TimePeriod.YEAR);
+
+      expect(component.timeRangeHintValue).toEqual('year');
+    });
+
+    test('set correct hint value - month', () => {
+      component.setTimeRangeHint(TimePeriod.MONTH);
+
+      expect(component.timeRangeHintValue).toEqual('month');
+    });
+    test('set correct hint value - last 12 month', () => {
+      component.setTimeRangeHint(TimePeriod.LAST_12_MONTHS);
+
+      expect(component.timeRangeHintValue).toEqual('reference date');
+    });
+    test('set correct hint value - custom', () => {
+      component.setTimeRangeHint(TimePeriod.CUSTOM);
+
+      expect(component.timeRangeHintValue).toEqual('time range');
+    });
+  });
+
+  describe('timePeriodSelect', () => {
+    test('should dispatch timePeriodSelected', () => {
+      store.dispatch = jest.fn();
+      component.timePeriodSelected(new IdValue(TimePeriod.CUSTOM, 'custom'));
+
+      expect(store.dispatch).toHaveBeenCalledWith({
+        timePeriod: TimePeriod.CUSTOM,
+        type: '[Employee] Time period selected',
+      });
+    });
+  });
+
+  describe('timeRangeSelected', () => {
+    test('should dispatch timeRangeSelected action', () => {
+      store.dispatch = jest.fn();
+      const timeRange = '123|456';
+      component.timeRangeSelected(timeRange);
+
+      expect(store.dispatch).toHaveBeenCalledWith(
+        timeRangeSelected({ timeRange })
+      );
     });
   });
 });

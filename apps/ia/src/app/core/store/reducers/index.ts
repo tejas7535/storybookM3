@@ -23,18 +23,18 @@ export interface AppState {
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  employee: fromEmployee.employeesReducer,
+  employee: fromEmployee.employeeReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
-export const getRouterState = createFeatureSelector<
+export const selectRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const getEmployeeState = createFeatureSelector<
+export const selectEmployeeState = createFeatureSelector<
   fromEmployee.EmployeeState
 >('employee');
 

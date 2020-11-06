@@ -1,0 +1,15 @@
+<mat-form-field appearance="fill">
+  <mat-label>{{ label }}</mat-label>
+  <mat-select
+    [formControl]="selectControl"
+    (selectionChange)="selectionChange($event)"
+  >
+    <mat-option
+      *ngFor="let option of options; trackBy: trackByFn"
+      [value]="option.id"
+    >
+      {{ option.value }}
+    </mat-option>
+  </mat-select>
+  <mat-hint align="start">{{ hint }} </mat-hint>
+</mat-form-field>

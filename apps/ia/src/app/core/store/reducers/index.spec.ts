@@ -3,7 +3,7 @@ import { RouterStateSnapshot } from '@angular/router';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import * as fromRoot from './index';
+import * as fromRoot from '.';
 
 describe('NGRX Store Reducer Index', () => {
   it('should define the reducers object', () => {
@@ -12,7 +12,7 @@ describe('NGRX Store Reducer Index', () => {
   });
 
   it('should define feature selectors', () => {
-    expect(fromRoot.getRouterState).toBeDefined();
+    expect(fromRoot.selectRouterState).toBeDefined();
   });
 
   describe('CustomSerializer', () => {

@@ -59,39 +59,30 @@ export class OrgChartService {
             <table>
               <thead>
                 <tr>
-                  <th class='row-title'>&nbsp;</th>
-                  <th class='column-title'>${columnDirect}</th>
-                  <th class='column-title'>${columnOverall}</th>
+                  <th class="row-title">&nbsp;</th>
+                  <th class="column-title">${columnDirect}</th>
+                  <th class="column-title">${columnOverall}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <td class='row-title'>
-                    <span class='icon icon-user green'></span> 
+                  <td class="row-title">
+                    <span class="icon icon-user green"></span> 
                     <span>${rowEmployees}</span>
                   </td>
                   <td>XX</td>
                   <td>XX</td>
                 </tr>
                 <tr>
-                  <td class='row-title'>
-                    <span class='icon icon-bars green'>
+                  <td class="row-title">
+                    <span class="icon icon-bars green">
                     </span> <span>${rowAttrition}</span>
                   </td>
                   <td>XX</td>
                   <td>XX</td>
                 </tr>
               </tbody>
-            </table>
-
-            <div class='bottom-bar'>
-              <div class='left'>
-                <span class="icon icon-users employee-node-people" data-id="${nodeId}"/>
-              </div>
-              <div class='right'>
-                <span class="icon icon-bars employee-node-people" data-id="${nodeId}" />
-              </div>
-            </div>
+            </table><div class="bottom-bar"><i class="icon icon-users employee-node-people left" data-id="${nodeId}"></i><i class="icon icon-bars employee-node-people right" data-id="${nodeId}"></i></div>
           </div>
         `,
       };

@@ -1,41 +1,64 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { IdValue } from '../../../../shared/models';
+import { IdValue, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  timePeriodSelected,
+  timeRangeSelected,
 } from '../../actions/employee/employee.action';
 import { filterAdapter, FilterState } from './filter.entity';
 
 export interface EmployeeState {
   filters: {
     organizations: IdValue[];
-    regionAndSubRegions: IdValue[]; // after PoC: needs to have dependencies to countries + locations
+    regionsAndSubRegions: IdValue[]; // after PoC: needs to have dependencies to countries + locations
     countries: IdValue[]; // after PoC: needs to be dependent on region
     locations: IdValue[]; // after PoC: needs to be dependent on country
-    timePeriods: string[];
+    timePeriods: IdValue[];
     loading: boolean;
     errorMessage: string;
-    currentSelection: FilterState; // currently selected filters
+    selectedFilters: FilterState; // currently selected filters
+    selectedTimePeriod: TimePeriod;
+    selectedTimeRange: string;
   };
 }
 
 export const initialState: EmployeeState = {
   filters: {
     organizations: [],
-    regionAndSubRegions: [],
+    regionsAndSubRegions: [],
     countries: [],
     locations: [],
-    timePeriods: ['month', 'currentYear', 'last365Days'],
+    timePeriods: [
+      {
+        id: TimePeriod.YEAR,
+        value: TimePeriod.YEAR,
+      },
+      {
+        id: TimePeriod.LAST_12_MONTHS,
+        value: TimePeriod.LAST_12_MONTHS,
+      },
+      {
+        id: TimePeriod.MONTH,
+        value: TimePeriod.MONTH,
+      },
+      {
+        id: TimePeriod.CUSTOM,
+        value: TimePeriod.CUSTOM,
+      },
+    ],
     loading: false,
     errorMessage: undefined,
-    currentSelection: filterAdapter.getInitialState(),
+    selectedFilters: filterAdapter.getInitialState(),
+    selectedTimePeriod: TimePeriod.YEAR,
+    selectedTimeRange: undefined,
   },
 };
 
-export const employeesReducer = createReducer(
+export const employeeReducer = createReducer(
   initialState,
   // initial filters
   on(loadInitialFilters, (state: EmployeeState) => ({
@@ -58,15 +81,29 @@ export const employeesReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      currentSelection: filterAdapter.upsertOne(
+      selectedFilters: filterAdapter.upsertOne(
         filter,
-        state.filters.currentSelection
+        state.filters.selectedFilters
       ),
+    },
+  })),
+  on(timeRangeSelected, (state: EmployeeState, { timeRange }) => ({
+    ...state,
+    filters: {
+      ...state.filters,
+      selectedTimeRange: timeRange,
+    },
+  })),
+  on(timePeriodSelected, (state: EmployeeState, { timePeriod }) => ({
+    ...state,
+    filters: {
+      ...state.filters,
+      selectedTimePeriod: timePeriod,
     },
   }))
 );
 
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: EmployeeState, action: Action): EmployeeState {
-  return employeesReducer(state, action);
+  return employeeReducer(state, action);
 }

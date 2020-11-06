@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   HostListener,
@@ -16,6 +17,7 @@ import { OrgChartService } from './org-chart.service';
   selector: 'ia-org-chart',
   templateUrl: './org-chart.component.html',
   styleUrls: ['./org-chart.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
   @Input() set data(data: Employee[]) {
@@ -55,8 +57,7 @@ export class OrgChartComponent implements AfterViewInit {
       .container(this.chartContainer.nativeElement)
       .data(this.chartData)
       .backgroundColor('white')
-      .svgWidth(window.innerWidth - 30)
-      .svgHeight(window.innerHeight - 30)
+      .svgHeight(700)
       .initialZoom(0.95)
       .marginTop(30)
       .render();

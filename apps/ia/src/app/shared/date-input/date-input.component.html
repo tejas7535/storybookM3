@@ -1,0 +1,35 @@
+<mat-form-field appearance="fill" *transloco="let t; read: 'filters'">
+  <mat-label>{{ label }}</mat-label>
+  <mat-date-range-input [formGroup]="rangeInput" [rangePicker]="picker">
+    <input
+      matStartDate
+      formControlName="start"
+      [placeholder]="placeholderStart"
+      (dateChange)="startDateChanged($event, picker, endDate)"
+    />
+    <input
+      #endDate
+      matEndDate
+      formControlName="end"
+      [placeholder]="placeholderEnd"
+      (dateChange)="endDateChanged($event)"
+    />
+  </mat-date-range-input>
+  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+  <mat-date-range-picker
+    #picker
+    [startView]="startView"
+    (yearSelected)="chosenYearHandler($event, picker)"
+    (monthSelected)="chosenMonthHandler($event, picker)"
+  ></mat-date-range-picker>
+  <mat-hint align="start">{{ hint }}</mat-hint>
+  <mat-error *ngIf="rangeInput.controls.start.invalid">{{
+    t('invalidStartDateHint')
+  }}</mat-error>
+  <mat-error
+    *ngIf="
+      rangeInput.controls.end.invalid && !rangeInput.controls.start.invalid
+    "
+    >{{ t('invalidEndDateHint') }}</mat-error
+  >
+</mat-form-field>

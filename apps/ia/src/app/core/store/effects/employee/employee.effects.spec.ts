@@ -55,7 +55,7 @@ describe('Employees Effects', () => {
     test('should return loadInitialFiltersSuccess action when REST call is successful', () => {
       const filters = {
         organizations: [new IdValue('Department1', 'Department1')],
-        regionAndSubRegions: [
+        regionsAndSubRegions: [
           new IdValue('Europe', 'Europe'),
           new IdValue('Americas', 'Americas'),
         ],

@@ -3,8 +3,10 @@ import {
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  timePeriodSelected,
+  timeRangeSelected,
 } from '../';
-import { Filter, IdValue } from '../../../../shared/models';
+import { Filter, IdValue, TimePeriod } from '../../../../shared/models';
 
 describe('Search Actions', () => {
   const errorMessage = 'An error occured';
@@ -21,7 +23,7 @@ describe('Search Actions', () => {
     test('loadInitialFiltersSuccess', () => {
       const filters = {
         organizations: [new IdValue('Department1', 'Department1')],
-        regionAndSubRegions: [
+        regionsAndSubRegions: [
           new IdValue('Europe', 'Europe'),
           new IdValue('Americas', 'Americas'),
         ],
@@ -55,6 +57,26 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         filter,
         type: '[Employee] Filter selected',
+      });
+    });
+
+    test('timePeriodSelected', () => {
+      const timePeriod = TimePeriod.MONTH;
+      const action = timePeriodSelected({ timePeriod });
+
+      expect(action).toEqual({
+        timePeriod,
+        type: '[Employee] Time period selected',
+      });
+    });
+
+    test('timeRangeSelected', () => {
+      const timeRange = '123|456';
+      const action = timeRangeSelected({ timeRange });
+
+      expect(action).toEqual({
+        timeRange,
+        type: '[Employee] Time range selected',
       });
     });
   });
