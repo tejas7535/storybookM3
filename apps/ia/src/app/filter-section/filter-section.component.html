@@ -1,26 +1,70 @@
 <div
-  class="filter-wrapper"
   fxLayout="row wrap"
-  fxLayoutAlign="space-around center"
-  fxLayoutGap="25px"
+  class="filter-wrapper"
+  fxLayoutAlign="start center"
+  fxLayoutGap="32px"
 >
+  <div fxFlex.lt-lg="100%" *transloco="let t; read: 'filters.organization'">
+    <div fxLayout="column" fxLayoutAlign="start">
+      <h6 class="m-b-5">{{ t('title') }}</h6>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <ia-autocomplete-input
+          [filter]="organizations$ | ngrxPush"
+          [label]="t('organizationLabel')"
+          [hint]="t('organizationHint')"
+          (selected)="optionSelected($event)"
+        ></ia-autocomplete-input>
+      </div>
+    </div>
+  </div>
   <div
-    fxFlex="calc(16% - 25px)"
     fxFlex.lt-lg="100%"
-    *transloco="let t; read: 'filters.organization'"
+    *transloco="let t; read: 'filters.regionAndLocation'"
   >
-    <h6 class="m-b-5">{{ t('title') }}</h6>
-    <ia-autocomplete-input
-      [filter]="organizations$ | ngrxPush"
-      [label]="t('organizationLabel')"
-      [hint]="t('organizationHint')"
-      (selected)="optionSelected($event)"
-    ></ia-autocomplete-input>
+    <div fxLayout="column" fxLayoutAlign="start">
+      <h6 class="m-b-5">{{ t('title') }}</h6>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <ia-autocomplete-input
+          [filter]="regionsAndSubRegions$ | ngrxPush"
+          [label]="t('regionOrSubRegionLabel')"
+          [hint]="t('regionOrSubRegionHint')"
+          (selected)="optionSelected($event)"
+        ></ia-autocomplete-input>
+        <ia-autocomplete-input
+          [filter]="countries$ | ngrxPush"
+          [label]="t('countryLabel')"
+          [hint]="t('countryHint')"
+          (selected)="optionSelected($event)"
+        ></ia-autocomplete-input>
+        <ia-autocomplete-input
+          [filter]="locations$ | ngrxPush"
+          [label]="t('locationLabel')"
+          [hint]="t('locationHint')"
+          (selected)="optionSelected($event)"
+        ></ia-autocomplete-input>
+      </div>
+    </div>
   </div>
-  <div fxFlex="calc(48% - 25px)" fxFlex.lt-lg="100%">
-    <h6>Select a region and location</h6>
-  </div>
-  <div fxFlex="calc(32% - 25px)" fxFlex.lt-lg="100%">
-    <h6>Select period of time</h6>
+  <div fxFlex.lt-lg="100%" *transloco="let t; read: 'filters.periodOfTime'">
+    <div fxLayout="column" fxLayoutAlign="start">
+      <h6 class="m-b-5">{{ t('title') }}</h6>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+        <ia-select-input
+          [options]="timePeriods$ | ngrxPush"
+          [selectedOption]="selectedTimePeriod$ | ngrxPush"
+          [label]="t('timePeriodLabel')"
+          [hint]="t('timePeriodHint')"
+          (selected)="timePeriodSelected($event)"
+        ></ia-select-input>
+        <ia-date-input
+          [timePeriod]="selectedTimePeriod$ | ngrxPush"
+          [label]="t('timeRangeLabel')"
+          [hint]="t('timeRangeHint', { value: timeRangeHintValue })"
+          [placeholderStart]="t('timeRangePlaceholderStart')"
+          [placeholderEnd]="t('timeRangePlaceholderEnd')"
+          (selected)="timeRangeSelected($event)"
+        ></ia-date-input>
+      </div>
+    </div>
   </div>
 </div>

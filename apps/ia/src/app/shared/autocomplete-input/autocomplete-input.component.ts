@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
@@ -21,11 +22,24 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 @Component({
   selector: 'ia-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteInputComponent implements OnInit {
+  private _filter: Filter = new Filter('', []);
   @Input() label: string;
   @Input() hint: string;
-  @Input() filter: Filter = new Filter('', []);
+  @Input() set filter(filter: Filter) {
+    this._filter = filter;
+    if (this._filter.options.length === 0) {
+      this.inputControl.disable();
+    } else {
+      this.inputControl.enable();
+    }
+  }
+
+  get filter(): Filter {
+    return this._filter;
+  }
 
   @Output() readonly selected: EventEmitter<Filter> = new EventEmitter();
 

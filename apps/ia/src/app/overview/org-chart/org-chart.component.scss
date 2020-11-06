@@ -3,12 +3,16 @@
 :host {
   width: 100% !important;
 
+  #chartContainer {
+    height: 700px;
+  }
+
   ::ng-deep .node-foreign-object {
     overflow: visible !important;
   }
 
   ::ng-deep .node-wrapper {
-    padding: 8px;
+    padding: 8px 8px 15px 8px;
     text-align: center;
 
     .node-chip {
@@ -81,7 +85,7 @@
 
     .bottom-bar {
       display: flex;
-      margin-bottom: 15px;
+      justify-content: flex-end;
       width: 100%;
 
       .icon {
@@ -92,17 +96,12 @@
       }
 
       .left {
-        padding-left: 24px;
-        position: relative;
-        text-align: left;
-        width: 50%;
+        margin-right: auto;
+        padding: 0 0 15px 17px;
       }
 
       .right {
-        padding-right: 24px;
-        position: relative;
-        text-align: right;
-        width: 50%;
+        padding-right: 17px;
       }
     }
   }

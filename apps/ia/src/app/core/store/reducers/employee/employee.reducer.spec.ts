@@ -1,13 +1,15 @@
 import { Action } from '@ngrx/store';
 
-import { Filter, IdValue } from '../../../../shared/models';
+import { Filter, IdValue, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  timePeriodSelected,
+  timeRangeSelected,
 } from '../../actions/employee/employee.action';
-import { employeesReducer, initialState, reducer } from './employee.reducer';
+import { employeeReducer, initialState, reducer } from './employee.reducer';
 
 describe('Employees Reducer', () => {
   const errorMessage = 'An error occured';
@@ -15,7 +17,7 @@ describe('Employees Reducer', () => {
   describe('loadInitialFilters', () => {
     test('should set loading', () => {
       const action = loadInitialFilters();
-      const state = employeesReducer(initialState, action);
+      const state = employeeReducer(initialState, action);
 
       expect(state.filters.loading).toBeTruthy();
     });
@@ -25,7 +27,7 @@ describe('Employees Reducer', () => {
     test('should unset loading and set possible filters', () => {
       const filters = {
         organizations: [new IdValue('Department1', 'Department1')],
-        regionAndSubRegions: [
+        regionsAndSubRegions: [
           new IdValue('Europe', 'Europe'),
           new IdValue('Americas', 'Americas'),
         ],
@@ -38,12 +40,12 @@ describe('Employees Reducer', () => {
 
       const action = loadInitialFiltersSuccess({ filters });
 
-      const state = employeesReducer(initialState, action);
+      const state = employeeReducer(initialState, action);
 
       expect(state.filters.loading).toBeFalsy();
       expect(state.filters.organizations).toEqual(filters.organizations);
-      expect(state.filters.regionAndSubRegions).toEqual(
-        filters.regionAndSubRegions
+      expect(state.filters.regionsAndSubRegions).toEqual(
+        filters.regionsAndSubRegions
       );
       expect(state.filters.countries).toEqual(filters.countries);
       expect(state.filters.locations).toEqual(filters.locations);
@@ -58,7 +60,7 @@ describe('Employees Reducer', () => {
         filters: { ...initialState.filters, loading: true },
       };
 
-      const state = employeesReducer(fakeState, action);
+      const state = employeeReducer(fakeState, action);
 
       expect(state.filters.loading).toBeFalsy();
       expect(state.filters.errorMessage).toEqual(errorMessage);
@@ -70,9 +72,9 @@ describe('Employees Reducer', () => {
       const filter = new Filter('test', [new IdValue('1', 'testval')]);
       const action = filterSelected({ filter });
 
-      const state = employeesReducer(initialState, action);
+      const state = employeeReducer(initialState, action);
 
-      expect(state.filters.currentSelection.entities).toEqual({
+      expect(state.filters.selectedFilters.entities).toEqual({
         test: filter,
       });
     });
@@ -84,7 +86,7 @@ describe('Employees Reducer', () => {
         ...initialState,
         filters: {
           ...initialState.filters,
-          currentSelection: {
+          selectedFilters: {
             ids: ['test'],
             entities: {
               test: filter,
@@ -97,11 +99,33 @@ describe('Employees Reducer', () => {
 
       const action = filterSelected({ filter: update });
 
-      const state = employeesReducer(fakeState, action);
+      const state = employeeReducer(fakeState, action);
 
-      expect(state.filters.currentSelection.entities).toEqual({
+      expect(state.filters.selectedFilters.entities).toEqual({
         test: update,
       });
+    });
+  });
+
+  describe('timePeriodSelected', () => {
+    test('should set time period', () => {
+      const timePeriod = TimePeriod.LAST_12_MONTHS;
+      const action = timePeriodSelected({ timePeriod });
+
+      const state = employeeReducer(initialState, action);
+
+      expect(state.filters.selectedTimePeriod).toEqual(timePeriod);
+    });
+  });
+
+  describe('timeRangeSelected', () => {
+    test('should set time range', () => {
+      const timeRange = '123|456';
+      const action = timeRangeSelected({ timeRange });
+
+      const state = employeeReducer(initialState, action);
+
+      expect(state.filters.selectedTimeRange).toEqual(timeRange);
     });
   });
 
@@ -110,7 +134,7 @@ describe('Employees Reducer', () => {
       // prepare any action
       const action: Action = { type: 'Test' };
       expect(reducer(initialState, action)).toEqual(
-        employeesReducer(initialState, action)
+        employeeReducer(initialState, action)
       );
     });
   });
