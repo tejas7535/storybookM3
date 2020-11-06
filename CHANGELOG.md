@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.11.0...v1.12.0) (2020-11-06)
+
+
+### 🐛 Bug Fixes
+
+* **seli:** fix unit tests jenkins error ([eacd0e1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/eacd0e1c0845dc903031ec0f9a1fc608fdfe7cdf))
+
+
+### 📈 Improvements
+
+* **cdba:** adjust to use shared http lib (DSCDA-2037) ([dbb7869](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/dbb7869e2233816dba98b4ba8bc07895fd0d2a5b))
+
+
+### 🎸 Features
+
+* **cdba:** add menu items in column menus (DSCDA-1915) ([8af4f4b](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8af4f4bd0cb86baef2aa60dfbf7593d84c04f99c))
+* **cdba:** reduce column content length (DSCDA-1904) ([6f77164](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/6f77164a7c5688fb60627c04c50a96826e54e226))
+* **goldwind:** conntect lsp api to frontend store (DIGDTGW-705) ([f370186](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/f37018662803b1ea82126e30eccca81aa36d3861))
+* **goldwind:** migrate lls from websocket to http (DIGDTGW-1195) ([e70c559](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/e70c5598676f1843b45a64b7c301e8e8c0893a2e))
+* **gq:** Add Excel export to Offer table (GQUOTE-198) ([a8ed4d0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/a8ed4d0a90365caa59e17fe4d8f2a58bbb88f55e))
+* **gq:** Adjust Customer data in header (GQUOTE-166) ([ecea7d2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/ecea7d238589f6f416aeb49aa2df1306cf80fe0c))
+* **gq:** dummy row with remove and add (GQUOTE-183) ([3053dc8](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/3053dc86f22e1e2d6edee80e7ce8f9b63e24f961))
+* **ia:** implement org chart (IA-43) ([20e34ba](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/20e34baa7a2d2ec62bffa8d25d5d7f077ee7564b))
+* **ia:** implement top bar filters (IA-42) ([93801ab](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/93801ab5763eddbeba92ad3a429958cc8c6b3b3d))
+* **seli:** add expandable details  (UFTABI-2626) ([414e52a](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/414e52a4a3e1bc9cff3bc71aad308be1e185aa4e))
+* **workspace:** adjust new app schematic to use spectator (UFTABI-3176) ([8791ed6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/8791ed6e56a363ceb12c545808c1768b6e5c57c1))
+
 ## [1.11.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.11.0) (2020-11-02)
 
 

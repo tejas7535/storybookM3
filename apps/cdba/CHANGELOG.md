@@ -1,6 +1,20 @@
-# Changelog
+ Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+## [1.9.0](///compare/v1.11.0...v1.9.0) (2020-11-06)
+
+
+### 🎸 Features
+
+* **cdba:** add menu items in column menus (DSCDA-1915) ([8af4f4b](///commit/8af4f4bd0cb86baef2aa60dfbf7593d84c04f99c))
+* **cdba:** reduce column content length (DSCDA-1904) ([6f77164](///commit/6f77164a7c5688fb60627c04c50a96826e54e226))
+
+
+### 📈 Improvements
+
+* **cdba:** adjust to use shared http lib (DSCDA-2037) ([dbb7869](///commit/dbb7869e2233816dba98b4ba8bc07895fd0d2a5b))
 
 ### [1.7.2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-27)
 
