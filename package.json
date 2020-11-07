@@ -85,7 +85,7 @@
     "@types/jwt-decode": "2.2.1",
     "angular-oauth2-oidc": "10.0.3",
     "angular-oauth2-oidc-jwks": "9.0.0",
-    "core-js": "3.6.5",
+    "core-js": "3.7.0",
     "d3-org-chart": "1.1.1",
     "devextreme": "20.2.3",
     "devextreme-angular": "20.2.3",
