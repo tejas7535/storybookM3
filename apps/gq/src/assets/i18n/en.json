@@ -17,7 +17,18 @@
         },
         "table": {
           "action": "Action",
-          "info": "Info",
+          "info": {
+            "title": "Info",
+            "status": {
+              "duplicate": "The item already exists in the table",
+              "isDummy": "This is a dummy item",
+              "materialNumberInValid": "The material number is invalid",
+              "not_validated": "Item not validated yet",
+              "quantityInValid": "The quantity is invalid",
+              "valid": "Item is valid",
+              "validationFailure": "Validation failed, try again"
+            }
+          },
           "matDesc": "Material Description",
           "materialNumber": "Material Number",
           "quantity": "Quantity"

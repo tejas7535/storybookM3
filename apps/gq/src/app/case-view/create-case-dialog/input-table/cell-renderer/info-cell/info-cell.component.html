@@ -3,6 +3,7 @@
     fontSet="schaeffler-icons"
     fontIcon="icon-toast-success"
     class="valid"
+    [matTooltip]="toolTipText"
   ></mat-icon>
 </div>
 <ng-template #notValid>
@@ -11,5 +12,6 @@
     fontIcon="icon-toast-warning"
     class="not_valid"
     [ngClass]="{ dummy: isDummy }"
+    [matTooltip]="toolTipText"
   ></mat-icon>
 </ng-template>

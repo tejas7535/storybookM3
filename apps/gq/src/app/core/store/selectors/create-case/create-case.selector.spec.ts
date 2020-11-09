@@ -1,4 +1,4 @@
-import { IdValue } from '../../models';
+import { IdValue, ValidationDescription } from '../../models';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import * as createSelectors from './create-case.selector';
 
@@ -17,7 +17,10 @@ describe('Create Case Selector', () => {
           {
             materialNumber: '1234',
             quantity: 20,
-            info: true,
+            info: {
+              valid: true,
+              description: ValidationDescription.Valid,
+            },
           },
         ],
       },

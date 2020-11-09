@@ -1,4 +1,9 @@
-import { AutocompleteSearch, CaseTableItem, IdValue } from '../../models';
+import {
+  AutocompleteSearch,
+  CaseTableItem,
+  IdValue,
+  ValidationDescription,
+} from '../../models';
 import {
   addRowDataItem,
   autocomplete,
@@ -74,7 +79,7 @@ describe('Create Actions', () => {
         {
           materialNumber: '1234',
           quantity: 105,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
 
@@ -90,13 +95,13 @@ describe('Create Actions', () => {
         {
           materialNumber: '1234',
           quantity: 105,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
       const pasteDestination: CaseTableItem = {
         materialNumber: '12321',
         quantity: 123,
-        info: true,
+        info: { valid: true, description: [ValidationDescription.Valid] },
       };
       const action = pasteRowDataItems({ items, pasteDestination });
 

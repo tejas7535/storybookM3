@@ -1,10 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { configureTestSuite } from 'ng-bullet';
 
 import { dummyRowData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { InfoCellComponent } from './info-cell.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('InfoCellComponent', () => {
   let component: InfoCellComponent;
@@ -13,7 +19,7 @@ describe('InfoCellComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [InfoCellComponent],
-      imports: [MatIconModule],
+      imports: [MatIconModule, MatTooltipModule],
     });
   });
 
@@ -30,7 +36,7 @@ describe('InfoCellComponent', () => {
   describe('agInit', () => {
     test('should set params', () => {
       const params: any = {
-        value: true,
+        value: { valid: true },
         data: dummyRowData,
       };
       component.agInit(params);

@@ -56,14 +56,13 @@ export const getCustomerConditionsValid = createSelector(
   (state: CaseState): boolean => {
     const rowData = [...state.createCase.rowData];
     let rowDataValid = rowData.length >= 1;
-
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {
         const error =
           !row.quantity ||
           (row.materialNumber && row.materialNumber.length === 0) ||
           !row.materialNumber ||
-          !row.info;
+          !row.info.valid;
 
         if (error) {
           rowDataValid = false;

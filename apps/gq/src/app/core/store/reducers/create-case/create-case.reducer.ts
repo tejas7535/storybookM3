@@ -10,8 +10,16 @@ import {
   pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
+  validateFailure,
+  validateSuccess,
 } from '../../actions';
-import { CaseFilterItem, CaseTableItem, IdValue } from '../../models';
+import {
+  CaseFilterItem,
+  CaseTableItem,
+  IdValue,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../models';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
 
 export interface CaseState {
@@ -19,6 +27,7 @@ export interface CaseState {
     autocompleteLoading: string;
     autocompleteItems: CaseFilterItem[];
     rowData: CaseTableItem[];
+    validationLoading: boolean;
   };
 }
 export const initialState: CaseState = {
@@ -39,6 +48,7 @@ export const initialState: CaseState = {
       },
     ],
     rowData: [dummyRowData],
+    validationLoading: false,
   },
 };
 
@@ -141,6 +151,7 @@ export const createCaseReducer = createReducer(
       rowData: pasteItems(items, pasteDestination, [
         ...state.createCase.rowData,
       ]),
+      validationLoading: true,
     },
   })),
   on(clearRowData, (state: CaseState) => ({
@@ -156,8 +167,106 @@ export const createCaseReducer = createReducer(
       ...state.createCase,
       rowData: deleteItem(materialNumber, [...state.createCase.rowData]),
     },
+  })),
+  on(validateSuccess, (state: CaseState, { materialValidations }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      rowData: [...state.createCase.rowData].map((el) => {
+        return validateData({ ...el }, materialValidations);
+      }),
+      validationLoading: false,
+    },
+  })),
+  on(validateFailure, (state: CaseState) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      rowData: [...state.createCase.rowData].map((el) => {
+        if (el.info.description[0] === ValidationDescription.Valid) {
+          return el;
+        }
+
+        return {
+          ...el,
+          info: {
+            ...el.info,
+            description: [ValidationDescription.ValidationFailure],
+          },
+        };
+      }),
+      validationLoading: false,
+    },
   }))
 );
+
+const validateData = (
+  el: CaseTableItem,
+  materialValidations: MaterialValidation[]
+): CaseTableItem => {
+  const updatedRow = { ...el };
+
+  // Check for valid materialnumber
+  const validation = materialValidations.find(
+    (item) => item.materialNumber15 === el.materialNumber
+  );
+  const valid = validation ? validation.valid : false;
+  updatedRow.info = {
+    valid,
+    description: valid
+      ? []
+      : addDesc(
+          updatedRow.info.description,
+          ValidationDescription.MaterialNumberInValid
+        ),
+  };
+  // Check for valid quantity
+  const parsedQuantity =
+    typeof updatedRow.quantity === 'string'
+      ? parseInt(updatedRow.quantity.trim(), 10)
+      : updatedRow.quantity;
+
+  const quantity =
+    typeof parsedQuantity === 'number'
+      ? parsedQuantity > 0
+        ? parsedQuantity
+        : false
+      : false;
+
+  if (!quantity) {
+    updatedRow.info.valid = false;
+    updatedRow.info.description = addDesc(
+      updatedRow.info.description,
+      ValidationDescription.QuantityInValid
+    );
+  }
+
+  if (updatedRow.info.description.length === 0) {
+    updatedRow.info.description = addDesc(
+      updatedRow.info.description,
+      ValidationDescription.Valid
+    );
+  }
+
+  return updatedRow;
+};
+
+const addDesc = (
+  description: ValidationDescription[],
+  add: ValidationDescription
+): ValidationDescription[] => {
+  if (add === ValidationDescription.Valid) {
+    return [ValidationDescription.Valid];
+  }
+  if (description[0] === ValidationDescription.Not_Validated) {
+    return [add];
+  }
+  if (description.includes(add)) {
+    return description;
+  }
+
+  return [...description, add];
+};
 
 const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   const itemOptions = [...options];
@@ -184,6 +293,7 @@ const pasteItems = (
   const currentRowDataFiltered = currentRowData.filter(
     (el) => !isDummyData(el)
   );
+
   const index = currentRowData.findIndex(
     (value) =>
       pasteDestination &&
@@ -195,8 +305,17 @@ const pasteItems = (
     index >= 0
       ? [...currentRowDataFiltered.slice(0, index + 1), ...items]
       : currentRowData;
+  // Remove duplicates
+  const uniqueArray = updatedRowData.filter(
+    (item, pos, self) =>
+      self.findIndex(
+        (of) =>
+          of.materialNumber === item.materialNumber &&
+          of.quantity === item.quantity
+      ) === pos
+  );
 
-  return updatedRowData;
+  return uniqueArray;
 };
 
 const deleteItem = (
