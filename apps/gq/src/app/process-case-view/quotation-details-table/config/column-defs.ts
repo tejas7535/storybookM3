@@ -12,6 +12,12 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate(
+      'processCaseView.quotationDetailsTable.positionNumber'
+    ),
+    field: 'positionNumber',
+  },
+  {
+    headerName: translate(
       'processCaseView.quotationDetailsTable.materialDescription'
     ),
     field: 'materialDesignation',
@@ -23,18 +29,63 @@ export const COLUMN_DEFS: ColDef[] = [
     field: 'materialNumber13',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.productionHierarchy'
-    ),
-    field: 'productionHierarchy',
+    headerName: translate('processCaseView.quotationDetailsTable.quantity'),
+    field: 'quantity',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.unit'),
+    field: 'unit',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.priceUnit'),
+    field: 'priceUnit',
   },
   {
     headerName: translate(
-      'processCaseView.quotationDetailsTable.productionCost'
+      'processCaseView.quotationDetailsTable.recommendedUnitPriceInCurrency'
     ),
-    field: 'productionCost',
+    field: 'rsp',
   },
-
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.priceSource'),
+    field: 'priceSource',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.margin'),
+    field: 'margin',
+  },
+  {
+    headerName: translate(
+      'processCaseView.quotationDetailsTable.lastCustomerPrice'
+    ),
+    field: 'lastCustomerPrice',
+  },
+  {
+    headerName: translate(
+      'processCaseView.quotationDetailsTable.percentDifference'
+    ),
+    field: 'percentDifference',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.priceRating'),
+    field: 'priceRating',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.netValue'),
+    field: 'netValue',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.rlt'),
+    field: 'rlt',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.productLine'),
+    field: 'productLine',
+  },
+  {
+    headerName: translate('processCaseView.quotationDetailsTable.gspd'),
+    field: 'gspd',
+  },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.productionPlant'
@@ -42,16 +93,10 @@ export const COLUMN_DEFS: ColDef[] = [
     field: 'productionPlant',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.plantCity'),
-    field: 'plantCity',
-  },
-  {
-    headerName: translate('processCaseView.quotationDetailsTable.plantCountry'),
-    field: 'plantCountry',
-  },
-  {
-    headerName: translate('processCaseView.quotationDetailsTable.rsp'),
-    field: 'rsp',
+    headerName: translate(
+      'processCaseView.quotationDetailsTable.productionCity'
+    ),
+    field: 'productionCity',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.info'),

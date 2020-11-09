@@ -75,11 +75,7 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .getQuotation(quotationIdentifier.quotationNumber)
           .pipe(
-            map((item: Quotation) =>
-              loadQuotationSuccess({
-                item,
-              })
-            ),
+            map((item: Quotation) => ProcessCaseEffect.addRandomValues(item)),
             catchError((errorMessage) =>
               of(loadQuotationFailure({ errorMessage }))
             )
@@ -175,5 +171,20 @@ export class ProcessCaseEffect {
       fromRoute.customerNumber === current?.customerNumber &&
       fromRoute.quotationNumber === current?.quotationNumber
     );
+  }
+
+  private static addRandomValues(item: Quotation): any {
+    item.quotationDetails.forEach((value) => {
+      value.rsp = (Math.random() * 10).toFixed(2);
+      value.margin = `${(Math.random() * 100).toFixed(2).toString()} %`;
+      value.quantity = (Math.floor(Math.random() * 10) + 1) * 10;
+      value.netValue = (value.quantity * Number(value.rsp)).toString();
+      const arr = ['PAT', 'SAP System', 'Custom'];
+      value.priceSource = arr[Math.floor(Math.random() * 3)];
+    });
+
+    return loadQuotationSuccess({
+      item,
+    });
   }
 }

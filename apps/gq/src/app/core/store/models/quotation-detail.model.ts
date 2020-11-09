@@ -13,6 +13,10 @@ export class QuotationDetail {
     public plantCity: string,
     public plantCountry: string,
     public rsp: string,
-    public info: QuotationInfoEnum
+    public info: QuotationInfoEnum,
+    public margin: string,
+    public netValue: string,
+    public quantity: number,
+    public priceSource: string
   ) {}
 }

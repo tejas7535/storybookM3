@@ -47,33 +47,28 @@
   },
   "processCaseView": {
     "processCaseHeader": {
-      "seeOffer": "see offer",
-      "customerDetails": {
-        "country": "Country",
-        "name": "Customer",
-        "id": "Customer ID",
-        "details": "Details",
-        "keyAccount": "Key Account",
-        "keyAccountId": "Key Account ID",
-        "region": "Region",
-        "sectorManagement": "Sector Management",
-        "subKeyAccount": "Subkey Account",
-        "subKeyAccountId": "Subkey Account ID",
-        "subRegion": "Sub-Region",
-        "subSector": "Subector",
-        "subSectorOne": "Subector 1"
-      }
+      "seeOffer": "see offer"
     },
     "quotationDetailsTable": {
+      "gspd": "GSPD",
       "info": "Info",
+      "lastCustomerPrice": "Last Customer Price",
+      "margin": "Margin",
       "materialDescription": "Material Description",
-      "materialNumber": "Material Nr. (13 digit)",
-      "plantCity": "Plant City",
-      "plantCountry": "Plant Country",
-      "productionCost": "Production Cost",
-      "productionHierarchy": "Production Hierarchy",
+      "materialNumber": "Material Nr. (15 digit)",
+      "netValue": "Net Value",
+      "percentDifference": "Percent Difference to the last price",
+      "positionNumber": "Position Number",
+      "priceRating": "Price Rating",
+      "priceSource": "Price Source",
+      "priceUnit": "Price Unit",
+      "productionCity": "Production City",
       "productionPlant": "Production Plant",
-      "rsp": "RSP"
+      "productLine": "Product Line",
+      "quantity": "Quantity",
+      "recommendedUnitPriceInCurrency": "Recommended Unit Price in Currency",
+      "rlt": "RLT",
+      "unit": "Unit"
     }
   },
   "shared": {
@@ -99,6 +94,17 @@
       "uploadToSAPButton": {
         "uploadToSAP": "Upload to SAP"
       }
+    },
+    "customerDetails": {
+      "country": "Country",
+      "details": "Details",
+      "id": "Customer ID",
+      "keyAccount": "Key Account",
+      "name": "Customer",
+      "sectorManagement": "Sector Management",
+      "subKeyAccount": "Subkey Account",
+      "subRegion": "Sub-Region",
+      "subSector": "Subector"
     },
     "offerDrawer": {
       "title": "Current Offer"
