@@ -16,4 +16,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   plantCountry: 'Germany',
   rsp: '845,76 €',
   info: QuotationInfoEnum.None,
+  priceSource: 'MokSource',
+  netValue: 'MokSource',
+  quantity: 10,
+  margin: 'margin',
 };

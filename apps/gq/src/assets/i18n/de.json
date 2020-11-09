@@ -47,33 +47,28 @@
   },
   "processCaseView": {
     "processCaseHeader": {
-      "seeOffer": "Angebot ansehen",
-      "customerDetails": {
-        "country": "Land",
-        "name": "Kunder",
-        "id": "Kundennummer",
-        "details": "Details",
-        "keyAccount": "Key-Account",
-        "keyAccountId": "Key-Account Nummer",
-        "region": "Region",
-        "sectorManagement": "Sektormanagement",
-        "subKeyAccount": "Sub-Key-Account",
-        "subKeyAccountId": "Sub-Key-Account Nummer",
-        "subRegion": "Subregion",
-        "subSector": "Subsektor",
-        "subSectorOne": "Subsektor 1"
-      }
+      "seeOffer": "Angebot ansehen"
     },
     "quotationDetailsTable": {
+      "gspd": "GSPD",
       "info": "Info",
+      "lastCustomerPrice": "letzter Kundenpreis",
+      "margin": "Preisspanne",
       "materialDescription": "Materialbescheibung",
-      "materialNumber": "Material Nr. (13 Ziffern)",
-      "plantCity": "Stadt",
-      "plantCountry": "Land",
-      "productionCost": "Produktionskosten",
-      "productionHierarchy": "Produktionshierarchie",
+      "materialNumber": "Material Nr. (15 Ziffern)",
+      "netValue": "Nettowert",
+      "percentDifference": "Prozentualer Unterschied zum letzten Preis",
+      "positionNumber": "Positionsnumer",
+      "priceRating": "Price Rating",
+      "priceSource": "Preis Quelle",
+      "priceUnit": "Preiseinheit",
+      "productionCity": "Produktionsort",
       "productionPlant": "Werk",
-      "rsp": "RSP"
+      "productLine": "Produktlinie",
+      "quantity": "Anzahl",
+      "recommendedUnitPriceInCurrency": "Empfohlener Stückpreis in Währung",
+      "rlt": "RLT",
+      "unit": "Einheit"
     }
   },
   "shared": {
@@ -99,6 +94,17 @@
       "uploadToSAPButton": {
         "uploadToSAP": "zu SAP hochladen"
       }
+    },
+    "customerDetails": {
+      "country": "Land",
+      "details": "Details",
+      "id": "Kundennummer",
+      "keyAccount": "Key-Account",
+      "name": "Kunder",
+      "sectorManagement": "Sektormanagement",
+      "subKeyAccount": "Sub-Key-Account",
+      "subRegion": "Subregion",
+      "subSector": "Subsektor"
     },
     "offerDrawer": {
       "title": "Alles zurücksetzen"
