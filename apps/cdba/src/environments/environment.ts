@@ -11,6 +11,14 @@ export const environment = {
   baseUrl: 'http://localhost:8080/api/v1', // using local server
   // baseUrl: 'http://cdba-d.dev.dp.schaeffler/api/v1' // using local dev,
   envName: 'https://cdba-d.dev.dp.schaeffler (dev)',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '318b42fa-c3fe-408c-83d3-8add18bbe8e9',
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };
 
 /*

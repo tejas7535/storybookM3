@@ -6,4 +6,9 @@ export const environment = {
   appId: 'api://5911691d-b29f-40bc-ab05-0b67f5b256cf/cdbaapi', // SG_CDBA_P_API
   baseUrl: '/api/v1',
   envName: 'https://cdba.dp.schaeffler (prod)',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: 'd3f24b00-e8c7-4e5c-99c9-4a4f4f8d1e6d',
+    },
+  },
 };

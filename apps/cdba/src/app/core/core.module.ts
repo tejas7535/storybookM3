@@ -6,6 +6,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
@@ -45,6 +46,9 @@ registerLocaleData(de, 'de-DE');
 
     // HTTP
     HttpModule.forRoot({ environment }),
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
 
     // notifications
     SnackBarModule,

@@ -74,6 +74,7 @@
     "@angular/platform-browser": "10.2.2",
     "@angular/platform-browser-dynamic": "10.2.2",
     "@angular/router": "10.2.2",
+    "@microsoft/applicationinsights-web": "2.5.9",
     "@ngneat/transloco": "2.19.1",
     "@ngrx/component": "10.0.1",
     "@ngrx/effects": "10.0.1",
