@@ -138,7 +138,6 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    // emit new avlue
     this.added.emit(event.option.value);
     this.autofilled = true;
   }

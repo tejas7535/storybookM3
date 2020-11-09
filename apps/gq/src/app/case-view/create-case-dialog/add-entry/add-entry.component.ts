@@ -19,6 +19,7 @@ import {
   autocomplete,
   getCaseAutocompleteLoading,
   getCaseMaterialnumber,
+  getCaseRowData,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
@@ -27,6 +28,7 @@ import {
   CaseFilterItem,
   CaseTableItem,
   IdValue,
+  ValidationDescription,
 } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
@@ -42,6 +44,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   _isDisabled: boolean;
   materialNumber: string;
+  rowData: CaseTableItem[];
   materialNumberInput: boolean;
   quantity: any;
   materialNumberIsValid = false;
@@ -88,6 +91,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         this.rowInputValid();
       })
     );
+    this.subscription.add(
+      this.store.pipe(select(getCaseRowData)).subscribe((data) => {
+        this.rowData = data;
+      })
+    );
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
@@ -116,15 +124,24 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   rowInputValid(): void {
     this.addRowEnabled = this.materialNumberIsValid
-      ? this.quantityValid
+      ? this.quantityValid && this.rowDoesNotExist()
       : false;
+  }
+  rowDoesNotExist(): boolean {
+    const exists = this.rowData.find(
+      (el) =>
+        el.materialNumber === this.materialNumber &&
+        el.quantity === this.quantity
+    );
+
+    return exists === undefined;
   }
   addRow(): void {
     const items: CaseTableItem[] = [
       {
         materialNumber: this.materialNumber,
         quantity: this.quantity,
-        info: true,
+        info: { valid: true, description: [ValidationDescription.Valid] },
       },
     ];
     this.store.dispatch(addRowDataItem({ items }));

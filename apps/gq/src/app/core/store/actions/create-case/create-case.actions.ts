@@ -1,6 +1,11 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AutocompleteSearch, CaseTableItem, IdValue } from '../../models';
+import {
+  AutocompleteSearch,
+  CaseTableItem,
+  IdValue,
+  MaterialValidation,
+} from '../../models';
 
 export const autocomplete = createAction(
   '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',
@@ -42,16 +47,26 @@ export const deleteRowDataItem = createAction(
   props<{ materialNumber: string }>()
 );
 
+export const validateFailure = createAction(
+  '[Create Case] Get Validation for RowData Validation Failure'
+);
+export const validateSuccess = createAction(
+  '[Create Case] Get Validation for RowData Validation Sucess',
+  props<{ materialValidations: MaterialValidation[] }>()
+);
+
 const all = union({
+  addRowDataItem,
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  selectAutocompleteOption,
-  unselectAutocompleteOptions,
-  addRowDataItem,
-  pasteRowDataItems,
   clearRowData,
   deleteRowDataItem,
+  pasteRowDataItems,
+  selectAutocompleteOption,
+  unselectAutocompleteOptions,
+  validateSuccess,
+  validateFailure,
 });
 
 export type createCaseActions = typeof all;

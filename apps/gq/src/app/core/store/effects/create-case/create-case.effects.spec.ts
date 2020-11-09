@@ -7,6 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
+import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
   autocomplete,
   autocompleteFailure,
@@ -32,6 +33,12 @@ describe('Create Case Effects', () => {
           provide: AutocompleteService,
           useValue: {
             autocomplete: jest.fn(),
+          },
+        },
+        {
+          provide: ValidationService,
+          useValue: {
+            validate: jest.fn(),
           },
         },
       ],

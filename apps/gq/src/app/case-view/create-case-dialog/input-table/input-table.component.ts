@@ -3,7 +3,10 @@ import { Component, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { pasteRowDataItems } from '../../../core/store';
-import { CaseTableItem } from '../../../core/store/models';
+import {
+  CaseTableItem,
+  ValidationDescription,
+} from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 import {
   COLUMN_DEFS,
@@ -46,6 +49,10 @@ export class InputTableComponent {
       const item: CaseTableItem = {
         materialNumber: el[0],
         quantity: el[1],
+        info: {
+          valid: false,
+          description: [ValidationDescription.Not_Validated],
+        },
       };
 
       return item;

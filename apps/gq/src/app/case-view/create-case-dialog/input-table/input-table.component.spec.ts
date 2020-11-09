@@ -5,6 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { pasteRowDataItems } from '../../../core/store';
+import { ValidationDescription } from '../../../core/store/models';
 import { CreateCaseButtonComponent } from '../../../shared/custom-status-bar/create-case-button/create-case-button.component';
 import { CustomStatusBarModule } from '../../../shared/custom-status-bar/custom-status-bar.module';
 import { ResetAllButtonComponent } from '../../../shared/custom-status-bar/reset-all-button/reset-all-button.component';
@@ -54,9 +55,30 @@ describe('InputTableComponent', () => {
       component['currentCell'] = currentCell;
 
       const combinedArray = [
-        { materialNumber: '20', quantity: '10' },
-        { materialNumber: '201', quantity: '20' },
-        { materialNumber: '203', quantity: '30' },
+        {
+          materialNumber: '20',
+          quantity: '10',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '201',
+          quantity: '20',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '203',
+          quantity: '30',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
       ];
       const combinedItem = {
         items: combinedArray,
@@ -81,9 +103,30 @@ describe('InputTableComponent', () => {
       component['currentCell'] = currentCell;
 
       const combinedArray = [
-        { materialNumber: '20', quantity: '10' },
-        { materialNumber: '201', quantity: '20' },
-        { materialNumber: '203', quantity: '30' },
+        {
+          materialNumber: '20',
+          quantity: '10',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '201',
+          quantity: '20',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '203',
+          quantity: '30',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
       ];
       const combinedItem = {
         items: combinedArray,

@@ -17,7 +17,12 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import { AutocompleteSearch, IdValue } from '../../../core/store/models';
+import {
+  AutocompleteSearch,
+  CaseTableItem,
+  IdValue,
+  ValidationDescription,
+} from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
 import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
@@ -120,6 +125,9 @@ describe('InputbarComponent', () => {
   });
 
   describe('rowInputValid', () => {
+    beforeEach(() => {
+      component.rowData = [];
+    });
     test('should set addRowEnabled to true', () => {
       component.materialNumberIsValid = true;
       component.quantityValid = true;
@@ -135,7 +143,14 @@ describe('InputbarComponent', () => {
 
   describe('addRow', () => {
     test('should dispatch action', () => {
-      const item = { materialNumber: '1234', quantity: 10, info: true };
+      const item: CaseTableItem = {
+        materialNumber: '1234',
+        quantity: 10,
+        info: {
+          description: [ValidationDescription.Valid],
+          valid: true,
+        },
+      };
       component.materialNumber = item.materialNumber;
       component.quantity = item.quantity;
       mockStore.dispatch = jest.fn();

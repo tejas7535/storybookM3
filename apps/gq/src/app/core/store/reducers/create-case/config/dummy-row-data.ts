@@ -1,9 +1,9 @@
-import { CaseTableItem } from '../../../models';
+import { CaseTableItem, ValidationDescription } from '../../../models';
 
 export const dummyRowData: CaseTableItem = {
   materialNumber: '0167187...',
   quantity: '123...',
-  info: false,
+  info: { valid: false, description: [ValidationDescription.Dummy] },
 };
 
 export const isDummyData = (data: CaseTableItem): boolean => {

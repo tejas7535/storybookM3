@@ -1,7 +1,7 @@
 import { dummyRowData } from '../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { setStyle } from './default-column-defs';
 
-describe('ColumnDef', () => {
+describe('defaultColumnDef', () => {
   test('should setStyle', () => {
     const params = {
       data: dummyRowData,

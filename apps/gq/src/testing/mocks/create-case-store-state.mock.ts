@@ -5,5 +5,6 @@ export const CREATE_CASE_STORE_STATE_MOCK: CaseState = {
     autocompleteLoading: undefined,
     autocompleteItems: [],
     rowData: [],
+    validationLoading: false,
   },
 };

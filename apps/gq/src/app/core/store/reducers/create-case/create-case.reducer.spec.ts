@@ -11,8 +11,16 @@ import {
   pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
+  validateFailure,
+  validateSuccess,
 } from '../../actions';
-import { AutocompleteSearch, CaseTableItem, IdValue } from '../../models';
+import {
+  AutocompleteSearch,
+  CaseTableItem,
+  IdValue,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../models';
 import { dummyRowData } from './config/dummy-row-data';
 import { CaseState, createCaseReducer, reducer } from './create-case.reducer';
 
@@ -142,14 +150,14 @@ describe('Create Case Reducer', () => {
         {
           materialNumber: '123',
           quantity: 10,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
       const items = [
         {
           materialNumber: '1234',
           quantity: 105,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
       const fakeState: CaseState = {
@@ -173,17 +181,37 @@ describe('Create Case Reducer', () => {
         {
           materialNumber: '123',
           quantity: 10,
-          info: false,
+          info: {
+            valid: false,
+            description: [ValidationDescription.MaterialNumberInValid],
+          },
         },
       ];
       const items: CaseTableItem[] = [
-        { materialNumber: '1', quantity: 10, info: false },
-        { materialNumber: '12', quantity: 10, info: false },
+        {
+          materialNumber: '1',
+          quantity: 10,
+          info: {
+            valid: false,
+            description: [ValidationDescription.MaterialNumberInValid],
+          },
+        },
+        {
+          materialNumber: '12',
+          quantity: 10,
+          info: {
+            valid: false,
+            description: [ValidationDescription.MaterialNumberInValid],
+          },
+        },
       ];
       const pasteDestination: CaseTableItem = {
         materialNumber: '123',
         quantity: 10,
-        info: false,
+        info: {
+          valid: false,
+          description: [ValidationDescription.MaterialNumberInValid],
+        },
       };
       const fakeState: CaseState = {
         createCase: {
@@ -206,7 +234,7 @@ describe('Create Case Reducer', () => {
         {
           materialNumber: '123',
           quantity: 10,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
 
@@ -233,12 +261,12 @@ describe('Create Case Reducer', () => {
         {
           materialNumber: '123',
           quantity: 10,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
         {
           materialNumber: materialNumberDelete,
           quantity: 10,
-          info: true,
+          info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
 
@@ -259,7 +287,100 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([fakeData[0]]);
     });
   });
+  describe('validateSuccess', () => {
+    test('should validate rowData', () => {
+      const materialValidations: MaterialValidation[] = [
+        { materialNumber15: '20', valid: true },
+        { materialNumber15: '30', valid: false },
+      ];
+      const fakeData: CaseTableItem[] = [
+        {
+          materialNumber: '20',
+          quantity: '10',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+        {
+          materialNumber: '30',
+          quantity: 's',
+          info: {
+            valid: false,
+            description: [ValidationDescription.Not_Validated],
+          },
+        },
+      ];
 
+      const fakeState: CaseState = {
+        createCase: {
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
+          rowData: fakeData,
+        },
+      };
+
+      const expected = fakeData;
+      expected[0].info.valid = true;
+      expected[0].info.description = [ValidationDescription.Valid];
+      expected[1].info.valid = false;
+      expected[1].info.description = [
+        ValidationDescription.MaterialNumberInValid,
+        ValidationDescription.QuantityInValid,
+      ];
+      const action = validateSuccess({ materialValidations });
+
+      const state = createCaseReducer(fakeState, action);
+      const { rowData } = state.createCase;
+
+      expect(rowData).toEqual(expected);
+    });
+  });
+
+  describe('validateFailure', () => {
+    test('should not manipulate state', () => {
+      const action = validateFailure();
+      const mockState: CaseState = {
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        createCase: {
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
+          validationLoading: true,
+          rowData: [
+            {
+              info: {
+                valid: true,
+                description: [ValidationDescription.Valid],
+              },
+            },
+            {
+              info: {
+                valid: false,
+                description: [ValidationDescription.Not_Validated],
+              },
+            },
+          ],
+        },
+      };
+
+      const expected = [
+        {
+          info: {
+            valid: true,
+            description: [ValidationDescription.Valid],
+          },
+        },
+        {
+          info: {
+            valid: false,
+            description: [ValidationDescription.ValidationFailure],
+          },
+        },
+      ];
+
+      const state = createCaseReducer(mockState, action);
+      const resultTable = state.createCase.rowData;
+      expect(resultTable).toEqual(expected);
+    });
+  });
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
