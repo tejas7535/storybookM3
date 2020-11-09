@@ -19,7 +19,8 @@
         "@angular/platform-browser",
         "@angular/platform-browser-dynamic",
         "@angular/router",
-        "@angular/service-worker"
+        "@angular/service-worker",
+        "zone.js"
       ],
       "groupName": "@angular/angular",
       "updateTypes": ["minor", "patch"]

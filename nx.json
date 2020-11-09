@@ -160,6 +160,9 @@
     },
     "shared-utils-http": {
       "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-utils-application-insights": {
+      "tags": ["scope:shared", "type:utils"]
     }
   },
   "tasksRunnerOptions": {
