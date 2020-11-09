@@ -715,16 +715,7 @@ pipeline {
 
                                     zip dir: "dist/apps/${app}",  glob: "", zipFile: "dist/zips/${app}/next.zip"
                                                             
-                                    if(isMaster()){
-                                        uploadSpec = """{
-                                            "files": [
-                                                {
-                                                    "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/next.zip"
-                                                }
-                                            ]
-                                        }"""
-                                    } else if(isAppRelease()) {
+                                    if(isAppRelease()) {
                                             def version = getPackageVersion()
                                             uploadSpec = """{
                                             "files": [
@@ -735,6 +726,15 @@ pipeline {
                                                 {
                                                     "pattern": "dist/zips/${app}/next.zip",
                                                     "target": "${artifactoryBasePath}/${app}/release/${version}.zip"
+                                                }
+                                            ]
+                                        }"""
+                                    } else if(isMaster()) {
+                                        uploadSpec = """{
+                                            "files": [
+                                                {
+                                                    "pattern": "dist/zips/${app}/next.zip",
+                                                    "target": "${artifactoryBasePath}/${app}/next.zip"
                                                 }
                                             ]
                                         }"""
