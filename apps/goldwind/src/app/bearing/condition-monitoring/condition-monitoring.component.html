@@ -12,10 +12,7 @@
     <goldwind-grease-monitor></goldwind-grease-monitor>
   </div>
   <div id="center-load" class="grid-element">
-    <goldwind-center-load
-      [loadSense]="loadSense$ | ngrxPush"
-      [live]="live$ | ngrxPush"
-    ></goldwind-center-load>
+    <goldwind-center-load></goldwind-center-load>
   </div>
   <div id="rotor-speed" class="grid-element">
     <ng-container *ngTemplateOutlet="construction_card"></ng-container>

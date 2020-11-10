@@ -3,12 +3,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
-import { CenterLoadComponent } from './center-load/center-load.component';
+import { CenterLoadModule } from './center-load/center-load.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
@@ -26,10 +25,8 @@ describe('ConditionMonitoringComponent', () => {
       LoadingSpinnerModule,
       EdmMonitorModule,
       GreaseMonitorModule,
+      CenterLoadModule,
       MatCardModule,
-      NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
-      }),
     ],
     providers: [
       provideMockStore({
@@ -39,9 +36,12 @@ describe('ConditionMonitoringComponent', () => {
             result: undefined,
           },
           loadSense: {
-            loading: undefined,
-            result: [],
-            contents: undefined,
+            loading: false,
+            result: undefined,
+            interval: {
+              startDate: 123456789,
+              endDate: 987654321,
+            },
           },
           edmMonitor: {
             loading: false,
@@ -62,11 +62,7 @@ describe('ConditionMonitoringComponent', () => {
         },
       }),
     ],
-    declarations: [
-      ConditionMonitoringComponent,
-      CenterLoadComponent,
-      CmEquipmentComponent,
-    ],
+    declarations: [ConditionMonitoringComponent, CmEquipmentComponent],
   });
 
   beforeEach(() => {

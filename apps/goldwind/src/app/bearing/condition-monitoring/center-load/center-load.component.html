@@ -9,25 +9,23 @@
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content>
-    <div
-      *transloco="let t; read: 'bearing'"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="5px"
+    <ng-container
+      *ngIf="loadSenseMeasurementTimes$ | ngrxPush as loadSenseMeasurementTimes"
     >
-      <div class="status-indicator" [ngClass]="{ live: live }"></div>
-      <span>{{ live ? t('live') : t('offline') }}</span>
-    </div>
-    <!-- <div *ngIf="currentMessage">
-      <h4>Current Message:</h4>
-      <p>Date: {{ currentMessage?.timestamp | date: 'medium' }}</p>
-      <span>{{ currentMessage?.body | json }}</span>
-    </div> -->
-    <!-- <div
+      <mat-slider
+        color="primary"
+        [max]="loadSenseMeasurementTimes.length - 1"
+        [value]="loadSenseMeasurementTimes.length"
+        (input)="timeChange($event, loadSenseMeasurementTimes)"
+      ></mat-slider>
+      <span>{{ current }}</span>
+    </ng-container>
+
+    <div
       echarts
       [options]="chartOptions"
-      [merge]="centerLoadGraphData"
+      [merge]="loadSenseGraphData$ | ngrxPush"
       class="center-load-chart"
-    ></div> -->
+    ></div>
   </mat-card-content>
 </mat-card>

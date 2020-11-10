@@ -36,8 +36,9 @@
       "title": "Bearing center load and temperature",
       "bearingTemperature": "Bearing Temperature",
       "bearingCenterLoad": "Bearing Center Load",
-      "generatorSide": "Generator Side",
-      "time": "Time"
+      "time": "Time",
+      "generator": "Generator",
+      "rotor": "rotor"
     }
   },
   "greaseStatus": {
