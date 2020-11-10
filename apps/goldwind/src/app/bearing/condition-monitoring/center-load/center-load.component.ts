@@ -1,70 +1,62 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
+import { select, Store } from '@ngrx/store';
 import { EChartOption } from 'echarts';
 
-import { LoadSense } from '../../../core/store/reducers/load-sense/models';
-import { chartOptions } from '../../../shared/chart/chart';
+import { LoadSenseState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
+import { GraphData } from '../../../core/store/reducers/shared/models';
+import {
+  getLoadGraphData,
+  getLoadSenseMeasturementTimes,
+} from '../../../core/store/selectors/';
+import { polarChartOptions } from '../../../shared/chart/chart';
 
 @Component({
   selector: 'goldwind-center-load',
   templateUrl: './center-load.component.html',
   styleUrls: ['./center-load.component.scss'],
 })
-export class CenterLoadComponent {
-  @Input() loadSense: LoadSense[];
+export class CenterLoadComponent implements OnInit {
   @Input() live: boolean;
-
-  data: any = [];
+  loadSenseGraphData$: Observable<GraphData>;
+  loadSenseMeasurementTimes$: Observable<string[]>;
+  current: string;
 
   chartOptions: EChartOption = {
-    ...chartOptions,
-    polar: {},
-    tooltip: {
-      trigger: 'axis',
-      axisPointer: {
-        type: 'cross',
-      },
-    },
-    angleAxis: {
-      type: 'value',
-      startAngle: 0,
-      max: 360,
-      clockwise: false,
-    },
-    radiusAxis: {
-      type: 'value',
-    },
+    ...polarChartOptions,
   };
 
-  centerLoadGraphData = {
-    series: [
-      {
-        name: 'Load inner',
-        type: 'line',
-        coordinateSystem: 'polar',
-        data: [
-          [0.5, 0],
-          [0.7, 5],
-          [0.6, 10],
-          [0.6, 15],
-          [0.4, 25],
-          [0.6, 30],
-        ],
-        areaStyle: {},
-      },
-      {
-        name: 'Load Line outer',
-        type: 'line',
-        coordinateSystem: 'polar',
-        data: [
-          [0.85, 0],
-          [0.8, 5],
-          [0.82, 10],
-          [0.79, 15],
-          [0.81, 25],
-          [0.86, 30],
-        ],
-      },
-    ],
-  };
+  public constructor(private readonly store: Store<LoadSenseState>) {}
+
+  ngOnInit(): void {
+    this.getLoadSenseGraphData();
+
+    this.loadSenseMeasurementTimes$ = this.store.pipe(
+      select(getLoadSenseMeasturementTimes),
+      tap((val) => {
+        this.current =
+          this.current ?? val ? this.formatDate(val.pop()) : undefined;
+      })
+    );
+  }
+
+  getLoadSenseGraphData(timestamp?: string): void {
+    this.loadSenseGraphData$ = this.store.pipe(
+      select(getLoadGraphData, { timestamp })
+    );
+  }
+
+  timeChange(event: any, loadSenseMeasurementTimes: string[]): void {
+    const current = loadSenseMeasurementTimes[event.value];
+
+    this.current = this.formatDate(current);
+    this.getLoadSenseGraphData(current);
+  }
+
+  formatDate(current: string): string {
+    return new Date(current).toLocaleTimeString();
+  }
 }

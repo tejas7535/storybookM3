@@ -43,6 +43,33 @@ export const axisChartOptions: EChartOption = {
   ],
 };
 
+export const polarChartOptions: EChartOption = {
+  ...chartOptions,
+  legend: {
+    width: 20,
+    textStyle: {
+      fontWeight: 'bolder',
+      fontSize: 14,
+    },
+  },
+  polar: {},
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+    },
+  },
+  angleAxis: {
+    type: 'value',
+    startAngle: 0,
+    max: 360,
+    clockwise: false,
+  },
+  radiusAxis: {
+    type: 'value',
+  },
+};
+
 export const GREASE_GAUGE_SERIES = {
   type: 'gauge',
   splitNumber: 4,

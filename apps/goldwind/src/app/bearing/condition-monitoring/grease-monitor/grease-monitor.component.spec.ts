@@ -12,7 +12,6 @@ import { GreaseMonitorComponent } from './grease-monitor.component';
 describe('GreaseStatusComponent', () => {
   let component: GreaseMonitorComponent;
   let spectator: Spectator<GreaseMonitorComponent>;
-  // let mockStore: MockStore;
   let router: Router;
 
   const createComponent = createComponentFactory({
@@ -55,7 +54,6 @@ describe('GreaseStatusComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    // mockStore = spectator.inject(MockStore);
     router = spectator.inject(Router);
     component = spectator.debugElement.componentInstance;
   });

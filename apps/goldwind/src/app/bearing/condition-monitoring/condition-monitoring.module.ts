@@ -6,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
-import { NgxEchartsModule } from 'ngx-echarts';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -21,7 +20,7 @@ import { greaseStatusReducer } from '../../core/store/reducers/grease-status/gre
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
-import { CenterLoadComponent } from './center-load/center-load.component';
+import { CenterLoadModule } from './center-load/center-load.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing.module';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -29,11 +28,7 @@ import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 
 @NgModule({
-  declarations: [
-    ConditionMonitoringComponent,
-    CenterLoadComponent,
-    CmEquipmentComponent,
-  ],
+  declarations: [ConditionMonitoringComponent, CmEquipmentComponent],
   imports: [
     CommonModule,
     ConditionMonitoringRoutingModule,
@@ -41,10 +36,8 @@ import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
     LoadingSpinnerModule,
     EdmMonitorModule,
     GreaseMonitorModule,
+    CenterLoadModule,
     SharedModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('../../shared/chart/echarts'),
-    }),
 
     // UI Modules
     MatCardModule,
