@@ -13,13 +13,13 @@ import {
 import { EmployeeState } from '../core/store/reducers/employee/employee.reducer';
 import {
   getCountries,
-  getLocations,
-  getOrganizations,
+  getHrLocations,
+  getOrgUnits,
   getRegionsAndSubRegions,
   getSelectedTimePeriod,
   getTimePeriods,
 } from '../core/store/selectors';
-import { Filter, IdValue, TimePeriod } from '../shared/models';
+import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 
 @Component({
   selector: 'ia-filter-section',
@@ -27,10 +27,10 @@ import { Filter, IdValue, TimePeriod } from '../shared/models';
   styleUrls: ['./filter-section.component.scss'],
 })
 export class FilterSectionComponent implements OnInit {
-  organizations$: Observable<Filter>;
+  orgUnits$: Observable<Filter>;
   regionsAndSubRegions$: Observable<Filter>;
   countries$: Observable<Filter>;
-  locations$: Observable<Filter>;
+  hrLocations$: Observable<Filter>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
 
@@ -39,12 +39,12 @@ export class FilterSectionComponent implements OnInit {
   public constructor(private readonly store: Store<EmployeeState>) {}
 
   public ngOnInit(): void {
-    this.organizations$ = this.store.pipe(select(getOrganizations));
+    this.orgUnits$ = this.store.pipe(select(getOrgUnits));
     this.regionsAndSubRegions$ = this.store.pipe(
       select(getRegionsAndSubRegions)
     );
     this.countries$ = this.store.pipe(select(getCountries));
-    this.locations$ = this.store.pipe(select(getLocations));
+    this.hrLocations$ = this.store.pipe(select(getHrLocations));
     this.timePeriods$ = this.store.pipe(select(getTimePeriods));
     this.selectedTimePeriod$ = this.store.pipe(
       select(getSelectedTimePeriod),
@@ -52,7 +52,7 @@ export class FilterSectionComponent implements OnInit {
     );
   }
 
-  public optionSelected(filter: Filter): void {
+  public optionSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
   }
 

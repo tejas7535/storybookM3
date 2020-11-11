@@ -135,7 +135,7 @@ describe('AutocompleteInputComponent', () => {
         expect(component.inputControl.setErrors).not.toHaveBeenCalled();
         expect(component.selected.emit).toHaveBeenCalledWith({
           name: '',
-          options: [new IdValue('3', 'cherry')],
+          value: '3',
         });
         done();
       }, 350);

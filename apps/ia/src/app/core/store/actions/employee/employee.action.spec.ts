@@ -1,12 +1,21 @@
 import {
   filterSelected,
+  loadEmployees,
+  loadEmployeesFailure,
+  loadEmployeesSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
   timePeriodSelected,
   timeRangeSelected,
 } from '../';
-import { Filter, IdValue, TimePeriod } from '../../../../shared/models';
+import {
+  Employee,
+  EmployeesRequest,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
 
 describe('Search Actions', () => {
   const errorMessage = 'An error occured';
@@ -22,7 +31,7 @@ describe('Search Actions', () => {
 
     test('loadInitialFiltersSuccess', () => {
       const filters = {
-        organizations: [new IdValue('Department1', 'Department1')],
+        orgUnits: [new IdValue('Department1', 'Department1')],
         regionsAndSubRegions: [
           new IdValue('Europe', 'Europe'),
           new IdValue('Americas', 'Americas'),
@@ -31,7 +40,7 @@ describe('Search Actions', () => {
           new IdValue('germany', 'Germany'),
           new IdValue('usa', 'USA'),
         ],
-        locations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
+        hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
       };
       const action = loadInitialFiltersSuccess({ filters });
 
@@ -51,7 +60,7 @@ describe('Search Actions', () => {
     });
 
     test('filterSelected', () => {
-      const filter = new Filter('test', []);
+      const filter = new SelectedFilter('test', undefined);
       const action = filterSelected({ filter });
 
       expect(action).toEqual({
@@ -78,6 +87,36 @@ describe('Search Actions', () => {
         timeRange,
         type: '[Employee] Time range selected',
       });
+    });
+  });
+
+  test('loadEmployees', () => {
+    const request = ({} as unknown) as EmployeesRequest;
+    const action = loadEmployees({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Employee] Load Employees',
+    });
+  });
+
+  test('loadEmployeesSuccess', () => {
+    const employees: Employee[] = [];
+
+    const action = loadEmployeesSuccess({ employees });
+
+    expect(action).toEqual({
+      employees,
+      type: '[Employee] Load Employees Success',
+    });
+  });
+
+  test('loadEmployeesFailure', () => {
+    const action = loadEmployeesFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Employee] Load Employees Failure',
     });
   });
 });

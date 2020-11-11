@@ -1,49 +1,93 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  take,
+  withLatestFrom,
+} from 'rxjs/operators';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 
-import { InitialFiltersResponse } from '../../../../shared/models';
+import { loginSuccess } from '@schaeffler/auth';
+
+import {
+  Employee,
+  EmployeesRequest,
+  InitialFiltersResponse,
+} from '../../../../shared/models';
 import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
+  filterSelected,
+  loadEmployees,
+  loadEmployeesFailure,
+  loadEmployeesSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
+  timeRangeSelected,
 } from '../../actions';
+import { EmployeeState } from '../../reducers/employee/employee.reducer';
+import { getCurrentFiltersAndTime } from '../../selectors';
 
 @Injectable()
-export class EmployeeEffects implements OnInitEffects {
-  /**
-   * Receive initial filters
-   */
+export class EmployeeEffects {
   loadInitialFilters$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadInitialFilters.type),
+      ofType(loadInitialFilters),
       mergeMap(() =>
         this.employeeService.getInitialFilters().pipe(
           map((filters: InitialFiltersResponse) =>
             loadInitialFiltersSuccess({ filters })
           ),
           catchError((error) =>
-            of(loadInitialFiltersFailure({ errorMessage: error.error.message }))
+            of(loadInitialFiltersFailure({ errorMessage: error.message }))
           )
         )
       )
     )
   );
 
+  filterChange$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(filterSelected, timeRangeSelected),
+      withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
+      map(([_action, request]) => request),
+      filter((request) => request.orgUnit !== undefined),
+      map((request: EmployeesRequest) => loadEmployees({ request }))
+    )
+  );
+
+  loadEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadEmployees),
+      map((action: any) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getEmployees(request).pipe(
+          map((employees: Employee[]) => loadEmployeesSuccess({ employees })),
+          catchError((error) =>
+            of(loadEmployeesFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  loginSuccessful$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loginSuccess.type),
+      take(1),
+      map(loadInitialFilters)
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
-    private readonly employeeService: EmployeeService
+    private readonly employeeService: EmployeeService,
+    private readonly store: Store<EmployeeState>
   ) {}
-
-  /**
-   * Load initial filters initially
-   */
-  ngrxOnInitEffects(): Action {
-    return loadInitialFilters();
-  }
 }

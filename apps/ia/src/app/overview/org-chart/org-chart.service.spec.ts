@@ -21,13 +21,16 @@ describe('OrgChartService', () => {
   describe('mapEmployeesToNodes', () => {
     test('should mapped employee data', () => {
       const data: Employee[] = [
-        new Employee('123', undefined, 'ABC', 'Hans', 0, 0, 0),
+        ({
+          employeeId: '123',
+          employeeName: 'Hans',
+        } as unknown) as Employee,
       ];
 
       const result = service.mapEmployeesToNodes(data);
 
       expect(result.length).toEqual(1);
-      expect(result[0].template).toContain(data[0].name);
+      expect(result[0].template).toContain(data[0].employeeName);
     });
   });
 });

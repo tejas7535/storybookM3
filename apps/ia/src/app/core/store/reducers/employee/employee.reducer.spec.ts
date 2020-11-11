@@ -1,8 +1,17 @@
 import { Action } from '@ngrx/store';
 
-import { Filter, IdValue, TimePeriod } from '../../../../shared/models';
+import {
+  Employee,
+  EmployeesRequest,
+  IdValue,
+  SelectedFilter,
+  TimePeriod,
+} from '../../../../shared/models';
 import {
   filterSelected,
+  loadEmployees,
+  loadEmployeesFailure,
+  loadEmployeesSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -26,7 +35,7 @@ describe('Employees Reducer', () => {
   describe('loadInitialFiltersSuccess', () => {
     test('should unset loading and set possible filters', () => {
       const filters = {
-        organizations: [new IdValue('Department1', 'Department1')],
+        orgUnits: [new IdValue('Department1', 'Department1')],
         regionsAndSubRegions: [
           new IdValue('Europe', 'Europe'),
           new IdValue('Americas', 'Americas'),
@@ -35,7 +44,7 @@ describe('Employees Reducer', () => {
           new IdValue('germany', 'Germany'),
           new IdValue('usa', 'USA'),
         ],
-        locations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
+        hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
       };
 
       const action = loadInitialFiltersSuccess({ filters });
@@ -43,12 +52,12 @@ describe('Employees Reducer', () => {
       const state = employeeReducer(initialState, action);
 
       expect(state.filters.loading).toBeFalsy();
-      expect(state.filters.organizations).toEqual(filters.organizations);
+      expect(state.filters.orgUnits).toEqual(filters.orgUnits);
       expect(state.filters.regionsAndSubRegions).toEqual(
         filters.regionsAndSubRegions
       );
       expect(state.filters.countries).toEqual(filters.countries);
-      expect(state.filters.locations).toEqual(filters.locations);
+      expect(state.filters.hrLocations).toEqual(filters.hrLocations);
     });
   });
 
@@ -69,7 +78,7 @@ describe('Employees Reducer', () => {
 
   describe('filterSelected', () => {
     test('should add selection', () => {
-      const filter = new Filter('test', [new IdValue('1', 'testval')]);
+      const filter = new SelectedFilter('test', '1');
       const action = filterSelected({ filter });
 
       const state = employeeReducer(initialState, action);
@@ -80,7 +89,7 @@ describe('Employees Reducer', () => {
     });
 
     test('should update existing selection', () => {
-      const filter = new Filter('test', [new IdValue('1', 'testval')]);
+      const filter = new SelectedFilter('test', '1');
 
       const fakeState = {
         ...initialState,
@@ -95,7 +104,7 @@ describe('Employees Reducer', () => {
         },
       };
 
-      const update = new Filter('test', [new IdValue('3', 'xd')]);
+      const update = new SelectedFilter('test', '3');
 
       const action = filterSelected({ filter: update });
 
@@ -126,6 +135,45 @@ describe('Employees Reducer', () => {
       const state = employeeReducer(initialState, action);
 
       expect(state.filters.selectedTimeRange).toEqual(timeRange);
+    });
+  });
+
+  describe('loadEmployees', () => {
+    test('should set loading', () => {
+      const action = loadEmployees({
+        request: ({} as unknown) as EmployeesRequest,
+      });
+      const state = employeeReducer(initialState, action);
+
+      expect(state.employees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadEmployeesSuccess', () => {
+    test('should unset loading and set employees', () => {
+      const employees: Employee[] = [({} as unknown) as Employee];
+
+      const action = loadEmployeesSuccess({ employees });
+
+      const state = employeeReducer(initialState, action);
+
+      expect(state.employees.loading).toBeFalsy();
+      expect(state.employees.result).toEqual(employees);
+    });
+  });
+
+  describe('loadEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadEmployeesFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        employees: { ...initialState.employees, loading: true },
+      };
+
+      const state = employeeReducer(fakeState, action);
+
+      expect(state.employees.loading).toBeFalsy();
+      expect(state.employees.errorMessage).toEqual(errorMessage);
     });
   });
 

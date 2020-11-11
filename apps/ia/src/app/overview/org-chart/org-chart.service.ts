@@ -11,13 +11,15 @@ import { OrgChartNode } from './model/org-chart-node.model';
 export class OrgChartService {
   public mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
     return data.map((elem: Employee) => {
-      const nodeId = elem.accountNumber;
-      const parentNodeId = elem.parentAccountNumber;
-      const name = elem.name;
-      const organization = elem.organization;
+      const nodeId = elem.employeeId;
+      const parentNodeId = elem.parentEmployeeId;
+      const name = elem.employeeName;
+      const organization = elem.orgUnit;
       const expanded = elem.level < 3;
-      const directSubordinates = elem.subEmployees;
-      const totalSubordinates = elem.totalSubEmployees;
+      const directSubordinates = elem.directSubordinates;
+      const totalSubordinates = elem.totalSubordinates;
+      const directAttrition = elem.directAttrition;
+      const totalAttrition = elem.totalAttrition;
       const columnDirect = translate('orgChart.table.columnDirect');
       const columnOverall = translate('orgChart.table.columnOverall');
       const rowEmployees = translate('orgChart.table.rowEmployees');
@@ -70,16 +72,16 @@ export class OrgChartService {
                     <span class="icon icon-user green"></span> 
                     <span>${rowEmployees}</span>
                   </td>
-                  <td>XX</td>
-                  <td>XX</td>
+                  <td>${directSubordinates}</td>
+                  <td>${totalSubordinates}</td>
                 </tr>
                 <tr>
                   <td class="row-title">
                     <span class="icon icon-bars green">
                     </span> <span>${rowAttrition}</span>
                   </td>
-                  <td>XX</td>
-                  <td>XX</td>
+                  <td>${directAttrition}</td>
+                  <td>${totalAttrition}</td>
                 </tr>
               </tbody>
             </table><div class="bottom-bar"><i class="icon icon-users employee-node-people left" data-id="${nodeId}"></i><i class="icon icon-bars employee-node-people right" data-id="${nodeId}"></i></div>

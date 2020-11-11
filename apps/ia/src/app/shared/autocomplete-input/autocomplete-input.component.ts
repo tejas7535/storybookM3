@@ -16,7 +16,7 @@ import { map, startWith } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
-import { Filter, IdValue } from '../models';
+import { Filter, IdValue, SelectedFilter } from '../models';
 import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 
 @Component({
@@ -41,7 +41,9 @@ export class AutocompleteInputComponent implements OnInit {
     return this._filter;
   }
 
-  @Output() readonly selected: EventEmitter<Filter> = new EventEmitter();
+  @Output() readonly selected: EventEmitter<
+    SelectedFilter
+  > = new EventEmitter();
 
   @ViewChild('matInput') private readonly matInput: ElementRef;
 
@@ -84,8 +86,8 @@ export class AutocompleteInputComponent implements OnInit {
         if (this.lastEmittedValue !== value) {
           this.lastEmittedValue = value;
           this.selected.emit({
-            options: [option],
             name: this.filter.name,
+            value: option.id,
           });
         }
       }

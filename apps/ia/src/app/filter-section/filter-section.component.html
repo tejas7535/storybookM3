@@ -9,7 +9,7 @@
       <h6 class="m-b-5">{{ t('title') }}</h6>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
         <ia-autocomplete-input
-          [filter]="organizations$ | ngrxPush"
+          [filter]="orgUnits$ | ngrxPush"
           [label]="t('organizationLabel')"
           [hint]="t('organizationHint')"
           (selected)="optionSelected($event)"
@@ -37,7 +37,7 @@
           (selected)="optionSelected($event)"
         ></ia-autocomplete-input>
         <ia-autocomplete-input
-          [filter]="locations$ | ngrxPush"
+          [filter]="hrLocations$ | ngrxPush"
           [label]="t('locationLabel')"
           [hint]="t('locationHint')"
           (selected)="optionSelected($event)"

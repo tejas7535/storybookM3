@@ -1,37 +1,45 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { IdValue, TimePeriod } from '../../../../shared/models';
+import { Employee, IdValue, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
+  loadEmployees,
+  loadEmployeesFailure,
+  loadEmployeesSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
   timePeriodSelected,
   timeRangeSelected,
 } from '../../actions/employee/employee.action';
-import { filterAdapter, FilterState } from './filter.entity';
+import { filterAdapter, SelectedFilterState } from './selected-filter.entity';
 
 export interface EmployeeState {
   filters: {
-    organizations: IdValue[];
+    orgUnits: IdValue[];
     regionsAndSubRegions: IdValue[]; // after PoC: needs to have dependencies to countries + locations
     countries: IdValue[]; // after PoC: needs to be dependent on region
-    locations: IdValue[]; // after PoC: needs to be dependent on country
+    hrLocations: IdValue[]; // after PoC: needs to be dependent on country
     timePeriods: IdValue[];
     loading: boolean;
     errorMessage: string;
-    selectedFilters: FilterState; // currently selected filters
+    selectedFilters: SelectedFilterState; // currently selected filters
     selectedTimePeriod: TimePeriod;
     selectedTimeRange: string;
+  };
+  employees: {
+    loading: boolean;
+    result: Employee[];
+    errorMessage: string;
   };
 }
 
 export const initialState: EmployeeState = {
   filters: {
-    organizations: [],
+    orgUnits: [],
     regionsAndSubRegions: [],
     countries: [],
-    locations: [],
+    hrLocations: [],
     timePeriods: [
       {
         id: TimePeriod.YEAR,
@@ -56,6 +64,11 @@ export const initialState: EmployeeState = {
     selectedTimePeriod: TimePeriod.YEAR,
     selectedTimeRange: undefined,
   },
+  employees: {
+    loading: false,
+    result: [],
+    errorMessage: undefined,
+  },
 };
 
 export const employeeReducer = createReducer(
@@ -69,8 +82,8 @@ export const employeeReducer = createReducer(
     ...state,
     filters: {
       ...state.filters,
-      loading: false,
       ...filters,
+      loading: false,
     },
   })),
   on(loadInitialFiltersFailure, (state: EmployeeState, { errorMessage }) => ({
@@ -100,8 +113,36 @@ export const employeeReducer = createReducer(
       ...state.filters,
       selectedTimePeriod: timePeriod,
     },
+  })),
+  on(loadEmployees, (state: EmployeeState) => ({
+    ...state,
+    employees: {
+      ...state.employees,
+      loading: true,
+    },
+  })),
+  on(loadEmployeesSuccess, (state: EmployeeState, { employees }) => ({
+    ...state,
+    employees: {
+      ...state.employees,
+      loading: false,
+      result: employees,
+    },
+  })),
+  on(loadEmployeesFailure, (state: EmployeeState, { errorMessage }) => ({
+    ...state,
+    employees: {
+      ...state.employees,
+      errorMessage,
+      loading: false,
+      result: [],
+    },
   }))
 );
+
+const { selectAll } = filterAdapter.getSelectors();
+
+export const selectAllSelectedEmployees = selectAll;
 
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: EmployeeState, action: Action): EmployeeState {
