@@ -1,6 +1,16 @@
-# Changelog
+ Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+**Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
+
+## [1.9.0](///compare/v1.11.0...v1.9.0) (2020-11-11)
+
+
+### 🎸 Features
+
+* **goldwind:** add polar chart from lsp data (DIGDTGW-1237) ([3d93020](///commit/3d9302023c81a33d4a50e07e034b259a75016a73))
+* **goldwind:** conntect lsp api to frontend store (DIGDTGW-705) ([f370186](///commit/f37018662803b1ea82126e30eccca81aa36d3861))
+* **goldwind:** migrate lls from websocket to http (DIGDTGW-1195) ([e70c559](///commit/e70c5598676f1843b45a64b7c301e8e8c0893a2e))
 
 ## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
 
