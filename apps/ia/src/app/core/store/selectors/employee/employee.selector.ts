@@ -1,35 +1,42 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
-import { Filter, IdValue } from '../../../../shared/models';
+import {
+  EmployeesRequest,
+  Filter,
+  IdValue,
+  SelectedFilter,
+} from '../../../../shared/models';
 import { selectEmployeeState } from '../../reducers';
-import { EmployeeState } from '../../reducers/employee/employee.reducer';
+import {
+  EmployeeState,
+  selectAllSelectedEmployees,
+} from '../../reducers/employee/employee.reducer';
 
 export const getInitialFiltersLoading = createSelector(
   selectEmployeeState,
   (state: EmployeeState) => state.filters.loading
 );
 
-export const getOrganizations = createSelector(
+export const getOrgUnits = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) =>
-    new Filter('organizations', state.filters.organizations)
+  (state: EmployeeState) => new Filter('orgUnit', state.filters.orgUnits)
 );
 
 export const getRegionsAndSubRegions = createSelector(
   selectEmployeeState,
   (state: EmployeeState) =>
-    new Filter('regionsAndSubRegions', state.filters.regionsAndSubRegions)
+    new Filter('regionOrSubRegion', state.filters.regionsAndSubRegions)
 );
 
 export const getCountries = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) => new Filter('countries', state.filters.countries)
+  (state: EmployeeState) => new Filter('country', state.filters.countries)
 );
 
-export const getLocations = createSelector(
+export const getHrLocations = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) => new Filter('locations', state.filters.locations)
+  (state: EmployeeState) => new Filter('hrLocation', state.filters.hrLocations)
 );
 
 export const getTimePeriods = createSelector(
@@ -47,4 +54,45 @@ export const getTimePeriods = createSelector(
 export const getSelectedTimePeriod = createSelector(
   selectEmployeeState,
   (state: EmployeeState) => state.filters.selectedTimePeriod
+);
+
+export const getSelectedTimeRange = createSelector(
+  selectEmployeeState,
+  (state: EmployeeState) => state.filters.selectedTimeRange
+);
+
+export const getSelectedFilters = createSelector(
+  selectEmployeeState,
+  (state: EmployeeState) => state.filters.selectedFilters
+);
+
+export const getAllSelectedFilters = createSelector(
+  getSelectedFilters,
+  selectAllSelectedEmployees
+);
+
+export const getCurrentFiltersAndTime = createSelector(
+  getSelectedTimeRange,
+  getAllSelectedFilters,
+  (timeRange: string, filters: SelectedFilter[]) =>
+    filters.reduce(
+      (map: any, filter) => {
+        map[filter.name] = filter.value;
+
+        return map;
+      },
+      ({
+        timeRange,
+      } as unknown) as EmployeesRequest
+    )
+);
+
+export const getEmployees = createSelector(
+  selectEmployeeState,
+  (state: EmployeeState) => state.employees.result
+);
+
+export const getEmployeesLoading = createSelector(
+  selectEmployeeState,
+  (state: EmployeeState) => state.employees.loading
 );

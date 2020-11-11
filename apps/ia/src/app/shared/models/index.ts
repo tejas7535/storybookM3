@@ -3,3 +3,6 @@ export * from './initial-filters-response.model';
 export * from './filter.model';
 export * from './employee.model';
 export * from './time-period.enum';
+export * from './employees-response.model';
+export * from './employees-request.model';
+export * from './selected-filter.model';

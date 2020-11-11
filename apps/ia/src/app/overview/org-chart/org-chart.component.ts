@@ -25,6 +25,8 @@ export class OrgChartComponent implements AfterViewInit {
     this.updateChart();
   }
 
+  @Input() isLoading = false;
+
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
   chart: any;
@@ -49,7 +51,7 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   public updateChart(): void {
-    if (!this.chart || !this.chartData) {
+    if (!this.chart || !this.chartData || !this.chartData.length) {
       return;
     }
 

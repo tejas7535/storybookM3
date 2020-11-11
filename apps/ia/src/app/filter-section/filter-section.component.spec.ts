@@ -9,7 +9,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { filterSelected, timeRangeSelected } from '../core/store/actions';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../shared/date-input/date-input.module';
-import { Filter, IdValue, TimePeriod } from '../shared/models';
+import { IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 import { SelectInputModule } from '../shared/select-input/select-input.module';
 import { FilterSectionComponent } from './filter-section.component';
 
@@ -34,9 +34,9 @@ describe('FilterSectionComponent', () => {
         initialState: {
           employee: {
             filters: {
-              organizations: [],
+              orgUnits: [],
               regionsAndSubRegions: [],
-              locations: [],
+              hrLocations: [],
               countries: [],
               timePeriods: [],
             },
@@ -61,20 +61,20 @@ describe('FilterSectionComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.organizations$).toBeDefined();
+      expect(component.orgUnits$).toBeDefined();
     });
   });
 
   describe('optionSelected', () => {
     test('should dispatch action', () => {
-      const filter = new Filter('test', []);
+      const filter = new SelectedFilter('test', undefined);
       store.dispatch = jest.fn();
 
       component.optionSelected(filter);
 
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
 
-      expect(component.organizations$).toBeDefined();
+      expect(component.orgUnits$).toBeDefined();
     });
   });
 

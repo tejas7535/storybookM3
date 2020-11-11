@@ -1,4 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { OrgChartModule } from './org-chart/org-chart.module';
 import { OverviewComponent } from './overview.component';
@@ -9,8 +11,9 @@ describe('OverviewComponent', () => {
 
   const createComponent = createComponentFactory({
     component: OverviewComponent,
-    imports: [OrgChartModule],
-    providers: [],
+    detectChanges: false,
+    imports: [OrgChartModule, ReactiveComponentModule],
+    providers: [provideMockStore({})],
     declarations: [OverviewComponent],
   });
 
@@ -21,5 +24,15 @@ describe('OverviewComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should set observables', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.employees$).toBeDefined();
+      expect(component.isLoading$).toBeDefined();
+    });
   });
 });

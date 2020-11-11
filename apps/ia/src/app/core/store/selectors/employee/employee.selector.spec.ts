@@ -1,12 +1,18 @@
-import { IdValue, TimePeriod } from '../../../../shared/models';
+import { Employee, IdValue, TimePeriod } from '../../../../shared/models';
 import { initialState } from '../../reducers/employee/employee.reducer';
 import {
+  getAllSelectedFilters,
   getCountries,
+  getCurrentFiltersAndTime,
+  getEmployees,
+  getEmployeesLoading,
+  getHrLocations,
   getInitialFiltersLoading,
-  getLocations,
-  getOrganizations,
+  getOrgUnits,
   getRegionsAndSubRegions,
+  getSelectedFilters,
   getSelectedTimePeriod,
+  getSelectedTimeRange,
   getTimePeriods,
 } from './employee.selector';
 
@@ -16,13 +22,28 @@ describe('Employee Selector', () => {
       ...initialState,
       filters: {
         ...initialState.filters,
-        organizations: [new IdValue('dep1', 'Department 1')],
+        orgUnits: [new IdValue('dep1', 'Department 1')],
         regionsAndSubRegions: [
           new IdValue('ger', 'Germany'),
           new IdValue('eu', 'Europe'),
         ],
         countries: [new IdValue('ger', 'Germany')],
-        locations: [new IdValue('hero', 'Herzogenaurach')],
+        hrLocations: [new IdValue('hero', 'Herzogenaurach')],
+        selectedTimeRange: '123|456',
+        selectedFilters: {
+          ids: ['test'],
+          entities: {
+            test: {
+              name: 'test',
+              value: 1234,
+            },
+          },
+        },
+      },
+      employees: {
+        ...initialState.employees,
+        result: [({ employeeId: '123' } as unknown) as Employee],
+        loading: true,
       },
     },
   };
@@ -33,9 +54,9 @@ describe('Employee Selector', () => {
     });
   });
 
-  describe('getOrganizations', () => {
+  describe('getOrgUnits', () => {
     test('should return organizations', () => {
-      expect(getOrganizations(fakeState).options.length).toEqual(1);
+      expect(getOrgUnits(fakeState).options.length).toEqual(1);
     });
   });
 
@@ -52,10 +73,10 @@ describe('Employee Selector', () => {
     });
   });
 
-  describe('getLocations', () => {
-    test('should return locations', () => {
-      expect(getLocations(fakeState).options.length).toEqual(1);
-      expect(getLocations(fakeState).options[0].value).toEqual(
+  describe('getHrLocations', () => {
+    test('should return hrLocations', () => {
+      expect(getHrLocations(fakeState).options.length).toEqual(1);
+      expect(getHrLocations(fakeState).options[0].value).toEqual(
         'Herzogenaurach'
       );
     });
@@ -70,6 +91,54 @@ describe('Employee Selector', () => {
   describe('getSelectedTimePeriod', () => {
     test('should return selected time period', () => {
       expect(getSelectedTimePeriod(fakeState)).toEqual(TimePeriod.YEAR);
+    });
+  });
+
+  describe('getSelectedTimeRange', () => {
+    test('should return selected time range', () => {
+      expect(getSelectedTimeRange(fakeState)).toEqual('123|456');
+    });
+  });
+
+  describe('getSelectedFilters', () => {
+    test('should return selected Filters', () => {
+      expect(getSelectedFilters(fakeState)).toEqual(
+        fakeState.employee.filters.selectedFilters
+      );
+    });
+  });
+
+  describe('getAllSelectedFilters', () => {
+    test('should return all selected filters', () => {
+      expect(getAllSelectedFilters(fakeState)).toEqual([
+        {
+          name: 'test',
+          value: 1234,
+        },
+      ]);
+    });
+  });
+
+  describe('getCurrentFiltersAndTime', () => {
+    test('should return currently selected filters and time range', () => {
+      expect(getCurrentFiltersAndTime(fakeState)).toEqual({
+        test: 1234,
+        timeRange: '123|456',
+      });
+    });
+  });
+
+  describe('getEmployees', () => {
+    test('should return employees', () => {
+      expect(getEmployees(fakeState)).toEqual([
+        ({ employeeId: '123' } as unknown) as Employee,
+      ]);
+    });
+  });
+
+  describe('getEmployeesLoading', () => {
+    test('should return employees loading status', () => {
+      expect(getEmployeesLoading(fakeState)).toBeTruthy();
     });
   });
 });

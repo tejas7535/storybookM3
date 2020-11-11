@@ -18,4 +18,5 @@ module.exports = {
     'jest-preset-angular/build/AngularSnapshotSerializer.js',
     'jest-preset-angular/build/HTMLCommentSerializer.js',
   ],
+  coveragePathIgnorePatterns: ['.model.ts', '.enum.ts'],
 };
