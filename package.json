@@ -90,7 +90,7 @@
     "devextreme": "20.2.3",
     "devextreme-angular": "20.2.3",
     "echarts": "4.9.0",
-    "jwt-decode": "3.0.0",
+    "jwt-decode": "3.1.1",
     "ngx-echarts": "5.2.1",
     "ngx-papaparse": "5.0.0",
     "rxjs": "6.6.3",
