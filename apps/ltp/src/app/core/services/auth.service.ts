@@ -1,8 +1,8 @@
-import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-
 import { Injectable, Injector } from '@angular/core';
 import { Router } from '@angular/router';
+
+import { BehaviorSubject, Observable, ReplaySubject } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import { OAuthService } from 'angular-oauth2-oidc';
 import jwtDecode from 'jwt-decode';
@@ -10,7 +10,7 @@ import jwtDecode from 'jwt-decode';
 import { AccessToken } from '../../shared/models';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly isAuthenticatedSubject$ = new BehaviorSubject<boolean>(
@@ -30,7 +30,7 @@ export class AuthService {
 
   private static getDecodedAccessToken(token: string): AccessToken {
     try {
-      return jwtDecode(token);
+      return jwtDecode(token) as AccessToken;
     } catch (Error) {
       return undefined;
     }
@@ -60,7 +60,7 @@ export class AuthService {
     return this.oauthService
       .silentRefresh()
       .then(() => true)
-      .catch(async _result => {
+      .catch(async (_result) => {
         this.oauthService.initImplicitFlow(targetUrl || '/');
 
         return true;
@@ -94,7 +94,7 @@ export class AuthService {
 
   public getUserName(): Observable<string> {
     return this.isAuthenticated$.pipe(
-      map(isAuthenticated => {
+      map((isAuthenticated) => {
         if (!isAuthenticated) {
           return undefined;
         }
@@ -137,7 +137,7 @@ export class AuthService {
   }
 
   private initConfig(): void {
-    window.addEventListener('storage', event => {
+    window.addEventListener('storage', (event) => {
       // The `key` is `null` if the event was caused by `.clear()`
       if (event.key !== 'access_token' && event.key !== null) {
         return;
@@ -152,15 +152,15 @@ export class AuthService {
       }
     });
 
-    this.oauthService.events.subscribe(_event => {
+    this.oauthService.events.subscribe((_event) => {
       this.isAuthenticatedSubject$.next(
         this.oauthService.hasValidAccessToken()
       );
     });
 
     this.oauthService.events
-      .pipe(filter(e => ['token_received'].includes(e.type)))
-      .subscribe(_e => {
+      .pipe(filter((e) => ['token_received'].includes(e.type)))
+      .subscribe((_e) => {
         this.injector
           .get<Router>(Router)
           .navigateByUrl(String(this.oauthService.state));

@@ -9,13 +9,13 @@ export interface AccessToken {
   family_name: string;
   given_name: string;
   iat: number;
-  in_corp: string;
   ipaddr: string;
   iss: string;
   name: string;
   nbf: number;
   oid: string;
   onprem_sid: string;
+  rh: string;
   roles: string[];
   scp: string;
   sub: string;
