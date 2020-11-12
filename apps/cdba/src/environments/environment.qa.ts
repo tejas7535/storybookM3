@@ -10,5 +10,8 @@ export const environment = {
     applicationInsightsConfig: {
       instrumentationKey: '84609bb4-f253-4aee-a145-b00d5c5510cf',
     },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
   },
 };
