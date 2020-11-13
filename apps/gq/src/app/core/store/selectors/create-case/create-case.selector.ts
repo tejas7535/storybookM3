@@ -1,6 +1,13 @@
 import { createSelector } from '@ngrx/store';
 
-import { CaseFilterItem, CaseTableItem } from '../../models';
+import {
+  CaseFilterItem,
+  CaseTableItem,
+  CreateCase,
+  CreateCaseResponse,
+  MaterialQuantities,
+  SapQuotation,
+} from '../../models';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 
@@ -12,19 +19,21 @@ export const getCaseQuotation = createSelector(
 
 export const getSelectedQuotation = createSelector(
   getCaseState,
-  (state: CaseState): string => {
-    let quotationNumber = '';
-
+  (state: CaseState): CreateCaseResponse => {
+    let quotation: CreateCaseResponse = {};
     const quotationOptions = state.createCase.autocompleteItems.find(
       (it) => it.filter === 'quotation'
     );
-    quotationOptions.options.forEach((value) => {
+    (quotationOptions.options as SapQuotation[]).forEach((value) => {
       if (value.selected) {
-        quotationNumber = value.value;
+        quotation = {
+          customerId: value.customerId,
+          gqId: value.gqId,
+        };
       }
     });
 
-    return quotationNumber;
+    return quotation;
   }
 );
 
@@ -76,4 +85,35 @@ export const getCustomerConditionsValid = createSelector(
 
     return customerValid !== undefined ? rowDataValid : false;
   }
+);
+export const getCreateCaseData = createSelector(
+  getCaseState,
+  (state: CaseState): CreateCase => {
+    const customer = state.createCase.autocompleteItems
+      .find((it) => it.filter === 'customer')
+      .options.find((opt) => opt.selected);
+    const customerId = customer ? customer.id : undefined;
+    const materialQuantities: MaterialQuantities[] = [];
+    state.createCase.rowData.forEach((el) => {
+      materialQuantities.push({
+        materialId: el.materialNumber,
+        quantity:
+          typeof el.quantity === 'string'
+            ? parseInt(el.quantity, 10)
+            : el.quantity,
+      });
+    });
+
+    const createCase: CreateCase = {
+      customerId,
+      materialQuantities,
+    };
+
+    return createCase;
+  }
+);
+
+export const getCreatedCase = createSelector(
+  getCaseState,
+  (state: CaseState): CreateCaseResponse => state.createCase.createdCase
 );

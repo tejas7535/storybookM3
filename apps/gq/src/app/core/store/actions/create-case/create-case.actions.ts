@@ -3,8 +3,10 @@ import { createAction, props, union } from '@ngrx/store';
 import {
   AutocompleteSearch,
   CaseTableItem,
+  CreateCaseResponse,
   IdValue,
   MaterialValidation,
+  SapQuotation,
 } from '../../models';
 
 export const autocomplete = createAction(
@@ -18,12 +20,12 @@ export const autocompleteFailure = createAction(
 
 export const autocompleteSuccess = createAction(
   '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
-  props<{ options: IdValue[]; filter: string }>()
+  props<{ options: IdValue[] | SapQuotation[]; filter: string }>()
 );
 
 export const selectAutocompleteOption = createAction(
   '[Create Case] Select Option for selected Autocomplete Option',
-  props<{ option: IdValue; filter: string }>()
+  props<{ option: IdValue | SapQuotation; filter: string }>()
 );
 
 export const unselectAutocompleteOptions = createAction(
@@ -54,6 +56,16 @@ export const validateSuccess = createAction(
   '[Create Case] Get Validation for RowData Validation Sucess',
   props<{ materialValidations: MaterialValidation[] }>()
 );
+export const createCase = createAction(
+  '[Create Case] CreateCase from table and selected customer'
+);
+export const createCaseSuccess = createAction(
+  '[Create Case] CreateCase from table and selected customer Success',
+  props<{ createdCase: CreateCaseResponse }>()
+);
+export const createCaseFailure = createAction(
+  '[Create Case] CreateCase from table and selected customer Failure'
+);
 
 const all = union({
   addRowDataItem,
@@ -61,6 +73,9 @@ const all = union({
   autocompleteFailure,
   autocompleteSuccess,
   clearRowData,
+  createCase,
+  createCaseFailure,
+  createCaseSuccess,
   deleteRowDataItem,
   pasteRowDataItems,
   selectAutocompleteOption,

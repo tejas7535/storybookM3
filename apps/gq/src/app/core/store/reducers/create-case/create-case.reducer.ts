@@ -6,6 +6,9 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearRowData,
+  createCase,
+  createCaseFailure,
+  createCaseSuccess,
   deleteRowDataItem,
   pasteRowDataItems,
   selectAutocompleteOption,
@@ -16,6 +19,7 @@ import {
 import {
   CaseFilterItem,
   CaseTableItem,
+  CreateCaseResponse,
   IdValue,
   MaterialValidation,
   ValidationDescription,
@@ -26,6 +30,8 @@ export interface CaseState {
   createCase: {
     autocompleteLoading: string;
     autocompleteItems: CaseFilterItem[];
+    createdCase: CreateCaseResponse;
+    createCaseLoading: boolean;
     rowData: CaseTableItem[];
     validationLoading: boolean;
   };
@@ -47,6 +53,8 @@ export const initialState: CaseState = {
         options: [],
       },
     ],
+    createdCase: undefined,
+    createCaseLoading: false,
     rowData: [dummyRowData],
     validationLoading: false,
   },
@@ -196,6 +204,28 @@ export const createCaseReducer = createReducer(
         };
       }),
       validationLoading: false,
+    },
+  })),
+  on(createCase, (state: CaseState) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      createCaseLoading: true,
+    },
+  })),
+  on(createCaseSuccess, (state: CaseState, { createdCase }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      createdCase,
+      createCaseLoading: false,
+    },
+  })),
+  on(createCaseFailure, (state: CaseState) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      createCaseLoading: false,
     },
   }))
 );

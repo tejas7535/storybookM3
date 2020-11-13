@@ -78,8 +78,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       this.store.pipe(select(getCaseMaterialnumber)).subscribe((res) => {
         if (res.options.length > 0) {
           const idValueItem = res.options.find((opt) => opt.selected);
-
-          this.materialNumber = idValueItem ? idValueItem.value : undefined;
+          this.materialNumber = idValueItem ? idValueItem.id : undefined;
         }
       })
     );

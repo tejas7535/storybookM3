@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getCustomerConditionsValid } from '../../../core/store';
+import { createCase, getCustomerConditionsValid } from '../../../core/store';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 
 @Component({
@@ -14,15 +14,16 @@ import { CaseState } from '../../../core/store/reducers/create-case/create-case.
 })
 export class CreateCaseButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;
-
   constructor(private readonly store: Store<CaseState>) {}
   ngOnInit(): void {
     this.createCaseEnabled$ = this.store.pipe(
       select(getCustomerConditionsValid)
     );
   }
+
   createCase(): void {
-    // Todo: creating new case with the user input
+    this.store.dispatch(createCase());
   }
+
   agInit(): void {}
 }
