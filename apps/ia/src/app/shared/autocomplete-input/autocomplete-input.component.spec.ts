@@ -1,3 +1,4 @@
+import { fakeAsync, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -89,57 +90,65 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
-  describe('inputBlur', () => {
-    test('should set error when option is not valid', (done) => {
-      component.inputControl.setErrors = jest.fn();
-      component.inputBlur({
-        target: {
-          value: 'test',
-        },
-      });
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component.subscription.unsubscribe = jest.fn();
 
-      setTimeout(() => {
-        expect(component.inputControl.setErrors).toHaveBeenCalled();
-        done();
-      }, 350);
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
+  });
 
-    test('should do nothing when value did not change', (done) => {
+  describe('ngAfterViewInit', () => {
+    test('should add blur subscription and set error when option is not valid', fakeAsync(() => {
+      component.inputControl.setErrors = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngAfterViewInit();
+      component.inputControl.setValue('test');
+      spectator.blur(component['matInput']);
+
+      tick(250);
+
+      expect(component.inputControl.setErrors).toHaveBeenCalled();
+    }));
+
+    test('should add blur subscription and do nothing when value did not change', fakeAsync(() => {
+      component.inputControl.setErrors = jest.fn();
       component['lastEmittedValue'] = '3';
       component.selected.emit = jest.fn();
-      component.inputControl.setErrors = jest.fn();
-      component.inputBlur({
-        target: {
-          value: '3',
-        },
-      });
 
-      setTimeout(() => {
-        expect(component.inputControl.setErrors).not.toHaveBeenCalled();
-        expect(component.selected.emit).not.toHaveBeenCalled();
-        done();
-      }, 350);
-    });
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngAfterViewInit();
+      component.inputControl.setValue('3');
+      spectator.blur(component['matInput']);
 
-    test('should emit event when value is valid and changes', (done) => {
+      tick(250);
+
+      expect(component.inputControl.setErrors).not.toHaveBeenCalled();
+      expect(component.selected.emit).not.toHaveBeenCalled();
+    }));
+
+    test('should add blur subscription and emit event when value is valid and changes', fakeAsync(() => {
       component['lastEmittedValue'] = '';
       component.selected.emit = jest.fn();
       component.inputControl.setErrors = jest.fn();
-      component.inputBlur({
-        target: {
-          value: '3',
-        },
-      });
 
-      setTimeout(() => {
-        expect(component.inputControl.setErrors).not.toHaveBeenCalled();
-        expect(component.selected.emit).toHaveBeenCalledWith({
-          name: '',
-          value: '3',
-        });
-        done();
-      }, 350);
-    });
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngAfterViewInit();
+      component.inputControl.setValue('3');
+      spectator.blur(component['matInput']);
+
+      tick(250);
+
+      expect(component.inputControl.setErrors).not.toHaveBeenCalled();
+      expect(component.selected.emit).toHaveBeenCalledWith({
+        name: '',
+        value: '3',
+      });
+    }));
   });
 
   describe('trackByFn', () => {

@@ -9,7 +9,6 @@
     [errorStateMatcher]="errorStateMatcher"
     [iaValidInput]="filter.options"
     #matInput
-    (blur)="inputBlur($event)"
   />
   <mat-error>
     {{ inputControl.errors?.invalidInput }}

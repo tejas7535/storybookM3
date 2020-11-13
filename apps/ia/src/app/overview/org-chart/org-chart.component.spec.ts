@@ -67,13 +67,18 @@ describe('OrgChartComponent', () => {
   });
 
   describe('updateChart', () => {
-    test('should do nothing when chart is not initialized yet', () => {
+    test('should do nothing when chart is not initialized yet', (done) => {
       component.updateChart();
 
       expect(component.chart).toBeUndefined();
+
+      setTimeout(() => {
+        expect(component.chart).toBeUndefined();
+        done();
+      }, 200);
     });
 
-    test('should update org chart if chart is set', () => {
+    test('should update org chart if chart is set', (done) => {
       component.chart = new d3OrgChart();
       component.chartData = [{}];
       component.chartContainer = {
@@ -81,7 +86,10 @@ describe('OrgChartComponent', () => {
       };
       component.updateChart();
 
-      expect(component.chart.render).toHaveBeenCalled();
+      setTimeout(() => {
+        expect(component.chart.render).toHaveBeenCalled();
+        done();
+      }, 200);
     });
   });
 });
