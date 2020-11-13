@@ -42,6 +42,7 @@ export const pasteRowDataItems = createAction(
   '[Create Case] Paste new Items to Customer Table',
   props<{ items: CaseTableItem[]; pasteDestination: CaseTableItem }>()
 );
+
 export const clearRowData = createAction('[Create Case] Clear RowData');
 
 export const deleteRowDataItem = createAction(
@@ -52,19 +53,34 @@ export const deleteRowDataItem = createAction(
 export const validateFailure = createAction(
   '[Create Case] Get Validation for RowData Validation Failure'
 );
+
 export const validateSuccess = createAction(
   '[Create Case] Get Validation for RowData Validation Sucess',
   props<{ materialValidations: MaterialValidation[] }>()
 );
+
 export const createCase = createAction(
   '[Create Case] CreateCase from table and selected customer'
 );
+
 export const createCaseSuccess = createAction(
   '[Create Case] CreateCase from table and selected customer Success',
   props<{ createdCase: CreateCaseResponse }>()
 );
+
 export const createCaseFailure = createAction(
   '[Create Case] CreateCase from table and selected customer Failure'
+);
+
+export const importCase = createAction('[Create Case] Import SAP Quotation');
+
+export const importCaseSuccess = createAction(
+  '[Create Case] Import SAP Quotation Success',
+  props<{ quotationNumber: string }>()
+);
+
+export const importCaseFailure = createAction(
+  '[Create Case] Import SAP Quotation Failure'
 );
 
 const all = union({
@@ -82,6 +98,9 @@ const all = union({
   unselectAutocompleteOptions,
   validateSuccess,
   validateFailure,
+  importCase,
+  importCaseSuccess,
+  importCaseFailure,
 });
 
 export type createCaseActions = typeof all;

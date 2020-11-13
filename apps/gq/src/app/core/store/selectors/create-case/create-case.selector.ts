@@ -5,6 +5,7 @@ import {
   CaseTableItem,
   CreateCase,
   CreateCaseResponse,
+  ImportCaseResponse,
   MaterialQuantities,
   SapQuotation,
 } from '../../models';
@@ -19,8 +20,8 @@ export const getCaseQuotation = createSelector(
 
 export const getSelectedQuotation = createSelector(
   getCaseState,
-  (state: CaseState): CreateCaseResponse => {
-    let quotation: CreateCaseResponse = {};
+  (state: CaseState): ImportCaseResponse => {
+    let quotation: ImportCaseResponse = {};
     const quotationOptions = state.createCase.autocompleteItems.find(
       (it) => it.filter === 'quotation'
     );
@@ -28,7 +29,7 @@ export const getSelectedQuotation = createSelector(
       if (value.selected) {
         quotation = {
           customerId: value.customerId,
-          gqId: value.gqId,
+          sapId: value.id,
         };
       }
     });
@@ -104,12 +105,10 @@ export const getCreateCaseData = createSelector(
       });
     });
 
-    const createCase: CreateCase = {
+    return {
       customerId,
       materialQuantities,
     };
-
-    return createCase;
   }
 );
 

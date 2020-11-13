@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../../app-route-path.enum';
 import {
   autocomplete,
+  importCase,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../core/store/actions';
@@ -15,7 +14,6 @@ import {
   AutocompleteSearch,
   CaseFilterItem,
   CaseTableItem,
-  CreateCaseResponse,
   IdValue,
   SapQuotation,
 } from '../../core/store/models';
@@ -25,7 +23,6 @@ import {
   getCaseCustomer,
   getCaseQuotation,
   getCaseRowData,
-  getSelectedQuotation,
 } from '../../core/store/selectors/';
 
 @Component({
@@ -44,14 +41,8 @@ export class CreateCaseDialogComponent implements OnInit {
   customerDisabled = false;
   addEntryInput: boolean;
   quotationIsValid = false;
-  private selectedQuotation: CreateCaseResponse;
 
-  private readonly subscription: Subscription = new Subscription();
-
-  constructor(
-    private readonly store: Store<CaseState>,
-    private readonly router: Router
-  ) {}
+  constructor(private readonly store: Store<CaseState>) {}
 
   public ngOnInit(): void {
     this.quotationAutocompleteLoading$ = this.store.pipe(
@@ -61,11 +52,7 @@ export class CreateCaseDialogComponent implements OnInit {
       select(getCaseAutocompleteLoading, 'customer')
     );
     this.quotation$ = this.store.pipe(select(getCaseQuotation));
-    this.subscription.add(
-      this.store.pipe(select(getSelectedQuotation)).subscribe((value) => {
-        this.selectedQuotation = value;
-      })
-    );
+
     this.customer$ = this.store.pipe(select(getCaseCustomer));
     this.rowData$ = this.store.pipe(select(getCaseRowData));
   }
@@ -98,11 +85,6 @@ export class CreateCaseDialogComponent implements OnInit {
   }
 
   openQuotation(): void {
-    this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
-      queryParams: {
-        quotation_number: this.selectedQuotation.gqId,
-        customer_number: this.selectedQuotation.customerId,
-      },
-    });
+    this.store.dispatch(importCase());
   }
 }

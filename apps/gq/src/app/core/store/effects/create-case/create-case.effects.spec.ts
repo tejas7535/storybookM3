@@ -17,6 +17,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  importCase,
+  importCaseFailure,
+  importCaseSuccess,
   pasteRowDataItems,
   validateFailure,
   validateSuccess,
@@ -26,11 +29,16 @@ import {
   CaseTableItem,
   CreateCaseResponse,
   IdValue,
+  ImportCaseResponse,
   MaterialValidation,
   ValidationDescription,
 } from '../../models';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
-import { getCaseRowData, getCreateCaseData } from '../../selectors';
+import {
+  getCaseRowData,
+  getCreateCaseData,
+  getSelectedQuotation,
+} from '../../selectors';
 import { CreateCaseEffects } from './create-case.effects';
 
 describe('Create Case Effects', () => {
@@ -225,6 +233,49 @@ describe('Create Case Effects', () => {
 
       expect(effects.createCase$).toBeObservable(expected);
       expect(createCaseService.createCase).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('importQuotation', () => {
+    const importCaseData: ImportCaseResponse = {
+      customerId: '123',
+      sapId: '1234687',
+    };
+    beforeEach(() => {
+      store.overrideSelector(getSelectedQuotation, importCaseData);
+    });
+
+    test('should return importCaseSuccess when REST call is successful', () => {
+      action = importCase();
+
+      createCaseService.importCase = jest.fn(() => response);
+      const quotationNumber = 'sdf-1234687';
+      const result = importCaseSuccess({ quotationNumber });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: quotationNumber,
+      });
+      const expected = cold('--b', { b: result });
+      expect(effects.importCase$).toBeObservable(expected);
+      expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
+      expect(createCaseService.importCase).toHaveBeenCalledWith(
+        importCaseData.sapId
+      );
+    });
+
+    test('should return importCaseFailure on REST error', () => {
+      const error = new Error('damn');
+      const result = importCaseFailure();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      createCaseService.importCase = jest.fn(() => response);
+
+      expect(effects.importCase$).toBeObservable(expected);
+      expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
     });
   });
 });

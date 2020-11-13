@@ -89,4 +89,20 @@ describe('Data Service', () => {
       req.flush(mock);
     });
   });
+
+  describe('put', () => {
+    test('should call PUT for given path and data', () => {
+      const serviceName = 'put-item';
+      const mock = 'mockData';
+      const body = { test: 'test' };
+
+      service.put<string>(serviceName, body).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(`${BASE_URL}/${serviceName}`);
+      expect(req.request.method).toBe('PUT');
+      req.flush(mock);
+    });
+  });
 });

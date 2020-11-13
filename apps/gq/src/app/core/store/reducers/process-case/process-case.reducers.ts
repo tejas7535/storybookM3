@@ -2,7 +2,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import {
   addQuotationDetailToOffer,
-  createQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -50,14 +49,6 @@ export const initialState: ProcessCaseState = {
 export const processCaseReducer = createReducer(
   initialState,
   on(selectQuotation, (state: ProcessCaseState, { quotationIdentifier }) => ({
-    ...state,
-    quotationIdentifier: {
-      ...state.quotationIdentifier,
-      customerNumber: quotationIdentifier.customerNumber,
-      quotationNumber: quotationIdentifier.quotationNumber,
-    },
-  })),
-  on(createQuotation, (state: ProcessCaseState, { quotationIdentifier }) => ({
     ...state,
     quotationIdentifier: {
       ...state.quotationIdentifier,

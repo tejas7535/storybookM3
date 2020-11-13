@@ -3,8 +3,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -14,6 +12,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
+  importCase,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../core/store/actions';
@@ -33,7 +32,6 @@ describe('CreateCaseDialogComponent', () => {
   let component: CreateCaseDialogComponent;
   let fixture: ComponentFixture<CreateCaseDialogComponent>;
   let mockStore: MockStore;
-  let router: Router;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -48,7 +46,6 @@ describe('CreateCaseDialogComponent', () => {
         MatCardModule,
         NoopAnimationsModule,
         SharedModule,
-        RouterTestingModule.withRoutes([]),
         provideTranslocoTestingModule({}),
       ],
       providers: [provideMockStore({})],
@@ -57,7 +54,6 @@ describe('CreateCaseDialogComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateCaseDialogComponent);
-    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
     mockStore = TestBed.inject(MockStore);
@@ -111,13 +107,10 @@ describe('CreateCaseDialogComponent', () => {
   });
   describe('openQuotation', () => {
     test('should set quotationValid', () => {
-      component['selectedQuotation'] = {
-        customerId: '123',
-        gqId: '1234',
-      };
-      spyOn(router, 'navigate');
+      mockStore.dispatch = jest.fn();
+
       component.openQuotation();
-      expect(router.navigate).toHaveBeenCalled();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(importCase());
     });
   });
   describe('quotationHasInput', () => {

@@ -31,4 +31,8 @@ export class DataService {
   public post<T>(path: string, body: any): Observable<T> {
     return this.http.post<T>(`${this.apiUrl}/${path}`, body);
   }
+
+  public put<T>(path: string, body: any): Observable<T> {
+    return this.http.put<T>(`${this.apiUrl}/${path}`, body);
+  }
 }
