@@ -1,4 +1,4 @@
-import { IdValue, ValidationDescription } from '../../models';
+import { CreateCase, IdValue, ValidationDescription } from '../../models';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import * as createSelectors from './create-case.selector';
 
@@ -42,9 +42,7 @@ describe('Create Case Selector', () => {
     test('should return quotation number', () => {
       expect(
         createSelectors.getSelectedQuotation.projector(fakeState.case)
-      ).toEqual(
-        fakeState.case.createCase.autocompleteItems[0].options[0].value
-      );
+      ).toBeTruthy();
     });
   });
   describe('getCustomer', () => {
@@ -83,7 +81,7 @@ describe('Create Case Selector', () => {
           fakeState.case,
           'customer'
         )
-      ).toEqual(true);
+      ).toBeTruthy();
     });
   });
   describe('getCustomerConditionsValid', () => {
@@ -91,6 +89,29 @@ describe('Create Case Selector', () => {
       expect(
         createSelectors.getCustomerConditionsValid.projector(fakeState.case)
       ).toBeTruthy();
+    });
+  });
+  describe('getCustomerConditionsValid', () => {
+    test('should return data to create a case', () => {
+      expect(
+        createSelectors.getCreateCaseData.projector(fakeState.case)
+      ).toBeTruthy();
+    });
+  });
+  describe('getCreatedCase', () => {
+    const createdCase: CreateCase = {
+      customerId: fakeState.case.createCase.autocompleteItems[0].options[0].id,
+      materialQuantities: [
+        {
+          materialId: fakeState.case.createCase.rowData[0].materialNumber,
+          quantity: fakeState.case.createCase.rowData[0].quantity,
+        },
+      ],
+    };
+    test('should return createdCase', () => {
+      expect(
+        createSelectors.getCreateCaseData.projector(fakeState.case)
+      ).toEqual(createdCase);
     });
   });
 });

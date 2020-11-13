@@ -111,14 +111,10 @@ describe('CreateCaseDialogComponent', () => {
   });
   describe('openQuotation', () => {
     test('should set quotationValid', () => {
-      component.selectOption(
-        {
-          value: '1224',
-          selected: true,
-          id: '12345',
-        },
-        'quotation'
-      );
+      component['selectedQuotation'] = {
+        customerId: '123',
+        gqId: '1234',
+      };
       spyOn(router, 'navigate');
       component.openQuotation();
       expect(router.navigate).toHaveBeenCalled();

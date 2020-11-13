@@ -7,6 +7,9 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearRowData,
+  createCase,
+  createCaseFailure,
+  createCaseSuccess,
   deleteRowDataItem,
   pasteRowDataItems,
   selectAutocompleteOption,
@@ -17,6 +20,7 @@ import {
 import {
   AutocompleteSearch,
   CaseTableItem,
+  CreateCaseResponse,
   IdValue,
   MaterialValidation,
   ValidationDescription,
@@ -40,7 +44,6 @@ describe('Create Case Reducer', () => {
       });
     });
   });
-
   describe('autocompleteSuccess', () => {
     test('should merge options', () => {
       const autoCompleteOptions = [new IdValue('mcd', 'mercedes', false)];
@@ -69,7 +72,6 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([fakeOptions[0]]);
     });
   });
-
   describe('autocompleteFailure', () => {
     test('should not manipulate state', () => {
       const action = autocompleteFailure();
@@ -109,7 +111,6 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([selectOption, fakeOptions[1]]);
     });
   });
-
   describe('unselectAutocompleteOptions', () => {
     test('should unslecet customer options', () => {
       const fakeOptions = [
@@ -142,7 +143,6 @@ describe('Create Case Reducer', () => {
       ]);
     });
   });
-
   describe('addRowDataItem', () => {
     test('should addItem to Row Data', () => {
       const fakeData = [
@@ -227,7 +227,6 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([...fakeData, ...items]);
     });
   });
-
   describe('clearRowData', () => {
     test('should clear Row Data', () => {
       const fakeData = [
@@ -253,7 +252,6 @@ describe('Create Case Reducer', () => {
       expect(stateItem).toEqual([dummyRowData]);
     });
   });
-
   describe('deleteRowDataItem', () => {
     test('should delete Item from Rowdata', () => {
       const materialNumberDelete = '1234';
@@ -335,7 +333,6 @@ describe('Create Case Reducer', () => {
       expect(rowData).toEqual(expected);
     });
   });
-
   describe('validateFailure', () => {
     test('should not manipulate state', () => {
       const action = validateFailure();
@@ -381,6 +378,32 @@ describe('Create Case Reducer', () => {
       expect(resultTable).toEqual(expected);
     });
   });
+  describe('createCase', () => {
+    test('should set createCaseLoading', () => {
+      const action = createCase();
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createCase.createCaseLoading).toBeTruthy();
+    });
+  });
+  describe('createCaseSuccess', () => {
+    test('should set createCaseLoading to false', () => {
+      const createdCase: CreateCaseResponse = {
+        customerId: '123',
+        gqId: '1010',
+      };
+      const action = createCaseSuccess({ createdCase });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createCase.createdCase).toEqual(createdCase);
+    });
+  });
+  describe('createCaseFailure', () => {
+    test('should set createCaseLoading to false', () => {
+      const action = createCaseFailure();
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.createCase.createCaseLoading).toBeFalsy();
+    });
+  });
+
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
@@ -391,3 +414,4 @@ describe('Create Case Reducer', () => {
     });
   });
 });
+// tslint:disable-next-line: max-file-line-count

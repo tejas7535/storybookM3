@@ -8,21 +8,18 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import {
-  CaseTableItem,
-  ValidationDescription,
-} from '../../../core/store/models';
-import { ValidationService } from './validation.service';
+import { CreateCase } from '../../../core/store/models';
+import { CreateCaseService } from './create-case.service';
 
-describe('ValidationService', () => {
+describe('CreateCaseService', () => {
+  let service: CreateCaseService;
   let httpMock: HttpTestingController;
-  let service: ValidationService;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       providers: [
-        ValidationService,
+        CreateCaseService,
         DataService,
         {
           provide: ENV_CONFIG,
@@ -35,33 +32,26 @@ describe('ValidationService', () => {
       ],
     });
   });
-
   beforeEach(() => {
-    service = TestBed.inject(ValidationService);
+    service = TestBed.inject(CreateCaseService);
     httpMock = TestBed.inject(HttpTestingController);
   });
   afterEach(() => {
     httpMock.verify();
   });
 
-  describe('validate', () => {
+  describe('createCase', () => {
     test('should call', () => {
-      const mockTable: CaseTableItem[] = [
-        {
-          materialNumber: '123',
-          quantity: 10,
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-      ];
-      service.validate(mockTable).subscribe((response) => {
+      const mockBody: CreateCase = {
+        customerId: '1234',
+        materialQuantities: [{ materialId: '123', quantity: 10 }],
+      };
+      service.createCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne('/materials/validation');
+      const req = httpMock.expectOne('/quotations');
       expect(req.request.method).toBe('POST');
-      req.flush(mockTable);
+      req.flush(mockBody);
     });
   });
 });

@@ -15,7 +15,9 @@ import {
   AutocompleteSearch,
   CaseFilterItem,
   CaseTableItem,
+  CreateCaseResponse,
   IdValue,
+  SapQuotation,
 } from '../../core/store/models';
 import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
 import {
@@ -42,7 +44,7 @@ export class CreateCaseDialogComponent implements OnInit {
   customerDisabled = false;
   addEntryInput: boolean;
   quotationIsValid = false;
-  private selectedQuotation: string;
+  private selectedQuotation: CreateCaseResponse;
 
   private readonly subscription: Subscription = new Subscription();
 
@@ -71,8 +73,13 @@ export class CreateCaseDialogComponent implements OnInit {
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
-  selectOption(option: IdValue, filter: string): void {
-    this.store.dispatch(selectAutocompleteOption({ option, filter }));
+  selectOption(option: IdValue | SapQuotation, filter: string): void {
+    this.store.dispatch(
+      selectAutocompleteOption({
+        option,
+        filter,
+      })
+    );
   }
 
   unselectOptions(filter: string): void {
@@ -93,7 +100,8 @@ export class CreateCaseDialogComponent implements OnInit {
   openQuotation(): void {
     this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
       queryParams: {
-        quotation_number: this.selectedQuotation,
+        quotation_number: this.selectedQuotation.gqId,
+        customer_number: this.selectedQuotation.customerId,
       },
     });
   }

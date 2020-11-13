@@ -35,7 +35,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       const value =
         this.filterName === 'customer'
           ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
-          : this.selectedIdValue.value;
+          : this.selectedIdValue.id;
       this.valueInput.nativeElement.value = value;
       this.searchFormControl.setValue(value);
       this.autofilled = false;
@@ -109,15 +109,15 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       this.filterName === 'customer' &&
       control.value &&
       typeof control.value === 'string'
-        ? control.value.split(' | ')[0]
+        ? control.value.split(' | ')[1]
         : control.value;
 
     const isValid =
       !formValue ||
       formValue.length === 0 ||
-      (this.selectedIdValue && this.selectedIdValue.value === formValue) ||
+      (this.selectedIdValue && this.selectedIdValue.id === formValue) ||
       (this.unselectedOptions &&
-        this.unselectedOptions.find((opt) => opt.value === formValue)) !==
+        this.unselectedOptions.find((opt) => opt.id === formValue)) !==
         undefined;
 
     if (!isValid) {

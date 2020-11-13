@@ -66,5 +66,24 @@ describe('AutocompleteService', (): void => {
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
+    test('should call for sapquotation ', () => {
+      const search: AutocompleteSearch = new AutocompleteSearch(
+        'quotation',
+        'test'
+      );
+      const mock: CaseFilterItem = {
+        filter: 'house',
+        options: [{ id: 'test', value: 'test', selected: false }],
+      };
+      service.autocomplete(search).subscribe((response) => {
+        expect(response).toEqual(mock.options);
+      });
+
+      const req = httpMock.expectOne(
+        '/auto-complete/sap-quotation?search_for=test'
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
   });
 });
