@@ -15,7 +15,7 @@ export class OrgChartService {
       const parentNodeId = elem.parentEmployeeId;
       const name = elem.employeeName;
       const organization = elem.orgUnit;
-      const expanded = elem.level < 3;
+      const expanded = elem.level < 2;
       const directSubordinates = elem.directSubordinates;
       const totalSubordinates = elem.totalSubordinates;
       const directAttrition = elem.directAttrition;

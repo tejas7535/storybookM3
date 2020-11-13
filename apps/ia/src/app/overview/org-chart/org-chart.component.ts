@@ -55,13 +55,16 @@ export class OrgChartComponent implements AfterViewInit {
       return;
     }
 
-    this.chart
-      .container(this.chartContainer.nativeElement)
-      .data(this.chartData)
-      .backgroundColor('white')
-      .svgHeight(700)
-      .initialZoom(0.95)
-      .marginTop(30)
-      .render();
+    setTimeout(() => {
+      this.chart
+        .container(this.chartContainer.nativeElement)
+        .data(this.chartData)
+        .backgroundColor('white')
+        .svgHeight(700)
+        .svgWidth(window.innerWidth)
+        .initialZoom(0.95)
+        .marginTop(30)
+        .render();
+    }, 100);
   }
 }

@@ -1,9 +1,11 @@
 import {
+  AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   ElementRef,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -11,8 +13,8 @@ import {
 import { FormControl } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { fromEvent, Observable, Subscription } from 'rxjs';
+import { debounceTime, map, startWith } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 
@@ -24,7 +26,8 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
   templateUrl: './autocomplete-input.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AutocompleteInputComponent implements OnInit {
+export class AutocompleteInputComponent
+  implements OnInit, AfterViewInit, OnDestroy {
   private _filter: Filter = new Filter('', []);
   @Input() label: string;
   @Input() hint: string;
@@ -47,6 +50,7 @@ export class AutocompleteInputComponent implements OnInit {
 
   @ViewChild('matInput') private readonly matInput: ElementRef;
 
+  readonly subscription: Subscription = new Subscription();
   inputControl = new FormControl('');
   filteredOptions: Observable<IdValue[]>;
   errorStateMatcher: ErrorStateMatcher;
@@ -61,6 +65,35 @@ export class AutocompleteInputComponent implements OnInit {
     this.errorStateMatcher = new InputErrorStateMatcher(this.filter.options);
   }
 
+  public ngAfterViewInit(): void {
+    this.subscription.add(
+      fromEvent(this.matInput.nativeElement, 'blur')
+        .pipe(debounceTime(200))
+        .subscribe((event: any) => {
+          const value = event.target.value;
+          const option = this.filter.options.find((opt) => opt.id === value);
+
+          if (!option) {
+            this.inputControl.setErrors({
+              invalidInput: translate('filters.invalidInputHint'),
+            });
+          } else {
+            if (this.lastEmittedValue !== value) {
+              this.lastEmittedValue = value;
+              this.selected.emit({
+                name: this.filter.name,
+                value: option.id,
+              });
+            }
+          }
+        })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
   private filterOptions(value: string): IdValue[] {
     const filterValue = value.toLowerCase();
 
@@ -71,27 +104,6 @@ export class AutocompleteInputComponent implements OnInit {
 
   public optionSelected(_evt: any): void {
     this.matInput.nativeElement.blur();
-  }
-
-  public inputBlur(event: any): void {
-    setTimeout(() => {
-      const value = event.target.value;
-      const option = this.filter.options.find((opt) => opt.id === value);
-
-      if (!option) {
-        this.inputControl.setErrors({
-          invalidInput: translate('filters.invalidInputHint'),
-        });
-      } else {
-        if (this.lastEmittedValue !== value) {
-          this.lastEmittedValue = value;
-          this.selected.emit({
-            name: this.filter.name,
-            value: option.id,
-          });
-        }
-      }
-    }, 300);
   }
 
   public trackByFn(index: number, _item: IdValue): number {
