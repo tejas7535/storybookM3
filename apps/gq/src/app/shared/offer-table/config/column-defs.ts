@@ -12,7 +12,7 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   },
   {
     headerName: translate('shared.offerTable.materialNumber'),
-    field: 'materialNumber13',
+    field: 'materialNumber15',
   },
   {
     headerName: translate('shared.offerTable.price'),
@@ -39,7 +39,7 @@ export const COLUMN_DEFS_FINISH_OFFER: ColDef[] = [
   },
   {
     headerName: translate('shared.offerTable.materialNumber'),
-    field: 'materialNumber13',
+    field: 'materialNumber15',
   },
   {
     headerName: translate('shared.offerTable.productionHierarchy'),

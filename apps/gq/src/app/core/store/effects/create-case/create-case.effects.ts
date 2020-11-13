@@ -7,7 +7,7 @@ import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 
-import { AppRoutePath } from '../../../../../app/app-route-path.enum';
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
@@ -18,6 +18,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  importCase,
+  importCaseFailure,
+  importCaseSuccess,
   pasteRowDataItems,
   validateFailure,
   validateSuccess,
@@ -26,10 +29,15 @@ import {
   CaseTableItem,
   CreateCase,
   CreateCaseResponse,
+  ImportCaseResponse,
   MaterialValidation,
 } from '../../models';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
-import { getCaseRowData, getCreateCaseData } from '../../selectors';
+import {
+  getCaseRowData,
+  getCreateCaseData,
+  getSelectedQuotation,
+} from '../../selectors';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -100,6 +108,30 @@ export class CreateCaseEffects {
       )
     )
   );
+
+  importCase$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(importCase.type),
+      withLatestFrom(this.store.pipe(select(getSelectedQuotation))),
+      map(([_action, importCaseData]) => importCaseData),
+      mergeMap((importCaseData: ImportCaseResponse) =>
+        this.createCaseService.importCase(importCaseData.sapId).pipe(
+          map((quotationNumber: string) => {
+            this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
+              queryParams: {
+                quotation_number: quotationNumber,
+                customer_number: importCaseData.customerId,
+              },
+            });
+
+            return importCaseSuccess({ quotationNumber });
+          }),
+          catchError((_e) => of(importCaseFailure()))
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly autocompleteService: AutocompleteService,

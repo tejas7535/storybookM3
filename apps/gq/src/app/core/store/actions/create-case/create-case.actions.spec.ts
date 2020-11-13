@@ -11,6 +11,9 @@ import {
   autocompleteSuccess,
   clearRowData,
   deleteRowDataItem,
+  importCase,
+  importCaseFailure,
+  importCaseSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -128,6 +131,33 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         materialNumber,
         type: '[Create Case] Delete Item from Customer Table',
+      });
+    });
+
+    test('importCase', () => {
+      const action = importCase();
+
+      expect(action).toEqual({
+        type: '[Create Case] Import SAP Quotation',
+      });
+    });
+
+    test('importCaseSuccess', () => {
+      const quotationNumber = '1234547';
+
+      const action = importCaseSuccess({ quotationNumber });
+
+      expect(action).toEqual({
+        quotationNumber,
+        type: '[Create Case] Import SAP Quotation Success',
+      });
+    });
+
+    test('importCase', () => {
+      const action = importCaseFailure();
+
+      expect(action).toEqual({
+        type: '[Create Case] Import SAP Quotation Failure',
       });
     });
   });

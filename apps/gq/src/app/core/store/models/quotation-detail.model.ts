@@ -6,7 +6,7 @@ export class QuotationDetail {
     public quotationItemId: string,
     public orderQuantity: number,
     public materialDesignation: string,
-    public materialNumber13: string,
+    public materialNumber15: string,
     public productionHierarchy: string,
     public productionCost: string,
     public productionPlant: string,
@@ -16,7 +16,6 @@ export class QuotationDetail {
     public info: QuotationInfoEnum,
     public margin: string,
     public netValue: string,
-    public quantity: number,
     public priceSource: string
   ) {}
 }

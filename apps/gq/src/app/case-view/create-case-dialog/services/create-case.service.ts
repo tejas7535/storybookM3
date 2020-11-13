@@ -12,6 +12,7 @@ import { CreateCase, CreateCaseResponse } from '../../../core/store/models';
 })
 export class CreateCaseService {
   private readonly path = 'quotations';
+
   constructor(private readonly dataService: DataService) {}
 
   public createCase(createCaseData: CreateCase): Observable<any> {
@@ -23,6 +24,14 @@ export class CreateCaseService {
         };
 
         return response;
+      })
+    );
+  }
+
+  importCase(importCase: string): Observable<any> {
+    return this.dataService.put(this.path, importCase).pipe(
+      map((res: any) => {
+        return res.gqId;
       })
     );
   }

@@ -16,7 +16,7 @@ export class ExportToExcelButtonComponent {
   exportToExcel(): void {
     const columnKeys: string[] = [
       'materialDesignation',
-      'materialNumber13',
+      'materialNumber15',
       'productionHierarchy',
       'productionCost',
       'productionPlant',

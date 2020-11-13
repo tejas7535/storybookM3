@@ -26,11 +26,11 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialNumber'
     ),
-    field: 'materialNumber13',
+    field: 'materialNumber15',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.quantity'),
-    field: 'quantity',
+    field: 'orderQuantity',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.unit'),

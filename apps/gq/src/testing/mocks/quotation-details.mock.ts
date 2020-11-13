@@ -7,7 +7,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
   quotationItemId: '34643567',
   materialDesignation: '6052-M-C3',
-  materialNumber13: '016718798-0030',
+  materialNumber15: '016718798-0030',
   orderQuantity: 10,
   productionHierarchy: '1406054007',
   productionCost: '419,59 €',
@@ -18,6 +18,5 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   info: QuotationInfoEnum.None,
   priceSource: 'MokSource',
   netValue: 'MokSource',
-  quantity: 10,
   margin: 'margin',
 };

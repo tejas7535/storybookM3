@@ -11,14 +11,12 @@ import { configureTestSuite } from 'ng-bullet';
 
 import {
   CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import {
-  createQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -27,7 +25,7 @@ import {
   loadQuotationSuccess,
   selectQuotation,
 } from '../../actions';
-import { Quotation, QuotationIdentifier } from '../../models';
+import { QuotationIdentifier } from '../../models';
 import { getSelectedQuotationIdentifier } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
@@ -146,9 +144,7 @@ describe('Quotation Effects', () => {
 
     test('should return quotationDetailsSuccess action when REST call is successful', () => {
       quotationDetailsService.getQuotation = jest.fn(() => response);
-      const item = new Quotation('123456', CUSTOMER_MOCK, [
-        QUOTATION_DETAIL_MOCK,
-      ]);
+      const item = QUOTATION_MOCK;
       const result = loadQuotationSuccess({ item });
 
       actions$ = hot('-a', { a: action });
@@ -188,41 +184,12 @@ describe('Quotation Effects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-b', {
+      const expected = cold('-(bc)', {
         b: loadQuotation(),
+        c: loadCustomer(),
       });
 
       expect(effects.triggerDataLoad$).toBeObservable(expected);
-    });
-  });
-
-  describe('triggerCreateQuotation$', () => {
-    test('should return loadCustomer and createQuotation Action', () => {
-      action = createQuotation({
-        quotationIdentifier: QUOTATION_IDENTIFIER_MOCK,
-      });
-
-      actions$ = hot('-a', { a: action });
-
-      const expected = cold('-(b)', {
-        b: loadCustomer(),
-      });
-
-      expect(effects.triggerCreateQuotation$).toBeObservable(expected);
-    });
-  });
-
-  describe('triggerCustomerLoad$', () => {
-    test('should return loadCustomer Action', () => {
-      action = loadQuotationSuccess({ item: QUOTATION_MOCK });
-
-      actions$ = hot('-a', { a: action });
-
-      const expected = cold('-b', {
-        b: loadCustomer(),
-      });
-
-      expect(effects.triggerCustomerLoad$).toBeObservable(expected);
     });
   });
 
@@ -250,34 +217,6 @@ describe('Quotation Effects', () => {
       const quotationIdentifier = new QuotationIdentifier('456789', undefined);
 
       const result = selectQuotation({ quotationIdentifier });
-      const expected = cold('-b', { b: result });
-
-      expect(effects.selectQuotation$).toBeObservable(expected);
-    });
-
-    test('should return select selectQuotation Action', () => {
-      store.overrideSelector(
-        getSelectedQuotationIdentifier,
-        QUOTATION_IDENTIFIER_MOCK
-      );
-
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/process-case',
-            queryParams: {
-              customer_number: '0060',
-            },
-          },
-        },
-      };
-
-      actions$ = hot('-a', { a: action });
-
-      const quotationIdentifier = new QuotationIdentifier(undefined, '0060');
-
-      const result = createQuotation({ quotationIdentifier });
       const expected = cold('-b', { b: result });
 
       expect(effects.selectQuotation$).toBeObservable(expected);

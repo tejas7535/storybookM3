@@ -33,11 +33,6 @@ export const selectQuotation = createAction(
   props<{ quotationIdentifier: QuotationIdentifier }>()
 );
 
-export const createQuotation = createAction(
-  '[Process Case] Create Quotation',
-  props<{ quotationIdentifier: QuotationIdentifier }>()
-);
-
 export const addQuotationDetailToOffer = createAction(
   '[Offer] add QuotationDetail to offer',
   props<{ quotationDetailIDs: string[] }>()
@@ -50,7 +45,6 @@ export const removeQuotationDetailFromOffer = createAction(
 
 const all = union({
   addQuotationDetailToOffer,
-  createQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,

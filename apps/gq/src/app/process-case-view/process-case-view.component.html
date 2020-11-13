@@ -12,7 +12,7 @@
     fxFlexFill
   >
     <gq-process-case-header
-      [quotationNumber]="(quotation$ | async).quotationNumber"
+      [quotationNumber]="(quotation$ | async).gqId"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-process-case-header>
 

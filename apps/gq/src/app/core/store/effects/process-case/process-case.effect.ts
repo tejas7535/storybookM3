@@ -18,7 +18,6 @@ import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import {
-  createQuotation,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -87,25 +86,9 @@ export class ProcessCaseEffect {
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectQuotation),
-      // tslint:disable-next-line: no-unnecessary-callback-wrapper
-      map(() => loadQuotation())
-    )
-  );
-
-  triggerCreateQuotation$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(createQuotation),
       mergeMap(() => {
-        return [loadCustomer()]; // TODO: add creat quotation effect
+        return [loadQuotation(), loadCustomer()];
       })
-    )
-  );
-
-  triggerCustomerLoad$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadQuotationSuccess),
-      // tslint:disable-next-line: no-unnecessary-callback-wrapper
-      map(() => loadCustomer())
     )
   );
 
@@ -137,9 +120,7 @@ export class ProcessCaseEffect {
       ),
       map(([identifierFromRoute, _identifierCurrent]) => identifierFromRoute),
       map((quotationIdentifier: QuotationIdentifier) => {
-        return quotationIdentifier.quotationNumber
-          ? selectQuotation({ quotationIdentifier })
-          : createQuotation({ quotationIdentifier });
+        return selectQuotation({ quotationIdentifier });
       })
     )
   );
@@ -177,8 +158,7 @@ export class ProcessCaseEffect {
     item.quotationDetails.forEach((value) => {
       value.rsp = (Math.random() * 10).toFixed(2);
       value.margin = `${(Math.random() * 100).toFixed(2).toString()} %`;
-      value.quantity = (Math.floor(Math.random() * 10) + 1) * 10;
-      value.netValue = (value.quantity * Number(value.rsp)).toString();
+      value.netValue = (value.orderQuantity * Number(value.rsp)).toString();
       const arr = ['PAT', 'SAP System', 'Custom'];
       value.priceSource = arr[Math.floor(Math.random() * 3)];
     });
