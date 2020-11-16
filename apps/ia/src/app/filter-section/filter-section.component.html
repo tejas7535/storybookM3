@@ -17,11 +17,12 @@
       </div>
     </div>
   </div>
-  <div
-    fxFlex.lt-lg="100%"
-    *transloco="let t; read: 'filters.regionAndLocation'"
-  >
-    <div fxLayout="column" fxLayoutAlign="start">
+  <div fxFlex.lt-lg="100%" *ngIf="showRegionsAndLocations$ | ngrxPush">
+    <div
+      fxLayout="column"
+      fxLayoutAlign="start"
+      *transloco="let t; read: 'filters.regionAndLocation'"
+    >
       <h6 class="m-b-5">{{ t('title') }}</h6>
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
         <ia-autocomplete-input

@@ -18,6 +18,7 @@ import {
   getRegionsAndSubRegions,
   getSelectedTimePeriod,
   getTimePeriods,
+  showRegionsAndLocationsFilters,
 } from '../core/store/selectors';
 import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 
@@ -33,6 +34,7 @@ export class FilterSectionComponent implements OnInit {
   hrLocations$: Observable<Filter>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
+  showRegionsAndLocations$: Observable<boolean>;
 
   timeRangeHintValue = 'time range';
 
@@ -49,6 +51,9 @@ export class FilterSectionComponent implements OnInit {
     this.selectedTimePeriod$ = this.store.pipe(
       select(getSelectedTimePeriod),
       tap((timePeriod) => this.setTimeRangeHint(timePeriod))
+    );
+    this.showRegionsAndLocations$ = this.store.pipe(
+      select(showRegionsAndLocationsFilters)
     );
   }
 

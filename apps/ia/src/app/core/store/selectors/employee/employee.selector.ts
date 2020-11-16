@@ -1,13 +1,21 @@
 import { translate } from '@ngneat/transloco';
+import { RouterReducerState } from '@ngrx/router-store';
 import { createSelector } from '@ngrx/store';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { ChartType } from '../../../../overview/models/chart-type.enum';
 import {
   EmployeesRequest,
   Filter,
+  FilterKey,
   IdValue,
   SelectedFilter,
 } from '../../../../shared/models';
-import { selectEmployeeState } from '../../reducers';
+import {
+  RouterStateUrl,
+  selectEmployeeState,
+  selectRouterState,
+} from '../../reducers';
 import {
   EmployeeState,
   selectAllSelectedEmployees,
@@ -20,23 +28,36 @@ export const getInitialFiltersLoading = createSelector(
 
 export const getOrgUnits = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) => new Filter('orgUnit', state.filters.orgUnits)
+  (state: EmployeeState) =>
+    new Filter(FilterKey.ORG_UNIT, state.filters.orgUnits)
 );
 
 export const getRegionsAndSubRegions = createSelector(
   selectEmployeeState,
   (state: EmployeeState) =>
-    new Filter('regionOrSubRegion', state.filters.regionsAndSubRegions)
+    new Filter(
+      FilterKey.REGION_OR_SUB_REGION,
+      state.filters.regionsAndSubRegions
+    )
 );
 
 export const getCountries = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) => new Filter('country', state.filters.countries)
+  (state: EmployeeState) =>
+    new Filter(FilterKey.COUNTRY, state.filters.countries)
 );
 
 export const getHrLocations = createSelector(
   selectEmployeeState,
-  (state: EmployeeState) => new Filter('hrLocation', state.filters.hrLocations)
+  (state: EmployeeState) =>
+    new Filter(FilterKey.HR_LOCATION, state.filters.hrLocations)
+);
+
+export const getCurrentRoute = createSelector(
+  selectRouterState,
+  (state: RouterReducerState<RouterStateUrl>) => {
+    return state?.state.url;
+  }
 );
 
 export const getTimePeriods = createSelector(
@@ -82,7 +103,7 @@ export const getCurrentFiltersAndTime = createSelector(
         return map;
       },
       ({
-        timeRange,
+        [FilterKey.TIME_RANGE]: timeRange,
       } as unknown) as EmployeesRequest
     )
 );
@@ -95,4 +116,22 @@ export const getEmployees = createSelector(
 export const getEmployeesLoading = createSelector(
   selectEmployeeState,
   (state: EmployeeState) => state.employees.loading
+);
+
+export const getSelectedOverviewChartType = createSelector(
+  selectEmployeeState,
+  (state: EmployeeState) => state.overview.selectedChart
+);
+
+export const showRegionsAndLocationsFilters = createSelector(
+  getCurrentRoute,
+  getSelectedOverviewChartType,
+  (route: string, type: ChartType) => {
+    // hide if overview page and org chart (default) is selected
+    return !(
+      route &&
+      route === `/${AppRoutePath.OverviewPath}` &&
+      type === ChartType.ORG_CHART
+    );
+  }
 );

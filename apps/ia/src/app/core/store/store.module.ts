@@ -23,6 +23,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
       routerState: RouterState.Minimal,
+      stateKey: 'router',
     }),
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({
