@@ -1,0 +1,10 @@
+@import 'lib/colors';
+
+.count {
+  color: $schaeffler-black;
+  margin-left: 24px;
+
+  div {
+    color: $schaeffler-carbon-gray;
+  }
+}

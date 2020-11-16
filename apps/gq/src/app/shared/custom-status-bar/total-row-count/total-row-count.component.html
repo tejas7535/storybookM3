@@ -1,0 +1,31 @@
+<div
+  fxLayout
+  fxFill
+  fxLayoutAlign="start center"
+  *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
+>
+  <div fxLayout class="count" *ngIf="selections.length">
+    <div>{{ t('selectedNetValue') }}:&nbsp;</div>
+    {{ selectedNetValue }}
+  </div>
+  <div fxLayout class="count" *ngIf="selections.length">
+    <div>{{ t('selectedRsp') }}:&nbsp;</div>
+    {{ selectedRsp }}
+  </div>
+  <div fxLayout class="count" *ngIf="selections.length">
+    <div>{{ t('selectedMargin') }}:&nbsp;</div>
+    {{ selectedMargin }} %
+  </div>
+  <div fxLayout class="count">
+    <div>{{ t('totalNetValue') }}:&nbsp;</div>
+    {{ totalNetValue }}
+  </div>
+  <div fxLayout class="count">
+    <div>{{ t('totalRsp') }}:&nbsp;</div>
+    {{ totalRsp }}
+  </div>
+  <div fxLayout class="count">
+    <div>{{ t('totalMargin') }}:&nbsp;</div>
+    {{ totalMargin }} %
+  </div>
+</div>
