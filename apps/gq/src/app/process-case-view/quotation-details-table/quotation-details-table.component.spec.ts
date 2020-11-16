@@ -12,6 +12,7 @@ import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
 import { AddToOfferButtonComponent } from '../../shared/custom-status-bar/add-to-offer-button/add-to-offer-button.component';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
+import { TotalRowCountComponent } from '../../shared/custom-status-bar/total-row-count/total-row-count.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -30,6 +31,7 @@ describe('QuotationDetailsTableComponent', () => {
         AgGridModule.withComponents([
           AddToOfferButtonComponent,
           DetailViewButtonComponent,
+          TotalRowCountComponent,
         ]),
         provideTranslocoTestingModule({}),
         CustomStatusBarModule,

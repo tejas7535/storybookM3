@@ -102,6 +102,14 @@
       "resetAllButton": {
         "resetAll": "Reset All"
       },
+      "totalRowCount": {
+        "selectedMargin": "Ausgewählte durchschnittliche Marge",
+        "selectedNetValue": "Ausgewählte durchschnittliche Summe",
+        "selectedRsp": "Ausgewählte durchschnittlicher RSP",
+        "totalMargin": "Gesamt durchschnittliche Marge",
+        "totalNetValue": "Gesamt durchschnittliche Summe",
+        "totalRsp": "Gesamt durchschnittlicher RSP"
+      },
       "uploadToSAPButton": {
         "uploadToSAP": "zu SAP hochladen"
       }

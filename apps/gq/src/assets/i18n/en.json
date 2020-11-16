@@ -102,6 +102,14 @@
       "resetAllButton": {
         "resetAll": "Reset All"
       },
+      "totalRowCount": {
+        "selectedMargin": "Selected Average Margin",
+        "selectedNetValue": "Selected Average Sum",
+        "selectedRsp": "Selected Average RSP",
+        "totalMargin": "Total Average Margin",
+        "totalNetValue": "Total Average Sum",
+        "totalRsp": "Total Average RSP"
+      },
       "uploadToSAPButton": {
         "uploadToSAP": "Upload to SAP"
       }
