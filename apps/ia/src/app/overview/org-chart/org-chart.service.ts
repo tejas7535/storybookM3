@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { translate } from '@ngneat/transloco';
 
 import { Employee } from '../../shared/models';
-import { OrgChartNode } from './model/org-chart-node.model';
+import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
   providedIn: 'root',

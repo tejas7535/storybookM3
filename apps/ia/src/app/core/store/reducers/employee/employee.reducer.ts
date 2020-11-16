@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { ChartType } from '../../../../overview/models/chart-type.enum';
 import { Employee, IdValue, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
@@ -26,6 +27,9 @@ export interface EmployeeState {
     selectedFilters: SelectedFilterState; // currently selected filters
     selectedTimePeriod: TimePeriod;
     selectedTimeRange: string;
+  };
+  overview: {
+    selectedChart: ChartType;
   };
   employees: {
     loading: boolean;
@@ -63,6 +67,9 @@ export const initialState: EmployeeState = {
     selectedFilters: filterAdapter.getInitialState(),
     selectedTimePeriod: TimePeriod.YEAR,
     selectedTimeRange: undefined,
+  },
+  overview: {
+    selectedChart: ChartType.ORG_CHART,
   },
   employees: {
     loading: false,

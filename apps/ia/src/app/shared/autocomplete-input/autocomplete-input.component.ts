@@ -28,7 +28,7 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
 })
 export class AutocompleteInputComponent
   implements OnInit, AfterViewInit, OnDestroy {
-  private _filter: Filter = new Filter('', []);
+  private _filter: Filter;
   @Input() label: string;
   @Input() hint: string;
   @Input() set filter(filter: Filter) {

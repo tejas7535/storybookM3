@@ -7,7 +7,8 @@ import { MatInputModule } from '@angular/material/input';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { IdValue } from '../models';
+import { FilterKey } from '../../shared/models';
+import { Filter, IdValue } from '../models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { InputValidatorDirective } from './validation/input-validator.directive';
 
@@ -30,15 +31,18 @@ describe('AutocompleteInputComponent', () => {
   });
 
   beforeEach(() => {
-    spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
     options = [
       new IdValue('1', 'cherryo'),
       new IdValue('2', 'test'),
       new IdValue('3', 'cherry'),
       new IdValue('4', 'cherrygold'),
     ];
-    component.filter.options = options;
+    spectator = createComponent({
+      props: {
+        filter: new Filter(FilterKey.COUNTRY, options),
+      },
+    });
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {
@@ -145,7 +149,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.inputControl.setErrors).not.toHaveBeenCalled();
       expect(component.selected.emit).toHaveBeenCalledWith({
-        name: '',
+        name: 'country',
         value: '3',
       });
     }));

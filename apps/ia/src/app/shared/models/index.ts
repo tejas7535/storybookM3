@@ -6,3 +6,4 @@ export * from './time-period.enum';
 export * from './employees-response.model';
 export * from './employees-request.model';
 export * from './selected-filter.model';
+export * from './filter-key.enum';
