@@ -231,7 +231,7 @@ pipeline {
     }
 
     tools {
-        nodejs 'NodeJS 12.19'
+        nodejs 'NodeJS 14.15'
     }
 
     stages {
