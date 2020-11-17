@@ -16,20 +16,20 @@ describe('SidebarService', () => {
     // initially all are false
     {
       matchStr: [
-        '(max-width: 599.99px)',
-        '(min-width: 600px) and (max-width: 959.99px)',
+        '(max-width: 599.98px)',
+        '(min-width: 600px) and (max-width: 959.98px)',
       ],
       result: false,
     },
     {
       matchStr: [
-        '(min-width: 1280px) and (max-width: 1919.99px)',
+        '(min-width: 1280px) and (max-width: 1919.98px)',
         '(min-width: 1920px)',
       ],
       result: false,
     },
     {
-      matchStr: '(min-width: 960px) and (max-width: 1279.99px)',
+      matchStr: '(min-width: 960px) and (max-width: 1279.98px)',
       result: false,
     },
   ];

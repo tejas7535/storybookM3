@@ -43,7 +43,8 @@ export const appRoutes: Routes = [
   imports: [
     RouterModule.forRoot(appRoutes, {
       useHash: true,
-      initialNavigation: false,
+      initialNavigation: 'disabled',
+      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],
