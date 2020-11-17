@@ -12,6 +12,8 @@ import {
   EMPLOYEES,
   LEVEL_2_EMPLOYEE_A,
   LEVEL_2_EMPLOYEE_B,
+  LEVEL_2_EMPLOYEE_C,
+  LEVEL_3_EMPLOYEE_A,
   ROOT,
 } from '../../../mocks/employees.mock';
 import {
@@ -98,17 +100,32 @@ describe('EmployeesService', () => {
       }));
       service.setNumberOfSubordinates = jest.fn();
       service.setAttrition = jest.fn();
+      service.employeeLeftInTimeRange = jest.fn(() => true);
 
-      const expected = [root, LEVEL_2_EMPLOYEE_A, LEVEL_2_EMPLOYEE_B];
+      const expected = [
+        root,
+        LEVEL_2_EMPLOYEE_A,
+        LEVEL_2_EMPLOYEE_B,
+        LEVEL_2_EMPLOYEE_C,
+        LEVEL_3_EMPLOYEE_A,
+      ];
 
       const employees: Employee[] = [];
+      const request = new EmployeesRequest(
+        'department a',
+        undefined,
+        undefined,
+        undefined,
+        '1605536578|1605536578'
+      );
 
-      const result = service.mapEmployees(employees);
+      const result = service.mapEmployees(employees, request);
 
       expect(result).toEqual(expected);
       expect(service.createParentChildRelationFromEmployees).toHaveBeenCalled();
       expect(service.setNumberOfSubordinates).toHaveBeenCalled();
       expect(service.setAttrition).toHaveBeenCalled();
+      expect(service.employeeLeftInTimeRange).toHaveBeenCalled();
     });
   });
 
