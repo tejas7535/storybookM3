@@ -1,7 +1,6 @@
 var markdownInclude = require('markdown-include');
 var path = require('path');
 var fs = require('fs');
-var branch = require('git-branch');
 const newLine = '\n';
 const versionBadge = require('markdown-magic-version-badge');
 module.exports = {
@@ -15,9 +14,9 @@ module.exports = {
       const pkgPath = path.resolve(process.cwd(), 'package.json');
       const pkg = require(pkgPath);
       const deps = { ...pkg.dependencies, ...pkg.devDependencies };
-      const duplicateMinus = value => value.replace('-', '--');
+      const duplicateMinus = (value) => value.replace('-', '--');
       const badges = targets
-        .map(dep => {
+        .map((dep) => {
           return `![${dep}: ${
             deps[dep]
           }](https://img.shields.io/badge/${encodeURIComponent(
@@ -26,7 +25,7 @@ module.exports = {
         })
         .join('\n');
       return `${newLine}${badges}${newLine}`;
-    }
+    },
   },
   callback: () => {
     console.log('Markup updated - building README...');
@@ -42,5 +41,5 @@ module.exports = {
       fs.writeFileSync(readmePath, updatedReadme);
       console.log('README updated');
     });
-  }
+  },
 };

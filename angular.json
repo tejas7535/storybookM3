@@ -1095,7 +1095,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/header/tsconfig.lib.json",
-            "project": "libs/shared/ui/header/ng-package.json"
+            "project": "libs/shared/ui/header/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1152,7 +1153,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.json",
-            "project": "libs/shared/utils/responsive/ng-package.json"
+            "project": "libs/shared/utils/responsive/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1212,7 +1214,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
-            "project": "libs/shared/utils/transloco/ng-package.json"
+            "project": "libs/shared/utils/transloco/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1272,7 +1275,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/sidebar/tsconfig.lib.json",
-            "project": "libs/shared/ui/sidebar/ng-package.json"
+            "project": "libs/shared/ui/sidebar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1329,7 +1333,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/icons/tsconfig.lib.json",
-            "project": "libs/shared/ui/icons/ng-package.json"
+            "project": "libs/shared/ui/icons/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1386,7 +1391,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/footer/tsconfig.lib.json",
-            "project": "libs/shared/ui/footer/ng-package.json"
+            "project": "libs/shared/ui/footer/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1443,7 +1449,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/file-drop/tsconfig.lib.json",
-            "project": "libs/shared/ui/file-drop/ng-package.json"
+            "project": "libs/shared/ui/file-drop/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1500,7 +1507,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.json",
-            "project": "libs/shared/ui/snackbar/ng-package.json"
+            "project": "libs/shared/ui/snackbar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1547,7 +1555,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/scroll-to-top/tsconfig.lib.json",
-            "project": "libs/shared/ui/scroll-to-top/ng-package.json"
+            "project": "libs/shared/ui/scroll-to-top/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1607,7 +1616,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/speed-dial-fab/tsconfig.lib.json",
-            "project": "libs/shared/ui/speed-dial-fab/ng-package.json"
+            "project": "libs/shared/ui/speed-dial-fab/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1667,7 +1677,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/banner/tsconfig.lib.json",
-            "project": "libs/shared/ui/banner/ng-package.json"
+            "project": "libs/shared/ui/banner/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -1724,7 +1735,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.json",
-            "project": "libs/shared/ui/settings-sidebar/ng-package.json"
+            "project": "libs/shared/ui/settings-sidebar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -2275,7 +2287,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/utils/auth/tsconfig.lib.json",
-            "project": "libs/shared/utils/auth/ng-package.json"
+            "project": "libs/shared/utils/auth/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -2330,7 +2343,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.json",
-            "project": "libs/shared/ui/empty-states/ng-package.json"
+            "project": "libs/shared/ui/empty-states/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -2392,7 +2406,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
-            "project": "libs/shared/ui/styles/ng-package.json"
+            "project": "libs/shared/ui/styles/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -3049,7 +3064,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/utils/http/tsconfig.lib.json",
-            "project": "libs/shared/utils/http/ng-package.json"
+            "project": "libs/shared/utils/http/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
@@ -3106,7 +3122,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.json",
-            "project": "libs/shared/utils/application-insights/ng-package.json"
+            "project": "libs/shared/utils/application-insights/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           }
         },
         "lint": {
