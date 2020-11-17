@@ -30,7 +30,7 @@ export class AuthService {
 
   private static getDecodedAccessToken(token: string): AccessToken {
     try {
-      return jwtDecode(token) as AccessToken;
+      return jwtDecode(token);
     } catch (Error) {
       return undefined;
     }
