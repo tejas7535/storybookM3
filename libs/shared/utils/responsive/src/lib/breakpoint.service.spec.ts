@@ -13,24 +13,24 @@ describe('BreakpointService', () => {
 
   const matchObj = [
     // initially all are false
-    { matchStr: '(max-width: 599.99px)', result: false },
+    { matchStr: '(max-width: 599.98px)', result: false },
     {
       matchStr:
-        '(max-width: 599.99px) and (orientation: portrait), (max-width: 959.99px) and (orientation: landscape)',
+        '(max-width: 599.98px) and (orientation: portrait), (max-width: 959.98px) and (orientation: landscape)',
       result: false,
     },
     {
       matchStr: [
-        '(max-width: 599.99px)',
-        '(min-width: 600px) and (max-width: 959.99px)',
+        '(max-width: 599.98px)',
+        '(min-width: 600px) and (max-width: 959.98px)',
       ],
       result: false,
     },
     {
-      matchStr: '(min-width: 960px) and (max-width: 1279.99px)',
+      matchStr: '(min-width: 960px) and (max-width: 1279.98px)',
       result: false,
     },
-    { matchStr: '(min-width: 600px) and (max-width: 959.99px)', result: false },
+    { matchStr: '(min-width: 600px) and (max-width: 959.98px)', result: false },
     { matchStr: '(min-width: 1920px)', result: false },
   ];
 

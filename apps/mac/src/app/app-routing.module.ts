@@ -27,6 +27,7 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
+      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],
