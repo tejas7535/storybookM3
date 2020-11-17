@@ -845,7 +845,7 @@ pipeline {
 
                             def fileName = isAppRelease() ? "release/${version}" : "${BRANCH_NAME}"
                             def artifactoryTargetPath = "${artifactoryBasePath}/${app}/"
-                            artifactoryTargetPath += isMaster() ? "next" : fileName
+                            artifactoryTargetPath += isAppRelease() || !isMaster() ? fileName : "next"
                             artifactoryTargetPath += ".zip"
 
                             try {
