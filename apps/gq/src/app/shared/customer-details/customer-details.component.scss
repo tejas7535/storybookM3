@@ -1,6 +1,19 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
 .customer-detail {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   width: 100%;
+}
+mat-card {
+  font-size: 14px;
+  margin: 10px;
+}
+button {
+  color: $schaeffler-gray-9;
+  font-weight: bold;
+}
+.label {
+  color: $schaeffler-gray-9;
 }

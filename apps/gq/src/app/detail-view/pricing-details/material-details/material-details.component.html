@@ -1,0 +1,47 @@
+<div *transloco="let t; read: 'detailView.pricingDetails.materialDetails'">
+  <div
+    class="container"
+    fxLayout="row"
+    fxLayoutAlign="space-between none"
+    *ngIf="materialDetails$ | async as materialDetails"
+  >
+    <div fxFlex="50%">
+      <p>
+        <span class="label">{{ t('materialDescription') }}: </span
+        >{{ materialDetails.materialDesignation }}
+      </p>
+      <p>
+        <span class="label">{{ t('13digit') }}: </span
+        >{{ materialDetails.materialNumber13 }}
+      </p>
+      <p>
+        <span class="label">{{ t('15digit') }}: </span
+        >{{ materialDetails.materialNumber15 }}
+      </p>
+      <p>
+        <span class="label">{{ t('gpsdGroup') }}: </span
+        >{{ materialDetails.gpsdGroup.id }}|{{ materialDetails.gpsdGroup.name }}
+      </p>
+      <p>
+        <span class="label">{{ t('productHierarchy') }}: </span
+        >{{ materialDetails.productHierarchy.id }}|{{
+          materialDetails.productHierarchy.name
+        }}
+      </p>
+      <p>
+        <span class="label">{{ t('materialType') }}: </span
+        >{{ materialDetails.materialType }}
+      </p>
+    </div>
+    <div fxFlex="50%">
+      <p>
+        <span class="label">{{ t('dimension') }}: </span
+        >{{ materialDetails.dimensions }}
+      </p>
+      <p>
+        <span class="label">{{ t('grossWeight') }}: </span
+        >{{ materialDetails.grossWeight }}
+      </p>
+    </div>
+  </div>
+</div>

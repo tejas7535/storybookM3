@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
-
 import { of } from 'rxjs';
 import {
   catchError,
@@ -13,6 +9,10 @@ import {
   mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
+
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { select, Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';

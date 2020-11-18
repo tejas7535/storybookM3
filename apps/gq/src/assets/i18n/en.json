@@ -50,16 +50,51 @@
       }
     }
   },
+  "detailView": {
+    "filterPricing": {
+      "title": "Custom Pricing",
+      "label": "Custom Price",
+      "hint": "Enter a custom price",
+      "selected": "selected"
+    },
+    "pricingDetails": {
+      "costDetails": {
+        "label": "Cost"
+      },
+      "label": "Pricing Details",
+      "materialDetails": {
+        "label": "Material",
+        "13digit": "13-digit",
+        "15digit": "15-digit",
+        "dimension": "Dimension",
+        "gpsdGroup": "GPSD-Group",
+        "grossWeight": "Gross Weight",
+        "materialDescription": "Material Description",
+        "materialType": "Material Type",
+        "productHierarchy": "Prod. Hierarchy"
+      },
+      "pricingDetails": {
+        "label": "Pricing"
+      },
+      "productionDetails": {
+        "label": "Production"
+      },
+      "salesHistory": {
+        "label": "Sales History"
+      },
+      "scmDetails": {
+        "label": "SCM"
+      }
+    }
+  },
   "offerView": {
     "offerHeader": {
       "newCase": "Create New Case",
       "title": "Offer"
     }
   },
+
   "processCaseView": {
-    "processCaseHeader": {
-      "seeOffer": "see offer"
-    },
     "quotationDetailsTable": {
       "gspd": "GSPD",
       "info": "Info",
@@ -83,6 +118,9 @@
     }
   },
   "shared": {
+    "caseHeader": {
+      "seeOffer": "see offer"
+    },
     "customStatusBar": {
       "addToOfferButton": {
         "addToOffer": "add to offer"

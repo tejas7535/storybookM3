@@ -1,0 +1,22 @@
+<div *transloco="let t; read: 'detailView.filterPricing'">
+  <mat-card>
+    <mat-card-title> {{ t('title') }} </mat-card-title>
+    <mat-card-content>
+      <div fxLayout="row">
+        <div fxFlex="70%" fxLayoutAlign="center start">
+          <mat-form-field appearance="outline">
+            <mat-label> {{ t('label') }} </mat-label>
+            <input class="input-field" matInput />
+            <mat-hint>{{ t('hint') }}</mat-hint>
+          </mat-form-field>
+        </div>
+        <div fxFlex="30%">
+          <button mat-raised-button color="primary" class="select">
+            <mat-icon>check_circle</mat-icon>
+            {{ t('selected') | uppercase }}
+          </button>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

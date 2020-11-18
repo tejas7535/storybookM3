@@ -11,4 +11,5 @@ export const QUOTATION_MOCK: Quotation = {
   gqCreatedByUser: { name: 'gqUser', id: 'gqUserId' },
   imported: true,
   sapCreatedByUser: { name: 'sapUser', id: 'sapUserId' },
+  sapId: '12345',
 };

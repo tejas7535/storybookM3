@@ -11,10 +11,11 @@
     fxLayoutAlign="start center"
     fxFlexFill
   >
-    <gq-process-case-header
+    <gq-case-header
       [quotationNumber]="(quotation$ | async).gqId"
+      [sapId]="(quotation$ | async).sapId"
       (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-process-case-header>
+    ></gq-case-header>
 
     <gq-result-table
       [rowData]="(quotation$ | async).quotationDetails"

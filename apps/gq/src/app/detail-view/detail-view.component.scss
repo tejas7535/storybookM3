@@ -1,12 +1,14 @@
-@import 'libs/shared/ui/styles/src/lib/mediaqueries';
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
 
 :host {
   width: 100%;
 }
 
 .container {
-  height: calc(100% - 30px);
-
+  background-color: $schaeffler-gray-1;
+  height: 100%;
+  width: 100%;
   @media screen and (max-width: $screen-sm-max) {
     margin: 30px 20px 0;
   }

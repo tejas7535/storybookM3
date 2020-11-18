@@ -11,6 +11,7 @@ export * from './id-value.model';
 export * from './import-case-response.model';
 export * from './import-case.model';
 export * from './key-account.model';
+export * from './material-details.model';
 export * from './material-quantities.model';
 export * from './material-validation.model';
 export * from './quotation-detail.model';

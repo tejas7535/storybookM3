@@ -11,6 +11,7 @@ export class Quotation {
     public name: string,
     public imported: boolean,
     public sapCreatedByUser: User,
+    public sapId: string,
     public gqCreatedByUser: User
   ) {}
 }
