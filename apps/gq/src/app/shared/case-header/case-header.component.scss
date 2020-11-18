@@ -2,6 +2,10 @@
 
 :host {
   width: 100%;
+  mat-card {
+    padding: 0;
+    padding-bottom: 5px;
+  }
 
   .details-page-header {
     .back-arrow-icon {
@@ -12,11 +16,19 @@
     }
 
     button {
+      font-weight: bold;
       margin: 16px 16px 16px 0;
-
       mat-icon {
         vertical-align: initial;
       }
+    }
+    .sapId {
+      opacity: 0.38;
+    }
+    h1 {
+      color: $schaeffler-black;
+      font-size: 34px;
+      opacity: 0.87;
     }
   }
 }

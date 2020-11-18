@@ -1,11 +1,28 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { SharedModule } from '../shared';
+import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { DetailViewComponent } from './detail-view.component';
+import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
+import { PricingDetailsModule } from './pricing-details/pricing-details.module';
 
 @NgModule({
   declarations: [DetailViewComponent],
-  imports: [CommonModule, DetailViewRoutingModule],
+  imports: [
+    CaseHeaderModule,
+    DetailViewRoutingModule,
+    FilterPricingModule,
+    OfferDrawerModule,
+    MatButtonModule,
+    MatSidenavModule,
+    ReactiveFormsModule,
+    SharedModule,
+    PricingDetailsModule,
+  ],
 })
 export class DetailViewModule {}

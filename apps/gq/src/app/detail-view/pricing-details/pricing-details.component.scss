@@ -1,0 +1,15 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+.container {
+  height: 90%;
+}
+mat-card {
+  height: 100%;
+  margin: 20px 10px 20px 5px;
+}
+mat-card-title {
+  color: $schaeffler-carbon-gray;
+  font-size: $schaeffler-h5;
+  font-weight: bold;
+}

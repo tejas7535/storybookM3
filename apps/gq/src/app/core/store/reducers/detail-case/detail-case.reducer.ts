@@ -1,0 +1,55 @@
+import { createReducer, on } from '@ngrx/store';
+
+import {
+  loadMaterialInformation,
+  loadMaterialInformationFailure,
+  loadMaterialInformationSuccess,
+} from '../../actions';
+import { MaterialDetails } from '../../models';
+
+export interface DetailState {
+  detailCase: {
+    materialLoading: boolean;
+    materialNumber15: string;
+    materialDetails: MaterialDetails;
+  };
+}
+
+export const initialState: DetailState = {
+  detailCase: {
+    materialLoading: false,
+    materialDetails: undefined,
+    materialNumber15: undefined,
+  },
+};
+
+export const detailCaseReducer = createReducer(
+  initialState,
+  on(loadMaterialInformation, (state: DetailState, { materialNumber15 }) => ({
+    ...state,
+    detailCase: {
+      ...state.detailCase,
+      materialNumber15,
+      materialLoading: true,
+    },
+  })),
+  on(loadMaterialInformationFailure, (state: DetailState) => ({
+    ...state,
+    detailCase: {
+      ...state.detailCase,
+      materialLoading: false,
+      materialDetails: undefined,
+    },
+  })),
+  on(
+    loadMaterialInformationSuccess,
+    (state: DetailState, { materialDetails }) => ({
+      ...state,
+      detailCase: {
+        ...state.detailCase,
+        materialDetails,
+        materialLoading: false,
+      },
+    })
+  )
+);

@@ -50,6 +50,43 @@
       }
     }
   },
+  "detailView": {
+    "filterPricing": {
+      "title": "Benutzerdefinierter Preis",
+      "label": "Benutzerdefinierter Preis",
+      "hint": "Geben Sie einen Preis ein",
+      "selected": "ausgewählt"
+    },
+    "pricingDetails": {
+      "costDetails": {
+        "label": "Kosten"
+      },
+      "label": "Preis Details",
+      "materialDetails": {
+        "label": "Material",
+        "13digit": "13-stellig",
+        "15digit": "15-stellig",
+        "dimension": "Dimension",
+        "gpsdGroup": "GPSD-Gruppe",
+        "grossWeight": "Bruttogewicht",
+        "materialDescription": "Material Beschreibung",
+        "materialType": "Material Typ",
+        "productHierarchy": "Prod. Hierarchie"
+      },
+      "pricingDetails": {
+        "label": "Preise"
+      },
+      "productionDetails": {
+        "label": "Produktion"
+      },
+      "salesHistory": {
+        "label": "Verkaufshistorie"
+      },
+      "scmDetails": {
+        "label": "SCM"
+      }
+    }
+  },
   "offerView": {
     "offerHeader": {
       "newCase": "Neuen Fall erstellen",
@@ -57,9 +94,6 @@
     }
   },
   "processCaseView": {
-    "processCaseHeader": {
-      "seeOffer": "Angebot ansehen"
-    },
     "quotationDetailsTable": {
       "gspd": "GSPD",
       "info": "Info",
@@ -83,6 +117,9 @@
     }
   },
   "shared": {
+    "caseHeader": {
+      "seeOffer": "Angebot ansehen"
+    },
     "customStatusBar": {
       "addToOfferButton": {
         "addToOffer": "Zum Angebot hinzufügen"

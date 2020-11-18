@@ -45,3 +45,8 @@ export const getOffer = createSelector(
             quotationDetail.info === QuotationInfoEnum.AddedToOffer
         )
 );
+
+export const getSapId = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string => state.quotation.item.sapId
+);

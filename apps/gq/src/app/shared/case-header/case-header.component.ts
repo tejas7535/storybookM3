@@ -1,3 +1,4 @@
+import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -9,12 +10,14 @@ import { ProcessCaseState } from '../../core/store/reducers/process-case/process
 import { getCustomer } from '../../core/store/selectors';
 
 @Component({
-  selector: 'gq-process-case-header',
-  templateUrl: './process-case-header.component.html',
-  styleUrls: ['./process-case-header.component.scss'],
+  selector: 'gq-case-header',
+  templateUrl: './case-header.component.html',
+  styleUrls: ['./case-header.component.scss'],
 })
-export class ProcessCaseHeaderComponent implements OnInit {
+export class CaseHeaderComponent implements OnInit {
   @Input() quotationNumber: string;
+  @Input() sapId: string;
+  @Input() materialNumber15: string;
 
   @Output() readonly toggleOfferDrawer: EventEmitter<
     boolean
@@ -22,7 +25,10 @@ export class ProcessCaseHeaderComponent implements OnInit {
 
   customer$: Observable<Customer>;
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  constructor(
+    private readonly store: Store<ProcessCaseState>,
+    private readonly _location: Location
+  ) {}
 
   public ngOnInit(): void {
     this.customer$ = this.store.pipe(select(getCustomer));
@@ -30,5 +36,8 @@ export class ProcessCaseHeaderComponent implements OnInit {
 
   drawerToggle(): void {
     this.toggleOfferDrawer.emit(true);
+  }
+  backClicked(): void {
+    this._location.back();
   }
 }

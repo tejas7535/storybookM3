@@ -18,13 +18,13 @@
           gdRow="{{ (index % 2) + 1 }} / {{ (index % 2) + 1 }}"
           fxLayout="row"
         >
-          <div fxFlex="40">{{ t(customerDetail[0]) }}:</div>
+          <div fxFlex="40" class="label">{{ t(customerDetail[0]) }}:</div>
           <div class="customer-detail" fxFlex="60">{{ customerDetail[1] }}</div>
         </div>
       </div>
     </div>
     <button fxFlex="10" mat-flat-button>
-      {{ t('details') }}
+      {{ t('details') | uppercase }}
     </button>
   </div>
 </mat-card>

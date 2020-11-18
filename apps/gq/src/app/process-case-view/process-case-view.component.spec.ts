@@ -10,8 +10,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
+import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
-import { ProcessCaseHeaderModule } from './process-case-header/process-case-header.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
@@ -29,9 +29,9 @@ describe('ProcessCaseViewComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        CaseHeaderModule,
         MatSidenavModule,
         OfferDrawerModule,
-        ProcessCaseHeaderModule,
         ProcessCaseViewRoutingModule,
         provideTranslocoTestingModule({}),
         QuotationDetailsTableModule,

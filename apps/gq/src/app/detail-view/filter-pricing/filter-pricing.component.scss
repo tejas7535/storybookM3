@@ -1,0 +1,22 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+mat-card {
+  margin: 20px 5px 20px 10px;
+}
+mat-card-title {
+  color: $schaeffler-carbon-gray;
+  font-size: $schaeffler-h5;
+  font-weight: bold;
+}
+mat-form-field {
+  width: 100%;
+}
+.input-field {
+  font-size: 14px;
+}
+.select {
+  font-weight: bold;
+  margin: 10px;
+  width: 100%;
+}

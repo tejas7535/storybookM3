@@ -3,6 +3,8 @@ import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
+import { AppRoutePath } from '../../../app-route-path.enum';
+
 @Component({
   selector: 'gq-detail-view-button',
   templateUrl: './detail-view-button.component.html',
@@ -34,6 +36,11 @@ export class DetailViewButtonComponent {
   }
 
   showDetailView(): void {
-    this.router.navigate(['/detail-view']);
+    const { materialNumber15 } = this.selections[0];
+    this.router.navigate([AppRoutePath.DetailViewPath], {
+      queryParams: {
+        materialNumber15,
+      },
+    });
   }
 }

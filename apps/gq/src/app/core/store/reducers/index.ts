@@ -9,6 +9,7 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
+import * as fromDetailCase from './detail-case/detail-case.reducer';
 import * as fromProcessCase from './process-case/process-case.reducers';
 
 export interface RouterStateUrl {
@@ -21,12 +22,14 @@ export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   processCase: fromProcessCase.ProcessCaseState;
   case: fromCase.CaseState;
+  detailCase: fromDetailCase.DetailState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   processCase: fromProcessCase.processCaseReducer,
   case: fromCase.createCaseReducer,
+  detailCase: fromDetailCase.detailCaseReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -42,6 +45,10 @@ export const getProcessCaseState = createFeatureSelector<
 >('processCase');
 
 export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
+
+export const getDetailState = createFeatureSelector<fromDetailCase.DetailState>(
+  'detailCase'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {
