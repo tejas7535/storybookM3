@@ -34,26 +34,14 @@ export class EmployeeService {
       .post<EmployeesResponse>(this.EMPLOYEES, employeesRequest)
       .pipe(
         map((employeesResponse) =>
-          this.mapEmployees(employeesResponse.employees, employeesRequest)
+          this.mapEmployees(employeesResponse.employees)
         )
       );
   }
 
-  public mapEmployees(
-    employees: Employee[],
-    request: EmployeesRequest
-  ): Employee[] {
+  public mapEmployees(employees: Employee[]): Employee[] {
     // fix date props
-    const modifiedEmployees = employees.map((employee) => {
-      employee.exitDate = employee.exitDate
-        ? new Date(employee.exitDate)
-        : undefined;
-      employee.terminationDate = employee.terminationDate
-        ? new Date(employee.terminationDate)
-        : undefined;
-
-      return employee;
-    });
+    const modifiedEmployees = this.fixIncomingEmployeeProps(employees);
 
     // create map that contains parent <-> children relations
     const { root, employeeMap } = this.createParentChildRelationFromEmployees(
@@ -72,20 +60,23 @@ export class EmployeeService {
     // flatten map to array
     const result = [...employeeMap.values()].reduce((a, b) => a.concat(b), []);
 
-    // filter former employees and correct number of direct and total subordinates
-    const filteredResult = result
-      .filter((employee) =>
-        this.employeeLeftInTimeRange(employee, request.timeRange)
-      )
-      .map((employee: Employee) => {
-        employee.directSubordinates =
-          employee.directSubordinates - employee.directAttrition;
-        employee.totalSubordinates -= employee.totalAttrition;
+    return result;
+  }
 
-        return employee;
-      });
+  public fixIncomingEmployeeProps(employees: Employee[]): Employee[] {
+    return employees.map((employee) => {
+      employee.exitDate = employee.exitDate
+        ? new Date(employee.exitDate)
+        : undefined;
+      employee.terminationDate = employee.terminationDate
+        ? new Date(employee.terminationDate)
+        : undefined;
+      employee.entryDate = employee.entryDate
+        ? new Date(employee.entryDate)
+        : undefined;
 
-    return filteredResult;
+      return employee;
+    });
   }
 
   public createParentChildRelationFromEmployees(
@@ -115,17 +106,6 @@ export class EmployeeService {
     }
 
     return { root, employeeMap };
-  }
-
-  public employeeLeftInTimeRange(
-    employee: Employee,
-    timeRange: string
-  ): boolean {
-    return (
-      !employee.exitDate ||
-      employee.exitDate.getTime() < +timeRange.split('|')[0] ||
-      employee.exitDate.getTime() > +timeRange.split('|')[1]
-    );
   }
 
   public setNumberOfSubordinates(

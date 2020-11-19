@@ -1,26 +1,33 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
+import { getAttritionDataForEmployee } from '../../core/store/selectors';
+import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
+import { AttritionDialogModule } from '../../shared/attrition-dialog/attrition-dialog.module';
+import { AttritionDialogMeta } from '../../shared/attrition-dialog/models/attrition-dialog-meta.model';
 import { Employee } from '../../shared/models';
 import { OrgChartComponent } from './org-chart.component';
 
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
     detectChanges: false,
-    imports: [MatProgressSpinnerModule],
-    providers: [],
+    imports: [MatProgressSpinnerModule, AttritionDialogModule],
+    providers: [provideMockStore({})],
     declarations: [OrgChartComponent],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -39,6 +46,29 @@ describe('OrgChartComponent', () => {
       expect(
         component['orgChartService'].mapEmployeesToNodes
       ).toHaveBeenCalledWith(employees);
+    });
+  });
+
+  describe('clickout', () => {
+    test('should open dialog with attrition data when attrition icon is clicked', async () => {
+      const mock = ({} as unknown) as AttritionDialogMeta;
+      component['dialog'].open = jest.fn();
+      store.overrideSelector(getAttritionDataForEmployee, mock);
+
+      component.clickout({
+        target: {
+          classList: {
+            contains: (elem: string) => elem === 'employee-node-attrition',
+          },
+          getAttribute: () => '123',
+        },
+      });
+
+      await spectator.fixture.whenStable();
+
+      expect(
+        component['dialog'].open
+      ).toHaveBeenCalledWith(AttritionDialogComponent, { data: mock });
     });
   });
 

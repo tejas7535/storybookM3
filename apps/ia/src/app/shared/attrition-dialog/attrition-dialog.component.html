@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>{{ data.title }}</h2>
+<mat-dialog-content *transloco="let t; read: 'attritionDialog'">
+  <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="30px">
+    <div fxLayout="column">
+      <h6 class="sub-title">{{ t('metaTitle') }}</h6>
+      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>insert_chart</mat-icon>
+        <div>{{ t('attritionRate') }}:</div>
+        <span>{{ data.attritionRate }}%</span>
+      </div>
+      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>person_outline</mat-icon>
+        <div>{{ t('employeesLost') }}:</div>
+        <span>{{ data.employeesLost }}</span>
+      </div>
+      <div class="attrition-elem" fxLayout="row">
+        <div fxLayout="column" fxLayoutAlign="start">
+          <mat-divider [vertical]="true"></mat-divider>
+        </div>
+        <div fxLayout="column">
+          <div>
+            {{ t('naturalTurnover') }}: <span>{{ data.naturalTurnover }}</span>
+          </div>
+          <div>
+            {{ t('forcedLeavers') }}: <span>{{ data.forcedLeavers }}</span>
+          </div>
+          <div>
+            {{ t('unforcedLeavers') }}: <span>{{ data.unforcedLeavers }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>block</mat-icon>
+        <div>{{ t('terminationReceived') }}:</div>
+        <span>{{ data.terminationReceived }}</span>
+      </div>
+      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>person_add</mat-icon>
+        <div>{{ t('employeesAdded') }}:</div>
+        <span>{{ data.employeesAdded }}</span>
+      </div>
+      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
+        <mat-icon>people_outlined</mat-icon>
+        <div>{{ t('openPositions') }}:</div>
+        <span>{{ data.openPositions }}</span>
+      </div>
+    </div>
+    <div fxHide.lt-lg><mat-divider [vertical]="true"></mat-divider></div>
+    <div fxLayout="column">
+      <h6 class="sub-title">{{ t('chartTitle') }}</h6>
+      <div class="chart-container">
+        <schaeffler-under-construction></schaeffler-under-construction>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *transloco="let t; read: 'attritionDialog'">
+  <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
+</mat-dialog-actions>

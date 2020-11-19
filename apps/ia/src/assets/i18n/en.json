@@ -47,5 +47,18 @@
       "rowEmployees": "Employees",
       "rowAttrition": "Attrition"
     }
+  },
+  "attritionDialog": {
+    "close": "Close",
+    "metaTitle": "Attrition",
+    "chartTitle": "Attrition rate",
+    "attritionRate": "Attrition rate",
+    "employeesLost": "Employees lost",
+    "naturalTurnover": "Natural turnover",
+    "forcedLeavers": "Forced leavers",
+    "unforcedLeavers": "Unforced leavers",
+    "terminationReceived": "Termination received",
+    "employeesAdded": "Employees added",
+    "openPositions": "Open positions"
   }
 }

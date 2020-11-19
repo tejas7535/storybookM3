@@ -15,7 +15,7 @@ import {
   LEVEL_2_EMPLOYEE_C,
   LEVEL_3_EMPLOYEE_A,
   ROOT,
-} from '../../../mocks/employees.mock';
+} from '../../../mocks/employees-service.mock';
 import {
   Employee,
   EmployeesRequest,
@@ -100,7 +100,7 @@ describe('EmployeesService', () => {
       }));
       service.setNumberOfSubordinates = jest.fn();
       service.setAttrition = jest.fn();
-      service.employeeLeftInTimeRange = jest.fn(() => true);
+      service.fixIncomingEmployeeProps = jest.fn();
 
       const expected = [
         root,
@@ -111,21 +111,37 @@ describe('EmployeesService', () => {
       ];
 
       const employees: Employee[] = [];
-      const request = new EmployeesRequest(
-        'department a',
-        undefined,
-        undefined,
-        undefined,
-        '1605536578|1605536578'
-      );
 
-      const result = service.mapEmployees(employees, request);
+      const result = service.mapEmployees(employees);
 
       expect(result).toEqual(expected);
       expect(service.createParentChildRelationFromEmployees).toHaveBeenCalled();
       expect(service.setNumberOfSubordinates).toHaveBeenCalled();
       expect(service.setAttrition).toHaveBeenCalled();
-      expect(service.employeeLeftInTimeRange).toHaveBeenCalled();
+      expect(service.fixIncomingEmployeeProps).toHaveBeenCalledWith(employees);
+    });
+  });
+
+  describe('fixIncomingEmployeeProps', () => {
+    test('should fix props', () => {
+      const employees = [root, LEVEL_2_EMPLOYEE_C];
+
+      const result = service.fixIncomingEmployeeProps(employees);
+
+      expect(result).toEqual([
+        root,
+        ({
+          employeeId: '13',
+          parentEmployeeId: '123',
+          exitDate: new Date('2015-10-10'),
+          totalSubordinates: 0,
+          directSubordinates: 0,
+          directAttrition: 0,
+          totalAttrition: 0,
+          entryDate: new Date('2010-10-10'),
+          terminationDate: new Date('2015-08-10'),
+        } as unknown) as Employee,
+      ]);
     });
   });
 

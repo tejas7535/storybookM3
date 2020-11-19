@@ -38,6 +38,8 @@ export const LEVEL_2_EMPLOYEE_C = ({
   directSubordinates: 0,
   directAttrition: 0,
   totalAttrition: 0,
+  entryDate: '2010-10-10',
+  terminationDate: '2015-08-10',
 } as unknown) as Employee;
 
 export const LEVEL_3_EMPLOYEE_A = ({

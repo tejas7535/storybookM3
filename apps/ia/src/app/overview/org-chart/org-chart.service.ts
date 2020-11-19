@@ -84,7 +84,7 @@ export class OrgChartService {
                   <td>${totalAttrition}</td>
                 </tr>
               </tbody>
-            </table><div class="bottom-bar"><i class="icon icon-users employee-node-people left" data-id="${nodeId}"></i><i class="icon icon-bars employee-node-people right" data-id="${nodeId}"></i></div>
+            </table><div class="bottom-bar"><i class="icon icon-users employee-node-people left" data-id="${nodeId}"></i><i class="icon icon-bars employee-node-attrition right" data-id="${nodeId}"></i></div>
           </div>
         `,
       };
