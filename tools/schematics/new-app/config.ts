@@ -115,11 +115,8 @@ export const getE2eConfigurations = (project: string) => ({
 export const getStandardVersionConfigurations = (projectPath: string) => ({
   builder: `@nrwl/workspace:run-commands`,
   options: {
-    commands: [
-      {
-        command: `cd ${projectPath} && npx standard-version --no-verify`,
-      },
-    ],
+    command: 'npx standard-version --no-verify',
+    cwd: `${projectPath}`,
   },
 });
 

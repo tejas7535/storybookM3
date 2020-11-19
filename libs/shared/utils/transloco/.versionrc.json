@@ -1,9 +1,12 @@
 {
   "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(transloco): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "transloco-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

@@ -1,10 +1,12 @@
 {
   "extends": "../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(assets): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "assets-v",
   "skip": {
-    "bump": true,
-    "commit": true,
-    "tag": true
-  },
-  "packageFiles": "../../../package.json",
-  "path": "."
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

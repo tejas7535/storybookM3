@@ -1,9 +1,12 @@
 {
   "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(header): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "header-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }
