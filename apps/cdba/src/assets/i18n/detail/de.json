@@ -1,0 +1,105 @@
+{
+  "shared": {
+    "calculationTable": {
+      "costingDateFrom": "Calculation Date",
+      "costingVariant": "Cost Type",
+      "priceEur": "Cost",
+      "priceEurCurrency": "Currency",
+      "priceUnit": "PU/UM",
+      "plant": "Plant",
+      "quantity": "Quantity",
+      "lotSize": "Lot Size"
+    },
+    "title": "Calculations"
+  },
+  "tabs": {
+    "detail": "Details",
+    "billOfMaterial": "Stückliste",
+    "calculations": "Kalkulationen",
+    "drawings": "Zeichnungen"
+  },
+  "detailTab": {
+    "customer": {
+      "title": "Kunde",
+      "customers": "Kunden",
+      "customerGroup": "Kundengrupppe"
+    },
+    "dimensionAndWeight": {
+      "title": "Abmessungen & Gewicht",
+      "height": "Höhe (H)",
+      "length": "Länge (L)",
+      "volumeCubic": "Kubikvolumen",
+      "weight": "Net. Gewicht",
+      "width": "Breite (B)"
+    },
+    "pricing": {
+      "title": "Preisgestaltung",
+      "pcmSqv": "SQV PCM",
+      "pcmCalculationDate": "SQV PCM Berechnungsdatum",
+      "sqvSapLatestMonth": "SQV SAP",
+      "sqvDate": "SQV Datum",
+      "gpcLatestYear": "GPC",
+      "gpcDate": "GPC Datum",
+      "puUm": "PU / UM",
+      "pricePerUnit": "{{currency}}/ST"
+    },
+    "production": {
+      "title": "Production",
+      "false": "no",
+      "manufacturingProcess": "Manufacturing process",
+      "plant": "Plant",
+      "procurementType": "Procurement Type",
+      "productionTechnology": "Production technology",
+      "purchasePriceValidFrom": "Purchase price valid from",
+      "purchasePriceValidUntil": "Purchase Price valid until",
+      "saleableItem": "Saleable Item",
+      "specialProcurement": "Special Procurement",
+      "supplier": "Supplier",
+      "true": "yes"
+    },
+    "quantities ": {
+      "title": "Quantities",
+      "actualQuantity": "Quantity {{year}}",
+      "budgetQuantity": "Budget Quantity {{year}}",
+      "budgetQuantitySoco": "Budget Quantity {{year}} Soco",
+      "netSales": "Net Sales {{year}}",
+      "pcmQuantity": "PCM Quantity",
+      "plannedQuantity": "Planned Quantity {{year}}"
+    },
+    "sales_and_description": {
+      "title": "Sales & Description",
+      "materialDesignation": "Materialbezeichnung",
+      "materialNumber": "Materialnummer",
+      "materialShortDescription": "Materialkurzbeschreibung",
+      "productLine": "Produktlinie",
+      "rfq": "RFQ-Nummer",
+      "salesOrganization": "Verkaufsorganisation",
+      "projectName": "Projektname",
+      "productDescription": "Produktbeschreibung"
+    }
+  },
+  "bom": {
+    "additionalInformation": {
+      "title": "Zusätzliche Informationen",
+      "calculations": "Kalkulationen",
+      "chart": "Diagramm",
+      "selectionStatus": "Sie haben eine Komponente / Arbeitsgang ohne Folgeelemente ausgewählt.",
+      "selectionHint": "Bitte wählen Sie eine Baugruppe mit mindestens einem Folgeelement für die Diagrammdarstellung aus."
+    },
+    "title": "Bill of Material",
+    "headers": {
+      "totalPricePerPc": "Cost",
+      "currency": "Currency",
+      "materialNumber": "Material Number",
+      "plant": "Plant",
+      "lotsize": "Lot Size",
+      "setupTime": "Setup Time",
+      "cycleTime": "Cycle Time",
+      "toolingFactor": "Tooling Factor",
+      "quantityPerParent": "Quantity Per Parent",
+      "unitOfMeasure": "Einheit",
+      "workCenter": "Arbeitsplatz"
+    }
+  },
+  "errorTitle": "??? | ???"
+}

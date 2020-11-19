@@ -3,11 +3,14 @@
     <div
       class="mat-card-inner"
       fxLayout="column"
-      *transloco="let t; read: 'detail.calculationTable'"
+      *transloco="let t; read: 'detail.shared'"
     >
       <h3>{{ t('title') }}</h3>
 
-      <div class="table-container">
+      <div
+        class="table-container"
+        *transloco="let t; read: 'detail.shared.calculationTable'"
+      >
         <cdba-calculations-table
           [rowData]="calculations$ | async"
           [selectedNodeId]="selectedNodeId$ | async"

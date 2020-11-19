@@ -35,7 +35,7 @@ import {
 } from '../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import {
-  COLUMN_DEFINITIONS,
+  ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
   DEFAULT_COLUMN_STATE,
   STATUS_BAR_CONFIG,
@@ -92,31 +92,38 @@ export class ReferenceTypesTableComponent implements OnChanges {
   /**
    * Identify necessary column definitions on provided data.
    */
-  private static getUpdatedDefaultColumnDefinitions(
+  private getUpdatedDefaultColumnDefinitions(
     update: ReferenceType[]
   ): { [key: string]: ColDef } {
     const defaultColumnDefinitions: { [key: string]: ColDef } = {};
 
-    Object.keys(COLUMN_DEFINITIONS).forEach((column: string) => {
-      const showColumn =
-        update.length > 0 &&
-        (update[0] as any)[columnDefinitionToReferenceTypeProp(column)] !==
-          undefined;
+    Object.keys(this.columnDefinitionService.COLUMN_DEFINITIONS).forEach(
+      (column: string) => {
+        const showColumn =
+          update.length > 0 &&
+          (update[0] as any)[columnDefinitionToReferenceTypeProp(column)] !==
+            undefined;
 
-      if (showColumn || column === 'checkbox') {
-        defaultColumnDefinitions[column] = COLUMN_DEFINITIONS[column];
+        if (showColumn || column === 'checkbox') {
+          defaultColumnDefinitions[
+            column
+          ] = this.columnDefinitionService.COLUMN_DEFINITIONS[column];
+        }
       }
-    });
+    );
 
     return defaultColumnDefinitions;
   }
 
-  public constructor(private readonly agGridStateService: AgGridStateService) {}
+  public constructor(
+    private readonly agGridStateService: AgGridStateService,
+    private readonly columnDefinitionService: ColumnDefinitionService
+  ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData) {
       // get updated default column definitions
-      const updatedDefaultColumnDefinitions = ReferenceTypesTableComponent.getUpdatedDefaultColumnDefinitions(
+      const updatedDefaultColumnDefinitions = this.getUpdatedDefaultColumnDefinitions(
         changes.rowData.currentValue
       );
 

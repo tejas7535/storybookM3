@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -19,13 +20,14 @@ import { DetailComponent } from './detail.component';
   declarations: [DetailComponent],
   imports: [
     SharedModule,
+    SharedTranslocoModule,
     DetailRoutingModule,
     MatTabsModule,
-    SharedTranslocoModule,
     StoreModule.forFeature('detail', detailReducer),
     MatIconModule,
     EffectsModule.forFeature([DetailEffects]),
     MaterialNumberModule,
   ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],
 })
 export class DetailModule {}
