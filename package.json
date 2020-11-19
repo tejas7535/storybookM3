@@ -37,6 +37,7 @@
     "dep-graph": "nx dep-graph",
     "help": "nx help",
     "generate-readme": "md-magic --path ./docs/*_*.md --config ./markdown.js",
+    "generate-changelog": "node ./tools/npm-scripts/changelog.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
     "postinstall": "npm run ngcc && npm run generate-readme && npm run version && node ./decorate-angular-cli.js",
@@ -169,7 +170,8 @@
     "tslint-config-airbnb": "5.11.2",
     "tslint-config-prettier": "1.18.0",
     "typescript": "4.0.5",
-    "webpack-bundle-analyzer": "4.1.0"
+    "webpack-bundle-analyzer": "4.1.0",
+    "yargs": "16.1.1"
   },
   "config": {
     "commitizen": {
