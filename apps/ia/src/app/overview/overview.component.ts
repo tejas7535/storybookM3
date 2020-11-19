@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { EmployeeState } from '../core/store/reducers/employee/employee.reducer';
-import { getEmployees, getEmployeesLoading } from '../core/store/selectors';
+import {
+  getEmployeesLoading,
+  getFilteredEmployees,
+} from '../core/store/selectors';
 import { Employee } from '../shared/models';
 
 @Component({
@@ -21,7 +24,7 @@ export class OverviewComponent implements OnInit {
   public constructor(private readonly store: Store<EmployeeState>) {}
 
   public ngOnInit(): void {
-    this.employees$ = this.store.pipe(select(getEmployees));
+    this.employees$ = this.store.pipe(select(getFilteredEmployees));
     this.isLoading$ = this.store.pipe(select(getEmployeesLoading));
   }
 }

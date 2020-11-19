@@ -24,7 +24,7 @@
       *transloco="let t; read: 'filters.regionAndLocation'"
     >
       <h6 class="m-b-5">{{ t('title') }}</h6>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
         <ia-autocomplete-input
           [filter]="regionsAndSubRegions$ | ngrxPush"
           [label]="t('regionOrSubRegionLabel')"
@@ -49,7 +49,7 @@
   <div fxFlex.lt-lg="100%" *transloco="let t; read: 'filters.periodOfTime'">
     <div fxLayout="column" fxLayoutAlign="start">
       <h6 class="m-b-5">{{ t('title') }}</h6>
-      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="16px">
+      <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="16px">
         <ia-select-input
           [options]="timePeriods$ | ngrxPush"
           [selectedOption]="selectedTimePeriod$ | ngrxPush"
