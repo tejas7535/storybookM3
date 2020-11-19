@@ -4,8 +4,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
-
 import { SharedModule } from '../../shared/shared.module';
 import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
@@ -22,7 +20,6 @@ import { ReferenceTypesTableComponent } from './reference-types-table.component'
     ]),
     MatButtonModule,
     MatIconModule,
-    SharedTranslocoModule,
     CustomStatusBarModule,
   ],
   exports: [ReferenceTypesTableComponent],

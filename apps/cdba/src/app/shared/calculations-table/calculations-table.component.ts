@@ -24,7 +24,7 @@ import { AgGridStateService } from '../services/ag-grid-state.service';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {
-  COLUMN_DEFINITIONS,
+  ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
   DEFAULT_COLUMN_STATE,
   FRAMEWORK_COMPONENTS,
@@ -82,24 +82,31 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Identify necessary column definitions on provided data.
    */
-  private static getUpdatedDefaultColumnDefinitions(
+  private getUpdatedDefaultColumnDefinitions(
     update: Calculation[]
   ): { [key: string]: ColDef } {
     const defaultColumnDefinitions: { [key: string]: ColDef } = {};
 
-    Object.keys(COLUMN_DEFINITIONS).forEach((column: string) => {
-      const showColumn =
-        update.length > 0 && (update[0] as any)[column] !== undefined;
+    Object.keys(this.columnDefinitionService.COLUMN_DEFINITIONS).forEach(
+      (column: string) => {
+        const showColumn =
+          update.length > 0 && (update[0] as any)[column] !== undefined;
 
-      if (showColumn || column === 'checkbox') {
-        defaultColumnDefinitions[column] = COLUMN_DEFINITIONS[column];
+        if (showColumn || column === 'checkbox') {
+          defaultColumnDefinitions[
+            column
+          ] = this.columnDefinitionService.COLUMN_DEFINITIONS[column];
+        }
       }
-    });
+    );
 
     return defaultColumnDefinitions;
   }
 
-  public constructor(private readonly agGridStateService: AgGridStateService) {}
+  public constructor(
+    private readonly agGridStateService: AgGridStateService,
+    private readonly columnDefinitionService: ColumnDefinitionService
+  ) {}
 
   ngOnInit(): void {
     this.setTableProperties(this.minified);
@@ -108,7 +115,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData && changes.rowData.currentValue) {
       // get updated default column definitions
-      const updatedDefaultColumnDefinitions = CalculationsTableComponent.getUpdatedDefaultColumnDefinitions(
+      const updatedDefaultColumnDefinitions = this.getUpdatedDefaultColumnDefinitions(
         changes.rowData.currentValue
       );
 

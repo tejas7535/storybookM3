@@ -28,7 +28,7 @@ import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.modu
 import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
-import { COLUMN_DEFINITIONS } from './config';
+import { ColumnDefinitionService } from './config';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -38,6 +38,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('CalculationsTableComponent', () => {
   let component: CalculationsTableComponent;
   let fixture: ComponentFixture<CalculationsTableComponent>;
+  let columDefinitionService: ColumnDefinitionService;
 
   let stateService: AgGridStateService;
 
@@ -59,6 +60,8 @@ describe('CalculationsTableComponent', () => {
       ],
       declarations: [CalculationsTableComponent],
       providers: [
+        ColumnDefinitionService,
+
         {
           provide: AgGridStateService,
           useValue: {
@@ -76,6 +79,7 @@ describe('CalculationsTableComponent', () => {
     fixture.detectChanges();
 
     stateService = TestBed.inject(AgGridStateService);
+    columDefinitionService = TestBed.inject(ColumnDefinitionService);
   });
 
   it('should create', () => {
@@ -86,9 +90,7 @@ describe('CalculationsTableComponent', () => {
     it('should only contain columns that are part of provided update', () => {
       const mock = CALCULATIONS_TYPE_MOCK;
 
-      const result = CalculationsTableComponent[
-        'getUpdatedDefaultColumnDefinitions'
-      ](mock);
+      const result = component['getUpdatedDefaultColumnDefinitions'](mock);
 
       let size: any[] = [];
 
@@ -97,14 +99,20 @@ describe('CalculationsTableComponent', () => {
       });
 
       const mapDefaultColumnDefinitions = new Map<string, string>();
-      Object.keys(COLUMN_DEFINITIONS).forEach((key: string) => {
-        mapDefaultColumnDefinitions.set(key, key);
-      });
+      Object.keys(columDefinitionService.COLUMN_DEFINITIONS).forEach(
+        (key: string) => {
+          mapDefaultColumnDefinitions.set(key, key);
+        }
+      );
 
       expect(Object.keys(result).length).toBeGreaterThanOrEqual(9);
       size.forEach((elem: string) => {
         if (!result[mapDefaultColumnDefinitions.get(elem)]) {
-          expect(Object.keys(COLUMN_DEFINITIONS).includes(elem)).toBeFalsy();
+          expect(
+            Object.keys(columDefinitionService.COLUMN_DEFINITIONS).includes(
+              elem
+            )
+          ).toBeFalsy();
         } else {
           expect(result[mapDefaultColumnDefinitions.get(elem)]).toBeDefined();
         }
@@ -123,9 +131,7 @@ describe('CalculationsTableComponent', () => {
 
   describe('ngOnChanges', () => {
     beforeEach(() => {
-      CalculationsTableComponent[
-        'getUpdatedDefaultColumnDefinitions'
-      ] = jest.fn(() => ({}));
+      component['getUpdatedDefaultColumnDefinitions'] = jest.fn(() => ({}));
       component['setColumnDefinitions'] = jest.fn();
     });
 
@@ -138,7 +144,7 @@ describe('CalculationsTableComponent', () => {
       expect(stateService.getColumnState).toHaveBeenCalled();
       expect(component['setColumnDefinitions']).toHaveBeenCalled();
       expect(
-        CalculationsTableComponent['getUpdatedDefaultColumnDefinitions']
+        component['getUpdatedDefaultColumnDefinitions']
       ).toHaveBeenCalled();
     });
 
@@ -150,7 +156,7 @@ describe('CalculationsTableComponent', () => {
 
       expect(component['setColumnDefinitions']).not.toHaveBeenCalled();
       expect(
-        CalculationsTableComponent['getUpdatedDefaultColumnDefinitions']
+        component['getUpdatedDefaultColumnDefinitions']
       ).not.toHaveBeenCalled();
     });
 

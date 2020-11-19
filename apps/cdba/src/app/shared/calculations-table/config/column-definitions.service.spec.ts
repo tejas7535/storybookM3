@@ -1,5 +1,11 @@
+import { TestBed } from '@angular/core/testing';
+
+import { configureTestSuite } from 'ng-bullet';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import * as utils from '../../table/column-utils';
-import { COLUMN_DEFINITIONS } from './column-definitions';
+import { ColumnDefinitionService } from './column-definitions.service';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -13,8 +19,21 @@ jest.mock('../../table/column-utils', () => ({
 }));
 
 describe('ColumnDefinitions', () => {
-  it('should call value getter methods', () => {
-    const columnDefinitions = COLUMN_DEFINITIONS;
+  let service: ColumnDefinitionService;
+
+  configureTestSuite(() => {
+    TestBed.configureTestingModule({
+      imports: [provideTranslocoTestingModule({})],
+      providers: [ColumnDefinitionService],
+    });
+  });
+
+  beforeEach(() => {
+    service = TestBed.inject(ColumnDefinitionService);
+  });
+
+  it('should call value getter and format methods', () => {
+    const columnDefinitions = service.COLUMN_DEFINITIONS;
 
     Object.keys(columnDefinitions).forEach((column) => {
       if (columnDefinitions[column].valueGetter) {

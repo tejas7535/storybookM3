@@ -24,7 +24,7 @@ import { columnDefinitionToReferenceTypeProp } from '../../shared/table';
 import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
-import { COLUMN_DEFINITIONS } from './config';
+import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -35,6 +35,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('ReferenceTypesTableComponent', () => {
   let component: ReferenceTypesTableComponent;
   let fixture: ComponentFixture<ReferenceTypesTableComponent>;
+  let columDefinitionService: ColumnDefinitionService;
 
   let stateService: AgGridStateService;
 
@@ -54,6 +55,7 @@ describe('ReferenceTypesTableComponent', () => {
       ],
       declarations: [ReferenceTypesTableComponent],
       providers: [
+        ColumnDefinitionService,
         {
           provide: AgGridStateService,
           useValue: {
@@ -71,6 +73,7 @@ describe('ReferenceTypesTableComponent', () => {
     fixture.detectChanges();
 
     stateService = TestBed.inject(AgGridStateService);
+    columDefinitionService = TestBed.inject(ColumnDefinitionService);
   });
 
   it('should create', () => {
@@ -86,9 +89,7 @@ describe('ReferenceTypesTableComponent', () => {
       delete mock.netSales;
       delete mock.productLine;
 
-      const result = ReferenceTypesTableComponent[
-        'getUpdatedDefaultColumnDefinitions'
-      ](update);
+      const result = component['getUpdatedDefaultColumnDefinitions'](update);
 
       let size: any[] = [];
 
@@ -97,17 +98,23 @@ describe('ReferenceTypesTableComponent', () => {
       });
 
       const mapDefaultColumnDefinitions = new Map<string, string>();
-      Object.keys(COLUMN_DEFINITIONS).forEach((key: string) => {
-        mapDefaultColumnDefinitions.set(
-          columnDefinitionToReferenceTypeProp(key),
-          key
-        );
-      });
+      Object.keys(columDefinitionService.COLUMN_DEFINITIONS).forEach(
+        (key: string) => {
+          mapDefaultColumnDefinitions.set(
+            columnDefinitionToReferenceTypeProp(key),
+            key
+          );
+        }
+      );
 
       expect(Object.keys(result).length).toBeGreaterThanOrEqual(size.length);
       size.forEach((elem: string) => {
         if (!result[mapDefaultColumnDefinitions.get(elem)]) {
-          expect(Object.keys(COLUMN_DEFINITIONS).includes(elem)).toBeFalsy();
+          expect(
+            Object.keys(columDefinitionService.COLUMN_DEFINITIONS).includes(
+              elem
+            )
+          ).toBeFalsy();
         } else {
           expect(result[mapDefaultColumnDefinitions.get(elem)]).toBeDefined();
         }
@@ -118,9 +125,7 @@ describe('ReferenceTypesTableComponent', () => {
 
   describe('ngOnChanges', () => {
     beforeEach(() => {
-      ReferenceTypesTableComponent[
-        'getUpdatedDefaultColumnDefinitions'
-      ] = jest.fn(() => ({}));
+      component['getUpdatedDefaultColumnDefinitions'] = jest.fn(() => ({}));
       component['setColumnDefinitions'] = jest.fn();
     });
 
@@ -133,7 +138,7 @@ describe('ReferenceTypesTableComponent', () => {
       expect(stateService.getColumnState).toHaveBeenCalled();
       expect(component['setColumnDefinitions']).toHaveBeenCalled();
       expect(
-        ReferenceTypesTableComponent['getUpdatedDefaultColumnDefinitions']
+        component['getUpdatedDefaultColumnDefinitions']
       ).toHaveBeenCalled();
     });
 
@@ -145,7 +150,7 @@ describe('ReferenceTypesTableComponent', () => {
 
       expect(component['setColumnDefinitions']).not.toHaveBeenCalled();
       expect(
-        ReferenceTypesTableComponent['getUpdatedDefaultColumnDefinitions']
+        component['getUpdatedDefaultColumnDefinitions']
       ).not.toHaveBeenCalled();
     });
   });
