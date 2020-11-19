@@ -66,6 +66,11 @@ def isNightly() {
 def defineBuildBase() {
     if (isAppRelease() || isLibsRelease()) {
         latestTag = getLatestGitTag("${env.RELEASE_SCOPE}")
+
+        buildBase = sh (
+            script: "git rev-list -n 1 ${latestTag}",
+            returnStdout: true
+        ).trim()
     } else {
         buildBase = sh (
             script: 'git merge-base origin/master HEAD^',
