@@ -1,10 +1,12 @@
 {
   "extends": "../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(cypress-utils): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "cypress-utils-v",
   "skip": {
-    "bump": true,
-    "commit": true,
-    "tag": true
-  },
-  "packageFiles": "../../../package.json",
-  "path": "."
+    "bump": false,
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

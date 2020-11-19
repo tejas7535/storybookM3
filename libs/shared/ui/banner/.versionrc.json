@@ -1,9 +1,12 @@
 {
   "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(banner): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "banner-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

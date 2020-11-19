@@ -1,9 +1,12 @@
 {
   "extends": "../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(helloworld-azure): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "hellworld-azure-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

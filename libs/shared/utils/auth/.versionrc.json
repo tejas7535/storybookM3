@@ -1,9 +1,12 @@
 {
   "extends": "../../../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(auth): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "auth-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }

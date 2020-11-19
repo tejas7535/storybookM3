@@ -1,9 +1,12 @@
 {
   "extends": "../../.versionrc.json",
+  "path": ".",
+  "releaseCommitMessageFormat": "chore(mac): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "mac-v",
   "skip": {
     "bump": false,
-    "commit": true,
-    "tag": true
-  },
-  "path": "."
+    "changelog": false,
+    "commit": false,
+    "tag": false
+  }
 }
