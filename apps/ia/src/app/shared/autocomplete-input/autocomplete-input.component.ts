@@ -38,6 +38,7 @@ export class AutocompleteInputComponent
     } else {
       this.inputControl.enable();
     }
+    this.errorStateMatcher = new InputErrorStateMatcher(this.filter.options);
   }
 
   get filter(): Filter {
@@ -62,7 +63,6 @@ export class AutocompleteInputComponent
       startWith(''),
       map((value) => this.filterOptions(value))
     );
-    this.errorStateMatcher = new InputErrorStateMatcher(this.filter.options);
   }
 
   public ngAfterViewInit(): void {
