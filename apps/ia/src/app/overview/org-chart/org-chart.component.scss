@@ -7,6 +7,16 @@
     height: 700px;
   }
 
+  ::ng-deep .node {
+    cursor: default !important;
+    .node-rect {
+      cursor: default !important;
+    }
+    .node-button-circle {
+      cursor: pointer;
+    }
+  }
+
   ::ng-deep .node-foreign-object {
     overflow: visible !important;
   }
@@ -90,6 +100,7 @@
 
       .icon {
         color: $schaeffler-gray-7;
+        cursor: pointer;
         font-size: 24px;
         height: 24px;
         width: 24px;
