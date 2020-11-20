@@ -100,11 +100,11 @@
     "zone.js": "0.11.3"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "0.1100.1",
+    "@angular-devkit/build-angular": "0.1100.2",
     "@angular-devkit/build-ng-packagr": "0.1002.0",
-    "@angular-devkit/core": "11.0.1",
-    "@angular-devkit/schematics": "11.0.1",
-    "@angular/cli": "11.0.1",
+    "@angular-devkit/core": "11.0.2",
+    "@angular-devkit/schematics": "11.0.2",
+    "@angular/cli": "11.0.2",
     "@angular/compiler-cli": "11.0.0",
     "@angular/language-service": "11.0.0",
     "@babel/core": "7.12.3",
