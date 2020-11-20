@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
@@ -60,6 +61,9 @@ const azureConfig = new AzureConfig(
 
     // Tabs
     MatTabsModule,
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   exports: [AppComponent],
 })
