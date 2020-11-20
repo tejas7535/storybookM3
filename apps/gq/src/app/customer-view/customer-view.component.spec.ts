@@ -1,4 +1,3 @@
-import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -7,33 +6,30 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
-import { DetailViewComponent } from './detail-view.component';
-import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
-import { PricingDetailsModule } from './pricing-details/pricing-details.module';
+import { CustomerInformationModule } from './customer-information/customer-information.module';
+import { CustomerViewComponent } from './customer-view.component';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 
-describe('DetailViewComponent', () => {
-  let component: DetailViewComponent;
-  let spectator: Spectator<DetailViewComponent>;
+describe('CustomerViewComponent', () => {
+  let component: CustomerViewComponent;
+  let spectator: Spectator<CustomerViewComponent>;
 
   const createComponent = createComponentFactory({
-    component: DetailViewComponent,
+    component: CustomerViewComponent,
     detectChanges: false,
     imports: [
       BrowserAnimationsModule,
       CaseHeaderModule,
-      FilterPricingModule,
+      CustomerInformationModule,
       OfferDrawerModule,
-      MatButtonModule,
       MatSidenavModule,
-      PricingDetailsModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [DetailViewComponent],
+    declarations: [CustomerViewComponent],
   });
 
   beforeEach(() => {

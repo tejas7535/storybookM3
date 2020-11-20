@@ -15,9 +15,11 @@ describe('Autocomplete Actions', () => {
     });
   });
   test('loadMaterialInformationFailure', () => {
-    const action = loadMaterialInformationFailure();
+    const errorMessage = 'error';
+    const action = loadMaterialInformationFailure({ errorMessage });
 
     expect(action).toEqual({
+      errorMessage,
       type: '[Detail Case] Load Material Information from Endpoint Failure',
     });
   });

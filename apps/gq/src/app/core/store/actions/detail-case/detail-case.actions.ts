@@ -7,7 +7,8 @@ export const loadMaterialInformation = createAction(
   props<{ materialNumber15: string }>()
 );
 export const loadMaterialInformationFailure = createAction(
-  '[Detail Case] Load Material Information from Endpoint Failure'
+  '[Detail Case] Load Material Information from Endpoint Failure',
+  props<{ errorMessage: string }>()
 );
 export const loadMaterialInformationSuccess = createAction(
   '[Detail Case] Load Material Information from Endpoint Success',

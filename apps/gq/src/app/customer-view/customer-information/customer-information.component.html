@@ -1,0 +1,55 @@
+<mat-card>
+  <div *transloco="let t; read: 'customerView'">
+    <h6>{{ t('title') }}</h6>
+    <div>
+      <div>
+        <span>{{ t('customerId') }}: </span>{{ customer.id }}
+      </div>
+      <div>
+        <span>{{ t('customer') }}: </span>{{ customer.name }}
+      </div>
+      <div>
+        <span>{{ t('customerSegmentation') }}: </span>
+      </div>
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('incoterms') }}: </span>{{ customer.incoterms }}
+      </div>
+      <div>
+        <span>{{ t('paymentTerms') }}:</span> {{ customer.paymentTerms }}
+      </div>
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccount.id }} |
+        {{ customer.keyAccount.name }}
+      </div>
+      <div>
+        <span>{{ t('subKeyAccount') }}:</span> {{ customer.subKeyAccount.id }} |
+        {{ customer.subKeyAccount.name }}
+      </div>
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('region') }}: </span>{{ customer.region }}
+      </div>
+      <div>
+        <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
+      </div>
+      <div>
+        <span>{{ t('country') }}: </span>{{ customer.country }}
+      </div>
+      <div>
+        <span>{{ t('sectorManagement') }}: </span
+        >{{ customer.sectorManagement }}
+      </div>
+      <div>
+        <span>{{ t('subSector') }}: </span>{{ customer.subSector }}
+      </div>
+    </div>
+  </div>
+</mat-card>

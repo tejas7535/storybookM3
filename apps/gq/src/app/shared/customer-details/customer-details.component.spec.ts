@@ -1,13 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { configureTestSuite } from 'ng-bullet';
+import { SharedModule } from '..';
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
-
-import { SharedModule } from '../index';
 import { CustomerDetailsComponent } from './customer-details.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -24,9 +25,10 @@ describe('CustomerDetailsComponent', () => {
       declarations: [CustomerDetailsComponent],
       imports: [
         SharedModule,
-        provideTranslocoTestingModule({}),
         MatCardModule,
         MatButtonModule,
+        provideTranslocoTestingModule({}),
+        RouterTestingModule,
       ],
     });
   });

@@ -34,8 +34,8 @@ export class DetailCaseEffects {
           routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0
       ),
       map((routerState) => routerState.queryParams['materialNumber15']),
-      filter((materialIdentifier: any) => {
-        if (materialIdentifier === undefined) {
+      filter((materialIdentifier: string) => {
+        if (!materialIdentifier) {
           this.router.navigate(['not-found']);
         }
 
@@ -57,7 +57,9 @@ export class DetailCaseEffects {
           map((options: MaterialDetails) =>
             loadMaterialInformationSuccess({ materialDetails: options })
           ),
-          catchError((_e) => of(loadMaterialInformationFailure()))
+          catchError((errorMessage) =>
+            of(loadMaterialInformationFailure({ errorMessage }))
+          )
         )
       )
     )

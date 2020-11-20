@@ -5,5 +5,6 @@ export const DETAIL_STATE_MOCK: DetailState = {
     materialDetails: undefined,
     materialLoading: undefined,
     materialNumber15: undefined,
+    errorMessage: undefined,
   },
 };

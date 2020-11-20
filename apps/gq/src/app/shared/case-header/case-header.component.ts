@@ -18,6 +18,7 @@ export class CaseHeaderComponent implements OnInit {
   @Input() quotationNumber: string;
   @Input() sapId: string;
   @Input() materialNumber15: string;
+  @Input() customerName: string;
 
   @Output() readonly toggleOfferDrawer: EventEmitter<
     boolean
@@ -27,7 +28,7 @@ export class CaseHeaderComponent implements OnInit {
 
   constructor(
     private readonly store: Store<ProcessCaseState>,
-    private readonly _location: Location
+    private readonly location: Location
   ) {}
 
   public ngOnInit(): void {
@@ -38,6 +39,6 @@ export class CaseHeaderComponent implements OnInit {
     this.toggleOfferDrawer.emit(true);
   }
   backClicked(): void {
-    this._location.back();
+    this.location.back();
   }
 }

@@ -12,6 +12,7 @@ export interface DetailState {
     materialLoading: boolean;
     materialNumber15: string;
     materialDetails: MaterialDetails;
+    errorMessage: string;
   };
 }
 
@@ -20,6 +21,7 @@ export const initialState: DetailState = {
     materialLoading: false,
     materialDetails: undefined,
     materialNumber15: undefined,
+    errorMessage: undefined,
   },
 };
 
@@ -33,14 +35,18 @@ export const detailCaseReducer = createReducer(
       materialLoading: true,
     },
   })),
-  on(loadMaterialInformationFailure, (state: DetailState) => ({
-    ...state,
-    detailCase: {
-      ...state.detailCase,
-      materialLoading: false,
-      materialDetails: undefined,
-    },
-  })),
+  on(
+    loadMaterialInformationFailure,
+    (state: DetailState, { errorMessage }) => ({
+      ...state,
+      detailCase: {
+        ...state.detailCase,
+        errorMessage,
+        materialLoading: false,
+        materialDetails: undefined,
+      },
+    })
+  ),
   on(
     loadMaterialInformationSuccess,
     (state: DetailState, { materialDetails }) => ({

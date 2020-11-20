@@ -98,7 +98,9 @@ export class ProcessCaseEffect {
       map((action: any) => action.payload.routerState),
       filter(
         (routerState) =>
-          routerState.url.indexOf(AppRoutePath.ProcessCaseViewPath) >= 0
+          routerState.url.indexOf(AppRoutePath.ProcessCaseViewPath) >= 0 ||
+          routerState.url.indexOf(AppRoutePath.CustomerViewPath) >= 0 ||
+          routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0
       ),
       map((routerState) =>
         ProcessCaseEffect.mapQueryParamsToIdentifier(routerState.queryParams)
