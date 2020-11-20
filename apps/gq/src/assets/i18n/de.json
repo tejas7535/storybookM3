@@ -50,6 +50,21 @@
       }
     }
   },
+  "customerView": {
+    "country": "Land",
+    "customer": "Kunde",
+    "customerId": "Kunden ID",
+    "customerSegmentation": "Kunden Segmentierung (A,B,C)",
+    "incoterms": "Incoterms",
+    "keyAccount": "Keyaccount",
+    "paymentTerms": "Payment Terms",
+    "region": "Region 1",
+    "subKeyAccount": "SubKeyAccount",
+    "sectorManagement": "Sector Management",
+    "subRegion": "Sub-Region 1",
+    "subSector": "Subsector | Subsector 1",
+    "title": "Kunde"
+  },
   "detailView": {
     "filterPricing": {
       "title": "Benutzerdefinierter Preis",

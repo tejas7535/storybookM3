@@ -1,0 +1,30 @@
+<mat-drawer-container
+  class="container"
+  fxFlex
+  fxLayout="column"
+  fxLayoutAlign="start center"
+  fxLayoutGap="20px"
+  [hasBackdrop]="false"
+>
+  <mat-drawer-content
+    fxLayout="column"
+    fxFlexFill
+    *ngIf="customer$ | async as customer"
+  >
+    <gq-case-header
+      [customerName]="customer.name"
+      (toggleOfferDrawer)="drawer.toggle()"
+    ></gq-case-header>
+
+    <gq-customer-information [customer]="customer"></gq-customer-information>
+  </mat-drawer-content>
+  <mat-drawer #drawer position="end" (opened)="getOffer()">
+    <gq-offer-drawer
+      fxLayout="column"
+      fxFlexFill
+      *ngIf="offer$ | async"
+      [rowData]="offer$ | async"
+      (toggleOfferDrawer)="drawer.toggle()"
+    ></gq-offer-drawer>
+  </mat-drawer>
+</mat-drawer-container>

@@ -1,7 +1,5 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -9,20 +7,19 @@ import { MaterialDetailsComponent } from './material-details.component';
 
 describe('MaterialDetailsComponent', () => {
   let component: MaterialDetailsComponent;
-  let fixture: ComponentFixture<MaterialDetailsComponent>;
+  let spectator: Spectator<MaterialDetailsComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [MaterialDetailsComponent],
-      imports: [provideTranslocoTestingModule({})],
-      providers: [provideMockStore({})],
-    });
+  const createComponent = createComponentFactory({
+    component: MaterialDetailsComponent,
+    detectChanges: false,
+    imports: [provideTranslocoTestingModule({})],
+    providers: [provideMockStore({})],
+    declarations: [MaterialDetailsComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MaterialDetailsComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {

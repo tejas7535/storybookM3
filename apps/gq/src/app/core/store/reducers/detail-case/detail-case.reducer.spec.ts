@@ -34,7 +34,8 @@ describe('DetailCase Reducer', () => {
   });
   describe('loadMaterialInformationFailure', () => {
     test('should set materialInformation loading and materialDetails undefined', () => {
-      const action = loadMaterialInformationFailure();
+      const errorMessage = 'This is an error message';
+      const action = loadMaterialInformationFailure({ errorMessage });
 
       const state = detailCaseReducer(DETAIL_STATE_MOCK, action);
 

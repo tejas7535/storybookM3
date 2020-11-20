@@ -1,13 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CUSTOMER_MOCK } from '../../../testing/mocks';
 import { CustomerDetailsModule } from '../customer-details/customer-details.module';
 import { CaseHeaderComponent } from './case-header.component';
 
@@ -18,35 +17,25 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('ProcessCaseHeaderComponent', () => {
   let component: CaseHeaderComponent;
-  let fixture: ComponentFixture<CaseHeaderComponent>;
+  let spectator: Spectator<CaseHeaderComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CaseHeaderComponent],
-      imports: [
-        MatCardModule,
-        MatIconModule,
-        provideTranslocoTestingModule({}),
-        CustomerDetailsModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            processCase: {
-              customer: {
-                item: CUSTOMER_MOCK,
-              },
-            },
-          },
-        }),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: CaseHeaderComponent,
+    detectChanges: false,
+    imports: [
+      CustomerDetailsModule,
+      MatCardModule,
+      MatIconModule,
+      provideTranslocoTestingModule({}),
+      RouterTestingModule,
+    ],
+    providers: [provideMockStore({})],
+    declarations: [CaseHeaderComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CaseHeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {
@@ -63,10 +52,10 @@ describe('ProcessCaseHeaderComponent', () => {
   });
   describe('backClicked', () => {
     test('backClicked', () => {
-      component['_location'].back = jest.fn();
+      component['location'].back = jest.fn();
 
       component.backClicked();
-      expect(component['_location'].back).toHaveBeenCalledTimes(1);
+      expect(component['location'].back).toHaveBeenCalledTimes(1);
     });
   });
 });

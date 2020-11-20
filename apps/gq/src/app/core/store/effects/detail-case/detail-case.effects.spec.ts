@@ -1,12 +1,11 @@
-import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import {
   loadMaterialInformation,
@@ -18,33 +17,34 @@ import { MaterialDetailsService } from '../../../../detail-view/services/materia
 import { DetailCaseEffects } from './detail-case.effects';
 
 describe('Create Case Effects', () => {
+  let spectator: SpectatorService<DetailCaseEffects>;
+
   let action: any;
   let actions$: any;
   let effects: DetailCaseEffects;
   let materialDetailsService: MaterialDetailsService;
   let router: Router;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      providers: [
-        DetailCaseEffects,
-        provideMockActions(() => actions$),
-        {
-          provide: MaterialDetailsService,
-          useValue: {
-            loadMaterials: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: DetailCaseEffects,
+    imports: [RouterTestingModule.withRoutes([])],
+    providers: [
+      provideMockActions(() => actions$),
+      {
+        provide: MaterialDetailsService,
+        useValue: {
+          loadMaterials: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    effects = TestBed.inject(DetailCaseEffects);
-    materialDetailsService = TestBed.inject(MaterialDetailsService);
-    router = TestBed.inject(Router);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    effects = spectator.inject(DetailCaseEffects);
+    materialDetailsService = spectator.inject(MaterialDetailsService);
+    router = spectator.inject(Router);
   });
 
   describe('getMaterial$', () => {
@@ -119,11 +119,10 @@ describe('Create Case Effects', () => {
     });
 
     test('should return loadMaterialFailure on REST error', () => {
-      const error = new Error('damn');
       actions$ = hot('-a', { a: action });
-
-      const result = loadMaterialInformationFailure();
-      const response = cold('-#|', undefined, error);
+      const errorMessage = ' error';
+      const result = loadMaterialInformationFailure({ errorMessage });
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       materialDetailsService.loadMaterials = jest.fn(() => response);

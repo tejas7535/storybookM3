@@ -34,6 +34,13 @@ export const appRoutePaths: Routes = [
       import('./offer-view/offer-view.module').then((m) => m.OfferViewModule),
   },
   {
+    path: AppRoutePath.CustomerViewPath,
+    loadChildren: () =>
+      import('./customer-view/customer-view.module').then(
+        (m) => m.CustomerViewModule
+      ),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),

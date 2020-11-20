@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
+import { Router } from '@angular/router';
 
+import { AppRoutePath } from '../../app-route-path.enum';
 import { Customer } from '../../core/store/models';
 
 @Component({
@@ -9,6 +11,8 @@ import { Customer } from '../../core/store/models';
 })
 export class CustomerDetailsComponent {
   @Input() customer: Customer;
+
+  constructor(private readonly router: Router) {}
 
   public trackByFn(index: number): number {
     return index;
@@ -31,5 +35,11 @@ export class CustomerDetailsComponent {
     }
 
     return [];
+  }
+
+  openCustomer(): void {
+    this.router.navigate([AppRoutePath.CustomerViewPath], {
+      queryParamsHandling: 'preserve',
+    });
   }
 }
