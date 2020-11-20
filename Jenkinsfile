@@ -487,8 +487,14 @@ pipeline {
                             // no checkstyle output
                             script {
                                 if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run lint:scss-apps -- --ip ${excludedAppsAndLibsPaths.join(' ')}"
-                                    sh "npm run lint:scss-libs -- --ip ${excludedAppsAndLibsPaths.join(' ')}"
+                                    def ignorePattern = '"-- '
+                                    for (project in excludedAppsAndLibsPaths) {
+                                        ignorePattern += "--ip '${project}' "
+                                    }
+                                    ignorePattern +='"'
+
+                                    sh "npm run lint:scss-apps ${ignorePattern}"
+                                    sh "npm run lint:scss-libs ${ignorePattern}"
                                 } else {
                                     sh 'npm run lint:scss'
                                 }
@@ -590,7 +596,14 @@ pipeline {
 
                             sh 'npm run release' // only bump the workspace version
                             sh 'npm run generate-readme'
-                            sh 'npm run generate-changelog'
+
+                            // generate root changelog
+                            if (isAppRelease()) {
+                                sh "npm run generate-changelog -- --app ${env.RELEASE_SCOPE}"
+                            } else if (isLibsRelease()) {
+                                sh 'npm run generate-changelog -- --libs'
+                            }
+
                             sh 'git add .'
                             sh 'git commit -m "chore(docs): update docs [ci skip]"'
 
