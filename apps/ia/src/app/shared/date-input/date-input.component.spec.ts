@@ -5,6 +5,7 @@ import {
   MatDatepickerInputEvent,
   MatDatepickerModule,
 } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -24,6 +25,7 @@ describe('DateInputComponent', () => {
     imports: [
       FormsModule,
       MatDatepickerModule,
+      MatFormFieldModule,
       MatInputModule,
       MatNativeDateModule,
       ReactiveFormsModule,
@@ -79,7 +81,7 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates(refDate);
 
       expect(component.rangeInput.controls.start.value).toEqual(
-        new Date('10/23/2014')
+        new Date('10/24/2014')
       );
       expect(component.rangeInput.controls.end.value).toEqual(
         new Date('10/23/2015')
