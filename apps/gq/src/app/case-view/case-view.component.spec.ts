@@ -1,17 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/testing';
+import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
+import { DeleteCaseButtonComponent } from '../shared/custom-status-bar/delete-case-button/delete-case-button.component';
+import { OpenCaseButtonComponent } from '../shared/custom-status-bar/open-case-button/open-case-button.component';
+import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input/autocomplete-input.module';
-import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
 import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -21,29 +24,32 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
-  let fixture: ComponentFixture<CaseViewComponent>;
+  let spectator: Spectator<CaseViewComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CaseViewComponent],
-      imports: [
-        MatDialogModule,
-        NoopAnimationsModule,
-        AutocompleteInputModule,
-        CreateCaseDialogModule,
-        provideTranslocoTestingModule({}),
-        RouterTestingModule.withRoutes([]),
-      ],
-      providers: [provideMockStore({})],
-    }).overrideModule(BrowserDynamicTestingModule, {
-      set: { entryComponents: [CreateCaseDialogComponent] },
-    });
+  const createComponent = createComponentFactory({
+    component: CaseViewComponent,
+    imports: [
+      AutocompleteInputModule,
+      AgGridModule.withComponents([
+        OpenCaseButtonComponent,
+        DeleteCaseButtonComponent,
+      ]),
+      CaseTableModule,
+      CustomStatusBarModule,
+      CreateCaseDialogModule,
+      MatDialogModule,
+      MatIconModule,
+      NoopAnimationsModule,
+      provideTranslocoTestingModule({}),
+      RouterTestingModule.withRoutes([]),
+    ],
+    providers: [provideMockStore({})],
+    declarations: [CaseViewComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CaseViewComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

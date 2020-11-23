@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -19,6 +20,7 @@ import { InputTableModule } from './input-table/input-table.module';
     InputTableModule,
     MatButtonModule,
     MatCardModule,
+    MatIconModule,
     MatInputModule,
     SharedModule,
     SharedTranslocoModule,
