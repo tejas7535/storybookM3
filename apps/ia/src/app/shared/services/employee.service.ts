@@ -19,6 +19,17 @@ export class EmployeeService {
   private readonly INITIAL_FILTERS = 'initial-filters';
   private readonly EMPLOYEES = 'employees';
 
+  public static employeeLeftInTimeRange(
+    employee: Employee,
+    timeRange: string
+  ): boolean {
+    return (
+      employee.exitDate &&
+      employee.exitDate.getTime() >= +timeRange.split('|')[0] &&
+      employee.exitDate.getTime() <= +timeRange.split('|')[1]
+    );
+  }
+
   public constructor(private readonly dataService: DataService) {}
 
   public getInitialFilters(): Observable<InitialFiltersResponse> {
@@ -34,12 +45,15 @@ export class EmployeeService {
       .post<EmployeesResponse>(this.EMPLOYEES, employeesRequest)
       .pipe(
         map((employeesResponse) =>
-          this.mapEmployees(employeesResponse.employees)
+          this.mapEmployees(
+            employeesResponse.employees,
+            employeesRequest.timeRange
+          )
         )
       );
   }
 
-  public mapEmployees(employees: Employee[]): Employee[] {
+  public mapEmployees(employees: Employee[], timeRange: string): Employee[] {
     // fix date props
     const modifiedEmployees = this.fixIncomingEmployeeProps(employees);
 
@@ -52,13 +66,17 @@ export class EmployeeService {
     this.setNumberOfSubordinates(employeeMap, root, 0);
 
     // enrich map with information about direct and total attrition
-    this.setAttrition(employeeMap, root);
+    this.setAttrition(employeeMap, root, timeRange);
 
     // set root back to undefined
     root.parentEmployeeId = undefined;
 
     // flatten map to array
-    const result = [...employeeMap.values()].reduce((a, b) => a.concat(b), []);
+    const result = [...employeeMap.values()].reduce(
+      (tmpArray: Employee[], employeeMapAsArray: Employee[]) =>
+        tmpArray.concat(employeeMapAsArray),
+      []
+    );
 
     return result;
   }
@@ -137,22 +155,33 @@ export class EmployeeService {
 
   public setAttrition(
     employeeMap: Map<string, Employee[]>,
-    parent: Employee
+    parent: Employee,
+    timeRange: string
   ): any {
     const children = employeeMap.get(parent.employeeId);
     parent.directAttrition =
-      children?.reduce((a, b) => a + (b.exitDate ? 1 : 0), 0) ?? 0;
+      children?.reduce(
+        (attritionCount: number, employee: Employee) =>
+          attritionCount +
+          (EmployeeService.employeeLeftInTimeRange(employee, timeRange)
+            ? 1
+            : 0),
+        0
+      ) ?? 0;
 
     if (!children) {
-      return parent.exitDate ? 1 : 0;
+      return EmployeeService.employeeLeftInTimeRange(parent, timeRange) ? 1 : 0;
     }
 
     children.forEach((employee, _parent, _map) => {
-      const attrition = this.setAttrition(employeeMap, employee);
+      const attrition = this.setAttrition(employeeMap, employee, timeRange);
 
       parent.totalAttrition += attrition;
     });
 
-    return parent.totalAttrition + (parent.exitDate ? 1 : 0);
+    return (
+      parent.totalAttrition +
+      (EmployeeService.employeeLeftInTimeRange(parent, timeRange) ? 1 : 0)
+    );
   }
 }
