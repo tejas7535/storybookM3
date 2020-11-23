@@ -14,6 +14,7 @@ import {
   LeavingType,
   SelectedFilter,
 } from '../../../../shared/models';
+import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
   RouterStateUrl,
   selectEmployeeState,
@@ -117,7 +118,10 @@ export const getFilteredEmployees = createSelector(
   (state: EmployeeState, timeRange: string) => {
     // filter former employees and set correct number of direct and total subordinates
     const filteredResult = state.employees.result
-      .filter((employee) => employeeLeftInTimeRange(employee, timeRange))
+      .filter(
+        (employee) =>
+          !EmployeeService.employeeLeftInTimeRange(employee, timeRange)
+      )
       .map((employee: Employee) => ({ ...employee }))
       .map((employee: Employee) => {
         employee.directSubordinates -= employee.directAttrition;
@@ -260,15 +264,4 @@ const calculateAttritionRate = (
     months;
 
   return Math.round((attritionRate + Number.EPSILON) * 100) / 100;
-};
-
-const employeeLeftInTimeRange = (
-  employee: Employee,
-  timeRange: string
-): boolean => {
-  return (
-    !employee.exitDate ||
-    employee.exitDate.getTime() < +timeRange.split('|')[0] ||
-    employee.exitDate.getTime() > +timeRange.split('|')[1]
-  );
 };

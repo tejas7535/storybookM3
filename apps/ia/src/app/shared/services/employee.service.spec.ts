@@ -112,7 +112,7 @@ describe('EmployeesService', () => {
 
       const employees: Employee[] = [];
 
-      const result = service.mapEmployees(employees);
+      const result = service.mapEmployees(employees, '123|456');
 
       expect(result).toEqual(expected);
       expect(service.createParentChildRelationFromEmployees).toHaveBeenCalled();
@@ -178,8 +178,15 @@ describe('EmployeesService', () => {
   describe('setAttrition', () => {
     test('should recursively determine attrition', () => {
       const modifiedRoot = { ...root, parentEmployeeId: '-1' };
+      EmployeeService.employeeLeftInTimeRange = jest.fn(
+        (a, _b) => a.exitDate !== undefined
+      );
       employeeMap.set('-1', [modifiedRoot]);
-      service.setAttrition(employeeMap, modifiedRoot);
+      service.setAttrition(
+        employeeMap,
+        modifiedRoot,
+        '1577833200000|1609369200000'
+      );
 
       expect(employeeMap.get('-1')[0].directAttrition).toEqual(1);
       expect(employeeMap.get('-1')[0].totalAttrition).toEqual(2);
