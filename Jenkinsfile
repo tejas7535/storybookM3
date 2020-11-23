@@ -871,6 +871,7 @@ pipeline {
     post {
         always {
             script {
+                sh "chmod -R 777 ." // set rights so that the cleanup job can do its work
                 cleanWs()
 
                 if (skipBuild) {
