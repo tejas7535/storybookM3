@@ -16,6 +16,10 @@ button[disabled] {
   background-color: $schaeffler-gray-3;
   color: $schaeffler-gray-7 !important;
 }
+.close-dialog {
+  cursor: pointer;
+  float: right;
+}
 .title {
   margin-top: 0;
 }

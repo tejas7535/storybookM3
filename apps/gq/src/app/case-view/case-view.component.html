@@ -3,4 +3,25 @@
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
-></div>
+  *transloco="let t; read: 'caseView'"
+>
+  <div fxLayout="row" fxFlexFill class="header">
+    <div fxFlex="100%" fxLayoutAlign="start start">
+      <h1>{{ t('title') }}</h1>
+    </div>
+    <div fxFlex fxLayoutAlign="start start">
+      <button
+        mat-stroked-button
+        color="primary"
+        class="create-case-button"
+        (click)="openCreateCaseDialog()"
+      >
+        <div class="create-case">
+          <mat-icon>add</mat-icon>
+          {{ t('buttonCreateCase') | uppercase }}
+        </div>
+      </button>
+    </div>
+  </div>
+  <gq-case-table></gq-case-table>
+</div>

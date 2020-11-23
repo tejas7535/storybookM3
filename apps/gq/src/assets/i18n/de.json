@@ -1,5 +1,16 @@
 {
   "caseView": {
+    "title": "Quotation Cases",
+    "buttonCreateCase": "Neuen Case Erstellen",
+    "caseTable": {
+      "customer": "Kunde",
+      "creationDate": "Erstelldatum",
+      "patCase": "PAT Case ID",
+      "sapId": "SAP Quotation",
+      "status": "Status",
+      "synchronized": "Synchronisiert",
+      "warnings": "Warnungen"
+    },
     "createCaseDialog": {
       "title": "Neuen Fall erstellen",
       "customer": {
@@ -145,8 +156,14 @@
       "finishOfferButton": {
         "finishOffer": "Angebot abschließen"
       },
+      "deleteCaseButton": {
+        "deleteCase": "Fall löschen"
+      },
       "detailViewButton": {
         "openDetail": "Details öffnen"
+      },
+      "openCaseButton": {
+        "openCase": "Fall öffnen"
       },
       "removeFromOfferButton": {
         "removeFromOffer": "vom Angebot entfernen"

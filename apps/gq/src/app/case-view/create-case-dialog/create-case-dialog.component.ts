@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
@@ -42,7 +43,10 @@ export class CreateCaseDialogComponent implements OnInit {
   addEntryInput: boolean;
   quotationIsValid = false;
 
-  constructor(private readonly store: Store<CaseState>) {}
+  constructor(
+    private readonly store: Store<CaseState>,
+    private readonly dialogRef: MatDialogRef<CreateCaseDialogComponent>
+  ) {}
 
   public ngOnInit(): void {
     this.quotationAutocompleteLoading$ = this.store.pipe(
@@ -86,5 +90,8 @@ export class CreateCaseDialogComponent implements OnInit {
 
   openQuotation(): void {
     this.store.dispatch(importCase());
+  }
+  closeDialog(): void {
+    this.dialogRef.close();
   }
 }

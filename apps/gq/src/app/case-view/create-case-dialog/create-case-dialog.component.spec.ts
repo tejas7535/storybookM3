@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -42,13 +44,20 @@ describe('CreateCaseDialogComponent', () => {
         AutocompleteInputModule,
         InputTableModule,
         MatButtonModule,
+        MatIconModule,
         MatInputModule,
         MatCardModule,
         NoopAnimationsModule,
         SharedModule,
         provideTranslocoTestingModule({}),
       ],
-      providers: [provideMockStore({})],
+      providers: [
+        provideMockStore({}),
+        {
+          provide: MatDialogRef,
+          useValue: {},
+        },
+      ],
     });
   });
 

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
@@ -6,17 +6,16 @@ import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dial
 @Component({
   selector: 'gq-case-view',
   templateUrl: './case-view.component.html',
+  styleUrls: ['./case-view.component.scss'],
 })
-export class CaseViewComponent implements OnInit, OnDestroy {
+export class CaseViewComponent implements OnDestroy {
   constructor(public dialog: MatDialog) {}
+  rowData: any = [];
 
-  ngOnInit(): void {
-    this.openDialog();
-  }
   ngOnDestroy(): void {
     this.dialog.closeAll();
   }
-  openDialog(): void {
+  openCreateCaseDialog(): void {
     this.dialog.open(CreateCaseDialogComponent, {
       width: '70%',
       height: '90%',

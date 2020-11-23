@@ -1,7 +1,12 @@
 <div *transloco="let t; read: 'caseView.createCaseDialog'">
-  <h2 mat-dialog-title class="title">{{ t('title') }}</h2>
+  <h2 mat-dialog-title class="title">
+    {{ t('title') }}
+    <mat-icon class="close-dialog" (click)="closeDialog()"> close </mat-icon>
+  </h2>
   <mat-card>
-    <mat-card-title>{{ t('quotation.label') }}</mat-card-title>
+    <mat-card-title>
+      {{ t('quotation.label') }}
+    </mat-card-title>
     <mat-card-content>
       <div fxLayout="row" fxLayout.sm="column" fxLayout.xs="column" fxFlexFill>
         <div
