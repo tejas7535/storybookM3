@@ -27,7 +27,7 @@ export class DateInputComponent {
   @Input() placeholderStart: string;
   @Input() placeholderEnd: string;
   @Input() set timePeriod(timePeriod: TimePeriod) {
-    const date = new Date();
+    const date = new Date('2020-12-31');
     this._timePeriod = timePeriod;
     this.updateStartEndDates(date);
     this.setStartView();
@@ -44,6 +44,8 @@ export class DateInputComponent {
     end: new FormControl(),
   });
   startView = '';
+  minDate = new Date('2019-01-01 00:00:00');
+  maxDate = new Date('2020-12-31 00:00:00');
 
   public updateStartEndDates(refDate: Date): void {
     switch (this.timePeriod) {
@@ -66,8 +68,14 @@ export class DateInputComponent {
         break;
       }
       case TimePeriod.LAST_12_MONTHS: {
+        this.minDate = new Date('2019-12-31 00:00:00');
+
+        if (this.minDate.getTime() === refDate.getTime()) {
+          this.minDate = new Date('2019-01-01');
+        }
         const old = new Date(refDate.getTime());
         old.setMonth(refDate.getMonth() - 12);
+        old.setDate(old.getDate() + 1);
         this.rangeInput.controls.start.setValue(old);
         this.rangeInput.controls.end.setValue(refDate);
         break;
