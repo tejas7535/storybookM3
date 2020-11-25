@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
@@ -7,16 +8,17 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { BomViewButtonComponent } from './bom-view-button.component';
+import { CompareViewButtonComponent } from './compare-view-button.component';
 
-describe('BomViewButtonComponent', () => {
-  let component: BomViewButtonComponent;
-  let fixture: ComponentFixture<BomViewButtonComponent>;
+describe('CompareViewButtonComponent', () => {
+  let component: CompareViewButtonComponent;
+  let fixture: ComponentFixture<CompareViewButtonComponent>;
   let params: IStatusPanelParams;
+  let router: Router;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      declarations: [BomViewButtonComponent],
+      declarations: [CompareViewButtonComponent],
       imports: [
         MatButtonModule,
         RouterTestingModule.withRoutes([]),
@@ -26,8 +28,9 @@ describe('BomViewButtonComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BomViewButtonComponent);
+    fixture = TestBed.createComponent(CompareViewButtonComponent);
 
+    router = TestBed.inject(Router);
     component = fixture.componentInstance;
     fixture.detectChanges();
     params = ({
@@ -41,13 +44,14 @@ describe('BomViewButtonComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   describe('agInit', () => {
     test('should set params and add listeners', () => {
       component.agInit((params as unknown) as IStatusPanelParams);
 
       expect(component['params']).toEqual(params);
 
-      expect(params.api.addEventListener).toHaveBeenCalledTimes(3);
+      expect(params.api.addEventListener).toHaveBeenCalledTimes(2);
     });
   });
 
@@ -69,12 +73,12 @@ describe('BomViewButtonComponent', () => {
     });
   });
 
-  describe('onCustomSetSelection', () => {
-    test('should set selections', () => {
-      component['params'] = params;
-      component.onCustomSetSelection();
-
-      expect(params.api.getSelectedRows).toHaveBeenCalled();
+  describe('showCompareView', () => {
+    test('should navigate', () => {
+      component.selections = [{ materialNumber: '', plant: '' }];
+      spyOn(router, 'navigate');
+      component.showCompareView();
+      expect(router.navigate).toHaveBeenCalled();
     });
   });
 });

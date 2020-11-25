@@ -8,6 +8,7 @@ import {
   ColumnEvent,
   ColumnState,
   IStatusPanelParams,
+  RowSelectedEvent,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -22,6 +23,7 @@ import { AgGridStateService } from '../../shared/services/ag-grid-state.service'
 import { SharedModule } from '../../shared/shared.module';
 import { columnDefinitionToReferenceTypeProp } from '../../shared/table';
 import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CompareViewButtonComponent } from '../../shared/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnDefinitionService } from './config';
@@ -47,6 +49,7 @@ describe('ReferenceTypesTableComponent', () => {
         AgGridModule.withComponents([
           DetailViewButtonComponent,
           BomViewButtonComponent,
+          CompareViewButtonComponent,
         ]),
         MatIconModule,
         RouterTestingModule,
@@ -183,6 +186,53 @@ describe('ReferenceTypesTableComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+    });
+  });
+
+  describe('onRowSelected', () => {
+    const event = ({
+      node: {
+        id: 2,
+        isSelected: jest.fn(() => true),
+      },
+      api: {
+        deselectIndex: jest.fn(),
+      },
+    } as unknown) as RowSelectedEvent;
+
+    it('should fill the selectedRows if the row is selected', () => {
+      component.selectedRows = [1];
+
+      component.onRowSelected(event);
+
+      expect(component.selectedRows).toStrictEqual([1, 2]);
+      expect(component.selectedRows).toHaveLength(2);
+    });
+
+    it('should remove the selectedRows if the row is deselected', () => {
+      component.selectedRows = [1, 2];
+
+      component.onRowSelected(({
+        ...event,
+        node: {
+          ...event.node,
+          isSelected: jest.fn(() => false),
+        },
+      } as unknown) as RowSelectedEvent);
+
+      expect(component.selectedRows).toStrictEqual([1]);
+      expect(component.selectedRows).toHaveLength(1);
+    });
+
+    it('should remove from selectedRows if there are to many entries', () => {
+      component.selectedRows = [1, 3];
+
+      component.onRowSelected(event);
+
+      expect(component.selectedRows).toStrictEqual([3, 2]);
+      expect(component.selectedRows).toHaveLength(2);
+
+      expect(event.api.deselectIndex).toHaveBeenCalledWith(1);
     });
   });
 

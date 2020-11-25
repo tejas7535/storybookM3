@@ -4,6 +4,8 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { SearchEffects } from '../core/store/effects';
 import { searchReducer } from '../core/store/reducers/search/search.reducer';
 import { BlockUiModule } from '../shared/block-ui/block-ui.module';
@@ -25,6 +27,7 @@ import { SearchComponent } from './search.component';
     StoreModule.forFeature('search', searchReducer),
     EffectsModule.forFeature([SearchEffects]),
     BlockUiModule,
+    SharedTranslocoModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'search' }],
 })

@@ -6,11 +6,20 @@ import { RouterModule } from '@angular/router';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BomViewButtonComponent } from './bom-view-button/bom-view-button.component';
+import { CompareViewButtonComponent } from './compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 
 @NgModule({
-  declarations: [DetailViewButtonComponent, BomViewButtonComponent],
+  declarations: [
+    DetailViewButtonComponent,
+    BomViewButtonComponent,
+    CompareViewButtonComponent,
+  ],
   imports: [CommonModule, SharedTranslocoModule, MatButtonModule, RouterModule],
-  exports: [DetailViewButtonComponent, BomViewButtonComponent],
+  exports: [
+    DetailViewButtonComponent,
+    BomViewButtonComponent,
+    CompareViewButtonComponent,
+  ],
 })
 export class CustomStatusBarModule {}

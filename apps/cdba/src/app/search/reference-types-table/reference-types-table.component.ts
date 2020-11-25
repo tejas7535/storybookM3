@@ -6,6 +6,7 @@ import {
   ColumnEvent,
   ColumnState,
   IStatusPanelParams,
+  RowSelectedEvent,
   SideBarDef,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
@@ -22,6 +23,7 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { environment } from '../../../environments/environment';
 import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import {
@@ -33,6 +35,7 @@ import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
 } from '../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { CompareViewButtonComponent } from '../../shared/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import {
   ColumnDefinitionService,
@@ -65,12 +68,13 @@ export class ReferenceTypesTableComponent implements OnChanges {
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = [];
 
-  public rowSelection = 'single';
+  public rowSelection = !environment.production ? 'multiple' : 'single';
 
   public rowHeight = 30;
 
   public frameworkComponents = {
     detailViewButtonComponent: DetailViewButtonComponent,
+    compareViewButtonComponent: CompareViewButtonComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
   };
 
@@ -84,6 +88,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
   } = STATUS_BAR_CONFIG;
 
   public sideBar: SideBarDef = SIDE_BAR_CONFIG;
+
+  public selectedRows: number[] = [];
 
   public getMainMenuItems = getMainMenuItems;
 
@@ -156,6 +162,22 @@ export class ReferenceTypesTableComponent implements OnChanges {
   public onFirstDataRendered(params: IStatusPanelParams): void {
     params.columnApi.autoSizeAllColumns(false);
     params.columnApi.setColumnVisible('identificationHash', false);
+  }
+
+  /**
+   * Limit selected rows to a maximum of two
+   */
+  onRowSelected({ node, api }: RowSelectedEvent): void {
+    const id = +node.id;
+    const selected = node.isSelected();
+
+    this.selectedRows = selected
+      ? [...this.selectedRows, id]
+      : this.selectedRows.filter((entry: number) => entry !== id);
+
+    if (this.selectedRows.length > 2) {
+      api.deselectIndex(this.selectedRows.shift());
+    }
   }
 
   /**

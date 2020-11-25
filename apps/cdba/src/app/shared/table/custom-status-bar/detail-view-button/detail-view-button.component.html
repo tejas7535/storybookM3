@@ -2,7 +2,7 @@
   mat-flat-button
   color="primary"
   *transloco="let t; read: 'shared.statusBar'"
-  [disabled]="selections.length === 0"
+  [disabled]="selections.length !== 1"
   (click)="showDetailView()"
 >
   {{ t('detail') | uppercase }}

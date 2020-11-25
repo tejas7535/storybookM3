@@ -9,6 +9,7 @@ import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-lo
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CompareViewButtonComponent } from '../table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
 
@@ -20,6 +21,7 @@ import { CalculationsTableComponent } from './calculations-table.component';
     SharedTranslocoModule,
     AgGridModule.withComponents([
       BomViewButtonComponent,
+      CompareViewButtonComponent,
       CustomLoadingOverlayComponent,
       CustomNoRowsOverlayComponent,
     ]),
