@@ -2,6 +2,7 @@
   mat-raised-button
   color="primary"
   *transloco="let t; read: 'shared.statusBar'"
+  [disabled]="selections?.length !== 1"
   [routerLink]="['/detail', 'bom']"
   queryParamsHandling="merge"
 >

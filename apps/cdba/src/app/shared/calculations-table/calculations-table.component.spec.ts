@@ -10,7 +10,7 @@ import {
   ColumnState,
   GridApi,
   IStatusPanelParams,
-  RowNode,
+  RowSelectedEvent,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { configureTestSuite } from 'ng-bullet';
@@ -26,6 +26,7 @@ import { SharedModule } from '../shared.module';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CompareViewButtonComponent } from '../table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
 import { ColumnDefinitionService } from './config';
@@ -49,6 +50,7 @@ describe('CalculationsTableComponent', () => {
         SharedModule,
         AgGridModule.withComponents([
           BomViewButtonComponent,
+          CompareViewButtonComponent,
           CustomLoadingOverlayComponent,
         ]),
         MatCardModule,
@@ -206,21 +208,53 @@ describe('CalculationsTableComponent', () => {
     });
   });
 
-  describe('onSelectionChanged', () => {
-    it('should emit selectionChange Event', () => {
-      component['gridApi'] = ({
-        getSelectedNodes: jest.fn(() => [({ id: 7 } as unknown) as RowNode]),
-        getSelectedRows: jest.fn(() => [CALCULATIONS_MOCK[0]]),
-      } as unknown) as GridApi;
+  describe('onRowSelected', () => {
+    const event = ({
+      node: {
+        id: 2,
+        isSelected: jest.fn(() => true),
+      },
+      api: {
+        deselectIndex: jest.fn(),
+      },
+    } as unknown) as RowSelectedEvent;
 
+    it('should fill the selectedRows if the row is selected', () => {
+      component.selectedRows = [1];
+
+      component.onRowSelected(event);
+
+      expect(component.selectedRows).toStrictEqual([1, 2]);
+      expect(component.selectedRows).toHaveLength(2);
+    });
+
+    it('should remove the selectedRows if the row is deselected', () => {
       component.selectionChange.emit = jest.fn();
 
-      component.onSelectionChanged();
+      component.selectedRows = [1, 2];
 
-      expect(component.selectionChange.emit).toHaveBeenCalledWith({
-        nodeId: 7,
-        calculation: CALCULATIONS_MOCK[0],
-      });
+      component.onRowSelected(({
+        ...event,
+        node: {
+          ...event.node,
+          isSelected: jest.fn(() => false),
+        },
+      } as unknown) as RowSelectedEvent);
+
+      expect(component.selectedRows).toStrictEqual([1]);
+      expect(component.selectedRows).toHaveLength(1);
+      expect(component.selectionChange.emit).toHaveBeenCalled();
+    });
+
+    it('should remove from selectedRows if there are to many entries', () => {
+      component.selectedRows = [1, 3];
+
+      component.onRowSelected(event);
+
+      expect(component.selectedRows).toStrictEqual([3, 2]);
+      expect(component.selectedRows).toHaveLength(2);
+
+      expect(event.api.deselectIndex).toHaveBeenCalledWith(1);
     });
   });
 
@@ -230,6 +264,7 @@ describe('CalculationsTableComponent', () => {
     beforeEach(() => {
       component['gridApi'] = ({
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+        dispatchEvent: jest.fn(),
       } as unknown) as GridApi;
 
       params = ({
@@ -246,6 +281,7 @@ describe('CalculationsTableComponent', () => {
       component.onFirstDataRendered(params);
 
       expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+      expect(component['gridApi'].dispatchEvent).toHaveBeenCalled();
       expect(params.columnApi.getAllColumns).toHaveBeenCalled();
       expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
     });

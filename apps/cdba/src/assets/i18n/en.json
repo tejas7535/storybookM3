@@ -5,6 +5,7 @@
     },
     "statusBar": {
       "detail": "Show Details",
+      "compare": "Compare Details",
       "bom": "View Bill of Material"
     },
     "table": {

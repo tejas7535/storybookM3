@@ -15,10 +15,12 @@ import {
   ColumnState,
   GridApi,
   IStatusPanelParams,
+  RowSelectedEvent,
   SideBarDef,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
 
+import { environment } from '../../../environments/environment';
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
 import { AgGridStateService } from '../services/ag-grid-state.service';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
@@ -74,8 +76,10 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   };
 
   public sideBar: SideBarDef;
+  public rowSelection = !environment.production ? 'multiple' : 'single';
   public enableRangeSelection: boolean;
   public rowGroupPanelShow: string;
+  public selectedRows: number[] = [];
 
   public getMainMenuItems = getMainMenuItems;
 
@@ -140,11 +144,24 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     }
   }
 
-  public onSelectionChanged(): void {
-    const nodeId: string = this.gridApi.getSelectedNodes()[0].id;
-    const calculation: Calculation = this.gridApi.getSelectedRows()[0];
+  /**
+   * Limit selected rows to a maximum of two
+   */
+  onRowSelected({ node, api }: RowSelectedEvent): void {
+    const id = +node.id;
+    const selected = node.isSelected();
+    const calculation: Calculation = node.data;
 
-    this.selectionChange.emit({ nodeId, calculation });
+    this.selectedRows = selected
+      ? [...this.selectedRows, id]
+      : this.selectedRows.filter((entry: number) => entry !== id);
+
+    if (this.selectedRows.length === 1) {
+      const nodeId = `${id}`;
+      this.selectionChange.emit({ nodeId, calculation });
+    } else if (this.selectedRows.length > 2) {
+      api.deselectIndex(this.selectedRows.shift());
+    }
   }
 
   public onFirstDataRendered(params: IStatusPanelParams): void {
@@ -154,6 +171,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
         .setSelected(true, true, true);
     }
 
+    this.gridApi.dispatchEvent(new Event('customSetSelection'));
     params.columnApi.autoSizeColumns(
       params.columnApi
         .getAllColumns()
