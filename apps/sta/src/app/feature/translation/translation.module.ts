@@ -19,8 +19,8 @@ import { TranslationComponent } from './translation.component';
     TextInputModule,
     FileUploadModule,
     TranslationRoutingModule,
-    FunFactsLoadingBarModule
+    FunFactsLoadingBarModule,
   ],
-  exports: [TranslationComponent]
+  exports: [TranslationComponent],
 })
 export class TranslationModule {}

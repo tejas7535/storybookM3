@@ -13,7 +13,7 @@ import { RestService } from '../../services/rest.service';
 import {
   mockedBurdeningTypes,
   mockedMaterials,
-  mockedPredictions
+  mockedPredictions,
 } from '../../../mocks/mock.constants';
 
 import { InputEffects } from '.';
@@ -28,9 +28,9 @@ describe('InputEffects', () => {
       providers: [
         InputEffects,
         { provide: RestService, useClass: MockService },
-        provideMockActions(() => actions)
+        provideMockActions(() => actions),
       ],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
 
     effects = TestBed.inject(InputEffects);
@@ -49,25 +49,25 @@ describe('InputEffects', () => {
   it('should have a getFormOptions Effect effect that calls multiple actions', () => {
     actions = of({ type: '[Input Component] Get Form Options' });
 
-    effects.getPredictions$.subscribe(action => {
+    effects.getPredictions$.subscribe((action) => {
       expect(action).toEqual({
         type: '[Predict Lifetime Container Component] Set Prediction Options',
-        predictions: mockedPredictions
+        predictions: mockedPredictions,
       });
     });
 
-    effects.getBurdeningTypes$.subscribe(action => {
+    effects.getBurdeningTypes$.subscribe((action) => {
       expect(action).toEqual({
         type:
           '[Predict Lifetime Container Component] Set BurdeningType Options',
-        burdeningTypes: mockedBurdeningTypes
+        burdeningTypes: mockedBurdeningTypes,
       });
     });
 
-    effects.getMaterials$.subscribe(action => {
+    effects.getMaterials$.subscribe((action) => {
       expect(action).toEqual({
         type: '[Material Component] Set Material Options',
-        materials: mockedMaterials
+        materials: mockedMaterials,
       });
     });
   });

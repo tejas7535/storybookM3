@@ -34,9 +34,9 @@ export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const getSalesSummaryState = createFeatureSelector<
-  fromSalesSummary.SalesSummaryState
->('salesSummary');
+export const getSalesSummaryState = createFeatureSelector<fromSalesSummary.SalesSummaryState>(
+  'salesSummary'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

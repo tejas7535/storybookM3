@@ -5,7 +5,7 @@ import { FileStatus } from './file-status.model';
 @Component({
   selector: 'sta-file-upload',
   templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+  styleUrls: ['./file-upload.component.scss'],
 })
 export class FileUploadComponent {
   @Output() public readonly fileUploaded = new EventEmitter<File>();

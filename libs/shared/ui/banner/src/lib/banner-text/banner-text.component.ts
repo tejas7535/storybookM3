@@ -30,11 +30,9 @@ export class BannerTextComponent implements OnInit {
   @Input() public buttonText: string;
   public icon: Icon;
 
-  // tslint:disable-next-line: prefer-inline-decorator
   @Output()
   public readonly closeBanner: EventEmitter<void> = new EventEmitter<void>();
 
-  // tslint:disable-next-line: prefer-inline-decorator
   @Output()
   public readonly toggleFullText: EventEmitter<void> = new EventEmitter<void>();
 

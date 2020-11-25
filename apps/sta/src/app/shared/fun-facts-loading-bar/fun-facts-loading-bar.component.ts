@@ -8,7 +8,7 @@ import { FunFactsLoadingBarService } from './fun-facts-loading-bar.service';
 @Component({
   selector: 'sta-fun-facts-loading-bar',
   templateUrl: './fun-facts-loading-bar.component.html',
-  styleUrls: ['./fun-facts-loading-bar.component.scss']
+  styleUrls: ['./fun-facts-loading-bar.component.scss'],
 })
 export class FunFactsLoadingBarComponent implements OnInit {
   @Input() public imageUrl = '../../../assets/empty-states/translation.png';

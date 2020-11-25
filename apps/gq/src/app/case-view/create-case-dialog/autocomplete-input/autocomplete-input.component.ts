@@ -44,9 +44,8 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   @Input() filterName: string;
 
-  @Output() private readonly autocomplete: EventEmitter<
-    AutocompleteSearch
-  > = new EventEmitter();
+  @Output()
+  private readonly autocomplete: EventEmitter<AutocompleteSearch> = new EventEmitter();
 
   @Output() readonly unselected: EventEmitter<any> = new EventEmitter();
 

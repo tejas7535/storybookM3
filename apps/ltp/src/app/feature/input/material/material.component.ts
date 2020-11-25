@@ -10,12 +10,12 @@ import { Material } from '../../../shared/models';
 
 @Component({
   selector: 'ltp-material',
-  templateUrl: './material.component.html'
+  templateUrl: './material.component.html',
 })
 export class MaterialComponent implements OnInit, OnDestroy {
   public materialForm = new FormGroup({
     materialControl: new FormControl(),
-    heatTreatmentControl: new FormControl()
+    heatTreatmentControl: new FormControl(),
   });
 
   public materialOptions: Observable<string[]>;
@@ -27,10 +27,10 @@ export class MaterialComponent implements OnInit, OnDestroy {
       select(fromStore.getHeatTreatmentList)
     );
 
-    this.heatTreatmentOptions.subscribe(heatTreatmentOptions => {
+    this.heatTreatmentOptions.subscribe((heatTreatmentOptions) => {
       const materialFormControls = this.materialForm.controls;
       heatTreatmentOptions.filter(
-        heatTreatmentOption => !heatTreatmentOption.disabled
+        (heatTreatmentOption) => !heatTreatmentOption.disabled
       ).length > 0
         ? materialFormControls.heatTreatmentControl.enable()
         : materialFormControls.heatTreatmentControl.disable();
@@ -42,7 +42,7 @@ export class MaterialComponent implements OnInit, OnDestroy {
 
     const materialFormControls = this.materialForm.controls;
     materialFormControls.materialControl.valueChanges.subscribe(
-      selectedMaterial => {
+      (selectedMaterial) => {
         if (selectedMaterial) {
           this.materialForm.controls.heatTreatmentControl.patchValue(''); // for now that every heat treatment is bound to one material
           this.store.dispatch(fromStore.setMaterial({ selectedMaterial }));
@@ -51,7 +51,7 @@ export class MaterialComponent implements OnInit, OnDestroy {
     );
 
     materialFormControls.heatTreatmentControl.valueChanges.subscribe(
-      selectedHeatTreatment => {
+      (selectedHeatTreatment) => {
         if (selectedHeatTreatment) {
           const selectedHardness = selectedHeatTreatment.hardness;
           this.store.dispatch(fromStore.setHardness({ selectedHardness }));

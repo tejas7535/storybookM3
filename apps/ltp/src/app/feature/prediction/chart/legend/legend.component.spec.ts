@@ -11,7 +11,7 @@ describe('LegendComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [LegendComponent],
-      imports: []
+      imports: [],
     });
   });
 

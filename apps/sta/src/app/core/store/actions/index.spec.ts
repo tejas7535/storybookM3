@@ -6,7 +6,7 @@ describe('RootActions', () => {
       const action = fromRootActions.resetAll();
 
       expect(action).toEqual({
-        type: '[All] Reset all'
+        type: '[All] Reset all',
       });
     });
   });

@@ -35,13 +35,11 @@ export class MultiSelectFilterComponent
 
   @Input() autocompleteLoading = false;
 
-  @Output() private readonly updateFilter: EventEmitter<
-    FilterItemIdValue
-  > = new EventEmitter();
+  @Output()
+  private readonly updateFilter: EventEmitter<FilterItemIdValue> = new EventEmitter();
 
-  @Output() private readonly autocomplete: EventEmitter<
-    TextSearch
-  > = new EventEmitter();
+  @Output()
+  private readonly autocomplete: EventEmitter<TextSearch> = new EventEmitter();
 
   @ViewChild('autocomplete') autocompleteInput: ElementRef;
 

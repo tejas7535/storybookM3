@@ -14,7 +14,7 @@ describe('OverviewComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [MatIconModule, MatCardModule, RouterTestingModule],
-      declarations: [OverviewComponent]
+      declarations: [OverviewComponent],
     });
   });
 

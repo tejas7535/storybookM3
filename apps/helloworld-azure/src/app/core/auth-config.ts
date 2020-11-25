@@ -22,5 +22,5 @@ export const authConfig: AuthConfig = {
   responseType: 'id_token token',
   clearHashAfterLogin: false,
   disableAtHashCheck: true,
-  silentRefreshTimeout: 1000
+  silentRefreshTimeout: 1000,
 };

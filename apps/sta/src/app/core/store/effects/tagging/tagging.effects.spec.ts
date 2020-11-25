@@ -18,7 +18,7 @@ import {
   loadTagsForTextFailure,
   loadTagsForTextSuccess,
   resetAll,
-  resetTags
+  resetTags,
 } from '../../actions';
 import { initialState } from '../../reducers/tagging/tagging.reducer';
 import { TaggingEffects } from './tagging.effects';
@@ -40,10 +40,10 @@ describe('TaggingEffects', () => {
           provide: DataService,
           useValue: {
             postTaggingText: jest.fn(),
-            postTaggingFile: jest.fn()
-          }
-        }
-      ]
+            postTaggingFile: jest.fn(),
+          },
+        },
+      ],
     });
   });
 
@@ -61,12 +61,12 @@ describe('TaggingEffects', () => {
 
     test('should return loadTagsForTextSuccess action with tags', () => {
       const result = loadTagsForTextSuccess({
-        tags: APP_STATE_MOCK.tagging.tagsForText.tags
+        tags: APP_STATE_MOCK.tagging.tagsForText.tags,
       });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: APP_STATE_MOCK.tagging.tagsForText.tags
+        a: APP_STATE_MOCK.tagging.tagsForText.tags,
       });
       const expected = cold('--b', { b: result });
 
@@ -104,12 +104,12 @@ describe('TaggingEffects', () => {
 
     test('should return loadTagsForFileSuccess action with tags', () => {
       const result = loadTagsForFileSuccess({
-        tags: APP_STATE_MOCK.tagging.tagsForFile.tags
+        tags: APP_STATE_MOCK.tagging.tagsForFile.tags,
       });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: APP_STATE_MOCK.tagging.tagsForFile.tags
+        a: APP_STATE_MOCK.tagging.tagsForFile.tags,
       });
       const expected = cold('--b', { b: result });
 

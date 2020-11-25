@@ -46,12 +46,12 @@ export class Authorization {
         nonce: Authorization.createUUID(),
         response_mode: 'fragment',
         response_type: 'code',
-        scope: 'openid'
-      }
+        scope: 'openid',
+      },
     };
 
     // Open the KC login page, fill in the form with username and password and submit.
-    return cy.request(loginPageRequest).then(response => {
+    return cy.request(loginPageRequest).then((response) => {
       const _el = document.createElement('html');
       _el.innerHTML = response.body;
       // This should be more strict depending on your login page template.
@@ -69,8 +69,8 @@ export class Authorization {
         followRedirect: false,
         body: {
           username,
-          password
-        }
+          password,
+        },
       });
     });
   }
@@ -83,8 +83,8 @@ export class Authorization {
       url: `${this.keycloak}/auth/realms/${this.realm}/protocol/openid-connect/logout`,
       followRedirect: false,
       qs: {
-        redirect_uri: this.baseUrl
-      }
+        redirect_uri: this.baseUrl,
+      },
     });
   }
 }

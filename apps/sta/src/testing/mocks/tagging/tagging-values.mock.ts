@@ -5,7 +5,7 @@ export const TAGGING_STATE_MOCK: TaggingState = {
   fileInput: {
     name: 'testText.txt',
     type: 'text/plain',
-    content: [84, 104, 101, 32, 83, 99]
+    content: [84, 104, 101, 32, 83, 99],
   },
   tagsForText: {
     tags: [
@@ -17,10 +17,10 @@ export const TAGGING_STATE_MOCK: TaggingState = {
       'and',
       'as',
       'well',
-      'the schaeffler group'
+      'the schaeffler group',
     ],
     showMoreTags: false,
-    loading: false
+    loading: false,
   },
   tagsForFile: {
     tags: [
@@ -32,11 +32,11 @@ export const TAGGING_STATE_MOCK: TaggingState = {
       'and',
       'as',
       'well',
-      'the schaeffler group'
+      'the schaeffler group',
     ],
     showMoreTags: false,
     loading: false,
-    success: true
+    success: true,
   },
-  selectedTabIndex: 1
+  selectedTabIndex: 1,
 };

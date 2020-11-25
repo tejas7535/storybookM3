@@ -22,5 +22,5 @@ export const authConfig: AuthConfig = {
   skipIssuerCheck: true,
   responseType: 'id_token token',
   clearHashAfterLogin: false,
-  disableAtHashCheck: true
+  disableAtHashCheck: true,
 };

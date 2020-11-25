@@ -16,20 +16,20 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
       metaReducers,
       runtimeChecks: {
         strictStateSerializability: true,
-        strictActionSerializability: true
-      }
+        strictActionSerializability: true,
+      },
     }),
     StoreRouterConnectingModule.forRoot({
       serializer: CustomSerializer,
-      routerState: RouterState.Minimal
+      routerState: RouterState.Minimal,
     }),
     environment.devToolsEnabled
       ? StoreDevtoolsModule.instrument({
-          maxAge: 50
+          maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([...effects])
+    EffectsModule.forRoot([...effects]),
   ],
-  exports: []
+  exports: [],
 })
 export class StoreModule {}

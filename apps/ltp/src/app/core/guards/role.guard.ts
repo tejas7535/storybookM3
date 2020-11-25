@@ -6,7 +6,7 @@ import {
   Route,
   Router,
   RouterStateSnapshot,
-  UrlSegment
+  UrlSegment,
 } from '@angular/router';
 
 import { AuthService } from '../services';

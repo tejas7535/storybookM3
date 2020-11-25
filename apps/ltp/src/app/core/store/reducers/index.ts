@@ -6,9 +6,9 @@ import * as fromPrediction from './prediction.reducer';
 export const getInputState = createFeatureSelector<fromInput.InputState>(
   'input'
 );
-export const getPredictionState = createFeatureSelector<
-  fromPrediction.PredictionState
->('prediction');
+export const getPredictionState = createFeatureSelector<fromPrediction.PredictionState>(
+  'prediction'
+);
 
 export interface LTPState {
   input: fromInput.InputState;
@@ -17,7 +17,7 @@ export interface LTPState {
 
 export const reducers: ActionReducerMap<LTPState> = {
   input: fromInput.reducer,
-  prediction: fromPrediction.reducer
+  prediction: fromPrediction.reducer,
 };
 
 export const getLTPState = createFeatureSelector<LTPState>('LTP');

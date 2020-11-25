@@ -7,7 +7,7 @@ import { GreetingService } from '../greeting.service';
 @Component({
   selector: 'schaeffler-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
   public responsePublic: Observable<string>;

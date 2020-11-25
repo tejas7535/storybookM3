@@ -39,8 +39,8 @@ export const selectFilterItemId = (f: FilterItem): string => {
   return f.name;
 };
 
-export const filterItemAdapter: EntityAdapter<FilterItem> = createEntityAdapter<
-  FilterItem
->({
-  selectId: selectFilterItemId,
-});
+export const filterItemAdapter: EntityAdapter<FilterItem> = createEntityAdapter<FilterItem>(
+  {
+    selectId: selectFilterItemId,
+  }
+);

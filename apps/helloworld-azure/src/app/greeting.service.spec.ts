@@ -3,7 +3,7 @@ import { of } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
-  HttpTestingController
+  HttpTestingController,
 } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
@@ -20,7 +20,7 @@ describe('GreetingService', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       providers: [GreetingService],
-      imports: [HttpClientTestingModule]
+      imports: [HttpClientTestingModule],
     });
 
     service = TestBed.inject(GreetingService);
@@ -36,19 +36,19 @@ describe('GreetingService', () => {
   });
 
   describe('handleError', () => {
-    test('should return default message', done => {
+    test('should return default message', (done) => {
       GreetingService['handleError'](({
-        status: 200
-      } as unknown) as HttpErrorResponse).subscribe(message => {
+        status: 200,
+      } as unknown) as HttpErrorResponse).subscribe((message) => {
         expect(message).toEqual('Server is currently unavailable! 🤬');
         done();
       });
     });
 
-    test('should return forbidden message for 403', done => {
+    test('should return forbidden message for 403', (done) => {
       GreetingService['handleError'](({
-        status: 403
-      } as unknown) as HttpErrorResponse).subscribe(message => {
+        status: 403,
+      } as unknown) as HttpErrorResponse).subscribe((message) => {
         expect(message).toEqual(
           'Unfortunately, you are not allowed to listen! 😔'
         );
@@ -58,12 +58,12 @@ describe('GreetingService', () => {
   });
 
   describe('getGreetingFromAPI', () => {
-    test('should return greeting message', done => {
+    test('should return greeting message', (done) => {
       const mockResponse = { greeting: 'Hello, World' };
 
       service['getGreetingFromAPI'](
         `${environment.apiBaseUrl}/admin/api/hello`
-      ).subscribe(response => {
+      ).subscribe((response) => {
         expect(response).toEqual('Hello, World');
         done();
       });
@@ -75,7 +75,7 @@ describe('GreetingService', () => {
       call.flush(mockResponse);
     });
 
-    test('should call handleError on failed request', done => {
+    test('should call handleError on failed request', (done) => {
       GreetingService['handleError'] = jest
         .fn()
         .mockImplementation(() => of('test'));
@@ -83,7 +83,7 @@ describe('GreetingService', () => {
 
       service['getGreetingFromAPI'](
         `${environment.apiBaseUrl}/admin/api/hello`
-      ).subscribe(_ => {
+      ).subscribe((_) => {
         expect(GreetingService['handleError']).toHaveBeenCalledTimes(1);
         done();
       });

@@ -7,6 +7,6 @@ import { FunFactsLoadingBarComponent } from './fun-facts-loading-bar.component';
 @NgModule({
   declarations: [FunFactsLoadingBarComponent],
   imports: [CommonModule, MatProgressBarModule],
-  exports: [FunFactsLoadingBarComponent]
+  exports: [FunFactsLoadingBarComponent],
 })
 export class FunFactsLoadingBarModule {}

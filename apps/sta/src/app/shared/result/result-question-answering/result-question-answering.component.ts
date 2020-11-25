@@ -21,12 +21,8 @@ import { QuestionAndAnswerDataForText } from '../../../core/store/reducers/quest
 export class ResultQuestionAnsweringComponent implements OnInit {
   public selectedTabIndex$: Observable<number>;
 
-  public questionAndAnsweringDataForText$: Observable<
-    QuestionAndAnswerDataForText
-  >;
-  public questionAndAnsweringDataForFile$: Observable<
-    QuestionAndAnswerDataForFile
-  >;
+  public questionAndAnsweringDataForText$: Observable<QuestionAndAnswerDataForText>;
+  public questionAndAnsweringDataForFile$: Observable<QuestionAndAnswerDataForFile>;
 
   constructor(private readonly store: Store<AppState>) {}
 

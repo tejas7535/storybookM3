@@ -40,9 +40,9 @@ export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const getProcessCaseState = createFeatureSelector<
-  fromProcessCase.ProcessCaseState
->('processCase');
+export const getProcessCaseState = createFeatureSelector<fromProcessCase.ProcessCaseState>(
+  'processCase'
+);
 
 export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 

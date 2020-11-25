@@ -111,6 +111,7 @@
       }
     ],
     "template-no-call-expression": false,
-    "template-cyclomatic-complexity": [true, 10]
+    "template-cyclomatic-complexity": [true, 10],
+    "prefer-inline-decorator": false
   }
 }

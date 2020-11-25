@@ -25,9 +25,8 @@ export class RangeFilterComponent implements OnChanges, Filter {
 
   @Input() public filter: FilterItemRange;
 
-  @Output() private readonly updateFilter: EventEmitter<
-    FilterItemRange
-  > = new EventEmitter();
+  @Output()
+  private readonly updateFilter: EventEmitter<FilterItemRange> = new EventEmitter();
 
   public ngOnChanges(changes: SimpleChanges): void {
     const selected = !!(

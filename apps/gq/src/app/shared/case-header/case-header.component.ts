@@ -20,9 +20,8 @@ export class CaseHeaderComponent implements OnInit {
   @Input() materialNumber15: string;
   @Input() customerName: string;
 
-  @Output() readonly toggleOfferDrawer: EventEmitter<
-    boolean
-  > = new EventEmitter();
+  @Output()
+  readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();
 
   customer$: Observable<Customer>;
 

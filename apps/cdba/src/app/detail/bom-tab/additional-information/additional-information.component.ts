@@ -42,9 +42,8 @@ export class AdditionalInformationComponent implements OnInit {
   bomErrorMessage$: Observable<string>;
   childrenOfSelectedBomItem$: Observable<BomItem[]>;
 
-  @Output() private readonly closeOverlay: EventEmitter<
-    void
-  > = new EventEmitter();
+  @Output()
+  private readonly closeOverlay: EventEmitter<void> = new EventEmitter();
 
   public constructor(private readonly store: Store<DetailState>) {}
 

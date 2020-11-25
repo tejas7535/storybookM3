@@ -17,17 +17,17 @@ export class SidebarService {
   /*
    * Definition of Breakpoint States --> Basis for viewports and sidebarmodes
    */
-  private readonly isSmall$: Observable<
-    BreakpointState
-  > = this.breakpointObserver.observe([Breakpoints.XSmall, Breakpoints.Small]);
+  private readonly isSmall$: Observable<BreakpointState> = this.breakpointObserver.observe(
+    [Breakpoints.XSmall, Breakpoints.Small]
+  );
 
-  private readonly isMedium$: Observable<
-    BreakpointState
-  > = this.breakpointObserver.observe(Breakpoints.Medium);
+  private readonly isMedium$: Observable<BreakpointState> = this.breakpointObserver.observe(
+    Breakpoints.Medium
+  );
 
-  private readonly isLarge$: Observable<
-    BreakpointState
-  > = this.breakpointObserver.observe([Breakpoints.Large, Breakpoints.XLarge]);
+  private readonly isLarge$: Observable<BreakpointState> = this.breakpointObserver.observe(
+    [Breakpoints.Large, Breakpoints.XLarge]
+  );
 
   /*
    * Viewport Observables

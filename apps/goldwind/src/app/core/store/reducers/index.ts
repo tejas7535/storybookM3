@@ -41,25 +41,25 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
   'bearing'
 );
 
-export const getLoadSenseState = createFeatureSelector<
-  fromLoadSense.LoadSenseState
->('loadSense');
+export const getLoadSenseState = createFeatureSelector<fromLoadSense.LoadSenseState>(
+  'loadSense'
+);
 
-export const getDataViewState = createFeatureSelector<
-  fromDataView.DataViewState
->('dataView');
+export const getDataViewState = createFeatureSelector<fromDataView.DataViewState>(
+  'dataView'
+);
 
 export const getDevicesState = createFeatureSelector<fromDevices.DevicesState>(
   'devices'
 );
 
-export const getEdmMonitorState = createFeatureSelector<
-  fromEdmMonitor.EdmMonitorState
->('edmMonitor');
+export const getEdmMonitorState = createFeatureSelector<fromEdmMonitor.EdmMonitorState>(
+  'edmMonitor'
+);
 
-export const getGreaseStatusState = createFeatureSelector<
-  fromGreaseStatus.GreaseStatusState
->('greaseStatus');
+export const getGreaseStatusState = createFeatureSelector<fromGreaseStatus.GreaseStatusState>(
+  'greaseStatus'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

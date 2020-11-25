@@ -10,9 +10,8 @@ import { QuotationDetail } from '../../core/store/models';
 export class OfferDrawerComponent {
   @Input() rowData: QuotationDetail[];
 
-  @Output() readonly toggleOfferDrawer: EventEmitter<
-    boolean
-  > = new EventEmitter();
+  @Output()
+  readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();
 
   public drawerToggle(): void {
     this.toggleOfferDrawer.emit(true);
