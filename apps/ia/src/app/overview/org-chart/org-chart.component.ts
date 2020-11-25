@@ -14,10 +14,10 @@ import { first } from 'rxjs/operators';
 import { select, Store } from '@ngrx/store';
 import d3OrgChart from 'd3-org-chart';
 
-import { EmployeeState } from '../../core/store/reducers/employee/employee.reducer';
-import { getAttritionDataForEmployee } from '../../core/store/selectors';
 import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
 import { Employee } from '../../shared/models';
+import { OverviewState } from '../store';
+import { getAttritionDataForOrgchart } from '../store/selectors/overview.selector';
 import { OrgChartService } from './org-chart.service';
 
 @Component({
@@ -42,7 +42,7 @@ export class OrgChartComponent implements AfterViewInit {
   public constructor(
     private readonly orgChartService: OrgChartService,
     private readonly dialog: MatDialog,
-    private readonly store: Store<EmployeeState>
+    private readonly store: Store<OverviewState>
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
@@ -56,7 +56,7 @@ export class OrgChartComponent implements AfterViewInit {
     ) {
       const employeeId = (node as Element).getAttribute('data-id');
       this.store
-        .pipe(select(getAttritionDataForEmployee, { employeeId }), first())
+        .pipe(select(getAttritionDataForOrgchart, { employeeId }), first())
         .subscribe((data) => {
           this.dialog.open(AttritionDialogComponent, {
             data,

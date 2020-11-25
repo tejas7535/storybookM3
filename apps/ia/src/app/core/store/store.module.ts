@@ -7,13 +7,13 @@ import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
 import { environment } from '../../../environments/environment';
-import { EmployeeEffects } from './effects';
-import { CustomSerializer, metaReducers, reducers } from './reducers';
+import { FilterEffects } from './effects';
+import { CustomSerializer, metaReducers, ROOT_REDUCERS } from './reducers';
 
 @NgModule({
   imports: [
     CommonModule,
-    NgrxStoreModule.forRoot(reducers, {
+    NgrxStoreModule.forRoot(ROOT_REDUCERS, {
       metaReducers,
       runtimeChecks: {
         strictStateSerializability: true,
@@ -30,7 +30,7 @@ import { CustomSerializer, metaReducers, reducers } from './reducers';
           maxAge: 50,
         })
       : /* istanbul ignore next: very difficult */ [],
-    EffectsModule.forRoot([EmployeeEffects]),
+    EffectsModule.forRoot([FilterEffects]),
   ],
   exports: [],
 })

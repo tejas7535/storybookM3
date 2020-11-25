@@ -5,12 +5,15 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { EmployeeState } from '../core/store/reducers/employee/employee.reducer';
-import {
-  getEmployeesLoading,
-  getFilteredEmployees,
-} from '../core/store/selectors';
 import { Employee } from '../shared/models';
+import { ChartType } from './models/chart-type.enum';
+import { OverviewState } from './store';
+import { chartTypeSelected } from './store/actions/overview.action';
+import {
+  getFilteredEmployeesForOrgChart,
+  getOrgChartLoading,
+  getSelectedChartType,
+} from './store/selectors/overview.selector';
 
 @Component({
   selector: 'ia-overview',
@@ -18,13 +21,19 @@ import { Employee } from '../shared/models';
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
-  employees$: Observable<Employee[]>;
-  isLoading$: Observable<boolean>;
+  orgChart$: Observable<Employee[]>;
+  isOrgChartLoading$: Observable<boolean>;
+  selectedChartType$: Observable<ChartType>;
 
-  public constructor(private readonly store: Store<EmployeeState>) {}
+  public constructor(private readonly store: Store<OverviewState>) {}
 
   public ngOnInit(): void {
-    this.employees$ = this.store.pipe(select(getFilteredEmployees));
-    this.isLoading$ = this.store.pipe(select(getEmployeesLoading));
+    this.orgChart$ = this.store.pipe(select(getFilteredEmployeesForOrgChart));
+    this.isOrgChartLoading$ = this.store.pipe(select(getOrgChartLoading));
+    this.selectedChartType$ = this.store.pipe(select(getSelectedChartType));
+  }
+
+  public chartTypeChanged(chartType: ChartType): void {
+    this.store.dispatch(chartTypeSelected({ chartType }));
   }
 }

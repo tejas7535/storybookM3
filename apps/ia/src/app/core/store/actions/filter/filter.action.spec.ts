@@ -1,23 +1,15 @@
 import {
+  changeShowAreaFiltersSetting,
   filterSelected,
-  loadEmployees,
-  loadEmployeesFailure,
-  loadEmployeesSuccess,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
   timePeriodSelected,
   timeRangeSelected,
 } from '../';
-import {
-  Employee,
-  EmployeesRequest,
-  IdValue,
-  SelectedFilter,
-  TimePeriod,
-} from '../../../../shared/models';
+import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 
-describe('Search Actions', () => {
+describe('Filter Actions', () => {
   const errorMessage = 'An error occured';
 
   describe('Get initial filters actions', () => {
@@ -25,7 +17,7 @@ describe('Search Actions', () => {
       const action = loadInitialFilters();
 
       expect(action).toEqual({
-        type: '[Employee] Load Initial Filters',
+        type: '[Filter] Load Initial Filters',
       });
     });
 
@@ -46,7 +38,7 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         filters,
-        type: '[Employee] Load Initial Filters Success',
+        type: '[Filter] Load Initial Filters Success',
       });
     });
 
@@ -55,7 +47,7 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Employee] Load Initial Filters Failure',
+        type: '[Filter] Load Initial Filters Failure',
       });
     });
 
@@ -65,7 +57,7 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         filter,
-        type: '[Employee] Filter selected',
+        type: '[Filter] Filter selected',
       });
     });
 
@@ -75,7 +67,7 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         timePeriod,
-        type: '[Employee] Time period selected',
+        type: '[Filter] Time period selected',
       });
     });
 
@@ -85,38 +77,17 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         timeRange,
-        type: '[Employee] Time range selected',
+        type: '[Filter] Time range selected',
       });
     });
-  });
+    test('changeShowAreaFiltersSetting', () => {
+      const show = false;
+      const action = changeShowAreaFiltersSetting({ show });
 
-  test('loadEmployees', () => {
-    const request = ({} as unknown) as EmployeesRequest;
-    const action = loadEmployees({ request });
-
-    expect(action).toEqual({
-      request,
-      type: '[Employee] Load Employees',
-    });
-  });
-
-  test('loadEmployeesSuccess', () => {
-    const employees: Employee[] = [];
-
-    const action = loadEmployeesSuccess({ employees });
-
-    expect(action).toEqual({
-      employees,
-      type: '[Employee] Load Employees Success',
-    });
-  });
-
-  test('loadEmployeesFailure', () => {
-    const action = loadEmployeesFailure({ errorMessage });
-
-    expect(action).toEqual({
-      errorMessage,
-      type: '[Employee] Load Employees Failure',
+      expect(action).toEqual({
+        show,
+        type: '[Filter] Show area filters setting changed',
+      });
     });
   });
 });

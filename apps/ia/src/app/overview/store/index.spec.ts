@@ -1,0 +1,62 @@
+import { initialState, overviewReducer } from '.';
+import { Employee, EmployeesRequest } from '../../shared/models';
+import { ChartType } from '../models/chart-type.enum';
+import {
+  chartTypeSelected,
+  loadOrgChart,
+  loadOrgChartFailure,
+  loadOrgChartSuccess,
+} from './actions/overview.action';
+
+describe('Overview Reducer', () => {
+  const errorMessage = 'An error occured';
+
+  describe('chartTypeSelected', () => {
+    test('should set chart type', () => {
+      const action = chartTypeSelected({
+        chartType: ChartType.WORLD_MAP,
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.selectedChart).toEqual(ChartType.WORLD_MAP);
+    });
+  });
+  describe('loadOrgChart', () => {
+    test('should set loading', () => {
+      const action = loadOrgChart({
+        request: ({} as unknown) as EmployeesRequest,
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOrgChartSuccess', () => {
+    test('should unset loading and set employees', () => {
+      const employees: Employee[] = [({} as unknown) as Employee];
+
+      const action = loadOrgChartSuccess({ employees });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.loading).toBeFalsy();
+      expect(state.orgChart).toEqual(employees);
+    });
+  });
+
+  describe('loadOrgChartFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOrgChartFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        loading: true,
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.loading).toBeFalsy();
+      expect(state.errorMessage).toEqual(errorMessage);
+    });
+  });
+});

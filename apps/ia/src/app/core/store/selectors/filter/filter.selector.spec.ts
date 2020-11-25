@@ -1,57 +1,41 @@
-import {
-  EMPLOYEES_FOR_SELECTORS,
-  EXPECTED_FILTERED_EMPLOYEES,
-} from '../../../../../mocks/employees-selector.mock';
-import { ChartType } from '../../../../overview/models/chart-type.enum';
 import { IdValue, TimePeriod } from '../../../../shared/models';
-import { initialState } from '../../reducers/employee/employee.reducer';
+import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
-  getAttritionDataForEmployee,
   getCountries,
   getCurrentFiltersAndTime,
   getCurrentRoute,
-  getEmployeesLoading,
-  getFilteredEmployees,
   getHrLocations,
   getInitialFiltersLoading,
   getOrgUnits,
   getRegionsAndSubRegions,
   getSelectedFilters,
-  getSelectedOverviewChartType,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
-} from './employee.selector';
+  showAreaFilters,
+} from './filter.selector';
 
-describe('Employee Selector', () => {
+describe('Filter Selector', () => {
   const fakeState = {
-    employee: {
+    filter: {
       ...initialState,
-      filters: {
-        ...initialState.filters,
-        orgUnits: [new IdValue('dep1', 'Department 1')],
-        regionsAndSubRegions: [
-          new IdValue('ger', 'Germany'),
-          new IdValue('eu', 'Europe'),
-        ],
-        countries: [new IdValue('ger', 'Germany')],
-        hrLocations: [new IdValue('hero', 'Herzogenaurach')],
-        selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
-        selectedFilters: {
-          ids: ['test'],
-          entities: {
-            test: {
-              name: 'test',
-              value: 1234,
-            },
+      orgUnits: [new IdValue('dep1', 'Department 1')],
+      regionsAndSubRegions: [
+        new IdValue('ger', 'Germany'),
+        new IdValue('eu', 'Europe'),
+      ],
+      countries: [new IdValue('ger', 'Germany')],
+      hrLocations: [new IdValue('hero', 'Herzogenaurach')],
+      selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
+      selectedFilters: {
+        ids: ['test'],
+        entities: {
+          test: {
+            name: 'test',
+            value: 1234,
           },
         },
-      },
-      employees: {
-        ...initialState.employees,
-        result: EMPLOYEES_FOR_SELECTORS,
-        loading: true,
       },
     },
     router: {
@@ -124,7 +108,7 @@ describe('Employee Selector', () => {
   describe('getSelectedFilters', () => {
     test('should return selected Filters', () => {
       expect(getSelectedFilters(fakeState)).toEqual(
-        fakeState.employee.filters.selectedFilters
+        fakeState.filter.selectedFilters
       );
     });
   });
@@ -149,54 +133,9 @@ describe('Employee Selector', () => {
     });
   });
 
-  describe('getFilteredEmployees', () => {
-    test('should return filtered employees', () => {
-      expect(getFilteredEmployees(fakeState)).toEqual(
-        EXPECTED_FILTERED_EMPLOYEES
-      );
-    });
-  });
-
-  describe('getEmployeesLoading', () => {
-    test('should return employees loading status', () => {
-      expect(getEmployeesLoading(fakeState)).toBeTruthy();
-    });
-  });
-
-  describe('getSelectedOverviewChartType', () => {
-    test('should return currently selected chart type', () => {
-      expect(getSelectedOverviewChartType(fakeState)).toEqual(
-        ChartType.ORG_CHART
-      );
-    });
-  });
-
-  describe('showRegionsAndLocationsFilters', () => {
+  describe('showAreaFilters', () => {
     test('should return true', () => {
-      expect(getSelectedOverviewChartType(fakeState)).toBeTruthy();
-    });
-  });
-
-  describe('getAttritionDataForEmployee', () => {
-    test('should return attrition meta data', () => {
-      const expected = {
-        attritionRate: 45.28,
-        employeesAdded: 1,
-        employeesLost: 2,
-        forcedLeavers: 1,
-        naturalTurnover: 0,
-        openPositions: 0,
-        terminationReceived: 0,
-        title: 'Schaeffler_IT',
-        unforcedLeavers: 1,
-      };
-      expect(
-        getAttritionDataForEmployee.projector(
-          fakeState.employee,
-          fakeState.employee.filters.selectedTimeRange,
-          { employeeId: '123' }
-        )
-      ).toEqual(expected);
+      expect(showAreaFilters(fakeState)).toBeTruthy();
     });
   });
 });

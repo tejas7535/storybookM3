@@ -4,11 +4,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
-import { getAttritionDataForEmployee } from '../../core/store/selectors';
 import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../../shared/attrition-dialog/attrition-dialog.module';
 import { AttritionDialogMeta } from '../../shared/attrition-dialog/models/attrition-dialog-meta.model';
 import { Employee } from '../../shared/models';
+import { getAttritionDataForOrgchart } from '../store/selectors/overview.selector';
 import { OrgChartComponent } from './org-chart.component';
 
 describe('OrgChartComponent', () => {
@@ -53,7 +53,7 @@ describe('OrgChartComponent', () => {
     test('should open dialog with attrition data when attrition icon is clicked', async () => {
       const mock = ({} as unknown) as AttritionDialogMeta;
       component['dialog'].open = jest.fn();
-      store.overrideSelector(getAttritionDataForEmployee, mock);
+      store.overrideSelector(getAttritionDataForOrgchart, mock);
 
       component.clickout({
         target: {

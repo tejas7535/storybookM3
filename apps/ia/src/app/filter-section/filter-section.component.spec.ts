@@ -7,7 +7,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { filterSelected, timeRangeSelected } from '../core/store/actions';
-import { ChartType } from '../overview/models/chart-type.enum';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../shared/date-input/date-input.module';
 import { IdValue, SelectedFilter, TimePeriod } from '../shared/models';
@@ -33,17 +32,12 @@ describe('FilterSectionComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          employee: {
-            filters: {
-              orgUnits: [],
-              regionsAndSubRegions: [],
-              hrLocations: [],
-              countries: [],
-              timePeriods: [],
-            },
-            overview: {
-              selectedChart: ChartType.ORG_CHART,
-            },
+          filter: {
+            orgUnits: [],
+            regionsAndSubRegions: [],
+            hrLocations: [],
+            countries: [],
+            timePeriods: [],
           },
         },
       }),
@@ -113,7 +107,7 @@ describe('FilterSectionComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith({
         timePeriod: TimePeriod.CUSTOM,
-        type: '[Employee] Time period selected',
+        type: '[Filter] Time period selected',
       });
     });
   });

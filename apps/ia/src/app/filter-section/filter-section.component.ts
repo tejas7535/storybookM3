@@ -10,7 +10,7 @@ import {
   timePeriodSelected,
   timeRangeSelected,
 } from '../core/store/actions';
-import { EmployeeState } from '../core/store/reducers/employee/employee.reducer';
+import { FilterState } from '../core/store/reducers/filter/filter.reducer';
 import {
   getCountries,
   getHrLocations,
@@ -18,7 +18,7 @@ import {
   getRegionsAndSubRegions,
   getSelectedTimePeriod,
   getTimePeriods,
-  showRegionsAndLocationsFilters,
+  showAreaFilters,
 } from '../core/store/selectors';
 import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 
@@ -34,11 +34,11 @@ export class FilterSectionComponent implements OnInit {
   hrLocations$: Observable<Filter>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-  showRegionsAndLocations$: Observable<boolean>;
+  showAreaFilters$: Observable<boolean>;
 
   timeRangeHintValue = 'time range';
 
-  public constructor(private readonly store: Store<EmployeeState>) {}
+  public constructor(private readonly store: Store<FilterState>) {}
 
   public ngOnInit(): void {
     this.orgUnits$ = this.store.pipe(select(getOrgUnits));
@@ -52,9 +52,7 @@ export class FilterSectionComponent implements OnInit {
       select(getSelectedTimePeriod),
       tap((timePeriod) => this.setTimeRangeHint(timePeriod))
     );
-    this.showRegionsAndLocations$ = this.store.pipe(
-      select(showRegionsAndLocationsFilters)
-    );
+    this.showAreaFilters$ = this.store.pipe(select(showAreaFilters));
   }
 
   public optionSelected(filter: SelectedFilter): void {

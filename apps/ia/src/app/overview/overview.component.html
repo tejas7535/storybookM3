@@ -1,7 +1,12 @@
+<ia-toggle-charts
+  [chartType]="selectedChartType$ | ngrxPush"
+  (changed)="chartTypeChanged($event)"
+></ia-toggle-charts>
+
 <div class="org-chart-container">
   <ia-org-chart
-    [data]="employees$ | ngrxPush"
-    [isLoading]="isLoading$ | ngrxPush"
+    [data]="orgChart$ | ngrxPush"
+    [isLoading]="isOrgChartLoading$ | ngrxPush"
   ></ia-org-chart>
 </div>
 

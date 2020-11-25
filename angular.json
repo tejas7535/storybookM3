@@ -2638,7 +2638,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/ia/src/environments/environment.ts",
-                  "with": "apps/ia/src/environments/environment.dev.ts"
+                  "with": "apps/ia/src/environments/environment.qa.ts"
                 }
               ],
               "budgets": [
