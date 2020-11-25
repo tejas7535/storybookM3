@@ -12,6 +12,10 @@
       checkbox-checked-color: $schaeffler-green-1,
     )
   );
+  .ag-column-panel {
+    border-left: 1px solid ag-param(border-color);
+    border-right: 1px solid ag-param(border-color);
+  }
 }
 
 .material-icons {
