@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## 1.5.0 (2020-11-25)
+
+
+### 🎸 Features
+
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](///commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+* **sidebar:** add storybook stories (UFTABI-2516) ([983ff75](///commit/983ff7543a52c564b3b60c5d02f2b438a3a19fa1))
+* **snackbar:** split snackbar into separate publishable lib (UFTABI-2316) ([1d60a3e](///commit/1d60a3e1e7d14c162360e745b48b5c90983fae5f))
+* **snackbar:** use view engine and prevent barrel imports (UFTABI-2738) ([e036ab9](///commit/e036ab9e7e388a787681329ca8ede035d4d9e596))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](///commit/245e355c6de4dafff18bdf03301074adb41669c3))
+* **workspace:** enable auto-populated publishable library dependencies (UFTABI-2390) ([471e246](///commit/471e246144837957500060590020b380a0940c39))
+* release v1 (UFTABI-2483) ([79c1ba7](///commit/79c1ba7c6c1af8ccd909083d91fffbe0ae017ebb))
+
+
+### ✏️ Documentation
+
+* **shared-libs:** improve documentation ([18b709a](///commit/18b709a184a4ff7c2c342620bfec4a297831ae6e))
+
 ### [1.4.4](///compare/v1.9.0...v1.4.4) (2020-11-02)
 
 ### [1.4.3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.4.3) (2020-10-27)
