@@ -9,12 +9,12 @@ const routes: Routes = [
   {
     path: '',
     component: TranslationComponent,
-    canActivate: [AuthGuard]
-  }
+    canActivate: [AuthGuard],
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
 export class TranslationRoutingModule {}

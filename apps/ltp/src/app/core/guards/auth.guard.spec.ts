@@ -5,7 +5,7 @@ import {
   ActivatedRoute,
   convertToParamMap,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -21,9 +21,9 @@ describe('AuthGuard', () => {
   const goodRoute: ActivatedRoute = {
     snapshot: {
       paramMap: convertToParamMap({
-        id: 'one-id'
-      })
-    }
+        id: 'one-id',
+      }),
+    },
   } as ActivatedRoute;
 
   configureTestSuite(() => {
@@ -36,8 +36,8 @@ describe('AuthGuard', () => {
         {
           provide: Router,
           useValue: {
-            navigateByUrl: () => jest.fn()
-          }
+            navigateByUrl: () => jest.fn(),
+          },
         },
         {
           provide: OAuthService,
@@ -50,10 +50,10 @@ describe('AuthGuard', () => {
               .fn()
               .mockImplementation(() => Promise.resolve()),
             initImplicitFlow: jest.fn(),
-            state: 'state/link'
-          }
-        }
-      ]
+            state: 'state/link',
+          },
+        },
+      ],
     });
 
     guard = TestBed.inject(AuthGuard);
@@ -77,11 +77,11 @@ describe('AuthGuard', () => {
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => false);
 
       goodRoute.snapshot.data = {
-        roles: ['good_role']
+        roles: ['good_role'],
       };
 
       const result = guard.canActivate(goodRoute.snapshot, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(result).toBeFalsy();
@@ -91,7 +91,7 @@ describe('AuthGuard', () => {
       guard['isAuthenticated'] = jest.fn().mockImplementation(() => true);
 
       const result = guard.canActivate(undefined, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(result).toBeTruthy();
@@ -123,8 +123,8 @@ describe('AuthGuard', () => {
       goodRoute.snapshot.data = {
         roles: ['good_role'],
         unauthorized: {
-          redirect: '/nonono'
-        }
+          redirect: '/nonono',
+        },
       };
 
       guard['denyAccess'](goodRoute.snapshot);

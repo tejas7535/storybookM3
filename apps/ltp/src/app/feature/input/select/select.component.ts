@@ -4,7 +4,7 @@ import { SelectControl } from './select-control.model';
 
 @Component({
   selector: 'ltp-select',
-  templateUrl: './select.component.html'
+  templateUrl: './select.component.html',
 })
 export class SelectComponent {
   @Input() control: SelectControl;

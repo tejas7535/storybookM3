@@ -34,9 +34,9 @@ export const selectRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const selectEmployeeState = createFeatureSelector<
-  fromEmployee.EmployeeState
->('employee');
+export const selectEmployeeState = createFeatureSelector<fromEmployee.EmployeeState>(
+  'employee'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

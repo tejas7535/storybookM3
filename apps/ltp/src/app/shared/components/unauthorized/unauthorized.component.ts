@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 @Component({
   selector: 'ltp-unauthorized',
   templateUrl: './unauthorized.component.html',
-  styleUrls: ['./unauthorized.component.scss']
+  styleUrls: ['./unauthorized.component.scss'],
 })
 export class UnauthorizedComponent {
   mailto = 'Matthias.Funk@schaeffler.com';

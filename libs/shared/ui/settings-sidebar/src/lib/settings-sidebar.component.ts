@@ -29,9 +29,8 @@ export class SettingsSidebarComponent implements OnInit, OnDestroy {
   @Input() public width = '400px';
   @Input() public triggerBtnIcon: Icon = new Icon('icon-filter');
 
-  @Output() private readonly openedChange: EventEmitter<
-    boolean
-  > = new EventEmitter();
+  @Output()
+  private readonly openedChange: EventEmitter<boolean> = new EventEmitter();
 
   constructor(private readonly breakpointService: BreakpointService) {}
 

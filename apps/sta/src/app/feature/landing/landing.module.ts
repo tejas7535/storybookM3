@@ -8,6 +8,6 @@ import { LandingComponent } from './landing.component';
 @NgModule({
   declarations: [LandingComponent],
   imports: [CommonModule, FlexLayoutModule, MatButtonModule],
-  exports: [LandingComponent]
+  exports: [LandingComponent],
 })
 export class LandingModule {}

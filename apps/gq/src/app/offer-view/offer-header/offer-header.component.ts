@@ -26,9 +26,8 @@ export class OfferHeaderComponent implements OnInit, OnDestroy {
   @Input() offerNumber: string;
   @Input() quotationNumber: string;
 
-  @Output() readonly toggleOfferDrawer: EventEmitter<
-    boolean
-  > = new EventEmitter();
+  @Output()
+  readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();
 
   public customer$: Observable<Customer>;
   public readonly subscription: Subscription = new Subscription();

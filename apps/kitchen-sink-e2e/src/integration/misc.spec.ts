@@ -1,6 +1,6 @@
 import {
   testPageNotFound,
-  testScrollToTop
+  testScrollToTop,
 } from '@schaeffler/shared/cypress-utils';
 
 describe('Misc', () => {

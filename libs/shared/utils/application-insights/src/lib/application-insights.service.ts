@@ -15,7 +15,6 @@ import {
 })
 export class ApplicationInsightsService {
   constructor(
-    // tslint:disable-next-line: prefer-inline-decorator
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
     private readonly router: Router

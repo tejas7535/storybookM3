@@ -14,15 +14,15 @@ import { environment } from '../../../environments/environment';
     NgrxStoreModule.forRoot(reducers, {
       runtimeChecks: {
         strictStateSerializability: true,
-        strictActionSerializability: true
-      }
+        strictActionSerializability: true,
+      },
     }),
     EffectsModule.forRoot([InputEffects, PredictionEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
-      logOnly: environment.production
-    })
+      logOnly: environment.production,
+    }),
   ],
-  exports: []
+  exports: [],
 })
 export class StoreModule {}

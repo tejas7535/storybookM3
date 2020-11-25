@@ -45,9 +45,8 @@ export class AutocompleteInputComponent
     return this._filter;
   }
 
-  @Output() readonly selected: EventEmitter<
-    SelectedFilter
-  > = new EventEmitter();
+  @Output()
+  readonly selected: EventEmitter<SelectedFilter> = new EventEmitter();
 
   @ViewChild('matInput') private readonly matInput: ElementRef;
 

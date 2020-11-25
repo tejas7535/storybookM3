@@ -18,7 +18,7 @@ export const tags20 = [
   '17',
   '18',
   '19',
-  '20'
+  '20',
 ];
 
 export const tags15 = [
@@ -36,7 +36,7 @@ export const tags15 = [
   '12',
   '13',
   '14',
-  '15'
+  '15',
 ];
 
 export const tags14 = [
@@ -53,5 +53,5 @@ export const tags14 = [
   '11',
   '12',
   '13',
-  '14'
+  '14',
 ];

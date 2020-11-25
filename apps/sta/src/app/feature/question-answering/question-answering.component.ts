@@ -38,9 +38,7 @@ export class QuestionAnsweringComponent implements OnInit {
   public selectedTabIndex$: Observable<number>;
   public textInput$: Observable<QuestionAnsweringTextInput>;
   public fileStatus$: Observable<FileStatus>;
-  public questionAndAnsweringDataForFile$: Observable<
-    QuestionAndAnswerDataForFile
-  >;
+  public questionAndAnsweringDataForFile$: Observable<QuestionAndAnswerDataForFile>;
   public readonly subscription: Subscription = new Subscription();
 
   public fileTextInput: string;

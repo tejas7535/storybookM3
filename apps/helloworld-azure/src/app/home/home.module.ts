@@ -16,8 +16,8 @@ import { HomeComponent } from './home.component';
     MatProgressBarModule,
     HomeRoutingModule,
     RouterModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
-  exports: [HomeComponent]
+  exports: [HomeComponent],
 })
 export class HomeModule {}

@@ -25,7 +25,7 @@ export class ScrollToTopComponent implements OnInit {
     @Inject(DOCUMENT) private readonly document: Document,
     @Optional()
     @Host()
-    private readonly scrollToTopContainer: ScrollToTopDirective // tslint:disable-line:prefer-inline-decorator
+    private readonly scrollToTopContainer: ScrollToTopDirective
   ) {}
 
   ngOnInit(): void {

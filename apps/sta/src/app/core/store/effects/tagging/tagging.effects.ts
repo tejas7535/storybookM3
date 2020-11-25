@@ -16,7 +16,7 @@ import {
   loadTagsForTextFailure,
   loadTagsForTextSuccess,
   resetAll,
-  resetTags
+  resetTags,
 } from '../../actions';
 import { TaggingState } from '../../reducers/tagging/tagging.reducer';
 
@@ -37,7 +37,7 @@ export class TaggingEffects {
       concatMap((text: string) =>
         this.dataService.postTaggingText(text).pipe(
           map((tags: string[]) => loadTagsForTextSuccess({ tags })),
-          catchError(_e => of(loadTagsForTextFailure()))
+          catchError((_e) => of(loadTagsForTextFailure()))
         )
       )
     )
@@ -55,7 +55,7 @@ export class TaggingEffects {
       concatMap((file: FileReplacement) =>
         this.dataService.postTaggingFile(file).pipe(
           map((tags: string[]) => loadTagsForFileSuccess({ tags })),
-          catchError(_e => of(loadTagsForFileFailure()))
+          catchError((_e) => of(loadTagsForFileFailure()))
         )
       )
     )

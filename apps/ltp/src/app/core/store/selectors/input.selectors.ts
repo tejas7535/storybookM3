@@ -4,17 +4,16 @@ import * as fromStore from '../reducers';
 
 export const getMaterials = createSelector(
   fromStore.getInputState,
-  input => input.materials
+  (input) => input.materials
 );
 
-export const getMaterialList = createSelector(
-  getMaterials,
-  materials => [...new Set(materials.map(material => material.name))]
-);
+export const getMaterialList = createSelector(getMaterials, (materials) => [
+  ...new Set(materials.map((material) => material.name)),
+]);
 
 export const getSelectedMaterial = createSelector(
   fromStore.getInputState,
-  input => input.selectedMaterial
+  (input) => input.selectedMaterial
 );
 
 export const getHeatTreatmentList = createSelector(
@@ -22,7 +21,7 @@ export const getHeatTreatmentList = createSelector(
   getSelectedMaterial,
   (materials, selectedMaterial) =>
     materials
-      .map(material =>
+      .map((material) =>
         material.name === selectedMaterial
           ? material
           : { ...material, disabled: true }
@@ -33,20 +32,20 @@ export const getHeatTreatmentList = createSelector(
 
 export const getPredictions = createSelector(
   fromStore.getInputState,
-  input => input.predictions
+  (input) => input.predictions
 );
 
 export const getBurdeningTypes = createSelector(
   fromStore.getInputState,
-  input => input.burdeningTypes
+  (input) => input.burdeningTypes
 );
 
 export const getDisplay = createSelector(
   fromStore.getInputState,
-  input => input.display
+  (input) => input.display
 );
 
 export const getBannerVisible = createSelector(
   getDisplay,
-  display => display.bannerOpen
+  (display) => display.bannerOpen
 );

@@ -4,7 +4,7 @@ import * as fromRouter from '@ngrx/router-store';
 import {
   ActionReducerMap,
   createFeatureSelector,
-  MetaReducer
+  MetaReducer,
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
@@ -20,7 +20,7 @@ export interface AppState {
 }
 
 export const reducers: ActionReducerMap<AppState> = {
-  router: fromRouter.routerReducer
+  router: fromRouter.routerReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -45,7 +45,7 @@ export class CustomSerializer
 
     const {
       url,
-      root: { queryParams }
+      root: { queryParams },
     } = routerState;
     const { params } = route;
 

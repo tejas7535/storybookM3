@@ -6,6 +6,6 @@ import { GhostLineElementsComponent } from './ghost-line-elements.component';
 @NgModule({
   declarations: [GhostLineElementsComponent],
   imports: [CommonModule],
-  exports: [GhostLineElementsComponent]
+  exports: [GhostLineElementsComponent],
 })
 export class GhostLineElementsModule {}

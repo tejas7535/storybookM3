@@ -5,7 +5,7 @@ import {
   ActivatedRoute,
   convertToParamMap,
   Router,
-  RouterStateSnapshot
+  RouterStateSnapshot,
 } from '@angular/router';
 
 import { OAuthService } from 'angular-oauth2-oidc';
@@ -21,32 +21,32 @@ describe('RoleGuard', () => {
   const goodRoute: ActivatedRoute = {
     snapshot: {
       paramMap: convertToParamMap({
-        id: 'one-id'
-      })
-    }
+        id: 'one-id',
+      }),
+    },
   } as ActivatedRoute;
 
   // tslint:disable-next-line: no-object-literal-type-assertion
   const badRoute: ActivatedRoute = {
     snapshot: {
       paramMap: convertToParamMap({
-        id: 'one-id'
-      })
-    }
+        id: 'one-id',
+      }),
+    },
   } as ActivatedRoute;
 
   const goodData: any = {
     roles: ['good_role'],
     unauthorized: {
-      redirect: '/nonono'
-    }
+      redirect: '/nonono',
+    },
   };
 
   const badData: any = {
     roles: ['bad_role'],
     unauthorized: {
-      redirect: '/nonono'
-    }
+      redirect: '/nonono',
+    },
   };
 
   configureTestSuite(() => {
@@ -59,8 +59,8 @@ describe('RoleGuard', () => {
         {
           provide: Router,
           useValue: {
-            navigateByUrl: () => jest.fn()
-          }
+            navigateByUrl: () => jest.fn(),
+          },
         },
         {
           provide: OAuthService,
@@ -73,10 +73,10 @@ describe('RoleGuard', () => {
               .fn()
               .mockImplementation(() => Promise.resolve()),
             initImplicitFlow: jest.fn(),
-            state: 'state/link'
-          }
-        }
-      ]
+            state: 'state/link',
+          },
+        },
+      ],
     });
     guard = TestBed.inject(RoleGuard);
   });
@@ -108,7 +108,7 @@ describe('RoleGuard', () => {
       goodRoute.snapshot.data = goodData;
 
       const result = guard.canActivate(goodRoute.snapshot, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(guard['denyAccess']).toHaveBeenCalledWith(goodRoute.snapshot);
@@ -122,7 +122,7 @@ describe('RoleGuard', () => {
       badRoute.snapshot.data = badData;
 
       const result = guard.canActivate(badRoute.snapshot, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(guard['denyAccess']).toHaveBeenCalledWith(badRoute.snapshot);
@@ -135,7 +135,7 @@ describe('RoleGuard', () => {
       goodRoute.snapshot.data = goodData;
 
       const result = guard.canActivate(goodRoute.snapshot, ({
-        url: 'hello'
+        url: 'hello',
       } as unknown) as RouterStateSnapshot);
 
       expect(result).toBeTruthy();

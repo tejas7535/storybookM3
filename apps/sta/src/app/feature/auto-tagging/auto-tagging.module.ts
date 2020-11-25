@@ -17,8 +17,8 @@ import { AutoTaggingComponent } from './auto-tagging.component';
     FlexLayoutModule,
     MatTabsModule,
     TextInputModule,
-    FileUploadModule
+    FileUploadModule,
   ],
-  exports: [AutoTaggingComponent]
+  exports: [AutoTaggingComponent],
 })
 export class AutoTaggingModule {}

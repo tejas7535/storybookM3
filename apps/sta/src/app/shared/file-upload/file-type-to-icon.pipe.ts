@@ -5,7 +5,7 @@ const endsWith = (fileName: string, fileType: string): boolean => {
 };
 
 @Pipe({
-  name: 'fileTypeToIcon'
+  name: 'fileTypeToIcon',
 })
 export class FileTypeToIconPipe implements PipeTransform {
   public transform(fileName: string): string {

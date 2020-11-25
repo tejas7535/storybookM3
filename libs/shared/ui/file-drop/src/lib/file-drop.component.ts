@@ -19,12 +19,10 @@ export class FileDropComponent implements OnChanges {
   @Output() public readonly filesAdded: EventEmitter<File[]> = new EventEmitter<
     File[]
   >();
-  @Output() public readonly fileOver: EventEmitter<any> = new EventEmitter<
-    any
-  >();
-  @Output() public readonly fileLeave: EventEmitter<any> = new EventEmitter<
-    any
-  >();
+  @Output()
+  public readonly fileOver: EventEmitter<any> = new EventEmitter<any>();
+  @Output()
+  public readonly fileLeave: EventEmitter<any> = new EventEmitter<any>();
 
   public dragoverflag = false;
   public acceptAsArray = '';

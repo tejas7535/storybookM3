@@ -7,7 +7,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GreetingService {
   baseUrl: string = environment.apiBaseUrl;
@@ -42,8 +42,8 @@ export class GreetingService {
 
   private getGreetingFromAPI(endpoint: string): Observable<string> {
     return this.httpClient.get<{ greeting: string }>(endpoint).pipe(
-      map(response => response.greeting),
-      catchError(e => GreetingService.handleError(e))
+      map((response) => response.greeting),
+      catchError((e) => GreetingService.handleError(e))
     );
   }
 }

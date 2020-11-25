@@ -8,7 +8,7 @@ import { SliderControl } from './slider.model';
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
   // tslint:disable-next-line: use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.None,
 })
 export class SliderComponent implements OnInit {
   @Input() control: SliderControl;
@@ -18,13 +18,13 @@ export class SliderComponent implements OnInit {
   public ngOnInit(): void {
     this.control.formControl.setValidators(this.isValid(this.control));
     this.control.formControl.updateValueAndValidity();
-    this.control.formControl.valueChanges.subscribe(value =>
+    this.control.formControl.valueChanges.subscribe((value) =>
       this.control.formControl.patchValue(value, this.formOptions)
     );
     if (this.control.disabled === true || this.control.disabled === false) {
       this.setDisabled(this.control.disabled);
     } else {
-      this.control.disabled.subscribe(disabled => this.setDisabled(disabled));
+      this.control.disabled.subscribe((disabled) => this.setDisabled(disabled));
     }
   }
 

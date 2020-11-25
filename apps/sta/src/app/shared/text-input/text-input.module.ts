@@ -19,8 +19,8 @@ import { TextInputComponent } from './text-input.component';
     MatFormFieldModule,
     MatInputModule,
     ReactiveFormsModule,
-    MatButtonModule
+    MatButtonModule,
   ],
-  exports: [TextInputComponent]
+  exports: [TextInputComponent],
 })
 export class TextInputModule {}

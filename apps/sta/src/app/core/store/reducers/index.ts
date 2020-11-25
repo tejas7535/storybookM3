@@ -47,17 +47,17 @@ export const getTaggingState = createFeatureSelector<fromTagging.TaggingState>(
   'tagging'
 );
 
-export const getTranslationState = createFeatureSelector<
-  fromTranslation.TranslationState
->('translation');
+export const getTranslationState = createFeatureSelector<fromTranslation.TranslationState>(
+  'translation'
+);
 
-export const getQuestionAnsweringState = createFeatureSelector<
-  fromQuestionAnswering.QuestionAnsweringState
->('questionAnswering');
+export const getQuestionAnsweringState = createFeatureSelector<fromQuestionAnswering.QuestionAnsweringState>(
+  'questionAnswering'
+);
 
-export const getDreiDMasterState = createFeatureSelector<
-  fromDreiDMaster.DreiDMasterState
->('dreiDMaster');
+export const getDreiDMasterState = createFeatureSelector<fromDreiDMaster.DreiDMasterState>(
+  'dreiDMaster'
+);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

@@ -31,12 +31,10 @@ import { RangeFilterComponent } from './range-filter/range-filter.component';
   templateUrl: './reference-types-filters.component.html',
 })
 export class ReferenceTypesFiltersComponent implements OnInit {
-  @ViewChildren(MultiSelectFilterComponent) multiSelectFilters: QueryList<
-    MultiSelectFilterComponent
-  >;
-  @ViewChildren(RangeFilterComponent) rangeFilters: QueryList<
-    RangeFilterComponent
-  >;
+  @ViewChildren(MultiSelectFilterComponent)
+  multiSelectFilters: QueryList<MultiSelectFilterComponent>;
+  @ViewChildren(RangeFilterComponent)
+  rangeFilters: QueryList<RangeFilterComponent>;
 
   filters$: Observable<FilterItem[]>;
 

@@ -29,11 +29,11 @@ describe('NGRX Store Reducer Index', () => {
                 url: 'nirvana',
                 root: {
                   queryParams: '',
-                  firstChild: firstChildParams
-                }
-              }
-            }
-          ]
+                  firstChild: firstChildParams,
+                },
+              },
+            },
+          ],
         });
       });
 

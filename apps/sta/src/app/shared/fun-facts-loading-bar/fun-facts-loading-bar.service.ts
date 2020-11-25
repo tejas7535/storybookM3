@@ -10,7 +10,7 @@ import { FunFact } from './models/fun-fact.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FunFactsLoadingBarService {
   private readonly apiUrl = environment.apiBaseUrl;

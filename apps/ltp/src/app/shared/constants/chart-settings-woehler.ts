@@ -9,7 +9,7 @@ export const CHART_SETTINGS_WOEHLER: ChartSettings = {
     format: 'exponential',
     showGrid: true,
     showMinorGrid: true,
-    type: 'logarithmic'
+    type: 'logarithmic',
   },
   valueAxis: {
     title: 'prediction.chart.woehlerYLabel',
@@ -17,9 +17,9 @@ export const CHART_SETTINGS_WOEHLER: ChartSettings = {
     format: '',
     showGrid: false,
     showMinorGrid: false,
-    type: 'logarithmic'
+    type: 'logarithmic',
   },
   customPointFn: (): Object => {
     return { visible: false };
-  }
+  },
 };

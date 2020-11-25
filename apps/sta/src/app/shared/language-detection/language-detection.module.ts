@@ -9,6 +9,6 @@ import { LanguageDetectionComponent } from './language-detection.component';
 @NgModule({
   declarations: [LanguageDetectionComponent],
   imports: [CommonModule, MatIconModule, MatSelectModule, ReactiveFormsModule],
-  exports: [LanguageDetectionComponent]
+  exports: [LanguageDetectionComponent],
 })
 export class LanguageDetectionModule {}

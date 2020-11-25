@@ -1,10 +1,7 @@
 export const testLogin = (login: Function, username: string) => {
   it('should check that user name is correct', () => {
     login().visit('/');
-    cy.get('#headerUserName')
-      .eq(0)
-      .invoke('text')
-      .should('equal', username);
+    cy.get('#headerUserName').eq(0).invoke('text').should('equal', username);
   });
 
   it('should logout and back in', () => {

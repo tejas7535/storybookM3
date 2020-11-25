@@ -11,9 +11,7 @@ import { Subject } from 'rxjs';
   selector: '[schaefflerScrollToTop]',
 })
 export class ScrollToTopDirective {
-  public readonly scrollEvent$: Subject<HTMLElement> = new Subject<
-    HTMLElement
-  >();
+  public readonly scrollEvent$: Subject<HTMLElement> = new Subject<HTMLElement>();
 
   @HostBinding('style.height') public readonly height = '100%';
   @HostBinding('style.min-height') public readonly minHeight = '100%';

@@ -9,7 +9,7 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
     format: '',
     showGrid: true,
     showMinorGrid: true,
-    type: 'continouus'
+    type: 'continouus',
   },
   valueAxis: {
     title: 'prediction.chart.haighYLabel',
@@ -17,9 +17,9 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
     format: '',
     showGrid: true,
     showMinorGrid: true,
-    type: 'continouus'
+    type: 'continouus',
   },
   customPointFn: (): Object => {
     return { visible: false };
-  }
+  },
 };
