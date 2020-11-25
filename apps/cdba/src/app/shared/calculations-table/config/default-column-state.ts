@@ -2,21 +2,21 @@ import { ColumnState } from '@ag-grid-community/all-modules';
 
 export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   checkbox: { colId: 'checkbox', pinned: 'left' },
-  materialNum: {
-    colId: 'materialNum',
+  materialNumber: {
+    colId: 'materialNumber',
     pinned: 'left',
   },
-  costingDateFrom: {
-    colId: 'costingDateFrom',
+  calculationDate: {
+    colId: 'calculationDate',
   },
-  costingVariant: {
-    colId: 'costingVariant',
+  costType: {
+    colId: 'costType',
   },
-  priceEur: {
-    colId: 'priceEur',
+  price: {
+    colId: 'price',
   },
-  priceEurCurrency: {
-    colId: 'priceEurCurrency',
+  currency: {
+    colId: 'currency',
   },
   priceUnit: {
     colId: 'priceUnit',

@@ -1,6 +1,6 @@
 import { ReferenceType } from '../../app/core/store/reducers/shared/models';
 
-export const REFRENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
+export const REFERENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
   '0781403820000',
   'IWS',
   239349,

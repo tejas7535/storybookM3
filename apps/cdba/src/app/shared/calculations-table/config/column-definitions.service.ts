@@ -24,39 +24,35 @@ export class ColumnDefinitionService {
       minWidth: 70,
       width: 70,
     },
-    costingDateFrom: {
-      headerName: translate('detail.shared.calculationTable.costingDateFrom'),
+    calculationDate: {
+      headerName: translate('detail.shared.calculationTable.calculationDate'),
       headerTooltip: translate(
-        'detail.shared.calculationTable.costingDateFrom'
+        'detail.shared.calculationTable.calculationDate'
       ),
-      valueGetter: (params) => valueGetterDate(params, 'costingDateFrom'),
+      valueGetter: (params) => valueGetterDate(params, 'calculationDate'),
       valueFormatter: formatDate,
       filter: 'agDateColumnFilter',
     },
-    costingVariant: {
-      field: 'costingVariant',
-      headerName: translate('detail.shared.calculationTable.costingVariant'),
-      headerTooltip: translate('detail.shared.calculationTable.costingVariant'),
+    costType: {
+      field: 'costType',
+      headerName: translate('detail.shared.calculationTable.costType'),
+      headerTooltip: translate('detail.shared.calculationTable.costType'),
     },
-    priceEur: {
-      field: 'priceEur',
-      headerName: translate('detail.shared.calculationTable.priceEur'),
-      headerTooltip: translate('detail.shared.calculationTable.priceEur'),
+    price: {
+      field: 'price',
+      headerName: translate('detail.shared.calculationTable.price'),
+      headerTooltip: translate('detail.shared.calculationTable.price'),
       filter: 'agNumberColumnFilter',
     },
-    priceEurCurrency: {
-      field: 'priceEurCurrency',
-      headerName: translate('detail.shared.calculationTable.priceEurCurrency'),
-      headerTooltip: translate(
-        'detail.shared.calculationTable.priceEurCurrency'
-      ),
+    currency: {
+      field: 'currency',
+      headerName: translate('detail.shared.calculationTable.currency'),
+      headerTooltip: translate('detail.shared.calculationTable.currency'),
     },
     priceUnit: {
       field: 'priceUnit',
       headerName: translate('detail.shared.calculationTable.priceUnit'),
-      headerTooltip: translate(
-        'detail.shared.calculationTable.priceEurCurrency'
-      ),
+      headerTooltip: translate('detail.shared.calculationTable.priceUnit'),
     },
     plant: {
       field: 'plant',
@@ -76,6 +72,11 @@ export class ColumnDefinitionService {
       headerTooltip: translate('detail.shared.calculationTable.lotSize'),
       valueFormatter: formatNumber,
       filter: 'agNumberColumnFilter',
+    },
+    rfqNumber: {
+      field: 'rfqNumber',
+      headerName: translate('detail.shared.calculationTable.rfqNumber'),
+      headerTooltip: translate('detail.shared.calculationTable.rfqNumber'),
     },
   };
 }

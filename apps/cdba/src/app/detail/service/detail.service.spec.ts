@@ -11,8 +11,8 @@ import { ENV_CONFIG } from '@schaeffler/http';
 
 import {
   BOM_MOCK,
-  CALCULATIONS_TYPE_MOCK,
-  REFRENCE_TYPE_MOCK,
+  CALCULATIONS_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '../../../testing/mocks';
 import {
   BomIdentifier,
@@ -51,7 +51,7 @@ describe('DetailService', () => {
 
   describe('getDetails', () => {
     test('should get detail result', () => {
-      const mock = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
+      const mock = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
         .set('plant', mock.referenceTypeDto.plant)
@@ -78,7 +78,7 @@ describe('DetailService', () => {
 
   describe('calculations', () => {
     test('should get calculations result', () => {
-      const mock = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
+      const mock = new CalculationsResultModel(CALCULATIONS_MOCK);
 
       service.calculations('').subscribe((response) => {
         expect(response).toEqual(mock);

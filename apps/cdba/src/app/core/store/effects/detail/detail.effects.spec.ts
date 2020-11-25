@@ -11,9 +11,9 @@ import { configureTestSuite } from 'ng-bullet';
 
 import {
   BOM_MOCK,
-  CALCULATIONS_TYPE_MOCK,
+  CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
-  REFRENCE_TYPE_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '../../../../../testing/mocks';
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
@@ -90,7 +90,7 @@ describe('Detail Effects', () => {
     test('should return Success Action', () => {
       actions$ = hot('-a', { a: action });
 
-      const item = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
+      const item = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
 
       const response = cold('-a|', {
         a: item,
@@ -132,7 +132,7 @@ describe('Detail Effects', () => {
     test('should return Success Action', () => {
       actions$ = hot('-a', { a: action });
 
-      const items = CALCULATIONS_TYPE_MOCK;
+      const items = CALCULATIONS_MOCK;
 
       const response = cold('-a|', {
         a: items,
@@ -219,7 +219,7 @@ describe('Detail Effects', () => {
     test('should return loadBom Action when a new calculation was selected', () => {
       action = selectCalculation({
         nodeId: '5',
-        calculation: CALCULATIONS_TYPE_MOCK[0],
+        calculation: CALCULATIONS_MOCK[0],
       });
 
       actions$ = hot('-a', { a: action });
@@ -231,7 +231,7 @@ describe('Detail Effects', () => {
 
     test('should return loadBom Action when calculation were loaded successfully', () => {
       action = loadCalculationsSuccess({
-        items: CALCULATIONS_TYPE_MOCK,
+        items: CALCULATIONS_MOCK,
       });
 
       actions$ = hot('-a', { a: action });

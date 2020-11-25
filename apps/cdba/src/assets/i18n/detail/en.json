@@ -1,14 +1,15 @@
 {
   "shared": {
     "calculationTable": {
-      "costingDateFrom": "Calculation Date",
-      "costingVariant": "Cost Type",
-      "priceEur": "Cost",
-      "priceEurCurrency": "Currency",
+      "calculationDate": "Calculation Date",
+      "costType": "Cost Type",
+      "price": "Cost",
+      "currency": "Currency",
       "priceUnit": "PU/UM",
       "plant": "Plant",
       "quantity": "Quantity",
-      "lotSize": "Lot Size"
+      "lotSize": "Lot Size",
+      "rfqNumber": "RFQ Number"
     },
     "title": "Calculations"
   },

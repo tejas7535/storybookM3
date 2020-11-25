@@ -7,7 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
-import { REFRENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import { SearchService } from '../../../../search/services/search.service';
 import {
   applyTextSearch,
@@ -141,7 +141,7 @@ describe('Search Effects', () => {
         'kg'
       );
 
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         [ref],
@@ -203,7 +203,7 @@ describe('Search Effects', () => {
         'kg'
       );
 
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         [ref],

@@ -1,4 +1,4 @@
-import { REFRENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import {
   FilterItemIdValue,
   FilterItemIdValueUpdate,
@@ -37,7 +37,7 @@ describe('Search Selector', () => {
       },
       referenceTypes: {
         ...initialState.referenceTypes,
-        items: [REFRENCE_TYPE_MOCK],
+        items: [REFERENCE_TYPE_MOCK],
       },
     },
   };

@@ -1,4 +1,4 @@
-import { BOM_MOCK, CALCULATIONS_TYPE_MOCK } from '../../../../../testing/mocks';
+import { BOM_MOCK, CALCULATIONS_MOCK } from '../../../../../testing/mocks';
 import { BomItem, ReferenceTypeIdentifier } from '../../reducers/detail/models';
 import {
   DetailActions,
@@ -128,7 +128,7 @@ describe('Detail Actions', () => {
     });
 
     test('loadCalculationsSuccess', () => {
-      const items = CALCULATIONS_TYPE_MOCK;
+      const items = CALCULATIONS_MOCK;
       action = loadCalculationsSuccess({ items });
 
       expect(action).toEqual({
