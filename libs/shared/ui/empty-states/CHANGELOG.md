@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## 1.6.0 (2020-11-25)
+
+
+### 📈 Improvements
+
+* **goldwind:** add construction hint and spinner to overview ([b5b6689](///commit/b5b66896aeb1edaf1410c50a6bef1c7335f028e0))
+
+
+### 🎸 Features
+
+* **cdba:** show additional information overlay (DSCDA-1688) ([8c9237b](///commit/8c9237ba56c4bfb29ff9c7790bfbbebe53e8dc56))
+* **empty-state:** use view engine for build (UFTABI-2917) ([34a16b1](///commit/34a16b189b73e97dd86d10bbf936a836468ac0f3))
+* **empty-states:** adjust empty-states to be responsive ([ce26591](///commit/ce265911614a2e6b7e95b82f3c94b270a98eee47))
+* **empty-states:** migrate lib to publishable lib (UFTABI-2635) ([977435f](///commit/977435f2481c68dcb842cbe3f3aaa93302e0175d))
+
+
+### ✏️ Documentation
+
+* **empty-states:** update empty states docs (UFTABI-2748) ([5d2a8d9](///commit/5d2a8d9b90172eea026e4368fefb4baf434b3d75))
+* **shared-libs:** improve documentation ([18b709a](///commit/18b709a184a4ff7c2c342620bfec4a297831ae6e))
+
 ### [1.5.3](///compare/v1.9.0...v1.5.3) (2020-11-02)
 
 ### [1.5.2](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.5.2) (2020-10-27)
