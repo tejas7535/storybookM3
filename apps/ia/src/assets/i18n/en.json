@@ -48,6 +48,11 @@
       "rowAttrition": "Attrition"
     }
   },
+  "overviewChartToggleButtons": {
+    "orgChart": "Organizational chart",
+    "heatMap": "Heat map",
+    "worldMap": "World map"
+  },
   "attritionDialog": {
     "close": "Close",
     "metaTitle": "Attrition",

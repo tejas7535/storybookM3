@@ -1,3 +1,4 @@
+import { InjectionToken } from '@angular/core';
 import { Params, RouterStateSnapshot } from '@angular/router';
 
 import * as fromRouter from '@ngrx/router-store';
@@ -8,7 +9,7 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
-import * as fromEmployee from './employee/employee.reducer';
+import * as fromFilter from './filter/filter.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -18,24 +19,29 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  employee: fromEmployee.EmployeeState;
+  [fromFilter.filterKey]: fromFilter.FilterState;
 }
 
-export const reducers: ActionReducerMap<AppState> = {
-  router: fromRouter.routerReducer,
-  employee: fromEmployee.employeeReducer,
-};
+export const ROOT_REDUCERS = new InjectionToken<ActionReducerMap<AppState>>(
+  'Root reducers token',
+  {
+    factory: () => ({
+      router: fromRouter.routerReducer,
+      [fromFilter.filterKey]: fromFilter.filterReducer,
+    }),
+  }
+);
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
-  : /* istanbul ignore next: very difficult */ [];
+  : [];
 
 export const selectRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
 
-export const selectEmployeeState = createFeatureSelector<fromEmployee.EmployeeState>(
-  'employee'
+export const selectFilterState = createFeatureSelector<fromFilter.FilterState>(
+  fromFilter.filterKey
 );
 
 export class CustomSerializer
