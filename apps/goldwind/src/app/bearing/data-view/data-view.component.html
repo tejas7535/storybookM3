@@ -3,29 +3,52 @@
     <mat-card-title>{{ t('title') }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="15px">
-      <goldwind-date-range
-        [interval]="interval$ | ngrxPush"
-        (rangeChange)="setInterval($event)"
-      ></goldwind-date-range>
-      <mat-form-field appearance="fill">
-        <mat-label>{{ t('frequency') }}</mat-label>
-        <mat-select
-          [value]="frequency$ | ngrxPush"
-          (selectionChange)="setFrequency($event.value)"
+    <div
+      fxLayout="column"
+      fxLayout.gt-sm="row"
+      fxLayoutAlign="start space-between"
+      fxLayoutGap="15px"
+    >
+      <div
+        fxFlex
+        fxLayout="column"
+        fxLayout.gt-sm="row"
+        fxLayoutAlign.gt-sm="start center"
+        fxLayoutGap="15px"
+      >
+        <goldwind-date-range
+          [interval]="interval$ | ngrxPush"
+          (rangeChange)="setInterval($event)"
+        ></goldwind-date-range>
+        <div>
+          <mat-form-field appearance="fill">
+            <mat-label>{{ t('frequency') }}</mat-label>
+            <mat-select
+              [value]="frequency$ | ngrxPush"
+              (selectionChange)="setFrequency($event.value)"
+            >
+              <mat-option
+                *ngFor="let frequency of frequencies; trackBy: trackByFn"
+                [value]="frequency.value"
+              >
+                {{ frequency.viewValue }}
+              </mat-option>
+            </mat-select>
+            <mat-hint>{{ t('pleaseChooseAFrequency') }}</mat-hint>
+          </mat-form-field>
+        </div>
+      </div>
+      <div fxLayoutAlign="end center">
+        <button
+          (click)="export()"
+          mat-raised-button
+          color="primary"
+          class="export-button"
         >
-          <mat-option
-            *ngFor="let frequency of frequencies; trackBy: trackByFn"
-            [value]="frequency.value"
-          >
-            {{ frequency.viewValue }}
-          </mat-option>
-        </mat-select>
-        <mat-hint>{{ t('pleaseChooseAFrequency') }}</mat-hint>
-      </mat-form-field>
-      <button (click)="exportAsCsv()" mat-raised-button color="primary">
-        {{ t('exportAsCsv').toUpperCase() }}
-      </button>
+          <mat-icon>add</mat-icon>
+          <span>{{ t('export').toUpperCase() }}</span>
+        </button>
+      </div>
     </div>
     <ag-grid-angular
       class="ag-theme-material data-view-table"
@@ -39,6 +62,7 @@
       [groupSuppressAutoColumn]="groupSuppressAutoColumn"
       [groupSelectsChildren]="groupSelectsChildren"
       [suppressRowClickSelection]="suppressRowClickSelection"
+      [rowClassRules]="rowClassRules"
       (gridReady)="onGridReady($event)"
     ></ag-grid-angular>
   </mat-card-content>

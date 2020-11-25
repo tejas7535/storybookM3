@@ -1,6 +1,6 @@
 <div id="overview" *transloco="let t; read: 'overview'">
   <h1>Overview</h1>
-  <ng-container *ngrxLet="devices$ as devices">
+  <ng-container *ngIf="devices$ | ngrxPush as devices; else empty_devices">
     <mat-card
       *ngFor="let device of devices; trackBy: trackByFn"
       fxLayout="column"
@@ -34,4 +34,10 @@
       </div>
     </mat-card>
   </ng-container>
+
+  <ng-template #empty_devices>
+    <mat-card>
+      <span>{{ t('noDevices') }}</span>
+    </mat-card>
+  </ng-template>
 </div>

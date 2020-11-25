@@ -2,13 +2,14 @@
   "overview": {
     "details": "Details",
     "version": "Version",
-    "overallStatus": "Overall Status"
+    "overallStatus": "Overall Status",
+    "noDevices": "There are no devices"
   },
   "bearing": {
     "overview": "Overview",
     "bearingLoadAndAssessment": "Bearing Load",
     "greaseStatus": "Grease Status",
-    "dataView": "Data View",
+    "dataView": "Download Manager",
     "live": "Live",
     "offline": "Offline",
     "mainBearing": "Main Bearing",
@@ -54,8 +55,7 @@
     "title": "Data View",
     "frequency": "Frequency",
     "pleaseChooseAFrequency": "Please choose a frequency",
-    "exportAsCsv": "Export as CSV",
-    "group": "Group",
+    "export": "Export",
     "description": "Description",
     "abreviation": "Abreviation",
     "designValue": "Design Value",

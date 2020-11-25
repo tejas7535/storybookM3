@@ -86,12 +86,6 @@ export class DataViewComponent implements OnInit {
 
   columnDefs = [
     { field: 'type', rowGroup: true, hide: true },
-    {
-      headerName: translate('dataView.description'),
-      field: 'description',
-      checkboxSelection: true,
-      headerCheckboxSelection: true,
-    },
     { headerName: translate('dataView.abreviation'), field: 'abreviation' },
     { headerName: translate('dataView.designValue'), field: 'designValue' },
     { headerName: translate('dataView.actualValue'), field: 'actualValue' },
@@ -101,10 +95,18 @@ export class DataViewComponent implements OnInit {
   ];
 
   autoGroupColumnDef = {
-    headerName: translate('dataView.group'),
+    headerName: translate('dataView.description'),
+    headerCheckboxSelection: true,
+    field: 'description',
+    minWidth: 350,
     cellRendererParams: {
       suppressCount: true,
+      checkbox: true,
     },
+  };
+
+  rowClassRules = {
+    'ag-row-level-1': () => true,
   };
 
   frequencies = [
@@ -134,7 +136,7 @@ export class DataViewComponent implements OnInit {
     this.store.dispatch(setDataInterval({ interval }));
   }
 
-  exportAsCsv(): void {
+  export(): void {
     const toExport = this.gridApi
       .getSelectedRows()
       .map((rows: any) => rows.description);

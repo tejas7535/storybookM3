@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -33,6 +34,7 @@ import { DataViewComponent } from './data-view.component';
 
     // UI Modules
     MatCardModule,
+    MatIconModule,
     MatCheckboxModule,
     MatButtonModule,
     MatSelectModule,
