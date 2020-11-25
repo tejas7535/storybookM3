@@ -1,7 +1,6 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 
 export const DEFAULT_COLUMN_DEFS: ColDef = {
-  checkboxSelection: true,
   enablePivot: false,
   enableRowGroup: true,
   filter: true,
