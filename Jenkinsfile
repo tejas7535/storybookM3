@@ -591,7 +591,7 @@ pipeline {
                                     sh "npx nx run ${env.RELEASE_SCOPE}:standard-version -- --first-release"
                                 }
                             } else if (isLibsRelease()) {
-                                sh "npx nx affected --base=${buildBase} --target=standard-version --parallel --exclude=${excludedProjects.join(',')}"
+                                sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
                             }
 
                             sh 'npm run release' // only bump the workspace version
@@ -871,7 +871,7 @@ pipeline {
     post {
         always {
             script {
-                sh "chmod -R 777 ." // set rights so that the cleanup job can do its work
+                sh 'chmod -R 777 .' // set rights so that the cleanup job can do its work
                 cleanWs(disableDeferredWipeout: true)
 
                 if (skipBuild) {
