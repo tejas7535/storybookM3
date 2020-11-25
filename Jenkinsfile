@@ -872,7 +872,7 @@ pipeline {
         always {
             script {
                 sh "chmod -R 777 ." // set rights so that the cleanup job can do its work
-                cleanWs()
+                cleanWs(disableDeferredWipeout: true)
 
                 if (skipBuild) {
                     masterBuilds.each {
