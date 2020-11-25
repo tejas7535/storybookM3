@@ -1,5 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 
 import { GridApi } from '@ag-grid-community/all-modules';
@@ -32,6 +33,7 @@ describe('DataViewComponent', () => {
       DateRangeModule,
       EmptyGraphModule,
       MatCardModule,
+      MatIconModule,
       MatSelectModule,
       AgGridModule,
     ],
@@ -107,7 +109,7 @@ describe('DataViewComponent', () => {
     });
   });
 
-  describe('exportAsCsv', () => {
+  describe('export', () => {
     it('should alert the affected rows for now', () => {
       jest.spyOn(window, 'alert').mockImplementation(() => {});
 
@@ -130,7 +132,7 @@ describe('DataViewComponent', () => {
 
       component['gridApi'] = params.api;
 
-      component.exportAsCsv();
+      component.export();
 
       expect(window.alert).toHaveBeenCalled();
       expect(window.alert).toHaveBeenCalledWith(
