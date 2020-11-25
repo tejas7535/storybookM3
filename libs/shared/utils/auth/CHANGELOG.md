@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## 1.5.0 (2020-11-25)
+
+
+### 🐛 Bug Fixes
+
+* remove silent refresh part ([5bfbeca](///commit/5bfbecaa019d11db5827b41f4956c4af351d8b70))
+* **cdba:** only route user after login not each refresh (DSCDA-1921) ([7ff5f9c](///commit/7ff5f9cff20e219be4c9ca72a775ae9195ad084f))
+
+
+### ✏️ Documentation
+
+* **auth:** improve shared auth documentation ([befadd4](///commit/befadd4f026caa06e8fd6c8e4211ec305249fd0b))
+
+
+### 🎸 Features
+
+* **auth:** make auth library publishable (UFTABI-2636) ([26833ff](///commit/26833ffdccd5dc448e99130de7fd240462721e02))
+* **deps:** update to angular v10.1 and typescript 4.0.2 ([edc0bb1](///commit/edc0bb1d32af1b0b585de3f79bc96eaf393c240e))
+* **ia:** get org chart data from backend (IA-41) ([7eabcf8](///commit/7eabcf8a6bc7e1b21b93e70311810787c0e13893))
+* **ia:** implement org chart (IA-43) ([20e34ba](///commit/20e34baa7a2d2ec62bffa8d25d5d7f077ee7564b))
+
+
+### 📈 Improvements
+
+* **workspace:** adjust libs to ensure angular 11 compatibility ([08e417a](///commit/08e417a2e3a8c2404681863ff6466216e9ba80c6))
+
 ### [1.4.4](///compare/v1.9.0...v1.4.4) (2020-11-02)
 
 
