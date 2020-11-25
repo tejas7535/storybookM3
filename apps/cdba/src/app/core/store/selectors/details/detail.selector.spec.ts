@@ -1,13 +1,13 @@
 import {
   BOM_MOCK,
-  CALCULATIONS_TYPE_MOCK,
+  CALCULATIONS_MOCK,
   CUSTOMER_DETAILS_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
   PRODUCTION_DETAILS_MOCK,
   QUANTITIES_DETAILS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
-  REFRENCE_TYPE_MOCK,
+  REFERENCE_TYPE_MOCK,
   SALES_DETAILS_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -42,15 +42,15 @@ describe('Detail Selector', () => {
       detail: {
         ...initialState.detail,
         loading: true,
-        referenceType: REFRENCE_TYPE_MOCK,
+        referenceType: REFERENCE_TYPE_MOCK,
       },
       calculations: {
         ...initialState.calculations,
         loading: true,
-        items: CALCULATIONS_TYPE_MOCK,
+        items: CALCULATIONS_MOCK,
         selected: {
-          nodeId: '7',
-          calculation: CALCULATIONS_TYPE_MOCK[6],
+          nodeId: '3',
+          calculation: CALCULATIONS_MOCK[2],
         },
       },
       bom: {
@@ -152,7 +152,7 @@ describe('Detail Selector', () => {
 
   describe('getCalculations', () => {
     test('should return calculations', () => {
-      expect(getCalculations(fakeState)).toEqual(CALCULATIONS_TYPE_MOCK);
+      expect(getCalculations(fakeState)).toEqual(CALCULATIONS_MOCK);
     });
 
     test('should return undefined', () => {
@@ -212,7 +212,7 @@ describe('Detail Selector', () => {
     });
 
     test('should return string of the node id', () => {
-      expect(getSelectedNodeId(fakeState)).toEqual('7');
+      expect(getSelectedNodeId(fakeState)).toEqual('3');
     });
   });
 
@@ -225,7 +225,7 @@ describe('Detail Selector', () => {
 
     test('should return the BomIdentifier of the selected calculation', () => {
       const expectedIdentifier = {
-        bomCostingDate: '20170701',
+        bomCostingDate: '20171101',
         bomCostingNumber: '145760472',
         bomCostingType: 'K1',
         bomCostingVersion: '61',

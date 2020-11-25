@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { REFRENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import {
   applyTextSearch,
   applyTextSearchFailure,
@@ -93,7 +93,7 @@ describe('Search Reducer', () => {
 
   describe('searchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         [ref],
@@ -122,7 +122,7 @@ describe('Search Reducer', () => {
     });
 
     test('should unset loading and keep old filter if searchCount is zero', () => {
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         [ref],
@@ -205,7 +205,7 @@ describe('Search Reducer', () => {
 
   describe('applyTextSearchSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult(
         [filterItemIdVal, filterItemRange],
         [ref],

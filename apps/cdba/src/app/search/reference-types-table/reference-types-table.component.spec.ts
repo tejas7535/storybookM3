@@ -17,7 +17,7 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { REFRENCE_TYPE_MOCK } from '../../../testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '../../../testing/mocks';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { SharedModule } from '../../shared/shared.module';
 import { columnDefinitionToReferenceTypeProp } from '../../shared/table';
@@ -82,7 +82,7 @@ describe('ReferenceTypesTableComponent', () => {
 
   describe('getUpdatedDefaultColumnDefinitions', () => {
     it('should only contain columns that are part of provided update', () => {
-      const mock = { ...REFRENCE_TYPE_MOCK };
+      const mock = { ...REFERENCE_TYPE_MOCK };
       const update = [mock];
 
       // delete two props

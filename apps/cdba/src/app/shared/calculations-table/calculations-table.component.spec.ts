@@ -20,7 +20,7 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { CALCULATIONS_TYPE_MOCK } from '../../../testing/mocks';
+import { CALCULATIONS_MOCK } from '../../../testing/mocks';
 import { AgGridStateService } from '../services/ag-grid-state.service';
 import { SharedModule } from '../shared.module';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
@@ -88,7 +88,7 @@ describe('CalculationsTableComponent', () => {
 
   describe('getUpdatedDefaultColumnDefinitions', () => {
     it('should only contain columns that are part of provided update', () => {
-      const mock = CALCULATIONS_TYPE_MOCK;
+      const mock = CALCULATIONS_MOCK;
 
       const result = component['getUpdatedDefaultColumnDefinitions'](mock);
 
@@ -210,7 +210,7 @@ describe('CalculationsTableComponent', () => {
     it('should emit selectionChange Event', () => {
       component['gridApi'] = ({
         getSelectedNodes: jest.fn(() => [({ id: 7 } as unknown) as RowNode]),
-        getSelectedRows: jest.fn(() => [CALCULATIONS_TYPE_MOCK[0]]),
+        getSelectedRows: jest.fn(() => [CALCULATIONS_MOCK[0]]),
       } as unknown) as GridApi;
 
       component.selectionChange.emit = jest.fn();
@@ -219,7 +219,7 @@ describe('CalculationsTableComponent', () => {
 
       expect(component.selectionChange.emit).toHaveBeenCalledWith({
         nodeId: 7,
-        calculation: CALCULATIONS_TYPE_MOCK[0],
+        calculation: CALCULATIONS_MOCK[0],
       });
     });
   });

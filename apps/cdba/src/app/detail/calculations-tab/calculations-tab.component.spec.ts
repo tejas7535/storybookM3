@@ -7,7 +7,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CALCULATIONS_TYPE_MOCK } from '../../../testing/mocks';
+import { CALCULATIONS_MOCK } from '../../../testing/mocks';
 import { selectCalculation } from '../../core/store';
 import { Calculation } from '../../core/store/reducers/shared/models';
 import {
@@ -48,7 +48,7 @@ describe('CalculationsTabComponent', () => {
           selectors: [
             {
               selector: getCalculations,
-              value: CALCULATIONS_TYPE_MOCK,
+              value: CALCULATIONS_MOCK,
             },
             {
               selector: getSelectedNodeId,

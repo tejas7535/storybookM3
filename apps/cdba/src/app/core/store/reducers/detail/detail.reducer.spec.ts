@@ -1,7 +1,7 @@
 import {
   BOM_MOCK,
-  CALCULATIONS_TYPE_MOCK,
-  REFRENCE_TYPE_MOCK,
+  CALCULATIONS_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '../../../../../testing/mocks';
 import {
   loadBom,
@@ -40,9 +40,9 @@ describe('Detail Reducer', () => {
   const errorMessage = 'An error occured';
 
   const referenceTypeIdentifier: ReferenceTypeIdentifier = new ReferenceTypeIdentifier(
-    REFRENCE_TYPE_MOCK.materialNumber,
-    REFRENCE_TYPE_MOCK.plant,
-    REFRENCE_TYPE_MOCK.identificationHash
+    REFERENCE_TYPE_MOCK.materialNumber,
+    REFERENCE_TYPE_MOCK.plant,
+    REFERENCE_TYPE_MOCK.identificationHash
   );
 
   describe('selectReferenceType', () => {
@@ -65,7 +65,7 @@ describe('Detail Reducer', () => {
     test('should set reset previous reference type', () => {
       const mockState = {
         ...fakeState,
-        detail: { ...fakeState.detail, referenceType: REFRENCE_TYPE_MOCK },
+        detail: { ...fakeState.detail, referenceType: REFERENCE_TYPE_MOCK },
       };
       const action = loadReferenceType();
       const state = detailReducer(mockState, action);
@@ -87,7 +87,7 @@ describe('Detail Reducer', () => {
 
   describe('loadReferenceTypeSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const item = new ReferenceTypeResultModel(REFRENCE_TYPE_MOCK);
+      const item = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
 
       const action = loadReferenceTypeSuccess({ item });
 
@@ -131,7 +131,7 @@ describe('Detail Reducer', () => {
 
   describe('loadCalculationsSuccess', () => {
     test('should unset loading and set calculations', () => {
-      const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
+      const item = new CalculationsResultModel(CALCULATIONS_MOCK);
 
       const action = loadCalculationsSuccess({ items: item.items });
 
@@ -143,7 +143,7 @@ describe('Detail Reducer', () => {
     });
 
     test('should select the first calculation', () => {
-      const item = new CalculationsResultModel(CALCULATIONS_TYPE_MOCK);
+      const item = new CalculationsResultModel(CALCULATIONS_MOCK);
 
       const action = loadCalculationsSuccess({ items: item.items });
 
@@ -151,7 +151,7 @@ describe('Detail Reducer', () => {
 
       expect(state.calculations.selected.nodeId).toEqual('0');
       expect(state.calculations.selected.calculation).toEqual(
-        CALCULATIONS_TYPE_MOCK[0]
+        CALCULATIONS_MOCK[0]
       );
     });
   });
@@ -170,7 +170,7 @@ describe('Detail Reducer', () => {
   describe('selectCalculation', () => {
     test('should set new selected calculation', () => {
       const nodeId = '7';
-      const calculation = CALCULATIONS_TYPE_MOCK[7];
+      const calculation = CALCULATIONS_MOCK[7];
       const action = selectCalculation({ nodeId, calculation });
 
       const state = detailReducer(fakeState, action);

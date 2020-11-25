@@ -9,7 +9,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { REFRENCE_TYPE_MOCK } from '../../testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { MaterialNumberModule } from '../shared/pipes';
 import { SharedModule } from '../shared/shared.module';
@@ -44,7 +44,7 @@ describe('DetailComponent', () => {
           selectors: [
             {
               selector: getReferenceType,
-              value: REFRENCE_TYPE_MOCK,
+              value: REFERENCE_TYPE_MOCK,
             },
           ],
         }),

@@ -15,7 +15,7 @@ import {
   shareSearchResult,
   updateFilter,
 } from '../';
-import { REFRENCE_TYPE_MOCK } from '../../../../../testing/mocks/reference-type.mock';
+import { REFERENCE_TYPE_MOCK } from '../../../../../testing/mocks/reference-type.mock';
 import {
   FilterItemIdValue,
   FilterItemRange,
@@ -77,7 +77,7 @@ describe('Search Actions', () => {
         [new IdValue('23', 'Super Plant', false)],
         false
       );
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult([item], [ref], 1);
       const action = searchSuccess({ searchResult });
 
@@ -135,7 +135,7 @@ describe('Search Actions', () => {
         [new IdValue('23', 'Super Plant', false)],
         false
       );
-      const ref = REFRENCE_TYPE_MOCK;
+      const ref = REFERENCE_TYPE_MOCK;
       const searchResult = new SearchResult([item], [ref], 1);
       const action = applyTextSearchSuccess({ searchResult });
 
