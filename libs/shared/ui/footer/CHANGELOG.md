@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## 1.5.0 (2020-11-25)
+
+
+### 🎸 Features
+
+* **footer:** add storybook stories (UFTABI-2513) ([25d8a36](///commit/25d8a3646ab6db0fad19fcacad0bec61d1f6a26a))
+* **footer:** decrease margin top ([f4341bc](///commit/f4341bc373b6616d492dea256cd9034cfb2d3610))
+* **footer:** extract footer to its own lib (DSCDA-2311) ([3a3e8fb](///commit/3a3e8fb00f23a065dfe021de09205ec6d408b0b8))
+* **footer:** use view engine and prevent barrel imports (UFABTI-2735) ([68ad5d1](///commit/68ad5d1205538d42b15f4e9cce99ed6ca4731f2e))
+* **goldwind:** add goldwind app boilerplate (DIGDTGW-310) ([f8d4cc2](///commit/f8d4cc298dc4ed9296ecd26100b16a110355531e))
+* **libs:** add automatic npm package deployment (UFTABI-2637) ([8e6a297](///commit/8e6a29702edbf348d540016a77814f5fce6193d5))
+* **sidebar:** add storybook stories (UFTABI-2516) ([983ff75](///commit/983ff7543a52c564b3b60c5d02f2b438a3a19fa1))
+* **styles:** make styles lib publishable (UFTABI-2916) ([245e355](///commit/245e355c6de4dafff18bdf03301074adb41669c3))
+* **workspace:** enable auto-populated publishable library dependencies (UFTABI-2390) ([471e246](///commit/471e246144837957500060590020b380a0940c39))
+* release v1 (UFTABI-2483) ([79c1ba7](///commit/79c1ba7c6c1af8ccd909083d91fffbe0ae017ebb))
+
+
+### ✏️ Documentation
+
+* **shared-libs:** improve documentation ([18b709a](///commit/18b709a184a4ff7c2c342620bfec4a297831ae6e))
+
+
+### 📈 Improvements
+
+* **goldwind:** add construction hint and spinner to overview ([b5b6689](///commit/b5b66896aeb1edaf1410c50a6bef1c7335f028e0))
+* **workspace:** adjust libs to ensure angular 11 compatibility ([08e417a](///commit/08e417a2e3a8c2404681863ff6466216e9ba80c6))
+
 ### [1.4.4](///compare/v1.9.0...v1.4.4) (2020-11-02)
 
 ### [1.4.3](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.9.0...v1.4.3) (2020-10-27)
