@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/banner",
-  "version": "1.4.4",
+  "version": "2.0.0",
   "dependencies": {
     "tslib": "^2.0.0"
   },
