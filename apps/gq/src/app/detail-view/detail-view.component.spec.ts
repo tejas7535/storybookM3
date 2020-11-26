@@ -44,4 +44,20 @@ describe('DetailViewComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    test('should define observables', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.quotation$).toBeDefined();
+      expect(component.materialNumber15$).toBeDefined();
+    });
+  });
+  describe('getOffer', () => {
+    test('set offer', () => {
+      component.getOffer();
+      expect(component.offer$).toBeDefined();
+    });
+  });
 });

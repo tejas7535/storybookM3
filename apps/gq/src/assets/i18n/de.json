@@ -3,13 +3,13 @@
     "title": "Quotation Cases",
     "buttonCreateCase": "Neuen Case Erstellen",
     "caseTable": {
-      "customer": "Kunde",
+      "customerId": "Kundennummer",
+      "customerName": "Kundenname",
       "creationDate": "Erstelldatum",
       "patCase": "PAT Case ID",
       "sapId": "SAP Quotation",
       "status": "Status",
-      "synchronized": "Synchronisiert",
-      "warnings": "Warnungen"
+      "synchronized": "Synchronisiert"
     },
     "createCaseDialog": {
       "title": "Neuen Fall erstellen",

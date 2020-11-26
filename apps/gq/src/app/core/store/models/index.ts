@@ -20,3 +20,4 @@ export * from './quotation-info.enum';
 export * from './quotation.model';
 export * from './sub-key-account.model';
 export * from './validation-description.enum';
+export * from './view-quotation.model';
