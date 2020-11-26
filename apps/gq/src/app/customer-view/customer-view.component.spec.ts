@@ -40,4 +40,18 @@ describe('CustomerViewComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('ngOnInit', () => {
+    test('should define observables', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.customer$).toBeDefined();
+    });
+  });
+  describe('getOffer', () => {
+    test('set offer', () => {
+      component.getOffer();
+      expect(component.offer$).toBeDefined();
+    });
+  });
 });

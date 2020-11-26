@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
+import { ViewQuotation } from '../../core/store/models';
 import {
   COLUMN_DEFS,
   DEFAULT_COLUMN_DEFS,
@@ -19,6 +20,7 @@ export class CaseTableComponent {
   public columnDefs = COLUMN_DEFS;
   public statusBar = STATUS_BAR_CONFIG;
   public frameworkComponents = FRAMEWORK_COMPONENTS;
+  public rowSelection = 'single';
 
-  rowData: any = [];
+  @Input() rowData: ViewQuotation[];
 }

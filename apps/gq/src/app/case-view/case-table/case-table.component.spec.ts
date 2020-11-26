@@ -1,3 +1,5 @@
+import { RouterTestingModule } from '@angular/router/testing';
+
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
@@ -23,6 +25,7 @@ describe('CaseTableComponent', () => {
         DeleteCaseButtonComponent,
       }),
       CustomStatusBarModule,
+      RouterTestingModule.withRoutes([]),
     ],
     declarations: [CaseTableComponent],
   });
