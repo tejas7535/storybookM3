@@ -1,6 +1,5 @@
 {
   "tooManyResults": "Zu viele Ergebnisse.",
-  "tooManyEntriesInDatabase": "Wir haben {{ resultCount }} Einträge in unserer Datenbank gefunden.",
   "useFilter": "Bitte verwenden Sie Filter, um die Anzahl der Ergebnisse auf Maximal 500 zu reduzieren.",
   "filterPanel": {
     "open": "öffne Filter Panel",
