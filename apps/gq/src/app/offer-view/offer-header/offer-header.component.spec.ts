@@ -1,6 +1,4 @@
-import { TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -19,7 +17,6 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('OfferHeaderComponent', () => {
   let component: OfferHeaderComponent;
-  let router: Router;
   let spectator: Spectator<OfferHeaderComponent>;
 
   const createComponent = createComponentFactory({
@@ -47,17 +44,16 @@ describe('OfferHeaderComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    router = TestBed.inject(Router);
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  test('backToProcessCase', () => {
-    router.navigate = jest.fn();
+  test('navigateBack', () => {
+    component['location'].back = jest.fn();
 
-    component.backToProcessCase();
-    expect(router.navigate).toHaveBeenCalled();
+    component.navigateBack();
+    expect(component['location'].back).toHaveBeenCalledTimes(1);
   });
 });
