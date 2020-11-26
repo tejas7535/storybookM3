@@ -6,6 +6,8 @@ import { UserMenuEntry } from '@schaeffler/header';
 import { Icon } from '@schaeffler/icons';
 import { SidebarElement } from '@schaeffler/sidebar';
 
+import { version } from '../../package.json';
+
 @Component({
   selector: 'schaeffler-frontend-root',
   templateUrl: './app.component.html',
@@ -32,6 +34,8 @@ export class AppComponent {
   ];
 
   public settingsSidebarOpen = false;
+
+  public appVersion = version;
 
   /**
    * User Menu Entry Clicked.

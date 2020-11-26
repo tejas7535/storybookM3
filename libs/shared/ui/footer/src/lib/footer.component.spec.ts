@@ -5,9 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { FooterComponent } from './footer.component';
-
 import { FooterLink } from './footer-link.model';
+import { FooterComponent } from './footer.component';
 
 describe('FooterComponent', () => {
   let component: FooterComponent;
@@ -38,8 +37,86 @@ describe('FooterComponent', () => {
     });
 
     it('should have a div for the version within the footer', () => {
+      component.appVersion = '1.0.0';
       fixture.detectChanges();
       expect(fixture.debugElement.query(By.css('#version'))).toBeTruthy();
+    });
+
+    it('should have no div for the version within the footer', () => {
+      fixture.detectChanges();
+      expect(fixture.debugElement.query(By.css('#version'))).toBeFalsy();
+    });
+
+    it('should have ONE separator between ONE footerLink and version', () => {
+      component.appVersion = '1.0.0';
+      component.footerLinks = [
+        new FooterLink('awesome.dev', 'Eya im here', true),
+      ];
+      fixture.detectChanges();
+
+      const footerLinkSeparators = fixture.debugElement
+        .queryAll(By.css('div.footer-content span'))
+        .filter(
+          (element) => element.nativeElement.innerHTML === '&nbsp;|&nbsp;'
+        );
+
+      expect(footerLinkSeparators.length).toEqual(1);
+    });
+
+    it('should have TWO separators between TWO footerLinks and version', () => {
+      component.appVersion = '1.0.0';
+      component.footerLinks = [
+        new FooterLink('awesome.dev', 'Eya im here', true),
+        new FooterLink('Im-hungry.food', 'Get food here', true),
+      ];
+      fixture.detectChanges();
+
+      const footerLinkSeparators = fixture.debugElement
+        .queryAll(By.css('div.footer-content span'))
+        .filter(
+          (element) => element.nativeElement.innerHTML === '&nbsp;|&nbsp;'
+        );
+
+      expect(footerLinkSeparators.length).toEqual(2);
+    });
+
+    it('should have no separator when only version is given and empty footerLinks', () => {
+      component.appVersion = '1.0.0';
+      component.footerLinks = [];
+      fixture.detectChanges();
+
+      const footerLinkSeparators = fixture.debugElement
+        .queryAll(By.css('div.footer-content span'))
+        .filter(
+          (element) => element.nativeElement.innerHTML === '&nbsp;|&nbsp;'
+        );
+
+      expect(footerLinkSeparators.length).toEqual(0);
+    });
+
+    it('should have no separator when only version is given', () => {
+      component.appVersion = '1.0.0';
+      fixture.detectChanges();
+
+      const footerLinkSeparators = fixture.debugElement
+        .queryAll(By.css('div.footer-content span'))
+        .filter(
+          (element) => element.nativeElement.innerHTML === '&nbsp;|&nbsp;'
+        );
+
+      expect(footerLinkSeparators.length).toEqual(0);
+    });
+
+    it('should have no separator when  no version and no footerLinks', () => {
+      fixture.detectChanges();
+
+      const footerLinkSeparators = fixture.debugElement
+        .queryAll(By.css('div.footer-content span'))
+        .filter(
+          (element) => element.nativeElement.innerHTML === '&nbsp;|&nbsp;'
+        );
+
+      expect(footerLinkSeparators.length).toEqual(0);
     });
 
     it('should have a external ink in the footer', () => {

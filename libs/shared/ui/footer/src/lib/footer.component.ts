@@ -1,7 +1,6 @@
 import { Component, Input } from '@angular/core';
 
 import { FooterLink } from './footer-link.model';
-import { VERSION } from './version';
 
 @Component({
   selector: 'schaeffler-footer',
@@ -10,8 +9,7 @@ import { VERSION } from './version';
 })
 export class FooterComponent {
   @Input() public footerLinks: FooterLink[];
-
-  public version = VERSION;
+  @Input() public appVersion?: string;
 
   public trackByFn(index: number): number {
     return index;

@@ -16,7 +16,11 @@
     <div
       class="footer-content"
       fxLayoutAlign="start center"
-      *ngFor="let footerLink of footerLinks; trackBy: trackByFn"
+      *ngFor="
+        let footerLink of footerLinks;
+        let index = index;
+        trackBy: trackByFn
+      "
     >
       <a
         *ngIf="footerLink.external"
@@ -33,10 +37,17 @@
       >
         {{ footerLink.title }}
       </div>
-      <span fxHide.lt-md>&nbsp;|&nbsp;</span>
+      <span *ngIf="index !== footerLinks.length - 1 || appVersion" fxHide.lt-md
+        >&nbsp;|&nbsp;</span
+      >
     </div>
-    <div class="footer-content" id="version" fxLayoutAlign="start center">
-      <span> {{ version }} </span>
+    <div
+      *ngIf="appVersion"
+      class="footer-content"
+      id="version"
+      fxLayoutAlign="start center"
+    >
+      <span> {{ appVersion }} </span>
     </div>
   </div>
   <div class="footer-content" fxLayoutAlign="start center">
