@@ -9,6 +9,7 @@ import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 
+import { version } from '../../package.json';
 import { AppState } from './core/store';
 
 @Component({
@@ -19,6 +20,7 @@ import { AppState } from './core/store';
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';
 
+  public appVersion = version;
   public footerLinks: FooterLink[] = [
     {
       link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics',
