@@ -4,9 +4,6 @@
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
 >
-  <gq-offer-header
-    [offerNumber]="'#123456'"
-    [quotationNumber]="'20762071'"
-  ></gq-offer-header>
+  <gq-offer-header [offerNumber]="'#123456'"></gq-offer-header>
   <gq-offer-table [rowData]="offer$ | async"></gq-offer-table>
 </div>
