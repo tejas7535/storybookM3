@@ -30,7 +30,9 @@
               <router-outlet></router-outlet>
             </div>
             <schaeffler-scroll-to-top></schaeffler-scroll-to-top>
-            <schaeffler-footer></schaeffler-footer></div></ng-container
+            <schaeffler-footer
+              [appVersion]="appVersion"
+            ></schaeffler-footer></div></ng-container
         ><ng-container sidebar>
           <span>I am inside the Settings Sidebar</span>
         </ng-container>

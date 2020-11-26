@@ -22,6 +22,7 @@ API of Footer Component:
 
 ```typescript
   @Input() public footerLinks: FooterLink[];
+  @Input() public appVersion?: string;
 ```
 
 Use like:
@@ -29,11 +30,16 @@ Use like:
 ```html
 <!-- comp-xy.component.html -->
 
-<schaeffler-footer [footerLinks]="footerLinks"></schaeffler-footer>
+<schaeffler-footer
+  [footerLinks]="footerLinks"
+  [appVersion]="appVersion"
+></schaeffler-footer>
 ```
 
 ```typescript
 // comp-xy.component.ts
+import { version } from '../../package.json';
+
 import { FooterLink } from '@schaeffler/footer';
 
 public footerLinks: FooterLink[] = [
@@ -48,4 +54,8 @@ public footerLinks: FooterLink[] = [
     external: false
   }
 ];
+
+  public appVersion = version;
 ```
+
+The footerLinks as well as the version input are not mandatory. When no version or footerLinks provided the footer will just not show it in the left corner.

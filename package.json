@@ -40,11 +40,10 @@
     "generate-changelog": "node ./tools/npm-scripts/changelog.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
-    "postinstall": "npm run ngcc && npm run generate-readme && npm run version && node ./decorate-angular-cli.js",
+    "postinstall": "npm run ngcc && npm run generate-readme && node ./decorate-angular-cli.js",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
     "ngcc": "ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
-    "version": "cross-var node ./tools/npm-scripts/version.js $npm_package_version",
     "clear_jest": "jest --clearCache",
     "transloco:optimize": "transloco-optimize"
   },
