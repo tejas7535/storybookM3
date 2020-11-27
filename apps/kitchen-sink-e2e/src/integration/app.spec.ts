@@ -55,6 +55,8 @@ describe('kitchen-sink', () => {
     getBannerCloseButton().contains('okay').click();
 
     // tslint:disable-next-line
-    expect(getBanner()).not.to.be.visible;
+    expect(
+      getBanner().contains('This is a BannerTextComponent:').should('not.exist')
+    );
   });
 });
