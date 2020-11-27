@@ -15,7 +15,7 @@
     <goldwind-center-load></goldwind-center-load>
   </div>
   <div id="rotor-speed" class="grid-element">
-    <ng-container *ngTemplateOutlet="construction_card"></ng-container>
+    {{ shaft$ | ngrxPush | json }}
   </div>
   <div id="safety-factor" class="grid-element">
     <ng-container *ngTemplateOutlet="construction_card"></ng-container>

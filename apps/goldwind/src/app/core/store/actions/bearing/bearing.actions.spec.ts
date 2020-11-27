@@ -3,13 +3,19 @@ import {
   getBearingFailure,
   getBearingId,
   getBearingSuccess,
+  getShaft,
+  getShaftFailure,
+  getShaftId,
+  getShaftSuccess,
 } from '..';
 
 describe('Bearing Actions', () => {
   let bearingId: string;
+  let shaftDeviceId: string;
 
   beforeEach(() => {
     bearingId = '123';
+    shaftDeviceId = '123';
   });
 
   describe('Get Bearing Actions', () => {
@@ -45,6 +51,41 @@ describe('Bearing Actions', () => {
 
       expect(action).toEqual({
         type: '[Bearing] Load Bearing Failure',
+      });
+    });
+
+    test('getShaftId', () => {
+      const action = getShaftId();
+
+      expect(action).toEqual({
+        type: '[Bearing] Load Shaft ID',
+      });
+    });
+
+    test('getShaft', () => {
+      const action = getShaft({ shaftDeviceId });
+
+      expect(action).toEqual({
+        shaftDeviceId,
+        type: '[Bearing] Load Shaft',
+      });
+    });
+
+    test('getBearingSuccess', () => {
+      const shaft: any = {};
+      const action = getShaftSuccess({ shaft });
+
+      expect(action).toEqual({
+        shaft,
+        type: '[Bearing] Load Shaft Success',
+      });
+    });
+
+    test('geShaftFailure', () => {
+      const action = getShaftFailure();
+
+      expect(action).toEqual({
+        type: '[Bearing] Load Shaft Failure',
       });
     });
   });

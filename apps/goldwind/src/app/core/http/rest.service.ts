@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 
 import { DataService } from '@schaeffler/http';
 
-import { BearingMetadata } from '../store/reducers/bearing/models';
+import { BearingMetadata, ShaftStatus } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
@@ -48,6 +48,10 @@ export class RestService {
 
   public getGreaseStatusLatest(id: string): Observable<GreaseStatus> {
     return this.getIot(`${id}/greasecheck/latest`);
+  }
+
+  public getShaftLatest(id: string): Observable<ShaftStatus> {
+    return this.getIot(`${id}/shaft/latest`);
   }
 
   public getDevices(): Observable<Device[]> {

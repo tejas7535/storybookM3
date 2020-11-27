@@ -18,3 +18,14 @@ export const getMainBearing = createSelector(
   getBearingResult,
   (state: BearingMetadata) => state && state.mainBearing
 );
+
+// highly WIP
+export const getShaftDeviceId = createSelector(
+  getBearingState,
+  () => 'vm-windows-edge-gerlitm'
+);
+
+export const getShaftResult = createSelector(
+  getBearingState,
+  (state: BearingState) => state?.shaft?.result
+);
