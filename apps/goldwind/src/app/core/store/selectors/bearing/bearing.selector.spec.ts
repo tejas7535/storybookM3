@@ -3,6 +3,8 @@ import {
   getBearingLoading,
   getBearingResult,
   getMainBearing,
+  getShaftDeviceId,
+  getShaftResult,
 } from './bearing.selector';
 
 describe('Bearing Selector', () => {
@@ -16,6 +18,15 @@ describe('Bearing Selector', () => {
         },
       },
       loading: false,
+      shaft: {
+        result: {
+          id: 'fakeid',
+          deviceId: 'fakedeviceid',
+          timeStamp: '2020-11-12T18:31:56.954003Z',
+          rsm01Shaftcountervalue: 666,
+        },
+        loading: false,
+      },
     },
   };
 
@@ -36,6 +47,18 @@ describe('Bearing Selector', () => {
       expect(getMainBearing(fakeState)).toEqual(
         fakeState.bearing.result.mainBearing
       );
+    });
+  });
+
+  describe('getShaftDeviceId', () => {
+    test('should return the shaft result', () => {
+      expect(getShaftDeviceId(fakeState)).toEqual('vm-windows-edge-gerlitm');
+    });
+  });
+
+  describe('getShaftResult', () => {
+    test('should return the shaft result', () => {
+      expect(getShaftResult(fakeState)).toEqual(fakeState.bearing.shaft.result);
     });
   });
 });

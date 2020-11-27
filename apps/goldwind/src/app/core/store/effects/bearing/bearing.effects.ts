@@ -21,8 +21,13 @@ import {
   getBearingFailure,
   getBearingId,
   getBearingSuccess,
+  getShaft,
+  getShaftFailure,
+  getShaftId,
+  getShaftSuccess,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { getShaftDeviceId } from '../../selectors';
 
 @Injectable()
 export class BearingEffects {
@@ -40,7 +45,10 @@ export class BearingEffects {
           (currentRoute: string) =>
             currentRoute && currentRoute === AppRoutePath.BearingPath
         ),
-        tap(() => this.store.dispatch(getBearingId()))
+        tap(() => {
+          this.store.dispatch(getBearingId());
+          this.store.dispatch(getShaftId());
+        })
       ),
     { dispatch: false }
   );
@@ -68,6 +76,34 @@ export class BearingEffects {
         this.restService.getBearing(bearingId).pipe(
           map((bearing) => getBearingSuccess({ bearing })),
           catchError((_e) => of(getBearingFailure()))
+        )
+      )
+    )
+  );
+
+  /**
+   * Load Shaft Device ID
+   */
+  shaftId$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getShaftId.type),
+      withLatestFrom(this.store.pipe(select(getShaftDeviceId))),
+      map(([_action, shaftDeviceId]) => shaftDeviceId),
+      map((shaftDeviceId) => getShaft({ shaftDeviceId }))
+    )
+  );
+
+  /**
+   * Load Bearing
+   */
+  shaft$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getShaft.type),
+      map((action: any) => action.shaftDeviceId),
+      mergeMap((shaftDeviceId) =>
+        this.restService.getShaftLatest(shaftDeviceId).pipe(
+          map((shaft) => getShaftSuccess({ shaft })),
+          catchError((_e) => of(getShaftFailure()))
         )
       )
     )

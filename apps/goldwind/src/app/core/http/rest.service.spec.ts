@@ -83,6 +83,17 @@ describe('Rest Service', () => {
 
   describe('getGreaseStatusLatest', () => {
     test('should call dataService getAll with all grease params', () => {
+      const mockShaftDeviceID = '123';
+
+      service.getShaftLatest(mockShaftDeviceID);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `iot/things/${mockShaftDeviceID}/shaft/latest`
+      );
+    });
+  });
+
+  describe('getShaftLatest', () => {
+    test('should call dataService getAll with all grease params', () => {
       const mockBearingId = '123';
 
       service.getGreaseStatusLatest(mockBearingId);
