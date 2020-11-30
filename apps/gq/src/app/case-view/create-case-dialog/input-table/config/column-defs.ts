@@ -43,7 +43,6 @@ export const COLUMN_DEFS: ColDef[] = [
     comparator: infoComparator,
   },
   {
-    headerName: translate('caseView.createCaseDialog.customer.table.action'),
     cellRenderer: 'actionCellComponent',
     flex: 0.1,
   },

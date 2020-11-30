@@ -1,6 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-import { ColDef, StatusPanelDef } from '@ag-grid-community/all-modules';
+import {
+  ColDef,
+  ColumnApi,
+  StatusPanelDef,
+} from '@ag-grid-community/all-modules';
 
 import { QuotationDetail } from '../../core/store/models';
 import {
@@ -33,6 +37,7 @@ export class QuotationDetailsTableComponent {
   public components: any[] = [];
 
   onFirstDataRendered(params: any): void {
-    params.api.sizeColumnsToFit();
+    const gridColumnApi: ColumnApi = params.columnApi;
+    gridColumnApi.autoSizeAllColumns(false);
   }
 }

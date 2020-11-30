@@ -1,10 +1,11 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 
 describe('ExportToExcelButtonComponent', () => {
@@ -25,9 +26,13 @@ describe('ExportToExcelButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    const mockIds = [{ getColId: () => '0' }, { getColId: () => '1' }];
     params = ({
       api: {
         exportDataAsExcel: jest.fn(),
+      },
+      columnApi: {
+        getAllColumns: jest.fn(() => mockIds),
       },
     } as unknown) as IStatusPanelParams;
   });

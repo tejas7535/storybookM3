@@ -1,5 +1,6 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Component } from '@angular/core';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 @Component({
   selector: 'gq-remove-from-offer',
@@ -14,16 +15,12 @@ export class ExportToExcelButtonComponent {
   }
 
   exportToExcel(): void {
-    const columnKeys: string[] = [
-      'materialDesignation',
-      'materialNumber15',
-      'productionHierarchy',
-      'productionCost',
-      'productionPlant',
-      'plantCity',
-      'plantCountry',
-      'rsp',
-    ];
+    const gridColumnApi = this.params.columnApi;
+    const columnKeys = gridColumnApi
+      .getAllColumns()
+      .map((col) => col.getColId())
+      .filter((id) => id !== '0');
+
     const today = new Date();
     const date = `${today.getFullYear()}-${
       today.getMonth() + 1

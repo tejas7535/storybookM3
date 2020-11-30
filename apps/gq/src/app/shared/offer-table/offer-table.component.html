@@ -1,14 +1,12 @@
 <div class="table-container" fxLayout="column">
   <ag-grid-angular
     class="ag-theme-material"
-    (gridReady)="onGridReady($event)"
     [rowData]="rowData"
     [defaultColDef]="defaultColumnDefs"
     [columnDefs]="columnDefs"
     [frameworkComponents]="frameworkComponents"
     [modules]="modules"
     [statusBar]="statusBar"
-    (firstDataRendered)="onFirstDataRendered($event)"
     [rowSelection]="rowSelection"
     [components]="components"
     rowHeight="40"

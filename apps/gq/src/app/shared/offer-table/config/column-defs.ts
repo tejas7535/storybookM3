@@ -1,6 +1,8 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import * as processCaseDef from '../../../process-case-view/quotation-details-table/config/column-defs';
+
 export const COLUMN_DEFS_SHORT: ColDef[] = [
   {
     checkboxSelection: true,
@@ -24,50 +26,18 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   },
 ];
 
-export const COLUMN_DEFS_FINISH_OFFER: ColDef[] = [
-  {
+export const CREATE_COLUMN_DEFS_FINISH_OFFER = (): ColDef[] => {
+  const columns = processCaseDef.COLUMN_DEFS;
+  columns[0] = {
+    headerCheckboxSelection: true,
+    headerCheckboxSelectionFilteredOnly: true,
     checkboxSelection: true,
     pinned: 'left',
-    filter: false,
+    initialWidth: 30,
     resizable: false,
     suppressMenu: true,
-    width: 30,
-  },
-  {
-    headerName: translate('shared.offerTable.materialDescription'),
-    field: 'materialDesignation',
-  },
-  {
-    headerName: translate('shared.offerTable.materialNumber'),
-    field: 'materialNumber15',
-  },
-  {
-    headerName: translate('shared.offerTable.productionHierarchy'),
-    field: 'productionHierarchy',
-  },
-  {
-    headerName: translate('shared.offerTable.productionCost'),
-    field: 'productionCost',
-  },
+    filter: false,
+  };
 
-  {
-    headerName: translate('shared.offerTable.productionPlant'),
-    field: 'productionPlant',
-  },
-  {
-    headerName: translate('shared.offerTable.plantCity'),
-    field: 'plantCity',
-  },
-  {
-    headerName: translate('shared.offerTable.plantCountry'),
-    field: 'plantCountry',
-  },
-  {
-    headerName: translate('shared.offerTable.rsp'),
-    field: 'rsp',
-  },
-  {
-    headerName: translate('shared.offerTable.info'),
-    field: 'info',
-  },
-];
+  return columns;
+};

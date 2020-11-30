@@ -16,11 +16,14 @@ describe('Create Detail Selector', () => {
       );
     });
   });
-  describe('Get Material Number15 Selector', () => {
-    test('should return Material Number15', () => {
-      expect(detailSelectors.getMaterialNumber15.projector(fakeState)).toEqual(
-        '15'
-      );
+  describe('Get Material Number and Description Selector', () => {
+    test('should return Material Number and desc', () => {
+      expect(
+        detailSelectors.getMaterialNumberandDescription.projector(fakeState)
+      ).toEqual({
+        materialNumber15: fakeState.detailCase.materialNumber15,
+        materialDescription: DetailCaseMock.materialDesignation,
+      });
     });
   });
 });

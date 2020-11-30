@@ -9,6 +9,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomerDetailsModule } from '../customer-details/customer-details.module';
 import { CaseHeaderComponent } from './case-header.component';
+import { MaterialInfoPipe } from './pipes/material-info.pipe';
+import { SapQuotationPipe } from './pipes/sap-quotation.pipe';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -30,7 +32,7 @@ describe('ProcessCaseHeaderComponent', () => {
       RouterTestingModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [CaseHeaderComponent],
+    declarations: [CaseHeaderComponent, SapQuotationPipe, MaterialInfoPipe],
   });
 
   beforeEach(() => {

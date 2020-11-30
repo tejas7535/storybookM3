@@ -1,6 +1,6 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -19,7 +19,6 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('OfferTableComponent', () => {
   let component: OfferTableComponent;
-  let params: IStatusPanelParams;
   let spectator: Spectator<OfferTableComponent>;
 
   const createComponent = createComponentFactory({
@@ -53,30 +52,9 @@ describe('OfferTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    params = ({
-      api: {
-        sizeColumnsToFit: jest.fn(),
-      },
-    } as unknown) as IStatusPanelParams;
   });
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('onFirstDataRendered', () => {
-    it('should call autoSizeAllColumns', () => {
-      component.onFirstDataRendered(params);
-
-      expect(params.api.sizeColumnsToFit).toHaveBeenCalled();
-    });
-  });
-
-  describe('onGridReady', () => {
-    test('should set selections', () => {
-      component.onGridReady(params);
-
-      expect(params.api.sizeColumnsToFit).toHaveBeenCalled();
-    });
   });
 });
