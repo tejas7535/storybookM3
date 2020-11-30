@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](///compare/cdba-v1.12.0...cdba-v1.11.0) (2020-11-30)
+
+
+### 📈 Improvements
+
+* **cdba:** show rfq number in calculation table (DSCDA-2068) ([9d02947](///commit/9d02947cef50e2a5de3720b13a3d9d76d429f0da))
+* **workspace:** show border for tool panel in ag grid ([ce08056](///commit/ce08056cdd9b26519d4b90e4f10568d4a5385b87))
+
+
+### 🎸 Features
+
+* **cdba:** add lazy loaded compare module (DSCDA-306) ([82d2ffb](///commit/82d2ffbe9ebe8432862ee3c145e908e741866375))
+* **cdba:** show level-2 (range) filters (DSCDA-1998) ([9f11e69](///commit/9f11e6927884614375896bfaa6c2d47f5a103c77))
+* **goldwind:** cdba ([69b1c8a](///commit/69b1c8a39c52dfbd5ddf8ac5e11336eef90dfd92))
+
 ## [1.10.0](///compare/v1.11.0...v1.10.0) (2020-11-09)
 
 
