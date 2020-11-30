@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -62,19 +61,5 @@ describe('QuotationDetailsTableComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('onFirstDataRendered', () => {
-    it('should call autoSizeAllColumns', () => {
-      const params = ({
-        api: {
-          sizeColumnsToFit: jest.fn(),
-        },
-      } as unknown) as IStatusPanelParams;
-
-      component.onFirstDataRendered(params);
-
-      expect(params.api.sizeColumnsToFit).toHaveBeenCalled();
-    });
   });
 });

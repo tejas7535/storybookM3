@@ -51,7 +51,6 @@ describe('DetailViewComponent', () => {
       component.ngOnInit();
 
       expect(component.quotation$).toBeDefined();
-      expect(component.materialNumber15$).toBeDefined();
     });
   });
   describe('getOffer', () => {

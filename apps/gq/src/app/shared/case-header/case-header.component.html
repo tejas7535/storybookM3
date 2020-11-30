@@ -10,12 +10,15 @@
       <h1>
         {{ quotationNumber || customerName }}
         <span *ngIf="quotationNumber">
-          <span *ngIf="sapId; else showMaterial" class="sapId">{{
-            sapId
-          }}</span>
-          <ng-template #showMaterial>
-            <span> | {{ materialNumber15 }}</span>
+          <span *ngIf="sapId; else showCustomer" class="additionalInfo">
+            {{ sapId | sapQuotation }}</span
+          >
+          <ng-template #showCustomer>
+            <span class="additionalInfo">| {{ customerName }}</span>
           </ng-template>
+          <span *ngIf="materialNumberandDescription">
+            {{ materialNumberandDescription | materialInfo }}</span
+          >
         </span>
       </h1>
     </div>
@@ -32,7 +35,7 @@
     </div>
   </div>
   <gq-customer-details
-    *ngIf="!customerName"
+    *ngIf="quotationNumber"
     [customer]="customer$ | async"
   ></gq-customer-details>
 </mat-card>

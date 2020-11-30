@@ -1,5 +1,7 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Component } from '@angular/core';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+
 import { QuotationDetail } from '../../../core/store/models';
 
 @Component({
@@ -9,11 +11,9 @@ import { QuotationDetail } from '../../../core/store/models';
 })
 export class TotalRowCountComponent {
   totalNetValue = 0;
-  totalRsp = 0;
   totalMargin = 0;
   selections: QuotationDetail[] = [];
   selectedNetValue = 0;
-  selectedRsp = 0;
   selectedMargin = 0;
 
   private params: IStatusPanelParams;
@@ -32,32 +32,28 @@ export class TotalRowCountComponent {
     let sumMargin = 0;
     let totalRowCount = 0;
     this.totalNetValue = 0;
-    this.totalRsp = 0;
 
     this.params.api.forEachLeafNode((rowNode) => {
       this.totalNetValue += parseFloat(rowNode.data.netValue);
-      this.totalRsp += parseFloat(rowNode.data.rsp);
       sumMargin += parseFloat(rowNode.data.margin);
       totalRowCount += 1;
     });
 
-    this.totalMargin = sumMargin / totalRowCount;
+    this.totalMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
   }
 
   onSelectionChange(): void {
     let sumMargin = 0;
     let totalRowCount = 0;
     this.selectedNetValue = 0;
-    this.selectedRsp = 0;
 
     this.selections = this.params.api.getSelectedRows();
     this.selections.forEach((value) => {
       this.selectedNetValue += parseFloat(value.netValue);
-      this.selectedRsp += parseFloat(value.rsp);
       sumMargin += parseFloat(value.margin);
       totalRowCount += 1;
     });
 
-    this.selectedMargin = sumMargin / totalRowCount;
+    this.selectedMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
   }
 }

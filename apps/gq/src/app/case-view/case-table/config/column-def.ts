@@ -9,26 +9,15 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     checkboxSelection: true,
     pinned: 'left',
+    minWidth: 60,
     width: 30,
     filter: false,
     resizable: false,
     suppressMenu: true,
   },
   {
-    headerName: translate('caseView.caseTable.patCase'),
+    headerName: translate('caseView.caseTable.gqId'),
     field: 'gqId',
-  },
-  {
-    headerName: translate('caseView.caseTable.sapId'),
-    field: 'sapId',
-  },
-  {
-    headerName: translate('caseView.caseTable.customerId'),
-    field: 'customer.id',
-  },
-  {
-    headerName: translate('caseView.caseTable.customerName'),
-    field: 'customer.name',
   },
   {
     headerName: translate('caseView.caseTable.creationDate'),
@@ -36,6 +25,23 @@ export const COLUMN_DEFS: ColDef[] = [
     filter: 'agDateColumnFilter',
     valueFormatter: dateFormatter,
   },
+  {
+    headerName: translate('caseView.caseTable.sapId'),
+    field: 'sapId',
+  },
+  {
+    headerName: translate('caseView.caseTable.createdBy'),
+    field: 'sapCreatedByUser.name',
+  },
+  {
+    headerName: translate('caseView.caseTable.customerNumber'),
+    field: 'customer.id',
+  },
+  {
+    headerName: translate('caseView.caseTable.customerName'),
+    field: 'customer.name',
+  },
+
   {
     headerName: translate('caseView.caseTable.status'),
     field: 'status',

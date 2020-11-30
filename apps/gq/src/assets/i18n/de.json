@@ -3,10 +3,11 @@
     "title": "Quotation Cases",
     "buttonCreateCase": "Neuen Case Erstellen",
     "caseTable": {
-      "customerId": "Kundennummer",
+      "customerNumber": "Kundennummer",
       "customerName": "Kundenname",
+      "createdBy": "Erstellt von ",
       "creationDate": "Erstelldatum",
-      "patCase": "PAT Case ID",
+      "gqId": "GQ ID",
       "sapId": "SAP Quotation",
       "status": "Status",
       "synchronized": "Synchronisiert"
@@ -22,14 +23,14 @@
         "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
         "label": "Kunde",
         "nothingFound": "Keine Ergebnisse",
+        "title": "Neuen Case erstellen",
         "quantity": {
           "label": "Anzahl",
           "hint": "Geben Sie die Anzahl ein"
         },
         "table": {
-          "action": "Aktion",
           "info": {
-            "title": "Info",
+            "title": "Status",
             "status": {
               "duplicate": "Das Item exisitiert bereits in der Tabelle",
               "isDummy": "Dies ist ein Beispieldatensatz",
@@ -41,7 +42,7 @@
             }
           },
           "matDesc": "Material Beschreibung",
-          "materialNumber": "Material Nummer",
+          "materialNumber": "Material Nummer (15-stellig)",
           "quantity": "Anzahl"
         },
         "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
@@ -57,6 +58,7 @@
         "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
         "label": "Angebotsnummer",
         "nothingFound": "Keine Ergebnisse",
+        "title": "SAP Case importieren",
         "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
       }
     }
@@ -69,24 +71,21 @@
     "incoterms": "Incoterms",
     "keyAccount": "Keyaccount",
     "paymentTerms": "Payment Terms",
-    "region": "Region 1",
+    "region": "Region",
     "subKeyAccount": "SubKeyAccount",
     "sectorManagement": "Sector Management",
-    "subRegion": "Sub-Region 1",
-    "subSector": "Subsector | Subsector 1",
+    "subRegion": "Sub-Region",
+    "subSector": "Subsector",
     "title": "Kunde"
   },
   "detailView": {
     "filterPricing": {
-      "title": "Benutzerdefinierter Preis",
-      "label": "Benutzerdefinierter Preis",
-      "hint": "Geben Sie einen Preis ein",
+      "title": "Manueller Preis",
+      "label": "Manueller Preis",
+      "hint": "Geben Sie einen manuellen Preis ein",
       "selected": "ausgewählt"
     },
     "pricingDetails": {
-      "costDetails": {
-        "label": "Kosten"
-      },
       "label": "Preis Details",
       "materialDetails": {
         "label": "Material",
@@ -99,17 +98,11 @@
         "materialType": "Material Typ",
         "productHierarchy": "Prod. Hierarchie"
       },
-      "pricingDetails": {
-        "label": "Preise"
-      },
-      "productionDetails": {
-        "label": "Produktion"
-      },
-      "salesHistory": {
-        "label": "Verkaufshistorie"
+      "productionCostDetails": {
+        "label": "Produktion und Kosten"
       },
       "scmDetails": {
-        "label": "SCM"
+        "label": "Supply Chain Daten"
       }
     }
   },
@@ -121,25 +114,28 @@
   },
   "processCaseView": {
     "quotationDetailsTable": {
+      "currency": "Currency",
+      "gpi": "Preisspanne",
       "gspd": "GSPD",
+      "gpc": "GPC",
       "info": "Info",
+      "item": "Item",
       "lastCustomerPrice": "letzter Kundenpreis",
-      "margin": "Preisspanne",
       "materialDescription": "Materialbescheibung",
-      "materialNumber": "Material Nr. (15 Ziffern)",
+      "materialNumber": "Material",
       "netValue": "Nettowert",
-      "percentDifference": "Prozentualer Unterschied zum letzten Preis",
-      "positionNumber": "Positionsnumer",
+      "offerPrice": "Preis",
+      "percentDifference": "% Unterschied Preise",
       "priceRating": "Price Rating",
       "priceSource": "Preis Quelle",
-      "priceUnit": "Preiseinheit",
-      "productionCity": "Produktionsort",
+      "productionCity": "Ort",
       "productionPlant": "Werk",
-      "productLine": "Produktlinie",
+      "productionCountry": "Land",
+      "productLine": "PL",
       "quantity": "Anzahl",
-      "recommendedUnitPriceInCurrency": "Empfohlener Stückpreis in Währung",
       "rlt": "RLT",
-      "unit": "Einheit"
+      "sqv": "SQV",
+      "uom": "Maßeinheit"
     }
   },
   "shared": {
@@ -200,7 +196,7 @@
     "offerTable": {
       "info": "Info",
       "materialDescription": "Materialbescheibung",
-      "materialNumber": "Material Nr. (13 Ziffern)",
+      "materialNumber": "Material Nr. (15 Ziffern)",
       "plantCity": "Stadt",
       "plantCountry": "Land",
       "price": "Preis",

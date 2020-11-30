@@ -5,9 +5,7 @@ export const DEFAULT_COLUMN_DEFS: ColDef = {
   enableRowGroup: true,
   filter: true,
   floatingFilter: true,
-
   menuTabs: ['generalMenuTab'],
   sortable: true,
-
   resizable: true,
 };

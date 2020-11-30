@@ -2,6 +2,8 @@
   mat-stroked-button
   color="primary"
   *transloco="let t; read: 'shared.customStatusBar.deleteCaseButton'"
+  [disabled]="selections.length === 0"
+  (click)="deleteCase()"
 >
   {{ t('deleteCase') | uppercase }}
 </button>

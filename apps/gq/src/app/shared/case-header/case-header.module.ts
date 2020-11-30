@@ -10,9 +10,11 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SharedModule } from '../../shared';
 import { CustomerDetailsModule } from '../customer-details/customer-details.module';
 import { CaseHeaderComponent } from './case-header.component';
+import { MaterialInfoPipe } from './pipes/material-info.pipe';
+import { SapQuotationPipe } from './pipes/sap-quotation.pipe';
 
 @NgModule({
-  declarations: [CaseHeaderComponent],
+  declarations: [CaseHeaderComponent, SapQuotationPipe, MaterialInfoPipe],
   imports: [
     SharedModule,
     MatIconModule,

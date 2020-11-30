@@ -3,10 +3,11 @@
     "title": "Quotation Cases",
     "buttonCreateCase": "Create New Case",
     "caseTable": {
-      "customerId": "Customer Id",
+      "customerNumber": "Customer Number",
       "customerName": "Customer Name",
-      "creationDate": "Creation Date",
-      "patCase": "PAT Case ID",
+      "createdBy": "Created By",
+      "creationDate": "GQ Creation Date",
+      "gqId": "GQ Case",
       "sapId": "SAP Quotation",
       "status": "Status",
       "synchronized": "Synchronized"
@@ -15,10 +16,10 @@
       "title": "Create New Case",
       "customer": {
         "addEntry": {
-          "button": "Add entry",
-          "title": "Add new entry"
+          "button": "Add position",
+          "title": "Add position"
         },
-        "button": "Create Case",
+        "button": "Create",
         "hint": "Enter a Customer Number or a Customer Name",
         "label": "Customer",
         "nothingFound": "Nothing found",
@@ -27,9 +28,8 @@
           "hint": "Enter a quantity"
         },
         "table": {
-          "action": "Action",
           "info": {
-            "title": "Info",
+            "title": "Status",
             "status": {
               "duplicate": "The item already exists in the table",
               "isDummy": "This is a dummy item",
@@ -41,9 +41,10 @@
             }
           },
           "matDesc": "Material Description",
-          "materialNumber": "Material Number",
+          "materialNumber": "Material Number (15-digits)",
           "quantity": "Quantity"
         },
+        "title": "Create Case manually",
         "wrongInput": "Please enter a valid customer name or customer number"
       },
       "materialNumber": {
@@ -53,10 +54,11 @@
         "wrongInput": "Please enter a valid material number"
       },
       "quotation": {
-        "button": "Open quotation",
-        "hint": "Enter a Quotation Number of a quotation created in SAP",
+        "button": "Import",
+        "hint": "Enter a SAP Quotation Number",
         "label": "Quotation Number",
         "nothingFound": "Nothing found",
+        "title": "SAP Quotation Import",
         "wrongInput": "Please enter a valid quotation number"
       }
     }
@@ -69,24 +71,21 @@
     "incoterms": "Incoterms",
     "keyAccount": "Keyaccount",
     "paymentTerms": "Payment Terms",
-    "region": "Region 1",
+    "region": "Region",
     "subKeyAccount": "SubKeyAccount",
     "sectorManagement": "Sector Management",
-    "subRegion": "Sub-Region 1",
-    "subSector": "Subsector | Subsector 1",
+    "subRegion": "Sub-Region",
+    "subSector": "Subsector",
     "title": "Customer"
   },
   "detailView": {
     "filterPricing": {
-      "title": "Custom Pricing",
-      "label": "Custom Price",
-      "hint": "Enter a custom price",
+      "title": "Manual Pricing",
+      "label": "Manual Price",
+      "hint": "Enter a manual price",
       "selected": "selected"
     },
     "pricingDetails": {
-      "costDetails": {
-        "label": "Cost"
-      },
       "label": "Pricing Details",
       "materialDetails": {
         "label": "Material",
@@ -99,17 +98,11 @@
         "materialType": "Material Type",
         "productHierarchy": "Prod. Hierarchy"
       },
-      "pricingDetails": {
-        "label": "Pricing"
-      },
-      "productionDetails": {
-        "label": "Production"
-      },
-      "salesHistory": {
-        "label": "Sales History"
+      "productionCostDetails": {
+        "label": "Production and Cost"
       },
       "scmDetails": {
-        "label": "SCM"
+        "label": "Supply Chain Data"
       }
     }
   },
@@ -122,25 +115,28 @@
 
   "processCaseView": {
     "quotationDetailsTable": {
+      "currency": "Currency",
       "gspd": "GSPD",
+      "gpc": "GPC",
+      "gpi": "GPI %",
       "info": "Info",
-      "lastCustomerPrice": "Last Customer Price",
-      "margin": "Margin",
-      "materialDescription": "Material Description",
-      "materialNumber": "Material Nr. (15 digit)",
+      "item": "Item",
+      "lastCustomerPrice": "Last Price",
+      "materialDescription": "Description",
+      "materialNumber": "Material",
       "netValue": "Net Value",
-      "percentDifference": "Percent Difference to the last price",
-      "positionNumber": "Position Number",
+      "offerPrice": "Price",
+      "percentDifference": "% Diff Prices",
       "priceRating": "Price Rating",
       "priceSource": "Price Source",
-      "priceUnit": "Price Unit",
-      "productionCity": "Production City",
-      "productionPlant": "Production Plant",
-      "productLine": "Product Line",
+      "productionCity": "City",
+      "productionCountry": "Country",
+      "productionPlant": "Prod. Plant",
+      "productLine": "PL",
       "quantity": "Quantity",
-      "recommendedUnitPriceInCurrency": "Recommended Unit Price in Currency",
       "rlt": "RLT",
-      "unit": "Unit"
+      "sqv": "SQV",
+      "uom": "UoM"
     }
   },
   "shared": {
@@ -201,7 +197,7 @@
     "offerTable": {
       "info": "Info",
       "materialDescription": "Material Description",
-      "materialNumber": "Material Nr. (13 digit)",
+      "materialNumber": "Material Nr. (15 digit)",
       "plantCity": "Plant City",
       "plantCountry": "Plant Country",
       "price": "Price",

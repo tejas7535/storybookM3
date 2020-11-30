@@ -160,7 +160,9 @@ export class ProcessCaseEffect {
     item.quotationDetails.forEach((value) => {
       value.rsp = (Math.random() * 10).toFixed(2);
       value.margin = `${(Math.random() * 100).toFixed(2).toString()} %`;
-      value.netValue = (value.orderQuantity * Number(value.rsp)).toString();
+      value.netValue = (value.orderQuantity * Number(value.rsp))
+        .toFixed(2)
+        .toString();
       const arr = ['PAT', 'SAP System', 'Custom'];
       value.priceSource = arr[Math.floor(Math.random() * 3)];
     });
