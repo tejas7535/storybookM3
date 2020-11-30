@@ -25,3 +25,7 @@
 .mat-tab-label-active > .mat-tab-label-content {
   color: $schaeffler-green-1;
 }
+
+nav.mat-tab-nav-bar {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+}
