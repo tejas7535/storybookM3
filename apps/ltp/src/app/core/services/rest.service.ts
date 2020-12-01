@@ -6,12 +6,8 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../../environments/environment';
 import {
-  BurdeningType,
   Loads,
   LoadsNetworkRequest,
-  Material,
-  Model,
-  Prediction,
   PredictionRequest,
   PredictionResult,
   StatisticalPrediction,
@@ -24,44 +20,9 @@ import {
 export class RestService {
   public SERVER_URL_PREDICTION = environment.SERVER_URL_PREDICTION;
   public SERVER_URL_STATISTICAL = environment.SERVER_URL_STATISTICAL;
+  public SERVER_URL_LOADS = environment.SERVER_URL_LOADS;
 
   constructor(private readonly httpService: HttpClient) {}
-
-  /**
-   * gets all model types from API
-   */
-  public getModels(): Observable<Model[]> {
-    return this.httpService.get<Model[]>(
-      `${this.SERVER_URL_PREDICTION}/getModels`
-    );
-  }
-
-  /**
-   * gets all prediction types from API
-   */
-  public getPredictions(): Observable<Prediction[]> {
-    return this.httpService.get<Prediction[]>(
-      `${this.SERVER_URL_PREDICTION}/getPredictions`
-    );
-  }
-
-  /**
-   * gets all burdening types from API
-   */
-  public getBurdeningTypes(): Observable<BurdeningType[]> {
-    return this.httpService.get<BurdeningType[]>(
-      `${this.SERVER_URL_PREDICTION}/getBurdeningTypes`
-    );
-  }
-
-  /**
-   * gets all materials from static json file for now
-   */
-  public getMaterials(): Observable<Material[]> {
-    return this.httpService.get<Material[]>(
-      `${this.SERVER_URL_PREDICTION}/getMaterials`
-    );
-  }
 
   /**
    * posts prediction request and returns result of prediction
@@ -84,8 +45,8 @@ export class RestService {
 
     const prediction = {
       mode,
-      R: rrelation,
-      V90: v90,
+      v90,
+      r: rrelation,
       belastungsart: burdeningType,
       haerte: hv,
       haerte_low: hv_lower,
@@ -97,7 +58,7 @@ export class RestService {
 
     if (mode === 2) {
       return this.httpService
-        .post<any>(`${this.SERVER_URL_PREDICTION}/predictor`, prediction)
+        .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
         .pipe(
           map((res) => {
             const result = res.prediction;
@@ -128,7 +89,7 @@ export class RestService {
     }
 
     return this.httpService.post<any>(
-      `${this.SERVER_URL_PREDICTION}/predictor`,
+      `${this.SERVER_URL_PREDICTION}/score`,
       prediction
     );
   }
@@ -138,7 +99,7 @@ export class RestService {
    */
   public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
     return this.httpService.post<any>(
-      `${this.SERVER_URL_PREDICTION}/loads`,
+      `${this.SERVER_URL_LOADS}/score`,
       loadsRequest
     );
   }

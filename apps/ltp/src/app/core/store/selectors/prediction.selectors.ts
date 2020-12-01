@@ -19,29 +19,6 @@ export const getLoads = createSelector(
   (prediction) => prediction.loadsRequest
 );
 
-export const getLoadsRequest = createSelector(
-  getLoads,
-  getPredictionRequest,
-  (loads, prediction) => {
-    if (!loads.data) {
-      return undefined;
-    }
-    const { data, conversionFactor, repetitionFactor, method } = loads;
-    const { v90, burdeningType, hv } = prediction;
-    const request = {
-      conversionFactor,
-      repetitionFactor,
-      method,
-      loads: data,
-      V90: v90,
-      belastungsart: burdeningType,
-      haerte: hv,
-    };
-
-    return request;
-  }
-);
-
 export const getLoadsResults = createSelector(
   fromStore.getPredictionState,
   (prediction) => prediction.loads
@@ -115,5 +92,27 @@ export const getStatisticalResult = createSelector(
     );
 
     return { ...result };
+  }
+);
+
+export const getLoadsRequest = createSelector(
+  getLoads,
+  fromStore.getPredictionState,
+  (loads, prediction) => {
+    if (!loads.data) {
+      return undefined;
+    }
+    const { data, conversionFactor, repetitionFactor, method } = loads;
+    const { kpi } = prediction.predictionResult;
+    const request = {
+      conversionFactor,
+      repetitionFactor,
+      method,
+      loads: data,
+      fatigue_strength1: kpi.fatigue[1],
+      fatigue_strength0: kpi.fatigue[0],
+    };
+
+    return request;
   }
 );
