@@ -5,9 +5,10 @@
 export const environment = {
   production: false,
   SERVER_URL_PREDICTION:
-    'https://lifetime-predictor-dev.digital.schaeffler.com/api/v1',
+    'https://lifetime-predictor-d.dev.dp.schaeffler/ml-prediction/api',
+  SERVER_URL_LOADS: 'https://lifetime-predictor-d.dev.dp.schaeffler/loads/api',
   SERVER_URL_STATISTICAL:
-    'https://lifetime-predictor-dev.digital.schaeffler.com/statistical/api',
+    'https://lifetime-predictor-d.dev.dp.schaeffler/statistical/api',
   azureTenantId: '67416604-6509-4014-9859-45e709f53d3f',
   azureClientId: 'a709aacf-3a98-4e66-9472-316a0e43eab6',
   authScope:

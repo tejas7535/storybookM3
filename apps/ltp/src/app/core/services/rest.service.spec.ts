@@ -6,14 +6,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { mockedMaterials } from '../../mocks/mock.constants';
-import {
-  BurdeningType,
-  Model,
-  Prediction,
-  PredictionRequest,
-  StatisticalRequest,
-} from '../../shared/models';
+import { PredictionRequest, StatisticalRequest } from '../../shared/models';
 import { mockedStatisticalResult } from './../../mocks/mock.constants';
 import { RestService } from './rest.service';
 
@@ -37,80 +30,6 @@ describe('RestService', () => {
 
   it('should be created', () => {
     expect(myProvider).toBeTruthy();
-  });
-
-  describe('getModels', () => {
-    it('should return an Observable<Model[]>', () => {
-      const mockedModels: Model[] = [
-        { id: 0, name: 'WOEHLER_CURVE' },
-        { id: 1, name: 'HAIGH_CURVE' },
-      ];
-
-      myProvider.getModels().subscribe((models) => {
-        expect(models.length).toBe(2);
-        expect(models).toEqual(mockedModels);
-      });
-
-      const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/getModels`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mockedModels);
-    });
-  });
-
-  describe('getPredictions', () => {
-    it('should return an Observable<Model[]>', () => {
-      const mockedPredictions: Prediction[] = [
-        { id: 0, name: 'Arnold Strong' },
-        { id: 1, name: 'Silvester Stallone' },
-      ];
-
-      myProvider.getPredictions().subscribe((models) => {
-        expect(models.length).toBe(2);
-        expect(models).toEqual(mockedPredictions);
-      });
-
-      const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/getPredictions`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mockedPredictions);
-    });
-  });
-
-  describe('getBurdeningTypes', () => {
-    it('should return an Observable<Model[]>', () => {
-      const mockedBurdeningTypes: BurdeningType[] = [
-        { id: 0, name: 'Jet Lee' },
-        { id: 1, name: 'Tyson Fury' },
-      ];
-
-      myProvider.getBurdeningTypes().subscribe((models) => {
-        expect(models.length).toBe(2);
-        expect(models).toEqual(mockedBurdeningTypes);
-      });
-
-      const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/getBurdeningTypes`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mockedBurdeningTypes);
-    });
-  });
-
-  describe('#getMaterials', () => {
-    it('should return an Observable<Material[]', () => {
-      myProvider
-        .getMaterials()
-        .subscribe((materials) => expect(materials).toEqual(mockedMaterials));
-
-      const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/getMaterials`
-      );
-      expect(req.request.method).toBe('GET');
-      req.flush(mockedMaterials);
-    });
   });
 
   describe('postPrediction', () => {
@@ -155,7 +74,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/predictor`
+        `${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -169,7 +88,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/predictor`
+        `${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -183,9 +102,8 @@ describe('RestService', () => {
         repetitionFactor: 100,
         method: 'FKM',
         loads: [] as number[],
-        V90: 589,
-        belastungsart: 0,
-        haerte: 325,
+        fatigue_strength1: 1,
+        fatigue_strength0: 2,
       };
 
       const mockedLoadsPrediction = {
@@ -196,9 +114,7 @@ describe('RestService', () => {
         expect(loadsResult).toEqual(mockedLoadsPrediction);
       });
 
-      const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/loads`
-      );
+      const req = httpMock.expectOne(`${myProvider.SERVER_URL_LOADS}/score`);
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
     });

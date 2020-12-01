@@ -12,7 +12,6 @@ export interface LoadsRequest extends LoadOptions {
 
 export interface LoadsNetworkRequest extends LoadOptions {
   loads: number[];
-  V90: number;
-  belastungsart: number;
-  haerte: number;
+  fatigue_strength1: number;
+  fatigue_strength0: number;
 }

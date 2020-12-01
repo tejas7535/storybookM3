@@ -1,8 +1,10 @@
+import { mockedPredictionRequestWithKpi } from '../../../mocks/mock.constants';
 import { PredictionState } from '../reducers/prediction.reducer';
 import * as PredictionSelectors from './prediction.selectors';
 
 describe('PredictionSelectors', () => {
-  const mockedPredictionRequest: PredictionState = {
+  let mockedPredictionRequest: PredictionState;
+  const mockedPredictionRequestConst: PredictionState = {
     predictionRequest: {
       prediction: 0,
       mpa: 400,
@@ -77,6 +79,35 @@ describe('PredictionSelectors', () => {
     loads: undefined,
   };
 
+  beforeAll(() => {
+    mockedPredictionRequest = mockedPredictionRequestConst;
+  });
+
+  it('should getLoadsRequest', () => {
+    const {
+      data,
+      conversionFactor,
+      repetitionFactor,
+      method,
+    } = mockedPredictionRequestWithKpi.loadsRequest;
+    const { kpi } = mockedPredictionRequestWithKpi.predictionResult;
+    const expected = {
+      conversionFactor,
+      repetitionFactor,
+      method,
+      loads: data,
+      fatigue_strength1: kpi.fatigue[1],
+      fatigue_strength0: kpi.fatigue[0],
+    };
+
+    expect(
+      PredictionSelectors.getLoadsRequest.projector(
+        mockedPredictionRequestWithKpi.loadsRequest,
+        mockedPredictionRequestWithKpi
+      )
+    ).toEqual(expected);
+  });
+
   it('should getPredictionRequest', () => {
     expect(
       PredictionSelectors.getPredictionRequest.projector(
@@ -130,36 +161,6 @@ describe('PredictionSelectors', () => {
       repetitionFactor: 1,
       method: 'FKM',
     });
-  });
-
-  it('should getLoadsRequest', () => {
-    const {
-      data,
-      conversionFactor,
-      repetitionFactor,
-      method,
-    } = mockedPredictionRequest.loadsRequest;
-    const {
-      v90,
-      burdeningType,
-      hv,
-    } = mockedPredictionRequest.predictionRequest;
-    const expected = {
-      conversionFactor,
-      repetitionFactor,
-      method,
-      loads: data,
-      V90: v90,
-      belastungsart: burdeningType,
-      haerte: hv,
-    };
-
-    expect(
-      PredictionSelectors.getLoadsRequest.projector(
-        mockedPredictionRequest.loadsRequest,
-        mockedPredictionRequest.predictionRequest
-      )
-    ).toEqual(expected);
   });
 
   it('should getLoadsRequest and return undefined if loads are not defined', () => {
