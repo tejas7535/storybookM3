@@ -73,6 +73,11 @@ export class ColumnDefinitionService {
       valueFormatter: formatNumber,
       filter: 'agNumberColumnFilter',
     },
+    bomCostingVersion: {
+      field: 'bomCostingVersion',
+      headerName: translate('detail.shared.calculationTable.costingVersion'),
+      headerTooltip: translate('detail.shared.calculationTable.costingVersion'),
+    },
     rfqNumber: {
       field: 'rfqNumber',
       headerName: translate('detail.shared.calculationTable.rfqNumber'),

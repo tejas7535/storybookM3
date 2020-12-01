@@ -9,6 +9,7 @@
       "plant": "Plant",
       "quantity": "Quantity",
       "lotSize": "Lot Size",
+      "costingVersion": "Costing Version",
       "rfqNumber": "RFQ Nummer"
     },
     "title": "Calculations"

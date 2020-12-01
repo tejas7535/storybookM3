@@ -30,4 +30,10 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
   lotSize: {
     colId: 'lotSize',
   },
+  bomCostingVersion: {
+    colId: 'bomCostingVersion',
+  },
+  rfqNumber: {
+    colId: 'rfqNumber',
+  },
 };
