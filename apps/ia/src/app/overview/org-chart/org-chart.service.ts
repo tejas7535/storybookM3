@@ -9,7 +9,13 @@ import { OrgChartNode } from './models/org-chart-node.model';
   providedIn: 'root',
 })
 export class OrgChartService {
-  public mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
+  public mapEmployeesToNodes(
+    data: Employee[],
+    showHeatMap: boolean = false
+  ): OrgChartNode[] {
+    const averageAttritionRate = data.find((elem) => !elem.parentEmployeeId)
+      ?.attritionMeta.attritionRate;
+
     return data.map((elem: Employee) => {
       const nodeId = elem.employeeId;
       const parentNodeId = elem.parentEmployeeId;
@@ -24,6 +30,30 @@ export class OrgChartService {
       const columnOverall = translate('orgChart.table.columnOverall');
       const rowEmployees = translate('orgChart.table.rowEmployees');
       const rowAttrition = translate('orgChart.table.rowAttrition');
+
+      let heatMapClass = '';
+      if (showHeatMap) {
+        const attritionRateComparedToAvg =
+          Math.round(
+            ((elem.attritionMeta.attritionRate / averageAttritionRate) * 100 +
+              Number.EPSILON) *
+              100
+          ) / 100;
+
+        // cf. https://confluence.schaeffler.com/pages/viewpage.action?spaceKey=IA&title=Heat+Map+for+highlighting+need+for+action
+        heatMapClass =
+          elem.parentEmployeeId === undefined
+            ? ''
+            : attritionRateComparedToAvg < 100
+            ? 'green-heat'
+            : (attritionRateComparedToAvg >= 100 &&
+                attritionRateComparedToAvg <= 150) ||
+              (attritionRateComparedToAvg > 150 && elem.totalSubordinates <= 2)
+            ? 'orange-heat'
+            : attritionRateComparedToAvg > 150
+            ? 'red-heat'
+            : '';
+      }
 
       return {
         nodeId,
@@ -56,7 +86,7 @@ export class OrgChartService {
         connectorLineWidth: 1,
         template: `
           <div class="node-wrapper">
-            <div class="node-chip"><span>${organization}</span></div>
+            <div class="node-chip ${heatMapClass}"><span>${organization}</span></div>
             <div class="name">${name}</div>
             <table>
               <thead>

@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
+import { EmployeeAttritionMeta } from '../models';
 
 @Component({
   selector: 'ia-attrition-dialog',
@@ -9,5 +9,5 @@ import { AttritionDialogMeta } from './models/attrition-dialog-meta.model';
   styleUrls: ['./attrition-dialog.component.scss'],
 })
 export class AttritionDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: AttritionDialogMeta) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: EmployeeAttritionMeta) {}
 }

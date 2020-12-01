@@ -5,7 +5,6 @@ import {
 } from '../../../../mocks/overview-selector.mock';
 import { ChartType } from '../../models/chart-type.enum';
 import {
-  getAttritionDataForOrgchart,
   getFilteredEmployeesForOrgChart,
   getOrgChartLoading,
   getSelectedChartType,
@@ -34,29 +33,6 @@ describe('Overview Selector', () => {
   describe('getOrgChartLoading', () => {
     test('should return org chart loading status', () => {
       expect(getOrgChartLoading(fakeState)).toBeTruthy();
-    });
-  });
-
-  describe('getAttritionDataForOrgchart', () => {
-    test('should return attrition meta data', () => {
-      const expected = {
-        attritionRate: 45.28,
-        employeesAdded: 1,
-        employeesLost: 2,
-        forcedLeavers: 1,
-        naturalTurnover: 0,
-        openPositions: 0,
-        terminationReceived: 0,
-        title: 'Schaeffler_IT',
-        unforcedLeavers: 1,
-      };
-      expect(
-        getAttritionDataForOrgchart.projector(
-          fakeState.overview,
-          '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020,
-          { employeeId: '123' }
-        )
-      ).toEqual(expected);
     });
   });
 

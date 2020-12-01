@@ -2,8 +2,11 @@ import { createSelector } from '@ngrx/store';
 
 import { OverviewState, selectOverviewState } from '..';
 import { getSelectedTimeRange } from '../../../core/store/selectors';
-import { AttritionDialogMeta } from '../../../shared/attrition-dialog/models/attrition-dialog-meta.model';
-import { Employee, LeavingType } from '../../../shared/models';
+import {
+  Employee,
+  EmployeeAttritionMeta,
+  LeavingType,
+} from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 
 export const getSelectedChartType = createSelector(
@@ -29,6 +32,61 @@ export const getFilteredEmployeesForOrgChart = createSelector(
         return employee;
       });
 
+    // set / calculate attrition meta data
+    filteredResult.forEach((empl) => {
+      const { orgUnit } = empl;
+
+      const allEmployees = state.orgChart.filter((e) =>
+        e.orgUnit.startsWith(orgUnit)
+      );
+
+      const start = new Date(+timeRange.split('|')[0]);
+      const end = new Date(+timeRange.split('|')[1]);
+
+      const attritionRate = calculateAttritionRate(
+        start,
+        end,
+        allEmployees,
+        empl
+      );
+
+      const employeesLost = empl.totalAttrition;
+      let naturalTurnover = 0;
+      let forcedLeavers = 0;
+      let unforcedLeavers = 0;
+      let terminationReceived = 0;
+      let employeesAdded = 0;
+      const openPositions = 0;
+
+      allEmployees.forEach((employee) => {
+        forcedLeavers +=
+          employee.reasonForLeaving === LeavingType.FORCED ? 1 : 0;
+        unforcedLeavers +=
+          employee.reasonForLeaving === LeavingType.UNFORCED ? 1 : 0;
+        naturalTurnover +=
+          employee.reasonForLeaving === LeavingType.REMAINING ? 1 : 0;
+        terminationReceived +=
+          employee.terminationDate?.getTime() > end.getTime() ? 1 : 0;
+        employeesAdded +=
+          employee.entryDate?.getTime() >= start.getTime() &&
+          employee.entryDate?.getTime() <= end.getTime()
+            ? 1
+            : 0;
+      });
+
+      empl.attritionMeta = new EmployeeAttritionMeta(
+        orgUnit,
+        attritionRate,
+        employeesLost,
+        naturalTurnover,
+        forcedLeavers,
+        unforcedLeavers,
+        terminationReceived,
+        employeesAdded,
+        openPositions
+      );
+    });
+
     return filteredResult;
   }
 );
@@ -36,63 +94,6 @@ export const getFilteredEmployeesForOrgChart = createSelector(
 export const getOrgChartLoading = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.loading
-);
-
-export const getAttritionDataForOrgchart = createSelector(
-  selectOverviewState,
-  getSelectedTimeRange,
-  (state: OverviewState, timeRange: string, props: any) => {
-    const selectedEmployee = state.orgChart.find(
-      (employee) => employee.employeeId === props.employeeId
-    );
-    const allEmployees = state.orgChart.filter((employee) =>
-      employee.orgUnit.startsWith(selectedEmployee.orgUnit)
-    );
-    const start = new Date(+timeRange.split('|')[0]);
-    const end = new Date(+timeRange.split('|')[1]);
-
-    const attritionRate = calculateAttritionRate(
-      start,
-      end,
-      allEmployees,
-      selectedEmployee
-    );
-
-    const employeesLost = selectedEmployee.totalAttrition;
-    let naturalTurnover = 0;
-    let forcedLeavers = 0;
-    let unforcedLeavers = 0;
-    let terminationReceived = 0;
-    let employeesAdded = 0;
-    const openPositions = 0;
-
-    allEmployees.forEach((employee) => {
-      forcedLeavers += employee.reasonForLeaving === LeavingType.FORCED ? 1 : 0;
-      unforcedLeavers +=
-        employee.reasonForLeaving === LeavingType.UNFORCED ? 1 : 0;
-      naturalTurnover +=
-        employee.reasonForLeaving === LeavingType.REMAINING ? 1 : 0;
-      terminationReceived +=
-        employee.terminationDate?.getTime() > end.getTime() ? 1 : 0;
-      employeesAdded +=
-        employee.entryDate?.getTime() >= start.getTime() &&
-        employee.entryDate?.getTime() <= end.getTime()
-          ? 1
-          : 0;
-    });
-
-    return new AttritionDialogMeta(
-      selectedEmployee.orgUnit,
-      attritionRate,
-      employeesLost,
-      naturalTurnover,
-      forcedLeavers,
-      unforcedLeavers,
-      terminationReceived,
-      employeesAdded,
-      openPositions
-    );
-  }
 );
 
 const calculateAttritionRate = (

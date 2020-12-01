@@ -1,4 +1,6 @@
-import { initialState, overviewReducer } from '.';
+import { Action } from '@ngrx/store';
+
+import { initialState, overviewReducer, reducer } from '.';
 import { Employee, EmployeesRequest } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import {
@@ -57,6 +59,16 @@ describe('Overview Reducer', () => {
 
       expect(state.loading).toBeFalsy();
       expect(state.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('Reducer function', () => {
+    test('should return searchReducer', () => {
+      // prepare any action
+      const action: Action = { type: 'Test' };
+      expect(reducer(initialState, action)).toEqual(
+        overviewReducer(initialState, action)
+      );
     });
   });
 });

@@ -24,6 +24,7 @@ describe('OrgChartService', () => {
         ({
           employeeId: '123',
           employeeName: 'Hans',
+          attritionMeta: {},
         } as unknown) as Employee,
       ];
 

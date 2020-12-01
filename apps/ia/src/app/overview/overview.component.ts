@@ -25,6 +25,8 @@ export class OverviewComponent implements OnInit {
   isOrgChartLoading$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
 
+  chartType = ChartType;
+
   public constructor(private readonly store: Store<OverviewState>) {}
 
   public ngOnInit(): void {

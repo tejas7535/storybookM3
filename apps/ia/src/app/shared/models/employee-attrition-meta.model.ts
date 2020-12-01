@@ -1,4 +1,4 @@
-export class AttritionDialogMeta {
+export class EmployeeAttritionMeta {
   public constructor(
     public title: string,
     public attritionRate: number,

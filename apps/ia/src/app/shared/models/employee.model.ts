@@ -1,3 +1,5 @@
+import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
+
 export class Employee {
   public constructor(
     public employeeId: string,
@@ -26,9 +28,10 @@ export class Employee {
     public reasonForLeaving: string,
     public regrettedLoss: string,
     public level: number, // only in frontend to hierarchically order employees
-    public directSubordinates: number,
-    public totalSubordinates: number,
-    public directAttrition: number,
-    public totalAttrition: number
+    public directSubordinates: number, // enriched in frontend
+    public totalSubordinates: number, // enriched in frontend
+    public directAttrition: number, // enriched in frontend
+    public totalAttrition: number, // enriched in frontend
+    public attritionMeta: EmployeeAttritionMeta // enriched in frontend
   ) {}
 }
