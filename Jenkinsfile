@@ -843,16 +843,13 @@ pipeline {
                             def version = getPackageVersion()
                             def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
 
-                            def fileName = isAppRelease() ? "release/${version}" : "${BRANCH_NAME}"
-                            def artifactoryTargetPath = "${artifactoryBasePath}/${app}/"
-                            artifactoryTargetPath += isAppRelease() || !isMaster() ? fileName : 'next'
-                            artifactoryTargetPath += '.zip'
+                            // prod/release = latest, master = next, feature build = branch name
+                            def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : "${BRANCH_NAME}"
+                            def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
                             try {
                                 build job: "${url}",
                                     parameters: [
-                                            string(name: 'BRANCH', value: "${fileName}"), // deprecated
-                                            string(name: 'ARTIFACTORY_PATH', value: "${artifactoryBasePath}/${app}"), // deprecated
                                             string(name: 'VERSION', value: "${version}"),
                                             string(name: 'CONFIGURATION', value: "${configuration}"),
                                             string(name: 'ARTIFACTORY_TARGET_PATH', value: "${artifactoryTargetPath}")
