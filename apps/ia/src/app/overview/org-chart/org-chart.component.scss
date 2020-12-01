@@ -41,6 +41,21 @@
       width: 279px;
     }
 
+    .green-heat {
+      background-color: $schaeffler-green-success;
+      color: $schaeffler-gray-0;
+    }
+
+    .orange-heat {
+      background-color: $schaeffler-yellow;
+      color: $schaeffler-gray-0;
+    }
+
+    .red-heat {
+      background-color: $schaeffler-red;
+      color: $schaeffler-gray-0;
+    }
+
     .name {
       color: $schaeffler-black;
       font-size: 18px;

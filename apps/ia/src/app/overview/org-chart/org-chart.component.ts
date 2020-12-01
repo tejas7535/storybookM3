@@ -9,15 +9,10 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { first } from 'rxjs/operators';
-
-import { select, Store } from '@ngrx/store';
 import d3OrgChart from 'd3-org-chart';
 
 import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
 import { Employee } from '../../shared/models';
-import { OverviewState } from '../store';
-import { getAttritionDataForOrgchart } from '../store/selectors/overview.selector';
 import { OrgChartService } from './org-chart.service';
 
 @Component({
@@ -27,12 +22,36 @@ import { OrgChartService } from './org-chart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
+  private _showHeatMap = false;
+  private _data: Employee[] = [];
+
   @Input() set data(data: Employee[]) {
-    this.chartData = this.orgChartService.mapEmployeesToNodes(data);
+    this._data = data;
+    this.chartData = this.orgChartService.mapEmployeesToNodes(
+      data,
+      this.showHeatMap
+    );
     this.updateChart();
   }
 
   @Input() isLoading = false;
+
+  @Input() set showHeatMap(showHeatMap: boolean) {
+    this._showHeatMap = showHeatMap;
+    this.chartData = this.orgChartService.mapEmployeesToNodes(
+      this.data,
+      showHeatMap
+    );
+    this.updateChart();
+  }
+
+  get showHeatMap(): boolean {
+    return this._showHeatMap;
+  }
+
+  get data(): Employee[] {
+    return this._data;
+  }
 
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
@@ -41,8 +60,7 @@ export class OrgChartComponent implements AfterViewInit {
 
   public constructor(
     private readonly orgChartService: OrgChartService,
-    private readonly dialog: MatDialog,
-    private readonly store: Store<OverviewState>
+    private readonly dialog: MatDialog
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
@@ -55,13 +73,11 @@ export class OrgChartComponent implements AfterViewInit {
       (node as Element).classList.contains('employee-node-attrition')
     ) {
       const employeeId = (node as Element).getAttribute('data-id');
-      this.store
-        .pipe(select(getAttritionDataForOrgchart, { employeeId }), first())
-        .subscribe((data) => {
-          this.dialog.open(AttritionDialogComponent, {
-            data,
-          });
-        });
+      const employee = this.data.find((elem) => elem.employeeId === employeeId);
+      const data = employee?.attritionMeta;
+      this.dialog.open(AttritionDialogComponent, {
+        data,
+      });
     }
   }
 

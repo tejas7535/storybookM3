@@ -1,20 +1,17 @@
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
 import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../../shared/attrition-dialog/attrition-dialog.module';
-import { AttritionDialogMeta } from '../../shared/attrition-dialog/models/attrition-dialog-meta.model';
-import { Employee } from '../../shared/models';
-import { getAttritionDataForOrgchart } from '../store/selectors/overview.selector';
+import { Employee, EmployeeAttritionMeta } from '../../shared/models';
 import { OrgChartComponent } from './org-chart.component';
 
 describe('OrgChartComponent', () => {
   let component: OrgChartComponent;
   let spectator: Spectator<OrgChartComponent>;
-  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
@@ -27,7 +24,6 @@ describe('OrgChartComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -45,15 +41,30 @@ describe('OrgChartComponent', () => {
       expect(component.updateChart).toHaveBeenCalled();
       expect(
         component['orgChartService'].mapEmployeesToNodes
-      ).toHaveBeenCalledWith(employees);
+      ).toHaveBeenCalledWith(employees, component.showHeatMap);
+    });
+  });
+  describe('set showHeatMap', () => {
+    test('should set showHeatMap and update chart', () => {
+      component.updateChart = jest.fn();
+      component['orgChartService'].mapEmployeesToNodes = jest.fn();
+
+      component.showHeatMap = true;
+
+      expect(component.updateChart).toHaveBeenCalled();
+      expect(
+        component['orgChartService'].mapEmployeesToNodes
+      ).toHaveBeenCalledWith(component.data, true);
     });
   });
 
   describe('clickout', () => {
-    test('should open dialog with attrition data when attrition icon is clicked', async () => {
-      const mock = ({} as unknown) as AttritionDialogMeta;
+    test('should open dialog with attrition data when attrition icon is clicked', () => {
+      const mock = ({} as unknown) as EmployeeAttritionMeta;
       component['dialog'].open = jest.fn();
-      store.overrideSelector(getAttritionDataForOrgchart, mock);
+      component.data = [
+        ({ employeeId: '123', attritionMeta: mock } as unknown) as Employee,
+      ];
 
       component.clickout({
         target: {
@@ -63,8 +74,6 @@ describe('OrgChartComponent', () => {
           getAttribute: () => '123',
         },
       });
-
-      await spectator.fixture.whenStable();
 
       expect(
         component['dialog'].open
