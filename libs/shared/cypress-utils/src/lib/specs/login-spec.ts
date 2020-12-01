@@ -10,7 +10,7 @@ export const testLogin = (login: Function, username: string) => {
       .get('[data-cy=logout]')
       .click()
       .get('#headerUserName')
-      .should('not.be.visible');
+      .should('not.exist');
 
     login().visit('/');
 
