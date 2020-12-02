@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.13.0](///compare/cdba-v1.13.0...cdba-v1.12.0) (2020-12-02)
+
+
+### 🎸 Features
+
+* show column costing version ([56865c8](///commit/56865c8fedbe048a3f5e5d356f2a08d15f08296a))
+
+
+### 📈 Improvements
+
+* **cdba:** adjust login behaviour to be less confusing (DSCDA-2086) ([e9129e6](///commit/e9129e6fada5fb76989dc5620e833d93e7c5a559))
+
 ## [1.12.0](///compare/cdba-v1.12.0...cdba-v1.11.0) (2020-11-30)
 
 
