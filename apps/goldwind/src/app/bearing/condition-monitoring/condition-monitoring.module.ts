@@ -26,6 +26,7 @@ import { ConditionMonitoringRoutingModule } from './condition-monitoring-routing
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
+import { ShaftModule } from './shaft/shaft.module';
 
 @NgModule({
   declarations: [ConditionMonitoringComponent, CmEquipmentComponent],
@@ -37,6 +38,7 @@ import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
     EdmMonitorModule,
     GreaseMonitorModule,
     CenterLoadModule,
+    ShaftModule,
     SharedModule,
 
     // UI Modules
