@@ -81,6 +81,7 @@ export class DataViewComponent implements OnInit {
 
   defaultColDef = {
     filter: true,
+    flex: 1,
     floatingFilter: true,
   };
 

@@ -1,12 +1,18 @@
+import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getBearingLoading,
   getBearingResult,
   getMainBearing,
   getShaftDeviceId,
+  getShaftLatestGraphData,
   getShaftResult,
 } from './bearing.selector';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 describe('Bearing Selector', () => {
   const fakeState = {
     bearing: {
@@ -59,6 +65,14 @@ describe('Bearing Selector', () => {
   describe('getShaftResult', () => {
     test('should return the shaft result', () => {
       expect(getShaftResult(fakeState)).toEqual(fakeState.bearing.shaft.result);
+    });
+  });
+
+  describe('getShaftLatestGraphData', () => {
+    test('should return the shaft latest graph data', () => {
+      expect(getShaftLatestGraphData(fakeState)).toEqual(
+        SHAFT_LATEST_GRAPH_DATA
+      );
     });
   });
 });

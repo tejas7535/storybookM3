@@ -5,12 +5,13 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../../core/store/reducers';
-import {
-  MainBearing,
-  ShaftStatus,
-} from '../../core/store/reducers/bearing/models';
+import { MainBearing } from '../../core/store/reducers/bearing/models';
 import { LoadSense } from '../../core/store/reducers/load-sense/models';
-import { getMainBearing, getShaftResult } from '../../core/store/selectors/';
+import { GraphData } from '../../core/store/reducers/shared/models';
+import {
+  getMainBearing,
+  getShaftLatestGraphData,
+} from '../../core/store/selectors/';
 
 @Component({
   selector: 'goldwind-load-sense',
@@ -19,7 +20,7 @@ import { getMainBearing, getShaftResult } from '../../core/store/selectors/';
 })
 export class ConditionMonitoringComponent implements OnInit {
   mainBearing$: Observable<MainBearing>;
-  shaft$: Observable<ShaftStatus>;
+  shaftLatestGraphData$: Observable<GraphData>;
   loadSense$: Observable<LoadSense[]>;
   live$: Observable<boolean>;
 
@@ -27,6 +28,8 @@ export class ConditionMonitoringComponent implements OnInit {
 
   ngOnInit(): void {
     this.mainBearing$ = this.store.pipe(select(getMainBearing));
-    this.shaft$ = this.store.pipe(select(getShaftResult));
+    this.shaftLatestGraphData$ = this.store.pipe(
+      select(getShaftLatestGraphData)
+    );
   }
 }

@@ -12,6 +12,7 @@ import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
 import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
+import { ShaftModule } from './shaft/shaft.module';
 
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
@@ -26,6 +27,7 @@ describe('ConditionMonitoringComponent', () => {
       EdmMonitorModule,
       GreaseMonitorModule,
       CenterLoadModule,
+      ShaftModule,
       MatCardModule,
     ],
     providers: [

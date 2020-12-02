@@ -1,5 +1,11 @@
 import { EChartOption } from 'echarts';
 
+export enum GaugeColors {
+  GREEN = '#0ebc5b',
+  YELLOW = '#fccf46',
+  RED = '#e62c27',
+}
+
 // echarts default configuration
 export const chartOptions: EChartOption = {
   legend: {
@@ -91,9 +97,9 @@ export const GREASE_GAUGE_SERIES = {
     lineStyle: {
       width: 12,
       color: [
-        [0.75, '#0ebc5b'], // green
-        [0.85, '#fccf46'], // yellow
-        [1, '#e62c27'], // red
+        [0.75, GaugeColors.GREEN],
+        [0.85, GaugeColors.YELLOW],
+        [1, GaugeColors.RED],
       ],
     },
   },

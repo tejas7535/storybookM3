@@ -40,6 +40,12 @@
       "time": "Time",
       "generator": "Generator",
       "rotor": "rotor"
+    },
+    "shaft": {
+      "title": "Rotor - Rotation Speed",
+      "updateFrequency": "Update frequency",
+      "rpmRotor": "RPM Rotor",
+      "rotorRotationSpeed": "Rotor Rotation Speed"
     }
   },
   "greaseStatus": {
