@@ -40,14 +40,12 @@ export class AuthService {
           ? () => this.oauthService.silentRefresh()
           : () => this.oauthService.refreshToken();
 
-        return (refresh as any)().catch(() => {
+        return (refresh as any)().catch(async () => {
           // 3) silent refresh not possible -> login via implicit flow / code flow
           this.oauthService.initLoginFlow(targetUrl || '/');
+
+          return Promise.resolve();
         });
-      })
-      .then(() => {
-        this.navigateToState();
-        Promise.resolve();
       });
   }
 

@@ -16,6 +16,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { StoreModule } from './store/store.module';
 
 registerLocaleData(de, 'de-DE');
@@ -34,6 +35,7 @@ registerLocaleData(de, 'de-DE');
     HeaderModule,
     FooterModule,
     MatButtonModule,
+    LoadingSpinnerModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
@@ -50,7 +52,7 @@ registerLocaleData(de, 'de-DE');
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
 
-    // notifications
+    // Notifications
     SnackBarModule,
   ],
   providers: [

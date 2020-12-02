@@ -1,4 +1,8 @@
-<schaeffler-header [platformTitle]="title" class="full-height">
+<schaeffler-header
+  *ngIf="isLoggedIn$ | async; else loading"
+  [platformTitle]="title"
+  class="full-height"
+>
   <schaeffler-user-menu
     user-menu
     [user]="username$ | async"
@@ -14,3 +18,7 @@
     ></schaeffler-footer>
   </div>
 </schaeffler-header>
+
+<ng-template #loading>
+  <cdba-loading-spinner [show]="true"></cdba-loading-spinner>
+</ng-template>

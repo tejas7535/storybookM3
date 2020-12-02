@@ -11,6 +11,7 @@ import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
+import { LoadingSpinnerModule } from './shared/loading-spinner/loading-spinner.module';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -24,6 +25,7 @@ describe('AppComponent', () => {
         HeaderModule,
         FooterModule,
         MatButtonModule,
+        LoadingSpinnerModule,
         RouterTestingModule,
       ],
       providers: [provideMockStore()],
