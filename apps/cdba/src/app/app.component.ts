@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
+import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
 import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
+  isLoggedIn$: Observable<boolean>;
 
   isLessThanMediumViewport$: Observable<boolean>;
 
@@ -42,6 +43,7 @@ export class AppComponent implements OnInit {
   public ngOnInit(): void {
     this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
     this.username$ = this.store.pipe(select(getUsername));
+    this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
 
     this.store.dispatch(startLoginFlow());
   }

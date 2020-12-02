@@ -168,5 +168,30 @@ describe(`HttpErrorInterceptor`, () => {
         },
       } as unknown) as ErrorEvent);
     });
+
+    test('should not show toast error message in login case', () => {
+      service.getPosts().subscribe(
+        () => {
+          expect(true).toEqual(false);
+        },
+        (_response) => {
+          expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
+        }
+      );
+
+      const httpRequest = httpMock.expectOne(`${environment.baseUrl}/test`);
+
+      expect(httpRequest.request.method).toEqual('GET');
+
+      httpRequest.error(({
+        status: 400,
+        error: {
+          url: 'https://login.microsoftonline',
+          message: 'error',
+          title: 'Service Unavailable',
+          detail: 'Damn monkey',
+        },
+      } as unknown) as ErrorEvent);
+    });
   });
 });

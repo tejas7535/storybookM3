@@ -40,7 +40,10 @@ export class HttpErrorInterceptor implements HttpInterceptor {
           errorMessage = `${error.error.title} - ${error.error.detail}`;
         }
 
-        this.snackBarService.showErrorMessage(errorMessage);
+        // errors that are not triggered by login should show a toast
+        if (!error.url.startsWith('https://login.microsoftonline')) {
+          this.snackBarService.showErrorMessage(errorMessage);
+        }
 
         return throwError(errorMessage);
       })

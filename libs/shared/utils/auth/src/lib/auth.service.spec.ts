@@ -70,7 +70,6 @@ describe('AuthService', () => {
 
       expect(oAuthService.hasValidAccessToken).toHaveBeenCalled();
       expect(oAuthService.silentRefresh).not.toHaveBeenCalled();
-      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
 
     test('should call initLoginFlow when refresh fails', async () => {
@@ -83,7 +82,6 @@ describe('AuthService', () => {
       await service.login(target);
 
       expect(oAuthService.initLoginFlow).toHaveBeenCalledTimes(1);
-      expect(service['navigateToState']).toHaveBeenCalledTimes(1);
     });
   });
 
