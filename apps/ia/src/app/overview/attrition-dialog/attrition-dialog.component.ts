@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { EmployeeAttritionMeta } from '../models';
+import { EmployeeAttritionMeta } from '../../shared/models';
 
 @Component({
   selector: 'ia-attrition-dialog',

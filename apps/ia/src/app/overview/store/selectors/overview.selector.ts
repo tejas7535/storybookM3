@@ -85,9 +85,20 @@ export const getFilteredEmployeesForOrgChart = createSelector(
         employeesAdded,
         openPositions
       );
+
+      // when employee has no one below (===leaf) add it as leaf child to parent
+      if (empl.directSubordinates + empl.directAttrition === 0) {
+        const parent = filteredResult.find(
+          (temp) => temp.employeeId === empl.parentEmployeeId
+        );
+        parent.directLeafChildren = [...parent.directLeafChildren, empl];
+      }
     });
 
-    return filteredResult;
+    // remove leaf children from tree
+    return filteredResult.filter(
+      (employee) => employee.totalAttrition + employee.totalSubordinates !== 0
+    );
   }
 );
 

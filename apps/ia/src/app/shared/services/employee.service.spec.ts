@@ -140,6 +140,7 @@ describe('EmployeesService', () => {
           totalAttrition: 0,
           entryDate: new Date('2010-10-10'),
           terminationDate: new Date('2015-08-10'),
+          directLeafChildren: [],
         } as unknown) as Employee,
       ]);
     });

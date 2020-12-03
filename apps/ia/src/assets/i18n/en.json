@@ -65,5 +65,9 @@
     "terminationReceived": "Termination received",
     "employeesAdded": "Employees added",
     "openPositions": "Open positions"
+  },
+  "teamMemberDialog": {
+    "close": "Close",
+    "metaTitle": "Staff"
   }
 }

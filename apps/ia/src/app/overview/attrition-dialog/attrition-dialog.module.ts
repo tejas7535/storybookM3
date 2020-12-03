@@ -8,7 +8,7 @@ import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../shared.module';
+import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 
 @NgModule({

@@ -1,4 +1,8 @@
-import { Employee, LeavingType } from '../app/shared/models';
+import {
+  Employee,
+  EmployeeAttritionMeta,
+  LeavingType,
+} from '../app/shared/models';
 
 export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
   ({
@@ -10,6 +14,7 @@ export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
     directAttrition: 1,
     totalAttrition: 2,
     exitDate: undefined,
+    directLeafChildren: [],
   } as unknown) as Employee,
   ({
     employeeId: '456',
@@ -21,6 +26,7 @@ export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
     totalAttrition: 0,
     exitDate: new Date('2020-02-28'),
     reasonForLeaving: LeavingType.FORCED,
+    directLeafChildren: [],
   } as unknown) as Employee,
   ({
     employeeId: '678',
@@ -31,6 +37,7 @@ export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
     directAttrition: 1,
     totalAttrition: 1,
     exitDate: undefined,
+    directLeafChildren: [],
   } as unknown) as Employee,
   ({
     employeeId: '999',
@@ -42,6 +49,7 @@ export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
     totalAttrition: 0,
     exitDate: undefined,
     entryDate: new Date('2020-06-06'),
+    directLeafChildren: [],
   } as unknown) as Employee,
   ({
     employeeId: '91011',
@@ -53,30 +61,56 @@ export const EMPLOYEES_FOR_SELECTORS: Employee[] = [
     totalAttrition: 0,
     exitDate: new Date('2020-05-05'),
     reasonForLeaving: LeavingType.UNFORCED,
+    directLeafChildren: [],
   } as unknown) as Employee,
 ];
 
 export const EXPECTED_FILTERED_EMPLOYEES: Employee[] = [
   ({
     employeeId: '123',
+    exitDate: undefined,
     parentEmployeeId: undefined,
     orgUnit: 'Schaeffler_IT',
     directSubordinates: 2,
     totalSubordinates: 2,
     directAttrition: 1,
     totalAttrition: 2,
-    exitDate: undefined,
-    attritionMeta: {
-      attritionRate: 45.28,
-      employeesAdded: 1,
-      employeesLost: 2,
-      forcedLeavers: 1,
-      naturalTurnover: 0,
-      openPositions: 0,
-      terminationReceived: 0,
-      title: 'Schaeffler_IT',
-      unforcedLeavers: 1,
-    },
+    directLeafChildren: [
+      ({
+        employeeId: '999',
+        parentEmployeeId: '123',
+        orgUnit: 'Schaeffler_IT_1',
+        directSubordinates: 0,
+        totalSubordinates: 0,
+        directAttrition: 0,
+        totalAttrition: 0,
+        entryDate: new Date('2020-06-06'),
+        exitDate: undefined,
+        directLeafChildren: [],
+        attritionMeta: new EmployeeAttritionMeta(
+          'Schaeffler_IT_1',
+          0,
+          0,
+          0,
+          1,
+          1,
+          0,
+          1,
+          0
+        ),
+      } as unknown) as Employee,
+    ],
+    attritionMeta: new EmployeeAttritionMeta(
+      'Schaeffler_IT',
+      45.28,
+      2,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0
+    ),
   } as unknown) as Employee,
   ({
     employeeId: '678',
@@ -86,39 +120,18 @@ export const EXPECTED_FILTERED_EMPLOYEES: Employee[] = [
     totalSubordinates: 0,
     directAttrition: 1,
     totalAttrition: 1,
+    directLeafChildren: [],
     exitDate: undefined,
-    attritionMeta: {
-      attritionRate: 29.27,
-      employeesAdded: 1,
-      employeesLost: 1,
-      forcedLeavers: 1,
-      naturalTurnover: 0,
-      openPositions: 0,
-      terminationReceived: 0,
-      title: 'Schaeffler_IT_1',
-      unforcedLeavers: 1,
-    },
-  } as unknown) as Employee,
-  ({
-    employeeId: '999',
-    parentEmployeeId: '123',
-    orgUnit: 'Schaeffler_IT_1',
-    directSubordinates: 0,
-    totalSubordinates: 0,
-    directAttrition: 0,
-    totalAttrition: 0,
-    exitDate: undefined,
-    entryDate: new Date('2020-06-06'),
-    attritionMeta: {
-      attritionRate: 0,
-      employeesAdded: 1,
-      employeesLost: 0,
-      forcedLeavers: 1,
-      naturalTurnover: 0,
-      openPositions: 0,
-      terminationReceived: 0,
-      title: 'Schaeffler_IT_1',
-      unforcedLeavers: 1,
-    },
+    attritionMeta: new EmployeeAttritionMeta(
+      'Schaeffler_IT_1',
+      29.27,
+      1,
+      0,
+      1,
+      1,
+      0,
+      1,
+      0
+    ),
   } as unknown) as Employee,
 ];

@@ -11,8 +11,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import d3OrgChart from 'd3-org-chart';
 
-import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
 import { Employee } from '../../shared/models';
+import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { TeamMemberDialogComponent } from '../team-member-dialog/team-member-dialog.component';
 import { OrgChartService } from './org-chart.service';
 
 @Component({
@@ -64,16 +65,15 @@ export class OrgChartComponent implements AfterViewInit {
   ) {}
 
   @HostListener('document:click', ['$event']) clickout(event: any): void {
-    const node: Node = event.target;
+    const node: Element = event.target;
+    const employeeId = node.getAttribute('data-id');
+    const employee = this.data.find((elem) => elem.employeeId === employeeId);
 
-    if ((node as Element).classList.contains('employee-node-people')) {
-      const clickedNode = (node as Element).getAttribute('data-id');
-      console.log('Show employee list of ', clickedNode);
-    } else if (
-      (node as Element).classList.contains('employee-node-attrition')
-    ) {
-      const employeeId = (node as Element).getAttribute('data-id');
-      const employee = this.data.find((elem) => elem.employeeId === employeeId);
+    if (node.classList.contains('employee-node-people')) {
+      this.dialog.open(TeamMemberDialogComponent, {
+        data: employee,
+      });
+    } else if (node.classList.contains('employee-node-attrition')) {
       const data = employee?.attritionMeta;
       this.dialog.open(AttritionDialogComponent, {
         data,
