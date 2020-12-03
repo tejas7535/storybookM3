@@ -55,11 +55,6 @@ const getLibsFilePaths = (path, files, result) => {
   return result;
 };
 
-const writeNewEntries = (releaseName, projectName, version, link) => {
-  const content = `## ${name}\r\n${packageJson.name}: [${packageJson.version}](${linkToLibChangelog})`;
-  writeNewChangelog(content);
-};
-
 /**
  * Create changelog yargs command
  */
