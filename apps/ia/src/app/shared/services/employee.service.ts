@@ -92,6 +92,7 @@ export class EmployeeService {
       employee.entryDate = employee.entryDate
         ? new Date(employee.entryDate)
         : undefined;
+      employee.directLeafChildren = [];
 
       return employee;
     });

@@ -4,9 +4,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
-import { AttritionDialogComponent } from '../../shared/attrition-dialog/attrition-dialog.component';
-import { AttritionDialogModule } from '../../shared/attrition-dialog/attrition-dialog.module';
 import { Employee, EmployeeAttritionMeta } from '../../shared/models';
+import { AttritionDialogComponent } from '..//attrition-dialog/attrition-dialog.component';
+import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
+import { TeamMemberDialogModule } from '../team-member-dialog/team-member-dialog.module';
 import { OrgChartComponent } from './org-chart.component';
 
 describe('OrgChartComponent', () => {
@@ -16,7 +17,11 @@ describe('OrgChartComponent', () => {
   const createComponent = createComponentFactory({
     component: OrgChartComponent,
     detectChanges: false,
-    imports: [MatProgressSpinnerModule, AttritionDialogModule],
+    imports: [
+      MatProgressSpinnerModule,
+      AttritionDialogModule,
+      TeamMemberDialogModule,
+    ],
     providers: [provideMockStore({})],
     declarations: [OrgChartComponent],
   });

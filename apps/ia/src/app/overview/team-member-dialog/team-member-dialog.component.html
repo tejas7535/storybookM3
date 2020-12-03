@@ -1,0 +1,27 @@
+<h2 mat-dialog-title>{{ data.employeeName }} ({{ data.orgUnit }})</h2>
+<mat-dialog-content *transloco="let t; read: 'teamMemberDialog'">
+  <h6 class="sub-title">{{ t('metaTitle') }}</h6>
+  <mat-list>
+    <ng-container
+      *ngFor="
+        let child of data.directLeafChildren;
+        let last = last;
+        trackBy: trackByFn()
+      "
+    >
+      <mat-list-item>
+        <img
+          matListAvatar
+          src="assets/images/dummy.png"
+          [alt]="child.employeeName"
+        />
+        <p matLine>{{ child.employeeName }}</p>
+        <mat-icon>whatshot</mat-icon>
+      </mat-list-item>
+      <mat-divider *ngIf="!last"></mat-divider>
+    </ng-container>
+  </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions align="end" *transloco="let t; read: 'teamMemberDialog'">
+  <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
+</mat-dialog-actions>

@@ -32,6 +32,7 @@ export class Employee {
     public totalSubordinates: number, // enriched in frontend
     public directAttrition: number, // enriched in frontend
     public totalAttrition: number, // enriched in frontend
-    public attritionMeta: EmployeeAttritionMeta // enriched in frontend
+    public attritionMeta: EmployeeAttritionMeta, // enriched in frontend
+    public directLeafChildren: Employee[] // enriched in frontend
   ) {}
 }
