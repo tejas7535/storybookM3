@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 12/3/2020
+* kitchen-sink: [2.1.0](./apps/kitchen-sink/CHANGELOG.md)
+
 ## 12/2/2020
 * cdba: [1.13.0](./apps/cdba/CHANGELOG.md)
 
