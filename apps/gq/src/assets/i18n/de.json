@@ -99,10 +99,14 @@
         "productHierarchy": "Prod. Hierarchie"
       },
       "productionCostDetails": {
-        "label": "Produktion und Kosten"
+        "label": "Produktion und Kosten",
+        "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
+        "available_data": "Beeinhaltet: Produktionwerk, Segment, Kosten and Kontext"
       },
       "scmDetails": {
-        "label": "Supply Chain Daten"
+        "label": "Supply Chain Daten",
+        "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
+        "available_data": "Beeinhaltet: Lieferzeit and Kontext"
       }
     }
   },
