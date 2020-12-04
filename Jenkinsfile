@@ -16,6 +16,7 @@ def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', '
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
 
+def customVersionDefault = 'No custom version (e.g. 1.0.0)'
 @Field
 def buildBase
 
@@ -227,6 +228,11 @@ pipeline {
             name: 'LIBS_RELEASE',
             defaultValue: false,
             description: 'Set "true" to trigger a production release for all libs.')
+        string(
+            name: 'CUSTOM_VERSION',
+            defaultValue: "${customVersionDefault}",
+            description: 'Set custom version for app release'
+        )
     }
 
     tools {
@@ -584,12 +590,17 @@ pipeline {
                             // generate project specific changelog
                             if (isAppRelease()) {
                                 def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                                if (exists) {
-                                    sh "npx nx run ${env.RELEASE_SCOPE}:standard-version"
-                                } else {
-                                    // first release
-                                    sh "npx nx run ${env.RELEASE_SCOPE}:standard-version -- --first-release"
+                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version";
+                                
+                                if (!exists) {
+                                    //first version
+                                    standardVersionCommand += " --params='--first-release"
+                                } else if(params.CUSTOM_VERSION != "${customVersionDefault}"){
+                                    standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                                 }
+
+                                sh standardVersionCommand
+
                             } else if (isLibsRelease()) {
                                 sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
                             }
