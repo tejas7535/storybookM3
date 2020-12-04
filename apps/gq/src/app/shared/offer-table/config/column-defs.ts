@@ -5,6 +5,8 @@ import * as processCaseDef from '../../../process-case-view/quotation-details-ta
 
 export const COLUMN_DEFS_SHORT: ColDef[] = [
   {
+    headerCheckboxSelection: true,
+    headerCheckboxSelectionFilteredOnly: true,
     checkboxSelection: true,
     pinned: 'left',
     filter: false,
@@ -27,17 +29,5 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
 ];
 
 export const CREATE_COLUMN_DEFS_FINISH_OFFER = (): ColDef[] => {
-  const columns = processCaseDef.COLUMN_DEFS;
-  columns[0] = {
-    headerCheckboxSelection: true,
-    headerCheckboxSelectionFilteredOnly: true,
-    checkboxSelection: true,
-    pinned: 'left',
-    initialWidth: 30,
-    resizable: false,
-    suppressMenu: true,
-    filter: false,
-  };
-
-  return columns;
+  return processCaseDef.COLUMN_DEFS.filter((el) => el.field !== 'info');
 };
