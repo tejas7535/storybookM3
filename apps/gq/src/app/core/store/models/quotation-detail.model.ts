@@ -12,6 +12,7 @@ export class QuotationDetail {
     public productionPlant: string,
     public plantCity: string,
     public plantCountry: string,
+    public gqPositionId: string,
     public rsp: string,
     public info: QuotationInfoEnum,
     public margin: string,

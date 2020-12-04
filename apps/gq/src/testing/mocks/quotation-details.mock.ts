@@ -6,6 +6,7 @@ import {
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
   quotationItemId: '34643567',
+  gqPositionId: '5694232',
   materialDesignation: '6052-M-C3',
   materialNumber15: '016718798-0030',
   orderQuantity: 10,

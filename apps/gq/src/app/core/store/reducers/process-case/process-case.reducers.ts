@@ -120,7 +120,7 @@ export const processCaseReducer = createReducer(
           ...state.quotation.item,
           quotationDetails: [
             ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.includes(quotationDetail.quotationItemId)
+              quotationDetailIDs.includes(quotationDetail.gqPositionId)
                 ? {
                     ...quotationDetail,
                     info: QuotationInfoEnum.AddedToOffer,
@@ -142,7 +142,7 @@ export const processCaseReducer = createReducer(
           ...state.quotation.item,
           quotationDetails: [
             ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.includes(quotationDetail.quotationItemId)
+              quotationDetailIDs.includes(quotationDetail.gqPositionId)
                 ? {
                     ...quotationDetail,
                     info: QuotationInfoEnum.None,

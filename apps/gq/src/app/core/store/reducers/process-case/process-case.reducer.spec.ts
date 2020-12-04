@@ -131,14 +131,14 @@ describe('Quotation Reducer', () => {
     describe('addQuotationDetailToOffer', () => {
       test('should add a quotationDetail to Offer', () => {
         const action = addQuotationDetailToOffer({
-          quotationDetailIDs: [QUOTATION_DETAIL_MOCK.quotationItemId],
+          quotationDetailIDs: [QUOTATION_DETAIL_MOCK.gqPositionId],
         });
         const mockItem: Quotation = JSON.parse(JSON.stringify(QUOTATION_MOCK));
 
         const otherMockDetail = JSON.parse(
           JSON.stringify(QUOTATION_DETAIL_MOCK)
         );
-        otherMockDetail.quotationItemId = 1234;
+        otherMockDetail.gqPositionId = 1234;
         mockItem.quotationDetails.push(otherMockDetail);
         expect(mockItem.quotationDetails.length).toEqual(2);
 
@@ -166,14 +166,14 @@ describe('Quotation Reducer', () => {
         const quotationDetailToRemove = QUOTATION_DETAIL_MOCK;
         quotationDetailToRemove.info = QuotationInfoEnum.AddedToOffer;
         const action = removeQuotationDetailFromOffer({
-          quotationDetailIDs: [quotationDetailToRemove.quotationItemId],
+          quotationDetailIDs: [quotationDetailToRemove.gqPositionId],
         });
         const mockItem = JSON.parse(JSON.stringify(QUOTATION_MOCK));
 
         const otherMockDetail = JSON.parse(
           JSON.stringify(QUOTATION_DETAIL_MOCK)
         );
-        otherMockDetail.quotationItemId = 1234;
+        otherMockDetail.gqPositionId = 1234;
         mockItem.quotationDetails.push(otherMockDetail);
         expect(mockItem.quotationDetails.length).toEqual(2);
 
