@@ -2,6 +2,10 @@ import { ColDef } from '@ag-grid-community/all-modules';
 
 import { FILTER_PARAMS } from './filter-params';
 
+export const dateFormatter = (data: any): string => {
+  return data.value ? new Date(data.value).toLocaleDateString() : '';
+};
+
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'combinedKey',
@@ -63,6 +67,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'eopDateVerified',
     headerName: 'EOP',
     filter: 'agDateColumnFilter',
+    valueFormatter: dateFormatter,
     filterParams: {
       ...FILTER_PARAMS,
       filterOptions: ['equals', 'inRange'],
@@ -72,6 +77,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'edoDate',
     headerName: 'EDO',
     filter: 'agDateColumnFilter',
+    valueFormatter: dateFormatter,
     filterParams: {
       ...FILTER_PARAMS,
       filterOptions: ['equals', 'inRange'],
@@ -81,6 +87,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     field: 'lastUpdated',
     headerName: 'Last Modified',
     filter: 'agDateColumnFilter',
+    valueFormatter: dateFormatter,
     filterParams: {
       ...FILTER_PARAMS,
       filterOptions: ['equals', 'inRange'],
