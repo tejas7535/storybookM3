@@ -168,7 +168,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/kitchen-sink"
           }
         }
@@ -369,7 +369,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/sta"
           }
         }
@@ -424,7 +424,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/cypress-utils"
           }
         }
@@ -591,7 +591,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/ltp"
           }
         }
@@ -643,7 +643,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/assets"
           }
         }
@@ -813,7 +813,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/helloworld-azure"
           }
         }
@@ -1008,7 +1008,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/cdba"
           }
         }
@@ -1078,7 +1078,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/header"
           }
         },
@@ -1136,7 +1136,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/utils/responsive"
           }
         },
@@ -1194,7 +1194,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/utils/transloco"
           }
         },
@@ -1249,7 +1249,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/sidebar"
           }
         },
@@ -1304,7 +1304,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/icons"
           }
         },
@@ -1359,7 +1359,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/footer"
           }
         },
@@ -1414,7 +1414,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/file-drop"
           }
         },
@@ -1469,7 +1469,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/snackbar"
           }
         }
@@ -1517,7 +1517,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/scroll-to-top"
           }
         },
@@ -1575,7 +1575,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/speed-dial-fab"
           }
         },
@@ -1630,7 +1630,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/banner"
           }
         },
@@ -1688,7 +1688,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/settings-sidebar"
           }
         },
@@ -1874,7 +1874,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/goldwind"
           }
         }
@@ -1949,7 +1949,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/storybook"
           }
         }
@@ -2147,7 +2147,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/seli"
           }
         }
@@ -2219,7 +2219,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/utils/auth"
           }
         },
@@ -2275,7 +2275,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/ui/empty-states"
           }
         },
@@ -2500,7 +2500,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/gq"
           }
         }
@@ -2698,7 +2698,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/ia"
           }
         }
@@ -2897,7 +2897,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "apps/mac"
           }
         }
@@ -2967,7 +2967,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/utils/http"
           }
         },
@@ -3025,7 +3025,7 @@
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
-            "command": "npx standard-version --no-verify",
+            "command": "npx standard-version --no-verify {args.params}",
             "cwd": "libs/shared/utils/application-insights"
           }
         },
