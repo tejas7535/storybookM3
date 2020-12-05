@@ -8,13 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import * as rxjs from 'rxjs';
 
-import { IdValue } from '../../../core/store/models';
+import { IdValue, SapQuotation } from '../../../core/store/models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
@@ -108,7 +108,77 @@ describe('AutocompleteInputComponent', () => {
       expect(component.unselectedOptions).toEqual([options[1]]);
       expect(component.autofilled).toBeFalsy();
     });
+
+    test('should set test options when filter name is customer', () => {
+      const options = [
+        new IdValue('1', 'test', true),
+        new IdValue('2', 'test2', false),
+      ];
+      component.filterName = 'customer';
+      component.autofilled = true;
+      component.valueInput = ({
+        nativeElement: { value: 'test | 1' },
+      } as unknown) as any;
+      component.options = options;
+
+      expect(component.selectedIdValue).toEqual(options[0]);
+      expect(component.unselectedOptions).toEqual([options[1]]);
+      expect(component.autofilled).toBeFalsy();
+    });
+
+    test('should set test options with SapQuotation', () => {
+      const options = [
+        new SapQuotation(
+          '1',
+          'test',
+          true,
+          false,
+          'customerId',
+          'customerName',
+          {
+            id: 'id',
+            name: 'name',
+          }
+        ),
+        new SapQuotation(
+          '2',
+          'test',
+          false,
+          false,
+          'customerId',
+          'customerName',
+          {
+            id: 'id',
+            name: 'name',
+          }
+        ),
+      ];
+      component.autofilled = true;
+      component.valueInput = ({
+        nativeElement: { value: 'customerName | 1' },
+      } as unknown) as any;
+      component.options = options;
+
+      expect(component.selectedIdValue).toEqual(options[0]);
+      expect(component.unselectedOptions).toEqual([options[1]]);
+      expect(component.autofilled).toBeFalsy();
+    });
   });
+
+  describe('set isDisabled', () => {
+    test('should set test options', () => {
+      component.isDisabled = true;
+      expect(component.searchFormControl.disabled).toBeTruthy();
+      expect(component.searchFormControl.enabled).toBeFalsy();
+    });
+
+    test('should set test options', () => {
+      component.isDisabled = false;
+      expect(component.searchFormControl.disabled).toBeFalsy();
+      expect(component.searchFormControl.enabled).toBeTruthy();
+    });
+  });
+
   describe('selected', () => {
     test('should emit event', () => {
       component.added.emit = jest.fn();
@@ -141,6 +211,31 @@ describe('AutocompleteInputComponent', () => {
       const indexNum = 1337;
       const retId = component.trackByFn(indexNum);
       expect(retId).toEqual(indexNum);
+    });
+  });
+
+  describe('isSapQuotation()', () => {
+    test('should return true', () => {
+      const retValue = component.isSapQuotation(
+        new SapQuotation(
+          '1',
+          'test',
+          true,
+          false,
+          'customerId',
+          'customerName',
+          {
+            id: 'id',
+            name: 'name',
+          }
+        )
+      );
+      expect(retValue).toBeTruthy();
+    });
+
+    test('should return false', () => {
+      const retValue = component.isSapQuotation(new IdValue('1', 'test', true));
+      expect(retValue).toBeFalsy();
     });
   });
 });
