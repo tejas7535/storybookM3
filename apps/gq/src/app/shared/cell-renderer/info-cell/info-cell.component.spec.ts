@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { dummyRowData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
+import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import { InfoCellComponent } from './info-cell.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -14,19 +13,17 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('InfoCellComponent', () => {
   let component: InfoCellComponent;
-  let fixture: ComponentFixture<InfoCellComponent>;
+  let spectator: Spectator<InfoCellComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [InfoCellComponent],
-      imports: [MatIconModule, MatTooltipModule],
-    });
+  const createComponent = createComponentFactory({
+    component: InfoCellComponent,
+    declarations: [InfoCellComponent],
+    imports: [MatIconModule, MatTooltipModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoCellComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {

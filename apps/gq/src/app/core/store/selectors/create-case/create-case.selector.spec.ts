@@ -57,7 +57,7 @@ describe('Create Case Selector', () => {
   describe('getmaterialNumber', () => {
     test('should return material number', () => {
       expect(
-        createSelectors.getCaseMaterialnumber.projector(fakeState.case)
+        createSelectors.getCaseMaterialNumber.projector(fakeState.case)
       ).toEqual(
         fakeState.case.createCase.autocompleteItems.find(
           (elm) => elm.filter === 'materialNumber'

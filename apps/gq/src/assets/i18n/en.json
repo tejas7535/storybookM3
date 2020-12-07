@@ -116,8 +116,34 @@
       "title": "Offer"
     }
   },
-
   "processCaseView": {
+    "addMaterialDialog": {
+      "addEntry": {
+        "button": "Add entry",
+        "title": "Add new entry",
+        "quantity": {
+          "label": "Quantity",
+          "hint": "Enter a quantity"
+        }
+      },
+      "title": "Add Material",
+      "table": {
+        "info": {
+          "title": "Info",
+          "status": {
+            "duplicate": "The item already exists in the table",
+            "isDummy": "This is a dummy item",
+            "materialNumberInValid": "The material number is invalid",
+            "not_validated": "Item not validated yet",
+            "quantityInValid": "The quantity is invalid",
+            "valid": "Item is valid",
+            "validationFailure": "Validation failed, try again"
+          }
+        },
+        "materialNumber": "Material Number",
+        "quantity": "Quantity"
+      }
+    },
     "quotationDetailsTable": {
       "currency": "Currency",
       "gspd": "GSPD",
@@ -148,6 +174,9 @@
       "seeOffer": "see offer"
     },
     "customStatusBar": {
+      "addToMaterialButton": {
+        "addMaterial": "add"
+      },
       "addToOfferButton": {
         "addToOffer": "add to offer"
       },
@@ -156,6 +185,9 @@
       },
       "finishOfferButton": {
         "finishOffer": "finish Offer"
+      },
+      "flatButtons": {
+        "addNewItem": "add new item"
       },
       "deleteCaseButton": {
         "deleteCase": "delete case"

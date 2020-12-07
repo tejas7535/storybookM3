@@ -105,4 +105,37 @@ describe('Data Service', () => {
       req.flush(mock);
     });
   });
+
+  describe('delete', () => {
+    test('should call DELETE for given path and data', () => {
+      const serviceName = 'put-item';
+      const mock = 'mockData';
+      const params = new HttpParams().set('test', '123');
+
+      service
+        .delete<string>(serviceName, { params })
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
+
+      const req = httpMock.expectOne(`${BASE_URL}/${serviceName}?test=123`);
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.params).toEqual(params);
+      req.flush(mock);
+    });
+
+    test('should call DELETE for given path - without http params', () => {
+      const serviceName = 'put-item';
+      const mock = 'mockData';
+
+      service.delete<string>(serviceName).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(`${BASE_URL}/${serviceName}`);
+      expect(req.request.method).toBe('DELETE');
+      expect(req.request.params).toEqual(new HttpParams());
+      req.flush(mock);
+    });
+  });
 });

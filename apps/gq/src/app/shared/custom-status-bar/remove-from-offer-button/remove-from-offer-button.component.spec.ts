@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -18,40 +17,37 @@ import { RemoveFromOfferButtonComponent } from './remove-from-offer-button.compo
 
 describe('RemoveFromOfferComponent', () => {
   let component: RemoveFromOfferButtonComponent;
-  let fixture: ComponentFixture<RemoveFromOfferButtonComponent>;
+  let spectator: Spectator<RemoveFromOfferButtonComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [RemoveFromOfferButtonComponent],
-      imports: [
-        MatButtonModule,
-        MatIconModule,
-        provideTranslocoTestingModule({}),
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            processCase: {
-              customer: {
-                item: CUSTOMER_MOCK,
-              },
-              quotation: {
-                item: QUOTATION_MOCK,
-              },
+  const createComponent = createComponentFactory({
+    component: RemoveFromOfferButtonComponent,
+    declarations: [RemoveFromOfferButtonComponent],
+    imports: [
+      MatButtonModule,
+      MatIconModule,
+      provideTranslocoTestingModule({}),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: {
+            customer: {
+              item: CUSTOMER_MOCK,
+            },
+            quotation: {
+              item: QUOTATION_MOCK,
             },
           },
-        }),
-      ],
-    });
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RemoveFromOfferButtonComponent);
-
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
     params = ({
       api: {
         addEventListener: jest.fn(),

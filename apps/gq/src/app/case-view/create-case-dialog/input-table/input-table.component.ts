@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { pasteRowDataItems } from '../../../core/store';
 import {
-  CaseTableItem,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
@@ -28,7 +28,7 @@ export class InputTableComponent {
   public statusBar = STATUS_BAR_CONFIG;
   public frameworkComponents = FRAMEWORK_COMPONENTS;
 
-  private currentCell: CaseTableItem;
+  private currentCell: MaterialTableItem;
 
   @Input() rowData: any[];
   constructor(private readonly store: Store<CaseState>) {}
@@ -46,7 +46,7 @@ export class InputTableComponent {
       );
 
     const tableArray = linesArray.map((el) => {
-      const item: CaseTableItem = {
+      const item: MaterialTableItem = {
         materialNumber: el[0],
         quantity: el[1],
         info: {

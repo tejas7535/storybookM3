@@ -1,0 +1,28 @@
+<div
+  class="flat-buttons"
+  fxLayout="column"
+  fxLayoutAlign="end end"
+  fxLayoutGap="20px"
+  *transloco="let t; read: 'shared.customStatusBar.flatButtons'"
+>
+  <button
+    *ngIf="selections.length && !sap"
+    mat-fab
+    color="primary"
+    (click)="removeMaterials()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+  <button
+    *ngIf="!selections.length && !sap"
+    class="extended-fab-button"
+    mat-fab
+    color="primary"
+    (click)="showAddDialog()"
+  >
+    <mat-icon>add</mat-icon
+    ><span class="extended-fab-button_text">{{
+      t('addNewItem') | uppercase
+    }}</span>
+  </button>
+</div>

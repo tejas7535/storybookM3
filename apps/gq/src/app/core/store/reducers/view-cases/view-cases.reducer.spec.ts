@@ -1,6 +1,6 @@
 import { VIEW_CASES_MOCK } from '../../../../../testing/mocks';
 import { loadCases, loadCasesFailure, loadCasesSuccess } from '../../actions';
-import { viewCasesReducer } from './view-cases.reducers';
+import { viewCasesReducer } from './view-cases.reducer';
 
 describe('View Cases Reducer', () => {
   const errorMessage = 'An error occured';

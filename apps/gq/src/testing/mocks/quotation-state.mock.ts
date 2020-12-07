@@ -1,4 +1,5 @@
-import { ProcessCaseState } from '../../app/core/store/reducers/process-case/process-case.reducers';
+import { dummyRowData } from '../../app/core/store/reducers/create-case/config/dummy-row-data';
+import { ProcessCaseState } from '../../app/core/store/reducers/process-case/process-case.reducer';
 
 export const QUOTATION_STATE_MOCK: ProcessCaseState = {
   quotationIdentifier: undefined,
@@ -10,6 +11,13 @@ export const QUOTATION_STATE_MOCK: ProcessCaseState = {
   quotation: {
     quotationLoading: false,
     item: undefined,
+    errorMessage: undefined,
+  },
+  addMaterials: {
+    dialogShown: false,
+    addMaterialRowData: [dummyRowData],
+    validationLoading: false,
+    removeQuotationDetailsIds: [],
     errorMessage: undefined,
   },
 };

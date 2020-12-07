@@ -1,11 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -13,28 +12,25 @@ import { DetailViewButtonComponent } from './detail-view-button.component';
 
 describe('DetailViewButtonComponent', () => {
   let component: DetailViewButtonComponent;
-  let fixture: ComponentFixture<DetailViewButtonComponent>;
+  let spectator: Spectator<DetailViewButtonComponent>;
   let params: IStatusPanelParams;
   let router: Router;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [DetailViewButtonComponent],
-      imports: [
-        MatButtonModule,
-        RouterTestingModule.withRoutes([]),
-        provideTranslocoTestingModule({}),
-        MatIconModule,
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: DetailViewButtonComponent,
+    declarations: [DetailViewButtonComponent],
+    imports: [
+      MatButtonModule,
+      RouterTestingModule.withRoutes([]),
+      provideTranslocoTestingModule({}),
+      MatIconModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailViewButtonComponent);
-
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
     router = TestBed.inject(Router);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
     params = ({
       api: {
         addEventListener: jest.fn(),

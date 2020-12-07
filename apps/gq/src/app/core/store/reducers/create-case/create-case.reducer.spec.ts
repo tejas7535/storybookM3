@@ -19,7 +19,7 @@ import {
 } from '../../actions';
 import {
   AutocompleteSearch,
-  CaseTableItem,
+  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
   MaterialValidation,
@@ -177,7 +177,7 @@ describe('Create Case Reducer', () => {
   });
   describe('pasteRowDataItems', () => {
     test('should paste items in table', () => {
-      const fakeData: CaseTableItem[] = [
+      const fakeData: MaterialTableItem[] = [
         {
           materialNumber: '123',
           quantity: 10,
@@ -187,7 +187,7 @@ describe('Create Case Reducer', () => {
           },
         },
       ];
-      const items: CaseTableItem[] = [
+      const items: MaterialTableItem[] = [
         {
           materialNumber: '1',
           quantity: 10,
@@ -205,7 +205,7 @@ describe('Create Case Reducer', () => {
           },
         },
       ];
-      const pasteDestination: CaseTableItem = {
+      const pasteDestination: MaterialTableItem = {
         materialNumber: '123',
         quantity: 10,
         info: {
@@ -291,7 +291,7 @@ describe('Create Case Reducer', () => {
         { materialNumber15: '20', valid: true },
         { materialNumber15: '30', valid: false },
       ];
-      const fakeData: CaseTableItem[] = [
+      const fakeData: MaterialTableItem[] = [
         {
           materialNumber: '20',
           quantity: '10',
@@ -413,5 +413,5 @@ describe('Create Case Reducer', () => {
       );
     });
   });
+  // tslint:disable-next-line: max-file-line-count
 });
-// tslint:disable-next-line: max-file-line-count

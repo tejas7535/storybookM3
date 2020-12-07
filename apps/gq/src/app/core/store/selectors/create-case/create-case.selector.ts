@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 
 import {
   CaseFilterItem,
-  CaseTableItem,
+  MaterialTableItem,
   CreateCase,
   CreateCaseResponse,
   ImportCaseResponse,
@@ -43,7 +43,7 @@ export const getCaseCustomer = createSelector(
   (state: CaseState): CaseFilterItem =>
     state.createCase.autocompleteItems.find((it) => it.filter === 'customer')
 );
-export const getCaseMaterialnumber = createSelector(
+export const getCaseMaterialNumber = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
     state.createCase.autocompleteItems.find(
@@ -58,7 +58,7 @@ export const getCaseAutocompleteLoading = createSelector(
 );
 export const getCaseRowData = createSelector(
   getCaseState,
-  (state: CaseState): CaseTableItem[] => state.createCase.rowData
+  (state: CaseState): MaterialTableItem[] => state.createCase.rowData
 );
 
 export const getCustomerConditionsValid = createSelector(

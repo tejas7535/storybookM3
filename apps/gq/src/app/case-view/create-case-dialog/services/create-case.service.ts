@@ -28,7 +28,7 @@ export class CreateCaseService {
     );
   }
 
-  importCase(importCase: string): Observable<any> {
+  public importCase(importCase: string): Observable<any> {
     return this.dataService.put(this.path, importCase).pipe(
       map((res: any) => {
         return res.gqId;

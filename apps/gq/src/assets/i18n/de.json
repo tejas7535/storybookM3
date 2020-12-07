@@ -117,6 +117,33 @@
     }
   },
   "processCaseView": {
+    "addMaterialDialog": {
+      "addEntry": {
+        "button": "Eintrag hinzufügen",
+        "title": "Neuen Eintrag hinzufügen",
+        "quantity": {
+          "label": "Anzahl",
+          "hint": "Geben Sie die Anzahl ein"
+        }
+      },
+      "title": "Material hinzufügen",
+      "table": {
+        "info": {
+          "title": "Info",
+          "status": {
+            "duplicate": "Das Item exisitiert bereits in der Tabelle",
+            "isDummy": "Dies ist ein Beispieldatensatz",
+            "materialNumberInValid": "Die Materialnummer ist invalide",
+            "not_validated": "Item noch nicht validiert",
+            "quantityInValid": "Die Anzahl ist invalide",
+            "valid": "Das Item ist valide",
+            "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
+          }
+        },
+        "materialNumber": "Material Nummer",
+        "quantity": "Anzahl"
+      }
+    },
     "quotationDetailsTable": {
       "currency": "Currency",
       "gpi": "Preisspanne",
@@ -147,6 +174,9 @@
       "seeOffer": "Angebot ansehen"
     },
     "customStatusBar": {
+      "addToMaterialButton": {
+        "addMaterial": "hinzufügen"
+      },
       "addToOfferButton": {
         "addToOffer": "Zum Angebot hinzufügen"
       },

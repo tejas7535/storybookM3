@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import { getCustomer, getOffer } from '../core/store';
 import { Customer } from '../core/store/models';
-import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
   selector: 'gq-customer-view',
@@ -22,6 +22,7 @@ export class CustomerViewComponent implements OnInit {
   public ngOnInit(): void {
     this.customer$ = this.store.pipe(select(getCustomer));
   }
+
   getOffer(): void {
     this.offer$ = this.store.pipe(select(getOffer));
   }

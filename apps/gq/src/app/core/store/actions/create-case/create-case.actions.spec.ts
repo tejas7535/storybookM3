@@ -1,6 +1,6 @@
 import {
   AutocompleteSearch,
-  CaseTableItem,
+  MaterialTableItem,
   IdValue,
   ValidationDescription,
 } from '../../models';
@@ -101,7 +101,7 @@ describe('Create Actions', () => {
           info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
-      const pasteDestination: CaseTableItem = {
+      const pasteDestination: MaterialTableItem = {
         materialNumber: '12321',
         quantity: 123,
         info: { valid: true, description: [ValidationDescription.Valid] },

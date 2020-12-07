@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { getQuotations } from '../core/store';
 import { ViewQuotation } from '../core/store/models';
-import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducers';
+import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducer';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
 
 @Component({

@@ -1,4 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
+import { TableService } from '../../../../shared/services/tableService/table.service';
 
 import {
   addRowDataItem,
@@ -18,10 +19,9 @@ import {
 } from '../../actions';
 import {
   CaseFilterItem,
-  CaseTableItem,
+  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
-  MaterialValidation,
   ValidationDescription,
 } from '../../models';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
@@ -32,7 +32,7 @@ export interface CaseState {
     autocompleteItems: CaseFilterItem[];
     createdCase: CreateCaseResponse;
     createCaseLoading: boolean;
-    rowData: CaseTableItem[];
+    rowData: MaterialTableItem[];
     validationLoading: boolean;
   };
 }
@@ -156,7 +156,7 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
-      rowData: pasteItems(items, pasteDestination, [
+      rowData: TableService.pasteItems(items, pasteDestination, [
         ...state.createCase.rowData,
       ]),
       validationLoading: true,
@@ -173,7 +173,9 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
-      rowData: deleteItem(materialNumber, [...state.createCase.rowData]),
+      rowData: TableService.deleteItem(materialNumber, [
+        ...state.createCase.rowData,
+      ]),
     },
   })),
   on(validateSuccess, (state: CaseState, { materialValidations }) => ({
@@ -181,7 +183,7 @@ export const createCaseReducer = createReducer(
     createCase: {
       ...state.createCase,
       rowData: [...state.createCase.rowData].map((el) => {
-        return validateData({ ...el }, materialValidations);
+        return TableService.validateData({ ...el }, materialValidations);
       }),
       validationLoading: false,
     },
@@ -230,74 +232,6 @@ export const createCaseReducer = createReducer(
   }))
 );
 
-const validateData = (
-  el: CaseTableItem,
-  materialValidations: MaterialValidation[]
-): CaseTableItem => {
-  const updatedRow = { ...el };
-
-  // Check for valid materialnumber
-  const validation = materialValidations.find(
-    (item) => item.materialNumber15 === el.materialNumber
-  );
-  const valid = validation ? validation.valid : false;
-  updatedRow.info = {
-    valid,
-    description: valid
-      ? []
-      : addDesc(
-          updatedRow.info.description,
-          ValidationDescription.MaterialNumberInValid
-        ),
-  };
-  // Check for valid quantity
-  const parsedQuantity =
-    typeof updatedRow.quantity === 'string'
-      ? parseInt(updatedRow.quantity.trim(), 10)
-      : updatedRow.quantity;
-
-  const quantity =
-    typeof parsedQuantity === 'number'
-      ? parsedQuantity > 0
-        ? parsedQuantity
-        : false
-      : false;
-
-  if (!quantity) {
-    updatedRow.info.valid = false;
-    updatedRow.info.description = addDesc(
-      updatedRow.info.description,
-      ValidationDescription.QuantityInValid
-    );
-  }
-
-  if (updatedRow.info.description.length === 0) {
-    updatedRow.info.description = addDesc(
-      updatedRow.info.description,
-      ValidationDescription.Valid
-    );
-  }
-
-  return updatedRow;
-};
-
-const addDesc = (
-  description: ValidationDescription[],
-  add: ValidationDescription
-): ValidationDescription[] => {
-  if (add === ValidationDescription.Valid) {
-    return [ValidationDescription.Valid];
-  }
-  if (description[0] === ValidationDescription.Not_Validated) {
-    return [add];
-  }
-  if (description.includes(add)) {
-    return description;
-  }
-
-  return [...description, add];
-};
-
 const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   const itemOptions = [...options];
   const index = itemOptions.findIndex((idValue) => idValue.id === option.id);
@@ -314,52 +248,6 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
   return itemOptions;
 };
 
-const pasteItems = (
-  items: CaseTableItem[],
-  pasteDestination: CaseTableItem,
-  currentRowData: CaseTableItem[]
-): CaseTableItem[] => {
-  let updatedRowData = [];
-  const currentRowDataFiltered = currentRowData.filter(
-    (el) => !isDummyData(el)
-  );
-
-  const index = currentRowData.findIndex(
-    (value) =>
-      pasteDestination &&
-      value.materialNumber === pasteDestination.materialNumber &&
-      value.quantity === pasteDestination.quantity
-  );
-
-  updatedRowData =
-    index >= 0
-      ? [...currentRowDataFiltered.slice(0, index + 1), ...items]
-      : currentRowData;
-  // Remove duplicates
-  const uniqueArray = updatedRowData.filter(
-    (item, pos, self) =>
-      self.findIndex(
-        (of) =>
-          of.materialNumber === item.materialNumber &&
-          of.quantity === item.quantity
-      ) === pos
-  );
-
-  return uniqueArray;
-};
-
-const deleteItem = (
-  materialNumber: string,
-  rowData: CaseTableItem[]
-): CaseTableItem[] => {
-  const filteredRowData = rowData.filter(
-    (it) => it.materialNumber !== materialNumber
-  );
-  const updatedRowData =
-    filteredRowData.length > 0 ? filteredRowData : [dummyRowData];
-
-  return updatedRowData;
-};
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(state: CaseState, action: Action): CaseState {
   return createCaseReducer(state, action);

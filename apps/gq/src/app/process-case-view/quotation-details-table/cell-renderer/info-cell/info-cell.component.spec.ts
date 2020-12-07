@@ -1,26 +1,23 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { QuotationInfoEnum } from '../../../../core/store/models';
 import { InfoCellComponent } from './info-cell.component';
 
 describe('InfoCellComponent', () => {
   let component: InfoCellComponent;
-  let fixture: ComponentFixture<InfoCellComponent>;
+  let spectator: Spectator<InfoCellComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [InfoCellComponent],
-      imports: [MatIconModule],
-    });
+  const createComponent = createComponentFactory({
+    component: InfoCellComponent,
+    declarations: [InfoCellComponent],
+    imports: [MatIconModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InfoCellComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {

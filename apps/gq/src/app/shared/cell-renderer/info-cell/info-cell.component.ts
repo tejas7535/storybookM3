@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
-import { ValidationDescription } from '../../../../../core/store/models';
-import { isDummyData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
+import { ValidationDescription } from '../../../core/store/models';
+import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 
 @Component({
   selector: 'gq-info-cell',

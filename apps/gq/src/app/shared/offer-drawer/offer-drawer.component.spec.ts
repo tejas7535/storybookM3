@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -19,39 +18,37 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('OfferDrawerComponent', () => {
   let component: OfferDrawerComponent;
-  let fixture: ComponentFixture<OfferDrawerComponent>;
+  let spectator: Spectator<OfferDrawerComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [OfferDrawerComponent],
-      imports: [
-        OfferTableModule,
-        MatIconModule,
-        MatButtonModule,
-        provideTranslocoTestingModule({}),
-        RouterTestingModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            processCase: {
-              customer: {
-                item: CUSTOMER_MOCK,
-              },
-              quotation: {
-                item: QUOTATION_MOCK,
-              },
+  const createComponent = createComponentFactory({
+    component: OfferDrawerComponent,
+    declarations: [OfferDrawerComponent],
+    imports: [
+      OfferTableModule,
+      MatIconModule,
+      MatButtonModule,
+      provideTranslocoTestingModule({}),
+      RouterTestingModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: {
+            customer: {
+              item: CUSTOMER_MOCK,
+            },
+            quotation: {
+              item: QUOTATION_MOCK,
             },
           },
-        }),
-      ],
-    });
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OfferDrawerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

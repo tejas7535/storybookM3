@@ -18,7 +18,7 @@ import {
   addRowDataItem,
   autocomplete,
   getCaseAutocompleteLoading,
-  getCaseMaterialnumber,
+  getCaseMaterialNumber,
   getCaseRowData,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -26,7 +26,7 @@ import {
 import {
   AutocompleteSearch,
   CaseFilterItem,
-  CaseTableItem,
+  MaterialTableItem,
   IdValue,
   ValidationDescription,
 } from '../../../core/store/models';
@@ -44,7 +44,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   _isDisabled: boolean;
   materialNumber: string;
-  rowData: CaseTableItem[];
+  rowData: MaterialTableItem[];
   materialNumberInput: boolean;
   quantity: any;
   materialNumberIsValid = false;
@@ -67,7 +67,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   constructor(private readonly store: Store<CaseState>) {}
   public ngOnInit(): void {
-    this.materialNumber$ = this.store.pipe(select(getCaseMaterialnumber));
+    this.materialNumber$ = this.store.pipe(select(getCaseMaterialNumber));
     this.materialNumberAutocompleteLoading$ = this.store.pipe(
       select(getCaseAutocompleteLoading, 'materialNumber')
     );
@@ -75,7 +75,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
   addSubscriptions(): void {
     this.subscription.add(
-      this.store.pipe(select(getCaseMaterialnumber)).subscribe((res) => {
+      this.store.pipe(select(getCaseMaterialNumber)).subscribe((res) => {
         if (res.options.length > 0) {
           const idValueItem = res.options.find((opt) => opt.selected);
           this.materialNumber = idValueItem ? idValueItem.id : undefined;
@@ -136,7 +136,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     return exists === undefined;
   }
   addRow(): void {
-    const items: CaseTableItem[] = [
+    const items: MaterialTableItem[] = [
       {
         materialNumber: this.materialNumber,
         quantity: this.quantity,

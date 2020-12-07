@@ -4,7 +4,10 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '@schaeffler/http';
 
-import { CaseTableItem, MaterialValidation } from '../../../core/store/models';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+} from '../../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +21,7 @@ export class ValidationService {
   constructor(private readonly dataService: DataService) {}
 
   public validate(
-    tableData: CaseTableItem[]
+    tableData: MaterialTableItem[]
   ): Observable<MaterialValidation[]> {
     const body = tableData.map((el) => el.materialNumber);
 

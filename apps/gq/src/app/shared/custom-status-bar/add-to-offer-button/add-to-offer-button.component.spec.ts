@@ -1,10 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -18,40 +17,37 @@ import { AddToOfferButtonComponent } from './add-to-offer-button.component';
 
 describe('AddToOfferButtonComponent', () => {
   let component: AddToOfferButtonComponent;
-  let fixture: ComponentFixture<AddToOfferButtonComponent>;
+  let spectator: Spectator<AddToOfferButtonComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [AddToOfferButtonComponent],
-      imports: [
-        MatButtonModule,
-        MatIconModule,
-        provideTranslocoTestingModule({}),
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            processCase: {
-              customer: {
-                item: CUSTOMER_MOCK,
-              },
-              quotation: {
-                item: QUOTATION_MOCK,
-              },
+  const createComponent = createComponentFactory({
+    component: AddToOfferButtonComponent,
+    declarations: [AddToOfferButtonComponent],
+    imports: [
+      MatButtonModule,
+      MatIconModule,
+      provideTranslocoTestingModule({}),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: {
+            customer: {
+              item: CUSTOMER_MOCK,
+            },
+            quotation: {
+              item: QUOTATION_MOCK,
             },
           },
-        }),
-      ],
-    });
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddToOfferButtonComponent);
-
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
     params = ({
       api: {
         addEventListener: jest.fn(),

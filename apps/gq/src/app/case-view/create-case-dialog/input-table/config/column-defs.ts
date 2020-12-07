@@ -44,6 +44,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     cellRenderer: 'actionCellComponent',
+    cellRendererParams: 'createCase',
     flex: 0.1,
   },
 ];

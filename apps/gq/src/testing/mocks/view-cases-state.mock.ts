@@ -1,4 +1,4 @@
-import { ViewCasesState } from '../../app/core/store/reducers/view-cases/view-cases.reducers';
+import { ViewCasesState } from '../../app/core/store/reducers/view-cases/view-cases.reducer';
 
 export const VIEW_CASES_MOCK: ViewCasesState = {
   quotationsLoading: undefined,

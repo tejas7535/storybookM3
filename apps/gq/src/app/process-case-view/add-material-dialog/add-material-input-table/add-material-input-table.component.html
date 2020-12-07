@@ -1,0 +1,14 @@
+<div class="table-container">
+  <ag-grid-angular
+    class="ag-theme-material"
+    [rowData]="rowData"
+    [columnDefs]="columnDefs"
+    [modules]="modules"
+    [defaultColDef]="defaultColumnDefs"
+    [enableRangeSelection]="true"
+    [frameworkComponents]="frameworkComponents"
+    [statusBar]="statusBar"
+    (pasteStart)="onPasteStart()"
+    (cellClicked)="onCellClicked($event)"
+  ></ag-grid-angular>
+</div>

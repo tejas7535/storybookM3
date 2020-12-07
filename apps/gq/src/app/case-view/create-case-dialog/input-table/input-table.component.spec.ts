@@ -5,11 +5,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { pasteRowDataItems } from '../../../core/store';
-import { ValidationDescription } from '../../../core/store/models';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '../../../core/store/models';
+import { CellRendererModule } from '../../../shared/cell-renderer/cell-renderer.module';
 import { CreateCaseButtonComponent } from '../../../shared/custom-status-bar/create-case-button/create-case-button.component';
 import { CustomStatusBarModule } from '../../../shared/custom-status-bar/custom-status-bar.module';
 import { ResetAllButtonComponent } from '../../../shared/custom-status-bar/reset-all-button/reset-all-button.component';
-import { CellRendererModule } from './cell-renderer/cell-renderer.module';
 import { InputTableComponent } from './input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -21,6 +24,8 @@ describe('InputTableComponent', () => {
   let component: InputTableComponent;
   let spectator: Spectator<InputTableComponent>;
   let mockStore: MockStore;
+  let currentCell: MaterialTableItem;
+  let combinedArray: MaterialTableItem[];
 
   const createComponent = createComponentFactory({
     component: InputTableComponent,
@@ -44,17 +49,12 @@ describe('InputTableComponent', () => {
     expect(component).toBeTruthy();
   });
   describe('onPasteStart', () => {
-    test('should dispatch action with transformed array', async () => {
-      Object.assign(navigator, {
-        clipboard: {
-          readText: () => `20\t10\n201\t20\n203\t30`,
-        },
-      });
+    beforeEach(() => {
       mockStore.dispatch = jest.fn();
-      const currentCell = { materialNumber: '10', quantity: '5' };
+      currentCell = { materialNumber: '10', quantity: '5' };
       component['currentCell'] = currentCell;
 
-      const combinedArray = [
+      combinedArray = [
         {
           materialNumber: '20',
           quantity: '10',
@@ -80,6 +80,15 @@ describe('InputTableComponent', () => {
           },
         },
       ];
+    });
+
+    test('should dispatch action with transformed array', async () => {
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () => `20\t10\n201\t20\n203\t30`,
+        },
+      });
+
       const combinedItem = {
         items: combinedArray,
         pasteDestination: currentCell,
@@ -91,6 +100,29 @@ describe('InputTableComponent', () => {
       );
       expect(component['currentCell']).toBeUndefined();
     });
+
+    test('should dispatch action with transformed array', async () => {
+      Object.assign(navigator, {
+        clipboard: {
+          readText: () => `\t10\n201\t\n203\t30`,
+        },
+      });
+
+      combinedArray[0].materialNumber = '';
+      combinedArray[1].quantity = '';
+
+      const combinedItem = {
+        items: combinedArray,
+        pasteDestination: currentCell,
+      };
+      await component.onPasteStart();
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        pasteRowDataItems(combinedItem)
+      );
+      expect(component['currentCell']).toBeUndefined();
+    });
+
     test('should dispatch action with transformed array', async () => {
       // Test case of last line being empty
       Object.assign(navigator, {
@@ -98,36 +130,7 @@ describe('InputTableComponent', () => {
           readText: () => `20\t10\n201\t20\n203\t30\n`,
         },
       });
-      mockStore.dispatch = jest.fn();
-      const currentCell = { materialNumber: '10', quantity: '5' };
-      component['currentCell'] = currentCell;
 
-      const combinedArray = [
-        {
-          materialNumber: '20',
-          quantity: '10',
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-        {
-          materialNumber: '201',
-          quantity: '20',
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-        {
-          materialNumber: '203',
-          quantity: '30',
-          info: {
-            valid: false,
-            description: [ValidationDescription.Not_Validated],
-          },
-        },
-      ];
       const combinedItem = {
         items: combinedArray,
         pasteDestination: currentCell,

@@ -1,4 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
@@ -9,11 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import * as rxjs from 'rxjs';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import * as rxjs from 'rxjs';
 
 import { IdValue } from '../../../core/store/models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
@@ -21,28 +20,26 @@ import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
 describe('AutocompleteInputComponent', () => {
   let component: AutocompleteInputComponent;
-  let fixture: ComponentFixture<AutocompleteInputComponent>;
+  let spectator: Spectator<AutocompleteInputComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [AutocompleteInputComponent, NoResultsFoundPipe],
-      imports: [
-        MatAutocompleteModule,
-        MatChipsModule,
-        MatInputModule,
-        MatSelectModule,
-        MatInputModule,
-        ReactiveFormsModule,
-        MatProgressSpinnerModule,
-        provideTranslocoTestingModule({}),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: AutocompleteInputComponent,
+    declarations: [AutocompleteInputComponent, NoResultsFoundPipe],
+    imports: [
+      MatAutocompleteModule,
+      MatChipsModule,
+      MatInputModule,
+      MatSelectModule,
+      MatInputModule,
+      ReactiveFormsModule,
+      MatProgressSpinnerModule,
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AutocompleteInputComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   test('should create', () => {

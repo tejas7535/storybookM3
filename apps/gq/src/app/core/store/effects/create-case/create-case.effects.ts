@@ -26,7 +26,7 @@ import {
   validateSuccess,
 } from '../../actions';
 import {
-  CaseTableItem,
+  MaterialTableItem,
   CreateCase,
   CreateCaseResponse,
   ImportCaseResponse,
@@ -72,7 +72,7 @@ export class CreateCaseEffects {
       ofType(pasteRowDataItems.type),
       withLatestFrom(this.store.pipe(select(getCaseRowData))),
       map(([_action, tableData]) => tableData),
-      mergeMap((tableData: CaseTableItem[]) =>
+      mergeMap((tableData: MaterialTableItem[]) =>
         this.validationService.validate(tableData).pipe(
           map((materialValidations: MaterialValidation[]) =>
             validateSuccess({ materialValidations })

@@ -16,25 +16,46 @@ import {
 } from '../../../../../testing/mocks';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
+import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
+  addMaterials,
+  addMaterialsFailure,
+  addMaterialsSuccess,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  pasteRowDataItemsToAddMaterial,
+  removeMaterials,
+  removeMaterialsFailure,
+  removeMaterialsSuccess,
   selectQuotation,
+  validateAddMaterialsFailure,
+  validateAddMaterialsSuccess,
 } from '../../actions';
-import { QuotationIdentifier } from '../../models';
-import { getSelectedQuotationIdentifier } from '../../selectors';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  QuotationIdentifier,
+  ValidationDescription,
+} from '../../models';
+import {
+  getAddMaterialRowData,
+  getAddQuotationDetailsRequest,
+  getRemoveQuotationDetailsRequest,
+  getSelectedQuotationIdentifier,
+} from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
-describe('Quotation Effects', () => {
+describe('ProcessCaseEffect', () => {
   let action: any;
   let actions$: any;
   let effects: ProcessCaseEffect;
   let customerDetailsService: CustomerDetailsService;
   let quotationDetailsService: QuotationDetailsService;
+  let validationService: ValidationService;
 
   let store: any;
   let router: Router;
@@ -58,6 +79,14 @@ describe('Quotation Effects', () => {
           provide: QuotationDetailsService,
           useValue: {
             getQuotation: jest.fn(),
+            addMaterial: jest.fn(),
+            removeMaterial: jest.fn(),
+          },
+        },
+        {
+          provide: ValidationService,
+          useValue: {
+            validate: jest.fn(),
           },
         },
       ],
@@ -69,6 +98,7 @@ describe('Quotation Effects', () => {
     effects = TestBed.inject(ProcessCaseEffect);
     customerDetailsService = TestBed.inject(CustomerDetailsService);
     quotationDetailsService = TestBed.inject(QuotationDetailsService);
+    validationService = TestBed.inject(ValidationService);
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
   });
@@ -244,7 +274,146 @@ describe('Quotation Effects', () => {
     });
   });
 
-  describe('DetailsEffects.mapQueryParamsToIdentifier', () => {
+  describe('validate$', () => {
+    const tableData: MaterialTableItem[] = [
+      {
+        materialNumber: '1234',
+        quantity: 20,
+        info: {
+          valid: false,
+          description: [ValidationDescription.Not_Validated],
+        },
+      },
+    ];
+    beforeEach(() => {
+      store.overrideSelector(getAddMaterialRowData, tableData);
+    });
+
+    test('should return validateSuccess when REST call is successful', () => {
+      action = pasteRowDataItemsToAddMaterial({
+        items: [],
+        pasteDestination: {},
+      });
+
+      validationService.validate = jest.fn(() => response);
+      const materialValidations: MaterialValidation[] = [];
+      const result = validateAddMaterialsSuccess({ materialValidations });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: materialValidations,
+      });
+      const expected = cold('--b', { b: result });
+      expect(effects.validate$).toBeObservable(expected);
+      expect(validationService.validate).toHaveBeenCalledTimes(1);
+      expect(validationService.validate).toHaveBeenCalledWith(tableData);
+    });
+    test('should return validateFailure on REST error', () => {
+      const result = validateAddMaterialsFailure({ errorMessage });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      validationService.validate = jest.fn(() => response);
+
+      expect(effects.validate$).toBeObservable(expected);
+      expect(validationService.validate).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('addMaterials$', () => {
+    const addQuotationDetailsRequest = {
+      gqId: '123',
+      items: [
+        {
+          materialId: '333',
+          quantity: 10,
+        },
+      ],
+    };
+
+    beforeEach(() => {
+      store.overrideSelector(
+        getAddQuotationDetailsRequest,
+        addQuotationDetailsRequest
+      );
+    });
+
+    test('should return addMaterialsSuccess when REST call is successful', () => {
+      action = addMaterials();
+
+      quotationDetailsService.addMaterial = jest.fn(() => response);
+      const item = QUOTATION_MOCK;
+      const result = addMaterialsSuccess({ item });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: item,
+      });
+      const expected = cold('--b', { b: result });
+
+      expect(effects.addMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
+      expect(quotationDetailsService.addMaterial).toHaveBeenCalledWith(
+        addQuotationDetailsRequest
+      );
+    });
+
+    test('should return addMaterialsFailure on REST error', () => {
+      quotationDetailsService.addMaterial = jest.fn(() => response);
+      const result = addMaterialsFailure({ errorMessage });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      expect(effects.addMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('removeMaterials$', () => {
+    const qgPositionIds = ['1234567'];
+
+    beforeEach(() => {
+      store.overrideSelector(getRemoveQuotationDetailsRequest, qgPositionIds);
+    });
+
+    test('should return removeMaterialsSuccess when REST call is successful', () => {
+      action = removeMaterials();
+
+      quotationDetailsService.removeMaterial = jest.fn(() => response);
+      const item = QUOTATION_MOCK;
+      const result = removeMaterialsSuccess({ item });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: item,
+      });
+      const expected = cold('--b', { b: result });
+
+      expect(effects.removeMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
+      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
+        qgPositionIds
+      );
+    });
+
+    test('should return removeMaterialsFailure on REST error', () => {
+      quotationDetailsService.removeMaterial = jest.fn(() => response);
+      const result = removeMaterialsFailure({ errorMessage });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      expect(effects.removeMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('mapQueryParamsToIdentifier', () => {
     let queryParams;
 
     test('should return undefined, if mandatory params are missing', () => {
@@ -270,7 +439,7 @@ describe('Quotation Effects', () => {
     });
   });
 
-  describe('DetailsEffects.checkEqualityOfIdentifier', () => {
+  describe('checkEqualityOfIdentifier', () => {
     let fromRoute;
     let current;
     let result;
@@ -308,4 +477,5 @@ describe('Quotation Effects', () => {
       expect(result).toBeFalsy();
     });
   });
+  // tslint:disable-next-line: max-file-line-count
 });

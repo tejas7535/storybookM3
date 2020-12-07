@@ -14,7 +14,7 @@ import {
 import {
   AutocompleteSearch,
   CaseFilterItem,
-  CaseTableItem,
+  MaterialTableItem,
   IdValue,
   SapQuotation,
 } from '../../core/store/models';
@@ -36,7 +36,7 @@ export class CreateCaseDialogComponent implements OnInit {
   customerAutocompleteLoading$: Observable<boolean>;
   quotation$: Observable<CaseFilterItem>;
   customer$: Observable<CaseFilterItem>;
-  rowData$: Observable<CaseTableItem[]>;
+  rowData$: Observable<MaterialTableItem[]>;
 
   quotationDisabled = false;
   customerDisabled = false;

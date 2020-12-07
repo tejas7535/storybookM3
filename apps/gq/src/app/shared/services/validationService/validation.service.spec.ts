@@ -9,7 +9,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import {
-  CaseTableItem,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { ValidationService } from './validation.service';
@@ -46,7 +46,7 @@ describe('ValidationService', () => {
 
   describe('validate', () => {
     test('should call', () => {
-      const mockTable: CaseTableItem[] = [
+      const mockTable: MaterialTableItem[] = [
         {
           materialNumber: '123',
           quantity: 10,
