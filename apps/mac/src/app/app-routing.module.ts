@@ -3,18 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 export enum RoutePath {
   BasePath = '',
-  HomePath = 'home',
+  OverviewPath = 'overview',
 }
 
 export const appRoutePaths: Routes = [
   {
     path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
+    redirectTo: `/${RoutePath.OverviewPath}`,
     pathMatch: 'full',
   },
   {
-    path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    path: RoutePath.OverviewPath,
+    loadChildren: () =>
+      import('./feature/overview/overview.module').then(
+        (m) => m.OverviewModule
+      ),
   },
   {
     path: '**',
