@@ -4,7 +4,7 @@ import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 
 import { QuotationDetail } from '../core/store/models';
-import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import { getOffer } from '../core/store/selectors';
 
 @Component({

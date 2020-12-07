@@ -10,8 +10,8 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromDetailCase from './detail-case/detail-case.reducer';
-import * as fromProcessCase from './process-case/process-case.reducers';
-import * as fromViewCases from './view-cases/view-cases.reducers';
+import * as fromProcessCase from './process-case/process-case.reducer';
+import * as fromViewCases from './view-cases/view-cases.reducer';
 
 export interface RouterStateUrl {
   url: string;

@@ -1,9 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -18,26 +16,24 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('CustomerDetailsComponent', () => {
   let component: CustomerDetailsComponent;
-  let fixture: ComponentFixture<CustomerDetailsComponent>;
+  let spectator: Spectator<CustomerDetailsComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomerDetailsComponent],
-      imports: [
-        SharedModule,
-        MatCardModule,
-        MatButtonModule,
-        provideTranslocoTestingModule({}),
-        RouterTestingModule,
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: CustomerDetailsComponent,
+    declarations: [CustomerDetailsComponent],
+    imports: [
+      SharedModule,
+      MatCardModule,
+      MatButtonModule,
+      provideTranslocoTestingModule({}),
+      RouterTestingModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerDetailsComponent);
-    component = fixture.componentInstance;
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
     component.customer = CUSTOMER_MOCK;
-    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -9,12 +9,14 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AddMaterialButtonComponent } from './add-material-button/add-material-button.component';
 import { AddToOfferButtonComponent } from './add-to-offer-button/add-to-offer-button.component';
 import { CreateCaseButtonComponent } from './create-case-button/create-case-button.component';
 import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
 import { FinishOfferButtonComponent } from './finish-offer-button/finish-offer-button.component';
+import { FlatButtonsComponent } from './flat-buttons/flat-buttons.component';
 import { OpenCaseButtonComponent } from './open-case-button/open-case-button.component';
 import { RemoveFromOfferButtonComponent } from './remove-from-offer-button/remove-from-offer-button.component';
 import { ResetAllButtonComponent } from './reset-all-button/reset-all-button.component';
@@ -23,6 +25,7 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
 
 @NgModule({
   declarations: [
+    AddMaterialButtonComponent,
     AddToOfferButtonComponent,
     CreateCaseButtonComponent,
     DeleteCaseButtonComponent,
@@ -34,6 +37,7 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     RemoveFromOfferButtonComponent,
     TotalRowCountComponent,
     UploadToSapButtonComponent,
+    FlatButtonsComponent,
   ],
   imports: [
     CommonModule,
@@ -45,6 +49,7 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     FlexModule,
   ],
   exports: [
+    AddMaterialButtonComponent,
     AddToOfferButtonComponent,
     CreateCaseButtonComponent,
     DeleteCaseButtonComponent,
@@ -56,6 +61,7 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     ResetAllButtonComponent,
     TotalRowCountComponent,
     UploadToSapButtonComponent,
+    FlatButtonsComponent,
   ],
 })
 export class CustomStatusBarModule {}

@@ -2,7 +2,7 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   AutocompleteSearch,
-  CaseTableItem,
+  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
   MaterialValidation,
@@ -35,12 +35,12 @@ export const unselectAutocompleteOptions = createAction(
 
 export const addRowDataItem = createAction(
   '[Create Case] Add new Items to Customer Table',
-  props<{ items: CaseTableItem[] }>()
+  props<{ items: MaterialTableItem[] }>()
 );
 
 export const pasteRowDataItems = createAction(
   '[Create Case] Paste new Items to Customer Table',
-  props<{ items: CaseTableItem[]; pasteDestination: CaseTableItem }>()
+  props<{ items: MaterialTableItem[]; pasteDestination: MaterialTableItem }>()
 );
 
 export const clearRowData = createAction('[Create Case] Clear RowData');

@@ -10,7 +10,7 @@ import {
   getQuotation,
 } from '../core/store';
 import { Quotation, QuotationDetail } from '../core/store/models';
-import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
   selector: 'gq-detail-view',

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
 import { select, Store } from '@ngrx/store';
 
+import { Observable } from 'rxjs';
+
 import { Quotation, QuotationDetail } from '../core/store/models';
-import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import { getOffer, getQuotation } from '../core/store/selectors';
 
 @Component({

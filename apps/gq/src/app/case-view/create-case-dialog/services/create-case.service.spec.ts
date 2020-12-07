@@ -54,4 +54,16 @@ describe('CreateCaseService', () => {
       req.flush(mockBody);
     });
   });
+
+  describe('importCase', () => {
+    test('should call', () => {
+      const importCase = '1234';
+      service.importCase(importCase).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+      const req = httpMock.expectOne('/quotations');
+      expect(req.request.method).toBe('PUT');
+      req.flush(importCase);
+    });
+  });
 });

@@ -26,7 +26,7 @@ import {
 } from '../../actions';
 import {
   AutocompleteSearch,
-  CaseTableItem,
+  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
   ImportCaseResponse,
@@ -80,6 +80,7 @@ describe('Create Case Effects', () => {
   });
 
   beforeEach(() => {
+    actions$ = TestBed.inject(Actions);
     actions$ = TestBed.inject(Actions);
     createCaseService = TestBed.inject(CreateCaseService);
     effects = TestBed.inject(CreateCaseEffects);
@@ -147,7 +148,7 @@ describe('Create Case Effects', () => {
     });
   });
   describe('validate', () => {
-    const tableData: CaseTableItem[] = [
+    const tableData: MaterialTableItem[] = [
       {
         materialNumber: '1234',
         quantity: 20,

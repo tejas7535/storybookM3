@@ -2,7 +2,5 @@ import { AutocompleteQuotationResponse } from './autocomplete-sap-quotation-resp
 import { IdValue } from './id-value.model';
 
 export class AutocompleteResponse {
-  public constructor(
-    public items: IdValue[] | AutocompleteQuotationResponse[]
-  ) {}
+  public items: IdValue[] | AutocompleteQuotationResponse[];
 }

@@ -1,6 +1,6 @@
 import { ValidationDescription } from './validation-description.enum';
 
-export class CaseTableItem {
+export class MaterialTableItem {
   materialNumber?: string;
   quantity?: number | string;
   info?: {

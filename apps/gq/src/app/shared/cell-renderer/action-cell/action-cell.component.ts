@@ -2,9 +2,12 @@ import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { deleteRowDataItem } from '../../../../../core/store';
-import { isDummyData } from '../../../../../core/store/reducers/create-case/config/dummy-row-data';
-import { CaseState } from '../../../../../core/store/reducers/create-case/create-case.reducer';
+import {
+  deleteAddMaterialRowDataItem,
+  deleteRowDataItem,
+} from '../../../core/store/actions';
+import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 
 @Component({
   selector: 'gq-action-cell',
@@ -24,6 +27,9 @@ export class ActionCellComponent {
 
   deleteItem(): void {
     const { materialNumber } = this.params.data;
-    this.store.dispatch(deleteRowDataItem({ materialNumber }));
+
+    this.params.colDef.cellRendererParams === 'createCase'
+      ? this.store.dispatch(deleteRowDataItem({ materialNumber }))
+      : this.store.dispatch(deleteAddMaterialRowDataItem({ materialNumber }));
   }
 }

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { Customer } from '../../core/store/models';
-import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../core/store/selectors';
 
 @Component({

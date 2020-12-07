@@ -4,6 +4,7 @@ import {
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import {
+  addMaterials,
   addQuotationDetailToOffer,
   CaseActions,
   loadCustomer,
@@ -80,6 +81,14 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Process Case] Get Quotation Details Failure',
+      });
+    });
+
+    test('', () => {
+      action = addMaterials();
+
+      expect(action).toEqual({
+        type: '[Process Case] add material to Quotation',
       });
     });
   });

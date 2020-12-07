@@ -1,3 +1,4 @@
 export class SubKeyAccount {
-  public constructor(public id: string, public name: string) {}
+  public id: string;
+  public name: string;
 }

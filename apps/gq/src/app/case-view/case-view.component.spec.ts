@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
@@ -14,8 +15,10 @@ import { DeleteCaseButtonComponent } from '../shared/custom-status-bar/delete-ca
 import { OpenCaseButtonComponent } from '../shared/custom-status-bar/open-case-button/open-case-button.component';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
+import { AddEntryModule } from './create-case-dialog/add-entry/add-entry.module';
 import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input/autocomplete-input.module';
-import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
+import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
+import { InputTableModule } from './create-case-dialog/input-table/input-table.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -36,15 +39,26 @@ describe('CaseViewComponent', () => {
       ]),
       CaseTableModule,
       CustomStatusBarModule,
-      CreateCaseDialogModule,
+      AddEntryModule,
       MatDialogModule,
       MatIconModule,
+      MatCardModule,
       NoopAnimationsModule,
+      InputTableModule,
       provideTranslocoTestingModule({}),
       RouterTestingModule.withRoutes([]),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          viewCases: {
+            quotations: [],
+          },
+        },
+      }),
+    ],
     declarations: [CaseViewComponent],
+    entryComponents: [CreateCaseDialogComponent],
   });
 
   beforeEach(() => {
@@ -52,7 +66,27 @@ describe('CaseViewComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe fromSubscription', () => {
+      const spy = spyOn<any>(component['dialog'], 'closeAll');
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(spy).toHaveBeenCalled();
+    });
+  });
+
+  describe('openCreateCaseDialog', () => {
+    test('should call openDialog', () => {
+      jest.spyOn(component['dialog'], 'open');
+
+      component.openCreateCaseDialog();
+      expect(component['dialog'].open).toHaveBeenCalled();
+    });
   });
 });

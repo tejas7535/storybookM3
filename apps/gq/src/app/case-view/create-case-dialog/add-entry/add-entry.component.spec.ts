@@ -19,7 +19,7 @@ import {
 } from '../../../core/store';
 import {
   AutocompleteSearch,
-  CaseTableItem,
+  MaterialTableItem,
   IdValue,
   ValidationDescription,
 } from '../../../core/store/models';
@@ -143,7 +143,7 @@ describe('InputbarComponent', () => {
 
   describe('addRow', () => {
     test('should dispatch action', () => {
-      const item: CaseTableItem = {
+      const item: MaterialTableItem = {
         materialNumber: '1234',
         quantity: 10,
         info: {

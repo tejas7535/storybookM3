@@ -5,10 +5,10 @@ import { Store } from '@ngrx/store';
 
 import { addQuotationDetailToOffer } from '../../../core/store';
 import { QuotationDetail } from '../../../core/store/models';
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
-  selector: 'gq-add-to-offer--button',
+  selector: 'gq-add-to-offer-button',
   templateUrl: './add-to-offer-button.component.html',
   styleUrls: ['./add-to-offer-button.component.scss'],
 })

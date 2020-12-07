@@ -1,5 +1,6 @@
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
-import { initialState } from '../../reducers/process-case/process-case.reducers';
+import { dummyRowData } from '../../reducers/create-case/config/dummy-row-data';
+import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
 describe('Process Case Selector', () => {
@@ -15,6 +16,12 @@ describe('Process Case Selector', () => {
         ...initialState.quotation,
         item: QUOTATION_MOCK,
         quotationLoading: true,
+      },
+      addMaterials: {
+        ...initialState.addMaterials,
+        dialogShown: false,
+        addMaterialRowData: [dummyRowData],
+        validationLoading: false,
       },
     },
   };
@@ -51,6 +58,16 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getSelectedQuotationIdentifier', () => {
+    test('should return a quotation identifier', () => {
+      expect(
+        quotationSelectors.getSelectedQuotationIdentifier.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.quotationIdentifier);
+    });
+  });
+
   describe('getOffer', () => {
     test('should return true if quotation is currently loading', () => {
       expect(
@@ -70,6 +87,110 @@ describe('Process Case Selector', () => {
       };
       expect(
         quotationSelectors.getOffer.projector(mockState.processCase)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getSapId ', () => {
+    test('should return a sap id', () => {
+      expect(
+        quotationSelectors.getSapId.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.item.sapId);
+    });
+  });
+
+  describe(' getAddQuotationDetailsRequest', () => {
+    test('should return a AddQuotationDetailsRequest', () => {
+      expect(
+        quotationSelectors.getAddQuotationDetailsRequest.projector(
+          fakeState.processCase
+        )
+      ).toEqual({
+        gqId: undefined,
+        items: [{ materialId: '0167187...', quantity: 123 }],
+      });
+    });
+
+    test('should return a AddQuotationDetailsRequest', () => {
+      const mockState = {
+        processCase: {
+          ...initialState,
+          customer: {
+            ...initialState.customer,
+            item: CUSTOMER_MOCK,
+            customerLoading: true,
+          },
+          quotation: {
+            ...initialState.quotation,
+            item: QUOTATION_MOCK,
+            quotationLoading: true,
+          },
+          quotationIdentifier: { quotationNumber: '123' },
+          addMaterials: {
+            ...initialState.addMaterials,
+            addMaterialRowData: [
+              {
+                materialNumber: '123456',
+                quantity: '200',
+              },
+            ],
+          },
+        },
+      };
+
+      expect(
+        quotationSelectors.getAddQuotationDetailsRequest.projector(
+          mockState.processCase
+        )
+      ).toEqual({
+        gqId: '123',
+        items: [{ materialId: '123456', quantity: 200 }],
+      });
+    });
+  });
+
+  describe('getRemoveQuotationDetailsRequest ', () => {
+    test('should return a removeQuotationDetailsIds', () => {
+      expect(
+        quotationSelectors.getRemoveQuotationDetailsRequest.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.addMaterials.removeQuotationDetailsIds);
+    });
+  });
+
+  describe('getAddMaterialRowDataValid ', () => {
+    test('should return false', () => {
+      expect(
+        quotationSelectors.getAddMaterialRowDataValid.projector(
+          fakeState.processCase
+        )
+      ).toBeFalsy();
+    });
+
+    test('should return true', () => {
+      const mockState = {
+        processCase: {
+          ...initialState,
+          addMaterials: {
+            ...initialState.addMaterials,
+            addMaterialRowData: [
+              {
+                materialNumber: '123465',
+                quantity: 100,
+                info: {
+                  description: ['valid'],
+                  valid: true,
+                },
+              },
+            ],
+          },
+        },
+      };
+      expect(
+        quotationSelectors.getAddMaterialRowDataValid.projector(
+          mockState.processCase
+        )
       ).toBeTruthy();
     });
   });

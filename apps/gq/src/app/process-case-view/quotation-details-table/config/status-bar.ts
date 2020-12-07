@@ -7,5 +7,6 @@ export const STATUS_BAR_CONFIG: {
     { statusPanel: 'addToOfferButtonComponent', align: 'left' },
     { statusPanel: 'detailViewButtonComponent', align: 'left' },
     { statusPanel: 'totalRowCountComponent', align: 'right' },
+    { statusPanel: 'flatButtonComponent', align: 'right' },
   ],
 };

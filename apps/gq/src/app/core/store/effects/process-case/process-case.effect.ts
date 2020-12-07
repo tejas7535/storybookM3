@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { select, Store } from '@ngrx/store';
+
 import { of } from 'rxjs';
 import {
   catchError,
@@ -10,25 +14,43 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
-
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
+import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
+  addMaterials,
+  addMaterialsFailure,
+  addMaterialsSuccess,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  pasteRowDataItemsToAddMaterial,
+  removeMaterials,
+  removeMaterialsFailure,
+  removeMaterialsSuccess,
   selectQuotation,
+  validateAddMaterialsFailure,
+  validateAddMaterialsSuccess,
 } from '../../actions';
-import { Customer, Quotation, QuotationIdentifier } from '../../models';
+import {
+  AddQuotationDetailsRequest,
+  Customer,
+  MaterialTableItem,
+  MaterialValidation,
+  Quotation,
+  QuotationIdentifier,
+} from '../../models';
 import * as fromRouter from '../../reducers';
-import { getSelectedQuotationIdentifier } from '../../selectors';
+import {
+  getAddMaterialRowData,
+  getAddQuotationDetailsRequest,
+  getRemoveQuotationDetailsRequest,
+  getSelectedQuotationIdentifier,
+} from '../../selectors';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -127,12 +149,70 @@ export class ProcessCaseEffect {
     )
   );
 
+  /**
+   * Get Validation for materialNumbers
+   */
+  validate$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(pasteRowDataItemsToAddMaterial.type),
+      withLatestFrom(this.store.pipe(select(getAddMaterialRowData))),
+      map(([_action, tableData]) => tableData),
+      mergeMap((tableData: MaterialTableItem[]) =>
+        this.validationService.validate(tableData).pipe(
+          map((materialValidations: MaterialValidation[]) =>
+            validateAddMaterialsSuccess({ materialValidations })
+          ),
+          catchError((errorMessage) =>
+            of(validateAddMaterialsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
+  addMaterials$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addMaterials.type),
+      withLatestFrom(this.store.pipe(select(getAddQuotationDetailsRequest))),
+      map(
+        ([_action, addQuotationDetailsRequest]) => addQuotationDetailsRequest
+      ),
+      mergeMap((addQuotationDetailsRequest: AddQuotationDetailsRequest) =>
+        this.quotationDetailsService
+          .addMaterial(addQuotationDetailsRequest)
+          .pipe(
+            map((item) => addMaterialsSuccess({ item })),
+            catchError((errorMessage) =>
+              of(addMaterialsFailure({ errorMessage }))
+            )
+          )
+      )
+    )
+  );
+
+  removeMaterials$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(removeMaterials.type),
+      withLatestFrom(this.store.pipe(select(getRemoveQuotationDetailsRequest))),
+      map(([_action, qgPositionIds]) => qgPositionIds),
+      mergeMap((qgPositionIds: string[]) =>
+        this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
+          map((item) => removeMaterialsSuccess({ item })),
+          catchError((errorMessage) =>
+            of(removeMaterialsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly customerDetailsService: CustomerDetailsService,
     private readonly quotationDetailsService: QuotationDetailsService,
     private readonly store: Store<fromRouter.AppState>,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly validationService: ValidationService
   ) {}
 
   private static mapQueryParamsToIdentifier(

@@ -1,14 +1,17 @@
 import { createSelector } from '@ngrx/store';
 
 import {
+  AddQuotationDetailsRequest,
   Customer,
+  MaterialQuantities,
+  MaterialTableItem,
   Quotation,
   QuotationDetail,
   QuotationIdentifier,
   QuotationInfoEnum,
 } from '../../models';
 import { getProcessCaseState } from '../../reducers';
-import { ProcessCaseState } from '../../reducers/process-case/process-case.reducers';
+import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
 
 export const getCustomer = createSelector(
   getProcessCaseState,
@@ -48,5 +51,68 @@ export const getOffer = createSelector(
 
 export const getSapId = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): string => state.quotation.item.sapId
+  (state: ProcessCaseState): string =>
+    state.quotation.item ? state.quotation.item.sapId : undefined
+);
+
+export const getAddMaterialRowData = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): MaterialTableItem[] =>
+    state.addMaterials.addMaterialRowData
+);
+
+export const getAddQuotationDetailsRequest = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): AddQuotationDetailsRequest => {
+    const gqId = state.quotationIdentifier
+      ? state.quotationIdentifier.quotationNumber
+      : undefined;
+
+    const items: MaterialQuantities[] = [];
+
+    state.addMaterials.addMaterialRowData.forEach((el) => {
+      items.push({
+        materialId: el.materialNumber,
+        quantity:
+          typeof el.quantity === 'string'
+            ? parseInt(el.quantity, 10)
+            : el.quantity,
+      });
+    });
+
+    return {
+      gqId,
+      items,
+    };
+  }
+);
+
+export const getRemoveQuotationDetailsRequest = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string[] =>
+    state.addMaterials.removeQuotationDetailsIds
+);
+
+export const getAddMaterialRowDataValid = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): boolean => {
+    const rowData = [...state.addMaterials.addMaterialRowData];
+    let rowDataValid = rowData.length >= 1;
+    for (const row of rowData) {
+      if (row.materialNumber || row.quantity) {
+        const error =
+          !row.quantity ||
+          (row.materialNumber && row.materialNumber.length === 0) ||
+          !row.materialNumber ||
+          !row.info.valid;
+
+        if (error) {
+          rowDataValid = false;
+          break;
+        }
+      }
+    }
+
+    return rowDataValid;
+  }
 );
