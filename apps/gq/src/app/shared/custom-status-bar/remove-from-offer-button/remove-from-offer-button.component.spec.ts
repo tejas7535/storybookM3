@@ -100,7 +100,7 @@ describe('RemoveFromOfferComponent', () => {
       component.removeFromOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        removeQuotationDetailFromOffer({ quotationDetailIDs: ['34643567'] })
+        removeQuotationDetailFromOffer({ quotationDetailIDs: ['5694232'] })
       );
     });
   });

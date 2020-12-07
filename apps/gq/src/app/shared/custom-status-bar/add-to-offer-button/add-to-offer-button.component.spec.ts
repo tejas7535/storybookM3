@@ -1,11 +1,12 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-import { configureTestSuite } from 'ng-bullet';
 
 import {
   CUSTOMER_MOCK,
@@ -100,7 +101,7 @@ describe('AddToOfferButtonComponent', () => {
       component.addToOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        addQuotationDetailToOffer({ quotationDetailIDs: ['34643567'] })
+        addQuotationDetailToOffer({ quotationDetailIDs: ['5694232'] })
       );
     });
   });

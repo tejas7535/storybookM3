@@ -39,7 +39,7 @@ export class RemoveFromOfferButtonComponent {
 
   removeFromOffer(): void {
     const quotationDetailIDs = this.selections.map(
-      (value) => value.quotationItemId
+      (value) => value.gqPositionId
     );
     this.store.dispatch(removeQuotationDetailFromOffer({ quotationDetailIDs }));
   }
