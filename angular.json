@@ -2737,7 +2737,7 @@
     "mac": {
       "projectType": "application",
       "schematics": {
-        "@schematics/angular:component": {
+        "@nrwl/angular:component": {
           "style": "scss"
         }
       },
@@ -2802,7 +2802,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/mac/src/environments/environment.ts",
-                  "with": "apps/mac/src/environments/environment.qa.ts"
+                  "with": "apps/mac/src/environments/environment.dev.ts"
                 }
               ],
               "budgets": [
