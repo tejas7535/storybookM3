@@ -1,20 +1,39 @@
 import { initialState } from '..';
-import {
-  EMPLOYEES_FOR_SELECTORS,
-  EXPECTED_FILTERED_EMPLOYEES,
-} from '../../../../mocks/overview-selector.mock';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../world-map/models/country-data.model';
 import {
-  getFilteredEmployeesForOrgChart,
-  getOrgChartLoading,
+  getIsLoading,
+  getOrgChart,
   getSelectedChartType,
+  getWorldMap,
+  getWorldMapContinents,
 } from './overview.selector';
 
 describe('Overview Selector', () => {
   const fakeState = {
     overview: {
       ...initialState,
-      orgChart: EMPLOYEES_FOR_SELECTORS,
+      orgChart: [
+        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
+        ({ employeeId: '456' } as unknown) as OrgChartEmployee,
+      ],
+      worldMap: {
+        data: [
+          ({ name: 'Germany' } as unknown) as CountryData,
+          ({ name: 'Poland' } as unknown) as CountryData,
+        ],
+        continents: [
+          {
+            id: 'europe',
+            value: 'Europe',
+          },
+          {
+            id: 'asia',
+            value: 'Asia',
+          },
+        ],
+      },
       loading: true,
     },
     filter: {
@@ -22,17 +41,29 @@ describe('Overview Selector', () => {
     },
   };
 
-  describe('getFilteredEmployeesForOrgChart', () => {
-    test('should return filtered employees', () => {
-      expect(getFilteredEmployeesForOrgChart(fakeState)).toEqual(
-        EXPECTED_FILTERED_EMPLOYEES
+  describe('getOrgChart', () => {
+    test('should return employees for org chart', () => {
+      expect(getOrgChart(fakeState)).toEqual(fakeState.overview.orgChart);
+    });
+  });
+
+  describe('getWorldMap', () => {
+    test('should return country data for world map', () => {
+      expect(getWorldMap(fakeState)).toEqual(fakeState.overview.worldMap.data);
+    });
+  });
+
+  describe('getWorldMapContinents', () => {
+    test('should return continents', () => {
+      expect(getWorldMapContinents(fakeState)).toEqual(
+        fakeState.overview.worldMap.continents
       );
     });
   });
 
-  describe('getOrgChartLoading', () => {
-    test('should return org chart loading status', () => {
-      expect(getOrgChartLoading(fakeState)).toBeTruthy();
+  describe('getIsLoading', () => {
+    test('should return loading status', () => {
+      expect(getIsLoading(fakeState)).toBeTruthy();
     });
   });
 

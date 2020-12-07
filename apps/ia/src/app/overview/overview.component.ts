@@ -1,19 +1,22 @@
-// tslint:disable no-default-import
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Employee } from '../shared/models';
+import { IdValue } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
+import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OverviewState } from './store';
 import { chartTypeSelected } from './store/actions/overview.action';
 import {
-  getFilteredEmployeesForOrgChart,
-  getOrgChartLoading,
+  getIsLoading,
+  getOrgChart,
   getSelectedChartType,
+  getWorldMap,
+  getWorldMapContinents,
 } from './store/selectors/overview.selector';
+import { CountryData } from './world-map/models/country-data.model';
 
 @Component({
   selector: 'ia-overview',
@@ -21,18 +24,22 @@ import {
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
-  orgChart$: Observable<Employee[]>;
-  isOrgChartLoading$: Observable<boolean>;
+  orgChart$: Observable<OrgChartEmployee[]>;
+  isLoading$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
+  worldMap$: Observable<CountryData[]>;
+  worldMapContinents$: Observable<IdValue[]>;
 
   chartType = ChartType;
 
   public constructor(private readonly store: Store<OverviewState>) {}
 
   public ngOnInit(): void {
-    this.orgChart$ = this.store.pipe(select(getFilteredEmployeesForOrgChart));
-    this.isOrgChartLoading$ = this.store.pipe(select(getOrgChartLoading));
+    this.orgChart$ = this.store.pipe(select(getOrgChart));
+    this.isLoading$ = this.store.pipe(select(getIsLoading));
     this.selectedChartType$ = this.store.pipe(select(getSelectedChartType));
+    this.worldMap$ = this.store.pipe(select(getWorldMap));
+    this.worldMapContinents$ = this.store.pipe(select(getWorldMapContinents));
   }
 
   public chartTypeChanged(chartType: ChartType): void {

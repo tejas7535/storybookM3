@@ -3,12 +3,21 @@
   (changed)="chartTypeChanged($event)"
 ></ia-toggle-charts>
 
-<div class="org-chart-container">
-  <ia-org-chart
-    [data]="orgChart$ | ngrxPush"
-    [isLoading]="isOrgChartLoading$ | ngrxPush"
-    [showHeatMap]="(selectedChartType$ | ngrxPush) === chartType.HEAT_MAP"
-  ></ia-org-chart>
-</div>
+<ng-container *ngrxLet="selectedChartType$ as selectedChart">
+  <div class="org-chart-container" [ngSwitch]="selectedChart">
+    <ia-org-chart
+      *ngSwitchDefault
+      [data]="orgChart$ | ngrxPush"
+      [isLoading]="isLoading$ | ngrxPush"
+      [showHeatMap]="selectedChart === chartType.HEAT_MAP"
+    ></ia-org-chart>
+    <ia-world-map
+      *ngSwitchCase="chartType.WORLD_MAP"
+      [data]="worldMap$ | ngrxPush"
+      [continents]="worldMapContinents$ | ngrxPush"
+      [isLoading]="isLoading$ | ngrxPush"
+    ></ia-world-map>
+  </div>
+</ng-container>
 
 <h2>Attrition Quota - Details</h2>

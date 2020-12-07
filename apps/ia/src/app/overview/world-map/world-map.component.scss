@@ -1,0 +1,14 @@
+:host {
+  width: 100% !important;
+
+  #worldMapContainer {
+    height: 970px;
+  }
+
+  .continent-selection {
+    position: absolute;
+    right: 39px;
+    top: 120px;
+    z-index: 1;
+  }
+}

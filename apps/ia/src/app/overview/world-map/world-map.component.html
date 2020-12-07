@@ -1,0 +1,35 @@
+<div
+  id="worldMapContainer"
+  echarts
+  [options]="options"
+  [merge]="mergeOptions"
+  [initOpts]="initOpts"
+  (chartInit)="onChartInit($event)"
+>
+  <div>
+    <button mat-stroked-button>Basic</button>
+  </div>
+</div>
+<ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
+
+<div
+  class="continent-selection"
+  *transloco="let t; read: 'worldMap'"
+  fxLayout="column"
+  fxLayoutAlign="start"
+>
+  <div
+    *ngFor="let continent of continentButtons; trackBy: trackByFn"
+    [matTooltip]="t('continentNotFound', { value: t(continent.id) })"
+    [matTooltipDisabled]="continent.enabled"
+  >
+    <button
+      mat-stroked-button
+      (click)="showContinentData(continent.value)"
+      class="m-b-5"
+      [disabled]="!continent.enabled"
+    >
+      {{ t(continent.id) }}
+    </button>
+  </div>
+</div>

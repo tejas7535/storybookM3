@@ -5,11 +5,13 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
+import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../overview/world-map/models/country-data.model';
 import {
-  Employee,
   EmployeesRequest,
-  EmployeesResponse,
   InitialFiltersResponse,
+  OrgChartResponse,
+  WorldMapResponse,
 } from '../models';
 
 @Injectable({
@@ -17,10 +19,11 @@ import {
 })
 export class EmployeeService {
   private readonly INITIAL_FILTERS = 'initial-filters';
-  private readonly EMPLOYEES = 'employees';
+  private readonly ORG_CHART = 'org-chart';
+  private readonly WORLD_MAP = 'world-map';
 
   public static employeeLeftInTimeRange(
-    employee: Employee,
+    employee: OrgChartEmployee,
     timeRange: string
   ): boolean {
     return (
@@ -38,50 +41,27 @@ export class EmployeeService {
     );
   }
 
-  public getEmployees(
+  public getOrgChart(
     employeesRequest: EmployeesRequest
-  ): Observable<Employee[]> {
+  ): Observable<OrgChartEmployee[]> {
     return this.dataService
-      .post<EmployeesResponse>(this.EMPLOYEES, employeesRequest)
+      .post<OrgChartResponse>(this.ORG_CHART, employeesRequest)
       .pipe(
-        map((employeesResponse) =>
-          this.mapEmployees(
-            employeesResponse.employees,
-            employeesRequest.timeRange
-          )
-        )
+        map((response) => this.fixIncomingEmployeeProps(response.employees))
       );
   }
 
-  public mapEmployees(employees: Employee[], timeRange: string): Employee[] {
-    // fix date props
-    const modifiedEmployees = this.fixIncomingEmployeeProps(employees);
-
-    // create map that contains parent <-> children relations
-    const { root, employeeMap } = this.createParentChildRelationFromEmployees(
-      modifiedEmployees
-    );
-
-    // enrich map with information about number of direct and total subordinates
-    this.setNumberOfSubordinates(employeeMap, root, 0);
-
-    // enrich map with information about direct and total attrition
-    this.setAttrition(employeeMap, root, timeRange);
-
-    // set root back to undefined
-    root.parentEmployeeId = undefined;
-
-    // flatten map to array
-    const result = [...employeeMap.values()].reduce(
-      (tmpArray: Employee[], employeeMapAsArray: Employee[]) =>
-        tmpArray.concat(employeeMapAsArray),
-      []
-    );
-
-    return result;
+  public getWorldMap(
+    employeesRequest: EmployeesRequest
+  ): Observable<CountryData[]> {
+    return this.dataService
+      .post<WorldMapResponse>(this.WORLD_MAP, employeesRequest)
+      .pipe(map((response) => response.data));
   }
 
-  public fixIncomingEmployeeProps(employees: Employee[]): Employee[] {
+  public fixIncomingEmployeeProps(
+    employees: OrgChartEmployee[]
+  ): OrgChartEmployee[] {
     return employees.map((employee) => {
       employee.exitDate = employee.exitDate
         ? new Date(employee.exitDate)
@@ -92,97 +72,8 @@ export class EmployeeService {
       employee.entryDate = employee.entryDate
         ? new Date(employee.entryDate)
         : undefined;
-      employee.directLeafChildren = [];
 
       return employee;
     });
-  }
-
-  public createParentChildRelationFromEmployees(
-    employees: Employee[]
-  ): { root: Employee; employeeMap: Map<string, Employee[]> } {
-    const employeeMap: Map<string, Employee[]> = new Map<string, Employee[]>();
-    const rootKey = '-1';
-    let root;
-
-    for (const employee of employees) {
-      let key = employee.parentEmployeeId;
-      employee.totalSubordinates = 0;
-      employee.directSubordinates = 0;
-      employee.directAttrition = 0;
-      employee.totalAttrition = 0;
-
-      if (!employee.parentEmployeeId) {
-        employee.parentEmployeeId = rootKey;
-        key = rootKey;
-        root = employee;
-      }
-      if (employeeMap.get(key) === undefined) {
-        employeeMap.set(key, []);
-      }
-
-      employeeMap.get(key).push(employee);
-    }
-
-    return { root, employeeMap };
-  }
-
-  public setNumberOfSubordinates(
-    employeeMap: Map<string, Employee[]>,
-    parent: Employee,
-    currentLevel: number
-  ): any {
-    parent.level = currentLevel;
-    const children = employeeMap.get(parent.employeeId);
-    parent.directSubordinates = children?.length ?? 0;
-
-    // node does not exist -> leaf node without children
-    if (!children) {
-      return 1;
-    }
-
-    children.forEach((employee, _parent, _map) => {
-      const nrOfChildren = this.setNumberOfSubordinates(
-        employeeMap,
-        employee,
-        currentLevel + 1
-      );
-
-      parent.totalSubordinates += nrOfChildren;
-    });
-
-    return parent.totalSubordinates + 1;
-  }
-
-  public setAttrition(
-    employeeMap: Map<string, Employee[]>,
-    parent: Employee,
-    timeRange: string
-  ): any {
-    const children = employeeMap.get(parent.employeeId);
-    parent.directAttrition =
-      children?.reduce(
-        (attritionCount: number, employee: Employee) =>
-          attritionCount +
-          (EmployeeService.employeeLeftInTimeRange(employee, timeRange)
-            ? 1
-            : 0),
-        0
-      ) ?? 0;
-
-    if (!children) {
-      return EmployeeService.employeeLeftInTimeRange(parent, timeRange) ? 1 : 0;
-    }
-
-    children.forEach((employee, _parent, _map) => {
-      const attrition = this.setAttrition(employeeMap, employee, timeRange);
-
-      parent.totalAttrition += attrition;
-    });
-
-    return (
-      parent.totalAttrition +
-      (EmployeeService.employeeLeftInTimeRange(parent, timeRange) ? 1 : 0)
-    );
   }
 }

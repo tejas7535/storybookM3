@@ -11,6 +11,7 @@ import { OverviewComponent } from './overview.component';
 import * as fromOverview from './store';
 import { OverviewEffects } from './store/effects/overview.effects';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
+import { WorldMapModule } from './world-map/world-map.module';
 
 @NgModule({
   declarations: [OverviewComponent],
@@ -25,6 +26,7 @@ import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
       fromOverview.reducer
     ),
     EffectsModule.forFeature([OverviewEffects]),
+    WorldMapModule,
   ],
 })
 export class OverviewModule {}

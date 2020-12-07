@@ -14,7 +14,7 @@
 
     <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
       <a
-        *ngFor="let tab of tabs; trackBy: trackByFn()"
+        *ngFor="let tab of tabs; trackBy: trackByFn"
         mat-tab-link
         routerLinkActive
         #rla="routerLinkActive"

@@ -1,3 +1,5 @@
+import { HeatType } from '../../overview/models/heat-type.enum';
+
 export class EmployeeAttritionMeta {
   public constructor(
     public title: string,
@@ -8,6 +10,7 @@ export class EmployeeAttritionMeta {
     public unforcedLeavers: number,
     public terminationReceived: number,
     public employeesAdded: number,
-    public openPositions: number
+    public openPositions: number,
+    public heatType: HeatType = HeatType.NONE
   ) {}
 }

@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { TeamMemberDialogModule } from '../team-member-dialog/team-member-dialog.module';
@@ -10,9 +12,10 @@ import { OrgChartComponent } from './org-chart.component';
   declarations: [OrgChartComponent],
   imports: [
     SharedModule,
-    MatProgressSpinnerModule,
     AttritionDialogModule,
+    LoadingSpinnerModule,
     TeamMemberDialogModule,
+    SharedTranslocoModule,
   ],
   exports: [OrgChartComponent],
 })

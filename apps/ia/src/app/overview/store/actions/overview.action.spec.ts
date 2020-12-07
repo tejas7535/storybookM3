@@ -1,10 +1,15 @@
-import { Employee, EmployeesRequest } from '../../../shared/models';
+import { EmployeesRequest } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadWorldMap,
+  loadWorldMapFailure,
+  loadWorldMapSuccess,
 } from './overview.action';
 
 describe('Overview Actions', () => {
@@ -30,7 +35,7 @@ describe('Overview Actions', () => {
   });
 
   test('loadOrgChartSuccess', () => {
-    const employees: Employee[] = [];
+    const employees: OrgChartEmployee[] = [];
 
     const action = loadOrgChartSuccess({ employees });
 
@@ -46,6 +51,36 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load Org Chart Failure',
+    });
+  });
+
+  test('loadWorldMap', () => {
+    const request = ({} as unknown) as EmployeesRequest;
+    const action = loadWorldMap({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load World Map',
+    });
+  });
+
+  test('loadWorldMapSuccess', () => {
+    const data: CountryData[] = [];
+
+    const action = loadWorldMapSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load World Map Success',
+    });
+  });
+
+  test('loadWorldMapFailure', () => {
+    const action = loadWorldMapFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load World Map Failure',
     });
   });
 });

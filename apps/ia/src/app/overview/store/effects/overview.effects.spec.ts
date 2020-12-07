@@ -11,19 +11,20 @@ import {
   timeRangeSelected,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import {
-  Employee,
-  EmployeesRequest,
-  SelectedFilter,
-} from '../../../shared/models';
+import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
   initOverview,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadWorldMap,
+  loadWorldMapFailure,
+  loadWorldMapSuccess,
 } from '../actions/overview.action';
 import { getSelectedChartType } from '../selectors/overview.selector';
 import { OverviewEffects } from './overview.effects';
@@ -63,28 +64,30 @@ describe('Overview Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test('filterSelected - should trigger loadOrgChart if orgUnit is set', () => {
+    test('filterSelected - should trigger loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const filter = new SelectedFilter('orgUnit', 'best');
       const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
-      const result = loadOrgChart({ request });
+      const resultOrg = loadOrgChart({ request });
+      const resultWorld = loadWorldMap({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: result });
+      const expected = cold('-(bc)', { b: resultOrg, c: resultWorld });
 
       expect(effects.filterChange$).toBeObservable(expected);
     });
 
-    test('timeRangeSelected - should trigger loadOrgChart if orgUnit is set', () => {
+    test('timeRangeSelected - should trigger loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const timeRange = '123|456';
       const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
-      const result = loadOrgChart({ request });
+      const resultOrg = loadOrgChart({ request });
+      const resultWorld = loadWorldMap({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: result });
+      const expected = cold('-(bc)', { b: resultOrg, c: resultWorld });
 
       expect(effects.filterChange$).toBeObservable(expected);
     });
@@ -122,8 +125,8 @@ describe('Overview Effects', () => {
 
     test('should return loadOrgChartSuccess action when REST call is successful', () => {
       const employees = [
-        ({ employeeId: '123' } as unknown) as Employee,
-        ({ employeeId: '456' } as unknown) as Employee,
+        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
+        ({ employeeId: '456' } as unknown) as OrgChartEmployee,
       ];
       const result = loadOrgChartSuccess({
         employees,
@@ -136,10 +139,10 @@ describe('Overview Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      employeesService.getEmployees = jest.fn(() => response);
+      employeesService.getOrgChart = jest.fn(() => response);
 
       expect(effects.loadOrgChart$).toBeObservable(expected);
-      expect(employeesService.getEmployees).toHaveBeenCalledWith(request);
+      expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
     });
 
     test('should return loadOrgChartFailure on REST error', () => {
@@ -151,10 +154,56 @@ describe('Overview Effects', () => {
       const response = cold('-#|', undefined, error);
       const expected = cold('--b', { b: result });
 
-      employeesService.getEmployees = jest.fn(() => response);
+      employeesService.getOrgChart = jest.fn(() => response);
 
       expect(effects.loadOrgChart$).toBeObservable(expected);
-      expect(employeesService.getEmployees).toHaveBeenCalledWith(request);
+      expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
+    });
+  });
+
+  describe('loadWorldMap$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = ({} as unknown) as EmployeesRequest;
+      action = loadWorldMap({ request });
+    });
+
+    test('should return loadWorldMapSuccess action when REST call is successful', () => {
+      const data = [
+        ({ name: 'Germany' } as unknown) as CountryData,
+        ({ name: 'Poland' } as unknown) as CountryData,
+      ];
+      const result = loadWorldMapSuccess({
+        data,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: data,
+      });
+      const expected = cold('--b', { b: result });
+
+      employeesService.getWorldMap = jest.fn(() => response);
+
+      expect(effects.loadWorldMap$).toBeObservable(expected);
+      expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+    });
+
+    test('should return loadWorldMapFailure on REST error', () => {
+      const result = loadWorldMapFailure({
+        errorMessage: error.message,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      employeesService.getWorldMap = jest.fn(() => response);
+
+      expect(effects.loadWorldMap$).toBeObservable(expected);
+      expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
     });
   });
 
