@@ -19,15 +19,20 @@ import {
   timeRangeSelected,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { Employee, EmployeesRequest } from '../../../shared/models';
+import { EmployeesRequest } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
   initOverview,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadWorldMap,
+  loadWorldMapFailure,
+  loadWorldMapSuccess,
 } from '../actions/overview.action';
 import { getSelectedChartType } from '../selectors/overview.selector';
 
@@ -39,7 +44,10 @@ export class OverviewEffects implements OnInitEffects {
       withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
-      map((request: EmployeesRequest) => loadOrgChart({ request }))
+      mergeMap((request: EmployeesRequest) => [
+        loadOrgChart({ request }),
+        loadWorldMap({ request }),
+      ])
     )
   );
 
@@ -47,16 +55,34 @@ export class OverviewEffects implements OnInitEffects {
     this.actions$.pipe(
       ofType(loadOrgChart),
       map((action) => {
+        // TODO: remove this part when area filters are completely removed
         // remove region/subregion/country/hrlocation if available
         const { orgUnit, timeRange } = action.request;
 
         return ({ orgUnit, timeRange } as unknown) as EmployeesRequest;
       }),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getEmployees(request).pipe(
-          map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
+        this.employeeService.getOrgChart(request).pipe(
+          map((employees: OrgChartEmployee[]) =>
+            loadOrgChartSuccess({ employees })
+          ),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  loadWorldMap$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadWorldMap),
+      map((action) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getWorldMap(request).pipe(
+          map((data: CountryData[]) => loadWorldMapSuccess({ data })),
+          catchError((error) =>
+            of(loadWorldMapFailure({ errorMessage: error.message }))
           )
         )
       )

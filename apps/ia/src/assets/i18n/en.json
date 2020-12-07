@@ -46,7 +46,14 @@
       "columnOverall": "Overall",
       "rowEmployees": "Employees",
       "rowAttrition": "Attrition"
-    }
+    },
+    "noData": "No Data Available."
+  },
+  "worldMap": {
+    "europe": "Europe",
+    "asia": "Asia",
+    "americas": "Americas",
+    "continentNotFound": "No data for {{value}} found. Please update filters."
   },
   "overviewChartToggleButtons": {
     "orgChart": "Organizational chart",

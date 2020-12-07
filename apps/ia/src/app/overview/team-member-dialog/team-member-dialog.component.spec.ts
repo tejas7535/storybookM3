@@ -43,4 +43,12 @@ describe('TeamMemberDialogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('trackByFn', () => {
+    it('should return index', () => {
+      const result = component.trackByFn(3);
+
+      expect(result).toEqual(3);
+    });
+  });
 });

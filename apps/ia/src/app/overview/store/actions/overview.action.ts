@@ -1,7 +1,9 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { Employee, EmployeesRequest } from '../../../shared/models';
+import { EmployeesRequest } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
+import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../world-map/models/country-data.model';
 
 export const initOverview = createAction('[Overview] Init');
 
@@ -17,11 +19,26 @@ export const loadOrgChart = createAction(
 
 export const loadOrgChartSuccess = createAction(
   '[Overview] Load Org Chart Success',
-  props<{ employees: Employee[] }>()
+  props<{ employees: OrgChartEmployee[] }>()
 );
 
 export const loadOrgChartFailure = createAction(
   '[Overview] Load Org Chart Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadWorldMap = createAction(
+  '[Overview] Load World Map',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadWorldMapSuccess = createAction(
+  '[Overview] Load World Map Success',
+  props<{ data: CountryData[] }>()
+);
+
+export const loadWorldMapFailure = createAction(
+  '[Overview] Load World Map Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -31,6 +48,9 @@ const all = union({
   loadOrgChart,
   loadOrgChartSuccess,
   loadOrgChartFailure,
+  loadWorldMap,
+  loadWorldMapSuccess,
+  loadWorldMapFailure,
 });
 
 export type OverviewActions = typeof all;

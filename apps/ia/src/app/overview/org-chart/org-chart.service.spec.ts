@@ -1,6 +1,7 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
-import { Employee } from '../../shared/models';
+import { HeatType } from '../models/heat-type.enum';
+import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartService } from './org-chart.service';
 
 describe('OrgChartService', () => {
@@ -20,12 +21,12 @@ describe('OrgChartService', () => {
 
   describe('mapEmployeesToNodes', () => {
     test('should mapped employee data', () => {
-      const data: Employee[] = [
+      const data: OrgChartEmployee[] = [
         ({
           employeeId: '123',
           employeeName: 'Hans',
           attritionMeta: {},
-        } as unknown) as Employee,
+        } as unknown) as OrgChartEmployee,
       ];
 
       const result = service.mapEmployeesToNodes(data);
@@ -35,7 +36,7 @@ describe('OrgChartService', () => {
     });
 
     test('should include heat map info', () => {
-      const data: Employee[] = [
+      const data: OrgChartEmployee[] = [
         ({
           employeeId: '123',
           parentEmployeeId: undefined,
@@ -43,31 +44,34 @@ describe('OrgChartService', () => {
           attritionMeta: {
             attritionRate: 0.1,
           },
-        } as unknown) as Employee,
+        } as unknown) as OrgChartEmployee,
         ({
           employeeId: '456',
           parentEmployeeId: '123',
           employeeName: 'Hans2',
           attritionMeta: {
             attritionRate: 0.09,
+            heatType: HeatType.GREEN_HEAT,
           },
-        } as unknown) as Employee,
+        } as unknown) as OrgChartEmployee,
         ({
           employeeId: '789',
           parentEmployeeId: '123',
           employeeName: 'Hans3',
           attritionMeta: {
             attritionRate: 0.12,
+            heatType: HeatType.ORANGE_HEAT,
           },
-        } as unknown) as Employee,
+        } as unknown) as OrgChartEmployee,
         ({
           employeeId: '999',
           parentEmployeeId: '123',
           employeeName: 'Hans4',
           attritionMeta: {
             attritionRate: 0.5,
+            heatType: HeatType.RED_HEAT,
           },
-        } as unknown) as Employee,
+        } as unknown) as OrgChartEmployee,
       ];
 
       const result = service.mapEmployeesToNodes(data, true);

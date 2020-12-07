@@ -4,10 +4,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
-import { Employee, EmployeeAttritionMeta } from '../../shared/models';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
+import { EmployeeAttritionMeta } from '../../shared/models';
 import { AttritionDialogComponent } from '..//attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { TeamMemberDialogModule } from '../team-member-dialog/team-member-dialog.module';
+import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartComponent } from './org-chart.component';
 
 describe('OrgChartComponent', () => {
@@ -21,6 +25,8 @@ describe('OrgChartComponent', () => {
       MatProgressSpinnerModule,
       AttritionDialogModule,
       TeamMemberDialogModule,
+      provideTranslocoTestingModule({}),
+      LoadingSpinnerModule,
     ],
     providers: [provideMockStore({})],
     declarations: [OrgChartComponent],
@@ -39,7 +45,9 @@ describe('OrgChartComponent', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
       component['orgChartService'].mapEmployeesToNodes = jest.fn();
-      const employees = [({ employeeId: '123' } as unknown) as Employee];
+      const employees = [
+        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
+      ];
 
       component.data = employees;
 
@@ -68,7 +76,10 @@ describe('OrgChartComponent', () => {
       const mock = ({} as unknown) as EmployeeAttritionMeta;
       component['dialog'].open = jest.fn();
       component.data = [
-        ({ employeeId: '123', attritionMeta: mock } as unknown) as Employee,
+        ({
+          employeeId: '123',
+          attritionMeta: mock,
+        } as unknown) as OrgChartEmployee,
       ];
 
       component.clickout({

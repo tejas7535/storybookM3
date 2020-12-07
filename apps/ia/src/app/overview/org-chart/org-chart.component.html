@@ -1,20 +1,13 @@
-<div #chartContainer id="chartContainer">
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center center"
-    class="no-data"
-    *ngIf="!chartData.length || isLoading"
-  >
-    <span *ngIf="!isLoading">No Data Available.</span>
-    <span *ngIf="isLoading">
-      <mat-progress-spinner
-        color="primary"
-        mode="indeterminate"
-        diameter="40"
-        value="50"
-        class="progress-spinner"
-      >
-      </mat-progress-spinner>
-    </span>
+<div #chartContainer id="chartContainer" *transloco="let t; read: 'orgChart'">
+  <div *ngIf="!chartData.length || isLoading">
+    <ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
+    <div
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      *ngIf="!isLoading"
+      class="no-data"
+    >
+      <span>{{ t('noData') }}</span>
+    </div>
   </div>
 </div>

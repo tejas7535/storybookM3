@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
-import { Employee } from '../../shared/models';
+import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 
 @Component({
   selector: 'ia-team-member-dialog',
@@ -9,7 +9,7 @@ import { Employee } from '../../shared/models';
   styleUrls: ['./team-member-dialog.component.scss'],
 })
 export class TeamMemberDialogComponent {
-  constructor(@Inject(MAT_DIALOG_DATA) public data: Employee) {}
+  constructor(@Inject(MAT_DIALOG_DATA) public data: OrgChartEmployee) {}
 
   public trackByFn(index: number): number {
     return index;

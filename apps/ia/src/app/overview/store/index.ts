@@ -1,19 +1,27 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { Employee } from '../../shared/models';
+import { IdValue } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
+import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadWorldMap,
+  loadWorldMapFailure,
+  loadWorldMapSuccess,
 } from './actions/overview.action';
 
 export const overviewFeatureKey = 'overview';
 
 export interface OverviewState {
-  orgChart: Employee[];
-  worldMap: Employee[];
+  orgChart: OrgChartEmployee[];
+  worldMap: {
+    data: CountryData[];
+    continents: IdValue[];
+  };
   loading: boolean;
   errorMessage: string;
   selectedChart: ChartType;
@@ -21,7 +29,24 @@ export interface OverviewState {
 
 export const initialState: OverviewState = {
   orgChart: [],
-  worldMap: [],
+  worldMap: {
+    data: [],
+    // Hardcoded for PoC
+    continents: [
+      {
+        id: 'europe',
+        value: 'Europe',
+      },
+      {
+        id: 'asia',
+        value: 'Asia Pacific',
+      },
+      {
+        id: 'americas',
+        value: 'Americas',
+      },
+    ],
+  },
   loading: false,
   errorMessage: undefined,
   selectedChart: ChartType.ORG_CHART,
@@ -39,13 +64,34 @@ export const overviewReducer = createReducer(
   })),
   on(loadOrgChartSuccess, (state: OverviewState, { employees }) => ({
     ...state,
-    loading: false,
     orgChart: employees,
+    loading: false,
   })),
   on(loadOrgChartFailure, (state: OverviewState, { errorMessage }) => ({
     ...state,
     errorMessage,
     orgChart: [],
+    loading: false,
+  })),
+  on(loadWorldMap, (state: OverviewState) => ({
+    ...state,
+    loading: true,
+  })),
+  on(loadWorldMapSuccess, (state: OverviewState, { data }) => ({
+    ...state,
+    worldMap: {
+      ...state.worldMap,
+      data,
+    },
+    loading: false,
+  })),
+  on(loadWorldMapFailure, (state: OverviewState, { errorMessage }) => ({
+    ...state,
+    errorMessage,
+    worldMap: {
+      ...state.worldMap,
+      data: [],
+    },
     loading: false,
   }))
 );

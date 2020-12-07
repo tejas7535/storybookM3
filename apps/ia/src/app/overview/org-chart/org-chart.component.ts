@@ -11,9 +11,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import d3OrgChart from 'd3-org-chart';
 
-import { Employee } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { TeamMemberDialogComponent } from '../team-member-dialog/team-member-dialog.component';
+import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartService } from './org-chart.service';
 
 @Component({
@@ -24,9 +24,9 @@ import { OrgChartService } from './org-chart.service';
 })
 export class OrgChartComponent implements AfterViewInit {
   private _showHeatMap = false;
-  private _data: Employee[] = [];
+  private _data: OrgChartEmployee[] = [];
 
-  @Input() set data(data: Employee[]) {
+  @Input() set data(data: OrgChartEmployee[]) {
     this._data = data;
     this.chartData = this.orgChartService.mapEmployeesToNodes(
       data,
@@ -50,7 +50,7 @@ export class OrgChartComponent implements AfterViewInit {
     return this._showHeatMap;
   }
 
-  get data(): Employee[] {
+  get data(): OrgChartEmployee[] {
     return this._data;
   }
 

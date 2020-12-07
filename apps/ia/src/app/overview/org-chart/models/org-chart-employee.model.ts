@@ -1,11 +1,12 @@
-import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
+import { EmployeeAttritionMeta } from '../../../shared/models';
 
-export class Employee {
+export class OrgChartEmployee {
   public constructor(
     public employeeId: string,
     public employeeName: string,
     public subRegion: string,
     public hrLocation: string,
+    public country: string,
     public orgUnit: string,
     public businessUnit: string,
     public division: string,
@@ -27,12 +28,12 @@ export class Employee {
     public terminationDate: Date,
     public reasonForLeaving: string,
     public regrettedLoss: string,
-    public level: number, // only in frontend to hierarchically order employees
-    public directSubordinates: number, // enriched in frontend
-    public totalSubordinates: number, // enriched in frontend
-    public directAttrition: number, // enriched in frontend
-    public totalAttrition: number, // enriched in frontend
-    public attritionMeta: EmployeeAttritionMeta, // enriched in frontend
-    public directLeafChildren: Employee[] // enriched in frontend
+    public level: number,
+    public directSubordinates: number,
+    public totalSubordinates: number,
+    public directAttrition: number,
+    public totalAttrition: number,
+    public attritionMeta: EmployeeAttritionMeta,
+    public directLeafChildren: OrgChartEmployee[]
   ) {}
 }

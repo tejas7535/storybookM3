@@ -7,6 +7,7 @@ import { OrgChartModule } from './org-chart/org-chart.module';
 import { OverviewComponent } from './overview.component';
 import { chartTypeSelected } from './store/actions/overview.action';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
+import { WorldMapModule } from './world-map/world-map.module';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
@@ -15,7 +16,12 @@ describe('OverviewComponent', () => {
   const createComponent = createComponentFactory({
     component: OverviewComponent,
     detectChanges: false,
-    imports: [OrgChartModule, ReactiveComponentModule, ToggleChartsModule],
+    imports: [
+      OrgChartModule,
+      ReactiveComponentModule,
+      ToggleChartsModule,
+      WorldMapModule,
+    ],
     providers: [provideMockStore({})],
     declarations: [OverviewComponent],
   });
@@ -35,7 +41,7 @@ describe('OverviewComponent', () => {
       component.ngOnInit();
 
       expect(component.orgChart$).toBeDefined();
-      expect(component.isOrgChartLoading$).toBeDefined();
+      expect(component.isLoading$).toBeDefined();
     });
   });
 

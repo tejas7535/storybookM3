@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
-import { Employee } from '../../shared/models';
+import { HeatType } from '../models/heat-type.enum';
+import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
@@ -10,13 +11,10 @@ import { OrgChartNode } from './models/org-chart-node.model';
 })
 export class OrgChartService {
   public mapEmployeesToNodes(
-    data: Employee[],
+    data: OrgChartEmployee[],
     showHeatMap: boolean = false
   ): OrgChartNode[] {
-    const averageAttritionRate = data.find((elem) => !elem.parentEmployeeId)
-      ?.attritionMeta.attritionRate;
-
-    return data.map((elem: Employee) => {
+    return data.map((elem: OrgChartEmployee) => {
       const nodeId = elem.employeeId;
       const parentNodeId = elem.parentEmployeeId;
       const name = elem.employeeName;
@@ -33,24 +31,12 @@ export class OrgChartService {
 
       let heatMapClass = '';
       if (showHeatMap) {
-        const attritionRateComparedToAvg =
-          Math.round(
-            ((elem.attritionMeta.attritionRate / averageAttritionRate) * 100 +
-              Number.EPSILON) *
-              100
-          ) / 100;
-
-        // cf. https://confluence.schaeffler.com/pages/viewpage.action?spaceKey=IA&title=Heat+Map+for+highlighting+need+for+action
         heatMapClass =
-          elem.parentEmployeeId === undefined
-            ? ''
-            : attritionRateComparedToAvg < 100
+          elem.attritionMeta?.heatType === HeatType.GREEN_HEAT
             ? 'green-heat'
-            : (attritionRateComparedToAvg >= 100 &&
-                attritionRateComparedToAvg <= 150) ||
-              (attritionRateComparedToAvg > 150 && elem.totalSubordinates <= 2)
+            : elem.attritionMeta?.heatType === HeatType.ORANGE_HEAT
             ? 'orange-heat'
-            : attritionRateComparedToAvg > 150
+            : elem.attritionMeta?.heatType === HeatType.RED_HEAT
             ? 'red-heat'
             : '';
       }
