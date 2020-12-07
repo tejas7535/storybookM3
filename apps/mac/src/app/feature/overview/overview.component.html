@@ -1,0 +1,52 @@
+<div class="page-container">
+  <h1>Overview</h1>
+  <p class="description">
+    This is MAC - the Material App Center - developed by
+    <a
+      href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform/ai-solutions"
+      >Custom Apps & AI</a
+    >
+    resp.
+    <a
+      href="https://sconnect.schaeffler.com/community/global-technology/strategic-information-technology/digital-platform"
+      >Software Engineering Solutions</a
+    >. MAC offers Services that assist you in working. Below you can find an
+    overview of our current offering and services in the pipeline (grayed out).
+    If want to know more about MAC please get in touch with
+    <a href="mailto:timm.eichstaedt@schaeffler.com">Timm Eichstädt</a>.
+  </p>
+  <div fxLayout="row wrap" fxLayoutGap="15px grid">
+    <ng-container *ngFor="let elem of elements; trackBy: trackByFn">
+      <div
+        fxFlex="calc(25% - 15px)"
+        fxFlex.lt-md="calc(33% - 15px)"
+        fxFlex.lt-sm="calc(50% - 15px)"
+      >
+        <div
+          *ngIf="!elem.externalLink"
+          class="elevation elem"
+          [ngClass]="{ active: elem.url, inactive: !elem.url }"
+          [routerLink]="elem.url ? elem.url : undefined"
+        >
+          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
+            <div [class]="elem.className" class="card-icon"></div>
+            <h2 class="service-name">{{ elem.title }}</h2>
+          </mat-card>
+        </div>
+
+        <a
+          *ngIf="elem.externalLink"
+          class="elevation elem no-outline"
+          [ngClass]="{ active: elem.url, inactive: !elem.url }"
+          [href]="elem.url"
+          target="_blank"
+        >
+          <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
+            <div [class]="elem.className" class="card-icon"></div>
+            <h2 class="service-name">{{ elem.title }}</h2>
+          </mat-card>
+        </a>
+      </div>
+    </ng-container>
+  </div>
+</div>

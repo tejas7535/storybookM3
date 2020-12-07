@@ -1,0 +1,97 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+.description {
+  a {
+    text-decoration: none;
+  }
+}
+
+.no-outline {
+  text-decoration: none;
+}
+
+.elem {
+  background: $schaeffler-gray-0;
+  color: $schaeffler-carbon-gray;
+  height: 100%;
+  outline: none;
+
+  .card-icon {
+    height: 120px;
+    width: 120px;
+  }
+
+  .ltp-icon {
+    background: url('../../../assets/img/ltp.png') no-repeat center;
+    background-size: contain;
+  }
+
+  .ltd-icon {
+    background: url('../../../assets/img/ltd.png') no-repeat center;
+    background-size: contain;
+  }
+
+  .ltv-icon {
+    background: url('../../../assets/img/ltv.png') no-repeat center;
+    background-size: contain;
+  }
+
+  .polyassist-icon {
+    background: url('../../../assets/img/polyassist.png') no-repeat center;
+    background-size: contain;
+  }
+
+  h2 {
+    color: $schaeffler-carbon-gray;
+  }
+
+  @media screen and (max-width: $screen-xs-max) {
+    .card-icon {
+      height: 50px;
+      width: 50px;
+    }
+
+    .ltp-icon {
+      background: url('../../../assets/img/ltp.png') no-repeat center;
+      background-size: contain;
+    }
+
+    .ltd-icon {
+      background: url('../../../assets/img/ltd.png') no-repeat center;
+      background-size: contain;
+    }
+
+    .ltv-icon {
+      background: url('../../../assets/img/ltv.png') no-repeat center;
+      background-size: contain;
+    }
+
+    .polyassist-icon {
+      background: url('../../../assets/img/polyassist.png') no-repeat center;
+      background-size: contain;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+
+  &.inactive {
+    mat-icon,
+    h2 {
+      opacity: 0.4;
+    }
+  }
+}
+
+.elem:before {
+  content: '';
+  display: block;
+  float: left;
+  padding-top: 100%;
+}
+
+.service-name {
+  text-align: center;
+}

@@ -3,6 +3,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -18,6 +20,7 @@ import { StoreModule } from './store/store.module';
     // NgRx Setup
     StoreModule,
     RouterModule,
+    ReactiveComponentModule,
 
     // UI Modules
     HeaderModule,
