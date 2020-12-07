@@ -99,10 +99,14 @@
         "productHierarchy": "Prod. Hierarchy"
       },
       "productionCostDetails": {
-        "label": "Production and Cost"
+        "label": "Production and Cost",
+        "dummy": "This data will be available by the next update expected in January",
+        "available_data": "Including: Production plant, segment, costs and contexts"
       },
       "scmDetails": {
-        "label": "Supply Chain Data"
+        "label": "Supply Chain Data",
+        "dummy": "This data will be available by the next update expected in January",
+        "available_data": "Including: Replenishment lead time and context"
       }
     }
   },
