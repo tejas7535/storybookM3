@@ -13,7 +13,6 @@ import {
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
-  showAreaFilters,
 } from './filter.selector';
 
 describe('Filter Selector', () => {
@@ -130,12 +129,6 @@ describe('Filter Selector', () => {
         test: 1234,
         timeRange: '1577863715000|1609399715000',
       });
-    });
-  });
-
-  describe('showAreaFilters', () => {
-    test('should return true', () => {
-      expect(showAreaFilters(fakeState)).toBeTruthy();
     });
   });
 });

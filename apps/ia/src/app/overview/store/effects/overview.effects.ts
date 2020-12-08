@@ -9,24 +9,17 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { select, Store } from '@ngrx/store';
 
 import { OverviewState } from '..';
-import {
-  changeShowAreaFiltersSetting,
-  filterSelected,
-  timeRangeSelected,
-} from '../../../core/store/actions';
+import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
-  chartTypeSelected,
-  initOverview,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -34,10 +27,9 @@ import {
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/overview.action';
-import { getSelectedChartType } from '../selectors/overview.selector';
 
 @Injectable()
-export class OverviewEffects implements OnInitEffects {
+export class OverviewEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected),
@@ -54,13 +46,7 @@ export class OverviewEffects implements OnInitEffects {
   loadOrgChart$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadOrgChart),
-      map((action) => {
-        // TODO: remove this part when area filters are completely removed
-        // remove region/subregion/country/hrlocation if available
-        const { orgUnit, timeRange } = action.request;
-
-        return ({ orgUnit, timeRange } as unknown) as EmployeesRequest;
-      }),
+      map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
         this.employeeService.getOrgChart(request).pipe(
           map((employees: OrgChartEmployee[]) =>
@@ -89,40 +75,9 @@ export class OverviewEffects implements OnInitEffects {
     )
   );
 
-  changeChartType$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(chartTypeSelected),
-      map((action) => action.chartType),
-      map((chartType: ChartType) =>
-        OverviewEffects.handleShowAreaFilter(chartType)
-      )
-    )
-  );
-
-  init$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(initOverview),
-      withLatestFrom(this.store.pipe(select(getSelectedChartType))),
-      map(([_action, chartType]) => chartType),
-      map((chartType: ChartType) =>
-        OverviewEffects.handleShowAreaFilter(chartType)
-      )
-    )
-  );
-
   constructor(
     private readonly actions$: Actions,
     private readonly employeeService: EmployeeService,
     private readonly store: Store<OverviewState>
   ) {}
-
-  public static handleShowAreaFilter(chartType: ChartType): Action {
-    const show = chartType === ChartType.WORLD_MAP;
-
-    return changeShowAreaFiltersSetting({ show });
-  }
-
-  ngrxOnInitEffects(): Action {
-    return initOverview();
-  }
 }

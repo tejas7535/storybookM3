@@ -2,7 +2,6 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { IdValue, TimePeriod } from '../../../../shared/models';
 import {
-  changeShowAreaFiltersSetting,
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -24,7 +23,6 @@ export interface FilterState {
   selectedFilters: SelectedFilterState; // currently selected filters
   selectedTimePeriod: TimePeriod;
   selectedTimeRange: string;
-  showAreaFilters: boolean;
 }
 
 export const initialState: FilterState = {
@@ -55,7 +53,6 @@ export const initialState: FilterState = {
   selectedFilters: filterAdapter.getInitialState(),
   selectedTimePeriod: TimePeriod.YEAR,
   selectedTimeRange: undefined,
-  showAreaFilters: true,
 };
 
 export const filterReducer = createReducer(
@@ -87,10 +84,6 @@ export const filterReducer = createReducer(
   on(timePeriodSelected, (state: FilterState, { timePeriod }) => ({
     ...state,
     selectedTimePeriod: timePeriod,
-  })),
-  on(changeShowAreaFiltersSetting, (state: FilterState, { show }) => ({
-    ...state,
-    showAreaFilters: show,
   }))
 );
 

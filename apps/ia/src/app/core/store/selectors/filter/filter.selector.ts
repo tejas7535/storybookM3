@@ -99,8 +99,3 @@ export const getCurrentFiltersAndTime = createSelector(
       } as unknown) as EmployeesRequest
     )
 );
-
-export const showAreaFilters = createSelector(
-  selectFilterState,
-  (state: FilterState) => state.showAreaFilters
-);
