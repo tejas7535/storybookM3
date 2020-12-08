@@ -33,11 +33,6 @@ export const timeRangeSelected = createAction(
   props<{ timeRange: string }>()
 );
 
-export const changeShowAreaFiltersSetting = createAction(
-  '[Filter] Show area filters setting changed',
-  props<{ show: boolean }>()
-);
-
 const all = union({
   loadInitialFilters,
   loadInitialFiltersSuccess,
@@ -45,7 +40,6 @@ const all = union({
   filterSelected,
   timePeriodSelected,
   timeRangeSelected,
-  changeShowAreaFiltersSetting,
 });
 
 export type SearchActions = typeof all;

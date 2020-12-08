@@ -2,7 +2,6 @@ import { Action } from '@ngrx/store';
 
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
-  changeShowAreaFiltersSetting,
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -122,17 +121,6 @@ describe('Filter Reducer', () => {
       const state = filterReducer(initialState, action);
 
       expect(state.selectedTimeRange).toEqual(timeRange);
-    });
-  });
-
-  describe('changeShowAreaFiltersSetting', () => {
-    test('should change show area setting', () => {
-      const show = false;
-      const action = changeShowAreaFiltersSetting({ show });
-
-      const state = filterReducer(initialState, action);
-
-      expect(state.showAreaFilters).toBeFalsy();
     });
   });
 

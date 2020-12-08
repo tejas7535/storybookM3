@@ -1,24 +1,16 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import {
-  changeShowAreaFiltersSetting,
-  filterSelected,
-  timeRangeSelected,
-} from '../../../core/store/actions';
+import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
-  chartTypeSelected,
-  initOverview,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -26,7 +18,6 @@ import {
   loadWorldMapFailure,
   loadWorldMapSuccess,
 } from '../actions/overview.action';
-import { getSelectedChartType } from '../selectors/overview.selector';
 import { OverviewEffects } from './overview.effects';
 
 describe('Overview Effects', () => {
@@ -204,41 +195,6 @@ describe('Overview Effects', () => {
 
       expect(effects.loadWorldMap$).toBeObservable(expected);
       expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
-    });
-  });
-
-  describe('changeChartType$', () => {
-    test('should return changeShowAreaFiltersSetting', () => {
-      action = chartTypeSelected({ chartType: ChartType.HEAT_MAP });
-
-      actions$ = hot('-a', { a: action });
-
-      const result = changeShowAreaFiltersSetting({ show: false });
-      const expected = cold('-b', { b: result });
-
-      expect(effects.changeChartType$).toBeObservable(expected);
-    });
-  });
-
-  describe('init$', () => {
-    test('should return changeShowAreaFiltersSetting', () => {
-      store.overrideSelector(getSelectedChartType, ChartType.WORLD_MAP);
-      action = initOverview();
-
-      actions$ = hot('-a', { a: action });
-
-      const result = changeShowAreaFiltersSetting({ show: true });
-      const expected = cold('-b', { b: result });
-
-      expect(effects.init$).toBeObservable(expected);
-    });
-  });
-
-  describe('ngrxOnInitEffects', () => {
-    test('should return initOverview', () => {
-      const act: Action = effects.ngrxOnInitEffects();
-
-      expect(act).toEqual(initOverview());
     });
   });
 });

@@ -1,5 +1,4 @@
 import {
-  changeShowAreaFiltersSetting,
   filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
@@ -78,15 +77,6 @@ describe('Filter Actions', () => {
       expect(action).toEqual({
         timeRange,
         type: '[Filter] Time range selected',
-      });
-    });
-    test('changeShowAreaFiltersSetting', () => {
-      const show = false;
-      const action = changeShowAreaFiltersSetting({ show });
-
-      expect(action).toEqual({
-        show,
-        type: '[Filter] Show area filters setting changed',
       });
     });
   });
