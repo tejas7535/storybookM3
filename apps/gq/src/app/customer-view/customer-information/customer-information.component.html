@@ -9,7 +9,8 @@
         <span>{{ t('customer') }}: </span>{{ customer.name }}
       </div>
       <div>
-        <span>{{ t('customerSegmentation') }}: </span>
+        <span>{{ t('customerSegmentation') }}: </span
+        >{{ customer.customerSegmentation }}
       </div>
       <div class="break"></div>
     </div>
@@ -45,10 +46,12 @@
       </div>
       <div>
         <span>{{ t('sectorManagement') }}: </span
-        >{{ customer.sectorManagement }}
+        >{{ customer.sectorManagement.id }} |
+        {{ customer.sectorManagement.name }}
       </div>
       <div>
-        <span>{{ t('subSector') }}: </span>{{ customer.subSector }}
+        <span>{{ t('subSector') }}: </span>{{ customer.subSector.id }} |
+        {{ customer.subSector.name }}
       </div>
     </div>
   </div>

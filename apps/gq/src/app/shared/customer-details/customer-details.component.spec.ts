@@ -45,12 +45,12 @@ describe('CustomerDetailsComponent', () => {
       expect(responseArray).toEqual([
         ['name', 'mock customer'],
         ['id', '123'],
-        ['keyAccount', ''],
-        ['subKeyAccount', ''],
+        ['keyAccount', 'keyAccountName'],
+        ['subKeyAccount', 'subKeyAccountName'],
         ['subRegion', 'subRegion'],
         ['country', 'mock country'],
-        ['sectorManagement', 'sectorManagement'],
-        ['subSector', 'subSector'],
+        ['sectorManagement', 'sectorManagementId'],
+        ['subSector', 'subSectorId'],
       ]);
     });
     test('should return empty array if no customer', () => {

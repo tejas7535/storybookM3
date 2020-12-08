@@ -1,5 +1,7 @@
 import { KeyAccount } from './key-account.model';
+import { SectorManagement } from './sector-management.model';
 import { SubKeyAccount } from './sub-key-account.model';
+import { SubSector } from './sub-sector.model';
 
 export class Customer {
   public country: string;
@@ -9,8 +11,8 @@ export class Customer {
   public name: string;
   public paymentTerms: string;
   public region: string;
-  public sectorManagement: string;
+  public sectorManagement: SectorManagement;
   public subKeyAccount: SubKeyAccount;
   public subRegion: string;
-  public subSector: string;
+  public subSector: SubSector;
 }

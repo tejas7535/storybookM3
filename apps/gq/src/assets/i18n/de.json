@@ -66,14 +66,14 @@
   "customerView": {
     "country": "Land",
     "customer": "Kunde",
-    "customerId": "Kunden ID",
+    "customerId": "Kundennummer",
     "customerSegmentation": "Kunden Segmentierung (A,B,C)",
     "incoterms": "Incoterms",
     "keyAccount": "Keyaccount",
     "paymentTerms": "Payment Terms",
     "region": "Region",
-    "subKeyAccount": "SubKeyAccount",
     "sectorManagement": "Sector Management",
+    "subKeyAccount": "SubKeyAccount",
     "subRegion": "Sub-Region",
     "subSector": "Subsector",
     "title": "Kunde"

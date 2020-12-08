@@ -27,8 +27,8 @@ export class CustomerDetailsComponent {
         subKeyAccount: customer.subKeyAccount.name,
         subRegion: customer.subRegion,
         country: customer.country,
-        sectorManagement: customer.sectorManagement,
-        subSector: customer.subSector,
+        sectorManagement: customer.sectorManagement.id,
+        subSector: customer.subSector.id,
       };
 
       return Object.entries(flatCustomer);
