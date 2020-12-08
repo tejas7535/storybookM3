@@ -19,6 +19,8 @@ export * from './quotation-detail.model';
 export * from './quotation-identifier.model';
 export * from './quotation-info.enum';
 export * from './quotation.model';
+export * from './sector-management.model';
 export * from './sub-key-account.model';
+export * from './sub-sector.model';
 export * from './validation-description.enum';
 export * from './view-quotation.model';
