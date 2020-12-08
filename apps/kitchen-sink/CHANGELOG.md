@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.1.1](///compare/kitchen-sink-v2.1.1...kitchen-sink-v2.1.0) (2020-12-08)
+
 ## [2.1.0](///compare/kitchen-sink-v2.1.0...kitchen-sink-v2.0.0) (2020-12-03)
 
 
