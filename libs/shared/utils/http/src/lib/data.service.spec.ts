@@ -108,7 +108,7 @@ describe('Data Service', () => {
 
   describe('delete', () => {
     test('should call DELETE for given path and data', () => {
-      const serviceName = 'put-item';
+      const serviceName = 'delete-item';
       const mock = 'mockData';
       const params = new HttpParams().set('test', '123');
 
@@ -123,7 +123,6 @@ describe('Data Service', () => {
       expect(req.request.params).toEqual(params);
       req.flush(mock);
     });
-
     test('should call DELETE for given path - without http params', () => {
       const serviceName = 'put-item';
       const mock = 'mockData';

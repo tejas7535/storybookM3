@@ -1,0 +1,29 @@
+<div
+  *transloco="let t; read: 'caseView.deleteAccept'"
+  fxLayout="column"
+  fxLayoutAlign="start start"
+  class="container"
+>
+  <div fxFlex="100%">
+    <p>{{ t('text') }}</p>
+    <ul>
+      <li *ngFor="let quotation of data.selectedInfo; trackBy: trackByFn()">
+        {{ quotation.gqId }} | {{ quotation.customer }}
+      </li>
+    </ul>
+  </div>
+
+  <div fxFill fxLayoutAlign="end" class="actions">
+    <button
+      class="deleteButton"
+      mat-stroked-button
+      color="primary"
+      [mat-dialog-close]="true"
+    >
+      {{ t('deleteButton') | uppercase }}
+    </button>
+    <button mat-stroked-button color="primary" (click)="onCancelClick()">
+      {{ t('cancelButton') | uppercase }}
+    </button>
+  </div>
+</div>

@@ -25,5 +25,20 @@ describe('Create Detail Selector', () => {
         materialDescription: DetailCaseMock.materialDesignation,
       });
     });
+    test('should return Material Number and undefined description', () => {
+      const mockState = {
+        ...fakeState,
+        detailCase: {
+          ...fakeState.detailCase,
+          materialDetails: undefined as any,
+        },
+      };
+      expect(
+        detailSelectors.getMaterialNumberandDescription.projector(mockState)
+      ).toEqual({
+        materialNumber15: fakeState.detailCase.materialNumber15,
+        materialDescription: undefined,
+      });
+    });
   });
 });

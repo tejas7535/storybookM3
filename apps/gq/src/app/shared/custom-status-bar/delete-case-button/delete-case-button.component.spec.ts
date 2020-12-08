@@ -1,7 +1,11 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
+
+import { of } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -14,7 +18,12 @@ describe('DeleteCaseButtonComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DeleteCaseButtonComponent,
-    imports: [MatButtonModule, provideTranslocoTestingModule({})],
+    imports: [
+      MatButtonModule,
+      provideTranslocoTestingModule({}),
+      MatDialogModule,
+    ],
+    providers: [provideMockStore({})],
     declarations: [DeleteCaseButtonComponent],
   });
 
@@ -27,6 +36,12 @@ describe('DeleteCaseButtonComponent', () => {
         getSelectedRows: jest.fn(),
       },
     } as unknown) as IStatusPanelParams;
+    const dialogRef = {
+      afterClosed: jest.fn(() => of(true)),
+    };
+    component.dialog = {
+      open: jest.fn(() => dialogRef),
+    } as any;
   });
 
   test('should create', () => {
@@ -47,6 +62,14 @@ describe('DeleteCaseButtonComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
+    });
+  });
+  describe('deleteCase', () => {
+    test('should open dialog', () => {
+      component.selections = [{ customer: { name: '1' }, gqId: '123' }];
+      component.deleteCase();
+
+      expect(component.dialog.open).toHaveBeenCalledTimes(1);
     });
   });
 });

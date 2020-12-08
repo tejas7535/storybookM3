@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '@schaeffler/http';
 
+import { ViewQuotation } from '../../core/store/models';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -12,7 +14,7 @@ export class ViewCasesService {
 
   constructor(private readonly dataService: DataService) {}
 
-  public getCases(): Observable<any[]> {
-    return this.dataService.getAll<any>(`${this.path}`).pipe();
+  public getCases(): Observable<ViewQuotation[]> {
+    return this.dataService.getAll<ViewQuotation[]>(`${this.path}`).pipe();
   }
 }

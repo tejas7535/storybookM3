@@ -1,7 +1,9 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
@@ -26,7 +28,9 @@ describe('CaseTableComponent', () => {
       }),
       CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
+      MatDialogModule,
     ],
+    providers: [provideMockStore({})],
     declarations: [CaseTableComponent],
   });
 

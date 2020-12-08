@@ -20,7 +20,7 @@ export class CaseTableComponent {
   public columnDefs = COLUMN_DEFS;
   public statusBar = STATUS_BAR_CONFIG;
   public frameworkComponents = FRAMEWORK_COMPONENTS;
-  public rowSelection = 'single';
+  public rowSelection = 'multiple';
 
   @Input() rowData: ViewQuotation[];
 }

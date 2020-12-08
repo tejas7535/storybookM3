@@ -1,0 +1,16 @@
+:host {
+  height: 100%;
+}
+.container {
+  height: 100%;
+}
+.actions {
+  height: auto !important;
+  min-height: auto !important;
+}
+button {
+  font-weight: bold;
+}
+.deleteButton {
+  margin-right: 10px;
+}
