@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 
@@ -20,7 +19,6 @@ import { SapQuotationPipe } from './pipes/sap-quotation.pipe';
     MatIconModule,
     RouterModule,
     IconsModule,
-    MatCardModule,
     MatButtonModule,
     SharedTranslocoModule,
     CustomerDetailsModule,

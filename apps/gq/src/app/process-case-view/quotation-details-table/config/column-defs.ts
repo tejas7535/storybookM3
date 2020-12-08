@@ -44,6 +44,10 @@ export const COLUMN_DEFS: ColDef[] = [
     field: 'unit',
   },
   {
+    headerName: translate('processCaseView.quotationDetailsTable.per'),
+    field: 'per',
+  },
+  {
     headerName: translate('processCaseView.quotationDetailsTable.uom'),
     field: 'priceUnit',
   },
@@ -56,8 +60,8 @@ export const COLUMN_DEFS: ColDef[] = [
     field: 'priceSource',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.priceRating'),
-    field: 'priceRating',
+    headerName: translate('processCaseView.quotationDetailsTable.gqRating'),
+    field: 'gqRating',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpc'),

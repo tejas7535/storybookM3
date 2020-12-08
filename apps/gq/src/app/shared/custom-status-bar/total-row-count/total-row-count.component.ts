@@ -35,6 +35,7 @@ export class TotalRowCountComponent {
 
     this.params.api.forEachLeafNode((rowNode) => {
       this.totalNetValue += parseFloat(rowNode.data.netValue);
+      this.totalNetValue = parseFloat(this.totalNetValue.toFixed(2));
       sumMargin += parseFloat(rowNode.data.margin);
       totalRowCount += 1;
     });

@@ -12,11 +12,13 @@
     fxLayoutAlign="start center"
     fxFlexFill
   >
-    <gq-case-header
-      [quotationNumber]="(quotation$ | async).gqId"
-      [materialNumberandDescription]="materialNumberAndDescription$ | async"
-      (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-case-header>
+    <mat-card>
+      <gq-case-header
+        [quotationNumber]="(quotation$ | async).gqId"
+        [materialNumberandDescription]="materialNumberAndDescription$ | async"
+        (toggleOfferDrawer)="drawer.toggle()"
+      ></gq-case-header>
+    </mat-card>
 
     <div class="container" fxLayout="row" fxLayoutAlign="space-between none">
       <div fxFlex="50%">

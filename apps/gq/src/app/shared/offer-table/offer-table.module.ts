@@ -8,6 +8,7 @@ import { CustomStatusBarModule } from '../custom-status-bar/custom-status-bar.mo
 import { ExportToExcelButtonComponent } from '../custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { FinishOfferButtonComponent } from '../custom-status-bar/finish-offer-button/finish-offer-button.component';
 import { RemoveFromOfferButtonComponent } from '../custom-status-bar/remove-from-offer-button/remove-from-offer-button.component';
+import { TotalRowCountComponent } from '../custom-status-bar/total-row-count/total-row-count.component';
 import { UploadToSapButtonComponent } from '../custom-status-bar/upload-to-sap-button/upload-to-sap-button.component';
 import { SharedModule } from '../shared.module';
 import { OfferTableComponent } from './offer-table.component';
@@ -20,6 +21,7 @@ import { OfferTableComponent } from './offer-table.component';
       RemoveFromOfferButtonComponent,
       UploadToSapButtonComponent,
       ExportToExcelButtonComponent,
+      TotalRowCountComponent,
     ]),
     CustomStatusBarModule,
     SharedModule,

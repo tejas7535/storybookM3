@@ -13,3 +13,10 @@ mat-card-title {
   font-size: $schaeffler-h5;
   font-weight: bold;
 }
+mat-expansion-panel {
+  border: 1px solid $schaeffler-gray-4;
+}
+mat-panel-title {
+  color: $schaeffler-carbon-gray;
+  font-weight: bold;
+}

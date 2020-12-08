@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -29,6 +30,7 @@ describe('DetailViewComponent', () => {
       FilterPricingModule,
       OfferDrawerModule,
       MatButtonModule,
+      MatCardModule,
       MatSidenavModule,
       PricingDetailsModule,
     ],

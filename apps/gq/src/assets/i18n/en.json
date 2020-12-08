@@ -157,7 +157,8 @@
       "netValue": "Net Value",
       "offerPrice": "Price",
       "percentDifference": "% Diff Prices",
-      "priceRating": "Price Rating",
+      "gqRating": "GQ Rating",
+      "per": "per",
       "priceSource": "Price Source",
       "productionCity": "City",
       "productionCountry": "Country",
@@ -213,7 +214,7 @@
         "totalRsp": "Total Average RSP"
       },
       "uploadToSAPButton": {
-        "uploadToSAP": "Upload to SAP"
+        "uploadToSAP": "Upload offer to SAP"
       }
     },
     "customerDetails": {
