@@ -1,4 +1,3 @@
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -26,7 +25,6 @@ describe('ProcessCaseHeaderComponent', () => {
     detectChanges: false,
     imports: [
       CustomerDetailsModule,
-      MatCardModule,
       MatIconModule,
       provideTranslocoTestingModule({}),
       RouterTestingModule,
