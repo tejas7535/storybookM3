@@ -178,6 +178,16 @@ def setExcludedAppsAndLibsPaths() {
     }
 }
 
+def getAgentLabel() {
+    def label = '(docker && linux && extratools)'
+
+    if (!isAppRelease() && !isLibsRelease() && !isNightly()) {
+        label += ' || monorepo'
+    }
+
+    return label
+}
+
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
@@ -197,7 +207,7 @@ if (isMaster()) {
 /****************************************************************/
 pipeline {
     agent {
-        label 'linux && docker && extratools'
+        label getAgentLabel()
     }
 
     options {
@@ -590,17 +600,16 @@ pipeline {
                             // generate project specific changelog
                             if (isAppRelease()) {
                                 def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version";
-                                
+                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
+
                                 if (!exists) {
                                     //first version
                                     standardVersionCommand += " --params='--first-release"
-                                } else if(params.CUSTOM_VERSION != "${customVersionDefault}"){
+                                } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
                                     standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                                 }
 
                                 sh standardVersionCommand
-
                             } else if (isLibsRelease()) {
                                 sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
                             }
