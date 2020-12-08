@@ -1,12 +1,12 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 
-export class DeleteOptions {
+export interface DeleteOptions {
+  body?: any;
   headers?:
     | HttpHeaders
     | {
         [header: string]: string | string[];
       };
-  body?: any;
   observe?: 'body';
   params?:
     | HttpParams

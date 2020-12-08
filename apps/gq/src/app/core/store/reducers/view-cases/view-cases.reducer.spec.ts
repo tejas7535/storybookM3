@@ -1,6 +1,15 @@
+import { Action } from '@ngrx/store';
+
 import { VIEW_CASES_MOCK } from '../../../../../testing/mocks';
-import { loadCases, loadCasesFailure, loadCasesSuccess } from '../../actions';
-import { viewCasesReducer } from './view-cases.reducer';
+import {
+  deleteCase,
+  deleteCasesFailure,
+  deleteCasesSuccess,
+  loadCases,
+  loadCasesFailure,
+  loadCasesSuccess,
+} from '../../actions';
+import { reducer, viewCasesReducer } from './view-cases.reducer';
 
 describe('View Cases Reducer', () => {
   const errorMessage = 'An error occured';
@@ -38,6 +47,51 @@ describe('View Cases Reducer', () => {
         quotations,
         quotationsLoading: false,
       });
+    });
+  });
+  describe('deleteCase', () => {
+    test('should set deleteloading true', () => {
+      const gqIds = ['1'];
+      const action = deleteCase({ gqIds });
+      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASES_MOCK,
+        deleteLoading: true,
+      });
+    });
+  });
+  describe('deleteCaseSuccess', () => {
+    test('should set deleteloading false and quotationLoading true', () => {
+      const action = deleteCasesSuccess();
+      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASES_MOCK,
+        deleteLoading: false,
+        quotationsLoading: true,
+      });
+    });
+  });
+  describe('deleteCaseFailure', () => {
+    test('should set errorMessage and deleteLoading false', () => {
+      const action = deleteCasesFailure({ errorMessage });
+      const state = viewCasesReducer(VIEW_CASES_MOCK, action);
+
+      expect(state).toEqual({
+        ...VIEW_CASES_MOCK,
+        errorMessage,
+        deleteLoading: false,
+      });
+    });
+  });
+  describe('Reducer function', () => {
+    test('should return searchReducer', () => {
+      // prepare any action
+      const action: Action = loadCases();
+      expect(reducer(VIEW_CASES_MOCK, action)).toEqual(
+        viewCasesReducer(VIEW_CASES_MOCK, action)
+      );
     });
   });
 });

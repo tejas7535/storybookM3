@@ -9,8 +9,16 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
+import { DeleteCaseService } from '../../../../case-view/services/delete-case.service';
 import { ViewCasesService } from '../../../../case-view/services/view-cases.service';
-import { loadCasesFailure, loadCasesSuccess } from '../../actions';
+import {
+  deleteCase,
+  deleteCasesFailure,
+  deleteCasesSuccess,
+  loadCases,
+  loadCasesFailure,
+  loadCasesSuccess,
+} from '../../actions';
 import { ViewCasesEffect } from './view-cases.effect';
 
 describe('View Cases Effects', () => {
@@ -19,6 +27,7 @@ describe('View Cases Effects', () => {
   let actions$: any;
   let effects: ViewCasesEffect;
   let viewCasesService: ViewCasesService;
+  let deleteCasesService: DeleteCaseService;
 
   const createService = createServiceFactory({
     service: ViewCasesEffect,
@@ -29,6 +38,12 @@ describe('View Cases Effects', () => {
         provide: ViewCasesService,
         useValue: {
           getCases: jest.fn(),
+        },
+      },
+      {
+        provide: DeleteCaseService,
+        useValue: {
+          deleteCase: jest.fn(),
         },
       },
       {
@@ -46,9 +61,10 @@ describe('View Cases Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ViewCasesEffect);
     viewCasesService = spectator.inject(ViewCasesService);
+    deleteCasesService = spectator.inject(DeleteCaseService);
   });
 
-  describe('loadCases$', () => {
+  describe('getCases$', () => {
     beforeEach(() => {
       action = {
         type: ROUTER_NAVIGATED,
@@ -59,7 +75,22 @@ describe('View Cases Effects', () => {
         },
       };
     });
-    test('should return loadMaterialInformationSuccess', () => {
+    test('should dispatch loadCases', () => {
+      const result = loadCases();
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('-b', { b: result });
+
+      expect(effects.getCases$).toBeObservable(expected);
+    });
+  });
+  describe('loadCases', () => {
+    beforeEach(() => {
+      action = loadCases();
+    });
+
+    test('should return loadCases Success', () => {
       viewCasesService.getCases = jest.fn(() => response);
       const quotations: any = [];
 
@@ -75,7 +106,7 @@ describe('View Cases Effects', () => {
       expect(viewCasesService.getCases).toHaveBeenCalledTimes(1);
     });
 
-    test('should return loadMaterialInformationFailure', () => {
+    test('should return loadCasesFailure', () => {
       const errorMessage = 'new Error';
       actions$ = hot('-a', { a: action });
 
@@ -88,6 +119,39 @@ describe('View Cases Effects', () => {
 
       expect(effects.loadCases$).toBeObservable(expected);
       expect(viewCasesService.getCases).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('deleteCase$', () => {
+    beforeEach(() => {
+      const gqIds = ['1'];
+      action = deleteCase({ gqIds });
+    });
+    test('should return deleteCaseSuccess', () => {
+      deleteCasesService.deleteCase = jest.fn(() => response);
+
+      const result = deleteCasesSuccess();
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|');
+      const expected = cold('--b', { b: result });
+
+      expect(effects.deleteCase$).toBeObservable(expected);
+      expect(deleteCasesService.deleteCase).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return deleteCaseFailure', () => {
+      const errorMessage = 'new Error';
+      actions$ = hot('-a', { a: action });
+
+      const result = deleteCasesFailure({ errorMessage });
+
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      deleteCasesService.deleteCase = jest.fn(() => response);
+
+      expect(effects.deleteCase$).toBeObservable(expected);
+      expect(deleteCasesService.deleteCase).toHaveBeenCalledTimes(1);
     });
   });
 });

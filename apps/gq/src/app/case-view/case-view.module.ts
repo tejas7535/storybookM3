@@ -15,9 +15,10 @@ import { CaseViewRoutingModule } from './case-view-routing.module';
 import { CaseViewComponent } from './case-view.component';
 import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input/autocomplete-input.module';
 import { CreateCaseDialogModule } from './create-case-dialog/create-case-dialog.module';
+import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
 
 @NgModule({
-  declarations: [CaseViewComponent],
+  declarations: [CaseViewComponent, DeleteAcceptComponent],
   imports: [
     AutocompleteInputModule,
     CaseTableModule,

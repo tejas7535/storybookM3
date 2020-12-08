@@ -61,6 +61,11 @@
         "title": "SAP Quotation Import",
         "wrongInput": "Please enter a valid quotation number"
       }
+    },
+    "deleteAccept": {
+      "text": "Do you really want to delete the following quotation(s)?",
+      "deleteButton": "delete",
+      "cancelButton": "cancel"
     }
   },
   "customerView": {
@@ -78,6 +83,7 @@
     "subSector": "Subsector",
     "title": "Customer"
   },
+
   "detailView": {
     "filterPricing": {
       "title": "Manual Pricing",
