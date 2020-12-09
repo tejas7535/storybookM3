@@ -54,7 +54,7 @@ export class DataViewEffects {
    * Set Interval
    */
   interval$ = createEffect(() =>
-    this.actions$.pipe(ofType(setDataInterval.type), map(getDataId))
+    this.actions$.pipe(ofType(setDataInterval), map(getDataId))
   );
 
   /**
@@ -62,7 +62,7 @@ export class DataViewEffects {
    */
   dataId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getDataId.type),
+      ofType(getDataId),
       withLatestFrom(this.store.pipe(select(getDeviceId))),
       map(([_action, deviceId]) => deviceId),
       map((deviceId) => getData({ deviceId }))
@@ -74,7 +74,7 @@ export class DataViewEffects {
    */
   data$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getData.type),
+      ofType(getData),
       withLatestFrom(this.store.pipe(select(getDataInterval))),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,

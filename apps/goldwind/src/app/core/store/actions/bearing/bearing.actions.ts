@@ -23,6 +23,8 @@ export const getShaft = createAction(
   props<{ shaftDeviceId: string }>()
 );
 
+export const stopGetShaft = createAction('[Bearing] Stop Load Shaft');
+
 export const getShaftSuccess = createAction(
   '[Bearing] Load Shaft Success',
   props<{ shaft: ShaftStatus }>()
@@ -37,6 +39,7 @@ const all = union({
   getBearingFailure,
   getShaftId,
   getShaft,
+  stopGetShaft,
   getShaftSuccess,
   getShaftFailure,
 });

@@ -7,6 +7,7 @@ import {
   getShaftFailure,
   getShaftId,
   getShaftSuccess,
+  stopGetShaft,
 } from '..';
 
 describe('Bearing Actions', () => {
@@ -68,6 +69,14 @@ describe('Bearing Actions', () => {
       expect(action).toEqual({
         shaftDeviceId,
         type: '[Bearing] Load Shaft',
+      });
+    });
+
+    test('stopGetShaft', () => {
+      const action = stopGetShaft();
+
+      expect(action).toEqual({
+        type: '[Bearing] Stop Load Shaft',
       });
     });
 

@@ -58,7 +58,7 @@ export class GreaseStatusEffects {
    */
   interval$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(setGreaseInterval.type),
+      ofType(setGreaseInterval),
       map(() =>
         getGreaseStatusId({ source: BearingRoutePath.GreaseStatusPath })
       )
@@ -70,7 +70,7 @@ export class GreaseStatusEffects {
    */
   greaseStatusId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getGreaseStatusId.type),
+      ofType(getGreaseStatusId),
       withLatestFrom(this.store.pipe(select(getGreaseSensorId))),
       map(([action, greaseStatusId]: [any, string]) => ({
         greaseStatusId,
@@ -89,7 +89,7 @@ export class GreaseStatusEffects {
    */
   greaseStatus$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getGreaseStatus.type),
+      ofType(getGreaseStatus),
       withLatestFrom(this.store.pipe(select(getGreaseInterval))),
       map(([action, interval]: [any, Interval]) => ({
         id: action.greaseStatusId,
@@ -109,7 +109,7 @@ export class GreaseStatusEffects {
    */
   greaseStatusLatest$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getGreaseStatusLatest.type),
+      ofType(getGreaseStatusLatest),
       map((action: any) => action.greaseStatusId),
       mergeMap((edmParams) =>
         this.restService.getGreaseStatusLatest(edmParams).pipe(

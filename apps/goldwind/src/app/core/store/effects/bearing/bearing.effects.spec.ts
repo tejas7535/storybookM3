@@ -4,19 +4,22 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
 import { getAccessToken } from '@schaeffler/auth';
 
 import { BEARING_MOCK } from '../../../../../testing/mocks';
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
   getBearing,
   getBearingId,
   getBearingSuccess,
   getShaft,
+  getShaftFailure,
   getShaftId,
   getShaftSuccess,
+  stopGetShaft,
 } from '../../actions/bearing/bearing.actions';
 import * as fromRouter from '../../reducers';
 import { getShaftDeviceId } from '../../selectors/bearing/bearing.selector';
@@ -32,6 +35,7 @@ describe('Search Effects', () => {
   let restService: RestService;
 
   const mockUrl = '/bearing/666/load-sense';
+  const mockLeaveUrl = '/overview';
   const shaftDeviceId = '123-456-789';
 
   const createService = createServiceFactory({
@@ -85,6 +89,22 @@ describe('Search Effects', () => {
 
       expect(effects.router$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(getBearingId());
+      expect(store.dispatch).toHaveBeenCalledWith(getShaftId());
+    });
+
+    test('should dispatch stopGetShaft when leaving the bearing route', () => {
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', {
+        a: {
+          type: ROUTER_NAVIGATED,
+          payload: { routerState: { url: mockLeaveUrl } },
+        },
+      });
+
+      const expected = cold('-b', { b: 'overview' });
+
+      expect(effects.router$).toBeObservable(expected);
+      expect(store.dispatch).toHaveBeenCalledWith(stopGetShaft());
     });
   });
 
@@ -138,6 +158,44 @@ describe('Search Effects', () => {
       });
 
       expect(effects.shaftId$).toBeObservable(expected);
+    });
+  });
+
+  describe('continueShaftId$', () => {
+    test('should return getShaft', () => {
+      const scheduler = getTestScheduler();
+      scheduler.run((helpers) => {
+        effects['isPollingActive'] = true;
+        action = getShaftFailure();
+
+        actions$ = helpers.hot('-a', { a: action });
+
+        const expected = {
+          b: getShaft({ shaftDeviceId }),
+        };
+
+        helpers
+          .expectObservable(effects.continueShaftId$)
+          .toBe(`- ${UPDATE_SETTINGS.shaft.refresh}s b`, expected);
+      });
+    });
+  });
+
+  describe('stopShaft$', () => {
+    test('should not return an action', () => {
+      expect(metadata.stopShaft$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+    test('should set isPollingActive to false', () => {
+      effects['isPollingActive'] = true;
+      action = stopGetShaft();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: undefined });
+      expect(effects.stopShaft$).toBeObservable(expected);
+      expect(effects['isPollingActive']).toBe(false);
     });
   });
 

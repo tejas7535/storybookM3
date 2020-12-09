@@ -31,6 +31,13 @@ const routes: Routes = [
               ),
           },
           {
+            path: BearingRoutePath.LoadPath,
+            loadChildren: () =>
+              import('@schaeffler/empty-states').then(
+                (m) => m.UnderConstructionModule
+              ),
+          },
+          {
             path: BearingRoutePath.DataViewPath,
             loadChildren: () =>
               import('./data-view/data-view.module').then(
