@@ -583,7 +583,7 @@ pipeline {
                                 if (isAppRelease() || isLibsRelease()) {
                                     sh "npm run affected:test -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
                                 } else {
-                                    sh "npm run affected:test -- --base=${buildBase} --parallel"
+                                    sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2"
                                 }
                             }
                         }
@@ -600,13 +600,16 @@ pipeline {
                 stage('Test:E2E') {
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Run E2E Tests'
+                            // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
+                            lock(resource: "lock-cypress-${env.NODE_NAME}", quantity: 1) {
+                                echo 'Run E2E Tests'
 
-                            script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
-                                } else {
-                                    sh "npm run affected:e2e:headless -- --base=${buildBase}"
+                                script {
+                                    if (isAppRelease() || isLibsRelease()) {
+                                        sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
+                                    } else {
+                                        sh "npm run affected:e2e:headless -- --base=${buildBase}"
+                                    }
                                 }
                             }
                         }
@@ -709,26 +712,27 @@ pipeline {
                             echo 'Build Projects'
 
                             script {
-                                if (isAppRelease()) {
-                                    sh "npx nx run ${env.RELEASE_SCOPE}:build:prod --with-deps"
-                                    try {
-                                        sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
-                                    } catch (error) {
-                                        echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
-                                    }
-                                } else if (isLibsRelease()) {
-                                    sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps"
-                                }
-                                else {
-                                    if (isMaster()) {
-                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
+                                lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
+                                    if (isAppRelease()) {
+                                        sh "npx nx run ${env.RELEASE_SCOPE}:build:prod --with-deps"
+                                        try {
+                                            sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
+                                        } catch (error) {
+                                            echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
+                                        }
+                                    } else if (isLibsRelease()) {
+                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps"
                                     } else {
-                                        sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
-                                    }
+                                        if (isMaster()) {
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
+                                        } else {
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
+                                        }
 
-                                    for (app in affectedApps) {
-                                        sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open"
-                                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
+                                        for (app in affectedApps) {
+                                            sh "npx webpack-bundle-analyzer dist/apps/${app}/stats.json --mode static --report dist/webpack/${app}-bundle-report.html --no-open"
+                                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'dist/webpack', reportFiles: "${app}-bundle-report.html", reportName: "${app} bundle-report", reportTitles: "${app} bundle-report"])
+                                        }
                                     }
                                 }
                             }
