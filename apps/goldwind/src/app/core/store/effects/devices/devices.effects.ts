@@ -42,7 +42,7 @@ export class DevicesEffects {
    */
   devices$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getDevices.type),
+      ofType(getDevices),
       mergeMap(() =>
         this.restService.getDevices().pipe(
           map((devices) => getDevicesSuccess({ devices })),

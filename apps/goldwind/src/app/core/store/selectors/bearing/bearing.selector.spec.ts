@@ -58,7 +58,7 @@ describe('Bearing Selector', () => {
 
   describe('getShaftDeviceId', () => {
     test('should return the shaft result', () => {
-      expect(getShaftDeviceId(fakeState)).toEqual('vm-windows-edge-gerlitm');
+      expect(getShaftDeviceId(fakeState)).toEqual('goldwind-qas-003');
     });
   });
 

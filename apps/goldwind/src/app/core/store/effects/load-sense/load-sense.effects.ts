@@ -57,7 +57,7 @@ export class ConditionMonitoringEffects {
    */
   loadId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getLoadId.type),
+      ofType(getLoadId),
       withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
       map(([_action, routerState]) => routerState.state.params.id),
       map((bearingId) => getLoad({ bearingId }))
@@ -69,7 +69,7 @@ export class ConditionMonitoringEffects {
    */
   load$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getLoad.type),
+      ofType(getLoad),
       withLatestFrom(this.store.pipe(select(getLoadInterval))),
       map(([action, interval]: [any, Interval]) => ({
         id: action.bearingId,

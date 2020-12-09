@@ -27,7 +27,7 @@ export const getMainBearing = createSelector(
 // highly WIP
 export const getShaftDeviceId = createSelector(
   getBearingState,
-  () => 'vm-windows-edge-gerlitm'
+  () => 'goldwind-qas-003'
 );
 
 export const getShaftResult = createSelector(

@@ -4,6 +4,7 @@ import { EChartOption } from 'echarts';
 
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import { chartOptions } from '../../../shared/chart/chart';
+import { UPDATE_SETTINGS } from '../../../shared/constants';
 
 @Component({
   selector: 'goldwind-shaft',
@@ -12,6 +13,7 @@ import { chartOptions } from '../../../shared/chart/chart';
 })
 export class ShaftComponent {
   @Input() shaftLatestGraphData: GraphData;
+  refresh = UPDATE_SETTINGS.shaft.refresh;
 
   chartOptions: EChartOption = {
     ...chartOptions,
