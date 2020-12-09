@@ -70,7 +70,7 @@ export class DateInputComponent {
       case TimePeriod.LAST_12_MONTHS: {
         this.minDate = new Date('2019-12-31 00:00:00');
 
-        if (this.minDate.getTime() === refDate.getTime()) {
+        if (this.minDate.getTime() <= refDate.getTime()) {
           this.minDate = new Date('2019-01-01');
         }
         const old = new Date(refDate.getTime());

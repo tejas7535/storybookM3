@@ -29,8 +29,8 @@
       "timeRangePlaceholderEnd": "End date"
     },
     "invalidInputHint": "Please select a valid input from the dropdown",
-    "invalidStartDateHint": "Invalid start date",
-    "invalidEndDateHint": "Invalid end date"
+    "invalidStartDateHint": "Invalid start date (minimum: 01/01/2019)",
+    "invalidEndDateHint": "Invalid end date (maximum: 12/31/2020)"
   },
   "tabs": {
     "overview": "Overview",
