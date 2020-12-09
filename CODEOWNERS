@@ -43,10 +43,10 @@ apps/gq-e2e @andrafnk @soehnpsc @herpisef
 apps/mac @berndcri @kauppfbi @birketho
 apps/mac-e2e @berndcri @kauppfbi @birketho
 
-############
-### Libs ###
-############ IA
+# IA
 apps/ia @herpisef 
 apps/ia-e2e @herpisef 
 
-#
+############
+### Libs ###
+############ 

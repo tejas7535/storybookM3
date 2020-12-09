@@ -170,6 +170,43 @@ def getPackageVersion() {
     return packageJSON.version
 }
 
+
+// returns codeowners e.g. [kauppfbi, krausrbe, berndcri, herpisef] for kitchen-sink
+def getCodeOwners(appName) {
+    def codeOwnersFile = readFile(file: 'CODEOWNERS').trim().split("\n")
+
+    def appString
+
+    if (appName == "workspace") { // search for workspace codeowners
+        appString = "* "
+    } else { // search for codeowners of given app
+        appString = "apps/${appName} "
+    }
+
+    def codeOwners = []
+    for (line in codeOwnersFile) {
+        if (line.contains(appString)) {
+            // example for codeOwner line -> "apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef"
+            def splitted = line.split(' ')
+            for (int i = 0; i < splitted.size(); i++) {
+                // dont push first element this would be the app name "apps/kitchen-sink" and we just want the codeowners
+                if (i != 0) {
+                    // currently codeowners are strings like "@userId" -> we want to remove the @ -> "userId"
+                    codeOwners.push(splitted[i].replaceAll('@', '').toLowerCase())
+                }
+            }
+        }
+    }
+
+    return codeOwners
+}
+
+def getBuildTriggerUser() {
+    // currentbuild.... returns "[userId@schaeffler.com]" -> remove first [ then split at @ and get first element -> userId
+    def userId = "${currentBuild.getBuildCauses('hudson.model.Cause$UserIdCause').userId}".replaceAll('\\[', '').split('@')[0].toLowerCase()
+    return userId
+}
+
 def setExcludedAppsAndLibsPaths() {
     excludedAppsAndLibsPaths = []
 
@@ -284,6 +321,18 @@ pipeline {
                                     env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
                                         parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
                                 }
+                                
+                                def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
+                                def userWhoTriggeredBuild = getBuildTriggerUser()
+
+                                // first check if user is the app code owner
+                                if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
+                                    // if not check if user is workspace owner
+                                    def workSpaceOwners = getCodeOwners("workspace")
+                                    if(!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                                        error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
+                                    }
+                                }
                             } catch (org.jenkinsci.plugins.workflow.steps.FlowInterruptedException e) {
                                 aborted = true
                             }
@@ -291,6 +340,12 @@ pipeline {
                             if (aborted) {
                                 currentBuild.result = 'ABORTED'
                                 skipBuild = true
+                            }
+                        } else if (isLibsRelease()) {
+                            def userWhoTriggeredBuild = getBuildTriggerUser()
+                            def workSpaceOwners = getCodeOwners("workspace")
+                            if(!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                                error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
                             }
                         }
                     }
@@ -600,16 +655,17 @@ pipeline {
                             // generate project specific changelog
                             if (isAppRelease()) {
                                 def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
-
+                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version";
+                                
                                 if (!exists) {
                                     //first version
                                     standardVersionCommand += " --params='--first-release"
-                                } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
+                                } else if(params.CUSTOM_VERSION != "${customVersionDefault}"){
                                     standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                                 }
 
                                 sh standardVersionCommand
+
                             } else if (isLibsRelease()) {
                                 sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
                             }
