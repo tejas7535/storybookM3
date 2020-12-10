@@ -11,8 +11,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import {
-  MatRadioModule,
   MAT_RADIO_DEFAULT_OPTIONS,
+  MatRadioModule,
 } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 
@@ -22,10 +22,9 @@ import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
-import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @NgModule({
-  declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
+  declarations: [PredictionComponent, KpiComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
@@ -50,7 +49,6 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
       useValue: { color: 'primary' },
     },
   ],
-  entryComponents: [UploadModalComponent],
   exports: [PredictionComponent],
 })
 export class PredictionModule {}

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
 import { PredictionRequest } from '../shared/models';
-import { mockedLoadsResult, mockedPredictionResult } from './mock.constants';
+import { mockedPredictionResult } from './mock.constants';
 
 @Injectable({
   providedIn: 'root',
@@ -16,10 +16,10 @@ export class MockService {
     return mode === 2 ? of(mockedPredictionResult) : undefined;
   }
 
-  postLoadsData(
-    _loads: any,
-    _predictionRequest: PredictionRequest
-  ): Observable<any> {
-    return of(mockedLoadsResult);
-  }
+  // postLoadsData(
+  //   _loads: any,
+  //   _predictionRequest: PredictionRequest
+  // ): Observable<any> {
+  //   return of(mockedLoadsResult);
+  // }
 }

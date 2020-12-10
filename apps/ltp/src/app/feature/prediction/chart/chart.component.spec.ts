@@ -2,15 +2,14 @@ import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { of } from 'rxjs';
-
-import { DxChartModule } from 'devextreme-angular/ui/chart';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { ECharts } from 'echarts';
 import { configureTestSuite } from 'ng-bullet';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
-import { CHART_SETTINGS_WOEHLER } from '../../../shared/constants';
 import { ChartComponent } from './chart.component';
 import { LegendComponent } from './legend/legend.component';
 
@@ -24,7 +23,10 @@ describe('ChartComponent', () => {
       imports: [
         CommonModule,
         FlexLayoutModule,
-        DxChartModule,
+        ReactiveComponentModule,
+        NgxEchartsModule.forRoot({
+          echarts: () => import('echarts'),
+        }),
         provideTranslocoTestingModule({ en }),
       ],
     });
@@ -33,14 +35,6 @@ describe('ChartComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ChartComponent);
     component = fixture.componentInstance;
-    component.limits = {
-      x_min: 0,
-      x_max: 1000000,
-      y_min: 0,
-      y_max: 1000,
-    };
-    component.bannerIsVisible = of(true);
-    component.chartSettings = CHART_SETTINGS_WOEHLER;
     fixture.detectChanges();
   });
 
@@ -48,16 +42,31 @@ describe('ChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call export function of chart', () => {
-    spyOn(component.chart1.instance, 'exportTo');
-    component.exportChart();
-    expect(component.chart1.instance.exportTo).toHaveBeenCalled();
+  it('should init chart object', () => {
+    const ec: ECharts = ({} as unknown) as ECharts;
+
+    component.initChart(ec);
+
+    expect(component.chart).toEqual(ec);
   });
 
   it('should generate current timestamp', () => {
     const timestamp = component.generateDatetime();
     const regexMatcher = /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/;
     expect(regexMatcher.test(timestamp)).toEqual(true);
+  });
+
+  it('should set export properties', () => {
+    component.generateDatetime = jest.fn(() => 'theTime');
+    component.chart = ({} as unknown) as ECharts;
+    component.chart.getDataURL = jest.fn(() => 'theImgUrl');
+
+    component.exportChart();
+
+    expect(component.filename).toEqual(
+      `${component.fileNamePrefix}-theTime.png`
+    );
+    expect(component.imgUrl).toEqual('theImgUrl');
   });
 
   describe('trackByFn()', () => {

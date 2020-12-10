@@ -1,8 +1,11 @@
+import { EChartOption } from 'echarts';
+
 export interface Axis {
-  title: string;
+  name: string;
+  nameLocation: 'center' | 'start' | 'middle' | 'end';
   showLabel: boolean;
   format: string;
   showGrid: boolean;
   showMinorGrid: boolean;
-  type: string;
+  type: EChartOption.BasicComponents.CartesianAxis.Type;
 }

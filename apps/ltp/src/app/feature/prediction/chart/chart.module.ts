@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
-import { DxChartModule } from 'devextreme-angular/ui/chart';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,8 +15,12 @@ import { LegendComponent } from './legend/legend.component';
   imports: [
     CommonModule,
     SharedTranslocoModule,
+    ReactiveComponentModule,
     FlexLayoutModule,
-    DxChartModule,
+    NgxEchartsModule.forRoot({
+      // echarts: () => import('../../../shared/chart/echart'),
+      echarts: () => import('echarts'),
+    }),
   ],
   exports: [ChartComponent, LegendComponent],
 })
