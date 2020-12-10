@@ -53,6 +53,7 @@ export class AutocompleteService {
               value: el.sapId,
               selected: false,
               customerId: el.customerId,
+              customerName: el.customerName,
               gqImportedUser: el.gqImportUser,
               imported: el.imported,
             })) as SapQuotation[];

@@ -7,6 +7,7 @@ export class SapQuotation extends IdValue {
     public selected: boolean,
     public imported: boolean,
     public customerId: string,
+    public customerName: string,
     public gqImportedUser: {
       id: string;
       name: string;

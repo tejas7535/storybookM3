@@ -2,7 +2,7 @@
   <mat-form-field
     appearance="outline"
     *transloco="let t; read: 'caseView.createCaseDialog'"
-    [ngClass]="{ 'error-quotation': !inputIsValid }"
+    [ngClass]="{ 'error-quotation': !isValid }"
   >
     <mat-label class="error-quotation-label">{{
       t(filterName + '.label')
@@ -31,7 +31,14 @@
         *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
         [value]="idValue"
       >
-        {{ idValue.id }} | {{ idValue.value }}
+        {{ idValue.id }} |
+        <span
+          *ngIf="!isSapQuotation(unselectedOptions[0]); else showCustomerName"
+          >{{ idValue.value }}</span
+        >
+        <ng-template #showCustomerName>
+          <span>{{ idValue.customerName }}</span>
+        </ng-template>
       </mat-option>
       <mat-option
         disabled

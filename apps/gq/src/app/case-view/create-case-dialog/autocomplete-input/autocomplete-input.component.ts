@@ -14,7 +14,11 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
-import { AutocompleteSearch, IdValue } from '../../../core/store/models';
+import {
+  AutocompleteSearch,
+  IdValue,
+  SapQuotation,
+} from '../../../core/store/models';
 
 @Component({
   selector: 'gq-autocomplete-input',
@@ -23,18 +27,22 @@ import { AutocompleteSearch, IdValue } from '../../../core/store/models';
 })
 export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() autocompleteLoading = false;
+
   @Input() set isDisabled(isDisabled: boolean) {
     isDisabled
       ? this.searchFormControl.disable()
       : this.searchFormControl.enable();
   }
-  @Input() set options(itemOptions: IdValue[]) {
+
+  @Input() set options(itemOptions: IdValue[] | SapQuotation[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue && this.autofilled) {
       const value =
         this.filterName === 'customer'
           ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
+          : this.isSapQuotation(this.selectedIdValue)
+          ? `${this.selectedIdValue.customerName} | ${this.selectedIdValue.id}`
           : this.selectedIdValue.id;
       this.valueInput.nativeElement.value = value;
       this.searchFormControl.setValue(value);
@@ -105,7 +113,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   isInputValid(control: AbstractControl): ValidationErrors {
     const formValue =
-      this.filterName === 'customer' &&
+      (this.filterName === 'customer' || this.filterName === 'quotation') &&
       control.value &&
       typeof control.value === 'string'
         ? control.value.split(' | ')[1]
@@ -140,12 +148,20 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.added.emit(event.option.value);
     this.autofilled = true;
   }
+
   public clearInput(): void {
     this.unselect();
     this.valueInput.nativeElement.value = '';
     this.searchFormControl.setValue('');
   }
+
   public trackByFn(index: number): number {
     return index;
+  }
+
+  public isSapQuotation(
+    sapQuotation: IdValue | SapQuotation
+  ): sapQuotation is SapQuotation {
+    return (sapQuotation as SapQuotation).customerName !== undefined;
   }
 }
