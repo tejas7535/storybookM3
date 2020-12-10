@@ -246,17 +246,10 @@
       "title": "Current Offer"
     },
     "offerTable": {
-      "info": "Info",
-      "materialDescription": "Material Description",
       "materialNumber": "Material Nr. (15 digit)",
-      "plantCity": "Plant City",
-      "plantCountry": "Plant Country",
+      "netValue": "Net Value",
       "price": "Price",
-      "productionCost": "Production Cost",
-      "productionHierarchy": "Production Hierarchy",
-      "productionPlant": "Production Plant",
-      "quantity": "Quantity",
-      "rsp": "RSP"
+      "quantity": "Quantity"
     }
   }
 }

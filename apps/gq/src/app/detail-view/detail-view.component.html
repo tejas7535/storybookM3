@@ -4,7 +4,6 @@
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
-  [hasBackdrop]="false"
 >
   <mat-drawer-content
     *ngIf="
@@ -33,7 +32,7 @@
       </div>
     </div>
   </mat-drawer-content>
-  <mat-drawer #drawer position="end" (opened)="getOffer()">
+  <mat-drawer #drawer position="end" [mode]="'push'" (opened)="getOffer()">
     <gq-offer-drawer
       fxLayout="column"
       fxFlexFill

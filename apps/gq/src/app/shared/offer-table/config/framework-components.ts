@@ -7,6 +7,7 @@ import { UploadToSapButtonComponent } from '../../custom-status-bar/upload-to-sa
 export const FRAMEWORK_COMPONENTS = {
   finishOfferButtonComponent: FinishOfferButtonComponent,
   removeFromOfferButtonComponent: RemoveFromOfferButtonComponent,
+  totalRowCountComponent: TotalRowCountComponent,
 };
 
 export const FRAMEWORK_COMPONENTS_FINISH_OFFER = {
