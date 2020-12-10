@@ -19,6 +19,7 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
+  removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
   removeQuotationDetailFromOffer,
@@ -458,6 +459,22 @@ describe('Quotation Reducer', () => {
           addMaterials: {
             ...QUOTATION_STATE_MOCK.addMaterials,
             removeQuotationDetailsIds: gqPositionIds,
+          },
+        });
+      });
+    });
+
+    describe('removeMaterials', () => {
+      test('should set quotationLoading to true', () => {
+        const action = removeMaterials();
+
+        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+
+        expect(state).toEqual({
+          ...QUOTATION_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_STATE_MOCK.quotation,
+            quotationLoading: true,
           },
         });
       });

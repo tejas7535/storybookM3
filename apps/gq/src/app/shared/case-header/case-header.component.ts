@@ -19,7 +19,7 @@ export class CaseHeaderComponent implements OnInit {
   @Input() sapId: string;
   @Input() materialNumber15: string;
   @Input() customerName: string;
-  @Input() materialNumberandDescription: any;
+  @Input() materialNumberAndDescription: any;
 
   @Output()
   readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();

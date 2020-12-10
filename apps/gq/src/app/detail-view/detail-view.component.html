@@ -7,7 +7,11 @@
   [hasBackdrop]="false"
 >
   <mat-drawer-content
-    *ngIf="quotation$ | async"
+    *ngIf="
+      (materialLoading$ | async) === false &&
+        (quotationLoading$ | async) === false;
+      else loading
+    "
     fxLayout="column"
     fxLayoutAlign="start center"
     fxFlexFill
@@ -15,7 +19,7 @@
     <mat-card>
       <gq-case-header
         [quotationNumber]="(quotation$ | async).gqId"
-        [materialNumberandDescription]="materialNumberAndDescription$ | async"
+        [materialNumberAndDescription]="materialNumberAndDescription$ | async"
         (toggleOfferDrawer)="drawer.toggle()"
       ></gq-case-header>
     </mat-card>
@@ -39,3 +43,7 @@
     ></gq-offer-drawer>
   </mat-drawer>
 </mat-drawer-container>
+
+<ng-template #loading>
+  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+</ng-template>

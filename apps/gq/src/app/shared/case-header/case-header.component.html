@@ -15,8 +15,8 @@
         <ng-template *ngIf="customerName">
           <span class="additionalInfo">| {{ customerName }}</span>
         </ng-template>
-        <span *ngIf="materialNumberandDescription">
-          {{ materialNumberandDescription | materialInfo }}</span
+        <span *ngIf="materialNumberAndDescription">
+          {{ materialNumberAndDescription | materialInfo }}</span
         >
       </span>
     </h1>
@@ -33,6 +33,7 @@
     </button>
   </div>
 </div>
+
 <gq-customer-details
   *ngIf="quotationNumber"
   [customer]="customer$ | async"

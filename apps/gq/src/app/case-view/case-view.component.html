@@ -23,5 +23,16 @@
       </button>
     </div>
   </div>
-  <gq-case-table [rowData]="quotations$ | async"></gq-case-table>
+  <gq-case-table
+    *ngIf="
+      (quotationsLoading$ | async) === false &&
+        (deleteLoading$ | async) === false;
+      else loading
+    "
+    [rowData]="quotations$ | async"
+  ></gq-case-table>
 </div>
+
+<ng-template #loading>
+  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+</ng-template>

@@ -19,7 +19,6 @@ describe('Process Case Selector', () => {
       },
       addMaterials: {
         ...initialState.addMaterials,
-        dialogShown: false,
         addMaterialRowData: [dummyRowData],
         validationLoading: false,
       },
@@ -37,7 +36,7 @@ describe('Process Case Selector', () => {
   describe('getCustomerLoading', () => {
     test('should return true if customer details is currently loading', () => {
       expect(
-        quotationSelectors.getCustomerLoading.projector(fakeState.processCase)
+        quotationSelectors.isCustomerLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });
@@ -53,7 +52,7 @@ describe('Process Case Selector', () => {
   describe('getQuotationLoading', () => {
     test('should return true if quotation is currently loading', () => {
       expect(
-        quotationSelectors.getQuotationLoading.projector(fakeState.processCase)
+        quotationSelectors.isQuotationLoading.projector(fakeState.processCase)
       ).toBeTruthy();
     });
   });

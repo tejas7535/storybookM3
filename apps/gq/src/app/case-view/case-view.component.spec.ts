@@ -13,6 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../shared/custom-status-bar/delete-case-button/delete-case-button.component';
 import { OpenCaseButtonComponent } from '../shared/custom-status-bar/open-case-button/open-case-button.component';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 import { AddEntryModule } from './create-case-dialog/add-entry/add-entry.module';
@@ -47,6 +48,7 @@ describe('CaseViewComponent', () => {
       InputTableModule,
       provideTranslocoTestingModule({}),
       RouterTestingModule.withRoutes([]),
+      LoadingSpinnerModule,
     ],
     providers: [
       provideMockStore({
