@@ -4,5 +4,4 @@ export interface ChartSettings {
   sources: Series[];
   argumentAxis: Axis;
   valueAxis: Axis;
-  customPointFn(): Object;
 }

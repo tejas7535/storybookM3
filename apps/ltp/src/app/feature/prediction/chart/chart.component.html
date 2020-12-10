@@ -1,98 +1,10 @@
-<div
-  fxLayout="column"
-  #chartContainer
-  (window:resize)="rerenderChart()"
-  id="chart-container"
-  *transloco="let t"
->
-  <dx-chart
-    id="chart"
-    palette="Harmony Light"
-    #chart1
-    [dataSource]="data"
-    [customizePoint]="chartSettings.customPointFn"
-    class="ltp-chart"
-  >
-    <dxi-series
-      *ngFor="let source of chartSettings.sources; trackBy: trackByFn"
-      [valueField]="source.value"
-      [name]="source.name"
-      [color]="source.color"
-      [dashStyle]="source.dashStyle"
-      [type]="source.type ? source.type : 'line'"
-      rangeValue1Field="yLow"
-      rangeValue2Field="yHigh"
-    ></dxi-series>
-    <dxo-common-series-settings #seriesSettings argumentField="x">
-    </dxo-common-series-settings>
-    <dxo-argument-axis
-      [valueMarginsEnabled]="false"
-      [type]="chartSettings.argumentAxis.type"
-      logarithmBase="10"
-      discreteAxisDivisionMode="crossLabels"
-      [visualRange]="limits ? [limits.x_min, limits.x_max] : [10000, 10000000]"
-      [visible]="false"
-    >
-      <dxo-title [text]="t(chartSettings.argumentAxis.title)">
-        <dxo-font size="16"></dxo-font>
-      </dxo-title>
-      <dxo-label
-        [visible]="chartSettings.argumentAxis.showLabel"
-        [format]="chartSettings.argumentAxis.format"
-      >
-        <dxo-font size="16"></dxo-font>
-      </dxo-label>
-      <dxo-grid [visible]="chartSettings.argumentAxis.showGrid"></dxo-grid>
-      <dxo-minor-grid
-        [visible]="chartSettings.argumentAxis.showMinorGrid"
-      ></dxo-minor-grid>
-    </dxo-argument-axis>
-    <dxi-value-axis
-      [valueMarginsEnabled]="false"
-      [type]="chartSettings.valueAxis.type"
-      logarithmBase="10"
-      discreteAxisDivisionMode="crossLabels"
-      showZero="false"
-      [constantLines]="lines"
-      [endOnTick]="false"
-      [visualRange]="limits ? [limits.y_min, limits.y_max] : [0, 1000]"
-      visualRangeUpdateMode="keep"
-      [visible]="false"
-    >
-      <dxo-title
-        [text]="t(chartSettings.valueAxis.title)"
-        [margin]="chartSettings.valueAxis.showLabel ? 8 : 44"
-      >
-        <dxo-font size="16"></dxo-font>
-      </dxo-title>
-      <dxo-label
-        [visible]="chartSettings.valueAxis.showLabel"
-        [format]="chartSettings.valueAxis.format"
-      >
-        <dxo-font size="16"></dxo-font>
-      </dxo-label>
-      <dxo-grid [visible]="chartSettings.valueAxis.showGrid"></dxo-grid>
-      <dxo-minor-grid
-        [visible]="chartSettings.valueAxis.showMinorGrid"
-      ></dxo-minor-grid>
-    </dxi-value-axis>
-    <dxo-common-axis-settings
-      [valueMarginsEnabled]="false"
-      [tick]="{ color: '#dddddd' }"
-    ></dxo-common-axis-settings>
-    <dxo-legend
-      verticalAlignment="top"
-      horizontalAlignment="right"
-      itemTextPosition="bottom"
-      position="inside"
-      [visible]="false"
-    >
-      <dxo-font size="16"></dxo-font>
-    </dxo-legend>
-    <dxo-tooltip
-      enabled="true"
-      [zIndex]="1"
-      [customizeTooltip]="customizeTooltip"
-    ></dxo-tooltip>
-  </dx-chart>
+<div fxLayout="column" #chartContainer id="chart-container" *transloco="let t">
+  <div
+    #ltpChart
+    fxFlex
+    echarts
+    [options]="chartSettings"
+    [merge]="mergeData$ | ngrxPush"
+    (chartInit)="initChart($event)"
+  ></div>
 </div>

@@ -1,46 +1,40 @@
+import { Component, Input } from '@angular/core';
+
 import { Observable } from 'rxjs';
 
-import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
-
-import { DxChartComponent } from 'devextreme-angular/ui/chart';
-
-import { ChartSettings, Limits } from '../../../shared/models';
+import { EChartOption, ECharts } from 'echarts';
 
 @Component({
   selector: 'ltp-chart',
   templateUrl: './chart.component.html',
   styleUrls: ['./chart.component.scss'],
 })
-export class ChartComponent implements OnInit, OnChanges {
-  @Input() limits: Limits;
-  @Input() data: Object[];
-  @Input() lines: Object[];
-  @Input() bannerIsVisible: Observable<boolean>;
-  @Input() chartSettings: ChartSettings;
-  @Input() customizeTooltip: Function;
+export class ChartComponent {
+  @Input() chartSettings: EChartOption;
+  @Input() mergeData$: Observable<EChartOption>;
 
-  @Input() fileNamePrefix = 'Lifetime-Predictor-Woehler-Chart-Export';
+  fileNamePrefix = 'Lifetime-Predictor-Woehler-Chart-Export';
 
-  @ViewChild('chart1') chart1: DxChartComponent;
-  // TODO: remove any
-  @ViewChild('chartContainer') chartContainer: any;
+  loaded = false;
 
-  ngOnInit(): void {
-    this.bannerIsVisible.subscribe(() => {
-      setTimeout(() => this.rerenderChart(), 0);
-    });
-  }
-
-  ngOnChanges(): void {
-    this.rerenderChart();
-  }
+  chart: ECharts;
+  public imgUrl: string;
+  public filename: string;
 
   /**
-   * Calls the native Devextreme chartexport method
+   * Creates an Image URL for the current chart
    */
   public exportChart(): void {
     const dateTime = this.generateDatetime();
-    this.chart1.instance.exportTo(`${this.fileNamePrefix}-${dateTime}`, 'PDF');
+    this.filename = `${this.fileNamePrefix}-${dateTime}.png`;
+    this.imgUrl = this.chart.getDataURL({ type: 'png', pixelRatio: 3 });
+  }
+
+  /**
+   * Sets the ECharts reference
+   */
+  public initChart(ec: ECharts): void {
+    this.chart = ec;
   }
 
   /**
@@ -54,21 +48,6 @@ export class ChartComponent implements OnInit, OnChanges {
     const time = `${today.getHours()}:${today.getMinutes()}:${today.getSeconds()}`;
 
     return `${date} ${time}`;
-  }
-
-  /**
-   * Adjusts the size of the chart to the component dimensions
-   */
-  public rerenderChart(): void {
-    if (this.chartContainer) {
-      let size = { height: 450 };
-      this.chart1.instance.option(size);
-      size = {
-        height: Math.max(450, this.chartContainer.nativeElement.offsetHeight),
-      };
-      this.chart1.instance.option(size);
-      this.chart1.instance.render({ animate: true, force: true });
-    }
   }
 
   /**

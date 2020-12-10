@@ -1,3 +1,7 @@
+import { EChartOption } from 'echarts';
+
+import { LTPState } from '../core/store';
+import { initialState } from '../core/store/reducers/input.reducer';
 import { PredictionState } from '../core/store/reducers/prediction.reducer';
 import {
   BurdeningType,
@@ -369,4 +373,144 @@ export const mockedPredictionRequestWithKpi: PredictionState = {
     method: 'FKM',
   },
   loads: undefined,
+};
+
+export const mockedPredictionRequestWithLimits: LTPState = {
+  input: {
+    ...initialState,
+    display: {
+      ...initialState.display,
+      showFKM: true,
+      showMurakami: true,
+      showStatistical: true,
+    },
+  },
+  prediction: {
+    ...mockedPredictionRequestWithKpi,
+    predictionResult: {
+      ...mockedPredictionResult,
+    },
+  },
+};
+
+export const mockedPredictionResultGraphData: EChartOption = {
+  dataset: {
+    source: [
+      {
+        x: 10000,
+        y7: 169.04995684059463,
+      },
+      {
+        x: 1000000,
+        y7: 67.29999999999995,
+      },
+      {
+        x: 10000000,
+        y7: 67.29999999999995,
+      },
+      {
+        x: 10000,
+        y8: 738.2209708371904,
+      },
+      {
+        x: 1000000,
+        y8: 293.89106194324967,
+      },
+      {
+        x: 10000000,
+        y8: 293.89106194324967,
+      },
+      {
+        x: 10000,
+        y9: 255.3071591874725,
+      },
+      {
+        x: 329718.17701544514,
+        y9: 122.46499412533268,
+      },
+      {
+        x: 10000000,
+        y9: 122.46499412533268,
+      },
+      {
+        x: 10000000,
+        yHigh: 129.60351058284022,
+        yLow: 129.60351058284022,
+      },
+      {
+        x: 1158691.4165629777,
+        yHigh: 129.60351058284022,
+        yLow: 129.60351058284022,
+      },
+      {
+        x: 10000,
+        y2: 301.21165055865265,
+      },
+      {
+        x: 1158691.4165629777,
+        y2: 129.60351058284022,
+      },
+      {
+        x: 10000000,
+        y2: 129.60351058284022,
+      },
+      {
+        x: 10000,
+        y3: 301.21165055865254,
+      },
+      {
+        x: 1158691.4165629777,
+        y3: 129.60351058284027,
+      },
+      {
+        x: 10000000,
+        y3: 129.60351058284027,
+      },
+      {
+        x: 10000,
+        y5: 301.21165055865254,
+      },
+      {
+        x: 1158691.4165629777,
+        y5: 129.60351058284027,
+      },
+      {
+        x: 10000000,
+        y5: 129.60351058284027,
+      },
+      {
+        x: 10000,
+        y6: 301.21165055865254,
+      },
+      {
+        x: 1158691.4165629777,
+        y6: 129.60351058284027,
+      },
+      {
+        x: 10000000,
+        y6: 129.60351058284027,
+      },
+      {
+        x: 10000,
+        y4: 301.21165055865254,
+      },
+      {
+        x: 1158691.4165629777,
+        y4: 129.60351058284027,
+      },
+      {
+        x: 10000000,
+        y4: 129.60351058284027,
+      },
+    ],
+  },
+  xAxis: {
+    max: 10000000,
+    min: 10000,
+  },
+  yAxis: {
+    max: 812.0430679209095,
+    min: 60.56999999999996,
+  },
+  // tslint:disable-next-line: max-file-line-count
 };

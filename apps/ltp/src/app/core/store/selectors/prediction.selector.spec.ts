@@ -1,4 +1,8 @@
-import { mockedPredictionRequestWithKpi } from '../../../mocks/mock.constants';
+import {
+  mockedPredictionRequestWithKpi,
+  mockedPredictionRequestWithLimits,
+  mockedPredictionResultGraphData,
+} from '../../../mocks/mock.constants';
 import { PredictionState } from '../reducers/prediction.reducer';
 import * as PredictionSelectors from './prediction.selectors';
 
@@ -217,8 +221,20 @@ describe('PredictionSelectors', () => {
 
   it('should getPredictionResult', () => {
     expect(
-      PredictionSelectors.getPredictionResult.projector(mockedPredictionRequest)
+      PredictionSelectors.getPredictionResult.projector(
+        mockedPredictionRequestWithLimits
+      )
     ).toEqual({ kpi: undefined });
+  });
+
+  it('should getPredictionResultGraphData', () => {
+    expect(
+      PredictionSelectors.getPredictionResultGraphData.projector(
+        PredictionSelectors.getPredictionResult(
+          mockedPredictionRequestWithLimits
+        )
+      )
+    ).toEqual(mockedPredictionResultGraphData);
   });
 
   it('should getStatisticalResult', () => {

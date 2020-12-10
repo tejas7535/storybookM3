@@ -41,7 +41,7 @@
         </span>
       </button>
       <mat-menu #uploadMenu="matMenu">
-        <button mat-menu-item (click)="fileInput.click()">
+        <button mat-menu-item (click)="fileInput.click()" disabled="true">
           <span>{{ t('csv') }}</span>
           <input
             hidden
@@ -52,7 +52,7 @@
             (change)="handleFileInput($event.target.files)"
           />
         </button>
-        <button mat-menu-item (click)="handleDummyLoad()">
+        <button mat-menu-item (click)="handleDummyLoad()" disabled="true">
           <span translate>{{ t('csv_dummy') }}</span>
         </button>
       </mat-menu>
@@ -74,9 +74,17 @@
         </span>
       </button>
       <mat-menu #exportMenu="matMenu">
-        <button mat-menu-item (click)="chart.exportChart()">
-          <span>{{ t('pdf') }}</span>
-        </button>
+        <a
+          [href]="chart.imgUrl"
+          [download]="chart.filename"
+          (click)="chart.exportChart()"
+          class="download-button"
+        >
+          <button mat-menu-item>
+            <!-- <button mat-menu-item (click)="chart.exportChart()"> -->
+            <span>{{ t('png') }}</span>
+          </button>
+        </a>
       </mat-menu>
     </div>
   </div>
@@ -91,12 +99,8 @@
     <div fxFlex="50%" fxLayout.gt-md="column" fxFlex.gt-md="70%">
       <ltp-chart
         #chart
-        [data]="(predictionResult | async)?.data"
-        [lines]="(predictionResult | async)?.lines"
-        [limits]="(predictionResult | async)?.limits"
-        [bannerIsVisible]="bannerIsOpen"
-        [customizeTooltip]="customizeTooltip"
-        [chartSettings]="chartSettings"
+        [chartSettings]="chartOptions"
+        [mergeData$]="mergeData$"
         class="full-height"
       ></ltp-chart>
     </div>

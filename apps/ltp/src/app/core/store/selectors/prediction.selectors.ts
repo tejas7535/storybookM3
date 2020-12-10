@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { EChartOption } from 'echarts';
 
 import { HelpersService } from '../../services/helpers.service';
 import * as fromStore from '../reducers';
@@ -80,6 +81,33 @@ export const getPredictionResult = createSelector(
     );
 
     return { ...result, kpi };
+  }
+);
+
+export const getPredictionResultGraphData = createSelector(
+  getPredictionResult,
+  (prediction) => {
+    let graphData: EChartOption = {
+      dataset: {
+        source: prediction.data,
+      },
+    };
+
+    if (prediction.limits) {
+      graphData = {
+        ...graphData,
+        xAxis: {
+          min: prediction.limits.x_min,
+          max: prediction.limits.x_max,
+        },
+        yAxis: {
+          min: prediction.limits.y_min,
+          max: prediction.limits.y_max,
+        },
+      };
+    }
+
+    return graphData;
   }
 );
 

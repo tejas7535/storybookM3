@@ -43,7 +43,7 @@ describe('UploadModalComponent', () => {
   });
 
   describe('trackByFn', () => {
-    test('should return index', () => {
+    it('should return index', () => {
       const idx = 5;
 
       const result = component.trackByFn(idx, {});
