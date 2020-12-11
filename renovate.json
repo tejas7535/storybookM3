@@ -6,6 +6,10 @@
   },
   "baseBranches": ["master"],
   "ignorePaths": ["libs/**/*"],
+  "allowPostUpgradeCommandTemplating": true,
+  "allowedPostUpgradeCommands": [
+    "^node ./tools/npm-scripts/npm-force-resolutions-sync.js"
+  ],
   "packageRules": [
     {
       "packageNames": [
@@ -36,7 +40,11 @@
         "ng-packagr"
       ],
       "groupName": "@angular/angular-cli",
-      "updateTypes": ["minor", "patch"]
+      "updateTypes": ["minor", "patch"],
+      "postUpgradeTasks": {
+        "commands": ["node ./tools/npm-scripts/npm-force-resolutions-sync.js"],
+        "fileFilters": ["package.json", "package-lock.json"]
+      }
     },
     {
       "packageNames": [
