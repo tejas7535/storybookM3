@@ -39,6 +39,12 @@ export class OfferTableComponent implements OnChanges {
   public rowSelection = 'multiple';
   public components: any[] = [];
 
+  onGridReady(params: any): void {
+    if (this.drawerTable) {
+      params.api.sizeColumnsToFit();
+    }
+  }
+
   ngOnChanges(): void {
     this.columnDefs = this.drawerTable
       ? COLUMN_DEFS_SHORT

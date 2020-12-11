@@ -19,7 +19,7 @@
       [customer]="customer$ | async"
     ></gq-customer-information>
   </mat-drawer-content>
-  <mat-drawer #drawer position="end" [mode]="'push'" (opened)="getOffer()">
+  <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
       fxLayout="column"
       fxFlexFill

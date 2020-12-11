@@ -25,7 +25,7 @@
       [rowData]="(quotation$ | async).quotationDetails"
     ></gq-result-table>
   </mat-drawer-content>
-  <mat-drawer #drawer position="end" [mode]="mode" (opened)="getOffer()">
+  <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
       fxLayout="column"
       fxFlexFill
