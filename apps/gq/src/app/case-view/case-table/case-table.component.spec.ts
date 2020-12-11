@@ -5,6 +5,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
 import { OpenCaseButtonComponent } from '../../shared/custom-status-bar/open-case-button/open-case-button.component';
@@ -29,6 +31,7 @@ describe('CaseTableComponent', () => {
       CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
       MatDialogModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [provideMockStore({})],
     declarations: [CaseTableComponent],

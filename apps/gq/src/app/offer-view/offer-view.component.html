@@ -4,6 +4,12 @@
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
 >
-  <gq-offer-header [offerNumber]="'#123456'"></gq-offer-header>
+  <gq-case-header
+    [gqId]="(quotation$ | async).gqId"
+    [sapId]="(quotation$ | async).sapId"
+    [customerName]="(quotation$ | async).customer.name"
+    offerScreen="true"
+  ></gq-case-header>
+
   <gq-offer-table [rowData]="offer$ | async"></gq-offer-table>
 </div>

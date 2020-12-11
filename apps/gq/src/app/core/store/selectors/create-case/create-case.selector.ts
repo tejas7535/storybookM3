@@ -2,11 +2,11 @@ import { createSelector } from '@ngrx/store';
 
 import {
   CaseFilterItem,
-  MaterialTableItem,
   CreateCase,
   CreateCaseResponse,
   ImportCaseResponse,
   MaterialQuantities,
+  MaterialTableItem,
   SapQuotation,
 } from '../../models';
 import { getCaseState } from '../../reducers';
@@ -64,7 +64,7 @@ export const getCaseRowData = createSelector(
 export const getCustomerConditionsValid = createSelector(
   getCaseState,
   (state: CaseState): boolean => {
-    const rowData = [...state.createCase.rowData];
+    const rowData = state ? [...state.createCase.rowData] : [];
     let rowDataValid = rowData.length >= 1;
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {
@@ -80,9 +80,11 @@ export const getCustomerConditionsValid = createSelector(
         }
       }
     }
-    const customerValid = state.createCase.autocompleteItems
-      .find((el) => el.filter === 'customer')
-      .options.find((opt) => opt.selected);
+    const customerValid = state
+      ? state.createCase.autocompleteItems
+          .find((el) => el.filter === 'customer')
+          .options.find((opt) => opt.selected)
+      : undefined;
 
     return customerValid !== undefined ? rowDataValid : false;
   }

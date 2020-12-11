@@ -1,3 +1,4 @@
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -27,6 +28,7 @@ describe('CustomerViewComponent', () => {
       CaseHeaderModule,
       CustomerInformationModule,
       OfferDrawerModule,
+      MatCardModule,
       MatSidenavModule,
       LoadingSpinnerModule,
     ],

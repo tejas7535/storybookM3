@@ -10,10 +10,12 @@
     fxFlexFill
     *ngIf="(isCustomerLoading$ | async) === false; else loading"
   >
-    <gq-case-header
-      [customerName]="(customer$ | async).name"
-      (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-case-header>
+    <mat-card>
+      <gq-case-header
+        [customerName]="(customer$ | async).name"
+        (toggleOfferDrawer)="drawer.toggle()"
+      ></gq-case-header>
+    </mat-card>
 
     <gq-customer-information
       [customer]="customer$ | async"

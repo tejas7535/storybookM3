@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { pasteRowDataItemsToAddMaterial } from '../../../core/store';
 import { ValidationDescription } from '../../../core/store/models';
@@ -12,6 +12,7 @@ import { CellRendererModule } from '../../../shared/cell-renderer/cell-renderer.
 import { AddMaterialButtonComponent } from '../../../shared/custom-status-bar/add-material-button/add-material-button.component';
 import { CustomStatusBarModule } from '../../../shared/custom-status-bar/custom-status-bar.module';
 import { ResetAllButtonComponent } from '../../../shared/custom-status-bar/reset-all-button/reset-all-button.component';
+import { initialState } from './../../../core/store/reducers/process-case/process-case.reducer';
 import { AddMaterialInputTableComponent } from './add-material-input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,11 +34,10 @@ describe('AddMaterialInputTableComponent', () => {
       ]),
       CellRendererModule,
       CustomStatusBarModule,
-      TranslocoTestingModule,
-      MatDialogModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [
-      provideMockStore({}),
+      provideMockStore({ initialState }),
       {
         provide: MatDialogRef,
         useValue: {},
@@ -47,7 +47,7 @@ describe('AddMaterialInputTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = TestBed.inject(MockStore);
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {
