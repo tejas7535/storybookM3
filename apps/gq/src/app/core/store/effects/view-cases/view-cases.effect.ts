@@ -3,8 +3,11 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DeleteCaseService } from '../../../../case-view/services/delete-case.service';
@@ -63,7 +66,14 @@ export class ViewCasesEffect {
       ofType(deleteCase.type),
       mergeMap((action: any) =>
         this.deleteCaseService.deleteCase(action.gqIds).pipe(
-          map(deleteCasesSuccess),
+          map(() => {
+            const successMessage = translate(
+              'caseView.snackBarMessages.deleteSuccess'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
+
+            return deleteCasesSuccess();
+          }),
           catchError((errorMessage) => of(deleteCasesFailure({ errorMessage })))
         )
       )
@@ -73,6 +83,7 @@ export class ViewCasesEffect {
   constructor(
     private readonly actions$: Actions,
     private readonly viewCasesService: ViewCasesService,
-    private readonly deleteCaseService: DeleteCaseService
+    private readonly deleteCaseService: DeleteCaseService,
+    private readonly snackBarService: SnackBarService
   ) {}
 }

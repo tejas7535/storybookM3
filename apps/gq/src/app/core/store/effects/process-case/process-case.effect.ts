@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
-
 import { of } from 'rxjs';
 import {
   catchError,
@@ -13,6 +9,13 @@ import {
   mergeMap,
   withLatestFrom,
 } from 'rxjs/operators';
+
+import { translate } from '@ngneat/transloco';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { select, Store } from '@ngrx/store';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
@@ -181,7 +184,14 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .addMaterial(addQuotationDetailsRequest)
           .pipe(
-            map((item) => addMaterialsSuccess({ item })),
+            map((item) => {
+              const successMessage = translate(
+                'processCaseView.snackBarMessages.materialAdded'
+              );
+              this.snackBarService.showSuccessMessage(successMessage);
+
+              return addMaterialsSuccess({ item });
+            }),
             catchError((errorMessage) =>
               of(addMaterialsFailure({ errorMessage }))
             )
@@ -197,7 +207,14 @@ export class ProcessCaseEffect {
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
-          map((item) => removeMaterialsSuccess({ item })),
+          map((item) => {
+            const successMessage = translate(
+              'processCaseView.snackBarMessages.materialDeleted'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
+
+            return removeMaterialsSuccess({ item });
+          }),
           catchError((errorMessage) =>
             of(removeMaterialsFailure({ errorMessage }))
           )
@@ -212,7 +229,8 @@ export class ProcessCaseEffect {
     private readonly quotationDetailsService: QuotationDetailsService,
     private readonly store: Store<fromRouter.AppState>,
     private readonly router: Router,
-    private readonly validationService: ValidationService
+    private readonly validationService: ValidationService,
+    private readonly snackBarService: SnackBarService
   ) {}
 
   private static mapQueryParamsToIdentifier(

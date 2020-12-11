@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';

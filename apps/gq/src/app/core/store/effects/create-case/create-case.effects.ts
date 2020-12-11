@@ -4,8 +4,11 @@ import { Router } from '@angular/router';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
@@ -26,10 +29,10 @@ import {
   validateSuccess,
 } from '../../actions';
 import {
-  MaterialTableItem,
   CreateCase,
   CreateCaseResponse,
   ImportCaseResponse,
+  MaterialTableItem,
   MaterialValidation,
 } from '../../models';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
@@ -100,6 +103,10 @@ export class CreateCaseEffects {
                 customer_number: createdCase.customerId,
               },
             });
+            const successMessage = translate(
+              'caseView.snackBarMessages.createSuccess'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
 
             return createCaseSuccess({ createdCase });
           }),
@@ -123,6 +130,10 @@ export class CreateCaseEffects {
                 customer_number: importCaseData.customerId,
               },
             });
+            const successMessage = translate(
+              'caseView.snackBarMessages.importSuccess'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
 
             return importCaseSuccess({ quotationNumber });
           }),
@@ -138,6 +149,7 @@ export class CreateCaseEffects {
     private readonly createCaseService: CreateCaseService,
     private readonly router: Router,
     private readonly store: Store<CaseState>,
-    private readonly validationService: ValidationService
+    private readonly validationService: ValidationService,
+    private readonly snackBarService: SnackBarService
   ) {}
 }
