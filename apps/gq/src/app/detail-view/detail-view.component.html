@@ -17,7 +17,7 @@
   >
     <mat-card>
       <gq-case-header
-        [quotationNumber]="(quotation$ | async).gqId"
+        [gqId]="(quotation$ | async).gqId"
         [materialNumberAndDescription]="materialNumberAndDescription$ | async"
         (toggleOfferDrawer)="drawer.toggle()"
       ></gq-case-header>

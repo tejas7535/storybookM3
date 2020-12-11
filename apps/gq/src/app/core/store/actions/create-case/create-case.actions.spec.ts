@@ -143,12 +143,12 @@ describe('Create Actions', () => {
     });
 
     test('importCaseSuccess', () => {
-      const quotationNumber = '1234547';
+      const gqId = 1234547;
 
-      const action = importCaseSuccess({ quotationNumber });
+      const action = importCaseSuccess({ gqId });
 
       expect(action).toEqual({
-        quotationNumber,
+        gqId,
         type: '[Create Case] Import SAP Quotation Success',
       });
     });

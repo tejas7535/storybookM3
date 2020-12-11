@@ -3,7 +3,7 @@ import { CUSTOMER_MOCK } from './customer.mock';
 import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 
 export const QUOTATION_MOCK: Quotation = {
-  gqId: '12345',
+  gqId: 12345,
   quotationDetails: [QUOTATION_DETAIL_MOCK],
   customer: CUSTOMER_MOCK,
   id: 'ID',

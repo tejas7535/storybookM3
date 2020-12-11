@@ -124,7 +124,7 @@ describe('Process Case Selector', () => {
             item: QUOTATION_MOCK,
             quotationLoading: true,
           },
-          quotationIdentifier: { quotationNumber: '123' },
+          quotationIdentifier: { gqId: 123 },
           addMaterials: {
             ...initialState.addMaterials,
             addMaterialRowData: [
@@ -142,7 +142,7 @@ describe('Process Case Selector', () => {
           mockState.processCase
         )
       ).toEqual({
-        gqId: '123',
+        gqId: 123,
         items: [{ materialId: '123456', quantity: 200 }],
       });
     });

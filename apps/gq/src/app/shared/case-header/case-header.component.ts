@@ -15,7 +15,7 @@ import { getCustomer } from '../../core/store/selectors';
   styleUrls: ['./case-header.component.scss'],
 })
 export class CaseHeaderComponent implements OnInit {
-  @Input() quotationNumber: string;
+  @Input() gqId: number;
   @Input() sapId: string;
   @Input() materialNumber15: string;
   @Input() customerName: string;

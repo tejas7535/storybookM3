@@ -97,7 +97,7 @@ export class ProcessCaseEffect {
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.quotationDetailsService
-          .getQuotation(quotationIdentifier.quotationNumber)
+          .getQuotation(quotationIdentifier.gqId)
           .pipe(
             map((item: Quotation) => ProcessCaseEffect.addRandomValues(item)),
             catchError((errorMessage) =>
@@ -235,13 +235,11 @@ export class ProcessCaseEffect {
 
   private static mapQueryParamsToIdentifier(
     queryParams: any
-  ): { quotationNumber: string; customerNumber: string } {
-    const quotationNumber: string = queryParams['quotation_number'];
+  ): { gqId: number; customerNumber: string } {
+    const gqId: number = queryParams['quotation_number'];
     const customerNumber: string = queryParams['customer_number'];
 
-    return quotationNumber || customerNumber
-      ? { quotationNumber, customerNumber }
-      : undefined;
+    return gqId || customerNumber ? { gqId, customerNumber } : undefined;
   }
 
   private static checkEqualityOfIdentifier(
@@ -250,7 +248,7 @@ export class ProcessCaseEffect {
   ): boolean {
     return (
       fromRoute.customerNumber === current?.customerNumber &&
-      fromRoute.quotationNumber === current?.quotationNumber
+      fromRoute.gqId === current?.gqId
     );
   }
 

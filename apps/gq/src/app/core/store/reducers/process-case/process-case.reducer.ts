@@ -84,7 +84,7 @@ export const processCaseReducer = createReducer(
     quotationIdentifier: {
       ...state.quotationIdentifier,
       customerNumber: quotationIdentifier.customerNumber,
-      quotationNumber: quotationIdentifier.quotationNumber,
+      gqId: quotationIdentifier.gqId,
     },
   })),
   on(loadCustomer, (state: ProcessCaseState) => ({

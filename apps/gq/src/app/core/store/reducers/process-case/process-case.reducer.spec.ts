@@ -96,7 +96,7 @@ describe('Quotation Reducer', () => {
     describe('selectQuotation', () => {
       test('should set selectQuotation', () => {
         const quotationIdentifier: QuotationIdentifier = {
-          quotationNumber: '123',
+          gqId: 123,
           customerNumber: '456',
         };
         const action = selectQuotation({ quotationIdentifier });

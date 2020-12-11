@@ -268,12 +268,12 @@ describe('Create Case Effects', () => {
       action = importCase();
 
       createCaseService.importCase = jest.fn(() => response);
-      const quotationNumber = 'sdf-1234687';
-      const result = importCaseSuccess({ quotationNumber });
+      const gqId = 1234687;
+      const result = importCaseSuccess({ gqId });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: quotationNumber,
+        a: gqId,
       });
       const expected = cold('--b', { b: result });
       expect(effects.importCase$).toBeObservable(expected);

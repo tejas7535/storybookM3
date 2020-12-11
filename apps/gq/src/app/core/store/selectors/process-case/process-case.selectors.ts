@@ -65,7 +65,7 @@ export const getAddQuotationDetailsRequest = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): AddQuotationDetailsRequest => {
     const gqId = state.quotationIdentifier
-      ? state.quotationIdentifier.quotationNumber
+      ? state.quotationIdentifier.gqId
       : undefined;
 
     const items: MaterialQuantities[] = [];

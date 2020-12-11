@@ -49,12 +49,12 @@ describe('QuotationDetailsService', (): void => {
 
   describe('quotationDetails', () => {
     test('should call ', () => {
-      const quotationNumber = '123456';
+      const gqId = 123456;
 
       const mock = {
         quotationDetails: [CUSTOMER_MOCK],
       };
-      service.getQuotation(quotationNumber).subscribe((response) => {
+      service.getQuotation(gqId).subscribe((response) => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
@@ -67,7 +67,7 @@ describe('QuotationDetailsService', (): void => {
   describe('addMaterial', () => {
     test('should call ', () => {
       const tableData: AddQuotationDetailsRequest = {
-        gqId: '12345',
+        gqId: 12345,
         items: [
           {
             materialId: '123456',
