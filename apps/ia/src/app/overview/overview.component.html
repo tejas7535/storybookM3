@@ -4,15 +4,14 @@
 ></ia-toggle-charts>
 
 <ng-container *ngrxLet="selectedChartType$ as selectedChart">
-  <div class="org-chart-container" [ngSwitch]="selectedChart">
+  <div class="org-chart-container">
     <ia-org-chart
-      *ngSwitchDefault
+      *ngIf="selectedChart === chartType.ORG_CHART"
       [data]="orgChart$ | ngrxPush"
       [isLoading]="isLoading$ | ngrxPush"
-      [showHeatMap]="selectedChart === chartType.HEAT_MAP"
     ></ia-org-chart>
     <ia-world-map
-      *ngSwitchCase="chartType.WORLD_MAP"
+      *ngIf="selectedChart === chartType.WORLD_MAP"
       [data]="worldMap$ | ngrxPush"
       [continents]="worldMapContinents$ | ngrxPush"
       [isLoading]="isLoading$ | ngrxPush"

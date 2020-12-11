@@ -48,7 +48,7 @@ describe('OverviewComponent', () => {
   describe('chartTypeChanged', () => {
     test('should dispatch chart type', () => {
       component['store'].dispatch = jest.fn();
-      const chartType = ChartType.HEAT_MAP;
+      const chartType = ChartType.WORLD_MAP;
 
       component.chartTypeChanged(chartType);
 

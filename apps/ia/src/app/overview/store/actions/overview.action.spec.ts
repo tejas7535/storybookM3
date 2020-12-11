@@ -16,7 +16,7 @@ describe('Overview Actions', () => {
   const errorMessage = 'An error occured';
 
   test('chartTypeSelected', () => {
-    const chartType = ChartType.HEAT_MAP;
+    const chartType = ChartType.WORLD_MAP;
     const action = chartTypeSelected({ chartType });
 
     expect(action).toEqual({

@@ -54,20 +54,7 @@ describe('OrgChartComponent', () => {
       expect(component.updateChart).toHaveBeenCalled();
       expect(
         component['orgChartService'].mapEmployeesToNodes
-      ).toHaveBeenCalledWith(employees, component.showHeatMap);
-    });
-  });
-  describe('set showHeatMap', () => {
-    test('should set showHeatMap and update chart', () => {
-      component.updateChart = jest.fn();
-      component['orgChartService'].mapEmployeesToNodes = jest.fn();
-
-      component.showHeatMap = true;
-
-      expect(component.updateChart).toHaveBeenCalled();
-      expect(
-        component['orgChartService'].mapEmployeesToNodes
-      ).toHaveBeenCalledWith(component.data, true);
+      ).toHaveBeenCalledWith(employees);
     });
   });
 

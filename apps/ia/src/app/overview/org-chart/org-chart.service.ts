@@ -10,10 +10,7 @@ import { OrgChartNode } from './models/org-chart-node.model';
   providedIn: 'root',
 })
 export class OrgChartService {
-  public mapEmployeesToNodes(
-    data: OrgChartEmployee[],
-    showHeatMap: boolean = false
-  ): OrgChartNode[] {
+  public mapEmployeesToNodes(data: OrgChartEmployee[]): OrgChartNode[] {
     return data.map((elem: OrgChartEmployee) => {
       const nodeId = elem.employeeId;
       const parentNodeId = elem.parentEmployeeId;
@@ -29,17 +26,14 @@ export class OrgChartService {
       const rowEmployees = translate('orgChart.table.rowEmployees');
       const rowAttrition = translate('orgChart.table.rowAttrition');
 
-      let heatMapClass = '';
-      if (showHeatMap) {
-        heatMapClass =
-          elem.attritionMeta?.heatType === HeatType.GREEN_HEAT
-            ? 'green-heat'
-            : elem.attritionMeta?.heatType === HeatType.ORANGE_HEAT
-            ? 'orange-heat'
-            : elem.attritionMeta?.heatType === HeatType.RED_HEAT
-            ? 'red-heat'
-            : '';
-      }
+      const heatMapClass =
+        elem.attritionMeta?.heatType === HeatType.GREEN_HEAT
+          ? 'green-heat'
+          : elem.attritionMeta?.heatType === HeatType.ORANGE_HEAT
+          ? 'orange-heat'
+          : elem.attritionMeta?.heatType === HeatType.RED_HEAT
+          ? 'red-heat'
+          : '';
 
       return {
         nodeId,
