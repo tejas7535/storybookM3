@@ -14,7 +14,6 @@ export const QUOTATION_STATE_MOCK: ProcessCaseState = {
     errorMessage: undefined,
   },
   addMaterials: {
-    dialogShown: false,
     addMaterialRowData: [dummyRowData],
     validationLoading: false,
     removeQuotationDetailsIds: [],

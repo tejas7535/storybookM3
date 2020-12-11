@@ -16,15 +16,17 @@ describe('Create Detail Selector', () => {
       );
     });
   });
+
   describe('Get Material Number and Description Selector', () => {
     test('should return Material Number and desc', () => {
       expect(
-        detailSelectors.getMaterialNumberandDescription.projector(fakeState)
+        detailSelectors.getMaterialNumberAndDescription.projector(fakeState)
       ).toEqual({
         materialNumber15: fakeState.detailCase.materialNumber15,
         materialDescription: DetailCaseMock.materialDesignation,
       });
     });
+
     test('should return Material Number and undefined description', () => {
       const mockState = {
         ...fakeState,
@@ -34,11 +36,32 @@ describe('Create Detail Selector', () => {
         },
       };
       expect(
-        detailSelectors.getMaterialNumberandDescription.projector(mockState)
+        detailSelectors.getMaterialNumberAndDescription.projector(mockState)
       ).toEqual({
         materialNumber15: fakeState.detailCase.materialNumber15,
         materialDescription: undefined,
       });
+    });
+  });
+
+  describe('Is Material Loading', () => {
+    test('should return false', () => {
+      expect(
+        detailSelectors.isMaterialLoading.projector(fakeState)
+      ).toBeFalsy();
+    });
+
+    test('should return true', () => {
+      const mockState = {
+        ...fakeState,
+        detailCase: {
+          ...fakeState.detailCase,
+          materialLoading: true,
+        },
+      };
+      expect(
+        detailSelectors.isMaterialLoading.projector(mockState)
+      ).toBeTruthy();
     });
   });
 });

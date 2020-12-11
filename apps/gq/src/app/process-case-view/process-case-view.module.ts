@@ -9,6 +9,7 @@ import { ProcessCaseEffect } from '../core/store/effects/process-case/process-ca
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
@@ -27,6 +28,7 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     SharedModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     AddMaterialDialogModule,
+    LoadingSpinnerModule,
   ],
   providers: [
     {

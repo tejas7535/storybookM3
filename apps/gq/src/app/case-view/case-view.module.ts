@@ -10,6 +10,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewRoutingModule } from './case-view-routing.module';
 import { CaseViewComponent } from './case-view.component';
@@ -30,6 +31,7 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     MatIconModule,
     SharedModule,
     SharedTranslocoModule,
+    LoadingSpinnerModule,
   ],
   providers: [
     {

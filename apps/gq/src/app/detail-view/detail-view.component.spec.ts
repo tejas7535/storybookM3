@@ -7,6 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
@@ -33,6 +34,7 @@ describe('DetailViewComponent', () => {
       MatCardModule,
       MatSidenavModule,
       PricingDetailsModule,
+      LoadingSpinnerModule,
     ],
     providers: [provideMockStore({})],
     declarations: [DetailViewComponent],

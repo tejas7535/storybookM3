@@ -13,6 +13,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { StoreModule } from './store';
 
 @NgModule({
@@ -29,6 +30,7 @@ import { StoreModule } from './store';
     HeaderModule,
     IconsModule,
     MatButtonModule,
+    LoadingSpinnerModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

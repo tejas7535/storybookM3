@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogRef } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -22,7 +23,13 @@ describe('CreateCaseButtonComponent', () => {
       MatButtonModule,
       ReactiveComponentModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      {
+        provide: MatDialogRef,
+        useValue: {},
+      },
+    ],
   });
 
   beforeEach(() => {

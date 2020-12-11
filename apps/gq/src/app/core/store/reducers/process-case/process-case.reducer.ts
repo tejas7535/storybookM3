@@ -16,6 +16,7 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
+  removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
   removeQuotationDetailFromOffer,
@@ -49,7 +50,6 @@ export interface ProcessCaseState {
     errorMessage: string;
   };
   addMaterials: {
-    dialogShown: boolean;
     addMaterialRowData: MaterialTableItem[];
     validationLoading: boolean;
     removeQuotationDetailsIds: string[];
@@ -70,7 +70,6 @@ export const initialState: ProcessCaseState = {
     errorMessage: undefined,
   },
   addMaterials: {
-    dialogShown: false,
     addMaterialRowData: [dummyRowData],
     validationLoading: false,
     removeQuotationDetailsIds: [],
@@ -196,7 +195,6 @@ export const processCaseReducer = createReducer(
     },
     addMaterials: {
       ...state.addMaterials,
-      dialogShown: false,
     },
   })),
   on(addMaterialsSuccess, (state: ProcessCaseState, { item }) => ({
@@ -210,7 +208,6 @@ export const processCaseReducer = createReducer(
     addMaterials: {
       ...state.addMaterials,
       addMaterialRowData: [dummyRowData],
-      dialogShown: false,
     },
   })),
   on(addMaterialsFailure, (state: ProcessCaseState, { errorMessage }) => ({
@@ -305,6 +302,13 @@ export const processCaseReducer = createReducer(
     addMaterials: {
       ...state.addMaterials,
       removeQuotationDetailsIds: gqPositionIds,
+    },
+  })),
+  on(removeMaterials, (state: ProcessCaseState) => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      quotationLoading: true,
     },
   })),
   on(removeMaterialsSuccess, (state: ProcessCaseState, { item }) => ({

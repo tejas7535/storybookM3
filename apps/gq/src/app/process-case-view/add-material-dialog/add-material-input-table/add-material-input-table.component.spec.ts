@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -33,8 +34,15 @@ describe('AddMaterialInputTableComponent', () => {
       CellRendererModule,
       CustomStatusBarModule,
       TranslocoTestingModule,
+      MatDialogModule,
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      {
+        provide: MatDialogRef,
+        useValue: {},
+      },
+    ],
   });
   beforeEach(() => {
     spectator = createComponent();

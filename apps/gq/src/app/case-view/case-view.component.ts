@@ -5,7 +5,11 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getQuotations } from '../core/store';
+import {
+  getQuotations,
+  isDeleteLoading,
+  isQuotationsLoading,
+} from '../core/store';
 import { ViewQuotation } from '../core/store/models';
 import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducer';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
@@ -17,6 +21,8 @@ import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dial
 })
 export class CaseViewComponent implements OnDestroy, OnInit {
   public quotations$: Observable<ViewQuotation[]>;
+  public quotationsLoading$: Observable<boolean>;
+  public deleteLoading$: Observable<boolean>;
 
   constructor(
     public dialog: MatDialog,
@@ -25,6 +31,8 @@ export class CaseViewComponent implements OnDestroy, OnInit {
 
   ngOnInit(): void {
     this.quotations$ = this.store.pipe(select(getQuotations));
+    this.quotationsLoading$ = this.store.pipe(select(isQuotationsLoading));
+    this.deleteLoading$ = this.store.pipe(select(isDeleteLoading));
   }
 
   ngOnDestroy(): void {

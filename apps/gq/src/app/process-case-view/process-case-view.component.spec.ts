@@ -21,6 +21,7 @@ import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { FlatButtonsComponent } from '../shared/custom-status-bar/flat-buttons/flat-buttons.component';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddEntryModule } from './add-material-dialog/add-entry/add-entry.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
@@ -57,6 +58,7 @@ describe('ProcessCaseViewComponent', () => {
       RouterTestingModule,
       SharedModule,
       provideTranslocoTestingModule({}),
+      LoadingSpinnerModule,
     ],
     declarations: [ProcessCaseViewComponent],
     providers: [

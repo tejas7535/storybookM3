@@ -6,7 +6,11 @@
   [hasBackdrop]="false"
 >
   <mat-drawer-content
-    *ngIf="quotation$ | async"
+    *ngIf="
+      (isCustomerLoading$ | async) === false &&
+        (isQuotationLoading$ | async) === false;
+      else loading
+    "
     fxLayout="column"
     fxLayoutAlign="start center"
     fxFlexFill
@@ -32,3 +36,7 @@
     ></gq-offer-drawer>
   </mat-drawer>
 </mat-drawer-container>
+
+<ng-template #loading>
+  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+</ng-template>
