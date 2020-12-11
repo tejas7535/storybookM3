@@ -243,17 +243,10 @@
       "title": "Alles zurücksetzen"
     },
     "offerTable": {
-      "info": "Info",
-      "materialDescription": "Materialbescheibung",
       "materialNumber": "Material Nr. (15 Ziffern)",
-      "plantCity": "Stadt",
-      "plantCountry": "Land",
+      "netValue": "Nettowert",
       "price": "Preis",
-      "productionCost": "Produktionskosten",
-      "productionHierarchy": "Produktionshierarchie",
-      "productionPlant": "Werk",
-      "quantity": "Stückzahl",
-      "rsp": "RSP"
+      "quantity": "Stückzahl"
     }
   }
 }

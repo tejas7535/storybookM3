@@ -23,6 +23,10 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
     field: 'price',
   },
   {
+    headerName: translate('shared.offerTable.netValue'),
+    field: 'netValue',
+  },
+  {
     headerName: translate('shared.offerTable.quantity'),
     field: 'orderQuantity',
   },
