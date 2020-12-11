@@ -1,8 +1,7 @@
 <div *transloco="let t; read: 'conditionMonitoring'" class="grid-container">
   <div id="ms-equipment" class="grid-element">
     <goldwind-cm-equipment
-      *ngIf="mainBearing$ | ngrxPush as mainBearing; else construction_card"
-      [mainBearing]="mainBearing"
+      [mainBearing]="mainBearing$ | ngrxPush"
     ></goldwind-cm-equipment>
   </div>
   <div id="edm-monitoring" class="grid-element">
@@ -28,6 +27,7 @@
   </div>
 </div>
 
+<!-- might come in handy at a later date -->
 <ng-template #loading_card>
   <mat-card class="full-height-card">
     <goldwind-loading-spinner></goldwind-loading-spinner>
