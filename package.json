@@ -40,6 +40,8 @@
     "generate-changelog": "node ./tools/npm-scripts/changelog.js",
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
+    "force-resolutions": "npx npm-force-resolutions && npx nx format:write --files=package-lock.json",
+    "preinstall": "npm run force-resolutions",
     "postinstall": "npm run ngcc && npm run generate-readme && node ./decorate-angular-cli.js",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
@@ -154,6 +156,7 @@
     "ng-packagr": "11.0.3",
     "ngx-build-plus": "10.1.1",
     "npm-audit-html": "1.4.3",
+    "npm-force-resolutions": "0.0.3",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
     "standard-version": "9.0.0",
@@ -178,5 +181,8 @@
     "extends": [
       "@commitlint/config-conventional"
     ]
+  },
+  "resolutions": {
+    "@angular-devkit/schematics": "11.0.4"
   }
 }

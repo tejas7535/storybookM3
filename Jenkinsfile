@@ -170,15 +170,14 @@ def getPackageVersion() {
     return packageJSON.version
 }
 
-
 // returns codeowners e.g. [kauppfbi, krausrbe, berndcri, herpisef] for kitchen-sink
 def getCodeOwners(appName) {
-    def codeOwnersFile = readFile(file: 'CODEOWNERS').trim().split("\n")
+    def codeOwnersFile = readFile(file: 'CODEOWNERS').trim().split('\n')
 
     def appString
 
-    if (appName == "workspace") { // search for workspace codeowners
-        appString = "* "
+    if (appName == 'workspace') { // search for workspace codeowners
+        appString = '* '
     } else { // search for codeowners of given app
         appString = "apps/${appName} "
     }
@@ -321,15 +320,15 @@ pipeline {
                                     env.RELEASE_SCOPE = input message: 'User input required', ok: 'Release!',
                                         parameters: [choice(name: 'RELEASE_SCOPE', choices: apps.join('\n'), description: 'What is the release scope?')]
                                 }
-                                
+
                                 def appCodeOwners = getCodeOwners("${env.RELEASE_SCOPE}")
                                 def userWhoTriggeredBuild = getBuildTriggerUser()
 
                                 // first check if user is the app code owner
                                 if (!appCodeOwners.contains(userWhoTriggeredBuild)) {
                                     // if not check if user is workspace owner
-                                    def workSpaceOwners = getCodeOwners("workspace")
-                                    if(!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                                    def workSpaceOwners = getCodeOwners('workspace')
+                                    if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
                                         error("Build was aborted. User ${userWhoTriggeredBuild} is not allowed to release ${env.RELEASE_SCOPE}")
                                     }
                                 }
@@ -343,8 +342,8 @@ pipeline {
                             }
                         } else if (isLibsRelease()) {
                             def userWhoTriggeredBuild = getBuildTriggerUser()
-                            def workSpaceOwners = getCodeOwners("workspace")
-                            if(!workSpaceOwners.contains(userWhoTriggeredBuild)) {
+                            def workSpaceOwners = getCodeOwners('workspace')
+                            if (!workSpaceOwners.contains(userWhoTriggeredBuild)) {
                                 error("Build was aborted. Only workspace owners are allowed to release libs. User ${userWhoTriggeredBuild} is not allowed to release libs")
                             }
                         }
@@ -658,17 +657,16 @@ pipeline {
                             // generate project specific changelog
                             if (isAppRelease()) {
                                 def exists = fileExists "apps/${env.RELEASE_SCOPE}/CHANGELOG.md"
-                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version";
-                                
+                                def standardVersionCommand = "npx nx run ${env.RELEASE_SCOPE}:standard-version"
+
                                 if (!exists) {
                                     //first version
                                     standardVersionCommand += " --params='--first-release"
-                                } else if(params.CUSTOM_VERSION != "${customVersionDefault}"){
+                                } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
                                     standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                                 }
 
                                 sh standardVersionCommand
-
                             } else if (isLibsRelease()) {
                                 sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
                             }
