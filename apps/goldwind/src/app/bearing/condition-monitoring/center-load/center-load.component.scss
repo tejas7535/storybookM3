@@ -12,7 +12,8 @@
 }
 
 .center-load-chart {
-  will-change: later;
+  min-height: 300px;
+  width: 100%;
 }
 
 mat-slider {

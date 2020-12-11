@@ -27,7 +27,7 @@ describe('StatusIndicatorComponent', () => {
   });
 
   describe('emptyGreaseStatusGraphData', () => {
-    it('should return true if none of the grease status graph datas contain data', () => {
+    it('should return true if none of the grease status graph datas contain data but legends exist', () => {
       const mockgraphData: GraphData = {
         legend: {
           data: ['deteriorationPercent', 'temperatureCelsius'],
@@ -48,6 +48,29 @@ describe('StatusIndicatorComponent', () => {
 
       component.graphData = mockgraphData;
       expect(component.emptyGraphData()).toBe(true);
+    });
+
+    it('should return false if none of the grease status graph datas contain but also no legend is active', () => {
+      const mockgraphData: GraphData = {
+        legend: {
+          data: [],
+        },
+        series: [
+          {
+            name: 'deteriorationPercent',
+            type: 'line',
+            data: [],
+          },
+          {
+            name: 'temperatureCelsius',
+            type: 'line',
+            data: [],
+          },
+        ],
+      };
+
+      component.graphData = mockgraphData;
+      expect(component.emptyGraphData()).toBe(false);
     });
   });
 });

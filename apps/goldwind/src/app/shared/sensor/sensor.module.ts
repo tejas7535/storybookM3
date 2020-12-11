@@ -5,12 +5,14 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '../../shared/shared.module';
 import { SensorComponent } from './sensor.component';
 
 @NgModule({
   declarations: [SensorComponent],
   imports: [
     CommonModule,
+    SharedModule,
     ReactiveFormsModule,
 
     // UI Modules

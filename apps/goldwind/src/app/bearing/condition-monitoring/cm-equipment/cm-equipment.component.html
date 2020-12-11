@@ -10,14 +10,14 @@
     src="/assets/images/turbine-bearing.jpg"
     [alt]="t('windturbineImage')"
   />
-  <mat-card-content *ngIf="mainBearing">
+  <mat-card-content>
     <div
       *ngFor="let bearingProperty of bearingProperties; trackBy: trackByFn"
       class="bearingMetaData"
     >
       <label>{{ t(bearingProperty.name) }}: </label>
       <span>
-        {{ mainBearing[bearingProperty.property] || 'n/a' }}
+        {{ (mainBearing && mainBearing[bearingProperty.property]) || 'n/a' }}
         {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
       </span>
     </div>

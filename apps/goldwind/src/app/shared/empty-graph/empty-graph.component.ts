@@ -12,7 +12,7 @@ export class EmptyGraphComponent {
 
   emptyGraphData(): boolean {
     return (
-      this.graphData &&
+      this.graphData?.legend.data.length !== 0 &&
       (this.graphData?.series as any)?.filter(
         (series: any) => series.data.length > 0
       ).length === 0
