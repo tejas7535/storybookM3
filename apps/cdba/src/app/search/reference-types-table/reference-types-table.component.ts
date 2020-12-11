@@ -190,17 +190,22 @@ export class ReferenceTypesTableComponent implements OnChanges {
   ): void {
     const columnDefinitions: ColDef[] = [];
 
-    Object.keys(defaultColumnDefinitions).forEach((key: string) => {
-      const columnStateUser = usersColumnState
-        ? usersColumnState.find((col) => col.colId === key)
-        : undefined;
+    Object.keys(defaultColumnDefinitions).forEach(
+      (key: string, index: number) => {
+        const columnStateUser = usersColumnState
+          ? usersColumnState.find((col) => col.colId === key)
+          : undefined;
 
-      columnDefinitions.push({
-        ...defaultColumnDefinitions[key],
-        ...(defaultColumnState[key] as any),
-        ...columnStateUser,
-      });
-    });
+        columnDefinitions[
+          (columnStateUser && usersColumnState.indexOf(columnStateUser)) ||
+            index
+        ] = {
+          ...defaultColumnDefinitions[key],
+          ...(defaultColumnState[key] as any),
+          ...columnStateUser,
+        };
+      }
+    );
 
     this.columnDefs = columnDefinitions;
   }
