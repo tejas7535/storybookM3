@@ -63,9 +63,14 @@
       }
     },
     "deleteAccept": {
-      "text": "Do you really want to delete the following quotation(s)?",
+      "cancelButton": "cancel",
       "deleteButton": "delete",
-      "cancelButton": "cancel"
+      "text": "Do you really want to delete the following case(s)?"
+    },
+    "snackBarMessages": {
+      "createSuccess": "Case was created successfully",
+      "deleteSuccess": "Case was deleted successfully",
+      "importSuccess": "Case was imported successfully"
     }
   },
   "customerView": {
@@ -83,7 +88,6 @@
     "subSector": "Subsector",
     "title": "Customer"
   },
-
   "detailView": {
     "filterPricing": {
       "title": "Manual Pricing",
@@ -174,6 +178,10 @@
       "rlt": "RLT",
       "sqv": "SQV",
       "uom": "UoM"
+    },
+    "snackBarMessages": {
+      "materialAdded": "Material(s) added to the case",
+      "materialDeleted": "Material(s) deleted from the case"
     }
   },
   "shared": {

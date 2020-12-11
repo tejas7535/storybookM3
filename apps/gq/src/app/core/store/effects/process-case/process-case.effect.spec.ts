@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -8,6 +9,8 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
+
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import {
   CUSTOMER_MOCK,
@@ -49,6 +52,10 @@ import {
 } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 describe('ProcessCaseEffect', () => {
   let action: any;
   let actions$: any;
@@ -56,6 +63,7 @@ describe('ProcessCaseEffect', () => {
   let customerDetailsService: CustomerDetailsService;
   let quotationDetailsService: QuotationDetailsService;
   let validationService: ValidationService;
+  let snackBarService: SnackBarService;
 
   let store: any;
   let router: Router;
@@ -64,7 +72,7 @@ describe('ProcessCaseEffect', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [BrowserAnimationsModule, SnackBarModule, RouterTestingModule],
       providers: [
         ProcessCaseEffect,
         provideMockActions(() => actions$),
@@ -101,6 +109,7 @@ describe('ProcessCaseEffect', () => {
     validationService = TestBed.inject(ValidationService);
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
+    snackBarService = TestBed.inject(SnackBarService);
   });
 
   describe(' customerDetails$', () => {
@@ -341,6 +350,7 @@ describe('ProcessCaseEffect', () => {
     });
 
     test('should return addMaterialsSuccess when REST call is successful', () => {
+      snackBarService.showSuccessMessage = jest.fn();
       action = addMaterials();
 
       quotationDetailsService.addMaterial = jest.fn(() => response);
@@ -358,6 +368,7 @@ describe('ProcessCaseEffect', () => {
       expect(quotationDetailsService.addMaterial).toHaveBeenCalledWith(
         addQuotationDetailsRequest
       );
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
     test('should return addMaterialsFailure on REST error', () => {
@@ -381,6 +392,7 @@ describe('ProcessCaseEffect', () => {
     });
 
     test('should return removeMaterialsSuccess when REST call is successful', () => {
+      snackBarService.showSuccessMessage = jest.fn();
       action = removeMaterials();
 
       quotationDetailsService.removeMaterial = jest.fn(() => response);
@@ -398,6 +410,7 @@ describe('ProcessCaseEffect', () => {
       expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
         qgPositionIds
       );
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
     test('should return removeMaterialsFailure on REST error', () => {

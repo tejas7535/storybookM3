@@ -1,11 +1,13 @@
-import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
+
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
@@ -26,10 +28,10 @@ import {
 } from '../../actions';
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
   ImportCaseResponse,
+  MaterialTableItem,
   MaterialValidation,
   ValidationDescription,
 } from '../../models';
@@ -41,7 +43,12 @@ import {
 } from '../../selectors';
 import { CreateCaseEffects } from './create-case.effects';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 describe('Create Case Effects', () => {
+  let spectator: SpectatorService<CreateCaseEffects>;
   let action: any;
   let actions$: any;
   let createCaseService: CreateCaseService;
@@ -49,44 +56,49 @@ describe('Create Case Effects', () => {
   let autocompleteService: AutocompleteService;
   let store: MockStore;
   let validationService: ValidationService;
+  let router: Router;
+  let snackBarService: SnackBarService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      providers: [
-        CreateCaseEffects,
-        provideMockActions(() => actions$),
-        provideMockStore({ initialState: { search: initialState } }),
-        {
-          provide: AutocompleteService,
-          useValue: {
-            autocomplete: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: CreateCaseEffects,
+    imports: [SnackBarModule, RouterTestingModule],
+    providers: [
+      CreateCaseEffects,
+      SnackBarService,
+      provideMockActions(() => actions$),
+      provideMockStore({ initialState: { search: initialState } }),
+      {
+        provide: AutocompleteService,
+        useValue: {
+          autocomplete: jest.fn(),
         },
-        {
-          provide: ValidationService,
-          useValue: {
-            validate: jest.fn(),
-          },
+      },
+      {
+        provide: ValidationService,
+        useValue: {
+          validate: jest.fn(),
         },
-        {
-          provide: CreateCaseService,
-          useValue: {
-            createCase: jest.fn(),
-          },
+      },
+      {
+        provide: CreateCaseService,
+        useValue: {
+          createCase: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    actions$ = TestBed.inject(Actions);
-    createCaseService = TestBed.inject(CreateCaseService);
-    effects = TestBed.inject(CreateCaseEffects);
-    autocompleteService = TestBed.inject(AutocompleteService);
-    validationService = TestBed.inject(ValidationService);
-    store = TestBed.inject(MockStore);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    actions$ = spectator.inject(Actions);
+    createCaseService = spectator.inject(CreateCaseService);
+    effects = spectator.inject(CreateCaseEffects);
+    autocompleteService = spectator.inject(AutocompleteService);
+    validationService = spectator.inject(ValidationService);
+    store = spectator.inject(MockStore);
+    router = spectator.inject(Router);
+    snackBarService = spectator.inject(SnackBarService);
   });
 
   describe('autocomplete$', () => {
@@ -207,6 +219,8 @@ describe('Create Case Effects', () => {
     });
 
     test('should return validateSuccess when REST call is successful', () => {
+      router.navigate = jest.fn();
+      snackBarService.showSuccessMessage = jest.fn();
       action = createCase();
 
       createCaseService.createCase = jest.fn(() => response);
@@ -221,6 +235,8 @@ describe('Create Case Effects', () => {
       expect(effects.createCase$).toBeObservable(expected);
       expect(createCaseService.createCase).toHaveBeenCalledTimes(1);
       expect(createCaseService.createCase).toHaveBeenCalledWith(createCaseData);
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
     test('should return validateFailure on REST error', () => {
       const error = new Error('damn');
@@ -247,6 +263,8 @@ describe('Create Case Effects', () => {
     });
 
     test('should return importCaseSuccess when REST call is successful', () => {
+      router.navigate = jest.fn();
+      snackBarService.showSuccessMessage = jest.fn();
       action = importCase();
 
       createCaseService.importCase = jest.fn(() => response);
@@ -263,6 +281,8 @@ describe('Create Case Effects', () => {
       expect(createCaseService.importCase).toHaveBeenCalledWith(
         importCaseData.sapId
       );
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
     test('should return importCaseFailure on REST error', () => {

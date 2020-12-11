@@ -61,6 +61,16 @@
         "title": "SAP Case importieren",
         "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
       }
+    },
+    "deleteAccept": {
+      "cancelButton": "abbrechen",
+      "deleteButton": "löschen",
+      "text": "Möchten Sie wirkliche folgende Angebote löschen?"
+    },
+    "snackBarMessages": {
+      "createSuccess": "Angebot wurde erfolgreich erstellt",
+      "deleteSuccess": "Angebot wurde erfolgreich gelöscht",
+      "importSuccess": "Angebot wurde erfolgreich importiert"
     }
   },
   "customerView": {
@@ -168,6 +178,10 @@
       "rlt": "RLT",
       "sqv": "SQV",
       "uom": "Maßeinheit"
+    },
+    "snackBarMessages": {
+      "materialAdded": "Material wurde hinzugefügt",
+      "materialDeleted": "Material wurde entfernt"
     }
   },
   "shared": {

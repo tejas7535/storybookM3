@@ -8,6 +8,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { cold, hot } from 'jasmine-marbles';
 
 import { ENV_CONFIG } from '@schaeffler/http';
+import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { DeleteCaseService } from '../../../../case-view/services/delete-case.service';
 import { ViewCasesService } from '../../../../case-view/services/view-cases.service';
@@ -21,6 +22,10 @@ import {
 } from '../../actions';
 import { ViewCasesEffect } from './view-cases.effect';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 describe('View Cases Effects', () => {
   let spectator: SpectatorService<ViewCasesEffect>;
   let action: any;
@@ -28,10 +33,15 @@ describe('View Cases Effects', () => {
   let effects: ViewCasesEffect;
   let viewCasesService: ViewCasesService;
   let deleteCasesService: DeleteCaseService;
+  let snackBarService: SnackBarService;
 
   const createService = createServiceFactory({
     service: ViewCasesEffect,
-    imports: [RouterTestingModule.withRoutes([]), HttpClientTestingModule],
+    imports: [
+      SnackBarModule,
+      RouterTestingModule.withRoutes([]),
+      HttpClientTestingModule,
+    ],
     providers: [
       provideMockActions(() => actions$),
       {
@@ -62,6 +72,7 @@ describe('View Cases Effects', () => {
     effects = spectator.inject(ViewCasesEffect);
     viewCasesService = spectator.inject(ViewCasesService);
     deleteCasesService = spectator.inject(DeleteCaseService);
+    snackBarService = spectator.inject(SnackBarService);
   });
 
   describe('getCases$', () => {
@@ -127,6 +138,7 @@ describe('View Cases Effects', () => {
       action = deleteCase({ gqIds });
     });
     test('should return deleteCaseSuccess', () => {
+      snackBarService.showSuccessMessage = jest.fn();
       deleteCasesService.deleteCase = jest.fn(() => response);
 
       const result = deleteCasesSuccess();
@@ -137,6 +149,7 @@ describe('View Cases Effects', () => {
 
       expect(effects.deleteCase$).toBeObservable(expected);
       expect(deleteCasesService.deleteCase).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
     test('should return deleteCaseFailure', () => {
