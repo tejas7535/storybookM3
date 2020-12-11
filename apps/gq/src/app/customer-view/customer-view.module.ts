@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { SharedModule } from '../shared';
@@ -18,6 +19,7 @@ import { CustomerViewComponent } from './customer-view.component';
     CustomerInformationModule,
     CustomerViewRoutingModule,
     OfferDrawerModule,
+    MatCardModule,
     MatSidenavModule,
     SharedModule,
     LoadingSpinnerModule,

@@ -7,8 +7,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
+import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { OfferTableModule } from '../shared/offer-table/offer-table.module';
-import { OfferHeaderModule } from './offer-header/offer-header.module';
 import { OfferViewRoutingModule } from './offer-view-routing.module';
 import { OfferViewComponent } from './offer-view.component';
 
@@ -25,7 +25,7 @@ describe('OfferViewComponent', () => {
     component: OfferViewComponent,
     declarations: [OfferViewComponent],
     imports: [
-      OfferHeaderModule,
+      CaseHeaderModule,
       OfferTableModule,
       OfferViewRoutingModule,
       provideTranslocoTestingModule({}),

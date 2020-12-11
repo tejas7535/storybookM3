@@ -13,16 +13,16 @@
     margin: 30px 20px 0;
   }
 
-  ::ng-deep .mat-drawer-backdrop {
-    margin-bottom: 0 !important;
-  }
-
-  .mat-drawer-backdrop {
-    margin-bottom: 0;
+  mat-card {
+    padding: 0;
   }
 
   mat-drawer {
     margin-bottom: 0 !important;
     width: 50%;
   }
+}
+
+::ng-deep .mat-drawer-backdrop {
+  margin-bottom: 0 !important;
 }

@@ -96,7 +96,7 @@ export const getRemoveQuotationDetailsRequest = createSelector(
 export const getAddMaterialRowDataValid = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => {
-    const rowData = [...state.addMaterials.addMaterialRowData];
+    const rowData = state ? [...state.addMaterials.addMaterialRowData] : [];
     let rowDataValid = rowData.length >= 1;
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {

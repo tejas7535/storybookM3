@@ -4,6 +4,8 @@ import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
 import { pasteRowDataItems } from '../../../core/store';
 import {
   MaterialTableItem,
@@ -36,6 +38,7 @@ describe('InputTableComponent', () => {
       ]),
       CellRendererModule,
       CustomStatusBarModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [provideMockStore({})],
   });

@@ -13,10 +13,6 @@
     margin: 30px 20px 0;
   }
 
-  ::ng-deep .mat-drawer-backdrop {
-    margin-bottom: 0 !important;
-  }
-
   mat-drawer {
     margin-bottom: 0 !important;
     width: 50%;
@@ -26,4 +22,8 @@
     padding-top: 0;
     width: 100%;
   }
+}
+
+::ng-deep .mat-drawer-backdrop {
+  margin-bottom: 0 !important;
 }

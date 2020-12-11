@@ -5,6 +5,31 @@ export const dateFormatter = (data: any): string => {
   return data.value ? new Date(data.value).toLocaleDateString() : '';
 };
 
+export const filterParams = {
+  comparator: (compareDate: Date, cellDate: string) => {
+    const newCellDate = new Date(cellDate);
+    newCellDate.setHours(0, 0, 0, 0);
+
+    const parsedCompareDate = compareDate.getTime();
+    const parsedCellDate = newCellDate.getTime();
+
+    if (parsedCompareDate === parsedCellDate) {
+      return 0;
+    }
+
+    if (parsedCompareDate < parsedCellDate) {
+      return 1;
+    }
+    if (parsedCompareDate > parsedCellDate) {
+      return -1;
+    }
+
+    // this is just a default that never happens
+    return 0;
+  },
+  buttons: ['reset'],
+};
+
 export const COLUMN_DEFS: ColDef[] = [
   {
     checkboxSelection: true,
@@ -20,6 +45,7 @@ export const COLUMN_DEFS: ColDef[] = [
     field: 'gqId',
   },
   {
+    filterParams,
     headerName: translate('caseView.caseTable.creationDate'),
     field: 'gqCreated',
     filter: 'agDateColumnFilter',

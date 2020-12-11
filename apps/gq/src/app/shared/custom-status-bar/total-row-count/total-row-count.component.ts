@@ -51,6 +51,7 @@ export class TotalRowCountComponent {
     this.selections = this.params.api.getSelectedRows();
     this.selections.forEach((value) => {
       this.selectedNetValue += parseFloat(value.netValue);
+      this.selectedNetValue = parseFloat(this.selectedNetValue.toFixed(2));
       sumMargin += parseFloat(value.margin);
       totalRowCount += 1;
     });

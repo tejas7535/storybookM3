@@ -1,6 +1,7 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
 
 :host {
+  margin-bottom: 0 !important;
   width: 100%;
   mat-card {
     padding: 0;
@@ -15,6 +16,11 @@
       margin: 0 16px;
     }
 
+    .cart-icon {
+      color: $schaeffler-green-2;
+      margin: 0 16px 0 0;
+    }
+
     button {
       font-weight: bold;
       margin: 16px 16px 16px 0;
@@ -23,11 +29,13 @@
       }
     }
     .additionalInfo {
+      margin-left: 16px;
       opacity: 0.38;
     }
     h1 {
       color: $schaeffler-black;
-      font-size: 34px;
+      font-size: 28px;
+      font-weight: bold;
       opacity: 0.87;
     }
   }

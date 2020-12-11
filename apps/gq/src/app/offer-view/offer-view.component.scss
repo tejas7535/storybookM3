@@ -6,7 +6,7 @@
 }
 
 .container {
-  height: calc(100% - 30px);
+  height: 100%;
 
   @media screen and (max-width: $screen-sm-max) {
     margin: 30px 20px 0;

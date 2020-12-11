@@ -41,7 +41,7 @@ export class CaseViewComponent implements OnDestroy, OnInit {
   openCreateCaseDialog(): void {
     this.dialog.open(CreateCaseDialogComponent, {
       width: '70%',
-      height: '90%',
+      height: '95%',
     });
   }
 }

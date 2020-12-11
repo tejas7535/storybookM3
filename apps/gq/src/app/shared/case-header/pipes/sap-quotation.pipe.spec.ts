@@ -11,6 +11,6 @@ describe('SapQuotationPipe', () => {
     const pipe = new SapQuotationPipe();
     const result = pipe.transform(sapId);
 
-    expect(result).toEqual(`| SAP${sapId}`);
+    expect(result).toEqual(`SAP${sapId}`);
   });
 });

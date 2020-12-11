@@ -6,7 +6,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import {
+  provideTranslocoTestingModule,
+  SharedTranslocoModule,
+} from '@schaeffler/transloco';
 
 import { AddMaterialButtonComponent } from './add-material-button.component';
 
@@ -21,6 +24,7 @@ describe('CreateCaseButtonComponent', () => {
       CommonModule,
       SharedTranslocoModule,
       MatButtonModule,
+      provideTranslocoTestingModule({}),
       ReactiveComponentModule,
     ],
     providers: [
