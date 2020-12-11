@@ -4,19 +4,17 @@
 ></ia-toggle-charts>
 
 <ng-container *ngrxLet="selectedChartType$ as selectedChart">
-  <div class="org-chart-container">
-    <ia-org-chart
-      *ngIf="selectedChart === chartType.ORG_CHART"
-      [data]="orgChart$ | ngrxPush"
-      [isLoading]="isLoading$ | ngrxPush"
-    ></ia-org-chart>
-    <ia-world-map
-      *ngIf="selectedChart === chartType.WORLD_MAP"
-      [data]="worldMap$ | ngrxPush"
-      [continents]="worldMapContinents$ | ngrxPush"
-      [isLoading]="isLoading$ | ngrxPush"
-    ></ia-world-map>
-  </div>
+  <ia-org-chart
+    *ngIf="selectedChart === chartType.ORG_CHART"
+    [data]="orgChart$ | ngrxPush"
+    [isLoading]="isLoadingOrgChart$ | ngrxPush"
+  ></ia-org-chart>
+  <ia-world-map
+    *ngIf="selectedChart === chartType.WORLD_MAP"
+    [data]="worldMap$ | ngrxPush"
+    [continents]="worldMapContinents$ | ngrxPush"
+    [isLoading]="isLoadingWorldMap$ | ngrxPush"
+  ></ia-world-map>
 </ng-container>
 
 <h2>Attrition Quota - Details</h2>

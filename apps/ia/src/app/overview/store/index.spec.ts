@@ -35,7 +35,7 @@ describe('Overview Reducer', () => {
       });
       const state = overviewReducer(initialState, action);
 
-      expect(state.loading).toBeTruthy();
+      expect(state.orgChart.loading).toBeTruthy();
     });
   });
 
@@ -49,8 +49,8 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(initialState, action);
 
-      expect(state.loading).toBeFalsy();
-      expect(state.orgChart).toEqual(employees);
+      expect(state.orgChart.loading).toBeFalsy();
+      expect(state.orgChart.data).toEqual(employees);
     });
   });
 
@@ -64,8 +64,8 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
-      expect(state.errorMessage).toEqual(errorMessage);
+      expect(state.orgChart.loading).toBeFalsy();
+      expect(state.orgChart.errorMessage).toEqual(errorMessage);
     });
   });
 
@@ -76,7 +76,7 @@ describe('Overview Reducer', () => {
       });
       const state = overviewReducer(initialState, action);
 
-      expect(state.loading).toBeTruthy();
+      expect(state.worldMap.loading).toBeTruthy();
     });
   });
 
@@ -88,7 +88,7 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(initialState, action);
 
-      expect(state.loading).toBeFalsy();
+      expect(state.worldMap.loading).toBeFalsy();
       expect(state.worldMap.data).toEqual(data);
     });
   });
@@ -103,8 +103,8 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
-      expect(state.errorMessage).toEqual(errorMessage);
+      expect(state.worldMap.loading).toBeFalsy();
+      expect(state.worldMap.errorMessage).toEqual(errorMessage);
     });
   });
 

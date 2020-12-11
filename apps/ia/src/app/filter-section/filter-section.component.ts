@@ -38,6 +38,7 @@ export class FilterSectionComponent implements OnInit {
   showAreaFilters = false;
 
   timeRangeHintValue = 'time range';
+  disabledTimeRangeFilter = true;
 
   public constructor(private readonly store: Store<FilterState>) {}
 
@@ -57,6 +58,7 @@ export class FilterSectionComponent implements OnInit {
 
   public optionSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
+    this.disabledTimeRangeFilter = false;
   }
 
   public setTimeRangeHint(timePeriod: TimePeriod): void {
@@ -74,6 +76,10 @@ export class FilterSectionComponent implements OnInit {
     this.store.dispatch(
       timePeriodSelected({ timePeriod: (idValue.id as unknown) as TimePeriod })
     );
+  }
+
+  public orgUnitInvalid(orgUnitIsInvalid: boolean): void {
+    this.disabledTimeRangeFilter = orgUnitIsInvalid;
   }
 
   public timeRangeSelected(timeRange: string): void {

@@ -32,6 +32,15 @@ export class DateInputComponent {
     this.updateStartEndDates(date);
     this.setStartView();
   }
+  @Input() set disabled(disable: boolean) {
+    if (disable) {
+      this.rangeInput.controls.start.disable();
+      this.rangeInput.controls.end.disable();
+    } else {
+      this.rangeInput.controls.start.enable();
+      this.rangeInput.controls.end.enable();
+    }
+  }
 
   get timePeriod(): TimePeriod {
     return this._timePeriod;
@@ -40,8 +49,8 @@ export class DateInputComponent {
   @Output() readonly selected: EventEmitter<string> = new EventEmitter();
 
   rangeInput = new FormGroup({
-    start: new FormControl(),
-    end: new FormControl(),
+    start: new FormControl({ value: '', disabled: true }),
+    end: new FormControl({ value: '', disabled: true }),
   });
   startView = '';
   minDate = new Date('2019-01-01 00:00:00');
@@ -85,7 +94,10 @@ export class DateInputComponent {
       }
     }
 
-    this.emitChange();
+    // TODO: quickfix | violates Angular's unidirectional flow -> expressionchangedaftercheck error -> needs to be changed after PoC
+    setTimeout(() => {
+      this.emitChange();
+    }, 50);
   }
 
   public setStartView(): void {

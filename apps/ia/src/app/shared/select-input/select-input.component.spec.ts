@@ -28,6 +28,27 @@ describe('SelectInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('set disabled', () => {
+    test('should disable control when true', () => {
+      component.selectControl.disable = jest.fn();
+      component.selectControl.enable = jest.fn();
+
+      component.disabled = true;
+
+      expect(component.selectControl.disable).toHaveBeenCalled();
+      expect(component.selectControl.enable).not.toHaveBeenCalled();
+    });
+    test('should enable control when false', () => {
+      component.selectControl.disable = jest.fn();
+      component.selectControl.enable = jest.fn();
+
+      component.disabled = false;
+
+      expect(component.selectControl.disable).not.toHaveBeenCalled();
+      expect(component.selectControl.enable).toHaveBeenCalled();
+    });
+  });
+
   describe('selectionChange', () => {
     test('should call emitChange', () => {
       component.emitChange = jest.fn();

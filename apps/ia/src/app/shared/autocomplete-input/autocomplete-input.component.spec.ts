@@ -84,6 +84,23 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
+  describe('validateInput', () => {
+    test('should emit false  when input is valid', () => {
+      component.filter.options = [{ id: 'Schaeffler', value: 'Schaeffler' }];
+      component.invalidFormControl.emit = jest.fn();
+      component.validateInput({ target: { value: 'Schaeffler' } });
+
+      expect(component.invalidFormControl.emit).toHaveBeenCalledWith(false);
+    });
+    test('should emit true  when input is invalid', () => {
+      component.filter.options = [{ id: 'Schaeffler', value: 'Schaeffler' }];
+      component.invalidFormControl.emit = jest.fn();
+      component.validateInput({ target: { value: 'ABC' } });
+
+      expect(component.invalidFormControl.emit).toHaveBeenCalledWith(true);
+    });
+  });
+
   describe('optionSelected', () => {
     test('should blur input', () => {
       component['matInput'].nativeElement.blur = jest.fn();
