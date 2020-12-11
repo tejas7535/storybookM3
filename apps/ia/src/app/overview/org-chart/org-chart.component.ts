@@ -23,32 +23,15 @@ import { OrgChartService } from './org-chart.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
-  private _showHeatMap = false;
   private _data: OrgChartEmployee[] = [];
 
   @Input() set data(data: OrgChartEmployee[]) {
     this._data = data;
-    this.chartData = this.orgChartService.mapEmployeesToNodes(
-      data,
-      this.showHeatMap
-    );
+    this.chartData = this.orgChartService.mapEmployeesToNodes(data);
     this.updateChart();
   }
 
   @Input() isLoading = false;
-
-  @Input() set showHeatMap(showHeatMap: boolean) {
-    this._showHeatMap = showHeatMap;
-    this.chartData = this.orgChartService.mapEmployeesToNodes(
-      this.data,
-      showHeatMap
-    );
-    this.updateChart();
-  }
-
-  get showHeatMap(): boolean {
-    return this._showHeatMap;
-  }
 
   get data(): OrgChartEmployee[] {
     return this._data;

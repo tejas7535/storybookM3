@@ -74,7 +74,7 @@ describe('OrgChartService', () => {
         } as unknown) as OrgChartEmployee,
       ];
 
-      const result = service.mapEmployeesToNodes(data, true);
+      const result = service.mapEmployeesToNodes(data);
 
       expect(result.length).toEqual(4);
       expect(result[1].template).toContain('green-heat');
