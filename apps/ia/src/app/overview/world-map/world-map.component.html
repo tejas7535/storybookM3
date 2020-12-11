@@ -5,6 +5,7 @@
   [merge]="mergeOptions"
   [initOpts]="initOpts"
   (chartInit)="onChartInit($event)"
+  (chartClick)="showCountryData($event)"
 ></div>
 <ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
 
@@ -21,7 +22,7 @@
   >
     <button
       mat-stroked-button
-      (click)="showContinentData(continent.value)"
+      (click)="openDialog(continent.value)"
       class="m-b-5"
       [disabled]="!continent.enabled"
     >
