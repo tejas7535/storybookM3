@@ -15,7 +15,7 @@
     fxFlexFill
   >
     <gq-case-header
-      [quotationNumber]="(quotation$ | async).gqId"
+      [gqId]="(quotation$ | async).gqId"
       [sapId]="(quotation$ | async).sapId"
       [customerName]="(quotation$ | async).customer.name"
       (toggleOfferDrawer)="drawer.toggle()"

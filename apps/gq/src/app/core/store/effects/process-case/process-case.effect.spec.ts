@@ -121,7 +121,7 @@ describe('ProcessCaseEffect', () => {
 
       const quotationIdentifier: QuotationIdentifier = {
         customerNumber,
-        quotationNumber: '01147852',
+        gqId: 1147852,
       };
       store.overrideSelector(
         getSelectedQuotationIdentifier,
@@ -164,14 +164,14 @@ describe('ProcessCaseEffect', () => {
   });
 
   describe(' quotationDetails$', () => {
-    let quotationNumber: string;
+    let gqId: number;
 
     beforeEach(() => {
-      quotationNumber = '123456';
+      gqId = 123456;
       action = loadQuotation();
 
       const quotationIdentifier: QuotationIdentifier = {
-        quotationNumber,
+        gqId,
         customerNumber: '12425',
       };
 
@@ -195,9 +195,7 @@ describe('ProcessCaseEffect', () => {
 
       expect(effects.quotationDetails$).toBeObservable(expected);
       expect(quotationDetailsService.getQuotation).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.getQuotation).toHaveBeenCalledWith(
-        quotationNumber
-      );
+      expect(quotationDetailsService.getQuotation).toHaveBeenCalledWith(gqId);
     });
 
     test('should return quotationDetailsFailure on REST error', () => {
@@ -245,7 +243,7 @@ describe('ProcessCaseEffect', () => {
           routerState: {
             url: '/process-case',
             queryParams: {
-              quotation_number: '456789',
+              quotation_number: 456789,
             },
           },
         },
@@ -253,7 +251,7 @@ describe('ProcessCaseEffect', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const quotationIdentifier = new QuotationIdentifier('456789', undefined);
+      const quotationIdentifier = new QuotationIdentifier(456789, undefined);
 
       const result = selectQuotation({ quotationIdentifier });
       const expected = cold('-b', { b: result });
@@ -446,7 +444,7 @@ describe('ProcessCaseEffect', () => {
       expect(
         ProcessCaseEffect['mapQueryParamsToIdentifier'](queryParams)
       ).toEqual({
-        quotationNumber: '23',
+        gqId: '23',
         customerNumber: '0060',
       });
     });
@@ -479,7 +477,7 @@ describe('ProcessCaseEffect', () => {
       fromRoute = QUOTATION_IDENTIFIER_MOCK;
       current = {
         ...QUOTATION_IDENTIFIER_MOCK,
-        quotationNumber: '62456',
+        gqId: 62456,
       };
 
       result = ProcessCaseEffect['checkEqualityOfIdentifier'](

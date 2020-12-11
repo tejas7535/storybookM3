@@ -1,6 +1,3 @@
 export class QuotationIdentifier {
-  public constructor(
-    public quotationNumber: string,
-    public customerNumber: string
-  ) {}
+  public constructor(public gqId: number, public customerNumber: string) {}
 }

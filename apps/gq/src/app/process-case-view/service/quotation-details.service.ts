@@ -18,9 +18,9 @@ export class QuotationDetailsService {
 
   constructor(private readonly dataService: DataService) {}
 
-  public getQuotation(quotationNumber: string): Observable<Quotation> {
+  public getQuotation(gqId: number): Observable<Quotation> {
     return this.dataService
-      .getAll<any>(`${this.QUOTATIONS}/${quotationNumber}`)
+      .getAll<any>(`${this.QUOTATIONS}/${gqId}`)
       .pipe(map((res: any) => res));
   }
 

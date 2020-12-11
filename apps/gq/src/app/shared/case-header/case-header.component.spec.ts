@@ -8,6 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomerDetailsModule } from '../customer-details/customer-details.module';
 import { CaseHeaderComponent } from './case-header.component';
+import { GqQuotationPipe } from './pipes/gq-quotation.pipe';
 import { MaterialInfoPipe } from './pipes/material-info.pipe';
 import { SapQuotationPipe } from './pipes/sap-quotation.pipe';
 
@@ -30,7 +31,12 @@ describe('ProcessCaseHeaderComponent', () => {
       RouterTestingModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [CaseHeaderComponent, SapQuotationPipe, MaterialInfoPipe],
+    declarations: [
+      CaseHeaderComponent,
+      SapQuotationPipe,
+      MaterialInfoPipe,
+      GqQuotationPipe,
+    ],
   });
 
   beforeEach(() => {

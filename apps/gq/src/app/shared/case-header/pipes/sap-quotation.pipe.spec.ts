@@ -6,11 +6,11 @@ describe('SapQuotationPipe', () => {
     expect(pipe).toBeTruthy();
   });
   test('transform data', () => {
-    const quotationNumber = '31002';
+    const sapId = '31002';
 
     const pipe = new SapQuotationPipe();
-    const result = pipe.transform(quotationNumber);
+    const result = pipe.transform(sapId);
 
-    expect(result).toEqual(`| SAP${quotationNumber}`);
+    expect(result).toEqual(`| SAP${sapId}`);
   });
 });

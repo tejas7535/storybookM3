@@ -7,8 +7,8 @@
       class="back-arrow-icon"
     ></mat-icon>
     <h1>
-      {{ quotationNumber || customerName }}
-      <span *ngIf="quotationNumber">
+      <span *ngIf="gqId; else customer">
+        {{ gqId | gqQuotation }}
         <span *ngIf="sapId" class="additionalInfo">
           {{ sapId | sapQuotation }}</span
         >
@@ -19,6 +19,7 @@
           {{ materialNumberAndDescription | materialInfo }}</span
         >
       </span>
+      <ng-template #customer> {{ customerName }}</ng-template>
     </h1>
   </div>
   <div>
@@ -35,6 +36,6 @@
 </div>
 
 <gq-customer-details
-  *ngIf="quotationNumber"
+  *ngIf="gqId"
   [customer]="customer$ | async"
 ></gq-customer-details>

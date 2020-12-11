@@ -123,10 +123,10 @@ export class CreateCaseEffects {
       map(([_action, importCaseData]) => importCaseData),
       mergeMap((importCaseData: ImportCaseResponse) =>
         this.createCaseService.importCase(importCaseData.sapId).pipe(
-          map((quotationNumber: string) => {
+          map((gqId: number) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
-                quotation_number: quotationNumber,
+                quotation_number: gqId,
                 customer_number: importCaseData.customerId,
               },
             });
@@ -135,7 +135,7 @@ export class CreateCaseEffects {
             );
             this.snackBarService.showSuccessMessage(successMessage);
 
-            return importCaseSuccess({ quotationNumber });
+            return importCaseSuccess({ gqId });
           }),
           catchError((_e) => of(importCaseFailure()))
         )

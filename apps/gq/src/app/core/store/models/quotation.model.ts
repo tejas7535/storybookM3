@@ -3,7 +3,7 @@ import { QuotationDetail } from './quotation-detail.model';
 import { User } from './user';
 
 export class Quotation {
-  public gqId: string;
+  public gqId: number;
   public customer: Customer;
   public quotationDetails: QuotationDetail[];
   public id: string;

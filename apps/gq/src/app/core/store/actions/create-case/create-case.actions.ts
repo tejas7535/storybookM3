@@ -76,7 +76,7 @@ export const importCase = createAction('[Create Case] Import SAP Quotation');
 
 export const importCaseSuccess = createAction(
   '[Create Case] Import SAP Quotation Success',
-  props<{ quotationNumber: string }>()
+  props<{ gqId: number }>()
 );
 
 export const importCaseFailure = createAction(
