@@ -9,6 +9,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import worldJson from '../../../assets/world.json';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
+import { IdValue } from '../../shared/models';
+import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { HeatType } from '../models/heat-type.enum';
 import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
@@ -32,6 +35,7 @@ describe('WorldMapComponent', () => {
       LoadingSpinnerModule,
       provideTranslocoTestingModule({}),
       MatTooltipModule,
+      AttritionDialogModule,
     ],
     providers: [],
     declarations: [WorldMapComponent],
@@ -81,6 +85,21 @@ describe('WorldMapComponent', () => {
     });
   });
 
+  describe('set continents', () => {
+    test('should update continent buttons and call update', () => {
+      component.updateContinents = jest.fn();
+
+      const values = [new IdValue('europe', 'Europe')];
+
+      component.continents = values;
+
+      expect(component.updateContinents).toHaveBeenCalled();
+      expect(component.continentButtons[0]).toEqual({
+        ...values[0],
+        enabled: false,
+      });
+    });
+  });
   describe('ngOnInit', () => {
     test('should register map and set options', () => {
       // tslint:disable-next-line: no-lifecycle-call
@@ -101,10 +120,81 @@ describe('WorldMapComponent', () => {
       component.onChartInit(mock);
 
       expect(component.echartsInstance).toEqual(mock);
-      expect(mock.on).toHaveBeenCalledTimes(2);
+      expect(mock.on).toHaveBeenCalledTimes(1);
     });
   });
 
+  describe('showCountryData', () => {
+    test('should do nothing when data undefined', () => {
+      component.openDialog = jest.fn();
+
+      component.showCountryData({});
+
+      expect(component.openDialog).not.toHaveBeenCalled();
+    });
+
+    test('should open dialog when data defined', () => {
+      component.openDialog = jest.fn();
+      const evt = {
+        data: {
+          name: 'Canada',
+        },
+      };
+
+      component.showCountryData(evt);
+
+      expect(component.openDialog).toHaveBeenCalledWith(evt.data.name);
+    });
+  });
+
+  describe('updateContinents', () => {
+    test('should enable buttons if provided data contains data for related continent', () => {
+      component.continentButtons = [
+        {
+          id: 'europe',
+          value: 'Europe',
+          enabled: false,
+        },
+        {
+          id: 'asia',
+          value: 'Asia',
+          enabled: false,
+        },
+      ];
+
+      component.data = [
+        ({
+          name: 'Europe',
+        } as unknown) as CountryData,
+      ];
+
+      component.updateContinents();
+
+      expect(component.continentButtons[0].enabled).toBeTruthy();
+      expect(component.continentButtons[1].enabled).toBeFalsy();
+    });
+  });
+
+  describe('openDialog', () => {
+    test('should open dialog with provided data', () => {
+      const elem = ({
+        name: 'Switzerland',
+        attritionMeta: {},
+      } as unknown) as CountryData;
+
+      component.data = [elem];
+      component['dialog'].open = jest.fn();
+
+      component.openDialog('Switzerland');
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        AttritionDialogComponent,
+        {
+          data: elem.attritionMeta,
+        }
+      );
+    });
+  });
   describe('trackByFn', () => {
     it('should return index', () => {
       const result = component.trackByFn(3);

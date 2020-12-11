@@ -1,10 +1,17 @@
 // tslint:disable: no-default-import
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
 import { IdValue } from '../../shared/models';
+import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { HeatType } from '../models/heat-type.enum';
 import { ContinentButton } from './models/continent-button.model';
 import { CountryData } from './models/country-data.model';
@@ -13,6 +20,7 @@ import { CountryData } from './models/country-data.model';
   selector: 'ia-world-map',
   templateUrl: './world-map.component.html',
   styleUrls: ['./world-map.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent implements OnInit {
   private _data: CountryData[];
@@ -25,7 +33,7 @@ export class WorldMapComponent implements OnInit {
 
     for (const data of countryData) {
       const geoJsonData = (worldJson as any).features.find(
-        (elem: any) => elem.properties.geounit === data.name
+        (elem: any) => elem.properties.name === data.name
       );
 
       if (geoJsonData) {
@@ -89,13 +97,14 @@ export class WorldMapComponent implements OnInit {
   echartsInstance: any;
   continentButtons: ContinentButton[] = [];
 
+  public constructor(private readonly dialog: MatDialog) {}
+
   public ngOnInit(): void {
     echarts.registerMap('world', worldJson);
     this.initOpts = {
       height: 970,
     };
 
-    // https://github.com/apache/incubator-echarts/issues/5006
     this.options = {
       backgroundColor: 'white',
       tooltip: {
@@ -129,12 +138,6 @@ export class WorldMapComponent implements OnInit {
 
   public onChartInit(ec: any): void {
     this.echartsInstance = ec;
-    this.echartsInstance.on('click', (params: any) => {
-      if (params.data !== undefined) {
-        console.log('Open Dialog with attrition Info', params.data);
-      }
-    });
-
     this.echartsInstance.on('mousemove', (params: any) => {
       this.echartsInstance.getZr().setCursorStyle('default');
       if (params.data !== undefined) {
@@ -143,9 +146,16 @@ export class WorldMapComponent implements OnInit {
     });
   }
 
+  public showCountryData(event: any): void {
+    if (event.data !== undefined) {
+      const country = event.data.name;
+
+      this.openDialog(country);
+    }
+  }
+
   public updateContinents(): void {
     // set enabled property according to provided countryData
-
     this.continentButtons.forEach((button) => {
       button.enabled = this.data
         .map((elem: CountryData) => elem.name)
@@ -153,10 +163,12 @@ export class WorldMapComponent implements OnInit {
     });
   }
 
-  public showContinentData(continent: string): void {
-    const attritionMeta = this.data.find((elem) => elem.name === continent);
+  public openDialog(name: string): void {
+    const { attritionMeta } = this.data.find((elem) => elem.name === name);
 
-    console.log(attritionMeta);
+    this.dialog.open(AttritionDialogComponent, {
+      data: attritionMeta,
+    });
   }
 
   public trackByFn(index: number): number {
