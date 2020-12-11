@@ -13,10 +13,12 @@
           [label]="t('organizationLabel')"
           [hint]="t('organizationHint')"
           (selected)="optionSelected($event)"
+          (invalidFormControl)="orgUnitInvalid($event)"
         ></ia-autocomplete-input>
       </div>
     </div>
   </div>
+  <!-- AREA FILTERS -> Not relevant for PoC -->
   <div fxFlex.lt-lg="100%" *ngIf="showAreaFilters">
     <div
       fxLayout="column"
@@ -46,6 +48,7 @@
       </div>
     </div>
   </div>
+  <!-- End Area Filters -->
   <div fxFlex.lt-lg="100%" *transloco="let t; read: 'filters.periodOfTime'">
     <div fxLayout="column" fxLayoutAlign="start">
       <h6 class="m-b-5">{{ t('title') }}</h6>
@@ -55,6 +58,7 @@
           [selectedOption]="selectedTimePeriod$ | ngrxPush"
           [label]="t('timePeriodLabel')"
           [hint]="t('timePeriodHint')"
+          [disabled]="disabledTimeRangeFilter"
           (selected)="timePeriodSelected($event)"
         ></ia-select-input>
         <ia-date-input
@@ -63,6 +67,7 @@
           [hint]="t('timeRangeHint', { value: timeRangeHintValue })"
           [placeholderStart]="t('timeRangePlaceholderStart')"
           [placeholderEnd]="t('timeRangePlaceholderEnd')"
+          [disabled]="disabledTimeRangeFilter"
           (selected)="timeRangeSelected($event)"
         ></ia-date-input>
       </div>

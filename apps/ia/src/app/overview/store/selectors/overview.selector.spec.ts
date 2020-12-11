@@ -3,7 +3,8 @@ import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
-  getIsLoading,
+  getIsLoadingOrgChart,
+  getIsLoadingWorldMap,
   getOrgChart,
   getSelectedChartType,
   getWorldMap,
@@ -14,10 +15,13 @@ describe('Overview Selector', () => {
   const fakeState = {
     overview: {
       ...initialState,
-      orgChart: [
-        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
-        ({ employeeId: '456' } as unknown) as OrgChartEmployee,
-      ],
+      orgChart: {
+        data: [
+          ({ employeeId: '123' } as unknown) as OrgChartEmployee,
+          ({ employeeId: '456' } as unknown) as OrgChartEmployee,
+        ],
+        loading: true,
+      },
       worldMap: {
         data: [
           ({ name: 'Germany' } as unknown) as CountryData,
@@ -33,8 +37,8 @@ describe('Overview Selector', () => {
             value: 'Asia',
           },
         ],
+        loading: true,
       },
-      loading: true,
     },
     filter: {
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
@@ -43,7 +47,7 @@ describe('Overview Selector', () => {
 
   describe('getOrgChart', () => {
     test('should return employees for org chart', () => {
-      expect(getOrgChart(fakeState)).toEqual(fakeState.overview.orgChart);
+      expect(getOrgChart(fakeState)).toEqual(fakeState.overview.orgChart.data);
     });
   });
 
@@ -61,9 +65,15 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getIsLoading', () => {
+  describe('getIsLoadingOrgChart', () => {
     test('should return loading status', () => {
-      expect(getIsLoading(fakeState)).toBeTruthy();
+      expect(getIsLoadingOrgChart(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getIsLoadingWorldMap', () => {
+    test('should return loading status', () => {
+      expect(getIsLoadingWorldMap(fakeState)).toBeTruthy();
     });
   });
 

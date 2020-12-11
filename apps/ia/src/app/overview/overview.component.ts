@@ -10,7 +10,8 @@ import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OverviewState } from './store';
 import { chartTypeSelected } from './store/actions/overview.action';
 import {
-  getIsLoading,
+  getIsLoadingOrgChart,
+  getIsLoadingWorldMap,
   getOrgChart,
   getSelectedChartType,
   getWorldMap,
@@ -25,7 +26,8 @@ import { CountryData } from './world-map/models/country-data.model';
 })
 export class OverviewComponent implements OnInit {
   orgChart$: Observable<OrgChartEmployee[]>;
-  isLoading$: Observable<boolean>;
+  isLoadingOrgChart$: Observable<boolean>;
+  isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
   worldMap$: Observable<CountryData[]>;
   worldMapContinents$: Observable<IdValue[]>;
@@ -36,7 +38,8 @@ export class OverviewComponent implements OnInit {
 
   public ngOnInit(): void {
     this.orgChart$ = this.store.pipe(select(getOrgChart));
-    this.isLoading$ = this.store.pipe(select(getIsLoading));
+    this.isLoadingOrgChart$ = this.store.pipe(select(getIsLoadingOrgChart));
+    this.isLoadingWorldMap$ = this.store.pipe(select(getIsLoadingWorldMap));
     this.selectedChartType$ = this.store.pipe(select(getSelectedChartType));
     this.worldMap$ = this.store.pipe(select(getWorldMap));
     this.worldMapContinents$ = this.store.pipe(select(getWorldMapContinents));

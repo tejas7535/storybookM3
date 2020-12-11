@@ -73,6 +73,7 @@ describe('FilterSectionComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
 
       expect(component.orgUnits$).toBeDefined();
+      expect(component.disabledTimeRangeFilter).toBeFalsy();
     });
   });
 
@@ -100,7 +101,15 @@ describe('FilterSectionComponent', () => {
     });
   });
 
-  describe('timePeriodSelect', () => {
+  describe('orgUnitInvalid', () => {
+    test('should set disabledTimeRangeFilter', () => {
+      component.orgUnitInvalid(false);
+
+      expect(component.disabledTimeRangeFilter).toBeFalsy();
+    });
+  });
+
+  describe('timePeriodSelected', () => {
     test('should dispatch timePeriodSelected', () => {
       store.dispatch = jest.fn();
       component.timePeriodSelected(new IdValue(TimePeriod.CUSTOM, 'custom'));

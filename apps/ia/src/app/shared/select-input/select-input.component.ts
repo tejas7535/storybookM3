@@ -22,10 +22,17 @@ export class SelectInputComponent {
   @Input() set selectedOption(selectedOption: string) {
     this.selectControl.setValue(selectedOption);
   }
+  @Input() set disabled(disable: boolean) {
+    if (disable) {
+      this.selectControl.disable();
+    } else {
+      this.selectControl.enable();
+    }
+  }
 
   @Output() readonly selected: EventEmitter<IdValue> = new EventEmitter();
 
-  selectControl = new FormControl('');
+  selectControl = new FormControl({ value: '', disabled: true });
 
   public selectionChange(evt: MatSelectChange): void {
     const option = this.options.find((opt) => opt.id === evt.value);

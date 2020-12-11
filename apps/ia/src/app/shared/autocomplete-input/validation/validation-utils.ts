@@ -8,8 +8,8 @@ export class ValidationUtils {
     control: FormControl
   ): boolean {
     const inputExists =
-      (items && items.map((item) => item.value).includes(control.value)) ||
-      !control.value;
+      control.value === null ||
+      (items && items.map((item) => item.value).includes(control.value));
 
     return !!(control && (control.dirty || control.touched) && !inputExists);
   }

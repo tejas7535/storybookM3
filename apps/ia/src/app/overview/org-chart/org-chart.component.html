@@ -1,6 +1,6 @@
 <div #chartContainer id="chartContainer" *transloco="let t; read: 'orgChart'">
-  <div *ngIf="!chartData.length || isLoading">
-    <ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
+  <ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
+  <div *ngIf="!chartData?.length">
     <div
       fxLayout="row"
       fxLayoutAlign="center center"

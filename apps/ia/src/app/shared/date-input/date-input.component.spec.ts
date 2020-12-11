@@ -42,6 +42,29 @@ describe('DateInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('set disabled', () => {
+    test('should disable control when true', () => {
+      component.rangeInput.controls.start.disable = jest.fn();
+      component.rangeInput.controls.end.enable = jest.fn();
+
+      component.disabled = true;
+
+      expect(component.rangeInput.controls.start.disable).toHaveBeenCalled();
+      expect(component.rangeInput.controls.end.enable).not.toHaveBeenCalled();
+    });
+    test('should enable control when false', () => {
+      component.rangeInput.controls.start.disable = jest.fn();
+      component.rangeInput.controls.end.enable = jest.fn();
+
+      component.disabled = false;
+
+      expect(
+        component.rangeInput.controls.start.disable
+      ).not.toHaveBeenCalled();
+      expect(component.rangeInput.controls.end.enable).toHaveBeenCalled();
+    });
+  });
+
   describe('updateStartEndDates', () => {
     let refDate: Date;
 
@@ -50,7 +73,7 @@ describe('DateInputComponent', () => {
       refDate = new Date('10/23/2015');
     });
 
-    test('should set complete month for MONTH', () => {
+    test('should set complete month for MONTH', (done) => {
       component.timePeriod = TimePeriod.MONTH;
       component.updateStartEndDates(refDate);
 
@@ -60,10 +83,14 @@ describe('DateInputComponent', () => {
       expect(component.rangeInput.controls.end.value).toEqual(
         new Date('10/31/2015')
       );
-      expect(component.emitChange).toHaveBeenCalled();
+
+      setTimeout(() => {
+        expect(component.emitChange).toHaveBeenCalled();
+        done();
+      }, 50);
     });
 
-    test('should set complete year for YEAR', () => {
+    test('should set complete year for YEAR', (done) => {
       component.timePeriod = TimePeriod.YEAR;
       component.updateStartEndDates(refDate);
 
@@ -73,10 +100,14 @@ describe('DateInputComponent', () => {
       expect(component.rangeInput.controls.end.value).toEqual(
         new Date('12/31/2015')
       );
-      expect(component.emitChange).toHaveBeenCalled();
+
+      setTimeout(() => {
+        expect(component.emitChange).toHaveBeenCalled();
+        done();
+      }, 50);
     });
 
-    test('should set complete year for LAST_12_MONTHS', () => {
+    test('should set complete year for LAST_12_MONTHS', (done) => {
       component.timePeriod = TimePeriod.LAST_12_MONTHS;
       component.updateStartEndDates(refDate);
 
@@ -86,7 +117,11 @@ describe('DateInputComponent', () => {
       expect(component.rangeInput.controls.end.value).toEqual(
         new Date('10/23/2015')
       );
-      expect(component.emitChange).toHaveBeenCalled();
+
+      setTimeout(() => {
+        expect(component.emitChange).toHaveBeenCalled();
+        done();
+      }, 50);
     });
 
     test('should return on CUSTOM', () => {

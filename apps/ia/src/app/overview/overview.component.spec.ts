@@ -41,7 +41,7 @@ describe('OverviewComponent', () => {
       component.ngOnInit();
 
       expect(component.orgChart$).toBeDefined();
-      expect(component.isLoading$).toBeDefined();
+      expect(component.isLoadingOrgChart$).toBeDefined();
     });
   });
 

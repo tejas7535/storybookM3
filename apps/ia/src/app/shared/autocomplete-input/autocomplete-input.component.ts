@@ -48,10 +48,13 @@ export class AutocompleteInputComponent
   @Output()
   readonly selected: EventEmitter<SelectedFilter> = new EventEmitter();
 
+  @Output()
+  readonly invalidFormControl: EventEmitter<boolean> = new EventEmitter();
+
   @ViewChild('matInput') private readonly matInput: ElementRef;
 
   readonly subscription: Subscription = new Subscription();
-  inputControl = new FormControl('');
+  inputControl = new FormControl();
   filteredOptions: Observable<IdValue[]>;
   errorStateMatcher: ErrorStateMatcher;
 
@@ -94,11 +97,18 @@ export class AutocompleteInputComponent
   }
 
   private filterOptions(value: string): IdValue[] {
-    const filterValue = value.toLowerCase();
+    const filterValue = value?.toLowerCase() ?? '';
 
     return this.filter.options.filter((option: IdValue) =>
       option.value.toLowerCase().includes(filterValue)
     );
+  }
+
+  public validateInput(event: any): void {
+    const value = event.target.value;
+    const option = this.filter.options.find((opt) => opt.id === value);
+
+    this.invalidFormControl.emit(option === undefined);
   }
 
   public optionSelected(_evt: any): void {

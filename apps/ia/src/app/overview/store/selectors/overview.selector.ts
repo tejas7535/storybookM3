@@ -9,12 +9,17 @@ export const getSelectedChartType = createSelector(
 
 export const getOrgChart = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.orgChart
+  (state: OverviewState) => state.orgChart.data
 );
 
-export const getIsLoading = createSelector(
+export const getIsLoadingOrgChart = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.loading
+  (state: OverviewState) => state.orgChart.loading
+);
+
+export const getIsLoadingWorldMap = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.worldMap.loading
 );
 
 export const getWorldMap = createSelector(
