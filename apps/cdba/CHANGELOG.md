@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.14.0](///compare/cdba-v1.14.0...cdba-v1.13.0) (2020-12-14)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** restore stored column order (DSCDA-2080) ([da8fa27](///commit/da8fa277fbcb01d0438ac311b3b4a6743fc76b8e))
+* **cdba:** show customer group on detail page ([4513482](///commit/451348204559ebc1c161e49441abe8ace23a7163))
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+
 ## [1.13.0](///compare/cdba-v1.13.0...cdba-v1.12.0) (2020-12-02)
 
 
