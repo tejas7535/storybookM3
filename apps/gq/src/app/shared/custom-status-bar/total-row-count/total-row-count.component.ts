@@ -66,7 +66,6 @@ export class TotalRowCountComponent {
     this.selectedNetValue = 0;
 
     this.selections = this.params.api.getSelectedRows();
-    console.log(this.selections);
     this.selections.forEach((value) => {
       this.selectedNetValue += parseFloat(value.netValue);
       this.selectedNetValue = parseFloat(this.selectedNetValue.toFixed(2));

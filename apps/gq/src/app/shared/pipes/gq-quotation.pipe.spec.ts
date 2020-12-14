@@ -11,6 +11,6 @@ describe('GqQuotationPipe', () => {
     const pipe = new GqQuotationPipe();
     const result = pipe.transform(gqId);
 
-    expect(result).toEqual(`GQ${gqId}`);
+    expect(result).toEqual(`GQ0${gqId}`);
   });
 });

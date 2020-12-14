@@ -8,10 +8,10 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { CustomerDetailsModule } from '../customer-details/customer-details.module';
+import { GqQuotationPipe } from '../pipes/gq-quotation.pipe';
+import { MaterialInfoPipe } from '../pipes/material-info.pipe';
+import { SapQuotationPipe } from '../pipes/sap-quotation.pipe';
 import { CaseHeaderComponent } from './case-header.component';
-import { GqQuotationPipe } from './pipes/gq-quotation.pipe';
-import { MaterialInfoPipe } from './pipes/material-info.pipe';
-import { SapQuotationPipe } from './pipes/sap-quotation.pipe';
 
 @NgModule({
   declarations: [

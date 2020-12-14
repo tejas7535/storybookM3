@@ -1,6 +1,14 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
+
+export const numberFormatter = (data: any) => {
+  const pipe = new NumberFormatPipe();
+
+  return pipe.transform(data.value, data.column.colId);
+};
+
 export const COLUMN_DEFS: ColDef[] = [
   {
     headerCheckboxSelection: true,
@@ -34,10 +42,12 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.quantity'),
     field: 'orderQuantity',
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.offerPrice'),
     field: 'rsp',
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.currency'),
@@ -54,6 +64,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.netValue'),
     field: 'netValue',
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.priceSource'),
