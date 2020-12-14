@@ -162,7 +162,7 @@
       "info": "Info",
       "item": "Item",
       "lastCustomerPrice": "letzter Kundenpreis",
-      "materialDescription": "Materialbescheibung",
+      "materialDescription": "Materialbeschreibung",
       "materialNumber": "Material",
       "netValue": "Nettowert",
       "offerPrice": "Preis",
@@ -243,7 +243,7 @@
       "title": "Alles zurücksetzen"
     },
     "offerTable": {
-      "materialNumber": "Material Nr. (15 Ziffern)",
+      "materialDescription": "Materialbeschreibung",
       "netValue": "Nettowert",
       "price": "Preis",
       "quantity": "Stückzahl"

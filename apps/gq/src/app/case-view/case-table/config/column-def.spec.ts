@@ -1,4 +1,7 @@
-import { dateFormatter, filterParams } from './column-def';
+import { TestBed } from '@angular/core/testing';
+
+import { GqQuotationPipe } from '../../../shared/pipes/gq-quotation.pipe';
+import { dateFormatter, filterParams, idFormatter } from './column-def';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -6,6 +9,13 @@ jest.mock('@ngneat/transloco', () => ({
 }));
 
 describe('columnDef', () => {
+  TestBed.configureTestingModule({
+    declarations: [GqQuotationPipe],
+  });
+  beforeEach(() => {
+    GqQuotationPipe.prototype.transform = jest.fn();
+  });
+
   describe('dateFormatter', () => {
     test('should render Date', () => {
       const data = {
@@ -44,6 +54,12 @@ describe('columnDef', () => {
 
       const res = filterParams.comparator(compareDate, cellDate);
       expect(res).toBe(-1);
+    });
+  });
+  describe('idFormatter', () => {
+    test('should call pipe', () => {
+      idFormatter('11');
+      expect(GqQuotationPipe.prototype.transform).toHaveBeenCalledTimes(1);
     });
   });
 });

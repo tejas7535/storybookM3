@@ -246,7 +246,7 @@
       "title": "Current Offer"
     },
     "offerTable": {
-      "materialNumber": "Material Nr. (15 digit)",
+      "materialDescription": "Description",
       "netValue": "Net Value",
       "price": "Price",
       "quantity": "Quantity"

@@ -1,6 +1,8 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { GqQuotationPipe } from '../../../shared/pipes/gq-quotation.pipe';
+
 export const dateFormatter = (data: any): string => {
   return data.value ? new Date(data.value).toLocaleDateString() : '';
 };
@@ -29,6 +31,11 @@ export const filterParams = {
   },
   buttons: ['reset'],
 };
+export const idFormatter = (data: any): string => {
+  const pipe = new GqQuotationPipe();
+
+  return pipe.transform(data.value);
+};
 
 export const COLUMN_DEFS: ColDef[] = [
   {
@@ -43,6 +50,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('caseView.caseTable.gqId'),
     field: 'gqId',
+    valueFormatter: idFormatter,
   },
   {
     filterParams,

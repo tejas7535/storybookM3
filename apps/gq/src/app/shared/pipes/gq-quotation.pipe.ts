@@ -5,6 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class GqQuotationPipe implements PipeTransform {
   transform(gqId: number): string {
-    return `GQ${gqId}`;
+    const idString = `0000000${gqId}`;
+
+    return `GQ${idString.substr(idString.length - 6)}`;
   }
 }
