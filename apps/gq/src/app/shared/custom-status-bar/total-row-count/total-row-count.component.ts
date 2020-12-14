@@ -15,20 +15,30 @@ export class TotalRowCountComponent {
   selections: QuotationDetail[] = [];
   selectedNetValue = 0;
   selectedMargin = 0;
-
+  isOfferTable = false;
   private params: IStatusPanelParams;
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
-
-    this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
+    this.params.api.addEventListener('gridReady', this.getTableSpec.bind(this));
     this.params.api.addEventListener(
       'selectionChanged',
       this.onSelectionChange.bind(this)
     );
+    this.params.api.addEventListener(
+      'rowDataChanged',
+      this.rowValueChanges.bind(this)
+    );
   }
 
-  onGridReady(): void {
+  getTableSpec(): void {
+    const colDefs = this.params.api.getColumnDefs();
+    this.isOfferTable =
+      colDefs.length === 5 || colDefs.length === 22 ? true : false;
+  }
+  rowValueChanges(): void {
+    this.onSelectionChange();
+
     let sumMargin = 0;
     let totalRowCount = 0;
     this.totalNetValue = 0;
@@ -40,22 +50,32 @@ export class TotalRowCountComponent {
       totalRowCount += 1;
     });
 
-    this.totalMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
+    if (totalRowCount > 0) {
+      this.totalMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
+    } else {
+      this.totalMargin = 0;
+      this.totalNetValue = 0;
+      this.selectedMargin = 0;
+      this.selectedNetValue = 0;
+    }
   }
 
   onSelectionChange(): void {
     let sumMargin = 0;
-    let totalRowCount = 0;
+    let selectionRowCount = 0;
     this.selectedNetValue = 0;
 
     this.selections = this.params.api.getSelectedRows();
+    console.log(this.selections);
     this.selections.forEach((value) => {
       this.selectedNetValue += parseFloat(value.netValue);
       this.selectedNetValue = parseFloat(this.selectedNetValue.toFixed(2));
       sumMargin += parseFloat(value.margin);
-      totalRowCount += 1;
+      selectionRowCount += 1;
     });
 
-    this.selectedMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
+    this.selectedMargin = parseFloat(
+      (sumMargin / selectionRowCount).toFixed(2)
+    );
   }
 }

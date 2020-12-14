@@ -4,20 +4,30 @@
   fxLayoutAlign="start center"
   *transloco="let t; read: 'shared.customStatusBar.totalRowCount'"
 >
-  <div fxLayout class="count" *ngIf="selections.length">
+  <div fxLayout class="count" *ngIf="selections.length && !isOfferTable">
     <div>{{ t('selectedNetValue') }}:&nbsp;</div>
-    {{ selectedNetValue }}
+    {{ selectedNetValue | number: '.2' }}
   </div>
-  <div fxLayout class="count" *ngIf="selections.length">
+  <div fxLayout class="count" *ngIf="selections.length && !isOfferTable">
     <div>{{ t('selectedMargin') }}:&nbsp;</div>
     {{ selectedMargin }} %
   </div>
   <div fxLayout class="count">
-    <div>{{ t('totalNetValue') }}:&nbsp;</div>
-    {{ totalNetValue }}
+    <div *ngIf="!isOfferTable; else offerValue">
+      {{ t('totalNetValue') }}:&nbsp;
+    </div>
+    <ng-template #offerValue>
+      <div>{{ t('offerNetValue') }}:&nbsp;</div>
+    </ng-template>
+    {{ totalNetValue | number: '.2' }}
   </div>
   <div fxLayout class="count">
-    <div>{{ t('totalMargin') }}:&nbsp;</div>
+    <div *ngIf="!isOfferTable; else offerMargin">
+      {{ t('totalMargin') }}:&nbsp;
+    </div>
+    <ng-template #offerMargin>
+      <div>{{ t('offerMargin') }}:&nbsp;</div>
+    </ng-template>
     {{ totalMargin }} %
   </div>
 </div>

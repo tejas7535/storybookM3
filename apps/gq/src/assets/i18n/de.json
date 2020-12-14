@@ -219,10 +219,10 @@
       "totalRowCount": {
         "selectedMargin": "Ausgewählte durchschnittliche Marge",
         "selectedNetValue": "Ausgewählte durchschnittliche Summe",
-        "selectedRsp": "Ausgewählte durchschnittlicher RSP",
         "totalMargin": "Gesamt durchschnittliche Marge",
-        "totalNetValue": "Gesamt durchschnittliche Summe",
-        "totalRsp": "Gesamt durchschnittlicher RSP"
+        "totalNetValue": "Gesamtsumme",
+        "offerMargin": "Angebotene durchschn. Marge",
+        "offerNetValue": "Angebotene Gesamtsumme"
       },
       "uploadToSAPButton": {
         "uploadToSAP": "Angebot zu SAP hochladen"
