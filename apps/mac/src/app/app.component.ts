@@ -15,7 +15,7 @@ import { AppState } from './core/store/reducers';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'MAC';
+  title = 'Materials App Center';
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
