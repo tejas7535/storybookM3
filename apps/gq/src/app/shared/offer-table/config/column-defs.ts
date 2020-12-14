@@ -20,7 +20,7 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   },
   {
     headerName: translate('shared.offerTable.price'),
-    field: 'price',
+    field: 'rsp',
   },
   {
     headerName: translate('shared.offerTable.netValue'),
