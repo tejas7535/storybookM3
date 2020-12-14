@@ -126,7 +126,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -163,7 +164,8 @@
           "options": {
             "jestConfig": "apps/kitchen-sink/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/kitchen-sink"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -327,7 +329,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -364,7 +367,8 @@
           "options": {
             "jestConfig": "apps/sta/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/sta"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -549,7 +553,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -586,7 +591,8 @@
           "options": {
             "jestConfig": "apps/ltp/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/ltp"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -771,7 +777,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -808,7 +815,8 @@
           "options": {
             "jestConfig": "apps/helloworld-azure/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/helloworld-azure"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -966,7 +974,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1003,7 +1012,8 @@
           "options": {
             "jestConfig": "apps/cdba/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/cdba"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1073,7 +1083,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/header/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/header"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1131,7 +1142,8 @@
           "options": {
             "jestConfig": "libs/shared/utils/responsive/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/responsive"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1189,7 +1201,8 @@
           "options": {
             "jestConfig": "libs/shared/utils/transloco/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/transloco"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1244,7 +1257,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/sidebar/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/sidebar"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1299,7 +1313,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/icons/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/icons"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1354,7 +1369,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/footer/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/footer"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1409,7 +1425,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/file-drop/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/file-drop"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1464,7 +1481,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/snackbar/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/snackbar"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1512,7 +1530,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/scroll-to-top/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/scroll-to-top"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1570,7 +1589,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/speed-dial-fab/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/speed-dial-fab"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1625,7 +1645,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/banner/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/banner"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1683,7 +1704,8 @@
           "options": {
             "jestConfig": "libs/shared/ui/settings-sidebar/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/settings-sidebar"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1832,7 +1854,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1869,7 +1892,8 @@
           "options": {
             "jestConfig": "apps/goldwind/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/goldwind"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -1944,7 +1968,8 @@
             "ci": {
               "quiet": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2105,7 +2130,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2142,7 +2168,8 @@
           "options": {
             "jestConfig": "apps/seli/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/seli"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2214,7 +2241,8 @@
             "tsConfig": "libs/shared/utils/auth/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/utils/auth/src/test-setup.ts"
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/auth"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2270,7 +2298,8 @@
             "tsConfig": "libs/shared/ui/empty-states/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/ui/empty-states/src/test-setup.ts"
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/empty-states"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2327,7 +2356,8 @@
             "tsConfig": "libs/shared/ui/styles/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/styles"]
         }
       },
       "schematics": {
@@ -2456,7 +2486,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2495,7 +2526,8 @@
             "tsConfig": "apps/gq/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "apps/gq/src/test-setup.ts"
-          }
+          },
+          "outputs": ["coverage/apps/gq"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2656,7 +2688,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2693,7 +2726,8 @@
           "options": {
             "jestConfig": "apps/ia/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/ia"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2854,7 +2888,8 @@
               "vendorChunk": false,
               "buildOptimizer": true
             }
-          }
+          },
+          "outputs": ["{options.outputPath}"]
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2892,7 +2927,8 @@
           "options": {
             "jestConfig": "apps/mac/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/apps/mac"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -2962,7 +2998,8 @@
           "options": {
             "jestConfig": "libs/shared/utils/http/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/http"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
@@ -3020,7 +3057,8 @@
           "options": {
             "jestConfig": "libs/shared/utils/application-insights/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/application-insights"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",

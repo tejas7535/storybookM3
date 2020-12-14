@@ -57,7 +57,7 @@ nx g @ngneat/spectator:spectator-service service-name
 
 ### Create a new application
 
-- Run `npx nx workspace-schematic new-app`
+- Run `npx nx workspace-generator new-app`
 - Follow the setup guide
 - The app will be generated for you with our workspace defaults
 
