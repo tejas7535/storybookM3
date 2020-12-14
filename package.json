@@ -141,7 +141,7 @@
     "eslint": "7.15.0",
     "eslint-plugin-cypress": "2.11.2",
     "htmlhint": "0.14.2",
-    "husky": "4.3.5",
+    "husky": "4.3.6",
     "jasmine-marbles": "0.6.0",
     "jest": "25.5.4",
     "jest-canvas-mock": "2.3.0",
