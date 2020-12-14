@@ -6,8 +6,6 @@ import groovy.transform.Field
 /****************************************************************/
 
 // Variables
-def rtServer = Artifactory.server('artifactory.schaeffler.com')
-
 def builds
 def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
 def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TSLint', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
@@ -222,6 +220,12 @@ def getAgentLabel() {
     }
 
     return label
+}
+
+def deployPackages(target, uploadFile, checksum) {
+    withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_FRONTEND_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
+        sh "curl --insecure -v -H X-JFrog-Art-Api:${API_KEY} -H X-Checksum-Sha1:${checksum} -X PUT \"https://artifactory.schaeffler.com/artifactory/${target};build.number=${BUILD_NUMBER};build.name=${target}\" -T ${uploadFile}"
+    }
 }
 
 // define builds (stages), which are reported back to GitLab
@@ -785,7 +789,6 @@ pipeline {
 
                             script {
                                 sh 'mkdir -p dist/zips'
-                                def uploadSpec
                                 def appsToDeploy = isAppRelease() ? [env.RELEASE_SCOPE] : affectedApps
 
                                 // loop over apps and publish them
@@ -793,44 +796,30 @@ pipeline {
                                     echo "publish ${app} to Artifactory"
 
                                     zip dir: "dist/apps/${app}",  glob: '', zipFile: "dist/zips/${app}/next.zip"
+                                    uploadFile = "dist/zips/${app}/next.zip"
+                                    checksum = sh (
+                                        script: "sha1sum ${uploadFile} | awk '{ print \$1 }'",
+                                        returnStdout: true
+                                    ).trim()
 
                                     if (isAppRelease()) {
                                         def version = getPackageVersion()
-                                        uploadSpec = """{
-                                            "files": [
-                                                {
-                                                    "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/latest.zip"
-                                                },
-                                                {
-                                                    "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/release/${version}.zip"
-                                                }
-                                            ]
-                                        }"""
-                                    } else if (isMaster()) {
-                                        uploadSpec = """{
-                                            "files": [
-                                                {
-                                                    "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/next.zip"
-                                                }
-                                            ]
-                                        }"""
-                                    } else {
-                                        uploadSpec = """{
-                                            "files": [
-                                                {
-                                                    "pattern": "dist/zips/${app}/next.zip",
-                                                    "target": "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
-                                                }
-                                            ]
-                                        }"""
-                                    }
+                                        target1 = "${artifactoryBasePath}/${app}/latest.zip"
 
-                                    def buildInfo = rtServer.upload(uploadSpec)
-                                    buildInfo.retention maxDays: 60, deleteBuildArtifacts: true
-                                    rtServer.publishBuildInfo(buildInfo)
+                                        deployPackages(target1, uploadFile, checksum)
+
+                                        target2 = "${artifactoryBasePath}/${app}/release/${version}.zip"
+
+                                        deployPackages(target2, uploadFile, checksum)
+                                    } else if (isMaster()) {
+                                        target = "${artifactoryBasePath}/${app}/next.zip"
+
+                                        deployPackages(target, uploadFile, checksum)
+                                    } else if (!isNightly()) {
+                                        target = "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
+
+                                        deployPackages(target, uploadFile, checksum)
+                                    }
                                 }
                             }
                         }
