@@ -3,6 +3,32 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.10.0](///compare/gq-v1.10.0...gq-v1.9.0) (2020-12-14)
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **gq:** adapt customer details (GQUOTE-266) ([a3dc552](///commit/a3dc5528861440a6fc95d201b34fdda8e8d416ae))
+* **gq:** adapt offer slider (GQUOTE-234) ([74ccc7c](///commit/74ccc7c232e4971429c3c76e4b144270abab1dd2))
+* **gq:** add adding and removing of materials to a quotation (GQUOTE-81, GQUOTE-187) ([86146d2](///commit/86146d2de7ebce9c17a02ff6c6cdc46bec417992))
+* **gq:** add customer name to quotation autocomplete (GQUOTE-233) ([1ec2a20](///commit/1ec2a202fcd7c0596445f20ad4d3feaf5626c04f))
+* **gq:** add delete case functionality (GQUOTE-228) ([8445999](///commit/84459996fc3523e518d48d652f9b8c1b5c9750bf))
+* **gq:** add loading spinner (GQUOTE-272) ([b158d2c](///commit/b158d2c96d67e1a4c77103eb8fd6330fcbc73221))
+* **gq:** add snackbar notifications (GQUOTE-274) ([9aeaed3](///commit/9aeaed323321f54db206576381519c881ff5ae2d))
+* **gq:** adjust gq id (GQUOTE-230) ([9c83a06](///commit/9c83a0663b5e06c58d97188fbf022f2757f508f4))
+* **gq:** adjust screens to mock up (GQUOTE-237) ([80d0148](///commit/80d01480180bf5b321ed52a23f2083c52b29f19a))
+* **gq:** adjustments and bugfixes (GQUOTE-272) ([45726f6](///commit/45726f6f40226845a6626e0853f04434be25f926))
+* **gq:** fix comments (GQUOTE-234) ([1b464f0](///commit/1b464f0255684779d2e34cb96f1e78854910372d))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** adjust gqid ([64ac951](///commit/64ac951129ca091be17a2bfd42779dd745bdf241))
+* **gq:** fix bugs with offer table footer ([9bf5991](///commit/9bf599104904a7786f15c684e4493a1a264b3ae7))
+* **gq:** fix imports ([640ed00](///commit/640ed006c415ed8a297d1476b1f8b028e994b29f))
+* **gq:** show price on slider ([2b30bb9](///commit/2b30bb9ad9ecec7f1e0a5aeac021fd1fac3652ff))
+
 ## 1.9.0 (2020-12-07)
 
 
