@@ -40,12 +40,33 @@ describe('TotalRowCountComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('onGridReady', () => {
-    test('should set selections', () => {
+  describe('onrowDataChanged', () => {
+    beforeEach(() => {
       component['params'] = params;
-      component.onGridReady();
+      component.onSelectionChange = jest.fn();
+    });
+    test('should set margin and Value if data exists', () => {
+      const rowNode = {
+        data: {
+          netValue: 10,
+          margin: 15,
+        },
+      };
+      component['params'].api.forEachLeafNode = jest.fn((callback) =>
+        callback(rowNode as any)
+      );
 
+      component.rowValueChanges();
+
+      expect(component.totalNetValue).toEqual(10);
+      expect(component.totalMargin).toEqual(15);
+      expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
+    });
+    test('should not set if no data exists', () => {
+      component.rowValueChanges();
       expect(component.totalNetValue).toEqual(0);
+      expect(component.totalMargin).toEqual(0);
+      expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
   });
 
