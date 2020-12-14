@@ -1,6 +1,6 @@
 module.exports = {
-  name: 'cdba',
-  preset: '../../jest.config.js',
+  displayName: 'cdba',
+  preset: '../../jest.preset.js',
   coverageDirectory: '../../coverage/apps/cdba',
   snapshotSerializers: [
     'jest-preset-angular/build/AngularNoNgAttributesSnapshotSerializer.js',
@@ -10,12 +10,14 @@ module.exports = {
   setupFilesAfterEnv: ['./src/test-setup.ts', '<rootDir>/src/test-setup.ts'],
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
+      tsconfig: '<rootDir>/tsconfig.spec.json',
       stringifyContentPathRegex: '\\.(html|svg)$',
-      astTransformers: [
-        'jest-preset-angular/build/InlineFilesTransformer',
-        'jest-preset-angular/build/StripStylesTransformer',
-      ],
+      astTransformers: {
+        before: [
+          'jest-preset-angular/build/InlineFilesTransformer',
+          'jest-preset-angular/build/StripStylesTransformer',
+        ],
+      },
     },
   },
 };

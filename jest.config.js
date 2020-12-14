@@ -1,11 +1,6 @@
 module.exports = {
-  testMatch: ['**/+(*.)+(spec|test).+(ts|js)?(x)'],
-  transform: {
-    '^.+\\.(ts|js|html)$': 'ts-jest',
-  },
-  resolver: '@nrwl/jest/plugins/resolver',
-  moduleFileExtensions: ['ts', 'js', 'html'],
-  coverageReporters: ['html', 'lcov', 'cobertura'],
+  projects: ['<rootDir>/apps/test'],
+  coverageReporters: ['lcov', 'cobertura'],
   coverageThreshold: {
     global: {
       branches: 80,
