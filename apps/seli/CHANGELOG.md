@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.10.0](///compare/seli-v1.10.0...seli-v1.9.0) (2020-12-14)
+
+
+### 📈 Improvements
+
+* **workspace:** show border for tool panel in ag grid ([ce08056](///commit/ce08056cdd9b26519d4b90e4f10568d4a5385b87))
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **seli:** format dates in sales table ([00a08eb](///commit/00a08ebac645f878544b84038f1085a62003720d))
+
 ## 1.9.0 (2020-11-23)
 
 
