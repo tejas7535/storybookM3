@@ -38,6 +38,10 @@ describe('FilterSectionComponent', () => {
             hrLocations: [],
             countries: [],
             timePeriods: [],
+            selectedFilters: {
+              ids: [],
+              entities: {},
+            },
           },
         },
       }),

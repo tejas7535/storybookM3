@@ -10,6 +10,7 @@ import {
   getOrgUnits,
   getRegionsAndSubRegions,
   getSelectedFilters,
+  getSelectedOrgUnit,
   getSelectedTimePeriod,
   getSelectedTimeRange,
   getTimePeriods,
@@ -28,11 +29,11 @@ describe('Filter Selector', () => {
       hrLocations: [new IdValue('hero', 'Herzogenaurach')],
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
-        ids: ['test'],
+        ids: ['orgUnit'],
         entities: {
-          test: {
-            name: 'test',
-            value: 1234,
+          orgUnit: {
+            name: 'orgUnit',
+            value: 'Schaeffler_IT_1',
           },
         },
       },
@@ -116,8 +117,8 @@ describe('Filter Selector', () => {
     test('should return all selected filters', () => {
       expect(getAllSelectedFilters(fakeState)).toEqual([
         {
-          name: 'test',
-          value: 1234,
+          name: 'orgUnit',
+          value: 'Schaeffler_IT_1',
         },
       ]);
     });
@@ -126,9 +127,15 @@ describe('Filter Selector', () => {
   describe('getCurrentFiltersAndTime', () => {
     test('should return currently selected filters and time range', () => {
       expect(getCurrentFiltersAndTime(fakeState)).toEqual({
-        test: 1234,
+        orgUnit: 'Schaeffler_IT_1',
         timeRange: '1577863715000|1609399715000',
       });
+    });
+  });
+
+  describe('getSelectedOrgUnit', () => {
+    test('should return selected org unit', () => {
+      expect(getSelectedOrgUnit(fakeState)).toEqual('Schaeffler_IT_1');
     });
   });
 });

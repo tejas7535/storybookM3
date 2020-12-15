@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   HostListener,
   Input,
+  Output,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,6 +39,9 @@ export class OrgChartComponent implements AfterViewInit {
     return this._data;
   }
 
+  @Output()
+  readonly showParent: EventEmitter<OrgChartEmployee> = new EventEmitter();
+
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
   chart: any;
@@ -61,6 +66,8 @@ export class OrgChartComponent implements AfterViewInit {
       this.dialog.open(AttritionDialogComponent, {
         data,
       });
+    } else if (node.classList.contains('show-parent')) {
+      this.showParent.emit(employee);
     }
   }
 
@@ -84,7 +91,7 @@ export class OrgChartComponent implements AfterViewInit {
         .svgHeight(700)
         .svgWidth(window.innerWidth)
         .initialZoom(0.95)
-        .marginTop(30)
+        .marginTop(50)
         .render();
     }, 100);
   }

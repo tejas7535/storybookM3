@@ -9,6 +9,9 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
@@ -110,6 +113,26 @@ export const overviewReducer = createReducer(
     ...state,
     worldMap: {
       ...state.worldMap,
+      errorMessage,
+      data: [],
+      loading: false,
+    },
+  })),
+  on(loadParent, (state: OverviewState) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
+      loading: true,
+    },
+  })),
+  // result is not saved in store -> loading should not stop as the process of loading the new org chart is still ongoing
+  on(loadParentSuccess, (state: OverviewState) => ({
+    ...state,
+  })),
+  on(loadParentFailure, (state: OverviewState, { errorMessage }) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
       errorMessage,
       data: [],
       loading: false,

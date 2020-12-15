@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ import {
   getHrLocations,
   getOrgUnits,
   getRegionsAndSubRegions,
+  getSelectedOrgUnit,
   getSelectedTimePeriod,
   getTimePeriods,
 } from '../core/store/selectors';
@@ -28,6 +29,7 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 })
 export class FilterSectionComponent implements OnInit {
   orgUnits$: Observable<Filter>;
+  selectedOrgUnit$: Observable<string>;
   regionsAndSubRegions$: Observable<Filter>;
   countries$: Observable<Filter>;
   hrLocations$: Observable<Filter>;
@@ -53,6 +55,10 @@ export class FilterSectionComponent implements OnInit {
     this.selectedTimePeriod$ = this.store.pipe(
       select(getSelectedTimePeriod),
       tap((timePeriod) => this.setTimeRangeHint(timePeriod))
+    );
+    this.selectedOrgUnit$ = this.store.pipe(
+      select(getSelectedOrgUnit),
+      map((value: string | number) => value?.toLocaleString())
     );
   }
 

@@ -3,9 +3,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ChartType } from './models/chart-type.enum';
+import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OrgChartModule } from './org-chart/org-chart.module';
 import { OverviewComponent } from './overview.component';
-import { chartTypeSelected } from './store/actions/overview.action';
+import { chartTypeSelected, loadParent } from './store/actions/overview.action';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
 import { WorldMapModule } from './world-map/world-map.module';
 
@@ -54,6 +55,19 @@ describe('OverviewComponent', () => {
 
       expect(component['store'].dispatch).toHaveBeenCalledWith(
         chartTypeSelected({ chartType })
+      );
+    });
+  });
+
+  describe('loadParent', () => {
+    test('should dispatch loadParent', () => {
+      component['store'].dispatch = jest.fn();
+      const employee = ({ employeeId: '123' } as unknown) as OrgChartEmployee;
+
+      component.loadParent(employee);
+
+      expect(component['store'].dispatch).toHaveBeenCalledWith(
+        loadParent({ employee })
       );
     });
   });

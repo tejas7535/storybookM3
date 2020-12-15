@@ -7,6 +7,9 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
@@ -81,6 +84,43 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load World Map Failure',
+    });
+  });
+
+  test('loadParent', () => {
+    const employee = ({
+      orgUnit: 'Schaeffler_IT',
+      employeeId: '123',
+    } as unknown) as OrgChartEmployee;
+
+    const action = loadParent({ employee });
+
+    expect(action).toEqual({
+      employee,
+      type: '[Overview] Load Parent',
+    });
+  });
+
+  test('loadParentSuccess', () => {
+    const employee = ({
+      orgUnit: 'Schaeffler_IT',
+      employeeId: '123',
+    } as unknown) as OrgChartEmployee;
+
+    const action = loadParentSuccess({ employee });
+
+    expect(action).toEqual({
+      employee,
+      type: '[Overview] Load Parent Success',
+    });
+  });
+
+  test('loadParentFailure', () => {
+    const action = loadParentFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load Parent Failure',
     });
   });
 });

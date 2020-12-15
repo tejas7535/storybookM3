@@ -1,3 +1,4 @@
+import { HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
@@ -11,6 +12,7 @@ import {
   EmployeesRequest,
   InitialFiltersResponse,
   OrgChartResponse,
+  ParentEmployeeResponse,
   WorldMapResponse,
 } from '../models';
 
@@ -21,16 +23,37 @@ export class EmployeeService {
   private readonly INITIAL_FILTERS = 'initial-filters';
   private readonly ORG_CHART = 'org-chart';
   private readonly WORLD_MAP = 'world-map';
+  private readonly EMPLOYEE = 'parent-employee';
+
+  private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
   public static employeeLeftInTimeRange(
     employee: OrgChartEmployee,
     timeRange: string
   ): boolean {
+    const date = new Date(employee.exitDate);
+
     return (
-      employee.exitDate &&
-      employee.exitDate.getTime() >= +timeRange.split('|')[0] &&
-      employee.exitDate.getTime() <= +timeRange.split('|')[1]
+      date &&
+      date.getTime() >= +timeRange.split('|')[0] &&
+      date.getTime() <= +timeRange.split('|')[1]
     );
+  }
+
+  public static fixIncomingEmployeeProps(
+    employee: OrgChartEmployee
+  ): OrgChartEmployee {
+    employee.exitDate = employee.exitDate
+      ? new Date(employee.exitDate).toJSON()
+      : undefined;
+    employee.terminationDate = employee.terminationDate
+      ? new Date(employee.terminationDate).toJSON()
+      : undefined;
+    employee.entryDate = employee.entryDate
+      ? new Date(employee.entryDate).toJSON()
+      : undefined;
+
+    return employee;
   }
 
   public constructor(private readonly dataService: DataService) {}
@@ -47,7 +70,9 @@ export class EmployeeService {
     return this.dataService
       .post<OrgChartResponse>(this.ORG_CHART, employeesRequest)
       .pipe(
-        map((response) => this.fixIncomingEmployeeProps(response.employees))
+        map((response) => [
+          ...response.employees.map(EmployeeService.fixIncomingEmployeeProps),
+        ])
       );
   }
 
@@ -59,21 +84,20 @@ export class EmployeeService {
       .pipe(map((response) => response.data));
   }
 
-  public fixIncomingEmployeeProps(
-    employees: OrgChartEmployee[]
-  ): OrgChartEmployee[] {
-    return employees.map((employee) => {
-      employee.exitDate = employee.exitDate
-        ? new Date(employee.exitDate)
-        : undefined;
-      employee.terminationDate = employee.terminationDate
-        ? new Date(employee.terminationDate)
-        : undefined;
-      employee.entryDate = employee.entryDate
-        ? new Date(employee.entryDate)
-        : undefined;
+  public getParentEmployee(
+    childEmployeeId: string
+  ): Observable<OrgChartEmployee> {
+    const params = new HttpParams().set(
+      this.PARAM_CHILD_EMPLOYEE_ID,
+      childEmployeeId
+    );
 
-      return employee;
-    });
+    return this.dataService
+      .getAll<ParentEmployeeResponse>(this.EMPLOYEE, { params })
+      .pipe(
+        map((response) =>
+          EmployeeService.fixIncomingEmployeeProps(response.employee)
+        )
+      );
   }
 }
