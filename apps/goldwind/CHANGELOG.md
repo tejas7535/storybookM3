@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.10.0](///compare/goldwind-v1.10.0...goldwind-v1.9.0) (2020-12-15)
+
+
+### 📈 Improvements
+
+* **workspace:** adjust header and tabbar shadows (DSCDA-2064) ([7c0a35f](///commit/7c0a35f0d93ba631cfe4c8dfa2515964b4f9f621))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** fix minor ui imperfections (DIGDTGW-1422) ([a31fc43](///commit/a31fc43fb8a52319aaaa3f6e41ae8335c2176663))
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **goldwind:** add shaft api response to store (DIGDTGW-724) ([a659caa](///commit/a659caa41a2fee13d3ecfb6a79d70c3878230225))
+* **goldwind:** add shaft rotation gauge (DIGDTGW-1352) ([cbd7c7f](///commit/cbd7c7f27f8a21d81f0aa3312b0b9bae797565db))
+* **goldwind:** adjust fixed device id and add mocked device ([4447006](///commit/44470068800b4fe08ef0c0d8f2824545f0ab6487))
+* **goldwind:** adjust ui to updated screendesign (DIGDTGW-1307) ([03cd9d2](///commit/03cd9d2a9e771b651b3a3dcdafe21c56c8089056))
+* **goldwind:** continously refresh shaft data (DIGDTGW-1421) ([596ddc2](///commit/596ddc2f007ccea91a1cf653de53e8b511e1d81b))
+* **workspace:** update to angular 11 ([2701a47](///commit/2701a47e42d4740cb0efd5671a1e3e5694d2f347))
+
 ## [1.9.0](///compare/v1.11.0...v1.9.0) (2020-11-11)
 
 
