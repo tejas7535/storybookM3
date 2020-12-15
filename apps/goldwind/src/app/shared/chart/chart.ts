@@ -42,7 +42,7 @@ export const axisChartOptions: EChartOption = {
   },
   dataZoom: [
     {
-      filterMode: 'none',
+      filterMode: 'filter',
       type: 'inside',
     },
     {}, // for slider zoom
