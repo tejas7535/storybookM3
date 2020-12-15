@@ -99,3 +99,9 @@ export const getCurrentFiltersAndTime = createSelector(
       } as unknown) as EmployeesRequest
     )
 );
+
+export const getSelectedOrgUnit = createSelector(
+  getAllSelectedFilters,
+  (filters: SelectedFilter[]) =>
+    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.value
+);

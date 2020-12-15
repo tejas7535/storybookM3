@@ -9,3 +9,4 @@ export * from './filter-key.enum';
 export * from './leaving-type.enum';
 export * from './employee-attrition-meta.model';
 export * from './world-map-response.model';
+export * from './parent-employee-response.model';

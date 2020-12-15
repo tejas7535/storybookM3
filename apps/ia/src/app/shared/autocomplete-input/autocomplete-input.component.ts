@@ -40,6 +40,9 @@ export class AutocompleteInputComponent
     }
     this.errorStateMatcher = new InputErrorStateMatcher(this.filter.options);
   }
+  @Input() set value(value: string) {
+    this.inputControl.setValue(value);
+  }
 
   get filter(): Filter {
     return this._filter;

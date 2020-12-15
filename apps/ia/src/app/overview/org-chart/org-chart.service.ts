@@ -35,6 +35,15 @@ export class OrgChartService {
           ? 'red-heat'
           : '';
 
+      // TODO: determination of root elem needs be done otherwise after PoC
+      const rootOfAllEmployees = 'Schaeffler_IT';
+      let showUpperParentBtn = false;
+
+      // if root and there is a possibility to load upper parent
+      if (!parentNodeId && organization !== rootOfAllEmployees) {
+        showUpperParentBtn = true;
+      }
+
       return {
         nodeId,
         parentNodeId,
@@ -66,6 +75,9 @@ export class OrgChartService {
         connectorLineWidth: 1,
         template: `
           <div class="node-wrapper">
+            <span class="icon icon-arrow-north show-parent ${
+              !showUpperParentBtn ? 'hide' : ''
+            }" data-id="${nodeId}"></span>
             <div class="node-chip ${heatMapClass}"><span>${organization}</span></div>
             <div class="name">${name}</div>
             <table>

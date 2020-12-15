@@ -23,7 +23,19 @@
 
   ::ng-deep .node-wrapper {
     padding: 8px 8px 15px 8px;
+    position: relative;
     text-align: center;
+
+    .icon-arrow-north {
+      color: rgb(44, 62, 80) !important;
+      position: absolute;
+      top: -25px;
+      transform: translate(-50%, -50%);
+    }
+
+    .icon-arrow-north.hide {
+      display: none;
+    }
 
     .node-chip {
       align-items: center;
@@ -108,18 +120,18 @@
       }
     }
 
+    .icon {
+      color: $schaeffler-gray-7;
+      cursor: pointer;
+      font-size: 24px;
+      height: 24px;
+      width: 24px;
+    }
+
     .bottom-bar {
       display: flex;
       justify-content: flex-end;
       width: 100%;
-
-      .icon {
-        color: $schaeffler-gray-7;
-        cursor: pointer;
-        font-size: 24px;
-        height: 24px;
-        width: 24px;
-      }
 
       .left {
         margin-right: auto;

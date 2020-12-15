@@ -12,6 +12,7 @@ import {
   EmployeesRequest,
   InitialFiltersResponse,
   OrgChartResponse,
+  ParentEmployeeResponse,
   WorldMapResponse,
 } from '../models';
 import { EmployeeService } from './employee.service';
@@ -48,6 +49,90 @@ describe('EmployeesService', () => {
     httpMock.verify();
   });
 
+  describe('fixIncomingEmployeeProps', () => {
+    test('should fix props', () => {
+      const elem = ({
+        employeeId: '13',
+        parentEmployeeId: '123',
+        exitDate: '2015-10-10',
+        totalSubordinates: 0,
+        directSubordinates: 0,
+        directAttrition: 0,
+        totalAttrition: 0,
+        entryDate: '2010-10-10',
+        terminationDate: '2015-08-10',
+      } as unknown) as OrgChartEmployee;
+
+      const result = EmployeeService.fixIncomingEmployeeProps(elem);
+
+      expect(result).toEqual(({
+        employeeId: '13',
+        parentEmployeeId: '123',
+        exitDate: new Date('2015-10-10').toJSON(),
+        totalSubordinates: 0,
+        directSubordinates: 0,
+        directAttrition: 0,
+        totalAttrition: 0,
+        entryDate: new Date('2010-10-10').toJSON(),
+        terminationDate: new Date('2015-08-10').toJSON(),
+      } as unknown) as OrgChartEmployee);
+    });
+
+    test('should ignore undefined values', () => {
+      const elem = ({
+        employeeId: '13',
+        parentEmployeeId: '123',
+        exitDate: undefined,
+        totalSubordinates: 0,
+        directSubordinates: 0,
+        directAttrition: 0,
+        totalAttrition: 0,
+        entryDate: undefined,
+        terminationDate: undefined,
+      } as unknown) as OrgChartEmployee;
+
+      const result = EmployeeService.fixIncomingEmployeeProps(elem);
+
+      expect(result).toEqual(({
+        employeeId: '13',
+        parentEmployeeId: '123',
+        exitDate: undefined,
+        totalSubordinates: 0,
+        directSubordinates: 0,
+        directAttrition: 0,
+        totalAttrition: 0,
+        entryDate: undefined,
+        terminationDate: undefined,
+      } as unknown) as OrgChartEmployee);
+    });
+  });
+
+  describe('employeeLeftInTimeRange', () => {
+    test('should return true when date is in range', () => {
+      const date = new Date();
+      const range = `0|${date.getTime() + 1}`;
+
+      const employee = ({
+        exitDate: date.toJSON(),
+      } as unknown) as OrgChartEmployee;
+
+      const result = EmployeeService.employeeLeftInTimeRange(employee, range);
+
+      expect(result).toBeTruthy();
+    });
+
+    test('should return false when date is not in range', () => {
+      const date = new Date();
+      const range = `0|${date.getTime() + 1}`;
+
+      const employee = ({ exitDate: undefined } as unknown) as OrgChartEmployee;
+
+      const result = EmployeeService.employeeLeftInTimeRange(employee, range);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
   describe('getInitialFilters', () => {
     test('should get initial filters', () => {
       const mock: InitialFiltersResponse = ({} as unknown) as InitialFiltersResponse;
@@ -66,12 +151,12 @@ describe('EmployeesService', () => {
     test('should get employees for org chart', () => {
       const mock: OrgChartResponse = { employees: [] };
       const request = ({} as unknown) as EmployeesRequest;
-      service.fixIncomingEmployeeProps = jest.fn();
+      EmployeeService.fixIncomingEmployeeProps = jest.fn();
 
       service.getOrgChart(request).subscribe((response) => {
         expect(response).toEqual(mock);
-        expect(service.fixIncomingEmployeeProps).toHaveBeenCalledWith(
-          mock.employees
+        expect(EmployeeService.fixIncomingEmployeeProps).toHaveBeenCalledTimes(
+          mock.employees.length
         );
       });
 
@@ -81,6 +166,22 @@ describe('EmployeesService', () => {
     });
   });
 
+  describe('getParentEmployee', () => {
+    test('should get parent for provided employee id', () => {
+      const mock: ParentEmployeeResponse = {
+        employee: ({} as unknown) as OrgChartEmployee,
+      };
+      const request = '123';
+
+      service.getParentEmployee(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne('/parent-employee?child_employee_id=123');
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
   describe('getWorldMap', () => {
     test('should get country data for world map', () => {
       const mock: WorldMapResponse = { data: [] };
@@ -93,39 +194,6 @@ describe('EmployeesService', () => {
       const req = httpMock.expectOne('/world-map');
       expect(req.request.method).toBe('POST');
       req.flush(mock);
-    });
-  });
-
-  describe('fixIncomingEmployeeProps', () => {
-    test('should fix props', () => {
-      const elem = ({
-        employeeId: '13',
-        parentEmployeeId: '123',
-        exitDate: '2015-10-10',
-        totalSubordinates: 0,
-        directSubordinates: 0,
-        directAttrition: 0,
-        totalAttrition: 0,
-        entryDate: '2010-10-10',
-        terminationDate: '2015-08-10',
-      } as unknown) as OrgChartEmployee;
-      const employees = [elem];
-
-      const result = service.fixIncomingEmployeeProps(employees);
-
-      expect(result).toEqual([
-        ({
-          employeeId: '13',
-          parentEmployeeId: '123',
-          exitDate: new Date('2015-10-10'),
-          totalSubordinates: 0,
-          directSubordinates: 0,
-          directAttrition: 0,
-          totalAttrition: 0,
-          entryDate: new Date('2010-10-10'),
-          terminationDate: new Date('2015-08-10'),
-        } as unknown) as OrgChartEmployee,
-      ]);
     });
   });
 });

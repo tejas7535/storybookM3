@@ -42,6 +42,21 @@ export const loadWorldMapFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadParent = createAction(
+  '[Overview] Load Parent',
+  props<{ employee: OrgChartEmployee }>()
+);
+
+export const loadParentSuccess = createAction(
+  '[Overview] Load Parent Success',
+  props<{ employee: OrgChartEmployee }>()
+);
+
+export const loadParentFailure = createAction(
+  '[Overview] Load Parent Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   initOverview,
   chartTypeSelected,

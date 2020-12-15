@@ -6,7 +6,11 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  FilterKey,
+  SelectedFilter,
+} from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -14,6 +18,9 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
@@ -195,6 +202,77 @@ describe('Overview Effects', () => {
 
       expect(effects.loadWorldMap$).toBeObservable(expected);
       expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+    });
+  });
+
+  describe('loadParent$', () => {
+    let childEmployeeId: string;
+
+    beforeEach(() => {
+      childEmployeeId = '123';
+      const employee = ({
+        employeeId: childEmployeeId,
+      } as unknown) as OrgChartEmployee;
+
+      action = loadParent({ employee });
+    });
+    test('should return loadParentSuccess action', () => {
+      const resultEmployee = ({
+        employeeId: '12',
+      } as unknown) as OrgChartEmployee;
+      const response = cold('-a|', {
+        a: resultEmployee,
+      });
+      employeesService.getParentEmployee = jest.fn(() => response);
+
+      actions$ = hot('-a', { a: action });
+      const result = loadParentSuccess({ employee: resultEmployee });
+
+      const expected = cold('--b', { b: result });
+
+      expect(effects.loadParent$).toBeObservable(expected);
+      expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
+        childEmployeeId
+      );
+    });
+
+    test('should return loadParentFailure on REST error', () => {
+      const result = loadParentFailure({
+        errorMessage: error.message,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      employeesService.getParentEmployee = jest.fn(() => response);
+
+      expect(effects.loadParent$).toBeObservable(expected);
+      expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
+        childEmployeeId
+      );
+    });
+  });
+
+  describe('loadParentSuccess$', () => {
+    test('should return filterSelected action', () => {
+      const employee = ({
+        orgUnit: 'Schaeffler_IT',
+      } as unknown) as OrgChartEmployee;
+
+      action = loadParentSuccess({ employee });
+
+      const filter = {
+        name: FilterKey.ORG_UNIT,
+        value: employee.orgUnit,
+      };
+
+      actions$ = hot('-a', { a: action });
+      const result = filterSelected({ filter });
+
+      const expected = cold('-b', { b: result });
+
+      expect(effects.loadParentSuccess$).toBeObservable(expected);
     });
   });
 });

@@ -15,7 +15,11 @@ import { select, Store } from '@ngrx/store';
 import { OverviewState } from '..';
 import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { EmployeesRequest } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  FilterKey,
+  SelectedFilter,
+} from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -23,6 +27,9 @@ import {
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
@@ -71,6 +78,34 @@ export class OverviewEffects {
             of(loadWorldMapFailure({ errorMessage: error.message }))
           )
         )
+      )
+    )
+  );
+
+  loadParent$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadParent),
+      map((action) => action.employee.employeeId),
+      mergeMap((childEmployeeId: string) =>
+        this.employeeService.getParentEmployee(childEmployeeId).pipe(
+          map((employee: OrgChartEmployee) => loadParentSuccess({ employee })),
+          catchError((error) =>
+            of(loadParentFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  loadParentSuccess$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadParentSuccess),
+      map((action) => ({
+        name: FilterKey.ORG_UNIT,
+        value: action.employee.orgUnit,
+      })),
+      map((selectedFilter: SelectedFilter) =>
+        filterSelected({ filter: selectedFilter })
       )
     )
   );

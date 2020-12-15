@@ -12,6 +12,7 @@
           [filter]="orgUnits$ | ngrxPush"
           [label]="t('organizationLabel')"
           [hint]="t('organizationHint')"
+          [value]="selectedOrgUnit$ | ngrxPush"
           (selected)="optionSelected($event)"
           (invalidFormControl)="orgUnitInvalid($event)"
         ></ia-autocomplete-input>

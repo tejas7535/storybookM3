@@ -8,7 +8,7 @@ import { IdValue } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OverviewState } from './store';
-import { chartTypeSelected } from './store/actions/overview.action';
+import { chartTypeSelected, loadParent } from './store/actions/overview.action';
 import {
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
@@ -47,5 +47,9 @@ export class OverviewComponent implements OnInit {
 
   public chartTypeChanged(chartType: ChartType): void {
     this.store.dispatch(chartTypeSelected({ chartType }));
+  }
+
+  public loadParent(employee: OrgChartEmployee): void {
+    this.store.dispatch(loadParent({ employee }));
   }
 }

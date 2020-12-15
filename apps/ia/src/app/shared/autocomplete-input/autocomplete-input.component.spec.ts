@@ -49,6 +49,16 @@ describe('AutocompleteInputComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('set value', () => {
+    test('should set value of input', () => {
+      component.inputControl.setValue = jest.fn();
+
+      component.value = '123';
+
+      expect(component.inputControl.setValue).toHaveBeenCalledWith('123');
+    });
+  });
+
   describe('ngOnInit', () => {
     test('should set error state matcher', () => {
       // tslint:disable-next-line: no-lifecycle-call

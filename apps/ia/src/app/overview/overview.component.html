@@ -8,6 +8,7 @@
     *ngIf="selectedChart === chartType.ORG_CHART"
     [data]="orgChart$ | ngrxPush"
     [isLoading]="isLoadingOrgChart$ | ngrxPush"
+    (showParent)="loadParent($event)"
   ></ia-org-chart>
   <ia-world-map
     *ngIf="selectedChart === chartType.WORLD_MAP"
