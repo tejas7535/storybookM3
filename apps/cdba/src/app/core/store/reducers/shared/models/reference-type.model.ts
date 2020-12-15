@@ -44,6 +44,7 @@ export class ReferenceType {
     public salesOrganization: string,
     public productDescription: string,
     public sqvSapLatestMonth: number,
-    public identificationHash: string
+    public identificationHash: string,
+    public isPcmRow: boolean
   ) {}
 }

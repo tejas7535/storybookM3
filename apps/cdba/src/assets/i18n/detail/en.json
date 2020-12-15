@@ -12,7 +12,8 @@
       "costingVersion": "Costing Version",
       "rfqNumber": "RFQ Number"
     },
-    "title": "Calculations"
+    "title": "Calculations",
+    "pcmRowHint": "You selected a PCM row. As it is only a calculation, you won't see production relevant information."
   },
   "tabs": {
     "detail": "Details",

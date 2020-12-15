@@ -9,6 +9,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
+import { SnackBarService } from '@schaeffler/snackbar';
+
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -40,6 +42,11 @@ import {
 } from '../../selectors/details/detail.selector';
 import { DetailEffects } from './detail.effects';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('Detail Effects', () => {
   let action: any;
   let actions$: any;
@@ -47,6 +54,7 @@ describe('Detail Effects', () => {
   let detailService: DetailService;
   let store: any;
   let router: Router;
+  let snackbarService: SnackBarService;
 
   const errorMessage = 'An error occured';
 
@@ -65,6 +73,12 @@ describe('Detail Effects', () => {
             getBom: jest.fn(),
           },
         },
+        {
+          provide: SnackBarService,
+          useValue: {
+            showInfoMessage: jest.fn(),
+          },
+        },
       ],
     });
   });
@@ -75,6 +89,7 @@ describe('Detail Effects', () => {
     detailService = TestBed.inject(DetailService);
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
+    snackbarService = TestBed.inject(SnackBarService);
   });
 
   describe('loadReferenceType$', () => {
@@ -102,6 +117,27 @@ describe('Detail Effects', () => {
 
       expect(effects.loadReferenceType$).toBeObservable(expected);
       expect(detailService.getDetails).toHaveBeenCalledTimes(1);
+      expect(snackbarService.showInfoMessage).not.toHaveBeenCalled();
+    });
+
+    test('should call showInfoMessage', () => {
+      actions$ = hot('-a', { a: action });
+
+      const item = new ReferenceTypeResultModel({
+        ...REFERENCE_TYPE_MOCK,
+        isPcmRow: true,
+      });
+
+      const response = cold('-a|', {
+        a: item,
+      });
+      detailService.getDetails = jest.fn(() => response);
+
+      const result = loadReferenceTypeSuccess({ item });
+      const expected = cold('--b', { b: result });
+
+      expect(effects.loadReferenceType$).toBeObservable(expected);
+      expect(snackbarService.showInfoMessage).toHaveBeenCalled();
     });
 
     test('should return Failure Action', () => {
@@ -375,3 +411,4 @@ describe('Detail Effects', () => {
     });
   });
 });
+// tslint:disable-next-line: max-file-line-count

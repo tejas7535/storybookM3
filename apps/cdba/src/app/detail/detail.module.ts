@@ -6,6 +6,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialNumberModule } from '@cdba/shared';
@@ -27,6 +28,7 @@ import { DetailComponent } from './detail.component';
     MatIconModule,
     EffectsModule.forFeature([DetailEffects]),
     MaterialNumberModule,
+    SnackBarModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],
 })
