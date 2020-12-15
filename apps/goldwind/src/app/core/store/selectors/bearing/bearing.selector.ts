@@ -27,7 +27,7 @@ export const getMainBearing = createSelector(
 // highly WIP
 export const getShaftDeviceId = createSelector(
   getBearingState,
-  () => 'goldwind-qas-003'
+  () => 'goldwind-qa-002'
 );
 
 export const getShaftResult = createSelector(

@@ -7,7 +7,7 @@ import { GraphData, Interval } from '../../reducers/shared/models';
 
 export const getSensorId = createSelector(
   getEdmMonitorState,
-  () => 'goldwind-qas-003'
+  () => 'goldwind-qa-002'
 ); // will later access a valid id within the inital bearing result
 
 export const getEdmResult = createSelector(
