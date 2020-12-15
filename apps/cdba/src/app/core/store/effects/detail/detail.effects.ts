@@ -7,12 +7,16 @@ import {
   filter,
   map,
   mergeMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
+
+import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailService } from '../../../../detail/service/detail.service';
@@ -53,6 +57,13 @@ export class DetailEffects {
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
         this.detailService.getDetails(refTypeIdentifier).pipe(
+          tap((item) =>
+            item.referenceTypeDto.isPcmRow
+              ? this.snackbarService.showInfoMessage(
+                  translate('detail.shared.pcmRowHint')
+                )
+              : undefined
+          ),
           map((item: ReferenceTypeResultModel) =>
             loadReferenceTypeSuccess({ item })
           ),
@@ -156,7 +167,8 @@ export class DetailEffects {
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store<fromRouter.AppState>,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly snackbarService: SnackBarService
   ) {}
 
   private static mapQueryParamsToIdentifier(

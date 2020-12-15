@@ -12,7 +12,8 @@
       "costingVersion": "Costing Version",
       "rfqNumber": "RFQ Nummer"
     },
-    "title": "Calculations"
+    "title": "Calculations",
+    "pcmRowHint": "Dies ist nur eine Kalkulation. Dieses Produkt wird noch nicht hergestellt. Deshalb sind  keine produktionrelevanten Informationen verfügbar."
   },
   "tabs": {
     "detail": "Details",
