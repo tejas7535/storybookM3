@@ -665,7 +665,7 @@ pipeline {
 
                                 if (!exists) {
                                     //first version
-                                    standardVersionCommand += " --params='--first-release"
+                                    standardVersionCommand += " --params='--first-release'"
                                 } else if (params.CUSTOM_VERSION != "${customVersionDefault}") {
                                     standardVersionCommand += " --params='--release-as ${params.CUSTOM_VERSION}'"
                                 }
