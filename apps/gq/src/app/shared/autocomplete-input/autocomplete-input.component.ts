@@ -18,7 +18,7 @@ import {
   AutocompleteSearch,
   IdValue,
   SapQuotation,
-} from '../../../core/store/models';
+} from '../../core/store/models';
 
 @Component({
   selector: 'gq-autocomplete-input',

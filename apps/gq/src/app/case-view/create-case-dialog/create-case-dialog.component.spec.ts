@@ -20,10 +20,10 @@ import {
 } from '../../core/store/actions';
 import { AutocompleteSearch, IdValue } from '../../core/store/models';
 import { SharedModule } from '../../shared';
-import { AddEntryModule } from './add-entry/add-entry.module';
-import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
+import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
-import { InputTableModule } from './input-table/input-table.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),

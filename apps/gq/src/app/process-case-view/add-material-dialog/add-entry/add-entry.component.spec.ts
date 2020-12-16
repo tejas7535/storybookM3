@@ -11,7 +11,6 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-import { AutocompleteInputModule } from '../../../case-view/create-case-dialog/autocomplete-input/autocomplete-input.module';
 
 import {
   addMaterialRowDataItem,
@@ -21,12 +20,12 @@ import {
 } from '../../../core/store';
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   IdValue,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
-
+import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
 jest.mock('@ngneat/transloco', () => ({

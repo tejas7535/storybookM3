@@ -7,10 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
-import { AddEntryModule } from './add-entry/add-entry.module';
-import { AutocompleteInputModule } from './autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
+import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
-import { InputTableModule } from './input-table/input-table.module';
 
 @NgModule({
   declarations: [CreateCaseDialogComponent],

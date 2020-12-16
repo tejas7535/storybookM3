@@ -142,5 +142,22 @@ describe('CaseActions', () => {
         type: '[Offer] Update QuotationDetails Failure',
       });
     });
+
+    test('updateQuotationDetailsSuccess', () => {
+      action = updateQuotationDetailsSuccess();
+
+      expect(action).toEqual({
+        type: '[Offer] Update QuotationDetails Success',
+      });
+    });
+
+    test('updateQuotationDetailsFailure', () => {
+      action = updateQuotationDetailsFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Offer] Update QuotationDetails Failure',
+      });
+    });
   });
 });

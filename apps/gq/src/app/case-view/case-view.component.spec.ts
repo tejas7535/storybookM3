@@ -10,16 +10,16 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
+import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../shared/custom-status-bar/delete-case-button/delete-case-button.component';
 import { OpenCaseButtonComponent } from '../shared/custom-status-bar/open-case-button/open-case-button.component';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
-import { AddEntryModule } from './create-case-dialog/add-entry/add-entry.module';
-import { AutocompleteInputModule } from './create-case-dialog/autocomplete-input/autocomplete-input.module';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
-import { InputTableModule } from './create-case-dialog/input-table/input-table.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
