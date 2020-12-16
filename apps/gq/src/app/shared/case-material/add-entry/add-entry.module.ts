@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared';
-import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
 @NgModule({

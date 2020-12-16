@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { IdValue } from '../../../../core/store/models';
+import { IdValue } from '../../../core/store/models';
 
 @Pipe({
   name: 'noResultsFound',

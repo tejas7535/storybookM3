@@ -1,14 +1,15 @@
-import { AgGridModule } from '@ag-grid-community/angular';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+
+import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { AutocompleteInputModule } from '../../case-view/create-case-dialog/autocomplete-input/autocomplete-input.module';
 import { SharedModule } from '../../shared';
+import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from './add-entry/add-entry.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 import { AddMaterialInputTableModule } from './add-material-input-table/add-material-input-table.module';

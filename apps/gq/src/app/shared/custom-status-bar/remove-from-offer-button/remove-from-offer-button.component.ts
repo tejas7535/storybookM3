@@ -1,5 +1,6 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Component } from '@angular/core';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
 import { removeQuotationDetailFromOffer } from '../../../core/store/actions';

@@ -19,12 +19,12 @@ import {
 } from '../../../core/store';
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   IdValue,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
-import { AutocompleteInputModule } from '../autocomplete-input/autocomplete-input.module';
+import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
 jest.mock('@ngneat/transloco', () => ({

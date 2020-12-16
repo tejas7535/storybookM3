@@ -11,10 +11,10 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
-import { CellRendererModule } from '../../../shared/cell-renderer/cell-renderer.module';
-import { CreateCaseButtonComponent } from '../../../shared/custom-status-bar/create-case-button/create-case-button.component';
-import { CustomStatusBarModule } from '../../../shared/custom-status-bar/custom-status-bar.module';
-import { ResetAllButtonComponent } from '../../../shared/custom-status-bar/reset-all-button/reset-all-button.component';
+import { CellRendererModule } from '../../cell-renderer/cell-renderer.module';
+import { CreateCaseButtonComponent } from '../../custom-status-bar/create-case-button/create-case-button.component';
+import { CustomStatusBarModule } from '../../custom-status-bar/custom-status-bar.module';
+import { ResetAllButtonComponent } from '../../custom-status-bar/reset-all-button/reset-all-button.component';
 import { InputTableComponent } from './input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({

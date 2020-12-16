@@ -6,9 +6,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
-import { AutocompleteInputModule } from '../../../case-view/create-case-dialog/autocomplete-input/autocomplete-input.module';
 
 import { SharedModule } from '../../../shared';
+import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
 @NgModule({

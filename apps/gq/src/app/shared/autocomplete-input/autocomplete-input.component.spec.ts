@@ -8,13 +8,13 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import * as rxjs from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import * as rxjs from 'rxjs';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { IdValue, SapQuotation } from '../../../core/store/models';
+import { IdValue, SapQuotation } from '../../core/store/models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 

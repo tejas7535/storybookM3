@@ -10,10 +10,9 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
-import { select, Store } from '@ngrx/store';
-
 import { Observable, Subscription } from 'rxjs';
-import { AutocompleteInputComponent } from '../../../case-view/create-case-dialog/autocomplete-input/autocomplete-input.component';
+
+import { select, Store } from '@ngrx/store';
 
 import {
   addMaterialRowDataItem,
@@ -32,6 +31,7 @@ import {
   ValidationDescription,
 } from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
+import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
 
 @Component({
   selector: 'gq-add-material-entry',

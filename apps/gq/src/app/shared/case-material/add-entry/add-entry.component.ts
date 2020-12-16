@@ -26,12 +26,12 @@ import {
 import {
   AutocompleteSearch,
   CaseFilterItem,
-  MaterialTableItem,
   IdValue,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
-import { AutocompleteInputComponent } from '../autocomplete-input/autocomplete-input.component';
+import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 
 @Component({
   selector: 'gq-add-entry',
