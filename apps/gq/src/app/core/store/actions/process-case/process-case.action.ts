@@ -6,6 +6,7 @@ import {
   MaterialValidation,
   Quotation,
   QuotationIdentifier,
+  UpdateQuotationDetail,
 } from '../../models';
 
 export const loadCustomer = createAction('[Process Case] Get Customer Details');
@@ -40,26 +41,35 @@ export const selectQuotation = createAction(
 );
 
 export const addQuotationDetailToOffer = createAction(
-  '[Offer] add QuotationDetail to offer',
-  props<{ quotationDetailIDs: string[] }>()
+  '[Offer] Add QuotationDetail to offer',
+  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
 );
 
 export const removeQuotationDetailFromOffer = createAction(
-  '[Offer] remove QuotationDetail to offer',
-  props<{ quotationDetailIDs: string[] }>()
+  '[Offer] Remove QuotationDetail to offer',
+  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
+);
+
+export const updateQuotationDetailsSuccess = createAction(
+  '[Offer] Update QuotationDetails Success'
+);
+
+export const updateQuotationDetailsFailure = createAction(
+  '[Offer] Update QuotationDetails Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const addMaterials = createAction(
-  '[Process Case] add material to Quotation'
+  '[Process Case] Add material to Quotation'
 );
 
 export const addMaterialsSuccess = createAction(
-  '[Process Case] add material to Quotation Success',
+  '[Process Case] Add material to Quotation Success',
   props<{ item: Quotation }>()
 );
 
 export const addMaterialsFailure = createAction(
-  '[Process Case] add material to Quotation Failure',
+  '[Process Case] Add material to Quotation Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -89,41 +99,43 @@ export const validateAddMaterialsSuccess = createAction(
 );
 
 export const addToRemoveMaterials = createAction(
-  '[Process Case] add material to remove list',
+  '[Process Case] Add material to remove list',
   props<{ gqPositionIds: string[] }>()
 );
 
 export const removeMaterials = createAction(
-  '[Process Case] remove material from Quotation'
+  '[Process Case] Remove material from Quotation'
 );
 
 export const removeMaterialsSuccess = createAction(
-  '[Create Case] CreateCase from table and selected customer Success',
+  '[Process Case] Remove material from Quotation Success',
   props<{ item: Quotation }>()
 );
 
 export const removeMaterialsFailure = createAction(
-  '[Create Case] CreateCase from table and selected customer Failure',
+  '[Process Case] Remove material from Quotation Failure',
   props<{ errorMessage: string }>()
 );
 
 const all = union({
+  addMaterials,
   addQuotationDetailToOffer,
+  deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
+  removeMaterials,
+  removeMaterialsFailure,
+  removeMaterialsSuccess,
   removeQuotationDetailFromOffer,
   selectQuotation,
-  addMaterials,
-  deleteAddMaterialRowDataItem,
+  updateQuotationDetailsFailure,
+  updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
-  removeMaterials,
-  removeMaterialsSuccess,
-  removeMaterialsFailure,
 });
 
 export type CaseActions = typeof all;

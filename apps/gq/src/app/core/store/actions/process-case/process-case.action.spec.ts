@@ -14,6 +14,8 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   removeQuotationDetailFromOffer,
+  updateQuotationDetailsFailure,
+  updateQuotationDetailsSuccess,
 } from './process-case.action';
 
 describe('CaseActions', () => {
@@ -88,29 +90,56 @@ describe('CaseActions', () => {
       action = addMaterials();
 
       expect(action).toEqual({
-        type: '[Process Case] add material to Quotation',
+        type: '[Process Case] Add material to Quotation',
       });
     });
   });
 
   describe('Offer Actions', () => {
     test('addQuotationDetailToOffer', () => {
-      const quotationDetailIDs = [QUOTATION_DETAIL_MOCK.quotationItemId];
+      const quotationDetailIDs = [
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          addedToOffer: true,
+        },
+      ];
       action = addQuotationDetailToOffer({ quotationDetailIDs });
 
       expect(action).toEqual({
         quotationDetailIDs,
-        type: '[Offer] add QuotationDetail to offer',
+        type: '[Offer] Add QuotationDetail to offer',
       });
     });
 
     test('removeQuotationDetailFromOffer', () => {
-      const quotationDetailIDs = [QUOTATION_DETAIL_MOCK.quotationItemId];
+      const quotationDetailIDs = [
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          addedToOffer: false,
+        },
+      ];
       action = removeQuotationDetailFromOffer({ quotationDetailIDs });
 
       expect(action).toEqual({
         quotationDetailIDs,
-        type: '[Offer] remove QuotationDetail to offer',
+        type: '[Offer] Remove QuotationDetail to offer',
+      });
+    });
+
+    test('updateQuotationDetailsSuccess', () => {
+      action = updateQuotationDetailsSuccess();
+
+      expect(action).toEqual({
+        type: '[Offer] Update QuotationDetails Success',
+      });
+    });
+
+    test('updateQuotationDetailsFailure', () => {
+      action = updateQuotationDetailsFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Offer] Update QuotationDetails Failure',
       });
     });
   });

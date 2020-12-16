@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
-
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { removeQuotationDetailFromOffer } from '../../../core/store/actions';
-import { QuotationDetail } from '../../../core/store/models';
+import {
+  QuotationDetail,
+  UpdateQuotationDetail,
+} from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -38,8 +40,8 @@ export class RemoveFromOfferButtonComponent {
   }
 
   removeFromOffer(): void {
-    const quotationDetailIDs = this.selections.map(
-      (value) => value.gqPositionId
+    const quotationDetailIDs: UpdateQuotationDetail[] = this.selections.map(
+      (value) => ({ gqPositionId: value.gqPositionId, addedToOffer: false })
     );
     this.store.dispatch(removeQuotationDetailFromOffer({ quotationDetailIDs }));
   }

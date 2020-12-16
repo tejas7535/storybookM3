@@ -4,7 +4,10 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
 import { addQuotationDetailToOffer } from '../../../core/store';
-import { QuotationDetail } from '../../../core/store/models';
+import {
+  QuotationDetail,
+  UpdateQuotationDetail,
+} from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -38,8 +41,10 @@ export class AddToOfferButtonComponent {
   }
 
   addToOffer(): void {
-    const quotationDetailIDs = this.selections.map(
-      (value) => value.gqPositionId
+    const quotationDetailIDs: UpdateQuotationDetail[] = this.selections.map(
+      (value) => {
+        return { gqPositionId: value.gqPositionId, addedToOffer: true };
+      }
     );
     this.store.dispatch(addQuotationDetailToOffer({ quotationDetailIDs }));
   }

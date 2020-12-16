@@ -97,7 +97,9 @@ describe('AddToOfferButtonComponent', () => {
       component.addToOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        addQuotationDetailToOffer({ quotationDetailIDs: ['5694232'] })
+        addQuotationDetailToOffer({
+          quotationDetailIDs: [{ gqPositionId: '5694232', addedToOffer: true }],
+        })
       );
     });
   });

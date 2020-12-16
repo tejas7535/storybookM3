@@ -21,6 +21,8 @@ import {
   removeMaterialsSuccess,
   removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailsFailure,
+  updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -29,7 +31,7 @@ import {
   MaterialTableItem,
   Quotation,
   QuotationIdentifier,
-  QuotationInfoEnum,
+  UpdateQuotationDetail,
   ValidationDescription,
 } from '../../models';
 import {
@@ -48,6 +50,7 @@ export interface ProcessCaseState {
     quotationLoading: boolean;
     item: Quotation;
     errorMessage: string;
+    updateDetails: UpdateQuotationDetail[];
   };
   addMaterials: {
     addMaterialRowData: MaterialTableItem[];
@@ -68,6 +71,7 @@ export const initialState: ProcessCaseState = {
     quotationLoading: false,
     item: undefined,
     errorMessage: undefined,
+    updateDetails: undefined,
   },
   addMaterials: {
     addMaterialRowData: [dummyRowData],
@@ -118,14 +122,11 @@ export const processCaseReducer = createReducer(
       item: undefined,
       quotationLoading: true,
       errorMessage: undefined,
+      updateDetails: undefined,
     },
   })),
   on(loadQuotationSuccess, (state: ProcessCaseState, { item }) => ({
     ...state,
-    quotationIdentifier: {
-      ...state.quotationIdentifier,
-      customerNumber: item.customer.id,
-    },
     quotation: {
       ...state.quotation,
       item,
@@ -151,15 +152,18 @@ export const processCaseReducer = createReducer(
           ...state.quotation.item,
           quotationDetails: [
             ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.includes(quotationDetail.gqPositionId)
+              quotationDetailIDs.some(
+                (item) => item.gqPositionId === quotationDetail.gqPositionId
+              )
                 ? {
                     ...quotationDetail,
-                    info: QuotationInfoEnum.AddedToOffer,
+                    addedToOffer: true,
                   }
                 : quotationDetail
             ),
           ],
         },
+        updateDetails: quotationDetailIDs,
       },
     })
   ),
@@ -173,15 +177,36 @@ export const processCaseReducer = createReducer(
           ...state.quotation.item,
           quotationDetails: [
             ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.includes(quotationDetail.gqPositionId)
+              quotationDetailIDs.some(
+                (item) => item.gqPositionId === quotationDetail.gqPositionId
+              )
                 ? {
                     ...quotationDetail,
-                    info: QuotationInfoEnum.None,
+                    addedToOffer: false,
                   }
                 : quotationDetail
             ),
           ],
         },
+        updateDetails: quotationDetailIDs,
+      },
+    })
+  ),
+  on(updateQuotationDetailsSuccess, (state: ProcessCaseState) => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      updateDetails: undefined,
+      errorMessage: undefined,
+    },
+  })),
+  on(
+    updateQuotationDetailsFailure,
+    (state: ProcessCaseState, { errorMessage }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
       },
     })
   ),

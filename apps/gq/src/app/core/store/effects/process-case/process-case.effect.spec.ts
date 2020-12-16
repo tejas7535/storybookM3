@@ -14,6 +14,7 @@ import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import {
   CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
@@ -24,6 +25,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  addQuotationDetailToOffer,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -35,6 +37,7 @@ import {
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
+  updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -42,6 +45,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
   QuotationIdentifier,
+  UpdateQuotationDetail,
   ValidationDescription,
 } from '../../models';
 import {
@@ -49,6 +53,7 @@ import {
   getAddQuotationDetailsRequest,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
+  getUpdateQuotationDetails,
 } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
@@ -421,6 +426,44 @@ describe('ProcessCaseEffect', () => {
 
       expect(effects.removeMaterials$).toBeObservable(expected);
       expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('updateMaterials$', () => {
+    const updateDetails: UpdateQuotationDetail[] = [
+      {
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        addedToOffer: true,
+      },
+    ];
+
+    beforeEach(() => {
+      store.overrideSelector(getUpdateQuotationDetails, updateDetails);
+    });
+
+    test('should return removeMaterialsSuccess when REST call is successful', () => {
+      snackBarService.showSuccessMessage = jest.fn();
+      const quotationDetailIDs: UpdateQuotationDetail[] = [
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          addedToOffer: true,
+        },
+      ];
+      action = addQuotationDetailToOffer({ quotationDetailIDs });
+
+      quotationDetailsService.updateMaterial = jest.fn(() => response);
+      const result = updateQuotationDetailsSuccess();
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|');
+      const expected = cold('--b', { b: result });
+
+      expect(effects.updateMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+        updateDetails
+      );
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
   });
 

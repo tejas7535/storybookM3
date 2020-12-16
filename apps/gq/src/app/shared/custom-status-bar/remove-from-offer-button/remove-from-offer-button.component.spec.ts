@@ -96,7 +96,11 @@ describe('RemoveFromOfferComponent', () => {
       component.removeFromOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        removeQuotationDetailFromOffer({ quotationDetailIDs: ['5694232'] })
+        removeQuotationDetailFromOffer({
+          quotationDetailIDs: [
+            { gqPositionId: '5694232', addedToOffer: false },
+          ],
+        })
       );
     });
   });

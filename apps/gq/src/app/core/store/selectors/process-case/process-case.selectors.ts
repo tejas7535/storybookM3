@@ -8,7 +8,7 @@ import {
   Quotation,
   QuotationDetail,
   QuotationIdentifier,
-  QuotationInfoEnum,
+  UpdateQuotationDetail,
 } from '../../models';
 import { getProcessCaseState } from '../../reducers';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
@@ -44,8 +44,7 @@ export const getOffer = createSelector(
     state.quotation.item === undefined
       ? []
       : state.quotation.item.quotationDetails.filter(
-          (quotationDetail) =>
-            quotationDetail.info === QuotationInfoEnum.AddedToOffer
+          (quotationDetail) => quotationDetail.addedToOffer
         )
 );
 
@@ -115,4 +114,10 @@ export const getAddMaterialRowDataValid = createSelector(
 
     return rowDataValid;
   }
+);
+
+export const getUpdateQuotationDetails = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): UpdateQuotationDetail[] =>
+    state.quotation.updateDetails
 );
