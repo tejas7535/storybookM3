@@ -181,7 +181,8 @@
     },
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",
-      "materialDeleted": "Material(s) deleted from the case"
+      "materialDeleted": "Material(s) deleted from the case",
+      "updateMaterials": "Offer selection was saved"
     }
   },
   "shared": {

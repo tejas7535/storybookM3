@@ -16,7 +16,7 @@ export const COLUMN_DEFS: ColDef[] = [
     checkboxSelection: true,
     cellRenderer: 'infoCellComponent',
     headerName: '',
-    field: 'info',
+    field: 'addedToOffer',
     pinned: 'left',
     initialWidth: 120,
     suppressMenu: true,

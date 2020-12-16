@@ -2,7 +2,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { QuotationInfoEnum } from '../../../../core/store/models';
 import { InfoCellComponent } from './info-cell.component';
 
 describe('InfoCellComponent', () => {
@@ -27,7 +26,7 @@ describe('InfoCellComponent', () => {
   describe('agInit', () => {
     test('should set params', () => {
       const params: any = {
-        value: QuotationInfoEnum.AddedToOffer,
+        value: true,
       };
       component.agInit(params);
 

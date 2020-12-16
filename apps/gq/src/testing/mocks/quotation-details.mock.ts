@@ -1,9 +1,7 @@
-import {
-  QuotationDetail,
-  QuotationInfoEnum,
-} from '../../app/core/store/models';
+import { QuotationDetail } from '../../app/core/store/models';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
+  addedToOffer: false,
   quotationId: '123456',
   quotationItemId: '34643567',
   gqPositionId: '5694232',
@@ -16,7 +14,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   plantCity: 'Schweinfurt',
   plantCountry: 'Germany',
   rsp: '845.76 €',
-  info: QuotationInfoEnum.None,
   priceSource: 'MokSource',
   netValue: '26.67',
   margin: '89654',

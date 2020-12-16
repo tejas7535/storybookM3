@@ -1,6 +1,5 @@
-import { QuotationInfoEnum } from './quotation-info.enum';
-
 export class QuotationDetail {
+  public addedToOffer: boolean;
   public quotationId: string;
   public gqPositionId: string;
   public quotationItemId: string;
@@ -13,7 +12,6 @@ export class QuotationDetail {
   public plantCity: string;
   public plantCountry: string;
   public rsp: string;
-  public info: QuotationInfoEnum;
   public margin: string;
   public netValue: string;
   public priceSource: string;

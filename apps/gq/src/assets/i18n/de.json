@@ -181,7 +181,8 @@
     },
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
-      "materialDeleted": "Material wurde entfernt"
+      "materialDeleted": "Material wurde entfernt",
+      "updateMaterials": "Die Angebotsauswahl wurde gespeichert"
     }
   },
   "shared": {

@@ -43,5 +43,5 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
 ];
 
 export const CREATE_COLUMN_DEFS_FINISH_OFFER = (): ColDef[] => {
-  return processCaseDef.COLUMN_DEFS.filter((el) => el.field !== 'info');
+  return processCaseDef.COLUMN_DEFS.filter((el) => el.field !== 'addedToOffer');
 };

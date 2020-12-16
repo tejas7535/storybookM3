@@ -8,8 +8,11 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { CUSTOMER_MOCK } from '../../../testing/mocks';
-import { AddQuotationDetailsRequest } from '../../core/store/models';
+import { CUSTOMER_MOCK, QUOTATION_DETAIL_MOCK } from '../../../testing/mocks';
+import {
+  AddQuotationDetailsRequest,
+  UpdateQuotationDetail,
+} from '../../core/store/models';
 import { QuotationDetailsService } from './quotation-details.service';
 
 describe('QuotationDetailsService', (): void => {
@@ -102,6 +105,24 @@ describe('QuotationDetailsService', (): void => {
       const req = httpMock.expectOne('/quotation-details');
       expect(req.request.method).toBe('DELETE');
       req.flush(mock);
+    });
+  });
+
+  describe('updateMaterial', () => {
+    test('should call', () => {
+      const quotationDetails: UpdateQuotationDetail[] = [
+        {
+          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+          addedToOffer: true,
+        },
+      ];
+
+      service.updateMaterial(quotationDetails).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+      const req = httpMock.expectOne('/quotation-details');
+      expect(req.request.method).toBe('PUT');
+      req.flush(quotationDetails);
     });
   });
 });

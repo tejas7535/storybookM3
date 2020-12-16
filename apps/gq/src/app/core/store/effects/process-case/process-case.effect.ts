@@ -25,6 +25,7 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
+  addQuotationDetailToOffer,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -35,7 +36,10 @@ import {
   removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
+  removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailsFailure,
+  updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -46,6 +50,7 @@ import {
   MaterialValidation,
   Quotation,
   QuotationIdentifier,
+  UpdateQuotationDetail,
 } from '../../models';
 import * as fromRouter from '../../reducers';
 import {
@@ -53,6 +58,7 @@ import {
   getAddQuotationDetailsRequest,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
+  getUpdateQuotationDetails,
 } from '../../selectors';
 
 /**
@@ -218,6 +224,32 @@ export class ProcessCaseEffect {
           }),
           catchError((errorMessage) =>
             of(removeMaterialsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
+  updateMaterials$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(
+        addQuotationDetailToOffer.type,
+        removeQuotationDetailFromOffer.type
+      ),
+      withLatestFrom(this.store.pipe(select(getUpdateQuotationDetails))),
+      map(([_action, quotationDetails]) => quotationDetails),
+      mergeMap((quotationDetails: UpdateQuotationDetail[]) =>
+        this.quotationDetailsService.updateMaterial(quotationDetails).pipe(
+          map(() => {
+            const successMessage = translate(
+              'processCaseView.snackBarMessages.updateMaterials'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
+
+            return updateQuotationDetailsSuccess();
+          }),
+          catchError((errorMessage) =>
+            of(updateQuotationDetailsFailure({ errorMessage }))
           )
         )
       )

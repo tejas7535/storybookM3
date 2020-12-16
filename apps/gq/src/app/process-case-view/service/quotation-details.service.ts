@@ -6,7 +6,11 @@ import { DataService } from '@schaeffler/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AddQuotationDetailsRequest, Quotation } from '../../core/store/models';
+import {
+  AddQuotationDetailsRequest,
+  Quotation,
+  UpdateQuotationDetail,
+} from '../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
@@ -41,5 +45,11 @@ export class QuotationDetailsService {
     };
 
     return this.dataService.delete(this.QUOTATION_DETAILS, options);
+  }
+
+  public updateMaterial(
+    quotationDetails: UpdateQuotationDetail[]
+  ): Observable<any> {
+    return this.dataService.put(this.QUOTATION_DETAILS, quotationDetails);
   }
 }

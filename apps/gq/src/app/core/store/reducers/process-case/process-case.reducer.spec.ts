@@ -24,6 +24,8 @@ import {
   removeMaterialsSuccess,
   removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailsFailure,
+  updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -32,7 +34,7 @@ import {
   MaterialValidation,
   Quotation,
   QuotationIdentifier,
-  QuotationInfoEnum,
+  UpdateQuotationDetail,
 } from '../../models';
 import { processCaseReducer } from './process-case.reducer';
 
@@ -166,7 +168,12 @@ describe('Quotation Reducer', () => {
     describe('addQuotationDetailToOffer', () => {
       test('should add a quotationDetail to Offer', () => {
         const action = addQuotationDetailToOffer({
-          quotationDetailIDs: [QUOTATION_DETAIL_MOCK.gqPositionId],
+          quotationDetailIDs: [
+            {
+              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+              addedToOffer: true,
+            },
+          ],
         });
         const mockItem: Quotation = JSON.parse(JSON.stringify(QUOTATION_MOCK));
 
@@ -191,17 +198,21 @@ describe('Quotation Reducer', () => {
         const addedDetail = stateItem.item.quotationDetails[0];
         const otherDetail = stateItem.item.quotationDetails[1];
 
-        expect(addedDetail.info).toEqual(QuotationInfoEnum.AddedToOffer);
-        expect(otherDetail.info).toEqual(QuotationInfoEnum.None);
+        expect(addedDetail.addedToOffer).toBeTruthy();
+        expect(otherDetail.addedToOffer).toBeFalsy();
       });
     });
 
     describe('removeQuotationDetailFromOffer', () => {
       test('should remove a quotationDetail from Offer', () => {
-        const quotationDetailToRemove = QUOTATION_DETAIL_MOCK;
-        quotationDetailToRemove.info = QuotationInfoEnum.AddedToOffer;
+        QUOTATION_DETAIL_MOCK.addedToOffer = true;
         const action = removeQuotationDetailFromOffer({
-          quotationDetailIDs: [quotationDetailToRemove.gqPositionId],
+          quotationDetailIDs: [
+            {
+              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+              addedToOffer: false,
+            },
+          ],
         });
         const mockItem = JSON.parse(JSON.stringify(QUOTATION_MOCK));
 
@@ -226,8 +237,52 @@ describe('Quotation Reducer', () => {
         const addedDetail = stateItem.item.quotationDetails[0];
         const otherDetail = stateItem.item.quotationDetails[1];
 
-        expect(addedDetail.info).toEqual(QuotationInfoEnum.None);
-        expect(otherDetail.info).toEqual(QuotationInfoEnum.AddedToOffer);
+        expect(addedDetail.addedToOffer).toBeFalsy();
+        expect(otherDetail.addedToOffer).toBeTruthy();
+      });
+    });
+
+    describe('updateQuotationDetailsSuccess', () => {
+      test(' should update updateDetails to undefined', () => {
+        const action = updateQuotationDetailsSuccess();
+        const mockUpdateDetails: UpdateQuotationDetail[] = [
+          { gqPositionId: '1234', addedToOffer: true },
+        ];
+
+        const fakeState = {
+          ...QUOTATION_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_STATE_MOCK.quotation,
+            updateDetails: mockUpdateDetails,
+          },
+        };
+
+        const state = processCaseReducer(fakeState, action);
+
+        const stateItem = state.quotation;
+        const updateDetails = stateItem.updateDetails;
+        expect(updateDetails).toBe(undefined);
+      });
+    });
+
+    describe('updateQuotationDetailsFailure', () => {
+      test('should not manipulate state', () => {
+        const action = updateQuotationDetailsFailure({ errorMessage });
+        const mockUpdateDetails: UpdateQuotationDetail[] = [
+          { gqPositionId: '1234', addedToOffer: true },
+        ];
+
+        const fakeState = {
+          ...QUOTATION_STATE_MOCK,
+          quotation: {
+            ...QUOTATION_STATE_MOCK.quotation,
+            updateDetails: mockUpdateDetails,
+          },
+        };
+
+        const state = processCaseReducer(fakeState, action);
+
+        expect(state.quotation.errorMessage).toEqual(errorMessage);
       });
     });
   });

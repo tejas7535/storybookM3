@@ -193,4 +193,14 @@ describe('Process Case Selector', () => {
       ).toBeTruthy();
     });
   });
+
+  describe('getUpdateQuotationDetails ', () => {
+    test('should return a updateDetails', () => {
+      expect(
+        quotationSelectors.getUpdateQuotationDetails.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.quotation.updateDetails);
+    });
+  });
 });

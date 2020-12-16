@@ -24,3 +24,4 @@ export * from './sub-key-account.model';
 export * from './sub-sector.model';
 export * from './validation-description.enum';
 export * from './view-quotation.model';
+export * from './update-quotation-detail.model';
