@@ -90,7 +90,7 @@ describe('TableService', () => {
   describe('validateData', () => {
     describe('should return valid information', () => {
       const materialNumber = {
-        quantity: '100',
+        quantity: 100,
         materialNumber: '23457',
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -105,13 +105,13 @@ describe('TableService', () => {
       expect(result).toEqual({
         info: { description: [ValidationDescription.Valid], valid: true },
         materialNumber: '23457',
-        quantity: '100',
+        quantity: 100,
       });
     });
 
     describe('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
-        quantity: '100',
+        quantity: 100,
         materialNumber: '23457',
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -129,13 +129,13 @@ describe('TableService', () => {
           valid: false,
         },
         materialNumber: '23457',
-        quantity: '100',
+        quantity: 100,
       });
     });
 
     describe('should not change the validation', () => {
       const materialNumber: MaterialTableItem = {
-        quantity: '100',
+        quantity: 100,
         materialNumber: '23457',
         info: {
           description: [ValidationDescription.MaterialNumberInValid],
@@ -153,7 +153,7 @@ describe('TableService', () => {
           valid: false,
         },
         materialNumber: '23457',
-        quantity: '100',
+        quantity: 100,
       });
     });
     describe('should return invalid information', () => {
@@ -176,7 +176,7 @@ describe('TableService', () => {
           valid: false,
         },
         materialNumber: '2345713',
-        quantity: '100',
+        quantity: 100,
       });
     });
 

@@ -19,9 +19,9 @@ import {
 } from '../../actions';
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
+  MaterialTableItem,
   MaterialValidation,
   ValidationDescription,
 } from '../../models';
@@ -294,7 +294,7 @@ describe('Create Case Reducer', () => {
       const fakeData: MaterialTableItem[] = [
         {
           materialNumber: '20',
-          quantity: '10',
+          quantity: 10,
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],

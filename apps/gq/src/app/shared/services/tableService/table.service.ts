@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -99,6 +100,9 @@ export class TableService {
         updatedRow.info.description,
         ValidationDescription.QuantityInValid
       );
+    } else {
+      // Covers an edge case, to convert f.e quantity 50* into 50 (* = wildcard)
+      updatedRow.quantity = quantity;
     }
 
     if (updatedRow.info.description.length === 0) {
