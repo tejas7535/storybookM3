@@ -14,8 +14,8 @@ import {
 import {
   AutocompleteSearch,
   CaseFilterItem,
-  MaterialTableItem,
   IdValue,
+  MaterialTableItem,
   SapQuotation,
 } from '../../core/store/models';
 import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
@@ -42,6 +42,7 @@ export class CreateCaseDialogComponent implements OnInit {
   customerDisabled = false;
   addEntryInput: boolean;
   quotationIsValid = false;
+  isExpanded = false;
 
   constructor(
     private readonly store: Store<CaseState>,
@@ -93,5 +94,8 @@ export class CreateCaseDialogComponent implements OnInit {
   }
   closeDialog(): void {
     this.dialogRef.close();
+  }
+  toggleExpanded(): void {
+    this.isExpanded = !this.isExpanded;
   }
 }

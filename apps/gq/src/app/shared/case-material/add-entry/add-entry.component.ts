@@ -15,6 +15,7 @@ import { Observable, Subscription } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import {
+  addMaterialRowDataItem,
   addRowDataItem,
   autocomplete,
   getCaseAutocompleteLoading,
@@ -50,10 +51,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   materialNumberIsValid = false;
   quantityValid = false;
   addRowEnabled = false;
-  isExpanded = false;
   quantityFormControl: FormControl = new FormControl();
   private readonly subscription: Subscription = new Subscription();
 
+  @Input() readonly isCaseView: boolean;
   @Input() set isDisabled(isDisabled: boolean) {
     this._isDisabled = isDisabled;
     isDisabled
@@ -75,12 +76,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
   addSubscriptions(): void {
     this.subscription.add(
-      this.store.pipe(select(getCaseMaterialNumber)).subscribe((res) => {
-        if (res.options.length > 0) {
-          const idValueItem = res.options.find((opt) => opt.selected);
-          this.materialNumber = idValueItem ? idValueItem.id : undefined;
-        }
-      })
+      this.store
+        .pipe(select(getCaseMaterialNumber))
+        .subscribe((res: CaseFilterItem) => {
+          if (res.options.length > 0) {
+            const idValueItem = res.options.find(
+              (opt: IdValue) => opt.selected
+            );
+            this.materialNumber = idValueItem ? idValueItem.id : undefined;
+          }
+        })
     );
     this.subscription.add(
       this.quantityFormControl.valueChanges.subscribe((value) => {
@@ -91,15 +96,16 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       })
     );
     this.subscription.add(
-      this.store.pipe(select(getCaseRowData)).subscribe((data) => {
-        this.rowData = data;
-      })
+      this.store
+        .pipe(select(getCaseRowData))
+        .subscribe((data: MaterialTableItem[]) => {
+          this.rowData = data;
+        })
     );
   }
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-  agInit(): void {}
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
@@ -143,7 +149,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         info: { valid: true, description: [ValidationDescription.Valid] },
       },
     ];
-    this.store.dispatch(addRowDataItem({ items }));
+    // dispatch action depending on page
+    this.isCaseView
+      ? this.store.dispatch(addRowDataItem({ items }))
+      : this.store.dispatch(addMaterialRowDataItem({ items }));
     this.matNumberInput.clearInput();
     this.quantityFormControl.setValue('');
   }
@@ -151,9 +160,5 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     const charCode = event.which ? event.which : event.keyCode;
 
     return !(charCode >= SPACE && (charCode < ZERO || charCode > NINE));
-  }
-
-  toggleExpanded(): void {
-    this.isExpanded = !this.isExpanded;
   }
 }

@@ -136,4 +136,11 @@ describe('CreateCaseDialogComponent', () => {
       expect(component.quotationDisabled).toBeTruthy();
     });
   });
+  describe('toggle Expanded', () => {
+    test('toggle', () => {
+      component.isExpanded = false;
+      component.toggleExpanded();
+      expect(component.isExpanded).toBeTruthy();
+    });
+  });
 });

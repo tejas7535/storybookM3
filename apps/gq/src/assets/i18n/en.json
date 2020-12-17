@@ -23,27 +23,6 @@
         "hint": "Enter a Customer Number or a Customer Name",
         "label": "Customer",
         "nothingFound": "Nothing found",
-        "quantity": {
-          "label": "Quantity",
-          "hint": "Enter a quantity"
-        },
-        "table": {
-          "info": {
-            "title": "Status",
-            "status": {
-              "duplicate": "The item already exists in the table",
-              "isDummy": "This is a dummy item",
-              "materialNumberInValid": "The material number is invalid",
-              "not_validated": "Item not validated yet",
-              "quantityInValid": "The quantity is invalid",
-              "valid": "Item is valid",
-              "validationFailure": "Validation failed, try again"
-            }
-          },
-          "matDesc": "Material Description",
-          "materialNumber": "Material Number (15-digits)",
-          "quantity": "Quantity"
-        },
         "title": "Create Case manually",
         "wrongInput": "Please enter a valid customer name or customer number"
       },
@@ -129,30 +108,9 @@
   "processCaseView": {
     "addMaterialDialog": {
       "addEntry": {
-        "button": "Add entry",
-        "title": "Add new entry",
-        "quantity": {
-          "label": "Quantity",
-          "hint": "Enter a quantity"
-        }
+        "title": "Add new position"
       },
-      "title": "Add Material",
-      "table": {
-        "info": {
-          "title": "Info",
-          "status": {
-            "duplicate": "The item already exists in the table",
-            "isDummy": "This is a dummy item",
-            "materialNumberInValid": "The material number is invalid",
-            "not_validated": "Item not validated yet",
-            "quantityInValid": "The quantity is invalid",
-            "valid": "Item is valid",
-            "validationFailure": "Validation failed, try again"
-          }
-        },
-        "materialNumber": "Material Number",
-        "quantity": "Quantity"
-      }
+      "title": "Add Material"
     },
     "quotationDetailsTable": {
       "currency": "Currency",
@@ -188,6 +146,32 @@
   "shared": {
     "caseHeader": {
       "seeOffer": "see offer"
+    },
+    "caseMaterial": {
+      "addEntry": {
+        "quantity": {
+          "hint": "Enter a quantity",
+          "label": "Quantity"
+        },
+        "button": "Add position"
+      },
+      "table": {
+        "info": {
+          "title": "Status",
+          "status": {
+            "duplicate": "The item already exists in the table",
+            "isDummy": "This is a dummy item",
+            "materialNumberInValid": "The material number is invalid",
+            "not_validated": "Item not validated yet",
+            "quantityInValid": "The quantity is invalid",
+            "valid": "Item is valid",
+            "validationFailure": "Validation failed, try again"
+          }
+        },
+        "matDesc": "Material Description",
+        "materialNumber": "Material Number (15-digits)",
+        "quantity": "Quantity"
+      }
     },
     "customStatusBar": {
       "addToMaterialButton": {

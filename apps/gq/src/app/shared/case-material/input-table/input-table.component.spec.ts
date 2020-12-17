@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { MatDialogRef } from '@angular/material/dialog';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -6,12 +7,16 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { pasteRowDataItems } from '../../../core/store';
+import {
+  pasteRowDataItems,
+  pasteRowDataItemsToAddMaterial,
+} from '../../../core/store';
 import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../core/store/models';
 import { CellRendererModule } from '../../cell-renderer/cell-renderer.module';
+import { AddMaterialButtonComponent } from '../../custom-status-bar/add-material-button/add-material-button.component';
 import { CreateCaseButtonComponent } from '../../custom-status-bar/create-case-button/create-case-button.component';
 import { CustomStatusBarModule } from '../../custom-status-bar/custom-status-bar.module';
 import { ResetAllButtonComponent } from '../../custom-status-bar/reset-all-button/reset-all-button.component';
@@ -33,6 +38,7 @@ describe('InputTableComponent', () => {
     component: InputTableComponent,
     imports: [
       AgGridModule.withComponents([
+        AddMaterialButtonComponent,
         CreateCaseButtonComponent,
         ResetAllButtonComponent,
       ]),
@@ -40,7 +46,13 @@ describe('InputTableComponent', () => {
       CustomStatusBarModule,
       provideTranslocoTestingModule({}),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({}),
+      {
+        provide: MatDialogRef,
+        useValue: {},
+      },
+    ],
   });
   beforeEach(() => {
     spectator = createComponent();
@@ -99,7 +111,7 @@ describe('InputTableComponent', () => {
       await component.onPasteStart();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItems(combinedItem)
+        pasteRowDataItemsToAddMaterial(combinedItem)
       );
       expect(component['currentCell']).toBeUndefined();
     });
@@ -121,7 +133,7 @@ describe('InputTableComponent', () => {
       await component.onPasteStart();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        pasteRowDataItems(combinedItem)
+        pasteRowDataItemsToAddMaterial(combinedItem)
       );
       expect(component['currentCell']).toBeUndefined();
     });
@@ -138,6 +150,7 @@ describe('InputTableComponent', () => {
         items: combinedArray,
         pasteDestination: currentCell,
       };
+      InputTableComponent.prototype['isCaseView'] = true;
       await component.onPasteStart();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(

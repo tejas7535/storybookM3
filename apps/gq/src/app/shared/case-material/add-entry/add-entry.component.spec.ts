@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -12,7 +13,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
-  addRowDataItem,
+  addMaterialRowDataItem,
   autocomplete,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -42,6 +43,7 @@ describe('InputbarComponent', () => {
       declarations: [AddEntryComponent],
       imports: [
         AutocompleteInputModule,
+        BrowserAnimationsModule,
         MatInputModule,
         MatButtonModule,
         MatCardModule,
@@ -164,7 +166,7 @@ describe('InputbarComponent', () => {
 
       component.addRow();
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        addRowDataItem({ items: [item] })
+        addMaterialRowDataItem({ items: [item] })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
       expect(component.quantityFormControl.setValue).toHaveBeenCalledTimes(1);
@@ -212,13 +214,6 @@ describe('InputbarComponent', () => {
         keyCode: FIVE,
       };
       expect(component.numberOnly(eventMock)).toBeTruthy();
-    });
-  });
-  describe('toggle Expanded', () => {
-    test('toggle', () => {
-      component.isExpanded = false;
-      component.toggleExpanded();
-      expect(component.isExpanded).toBeTruthy();
     });
   });
 });

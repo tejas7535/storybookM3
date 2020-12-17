@@ -2,19 +2,33 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/fonts';
 
-button {
-  background-color: $schaeffler-green-1;
-  border: 1px solid $schaeffler-gray-4;
-  color: $schaeffler-white;
-  font-size: $schaeffler-labels;
-  font-weight: bold;
+.add-entry {
+  align-content: flex-start;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.add-entry-title {
+  font-size: 14px;
+  font-weight: unset;
+}
+.add-entry-button {
+  padding-left: 0;
+}
+.close-add-entry {
+  color: $schaeffler-green-1;
+  cursor: pointer;
+  height: 14px;
+  line-height: 14px;
+}
+.open-quotation-button {
   margin-left: 15px;
+}
+button {
+  font-weight: bold;
   margin-top: 10px;
   width: 200px;
-}
-button[disabled] {
-  background-color: $schaeffler-gray-3;
-  color: $schaeffler-gray-7 !important;
 }
 .close-dialog {
   cursor: pointer;

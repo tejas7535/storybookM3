@@ -5,11 +5,10 @@
   </h2>
   <mat-card>
     <mat-card-content>
-      <gq-add-material-entry></gq-add-material-entry>
+      {{ t('addEntry.title') }}
+      <gq-add-entry></gq-add-entry>
       <div *ngIf="rowData$ | async as rowData">
-        <gq-add-material-input-table
-          [rowData]="rowData"
-        ></gq-add-material-input-table>
+        <gq-material-input-table [rowData]="rowData"></gq-material-input-table>
       </div>
     </mat-card-content>
   </mat-card>
