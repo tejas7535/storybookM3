@@ -266,7 +266,8 @@ pipeline {
         gitlab(
             triggerOnPush: true
         )
-        cron(isMaster() ? '@midnight' : '')
+        // TODO reactivate again in 2021
+        //cron(isMaster() ? '@midnight' : '')
     }
 
     parameters {
