@@ -19,23 +19,19 @@ export const infoComparator = (info1: any, info2: any): number => {
 };
 export const COLUMN_DEFS: ColDef[] = [
   {
-    headerName: translate(
-      'caseView.createCaseDialog.customer.table.materialNumber'
-    ),
+    headerName: translate('shared.caseMaterial.table.materialNumber'),
     field: 'materialNumber',
     flex: 0.4,
     sortable: true,
   },
   {
-    headerName: translate('caseView.createCaseDialog.customer.table.quantity'),
+    headerName: translate('shared.caseMaterial.table.quantity'),
     field: 'quantity',
     flex: 0.4,
     sortable: true,
   },
   {
-    headerName: translate(
-      'caseView.createCaseDialog.customer.table.info.title'
-    ),
+    headerName: translate('shared.caseMaterial.table.info.title'),
     field: 'info',
     cellRenderer: 'infoCellComponent',
     flex: 0.1,

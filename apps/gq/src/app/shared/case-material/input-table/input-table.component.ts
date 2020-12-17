@@ -1,8 +1,11 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { pasteRowDataItems } from '../../../core/store';
+import {
+  pasteRowDataItems,
+  pasteRowDataItemsToAddMaterial,
+} from '../../../core/store';
 import {
   MaterialTableItem,
   ValidationDescription,
@@ -17,11 +20,11 @@ import {
 } from './config';
 
 @Component({
-  selector: 'gq-input-table',
+  selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
   styleUrls: ['./input-table.component.scss'],
 })
-export class InputTableComponent {
+export class InputTableComponent implements OnInit {
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = COLUMN_DEFS;
@@ -30,8 +33,18 @@ export class InputTableComponent {
 
   private currentCell: MaterialTableItem;
 
+  @Input() isCaseView: boolean;
   @Input() rowData: any[];
   constructor(private readonly store: Store<CaseState>) {}
+
+  ngOnInit(): void {
+    if (!this.isCaseView) {
+      this.statusBar.statusPanels[0] = {
+        statusPanel: 'addMaterialButtonComponent',
+        align: 'left',
+      };
+    }
+  }
 
   async onPasteStart(): Promise<void> {
     const text = await navigator.clipboard.readText();
@@ -57,12 +70,19 @@ export class InputTableComponent {
 
       return item;
     });
-    this.store.dispatch(
-      pasteRowDataItems({
-        items: tableArray,
-        pasteDestination: this.currentCell,
-      })
-    );
+    this.isCaseView
+      ? this.store.dispatch(
+          pasteRowDataItems({
+            items: tableArray,
+            pasteDestination: this.currentCell,
+          })
+        )
+      : this.store.dispatch(
+          pasteRowDataItemsToAddMaterial({
+            items: tableArray,
+            pasteDestination: this.currentCell,
+          })
+        );
     this.currentCell = undefined;
   }
   onCellClicked(params: any): void {

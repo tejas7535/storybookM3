@@ -2,8 +2,10 @@ import { ActionCellComponent } from '../../../../shared/cell-renderer/action-cel
 import { InfoCellComponent } from '../../../../shared/cell-renderer/info-cell/info-cell.component';
 import { CreateCaseButtonComponent } from '../../../../shared/custom-status-bar/create-case-button/create-case-button.component';
 import { ResetAllButtonComponent } from '../../../../shared/custom-status-bar/reset-all-button/reset-all-button.component';
+import { AddMaterialButtonComponent } from '../../../custom-status-bar/add-material-button/add-material-button.component';
 
 export const FRAMEWORK_COMPONENTS = {
+  addMaterialButtonComponent: AddMaterialButtonComponent,
   createCaseButtonComponent: CreateCaseButtonComponent,
   resetAllButtonComponent: ResetAllButtonComponent,
   infoCellComponent: InfoCellComponent,

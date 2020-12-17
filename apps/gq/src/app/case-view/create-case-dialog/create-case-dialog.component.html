@@ -29,7 +29,9 @@
         </div>
         <div fxFlex fxLayoutAlign="start start">
           <button
-            mat-stroked-button
+            color="primary"
+            mat-raised-button
+            class="open-quotation-button"
             [disabled]="!quotationIsValid"
             (click)="openQuotation()"
           >
@@ -61,13 +63,48 @@
           ></gq-autocomplete-input>
         </div>
       </div>
-      <gq-add-entry
-        [isDisabled]="customerDisabled"
-        (inputContent)="customerHasInput($event)"
+      <div
+        *transloco="let t; read: 'caseView.createCaseDialog.customer.addEntry'"
       >
-      </gq-add-entry>
+        <mat-card *ngIf="isExpanded; else input">
+          <mat-card-title class="add-entry-title">
+            <mat-icon
+              fontSet="schaeffler-icons"
+              fontIcon="icon-toast-error"
+              class="close-add-entry"
+              (click)="toggleExpanded()"
+            ></mat-icon>
+            {{ t('title') }}
+          </mat-card-title>
+          <mat-card-content>
+            <gq-add-entry
+              [isDisabled]="customerDisabled"
+              (inputContent)="customerHasInput($event)"
+              isCaseView="true"
+            >
+            </gq-add-entry>
+          </mat-card-content>
+        </mat-card>
+        <ng-template #input
+          ><button
+            mat-stroked-button
+            color="primary"
+            (click)="toggleExpanded()"
+            class="add-entry-button"
+          >
+            <div class="add-entry">
+              <mat-icon>add</mat-icon>
+              {{ t('button') | uppercase }}
+            </div>
+          </button>
+        </ng-template>
+      </div>
+
       <div *ngIf="rowData$ | async as rowData">
-        <gq-input-table [rowData]="rowData"></gq-input-table>
+        <gq-material-input-table
+          [rowData]="rowData"
+          isCaseView="true"
+        ></gq-material-input-table>
       </div>
     </mat-card-content>
   </mat-card>

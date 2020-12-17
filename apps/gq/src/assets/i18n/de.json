@@ -24,27 +24,6 @@
         "label": "Kunde",
         "nothingFound": "Keine Ergebnisse",
         "title": "Neuen Case erstellen",
-        "quantity": {
-          "label": "Anzahl",
-          "hint": "Geben Sie die Anzahl ein"
-        },
-        "table": {
-          "info": {
-            "title": "Status",
-            "status": {
-              "duplicate": "Das Item exisitiert bereits in der Tabelle",
-              "isDummy": "Dies ist ein Beispieldatensatz",
-              "materialNumberInValid": "Die Materialnummer ist invalide",
-              "not_validated": "Item noch nicht validiert",
-              "quantityInValid": "Die Anzahl ist invalide",
-              "valid": "Das Item ist valide",
-              "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
-            }
-          },
-          "matDesc": "Material Beschreibung",
-          "materialNumber": "Material Nummer (15-stellig)",
-          "quantity": "Anzahl"
-        },
         "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
       },
       "materialNumber": {
@@ -129,30 +108,9 @@
   "processCaseView": {
     "addMaterialDialog": {
       "addEntry": {
-        "button": "Eintrag hinzufügen",
-        "title": "Neuen Eintrag hinzufügen",
-        "quantity": {
-          "label": "Anzahl",
-          "hint": "Geben Sie die Anzahl ein"
-        }
+        "title": "Neuen Eintrag hinzufügen"
       },
-      "title": "Material hinzufügen",
-      "table": {
-        "info": {
-          "title": "Info",
-          "status": {
-            "duplicate": "Das Item exisitiert bereits in der Tabelle",
-            "isDummy": "Dies ist ein Beispieldatensatz",
-            "materialNumberInValid": "Die Materialnummer ist invalide",
-            "not_validated": "Item noch nicht validiert",
-            "quantityInValid": "Die Anzahl ist invalide",
-            "valid": "Das Item ist valide",
-            "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
-          }
-        },
-        "materialNumber": "Material Nummer",
-        "quantity": "Anzahl"
-      }
+      "title": "Material hinzufügen"
     },
     "quotationDetailsTable": {
       "currency": "Currency",
@@ -188,6 +146,32 @@
   "shared": {
     "caseHeader": {
       "seeOffer": "Angebot ansehen"
+    },
+    "caseMaterial": {
+      "addEntry": {
+        "quantity": {
+          "label": "Anzahl",
+          "hint": "Geben Sie die Anzahl ein"
+        },
+        "button": "Eintrag hinzufügen"
+      },
+      "table": {
+        "info": {
+          "title": "Status",
+          "status": {
+            "duplicate": "Das Item exisitiert bereits in der Tabelle",
+            "isDummy": "Dies ist ein Beispieldatensatz",
+            "materialNumberInValid": "Die Materialnummer ist invalide",
+            "not_validated": "Item noch nicht validiert",
+            "quantityInValid": "Die Anzahl ist invalide",
+            "valid": "Das Item ist valide",
+            "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
+          }
+        },
+        "matDesc": "Material Beschreibung",
+        "materialNumber": "Material Nummer (15-stellig)",
+        "quantity": "Anzahl"
+      }
     },
     "customStatusBar": {
       "addToMaterialButton": {

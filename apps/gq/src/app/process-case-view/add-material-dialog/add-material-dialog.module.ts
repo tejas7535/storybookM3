@@ -6,14 +6,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
-import { AddEntryModule } from './add-entry/add-entry.module';
+import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
-import { AddMaterialInputTableModule } from './add-material-input-table/add-material-input-table.module';
 
 @NgModule({
   declarations: [AddMaterialDialogComponent],
   imports: [
-    AddMaterialInputTableModule,
+    InputTableModule,
     MatCardModule,
     MatDialogModule,
     AddEntryModule,

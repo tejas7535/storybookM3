@@ -10,9 +10,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
-import { AddEntryModule } from './add-entry/add-entry.module';
+import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
-import { AddMaterialInputTableModule } from './add-material-input-table/add-material-input-table.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -28,7 +28,7 @@ describe('AddMaterialDialogComponent', () => {
     declarations: [AddMaterialDialogComponent],
     imports: [
       AddEntryModule,
-      AddMaterialInputTableModule,
+      InputTableModule,
       AgGridModule.withComponents([]),
       AutocompleteInputModule,
       MatCardModule,

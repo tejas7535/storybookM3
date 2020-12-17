@@ -1,4 +1,3 @@
-import { AgGridModule } from '@ag-grid-community/angular';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -6,6 +5,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -19,13 +19,13 @@ import {
 import { getOffer } from '../core/store/selectors';
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
+import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { FlatButtonsComponent } from '../shared/custom-status-bar/flat-buttons/flat-buttons.component';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
-import { AddEntryModule } from './add-material-dialog/add-entry/add-entry.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
-import { AddMaterialInputTableModule } from './add-material-dialog/add-material-input-table/add-material-input-table.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
@@ -43,7 +43,7 @@ describe('ProcessCaseViewComponent', () => {
     component: ProcessCaseViewComponent,
     imports: [
       AddEntryModule,
-      AddMaterialInputTableModule,
+      InputTableModule,
       AgGridModule.withComponents([FlatButtonsComponent]),
       BrowserAnimationsModule,
       CaseHeaderModule,
