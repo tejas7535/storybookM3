@@ -19,14 +19,6 @@
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "sta-e2e": {
-      "tags": [],
-      "implicitDependencies": ["sta"]
-    },
-    "sta": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "shared-cypress-utils": {
       "tags": ["scope:shared", "type:utils"]
     },

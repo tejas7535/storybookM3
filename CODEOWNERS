@@ -19,10 +19,6 @@ apps/kitchen-sink-e2e @kauppfbi @krausrbe @berndcri @herpisef
 apps/ltp @krausrbe @berndcri
 apps/ltp-e2e @krausrbe @berndcri
 
-# STA
-apps/sta @kauppfbi @herpisef @birketho
-apps/sta-e2e @kauppfbi @herpisef @birketho
-
 # CDBA
 apps/cdba @kauppfbi @herpisef @andrafnk
 apps/cdba-e2e @kauppfbi @herpisef @andrafnk
