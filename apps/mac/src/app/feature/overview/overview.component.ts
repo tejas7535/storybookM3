@@ -41,13 +41,13 @@ export class OverviewComponent {
     {
       title: 'Carbonitriding Prediction',
       url: undefined,
-      className: 'carbonit-icon',
+      className: 'carbonitriding-icon',
       externalLink: false,
     },
     {
       title: 'Steel Cleanliness Data Base',
       url: undefined,
-      className: 'steel-cleanliness-icon',
+      className: 'steel-cleanliness-db-icon',
       externalLink: false,
     },
     {

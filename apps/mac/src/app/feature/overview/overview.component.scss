@@ -18,27 +18,53 @@
   outline: none;
 
   .card-icon {
-    height: 120px;
-    width: 120px;
+    height: 150px;
+    width: 150px;
   }
 
   .ltp-icon {
-    background: url('../../../assets/img/ltp.png') no-repeat center;
+    background: url('../../../assets/img/lifetime_predictor.png') no-repeat
+      center;
     background-size: contain;
   }
 
   .ltd-icon {
-    background: url('../../../assets/img/ltd.png') no-repeat center;
+    background: url('../../../assets/img/lifetime_documenter.png') no-repeat
+      center;
     background-size: contain;
   }
 
   .ltv-icon {
-    background: url('../../../assets/img/ltv.png') no-repeat center;
+    background: url('../../../assets/img/lifetime_visualizer.png') no-repeat
+      center;
     background-size: contain;
   }
 
   .polyassist-icon {
     background: url('../../../assets/img/polyassist.png') no-repeat center;
+    background-size: contain;
+  }
+
+  .hardness-icon {
+    background: url('../../../assets/img/hardness_converter.png') no-repeat
+      center;
+    background-size: contain;
+  }
+
+  .aqm-icon {
+    background: url('../../../assets/img/aqm_calculator.png') no-repeat center;
+    background-size: contain;
+  }
+
+  .carbonitriding-icon {
+    background: url('../../../assets/img/carbonitriding_prediction.png')
+      no-repeat center;
+    background-size: contain;
+  }
+
+  .steel-cleanliness-db-icon {
+    background: url('../../../assets/img/steel_cleanliness_database.png')
+      no-repeat center;
     background-size: contain;
   }
 
@@ -53,22 +79,48 @@
     }
 
     .ltp-icon {
-      background: url('../../../assets/img/ltp.png') no-repeat center;
+      background: url('../../../assets/img/lifetime_predictor.png') no-repeat
+        center;
       background-size: contain;
     }
 
     .ltd-icon {
-      background: url('../../../assets/img/ltd.png') no-repeat center;
+      background: url('../../../assets/img/lifetime_documenter.png') no-repeat
+        center;
       background-size: contain;
     }
 
     .ltv-icon {
-      background: url('../../../assets/img/ltv.png') no-repeat center;
+      background: url('../../../assets/img/lifetime_visualizer.png') no-repeat
+        center;
       background-size: contain;
     }
 
     .polyassist-icon {
       background: url('../../../assets/img/polyassist.png') no-repeat center;
+      background-size: contain;
+    }
+
+    .hardness-icon {
+      background: url('../../../assets/img/hardness_converter.png') no-repeat
+        center;
+      background-size: contain;
+    }
+
+    .aqm-icon {
+      background: url('../../../assets/img/aqm_calculator.png') no-repeat center;
+      background-size: contain;
+    }
+
+    .carbonitriding-icon {
+      background: url('../../../assets/img/carbonitriding_prediction.png')
+        no-repeat center;
+      background-size: contain;
+    }
+
+    .steel-cleanliness-db-icon {
+      background: url('../../../assets/img/steel_cleanliness_database.png')
+        no-repeat center;
       background-size: contain;
     }
 
