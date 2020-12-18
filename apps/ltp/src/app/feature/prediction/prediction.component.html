@@ -41,7 +41,7 @@
         </span>
       </button>
       <mat-menu #uploadMenu="matMenu">
-        <button mat-menu-item (click)="fileInput.click()" disabled="true">
+        <button mat-menu-item (click)="fileInput.click()" disabled="false">
           <span>{{ t('csv') }}</span>
           <input
             hidden
@@ -52,7 +52,7 @@
             (change)="handleFileInput($event.target.files)"
           />
         </button>
-        <button mat-menu-item (click)="handleDummyLoad()" disabled="true">
+        <button mat-menu-item (click)="handleDummyLoad()" disabled="false">
           <span translate>{{ t('csv_dummy') }}</span>
         </button>
       </mat-menu>

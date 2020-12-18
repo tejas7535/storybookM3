@@ -98,9 +98,29 @@ export class RestService {
    * posts prediction and load request and returns result of whole calculation
    */
   public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
+    var formData = new FormData();
+    formData.append('method', loadsRequest.method);
+    formData.append(
+      'conversion_factor',
+      loadsRequest.conversionFactor.toString()
+    );
+    formData.append(
+      'repetition_factor',
+      loadsRequest.repetitionFactor.toString()
+    );
+    formData.append(
+      'fatigue_strength0',
+      loadsRequest.fatigue_strength0.toString()
+    );
+    formData.append(
+      'fatigue_strength1',
+      loadsRequest.fatigue_strength1.toString()
+    );
+    formData.append('loads', JSON.stringify(loadsRequest.loads));
+
     return this.httpService.post<any>(
       `${this.SERVER_URL_LOADS}/score`,
-      loadsRequest
+      formData
     );
   }
 
