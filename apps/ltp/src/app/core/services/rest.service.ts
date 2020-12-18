@@ -98,7 +98,7 @@ export class RestService {
    * posts prediction and load request and returns result of whole calculation
    */
   public postLoadsData(loadsRequest: LoadsNetworkRequest): Observable<Loads> {
-    let formData = new FormData();
+    const formData = new FormData();
     formData.append('method', loadsRequest.method);
     formData.append(
       'conversion_factor',
