@@ -15,7 +15,7 @@ export class OverviewComponent {
   public elements = [
     {
       title: 'Hardness Converter',
-      url: '/bla',
+      url: undefined,
       className: 'hardness-icon',
       externalLink: false,
     },
@@ -70,6 +70,8 @@ export class OverviewComponent {
 
   public trackCall(elementName: string): void {
     // console.log('appInsight call: [MAC]  - ' + elementName)
-    this.appInsightsService.logEvent('[MAC]  - ' + elementName);
+    this.appInsightsService.logEvent(
+      '[MAC] - user calls: (' + elementName + ')'
+    );
   }
 }
