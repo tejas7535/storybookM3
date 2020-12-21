@@ -70,8 +70,6 @@ export class OverviewComponent {
 
   public trackCall(elementName: string): void {
     // console.log('appInsight call: [MAC]  - ' + elementName)
-    this.appInsightsService.logEvent(
-      '[MAC] - user calls: (' + elementName + ')'
-    );
+    this.appInsightsService.logEvent(`[MAC] - user calls: (${elementName})`);
   }
 }
