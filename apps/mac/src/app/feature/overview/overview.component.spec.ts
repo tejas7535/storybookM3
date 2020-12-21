@@ -5,12 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
   let spectator: Spectator<OverviewComponent>;
+  let appInsightsService: ApplicationInsightsService;
 
   const createComponent = createComponentFactory({
     component: OverviewComponent,
@@ -21,12 +24,14 @@ describe('OverviewComponent', () => {
       FlexLayoutModule,
       RouterTestingModule,
     ],
+    mocks: [ApplicationInsightsService],
     declarations: [OverviewComponent],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    appInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   it('should create', () => {
@@ -38,6 +43,14 @@ describe('OverviewComponent', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);
+    });
+  });
+
+  describe('tracktrackCall', () => {
+    it('should call logevent', () => {
+      appInsightsService.logEvent = jest.fn();
+      component.trackCall('element1');
+      expect(appInsightsService.logEvent).toHaveBeenCalled();
     });
   });
 });

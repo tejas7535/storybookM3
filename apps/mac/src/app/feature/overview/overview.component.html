@@ -27,6 +27,7 @@
           class="elevation elem"
           [ngClass]="{ active: elem.url, inactive: !elem.url }"
           [routerLink]="elem.url ? elem.url : undefined"
+          (click)="trackCall(elem.title)"
         >
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
             <div [class]="elem.className" class="card-icon"></div>
@@ -38,8 +39,9 @@
           *ngIf="elem.externalLink"
           class="elevation elem no-outline"
           [ngClass]="{ active: elem.url, inactive: !elem.url }"
-          [href]="elem.url"
+          [href]="elem.url ? elem.url : undefined"
           target="_blank"
+          (click)="trackCall(elem.title)"
         >
           <mat-card fxLayout="column" fxLayoutAlign="center center" fxFill>
             <div [class]="elem.className" class="card-icon"></div>

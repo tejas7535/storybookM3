@@ -1,15 +1,21 @@
 import { Component } from '@angular/core';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 @Component({
   selector: 'mac-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent {
+  constructor(
+    private readonly appInsightsService: ApplicationInsightsService
+  ) {}
+
   public elements = [
     {
       title: 'Hardness Converter',
-      url: undefined,
+      url: '/bla',
       className: 'hardness-icon',
       externalLink: false,
     },
@@ -60,5 +66,10 @@ export class OverviewComponent {
 
   public trackByFn(index: number): number {
     return index;
+  }
+
+  public trackCall(elementName: string): void {
+    // console.log('appInsight call: [MAC]  - ' + elementName)
+    this.appInsightsService.logEvent('[MAC]  - ' + elementName);
   }
 }
