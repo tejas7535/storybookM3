@@ -16,8 +16,8 @@ apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef
 apps/kitchen-sink-e2e @kauppfbi @krausrbe @berndcri @herpisef
 
 # LTP
-apps/ltp @krausrbe @berndcri
-apps/ltp-e2e @krausrbe @berndcri
+apps/ltp @krausrbe @berndcri @pelzesen
+apps/ltp-e2e @krausrbe @berndcri @pelzesen
 
 # CDBA
 apps/cdba @kauppfbi @herpisef @andrafnk
@@ -36,8 +36,8 @@ apps/gq @andrafnk @soehnpsc @herpisef
 apps/gq-e2e @andrafnk @soehnpsc @herpisef
 
 # MAC
-apps/mac @berndcri @kauppfbi @birketho
-apps/mac-e2e @berndcri @kauppfbi @birketho
+apps/mac @berndcri @birketho @pelzesen
+apps/mac-e2e @berndcri @birketho @pelzesen
 
 # IA
 apps/ia @herpisef 
