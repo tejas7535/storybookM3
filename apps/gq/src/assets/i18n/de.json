@@ -145,6 +145,13 @@
   },
   "shared": {
     "caseHeader": {
+      "gqCreated": "(GQ) Erstellt am",
+      "gqCreatedByUser": "(GQ) Erstellt von",
+      "gqLastUpdated": "(GQ) Aktualisiert am",
+      "gqLastUpdatedByUser": "(GQ) Aktualisiert von",
+      "sapCreated": "(SAP) Erstellt am",
+      "sapCreatedByUser": "(SAP) Erstellt von",
+      "sapLastUpdated": "(SAP) Aktualisiert am",
       "seeOffer": "Angebot ansehen"
     },
     "caseMaterial": {

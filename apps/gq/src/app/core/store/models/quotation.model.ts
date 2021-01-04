@@ -12,4 +12,9 @@ export class Quotation {
   public sapCreatedByUser: User;
   public sapId: string;
   public gqCreatedByUser: User;
+  public gqCreated: string;
+  public gqLastUpdated: string;
+  public gqLastUpdatedByUser: User;
+  public sapCreated: string;
+  public sapLastUpdated: string;
 }

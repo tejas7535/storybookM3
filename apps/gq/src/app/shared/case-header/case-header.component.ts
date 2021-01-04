@@ -1,11 +1,12 @@
 import { Location } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Customer } from '../../core/store/models';
+import { Customer, Quotation } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../core/store/selectors';
 
@@ -21,11 +22,14 @@ export class CaseHeaderComponent implements OnInit {
   @Input() customerName: string;
   @Input() materialNumberAndDescription: any;
   @Input() offerScreen: boolean;
+  @Input() quotation: Quotation;
 
   @Output()
   readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();
 
-  customer$: Observable<Customer>;
+  public customer$: Observable<Customer>;
+
+  timedOutCloser: number;
 
   constructor(
     private readonly store: Store<ProcessCaseState>,
@@ -39,7 +43,21 @@ export class CaseHeaderComponent implements OnInit {
   drawerToggle(): void {
     this.toggleOfferDrawer.emit(true);
   }
+
   backClicked(): void {
     this.location.back();
+  }
+
+  iconEnter(trigger: MatMenuTrigger): void {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  iconLeave(trigger: MatMenuTrigger): void {
+    this.timedOutCloser = setTimeout(() => {
+      trigger.closeMenu();
+    }, 1500);
   }
 }

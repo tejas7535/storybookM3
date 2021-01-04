@@ -1,4 +1,9 @@
-<div fxLayout="row" fxLayoutAlign="space-between" class="details-page-header">
+<div
+  fxLayout="row"
+  fxLayoutAlign="space-between"
+  class="details-page-header"
+  *transloco="let t; read: 'shared.caseHeader'"
+>
   <div fxLayout="row" fxLayoutAlign="start center">
     <mat-icon
       fontSet="schaeffler-icons"
@@ -6,14 +11,14 @@
       (click)="backClicked()"
       class="back-arrow-icon"
     ></mat-icon>
-    <h1>
+    <h1 fxLayout="row">
       <mat-icon
         *ngIf="offerScreen"
         fontSet="schaeffler-icons"
         fontIcon="icon-cart"
         class="cart-icon"
       ></mat-icon>
-      <span *ngIf="gqId; else customer">
+      <span fxLayout="row" *ngIf="gqId; else customer">
         <span>{{ gqId | gqQuotation }}</span>
         <span *ngIf="sapId" class="additionalInfo">{{
           sapId | sapQuotation
@@ -21,17 +26,60 @@
         <span *ngIf="materialNumberAndDescription">
           {{ materialNumberAndDescription | materialInfo }}</span
         >
+        <span fxLayout="row" *ngIf="quotation">
+          <mat-icon
+            [matMenuTriggerFor]="infoMenu"
+            #infoMenuTrigger="matMenuTrigger"
+            (mouseenter)="iconEnter(infoMenuTrigger)"
+            (mouseleave)="iconLeave(infoMenuTrigger)"
+            class="info-icon"
+          >
+            info
+          </mat-icon>
+          <mat-menu
+            #infoMenu="matMenu"
+            direction="down"
+            yPosition="below"
+            [hasBackdrop]="false"
+          >
+            <div fxLayout="column">
+              <span
+                >{{ t('gqCreatedByUser') }}:
+                {{ quotation.gqCreatedByUser.name }}</span
+              >
+              <span
+                >{{ t('gqCreated') }}:
+                {{ quotation.gqCreated | date: 'dd.MM.yyyy HH:mm' }}</span
+              >
+              <span
+                >{{ t('gqLastUpdatedByUser') }}:
+                {{ quotation.gqLastUpdatedByUser.name }}</span
+              >
+              <span
+                >{{ t('gqLastUpdated') }}:
+                {{ quotation.gqLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
+              >
+              <span *ngIf="quotation.sapCreatedByUser"
+                >{{ t('sapCreatedByUser') }} :
+                {{ quotation.sapCreatedByUser.name }}</span
+              >
+              <span *ngIf="quotation.sapCreated"
+                >{{ t('sapCreated') }} :
+                {{ quotation.sapCreated | date: 'dd.MM.yyyy HH:mm' }}</span
+              >
+              <span *ngIf="quotation.sapLastUpdated"
+                >{{ t('sapLastUpdated') }} :
+                {{ quotation.sapLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
+              >
+            </div>
+          </mat-menu>
+        </span>
       </span>
       <ng-template #customer> {{ customerName }}</ng-template>
     </h1>
   </div>
   <div *ngIf="!offerScreen">
-    <button
-      mat-stroked-button
-      color="primary"
-      *transloco="let t; read: 'shared.caseHeader'"
-      (click)="drawerToggle()"
-    >
+    <button mat-stroked-button color="primary" (click)="drawerToggle()">
       <mat-icon fontSet="schaeffler-icons" fontIcon="icon-cart"></mat-icon>
       {{ t('seeOffer') | uppercase }}
     </button>

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
 
 import { IconsModule } from '@schaeffler/icons';
@@ -21,13 +22,14 @@ import { CaseHeaderComponent } from './case-header.component';
     GqQuotationPipe,
   ],
   imports: [
-    SharedModule,
-    MatIconModule,
-    RouterModule,
+    CustomerDetailsModule,
     IconsModule,
     MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    RouterModule,
+    SharedModule,
     SharedTranslocoModule,
-    CustomerDetailsModule,
   ],
   exports: [CaseHeaderComponent],
 })

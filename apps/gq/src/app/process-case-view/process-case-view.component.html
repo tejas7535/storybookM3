@@ -18,6 +18,7 @@
       [gqId]="(quotation$ | async).gqId"
       [sapId]="(quotation$ | async).sapId"
       [customerName]="(quotation$ | async).customer.name"
+      [quotation]="quotation$ | async"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
 
