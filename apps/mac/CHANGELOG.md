@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.2](///compare/mac-v0.0.2...mac-v0.0.1) (2021-01-04)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** fix linter issue ([dcdc0d0](///commit/dcdc0d037217b0298f1380f03c9b03d158a74eee))
+
+
+### 🎸 Features
+
+* **mac:** activate application insight (UFTABI-3521) ([119322e](///commit/119322ed5cc5dd108bfbd98f0e5576abebe35865))
+* **mac:** change card icons (UFTABI-3525) ([3d1178e](///commit/3d1178e16efe0dcab2dc9401ed26d01217abd9b5))
+* **mac:** change log string ([c5b034d](///commit/c5b034d43e46cfe492aa9f00191e0f733e7d41bd))
+* **mac:** remove comment ([c2fe088](///commit/c2fe0886d197f13e0d99463590dd2cf6425a88c2))
+
 ### 0.0.1 (2020-12-15)
 
 
