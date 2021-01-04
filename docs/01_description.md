@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
 
-![version](https://img.shields.io/badge/version-v1.31.0-green.svg)
+![version](https://img.shields.io/badge/version-v1.32.0-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@angular/core+@ngrx/store+@angular/material+@angular/flex-layout+prettier+commitizen) -->
