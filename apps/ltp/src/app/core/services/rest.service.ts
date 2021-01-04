@@ -116,7 +116,10 @@ export class RestService {
       'fatigue_strength1',
       loadsRequest.fatigue_strength1.toString()
     );
-    formData.append('loads', JSON.stringify(loadsRequest.loads));
+    formData.append(
+      'loads',
+      new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
+    );
 
     return this.httpService.post<any>(
       `${this.SERVER_URL_LOADS}/score`,
