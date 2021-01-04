@@ -155,6 +155,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       : this.store.dispatch(addMaterialRowDataItem({ items }));
     this.matNumberInput.clearInput();
     this.quantityFormControl.setValue('');
+    this.materialNumberIsValid = false;
   }
   numberOnly(event: any): boolean {
     const charCode = event.which ? event.which : event.keyCode;

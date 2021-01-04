@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, tap } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -66,14 +66,13 @@ export class ViewCasesEffect {
       ofType(deleteCase.type),
       mergeMap((action: any) =>
         this.deleteCaseService.deleteCase(action.gqIds).pipe(
-          map(() => {
+          tap(() => {
             const successMessage = translate(
               'caseView.snackBarMessages.deleteSuccess'
             );
             this.snackBarService.showSuccessMessage(successMessage);
-
-            return deleteCasesSuccess();
           }),
+          map(deleteCasesSuccess),
           catchError((errorMessage) => of(deleteCasesFailure({ errorMessage })))
         )
       )
