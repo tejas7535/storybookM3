@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -96,7 +96,7 @@ export class CreateCaseEffects {
       map(([_action, createCaseData]) => createCaseData),
       mergeMap((createCaseData: CreateCase) =>
         this.createCaseService.createCase(createCaseData).pipe(
-          map((createdCase: CreateCaseResponse) => {
+          tap((createdCase: CreateCaseResponse) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
                 quotation_number: createdCase.gqId,
@@ -107,9 +107,10 @@ export class CreateCaseEffects {
               'caseView.snackBarMessages.createSuccess'
             );
             this.snackBarService.showSuccessMessage(successMessage);
-
-            return createCaseSuccess({ createdCase });
           }),
+          map((createdCase: CreateCaseResponse) =>
+            createCaseSuccess({ createdCase })
+          ),
           catchError((_e) => of(createCaseFailure()))
         )
       )
@@ -123,7 +124,7 @@ export class CreateCaseEffects {
       map(([_action, importCaseData]) => importCaseData),
       mergeMap((importCaseData: ImportCaseResponse) =>
         this.createCaseService.importCase(importCaseData.sapId).pipe(
-          map((gqId: number) => {
+          tap((gqId: number) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
                 quotation_number: gqId,
@@ -134,9 +135,8 @@ export class CreateCaseEffects {
               'caseView.snackBarMessages.importSuccess'
             );
             this.snackBarService.showSuccessMessage(successMessage);
-
-            return importCaseSuccess({ gqId });
           }),
+          map((gqId: number) => importCaseSuccess({ gqId })),
           catchError((_e) => of(importCaseFailure()))
         )
       )

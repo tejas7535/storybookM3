@@ -121,11 +121,10 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
     const isValid =
       !formValue ||
-      formValue.length === 0 ||
-      (this.selectedIdValue && this.selectedIdValue.id === formValue) ||
-      (this.unselectedOptions &&
-        this.unselectedOptions.find((opt) => opt.id === formValue)) !==
-        undefined;
+      (formValue &&
+        formValue.length !== 0 &&
+        this.selectedIdValue &&
+        this.selectedIdValue.id === formValue);
 
     if (!isValid) {
       this.unselect();

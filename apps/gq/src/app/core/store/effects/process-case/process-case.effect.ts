@@ -7,6 +7,7 @@ import {
   filter,
   map,
   mergeMap,
+  tap,
   withLatestFrom,
 } from 'rxjs/operators';
 
@@ -191,14 +192,13 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .addMaterial(addQuotationDetailsRequest)
           .pipe(
-            map((item) => {
+            tap(() => {
               const successMessage = translate(
                 'processCaseView.snackBarMessages.materialAdded'
               );
               this.snackBarService.showSuccessMessage(successMessage);
-
-              return addMaterialsSuccess({ item });
             }),
+            map((item) => addMaterialsSuccess({ item })),
             catchError((errorMessage) =>
               of(addMaterialsFailure({ errorMessage }))
             )
@@ -214,14 +214,13 @@ export class ProcessCaseEffect {
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
-          map((item) => {
+          tap(() => {
             const successMessage = translate(
               'processCaseView.snackBarMessages.materialDeleted'
             );
             this.snackBarService.showSuccessMessage(successMessage);
-
-            return removeMaterialsSuccess({ item });
           }),
+          map((item) => removeMaterialsSuccess({ item })),
           catchError((errorMessage) =>
             of(removeMaterialsFailure({ errorMessage }))
           )
@@ -240,14 +239,13 @@ export class ProcessCaseEffect {
       map(([_action, quotationDetails]) => quotationDetails),
       mergeMap((quotationDetails: UpdateQuotationDetail[]) =>
         this.quotationDetailsService.updateMaterial(quotationDetails).pipe(
-          map(() => {
+          tap(() => {
             const successMessage = translate(
               'processCaseView.snackBarMessages.updateMaterials'
             );
             this.snackBarService.showSuccessMessage(successMessage);
-
-            return updateQuotationDetailsSuccess();
           }),
+          map(updateQuotationDetailsSuccess),
           catchError((errorMessage) =>
             of(updateQuotationDetailsFailure({ errorMessage }))
           )

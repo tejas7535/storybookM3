@@ -23,9 +23,7 @@ export class InfoCellComponent {
   setToolTipText(description: ValidationDescription[]): string {
     let text = `Status:\n`;
     description.forEach((item) => {
-      text += `${translate(
-        `caseView.createCaseDialog.customer.table.info.status.${item}`
-      )}\n`;
+      text += `${translate(`shared.caseMaterial.table.info.status.${item}`)}\n`;
     });
 
     return text;
