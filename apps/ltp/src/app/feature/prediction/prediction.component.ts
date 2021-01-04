@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -6,6 +7,7 @@ import { map } from 'rxjs/operators';
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { EChartOption } from 'echarts';
+import { Papa } from 'ngx-papaparse';
 
 import { getBannerOpen } from '@schaeffler/banner';
 import { Icon } from '@schaeffler/icons';
@@ -19,7 +21,13 @@ import {
   GRAPH_DEFINITIONS_WOEHLER,
 } from '../../shared/constants';
 import { ChartType } from '../../shared/enums';
-import { LegendSquare, PredictionResultParsed } from '../../shared/models';
+import {
+  LegendSquare,
+  LoadOptions,
+  LoadsRequest,
+  PredictionResultParsed,
+} from '../../shared/models';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @Component({
   selector: 'ltp-prediction',
@@ -39,7 +47,11 @@ export class PredictionComponent implements OnInit {
 
   selectedChartType: ChartType = ChartType.Woehler;
 
-  constructor(private readonly store: Store<fromStore.LTPState>) {}
+  constructor(
+    private readonly dialog: MatDialog,
+    private readonly papa: Papa,
+    private readonly store: Store<fromStore.LTPState>
+  ) {}
 
   public ngOnInit(): void {
     this.predictionResult = this.store.pipe(
@@ -148,76 +160,76 @@ export class PredictionComponent implements OnInit {
   /**
    * Gets FileList object, extracts single file and calls parseLoadFile method
    */
-  // public handleFileInput(files: FileList): void {
-  //   const loadCollective = files.item(0);
-  //   this.parseLoadFile(loadCollective);
-  // }
+  public handleFileInput(files: FileList): void {
+    const loadCollective = files.item(0);
+    this.parseLoadFile(loadCollective);
+  }
 
-  // handleDummyLoad(): void {
-  //   const loadCollective = '/assets/loads/cca-sql-dump.txt';
-  //   this.parseLoadFile(loadCollective, true);
-  // }
+  handleDummyLoad(): void {
+    const loadCollective = '/assets/loads/cca-sql-dump.txt';
+    this.parseLoadFile(loadCollective, true);
+  }
 
   /**
    * Parses load File and class dispatchLoad method
    */
-  // public async parseLoadFile(
-  //   loadCollective: File | string,
-  //   download = false
-  // ): Promise<void> {
-  //   return new Promise((resolve, reject) => {
-  //     this.papa.parse(loadCollective, {
-  //       download,
-  //       complete: (result) => {
-  //         this.openDialog(result.data);
+  public async parseLoadFile(
+    loadCollective: File | string,
+    download = false
+  ): Promise<void> {
+    return new Promise((resolve, reject) => {
+      this.papa.parse(loadCollective, {
+        download,
+        complete: (result) => {
+          this.openDialog(result.data);
 
-  //         resolve();
-  //       },
-  //       error: (err) => {
-  //         console.error(`An error occured: ${err}`);
+          resolve();
+        },
+        error: (err) => {
+          console.error(`An error occured: ${err}`);
 
-  //         reject();
-  //       },
-  //     });
-  //   });
-  // }
+          reject();
+        },
+      });
+    });
+  }
 
-  // openDialog(parsedFile: any[]): void {
-  //   const dialogRef = this.dialog.open(UploadModalComponent, {
-  //     width: '600px',
-  //     restoreFocus: false,
-  //   });
+  openDialog(parsedFile: any[]): void {
+    const dialogRef = this.dialog.open(UploadModalComponent, {
+      width: '600px',
+      restoreFocus: false,
+    });
 
-  //   dialogRef.afterClosed().subscribe((result: LoadOptions) => {
-  //     if (result) {
-  //       this.dispatchLoad(parsedFile, result);
-  //     }
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe((result: LoadOptions) => {
+      if (result) {
+        this.dispatchLoad(parsedFile, result);
+      }
+    });
+  }
 
   /**
    * handle first column and omit text values and dispatches load array to store
    */
-  // public dispatchLoad(parsedFile: any[], settings: LoadOptions): void {
-  //   const limit = 50000;
-  //   const loadsRequest: LoadsRequest = {
-  //     status: 1,
-  //     data: undefined,
-  //     ...settings,
-  //   };
-  //   loadsRequest.data = parsedFile.reduce((values, entry) => {
-  //     const value = Number(entry[0]);
-  //     if (!isNaN(value)) {
-  //       values.push(value);
-  //     }
+  public dispatchLoad(parsedFile: any[], settings: LoadOptions): void {
+    const limit = 50000;
+    const loadsRequest: LoadsRequest = {
+      status: 1,
+      data: undefined,
+      ...settings,
+    };
+    loadsRequest.data = parsedFile.reduce((values, entry) => {
+      const value = Number(entry[0]);
+      if (!isNaN(value)) {
+        values.push(value);
+      }
 
-  //     return values;
-  //   }, []);
-  //   if (loadsRequest.data.length > limit) {
-  //     loadsRequest.data.slice(0, loadsRequest.data.length);
-  //   }
-  //   this.store.dispatch(fromStore.setLoadsRequest({ loadsRequest }));
-  // }
+      return values;
+    }, []);
+    if (loadsRequest.data.length > limit) {
+      loadsRequest.data.slice(0, loadsRequest.data.length);
+    }
+    this.store.dispatch(fromStore.setLoadsRequest({ loadsRequest }));
+  }
 
   /**
    * Returns true if the entered value is contained in the keys of a given Object array

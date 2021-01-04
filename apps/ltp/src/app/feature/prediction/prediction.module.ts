@@ -22,9 +22,10 @@ import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
 import { ChartModule } from './chart/chart.module';
 import { KpiComponent } from './kpi/kpi.component';
 import { PredictionComponent } from './prediction.component';
+import { UploadModalComponent } from './upload-modal/upload-modal.component';
 
 @NgModule({
-  declarations: [PredictionComponent, KpiComponent],
+  declarations: [PredictionComponent, KpiComponent, UploadModalComponent],
   imports: [
     CommonModule,
     FlexLayoutModule,
