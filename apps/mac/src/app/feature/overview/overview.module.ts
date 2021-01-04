@@ -4,6 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
 
@@ -15,6 +17,7 @@ import { OverviewComponent } from './overview.component';
     MatCardModule,
     MatIconModule,
     FlexLayoutModule,
+    ApplicationInsightsModule,
   ],
 })
 export class OverviewModule {}

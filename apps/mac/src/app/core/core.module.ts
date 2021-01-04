@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -34,6 +35,9 @@ import { StoreModule } from './store/store.module';
       'en',
       true
     ),
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
   exports: [AppComponent],
 })
