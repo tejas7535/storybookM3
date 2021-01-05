@@ -77,7 +77,7 @@
     "@angular/platform-browser-dynamic": "11.0.5",
     "@angular/router": "11.0.5",
     "@microsoft/applicationinsights-web": "2.5.10",
-    "@ngneat/transloco": "2.19.3",
+    "@ngneat/transloco": "2.20.0",
     "@ngrx/component": "10.1.1",
     "@ngrx/effects": "10.1.1",
     "@ngrx/entity": "10.1.1",
