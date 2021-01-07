@@ -2,6 +2,9 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 1/7/2021
+* mac: [0.0.3](./apps/mac/CHANGELOG.md)
+
 ## 1/4/2021
 * ltp: [2.0.0](./apps/ltp/CHANGELOG.md)
 
