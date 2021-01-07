@@ -30,6 +30,10 @@ export const getGreaseStatusLatest = createAction(
   props<{ greaseStatusId: string }>()
 );
 
+export const stopGetGreaseStatusLatest = createAction(
+  '[Grease Status] Stop Load Latest Grease Status'
+);
+
 export const getGreaseStatusLatestSuccess = createAction(
   '[Grease Status] Load Latest Grease Status Success',
   props<{ greaseStatusLatest: GreaseStatus }>()
@@ -56,6 +60,7 @@ const all = union({
   getGreaseStatusFailure,
   setGreaseDisplay,
   setGreaseInterval,
+  stopGetGreaseStatusLatest,
 });
 
 export type GreaseStatusActions = typeof all;

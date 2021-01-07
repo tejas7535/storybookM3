@@ -4,16 +4,19 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
   getGreaseStatus,
   getGreaseStatusId,
   getGreaseStatusLatest,
+  getGreaseStatusLatestFailure,
   getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
   setGreaseInterval,
+  stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
 import {
   getGreaseInterval,
@@ -84,6 +87,7 @@ describe('Search Effects', () => {
       const expected = cold('-b', { b: mockRoute });
 
       expect(effects.router$).toBeObservable(expected);
+      expect(store.dispatch).toHaveBeenCalledWith(stopGetGreaseStatusLatest());
       expect(store.dispatch).toHaveBeenCalledWith(
         getGreaseStatusId({ source: mockRoute })
       );
@@ -110,28 +114,51 @@ describe('Search Effects', () => {
   });
 
   describe('greaseStatusId$', () => {
+    test('should not return an action', () => {
+      expect(metadata.greaseStatusId$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+
     test('should return getGreaseStatus', () => {
+      store.dispatch = jest.fn();
       action = getGreaseStatusId({ source: 'grease-status' });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getGreaseStatus({ greaseStatusId: mockGreaseSensorId }),
+      const expected = cold('-b', {
+        b: {
+          greaseStatusId: mockGreaseSensorId,
+          source: 'grease-status',
+        },
       });
 
       expect(effects.greaseStatusId$).toBeObservable(expected);
+      expect(effects['isPollingActive']).toBe(false);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        getGreaseStatus({ greaseStatusId: mockGreaseSensorId })
+      );
     });
 
     test('should return getGreaseStatusLatest', () => {
+      store.dispatch = jest.fn();
       action = getGreaseStatusId({ source: 'condition-monitoring' });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId }),
+      const expected = cold('-b', {
+        b: {
+          greaseStatusId: mockGreaseSensorId,
+          source: 'condition-monitoring',
+        },
       });
 
       expect(effects.greaseStatusId$).toBeObservable(expected);
+      expect(effects['isPollingActive']).toBe(true);
+      expect(store.dispatch).toHaveBeenCalledWith(
+        getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId })
+      );
     });
   });
 
@@ -180,6 +207,44 @@ describe('Search Effects', () => {
         startDate: 1599651508,
         endDate: 1599651509,
       });
+    });
+  });
+
+  describe('continueGraseId$', () => {
+    test('should return getShaft', () => {
+      const scheduler = getTestScheduler();
+      scheduler.run((helpers) => {
+        effects['isPollingActive'] = true;
+        action = getGreaseStatusLatestFailure();
+
+        actions$ = helpers.hot('-a', { a: action });
+
+        const expected = {
+          b: getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId }),
+        };
+
+        helpers
+          .expectObservable(effects.continueGraseId$)
+          .toBe(`- ${UPDATE_SETTINGS.grease.refresh}s b`, expected);
+      });
+    });
+  });
+
+  describe('stopGrease$', () => {
+    test('should not return an action', () => {
+      expect(metadata.stopGrease$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+    test('should set isPollingActive to false', () => {
+      effects['isPollingActive'] = true;
+      action = stopGetGreaseStatusLatest();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: undefined });
+      expect(effects.stopGrease$).toBeObservable(expected);
+      expect(effects['isPollingActive']).toBe(false);
     });
   });
 
