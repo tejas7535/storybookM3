@@ -12,8 +12,13 @@
     <div
       echarts
       [options]="chartOptions"
-      [merge]="shaftLatestGraphData"
+      [merge]="shaftLatestGraphData$ | ngrxPush"
       class="shaft-chart"
     ></div>
   </mat-card-content>
+  <mat-card-actions *transloco="let t; read: 'overview'">
+    <button (click)="navigateToGreaseStatus()" mat-button color="primary">
+      {{ t('details') }}
+    </button>
+  </mat-card-actions>
 </mat-card>

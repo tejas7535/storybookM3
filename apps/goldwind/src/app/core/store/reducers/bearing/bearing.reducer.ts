@@ -4,28 +4,17 @@ import {
   getBearing,
   getBearingFailure,
   getBearingSuccess,
-  getShaft,
-  getShaftFailure,
-  getShaftSuccess,
 } from '../../actions/bearing/bearing.actions';
-import { BearingMetadata, ShaftStatus } from './models';
+import { BearingMetadata } from './models';
 
 export interface BearingState {
   loading: boolean;
   result: BearingMetadata;
-  shaft: {
-    loading: boolean;
-    result: ShaftStatus;
-  };
 }
 
 export const initialState: BearingState = {
   loading: false,
   result: undefined,
-  shaft: {
-    loading: false,
-    result: undefined,
-  },
 };
 
 export const bearingReducer = createReducer(
@@ -42,27 +31,6 @@ export const bearingReducer = createReducer(
   on(getBearingFailure, (state: BearingState) => ({
     ...state,
     loading: false,
-  })),
-  on(getShaft, (state: BearingState) => ({
-    ...state,
-    shaft: {
-      ...state.shaft,
-      loading: true,
-    },
-  })),
-  on(getShaftSuccess, (state: BearingState, { shaft }) => ({
-    ...state,
-    shaft: {
-      result: shaft,
-      loading: false,
-    },
-  })),
-  on(getShaftFailure, (state: BearingState) => ({
-    ...state,
-    shaft: {
-      ...state.shaft,
-      loading: false,
-    },
   }))
 );
 

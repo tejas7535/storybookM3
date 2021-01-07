@@ -14,10 +14,12 @@ import {
   ConditionMonitoringEffects,
   EdmMonitorEffects,
   GreaseStatusEffects,
+  ShaftEffects,
 } from '../../core/store/effects';
 import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
+import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadModule } from './center-load/center-load.module';
@@ -53,10 +55,12 @@ import { ShaftModule } from './shaft/shaft.module';
       ConditionMonitoringEffects,
       GreaseStatusEffects,
       EdmMonitorEffects,
+      ShaftEffects,
     ]),
     StoreModule.forFeature('loadSense', loadSenseReducer),
     StoreModule.forFeature('greaseStatus', greaseStatusReducer),
     StoreModule.forFeature('edmMonitor', edmMonitorReducer),
+    StoreModule.forFeature('shaft', shaftReducer),
     ReactiveComponentModule,
   ],
 })

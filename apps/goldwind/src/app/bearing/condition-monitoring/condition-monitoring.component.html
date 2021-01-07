@@ -14,13 +14,7 @@
     <goldwind-center-load></goldwind-center-load>
   </div>
   <div id="rotor-speed" class="grid-element">
-    <goldwind-shaft
-      *ngIf="
-        shaftLatestGraphData$ | ngrxPush as shaftLatestGraphData;
-        else loading_card
-      "
-      [shaftLatestGraphData]="shaftLatestGraphData"
-    ></goldwind-shaft>
+    <goldwind-shaft></goldwind-shaft>
   </div>
   <div id="safety-factor" class="grid-element">
     <ng-container *ngTemplateOutlet="construction_card"></ng-container>

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { of } from 'rxjs';
 import {
   catchError,
-  delay,
   filter,
   map,
   mergeMap,
@@ -16,26 +15,17 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
   getBearing,
   getBearingFailure,
   getBearingId,
   getBearingSuccess,
-  getShaft,
-  getShaftFailure,
-  getShaftId,
-  getShaftSuccess,
-  stopGetShaft,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { getShaftDeviceId } from '../../selectors';
 
 @Injectable()
 export class BearingEffects {
-  private isPollingActive = false;
-
   router$ = createEffect(
     () =>
       this.actions$.pipe(
@@ -46,14 +36,11 @@ export class BearingEffects {
             .filter((route: string) => route !== '' && url.includes(route))
             .shift()
         ),
-        tap((currentRoute) => {
-          if (currentRoute && currentRoute === AppRoutePath.BearingPath) {
-            this.store.dispatch(getBearingId());
-            this.store.dispatch(getShaftId());
-          } else {
-            this.store.dispatch(stopGetShaft());
-          }
-        })
+        filter(
+          (currentRoute: string) =>
+            currentRoute && currentRoute === AppRoutePath.BearingPath
+        ),
+        tap(() => this.store.dispatch(getBearingId()))
       ),
     { dispatch: false }
   );
@@ -81,62 +68,6 @@ export class BearingEffects {
         this.restService.getBearing(bearingId).pipe(
           map((bearing) => getBearingSuccess({ bearing })),
           catchError((_e) => of(getBearingFailure()))
-        )
-      )
-    )
-  );
-
-  /**
-   * Load Shaft Device ID
-   */
-  shaftId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getShaftId),
-      filter((_) => !this.isPollingActive),
-      map(() => (this.isPollingActive = true)),
-      withLatestFrom(this.store.pipe(select(getShaftDeviceId))),
-      map(([_action, shaftDeviceId]) => getShaft({ shaftDeviceId }))
-    )
-  );
-
-  /**
-   * Continue Load Shaft Device ID
-   */
-  continueShaftId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getShaftSuccess, getShaftFailure),
-      delay(UPDATE_SETTINGS.shaft.refresh * 1000),
-      filter(() => this.isPollingActive),
-      withLatestFrom(this.store.pipe(select(getShaftDeviceId))),
-      map(([_action, shaftDeviceId]) => getShaft({ shaftDeviceId }))
-    )
-  );
-
-  /**
-   * Stop Load Shaft
-   */
-  stopShaft$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(stopGetShaft),
-        map(() => {
-          this.isPollingActive = false;
-        })
-      ),
-    { dispatch: false }
-  );
-
-  /**
-   * Load Shaft
-   */
-  shaft$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getShaft),
-      map((action: any) => action.shaftDeviceId),
-      mergeMap((shaftDeviceId) =>
-        this.restService.getShaftLatest(shaftDeviceId).pipe(
-          map((shaft) => getShaftSuccess({ shaft })),
-          catchError((_e) => of(getShaftFailure()))
         )
       )
     )
