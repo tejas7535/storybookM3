@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.3](///compare/mac-v0.0.3...mac-v0.0.2) (2021-01-07)
+
+
+### 🎸 Features
+
+* **mac:** use API scope appId (UFTABI-2726) ([dc2fb12](///commit/dc2fb12dcf441d591856845c510cbea631076c9b))
+
+
+### 🐛 Bug Fixes
+
+* **mac:** linter issues ([8a35753](///commit/8a35753c8fd6e3839a9b78d19f9ff0f0182f31c9))
+
 ### [0.0.2](///compare/mac-v0.0.2...mac-v0.0.1) (2021-01-04)
 
 
