@@ -1,10 +1,10 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { DataService } from '@schaeffler/http';
-
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { DataService } from '@schaeffler/http';
 
 import {
   AddQuotationDetailsRequest,

@@ -1,7 +1,8 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -12,7 +13,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { addQuotationDetailToOffer } from '../../../core/store/actions';
+import { updateQuotationDetailOffer } from '../../../core/store/actions';
 import { AddToOfferButtonComponent } from './add-to-offer-button.component';
 
 describe('AddToOfferButtonComponent', () => {
@@ -97,7 +98,7 @@ describe('AddToOfferButtonComponent', () => {
       component.addToOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        addQuotationDetailToOffer({
+        updateQuotationDetailOffer({
           quotationDetailIDs: [{ gqPositionId: '5694232', addedToOffer: true }],
         })
       );

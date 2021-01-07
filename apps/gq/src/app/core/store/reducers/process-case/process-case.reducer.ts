@@ -1,12 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { TableService } from '../../../../shared/services/tableService/table.service';
 
+import { TableService } from '../../../../shared/services/tableService/table.service';
 import {
   addMaterialRowDataItem,
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
-  addQuotationDetailToOffer,
   addToRemoveMaterials,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -19,8 +18,8 @@ import {
   removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
-  removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailOffer,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -31,7 +30,6 @@ import {
   MaterialTableItem,
   Quotation,
   QuotationIdentifier,
-  UpdateQuotationDetail,
   ValidationDescription,
 } from '../../models';
 import {
@@ -50,7 +48,7 @@ export interface ProcessCaseState {
     quotationLoading: boolean;
     item: Quotation;
     errorMessage: string;
-    updateDetails: UpdateQuotationDetail[];
+    updateLoading: boolean;
   };
   addMaterials: {
     addMaterialRowData: MaterialTableItem[];
@@ -71,7 +69,7 @@ export const initialState: ProcessCaseState = {
     quotationLoading: false,
     item: undefined,
     errorMessage: undefined,
-    updateDetails: undefined,
+    updateLoading: false,
   },
   addMaterials: {
     addMaterialRowData: [dummyRowData],
@@ -122,7 +120,7 @@ export const processCaseReducer = createReducer(
       item: undefined,
       quotationLoading: true,
       errorMessage: undefined,
-      updateDetails: undefined,
+      updateLoading: false,
     },
   })),
   on(loadQuotationSuccess, (state: ProcessCaseState, { item }) => ({
@@ -142,64 +140,39 @@ export const processCaseReducer = createReducer(
       quotationLoading: false,
     },
   })),
-  on(
-    addQuotationDetailToOffer,
-    (state: ProcessCaseState, { quotationDetailIDs }) => ({
-      ...state,
-      quotation: {
-        ...state.quotation,
-        item: {
-          ...state.quotation.item,
-          quotationDetails: [
-            ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.some(
-                (item) => item.gqPositionId === quotationDetail.gqPositionId
-              )
-                ? {
-                    ...quotationDetail,
-                    addedToOffer: true,
-                  }
-                : quotationDetail
-            ),
-          ],
-        },
-        updateDetails: quotationDetailIDs,
-      },
-    })
-  ),
-  on(
-    removeQuotationDetailFromOffer,
-    (state: ProcessCaseState, { quotationDetailIDs }) => ({
-      ...state,
-      quotation: {
-        ...state.quotation,
-        item: {
-          ...state.quotation.item,
-          quotationDetails: [
-            ...state.quotation.item.quotationDetails.map((quotationDetail) =>
-              quotationDetailIDs.some(
-                (item) => item.gqPositionId === quotationDetail.gqPositionId
-              )
-                ? {
-                    ...quotationDetail,
-                    addedToOffer: false,
-                  }
-                : quotationDetail
-            ),
-          ],
-        },
-        updateDetails: quotationDetailIDs,
-      },
-    })
-  ),
-  on(updateQuotationDetailsSuccess, (state: ProcessCaseState) => ({
+  on(updateQuotationDetailOffer, (state: ProcessCaseState) => ({
     ...state,
     quotation: {
       ...state.quotation,
-      updateDetails: undefined,
-      errorMessage: undefined,
+      updateLoading: true,
     },
   })),
+  on(
+    updateQuotationDetailsSuccess,
+    (state: ProcessCaseState, { quotationDetailIDs }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: {
+          ...state.quotation.item,
+          quotationDetails: [...state.quotation.item.quotationDetails].map(
+            (quotationDetail) =>
+              quotationDetailIDs.some(
+                (item) => item.gqPositionId === quotationDetail.gqPositionId
+              )
+                ? {
+                    ...quotationDetail,
+                    addedToOffer: quotationDetailIDs[0].addedToOffer,
+                    // all transactions within a quotation have the same value for this property
+                  }
+                : quotationDetail
+          ),
+        },
+        updateLoading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
   on(
     updateQuotationDetailsFailure,
     (state: ProcessCaseState, { errorMessage }) => ({
@@ -207,6 +180,7 @@ export const processCaseReducer = createReducer(
       quotation: {
         ...state.quotation,
         errorMessage,
+        updateLoading: false,
       },
     })
   ),

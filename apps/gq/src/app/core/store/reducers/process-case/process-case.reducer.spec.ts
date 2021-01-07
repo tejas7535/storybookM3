@@ -9,7 +9,6 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
-  addQuotationDetailToOffer,
   addToRemoveMaterials,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -22,8 +21,8 @@ import {
   removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
-  removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailOffer,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -165,118 +164,60 @@ describe('Quotation Reducer', () => {
   });
 
   describe('offer', () => {
-    describe('addQuotationDetailToOffer', () => {
+    describe('updateQuotationDetailsOffer', () => {
       test('should add a quotationDetail to Offer', () => {
-        const action = addQuotationDetailToOffer({
-          quotationDetailIDs: [
-            {
-              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              addedToOffer: true,
-            },
-          ],
-        });
-        const mockItem: Quotation = JSON.parse(JSON.stringify(QUOTATION_MOCK));
-
-        const otherMockDetail = JSON.parse(
-          JSON.stringify(QUOTATION_DETAIL_MOCK)
-        );
-        otherMockDetail.gqPositionId = 1234;
-        mockItem.quotationDetails.push(otherMockDetail);
-        expect(mockItem.quotationDetails.length).toEqual(2);
-
-        const fakeState = {
-          ...QUOTATION_STATE_MOCK,
-          quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
-            item: mockItem,
+        const quotationDetailIDs = [
+          {
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+            addedToOffer: true,
           },
-        };
+        ];
 
-        const state = processCaseReducer(fakeState, action);
-
-        const stateItem = state.quotation;
-        const addedDetail = stateItem.item.quotationDetails[0];
-        const otherDetail = stateItem.item.quotationDetails[1];
-
-        expect(addedDetail.addedToOffer).toBeTruthy();
-        expect(otherDetail.addedToOffer).toBeFalsy();
-      });
-    });
-
-    describe('removeQuotationDetailFromOffer', () => {
-      test('should remove a quotationDetail from Offer', () => {
-        QUOTATION_DETAIL_MOCK.addedToOffer = true;
-        const action = removeQuotationDetailFromOffer({
-          quotationDetailIDs: [
-            {
-              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-              addedToOffer: false,
-            },
-          ],
+        const action = updateQuotationDetailOffer({
+          quotationDetailIDs,
         });
-        const mockItem = JSON.parse(JSON.stringify(QUOTATION_MOCK));
 
-        const otherMockDetail = JSON.parse(
-          JSON.stringify(QUOTATION_DETAIL_MOCK)
-        );
-        otherMockDetail.gqPositionId = 1234;
-        mockItem.quotationDetails.push(otherMockDetail);
-        expect(mockItem.quotationDetails.length).toEqual(2);
+        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
 
-        const fakeState = {
-          ...QUOTATION_STATE_MOCK,
-          quotation: {
-            ...QUOTATION_STATE_MOCK.quotation,
-            item: mockItem,
-          },
-        };
-
-        const state = processCaseReducer(fakeState, action);
-
-        const stateItem = state.quotation;
-        const addedDetail = stateItem.item.quotationDetails[0];
-        const otherDetail = stateItem.item.quotationDetails[1];
-
-        expect(addedDetail.addedToOffer).toBeFalsy();
-        expect(otherDetail.addedToOffer).toBeTruthy();
+        expect(state.quotation.updateLoading).toBeTruthy();
       });
     });
 
     describe('updateQuotationDetailsSuccess', () => {
-      test(' should update updateDetails to undefined', () => {
-        const action = updateQuotationDetailsSuccess();
-        const mockUpdateDetails: UpdateQuotationDetail[] = [
-          { gqPositionId: '1234', addedToOffer: true },
+      test(' should update quotationDetails', () => {
+        const quotationDetailIDs: UpdateQuotationDetail[] = [
+          {
+            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+            addedToOffer: true,
+          },
         ];
+        const mockItem: Quotation = QUOTATION_MOCK;
+
+        const action = updateQuotationDetailsSuccess({ quotationDetailIDs });
 
         const fakeState = {
           ...QUOTATION_STATE_MOCK,
           quotation: {
             ...QUOTATION_STATE_MOCK.quotation,
-            updateDetails: mockUpdateDetails,
+            item: mockItem,
           },
         };
 
         const state = processCaseReducer(fakeState, action);
 
         const stateItem = state.quotation;
-        const updateDetails = stateItem.updateDetails;
-        expect(updateDetails).toBe(undefined);
+        expect(stateItem.item.quotationDetails[0]).toBeTruthy();
       });
     });
 
     describe('updateQuotationDetailsFailure', () => {
       test('should not manipulate state', () => {
         const action = updateQuotationDetailsFailure({ errorMessage });
-        const mockUpdateDetails: UpdateQuotationDetail[] = [
-          { gqPositionId: '1234', addedToOffer: true },
-        ];
 
         const fakeState = {
           ...QUOTATION_STATE_MOCK,
           quotation: {
             ...QUOTATION_STATE_MOCK.quotation,
-            updateDetails: mockUpdateDetails,
           },
         };
 

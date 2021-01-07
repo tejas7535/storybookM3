@@ -5,7 +5,6 @@ import {
 } from '../../../../../testing/mocks';
 import {
   addMaterials,
-  addQuotationDetailToOffer,
   CaseActions,
   loadCustomer,
   loadCustomerFailure,
@@ -13,7 +12,7 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
-  removeQuotationDetailFromOffer,
+  updateQuotationDetailOffer,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
 } from './process-case.action';
@@ -96,40 +95,32 @@ describe('CaseActions', () => {
   });
 
   describe('Offer Actions', () => {
-    test('addQuotationDetailToOffer', () => {
+    test('updateQuotationDetailOffer', () => {
       const quotationDetailIDs = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           addedToOffer: true,
         },
       ];
-      action = addQuotationDetailToOffer({ quotationDetailIDs });
+      action = updateQuotationDetailOffer({ quotationDetailIDs });
 
       expect(action).toEqual({
         quotationDetailIDs,
-        type: '[Offer] Add QuotationDetail to offer',
+        type: '[Offer] Update QuotationDetail offer',
       });
     });
 
-    test('removeQuotationDetailFromOffer', () => {
+    test('updateQuotationDetailsSuccess', () => {
       const quotationDetailIDs = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           addedToOffer: false,
         },
       ];
-      action = removeQuotationDetailFromOffer({ quotationDetailIDs });
+      action = updateQuotationDetailsSuccess({ quotationDetailIDs });
 
       expect(action).toEqual({
         quotationDetailIDs,
-        type: '[Offer] Remove QuotationDetail to offer',
-      });
-    });
-
-    test('updateQuotationDetailsSuccess', () => {
-      action = updateQuotationDetailsSuccess();
-
-      expect(action).toEqual({
         type: '[Offer] Update QuotationDetails Success',
       });
     });
@@ -140,14 +131,6 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Offer] Update QuotationDetails Failure',
-      });
-    });
-
-    test('updateQuotationDetailsSuccess', () => {
-      action = updateQuotationDetailsSuccess();
-
-      expect(action).toEqual({
-        type: '[Offer] Update QuotationDetails Success',
       });
     });
 
