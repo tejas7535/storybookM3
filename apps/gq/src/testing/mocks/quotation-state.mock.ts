@@ -12,7 +12,7 @@ export const QUOTATION_STATE_MOCK: ProcessCaseState = {
     quotationLoading: false,
     item: undefined,
     errorMessage: undefined,
-    updateDetails: undefined,
+    updateLoading: false,
   },
   addMaterials: {
     addMaterialRowData: [dummyRowData],

@@ -25,7 +25,6 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
-  addQuotationDetailToOffer,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -41,6 +40,7 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
+import { updateQuotationDetailOffer } from '../../actions/process-case/process-case.action';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -53,7 +53,6 @@ import {
   getAddQuotationDetailsRequest,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
-  getUpdateQuotationDetails,
 } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
@@ -430,17 +429,6 @@ describe('ProcessCaseEffect', () => {
   });
 
   describe('updateMaterials$', () => {
-    const updateDetails: UpdateQuotationDetail[] = [
-      {
-        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        addedToOffer: true,
-      },
-    ];
-
-    beforeEach(() => {
-      store.overrideSelector(getUpdateQuotationDetails, updateDetails);
-    });
-
     test('should return removeMaterialsSuccess when REST call is successful', () => {
       snackBarService.showSuccessMessage = jest.fn();
       const quotationDetailIDs: UpdateQuotationDetail[] = [
@@ -449,10 +437,10 @@ describe('ProcessCaseEffect', () => {
           addedToOffer: true,
         },
       ];
-      action = addQuotationDetailToOffer({ quotationDetailIDs });
+      action = updateQuotationDetailOffer({ quotationDetailIDs });
 
       quotationDetailsService.updateMaterial = jest.fn(() => response);
-      const result = updateQuotationDetailsSuccess();
+      const result = updateQuotationDetailsSuccess({ quotationDetailIDs });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|');
@@ -461,7 +449,7 @@ describe('ProcessCaseEffect', () => {
       expect(effects.updateMaterials$).toBeObservable(expected);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        updateDetails
+        quotationDetailIDs
       );
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });

@@ -8,7 +8,6 @@ import {
   Quotation,
   QuotationDetail,
   QuotationIdentifier,
-  UpdateQuotationDetail,
 } from '../../models';
 import { getProcessCaseState } from '../../reducers';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
@@ -114,10 +113,4 @@ export const getAddMaterialRowDataValid = createSelector(
 
     return rowDataValid;
   }
-);
-
-export const getUpdateQuotationDetails = createSelector(
-  getProcessCaseState,
-  (state: ProcessCaseState): UpdateQuotationDetail[] =>
-    state.quotation.updateDetails
 );

@@ -40,18 +40,14 @@ export const selectQuotation = createAction(
   props<{ quotationIdentifier: QuotationIdentifier }>()
 );
 
-export const addQuotationDetailToOffer = createAction(
-  '[Offer] Add QuotationDetail to offer',
-  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
-);
-
-export const removeQuotationDetailFromOffer = createAction(
-  '[Offer] Remove QuotationDetail to offer',
+export const updateQuotationDetailOffer = createAction(
+  '[Offer] Update QuotationDetail offer',
   props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsSuccess = createAction(
-  '[Offer] Update QuotationDetails Success'
+  '[Offer] Update QuotationDetails Success',
+  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsFailure = createAction(
@@ -119,7 +115,6 @@ export const removeMaterialsFailure = createAction(
 
 const all = union({
   addMaterials,
-  addQuotationDetailToOffer,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -130,8 +125,8 @@ const all = union({
   removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
-  removeQuotationDetailFromOffer,
   selectQuotation,
+  updateQuotationDetailOffer,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
