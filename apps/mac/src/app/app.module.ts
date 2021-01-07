@@ -13,7 +13,7 @@ import { SharedModule } from './shared/shared.module';
 const azureConfig = new AzureConfig(
   environment.azureTenantId,
   environment.azureClientId,
-  '',
+  environment.appId,
   FlowType.CODE_FLOW,
   !environment.production
 );
