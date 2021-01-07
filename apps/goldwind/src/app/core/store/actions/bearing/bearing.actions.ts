@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { BearingMetadata, ShaftStatus } from '../../reducers/bearing/models';
+import { BearingMetadata } from '../../reducers/bearing/models';
 
 export const getBearingId = createAction('[Bearing] Load Bearing ID');
 
@@ -16,32 +16,11 @@ export const getBearingSuccess = createAction(
 
 export const getBearingFailure = createAction('[Bearing] Load Bearing Failure');
 
-export const getShaftId = createAction('[Bearing] Load Shaft ID');
-
-export const getShaft = createAction(
-  '[Bearing] Load Shaft',
-  props<{ shaftDeviceId: string }>()
-);
-
-export const stopGetShaft = createAction('[Bearing] Stop Load Shaft');
-
-export const getShaftSuccess = createAction(
-  '[Bearing] Load Shaft Success',
-  props<{ shaft: ShaftStatus }>()
-);
-
-export const getShaftFailure = createAction('[Bearing] Load Shaft Failure');
-
 const all = union({
   getBearingId,
   getBearing,
   getBearingSuccess,
   getBearingFailure,
-  getShaftId,
-  getShaft,
-  stopGetShaft,
-  getShaftSuccess,
-  getShaftFailure,
 });
 
 export type BearingActions = typeof all;

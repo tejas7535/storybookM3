@@ -14,6 +14,7 @@ import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
+import * as fromShaft from './shaft/shaft.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -59,6 +60,10 @@ export const getEdmMonitorState = createFeatureSelector<fromEdmMonitor.EdmMonito
 
 export const getGreaseStatusState = createFeatureSelector<fromGreaseStatus.GreaseStatusState>(
   'greaseStatus'
+);
+
+export const getShaftState = createFeatureSelector<fromShaft.ShaftState>(
+  'shaft'
 );
 
 export class CustomSerializer

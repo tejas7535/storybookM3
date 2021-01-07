@@ -1,12 +1,8 @@
-import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getBearingLoading,
   getBearingResult,
   getMainBearing,
-  getShaftDeviceId,
-  getShaftLatestGraphData,
-  getShaftResult,
 } from './bearing.selector';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -24,15 +20,6 @@ describe('Bearing Selector', () => {
         },
       },
       loading: false,
-      shaft: {
-        result: {
-          id: 'fakeid',
-          deviceId: 'fakedeviceid',
-          timeStamp: '2020-11-12T18:31:56.954003Z',
-          rsm01Shaftcountervalue: 666,
-        },
-        loading: false,
-      },
     },
   };
 
@@ -52,26 +39,6 @@ describe('Bearing Selector', () => {
     test('should return the main bearing', () => {
       expect(getMainBearing(fakeState)).toEqual(
         fakeState.bearing.result.mainBearing
-      );
-    });
-  });
-
-  describe('getShaftDeviceId', () => {
-    test('should return the shaft result', () => {
-      expect(getShaftDeviceId(fakeState)).toEqual('goldwind-qa-002');
-    });
-  });
-
-  describe('getShaftResult', () => {
-    test('should return the shaft result', () => {
-      expect(getShaftResult(fakeState)).toEqual(fakeState.bearing.shaft.result);
-    });
-  });
-
-  describe('getShaftLatestGraphData', () => {
-    test('should return the shaft latest graph data', () => {
-      expect(getShaftLatestGraphData(fakeState)).toEqual(
-        SHAFT_LATEST_GRAPH_DATA
       );
     });
   });
