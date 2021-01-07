@@ -8,6 +8,7 @@ import {
   getGreaseStatusSuccess,
   setGreaseDisplay,
   setGreaseInterval,
+  stopGetGreaseStatusLatest,
 } from '..';
 
 describe('GreaseStatus Actions', () => {
@@ -61,6 +62,14 @@ describe('GreaseStatus Actions', () => {
       expect(action).toEqual({
         greaseStatusId,
         type: '[Grease Status] Load Latest Grease Status',
+      });
+    });
+
+    test('stopGetGreaseStatusLatest', () => {
+      const action = stopGetGreaseStatusLatest();
+
+      expect(action).toEqual({
+        type: '[Grease Status] Stop Load Latest Grease Status',
       });
     });
 

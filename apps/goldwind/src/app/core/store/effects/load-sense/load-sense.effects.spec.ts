@@ -9,12 +9,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { getAccessToken } from '@schaeffler/auth';
 
 import { RestService } from '../../../http/rest.service';
-import {
-  getGreaseStatusId,
-  getLoad,
-  getLoadId,
-  getLoadSuccess,
-} from '../../actions';
+import { getLoad, getLoadId, getLoadSuccess } from '../../actions';
 import * as fromRouter from '../../reducers';
 import { getLoadInterval } from '../../selectors/load-sense/load-sense.selector';
 import { ConditionMonitoringEffects } from './load-sense.effects';
@@ -82,9 +77,6 @@ describe('Search Effects', () => {
       const expected = cold('-b', { b: 'condition-monitoring' });
 
       expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(
-        getGreaseStatusId({ source: 'condition-monitoring' })
-      );
       expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
     });
   });

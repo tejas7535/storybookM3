@@ -17,7 +17,6 @@ import { select, Store } from '@ngrx/store';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { RestService } from '../../../http/rest.service';
 import {
-  getGreaseStatusId,
   getLoad,
   getLoadFailure,
   getLoadId,
@@ -44,8 +43,7 @@ export class ConditionMonitoringEffects {
             currentRoute &&
             currentRoute === BearingRoutePath.ConditionMonitoringPath
         ),
-        tap((currentRoute) => {
-          this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
+        tap(() => {
           this.store.dispatch(getLoadId());
         })
       ),
