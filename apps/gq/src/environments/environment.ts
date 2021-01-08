@@ -9,6 +9,16 @@ export const environment = {
   appId: 'api://acea7ac1-13bb-44b3-be1e-76fc729472be/gqapi',
   devToolsEnabled: true,
   baseUrl: 'http://localhost:8080/api/v1',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: 'f05bb411-2544-4614-816c-ba9f772dd3b0',
+      isCookieUseDisabled: true,
+      autoTrackPageVisitTime: true,
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };
 
 /*
