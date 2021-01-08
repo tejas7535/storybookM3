@@ -16,7 +16,7 @@ Make sure, you have them installed via `npm` properly.
 ## Usage
 
 1. Prepare a module configuration in your environment.
-    ```json
+    ```typescript
         export const environment = {
             ...
             applicationInsights: {

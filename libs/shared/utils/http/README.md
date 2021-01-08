@@ -15,7 +15,7 @@ Run `nx test shared-utils-http` to execute the unit tests.
 
 
 1. Import this module
-    ```
+    ```typescript
         import { HttpModule } from '@schaeffler/http';
 
         ...
@@ -26,7 +26,7 @@ Run `nx test shared-utils-http` to execute the unit tests.
     ```
 2. Add the variable `baseUrl` to your `environment` (e.g. with value `localhost:8000/api/v1`)
 3. Make use of the `DataService` in your REST services like
-    ```
+    ```typescript
         import { DataService } from '@schaeffler/http';
 
         ...
@@ -46,7 +46,7 @@ Run `nx test shared-utils-http` to execute the unit tests.
 
 **Optional**:  
 If you want to make use of the `HttpErrorInterceptor` which logs http errors and show an error notification toast, you have to add it under your `providers` list of your module:  
-```
+```typescript
     import { HttpErrorInterceptor } from '@schaeffler/http';
     import { HTTP_INTERCEPTORS } from '@angular/common/http';
 

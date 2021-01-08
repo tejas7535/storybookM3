@@ -9,7 +9,7 @@ Run `nx test shared-utils-transloco` to execute the unit tests.
 ## How to use transloco in your app
 
 Import `SharedTranslocoModule` into your main app.module.ts:  
-```
+```typescript
 import { environment } from '../environments/environment';
 .
 .
@@ -33,7 +33,7 @@ Whenever you actually need only to import `TranslocoModule` in your submodules i
 ## How to use transloco in your library
 
 Import `SharedTranslocoModule` into your module:
-```
+```typescript
 import { environment } from '../environments/environment';
 
 const loader = ['en'].reduce((acc: any, lang: string) => {
@@ -58,7 +58,7 @@ Please import `provideTranslocoTestingModule` into your .spec from `'@schaeffler
 `provideTranslocoTestingModule` expects the i18n json files as a parameter.
 
 Here is an example:
-```
+```typescript
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import * as en from '../../../../assets/i18n/en.json';
 

@@ -8,7 +8,7 @@ This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 
 `npm i @schaeffler/styles`
 
-```css
+```scss
 /* styles.scss */
 
 @import '@schaeffler/styles/src';
@@ -20,7 +20,7 @@ This lib depends on the `schaeffler-icons`, which can be installed with npm:
 
 Afterwards the `styles` section in the `angular.json` has to be adjusted: 
 
-```
+```json
 "styles": [
   ...
   "node_modules/schaeffler-icons/style.css"

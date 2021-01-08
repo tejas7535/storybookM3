@@ -1,25 +1,25 @@
 # shared-ui-icons
 
 The icons lib is used when the application is using schaeffler icons.
-Therefore this lib offers a service to expand the icon set of the angular material icon (``` mat-icon ```)
+Therefore this lib offers a service to expand the icon set of the angular material icon (`mat-icon`)
 to also use schaeffler-icons with the alias "schaeffler-icons"
 
 ## Usage
 
-First check if your application already has schaeffler-icons loaded. There are multiple ways to load the schaeffler-icons style.css. The current standard is to add the css file into the styles array for your app in the ```angular.json```
+First check if your application already has schaeffler-icons loaded. There are multiple ways to load the schaeffler-icons style.css. The current standard is to add the css file into the styles array for your app in the `angular.json`
 
 Example:
-``` json
+```json
             "styles": [
               "apps/<your-app>/src/styles.scss",
               "node_modules/schaeffler-icons/style.css"
             ],
 ```
 
-To be able to use schaeffler-icons with ``` mat-icon ``` and "schaeffler-icons" as ``` fontSet ``` import the ``` IconsModule ``` and ``` MatIconModule ```
+To be able to use schaeffler-icons with `mat-icon` and "schaeffler-icons" as `fontSet` import the `IconsModule` and `MatIconModule`
 into your app module:
 
-``` typescript
+```typescript
 import { IconsModule } from '@schaeffler/icons';
 import { MatIconModule } from '@angular/material/icon';
 ```
@@ -37,9 +37,9 @@ Example:
  <mat-icon fontSet="schaeffler-icons" fontIcon="icon-resize-enlarge"></mat-icon> 
 ```
 
-``` fontSet="schaeffler-icons" ``` sets the specific mat-icon tag to use the schaeffler-icon font instead of the material icon one
+`fontSet="schaeffler-icons"` sets the specific mat-icon tag to use the schaeffler-icon font instead of the material icon one
 
-You can still use ``` mat-icon ``` with material-icons as usual like
+You can still use `mat-icon` with material-icons as usual like
 
 ```html
  <mat-icon>YOUR_MATERIAL_ICON_VALUE</mat-icon>
@@ -50,9 +50,9 @@ Example:
  <mat-icon>chevron_right</mat-icon>
 ```
 
-You have to set the font-family, ideally for the whole appp in the `styles.css`
+You have to set the font-family, ideally for the whole appp in the `styles.scss`
 
-```css
+```scss
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .material-icons {

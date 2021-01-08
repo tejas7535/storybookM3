@@ -30,7 +30,7 @@ Either way, you need to add the following redirect URIs to it:
 #### `CODE FLOW` (Recommended Approach):
 
 - Get the `client id`, `tenant id` as well as the `app id` of your application in Azure and set them in your `environment` files:
-  ```js
+  ```typescript
     export const environment = {
         production: false,
         tenantId: 'XXX',
@@ -42,7 +42,7 @@ Either way, you need to add the following redirect URIs to it:
 
   ```
 - Import this auth module into your `app.module.ts`:   
-  ```js
+  ```typescript
     import { HttpClientModule } from '@angular/common/http';
     import { RouterModule } from '@angular/router';
 
@@ -84,7 +84,7 @@ Either way, you need to add the following redirect URIs to it:
 ### Implementation
 
 * Use the `startLoginFlow` action in your application for login, e.g.:
-   ```js
+   ```typescript
       public constructor(private readonly store: Store){}
 
       public ngOnInit(): void {
@@ -92,11 +92,11 @@ Either way, you need to add the following redirect URIs to it:
       }
    ```
 * Use the `logout` action to logout the user:
-    ```js
+    ```typescript
       this.store.dispatch(logout());
     ```
 * Use the provided selectors to get relevant user information in your app, for example:
-    ```js
+    ```typescript
       this.username$ = this.store.pipe(select(getUsername));
       this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
       this.token$ = this.store.pipe(select(getToken));
