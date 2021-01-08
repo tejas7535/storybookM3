@@ -4,7 +4,7 @@ This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 
 `npm i @schaeffler/styles`
 
-```css
+```scss
 /* styles.scss */
 
 @import '@schaeffler/styles/src';
