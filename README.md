@@ -47,7 +47,7 @@ NX Schematics extend the [Angular CLI Schematics](https://cli.angular.io/), so a
 
 Components can be generated with the `ng g` commands. To use `scss`, `spectator` and `jest`, the following commands come in handy
 
-```
+```shell
 nx g @ngneat/spectator:spectator-component component-name
 
 nx g @ngneat/spectator:spectator-service service-name
