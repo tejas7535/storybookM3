@@ -9,4 +9,14 @@ export const environment = {
     'openid profile email api://8df1bcf5-7a2a-4a05-9ebc-fcf471c5fc5f/lifetime-prediction',
   apiBaseUrl: '',
   accessRole: 'LTP_ACCESS_D',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '38ff01cd-2dd7-472c-9635-1f249df1f96c',
+      isCookieUseDisabled: true,
+      autoTrackPageVisitTime: true,
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };

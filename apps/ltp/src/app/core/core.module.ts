@@ -7,15 +7,17 @@ import {
   SkipSelf,
 } from '@angular/core';
 
-import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
-
 import {
   AuthConfig,
   OAuthModule,
   OAuthStorage,
   ValidationHandler,
 } from 'angular-oauth2-oidc';
+import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+
+import { environment } from '../../environments/environment';
 import { AuthGuard } from './guards';
 import { authConfig } from './guards/auth-config';
 import { RoleGuard } from './guards/role.guard';
@@ -25,7 +27,12 @@ import { AuthService, initializer } from './services';
 export const storageFactory = (): OAuthStorage => localStorage;
 
 @NgModule({
-  imports: [OAuthModule.forRoot()],
+  imports: [
+    OAuthModule.forRoot(),
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
+  ],
   providers: [AuthGuard, RoleGuard, AuthService],
 })
 export class CoreModule {
