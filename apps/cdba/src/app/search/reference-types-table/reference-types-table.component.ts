@@ -43,6 +43,7 @@ import {
   DEFAULT_COLUMN_STATE,
   STATUS_BAR_CONFIG,
 } from './config';
+import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 
 @Component({
   selector: 'cdba-reference-types-table',
@@ -76,6 +77,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
     detailViewButtonComponent: DetailViewButtonComponent,
     compareViewButtonComponent: CompareViewButtonComponent,
     customNoRowsOverlay: CustomNoRowsOverlayComponent,
+    pcmCellRenderer: PcmCellRendererComponent,
   };
 
   noRowsOverlayComponent = 'customNoRowsOverlay';

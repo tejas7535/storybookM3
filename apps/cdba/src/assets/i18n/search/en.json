@@ -27,6 +27,7 @@
   "referenceTypesTable": {
     "headers": {
       "materialDesignation": "Material Designation",
+      "pcmRow": "PCM Row",
       "materialNumber": "Material Number",
       "pcmQuantity": "PCM Quantity",
       "pcmSqv": "PCM SQV",
@@ -72,6 +73,7 @@
     },
     "tooltips": {
       "materialDesignation": "Description of the product with material short text and point version",
+      "pcmRow": "Indicates wether this row is a PCM calculation",
       "materialNumber": "Material Number of the product",
       "pcmQuantity": "Quantity with which the PCM SQV in the row below is calculated",
       "pcmSqv": "Standard Quotation Value - calculated cost in a standardized way in the Cost Calculation Manager PCM\nDifference to SQV SAP is that the PCM SQV includes calculationary interest and is calculated once in PCM\nSQV SAP is calculated monthly and adjusted to changes",
@@ -115,6 +117,7 @@
       "purchasePriceValidFrom": "Purchase Price valid from",
       "purchasePriceValidUntil": "Purchase Price valid until"
     },
-    "noRowsMessage": "We are sorry, we could not find any search results for your provided filters"
+    "noRowsMessage": "We are sorry, we could not find any search results for your provided filters",
+    "pcmRowHint": "This is a PCM row. As it is only a calculation, you won't see production relevant information."
   }
 }

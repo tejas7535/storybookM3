@@ -42,6 +42,12 @@ export class ColumnDefinitionService {
         'search.referenceTypesTable.tooltips.materialDesignation'
       ),
     },
+    isPcmRow: {
+      field: columnDefinitionToReferenceTypeProp('isPcmRow'),
+      headerName: translate('search.referenceTypesTable.headers.pcmRow'),
+      headerTooltip: translate('search.referenceTypesTable.tooltips.pcmRow'),
+      cellRenderer: 'pcmCellRenderer',
+    },
     materialNumber: {
       field: columnDefinitionToReferenceTypeProp('materialNumber'),
       headerName: translate(
