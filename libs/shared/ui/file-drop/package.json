@@ -2,7 +2,7 @@
   "name": "@schaeffler/file-drop",
   "version": "1.4.0",
   "dependencies": {
-    "tslib": "^2.0.0"
+    "tslib": "^2.1.0"
   },
   "peerDependencies": {
     "@angular/common": ">=9.0.0<=12.0.0",
