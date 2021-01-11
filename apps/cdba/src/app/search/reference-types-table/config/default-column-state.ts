@@ -6,6 +6,10 @@ export const DEFAULT_COLUMN_STATE: { [key: string]: ColumnState } = {
     colId: 'materialDesignation',
     pinned: 'left',
   },
+  isPcmRow: {
+    colId: 'isPcmRow',
+    pinned: 'left',
+  },
   materialNumber: {
     colId: 'materialNumber',
   },
