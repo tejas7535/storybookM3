@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](///compare/ltp-v2.1.0...ltp-v2.0.0) (2021-01-12)
+
+
+### 🎸 Features
+
+* **ltp:** activate application insights (UFTABI-3390) ([ec6439b](///commit/ec6439b70b1c3c2a47f94ddd6206369e4fb039ab))
+* **ltp:** use authentication shared lib (UFTABI-3370) ([6721b78](///commit/6721b789ddab516299f7acc83468a23e4b743394))
+
 ## 2.0.0 (2021-01-04)
 
 
