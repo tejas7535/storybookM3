@@ -1,57 +1,42 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
-  CanLoad,
-  Route,
+  CanActivateChild,
   Router,
   RouterStateSnapshot,
-  UrlSegment,
 } from '@angular/router';
 
-import { AuthService } from '../services';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-@Injectable()
-export class RoleGuard implements CanActivate, CanLoad {
-  constructor(
-    private readonly authService: AuthService,
-    private readonly router: Router
-  ) {}
+import { select, Store } from '@ngrx/store';
 
-  public canLoad(_route: Route, _segments: UrlSegment[]): boolean {
-    return this.isAuthenticated();
-  }
+import { getRoles } from '@schaeffler/auth';
 
-  public canActivate(
-    _route: ActivatedRouteSnapshot,
+import { environment } from '../../../environments/environment';
+import { AppRoutePath } from '../../app-route-path.enum';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class RoleGuard implements CanActivateChild {
+  constructor(private readonly store: Store, private readonly router: Router) {}
+
+  canActivateChild(
+    _childRoute: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
-  ): boolean {
-    if (!this.isAuthenticated()) {
-      this.denyAccess(_route);
+  ): Observable<boolean> {
+    return this.store.pipe(
+      select(getRoles),
+      map((roles) => {
+        if (!roles.includes(environment.accessRole)) {
+          this.router.navigate([AppRoutePath.ForbiddenPath]);
 
-      return false;
-    }
-    const roles = this.authService.getAppRoles();
-    const required_roles = _route.data.roles ? _route.data.roles : [];
+          return false;
+        }
 
-    for (const role of required_roles) {
-      if (roles.indexOf(role) < 0) {
-        this.denyAccess(_route);
-
-        return false;
-      }
-    }
-
-    return true;
-  }
-
-  private isAuthenticated(): boolean {
-    return this.authService.hasValidAccessToken();
-  }
-
-  private denyAccess(route: ActivatedRouteSnapshot): void {
-    if (route.data.unauthorized && route.data.unauthorized.redirect) {
-      this.router.navigate(route.data.unauthorized.redirect);
-    }
+        return true;
+      })
+    );
   }
 }

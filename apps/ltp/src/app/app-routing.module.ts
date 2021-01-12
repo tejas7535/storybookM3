@@ -2,37 +2,37 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { environment } from '../environments/environment';
-import { AuthGuard } from './core/guards';
+import { AppRoutePath } from './app-route-path.enum';
 import { RoleGuard } from './core/guards/role.guard';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
 import { UnauthorizedComponent } from './shared/components/unauthorized/unauthorized.component';
 
 const authorized = {
-  canActivate: [AuthGuard, RoleGuard],
+  canActivateChild: [RoleGuard],
   data: {
     roles: [environment.accessRole],
     unauthorized: {
-      redirect: ['forbidden'],
+      redirect: [AppRoutePath.ForbiddenPath],
     },
   },
 };
 
 const routes: Routes = [
   {
-    path: '',
-    redirectTo: 'home',
+    path: AppRoutePath.BasePath,
+    redirectTo: AppRoutePath.HomePath,
     pathMatch: 'full',
   },
   {
-    path: 'forbidden',
+    path: AppRoutePath.ForbiddenPath,
     component: UnauthorizedComponent,
   },
   {
-    path: 'signout',
+    path: AppRoutePath.SignoutPath,
     component: SignedoutComponent,
   },
   {
-    path: 'home',
+    path: AppRoutePath.HomePath,
     loadChildren: () =>
       import('./feature/home/home.module').then((m) => m.HomeModule),
     pathMatch: 'full',

@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 
 import {
-  AuthConfig,
   OAuthModule,
   OAuthStorage,
   ValidationHandler,
@@ -18,8 +17,6 @@ import { JwksValidationHandler } from 'angular-oauth2-oidc-jwks';
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import { environment } from '../../environments/environment';
-import { AuthGuard } from './guards';
-import { authConfig } from './guards/auth-config';
 import { RoleGuard } from './guards/role.guard';
 import { TokenInterceptor } from './interceptors';
 import { AuthService, initializer } from './services';
@@ -33,14 +30,13 @@ export const storageFactory = (): OAuthStorage => localStorage;
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  providers: [AuthGuard, RoleGuard, AuthService],
+  providers: [RoleGuard, AuthService],
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
       providers: [
-        { provide: AuthConfig, useValue: authConfig },
         { provide: ValidationHandler, useClass: JwksValidationHandler },
         { provide: OAuthStorage, useFactory: storageFactory },
         {
