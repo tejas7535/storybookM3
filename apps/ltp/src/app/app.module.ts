@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
@@ -18,6 +19,15 @@ import { InputModule } from './feature/input/input.module';
 import { PredictionModule } from './feature/prediction/prediction.module';
 import { SignedoutComponent } from './shared/components/signedout/signedout.component';
 import { UnauthorizedModule } from './shared/components/unauthorized/unauthorized.module';
+
+// tslint:disable-next-line: no-implicit-dependencies
+const azureConfig = new AzureConfig(
+  environment.azureTenantId,
+  environment.azureClientId,
+  environment.authScope,
+  FlowType.CODE_FLOW,
+  !environment.production
+);
 
 @NgModule({
   imports: [
@@ -41,6 +51,7 @@ import { UnauthorizedModule } from './shared/components/unauthorized/unauthorize
       true
     ),
     IconsModule,
+    SharedAuthModule.forRoot(azureConfig),
   ],
   declarations: [AppComponent, SignedoutComponent],
   bootstrap: [AppComponent],
