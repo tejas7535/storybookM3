@@ -82,7 +82,7 @@ describe('EdmMonitorComponent', () => {
       const mockLabelName = 'edmValue1CounterMax';
       component.formatLegend = jest.fn();
 
-      const legendFormatter = component.chartOptions.legend
+      const legendFormatter = (component.chartOptions.legend as any)
         .formatter as Function;
       legendFormatter(mockLabelName);
 
@@ -100,7 +100,7 @@ describe('EdmMonitorComponent', () => {
       ];
       component.formatTooltip = jest.fn();
 
-      const tooltipFormatter = component.chartOptions.tooltip
+      const tooltipFormatter = (component.chartOptions.tooltip as any)
         .formatter as Function;
       tooltipFormatter(mockParams);
 
