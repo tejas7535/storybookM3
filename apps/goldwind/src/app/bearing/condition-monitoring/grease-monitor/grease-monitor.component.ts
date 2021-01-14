@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { AppState } from '../../../core/store/reducers';
 import { GreaseSensorName } from '../../../core/store/reducers/grease-status/models';
@@ -23,7 +23,7 @@ export class GreaseMonitorComponent implements OnInit {
   greaseStatusLatestGraphData$: Observable<GraphData>;
   sensor = false;
   type = Sensor.GC;
-  chartOptions: EChartOption = {
+  chartOptions: EChartsOption = {
     ...chartOptions,
     legend: {
       ...chartOptions.legend,

@@ -1,4 +1,4 @@
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 export enum GaugeColors {
   GREEN = '#0ebc5b',
@@ -7,7 +7,7 @@ export enum GaugeColors {
 }
 
 // echarts default configuration
-export const chartOptions: EChartOption = {
+export const chartOptions: EChartsOption = {
   legend: {
     selectedMode: false,
   },
@@ -31,7 +31,7 @@ export const chartOptions: EChartOption = {
   ],
 };
 
-export const axisChartOptions: EChartOption = {
+export const axisChartOptions: EChartsOption = {
   ...chartOptions,
   xAxis: {
     type: 'time',
@@ -49,7 +49,7 @@ export const axisChartOptions: EChartOption = {
   ],
 };
 
-export const polarChartOptions: EChartOption = {
+export const polarChartOptions: EChartsOption = {
   ...chartOptions,
   legend: {
     width: 20,

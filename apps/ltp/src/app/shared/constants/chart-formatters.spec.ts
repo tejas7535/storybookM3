@@ -10,7 +10,7 @@ describe('CHART_SETTINGS_WOEHLER', () => {
     it('should return value if it is not a decimal', () => {
       const result = lowPrecisionFormatter(100);
 
-      expect(result).toEqual(100);
+      expect(result).toEqual('100');
     });
 
     it('should return value with precision of 2', () => {

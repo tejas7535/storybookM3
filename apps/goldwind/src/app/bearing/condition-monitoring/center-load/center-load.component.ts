@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { LoadSenseState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
@@ -25,7 +25,7 @@ export class CenterLoadComponent implements OnInit {
   loadSenseMeasurementTimes$: Observable<string[]>;
   current: string;
 
-  chartOptions: EChartOption = {
+  chartOptions: EChartsOption = {
     ...polarChartOptions,
   };
 

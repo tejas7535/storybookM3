@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { EChartOption, ECharts } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 @Component({
   selector: 'ltp-chart',
@@ -10,14 +10,14 @@ import { EChartOption, ECharts } from 'echarts';
   styleUrls: ['./chart.component.scss'],
 })
 export class ChartComponent {
-  @Input() chartSettings: EChartOption;
-  @Input() mergeData$: Observable<EChartOption>;
+  @Input() chartSettings: EChartsOption;
+  @Input() mergeData$: Observable<EChartsOption>;
 
   fileNamePrefix = 'Lifetime-Predictor-Woehler-Chart-Export';
 
   loaded = false;
 
-  chart: ECharts;
+  chart: any;
   public imgUrl: string;
   public filename: string;
 
@@ -27,13 +27,16 @@ export class ChartComponent {
   public exportChart(): void {
     const dateTime = this.generateDatetime();
     this.filename = `${this.fileNamePrefix}-${dateTime}.png`;
-    this.imgUrl = this.chart.getDataURL({ type: 'png', pixelRatio: 3 });
+    this.imgUrl = this.chart.getDataURL({
+      type: 'png',
+      pixelRatio: 3,
+    });
   }
 
   /**
    * Sets the ECharts reference
    */
-  public initChart(ec: ECharts): void {
+  public initChart(ec: any): void {
     this.chart = ec;
   }
 

@@ -1,5 +1,5 @@
 import { createSelector } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { HelpersService } from '../../services/helpers.service';
 import * as fromStore from '../reducers';
@@ -87,9 +87,9 @@ export const getPredictionResult = createSelector(
 export const getPredictionResultGraphData = createSelector(
   getPredictionResult,
   (prediction) => {
-    let graphData: EChartOption = {
+    let graphData: EChartsOption = {
       dataset: {
-        source: prediction.data,
+        source: prediction.data || [],
       },
     };
 

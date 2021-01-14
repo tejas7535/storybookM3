@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 import { ReactiveComponentModule } from '@ngrx/component';
-import { ECharts } from 'echarts';
 import { configureTestSuite } from 'ng-bullet';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -43,7 +42,7 @@ describe('ChartComponent', () => {
   });
 
   it('should init chart object', () => {
-    const ec: ECharts = ({} as unknown) as ECharts;
+    const ec = {} as unknown;
 
     component.initChart(ec);
 
@@ -58,7 +57,7 @@ describe('ChartComponent', () => {
 
   it('should set export properties', () => {
     component.generateDatetime = jest.fn(() => 'theTime');
-    component.chart = ({} as unknown) as ECharts;
+    component.chart = {} as unknown;
     component.chart.getDataURL = jest.fn(() => 'theImgUrl');
 
     component.exportChart();

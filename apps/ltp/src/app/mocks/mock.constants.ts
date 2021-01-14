@@ -1,4 +1,4 @@
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { LTPState } from '../core/store';
 import { initialState } from '../core/store/reducers/input.reducer';
@@ -393,7 +393,7 @@ export const mockedPredictionRequestWithLimits: LTPState = {
   },
 };
 
-export const mockedPredictionResultGraphData: EChartOption = {
+export const mockedPredictionResultGraphData: EChartsOption = {
   dataset: {
     source: [
       {

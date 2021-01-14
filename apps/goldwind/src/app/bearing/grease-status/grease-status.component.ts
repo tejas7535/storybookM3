@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import {
   setGreaseDisplay,
@@ -40,7 +40,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     // rotationalSpeed: new FormControl(''),
   });
 
-  chartOptions: EChartOption = {
+  chartOptions: EChartsOption = {
     ...axisChartOptions,
     legend: {
       ...axisChartOptions.legend,
@@ -48,7 +48,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     },
     tooltip: {
       ...axisChartOptions.tooltip,
-      formatter: (params) => this.formatTooltip(params),
+      formatter: (params: any) => this.formatTooltip(params),
     },
   };
 
@@ -95,9 +95,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     return `${translate(`greaseStatus.${label}`)} (${unit})`;
   }
 
-  formatTooltip(
-    params: EChartOption.Tooltip.Format[] | EChartOption.Tooltip.Format
-  ): string {
+  formatTooltip(params: any): string {
     return (
       Array.isArray(params) &&
       params.reduce((acc, param, index) => {

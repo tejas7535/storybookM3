@@ -100,7 +100,7 @@ export class WorldMapComponent implements OnInit {
   public constructor(private readonly dialog: MatDialog) {}
 
   public ngOnInit(): void {
-    echarts.registerMap('world', worldJson);
+    echarts.registerMap('world', worldJson as any);
     this.initOpts = {
       height: 970,
     };
