@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 import { Papa } from 'ngx-papaparse';
 
 import { getBannerOpen } from '@schaeffler/banner';
@@ -41,9 +41,9 @@ export class PredictionComponent implements OnInit {
   legendGraphs: LegendSquare[];
 
   chartSettings = CHART_SETTINGS_WOEHLER;
-  chartOptions: EChartOption = CHART_OPTIONS_WOEHLER;
+  chartOptions: EChartsOption = CHART_OPTIONS_WOEHLER;
 
-  mergeData$: Observable<EChartOption>;
+  mergeData$: Observable<EChartsOption>;
 
   selectedChartType: ChartType = ChartType.Woehler;
 
@@ -68,15 +68,11 @@ export class PredictionComponent implements OnInit {
         display.chartType === ChartType.Woehler
           ? CHART_SETTINGS_WOEHLER
           : CHART_SETTINGS_HAIGH;
-      (this.chartOptions
-        .xAxis as EChartOption.BasicComponents.CartesianAxis).name = translate(
-        (this.chartOptions.xAxis as EChartOption.BasicComponents.CartesianAxis)
-          .name
+      (this.chartOptions.xAxis as any).name = translate(
+        (this.chartOptions.xAxis as any).name
       );
-      (this.chartOptions
-        .yAxis as EChartOption.BasicComponents.CartesianAxis).name = translate(
-        (this.chartOptions.yAxis as EChartOption.BasicComponents.CartesianAxis)
-          .name
+      (this.chartOptions.yAxis as any).name = translate(
+        (this.chartOptions.yAxis as any).name
       );
       if (display.chartType === ChartType.Woehler) {
         this.chartOptions = {
@@ -114,8 +110,8 @@ export class PredictionComponent implements OnInit {
             ...graphData.yAxis,
           },
           dataset: {
-            ...this.chartOptions,
-            ...graphData.dataset,
+            ...(this.chartOptions as any).dataset,
+            ...(graphData as any).dataset,
           },
         };
       })

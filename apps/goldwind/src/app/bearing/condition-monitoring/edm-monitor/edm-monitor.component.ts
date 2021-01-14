@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
 import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-monitor.reducer';
@@ -30,7 +30,7 @@ export class EdmMonitorComponent implements OnInit {
   interval$: Observable<Interval>;
   sensor = false;
   type = Sensor.ANTENNA;
-  chartOptions: EChartOption = {
+  chartOptions: EChartsOption = {
     ...axisChartOptions,
     grid: {
       left: 75,
@@ -42,7 +42,7 @@ export class EdmMonitorComponent implements OnInit {
     },
     tooltip: {
       ...axisChartOptions.tooltip,
-      formatter: (params) => this.formatTooltip(params),
+      formatter: (params: any) => this.formatTooltip(params),
     },
   };
 
@@ -80,9 +80,7 @@ export class EdmMonitorComponent implements OnInit {
     return `${result} (${this.getAntennaLabel(name)})`;
   }
 
-  formatTooltip(
-    params: EChartOption.Tooltip.Format[] | EChartOption.Tooltip.Format
-  ): string {
+  formatTooltip(params: any): string {
     return (
       Array.isArray(params) &&
       params.reduce((acc, param, index) => {

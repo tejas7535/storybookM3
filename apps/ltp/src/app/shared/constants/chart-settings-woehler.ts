@@ -1,4 +1,4 @@
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { ChartSettings } from '../models';
 import { lowPrecisionFormatter, scientificFormatter } from './chart-formatters';
@@ -8,7 +8,7 @@ export const CHART_SETTINGS_WOEHLER: ChartSettings = {
   sources: GRAPH_DEFINITIONS_WOEHLER,
   argumentAxis: {
     name: 'prediction.chart.woehlerXLabel',
-    nameLocation: 'center',
+    nameLocation: 'middle',
     showLabel: true,
     format: 'exponential',
     showGrid: true,
@@ -17,7 +17,7 @@ export const CHART_SETTINGS_WOEHLER: ChartSettings = {
   },
   valueAxis: {
     name: 'prediction.chart.woehlerYLabel',
-    nameLocation: 'center',
+    nameLocation: 'middle',
     showLabel: false,
     format: '',
     showGrid: false,
@@ -26,7 +26,7 @@ export const CHART_SETTINGS_WOEHLER: ChartSettings = {
   },
 };
 
-export const CHART_OPTIONS_WOEHLER: EChartOption = {
+export const CHART_OPTIONS_WOEHLER: EChartsOption = {
   xAxis: {
     type: CHART_SETTINGS_WOEHLER.argumentAxis.type,
     name: CHART_SETTINGS_WOEHLER.argumentAxis.name,

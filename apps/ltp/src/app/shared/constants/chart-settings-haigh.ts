@@ -1,4 +1,4 @@
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { ChartSettings } from '../models';
 import { lowPrecisionFormatter } from './chart-formatters';
@@ -8,7 +8,7 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
   sources: GRAPH_DEFINITIONS_HAIGH,
   argumentAxis: {
     name: 'prediction.chart.haighXLabel',
-    nameLocation: 'center',
+    nameLocation: 'middle',
     showLabel: true,
     format: '',
     showGrid: true,
@@ -17,7 +17,7 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
   },
   valueAxis: {
     name: 'prediction.chart.haighYLabel',
-    nameLocation: 'center',
+    nameLocation: 'middle',
     showLabel: true,
     format: '',
     showGrid: true,
@@ -26,7 +26,7 @@ export const CHART_SETTINGS_HAIGH: ChartSettings = {
   },
 };
 
-export const CHART_OPTIONS_HAIGH: EChartOption = {
+export const CHART_OPTIONS_HAIGH: EChartsOption = {
   xAxis: {
     type: CHART_SETTINGS_HAIGH.argumentAxis.type,
     name: CHART_SETTINGS_HAIGH.argumentAxis.name,

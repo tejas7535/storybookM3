@@ -4,7 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
-import { EChartOption } from 'echarts';
+import { EChartsOption } from 'echarts';
 
 import { ShaftState } from '../../../core/store/reducers/shaft/shaft.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
@@ -21,7 +21,7 @@ import { BearingRoutePath } from '../../bearing-route-path.enum';
 export class ShaftComponent implements OnInit {
   shaftLatestGraphData$: Observable<GraphData>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
-  chartOptions: EChartOption = {
+  chartOptions: EChartsOption = {
     ...chartOptions,
     legend: {
       ...chartOptions.legend,
