@@ -1,6 +1,0 @@
-{
-  "rules": {
-    "directive-selector": [true, "attribute", "mm", "camelCase"],
-    "component-selector": [true, "element", "mm", "kebab-case"]
-  }
-}
