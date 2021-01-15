@@ -26,9 +26,9 @@ import {
   getBuildConfigurations,
   getCypressReportConfiguration,
   getE2eConfigurations,
+  getEsLintRules,
   getServeConfigurations,
   getStandardVersionConfigurations,
-  getTsLintRules,
 } from './config';
 import { NewAppSchematicSchema } from './schema';
 
@@ -39,15 +39,18 @@ interface NormalizedSchema extends NewAppSchematicSchema {
   pathToRoot: string;
 }
 
-function updateTsLintConfiguration(options: NormalizedSchema): Rule {
+function updateEsLintConfiguration(options: NormalizedSchema): Rule {
   return updateJsonInTree(
-    `${options.projectRoot}/tslint.json`,
+    `${options.projectRoot}/.eslintrc.json`,
     (json, context) => {
-      context.logger.info('Updating the TSLint Configuration for you...');
+      context.logger.info('Updating the EsLint Configuration for you...');
 
-      const rules = getTsLintRules(options.dasherizedName);
+      const rules = getEsLintRules(options.dasherizedName);
 
-      return { ...json, rules };
+      const overrides = json.overrides;
+      overrides[0].rules = rules;
+
+      return { ...json, overrides };
     }
   );
 }
@@ -290,13 +293,14 @@ export default function (options: NewAppSchematicSchema): Rule {
         name: options.name,
         routing: false,
         style: 'scss',
+        linter: 'eslint',
       }),
       updateCodeowners(normalizedOptions),
       updateDeploymentJson(normalizedOptions),
       updateNxJson(normalizedOptions),
       updateWorkspaceFile(normalizedOptions),
       updateCypressConfiguration(normalizedOptions),
-      updateTsLintConfiguration(normalizedOptions),
+      updateEsLintConfiguration(normalizedOptions),
       updateIndexHtml(normalizedOptions),
       addFiles(normalizedOptions),
       addStandardVersion(normalizedOptions),
