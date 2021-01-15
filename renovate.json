@@ -8,8 +8,14 @@
   "ignorePaths": ["libs/**/*"],
   "allowPostUpgradeCommandTemplating": true,
   "allowedPostUpgradeCommands": [
-    "^node ./tools/npm-scripts/npm-force-resolutions-sync.js"
+    "^node ./tools/npm-scripts/npm-force-resolutions-sync.js",
+    "^npm ci --ignore-scripts",
+    "^npm run generate-readme"
   ],
+  "postUpgradeTasks": {
+    "commands": ["npm ci --ignore-scripts", "npm run generate-readme"],
+    "fileFilters": ["docs/01_description.md", "README.md"]
+  },
   "packageRules": [
     {
       "packageNames": [
