@@ -43,6 +43,12 @@ apps/mac-e2e @berndcri @birketho @pelzesen
 apps/ia @herpisef 
 apps/ia-e2e @herpisef 
 
+# MM
+apps/mm @juskibry @birketho @krausrbe @berndcri  
+apps/mm-e2e @juskibry @birketho @krausrbe @berndcri  
+
 ############
 ### Libs ###
 ############ 
+
+
