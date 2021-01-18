@@ -31,7 +31,7 @@ describe('EdmMonitor Selector', () => {
   describe('getSensorId', () => {
     test('should return a static id, will change to actual one', () => {
       // adjust in future
-      expect(getSensorId(fakeState)).toEqual('goldwind-qa-002');
+      expect(getSensorId(fakeState)).toEqual('edge-goldwind-qa-002');
     });
   });
 

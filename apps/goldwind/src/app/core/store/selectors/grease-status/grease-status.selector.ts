@@ -16,9 +16,12 @@ import { GraphData, Interval } from '../../reducers/shared/models';
 type GreaseDisplayKeys = keyof GreaseDisplay;
 type DisplayOption = [GreaseDisplayKeys, boolean];
 
+const isTempGauge = (formControl: string) =>
+  formControl === 'temperatureOptics';
+
 export const getGreaseSensorId = createSelector(
   getGreaseStatusState,
-  () => '1'
+  () => 'edge-goldwind-dev-001'
 );
 
 export const getGreaseStatusLoading = createSelector(
@@ -64,14 +67,18 @@ export const getGreaseStatusGraphData = createSelector(
           type: 'line',
           data:
             (value &&
-              greaseStatus.map((measurement: GreaseStatus) => ({
-                value: [
-                  new Date(measurement.timestamp),
-                  (measurement as any)[
-                    `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
-                  ],
-                ],
-              }))) ||
+              greaseStatus.map((measurement: GreaseStatus) => {
+                let measurementValue = (measurement as any)[
+                  `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
+                ];
+                measurementValue = !isTempGauge(key)
+                  ? Math.round(measurementValue * 100)
+                  : measurementValue; // also probably temporary
+
+                return {
+                  value: [new Date(measurement.timestamp), measurementValue],
+                };
+              })) ||
             [],
         })),
     }
@@ -81,42 +88,45 @@ export const getGreaseStatusLatestGraphData = createSelector(
   getGreaseStatusLatestResult,
   (greaseStatus: any, { sensorName }: GreaseSensor): GraphData => {
     const gaugePositions = {
-      // temperatureCelsius: ['25%', '50%'], // will come back
+      temperatureOptics: ['25%', '50%'],
       waterContent: ['75%', '30%'],
       deterioration: ['75%', '75%'],
     };
-    const isTempGauge = (formControl: string) =>
-      formControl === 'temperatureCelsius';
 
     return (
       greaseStatus && {
         series: GREASE_CONTROLS.map(
-          ({ label, formControl, unit }: GreaseControl) => ({
-            ...GREASE_GAUGE_SERIES,
-            name: label,
-            radius: isTempGauge(formControl) ? '50%' : '33%',
-            center: (gaugePositions as any)[formControl],
-            detail: {
-              ...GREASE_GAUGE_SERIES.detail,
-              formatter: `{value} ${unit}`,
-            },
-            data: [
-              {
-                value:
-                  greaseStatus[
-                    `${sensorName}${formControl
-                      .charAt(0)
-                      .toUpperCase()}${formControl.slice(1)}`
-                  ],
-                name: translate(`greaseStatus.${label}`).toUpperCase(),
+          ({ label, formControl, unit }: GreaseControl) => {
+            let value =
+              greaseStatus[
+                `${sensorName}${formControl
+                  .charAt(0)
+                  .toUpperCase()}${formControl.slice(1)}`
+              ];
+            value = !isTempGauge(formControl) ? Math.round(value * 100) : value; // also probably temporary
+
+            return {
+              ...GREASE_GAUGE_SERIES,
+              name: label,
+              radius: isTempGauge(formControl) ? '50%' : '33%',
+              center: (gaugePositions as any)[formControl],
+              detail: {
+                ...GREASE_GAUGE_SERIES.detail,
+                formatter: `{value} ${unit}`,
               },
-            ],
-            max: isTempGauge(formControl) ? 120 : 100,
-            axisLabel: {
-              ...GREASE_GAUGE_SERIES.axisLabel,
-              show: isTempGauge(formControl),
-            },
-          })
+              data: [
+                {
+                  value,
+                  name: translate(`greaseStatus.${label}`).toUpperCase(),
+                },
+              ],
+              max: isTempGauge(formControl) ? 120 : 100,
+              axisLabel: {
+                ...GREASE_GAUGE_SERIES.axisLabel,
+                show: isTempGauge(formControl),
+              },
+            };
+          }
         ),
       }
     );

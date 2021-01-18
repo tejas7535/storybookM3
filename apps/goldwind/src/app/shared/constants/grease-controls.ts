@@ -14,11 +14,11 @@ export const GREASE_CONTROLS: GreaseControl[] = [
     formControl: 'deterioration',
     unit: Unit.percent,
   },
-  // {
-  //   label: 'greaseTemperatur',
-  //   formControl: 'temperatureCelsius',
-  //   unit: Unit.degree,
-  // },
+  {
+    label: 'temperatureOptics',
+    formControl: 'temperatureOptics',
+    unit: Unit.degree,
+  },
   // will be activated later on
   // {
   //   label: 'rotationalSpeed',

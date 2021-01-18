@@ -45,7 +45,7 @@ describe('GreaseStatusComponent', () => {
             display: {
               waterContent: true,
               deterioration: true,
-              // temperatureCelsius: true,
+              temperatureOptics: true,
               // rotationalSpeed: true,
             },
             interval: {
@@ -84,7 +84,7 @@ describe('GreaseStatusComponent', () => {
       const mockGreaseDisplay = {
         waterContent: true,
         deterioration: true,
-        // temperatureCelsius: true,
+        temperatureOptics: true,
         // rotationalSpeed: false,
       };
 
