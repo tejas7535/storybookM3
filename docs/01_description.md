@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
 
-![version](https://img.shields.io/badge/version-v1.34.0-green.svg)
+![version](https://img.shields.io/badge/version-v1.35.0-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@angular/core+@ngrx/store+@angular/material+@angular/flex-layout+prettier+commitizen) -->
@@ -10,7 +10,7 @@
 ![@angular/material: 11.0.4](https://img.shields.io/badge/%40angular%2Fmaterial-11.0.4-brightgreen)
 ![@angular/flex-layout: 11.0.0-beta.33](https://img.shields.io/badge/%40angular%2Fflex--layout-11.0.0--beta.33-brightgreen)
 ![prettier: 2.2.1](https://img.shields.io/badge/prettier-2.2.1-brightgreen)
-![commitizen: 4.2.2](https://img.shields.io/badge/commitizen-4.2.2-brightgreen)
+![commitizen: 4.2.3](https://img.shields.io/badge/commitizen-4.2.3-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
