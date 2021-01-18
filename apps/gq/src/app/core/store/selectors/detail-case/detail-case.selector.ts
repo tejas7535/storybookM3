@@ -14,7 +14,7 @@ export const getMaterialNumberAndDescription = createSelector(
   (state: DetailState): any => ({
     materialNumber15: state.detailCase.materialNumber15,
     materialDescription: state.detailCase.materialDetails
-      ? state.detailCase.materialDetails.materialDesignation
+      ? state.detailCase.materialDetails.materialDescription
       : undefined,
   })
 );

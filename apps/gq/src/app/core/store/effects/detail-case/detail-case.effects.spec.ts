@@ -12,7 +12,7 @@ import {
   loadMaterialInformationFailure,
   loadMaterialInformationSuccess,
 } from '../..';
-import { DetailCaseMock } from '../../../../../testing/mocks/detail-case.mock';
+import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks/detail-case.mock';
 import { MaterialDetailsService } from '../../../../detail-view/services/material-details.service';
 import { DetailCaseEffects } from './detail-case.effects';
 
@@ -100,7 +100,7 @@ describe('Create Case Effects', () => {
 
     test('should return loadMaterialSuccess when REST Call is successful', () => {
       materialDetailsService.loadMaterials = jest.fn(() => response);
-      const materialDetails = DetailCaseMock;
+      const materialDetails = DETAIL_CASE_MOCK;
       const result = loadMaterialInformationSuccess({ materialDetails });
 
       actions$ = hot('-a', { a: action });

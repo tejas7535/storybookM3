@@ -8,29 +8,40 @@
     <div fxFlex="50%">
       <p>
         <span class="label">{{ t('materialDescription') }}: </span
-        >{{ materialDetails.materialDesignation }}
-      </p>
-      <p>
-        <span class="label">{{ t('13digit') }}: </span
-        >{{ materialDetails.materialNumber13 }}
+        >{{ materialDetails.materialDescription }}
       </p>
       <p>
         <span class="label">{{ t('15digit') }}: </span
         >{{ materialDetails.materialNumber15 }}
       </p>
       <p>
-        <span class="label">{{ t('gpsdGroup') }}: </span
-        >{{ materialDetails.gpsdGroup.id }} |
-        {{ materialDetails.gpsdGroup.name }}
+        <span class="label">{{ t('materialStatus') }}: </span
+        >{{ materialDetails.materialStatus }}
+      </p>
+      <p>
+        <span class="label">{{ t('productLine') }}: </span
+        >{{ materialDetails.productLine }} |
+        {{ materialDetails.productLineId }}
       </p>
       <p>
         <span class="label">{{ t('productHierarchy') }}: </span
-        >{{ materialDetails.productHierarchy.id }} |
-        {{ materialDetails.productHierarchy.name }}
+        >{{ materialDetails.productHierarchy }} |
+        {{ materialDetails.productHierarchyId }}
       </p>
       <p>
-        <span class="label">{{ t('materialType') }}: </span
-        >{{ materialDetails.materialType }}
+        <span class="label">{{ t('gpsdGroup') }}: </span>
+        <span *ngIf="materialDetails.gpsdGroup"
+          >{{ materialDetails.gpsdGroup }} |</span
+        >
+        {{ materialDetails.gpsdGroupId }}
+      </p>
+      <p>
+        <span class="label">{{ t('series') }}: </span
+        >{{ materialDetails.series }}
+      </p>
+      <p>
+        <span class="label">{{ t('followingType') }}: </span
+        >{{ materialDetails.followingType }}
       </p>
     </div>
     <div fxFlex="50%">
@@ -39,8 +50,30 @@
         >{{ materialDetails.dimensions }}
       </p>
       <p>
+        <span class="label">{{ t('innerDiameter') }}: </span
+        >{{ materialDetails.innerDiameter }}
+      </p>
+      <p>
+        <span class="label">{{ t('outerDiameter') }}: </span
+        >{{ materialDetails.outerDiameter }}
+      </p>
+      <p>
+        <span class="label">{{ t('width') }}: </span>{{ materialDetails.width }}
+      </p>
+      <p>
         <span class="label">{{ t('grossWeight') }}: </span
-        >{{ materialDetails.grossWeight }}
+        >{{ materialDetails.grossWeight }} [{{ materialDetails.weightUnit }}]
+      </p>
+      <p>
+        <span class="label">{{ t('baseUoM') }}: </span
+        >{{ materialDetails.baseUoM }}
+      </p>
+      <p>
+        <span class="label">{{ t('materialType') }}: </span
+        >{{ materialDetails.materialType }}
+      </p>
+      <p>
+        <span class="label">{{ t('ean11') }}: </span>{{ materialDetails.ean11 }}
       </p>
     </div>
   </div>

@@ -17,7 +17,7 @@ export class MaterialDetailsService {
 
   loadMaterials(materialNumber15: string): Observable<any> {
     return this.dataService
-      .getAll<any>(`${this.path}/${materialNumber15}`)
+      .getAll<any>(`${this.path}/${materialNumber15.split('-').join('')}`)
       .pipe(map((res: MaterialDetails) => res));
   }
 }

@@ -4,7 +4,7 @@ import {
   loadMaterialInformationSuccess,
 } from '../..';
 import { DETAIL_STATE_MOCK } from '../../../../../testing/mocks';
-import { DetailCaseMock } from '../../../../../testing/mocks/detail-case.mock';
+import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks/detail-case.mock';
 import { MaterialDetails } from '../../models';
 import { detailCaseReducer } from './detail-case.reducer';
 
@@ -22,7 +22,7 @@ describe('DetailCase Reducer', () => {
   });
   describe('loadMaterialInformationSuccess', () => {
     test('should set materialInformation loading and materialDetails', () => {
-      const materialDetails: MaterialDetails = DetailCaseMock;
+      const materialDetails: MaterialDetails = DETAIL_CASE_MOCK;
 
       const action = loadMaterialInformationSuccess({ materialDetails });
 

@@ -77,15 +77,23 @@
     "pricingDetails": {
       "label": "Pricing Details",
       "materialDetails": {
-        "label": "Material",
-        "13digit": "13-digit",
         "15digit": "15-digit",
-        "dimension": "Dimension",
+        "baseUoM": "Base UoM",
+        "dimension": "Dimensions",
+        "ean11": "EAN Code",
+        "followingType": "Following Type",
         "gpsdGroup": "GPSD-Group",
         "grossWeight": "Gross Weight",
+        "innerDiameter": "Inner Diameter",
+        "label": "Material",
         "materialDescription": "Material Description",
         "materialType": "Material Type",
-        "productHierarchy": "Prod. Hierarchy"
+        "materialStatus": "X-Plant-Material Status",
+        "outerDiameter": "Outer Diameter",
+        "productHierarchy": "Prod. Hierarchy",
+        "productLine": "Prod. Line",
+        "series": "Series",
+        "width": "Width"
       },
       "productionCostDetails": {
         "label": "Production and Cost",
