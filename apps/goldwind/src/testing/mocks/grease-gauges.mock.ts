@@ -96,5 +96,53 @@ export const GREASE_STATUS_MOCK = {
         show: false,
       },
     },
+    {
+      name: 'temperatureOptics',
+      radius: '50%',
+      center: ['25%', '50%'],
+      type: 'gauge',
+      data: [
+        {
+          name: 'TRANSLATE IT',
+          value: 99,
+        },
+      ],
+      max: 120,
+      splitNumber: 4,
+      title: {
+        show: true,
+        fontSize: 14,
+        fontWeight: 'bolder',
+        offsetCenter: [0, '110%'],
+      },
+      detail: {
+        color: '#646464',
+        fontSize: 18,
+        fontWeight: 'bolder',
+        formatter: '{value} °C',
+      },
+      pointer: {},
+      axisLine: {
+        lineStyle: {
+          width: 12,
+          color: [
+            [0.75, '#0ebc5b'],
+            [0.85, '#fccf46'],
+            [1, '#e62c27'],
+          ],
+        },
+      },
+      splitLine: {
+        show: false,
+        length: 20,
+      },
+      axisTick: {
+        show: false,
+      },
+      axisLabel: {
+        distance: 0,
+        show: true,
+      },
+    },
   ],
 };

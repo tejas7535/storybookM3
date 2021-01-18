@@ -30,7 +30,7 @@ describe('StatusIndicatorComponent', () => {
     it('should return true if none of the grease status graph datas contain data but legends exist', () => {
       const mockgraphData: GraphData = {
         legend: {
-          data: ['deteriorationPercent', 'temperatureCelsius'],
+          data: ['deteriorationPercent', 'temperatureOptics'],
         },
         series: [
           {
@@ -39,7 +39,7 @@ describe('StatusIndicatorComponent', () => {
             data: [],
           },
           {
-            name: 'temperatureCelsius',
+            name: 'temperatureOptics',
             type: 'line',
             data: [],
           },
@@ -62,7 +62,7 @@ describe('StatusIndicatorComponent', () => {
             data: [],
           },
           {
-            name: 'temperatureCelsius',
+            name: 'temperatureOptics',
             type: 'line',
             data: [],
           },

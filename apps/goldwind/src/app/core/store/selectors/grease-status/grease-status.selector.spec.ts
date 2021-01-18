@@ -25,24 +25,25 @@ describe('Grease Status Selector', () => {
       result: [
         {
           timestamp: '2020-07-30T11:02:35',
-          gcm01Deterioration: 12,
-          gcm01WaterContent: 69,
+          gcm01TemperatureOptics: 99,
+          gcm01Deterioration: 0.12,
+          gcm01WaterContent: 0.69,
         },
       ],
       loading: false,
       status: {
         result: {
           timestamp: '2020-07-31T11:02:35',
-          gcm01Deterioration: 55,
-          gcm01WaterContent: 12,
-          // temperatureCelsius: 99,
+          gcm01TemperatureOptics: 99,
+          gcm01Deterioration: 0.55,
+          gcm01WaterContent: 0.12,
         },
         loading: false,
       },
       display: {
         deterioration: true,
         waterContent: true,
-        // temperatureCelsius: false,
+        temperatureOptics: true,
         // rotationalSpeed: false,
       },
       interval: {
@@ -55,7 +56,7 @@ describe('Grease Status Selector', () => {
   describe('getGreaseSensorId', () => {
     test('should return a static id, will change to actual one', () => {
       // adjust in future
-      expect(getGreaseSensorId(fakeState)).toEqual('1');
+      expect(getGreaseSensorId(fakeState)).toEqual('edge-goldwind-dev-001');
     });
   });
 
@@ -99,7 +100,7 @@ describe('Grease Status Selector', () => {
     test('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: ['deterioration', 'waterContent'],
+          data: ['deterioration', 'waterContent', 'temperatureOptics'],
         },
         series: [
           {
@@ -111,17 +112,21 @@ describe('Grease Status Selector', () => {
               },
             ],
           },
-          // {
-          //   name: 'temperature',
-          //   type: 'line',
-          //   data: [],
-          // },
           {
             name: 'waterContent',
             type: 'line',
             data: [
               {
                 value: [new Date('2020-07-30T11:02:35'), 69],
+              },
+            ],
+          },
+          {
+            name: 'temperatureOptics',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), 99],
               },
             ],
           },

@@ -38,7 +38,8 @@ describe('GreaseStatusComponent', () => {
             display: {
               deterioration: true,
               waterContent: true,
-              // temperatureCelsius: true,
+              temperatureOptics: true,
+
               // rotationalSpeed: false,
             },
             interval: {

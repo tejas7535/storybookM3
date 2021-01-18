@@ -36,7 +36,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   displayForm = new FormGroup({
     waterContent: new FormControl(''),
     deterioration: new FormControl(''),
-    // temperatureCelsius: new FormControl(''),
+    temperatureOptics: new FormControl(''),
     // rotationalSpeed: new FormControl(''),
   });
 

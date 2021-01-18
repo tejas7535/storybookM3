@@ -36,7 +36,7 @@ export const initialState: GreaseStatusState = {
   display: {
     deterioration: true,
     waterContent: true,
-    // temperatureCelsius: true,
+    temperatureOptics: true,
     // rotationalSpeed: false,
   },
   interval: {

@@ -51,7 +51,7 @@
   "greaseStatus": {
     "title": "Grease Status",
     "grease": "Grease",
-    "greaseTemperatur": "Grease Temperatur",
+    "temperatureOptics": "Grease Temperatur",
     "waterContent": "Water Content",
     "deteroration": "Deterioration",
     "rotationalSpeed": "Rotational Speed",
