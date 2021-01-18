@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.15.0](///compare/cdba-v1.15.0...cdba-v1.14.0) (2021-01-18)
+
+
+### 🎸 Features
+
+* **cdba:** show info message when a pcm row was selected (DSCDA-2133) ([da79107](///commit/da79107f8b4cbdc0193cfae52ff69ad9f14392ef))
+* **cdba:** show pcm chip in reference types table (DSCDA-2134) ([8c37bcb](///commit/8c37bcbb383f013c65d19ed356f5be0ce2bd6d90))
+
 ## [1.14.0](///compare/cdba-v1.14.0...cdba-v1.13.0) (2020-12-14)
 
 
