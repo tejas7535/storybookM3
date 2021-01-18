@@ -1,4 +1,4 @@
-import { DetailCaseMock } from '../../../../../testing/mocks/detail-case.mock';
+import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks/';
 import * as detailSelectors from './detail-case.selector';
 
 describe('Create Detail Selector', () => {
@@ -6,13 +6,13 @@ describe('Create Detail Selector', () => {
     detailCase: {
       materialLoading: false,
       materialNumber15: '15',
-      materialDetails: DetailCaseMock,
+      materialDetails: DETAIL_CASE_MOCK,
     },
   };
   describe('Get Material Details Selector', () => {
     test('should return Material Details', () => {
       expect(detailSelectors.getMaterialDetails.projector(fakeState)).toEqual(
-        DetailCaseMock
+        DETAIL_CASE_MOCK
       );
     });
   });
@@ -23,7 +23,7 @@ describe('Create Detail Selector', () => {
         detailSelectors.getMaterialNumberAndDescription.projector(fakeState)
       ).toEqual({
         materialNumber15: fakeState.detailCase.materialNumber15,
-        materialDescription: DetailCaseMock.materialDesignation,
+        materialDescription: DETAIL_CASE_MOCK.materialDescription,
       });
     });
 

@@ -1,5 +1,6 @@
 export * from './create-case-store-state.mock';
 export * from './customer.mock';
+export * from './detail-case.mock';
 export * from './detail-state.mock';
 export * from './quotation.mock';
 export * from './quotation-details.mock';

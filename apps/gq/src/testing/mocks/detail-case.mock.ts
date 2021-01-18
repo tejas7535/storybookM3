@@ -1,18 +1,26 @@
-import { MaterialDetails } from '../../app/core/store/models/material-details.model';
+import { MaterialDetails } from '../../app/core/store/models';
 
-export const DetailCaseMock: MaterialDetails = {
-  dimensions: '#',
-  grossWeight: '10g',
-  gpsdGroup: {
-    id: '1',
-    name: '1',
-  },
-  materialDesignation: 'test',
-  materialNumber13: '13',
-  materialNumber15: '15',
-  materialType: 'type',
-  productHierarchy: {
-    id: '2',
-    name: '2',
-  },
+export const DETAIL_CASE_MOCK: MaterialDetails = {
+  baseUoM: 'ST',
+  dimensions: '00',
+  ean11: '12321',
+  followingType: 'F',
+  fzNumber: 'L',
+  gspdGroup: 'X',
+  gpsdGroupId: 'X99',
+  grossWeight: '10',
+  innerDiameter: '20',
+  materialDescription: 'description',
+  materialNumber13: '205538452000011',
+  materialNumber15: '205538452000011',
+  materialStatus: 'F',
+  materialType: 'ERZ',
+  outerDiameter: '30',
+  productHierarchy: 'Z',
+  productHierarchyId: '47',
+  productLine: '1',
+  productLineId: '12',
+  series: '009',
+  weightUnit: 'KG',
+  width: '50',
 };

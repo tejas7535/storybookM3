@@ -1,9 +1,9 @@
+import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks';
 import {
   loadMaterialInformation,
   loadMaterialInformationFailure,
   loadMaterialInformationSuccess,
-} from '..';
-import { MaterialDetails } from '../../models';
+} from './detail-case.actions';
 
 describe('Autocomplete Actions', () => {
   test('loadMaterialInformation', () => {
@@ -24,22 +24,7 @@ describe('Autocomplete Actions', () => {
     });
   });
   test('loadMaterialInformationSuccess', () => {
-    const materialDetails: MaterialDetails = {
-      dimensions: '123',
-      gpsdGroup: {
-        id: '1',
-        name: '1',
-      },
-      grossWeight: '123',
-      materialDesignation: '1234',
-      materialNumber13: '13',
-      materialNumber15: '15',
-      materialType: 'type',
-      productHierarchy: {
-        id: '2',
-        name: '2',
-      },
-    };
+    const materialDetails = DETAIL_CASE_MOCK;
     const action = loadMaterialInformationSuccess({ materialDetails });
     expect(action).toEqual({
       materialDetails,

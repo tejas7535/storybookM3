@@ -8,7 +8,7 @@ import { configureTestSuite } from 'ng-bullet';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import { DetailCaseMock } from '../../../testing/mocks/detail-case.mock';
+import { DETAIL_CASE_MOCK } from '../../../testing/mocks/detail-case.mock';
 import { MaterialDetailsService } from './material-details.service';
 
 describe('materialDetailsService', () => {
@@ -49,7 +49,7 @@ describe('materialDetailsService', () => {
     test('should call', () => {
       const materialNumber15 = '15015';
       const mock = {
-        materialDetails: DetailCaseMock,
+        materialDetails: DETAIL_CASE_MOCK,
       };
       service.loadMaterials(materialNumber15).subscribe((response) => {
         expect(response).toEqual(mock.materialDetails);
