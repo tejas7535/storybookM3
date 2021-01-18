@@ -124,7 +124,13 @@ export const getCypressReportConfiguration = (project: string) => ({
   },
 });
 
-export const getTsLintRules = (name: string) => ({
-  'directive-selector': [true, 'attribute', name, 'camelCase'],
-  'component-selector': [true, 'element', name, 'kebab-case'],
+export const getEsLintRules = (name: string) => ({
+  '@angular-eslint/directive-selector': [
+    'error',
+    { type: 'attribute', prefix: name, style: 'camelCase' },
+  ],
+  '@angular-eslint/component-selector': [
+    'error',
+    { type: 'element', prefix: name, style: 'kebab-case' },
+  ],
 });
