@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { EChartsOption } from 'echarts';
+import { ECharts, EChartsOption } from 'echarts';
 
 @Component({
   selector: 'ltp-chart',
@@ -17,7 +17,7 @@ export class ChartComponent {
 
   loaded = false;
 
-  chart: any;
+  chart: ECharts;
   public imgUrl: string;
   public filename: string;
 
@@ -36,7 +36,7 @@ export class ChartComponent {
   /**
    * Sets the ECharts reference
    */
-  public initChart(ec: any): void {
+  public initChart(ec: ECharts): void {
     this.chart = ec;
   }
 
