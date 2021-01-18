@@ -20,6 +20,7 @@
             <input
               matInput
               type="number"
+              autocomplete="off"
               [value]="filter.minSelected ? filter.minSelected : filter.min"
               [max]="filter.max"
               [min]="filter.min"
@@ -50,6 +51,7 @@
             <input
               matInput
               type="number"
+              autocomplete="off"
               [max]="filter.max"
               [min]="filter.min"
               [value]="filter.maxSelected ? filter.maxSelected : filter.max"
