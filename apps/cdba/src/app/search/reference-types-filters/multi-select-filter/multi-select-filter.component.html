@@ -18,6 +18,7 @@
       <input
         #autocomplete
         matInput
+        autocomplete="off"
         placeholder="{{ t('searchPlaceholder') }}"
         [formControl]="searchForm"
         (keydown)="$event.stopPropagation()"
