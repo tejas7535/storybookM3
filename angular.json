@@ -2876,6 +2876,195 @@
         }
       },
       "schematics": {}
+    },
+    "mm": {
+      "projectType": "application",
+      "root": "apps/mm",
+      "sourceRoot": "apps/mm/src",
+      "prefix": "mm",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/mm",
+            "index": "apps/mm/src/index.html",
+            "main": "apps/mm/src/main.ts",
+            "polyfills": "apps/mm/src/polyfills.ts",
+            "tsConfig": "apps/mm/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/mm/src/favicon.ico", "apps/mm/src/assets"],
+            "styles": [
+              "apps/mm/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src"]
+            }
+          },
+          "configurations": {
+            "dev": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mm/src/environments/environment.ts",
+                  "with": "apps/mm/src/environments/environment.dev.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": true,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mm/src/environments/environment.ts",
+                  "with": "apps/mm/src/environments/environment.qa.ts"
+                }
+              ],
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "prod": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/mm/src/environments/environment.ts",
+                  "with": "apps/mm/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "aot": true,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            },
+            "e2e": {
+              "optimization": true,
+              "outputHashing": "none",
+              "sourceMap": false,
+              "namedChunks": true,
+              "vendorChunk": false,
+              "buildOptimizer": true
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "mm:build"
+          },
+          "configurations": {
+            "e2e": {
+              "browserTarget": "mm:build:e2e"
+            },
+            "prod": {
+              "browserTarget": "mm:build:prod"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "mm:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/mm/src/**/*.ts", "apps/mm/src/**/*.html"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/mm"],
+          "options": {
+            "jestConfig": "apps/mm/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "apps/mm"
+          }
+        }
+      }
+    },
+    "mm-e2e": {
+      "root": "apps/mm-e2e",
+      "sourceRoot": "apps/mm-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/mm-e2e/cypress.json",
+            "tsConfig": "apps/mm-e2e/tsconfig.e2e.json",
+            "devServerTarget": "mm:serve"
+          },
+          "configurations": {
+            "e2e": {
+              "devServerTarget": "mm:serve:e2e"
+            },
+            "prod": {
+              "devServerTarget": "mm:serve:prod"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/mm-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
     }
   },
   "cli": {
