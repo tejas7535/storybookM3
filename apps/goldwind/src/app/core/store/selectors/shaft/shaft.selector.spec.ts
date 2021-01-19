@@ -26,7 +26,7 @@ describe('Bearing Selector', () => {
 
   describe('getShaftDeviceId', () => {
     test('should return the shaft result', () => {
-      expect(getShaftDeviceId(fakeState)).toEqual('goldwind-qa-002');
+      expect(getShaftDeviceId(fakeState)).toEqual('edge-goldwind-dev-001');
     });
   });
 
