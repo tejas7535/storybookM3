@@ -17,6 +17,10 @@
   height: 100%;
   outline: none;
 
+  &.active {
+    cursor: pointer;
+  }
+
   .card-icon {
     height: 40%;
     width: 40%;

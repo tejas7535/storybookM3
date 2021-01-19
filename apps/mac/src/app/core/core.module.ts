@@ -7,6 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
+import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -35,6 +36,9 @@ import { StoreModule } from './store/store.module';
       'en',
       true
     ),
+
+    // HTTP
+    HttpModule.forRoot({ environment }),
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),

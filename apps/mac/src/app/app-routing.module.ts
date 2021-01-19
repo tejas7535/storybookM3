@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 export enum RoutePath {
   BasePath = '',
   OverviewPath = 'overview',
+  HardnessConverterPath = 'hardness-converter',
 }
 
 export const appRoutePaths: Routes = [
@@ -17,6 +18,13 @@ export const appRoutePaths: Routes = [
     loadChildren: () =>
       import('./feature/overview/overview.module').then(
         (m) => m.OverviewModule
+      ),
+  },
+  {
+    path: RoutePath.HardnessConverterPath,
+    loadChildren: () =>
+      import('./feature/hardness-converter/hardness-converter.module').then(
+        (m) => m.HardnessConverterModule
       ),
   },
   {
