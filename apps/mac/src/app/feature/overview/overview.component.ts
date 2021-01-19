@@ -15,7 +15,7 @@ export class OverviewComponent {
   public elements = [
     {
       title: 'Hardness Converter',
-      url: undefined,
+      url: '/hardness-converter',
       className: 'hardness-icon',
       externalLink: false,
     },

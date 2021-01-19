@@ -1,0 +1,73 @@
+@import 'lib/colors';
+
+.hardness-converter-wrapper {
+  margin: 50px 0 0 50%;
+  max-width: 500px;
+  overflow: hidden;
+  transform: translateX(-50%);
+  width: 40vw;
+}
+
+.hardness-converter {
+  background: $schaeffler-white;
+}
+
+.hardness-value {
+  width: 40%;
+}
+
+.equals {
+  font-size: 28pt;
+  text-align: center;
+  width: 20%;
+}
+
+form {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.spinner-wrapper {
+  background: rgba(255, 255, 255, 0.7);
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  position: absolute;
+  transform: translateX(-1rem);
+  transition: opacity 0.3s ease-in-out;
+  width: 100%;
+  z-index: 10;
+
+  &.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+}
+
+.mat-input-element {
+  font-size: large;
+  text-align: center;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+mat-error {
+  align-items: center;
+  display: flex;
+  height: 50px;
+  justify-content: center;
+}
+
+mat-card {
+  padding: 0;
+
+  &-content {
+    padding: 1rem;
+  }
+}

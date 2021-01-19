@@ -1,0 +1,83 @@
+<div class="hardness-converter-wrapper">
+  <h2>Hardness Converter</h2>
+  <mat-card class="hardness-converter">
+    <mat-card-content>
+      <div
+        class="spinner-wrapper"
+        [ngClass]="{ hidden: unitList.length !== 0 }"
+      >
+        <mat-spinner></mat-spinner>
+      </div>
+      <form [formGroup]="hardness">
+        <div class="hardness-value">
+          <mat-form-field>
+            <mat-label>Value</mat-label>
+            <input
+              formControlName="fromValue"
+              matInput
+              type="number"
+              (keyup)="
+                handleKeyInput(
+                  $event.key,
+                  $event.target.value,
+                  inputSideTypes.from
+                )
+              "
+              (change)="convertValue(inputSideTypes.from, $event.target.value)"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>From</mat-label>
+            <mat-select
+              formControlName="fromUnit"
+              (selectionChange)="
+                convertValue(inputSideTypes.from, $event.value)
+              "
+            >
+              <mat-option
+                *ngFor="let unit of unitList; trackBy: trackByFn"
+                [value]="unit"
+                >{{ unit }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <span class="equals">=</span>
+
+        <div class="hardness-value">
+          <mat-form-field>
+            <mat-label>Value</mat-label>
+            <input
+              formControlName="toValue"
+              matInput
+              type="number"
+              (keyup)="
+                handleKeyInput(
+                  $event.key,
+                  $event.target.value,
+                  inputSideTypes.to
+                )
+              "
+              (change)="convertValue(inputSideTypes.to, $event.target.value)"
+            />
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>To</mat-label>
+            <mat-select
+              formControlName="toUnit"
+              (selectionChange)="convertValue(inputSideTypes.to, $event.value)"
+            >
+              <mat-option
+                *ngFor="let unit of unitList; trackBy: trackByFn"
+                [value]="unit"
+                >{{ unit }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </form>
+      <mat-error *ngIf="error" [@inOutAnimation]>{{ error }}</mat-error>
+    </mat-card-content>
+  </mat-card>
+</div>
