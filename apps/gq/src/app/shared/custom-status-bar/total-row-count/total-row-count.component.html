@@ -8,7 +8,11 @@
     <div>{{ t('selectedNetValue') }}:&nbsp;</div>
     {{ selectedNetValue | number: '.2' }}
   </div>
-  <div fxLayout class="count" *ngIf="selections.length && !isOfferTable">
+  <div
+    fxLayout
+    class="count"
+    *ngIf="selections.length && !isOfferTable && (showMargins$ | ngrxPush)"
+  >
     <div>{{ t('selectedMargin') }}:&nbsp;</div>
     {{ selectedMargin }} %
   </div>
@@ -21,7 +25,7 @@
     </ng-template>
     {{ totalNetValue | number: '.2' }}
   </div>
-  <div fxLayout class="count">
+  <div fxLayout class="count" *ngIf="showMargins$ | ngrxPush">
     <div *ngIf="!isOfferTable; else offerMargin">
       {{ t('totalMargin') }}:&nbsp;
     </div>

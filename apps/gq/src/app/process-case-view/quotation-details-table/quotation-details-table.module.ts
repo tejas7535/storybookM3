@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -21,6 +22,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
       AddToOfferButtonComponent,
       TotalRowCountComponent,
     ]),
+    ReactiveComponentModule,
     SharedTranslocoModule,
     CustomStatusBarModule,
     CellRendererModule,

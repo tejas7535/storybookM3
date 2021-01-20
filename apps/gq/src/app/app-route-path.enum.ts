@@ -1,5 +1,6 @@
 export enum AppRoutePath {
   BasePath = '',
+  ForbiddenPath = 'forbidden',
   CaseViewPath = 'case-view',
   CustomerViewPath = 'customer-view',
   DetailViewPath = 'detail-view',

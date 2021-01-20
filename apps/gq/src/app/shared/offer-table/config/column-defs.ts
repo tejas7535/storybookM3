@@ -1,7 +1,6 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import * as processCaseDef from '../../../process-case-view/quotation-details-table/config/column-defs';
 import { NumberFormatPipe } from '../../pipes/number-format.pipe';
 
 export const numberFormatter = (data: any) => {
@@ -41,7 +40,3 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
     valueFormatter: numberFormatter,
   },
 ];
-
-export const CREATE_COLUMN_DEFS_FINISH_OFFER = (): ColDef[] => {
-  return processCaseDef.COLUMN_DEFS.filter((el) => el.field !== 'addedToOffer');
-};

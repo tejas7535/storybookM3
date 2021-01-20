@@ -1,8 +1,8 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -40,6 +40,9 @@ describe('OfferDrawerComponent', () => {
             quotation: {
               item: QUOTATION_MOCK,
             },
+          },
+          auth: {
+            token: {},
           },
         },
       }),

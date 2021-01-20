@@ -3,14 +3,14 @@
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
+  *ngIf="quotation$ | ngrxPush as quotation"
 >
   <gq-case-header
-    [gqId]="(quotation$ | async).gqId"
-    [sapId]="(quotation$ | async).sapId"
-    [customerName]="(quotation$ | async).customer.name"
-    [quotation]="quotation$ | async"
+    [gqId]="quotation.gqId"
+    [sapId]="quotation.sapId"
+    [customerName]="quotation.customer.name"
+    [quotation]="quotation"
     offerScreen="true"
   ></gq-case-header>
-
-  <gq-offer-table [rowData]="offer$ | async"></gq-offer-table>
+  <gq-offer-table [rowData]="offer$ | ngrxPush"></gq-offer-table>
 </div>

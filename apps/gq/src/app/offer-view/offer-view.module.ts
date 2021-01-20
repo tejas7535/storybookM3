@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
@@ -14,6 +16,7 @@ import { OfferViewComponent } from './offer-view.component';
     CaseHeaderModule,
     OfferTableModule,
     OfferViewRoutingModule,
+    ReactiveComponentModule,
     SharedModule,
     SharedTranslocoModule,
   ],

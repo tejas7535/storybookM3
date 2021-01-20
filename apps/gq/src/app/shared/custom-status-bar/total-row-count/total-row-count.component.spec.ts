@@ -3,16 +3,21 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { getRoles } from '@schaeffler/auth';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { UserRoles } from '../../roles/user-roles.enum';
 import { TotalRowCountComponent } from './total-row-count.component';
 
 describe('TotalRowCountComponent', () => {
   let component: TotalRowCountComponent;
   let spectator: Spectator<TotalRowCountComponent>;
   let params: IStatusPanelParams;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: TotalRowCountComponent,
@@ -21,12 +26,23 @@ describe('TotalRowCountComponent', () => {
       MatButtonModule,
       MatIconModule,
       provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          auth: {
+            token: {},
+          },
+        },
+      }),
     ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
     params = ({
       api: {
         addEventListener: jest.fn(),
@@ -40,6 +56,16 @@ describe('TotalRowCountComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    test('should set showMargins to true', () => {
+      store.overrideSelector(getRoles, [UserRoles.COST_GPC_ROLE]);
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.showMargins$).toBeTruthy();
+    });
+  });
   describe('onrowDataChanged', () => {
     beforeEach(() => {
       component['params'] = params;
