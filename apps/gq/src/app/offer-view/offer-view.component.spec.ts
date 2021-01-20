@@ -1,6 +1,7 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -29,6 +30,7 @@ describe('OfferViewComponent', () => {
       OfferTableModule,
       OfferViewRoutingModule,
       provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
       RouterTestingModule,
       SharedModule,
     ],
@@ -42,6 +44,9 @@ describe('OfferViewComponent', () => {
             quotation: {
               item: QUOTATION_MOCK,
             },
+          },
+          auth: {
+            token: {},
           },
         },
       }),

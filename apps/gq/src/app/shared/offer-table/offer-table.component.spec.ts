@@ -46,6 +46,9 @@ describe('OfferTableComponent', () => {
               item: QUOTATION_MOCK,
             },
           },
+          auth: {
+            token: {},
+          },
         },
       }),
     ],
@@ -58,5 +61,27 @@ describe('OfferTableComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should add subscriptions', () => {
+      component.subscription.add = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.subscription.add).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnDestory', () => {
+    test('should unsubscribe subscriptions', () => {
+      component.subscription.unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component.subscription.unsubscribe).toHaveBeenCalledTimes(1);
+    });
   });
 });

@@ -1,0 +1,6 @@
+export enum UserRoles {
+  BASIC_ROLE = 'BASIC',
+  MANUAL_PRICE_ROLE = 'PRICE.MANUAL',
+  COST_GPC_ROLE = 'COST.GPC',
+  COST_SQV_ROLE = 'COST.SQV',
+}

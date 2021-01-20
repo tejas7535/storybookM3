@@ -3,7 +3,7 @@
     class="ag-theme-material"
     [rowData]="rowData"
     [defaultColDef]="defaultColumnDefs"
-    [columnDefs]="columnDefs"
+    [columnDefs]="columnDefs$ | ngrxPush"
     [frameworkComponents]="frameworkComponents"
     [modules]="modules"
     [statusBar]="statusBar"

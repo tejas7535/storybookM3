@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
+import { RoleGuard } from './core/guards';
 
 export const appRoutePaths: Routes = [
   {
@@ -10,9 +11,15 @@ export const appRoutePaths: Routes = [
     pathMatch: 'full',
   },
   {
+    path: AppRoutePath.ForbiddenPath,
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+  },
+  {
     path: AppRoutePath.CaseViewPath,
     loadChildren: () =>
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
+    canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.ProcessCaseViewPath,
@@ -20,6 +27,7 @@ export const appRoutePaths: Routes = [
       import('./process-case-view/process-case-view.module').then(
         (m) => m.ProcessCaseViewModule
       ),
+    canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.DetailViewPath,
@@ -27,11 +35,13 @@ export const appRoutePaths: Routes = [
       import('./detail-view/detail-view.module').then(
         (m) => m.DetailViewModule
       ),
+    canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.OfferViewPath,
     loadChildren: () =>
       import('./offer-view/offer-view.module').then((m) => m.OfferViewModule),
+    canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.CustomerViewPath,
@@ -39,6 +49,7 @@ export const appRoutePaths: Routes = [
       import('./customer-view/customer-view.module').then(
         (m) => m.CustomerViewModule
       ),
+    canActivateChild: [RoleGuard],
   },
   {
     path: '**',

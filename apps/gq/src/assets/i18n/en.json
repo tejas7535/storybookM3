@@ -69,9 +69,10 @@
   },
   "detailView": {
     "filterPricing": {
-      "title": "Manual Pricing",
-      "label": "Manual Price",
       "hint": "Enter a manual price",
+      "label": "Manual Price",
+      "noPermissionHint": "You do not have the permission to create a manual price",
+      "title": "Manual Pricing",
       "selected": "selected"
     },
     "pricingDetails": {

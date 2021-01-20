@@ -72,6 +72,7 @@
       "title": "Manueller Preis",
       "label": "Manueller Preis",
       "hint": "Geben Sie einen manuellen Preis ein",
+      "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen",
       "selected": "ausgewählt"
     },
     "pricingDetails": {

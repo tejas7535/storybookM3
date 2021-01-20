@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
+import { NumberFormatPipe } from '../../pipes/number-format.pipe';
 import { numberFormatter } from './column-defs';
 
 jest.mock('@ngneat/transloco', () => ({

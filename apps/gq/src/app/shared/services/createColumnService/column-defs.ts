@@ -2,6 +2,7 @@ import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
+import { ColumnFields } from './column-fields.enum';
 
 export const numberFormatter = (data: any) => {
   const pipe = new NumberFormatPipe();
@@ -16,7 +17,7 @@ export const COLUMN_DEFS: ColDef[] = [
     checkboxSelection: true,
     cellRenderer: 'infoCellComponent',
     headerName: '',
-    field: 'addedToOffer',
+    field: ColumnFields.ADDED_TO_OFFER,
     pinned: 'left',
     initialWidth: 120,
     suppressMenu: true,
@@ -76,15 +77,15 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpc'),
-    field: 'gpc',
+    field: ColumnFields.GPC,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.sqv'),
-    field: 'sqv',
+    field: ColumnFields.SQV,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
-    field: 'margin',
+    field: ColumnFields.GPI,
   },
   {
     headerName: translate(
