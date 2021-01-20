@@ -18,4 +18,5 @@
   ></ia-world-map>
 </ng-container>
 
-<h2>Attrition Quota - Details</h2>
+<h2 *transloco="let t; read: 'attritionQuotaDetails'">{{ t('title') }}</h2>
+<ia-attrition-quota-details></ia-attrition-quota-details>

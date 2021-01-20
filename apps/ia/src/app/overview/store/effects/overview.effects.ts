@@ -16,6 +16,7 @@ import { OverviewState } from '..';
 import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
+  AttritionOverTime,
   EmployeesRequest,
   FilterKey,
   SelectedFilter,
@@ -24,6 +25,9 @@ import { EmployeeService } from '../../../shared/services/employee.service';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
+  loadAttritionOverTime,
+  loadAttritionOverTimeFailure,
+  loadAttritionOverTimeSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -44,6 +48,7 @@ export class OverviewEffects {
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
+        loadAttritionOverTime({ request }),
         loadOrgChart({ request }),
         loadWorldMap({ request }),
       ])
@@ -106,6 +111,23 @@ export class OverviewEffects {
       })),
       map((selectedFilter: SelectedFilter) =>
         filterSelected({ filter: selectedFilter })
+      )
+    )
+  );
+
+  loadAttritionOverTime$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadAttritionOverTime),
+      map((action) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getAttritionOverTime(request).pipe(
+          map((data: AttritionOverTime) =>
+            loadAttritionOverTimeSuccess({ data })
+          ),
+          catchError((error) =>
+            of(loadAttritionOverTimeFailure({ errorMessage: error.message }))
+          )
+        )
       )
     )
   );

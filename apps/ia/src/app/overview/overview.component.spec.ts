@@ -1,7 +1,9 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { AttritionQuotaDetailsModule } from './attrition-quota-details/attrition-quota-details.module';
 import { ChartType } from './models/chart-type.enum';
 import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OrgChartModule } from './org-chart/org-chart.module';
@@ -22,6 +24,8 @@ describe('OverviewComponent', () => {
       ReactiveComponentModule,
       ToggleChartsModule,
       WorldMapModule,
+      AttritionQuotaDetailsModule,
+      TranslocoTestingModule,
     ],
     providers: [provideMockStore({})],
     declarations: [OverviewComponent],

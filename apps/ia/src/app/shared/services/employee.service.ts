@@ -9,6 +9,7 @@ import { DataService } from '@schaeffler/http';
 import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../overview/world-map/models/country-data.model';
 import {
+  AttritionOverTime,
   EmployeesRequest,
   InitialFiltersResponse,
   OrgChartResponse,
@@ -24,6 +25,7 @@ export class EmployeeService {
   private readonly ORG_CHART = 'org-chart';
   private readonly WORLD_MAP = 'world-map';
   private readonly EMPLOYEE = 'parent-employee';
+  private readonly ATTRITION_OVER_TIME = 'attrition-over-time';
 
   private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
@@ -99,5 +101,14 @@ export class EmployeeService {
           EmployeeService.fixIncomingEmployeeProps(response.employee)
         )
       );
+  }
+
+  public getAttritionOverTime(
+    employeesRequest: EmployeesRequest
+  ): Observable<AttritionOverTime> {
+    return this.dataService.post<AttritionOverTime>(
+      this.ATTRITION_OVER_TIME,
+      employeesRequest
+    );
   }
 }

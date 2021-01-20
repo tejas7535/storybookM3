@@ -59,6 +59,14 @@
     "orgChart": "Organizational chart",
     "worldMap": "World map"
   },
+  "attritionQuotaDetails": {
+    "title": "Attrition Quota - Details",
+    "chart": {
+      "legend": {
+        "charts": "Chart"
+      }
+    }
+  },
   "attritionDialog": {
     "close": "Close",
     "metaTitle": "Attrition",

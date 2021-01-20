@@ -4,7 +4,10 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
 import { SharedModule } from '../shared/shared.module';
+import { AttritionQuotaDetailsModule } from './attrition-quota-details/attrition-quota-details.module';
 import { OrgChartModule } from './org-chart/org-chart.module';
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
@@ -27,6 +30,8 @@ import { WorldMapModule } from './world-map/world-map.module';
     ),
     EffectsModule.forFeature([OverviewEffects]),
     WorldMapModule,
+    AttritionQuotaDetailsModule,
+    SharedTranslocoModule,
   ],
 })
 export class OverviewModule {}
