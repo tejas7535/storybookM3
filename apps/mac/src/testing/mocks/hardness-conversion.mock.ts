@@ -1,7 +1,7 @@
 import {
   HardnessConversionResponse,
   HardnessConversionResponseWithSide,
-  inputSideTypes,
+  InputSideTypes,
 } from '../../app/feature/hardness-converter/services/hardness-converter-response.model';
 
 export const HARDNESS_CONVERSION_MOCK: HardnessConversionResponse = {
@@ -9,7 +9,7 @@ export const HARDNESS_CONVERSION_MOCK: HardnessConversionResponse = {
 };
 
 export const hardnessConversionWithSideMock = (
-  side: inputSideTypes
+  side: InputSideTypes
 ): HardnessConversionResponseWithSide => {
   return {
     ...HARDNESS_CONVERSION_MOCK,
