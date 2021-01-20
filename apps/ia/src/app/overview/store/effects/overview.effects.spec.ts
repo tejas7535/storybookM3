@@ -7,6 +7,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
+  AttritionOverTime,
   EmployeesRequest,
   FilterKey,
   SelectedFilter,
@@ -15,6 +16,9 @@ import { EmployeeService } from '../../../shared/services/employee.service';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
+  loadAttritionOverTime,
+  loadAttritionOverTimeFailure,
+  loadAttritionOverTimeSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -62,31 +66,41 @@ describe('Overview Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test('filterSelected - should trigger loadOrgChart + loadWorldMap if orgUnit is set', () => {
+    test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const filter = new SelectedFilter('orgUnit', 'best');
       const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
+      const resultAttrition = loadAttritionOverTime({ request });
       const resultOrg = loadOrgChart({ request });
       const resultWorld = loadWorldMap({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: resultOrg, c: resultWorld });
+      const expected = cold('-(bcd)', {
+        b: resultAttrition,
+        c: resultOrg,
+        d: resultWorld,
+      });
 
       expect(effects.filterChange$).toBeObservable(expected);
     });
 
-    test('timeRangeSelected - should trigger loadOrgChart + loadWorldMap if orgUnit is set', () => {
+    test('timeRangeSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const timeRange = '123|456';
       const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
+
+      const resultAttrition = loadAttritionOverTime({ request });
       const resultOrg = loadOrgChart({ request });
       const resultWorld = loadWorldMap({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', { b: resultOrg, c: resultWorld });
-
+      const expected = cold('-(bcd)', {
+        b: resultAttrition,
+        c: resultOrg,
+        d: resultWorld,
+      });
       expect(effects.filterChange$).toBeObservable(expected);
     });
 
@@ -273,6 +287,53 @@ describe('Overview Effects', () => {
       const expected = cold('-b', { b: result });
 
       expect(effects.loadParentSuccess$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadAttritionOverTime$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = ({} as unknown) as EmployeesRequest;
+      action = loadAttritionOverTime({ request });
+    });
+
+    test('should return loadAttritionOverTimeSuccess action when REST call is successful', () => {
+      const data: AttritionOverTime = { events: [], data: {} };
+      const result = loadAttritionOverTimeSuccess({
+        data,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: data,
+      });
+      const expected = cold('--b', { b: result });
+
+      employeesService.getAttritionOverTime = jest.fn(() => response);
+
+      expect(effects.loadAttritionOverTime$).toBeObservable(expected);
+      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+        request
+      );
+    });
+
+    test('should return loadAttritionOverTimeFailure on REST error', () => {
+      const result = loadAttritionOverTimeFailure({
+        errorMessage: error.message,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      employeesService.getAttritionOverTime = jest.fn(() => response);
+
+      expect(effects.loadAttritionOverTime$).toBeObservable(expected);
+      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+        request
+      );
     });
   });
 });

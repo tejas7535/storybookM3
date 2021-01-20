@@ -1,11 +1,14 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { IdValue } from '../../shared/models';
+import { AttritionOverTime, IdValue } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
+  loadAttritionOverTime,
+  loadAttritionOverTimeFailure,
+  loadAttritionOverTimeSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -28,6 +31,11 @@ export interface OverviewState {
   worldMap: {
     data: CountryData[];
     continents: IdValue[];
+    loading: boolean;
+    errorMessage: string;
+  };
+  attritionOverTime: {
+    data: AttritionOverTime;
     loading: boolean;
     errorMessage: string;
   };
@@ -57,6 +65,11 @@ export const initialState: OverviewState = {
         value: 'Americas',
       },
     ],
+    loading: false,
+    errorMessage: undefined,
+  },
+  attritionOverTime: {
+    data: undefined,
     loading: false,
     errorMessage: undefined,
   },
@@ -137,7 +150,34 @@ export const overviewReducer = createReducer(
       data: [],
       loading: false,
     },
-  }))
+  })),
+  on(loadAttritionOverTime, (state: OverviewState) => ({
+    ...state,
+    attritionOverTime: {
+      ...state.attritionOverTime,
+      loading: true,
+    },
+  })),
+  on(loadAttritionOverTimeSuccess, (state: OverviewState, { data }) => ({
+    ...state,
+    attritionOverTime: {
+      ...state.attritionOverTime,
+      data,
+      loading: false,
+    },
+  })),
+  on(
+    loadAttritionOverTimeFailure,
+    (state: OverviewState, { errorMessage }) => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  )
 );
 
 // tslint:disable-next-line: only-arrow-functions

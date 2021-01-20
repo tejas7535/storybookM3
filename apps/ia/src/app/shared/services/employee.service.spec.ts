@@ -9,6 +9,7 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
 import {
+  AttritionOverTime,
   EmployeesRequest,
   InitialFiltersResponse,
   OrgChartResponse,
@@ -192,6 +193,29 @@ describe('EmployeesService', () => {
       });
 
       const req = httpMock.expectOne('/world-map');
+      expect(req.request.method).toBe('POST');
+      req.flush(mock);
+    });
+  });
+
+  describe('getAttritionOverTime', () => {
+    test('should get attrition data for last years', () => {
+      const request = ({} as unknown) as EmployeesRequest;
+      const mock: AttritionOverTime = {
+        events: [],
+        data: {
+          '2019': {
+            attrition: [0, 1, 2, 3, 4, 5, 0, 1, 2, 3, 4, 5],
+            employees: [],
+          },
+        },
+      };
+
+      service.getAttritionOverTime(request).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne('/attrition-over-time');
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });

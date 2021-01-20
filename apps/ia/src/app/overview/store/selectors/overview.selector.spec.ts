@@ -1,8 +1,12 @@
-import { initialState } from '..';
+import { initialState, OverviewState } from '..';
+import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
+  getAttritionOverTimeData,
+  getAttritionOverTimeEvents,
+  getIsLoadingAttritionOverTime,
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
   getOrgChart,
@@ -12,7 +16,7 @@ import {
 } from './overview.selector';
 
 describe('Overview Selector', () => {
-  const fakeState = {
+  const fakeState: { overview: OverviewState; filter: FilterState } = {
     overview: {
       ...initialState,
       orgChart: {
@@ -21,6 +25,7 @@ describe('Overview Selector', () => {
           ({ employeeId: '456' } as unknown) as OrgChartEmployee,
         ],
         loading: true,
+        errorMessage: undefined,
       },
       worldMap: {
         data: [
@@ -38,11 +43,25 @@ describe('Overview Selector', () => {
           },
         ],
         loading: true,
+        errorMessage: undefined,
+      },
+      attritionOverTime: {
+        data: {
+          events: [{ date: new Date('01-01-2021'), name: 'Monkeys' }],
+          data: {
+            2019: {
+              employees: [],
+              attrition: [10, 20, 10, 20, 10],
+            },
+          },
+        },
+        loading: true,
+        errorMessage: undefined,
       },
     },
-    filter: {
+    filter: ({
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
-    },
+    } as unknown) as FilterState,
   };
 
   describe('getOrgChart', () => {
@@ -80,6 +99,31 @@ describe('Overview Selector', () => {
   describe('getSelectedChartType', () => {
     test('should return currently selected chart type', () => {
       expect(getSelectedChartType(fakeState)).toEqual(ChartType.ORG_CHART);
+    });
+  });
+
+  describe('getIsLoadingAttritionOverTime', () => {
+    it('should return loading status', () => {
+      expect(getIsLoadingAttritionOverTime(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getAttritionOverTimeEvents', () => {
+    it('should return list of events', () => {
+      expect(getAttritionOverTimeEvents(fakeState)).toEqual([
+        { date: new Date('01-01-2021'), name: 'Monkeys' },
+      ]);
+    });
+  });
+
+  describe('getAttritionOverTimeData', () => {
+    it('should return actual attrition data', () => {
+      expect(getAttritionOverTimeData(fakeState)).toEqual({
+        2019: {
+          employees: [],
+          attrition: [10, 20, 10, 20, 10],
+        },
+      });
     });
   });
 });
