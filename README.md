@@ -53,6 +53,11 @@ nx g @ngneat/spectator:spectator-component component-name
 nx g @ngneat/spectator:spectator-service service-name
 ```
 
+### Run Storybook locally
+
+`nx run shared-ui-storybook:storybook`
+
+
 ## Project Setup
 
 ### Create a new application
