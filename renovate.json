@@ -2,7 +2,7 @@
   "semanticCommits": true,
   "labels": ["Dependency Update"],
   "lockFileMaintenance": {
-    "enabled": true
+    "enabled": false
   },
   "baseBranches": ["master"],
   "ignorePaths": ["libs/**/*"],
@@ -66,12 +66,12 @@
         "@nrwl/angular",
         "@nrwl/cli",
         "@nrwl/cypress",
+        "@nrwl/eslint-plugin-nx",
         "@nrwl/jest",
-        "@nrwl/schematics",
         "@nrwl/storybook",
         "@nrwl/workspace"
       ],
-      "groupName": "nrwl",
+      "groupName": "@nrwl/nx",
       "updateTypes": ["minor", "patch"]
     },
     {
@@ -89,10 +89,6 @@
     {
       "packageNames": ["typescript"],
       "updateTypes": ["patch"]
-    },
-    {
-      "packageNames": ["devextreme", "devextreme-angular"],
-      "groupName": "devextreme"
     },
     {
       "packageNames": ["@types/echarts", "echarts", "ngx-echarts"],
@@ -127,6 +123,17 @@
         "@ag-grid-enterprise/all-modules"
       ],
       "groupName": "ag-grid"
+    },
+    {
+      "packageNames": [
+        "@angular-eslint/eslint-plugin",
+        "@angular-eslint/eslint-plugin-template",
+        "@angular-eslint/template-parser",
+        "eslint",
+        "eslint-config-prettier",
+        "eslint-plugin-cypress"
+      ],
+      "groupName": "eslint"
     }
   ]
 }
