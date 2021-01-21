@@ -41,7 +41,7 @@
     "cm": "pretty-quick --staged && git-cz --no-verify",
     "release": "standard-version --no-verify",
     "force-resolutions": "npx npm-force-resolutions && npx nx format:write --files=package-lock.json",
-    "preinstall": "npm run force-resolutions",
+    "preinstall": "node ./tools/npm-scripts/preinstall.js",
     "postinstall": "npm run ngcc && npm run generate-readme && node ./decorate-angular-cli.js",
     "i18n:extract": "transloco-keys-manager extract",
     "i18n:find": "transloco-keys-manager find",
