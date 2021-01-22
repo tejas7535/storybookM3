@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.6.0](///compare/footer-v1.6.0...footer-v1.5.0) (2021-01-22)
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **footer:** use optional input parameter for footer version (UFTABI-3269) ([c5354e0](///commit/c5354e0f3ccdd4ed10ec0613b685f07b254b1997))
+
 ## 1.5.0 (2020-11-25)
 
 
