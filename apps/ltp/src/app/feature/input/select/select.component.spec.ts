@@ -7,6 +7,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -28,6 +29,7 @@ describe('SelectComponent', () => {
         MatFormFieldModule,
         MatSelectModule,
         NoopAnimationsModule,
+        ReactiveComponentModule,
         FlexLayoutModule,
         provideTranslocoTestingModule({ en }),
       ],

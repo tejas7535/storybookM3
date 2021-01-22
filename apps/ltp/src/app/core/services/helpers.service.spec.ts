@@ -3,6 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { configureTestSuite } from 'ng-bullet';
 
 import {
+  mockedPredictionRequestWithKpi,
   mockedPredictionResult,
   mockedStatisticalResult,
 } from '../../mocks/mock.constants';
@@ -653,6 +654,7 @@ describe('HelpersService', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
       undefined
     );
     expect(predictionResult).toEqual(undefined);
@@ -672,7 +674,8 @@ describe('HelpersService', () => {
       defaults.defaultPredictionResult,
       defaults.defaultStatisticalResult,
       display,
-      defaults.loads
+      defaults.loads,
+      mockedPredictionRequestWithKpi.predictionRequest
     );
     expect(result).toEqual(expectedResult);
   });
@@ -691,7 +694,8 @@ describe('HelpersService', () => {
       defaults.defaultPredictionResult,
       defaults.defaultStatisticalResult,
       display,
-      defaults.loads
+      defaults.loads,
+      mockedPredictionRequestWithKpi.predictionRequest
     );
     expect(result).toEqual(expectedResult);
   });
@@ -712,7 +716,7 @@ describe('HelpersService', () => {
       },
     };
 
-    const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
+    const calculatedGraph = helpersService.calculateStartPoint(graph, 5, -1);
     expect(calculatedGraph).not.toEqual(graph);
     expect(calculatedGraph[0].x).toEqual(10000);
   });
@@ -733,7 +737,7 @@ describe('HelpersService', () => {
       },
     };
 
-    const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
+    const calculatedGraph = helpersService.calculateStartPoint(graph, 5, -1);
     expect(calculatedGraph).toEqual(({} as unknown) as Graph);
   });
 
@@ -753,7 +757,7 @@ describe('HelpersService', () => {
       },
     };
 
-    const calculatedGraph = helpersService.calculateStartPoint(graph, 5);
+    const calculatedGraph = helpersService.calculateStartPoint(graph, 5, -1);
     expect(calculatedGraph).not.toEqual(graph);
     expect(calculatedGraph[2].y).toEqual(0);
   });
@@ -856,7 +860,7 @@ describe('HelpersService', () => {
       1: { x: 1000000, y: 100 },
       2: { x: 10000000, y: 100 },
     };
-    const sn = helpersService.createGraphObjectWoehler(start, sa);
+    const sn = helpersService.createGraphObjectWoehler(start, sa, -1);
     expect(sn).toEqual(expectedGraph);
   });
 
@@ -998,7 +1002,8 @@ describe('HelpersService', () => {
         showStatistical: true,
         chartType: 1,
       },
-      []
+      [],
+      mockedPredictionRequestWithKpi.predictionRequest
     );
 
     expect(result).toEqual({
@@ -1050,7 +1055,8 @@ describe('HelpersService', () => {
       mockedPredictionResult,
       mockedStatisticalResult,
       { showFKM: true, showMurakami: true, showStatistical: true },
-      []
+      [],
+      mockedPredictionRequestWithKpi.predictionRequest
     );
 
     expect(result).toEqual({

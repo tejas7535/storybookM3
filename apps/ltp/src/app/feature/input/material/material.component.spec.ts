@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { Store, StoreModule } from '@ngrx/store';
 import { configureTestSuite } from 'ng-bullet';
 
@@ -30,6 +31,7 @@ describe('MaterialComponent', () => {
         MatSelectModule,
         MatFormFieldModule,
         NoopAnimationsModule,
+        ReactiveComponentModule,
         HttpClientModule,
         provideTranslocoTestingModule({ en }),
         StoreModule.forRoot({

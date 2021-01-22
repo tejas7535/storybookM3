@@ -71,13 +71,15 @@ export const getPredictionResult = createSelector(
   getDisplay,
   getKpis,
   getLoadsPoints,
-  (prediction, display, kpi, loadsPoints) => {
+  getPredictionRequest,
+  (prediction, display, kpi, loadsPoints, predictionRequest) => {
     const helpersService = new HelpersService();
     const result = helpersService.preparePredictionResult(
       prediction.predictionResult,
       prediction.statisticalResult,
       display,
-      loadsPoints
+      loadsPoints,
+      predictionRequest
     );
 
     return { ...result, kpi };
@@ -116,7 +118,8 @@ export const getStatisticalResult = createSelector(
   (prediction) => {
     const helpersService = new HelpersService();
     const result = helpersService.prepareStatisticalResult(
-      prediction.statisticalResult
+      prediction.statisticalResult,
+      prediction.predictionRequest
     );
 
     return { ...result };

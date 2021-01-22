@@ -18,6 +18,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../../assets/i18n/en.json';
+import { TooltipModule } from './../../../shared/components/tooltip/tooltip.module';
 import { SliderComponent } from './slider.component';
 import { SliderControl } from './slider.model';
 
@@ -37,6 +38,7 @@ describe('SliderComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         HttpClientModule,
+        TooltipModule,
         provideTranslocoTestingModule({ en }),
       ],
     });

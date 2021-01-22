@@ -10,4 +10,14 @@ ltp-slider {
   .mat-input-element {
     text-align: center;
   }
+
+  .slider-tooltip {
+    margin-right: 10px;
+  }
+
+  .slider-validation-warning {
+    color: #fccf46;
+    font-size: 12px;
+    margin-top: -10px;
+  }
 }

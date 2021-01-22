@@ -4,9 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
-
 import * as transloco from '@ngneat/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -18,7 +17,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../assets/i18n/en.json';
 import { AppComponent } from './app.component';
-import { AuthService } from './core/services/auth.service';
 import { unsetDisplay, unsetPredictionRequest } from './core/store';
 import { initialState as initialInputState } from './core/store/reducers/input.reducer';
 import { initialState as initialPredictionState } from './core/store/reducers/prediction.reducer';
@@ -33,7 +31,6 @@ describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
 
-  let authService: AuthService;
   let breakpointService: BreakpointService;
   let store: Store<any>;
 
@@ -48,21 +45,10 @@ describe('AppComponent', () => {
         RouterTestingModule,
         InputModule,
         provideTranslocoTestingModule({ en }),
+        ReactiveComponentModule,
         NoopAnimationsModule,
       ],
-      providers: [
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn(),
-            getUserName: jest
-              .fn()
-              .mockImplementation(() => of('Moritz Muster')),
-            logout: jest.fn(),
-          },
-        },
-        provideMockStore({ initialState }),
-      ],
+      providers: [provideMockStore({ initialState })],
     });
   });
 
@@ -74,7 +60,6 @@ describe('AppComponent', () => {
   });
 
   beforeEach(() => {
-    authService = TestBed.inject(AuthService);
     breakpointService = TestBed.inject(BreakpointService);
     store = TestBed.inject(Store);
   });
@@ -85,15 +70,7 @@ describe('AppComponent', () => {
 
   describe('#ngOnInit', () => {
     beforeEach(() => {
-      component['getCurrentProfile'] = jest.fn();
       component['handleObservables'] = jest.fn();
-    });
-
-    it('should call getCurrentProfile()', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component['getCurrentProfile']).toHaveBeenCalled();
     });
 
     it('should call handleObservables()', () => {
@@ -136,9 +113,10 @@ describe('AppComponent', () => {
 
   describe('#logout', () => {
     it('should call method signOut of authGuard', () => {
+      store.dispatch = jest.fn();
       component.logout();
 
-      expect(authService.logout).toHaveBeenCalled();
+      expect(store.dispatch).toHaveBeenCalled();
     });
   });
 
@@ -157,20 +135,6 @@ describe('AppComponent', () => {
 
         expect(component.isLessThanMediumViewPort$).toBeDefined();
         expect(breakpointService.isLessThanMedium).toHaveBeenCalled();
-      });
-    });
-
-    describe('#getCurrentProfile', () => {
-      beforeEach(() => {
-        component.username$ = of('');
-      });
-
-      it('should set username Moritz Muster', () => {
-        component['getCurrentProfile']();
-
-        expect(JSON.stringify(component.username$)).toEqual(
-          JSON.stringify(of('Moritz Muster'))
-        );
       });
     });
   });

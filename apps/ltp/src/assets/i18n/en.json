@@ -41,13 +41,17 @@
     "haigh": "Haigh",
     "kpi": {
       "count": "Ex­pec­ted life­time at stress am­pli­tude of {{mpa}} MPa",
+      "countNA": "Disabled",
+      "countNAInfo": "The expected lifetime cannot be projected for Predictions using R values other than 0 or -1.",
       "fatigue": "Fa­tigue strength in MPa (N&nbsp;=&nbsp;4E6)",
       "fatigue0": "Fa­tigue strength in MPa (N&nbsp;=&nbsp;4E6) at R&nbsp;=&nbsp;0",
       "fatigue1": "Fa­tigue strength in MPa (N&nbsp;=&nbsp;4E6) at R&nbsp;=&nbsp;-1",
       "meanStress": "Mean stress sensi­tivity",
       "slope": "Slope within the term strength range",
       "headline": "Lifetime Prediction",
-      "survivor": "A sur­vi­vor is ex­pec­ted"
+      "survivor": "A sur­vi­vor is ex­pec­ted",
+      "rrelNA": "Disabled",
+      "rrelNAInfo": "The slope cannot be projected for Predictions using R values other than 0 or -1."
     },
     "pdf": "PDF",
     "png": "PNG",
@@ -114,6 +118,8 @@
   "result": "An­al­ys­is",
   "roughness": "Rz in µm *",
   "rrel": "Load ra­tio",
+  "rrelInfoLong": "Our ML-model is trained for predictions at R = 0 and -1. For other R-values between -1 and 0.3 a transformation of the fatigue strength with use of the mean stress sensitivity is performed.",
+  "rrelInfoShort": "No prediction possible, see info-i",
   "showFkm": "show FKM-Model",
   "showLd": "show Load­data analysis",
   "showMurakami": "show Murakami-Model",

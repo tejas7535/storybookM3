@@ -4,6 +4,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
@@ -40,6 +42,7 @@ const azureConfig = new AzureConfig(
     InputModule,
     MatButtonModule,
     PredictionModule,
+    ReactiveComponentModule,
     SettingsSidebarModule,
     UnauthorizedModule,
     StoreModule,

@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
+import {
+  AbstractControl,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+} from '@angular/forms';
 
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
@@ -14,7 +19,11 @@ import {
   PredictionRequest,
   StatisticalRequest,
 } from '../../shared/models';
-import { CustomFormControl, InputCategory } from './input.model';
+import {
+  AbstractControlWarn,
+  CustomFormControl,
+  InputCategory,
+} from './input.model';
 import { SelectControlOption } from './select/select-control-option.model';
 import { SelectControl } from './select/select-control.model';
 import { SliderControl } from './slider/slider.model';
@@ -261,6 +270,17 @@ export class InputComponent implements OnInit {
     return index;
   }
 
+  public validateRRelation(): ValidatorFn {
+    return (control: AbstractControlWarn): { [key: string]: any } => {
+      const warn = control.value !== -1 && control.value !== 0;
+      control.warnings = warn
+        ? { validationWarning: { value: control.value, text: 'rrelInfoShort' } }
+        : undefined;
+
+      return undefined;
+    };
+  }
+
   /**
    * Initializes all control arrays.
    */
@@ -397,10 +417,11 @@ export class InputComponent implements OnInit {
         key: 'rrelation',
         name: 'rrel',
         min: -1,
-        max: 0,
-        step: 1,
+        max: 0.3,
+        step: 0.05,
         disabled: false,
-        formControl: new FormControl(),
+        formControl: new FormControl(undefined, [this.validateRRelation()]),
+        infoText: 'rrelInfoLong',
       }),
       new SliderControl({
         key: 'a90',
