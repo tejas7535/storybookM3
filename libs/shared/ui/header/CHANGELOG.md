@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](///compare/header-v2.1.0...header-v2.0.0) (2021-01-22)
+
+
+### 📈 Improvements
+
+* **workspace:** adjust header and tabbar shadows (DSCDA-2064) ([7c0a35f](///commit/7c0a35f0d93ba631cfe4c8dfa2515964b4f9f621))
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+
 ## 2.0.0 (2020-11-25)
 
 
