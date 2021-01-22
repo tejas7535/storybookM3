@@ -24,8 +24,8 @@ apps/cdba @kauppfbi @herpisef @andrafnk
 apps/cdba-e2e @kauppfbi @herpisef @andrafnk
 
 # GOLDWIND
-apps/goldwind @krausrbe 
-apps/goldwind-e2e @krausrbe 
+apps/goldwind @krausrbe @saragjri
+apps/goldwind-e2e @krausrbe @saragjri
 
 # SELI
 apps/seli @birketho @soehnpsc 
