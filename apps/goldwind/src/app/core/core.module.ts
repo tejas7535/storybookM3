@@ -1,3 +1,4 @@
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -8,13 +9,13 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
-import { HttpModule } from '@schaeffler/http';
+import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
+import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
-import { RoleGuard } from './guards/role.guard';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -45,8 +46,17 @@ import { StoreModule } from './store/store.module';
 
     // HTTP
     HttpModule.forRoot({ environment }),
+
+    // Notifications
+    SnackBarModule,
   ],
-  providers: [RoleGuard],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorInterceptor,
+      multi: true,
+    },
+  ],
   exports: [AppComponent],
 })
 export class CoreModule {}
