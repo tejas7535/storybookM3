@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.11.1](///compare/assets-v1.11.1...assets-v1.11.0) (2021-01-22)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** always set correct lib name in root changelog (UFTABI-3417) ([663b1fa](///commit/663b1fa843447402f85f423cf2906e4c3bb331e4))
+
 ## 1.11.0 (2020-11-25)
 
 
