@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.10.1](///compare/storybook-v1.10.1...storybook-v1.10.0) (2021-01-22)
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** always set correct lib name in root changelog (UFTABI-3417) ([663b1fa](///commit/663b1fa843447402f85f423cf2906e4c3bb331e4))
+* **workspace:** ensure loading of global jest configuration ([777e2e5](///commit/777e2e5f58b7c11b53d03dc0c698c2e399ec3298))
+
 ## 1.10.0 (2020-11-25)
 
 
