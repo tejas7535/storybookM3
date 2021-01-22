@@ -16,7 +16,11 @@ export class SliderComponent implements OnInit {
   public formOptions = { onlySelf: true, emitEvent: false };
 
   public ngOnInit(): void {
-    this.control.formControl.setValidators(this.isValid(this.control));
+    const validators = [this.isValid(this.control)];
+    if (this.control.formControl.validator) {
+      validators.push(this.control.formControl.validator);
+    }
+    this.control.formControl.setValidators(validators);
     this.control.formControl.updateValueAndValidity();
     this.control.formControl.valueChanges.subscribe((value) =>
       this.control.formControl.patchValue(value, this.formOptions)

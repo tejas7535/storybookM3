@@ -2,14 +2,14 @@
   <schaeffler-header [platformTitle]="t('title')" class="full-height">
     <schaeffler-user-menu
       user-menu
-      [user]="username$ | async"
+      [user]="username$ | ngrxPush"
       (clicked)="userMenuClicked($event)"
       [entries]="userMenuEntries"
     ></schaeffler-user-menu>
     <schaeffler-settings-sidebar
-      [openSidebarBtn]="isLessThanMediumViewPort$ | async"
-      [closeSidebarBtn]="isLessThanMediumViewPort$ | async"
-      [open]="(isLessThanMediumViewPort$ | async) === false"
+      [openSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
+      [closeSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
+      [open]="(isLessThanMediumViewPort$ | ngrxPush) === false"
     >
       <ng-container settings-header>
         <button

@@ -2,9 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
-import * as en from '../../../../assets/i18n/en.json';
+import { TooltipModule } from './../../../shared/components/tooltip/tooltip.module';
 import { KpiComponent } from './kpi.component';
 
 describe('KpiComponent', () => {
@@ -14,7 +12,7 @@ describe('KpiComponent', () => {
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       declarations: [KpiComponent],
-      imports: [provideTranslocoTestingModule({ en })],
+      imports: [TooltipModule],
     });
   });
 

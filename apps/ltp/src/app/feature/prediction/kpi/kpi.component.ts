@@ -9,4 +9,5 @@ export class KpiComponent {
   @Input() value: string | number;
   @Input() description: string;
   @Input() descriptionParams: Object; // TODO: define model
+  @Input() tooltip: string;
 }

@@ -21,6 +21,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { of } from 'rxjs';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { Store, StoreModule } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -76,6 +77,7 @@ describe('PredictionComponent', () => {
         MatIconModule,
         IconsModule,
         ReactiveFormsModule,
+        ReactiveComponentModule,
         MatFormFieldModule,
         MatInputModule,
         MatRadioModule,
@@ -153,13 +155,15 @@ describe('PredictionComponent', () => {
       expect(component.openDialog).toHaveBeenCalledWith([['input1', 'input2']]);
     });
 
-    xit('should print the error to console in error case', async () => {
-      file = new File([], 'file');
-      jest.spyOn(console, 'error');
-
-      await component.parseLoadFile(file);
-
-      expect(console.error).toHaveBeenCalled();
+    it('should print the error to console in error case', async () => {
+      await component.parseLoadFile(undefined).then(
+        () => {
+          expect(false).toBe(true);
+        },
+        (reason) => {
+          expect(reason).toBeDefined();
+        }
+      );
     });
   });
 
@@ -244,6 +248,20 @@ describe('PredictionComponent', () => {
     expect(store.dispatch).toHaveBeenCalledWith(action);
   });
 
+  it('should call dispatchLoad method that dispatches a cleaned number array to store and slice arrays longer than 50000', () => {
+    const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
+    const mockSettings = {
+      conversionFactor: 1,
+      repetitionFactor: 1,
+      method: 'FKM',
+    };
+
+    mockArray.reduce = jest.fn(() => Array(50001));
+
+    component.dispatchLoad(mockArray, mockSettings);
+    expect(store.dispatch).toHaveBeenCalled();
+  });
+
   it('customize tooltip should add text if 10000 < x < 10000000', () => {
     const testObj: any = component.customizeTooltip([
       {
@@ -284,7 +302,7 @@ describe('PredictionComponent', () => {
     let filterValue = component.filterLegendGraphs('y1', [{ y1: 123 }]);
     expect(filterValue).toEqual(true);
 
-    filterValue = component.filterLegendGraphs('y1', [{ y: 123 }]);
+    filterValue = component.filterLegendGraphs('y1', [{ y: 123 }, { x: 123 }]);
     expect(filterValue).toEqual(false);
   });
 

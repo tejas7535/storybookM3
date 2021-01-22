@@ -425,7 +425,8 @@ export const mockedPredictionResultGraphData: EChartsOption = {
         y9: 255.3071591874725,
       },
       {
-        x: 329718.17701544514,
+        x: 1000000,
+        // x: 329718.17701544514,
         y9: 122.46499412533268,
       },
       {

@@ -8,7 +8,17 @@
   fxFlex
   *transloco="let t"
 >
-  <span class="ltp-kpi-value">{{ value }}</span>
+  <div>
+    <span class="ltp-kpi-value">{{ value }}</span>
+    <ltp-tooltip
+      *ngIf="tooltip"
+      class="kpi-tooltip"
+      (click)="$event.stopPropagation()"
+      [content]="t(tooltip)"
+      manualcolor="#1d9bb2"
+      icon="icon-toast-information"
+    ></ltp-tooltip>
+  </div>
   <label
     *ngIf="!descriptionParams"
     class="ltp-kpi-label"

@@ -1,11 +1,33 @@
 <div fxLayout="column" *transloco="let t">
-  <label
-    [innerHTML]="
-      control.flexibleLabel
-        ? control.flexibleLabel(t(control.name))
-        : t(control.name)
-    "
-  ></label>
+  <div
+    *ngIf="control.infoText; else defaultLabel"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <label
+      [innerHTML]="
+        control.flexibleLabel
+          ? control.flexibleLabel(t(control.name))
+          : t(control.name)
+      "
+    ></label>
+    <ltp-tooltip
+      (click)="$event.stopPropagation()"
+      class="slider-tooltip"
+      [content]="t(control.infoText)"
+      manualcolor="#1d9bb2"
+      icon="icon-toast-information"
+    ></ltp-tooltip>
+  </div>
+  <ng-template #defaultLabel>
+    <label
+      [innerHTML]="
+        control.flexibleLabel
+          ? control.flexibleLabel(t(control.name))
+          : t(control.name)
+      "
+    ></label>
+  </ng-template>
   <div fxLayout="row" fxLayoutAlign="space-between top">
     <mat-slider
       fxFlex="80"
@@ -26,4 +48,9 @@
       />
     </mat-form-field>
   </div>
+  <div
+    class="slider-validation-warning"
+    *ngIf="control.formControl.warnings?.validationWarning"
+    [innerHTML]="t(control.formControl.warnings.validationWarning.text)"
+  ></div>
 </div>

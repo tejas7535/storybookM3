@@ -1,4 +1,5 @@
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl } from '@angular/forms';
+
 import { Observable } from 'rxjs';
 
 export class CustomFormControl {
@@ -7,6 +8,7 @@ export class CustomFormControl {
   disabled: Observable<boolean> | boolean;
   flexibleLabel?: Function;
   formControl: FormControl;
+  infoText?: string;
 
   constructor(object: any) {
     this.key = object.key;
@@ -14,6 +16,7 @@ export class CustomFormControl {
     this.disabled = object.disabled;
     this.flexibleLabel = object.flexibleLabel;
     this.formControl = object.formControl;
+    this.infoText = object.infoText;
   }
 }
 
@@ -23,4 +26,8 @@ export interface InputCategory {
   info?: string;
   controls: CustomFormControl[];
   alwaysVisible?: boolean;
+}
+
+export interface AbstractControlWarn extends AbstractControl {
+  warnings?: any;
 }

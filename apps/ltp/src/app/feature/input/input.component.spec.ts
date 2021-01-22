@@ -14,6 +14,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -59,6 +60,7 @@ describe('InputComponent', () => {
         MatExpansionModule,
         MatDividerModule,
         MatSlideToggleModule,
+        ReactiveComponentModule,
         TooltipModule,
         provideTranslocoTestingModule({ en }),
       ],

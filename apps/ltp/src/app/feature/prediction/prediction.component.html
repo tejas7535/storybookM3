@@ -177,44 +177,56 @@
         </h4>
         <ltp-kpi
           *ngIf="showWoehler()"
-          [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
+          [value]="(predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)"
           description="prediction.kpi.fatigue"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="showWoehler()"
-          [value]="(predictionResult | async).kpi?.slope.toFixed(2)"
+          [value]="
+            (predictionResult | ngrxPush).kpi?.slope?.toFixed(2) || t('rrelNA')
+          "
           description="prediction.kpi.slope"
+          [tooltip]="
+            !(predictionResult | ngrxPush).kpi?.slope ? 'rrelNAInfo' : undefined
+          "
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="showWoehler()"
           [value]="
-            (predictionResult | async).kpi?.count == -1
+            !(predictionResult | ngrxPush).kpi?.slope
+              ? t('countNA')
+              : (predictionResult | ngrxPush).kpi?.count == -1
               ? '∞'
-              : (predictionResult | async).kpi?.count
+              : (predictionResult | ngrxPush).kpi?.count
           "
           [description]="
-            (predictionResult | async).kpi?.count == -1
+            (predictionResult | ngrxPush).kpi?.count == -1
               ? 'prediction.kpi.survivor'
               : 'prediction.kpi.count'
           "
           [descriptionParams]="{
-            mpa: (predictionResult | async)?.kpi?.mpa || ''
+            mpa: (predictionResult | ngrxPush)?.kpi?.mpa || ''
           }"
+          [tooltip]="
+            !(predictionResult | ngrxPush).kpi?.slope
+              ? 'countNAInfo'
+              : undefined
+          "
         ></ltp-kpi>
 
         <ltp-kpi
           *ngIf="!showWoehler()"
-          [value]="(predictionResult | async).kpi?.fatigue.toFixed(0)"
+          [value]="(predictionResult | ngrxPush).kpi?.fatigue.toFixed(0)"
           description="prediction.kpi.fatigue0"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="!showWoehler()"
-          [value]="(predictionResult | async).kpi?.fatigue1.toFixed(0)"
+          [value]="(predictionResult | ngrxPush).kpi?.fatigue1.toFixed(0)"
           description="prediction.kpi.fatigue1"
         ></ltp-kpi>
         <ltp-kpi
           *ngIf="!showWoehler()"
-          [value]="(predictionResult | async).kpi?.meanStress.toFixed(2)"
+          [value]="(predictionResult | ngrxPush).kpi?.meanStress.toFixed(2)"
           description="prediction.kpi.meanStress"
         ></ltp-kpi>
       </div>

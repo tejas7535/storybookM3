@@ -1,6 +1,4 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
-  APP_INITIALIZER,
   ModuleWithProviders,
   NgModule,
   Optional,
@@ -18,8 +16,6 @@ import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 
 import { environment } from '../../environments/environment';
 import { RoleGuard } from './guards/role.guard';
-import { TokenInterceptor } from './interceptors';
-import { AuthService, initializer } from './services';
 
 export const storageFactory = (): OAuthStorage => localStorage;
 
@@ -30,7 +26,7 @@ export const storageFactory = (): OAuthStorage => localStorage;
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
   ],
-  providers: [RoleGuard, AuthService],
+  providers: [RoleGuard],
 })
 export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
@@ -39,17 +35,6 @@ export class CoreModule {
       providers: [
         { provide: ValidationHandler, useClass: JwksValidationHandler },
         { provide: OAuthStorage, useFactory: storageFactory },
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true,
-        },
-        {
-          provide: APP_INITIALIZER,
-          useFactory: initializer,
-          deps: [AuthService],
-          multi: true,
-        },
       ],
     };
   }

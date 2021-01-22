@@ -16,6 +16,8 @@ import {
 } from '@angular/material/radio';
 import { MatTabsModule } from '@angular/material/tabs';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { TooltipModule } from '../../shared/components/tooltip/tooltip.module';
@@ -43,6 +45,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
     MatInputModule,
     MatRadioModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
   ],
   providers: [
     {

@@ -53,9 +53,9 @@
         </ng-container>
         <ltp-limits
           *ngIf="controlGroup.name == 'hv'"
-          [hv]="(predictionRequest | async).hv"
-          [hv_lower]="(predictionRequest | async).hv_lower"
-          [hv_upper]="(predictionRequest | async).hv_upper"
+          [hv]="(predictionRequest | ngrxPush).hv"
+          [hv_lower]="(predictionRequest | ngrxPush).hv_lower"
+          [hv_upper]="(predictionRequest | ngrxPush).hv_upper"
           (adjust)="adjustLimits($event)"
         ></ltp-limits>
       </mat-expansion-panel>

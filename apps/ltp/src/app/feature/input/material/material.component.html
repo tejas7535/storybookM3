@@ -4,7 +4,7 @@
     <mat-select formControlName="materialControl" name="material">
       <mat-option
         *ngFor="
-          let materialOption of materialOptions | async;
+          let materialOption of materialOptions | ngrxPush;
           trackBy: trackByFn
         "
         [value]="materialOption"
@@ -18,7 +18,7 @@
     <mat-select formControlName="heatTreatmentControl" name="heatTreatment">
       <mat-option
         *ngFor="
-          let heatTreatmentOption of heatTreatmentOptions | async;
+          let heatTreatmentOption of heatTreatmentOptions | ngrxPush;
           trackBy: trackByFn
         "
         [value]="heatTreatmentOption"

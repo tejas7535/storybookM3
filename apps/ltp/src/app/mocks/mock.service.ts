@@ -9,17 +9,7 @@ import { mockedPredictionResult } from './mock.constants';
   providedIn: 'root',
 })
 export class MockService {
-  postPrediction(
-    _predictionRequest: PredictionRequest,
-    mode: number
-  ): Observable<any> {
-    return mode === 2 ? of(mockedPredictionResult) : undefined;
+  postPrediction(_predictionRequest: PredictionRequest): Observable<any> {
+    return of(mockedPredictionResult);
   }
-
-  // postLoadsData(
-  //   _loads: any,
-  //   _predictionRequest: PredictionRequest
-  // ): Observable<any> {
-  //   return of(mockedLoadsResult);
-  // }
 }

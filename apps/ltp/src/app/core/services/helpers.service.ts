@@ -75,7 +75,10 @@ export class HelpersService {
           request.rrelation === 0
             ? predictionResult.kpi.fatigue[0]
             : predictionResult.kpi.fatigue[1],
-        slope: predictionResult.kpi.slope,
+        slope:
+          request.rrelation === -1 || request.rrelation === 0
+            ? predictionResult.kpi.slope
+            : undefined,
         count:
           predictionResult.woehler.appliedStress[1].x < 10000000
             ? predictionResult.woehler.appliedStress[1].x
@@ -96,17 +99,23 @@ export class HelpersService {
    * Parses a given response from statistical backend into Graph objects
    */
   public prepareStatisticalResult(
-    statisticalResult: StatisticalPrediction
+    statisticalResult: StatisticalPrediction,
+    predictionRequest: PredictionRequest
   ): StatisticalPredictionParsed {
     // woehler
     const saFKM = statisticalResult.woehler.analytical.sa_fkm;
     const saMurakami = statisticalResult.woehler.analytical.sa_murakami;
     const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
-    const fkmWoehler = this.createGraphObjectWoehler(startFKM, saFKM);
+    const fkmWoehler = this.createGraphObjectWoehler(
+      startFKM,
+      saFKM,
+      predictionRequest.rrelation
+    );
     const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
     const murakamiWoehler = this.createGraphObjectWoehler(
       startMurakami,
-      saMurakami
+      saMurakami,
+      predictionRequest.rrelation
     );
 
     // haigh
@@ -150,7 +159,8 @@ export class HelpersService {
     predictionResult: PredictionResult,
     statisticalResult: StatisticalPrediction,
     display: Display,
-    loadsPoints: Point[]
+    loadsPoints: Point[],
+    predictionRequest: PredictionRequest
   ): PredictionResultParsed {
     if (!predictionResult) {
       return undefined;
@@ -166,7 +176,11 @@ export class HelpersService {
       if (display.showFKM) {
         const saFKM = statisticalResult.woehler.analytical.sa_fkm;
         const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
-        const fkm = this.createGraphObjectWoehler(startFKM, saFKM);
+        const fkm = this.createGraphObjectWoehler(
+          startFKM,
+          saFKM,
+          predictionRequest.rrelation
+        );
         data = [
           ...data,
           ...this.transformGraph(
@@ -182,7 +196,8 @@ export class HelpersService {
         const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
         const murakami = this.createGraphObjectWoehler(
           startMurakami,
-          saMurakami
+          saMurakami,
+          predictionRequest.rrelation
         );
         data = [
           ...data,
@@ -195,10 +210,15 @@ export class HelpersService {
         ];
       }
       if (display.showStatistical) {
+        const statistical = this.createGraphObjectWoehler(
+          statisticalResult.woehler.statistical_sn_curve.percentile_50[0].y,
+          statisticalResult.woehler.statistical_sn_curve.percentile_50[1].y,
+          predictionRequest.rrelation
+        );
         data = [
           ...data,
           ...this.transformGraph(
-            statisticalResult.woehler.statistical_sn_curve.percentile_50,
+            statistical,
             CHART_SETTINGS_WOEHLER.sources.find(
               (src) => src.identifier === 'statistical'
             )?.value
@@ -217,14 +237,22 @@ export class HelpersService {
         const source = CHART_SETTINGS_WOEHLER.sources.find(
           (src) => src.identifier === value[0]
         );
+        const ignoredGraphs = ['snCurveLow', 'snCurveHigh'];
         if (
-          source.identifier !== 'snCurveLow' &&
-          source.identifier !== 'snCurveHigh'
+          predictionRequest.rrelation !== -1 &&
+          predictionRequest.rrelation !== 0
         ) {
+          ignoredGraphs.push('appliedStress');
+        }
+        if (ignoredGraphs.indexOf(source.identifier) === -1) {
           data = [
             ...data,
             ...this.transformGraph(
-              this.calculateStartPoint(value[1], predictionResult.kpi.slope),
+              this.calculateStartPoint(
+                value[1],
+                predictionResult.kpi.slope,
+                predictionRequest.rrelation
+              ),
               source.value
             ),
           ];
@@ -350,17 +378,26 @@ export class HelpersService {
   /**
    * Calculates the starting point of a graph
    */
-  public calculateStartPoint(graph: Graph, slope: number): Graph {
+  public calculateStartPoint(
+    graph: Graph,
+    slope: number,
+    rrelation: number
+  ): Graph {
     if (graph[0] && this.isSNShape(graph) && graph[0].x !== 10000) {
       const newY = Math.pow(graph[0].x / 10000, 1 / slope) * graph[0].y;
 
-      return {
-        ...graph,
-        0: {
-          x: 10000,
-          y: newY,
-        },
-      };
+      return rrelation === -1 || rrelation === 0
+        ? {
+            ...graph,
+            0: {
+              x: 10000,
+              y: newY,
+            },
+          }
+        : {
+            0: graph[1],
+            1: graph[2] || { ...graph[1], x: 10000000 },
+          };
     }
 
     if (graph[0] && !this.isSNShape(graph) && graph[2]) {
@@ -420,12 +457,21 @@ export class HelpersService {
   /**
    * Returns a graph object which matches the basic shape of a sn curve calculated by the analytic models
    */
-  public createGraphObjectWoehler(start: number, sa: number): Graph {
-    return {
-      0: { x: 10000, y: start },
-      1: { x: 1000000, y: sa },
-      2: { x: 10000000, y: sa },
-    };
+  public createGraphObjectWoehler(
+    start: number,
+    sa: number,
+    rrelation: number
+  ): Graph {
+    return rrelation === -1 || rrelation === 0
+      ? {
+          0: { x: 10000, y: start },
+          1: { x: 1000000, y: sa },
+          2: { x: 10000000, y: sa },
+        }
+      : {
+          0: { x: 1000000, y: sa },
+          1: { x: 10000000, y: sa },
+        };
   }
 
   /**
