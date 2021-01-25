@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.2.0](///compare/ltp-v2.2.0...ltp-v2.1.0) (2021-01-25)
+
+
+### 🎸 Features
+
+* **ltp:** transformation of non constant R-values (UFTABI-3070) ([21a7ecc](///commit/21a7ecceeecd73af322737ea8b69b3c0b485865c))
+
 ## [2.1.0](///compare/ltp-v2.1.0...ltp-v2.0.0) (2021-01-12)
 
 
