@@ -59,7 +59,7 @@
                 >{{ t('gqLastUpdated') }}:
                 {{ quotation.gqLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
               >
-              <span *ngIf="quotation.sapCreatedByUser"
+              <span *ngIf="quotation.sapCreatedByUser.id"
                 >{{ t('sapCreatedByUser') }} :
                 {{ quotation.sapCreatedByUser.name }}</span
               >

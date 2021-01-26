@@ -4,6 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
@@ -35,6 +36,7 @@ describe('DetailViewComponent', () => {
       MatSidenavModule,
       PricingDetailsModule,
       LoadingSpinnerModule,
+      ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],
     declarations: [DetailViewComponent],

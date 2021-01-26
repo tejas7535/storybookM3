@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
@@ -24,6 +26,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     MatCardModule,
     MatSidenavModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
     SharedModule,
     PricingDetailsModule,
     LoadingSpinnerModule,
