@@ -4,7 +4,11 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
+import {
+  filterSelected,
+  timeRangeSelected,
+  triggerLoad,
+} from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
@@ -334,6 +338,12 @@ describe('Overview Effects', () => {
       expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
         request
       );
+    });
+  });
+
+  describe('ngrxOnInitEffects', () => {
+    it('should return triggerLoad Action', () => {
+      expect(effects.ngrxOnInitEffects()).toEqual(triggerLoad());
     });
   });
 });

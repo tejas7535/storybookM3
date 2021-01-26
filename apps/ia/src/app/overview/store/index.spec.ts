@@ -154,7 +154,7 @@ describe('Overview Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return searchReducer', () => {
+    test('should return overviewReducer', () => {
       // prepare any action
       const action: Action = { type: 'Test' };
       expect(reducer(initialState, action)).toEqual(

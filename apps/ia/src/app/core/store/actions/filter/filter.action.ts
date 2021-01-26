@@ -33,6 +33,8 @@ export const timeRangeSelected = createAction(
   props<{ timeRange: string }>()
 );
 
+export const triggerLoad = createAction('[Filter] Trigger Load');
+
 const all = union({
   loadInitialFilters,
   loadInitialFiltersSuccess,
@@ -40,6 +42,7 @@ const all = union({
   filterSelected,
   timePeriodSelected,
   timeRangeSelected,
+  triggerLoad,
 });
 
-export type SearchActions = typeof all;
+export type FilterActions = typeof all;

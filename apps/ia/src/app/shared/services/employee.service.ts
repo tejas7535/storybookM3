@@ -12,6 +12,7 @@ import {
   AttritionOverTime,
   EmployeesRequest,
   InitialFiltersResponse,
+  LostJobProfile,
   OrgChartResponse,
   ParentEmployeeResponse,
   WorldMapResponse,
@@ -26,6 +27,7 @@ export class EmployeeService {
   private readonly WORLD_MAP = 'world-map';
   private readonly EMPLOYEE = 'parent-employee';
   private readonly ATTRITION_OVER_TIME = 'attrition-over-time';
+  private readonly LOST_JOB_PROFILES = 'lost-job-profiles';
 
   private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
@@ -108,6 +110,15 @@ export class EmployeeService {
   ): Observable<AttritionOverTime> {
     return this.dataService.post<AttritionOverTime>(
       this.ATTRITION_OVER_TIME,
+      employeesRequest
+    );
+  }
+
+  public getLostJobProfiles(
+    employeesRequest: EmployeesRequest
+  ): Observable<LostJobProfile[]> {
+    return this.dataService.post<LostJobProfile[]>(
+      this.LOST_JOB_PROFILES,
       employeesRequest
     );
   }
