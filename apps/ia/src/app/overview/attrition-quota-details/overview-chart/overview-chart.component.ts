@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { EChartsOption } from 'echarts';
 
@@ -8,6 +9,7 @@ import {
   CHART_BASE_OPTIONS,
   SERIES_BASE_OPTIONS,
 } from './overview-chart.config';
+import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 
 @Component({
   selector: 'ia-overview-chart',
@@ -17,6 +19,12 @@ import {
 })
 export class OverviewChartComponent {
   private chartInstance: any;
+  private _data: {
+    [seriesName: string]: {
+      employees: TerminatedEmployee[][];
+      attrition: number[];
+    };
+  };
 
   @Input() public loading: boolean;
   @Input() public events: Event[];
@@ -26,6 +34,8 @@ export class OverviewChartComponent {
       attrition: number[];
     };
   }) {
+    this._data = data;
+
     const series: any = Object.keys(data).map((name) => ({
       ...SERIES_BASE_OPTIONS,
       name,
@@ -43,9 +53,20 @@ export class OverviewChartComponent {
     }));
   }
 
+  public get data(): {
+    [seriesName: string]: {
+      employees: TerminatedEmployee[][];
+      attrition: number[];
+    };
+  } {
+    return this._data;
+  }
+
   public options: EChartsOption;
 
   public chartSeries: ChartSeries[];
+
+  constructor(private readonly dialog: MatDialog) {}
 
   public toggleChartSeries(name: string): void {
     const series = this.chartSeries.find((serie) => serie.name === name);
@@ -59,5 +80,17 @@ export class OverviewChartComponent {
 
   public onChartInit(eCharts: any): void {
     this.chartInstance = eCharts;
+  }
+
+  public onChartClick(event: any): void {
+    const employees = this.data[event.seriesName].employees[event.dataIndex];
+
+    this.dialog.open(TerminatedEmployeesDialogComponent, {
+      data: {
+        employees,
+        title: `${event.seriesName} - ${event.name}:`,
+      },
+      width: '600px',
+    });
   }
 }
