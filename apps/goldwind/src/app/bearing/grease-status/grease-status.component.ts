@@ -21,7 +21,7 @@ import {
   getGreaseStatusGraphData,
 } from '../../core/store/selectors/';
 import { axisChartOptions } from '../../shared/chart/chart';
-import { GREASE_CONTROLS } from '../../shared/constants';
+import { DATE_FORMAT, GREASE_CONTROLS } from '../../shared/constants';
 
 @Component({
   selector: 'goldwind-grease-status-monitoring',
@@ -108,7 +108,10 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
         } ${unit}<br>`;
 
         return index === params.length - 1
-          ? `${result}${new Date(param.data.value[0]).toLocaleString()}`
+          ? `${result}${new Date(param.data.value[0]).toLocaleString(
+              DATE_FORMAT.local,
+              DATE_FORMAT.options
+            )}`
           : `${result}`;
       }, '')
     );

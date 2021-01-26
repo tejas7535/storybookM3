@@ -6,6 +6,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
+import { DATE_FORMAT } from '../../../shared/constants';
 import { DateRangeModule } from '../../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module';
 import { SensorModule } from '../../../shared/sensor/sensor.module';
@@ -135,7 +136,10 @@ describe('EdmMonitorComponent', () => {
             },
           },
         ];
-        const formattedMockTooltip = `translate it (translate it 1): 123<br>${mockDate.toLocaleString()}`;
+        const formattedMockTooltip = `translate it (translate it 1): 123<br>${mockDate.toLocaleString(
+          DATE_FORMAT.local,
+          DATE_FORMAT.options
+        )}`;
 
         expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
       });
