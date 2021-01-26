@@ -5,6 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { DATE_FORMAT } from '../../../shared/constants';
 import { CenterLoadComponent } from './center-load.component';
 
 describe('CenterLoadComponent', () => {
@@ -78,7 +79,7 @@ describe('CenterLoadComponent', () => {
       const mockCurrent = '2021-04-11T17:55:09Z';
 
       expect(component.formatDate(mockCurrent)).toBe(
-        mockDate.toLocaleTimeString()
+        mockDate.toLocaleTimeString(DATE_FORMAT.local, DATE_FORMAT.options)
       );
     });
   });

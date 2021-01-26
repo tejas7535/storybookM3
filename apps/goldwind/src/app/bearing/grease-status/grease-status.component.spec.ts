@@ -10,6 +10,7 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
+import { DATE_FORMAT } from '../../shared/constants';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { GreaseStatusComponent } from './grease-status.component';
@@ -169,7 +170,10 @@ describe('GreaseStatusComponent', () => {
           },
         },
       ];
-      const formattedMockTooltip = `translate it: 123 %<br>${mockDate.toLocaleString()}`;
+      const formattedMockTooltip = `translate it: 123 %<br>${mockDate.toLocaleString(
+        DATE_FORMAT.local,
+        DATE_FORMAT.options
+      )}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
     });

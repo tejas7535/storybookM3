@@ -13,6 +13,7 @@ import {
   getLoadSenseMeasturementTimes,
 } from '../../../core/store/selectors/';
 import { polarChartOptions } from '../../../shared/chart/chart';
+import { DATE_FORMAT } from '../../../shared/constants';
 
 @Component({
   selector: 'goldwind-center-load',
@@ -57,6 +58,9 @@ export class CenterLoadComponent implements OnInit {
   }
 
   formatDate(current: string): string {
-    return new Date(current).toLocaleTimeString();
+    return new Date(current).toLocaleTimeString(
+      DATE_FORMAT.local,
+      DATE_FORMAT.options
+    );
   }
 }

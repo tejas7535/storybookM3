@@ -18,6 +18,7 @@ import {
   getEdmInterval,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { axisChartOptions } from '../../../shared/chart/chart';
+import { DATE_FORMAT } from '../../../shared/constants';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
 
 @Component({
@@ -89,7 +90,10 @@ export class EdmMonitorComponent implements OnInit {
         }<br>`;
 
         return index === params.length - 1
-          ? `${result}${new Date(param.data.value[0]).toLocaleString()}`
+          ? `${result}${new Date(param.data.value[0]).toLocaleString(
+              DATE_FORMAT.local,
+              DATE_FORMAT.options
+            )}`
           : `${result}`;
       }, '')
     );
