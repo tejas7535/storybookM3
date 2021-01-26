@@ -21,7 +21,7 @@
         [routerLink]="tab.path"
         [active]="rla.isActive"
         [class.disabled]="tab.disabled"
-        >{{ t(tab.label) }}</a
+        >{{ t(tab.label) | uppercase }}</a
       >
     </nav>
     <div class="tab-content">

@@ -5,6 +5,7 @@ import {
   loadInitialFiltersSuccess,
   timePeriodSelected,
   timeRangeSelected,
+  triggerLoad,
 } from '../';
 import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 
@@ -78,6 +79,14 @@ describe('Filter Actions', () => {
         timeRange,
         type: '[Filter] Time range selected',
       });
+    });
+  });
+
+  test('triggerLoad', () => {
+    const action = triggerLoad();
+
+    expect(action).toEqual({
+      type: '[Filter] Trigger Load',
     });
   });
 });

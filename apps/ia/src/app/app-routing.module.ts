@@ -17,6 +17,13 @@ export const appRoutePaths: Routes = [
         loadChildren: () =>
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
+      {
+        path: AppRoutePath.LossOfSkillPath,
+        loadChildren: () =>
+          import('./loss-of-skills/loss-of-skills.module').then(
+            (m) => m.LossOfSkillsModule
+          ),
+      },
     ],
   },
   {

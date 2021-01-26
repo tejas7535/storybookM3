@@ -9,11 +9,15 @@ import {
   withLatestFrom,
 } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import { Action, select, Store } from '@ngrx/store';
 
 import { OverviewState } from '..';
-import { filterSelected, timeRangeSelected } from '../../../core/store/actions';
+import {
+  filterSelected,
+  timeRangeSelected,
+  triggerLoad,
+} from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
@@ -40,10 +44,10 @@ import {
 } from '../actions/overview.action';
 
 @Injectable()
-export class OverviewEffects {
+export class OverviewEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(filterSelected, timeRangeSelected),
+      ofType(filterSelected, timeRangeSelected, triggerLoad),
       withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
@@ -137,4 +141,8 @@ export class OverviewEffects {
     private readonly employeeService: EmployeeService,
     private readonly store: Store<OverviewState>
   ) {}
+
+  ngrxOnInitEffects(): Action {
+    return triggerLoad();
+  }
 }

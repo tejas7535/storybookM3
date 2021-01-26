@@ -83,5 +83,18 @@
   "teamMemberDialog": {
     "close": "Close",
     "metaTitle": "Staff"
+  },
+  "lossOfSkills": {
+    "lostJobProfiles": {
+      "title": "Lost job profiles",
+      "table": {
+        "job": "Job",
+        "workforce": "Workforce",
+        "leavers": "Leavers"
+      }
+    },
+    "riskOfLeaving": {
+      "title": "Top performer @ risk of leaving"
+    }
   }
 }
