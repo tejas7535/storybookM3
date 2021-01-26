@@ -20,6 +20,7 @@ export const CHART_BASE_OPTIONS: EChartsOption = {
   },
   yAxis: {
     type: 'value',
+    minInterval: 1,
   },
   color: ['#6E9B34', '#1D9BB2', '#c9cdc8'],
   backgroundColor: 'white',
@@ -27,6 +28,12 @@ export const CHART_BASE_OPTIONS: EChartsOption = {
     show: true,
     left: 'center',
     top: 'bottom',
+  },
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'cross',
+    },
   },
 };
 

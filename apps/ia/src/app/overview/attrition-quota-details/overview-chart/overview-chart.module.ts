@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -8,6 +9,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { SharedModule } from '../../../shared/shared.module';
 import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { OverviewChartComponent } from './overview-chart.component';
+import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
 @NgModule({
   declarations: [OverviewChartComponent, OverviewChartLegendComponent],
@@ -18,6 +20,8 @@ import { OverviewChartComponent } from './overview-chart.component';
     }),
     MatCheckboxModule,
     SharedTranslocoModule,
+    MatDialogModule,
+    TerminatedEmployeesDialogModule,
   ],
   exports: [OverviewChartComponent],
 })

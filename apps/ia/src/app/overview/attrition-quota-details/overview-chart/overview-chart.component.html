@@ -1,6 +1,11 @@
 <div fxLayout="row" id="container">
   <div id="chart-container" fxFlex>
-    <div echarts [options]="options" (chartInit)="onChartInit($event)"></div>
+    <div
+      echarts
+      [options]="options"
+      (chartInit)="onChartInit($event)"
+      (chartClick)="onChartClick($event)"
+    ></div>
   </div>
   <ia-overview-chart-legend
     fxFlex="400px"

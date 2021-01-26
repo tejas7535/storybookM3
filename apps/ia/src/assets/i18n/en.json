@@ -64,6 +64,11 @@
     "chart": {
       "legend": {
         "charts": "Chart"
+      },
+      "dialog": {
+        "close": "Close",
+        "orgUnit": "Organizational Unit",
+        "position": "Position"
       }
     }
   },

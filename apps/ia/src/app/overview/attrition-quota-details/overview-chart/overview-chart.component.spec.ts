@@ -1,9 +1,11 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { TerminatedEmployee } from '../../../shared/models';
 import { SharedModule } from '../../../shared/shared.module';
 import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { OverviewChartComponent } from './overview-chart.component';
@@ -11,6 +13,8 @@ import {
   CHART_BASE_OPTIONS,
   SERIES_BASE_OPTIONS,
 } from './overview-chart.config';
+import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
+import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
 describe('OverviewChartComponent', () => {
   let component: OverviewChartComponent;
@@ -26,6 +30,8 @@ describe('OverviewChartComponent', () => {
         echarts: () => import('echarts'),
       }),
       TranslocoTestingModule,
+      MatDialogModule,
+      TerminatedEmployeesDialogModule,
     ],
     declarations: [OverviewChartComponent, OverviewChartLegendComponent],
   });
@@ -102,6 +108,46 @@ describe('OverviewChartComponent', () => {
       component.onChartInit(chartInstance);
 
       expect(component['chartInstance']).toEqual(chartInstance);
+    });
+  });
+
+  describe('onChartClick', () => {
+    const employee: TerminatedEmployee = {
+      employeeName: 'Donald Trump',
+      position: 'Depp',
+      orgUnit: 'Zirkus',
+    };
+
+    const data: {
+      [seriesName: string]: {
+        employees: TerminatedEmployee[][];
+        attrition: number[];
+      };
+    } = {
+      2020: {
+        employees: [[employee], [], []],
+        attrition: [10, 20, 10],
+      },
+    };
+
+    it('should open the dialog with correct data', () => {
+      const event = { dataIndex: 0, seriesName: '2020', name: 'Jan' };
+
+      component['dialog'].open = jest.fn();
+
+      component.data = data;
+      component.onChartClick(event);
+
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        TerminatedEmployeesDialogComponent,
+        {
+          data: {
+            title: '2020 - Jan:',
+            employees: [employee],
+          },
+          width: '600px',
+        }
+      );
     });
   });
 });
