@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -29,6 +30,7 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     StoreModule.forFeature('processCase', processCaseReducer),
     AddMaterialDialogModule,
     LoadingSpinnerModule,
+    ReactiveComponentModule,
   ],
   providers: [
     {

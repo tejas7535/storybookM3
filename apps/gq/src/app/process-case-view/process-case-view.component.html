@@ -3,35 +3,33 @@
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
+  *ngIf="
+    (isCustomerLoading$ | ngrxPush) === false &&
+      (isQuotationLoading$ | ngrxPush) === false;
+    else loading
+  "
 >
   <mat-drawer-content
-    *ngIf="
-      (isCustomerLoading$ | async) === false &&
-        (isQuotationLoading$ | async) === false;
-      else loading
-    "
+    *ngIf="quotation$ | ngrxPush as quotation"
     fxLayout="column"
     fxLayoutAlign="start center"
     fxFlexFill
   >
     <gq-case-header
-      [gqId]="(quotation$ | async).gqId"
-      [sapId]="(quotation$ | async).sapId"
-      [customerName]="(quotation$ | async).customer.name"
-      [quotation]="quotation$ | async"
+      [gqId]="quotation.gqId"
+      [sapId]="quotation.sapId"
+      [customerName]="quotation.customer.name"
+      [quotation]="quotation$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
-
-    <gq-result-table
-      [rowData]="(quotation$ | async).quotationDetails"
-    ></gq-result-table>
+    <gq-result-table [rowData]="quotation.quotationDetails"></gq-result-table>
   </mat-drawer-content>
   <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
       fxLayout="column"
       fxFlexFill
-      *ngIf="offer$ | async"
-      [rowData]="offer$ | async"
+      *ngIf="offer$ | ngrxPush"
+      [rowData]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-offer-drawer>
   </mat-drawer>
