@@ -69,6 +69,7 @@ mat-toolbar {
 }
 
 .header-content {
+  font-family: inherit !important;
   height: calc(100% - 60px) !important;
   overflow: auto;
   position: relative;

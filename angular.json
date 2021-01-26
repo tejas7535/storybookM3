@@ -2884,7 +2884,7 @@
       "prefix": "mm",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/apps/mm",
             "index": "apps/mm/src/index.html",
@@ -2895,11 +2895,15 @@
             "assets": ["apps/mm/src/favicon.ico", "apps/mm/src/assets"],
             "styles": [
               "apps/mm/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
+              "node_modules/schaeffler-icons/style.css",
+              "node_modules/@fontsource/roboto/index.css"
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/ui/styles/src"]
+              "includePaths": []
+            },
+            "customWebpackConfig": {
+              "path": "webpack.config.js"
             }
           },
           "configurations": {
@@ -2995,7 +2999,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "mm:build"
           },
