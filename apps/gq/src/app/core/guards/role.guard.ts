@@ -29,7 +29,7 @@ export class RoleGuard implements CanActivateChild {
     return this.store.pipe(
       select(getRoles),
       map((roles) => {
-        if (!roles.includes(UserRoles.BASIC_ROLE)) {
+        if (!roles.includes(UserRoles.BASIC)) {
           this.router.navigate([AppRoutePath.ForbiddenPath]);
 
           return false;

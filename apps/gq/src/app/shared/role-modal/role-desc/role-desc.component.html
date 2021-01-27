@@ -1,0 +1,10 @@
+<ul>
+  <li *ngFor="let role of roles; trackBy: trackByFn">
+    <div class="m-b-10" fxLayout="row" fxLayoutAlign="start center">
+      <div fxFlex="40%">{{ role }}</div>
+      <div fxFlex="60%" *transloco="let t; read: translationKey">
+        {{ t(role) }}
+      </div>
+    </div>
+  </li>
+</ul>
