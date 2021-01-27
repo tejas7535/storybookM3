@@ -147,17 +147,17 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   /**
    * Limit selected rows to a maximum of two
    */
-  onRowSelected({ node, api }: RowSelectedEvent): void {
+  public onRowSelected({ node, api }: RowSelectedEvent): void {
     const id = +node.id;
     const selected = node.isSelected();
-    const calculation: Calculation = node.data;
 
     this.selectedRows = selected
       ? [...this.selectedRows, id]
       : this.selectedRows.filter((entry: number) => entry !== id);
 
     if (this.selectedRows.length === 1) {
-      const nodeId = `${id}`;
+      const nodeId = `${this.selectedRows[0]}`;
+      const calculation = api.getSelectedRows()[0];
       this.selectionChange.emit({ nodeId, calculation });
     } else if (this.selectedRows.length > 2) {
       api.deselectIndex(this.selectedRows.shift());

@@ -169,7 +169,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
   /**
    * Limit selected rows to a maximum of two
    */
-  onRowSelected({ node, api }: RowSelectedEvent): void {
+  public onRowSelected({ node, api }: RowSelectedEvent): void {
     const id = +node.id;
     const selected = node.isSelected();
 

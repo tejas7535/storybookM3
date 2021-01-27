@@ -216,6 +216,7 @@ describe('CalculationsTableComponent', () => {
       },
       api: {
         deselectIndex: jest.fn(),
+        getSelectedRows: jest.fn(() => [{}]),
       },
     } as unknown) as RowSelectedEvent;
 
