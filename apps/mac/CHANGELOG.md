@@ -3,6 +3,21 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.4](///compare/mac-v0.0.4...mac-v0.0.3) (2021-01-27)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** bugfix interface naminn issue ([ebb61fa](///commit/ebb61fad4621d713da2e82834d0ee490b8b8ed64))
+
+
+### 🎸 Features
+
+* **mac:** change the welcome text ([f1e8580](///commit/f1e85805323fecd2a96ec2201853c5408b465e7a))
+* **mac:** fix case sensitive issue ([dec191e](///commit/dec191e290357367ee1e429db386a96b775a26ef))
+* **mac:** replace card icons from fixed PNG to dynamic SVG (UFTABI-3662) ([1aa0f1f](///commit/1aa0f1f7b67995358dde071b0422ed5206383f27))
+* **mac:** set up angular service (UFTABI-2996) ([f7c32c1](///commit/f7c32c185c4e08ee31f44d2504d5b3b60fedf0c8))
+
 ### [0.0.3](///compare/mac-v0.0.3...mac-v0.0.2) (2021-01-07)
 
 
