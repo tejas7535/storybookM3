@@ -23,3 +23,4 @@ Please describe how the reviewer can test the fix.
 - [ ] **Test-Coverage** sufficent (Unit tests: 80%)
 - [ ] **Bug(s)** tested
 - [ ] **Code Review**
+- [ ] **Design Review** done
