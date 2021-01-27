@@ -23,3 +23,4 @@ Please describe how the reviewer can test the new feature.
 - [ ] **Test-Coverage** sufficent (Unit tests: 80%)
 - [ ] **Feature** tested (if possible)
 - [ ] **Code Review** done
+- [ ] **Design Review** done
