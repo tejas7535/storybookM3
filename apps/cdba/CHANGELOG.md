@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.15.1](///compare/cdba-v1.15.1...cdba-v1.15.0) (2021-01-27)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** always show selected BoM (DSCDA-2153) ([b8ac27b](///commit/b8ac27bfcdfde8a1406b60fcaab79fd203ce3a8c))
+
 ## [1.15.0](///compare/cdba-v1.15.0...cdba-v1.14.0) (2021-01-18)
 
 
