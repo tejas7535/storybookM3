@@ -23,13 +23,13 @@ export class ColumnUtilityService {
   }
   static filterGpc(col: ColDef, roles: string[]): boolean {
     return col.field === ColumnFields.GPC || col.field === ColumnFields.GPI
-      ? roles.includes(UserRoles.COST_GPC_ROLE)
+      ? roles.includes(UserRoles.COST_GPC)
       : true;
   }
 
   static filterSqv(col: ColDef, roles: string[]): boolean {
     return col.field === ColumnFields.SQV
-      ? roles.includes(UserRoles.COST_SQV_ROLE)
+      ? roles.includes(UserRoles.COST_SQV)
       : true;
   }
 

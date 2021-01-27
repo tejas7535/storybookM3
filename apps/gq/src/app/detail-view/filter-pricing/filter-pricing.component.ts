@@ -23,7 +23,7 @@ export class FilterPricingComponent implements OnInit {
   ngOnInit(): void {
     this.manualPricePermission$ = this.store.pipe(
       select(getRoles),
-      map((roles) => roles.includes(UserRoles.MANUAL_PRICE_ROLE))
+      map((roles) => roles.includes(UserRoles.MANUAL_PRICE))
     );
   }
 }

@@ -32,7 +32,7 @@ export class TotalRowCountComponent implements OnInit {
   ngOnInit(): void {
     this.showMargins$ = this.store.pipe(
       select(getRoles),
-      map((roles: string[]) => roles.includes(UserRoles.COST_GPC_ROLE))
+      map((roles: string[]) => roles.includes(UserRoles.COST_GPC))
     );
   }
 

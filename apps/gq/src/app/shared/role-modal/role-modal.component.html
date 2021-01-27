@@ -1,0 +1,23 @@
+<div *transloco="let t; read: 'shared.roleModal'">
+  <div>
+    <mat-icon class="close-dialog" (click)="closeDialog()"> close </mat-icon>
+    <h2 class="m-t-0">{{ t('modalTitle') }}</h2>
+  </div>
+  <div *ngIf="allRoles$ | ngrxPush as allRoles">
+    <span> {{ t('subtitle') }} </span>
+    <div *ngIf="allRoles.length > 0; else noRoles">
+      <div *ngFor="let groupRoles of allRoles; trackBy: trackByFn">
+        <div *ngIf="groupRoles.roles.length > 0">
+          <h3>{{ t(groupRoles.key + '.title') }}</h3>
+          <gq-role-desc
+            [roles]="groupRoles.roles"
+            [key]="groupRoles.key"
+          ></gq-role-desc>
+        </div>
+      </div>
+    </div>
+  </div>
+  <ng-template #noRoles>
+    <div>{{ t('noRoles') }}</div>
+  </ng-template>
+</div>

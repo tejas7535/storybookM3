@@ -251,6 +251,48 @@
       "netValue": "Net Value",
       "price": "Price",
       "quantity": "Quantity"
+    },
+    "roleModal": {
+      "menuTitle": "User Roles",
+      "modalTitle": "Assigned User Roles",
+      "subtitle": "All roles that are currently assigned to your user:",
+      "noRoles": "You have no roles assigned",
+      "geoRoles": {
+        "title": "Geographical Roles",
+        "REGION.WORLD": "This role enables a user to query customers from all regions.",
+        "REGION.EMEA": "This role enables a user to query customers from region Europe.",
+        "REGION.AMERICAS": "This role enables a user to query customers from region Americas.",
+        "REGION.ASIA.PACIFIC": "This role enables a user to query customers from region Asia Pacific.",
+        "REGION.GREATER.CHINA": "This role enables a user to query customers from region Greater China."
+      },
+      "sectoralRoles": {
+        "title": "Sectoral Roles",
+        "SECTOR.ALL": "This role enables a user to query customers from all sectors.",
+        "SECTOR.ID": "This role enables a user to query Distribution customers.",
+        "SECTOR.OEM": "This role enables a user to query OEM/MRO customers.",
+        "SECTOR.IA": "This role enables a user to query customers allocated to sector Industrial Automation.",
+        "SECTOR.OR": "This role enables a user to query customers allocated to sector Offroad.",
+        "SECTOR.PT": "This role enables a user to query customers allocated to sector Power Transmission.",
+        "SECTOR.RM": "This role enables a user to query customers allocated to sector Raw Materials.",
+        "SECTOR.RW": "This role enables a user to query customers allocated to sector Railway.",
+        "SECTOR.TW": "This role enables a user to query customers allocated to sector Two Wheelers.",
+        "SECTOR.WE": "This role enables a user to query customers allocated to sector Windenergy.",
+        "SECTOR.XA": "This role enables a user to query customers allocated to sector Aerospace.",
+        "SECTOR.AG": "This role enables a user to query customers allocated to sector Transmission Application.",
+        "SECTOR.AC": "This role enables a user to query customers allocated to sector Chassis/Accessory Drive Application.",
+        "SECTOR.AM": "This role enables a user to query customers allocated to sector Automotive Aftermarket.",
+        "SECTOR.AE": "This role enables a user to query customers allocated to sector Engine Components.",
+        "SECTOR.AO": "This role enables a user to query customers allocated to sector Automotive Sales."
+      },
+      "costRoles": {
+        "title": "Cost Roles",
+        "COST.GPC": "This role enables a user to see GPC and margin information.",
+        "COST.SQV": "This role enables a user to see SQV information."
+      },
+      "priceRoles": {
+        "title": "Price Roles",
+        "PRICE.MANUAL": "This role enables a user to enter a manual price (ZMAN)."
+      }
     }
   }
 }

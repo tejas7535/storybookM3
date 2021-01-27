@@ -58,7 +58,7 @@ describe('TotalRowCountComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set showMargins to true', () => {
-      store.overrideSelector(getRoles, [UserRoles.COST_GPC_ROLE]);
+      store.overrideSelector(getRoles, [UserRoles.COST_GPC]);
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();

@@ -46,7 +46,7 @@ describe('FilterPricingComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set manualPricePermission to true', () => {
-      store.overrideSelector(getRoles, [UserRoles.MANUAL_PRICE_ROLE]);
+      store.overrideSelector(getRoles, [UserRoles.MANUAL_PRICE]);
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();

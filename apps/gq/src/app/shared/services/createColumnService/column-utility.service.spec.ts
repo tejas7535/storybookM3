@@ -11,7 +11,7 @@ jest.mock('@ngneat/transloco', () => ({
 describe('CreateColumnService', () => {
   let roles: string[];
   beforeAll(() => {
-    roles = [UserRoles.BASIC_ROLE];
+    roles = [UserRoles.BASIC];
   });
 
   describe('filterGpc', () => {
@@ -22,7 +22,7 @@ describe('CreateColumnService', () => {
     });
     test('should return true', () => {
       const col = { field: ColumnFields.GPI };
-      roles.push(UserRoles.COST_GPC_ROLE);
+      roles.push(UserRoles.COST_GPC);
       const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
       expect(isNotFiltered).toBeTruthy();
     });
@@ -40,7 +40,7 @@ describe('CreateColumnService', () => {
     });
     test('should return true', () => {
       const col = { field: ColumnFields.SQV };
-      roles.push(UserRoles.COST_SQV_ROLE);
+      roles.push(UserRoles.COST_SQV);
       const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
       expect(isNotFiltered).toBeTruthy();
     });
@@ -68,9 +68,9 @@ describe('CreateColumnService', () => {
       ColumnUtilityService.filterSqv = jest.fn().mockReturnValue(true);
       ColumnUtilityService.filterAddedToOffer = jest.fn().mockReturnValue(true);
       const allRoles = [
-        UserRoles.BASIC_ROLE,
-        UserRoles.COST_GPC_ROLE,
-        UserRoles.COST_SQV_ROLE,
+        UserRoles.BASIC,
+        UserRoles.COST_GPC,
+        UserRoles.COST_SQV,
       ];
 
       const columns = ColumnUtilityService.createColumnDefs(allRoles, true);
