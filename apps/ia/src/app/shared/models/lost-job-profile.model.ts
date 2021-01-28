@@ -1,5 +1,7 @@
 export interface LostJobProfile {
   job: string;
-  workforce: number;
-  leavers: number;
+  amountOfEmployees: number;
+  employees: string[];
+  leavers: string[];
+  amountOfLeavers: number;
 }

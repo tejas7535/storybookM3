@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { initialState, lossOfSkillsReducer, reducer } from '.';
-import { EmployeesRequest } from '../../shared/models';
+import { EmployeesRequest, LostJobProfile } from '../../shared/models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
@@ -24,7 +24,15 @@ describe('LossOfSkills Reducer', () => {
 
   describe('loadLostJobProfilesSuccess', () => {
     test('should unset loading and set lost job profiles', () => {
-      const lostJobProfiles = [{ workforce: 10, leavers: 3, job: 'Foo Bar' }];
+      const lostJobProfiles: LostJobProfile[] = [
+        {
+          amountOfEmployees: 10,
+          amountOfLeavers: 3,
+          job: 'Foo Bar',
+          employees: [],
+          leavers: [],
+        },
+      ];
 
       const action = loadLostJobProfilesSuccess({ lostJobProfiles });
 

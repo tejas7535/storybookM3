@@ -10,7 +10,11 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
+import {
+  EmployeesRequest,
+  LostJobProfile,
+  SelectedFilter,
+} from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import {
   loadLostJobProfiles,
@@ -112,9 +116,21 @@ describe('LossOfSkills Effects', () => {
     });
 
     test('should return loadLostJobProfilesSuccess action when REST call is successful', () => {
-      const lostJobProfiles = [
-        { workforce: 10, leavers: 3, job: 'Data Scientist' },
-        { workforce: 10, leavers: 3, job: 'Software Engineer' },
+      const lostJobProfiles: LostJobProfile[] = [
+        {
+          amountOfEmployees: 10,
+          amountOfLeavers: 3,
+          job: 'Data Scientist',
+          employees: [],
+          leavers: [],
+        },
+        {
+          amountOfEmployees: 10,
+          amountOfLeavers: 3,
+          job: 'Software Engineer',
+          employees: [],
+          leavers: [],
+        },
       ];
       const result = loadLostJobProfilesSuccess({
         lostJobProfiles,

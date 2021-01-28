@@ -96,6 +96,10 @@
         "job": "Job",
         "workforce": "Workforce",
         "leavers": "Leavers"
+      },
+      "popup": {
+        "titleWorkforce": "Current Workforce:",
+        "titleLeavers": "Leavers:"
       }
     },
     "riskOfLeaving": {
