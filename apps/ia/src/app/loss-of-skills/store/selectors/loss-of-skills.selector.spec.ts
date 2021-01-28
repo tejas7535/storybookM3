@@ -11,7 +11,15 @@ describe('LossOfSkills Selector', () => {
     lossOfSkills: {
       lostJobProfiles: {
         loading: true,
-        data: [{ job: 'Software Engineer', workforce: 10, leavers: 1 }],
+        data: [
+          {
+            job: 'Software Engineer',
+            amountOfEmployees: 10,
+            amountOfLeavers: 1,
+            employees: [],
+            leavers: [],
+          },
+        ],
         errorMessage: 'Fancy Error',
       },
     },
