@@ -6,10 +6,10 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import * as transloco from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { Store } from '@ngrx/store';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
+import { getUsername } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
@@ -32,7 +32,7 @@ describe('AppComponent', () => {
   let component: AppComponent;
 
   let breakpointService: BreakpointService;
-  let store: Store<any>;
+  let store: MockStore<any>;
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
@@ -56,13 +56,13 @@ describe('AppComponent', () => {
     spyOn(transloco, 'translate').and.returnValue('test');
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    breakpointService = TestBed.inject(BreakpointService);
+    store = TestBed.inject(MockStore);
+    store.overrideSelector(getUsername, 'Not John');
     fixture.detectChanges();
   });
 
-  beforeEach(() => {
-    breakpointService = TestBed.inject(BreakpointService);
-    store = TestBed.inject(Store);
-  });
+  beforeEach(() => {});
 
   it('should create the app', () => {
     expect(component).toBeTruthy();
