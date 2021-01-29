@@ -166,6 +166,7 @@
     "caseMaterial": {
       "addEntry": {
         "quantity": {
+          "error": "Invalid quantity",
           "hint": "Enter a quantity",
           "label": "Quantity"
         },

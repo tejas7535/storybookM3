@@ -10,12 +10,14 @@ import { MatSelectModule } from '@angular/material/select';
 
 import * as rxjs from 'rxjs';
 
+import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { IdValue, SapQuotation } from '../../core/store/models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
+import { FilterNames } from './filter-names.enum';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
 describe('AutocompleteInputComponent', () => {
@@ -71,7 +73,7 @@ describe('AutocompleteInputComponent', () => {
     });
     test('should add valueChanges subscription after DEBOUNCE_TIME_DEFAULT on searchRemote with >1 chars', (done) => {
       component.options = [new IdValue('1', 'test', false)];
-      component.filterName = 'quotation';
+      component.filterName = FilterNames.QUOTATION;
       component['autocomplete'].emit = jest.fn();
 
       const spy = jest.spyOn(rxjs, 'timer');
@@ -85,7 +87,7 @@ describe('AutocompleteInputComponent', () => {
       setTimeout(() => {
         expect(spy).toHaveBeenCalledWith(component['DEBOUNCE_TIME_DEFAULT']);
         expect(component['autocomplete'].emit).toHaveBeenCalledWith({
-          filter: 'quotation',
+          filter: FilterNames.QUOTATION,
           searchFor: testVal,
         });
         done();
@@ -114,7 +116,7 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('1', 'test', true),
         new IdValue('2', 'test2', false),
       ];
-      component.filterName = 'customer';
+      component.filterName = FilterNames.CUSTOMER;
       component.autofilled = true;
       component.valueInput = ({
         nativeElement: { value: 'test | 1' },
@@ -165,6 +167,34 @@ describe('AutocompleteInputComponent', () => {
     });
   });
 
+  describe('onKeyPress', () => {
+    test('should return formatted', () => {
+      const event = ({ key: '1' } as unknown) as any;
+      component.searchFormControl = ({
+        value: '000001562606302',
+        setValue: jest.fn(),
+      } as unknown) as any;
+      component.filterName = FilterNames.MATERIAL;
+      component.onKeypress(event);
+
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        '000001562-6063-02'
+      );
+    });
+    test('should return the same value', () => {
+      const event = ({ key: KeyName.BACKSPACE } as unknown) as any;
+      component.searchFormControl = ({
+        value: '000001562-6063-',
+        setValue: jest.fn(),
+      } as unknown) as any;
+      component.filterName = FilterNames.MATERIAL;
+      component.onKeypress(event);
+
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        '000001562-6063-'
+      );
+    });
+  });
   describe('set isDisabled', () => {
     test('should set test options', () => {
       component.isDisabled = true;

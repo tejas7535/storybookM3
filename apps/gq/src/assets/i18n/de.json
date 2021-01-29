@@ -166,6 +166,7 @@
     "caseMaterial": {
       "addEntry": {
         "quantity": {
+          "error": "Invalide Anzahl",
           "label": "Anzahl",
           "hint": "Geben Sie die Anzahl ein"
         },

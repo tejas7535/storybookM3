@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import {
   CaseFilterItem,
   CreateCase,
@@ -15,7 +16,9 @@ import { CaseState } from '../../reducers/create-case/create-case.reducer';
 export const getCaseQuotation = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.createCase.autocompleteItems.find((it) => it.filter === 'quotation')
+    state.createCase.autocompleteItems.find(
+      (it) => it.filter === FilterNames.QUOTATION
+    )
 );
 
 export const getSelectedQuotation = createSelector(
@@ -23,7 +26,7 @@ export const getSelectedQuotation = createSelector(
   (state: CaseState): ImportCaseResponse => {
     let quotation: ImportCaseResponse = {};
     const quotationOptions = state.createCase.autocompleteItems.find(
-      (it) => it.filter === 'quotation'
+      (it) => it.filter === FilterNames.QUOTATION
     );
     (quotationOptions.options as SapQuotation[]).forEach((value) => {
       if (value.selected) {
@@ -41,13 +44,15 @@ export const getSelectedQuotation = createSelector(
 export const getCaseCustomer = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.createCase.autocompleteItems.find((it) => it.filter === 'customer')
+    state.createCase.autocompleteItems.find(
+      (it) => it.filter === FilterNames.CUSTOMER
+    )
 );
 export const getCaseMaterialNumber = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
     state.createCase.autocompleteItems.find(
-      (it) => it.filter === 'materialNumber'
+      (it) => it.filter === FilterNames.MATERIAL
     )
 );
 
@@ -82,7 +87,7 @@ export const getCustomerConditionsValid = createSelector(
     }
     const customerValid = state
       ? state.createCase.autocompleteItems
-          .find((el) => el.filter === 'customer')
+          .find((el) => el.filter === FilterNames.CUSTOMER)
           .options.find((opt) => opt.selected)
       : undefined;
 
@@ -93,7 +98,7 @@ export const getCreateCaseData = createSelector(
   getCaseState,
   (state: CaseState): CreateCase => {
     const customer = state.createCase.autocompleteItems
-      .find((it) => it.filter === 'customer')
+      .find((it) => it.filter === FilterNames.CUSTOMER)
       .options.find((opt) => opt.selected);
     const customerId = customer ? customer.id : undefined;
     const materialQuantities: MaterialQuantities[] = [];

@@ -10,19 +10,19 @@ describe('TableService', () => {
   describe('pasteItems', () => {
     test('should add remove duplicated items', () => {
       const items: MaterialTableItem[] = [
-        { quantity: '100', materialNumber: '23457' },
-        { quantity: '10', materialNumber: '1234' },
-        { quantity: '120', materialNumber: '76543' },
+        { quantity: 100, materialNumber: '23457' },
+        { quantity: 10, materialNumber: '1234' },
+        { quantity: 120, materialNumber: '76543' },
       ];
       const pasteDestination: MaterialTableItem = {
-        quantity: '10',
+        quantity: 10,
         materialNumber: '1234',
       };
       const currentRowData: MaterialTableItem[] = [
-        { quantity: '100', materialNumber: '23457' },
-        { quantity: '10', materialNumber: '1234' },
-        { quantity: '120', materialNumber: '76543' },
-        { quantity: '120', materialNumber: '76543' },
+        { quantity: 100, materialNumber: '23457' },
+        { quantity: 10, materialNumber: '1234' },
+        { quantity: 120, materialNumber: '76543' },
+        { quantity: 120, materialNumber: '76543' },
       ];
 
       const result = TableService.pasteItems(
@@ -32,22 +32,22 @@ describe('TableService', () => {
       );
 
       expect(result).toEqual([
-        { quantity: '100', materialNumber: '23457' },
-        { quantity: '10', materialNumber: '1234' },
-        { quantity: '120', materialNumber: '76543' },
+        { quantity: 100, materialNumber: '23457' },
+        { quantity: 10, materialNumber: '1234' },
+        { quantity: 120, materialNumber: '76543' },
       ]);
     });
 
     test('should do nothing ', () => {
       const items: MaterialTableItem[] = [
-        { quantity: '10', materialNumber: '1234' },
+        { quantity: 10, materialNumber: '1234' },
       ];
       const pasteDestination: MaterialTableItem = {
-        quantity: '10',
+        quantity: 10,
         materialNumber: '1234',
       };
       const currentRowData: MaterialTableItem[] = [
-        { quantity: '100', materialNumber: '1234' },
+        { quantity: 100, materialNumber: '1234' },
       ];
 
       const result = TableService.pasteItems(
@@ -56,7 +56,7 @@ describe('TableService', () => {
         currentRowData
       );
 
-      expect(result).toEqual([{ quantity: '100', materialNumber: '1234' }]);
+      expect(result).toEqual([{ quantity: 100, materialNumber: '1234' }]);
     });
   });
 
@@ -64,22 +64,22 @@ describe('TableService', () => {
     describe('should delete an Item', () => {
       const materialNumber = '1234';
       const rowData: MaterialTableItem[] = [
-        { quantity: '100', materialNumber: '23457' },
-        { quantity: '10', materialNumber: '1234' },
-        { quantity: '120', materialNumber: '76543' },
+        { quantity: 100, materialNumber: '23457' },
+        { quantity: 10, materialNumber: '1234' },
+        { quantity: 120, materialNumber: '76543' },
       ];
 
       const result = TableService.deleteItem(materialNumber, rowData);
       expect(result).toEqual([
-        { quantity: '100', materialNumber: '23457' },
-        { quantity: '120', materialNumber: '76543' },
+        { quantity: 100, materialNumber: '23457' },
+        { quantity: 120, materialNumber: '76543' },
       ]);
     });
 
     describe('should delete an Item and return the dummyRowData', () => {
       const materialNumber = '1234';
       const rowData: MaterialTableItem[] = [
-        { quantity: '10', materialNumber: '1234' },
+        { quantity: 10, materialNumber: '1234' },
       ];
 
       const result = TableService.deleteItem(materialNumber, rowData);
@@ -158,7 +158,7 @@ describe('TableService', () => {
     });
     describe('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
-        quantity: '100',
+        quantity: 100,
         materialNumber: '2345713',
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -182,7 +182,7 @@ describe('TableService', () => {
 
     describe('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
-        quantity: '',
+        quantity: -10,
         materialNumber: '23457',
         info: {
           description: [ValidationDescription.Not_Validated],
@@ -200,7 +200,7 @@ describe('TableService', () => {
           valid: false,
         },
         materialNumber: '23457',
-        quantity: '',
+        quantity: -10,
       });
     });
 

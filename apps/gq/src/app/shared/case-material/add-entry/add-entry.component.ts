@@ -8,7 +8,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -33,6 +33,7 @@ import {
 } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 
 @Component({
   selector: 'gq-add-entry',
@@ -47,7 +48,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   materialNumber: string;
   rowData: MaterialTableItem[];
   materialNumberInput: boolean;
-  quantity: any;
+  quantity: number;
   materialNumberIsValid = false;
   quantityValid = false;
   addRowEnabled = false;
@@ -70,7 +71,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.materialNumber$ = this.store.pipe(select(getCaseMaterialNumber));
     this.materialNumberAutocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading, 'materialNumber')
+      select(getCaseAutocompleteLoading, FilterNames.MATERIAL)
     );
     this.addSubscriptions();
   }
@@ -88,21 +89,28 @@ export class AddEntryComponent implements OnInit, OnDestroy {
         })
     );
     this.subscription.add(
-      this.quantityFormControl.valueChanges.subscribe((value) => {
-        this.quantityValid = value && value.length >= 1;
-        this.emitHasInput();
-        this.quantity = value;
-        this.rowInputValid();
-      })
-    );
-    this.subscription.add(
       this.store
         .pipe(select(getCaseRowData))
         .subscribe((data: MaterialTableItem[]) => {
           this.rowData = data;
         })
     );
+
+    this.quantityFormControl.setValidators([this.quantityValidator.bind(this)]);
   }
+
+  quantityValidator(control: AbstractControl): ValidationErrors {
+    const { value } = control;
+    const valid =
+      !value || (value && value.length > 0 && parseInt(value, 10) > 0);
+    // input field should stay green when empty
+    this.quantityValid = value && valid;
+    this.quantity = value;
+    this.rowInputValid();
+
+    return !valid ? { invalidInput: !valid } : undefined;
+  }
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
@@ -124,13 +132,14 @@ export class AddEntryComponent implements OnInit, OnDestroy {
   }
   materialHasInput(hasInput: boolean): void {
     this.materialNumberInput = hasInput;
-    this.emitHasInput();
+    this.rowInputValid();
   }
 
   rowInputValid(): void {
-    this.addRowEnabled = this.materialNumberIsValid
-      ? this.quantityValid && this.rowDoesNotExist()
-      : false;
+    this.addRowEnabled =
+      this.materialNumberIsValid && this.materialNumberInput
+        ? this.quantityValid && this.rowDoesNotExist()
+        : false;
   }
   rowDoesNotExist(): boolean {
     const exists = this.rowData.find(

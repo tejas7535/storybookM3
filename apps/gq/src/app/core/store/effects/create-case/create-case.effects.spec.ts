@@ -11,6 +11,7 @@ import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
   autocomplete,
@@ -105,11 +106,14 @@ describe('Create Case Effects', () => {
     let autocompleteSearch: AutocompleteSearch;
 
     test('should return autocompleteCustomerSuccess action when REST call is successful', () => {
-      autocompleteSearch = new AutocompleteSearch('customer', 'Aud');
+      autocompleteSearch = new AutocompleteSearch(FilterNames.CUSTOMER, 'Aud');
       action = autocomplete({ autocompleteSearch });
       autocompleteService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
-      const result = autocompleteSuccess({ options, filter: 'customer' });
+      const result = autocompleteSuccess({
+        options,
+        filter: FilterNames.CUSTOMER,
+      });
 
       actions$ = hot('-a', { a: action });
 
@@ -125,11 +129,17 @@ describe('Create Case Effects', () => {
       );
     });
     test('should return autocompleteQuotationSuccess action when REST call is successful', () => {
-      autocompleteSearch = new AutocompleteSearch('quotation', '12345');
+      autocompleteSearch = new AutocompleteSearch(
+        FilterNames.QUOTATION,
+        '12345'
+      );
       action = autocomplete({ autocompleteSearch });
       autocompleteService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
-      const result = autocompleteSuccess({ options, filter: 'quotation' });
+      const result = autocompleteSuccess({
+        options,
+        filter: FilterNames.QUOTATION,
+      });
 
       actions$ = hot('-a', { a: action });
 

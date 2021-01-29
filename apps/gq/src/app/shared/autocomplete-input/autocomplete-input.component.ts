@@ -14,11 +14,14 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
+import { KeyName } from '@ag-grid-community/all-modules';
+
 import {
   AutocompleteSearch,
   IdValue,
   SapQuotation,
 } from '../../core/store/models';
+import { FilterNames } from './filter-names.enum';
 
 @Component({
   selector: 'gq-autocomplete-input',
@@ -39,7 +42,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue && this.autofilled) {
       const value =
-        this.filterName === 'customer'
+        this.filterName === FilterNames.CUSTOMER
           ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
           : this.isSapQuotation(this.selectedIdValue)
           ? `${this.selectedIdValue.customerName} | ${this.selectedIdValue.id}`
@@ -100,20 +103,63 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
               : EMPTY
           )
         )
-        .subscribe((searchFor) => {
+        .subscribe((searchFor: string) => {
           this.debounceIsActive = false;
           this.inputContent.emit(true);
 
-          this.autocomplete.emit({ searchFor, filter: this.filterName });
+          this.autocomplete.emit({
+            searchFor:
+              this.filterName === FilterNames.MATERIAL
+                ? searchFor.split('-').join('')
+                : searchFor,
+            filter: this.filterName,
+          });
           this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
         })
     );
     this.searchFormControl.setValidators([this.isInputValid.bind(this)]);
   }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  onKeypress(event: KeyboardEvent): void {
+    if (this.filterName === FilterNames.MATERIAL) {
+      let value: string = this.searchFormControl.value.slice(0, 17);
+
+      if (event.key !== KeyName.BACKSPACE) {
+        value = this.formatMaterialNumber(value);
+      }
+
+      this.searchFormControl.setValue(value);
+    }
+  }
+
+  formatMaterialNumber(inputNumber: string): string {
+    return (
+      inputNumber
+        // split string by separators to array
+        .split('-')
+        // join array to string again
+        .join('')
+        /**
+         * Regex checks for two groups:
+         * 1st: until 9th character
+         * 2nd: the four characters after
+         * when replacing:
+         * check the string length to insert '-' separator only if string is long enough
+         */
+        .replace(
+          /^(.{9})(.{0,4})/g,
+          `$1-$2${inputNumber.length <= 13 ? '' : '-'}`
+        )
+    );
+  }
 
   isInputValid(control: AbstractControl): ValidationErrors {
     const formValue =
-      (this.filterName === 'customer' || this.filterName === 'quotation') &&
+      (this.filterName === FilterNames.CUSTOMER ||
+        this.filterName === FilterNames.QUOTATION) &&
       control.value &&
       typeof control.value === 'string'
         ? control.value.split(' | ')[1]
@@ -133,10 +179,6 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     }
 
     return undefined;
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   unselect(): void {
