@@ -3,7 +3,7 @@
   *transloco="let t; read: 'search.referenceTypesFilters'"
   class="custom-mat-form-field"
 >
-  <mat-label>{{ t(filterName) }}</mat-label>
+  <mat-label>{{ t('names.' + filterName) }}</mat-label>
   <mat-select
     [formControl]="form"
     multiple
@@ -14,7 +14,11 @@
     <mat-select-trigger>
       {{ form.value | multiSelectValue }}
     </mat-select-trigger>
-    <mat-form-field class="search-field" floatLabel="never">
+    <mat-form-field
+      class="search-field"
+      [ngClass]="{ 'm-b-15': filter.autocomplete }"
+      floatLabel="never"
+    >
       <input
         #autocomplete
         matInput
@@ -23,6 +27,9 @@
         [formControl]="searchForm"
         (keydown)="$event.stopPropagation()"
       />
+      <mat-hint *ngIf="filter.autocomplete">{{
+        t('formatHints.' + filterName)
+      }}</mat-hint>
       <button
         mat-button
         *ngIf="searchForm.value && !autocompleteLoading"

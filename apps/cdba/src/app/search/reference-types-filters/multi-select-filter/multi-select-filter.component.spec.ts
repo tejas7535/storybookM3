@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -19,7 +20,6 @@ import {
   FilterItemIdValue,
   IdValue,
 } from '../../../core/store/reducers/search/models';
-import { SharedModule } from '../../../shared/shared.module';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
 import { FormatValuePipe } from './pipes/format-value.pipe';
@@ -40,7 +40,7 @@ describe('MultiSelectFilterComponent', () => {
       ],
       imports: [
         NoopAnimationsModule,
-        SharedModule,
+        CommonModule,
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
@@ -59,9 +59,9 @@ describe('MultiSelectFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(MultiSelectFilterComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
-
     component.filter = new FilterItemIdValue('test', [], false, true);
+
+    fixture.detectChanges();
   });
 
   it('should create', () => {
