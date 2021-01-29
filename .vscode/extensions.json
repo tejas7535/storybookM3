@@ -8,6 +8,7 @@
     "dzhavat.rxjs-cheatsheet",
     "nrwl.angular-console",
     "firsttris.vscode-jest-runner",
-    "dbaeumer.vscode-eslint"
+    "dbaeumer.vscode-eslint",
+    "bradlc.vscode-tailwindcss"
   ]
 }
