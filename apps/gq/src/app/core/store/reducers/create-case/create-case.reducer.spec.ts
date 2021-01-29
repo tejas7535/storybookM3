@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import {
   addRowDataItem,
   autocomplete,
@@ -31,7 +32,10 @@ import { CaseState, createCaseReducer, reducer } from './create-case.reducer';
 describe('Create Case Reducer', () => {
   describe('autocomplete', () => {
     test('should set autocomplete loading', () => {
-      const autocompleteSearch = new AutocompleteSearch('customer', 'Audi');
+      const autocompleteSearch = new AutocompleteSearch(
+        FilterNames.CUSTOMER,
+        'Audi'
+      );
       const action = autocomplete({ autocompleteSearch });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
@@ -39,7 +43,7 @@ describe('Create Case Reducer', () => {
         ...CREATE_CASE_STORE_STATE_MOCK,
         createCase: {
           ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: 'customer',
+          autocompleteLoading: FilterNames.CUSTOMER,
         },
       });
     });
@@ -56,20 +60,45 @@ describe('Create Case Reducer', () => {
       const fakeState: CaseState = {
         createCase: {
           ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: 'customer',
-          autocompleteItems: [{ filter: 'customer', options: fakeOptions }],
+          autocompleteLoading: FilterNames.CUSTOMER,
+          autocompleteItems: [
+            { filter: FilterNames.CUSTOMER, options: fakeOptions },
+          ],
         },
       };
 
       const action = autocompleteSuccess({
         options: autoCompleteOptions,
-        filter: 'customer',
+        filter: FilterNames.CUSTOMER,
       });
 
       const state = createCaseReducer(fakeState, action);
 
       const stateItem = state.createCase.autocompleteItems[0].options;
       expect(stateItem).toEqual([fakeOptions[0]]);
+    });
+    test('should transform material numbers', () => {
+      const autoCompleteOptions = [
+        new IdValue('000000167000010', '1234', false),
+      ];
+
+      const fakeState: CaseState = {
+        createCase: {
+          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
+          autocompleteLoading: FilterNames.MATERIAL,
+          autocompleteItems: [{ filter: FilterNames.MATERIAL, options: [] }],
+        },
+      };
+
+      const action = autocompleteSuccess({
+        options: autoCompleteOptions,
+        filter: FilterNames.MATERIAL,
+      });
+
+      const state = createCaseReducer(fakeState, action);
+
+      const stateItem = state.createCase.autocompleteItems[0].options[0].id;
+      expect(stateItem).toEqual('000000167-0000-10');
     });
   });
   describe('autocompleteFailure', () => {
@@ -90,10 +119,10 @@ describe('Create Case Reducer', () => {
       const fakeState: CaseState = {
         createCase: {
           ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: 'customer',
+          autocompleteLoading: FilterNames.CUSTOMER,
           autocompleteItems: [
             {
-              filter: 'customer',
+              filter: FilterNames.CUSTOMER,
               options: fakeOptions,
             },
           ],
@@ -102,7 +131,7 @@ describe('Create Case Reducer', () => {
 
       const action = selectAutocompleteOption({
         option: selectOption,
-        filter: 'customer',
+        filter: FilterNames.CUSTOMER,
       });
 
       const state = createCaseReducer(fakeState, action);
@@ -120,10 +149,10 @@ describe('Create Case Reducer', () => {
       const fakeState: CaseState = {
         createCase: {
           ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: 'customer',
+          autocompleteLoading: FilterNames.CUSTOMER,
           autocompleteItems: [
             {
-              filter: 'customer',
+              filter: FilterNames.CUSTOMER,
               options: fakeOptions,
             },
           ],
@@ -131,7 +160,7 @@ describe('Create Case Reducer', () => {
       };
 
       const action = unselectAutocompleteOptions({
-        filter: 'customer',
+        filter: FilterNames.CUSTOMER,
       });
 
       const state = createCaseReducer(fakeState, action);
@@ -302,7 +331,7 @@ describe('Create Case Reducer', () => {
         },
         {
           materialNumber: '30',
-          quantity: 's',
+          quantity: -10,
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],

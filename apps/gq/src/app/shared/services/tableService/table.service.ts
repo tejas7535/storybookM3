@@ -23,10 +23,19 @@ export class TableService {
     currentRowData: MaterialTableItem[]
   ): MaterialTableItem[] {
     let updatedRowData = [];
+
+    // remove '-' from all items
+    const transformedItems = items.map((item) => ({
+      ...item,
+      materialNumber: item.materialNumber.replace(/-/g, ''),
+    }));
+
+    // remove the dummy item if exists
     const currentRowDataFiltered = currentRowData.filter(
       (el) => !isDummyData(el)
     );
 
+    //
     const index = currentRowData.findIndex(
       (value) =>
         pasteDestination &&
@@ -36,7 +45,11 @@ export class TableService {
 
     updatedRowData =
       index >= 0
-        ? [...currentRowDataFiltered.slice(0, index + 1), ...items]
+        ? [
+            ...currentRowDataFiltered.slice(0, index + 1),
+            ...transformedItems,
+            ...currentRowDataFiltered.slice(index + 1),
+          ]
         : currentRowData;
 
     // Remove duplicates
@@ -81,16 +94,11 @@ export class TableService {
             ValidationDescription.MaterialNumberInValid
           ),
     };
-    // Check for valid quantity
-    const parsedQuantity =
-      typeof updatedRow.quantity === 'string'
-        ? parseInt(updatedRow.quantity.trim(), 10)
-        : updatedRow.quantity;
 
     const quantity =
-      typeof parsedQuantity === 'number'
-        ? parsedQuantity > 0
-          ? parsedQuantity
+      typeof updatedRow.quantity === 'number'
+        ? updatedRow.quantity > 0
+          ? updatedRow.quantity
           : false
         : false;
 

@@ -1,7 +1,8 @@
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   IdValue,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../models';
 import {
@@ -44,7 +45,7 @@ describe('Create Actions', () => {
 
     test('autocompleteSuccess', () => {
       const options = [new IdValue('23', 'Test Customer', true)];
-      const filter = 'customer';
+      const filter = FilterNames.CUSTOMER;
       const action = autocompleteSuccess({ options, filter });
 
       expect(action).toEqual({
@@ -57,7 +58,7 @@ describe('Create Actions', () => {
 
     test('selectAutocompleteOption', () => {
       const option = new IdValue('23', 'Test Customer', true);
-      const filter = 'customer';
+      const filter = FilterNames.CUSTOMER;
       const action = selectAutocompleteOption({ option, filter });
 
       expect(action).toEqual({
@@ -68,7 +69,7 @@ describe('Create Actions', () => {
     });
 
     test('unselectAutocompleteOption', () => {
-      const filter = 'customer';
+      const filter = FilterNames.CUSTOMER;
       const action = unselectAutocompleteOptions({ filter });
 
       expect(action).toEqual({

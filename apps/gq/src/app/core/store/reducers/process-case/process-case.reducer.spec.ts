@@ -35,6 +35,7 @@ import {
   QuotationIdentifier,
   UpdateQuotationDetail,
 } from '../../models';
+import { dummyRowData } from '../create-case/config/dummy-row-data';
 import { processCaseReducer } from './process-case.reducer';
 
 describe('Quotation Reducer', () => {
@@ -429,8 +430,7 @@ describe('Quotation Reducer', () => {
             errorMessage,
             addMaterialRowData: [
               {
-                materialNumber: '0167187...',
-                quantity: '123...',
+                ...dummyRowData,
                 info: {
                   description: ['validationFailure'],
                   valid: false,

@@ -25,6 +25,7 @@ import {
   getCaseQuotation,
   getCaseRowData,
 } from '../../core/store/selectors/';
+import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 
 @Component({
   selector: 'gq-create-case-dialog',
@@ -51,10 +52,10 @@ export class CreateCaseDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.quotationAutocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading, 'quotation')
+      select(getCaseAutocompleteLoading, FilterNames.QUOTATION)
     );
     this.customerAutocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading, 'customer')
+      select(getCaseAutocompleteLoading, FilterNames.CUSTOMER)
     );
     this.quotation$ = this.store.pipe(select(getCaseQuotation));
 

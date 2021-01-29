@@ -1,6 +1,8 @@
 import { Action, createReducer, on } from '@ngrx/store';
-import { TableService } from '../../../../shared/services/tableService/table.service';
 
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { MaterialTransformPipe } from '../../../../shared/pipes/material-transform.pipe';
+import { TableService } from '../../../../shared/services/tableService/table.service';
 import {
   addRowDataItem,
   autocomplete,
@@ -19,9 +21,9 @@ import {
 } from '../../actions';
 import {
   CaseFilterItem,
-  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
+  MaterialTableItem,
   ValidationDescription,
 } from '../../models';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
@@ -41,15 +43,15 @@ export const initialState: CaseState = {
     autocompleteLoading: undefined,
     autocompleteItems: [
       {
-        filter: 'quotation',
+        filter: FilterNames.QUOTATION,
         options: [],
       },
       {
-        filter: 'customer',
+        filter: FilterNames.CUSTOMER,
         options: [],
       },
       {
-        filter: 'materialNumber',
+        filter: FilterNames.MATERIAL,
         options: [],
       },
     ],
@@ -83,9 +85,16 @@ export const createCaseReducer = createReducer(
       autocompleteLoading: undefined,
       autocompleteItems: [...state.createCase.autocompleteItems].map((it) => {
         const tmp = { ...it };
-        const itemOptions = [...options];
+        let itemOptions = [...options];
         if (tmp.filter === filter) {
           const mergedOptions: IdValue[] = [];
+          if (tmp.filter === FilterNames.MATERIAL) {
+            const materialPipe = new MaterialTransformPipe();
+            itemOptions = itemOptions.map((opt) => ({
+              ...opt,
+              id: materialPipe.transform(opt.id),
+            }));
+          }
 
           tmp.options.forEach((oldOption) => {
             const idxInNewOptions = itemOptions.findIndex(
@@ -147,7 +156,10 @@ export const createCaseReducer = createReducer(
     createCase: {
       ...state.createCase,
       rowData: [
-        ...items,
+        ...items.map((it) => ({
+          ...it,
+          materialNumber: it.materialNumber.replace(/-/g, ''),
+        })),
         ...state.createCase.rowData.filter((val) => !isDummyData(val)),
       ],
     },

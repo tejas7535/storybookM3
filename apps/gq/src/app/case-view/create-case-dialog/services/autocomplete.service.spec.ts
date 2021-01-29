@@ -9,6 +9,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { AutocompleteSearch, CaseFilterItem } from '../../../core/store/models';
+import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteService } from './autocomplete.service';
 
 describe('AutocompleteService', (): void => {
@@ -68,7 +69,7 @@ describe('AutocompleteService', (): void => {
     });
     test('should call for sapquotation ', () => {
       const search: AutocompleteSearch = new AutocompleteSearch(
-        'quotation',
+        FilterNames.QUOTATION,
         'test'
       );
       const mock: CaseFilterItem = {

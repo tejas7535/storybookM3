@@ -1,5 +1,9 @@
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
+
+import { MaterialTransformPipe } from '../../../pipes/material-transform.pipe';
+
+export const materialPipe = new MaterialTransformPipe();
 
 export const infoComparator = (info1: any, info2: any): number => {
   const valid1 = info1.valid;
@@ -17,12 +21,18 @@ export const infoComparator = (info1: any, info2: any): number => {
 
   return 0;
 };
+
+export const transformMaterial = (data: ValueFormatterParams): string => {
+  return materialPipe.transform(data.value);
+};
+
 export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.caseMaterial.table.materialNumber'),
     field: 'materialNumber',
     flex: 0.4,
     sortable: true,
+    valueFormatter: transformMaterial,
   },
   {
     headerName: translate('shared.caseMaterial.table.quantity'),

@@ -13,6 +13,7 @@ import {
   IdValue,
   SapQuotation,
 } from '../../../core/store/models';
+import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 
 /**
  *  Auto-complete service
@@ -38,7 +39,8 @@ export class AutocompleteService {
       params: httpParams,
     };
     const filter = autocompleteSearch.filter.toLowerCase();
-    const filterPath = filter === 'quotation' ? 'sap-quotation' : filter;
+    const filterPath =
+      filter === FilterNames.QUOTATION ? 'sap-quotation' : filter;
 
     return this.dataService
       .getAll<AutocompleteResponse>(
@@ -47,7 +49,7 @@ export class AutocompleteService {
       )
       .pipe(
         map((res: AutocompleteResponse) => {
-          if (filter === 'quotation') {
+          if (filter === FilterNames.QUOTATION) {
             return (res.items as AutocompleteQuotationResponse[]).map((el) => ({
               id: el.sapId,
               value: el.sapId,

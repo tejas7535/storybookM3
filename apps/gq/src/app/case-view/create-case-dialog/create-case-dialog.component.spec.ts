@@ -21,6 +21,7 @@ import {
 import { AutocompleteSearch, IdValue } from '../../core/store/models';
 import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
+import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
@@ -87,10 +88,10 @@ describe('CreateCaseDialogComponent', () => {
     test('should dispatch unselectQuotationOptions action', () => {
       mockStore.dispatch = jest.fn();
 
-      component.unselectOptions('customer');
+      component.unselectOptions(FilterNames.CUSTOMER);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectAutocompleteOptions({ filter: 'customer' })
+        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER })
       );
     });
   });
@@ -99,7 +100,7 @@ describe('CreateCaseDialogComponent', () => {
     test('should dispatch selectAutocompleteOption action', () => {
       mockStore.dispatch = jest.fn();
       const option = new IdValue('aud', 'Audi', true);
-      const filter = 'customer';
+      const filter = FilterNames.CUSTOMER;
       component.selectOption(option, filter);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(

@@ -25,6 +25,7 @@ import {
   ValidationDescription,
 } from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
+import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 
@@ -97,10 +98,10 @@ describe('InputbarComponent', () => {
     test('should dispatch unselectQuotationOptions action', () => {
       mockStore.dispatch = jest.fn();
 
-      component.unselectOptions('customer');
+      component.unselectOptions(FilterNames.CUSTOMER);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        unselectAutocompleteOptions({ filter: 'customer' })
+        unselectAutocompleteOptions({ filter: FilterNames.CUSTOMER })
       );
     });
   });
@@ -108,7 +109,7 @@ describe('InputbarComponent', () => {
     test('should dispatch selectAutocompleteOption action', () => {
       mockStore.dispatch = jest.fn();
       const option = new IdValue('aud', 'Audi', true);
-      const filter = 'customer';
+      const filter = FilterNames.CUSTOMER;
       component.selectOption(option, filter);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
@@ -129,6 +130,7 @@ describe('InputbarComponent', () => {
   describe('rowInputValid', () => {
     beforeEach(() => {
       component.rowData = [];
+      component.materialNumberInput = true;
     });
     test('should set addRowEnabled to true', () => {
       component.materialNumberIsValid = true;
@@ -142,7 +144,19 @@ describe('InputbarComponent', () => {
       expect(component.addRowEnabled).toBeFalsy();
     });
   });
+  describe('quantityValidator', () => {
+    test('should return undefined', () => {
+      const control = ({ value: '10' } as unknown) as any;
+      component.rowInputValid = jest.fn();
+      const response = component.quantityValidator(control);
 
+      expect(component.quantityValid).toBeTruthy();
+      expect(component.quantity).toEqual(control.value);
+      expect(component.quantityValid).toBeTruthy();
+      expect(component.rowInputValid).toHaveBeenCalledTimes(1);
+      expect(response).toBeUndefined();
+    });
+  });
   describe('addRow', () => {
     test('should dispatch action', () => {
       const item: MaterialTableItem = {
@@ -178,7 +192,6 @@ describe('InputbarComponent', () => {
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
-      expect(component.emitHasInput).toHaveBeenCalledTimes(1);
     });
   });
   describe('rowDoesNotExist', () => {

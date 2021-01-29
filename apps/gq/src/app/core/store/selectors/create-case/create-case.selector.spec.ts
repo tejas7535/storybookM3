@@ -1,3 +1,4 @@
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue, ValidationDescription } from '../../models';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import * as createSelectors from './create-case.selector';
@@ -8,10 +9,16 @@ describe('Create Case Selector', () => {
       ...initialState,
       createCase: {
         ...initialState.createCase,
-        autocompleteLoading: 'customer',
+        autocompleteLoading: FilterNames.CUSTOMER,
         autocompleteItems: [
-          { filter: 'customer', options: [new IdValue('1', '1', true)] },
-          { filter: 'quotation', options: [new IdValue('1', '1', true)] },
+          {
+            filter: FilterNames.CUSTOMER,
+            options: [new IdValue('1', '1', true)],
+          },
+          {
+            filter: FilterNames.QUOTATION,
+            options: [new IdValue('1', '1', true)],
+          },
         ],
         rowData: [
           {
@@ -33,7 +40,7 @@ describe('Create Case Selector', () => {
         createSelectors.getCaseQuotation.projector(fakeState.case)
       ).toEqual(
         fakeState.case.createCase.autocompleteItems.find(
-          (elm) => elm.filter === 'quotation'
+          (elm) => elm.filter === FilterNames.QUOTATION
         )
       );
     });
@@ -49,7 +56,7 @@ describe('Create Case Selector', () => {
     test('should return customer', () => {
       expect(createSelectors.getCaseCustomer.projector(fakeState.case)).toEqual(
         fakeState.case.createCase.autocompleteItems.find(
-          (elm) => elm.filter === 'customer'
+          (elm) => elm.filter === FilterNames.CUSTOMER
         )
       );
     });
@@ -60,7 +67,7 @@ describe('Create Case Selector', () => {
         createSelectors.getCaseMaterialNumber.projector(fakeState.case)
       ).toEqual(
         fakeState.case.createCase.autocompleteItems.find(
-          (elm) => elm.filter === 'materialNumber'
+          (elm) => elm.filter === FilterNames.MATERIAL
         )
       );
     });

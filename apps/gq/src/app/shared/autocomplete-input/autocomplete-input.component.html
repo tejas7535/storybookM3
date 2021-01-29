@@ -10,6 +10,7 @@
     <input
       class="input-field"
       [formControl]="searchFormControl"
+      (keyup)="onKeypress($event)"
       matInput
       #valueInput
       [matAutocomplete]="auto"

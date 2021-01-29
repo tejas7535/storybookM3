@@ -66,13 +66,13 @@ describe('InputTableComponent', () => {
   describe('onPasteStart', () => {
     beforeEach(() => {
       mockStore.dispatch = jest.fn();
-      currentCell = { materialNumber: '10', quantity: '5' };
+      currentCell = { materialNumber: '10', quantity: 5 };
       component['currentCell'] = currentCell;
 
       combinedArray = [
         {
           materialNumber: '20',
-          quantity: '10',
+          quantity: 10,
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -80,7 +80,7 @@ describe('InputTableComponent', () => {
         },
         {
           materialNumber: '201',
-          quantity: '20',
+          quantity: 20,
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -88,7 +88,7 @@ describe('InputTableComponent', () => {
         },
         {
           materialNumber: '203',
-          quantity: '30',
+          quantity: 30,
           info: {
             valid: false,
             description: [ValidationDescription.Not_Validated],
@@ -124,7 +124,7 @@ describe('InputTableComponent', () => {
       });
 
       combinedArray[0].materialNumber = '';
-      combinedArray[1].quantity = '';
+      combinedArray[1].quantity = 0;
 
       const combinedItem = {
         items: combinedArray,
@@ -162,7 +162,7 @@ describe('InputTableComponent', () => {
   describe('onCellClicked', () => {
     test('should set currentCell', () => {
       const params = {
-        data: { materialNumber: '20', quantity: '10' },
+        data: { materialNumber: '20', quantity: 10 },
       } as any;
       component.onCellClicked(params);
       expect(component['currentCell']).toEqual(params.data);

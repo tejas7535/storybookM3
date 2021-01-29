@@ -57,11 +57,13 @@ export class InputTableComponent implements OnInit {
       .filter(
         (el) => (el[0] && el[0].length > 0) || (el[1] && el[1].length > 0)
       );
-
     const tableArray = linesArray.map((el) => {
+      // Check for valid quantity
+      const parsedQuantity = el[1] ? parseInt(el[1].trim(), 10) : 0;
+
       const item: MaterialTableItem = {
-        materialNumber: el[0],
-        quantity: el[1],
+        materialNumber: el[0].trim(),
+        quantity: parsedQuantity > 0 ? parsedQuantity : 0,
         info: {
           valid: false,
           description: [ValidationDescription.Not_Validated],
