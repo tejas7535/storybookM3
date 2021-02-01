@@ -31,6 +31,7 @@ describe('LossOfSkills Reducer', () => {
           job: 'Foo Bar',
           employees: [],
           leavers: [],
+          openPositions: 1,
         },
       ];
 
