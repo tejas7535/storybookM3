@@ -121,34 +121,26 @@ module.exports = {
           fontWeight: theme('fontWeight.medium'),
           color: theme('textColor.dark'),
         },
-        'text-body-1': {
-          fontSize: theme('fontSize.body1'),
+      });
+    }),
+    plugin(function ({ addComponents, theme }) {
+      addComponents({
+        '.text-body-1': {
           color: theme('textColor.light'),
         },
-        'text-body-2': {
-          fontSize: theme('fontSize.body2'),
+        '.text-body-2': {
           color: theme('textColor.light'),
         },
-        'text-subtitle-1': {
-          fontSize: theme('fontSize.subtitle1'),
+        '.text-subtitle-1': {
           color: theme('textColor.light'),
         },
-        'text-subtitle-2': {
-          fontSize: theme('fontSize.subtitle2'),
-          fontWeight: theme('fontWeight.medium'),
+        '.text-subtitle-2': {
           color: theme('textColor.light'),
         },
-        'text-button': {
-          fontSize: theme('fontSize.button'),
-          fontWeight: theme('fontWeight.medium'),
-        },
-        'text-caption': {
-          fontSize: theme('fontSize.caption'),
+        '.text-caption': {
           color: theme('textColor.light'),
         },
-        'text-overline': {
-          fontSize: theme('fontSize.overline'),
-          fontWeight: theme('fontWeight.medium'),
+        '.text-overline': {
           color: theme('textColor.light'),
         },
       });
