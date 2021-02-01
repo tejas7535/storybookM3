@@ -32,7 +32,7 @@
             color="primary"
             mat-raised-button
             class="open-quotation-button"
-            [disabled]="!quotationIsValid"
+            [disabled]="!quotationIsValid || !customerDisabled"
             (click)="openQuotation()"
           >
             {{ t('quotation.button') | uppercase }}
