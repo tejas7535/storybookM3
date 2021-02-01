@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.15.2](///compare/cdba-v1.15.2...cdba-v1.15.1) (2021-02-01)
+
+
+### 📈 Improvements
+
+* **cdba:** add format hint to autocomplete filters (DSCDA-2162) ([8a528e9](///commit/8a528e94ec5ffe5b930abd004dd307c3c45a58b8))
+
 ### [1.15.1](///compare/cdba-v1.15.1...cdba-v1.15.0) (2021-01-27)
 
 
