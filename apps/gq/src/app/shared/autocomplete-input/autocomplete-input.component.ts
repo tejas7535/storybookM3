@@ -161,7 +161,8 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       (this.filterName === FilterNames.CUSTOMER ||
         this.filterName === FilterNames.QUOTATION) &&
       control.value &&
-      typeof control.value === 'string'
+      typeof control.value === 'string' &&
+      control.value.includes('|')
         ? control.value.split(' | ')[1]
         : control.value;
 
