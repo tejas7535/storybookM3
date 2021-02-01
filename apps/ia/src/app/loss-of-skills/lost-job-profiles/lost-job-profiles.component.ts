@@ -62,6 +62,12 @@ export class LostJobProfilesComponent {
       cellClass: 'amount-cell',
       onCellClicked: (params) => this.handleCellClick(params, 'leavers'),
     },
+    {
+      field: 'openPositions',
+      headerName: translate('lossOfSkills.lostJobProfiles.table.openPositions'),
+      filter: 'agNumberColumnFilter',
+      flex: 1,
+    },
   ];
 
   constructor(private readonly dialog: MatDialog) {}

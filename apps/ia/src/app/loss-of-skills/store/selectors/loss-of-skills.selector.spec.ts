@@ -18,6 +18,7 @@ describe('LossOfSkills Selector', () => {
             amountOfLeavers: 1,
             employees: [],
             leavers: [],
+            openPositions: 1,
           },
         ],
         errorMessage: 'Fancy Error',

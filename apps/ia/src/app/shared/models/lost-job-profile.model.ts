@@ -4,4 +4,5 @@ export interface LostJobProfile {
   employees: string[];
   leavers: string[];
   amountOfLeavers: number;
+  openPositions: number;
 }

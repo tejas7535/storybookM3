@@ -123,6 +123,7 @@ describe('LossOfSkills Effects', () => {
           job: 'Data Scientist',
           employees: [],
           leavers: [],
+          openPositions: 1,
         },
         {
           amountOfEmployees: 10,
@@ -130,6 +131,7 @@ describe('LossOfSkills Effects', () => {
           job: 'Software Engineer',
           employees: [],
           leavers: [],
+          openPositions: 1,
         },
       ];
       const result = loadLostJobProfilesSuccess({

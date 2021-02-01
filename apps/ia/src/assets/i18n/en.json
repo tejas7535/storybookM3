@@ -95,7 +95,8 @@
       "table": {
         "job": "Job",
         "workforce": "Workforce",
-        "leavers": "Leavers"
+        "leavers": "Leavers",
+        "openPositions": "Open Positions"
       },
       "popup": {
         "titleWorkforce": "Current Workforce:",
