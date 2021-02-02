@@ -12,7 +12,7 @@ export class RangeFilterValuePipe implements PipeTransform {
 
   transform(filter: FilterItemRange): string {
     const filterTranslation = this.transloco.translate<string>(
-      `search.referenceTypesFilters.${filter.name}`
+      `search.referenceTypesFilters.names.${filter.name}`
     );
     const unit = filter.unit ? filter.unit : '';
 
