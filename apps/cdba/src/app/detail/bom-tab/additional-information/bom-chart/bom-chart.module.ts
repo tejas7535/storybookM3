@@ -14,7 +14,7 @@ import { BomChartComponent } from './bom-chart.component';
   imports: [
     SharedModule,
     NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
+      echarts: () => import('../../../../shared/echarts/custom-echarts'),
     }),
     SharedTranslocoModule,
     MatIconModule,
