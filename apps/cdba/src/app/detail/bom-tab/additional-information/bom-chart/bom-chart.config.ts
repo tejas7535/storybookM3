@@ -75,7 +75,7 @@ export const getChartSeries = (
     data: barChartData,
     barMaxWidth: 20,
     itemStyle: {
-      barBorderRadius: 10,
+      borderRadius: 10,
     },
     tooltip: {
       formatter: barchartTooltipFormatter,
