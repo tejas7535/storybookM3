@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.15.3](///compare/cdba-v1.15.3...cdba-v1.15.2) (2021-02-02)
+
+
+### 📈 Improvements
+
+* **cdba:** provide custom echarts bundle (DSCDA-2147) ([341001a](///commit/341001ae033bb12e5858b85103d8657737ba4a7d))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix translation issue for range filters ([2bbc5bd](///commit/2bbc5bd41473edce4e6a312e2a450f5abca9cbf6))
+
 ### [1.15.2](///compare/cdba-v1.15.2...cdba-v1.15.1) (2021-02-01)
 
 
