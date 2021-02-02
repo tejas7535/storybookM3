@@ -2,7 +2,7 @@
   appearance="fill"
   *transloco="let t; read: 'search.referenceTypesFilters'"
 >
-  <mat-label>{{ t(filter?.name) }}</mat-label>
+  <mat-label>{{ t('names.' + filter?.name) }}</mat-label>
   <mat-select
     [formControl]="form"
     panelClass="range-menu"
@@ -14,7 +14,7 @@
     <mat-option value="selected"></mat-option>
     <div class="drop-down" fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-        <div #label fxFlex="50">Min. {{ t(filter?.name) }}</div>
+        <div #label fxFlex="50">Min. {{ t('names.' + filter?.name) }}</div>
         <div #input fxFlex="40">
           <mat-form-field>
             <input
@@ -45,7 +45,7 @@
         <mat-icon fxFlex="10" (click)="reset(inputType.Min)">restore</mat-icon>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
-        <div #label fxFlex="50">Max. {{ t(filter?.name) }}</div>
+        <div #label fxFlex="50">Max. {{ t('names.' + filter?.name) }}</div>
         <div #input fxFlex="40">
           <mat-form-field>
             <input
