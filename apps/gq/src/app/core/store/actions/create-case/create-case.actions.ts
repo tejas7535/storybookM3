@@ -2,10 +2,11 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   AutocompleteSearch,
-  MaterialTableItem,
   CreateCaseResponse,
   IdValue,
+  MaterialTableItem,
   MaterialValidation,
+  SalesOrg,
   SapQuotation,
 } from '../../models';
 
@@ -83,6 +84,21 @@ export const importCaseFailure = createAction(
   '[Create Case] Import SAP Quotation Failure'
 );
 
+export const getSalesOrgsSuccess = createAction(
+  '[Create Case] Get Sales Organisations For Customer Success',
+  props<{ salesOrgs: SalesOrg[] }>()
+);
+
+export const getSalesOrgsFailure = createAction(
+  '[Create Case] Get Sales Organisations For Customer Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const selectSalesOrg = createAction(
+  '[Create Case] Select Sales Organisation For Customer',
+  props<{ salesOrgId: string }>()
+);
+
 const all = union({
   addRowDataItem,
   autocomplete,
@@ -101,6 +117,9 @@ const all = union({
   importCase,
   importCaseSuccess,
   importCaseFailure,
+  getSalesOrgsSuccess,
+  getSalesOrgsFailure,
+  selectSalesOrg,
 });
 
 export type createCaseActions = typeof all;

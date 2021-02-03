@@ -13,8 +13,11 @@ import {
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  getSalesOrgsFailure,
+  getSalesOrgsSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
+  selectSalesOrg,
   unselectAutocompleteOptions,
   validateFailure,
   validateSuccess,
@@ -24,6 +27,7 @@ import {
   CreateCaseResponse,
   IdValue,
   MaterialTableItem,
+  SalesOrg,
   ValidationDescription,
 } from '../../models';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
@@ -32,6 +36,12 @@ export interface CaseState {
   createCase: {
     autocompleteLoading: string;
     autocompleteItems: CaseFilterItem[];
+    customer: {
+      customerId: string;
+      salesOrgsLoading: boolean;
+      salesOrgs: SalesOrg[];
+      errorMessage: string;
+    };
     createdCase: CreateCaseResponse;
     createCaseLoading: boolean;
     rowData: MaterialTableItem[];
@@ -55,6 +65,12 @@ export const initialState: CaseState = {
         options: [],
       },
     ],
+    customer: {
+      customerId: undefined,
+      salesOrgsLoading: false,
+      salesOrgs: [],
+      errorMessage: undefined,
+    },
     createdCase: undefined,
     createCaseLoading: false,
     rowData: [dummyRowData],
@@ -132,6 +148,14 @@ export const createCaseReducer = createReducer(
 
         return temp;
       }),
+      customer: {
+        ...state.createCase.customer,
+        salesOrgsLoading: filter === FilterNames.CUSTOMER,
+        customerId:
+          filter === FilterNames.CUSTOMER
+            ? option.id
+            : state.createCase.customer.customerId,
+      },
     },
   })),
   on(unselectAutocompleteOptions, (state: CaseState, { filter }) => ({
@@ -149,6 +173,13 @@ export const createCaseReducer = createReducer(
 
         return temp;
       }),
+      customer: {
+        ...state.createCase.customer,
+        salesOrgs:
+          filter === FilterNames.CUSTOMER
+            ? []
+            : state.createCase.customer.salesOrgs,
+      },
     },
   })),
   on(addRowDataItem, (state: CaseState, { items }) => ({
@@ -240,6 +271,41 @@ export const createCaseReducer = createReducer(
     createCase: {
       ...state.createCase,
       createCaseLoading: false,
+    },
+  })),
+  on(getSalesOrgsSuccess, (state: CaseState, { salesOrgs }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      customer: {
+        ...state.createCase.customer,
+        salesOrgs,
+        salesOrgsLoading: false,
+      },
+    },
+  })),
+  on(getSalesOrgsFailure, (state: CaseState, { errorMessage }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      customer: {
+        ...state.createCase.customer,
+        errorMessage,
+        salesOrgsLoading: false,
+      },
+    },
+  })),
+  on(selectSalesOrg, (state: CaseState, { salesOrgId }) => ({
+    ...state,
+    createCase: {
+      ...state.createCase,
+      customer: {
+        ...state.createCase.customer,
+        salesOrgs: [...state.createCase.customer.salesOrgs].map((el) => ({
+          ...el,
+          selected: el.id === salesOrgId ? true : false,
+        })),
+      },
     },
   }))
 );

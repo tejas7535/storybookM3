@@ -12,6 +12,8 @@ import {
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  getSalesOrgsFailure,
+  getSalesOrgsSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -24,6 +26,7 @@ import {
   IdValue,
   MaterialTableItem,
   MaterialValidation,
+  SalesOrg,
   ValidationDescription,
 } from '../../models';
 import { dummyRowData } from './config/dummy-row-data';
@@ -136,12 +139,17 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.autocompleteItems[0].options;
-      expect(stateItem).toEqual([selectOption, fakeOptions[1]]);
+      const stateItem = state.createCase;
+      expect(stateItem.autocompleteItems[0].options).toEqual([
+        selectOption,
+        fakeOptions[1],
+      ]);
+      expect(stateItem.customer.salesOrgsLoading).toBeTruthy();
+      expect(stateItem.customer.customerId).toEqual(selectOption.id);
     });
   });
   describe('unselectAutocompleteOptions', () => {
-    test('should unslecet customer options', () => {
+    test('should unselect customer options', () => {
       const fakeOptions = [
         new IdValue('mcd', 'mercedes', true),
         new IdValue('aud', 'audi', false),
@@ -165,11 +173,12 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.autocompleteItems[0].options;
-      expect(stateItem).toEqual([
+      const stateItem = state.createCase;
+      expect(stateItem.autocompleteItems[0].options).toEqual([
         { ...fakeOptions[0], selected: false },
         fakeOptions[1],
       ]);
+      expect(stateItem.customer.salesOrgs).toEqual([]);
     });
   });
   describe('addRowDataItem', () => {
@@ -423,6 +432,26 @@ describe('Create Case Reducer', () => {
       const action = createCaseSuccess({ createdCase });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
       expect(state.createCase.createdCase).toEqual(createdCase);
+    });
+  });
+  describe('getSalesOrgsSuccess', () => {
+    test('should set salesOrgs', () => {
+      const salesOrgs = [new SalesOrg('id', true)];
+
+      const action = getSalesOrgsSuccess({ salesOrgs });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+      expect(state.createCase.customer.salesOrgs).toEqual(salesOrgs);
+    });
+  });
+  describe('getSalesOrgsFailure', () => {
+    test('should set errorMessage', () => {
+      const errorMessage = `Hello, i'm an error`;
+
+      const action = getSalesOrgsFailure({ errorMessage });
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+      expect(state.createCase.customer.errorMessage).toEqual(errorMessage);
     });
   });
   describe('createCaseFailure', () => {

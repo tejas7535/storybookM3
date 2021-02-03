@@ -1,4 +1,3 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogRef } from '@angular/material/dialog';
@@ -7,8 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -25,6 +25,7 @@ import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
+import { SelectSalesOrgModule } from './select-sales-org/select-sales-org.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -33,40 +34,51 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('CreateCaseDialogComponent', () => {
   let component: CreateCaseDialogComponent;
-  let fixture: ComponentFixture<CreateCaseDialogComponent>;
+  let spectator: Spectator<CreateCaseDialogComponent>;
   let mockStore: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CreateCaseDialogComponent],
-      imports: [
-        AddEntryModule,
-        AgGridModule.withComponents([]),
-        AutocompleteInputModule,
-        InputTableModule,
-        MatButtonModule,
-        MatIconModule,
-        MatInputModule,
-        MatCardModule,
-        NoopAnimationsModule,
-        SharedModule,
-        provideTranslocoTestingModule({}),
-      ],
-      providers: [
-        provideMockStore({}),
-        {
-          provide: MatDialogRef,
-          useValue: {},
+  const createComponent = createComponentFactory({
+    component: CreateCaseDialogComponent,
+    declarations: [CreateCaseDialogComponent],
+    imports: [
+      AddEntryModule,
+      AgGridModule.withComponents([]),
+      AutocompleteInputModule,
+      InputTableModule,
+      MatButtonModule,
+      MatIconModule,
+      MatInputModule,
+      MatCardModule,
+      NoopAnimationsModule,
+      ReactiveComponentModule,
+      SelectSalesOrgModule,
+      SharedModule,
+      provideTranslocoTestingModule({}),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          case: {
+            createCase: {
+              autocompleteItems: [],
+              customer: {
+                salesOrg: [],
+              },
+            },
+          },
         },
-      ],
-    });
+      }),
+      {
+        provide: MatDialogRef,
+        useValue: {},
+      },
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateCaseDialogComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    mockStore = TestBed.inject(MockStore);
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {

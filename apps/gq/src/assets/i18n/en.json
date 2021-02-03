@@ -19,6 +19,7 @@
           "button": "Add position",
           "title": "Add position"
         },
+        "salesOrg": "Sales Org",
         "button": "Create",
         "hint": "Enter a Customer Number or a Customer Name",
         "label": "Customer",

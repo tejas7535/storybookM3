@@ -4,6 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
@@ -11,6 +13,7 @@ import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocom
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
+import { SelectSalesOrgModule } from './select-sales-org/select-sales-org.module';
 
 @NgModule({
   declarations: [CreateCaseDialogComponent],
@@ -22,8 +25,10 @@ import { CreateCaseDialogComponent } from './create-case-dialog.component';
     MatCardModule,
     MatIconModule,
     MatInputModule,
+    SelectSalesOrgModule,
     SharedModule,
     SharedTranslocoModule,
+    ReactiveComponentModule,
   ],
   exports: [CreateCaseDialogComponent],
 })

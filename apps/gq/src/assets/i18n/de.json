@@ -19,6 +19,7 @@
           "button": "Eintrag hinzufügen",
           "title": "Neuen Eintrag hinzufügen"
         },
+        "salesOrg": "Sales Org",
         "button": "Case erstellen",
         "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
         "label": "Kunde",

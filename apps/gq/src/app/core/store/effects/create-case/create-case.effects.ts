@@ -2,7 +2,14 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
@@ -13,6 +20,8 @@ import { SnackBarService } from '@schaeffler/snackbar';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
+import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
   autocomplete,
@@ -21,10 +30,13 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  getSalesOrgsFailure,
+  getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  selectAutocompleteOption,
   validateFailure,
   validateSuccess,
 } from '../../actions';
@@ -34,6 +46,7 @@ import {
   ImportCaseResponse,
   MaterialTableItem,
   MaterialValidation,
+  SalesOrg,
 } from '../../models';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 import {
@@ -117,6 +130,9 @@ export class CreateCaseEffects {
     )
   );
 
+  /**
+   * Import Case from SAP
+   */
   importCase$ = createEffect(() =>
     this.actions$.pipe(
       ofType(importCase.type),
@@ -143,9 +159,28 @@ export class CreateCaseEffects {
     )
   );
 
+  /**
+   * Get Sales Orgs for customer
+   */
+  getSalesOrgs$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(selectAutocompleteOption.type),
+      filter((action: any) => action.filter === FilterNames.CUSTOMER),
+      mergeMap((action: any) =>
+        this.salesOrgsService.getSalesOrgs(action.option.id).pipe(
+          map((salesOrgs: SalesOrg[]) => getSalesOrgsSuccess({ salesOrgs })),
+          catchError((errorMessage) =>
+            of(getSalesOrgsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly autocompleteService: AutocompleteService,
+    private readonly salesOrgsService: SalesOrgsService,
     private readonly createCaseService: CreateCaseService,
     private readonly router: Router,
     private readonly store: Store<CaseState>,
