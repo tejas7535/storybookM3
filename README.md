@@ -65,6 +65,11 @@ nx g @ngneat/spectator:spectator-service service-name
 - Follow the setup guide
 - The app will be generated for you with our workspace defaults
 
+If the `workspace-generator` fails, run following tasks and repeat the steps above:
+
+- Run `node ./tools/npm-scripts/npm-force-resolutions-sync.js`
+- Run `npm run force-resolutions`
+
 ### Further Adaptions
 
 Configuration:
