@@ -46,9 +46,10 @@ export class OverviewComponent {
     },
     {
       title: 'Carbonitriding Prediction',
-      url: undefined,
+      url:
+        'http://ws000704:9988/webapps/home/session.html?app=Carbonitriding_prediction',
       className: 'carbonitriding-icon',
-      externalLink: false,
+      externalLink: true,
     },
     {
       title: 'Steel Cleanliness Data Base',
