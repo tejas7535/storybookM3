@@ -3,6 +3,7 @@ import {
   AutocompleteSearch,
   IdValue,
   MaterialTableItem,
+  SalesOrg,
   ValidationDescription,
 } from '../../models';
 import {
@@ -12,11 +13,14 @@ import {
   autocompleteSuccess,
   clearRowData,
   deleteRowDataItem,
+  getSalesOrgsFailure,
+  getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
+  selectSalesOrg,
   unselectAutocompleteOptions,
 } from './create-case.actions';
 
@@ -77,7 +81,9 @@ describe('Create Actions', () => {
         type: '[Create Case] Unselect Options for selected Autocomplete Option',
       });
     });
+  });
 
+  describe('Table Row Data Actions', () => {
     test('addRowDataItem', () => {
       const items = [
         {
@@ -134,7 +140,9 @@ describe('Create Actions', () => {
         type: '[Create Case] Delete Item from Customer Table',
       });
     });
+  });
 
+  describe('importCase Actions', () => {
     test('importCase', () => {
       const action = importCase();
 
@@ -154,11 +162,43 @@ describe('Create Actions', () => {
       });
     });
 
-    test('importCase', () => {
+    test('importCaseFailure', () => {
       const action = importCaseFailure();
 
       expect(action).toEqual({
         type: '[Create Case] Import SAP Quotation Failure',
+      });
+    });
+  });
+
+  describe('getSalesOrgs Actions', () => {
+    test('getSalesOrgsSuccess', () => {
+      const salesOrgs = [new SalesOrg('id', true)];
+      const action = getSalesOrgsSuccess({ salesOrgs });
+
+      expect(action).toEqual({
+        salesOrgs,
+        type: '[Create Case] Get Sales Organisations For Customer Success',
+      });
+    });
+    test('getSalesOrgsFailure', () => {
+      const errorMessage = 'This is an error';
+      const action = getSalesOrgsFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Create Case] Get Sales Organisations For Customer Failure',
+      });
+    });
+  });
+  describe('selectSalesOrg', () => {
+    test('selectSalesOrg', () => {
+      const salesOrgId = '1234';
+      const action = selectSalesOrg({ salesOrgId });
+
+      expect(action).toEqual({
+        salesOrgId,
+        type: '[Create Case] Select Sales Organisation For Customer',
       });
     });
   });

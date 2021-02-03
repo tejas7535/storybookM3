@@ -4,6 +4,7 @@ import { initialState } from '../../reducers/create-case/create-case.reducer';
 import * as createSelectors from './create-case.selector';
 
 describe('Create Case Selector', () => {
+  const salesOrgs = ['048', '651', '123'];
   const fakeState = {
     case: {
       ...initialState,
@@ -20,6 +21,10 @@ describe('Create Case Selector', () => {
             options: [new IdValue('1', '1', true)],
           },
         ],
+        customer: {
+          ...initialState.createCase.customer,
+          salesOrgs,
+        },
         rowData: [
           {
             materialNumber: '1234',
@@ -111,5 +116,10 @@ describe('Create Case Selector', () => {
         undefined
       );
     });
+  });
+  describe('getSalesOrgs', () => {
+    expect(createSelectors.getSalesOrgs.projector(fakeState.case)).toEqual(
+      salesOrgs
+    );
   });
 });

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -20,6 +21,7 @@ import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
+import { SelectSalesOrgModule } from './create-case-dialog/select-sales-org/select-sales-org.module';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -49,6 +51,8 @@ describe('CaseViewComponent', () => {
       provideTranslocoTestingModule({}),
       RouterTestingModule.withRoutes([]),
       LoadingSpinnerModule,
+      ReactiveComponentModule,
+      SelectSalesOrgModule,
     ],
     providers: [
       provideMockStore({

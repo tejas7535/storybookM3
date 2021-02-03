@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -7,10 +8,12 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
+import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
+import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
@@ -20,10 +23,13 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  getSalesOrgsFailure,
+  getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  selectAutocompleteOption,
   validateFailure,
   validateSuccess,
 } from '../../actions';
@@ -34,6 +40,7 @@ import {
   ImportCaseResponse,
   MaterialTableItem,
   MaterialValidation,
+  SalesOrg,
   ValidationDescription,
 } from '../../models';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
@@ -49,20 +56,22 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn(() => 'translate it'),
 }));
 describe('Create Case Effects', () => {
-  let spectator: SpectatorService<CreateCaseEffects>;
   let action: any;
   let actions$: any;
-  let createCaseService: CreateCaseService;
   let effects: CreateCaseEffects;
-  let autocompleteService: AutocompleteService;
-  let store: MockStore;
-  let validationService: ValidationService;
   let router: Router;
+  let spectator: SpectatorService<CreateCaseEffects>;
+  let store: MockStore;
+
+  let createCaseService: CreateCaseService;
+  let autocompleteService: AutocompleteService;
+  let validationService: ValidationService;
   let snackBarService: SnackBarService;
+  let salesOrgService: SalesOrgsService;
 
   const createService = createServiceFactory({
     service: CreateCaseEffects,
-    imports: [SnackBarModule, RouterTestingModule],
+    imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
       CreateCaseEffects,
       SnackBarService,
@@ -86,6 +95,20 @@ describe('Create Case Effects', () => {
           createCase: jest.fn(),
         },
       },
+      {
+        provide: SalesOrgsService,
+        useValue: {
+          getSalesOrgs: jest.fn(),
+        },
+      },
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
+          },
+        },
+      },
     ],
   });
 
@@ -93,13 +116,15 @@ describe('Create Case Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     actions$ = spectator.inject(Actions);
-    createCaseService = spectator.inject(CreateCaseService);
     effects = spectator.inject(CreateCaseEffects);
+    router = spectator.inject(Router);
+    store = spectator.inject(MockStore);
+
+    createCaseService = spectator.inject(CreateCaseService);
     autocompleteService = spectator.inject(AutocompleteService);
     validationService = spectator.inject(ValidationService);
-    store = spectator.inject(MockStore);
-    router = spectator.inject(Router);
     snackBarService = spectator.inject(SnackBarService);
+    salesOrgService = spectator.inject(SalesOrgsService);
   });
 
   describe('autocomplete$', () => {
@@ -307,6 +332,41 @@ describe('Create Case Effects', () => {
 
       expect(effects.importCase$).toBeObservable(expected);
       expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getSalesOrgs', () => {
+    test('should return getSalesOrgsSuccess when REST call is successful', () => {
+      const option = new IdValue('id', 'value', true);
+      const filter = FilterNames.CUSTOMER;
+      action = selectAutocompleteOption({ option, filter });
+      salesOrgService.getSalesOrgs = jest.fn(() => response);
+      const salesOrgs = [new SalesOrg('id', true)];
+      const result = getSalesOrgsSuccess({ salesOrgs });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: salesOrgs,
+      });
+
+      const expected = cold('--b', { b: result });
+      expect(effects.getSalesOrgs$).toBeObservable(expected);
+      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledTimes(1);
+      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledWith(option.id);
+    });
+
+    test('should return getSalesOrgsFailure on REST error', () => {
+      const errorMessage = `Hello, i'm an error`;
+      const result = getSalesOrgsFailure({ errorMessage });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      salesOrgService.getSalesOrgs = jest.fn(() => response);
+
+      expect(effects.getSalesOrgs$).toBeObservable(expected);
+      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledTimes(1);
     });
   });
 });

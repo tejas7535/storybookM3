@@ -8,6 +8,7 @@ import {
   ImportCaseResponse,
   MaterialQuantities,
   MaterialTableItem,
+  SalesOrg,
   SapQuotation,
 } from '../../models';
 import { getCaseState } from '../../reducers';
@@ -122,4 +123,15 @@ export const getCreateCaseData = createSelector(
 export const getCreatedCase = createSelector(
   getCaseState,
   (state: CaseState): CreateCaseResponse => state.createCase.createdCase
+);
+
+export const getSalesOrgs = createSelector(
+  getCaseState,
+  (state: CaseState): SalesOrg[] => state.createCase.customer.salesOrgs
+);
+
+export const getSelectedSalesOrg = createSelector(
+  getCaseState,
+  (state: CaseState): SalesOrg =>
+    state.createCase.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
 );

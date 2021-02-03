@@ -12,7 +12,7 @@
         <div
           fxFlex="100%"
           fxLayoutAlign="start start"
-          *ngIf="quotation$ | async as quotation"
+          *ngIf="quotation$ | ngrxPush as quotation"
         >
           <gq-autocomplete-input
             fxFill
@@ -23,7 +23,7 @@
             (unselected)="unselectOptions(quotation.filter)"
             (added)="selectOption($event, quotation.filter)"
             (isValid)="quotationValid($event)"
-            [autocompleteLoading]="quotationAutocompleteLoading$ | async"
+            [autocompleteLoading]="quotationAutocompleteLoading$ | ngrxPush"
             (autocomplete)="autocomplete($event)"
           ></gq-autocomplete-input>
         </div>
@@ -48,7 +48,7 @@
         <div
           fxFlex="100%"
           fxLayoutAlign="start start"
-          *ngIf="customer$ | async as customer"
+          *ngIf="customer$ | ngrxPush as customer"
         >
           <gq-autocomplete-input
             fxFill
@@ -58,9 +58,12 @@
             (inputContent)="customerHasInput($event)"
             (unselected)="unselectOptions(customer.filter)"
             (added)="selectOption($event, customer.filter)"
-            [autocompleteLoading]="customerAutocompleteLoading$ | async"
+            [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
             (autocomplete)="autocomplete($event)"
           ></gq-autocomplete-input>
+        </div>
+        <div fxFlex fxLayoutAlign="center center" class="m-l-10">
+          <gq-select-sales-org></gq-select-sales-org>
         </div>
       </div>
       <div
@@ -99,8 +102,7 @@
           </button>
         </ng-template>
       </div>
-
-      <div *ngIf="rowData$ | async as rowData">
+      <div *ngIf="rowData$ | ngrxPush as rowData">
         <gq-material-input-table
           [rowData]="rowData"
           isCaseView="true"
