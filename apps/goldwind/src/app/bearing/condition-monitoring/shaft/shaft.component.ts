@@ -8,7 +8,10 @@ import { EChartsOption } from 'echarts';
 
 import { ShaftState } from '../../../core/store/reducers/shaft/shaft.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
-import { getShaftLatestGraphData } from '../../../core/store/selectors/';
+import {
+  getShaftLatestGraphData,
+  getShaftTimeStamp,
+} from '../../../core/store/selectors/';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
 import { BearingRoutePath } from '../../bearing-route-path.enum';
@@ -20,7 +23,9 @@ import { BearingRoutePath } from '../../bearing-route-path.enum';
 })
 export class ShaftComponent implements OnInit {
   shaftLatestGraphData$: Observable<GraphData>;
+  shaftTimeStamp$: Observable<string>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
+
   chartOptions: EChartsOption = {
     ...chartOptions,
     legend: {
@@ -39,6 +44,8 @@ export class ShaftComponent implements OnInit {
     this.shaftLatestGraphData$ = this.store.pipe(
       select(getShaftLatestGraphData)
     );
+
+    this.shaftTimeStamp$ = this.store.pipe(select(getShaftTimeStamp));
   }
 
   navigateToGreaseStatus(): void {

@@ -2,7 +2,7 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { GREASE_GAUGE_SERIES } from '../../../../shared/chart/chart';
-import { GREASE_CONTROLS } from '../../../../shared/constants';
+import { DATE_FORMAT, GREASE_CONTROLS } from '../../../../shared/constants';
 import { getGreaseStatusState } from '../../reducers';
 import { GreaseStatusState } from '../../reducers/grease-status/grease-status.reducer';
 import {
@@ -42,6 +42,16 @@ export const getGreaseStatusResult = createSelector(
 export const getGreaseStatusLatestResult = createSelector(
   getGreaseStatusState,
   (state: GreaseStatusState): GreaseStatus => state.status.result
+);
+
+export const getGreaseTimeStamp = createSelector(
+  getGreaseStatusLatestResult,
+  (state: GreaseStatus) =>
+    state &&
+    new Date(state.timestamp).toLocaleTimeString(
+      DATE_FORMAT.local,
+      DATE_FORMAT.options
+    )
 );
 
 export const getGreaseDisplay = createSelector(

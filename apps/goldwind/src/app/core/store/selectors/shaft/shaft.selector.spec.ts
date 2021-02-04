@@ -1,9 +1,11 @@
+import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getShaftDeviceId,
   getShaftLatestGraphData,
   getShaftResult,
+  getShaftTimeStamp,
 } from './shaft.selector';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,6 +35,17 @@ describe('Bearing Selector', () => {
   describe('getShaftResult', () => {
     test('should return the shaft result', () => {
       expect(getShaftResult(fakeState)).toEqual(fakeState.shaft.result);
+    });
+  });
+
+  describe('getShaftTimeStamp', () => {
+    test('should return the shaft result time stamp', () => {
+      expect(getShaftTimeStamp(fakeState)).toEqual(
+        new Date(fakeState.shaft.result.timeStamp).toLocaleTimeString(
+          DATE_FORMAT.local,
+          DATE_FORMAT.options
+        )
+      );
     });
   });
 
