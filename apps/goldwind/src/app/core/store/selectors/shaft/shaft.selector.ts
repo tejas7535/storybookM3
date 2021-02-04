@@ -5,6 +5,7 @@ import {
   GaugeColors,
   GREASE_GAUGE_SERIES,
 } from '../../../../shared/chart/chart';
+import { DATE_FORMAT } from '../../../../shared/constants';
 import { getShaftState } from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { ShaftState } from '../../reducers/shaft/shaft.reducer';
@@ -18,6 +19,16 @@ export const getShaftDeviceId = createSelector(
 export const getShaftResult = createSelector(
   getShaftState,
   (state: ShaftState) => state?.result
+);
+
+export const getShaftTimeStamp = createSelector(
+  getShaftResult,
+  (state: ShaftStatus) =>
+    state &&
+    new Date(state.timeStamp).toLocaleTimeString(
+      DATE_FORMAT.local,
+      DATE_FORMAT.options
+    )
 );
 
 export const getShaftLatestGraphData = createSelector(

@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
@@ -11,6 +12,7 @@ import {
   getGreaseStatusLatestResult,
   getGreaseStatusLoading,
   getGreaseStatusResult,
+  getGreaseTimeStamp,
 } from './grease-status.selector';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -69,6 +71,16 @@ describe('Grease Status Selector', () => {
   describe('getGreaseStatusLatestLoading', () => {
     test('should return latest loading status', () => {
       expect(getGreaseStatusLatestLoading(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getGreaseTimeStamp', () => {
+    test('should return the formatted time stamp', () => {
+      expect(getGreaseTimeStamp(fakeState)).toEqual(
+        new Date(
+          fakeState.greaseStatus.status.result.timestamp
+        ).toLocaleTimeString(DATE_FORMAT.local, DATE_FORMAT.options)
+      );
     });
   });
 

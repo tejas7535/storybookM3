@@ -9,7 +9,10 @@ import { EChartsOption } from 'echarts';
 import { AppState } from '../../../core/store/reducers';
 import { GreaseSensorName } from '../../../core/store/reducers/grease-status/models';
 import { GraphData } from '../../../core/store/reducers/shared/models';
-import { getGreaseStatusLatestGraphData } from '../../../core/store/selectors/';
+import {
+  getGreaseStatusLatestGraphData,
+  getGreaseTimeStamp,
+} from '../../../core/store/selectors/';
 import { chartOptions } from '../../../shared/chart/chart';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
 import { BearingRoutePath } from '../../bearing-route-path.enum';
@@ -21,6 +24,7 @@ import { BearingRoutePath } from '../../bearing-route-path.enum';
 })
 export class GreaseMonitorComponent implements OnInit {
   greaseStatusLatestGraphData$: Observable<GraphData>;
+  greaseTimeStamp$: Observable<string>;
   sensor = false;
   type = Sensor.GC;
   chartOptions: EChartsOption = {
@@ -49,6 +53,8 @@ export class GreaseMonitorComponent implements OnInit {
     this.greaseStatusLatestGraphData$ = this.store.pipe(
       select(getGreaseStatusLatestGraphData, { sensorName: greaseSensor })
     );
+
+    this.greaseTimeStamp$ = this.store.pipe(select(getGreaseTimeStamp));
   }
 
   navigateToGreaseStatus(): void {
