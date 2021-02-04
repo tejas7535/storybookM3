@@ -41,7 +41,11 @@ export class HttpErrorInterceptor implements HttpInterceptor {
         }
 
         // errors that are not triggered by login should show a toast
-        if (!error.url.startsWith('https://login.microsoftonline')) {
+        const loginUrls = [
+          'https://login.microsoftonline',
+          'https://login.partner.microsoftonline',
+        ];
+        if (!loginUrls.some((loginUrl) => error.url.startsWith(loginUrl))) {
           this.snackBarService.showErrorMessage(errorMessage);
         }
 
