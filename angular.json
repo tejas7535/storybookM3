@@ -1875,7 +1875,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/seli/src/environments/environment.ts",
-                  "with": "apps/seli/src/environments/environment.dev.ts"
+                  "with": "apps/seli/src/environments/environment.qa.ts"
                 }
               ],
               "budgets": [
