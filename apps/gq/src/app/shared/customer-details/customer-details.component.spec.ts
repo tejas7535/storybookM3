@@ -1,6 +1,7 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -43,20 +44,33 @@ describe('CustomerDetailsComponent', () => {
     test('should return a customer', () => {
       const responseArray = component.customerToArray(CUSTOMER_MOCK);
       expect(responseArray).toEqual([
-        ['name', 'mock customer'],
-        ['id', '123'],
-        ['keyAccount', 'keyAccountName'],
-        ['subKeyAccount', 'subKeyAccountName'],
-        ['subRegion', 'subRegion'],
-        ['country', 'mock country'],
-        ['sectorManagement', 'sectorManagementId'],
-        ['subSector', 'subSectorId'],
+        ['name', CUSTOMER_MOCK.name],
+        ['keyAccount', CUSTOMER_MOCK.keyAccount],
+        ['id', CUSTOMER_MOCK.identifiers.customerId],
+        ['subKeyAccount', CUSTOMER_MOCK.subKeyAccount],
+        ['classification', CUSTOMER_MOCK.abcClassification],
+        ['sectorManagement', CUSTOMER_MOCK.sectorManagement],
+        ['lastYearNetSales', undefined],
+        ['lastYearGPI', undefined],
       ]);
     });
     test('should return empty array if no customer', () => {
       const customer = undefined as any;
       const responseArray = component.customerToArray(customer);
       expect(responseArray).toEqual([]);
+    });
+  });
+
+  describe('insertData', () => {
+    test('should return lastYear', () => {
+      const key = 'lastYearNetSales';
+      component.lastYear = 2020;
+      const result = component.insertLastYear(key);
+      expect(result).toEqual(`${2020}`);
+    });
+    test('should return empty string', () => {
+      const result = component.insertLastYear('');
+      expect(result).toEqual('');
     });
   });
   describe('trackByFn()', () => {

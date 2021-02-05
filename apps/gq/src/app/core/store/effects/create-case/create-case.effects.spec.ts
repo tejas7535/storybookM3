@@ -35,6 +35,7 @@ import {
 } from '../../actions';
 import {
   AutocompleteSearch,
+  CreateCase,
   CreateCaseResponse,
   IdValue,
   ImportCaseResponse,
@@ -240,8 +241,11 @@ describe('Create Case Effects', () => {
     });
   });
   describe('createCase', () => {
-    const createCaseData = {
-      customerId: '123',
+    const createCaseData: CreateCase = {
+      customer: {
+        customerId: '1234',
+        salesOrg: '0267',
+      },
       materialQuantities: [
         {
           materialId: '333',
@@ -259,7 +263,11 @@ describe('Create Case Effects', () => {
       action = createCase();
 
       createCaseService.createCase = jest.fn(() => response);
-      const createdCase: CreateCaseResponse = { customerId: '', gqId: '' };
+      const createdCase: CreateCaseResponse = {
+        customerId: '',
+        gqId: '',
+        salesOrg: '',
+      };
       const result = createCaseSuccess({ createdCase });
 
       actions$ = hot('-a', { a: action });

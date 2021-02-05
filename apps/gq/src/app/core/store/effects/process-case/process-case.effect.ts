@@ -75,18 +75,16 @@ export class ProcessCaseEffect {
       withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
-        this.customerDetailsService
-          .getCustomer(quotationIdentifier.customerNumber)
-          .pipe(
-            map((item: Customer) =>
-              loadCustomerSuccess({
-                item,
-              })
-            ),
-            catchError((errorMessage) =>
-              of(loadCustomerFailure({ errorMessage }))
-            )
+        this.customerDetailsService.getCustomer(quotationIdentifier).pipe(
+          map((item: Customer) =>
+            loadCustomerSuccess({
+              item,
+            })
+          ),
+          catchError((errorMessage) =>
+            of(loadCustomerFailure({ errorMessage }))
           )
+        )
       )
     )
   );
@@ -152,9 +150,9 @@ export class ProcessCaseEffect {
           )
       ),
       map(([identifierFromRoute, _identifierCurrent]) => identifierFromRoute),
-      map((quotationIdentifier: QuotationIdentifier) => {
-        return selectQuotation({ quotationIdentifier });
-      })
+      map((quotationIdentifier: QuotationIdentifier) =>
+        selectQuotation({ quotationIdentifier })
+      )
     )
   );
 
@@ -264,11 +262,14 @@ export class ProcessCaseEffect {
 
   private static mapQueryParamsToIdentifier(
     queryParams: any
-  ): { gqId: number; customerNumber: string } {
+  ): { gqId: number; customerNumber: string; salesOrg: string } {
     const gqId: number = queryParams['quotation_number'];
     const customerNumber: string = queryParams['customer_number'];
+    const salesOrg: string = queryParams['sales_org'];
 
-    return gqId || customerNumber ? { gqId, customerNumber } : undefined;
+    return gqId && customerNumber && salesOrg
+      ? { gqId, customerNumber, salesOrg }
+      : undefined;
   }
 
   private static checkEqualityOfIdentifier(
@@ -277,17 +278,16 @@ export class ProcessCaseEffect {
   ): boolean {
     return (
       fromRoute.customerNumber === current?.customerNumber &&
-      fromRoute.gqId === current?.gqId
+      fromRoute.gqId === current?.gqId &&
+      fromRoute.salesOrg === current?.salesOrg
     );
   }
 
   private static addRandomValues(item: Quotation): any {
     item.quotationDetails.forEach((value) => {
-      value.rsp = (Math.random() * 10).toFixed(2);
-      value.margin = `${(Math.random() * 100).toFixed(2).toString()} %`;
-      value.netValue = (value.orderQuantity * Number(value.rsp))
-        .toFixed(2)
-        .toString();
+      value.price = Math.random() * 10;
+      value.margin = Math.random() * 100;
+      value.netValue = value.orderQuantity * Number(value.price);
       const arr = ['PAT', 'SAP System', 'Custom'];
       value.priceSource = arr[Math.floor(Math.random() * 3)];
     });

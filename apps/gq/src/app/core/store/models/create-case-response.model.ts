@@ -1,4 +1,5 @@
 export class CreateCaseResponse {
-  gqId?: string;
-  customerId?: string;
+  gqId: string;
+  customerId: string;
+  salesOrg: string;
 }

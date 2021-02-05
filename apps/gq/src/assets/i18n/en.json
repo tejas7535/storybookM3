@@ -57,13 +57,16 @@
     "country": "Country",
     "customer": "Customer",
     "customerId": "Customer Number",
-    "customerSegmentation": "Customer Segmentation (A,B,C)",
+    "abcClassification": "Customer Segmentation (A,B,C)",
+    "netSales": "Net Sales",
+    "gpi": "GPI",
     "incoterms": "Incoterms",
-    "keyAccount": "Keyaccount",
+    "keyAccount": "Key Account",
     "paymentTerms": "Payment Terms",
     "region": "Region",
+    "salesOrg": "Sales Org",
     "sectorManagement": "Sector Management",
-    "subKeyAccount": "SubKeyAccount",
+    "subKeyAccount": "Sub Key Account",
     "subRegion": "Sub-Region",
     "subSector": "Subsector",
     "title": "Customer"
@@ -142,7 +145,7 @@
       "productionCountry": "Country",
       "productionPlant": "Prod. Plant",
       "productLine": "PL",
-      "quantity": "Quantity",
+      "orderQuantity": "Quantity",
       "rlt": "RLT",
       "sqv": "SQV",
       "uom": "UoM"
@@ -235,15 +238,15 @@
       }
     },
     "customerDetails": {
-      "country": "Country",
       "details": "Details",
       "id": "Customer ID",
       "keyAccount": "Key Account",
       "name": "Customer",
       "sectorManagement": "Sector Management",
       "subKeyAccount": "Subkey Account",
-      "subRegion": "Sub-Region",
-      "subSector": "Subector"
+      "classification": "Customer Classification",
+      "lastYearNetSales": "Net Sales",
+      "lastYearGPI": "GPI"
     },
     "offerDrawer": {
       "title": "Current Offer"

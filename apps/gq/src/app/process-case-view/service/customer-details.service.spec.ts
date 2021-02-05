@@ -9,6 +9,7 @@ import { configureTestSuite } from 'ng-bullet';
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
+import { QuotationIdentifier } from '../../core/store/models';
 import { CustomerDetailsService } from './customer-details.service';
 
 describe('CustomerDetailsService', (): void => {
@@ -48,16 +49,19 @@ describe('CustomerDetailsService', (): void => {
 
   describe('customerDetails', () => {
     test('should call ', () => {
-      const customerNumber = '123456';
-
+      const quotationIdentifier: QuotationIdentifier = {
+        customerNumber: '1234',
+        gqId: 1147852,
+        salesOrg: '0267',
+      };
       const mock = {
         customerDetails: CUSTOMER_MOCK,
       };
-      service.getCustomer(customerNumber).subscribe((response) => {
+      service.getCustomer(quotationIdentifier).subscribe((response) => {
         expect(response).toEqual(mock.customerDetails);
       });
 
-      const req = httpMock.expectOne('/customers/123456');
+      const req = httpMock.expectOne('/customers/1234/0267');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });

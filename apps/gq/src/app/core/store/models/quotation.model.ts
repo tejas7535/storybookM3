@@ -4,17 +4,20 @@ import { User } from './user';
 
 export class Quotation {
   public gqId: number;
-  public customer: Customer;
-  public quotationDetails: QuotationDetail[];
-  public id: string;
-  public name: string;
   public imported: boolean;
-  public sapCreatedByUser: User;
   public sapId: string;
-  public gqCreatedByUser: User;
   public gqCreated: string;
+  public gqCreatedByUser: User;
   public gqLastUpdated: string;
   public gqLastUpdatedByUser: User;
   public sapCreated: string;
   public sapLastUpdated: string;
+  public sapCreatedByUser: User;
+  public customer: Customer;
+  public quotationDetails: QuotationDetail[];
+  public currency: string;
+  public salesChannel: string;
+  public division: string;
+  public requestedDelDate: string;
+  public validTo: string;
 }

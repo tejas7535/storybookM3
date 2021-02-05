@@ -114,6 +114,7 @@ export class CreateCaseEffects {
               queryParams: {
                 quotation_number: createdCase.gqId,
                 customer_number: createdCase.customerId,
+                sales_org: createdCase.salesOrg,
               },
             });
             const successMessage = translate(

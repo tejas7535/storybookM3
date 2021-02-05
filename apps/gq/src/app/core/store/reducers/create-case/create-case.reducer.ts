@@ -187,10 +187,7 @@ export const createCaseReducer = createReducer(
     createCase: {
       ...state.createCase,
       rowData: [
-        ...items.map((it) => ({
-          ...it,
-          materialNumber: it.materialNumber.replace(/-/g, ''),
-        })),
+        ...TableService.removeDashesFromTableItems(items),
         ...state.createCase.rowData.filter((val) => !isDummyData(val)),
       ],
     },

@@ -249,4 +249,41 @@ describe('TableService', () => {
       });
     });
   });
+
+  describe('removeDashes', () => {
+    test('should remove dashes', () => {
+      const matNumberDashes = '000000949-0030-42';
+      const result = TableService.removeDashes(matNumberDashes);
+      expect(result).toEqual('000000949003042');
+    });
+  });
+
+  describe('removeDashesFromTableItems', () => {
+    test('should return array without dashes', () => {
+      const items: MaterialTableItem[] = [
+        {
+          info: {
+            valid: true,
+            description: [ValidationDescription.Valid],
+          },
+          materialNumber: '000000949-0030-42',
+          quantity: 20,
+        },
+      ];
+      const expectedResult: MaterialTableItem[] = [
+        {
+          ...items[0],
+          materialNumber: '000000949003042',
+        },
+      ];
+      TableService.removeDashes = jest.fn(
+        () => expectedResult[0].materialNumber
+      );
+
+      const result = TableService.removeDashesFromTableItems(items);
+
+      expect(result).toEqual(expectedResult);
+      expect(TableService.removeDashes).toHaveBeenCalledTimes(1);
+    });
+  });
 });

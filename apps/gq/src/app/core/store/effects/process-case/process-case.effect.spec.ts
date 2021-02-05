@@ -18,6 +18,7 @@ import {
   QUOTATION_IDENTIFIER_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
+import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
@@ -116,20 +117,13 @@ describe('ProcessCaseEffect', () => {
     snackBarService = TestBed.inject(SnackBarService);
   });
 
-  describe(' customerDetails$', () => {
-    let customerNumber: string;
-
+  describe('customerDetails$', () => {
     beforeEach(() => {
-      customerNumber = '123456';
       action = loadCustomer();
 
-      const quotationIdentifier: QuotationIdentifier = {
-        customerNumber,
-        gqId: 1147852,
-      };
       store.overrideSelector(
         getSelectedQuotationIdentifier,
-        quotationIdentifier
+        QUOTATION_IDENTIFIER_MOCK
       );
     });
 
@@ -148,7 +142,7 @@ describe('ProcessCaseEffect', () => {
       expect(effects.customerDetails$).toBeObservable(expected);
       expect(customerDetailsService.getCustomer).toHaveBeenCalledTimes(1);
       expect(customerDetailsService.getCustomer).toHaveBeenCalledWith(
-        customerNumber
+        QUOTATION_IDENTIFIER_MOCK
       );
     });
 
@@ -177,6 +171,7 @@ describe('ProcessCaseEffect', () => {
       const quotationIdentifier: QuotationIdentifier = {
         gqId,
         customerNumber: '12425',
+        salesOrg: '0236',
       };
 
       store.overrideSelector(
@@ -236,18 +231,25 @@ describe('ProcessCaseEffect', () => {
 
   describe('selectQuotation$', () => {
     test('should return select selectQuotation Action', () => {
+      const differentQuotationIdentifier: QuotationIdentifier = {
+        customerNumber: '123',
+        gqId: 1,
+        salesOrg: '02',
+      };
       store.overrideSelector(
         getSelectedQuotationIdentifier,
-        QUOTATION_IDENTIFIER_MOCK
+        differentQuotationIdentifier
       );
 
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
           routerState: {
-            url: '/process-case',
+            url: `/${AppRoutePath.ProcessCaseViewPath}`,
             queryParams: {
-              quotation_number: 456789,
+              quotation_number: QUOTATION_IDENTIFIER_MOCK.gqId,
+              customer_number: QUOTATION_IDENTIFIER_MOCK.customerNumber,
+              sales_org: QUOTATION_IDENTIFIER_MOCK.salesOrg,
             },
           },
         },
@@ -255,9 +257,9 @@ describe('ProcessCaseEffect', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const quotationIdentifier = new QuotationIdentifier(456789, undefined);
-
-      const result = selectQuotation({ quotationIdentifier });
+      const result = selectQuotation({
+        quotationIdentifier: QUOTATION_IDENTIFIER_MOCK,
+      });
       const expected = cold('-b', { b: result });
 
       expect(effects.selectQuotation$).toBeObservable(expected);
@@ -468,16 +470,14 @@ describe('ProcessCaseEffect', () => {
 
     test('should return QuotationIdentifier', () => {
       queryParams = {
-        quotation_number: '23',
-        customer_number: '0060',
+        quotation_number: QUOTATION_IDENTIFIER_MOCK.gqId,
+        customer_number: QUOTATION_IDENTIFIER_MOCK.customerNumber,
+        sales_org: QUOTATION_IDENTIFIER_MOCK.salesOrg,
       };
 
       expect(
         ProcessCaseEffect['mapQueryParamsToIdentifier'](queryParams)
-      ).toEqual({
-        gqId: '23',
-        customerNumber: '0060',
-      });
+      ).toEqual(QUOTATION_IDENTIFIER_MOCK);
     });
   });
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
+import { ViewQuotation } from '../../../core/store/models';
 
 @Component({
   selector: 'gq-open-case-button',
@@ -11,7 +12,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
   styleUrls: ['./open-case-button.component.scss'],
 })
 export class OpenCaseButtonComponent {
-  selections: any[] = [];
+  selections: ViewQuotation[] = [];
   private params: IStatusPanelParams;
 
   constructor(private readonly router: Router) {}
@@ -32,7 +33,8 @@ export class OpenCaseButtonComponent {
     this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
       queryParams: {
         quotation_number: this.selections[0].gqId,
-        customer_number: this.selections[0].customer.id,
+        customer_number: this.selections[0].customer.identifiers.customerId,
+        sales_org: this.selections[0].customer.identifiers.salesOrg,
       },
     });
   }

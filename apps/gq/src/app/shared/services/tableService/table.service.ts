@@ -139,4 +139,17 @@ export class TableService {
 
     return [...description, add];
   }
+
+  static removeDashes(text: string): string {
+    return text.replace(/-/g, '');
+  }
+
+  static removeDashesFromTableItems(
+    items: MaterialTableItem[]
+  ): MaterialTableItem[] {
+    return items.map((it) => ({
+      ...it,
+      materialNumber: TableService.removeDashes(it.materialNumber),
+    }));
+  }
 }
