@@ -1,20 +1,20 @@
 import { CommonModule } from '@angular/common';
-import {
-  APP_INITIALIZER,
-  InjectionToken,
-  ModuleWithProviders,
-  NgModule,
-} from '@angular/core';
+import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
   getBrowserLang,
+  TRANSLOCO_CONFIG,
+  TRANSLOCO_SCOPE,
   TranslocoConfig,
   TranslocoModule,
   TranslocoService,
-  TRANSLOCO_CONFIG,
-  TRANSLOCO_SCOPE,
 } from '@ngneat/transloco';
 
+import {
+  DEFAULT_LANGUAGE,
+  FALLBACK_LANGUAGE,
+  I18N_CACHE_CHECKSUM,
+} from './injection-tokens';
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
 // tslint:disable-next-line: only-arrow-functions
@@ -30,11 +30,6 @@ export function preloadLanguage(
 
   return loader;
 }
-
-export const DEFAULT_LANGUAGE = new InjectionToken<string>('Default Language');
-export const FALLBACK_LANGUAGE = new InjectionToken<string>(
-  'Fallback Language'
-);
 
 export const preLoad = {
   provide: APP_INITIALIZER,
@@ -61,7 +56,8 @@ export class SharedTranslocoModule {
     availableLangs: string[],
     defaultLang: string,
     fallbackLang: string,
-    appHasTranslations: boolean = true
+    appHasTranslations: boolean = true,
+    cacheChecksums?: { [key: string]: string }
   ): ModuleWithProviders<SharedTranslocoModule> {
     return {
       ngModule: SharedTranslocoModule,
@@ -86,6 +82,10 @@ export class SharedTranslocoModule {
               aot: prodMode,
             },
           } as unknown) as TranslocoConfig,
+        },
+        {
+          provide: I18N_CACHE_CHECKSUM,
+          useValue: cacheChecksums,
         },
       ],
     };

@@ -666,7 +666,7 @@
       "prefix": "cdba",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-builders/custom-webpack:browser",
           "options": {
             "outputPath": "dist/apps/cdba",
             "index": "apps/cdba/src/index.html",
@@ -682,6 +682,9 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
+            },
+            "customWebpackConfig": {
+              "path": "apps/cdba/webpack.config.js"
             }
           },
           "configurations": {
@@ -775,7 +778,7 @@
           "outputs": ["{options.outputPath}"]
         },
         "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
+          "builder": "@angular-builders/custom-webpack:dev-server",
           "options": {
             "browserTarget": "cdba:build"
           },

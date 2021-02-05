@@ -42,3 +42,6 @@ Thumbs.db
 # lint outputs
 **/*checkstyle-result.xml
 **/*checkstyle-result.txt
+
+# i18n checksum files
+**/i18n-checksums.json
