@@ -102,8 +102,10 @@ describe('TotalRowCountComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
-      expect(component.selectedMargin).toEqual(89654);
-      expect(component.selectedNetValue).toEqual(26.67);
+      expect(component.selectedMargin).toEqual(QUOTATION_DETAIL_MOCK.margin);
+      expect(component.selectedNetValue).toEqual(
+        QUOTATION_DETAIL_MOCK.netValue
+      );
     });
   });
 });

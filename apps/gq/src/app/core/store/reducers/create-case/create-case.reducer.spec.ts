@@ -426,6 +426,7 @@ describe('Create Case Reducer', () => {
   describe('createCaseSuccess', () => {
     test('should set createCaseLoading to false', () => {
       const createdCase: CreateCaseResponse = {
+        salesOrg: '0267',
         customerId: '123',
         gqId: '1010',
       };

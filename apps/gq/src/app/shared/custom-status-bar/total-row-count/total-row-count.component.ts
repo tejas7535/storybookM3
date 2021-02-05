@@ -85,9 +85,9 @@ export class TotalRowCountComponent implements OnInit {
 
     this.selections = this.params.api.getSelectedRows();
     this.selections.forEach((value) => {
-      this.selectedNetValue += parseFloat(value.netValue);
+      this.selectedNetValue += value.netValue;
       this.selectedNetValue = parseFloat(this.selectedNetValue.toFixed(2));
-      sumMargin += parseFloat(value.margin);
+      sumMargin += value.margin;
       selectionRowCount += 1;
     });
 

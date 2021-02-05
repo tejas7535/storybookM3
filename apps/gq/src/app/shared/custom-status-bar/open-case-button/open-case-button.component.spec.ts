@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { VIEW_QUOTATION_MOCK } from '../../../../testing/mocks';
 import { OpenCaseButtonComponent } from './open-case-button.component';
 
 describe('OpenCaseButtonComponent', () => {
@@ -64,14 +65,7 @@ describe('OpenCaseButtonComponent', () => {
   describe('openCase', () => {
     test('should open Case', () => {
       router.navigate = jest.fn();
-      component.selections = [
-        {
-          gqId: '123',
-          customer: {
-            id: '123',
-          },
-        },
-      ];
+      component.selections = [VIEW_QUOTATION_MOCK];
       component.openCase();
       expect(router.navigate).toHaveBeenCalled();
     });

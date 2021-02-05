@@ -57,11 +57,14 @@
     "country": "Land",
     "customer": "Kunde",
     "customerId": "Kundennummer",
-    "customerSegmentation": "Kunden Segmentierung (A,B,C)",
+    "abcClassification": "Kunden Segmentierung (A,B,C)",
+    "netSales": "Umsatz",
+    "gpi": "GPI",
     "incoterms": "Incoterms",
     "keyAccount": "Keyaccount",
     "paymentTerms": "Payment Terms",
     "region": "Region",
+    "salesOrg": "Sales Org",
     "sectorManagement": "Sector Management",
     "subKeyAccount": "SubKeyAccount",
     "subRegion": "Sub-Region",
@@ -142,7 +145,7 @@
       "productionPlant": "Werk",
       "productionCountry": "Land",
       "productLine": "PL",
-      "quantity": "Anzahl",
+      "orderQuantity": "Anzahl",
       "rlt": "RLT",
       "sqv": "SQV",
       "uom": "Maßeinheit"
@@ -204,6 +207,9 @@
       "finishOfferButton": {
         "finishOffer": "Angebot abschließen"
       },
+      "flatButtons": {
+        "addNewItem": "Neues Item hinzufügen"
+      },
       "deleteCaseButton": {
         "deleteCase": "Fall löschen"
       },
@@ -232,15 +238,15 @@
       }
     },
     "customerDetails": {
-      "country": "Land",
       "details": "Details",
       "id": "Kundennummer",
       "keyAccount": "Key-Account",
-      "name": "Kunder",
+      "name": "Kunde",
       "sectorManagement": "Sektormanagement",
       "subKeyAccount": "Sub-Key-Account",
-      "subRegion": "Subregion",
-      "subSector": "Subsektor"
+      "classification": "Kunden-Klassifizierung",
+      "lastYearNetSales": "Umsatz",
+      "lastYearGPI": "GPI"
     },
     "offerDrawer": {
       "title": "Alles zurücksetzen"

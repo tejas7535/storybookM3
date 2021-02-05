@@ -13,5 +13,6 @@ export class ViewQuotation {
   public synchronized?: string;
   public gqCreated: Date;
   public gqCreatedByUser: User;
+  public gqLastUpdatedByUser: User;
   public gqLastUpdated: Date;
 }

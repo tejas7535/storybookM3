@@ -26,7 +26,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.item'),
-    field: 'positionNumber',
+    field: 'sapQuotationItemId',
   },
   {
     headerName: translate(
@@ -38,41 +38,49 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialDescription'
     ),
-    field: 'materialDesignation',
+    field: 'materialDescription',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.quantity'),
+    headerName: translate(
+      'processCaseView.quotationDetailsTable.orderQuantity'
+    ),
     field: 'orderQuantity',
     valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.offerPrice'),
-    field: 'rsp',
+    field: 'price',
     valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.currency'),
+    // TODO: use currency from quotation ?
     field: 'unit',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.per'),
+    // TODO: where does this column come from ?
     field: 'per',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.uom'),
+    // where does this come from??
     field: 'priceUnit',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.netValue'),
+    // where does this come from ?
     field: 'netValue',
     valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.priceSource'),
+    // currently missing in the database ?
     field: 'priceSource',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gqRating'),
+    // currently missing in the database ?
     field: 'gqRating',
   },
   {
@@ -85,6 +93,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
+    // where does this come from?
     field: ColumnFields.GPI,
   },
   {
@@ -108,26 +117,30 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate(
       'processCaseView.quotationDetailsTable.productionPlant'
     ),
-    field: 'productionPlant',
+    field: 'productionPlant.plantNumber',
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.productionCity'
     ),
+    // currently missing in the database -> BE: adjust PlantDto
     field: 'productionCity',
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.productionCountry'
     ),
+    // currently missing in the database -> BE: adjust PlantDto
     field: 'productionCountry',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.productLine'),
+    // currently missing in the database
     field: 'productLine',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gspd'),
+    // currently missing in the database
     field: 'gspd',
   },
 ];

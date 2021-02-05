@@ -43,7 +43,10 @@ describe('CreateCaseService', () => {
   describe('createCase', () => {
     test('should call', () => {
       const mockBody: CreateCase = {
-        customerId: '1234',
+        customer: {
+          customerId: '1234',
+          salesOrg: '0267',
+        },
         materialQuantities: [{ materialId: '123', quantity: 10 }],
       };
       service.createCase(mockBody).subscribe((response) => {

@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { DataService } from '@schaeffler/http';
 
 import { MaterialDetails } from '../../core/store/models';
+import { TableService } from '../../shared/services/tableService/table.service';
 
 @Injectable({
   providedIn: 'root',
@@ -17,7 +18,9 @@ export class MaterialDetailsService {
 
   loadMaterials(materialNumber15: string): Observable<any> {
     return this.dataService
-      .getAll<any>(`${this.path}/${materialNumber15.split('-').join('')}`)
+      .getAll<any>(
+        `${this.path}/${TableService.removeDashes(materialNumber15)}`
+      )
       .pipe(map((res: MaterialDetails) => res));
   }
 }

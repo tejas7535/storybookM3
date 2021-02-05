@@ -11,6 +11,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 export class FinishOfferButtonComponent {
   public quotationNumber: string;
   public customerNumber: string;
+  public salesOrg: string;
 
   constructor(
     private readonly router: Router,
@@ -19,6 +20,7 @@ export class FinishOfferButtonComponent {
     this.activatedRoute.queryParams.subscribe((params) => {
       this.quotationNumber = params['quotation_number'];
       this.customerNumber = params['customer_number'];
+      this.salesOrg = params['sales_org'];
     });
   }
 
@@ -29,6 +31,7 @@ export class FinishOfferButtonComponent {
       queryParams: {
         quotation_number: this.quotationNumber,
         customer_number: this.customerNumber,
+        sales_org: this.salesOrg,
       },
     });
   }

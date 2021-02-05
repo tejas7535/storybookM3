@@ -10,7 +10,7 @@ import { ViewQuotation } from '../../core/store/models';
   providedIn: 'root',
 })
 export class ViewCasesService {
-  private readonly path = 'quotations/list';
+  private readonly path = 'quotations';
 
   constructor(private readonly dataService: DataService) {}
 

@@ -21,6 +21,7 @@ import {
   IdValue,
   SapQuotation,
 } from '../../core/store/models';
+import { TableService } from '../services/tableService/table.service';
 import { FilterNames } from './filter-names.enum';
 
 @Component({
@@ -110,7 +111,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
           this.autocomplete.emit({
             searchFor:
               this.filterName === FilterNames.MATERIAL
-                ? searchFor.split('-').join('')
+                ? TableService.removeDashes(searchFor)
                 : searchFor,
             filter: this.filterName,
           });

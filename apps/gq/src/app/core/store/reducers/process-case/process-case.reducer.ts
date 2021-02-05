@@ -83,11 +83,7 @@ export const processCaseReducer = createReducer(
   initialState,
   on(selectQuotation, (state: ProcessCaseState, { quotationIdentifier }) => ({
     ...state,
-    quotationIdentifier: {
-      ...state.quotationIdentifier,
-      customerNumber: quotationIdentifier.customerNumber,
-      gqId: quotationIdentifier.gqId,
-    },
+    quotationIdentifier,
   })),
   on(loadCustomer, (state: ProcessCaseState) => ({
     ...state,
@@ -222,7 +218,7 @@ export const processCaseReducer = createReducer(
     addMaterials: {
       ...state.addMaterials,
       addMaterialRowData: [
-        ...items,
+        ...TableService.removeDashesFromTableItems(items),
         ...state.addMaterials.addMaterialRowData.filter(
           (val) => !isDummyData(val)
         ),

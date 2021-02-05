@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
-import { Customer } from '../../core/store/models';
+import { Customer, QuotationIdentifier } from '../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
@@ -15,9 +15,13 @@ export class CustomerDetailsService {
 
   constructor(private readonly dataService: DataService) {}
 
-  public getCustomer(customerNumber: string): Observable<Customer> {
+  public getCustomer(
+    quotationIdentifier: QuotationIdentifier
+  ): Observable<Customer> {
+    const { customerNumber, salesOrg } = quotationIdentifier;
+
     return this.dataService
-      .getAll<any>(`${this.CUSTOMER_DETAILS}/${customerNumber}`)
+      .getAll<any>(`${this.CUSTOMER_DETAILS}/${customerNumber}/${salesOrg}`)
       .pipe(map((res: any) => res));
   }
 }

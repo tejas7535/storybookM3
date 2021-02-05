@@ -69,7 +69,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('caseView.caseTable.customerNumber'),
-    field: 'customer.id',
+    field: 'customer.identifiers.customerId',
   },
   {
     headerName: translate('caseView.caseTable.customerName'),

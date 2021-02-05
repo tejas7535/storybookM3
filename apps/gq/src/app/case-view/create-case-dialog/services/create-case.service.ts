@@ -20,7 +20,8 @@ export class CreateCaseService {
       map((res: any) => {
         const response: CreateCaseResponse = {
           gqId: res.gqId,
-          customerId: createCaseData.customerId,
+          customerId: createCaseData.customer.customerId,
+          salesOrg: createCaseData.customer.salesOrg,
         };
 
         return response;

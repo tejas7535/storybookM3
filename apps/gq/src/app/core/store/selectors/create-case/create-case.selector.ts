@@ -98,10 +98,11 @@ export const getCustomerConditionsValid = createSelector(
 export const getCreateCaseData = createSelector(
   getCaseState,
   (state: CaseState): CreateCase => {
-    const customer = state.createCase.autocompleteItems
-      .find((it) => it.filter === FilterNames.CUSTOMER)
-      .options.find((opt) => opt.selected);
-    const customerId = customer ? customer.id : undefined;
+    const customerId = state.createCase.customer.customerId;
+    const salesOrg = state.createCase.customer.salesOrgs.find(
+      (org) => org.selected
+    )?.id;
+
     const materialQuantities: MaterialQuantities[] = [];
     state.createCase.rowData.forEach((el) => {
       materialQuantities.push({
@@ -114,8 +115,11 @@ export const getCreateCaseData = createSelector(
     });
 
     return {
-      customerId,
       materialQuantities,
+      customer: {
+        customerId,
+        salesOrg,
+      },
     };
   }
 );

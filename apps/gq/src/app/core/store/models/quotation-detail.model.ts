@@ -1,18 +1,32 @@
+import { Plant } from './plant.model';
+
 export class QuotationDetail {
-  public addedToOffer: boolean;
   public quotationId: string;
+  public gqCreated: string;
+  public gqLastUpdated: string;
+  public gqCreatedByUserId: string;
+  public gqCreatedByUser: string;
+  public gqLastUpdatedByUserId: string;
+  public gqLastUpdatedByUser: string;
+  public addedToOffer: boolean;
   public gqPositionId: string;
-  public quotationItemId: string;
-  public orderQuantity: number;
-  public materialDesignation: string;
+  public sapQuotationItemId: string;
   public materialNumber15: string;
-  public productionHierarchy: string;
-  public productionCost: string;
-  public productionPlant: string;
-  public plantCity: string;
-  public plantCountry: string;
-  public rsp: string;
-  public margin: string;
-  public netValue: string;
+  public materialDescription: string;
+  public orderQuantity: number;
+  public plant: Plant;
+  public productionPlant: Plant;
+  public price: number;
+  public recommendedPrice: number;
+  public lastCustomerPrice: number;
+  public percentDifference: number;
+  public finalRecommendedSellingPrice: number;
+  public gpc: number;
+  public sqv: number;
+  public rlt: number;
+  public productionSegment: number;
+  // properties added in GQ application
+  public margin: number;
+  public netValue: number;
   public priceSource: string;
 }

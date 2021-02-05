@@ -1,6 +1,9 @@
 import { MaterialQuantities } from './material-quantities.model';
 
 export class CreateCase {
-  customerId: string;
+  customer: {
+    customerId: string;
+    salesOrg: string;
+  };
   materialQuantities: MaterialQuantities[];
 }

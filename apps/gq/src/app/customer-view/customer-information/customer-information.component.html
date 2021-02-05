@@ -3,14 +3,67 @@
     <h6>{{ t('title') }}</h6>
     <div>
       <div>
-        <span>{{ t('customerId') }}: </span>{{ customer.id }}
+        <span>{{ t('customerId') }}: </span
+        >{{ customer.identifiers.customerId }}
       </div>
       <div>
         <span>{{ t('customer') }}: </span>{{ customer.name }}
       </div>
       <div>
-        <span>{{ t('customerSegmentation') }}: </span
-        >{{ customer.customerSegmentation }}
+        <span>{{ t('salesOrg') }}: </span>{{ customer.identifiers.salesOrg }}
+      </div>
+      <div>
+        <span>{{ t('abcClassification') }}: </span
+        >{{ customer.abcClassification }}
+      </div>
+      <div>
+        <span>{{ currentYear }} {{ t('netSales') }}: </span
+        >{{ customer.yearNetSales }}
+      </div>
+      <div>
+        <span>{{ currentYear }} {{ t('gpi') }}: </span>{{ customer.yearGPI }}
+      </div>
+      <div>
+        <span>{{ lastYear }} {{ t('netSales') }}: </span
+        >{{ customer.lastYearNetSales }}
+      </div>
+      <div>
+        <span>{{ lastYear }} {{ t('gpi') }}: </span>{{ customer.lastYearGPI }}
+      </div>
+
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccountId }} |
+        {{ customer.keyAccount }}
+      </div>
+      <div>
+        <span>{{ t('subKeyAccount') }}:</span> {{ customer.subKeyAccountId }} |
+        {{ customer.subKeyAccount }}
+      </div>
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('subSector') }}: </span>{{ customer.subSector }} |
+        {{ customer.subSectorId }}
+      </div>
+      <div>
+        <span>{{ t('sectorManagement') }}: </span
+        >{{ customer.sectorManagement }}
+      </div>
+      <div class="break"></div>
+    </div>
+    <div>
+      <div>
+        <span>{{ t('country') }}: </span>{{ customer.country }}
+      </div>
+      <div>
+        <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
+      </div>
+      <div>
+        <span>{{ t('region') }}: </span>{{ customer.region }}
       </div>
       <div class="break"></div>
     </div>
@@ -20,38 +73,6 @@
       </div>
       <div>
         <span>{{ t('paymentTerms') }}:</span> {{ customer.paymentTerms }}
-      </div>
-      <div class="break"></div>
-    </div>
-    <div>
-      <div>
-        <span>{{ t('keyAccount') }}: </span>{{ customer.keyAccount.id }} |
-        {{ customer.keyAccount.name }}
-      </div>
-      <div>
-        <span>{{ t('subKeyAccount') }}:</span> {{ customer.subKeyAccount.id }} |
-        {{ customer.subKeyAccount.name }}
-      </div>
-      <div class="break"></div>
-    </div>
-    <div>
-      <div>
-        <span>{{ t('region') }}: </span>{{ customer.region }}
-      </div>
-      <div>
-        <span>{{ t('subRegion') }}: </span>{{ customer.subRegion }}
-      </div>
-      <div>
-        <span>{{ t('country') }}: </span>{{ customer.country }}
-      </div>
-      <div>
-        <span>{{ t('sectorManagement') }}: </span
-        >{{ customer.sectorManagement.id }} |
-        {{ customer.sectorManagement.name }}
-      </div>
-      <div>
-        <span>{{ t('subSector') }}: </span>{{ customer.subSector.id }} |
-        {{ customer.subSector.name }}
       </div>
     </div>
   </div>
