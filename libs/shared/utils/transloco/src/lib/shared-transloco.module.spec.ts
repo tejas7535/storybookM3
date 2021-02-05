@@ -1,31 +1,33 @@
-import { of } from 'rxjs';
-
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import * as transloco from '@ngneat/transloco';
+import { of } from 'rxjs';
 
+import * as transloco from '@ngneat/transloco';
 import { configureTestSuite } from 'ng-bullet';
 
-import { provideTranslocoTestingModule } from '../lib/shared-transloco-testing.module';
 import {
   preloadLanguage,
   SharedTranslocoModule,
 } from './shared-transloco.module';
 
 describe('SharedTranslocoModule for Root', () => {
+  let module: SharedTranslocoModule;
   configureTestSuite(() => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        provideTranslocoTestingModule({}),
         SharedTranslocoModule.forRoot(true, ['en'], 'en', 'es'),
       ],
     });
   });
 
+  beforeEach(() => {
+    module = TestBed.inject(SharedTranslocoModule);
+  });
+
   test('should create', () => {
-    expect(SharedTranslocoModule).toBeDefined();
+    expect(module).toBeDefined();
   });
 
   describe('preloadLanguage', () => {

@@ -4,7 +4,8 @@
     "directive-selector": [true, "attribute", "cdba", "camelCase"],
     "component-selector": [true, "element", "cdba", "kebab-case"],
     "template-cyclomatic-complexity": [true, 15],
-    "no-implicit-dependencies": false
+    "no-implicit-dependencies": false,
+    "no-default-import": false
   },
   "linterOptions": {
     "exclude": ["!**/*"]
