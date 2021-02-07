@@ -164,7 +164,7 @@
     "ngx-build-plus": "11.0.0",
     "npm-audit-html": "1.4.3",
     "npm-force-resolutions": "0.0.3",
-    "postcss": "8.2.4",
+    "postcss": "8.2.5",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
     "standard-version": "9.1.0",
