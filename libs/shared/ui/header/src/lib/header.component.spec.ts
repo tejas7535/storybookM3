@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
@@ -24,6 +25,7 @@ describe('In HeaderComponent', () => {
         NoopAnimationsModule,
         MatIconModule,
         MatToolbarModule,
+        RouterTestingModule,
         FlexLayoutModule,
       ],
       providers: [provideMockStore()],

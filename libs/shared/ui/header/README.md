@@ -28,6 +28,8 @@ API of HeaderComponent:
 
 @Input() platformTitle: string;
 
+@Input() link?: string; // an optional ngRouter link attached to the header title.  
+
 // Output:
 @Output() readonly toggle: EventEmitter<void> = new EventEmitter(); // is emitted when the burger icon was clicked
 ```
