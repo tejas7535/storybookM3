@@ -7,12 +7,8 @@ import { ENV_CONFIG } from '@schaeffler/http';
 import { configureTestSuite } from 'ng-bullet';
 
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
-import {
-  HARDNESS_CONVERSION_MOCK,
-  hardnessConversionWithSideMock,
-} from '../../../../testing/mocks/hardness-conversion.mock';
+import { HARDNESS_CONVERSION_MOCK } from '../../../../testing/mocks/hardness-conversion.mock';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
-import { InputSideTypes } from './hardness-converter-response.model';
 
 describe('HardnessConverterApiService', () => {
   let service: HardnessConverterApiService;
@@ -55,9 +51,8 @@ describe('HardnessConverterApiService', () => {
   });
 
   it('should return a converted value', () => {
-    const side = InputSideTypes.from;
-    service.getConversionResult('mPa', 'HB', 1234, side).subscribe((result) => {
-      expect(result).toEqual(hardnessConversionWithSideMock(side));
+    service.getConversionResult('mPa', 1234).subscribe((result) => {
+      expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
     });
 
     const req = httpMock.expectOne('/hardness-conversion/api/score');

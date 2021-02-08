@@ -9,18 +9,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { of } from 'rxjs';
 
+import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
+import {
+  HARDNESS_CONVERSION_ERROR_MOCK,
+  HARDNESS_CONVERSION_MOCK,
+} from '../../../testing/mocks/hardness-conversion.mock';
 import { HardnessConverterComponent } from './hardness-converter.component';
 import { HardnessConverterApiService } from './services/hardness-converter-api.service';
-import { InputSideTypes } from './services/hardness-converter-response.model';
-
-const unitList = ['mPa', 'HV', 'HB', 'HrC'];
 
 describe('HardnessConverterComponent', () => {
   let component: HardnessConverterComponent;
   let spectator: Spectator<HardnessConverterComponent>;
 
-  const conversionResultOkay = { converted: '15' };
-  const conversionResultError = { error: 'conversion impossible' };
   const createComponent = createComponentFactory({
     component: HardnessConverterComponent,
     imports: [
@@ -37,11 +37,11 @@ describe('HardnessConverterComponent', () => {
       {
         provide: HardnessConverterApiService,
         useValue: {
-          getUnits: jest.fn(() => of(unitList)),
+          getUnits: jest.fn(() => of(HARDNESS_CONVERSION_UNITS_MOCK.units)),
           getConversionResult: jest.fn((a) => {
             return Number.isInteger(parseInt(a, 10))
-              ? of(conversionResultOkay)
-              : of(conversionResultError);
+              ? of(HARDNESS_CONVERSION_MOCK)
+              : of(HARDNESS_CONVERSION_ERROR_MOCK);
           }),
         },
       },
@@ -53,9 +53,12 @@ describe('HardnessConverterComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+  it(
+    'should create',
+    waitForAsync(() => {
+      expect(component).toBeTruthy();
+    })
+  );
 
   describe('trackByFn', () => {
     it('should return index', () => {
@@ -66,82 +69,118 @@ describe('HardnessConverterComponent', () => {
   });
 
   describe('triggering conversion', () => {
-    it('should push next value to the subject', () => {
-      component.convertValue(InputSideTypes.from, '42');
-      component.$inputSideChange.subscribe((side) => {
-        expect(side).toEqual(InputSideTypes.from);
-      });
-    });
+    it(
+      'should mark value change',
+      waitForAsync(() => {
+        let valueChanged = false;
+        component.convertValue('42');
+        component.$valueChange.subscribe(() => {
+          valueChanged = true;
+          expect(valueChanged).toBeTruthy();
+        });
+      })
+    );
 
-    it('should do nothing if input holds an empty string', () => {
-      let wasGivenNextValue = false;
-      component.convertValue(InputSideTypes.from, '');
-      component.$inputSideChange.subscribe(() => (wasGivenNextValue = true));
-
-      expect(wasGivenNextValue).toEqual(false);
-    });
+    it(
+      'should do nothing if input holds an empty string',
+      waitForAsync(() => {
+        let valueChanged = false;
+        component.convertValue('');
+        component.$valueChange.subscribe(() => {
+          valueChanged = true;
+          expect(valueChanged).toBeFalsy();
+        });
+      })
+    );
   });
 
   it('should setup the unit list', () => {
-    expect(component.unitList).toEqual(unitList);
-  });
-
-  describe('conversion should apply to the opposite value', () => {
-    it('should convert right-hand value when inputting the left-hand one', () => {
-      waitForAsync(() => {
-        const val = '1234';
-        component.hardness.patchValue({
-          fromUnit: 'mPa',
-          toUnit: 'HV',
-          fromValue: val,
-        });
-        component.convertValue(InputSideTypes.from, val);
-
-        expect(component.hardness.get('toValue').value).toEqual(
-          conversionResultOkay.converted
-        );
-      });
-    });
-
-    it('should convert left-hand value when inputting the right-hand one', () => {
-      waitForAsync(() => {
-        const val = '1234';
-        component.hardness.patchValue({
-          fromUnit: 'mPa',
-          toUnit: 'HV',
-          toValue: val,
-        });
-        component.convertValue(InputSideTypes.from, val);
-
-        expect(component.hardness.get('fromValue').value).toEqual(
-          conversionResultOkay.converted
-        );
-      });
-    });
+    expect(component.unitList).toEqual(HARDNESS_CONVERSION_UNITS_MOCK.units);
   });
 
   describe('handling keypresses', () => {
     it('should trigger value conversion on pressing a number', () => {
       const spy = jest.spyOn(component, 'convertValue');
-      component.handleKeyInput('1', '101', InputSideTypes.to);
-      expect(spy).toHaveBeenCalledWith(InputSideTypes.to, '101');
+      component.handleKeyInput('1', '101');
+      expect(spy).toHaveBeenCalledWith('101');
     });
 
     it('should not trigger value conversion when a non-number key is pressed', () => {
       const spy = jest.spyOn(component, 'convertValue');
-      component.handleKeyInput('a', '101a', InputSideTypes.to);
+      component.handleKeyInput('a', '101a');
       expect(spy).toHaveBeenCalledTimes(0);
     });
   });
 
   it(
+    'should receive conversion results after a new input',
+    waitForAsync(() => {
+      component.$results.subscribe((result) => {
+        expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
+      });
+      component.hardness.get('value').setValue(42);
+      component.$valueChange.next();
+    })
+  );
+
+  it(
     'should handle errors returned by the service',
     waitForAsync(() => {
       component.hardness
-        .get('fromValue')
+        .get('value')
         .setValue('totally wrong and unacceptable');
-      component.$inputSideChange.next(InputSideTypes.from);
-      expect(component.error).toEqual(conversionResultError.error);
+      component.$valueChange.next();
+      expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
     })
   );
+
+  describe('getValue', () => {
+    it('should round the number for HRc', () => {
+      const val1 = component.getValue({ unit: 'HRc', value: 50.35346 });
+      const val2 = component.getValue({ unit: 'HRc', value: 1.00000004 });
+      const val3 = component.getValue({ unit: 'HRc', value: 0.99999999 });
+      const val4 = component.getValue({ unit: 'HRc', value: 0.00000004 });
+
+      expect(val1).toEqual(50.4);
+      expect(val2).toEqual(1);
+      expect(val3).toEqual(1);
+      expect(val4).toEqual(0);
+    });
+
+    it('should return the value as an integer for other units', () => {
+      const val1 = component.getValue({ unit: 'MPa', value: 50.35346 });
+      const val2 = component.getValue({ unit: 'HV', value: 50.35346 });
+      const val3 = component.getValue({ unit: 'HB', value: 50.35346 });
+      const val4 = component.getValue({
+        unit: 'Literally anything else',
+        value: 50.35346,
+      });
+
+      expect(val1).toEqual(50);
+      expect(val2).toEqual(50);
+      expect(val3).toEqual(50);
+      expect(val4).toEqual(50);
+    });
+
+    it('should return the warning if no value is present', () => {
+      const returnedData = component.getValue({
+        unit: 'MPa',
+        warning: 'warning description',
+      });
+
+      expect(returnedData).toEqual('warning description');
+    });
+  });
+
+  describe('step', () => {
+    it('should set a step interval of .1 for HRc', () => {
+      component.hardness.get('unit').setValue('HRc');
+      expect(component.step).toEqual('.1');
+    });
+
+    it('should set a step interval of 1 for any other unit', () => {
+      component.hardness.get('unit').setValue('totally anything else');
+      expect(component.step).toEqual('1');
+    });
+  });
 });

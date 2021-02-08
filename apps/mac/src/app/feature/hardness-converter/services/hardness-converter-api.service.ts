@@ -4,9 +4,8 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import {
-  HardnessConversionResponseWithSide,
+  HardnessConversionResponse,
   HardnessUnitsResponse,
-  InputSideTypes,
 } from './hardness-converter-response.model';
 
 @Injectable({
@@ -24,25 +23,14 @@ export class HardnessConverterApiService {
   }
 
   public getConversionResult(
-    unitIn: string,
-    unitOut: string,
-    val: number,
-    side: InputSideTypes
-  ): Observable<HardnessConversionResponseWithSide> {
+    unit: string,
+    value: number
+  ): Observable<HardnessConversionResponse> {
     const body = {
-      unit_in: unitIn,
-      unit_out: unitOut,
-      value: val,
+      value,
+      unit_in: unit,
     };
 
-    return this.dataService
-      .post<HardnessConversionResponseWithSide>(this.SCORE, body)
-      .pipe(
-        map((res) => {
-          res.side = side;
-
-          return res;
-        })
-      );
+    return this.dataService.post<HardnessConversionResponse>(this.SCORE, body);
   }
 }
