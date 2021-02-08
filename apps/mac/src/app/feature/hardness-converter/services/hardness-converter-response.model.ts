@@ -1,18 +1,14 @@
-export enum InputSideTypes {
-  from = 'FROM',
-  to = 'TO',
-}
-
 export interface HardnessUnitsResponse {
   units: string[];
 }
 
-export interface HardnessConversionResponse {
-  converted: number;
-  error?: string;
+export interface HardnessConversionSingleUnit {
+  unit: string;
+  value?: number;
+  warning?: string;
 }
 
-export interface HardnessConversionResponseWithSide
-  extends HardnessConversionResponse {
-  side: InputSideTypes;
+export interface HardnessConversionResponse {
+  converted: HardnessConversionSingleUnit[];
+  error?: string;
 }

@@ -10,63 +10,22 @@
       </div>
       <form [formGroup]="hardness">
         <div class="hardness-value">
-          <mat-form-field>
+          <mat-form-field class="value-input-wrapper">
             <mat-label>Value</mat-label>
             <input
-              formControlName="fromValue"
+              formControlName="value"
               matInput
               type="number"
-              (keyup)="
-                handleKeyInput(
-                  $event.key,
-                  $event.target.value,
-                  inputSideTypes.from
-                )
-              "
-              (change)="convertValue(inputSideTypes.from, $event.target.value)"
+              [step]="step"
+              (keyup)="handleKeyInput($event.key, $event.target.value)"
+              (change)="convertValue($event.target.value)"
             />
           </mat-form-field>
           <mat-form-field appearance="fill">
             <mat-label>From</mat-label>
             <mat-select
-              formControlName="fromUnit"
-              (selectionChange)="
-                convertValue(inputSideTypes.from, $event.value)
-              "
-            >
-              <mat-option
-                *ngFor="let unit of unitList; trackBy: trackByFn"
-                [value]="unit"
-                >{{ unit }}</mat-option
-              >
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-        <span class="equals">=</span>
-
-        <div class="hardness-value">
-          <mat-form-field>
-            <mat-label>Value</mat-label>
-            <input
-              formControlName="toValue"
-              matInput
-              type="number"
-              (keyup)="
-                handleKeyInput(
-                  $event.key,
-                  $event.target.value,
-                  inputSideTypes.to
-                )
-              "
-              (change)="convertValue(inputSideTypes.to, $event.target.value)"
-            />
-          </mat-form-field>
-          <mat-form-field appearance="fill">
-            <mat-label>To</mat-label>
-            <mat-select
-              formControlName="toUnit"
-              (selectionChange)="convertValue(inputSideTypes.to, $event.value)"
+              formControlName="unit"
+              (selectionChange)="convertValue($event.value)"
             >
               <mat-option
                 *ngFor="let unit of unitList; trackBy: trackByFn"
@@ -77,6 +36,26 @@
           </mat-form-field>
         </div>
       </form>
+      <p class="conversion-info" [@inOutAnimation] *ngIf="$results | async">
+        Converted after ISO 18265 - A.1
+      </p>
+      <div class="results" [@inOutAnimation] *ngIf="$results | async">
+        <div
+          class="spinner-wrapper"
+          [ngClass]="{ hidden: ($resultsUpToDate | async) }"
+        >
+          <mat-spinner></mat-spinner>
+        </div>
+        <mat-card
+          *ngFor="let result of $results | async; trackBy: trackByFn"
+          class="unit-result"
+        >
+          <span class="value" [ngClass]="{ warning: result.warning }">{{
+            getValue(result)
+          }}</span>
+          <span class="unit">{{ result.unit }}</span>
+        </mat-card>
+      </div>
       <mat-error *ngIf="error" [@inOutAnimation]>{{ error }}</mat-error>
     </mat-card-content>
   </mat-card>

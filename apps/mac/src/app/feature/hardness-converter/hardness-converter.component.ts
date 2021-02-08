@@ -1,12 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { Subject } from 'rxjs';
+import { BehaviorSubject, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { HardnessConverterApiService } from './services/hardness-converter-api.service';
 import {
-  HardnessConversionResponseWithSide,
-  InputSideTypes,
+  HardnessConversionResponse,
+  HardnessConversionSingleUnit,
 } from './services/hardness-converter-response.model';
 
 @Component({
@@ -27,20 +27,18 @@ import {
   ],
 })
 export class HardnessConverterComponent implements OnInit {
-  inputSideTypes = InputSideTypes;
-
   public constructor(
     private readonly hardnessService: HardnessConverterApiService
   ) {}
 
-  $inputSideChange = new Subject<InputSideTypes>();
+  $valueChange = new Subject();
+  $results = new Subject<HardnessConversionSingleUnit[]>();
+  $resultsUpToDate = new BehaviorSubject<boolean>(true);
   unitList: string[] = [];
   error: string;
   hardness = new FormGroup({
-    fromUnit: new FormControl(''),
-    toUnit: new FormControl(''),
-    fromValue: new FormControl(0),
-    toValue: new FormControl(0),
+    unit: new FormControl(''),
+    value: new FormControl(0),
   });
 
   ngOnInit(): void {
@@ -52,72 +50,64 @@ export class HardnessConverterComponent implements OnInit {
     this.hardnessService.getUnits().subscribe((units) => {
       this.unitList = units;
       this.hardness.patchValue({
-        fromUnit: units[0],
-        toUnit: units[1],
+        unit: units[0],
       });
     });
   }
 
   private setupConversionResultStream(): void {
-    this.$inputSideChange
+    this.$valueChange
       .pipe(
-        switchMap((sideChange: InputSideTypes) => {
-          const fromSideChange = sideChange === this.inputSideTypes.from;
+        switchMap(() => {
+          this.$resultsUpToDate.next(false);
 
           return this.hardnessService.getConversionResult(
-            fromSideChange
-              ? this.hardness.get('fromUnit').value
-              : this.hardness.get('toUnit').value,
-            fromSideChange
-              ? this.hardness.get('toUnit').value
-              : this.hardness.get('fromUnit').value,
-            fromSideChange
-              ? this.hardness.get('fromValue').value
-              : this.hardness.get('toValue').value,
-            sideChange
+            this.hardness.get('unit').value,
+            this.hardness.get('value').value
           );
         })
       )
-      .subscribe((conversionResult: HardnessConversionResponseWithSide) => {
-        const fromSideChange =
-          conversionResult.side === this.inputSideTypes.from;
-        const controlToPatch = fromSideChange ? 'toValue' : 'fromValue';
-
-        if (conversionResult.error) {
-          const otherInput =
-            controlToPatch === 'toValue' ? 'fromValue' : 'toValue';
-          const otherInputHasValue = !!this.hardness.get(otherInput).value;
-
-          this.error = conversionResult.error;
-
-          if (otherInputHasValue) {
-            this.hardness.patchValue({
-              [controlToPatch]: undefined,
-            });
-          }
+      .subscribe((result: HardnessConversionResponse) => {
+        if (result.error) {
+          this.error = result.error;
         } else {
-          this.hardness.patchValue({
-            [controlToPatch]: conversionResult.converted,
-          });
+          this.$results.next(result.converted);
         }
+        this.$resultsUpToDate.next(true);
       });
   }
 
-  handleKeyInput(key: string, value: string, sideChange: InputSideTypes): void {
+  get step(): string {
+    return this.hardness.get('unit').value === 'HRc' ? '.1' : '1';
+  }
+
+  handleKeyInput(key: string, value: string): void {
     if (
       Number.isInteger(parseInt(key, 10)) ||
       key === 'Backspace' ||
       key === 'Delete'
     ) {
-      this.convertValue(sideChange, value);
+      this.convertValue(value);
     }
   }
 
-  convertValue(sideChange: InputSideTypes, val: string): void {
+  convertValue(val: string): void {
     if (val !== '') {
       this.error = undefined;
-      this.$inputSideChange.next(sideChange);
+      this.$valueChange.next();
     }
+  }
+
+  getValue(result: HardnessConversionSingleUnit): number | string {
+    if (result.unit === 'HRc' && result.value) {
+      return Math.round(result.value * 10) / 10;
+    }
+
+    if (result.value) {
+      return Math.round(result.value);
+    }
+
+    return result.warning;
   }
 
   trackByFn(index: number): number {

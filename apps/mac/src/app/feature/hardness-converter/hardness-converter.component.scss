@@ -1,19 +1,33 @@
 @import 'lib/colors';
+@import 'libs/shared/ui/styles/src/lib/mediaqueries';
 
 .hardness-converter-wrapper {
-  margin: 50px 0 0 50%;
-  max-width: 500px;
   overflow: hidden;
-  transform: translateX(-50%);
-  width: 40vw;
+}
+
+@media screen and (max-width: $screen-sm-max) {
+  .hardness-converter-wrapper {
+    margin: 50px 10% 0 10%;
+  }
+}
+@media screen and (min-width: $screen-md-min) {
+  .hardness-converter-wrapper {
+    margin: 50px 0 0 50%;
+    max-width: 500px;
+    transform: translateX(-50%);
+    width: 40vw;
+  }
 }
 
 .hardness-converter {
   background: $schaeffler-white;
 }
 
-.hardness-value {
-  width: 40%;
+@media screen and (min-width: $screen-md-min) {
+  .hardness-value {
+    display: flex;
+    width: 100%;
+  }
 }
 
 .equals {
@@ -48,6 +62,10 @@ form {
   }
 }
 
+.value-input-wrapper {
+  transform: translateY(9px);
+}
+
 .mat-input-element {
   font-size: large;
   text-align: center;
@@ -55,6 +73,18 @@ form {
 
 mat-form-field {
   width: 100%;
+}
+
+@media screen and (min-width: $screen-md-min) {
+  mat-form-field {
+    &:nth-of-type(1) {
+      padding-right: 0.5rem;
+    }
+
+    &:nth-of-type(2) {
+      padding-left: 0.5rem;
+    }
+  }
 }
 
 mat-error {
@@ -70,4 +100,62 @@ mat-card {
   &-content {
     padding: 1rem;
   }
+}
+
+.results {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.unit-result {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  margin: 0.5rem 0;
+}
+
+@media screen and (max-width: $screen-sm-max) {
+  .unit-result {
+    width: 100%;
+  }
+}
+@media screen and (min-width: $screen-md-min) {
+  .unit-result {
+    width: calc(50% - 1rem);
+  }
+}
+
+.value {
+  display: flex;
+  font-size: large;
+  justify-content: center;
+  margin-right: 1rem;
+  padding: 0.5rem;
+  width: 80%;
+}
+
+.unit {
+  align-items: center;
+  background: $schaeffler-green-1;
+  border-radius: 0 5px 5px 0;
+  color: $schaeffler-white;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  width: 20%;
+}
+
+.warning {
+  color: $schaeffler-yellow;
+  display: inline-block;
+  text-align: center;
+
+  &::first-letter {
+    text-transform: capitalize;
+  }
+}
+
+.conversion-info {
+  text-align: center;
 }
