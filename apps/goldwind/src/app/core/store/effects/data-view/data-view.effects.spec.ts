@@ -15,10 +15,8 @@ import {
   getDataSuccess,
   setDataInterval,
 } from '../../actions/data-view/data-view.actions';
-import {
-  getDataInterval,
-  getDeviceId,
-} from '../../selectors/data-view/data-view.selector';
+import * as fromRouter from '../../reducers';
+import { getDataInterval } from '../../selectors/data-view/data-view.selector';
 import { DataViewEffects } from './data-view.effects';
 
 describe('Search Effects', () => {
@@ -30,8 +28,8 @@ describe('Search Effects', () => {
   let effects: DataViewEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/666/data-view';
-  const mockDeviceID = '123-456-789';
+  const deviceId = '123-456-789';
+  const mockUrl = `/bearing/${deviceId}/data-view`;
 
   const createService = createServiceFactory({
     service: DataViewEffects,
@@ -60,7 +58,9 @@ describe('Search Effects', () => {
       startDate: 1599651508,
       endDate: 1599651509,
     });
-    store.overrideSelector(getDeviceId, mockDeviceID);
+    store.overrideSelector(fromRouter.getRouterState, {
+      state: { params: { id: deviceId } },
+    });
   });
 
   describe('router$', () => {
@@ -123,7 +123,7 @@ describe('Search Effects', () => {
   describe('data$', () => {
     beforeEach(() => {
       action = getData({
-        deviceId: mockDeviceID,
+        deviceId,
       });
     });
 
@@ -155,7 +155,7 @@ describe('Search Effects', () => {
       expect(effects.data$).toBeObservable(expected);
       expect(restService.getData).toHaveBeenCalledTimes(1);
       expect(restService.getData).toHaveBeenCalledWith({
-        id: mockDeviceID,
+        id: deviceId,
         startDate: 1599651508,
         endDate: 1599651509,
       });

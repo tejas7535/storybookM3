@@ -70,16 +70,14 @@ export class ConditionMonitoringEffects {
       ofType(getLoad),
       withLatestFrom(this.store.pipe(select(getLoadInterval))),
       map(([action, interval]: [any, Interval]) => ({
-        id: action.bearingId,
         ...interval,
+        id: action.bearingId,
       })),
-      mergeMap((edmParams) =>
-        this.restService
-          .getLoad({ ...edmParams, id: '1' }) // will later come from route again
-          .pipe(
-            map((loadSense) => getLoadSuccess({ loadSense })),
-            catchError((_e) => of(getLoadFailure()))
-          )
+      mergeMap((loadParams) =>
+        this.restService.getLoad(loadParams).pipe(
+          map((loadSense) => getLoadSuccess({ loadSense })),
+          catchError((_e) => of(getLoadFailure()))
+        )
       )
     )
   );

@@ -2,7 +2,6 @@ import { initialState } from '../../reducers/data-view/data-view.reducer';
 import {
   getDataInterval,
   getDataResult,
-  getDeviceId,
   getFrequency,
 } from './data-view.selector';
 
@@ -28,13 +27,6 @@ describe('EdmMonitor Selector', () => {
       frequency: 10,
     },
   };
-
-  describe('getDeviceId', () => {
-    test('should return a static id, will change to actual one', () => {
-      // adjust in future
-      expect(getDeviceId(fakeState)).toEqual('mark-has-to-tell-me');
-    });
-  });
 
   describe('getDataResult', () => {
     test('should return the Data View result', () => {

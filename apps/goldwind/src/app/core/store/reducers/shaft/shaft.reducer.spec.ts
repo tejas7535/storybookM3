@@ -10,7 +10,7 @@ import { initialState, reducer, shaftReducer } from './shaft.reducer';
 describe('Shaft Reducer', () => {
   describe('getShaft', () => {
     test('should set shaft loading', () => {
-      const action = getShaft({ shaftDeviceId: '123' });
+      const action = getShaft({ deviceId: '123' });
       const state = shaftReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();

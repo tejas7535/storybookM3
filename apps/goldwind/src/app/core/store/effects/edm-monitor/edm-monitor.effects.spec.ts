@@ -15,10 +15,8 @@ import {
   getEdmSuccess,
   setEdmInterval,
 } from '../../actions/edm-monitor/edm-monitor.actions';
-import {
-  getEdmInterval,
-  getSensorId,
-} from '../../selectors/edm-monitor/edm-monitor.selector';
+import * as fromRouter from '../../reducers';
+import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
 
 describe('Search Effects', () => {
@@ -30,8 +28,8 @@ describe('Search Effects', () => {
   let effects: EdmMonitorEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/666/condition-monitoring';
-  const mockSensorID = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
+  const deviceId = 'device-id-in-url';
+  const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
 
   const createService = createServiceFactory({
     service: EdmMonitorEffects,
@@ -55,12 +53,15 @@ describe('Search Effects', () => {
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
+    store.overrideSelector(fromRouter.getRouterState, {
+      state: { params: { id: deviceId } },
+    });
+
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getEdmInterval, {
       startDate: 1599651508,
       endDate: 1599651509,
     });
-    store.overrideSelector(getSensorId, mockSensorID);
   });
 
   describe('router$', () => {
@@ -113,7 +114,7 @@ describe('Search Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const expected = cold('-(b)', {
-        b: getEdm({ sensorId: 'ee7bffbe-2e87-49f0-b763-ba235dd7c876' }),
+        b: getEdm({ deviceId }),
       });
 
       expect(effects.edmId$).toBeObservable(expected);
@@ -123,7 +124,7 @@ describe('Search Effects', () => {
   describe('edm$', () => {
     beforeEach(() => {
       action = getEdm({
-        sensorId: mockSensorID,
+        deviceId,
       });
     });
 
@@ -154,7 +155,7 @@ describe('Search Effects', () => {
       expect(effects.edm$).toBeObservable(expected);
       expect(restService.getEdm).toHaveBeenCalledTimes(1);
       expect(restService.getEdm).toHaveBeenCalledWith({
-        id: mockSensorID,
+        id: deviceId,
         startDate: 1599651508,
         endDate: 1599651509,
       });

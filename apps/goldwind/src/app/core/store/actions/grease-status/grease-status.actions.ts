@@ -13,7 +13,7 @@ export const getGreaseStatusId = createAction(
 
 export const getGreaseStatus = createAction(
   '[Grease Status] Load Grease Status',
-  props<{ greaseStatusId: string }>()
+  props<{ deviceId: string }>()
 );
 
 export const getGreaseStatusSuccess = createAction(
@@ -27,7 +27,7 @@ export const getGreaseStatusFailure = createAction(
 
 export const getGreaseStatusLatest = createAction(
   '[Grease Status] Load Latest Grease Status',
-  props<{ greaseStatusId: string }>()
+  props<{ deviceId: string }>()
 );
 
 export const stopGetGreaseStatusLatest = createAction(

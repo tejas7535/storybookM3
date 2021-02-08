@@ -19,11 +19,6 @@ type DisplayOption = [GreaseDisplayKeys, boolean];
 const isTempGauge = (formControl: string) =>
   formControl === 'temperatureOptics';
 
-export const getGreaseSensorId = createSelector(
-  getGreaseStatusState,
-  () => 'edge-goldwind-dev-001'
-);
-
 export const getGreaseStatusLoading = createSelector(
   getGreaseStatusState,
   (state: GreaseStatusState) => state.loading

@@ -18,7 +18,6 @@ import {
   stopGetShaft,
 } from '../../actions/shaft/shaft.actions';
 import * as fromRouter from '../../reducers';
-import { getShaftDeviceId } from '../../selectors/shaft/shaft.selector';
 import { ShaftEffects } from './shaft.effects';
 
 describe('Shaft Effects', () => {
@@ -30,9 +29,9 @@ describe('Shaft Effects', () => {
   let effects: ShaftEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/666/condition-monitoring';
+  const deviceId = 'my-device-id';
+  const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
   const mockLeaveUrl = '/overview';
-  const shaftDeviceId = '123-456-789';
 
   const createService = createServiceFactory({
     service: ShaftEffects,
@@ -58,9 +57,8 @@ describe('Shaft Effects', () => {
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {
-      state: { params: { id: '666' } },
+      state: { params: { id: deviceId } },
     });
-    store.overrideSelector(getShaftDeviceId, shaftDeviceId);
   });
 
   describe('router$', () => {
@@ -109,7 +107,7 @@ describe('Shaft Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const expected = cold('-(b)', {
-        b: getShaft({ shaftDeviceId }),
+        b: getShaft({ deviceId }),
       });
 
       expect(effects.shaftId$).toBeObservable(expected);
@@ -126,7 +124,7 @@ describe('Shaft Effects', () => {
         actions$ = helpers.hot('-a', { a: action });
 
         const expected = {
-          b: getShaft({ shaftDeviceId }),
+          b: getShaft({ deviceId }),
         };
 
         helpers
@@ -156,7 +154,7 @@ describe('Shaft Effects', () => {
 
   describe('shaft$', () => {
     beforeEach(() => {
-      action = getShaft({ shaftDeviceId: '420247' });
+      action = getShaft({ deviceId });
     });
 
     test('should return getShaftSuccess action when REST call is successful', () => {
@@ -182,7 +180,7 @@ describe('Shaft Effects', () => {
 
       expect(effects.shaft$).toBeObservable(expected);
       expect(restService.getShaftLatest).toHaveBeenCalledTimes(1);
-      expect(restService.getShaftLatest).toHaveBeenCalledWith('420247');
+      expect(restService.getShaftLatest).toHaveBeenCalledWith(deviceId);
     });
   });
 });

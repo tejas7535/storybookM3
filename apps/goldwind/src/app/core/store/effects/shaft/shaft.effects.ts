@@ -27,7 +27,6 @@ import {
   stopGetShaft,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { getShaftDeviceId } from '../../selectors';
 
 @Injectable()
 export class ShaftEffects {
@@ -66,8 +65,10 @@ export class ShaftEffects {
       ofType(getShaftId),
       filter((_) => !this.isPollingActive),
       map(() => (this.isPollingActive = true)),
-      withLatestFrom(this.store.pipe(select(getShaftDeviceId))),
-      map(([_action, shaftDeviceId]) => getShaft({ shaftDeviceId }))
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) =>
+        getShaft({ deviceId: routerState.state.params.id })
+      )
     )
   );
 
@@ -79,8 +80,10 @@ export class ShaftEffects {
       ofType(getShaftSuccess, getShaftFailure),
       delay(UPDATE_SETTINGS.shaft.refresh * 1000),
       filter(() => this.isPollingActive),
-      withLatestFrom(this.store.pipe(select(getShaftDeviceId))),
-      map(([_action, shaftDeviceId]) => getShaft({ shaftDeviceId }))
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) =>
+        getShaft({ deviceId: routerState.state.params.id })
+      )
     )
   );
 
@@ -104,9 +107,9 @@ export class ShaftEffects {
   shaft$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getShaft),
-      map((action: any) => action.shaftDeviceId),
-      mergeMap((shaftDeviceId) =>
-        this.restService.getShaftLatest(shaftDeviceId).pipe(
+      map((action: any) => action.deviceId),
+      mergeMap((deviceId) =>
+        this.restService.getShaftLatest(deviceId).pipe(
           map((shaft) => getShaftSuccess({ shaft })),
           catchError((_e) => of(getShaftFailure()))
         )

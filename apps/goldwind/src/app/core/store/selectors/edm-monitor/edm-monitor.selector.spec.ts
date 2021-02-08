@@ -4,7 +4,6 @@ import {
   getEdmGraphData,
   getEdmInterval,
   getEdmResult,
-  getSensorId,
 } from './edm-monitor.selector';
 
 describe('EdmMonitor Selector', () => {
@@ -27,13 +26,6 @@ describe('EdmMonitor Selector', () => {
       },
     },
   };
-
-  describe('getSensorId', () => {
-    test('should return a static id, will change to actual one', () => {
-      // adjust in future
-      expect(getSensorId(fakeState)).toEqual('edge-goldwind-qa-002');
-    });
-  });
 
   describe('getEdmResult', () => {
     test('should return EDM measurements', () => {

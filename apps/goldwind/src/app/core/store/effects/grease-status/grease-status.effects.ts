@@ -32,7 +32,7 @@ import {
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
-import { getGreaseInterval, getGreaseSensorId } from '../../selectors';
+import { getGreaseInterval } from '../../selectors';
 
 @Injectable()
 export class GreaseStatusEffects {
@@ -84,17 +84,17 @@ export class GreaseStatusEffects {
       this.actions$.pipe(
         ofType(getGreaseStatusId),
         filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.pipe(select(getGreaseSensorId))),
-        map(([action, greaseStatusId]: [any, string]) => ({
-          greaseStatusId,
+        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+        map(([action, routerState]) => ({
+          deviceId: routerState.state.params.id,
           source: action.source,
         })),
-        tap(({ greaseStatusId, source }) => {
+        tap(({ deviceId, source }) => {
           if (source === BearingRoutePath.ConditionMonitoringPath) {
             this.isPollingActive = true;
-            this.store.dispatch(getGreaseStatusLatest({ greaseStatusId }));
+            this.store.dispatch(getGreaseStatusLatest({ deviceId }));
           } else {
-            this.store.dispatch(getGreaseStatus({ greaseStatusId }));
+            this.store.dispatch(getGreaseStatus({ deviceId }));
           }
         })
       ),
@@ -109,11 +109,11 @@ export class GreaseStatusEffects {
       ofType(getGreaseStatus),
       withLatestFrom(this.store.pipe(select(getGreaseInterval))),
       map(([action, interval]: [any, Interval]) => ({
-        id: action.greaseStatusId,
+        id: action.deviceId,
         ...interval,
       })),
-      mergeMap((edmParams) =>
-        this.restService.getGreaseStatus(edmParams).pipe(
+      mergeMap((greaseParams) =>
+        this.restService.getGreaseStatus(greaseParams).pipe(
           map((greaseStatus) => getGreaseStatusSuccess({ greaseStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
         )
@@ -129,9 +129,9 @@ export class GreaseStatusEffects {
       ofType(getGreaseStatusLatestSuccess, getGreaseStatusLatestFailure),
       delay(UPDATE_SETTINGS.grease.refresh * 1000),
       filter(() => this.isPollingActive),
-      withLatestFrom(this.store.pipe(select(getGreaseSensorId))),
-      map(([_action, greaseStatusId]) =>
-        getGreaseStatusLatest({ greaseStatusId })
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) =>
+        getGreaseStatusLatest({ deviceId: routerState.state.params.id })
       )
     )
   );
@@ -156,9 +156,9 @@ export class GreaseStatusEffects {
   greaseStatusLatest$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getGreaseStatusLatest),
-      map((action: any) => action.greaseStatusId),
-      mergeMap((greaseStatusId) =>
-        this.restService.getGreaseStatusLatest(greaseStatusId).pipe(
+      map((action: any) => action.deviceId),
+      mergeMap((deviceId) =>
+        this.restService.getGreaseStatusLatest(deviceId).pipe(
           map((greaseStatusLatest) =>
             getGreaseStatusLatestSuccess({ greaseStatusLatest })
           ),

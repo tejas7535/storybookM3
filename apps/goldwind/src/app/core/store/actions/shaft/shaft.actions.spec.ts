@@ -7,10 +7,10 @@ import {
 } from '..';
 
 describe('Shaft Actions', () => {
-  let shaftDeviceId: string;
+  let deviceId: string;
 
   beforeEach(() => {
-    shaftDeviceId = '123';
+    deviceId = 'my-test-device-id';
   });
 
   describe('Get Shaft Actions', () => {
@@ -23,10 +23,10 @@ describe('Shaft Actions', () => {
     });
 
     test('getShaft', () => {
-      const action = getShaft({ shaftDeviceId });
+      const action = getShaft({ deviceId });
 
       expect(action).toEqual({
-        shaftDeviceId,
+        deviceId,
         type: '[Shaft] Load Shaft',
       });
     });

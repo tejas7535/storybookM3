@@ -25,7 +25,7 @@ import {
 } from '../../actions/data-view/data-view.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
-import { getDataInterval, getDeviceId } from '../../selectors';
+import { getDataInterval } from '../../selectors';
 
 @Injectable()
 export class DataViewEffects {
@@ -63,9 +63,10 @@ export class DataViewEffects {
   dataId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getDataId),
-      withLatestFrom(this.store.pipe(select(getDeviceId))),
-      map(([_action, deviceId]) => deviceId),
-      map((deviceId) => getData({ deviceId }))
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) =>
+        getData({ deviceId: routerState.state.params.id })
+      )
     )
   );
 

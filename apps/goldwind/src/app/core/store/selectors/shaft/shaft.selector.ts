@@ -10,12 +10,6 @@ import { getShaftState } from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { ShaftState } from '../../reducers/shaft/shaft.reducer';
 
-// highly WIP
-export const getShaftDeviceId = createSelector(
-  getShaftState,
-  () => 'edge-goldwind-dev-001'
-);
-
 export const getShaftResult = createSelector(
   getShaftState,
   (state: ShaftState) => state?.result

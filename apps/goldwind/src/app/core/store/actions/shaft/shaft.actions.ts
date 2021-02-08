@@ -6,7 +6,7 @@ export const getShaftId = createAction('[Shaft] Load Shaft ID');
 
 export const getShaft = createAction(
   '[Shaft] Load Shaft',
-  props<{ shaftDeviceId: string }>()
+  props<{ deviceId: string }>()
 );
 
 export const stopGetShaft = createAction('[Shaft] Stop Load Shaft');

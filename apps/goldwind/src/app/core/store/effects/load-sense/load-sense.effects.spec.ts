@@ -23,7 +23,8 @@ describe('Search Effects', () => {
   let effects: ConditionMonitoringEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/666/condition-monitoring';
+  const bearingId = '123';
+  const mockUrl = `/bearing/${bearingId}/condition-monitoring`;
 
   const createService = createServiceFactory({
     service: ConditionMonitoringEffects,
@@ -97,7 +98,7 @@ describe('Search Effects', () => {
 
   describe('load$', () => {
     beforeEach(() => {
-      action = getLoad({ bearingId: '123' });
+      action = getLoad({ bearingId });
     });
 
     test('should return getLoadSuccess action when REST call is successful', () => {
@@ -139,7 +140,7 @@ describe('Search Effects', () => {
       expect(effects.load$).toBeObservable(expected);
       expect(restService.getLoad).toHaveBeenCalledTimes(1);
       expect(restService.getLoad).toHaveBeenCalledWith({
-        id: '1',
+        id: bearingId,
         startDate: 1599651508,
         endDate: 1599651509,
       });

@@ -5,7 +5,6 @@ import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
   getGreaseDisplay,
   getGreaseInterval,
-  getGreaseSensorId,
   getGreaseStatusGraphData,
   getGreaseStatusLatestGraphData,
   getGreaseStatusLatestLoading,
@@ -54,13 +53,6 @@ describe('Grease Status Selector', () => {
       },
     },
   };
-
-  describe('getGreaseSensorId', () => {
-    test('should return a static id, will change to actual one', () => {
-      // adjust in future
-      expect(getGreaseSensorId(fakeState)).toEqual('edge-goldwind-dev-001');
-    });
-  });
 
   describe('getGreaseStatusLoading', () => {
     test('should return loading status', () => {

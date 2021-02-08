@@ -7,7 +7,7 @@ export const getEdmId = createAction('[EDM Monitor] Load EDM Sensor ID');
 
 export const getEdm = createAction(
   '[EDM Monitor] Load EDM',
-  props<{ sensorId: string }>()
+  props<{ deviceId: string }>()
 );
 
 export const getEdmSuccess = createAction(

@@ -15,7 +15,7 @@ import {
 describe('Condition Monitoring Reducer', () => {
   describe('getEdm', () => {
     test('should set loading', () => {
-      const action = getEdm({ sensorId: 'fantasyId' });
+      const action = getEdm({ deviceId: 'fantasyId' });
       const state = edmMonitorReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();
