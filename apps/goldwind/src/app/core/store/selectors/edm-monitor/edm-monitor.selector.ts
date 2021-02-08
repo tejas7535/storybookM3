@@ -5,11 +5,6 @@ import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer'
 import { Antenna, AntennaName, Edm } from '../../reducers/edm-monitor/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
-export const getSensorId = createSelector(
-  getEdmMonitorState,
-  () => 'edge-goldwind-qa-002'
-); // will later access a valid id within the inital bearing result
-
 export const getEdmResult = createSelector(
   getEdmMonitorState,
   (state: EdmMonitorState): Edm[] => state.measurements

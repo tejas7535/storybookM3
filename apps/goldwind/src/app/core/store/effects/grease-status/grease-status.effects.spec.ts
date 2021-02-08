@@ -18,10 +18,8 @@ import {
   setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
-import {
-  getGreaseInterval,
-  getGreaseSensorId,
-} from '../../selectors/grease-status/grease-status.selector';
+import * as fromRouter from '../../reducers';
+import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
 describe('Search Effects', () => {
@@ -33,9 +31,9 @@ describe('Search Effects', () => {
   let effects: GreaseStatusEffects;
   let restService: RestService;
 
-  const mockUrl = '/bearing/sensor-id-in-url/grease-status';
+  const deviceId = 'device-id-in-url';
   const mockRoute = 'grease-status';
-  const mockGreaseSensorId = 'ee7bffbe-2e87-49f0-b763-ba235dd7c876';
+  const mockUrl = `/bearing/${deviceId}/${mockRoute}`;
 
   const createService = createServiceFactory({
     service: GreaseStatusEffects,
@@ -60,7 +58,10 @@ describe('Search Effects', () => {
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
-    store.overrideSelector(getGreaseSensorId, mockGreaseSensorId);
+    store.overrideSelector(fromRouter.getRouterState, {
+      state: { params: { id: deviceId } },
+    });
+
     store.overrideSelector(getGreaseInterval, {
       startDate: 1599651508,
       endDate: 1599651509,
@@ -129,7 +130,7 @@ describe('Search Effects', () => {
 
       const expected = cold('-b', {
         b: {
-          greaseStatusId: mockGreaseSensorId,
+          deviceId,
           source: 'grease-status',
         },
       });
@@ -137,7 +138,7 @@ describe('Search Effects', () => {
       expect(effects.greaseStatusId$).toBeObservable(expected);
       expect(effects['isPollingActive']).toBe(false);
       expect(store.dispatch).toHaveBeenCalledWith(
-        getGreaseStatus({ greaseStatusId: mockGreaseSensorId })
+        getGreaseStatus({ deviceId })
       );
     });
 
@@ -149,7 +150,7 @@ describe('Search Effects', () => {
 
       const expected = cold('-b', {
         b: {
-          greaseStatusId: mockGreaseSensorId,
+          deviceId,
           source: 'condition-monitoring',
         },
       });
@@ -157,14 +158,14 @@ describe('Search Effects', () => {
       expect(effects.greaseStatusId$).toBeObservable(expected);
       expect(effects['isPollingActive']).toBe(true);
       expect(store.dispatch).toHaveBeenCalledWith(
-        getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId })
+        getGreaseStatusLatest({ deviceId })
       );
     });
   });
 
   describe('greaseStatus$', () => {
     beforeEach(() => {
-      action = getGreaseStatus({ greaseStatusId: mockGreaseSensorId });
+      action = getGreaseStatus({ deviceId });
     });
 
     test('should return getGreaseStatusSuccess action when REST call is successful', () => {
@@ -209,7 +210,7 @@ describe('Search Effects', () => {
       expect(effects.greaseStatus$).toBeObservable(expected);
       expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
       expect(restService.getGreaseStatus).toHaveBeenCalledWith({
-        id: mockGreaseSensorId,
+        id: deviceId,
         startDate: 1599651508,
         endDate: 1599651509,
       });
@@ -226,7 +227,7 @@ describe('Search Effects', () => {
         actions$ = helpers.hot('-a', { a: action });
 
         const expected = {
-          b: getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId }),
+          b: getGreaseStatusLatest({ deviceId }),
         };
 
         helpers
@@ -256,7 +257,7 @@ describe('Search Effects', () => {
 
   describe('greaseStatusLatest$', () => {
     beforeEach(() => {
-      action = getGreaseStatusLatest({ greaseStatusId: mockGreaseSensorId });
+      action = getGreaseStatusLatest({ deviceId });
     });
 
     test('should return getGreaseStatusLatest action when REST call is successful', () => {
@@ -298,9 +299,7 @@ describe('Search Effects', () => {
 
       expect(effects.greaseStatusLatest$).toBeObservable(expected);
       expect(restService.getGreaseStatusLatest).toHaveBeenCalledTimes(1);
-      expect(restService.getGreaseStatusLatest).toHaveBeenCalledWith(
-        mockGreaseSensorId
-      );
+      expect(restService.getGreaseStatusLatest).toHaveBeenCalledWith(deviceId);
     });
   });
 });

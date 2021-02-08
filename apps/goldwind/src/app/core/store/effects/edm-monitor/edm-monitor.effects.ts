@@ -25,7 +25,7 @@ import {
 } from '../../actions/edm-monitor/edm-monitor.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
-import { getEdmInterval, getSensorId } from '../../selectors';
+import { getEdmInterval } from '../../selectors';
 
 @Injectable()
 export class EdmMonitorEffects {
@@ -44,9 +44,7 @@ export class EdmMonitorEffects {
             currentRoute &&
             currentRoute === BearingRoutePath.ConditionMonitoringPath
         ),
-        tap(
-          () => this.store.dispatch(getEdmId()) // will later be dispatched once sensor ids are there
-        )
+        tap(() => this.store.dispatch(getEdmId()))
       ),
     { dispatch: false }
   );
@@ -64,8 +62,10 @@ export class EdmMonitorEffects {
   edmId$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getEdmId),
-      withLatestFrom(this.store.pipe(select(getSensorId))),
-      map(([_action, sensorId]) => getEdm({ sensorId }))
+      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      map(([_action, routerState]) =>
+        getEdm({ deviceId: routerState.state.params.id })
+      )
     )
   );
 
@@ -77,7 +77,7 @@ export class EdmMonitorEffects {
       ofType(getEdm),
       withLatestFrom(this.store.pipe(select(getEdmInterval))),
       map(([action, interval]: [any, Interval]) => ({
-        id: action.sensorId,
+        id: action.deviceId,
         ...interval,
       })),
       mergeMap((edmParams) =>

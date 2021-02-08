@@ -19,7 +19,7 @@ import {
 describe('Grease Status Reducer', () => {
   describe('getGreaseStatus', () => {
     test('should set loading', () => {
-      const action = getGreaseStatus({ greaseStatusId: 'greasyId' });
+      const action = getGreaseStatus({ deviceId: 'deviceId' });
       const state = greaseStatusReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();
@@ -28,7 +28,7 @@ describe('Grease Status Reducer', () => {
 
   describe('getGreaseStatusLatest', () => {
     test('should set latest status loading', () => {
-      const action = getGreaseStatusLatest({ greaseStatusId: 'greasyId' });
+      const action = getGreaseStatusLatest({ deviceId: 'deviceId' });
       const state = greaseStatusReducer(initialState, action);
 
       expect(state.status.loading).toBeTruthy();

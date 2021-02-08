@@ -2,7 +2,6 @@ import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
-  getShaftDeviceId,
   getShaftLatestGraphData,
   getShaftResult,
   getShaftTimeStamp,
@@ -25,12 +24,6 @@ describe('Bearing Selector', () => {
       loading: false,
     },
   };
-
-  describe('getShaftDeviceId', () => {
-    test('should return the shaft result', () => {
-      expect(getShaftDeviceId(fakeState)).toEqual('edge-goldwind-dev-001');
-    });
-  });
 
   describe('getShaftResult', () => {
     test('should return the shaft result', () => {

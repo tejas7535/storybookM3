@@ -12,10 +12,10 @@ import {
 } from '..';
 
 describe('GreaseStatus Actions', () => {
-  let greaseStatusId: string;
+  let deviceId: string;
 
   beforeEach(() => {
-    greaseStatusId = 'grease-fat-oil';
+    deviceId = 'test-device-id';
   });
 
   describe('Get GreaseStatus Actions', () => {
@@ -30,10 +30,10 @@ describe('GreaseStatus Actions', () => {
     });
 
     test('getGreaseStatus', () => {
-      const action = getGreaseStatus({ greaseStatusId });
+      const action = getGreaseStatus({ deviceId });
 
       expect(action).toEqual({
-        greaseStatusId,
+        deviceId,
         type: '[Grease Status] Load Grease Status',
       });
     });
@@ -57,10 +57,10 @@ describe('GreaseStatus Actions', () => {
     });
 
     test('getGreaseStatusLatest', () => {
-      const action = getGreaseStatusLatest({ greaseStatusId });
+      const action = getGreaseStatusLatest({ deviceId });
 
       expect(action).toEqual({
-        greaseStatusId,
+        deviceId,
         type: '[Grease Status] Load Latest Grease Status',
       });
     });

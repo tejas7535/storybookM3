@@ -8,10 +8,10 @@ import {
 import { Edm } from '../../reducers/edm-monitor/models';
 
 describe('EdmMonitor Actions', () => {
-  let sensorId: string;
+  let deviceId: string;
 
   beforeEach(() => {
-    sensorId = 'was1-ist2-los3';
+    deviceId = 'my-device-test-id';
   });
 
   describe('Get EDM Monitor Actions', () => {
@@ -24,10 +24,10 @@ describe('EdmMonitor Actions', () => {
     });
 
     test('getEdm', () => {
-      const action = getEdm({ sensorId });
+      const action = getEdm({ deviceId });
 
       expect(action).toEqual({
-        sensorId,
+        deviceId,
         type: '[EDM Monitor] Load EDM',
       });
     });
