@@ -4,6 +4,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterModule } from '@angular/router';
 
 import { BreakpointService } from '@schaeffler/responsive';
 
@@ -18,6 +19,7 @@ import { UserMenuModule } from './user-menu/user-menu.module';
     MatMenuModule,
     MatIconModule,
     FlexLayoutModule,
+    RouterModule,
     UserMenuModule,
   ],
   providers: [BreakpointService],

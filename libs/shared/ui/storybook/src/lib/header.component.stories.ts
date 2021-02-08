@@ -9,6 +9,7 @@ import { UserMenuModule } from 'libs/shared/ui/header/src/lib/user-menu/user-men
 import { HeaderComponent, HeaderModule } from '@schaeffler/header';
 
 import READMEMd from '../../../header/README.md';
+import { RouterTestingModule } from '@angular/router/testing';
 
 const moduleMetadata = {
   imports: [
@@ -16,6 +17,7 @@ const moduleMetadata = {
     CommonModule,
     BrowserAnimationsModule,
     StoreModule.forRoot({}),
+    RouterTestingModule,
     UserMenuModule,
   ],
 };
@@ -83,6 +85,15 @@ export const withUserMenu = () => ({
       { key: text('key2', 'logout'), label: text('label2', 'Logout') },
     ],
     clicked: action('clicked'),
+  },
+});
+
+export const withLink = () => ({
+  ...baseComponent,
+  template: `<schaeffler-header platformTitle="Storybook Demo" [link]="link">
+                </schaeffler-header>`,
+  props: {
+    link: text('link', '/parentRoute'),
   },
 });
 

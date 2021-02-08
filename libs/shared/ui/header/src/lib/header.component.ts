@@ -31,6 +31,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Input() platformTitle: string;
 
+  @Input() link?: string;
+
   isMobileViewPort: boolean;
 
   @Output() readonly toggle: EventEmitter<void> = new EventEmitter();

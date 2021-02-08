@@ -9,6 +9,16 @@
       fxLayout="row"
       fxLayoutAlign="start center"
       class="platform-title-mobile"
+      *ngIf="link"
+      [routerLink]="link"
+    >
+      {{ platformTitle }}
+    </div>
+    <div
+      *ngIf="!link"
+      fxLayout="row"
+      fxLayoutAlign="start center"
+      class="platform-title-mobile"
     >
       {{ platformTitle }}
     </div>
@@ -34,7 +44,12 @@
       fxHide.xs="true"
       fxShow.gt-xs="true"
     >
-      <h3 class="platform-title">{{ platformTitle }}</h3>
+      <h3 class="platform-title" *ngIf="link" [routerLink]="link">
+        {{ platformTitle }}
+      </h3>
+      <h3 class="platform-title" *ngIf="!link">
+        {{ platformTitle }}
+      </h3>
     </div>
 
     <div fxFlex>
