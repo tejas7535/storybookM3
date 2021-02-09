@@ -3074,6 +3074,43 @@
           }
         }
       }
+    },
+    "shared-ui-footer-tailwind": {
+      "projectType": "library",
+      "root": "libs/shared/ui/footer-tailwind",
+      "sourceRoot": "libs/shared/ui/footer-tailwind/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "options": {
+            "tsConfig": "libs/shared/ui/footer-tailwind/tsconfig.lib.json",
+            "project": "libs/shared/ui/footer-tailwind/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/footer-tailwind/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/footer-tailwind/src/**/*.ts",
+              "libs/shared/ui/footer-tailwind/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/footer-tailwind"],
+          "options": {
+            "jestConfig": "libs/shared/ui/footer-tailwind/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {
@@ -3081,15 +3118,22 @@
   },
   "schematics": {
     "@nrwl/angular:application": {
+      "style": "scss",
+      "linter": "eslint",
       "unitTestRunner": "jest",
       "e2eTestRunner": "cypress"
     },
     "@nrwl/angular:library": {
+      "style": "scss",
+      "linter": "eslint",
       "unitTestRunner": "jest",
       "strict": true
     },
     "@ngneat/spectator:spectator-component": {
       "jest": true,
+      "style": "scss"
+    },
+    "@nrwl/angular:component": {
       "style": "scss"
     }
   },

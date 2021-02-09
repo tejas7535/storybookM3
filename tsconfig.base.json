@@ -59,6 +59,12 @@
       "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
       "@schaeffler/application-insights": [
         "libs/shared/utils/application-insights/src/index.ts"
+      ],
+      "@schaeffler/footer-tailwind": [
+        "libs/shared/ui/footer-tailwind/src/index.ts"
+      ],
+      "@schaeffler/shared/ui/footer-tailwind": [
+        "libs/shared/ui/footer-tailwind/src/index.ts"
       ]
     },
     "resolveJsonModule": true,

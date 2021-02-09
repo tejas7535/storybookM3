@@ -3,6 +3,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -22,6 +23,7 @@ import { StoreModule } from './store/store.module';
     // UI Modules
     HeaderModule,
     MatButtonModule,
+    FooterTailwindModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
