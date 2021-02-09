@@ -1,0 +1,28 @@
+<mat-card>
+  <img mat-card-image [src]="img" class="max-w-none" />
+  <div class="absolute right-0 top-0">
+    <button
+      mat-icon-button
+      *ngIf="active"
+      (click)="deactivate()"
+      class="focus:outline-none"
+    >
+      <mat-icon class="text-light">clear</mat-icon>
+    </button>
+  </div>
+  <h6 class="mb-3">{{ title }}</h6>
+  <mat-card-content>
+    <ng-content select="[card-content]" *ngIf="active"></ng-content>
+  </mat-card-content>
+  <mat-card-actions
+    *ngIf="!hideActionsOnActive || (hideActionsOnActive && !active)"
+  >
+    <ng-content select="[card-actions]"></ng-content>
+    <schaeffler-picture-card-action
+      *ngFor="let action of actions; trackBy: trackByFn"
+      [text]="action.text"
+      [disabled]="action.disabled"
+      (click)="action.toggleAction ? toggle() : action.click"
+    ></schaeffler-picture-card-action>
+  </mat-card-actions>
+</mat-card>

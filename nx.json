@@ -167,6 +167,10 @@
     "shared-ui-footer-tailwind": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": []
+    },
+    "shared-ui-picture-card": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     }
   },
   "tasksRunnerOptions": {

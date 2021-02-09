@@ -1747,7 +1747,8 @@
             "port": 4400,
             "config": {
               "configFolder": "libs/shared/ui/storybook/.storybook"
-            }
+            },
+            "projectBuildConfig": "kitchen-sink"
           },
           "configurations": {
             "ci": {
@@ -3107,6 +3108,43 @@
           "outputs": ["coverage/libs/shared/ui/footer-tailwind"],
           "options": {
             "jestConfig": "libs/shared/ui/footer-tailwind/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-ui-picture-card": {
+      "projectType": "library",
+      "root": "libs/shared/ui/picture-card",
+      "sourceRoot": "libs/shared/ui/picture-card/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/picture-card/tsconfig.lib.json",
+            "project": "libs/shared/ui/picture-card/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/picture-card/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/picture-card/src/**/*.ts",
+              "libs/shared/ui/picture-card/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/picture-card"],
+          "options": {
+            "jestConfig": "libs/shared/ui/picture-card/jest.config.js",
             "passWithNoTests": true
           }
         }
