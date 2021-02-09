@@ -648,7 +648,7 @@ pipeline {
 
                                 script {
                                     if (isAppRelease() || isLibsRelease()) {
-                                        sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
+                                        sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=\"${excludedProjects.join(',')}\""
                                     } else {
                                         sh "npm run affected:e2e:headless -- --base=${buildBase}"
                                     }

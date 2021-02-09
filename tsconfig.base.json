@@ -65,7 +65,8 @@
       ],
       "@schaeffler/shared/ui/footer-tailwind": [
         "libs/shared/ui/footer-tailwind/src/index.ts"
-      ]
+      ],
+      "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
