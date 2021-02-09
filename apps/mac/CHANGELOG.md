@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.5](///compare/mac-v0.0.5...mac-v0.0.4) (2021-02-09)
+
+
+### 🎸 Features
+
+* **mac:** add carbontriding link ([c5dbdd8](///commit/c5dbdd8c5b88b6b16e5b80cc3bb82f939d296a46))
+* **mac:** convert to all units at once (UFTABI-3751) ([efe4610](///commit/efe461030f6deb0d9944cbf3297a4ba3d4f7993b))
+* **mac:** navigate back to overview from header (UFTABI-3751) ([3991522](///commit/39915220823bbcac2ac093250874c593628655c4))
+* **mac:** update welcome text ([637859f](///commit/637859f9338fd2906592660bc8227dbea24da569))
+
 ### [0.0.4](///compare/mac-v0.0.4...mac-v0.0.3) (2021-01-27)
 
 
