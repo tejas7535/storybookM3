@@ -1,0 +1,41 @@
+<footer
+  class="flex flex-col items-center my-4 lg:ml-5 lg:mr-3 lg:my-0 lg:flex-row lg:justify-end lg:h-12"
+>
+  <div class="flex flex-row">
+    <div
+      *ngFor="
+        let footerLink of footerLinks;
+        let index = index;
+        trackBy: trackByFn
+      "
+    >
+      <a
+        *ngIf="footerLink.external"
+        [href]="footerLink.link"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-light text-caption leading-4"
+      >
+        {{ footerLink.title }}
+      </a>
+      <div
+        *ngIf="!footerLink.external"
+        [routerLink]="footerLink.link"
+        class="footer-link-internal cursor-pointer inline-block text-light text-caption outline-none leading-4"
+      >
+        {{ footerLink.title }}
+      </div>
+      <span
+        class="separator text-light text-caption mx-1 leading-4"
+        *ngIf="index !== footerLinks.length - 1 || appVersion"
+        >|</span
+      >
+    </div>
+    <div *ngIf="appVersion">
+      <span id="version" class="text-light text-caption leading-4">
+        {{ appVersion }}
+      </span>
+    </div>
+  </div>
+  <div class="schaeffler-footer-logo m-3"></div>
+</footer>

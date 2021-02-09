@@ -163,6 +163,10 @@
     "mm-e2e": {
       "tags": [],
       "implicitDependencies": ["mm"]
+    },
+    "shared-ui-footer-tailwind": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": []
     }
   },
   "tasksRunnerOptions": {

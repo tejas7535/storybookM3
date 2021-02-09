@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -18,6 +19,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       HeaderModule,
+      FooterTailwindModule,
       MatButtonModule,
       RouterTestingModule,
     ],
