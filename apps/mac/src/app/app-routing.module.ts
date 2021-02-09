@@ -1,11 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-export enum RoutePath {
-  BasePath = '',
-  OverviewPath = 'overview',
-  HardnessConverterPath = 'hardness-converter',
-}
+import { RoutePath } from './app-routing.enum';
 
 export const appRoutePaths: Routes = [
   {
