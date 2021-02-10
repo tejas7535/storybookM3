@@ -21,6 +21,7 @@ import { SnackBarService } from '@schaeffler/snackbar';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
+import { PriceService } from '../../../../shared/services/priceService/price.service';
 import { ValidationService } from '../../../../shared/services/validationService/validation.service';
 import {
   addMaterials,
@@ -31,7 +32,6 @@ import {
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
-  loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
   removeMaterials,
   removeMaterialsFailure,
@@ -102,7 +102,7 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .getQuotation(quotationIdentifier.gqId)
           .pipe(
-            map((item: Quotation) => ProcessCaseEffect.addRandomValues(item)),
+            map((item: Quotation) => this.priceService.addCalculations(item)),
             catchError((errorMessage) =>
               of(loadQuotationFailure({ errorMessage }))
             )
@@ -257,7 +257,8 @@ export class ProcessCaseEffect {
     private readonly store: Store<fromRouter.AppState>,
     private readonly router: Router,
     private readonly validationService: ValidationService,
-    private readonly snackBarService: SnackBarService
+    private readonly snackBarService: SnackBarService,
+    private readonly priceService: PriceService
   ) {}
 
   private static mapQueryParamsToIdentifier(
@@ -281,19 +282,5 @@ export class ProcessCaseEffect {
       fromRoute.gqId === current?.gqId &&
       fromRoute.salesOrg === current?.salesOrg
     );
-  }
-
-  private static addRandomValues(item: Quotation): any {
-    item.quotationDetails.forEach((value) => {
-      value.price = Math.random() * 10;
-      value.margin = Math.random() * 100;
-      value.netValue = value.orderQuantity * Number(value.price);
-      const arr = ['PAT', 'SAP System', 'Custom'];
-      value.priceSource = arr[Math.floor(Math.random() * 3)];
-    });
-
-    return loadQuotationSuccess({
-      item,
-    });
   }
 }
