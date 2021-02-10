@@ -35,7 +35,7 @@ export const getShaftLatestGraphData = createSelector(
         max: 20,
         data: [
           {
-            value: state.rsm01Shaftcountervalue,
+            value: state.rsm01ShaftSpeed,
             name: translate(
               'conditionMonitoring.shaft.rotorRotationSpeed'
             ).toUpperCase(),

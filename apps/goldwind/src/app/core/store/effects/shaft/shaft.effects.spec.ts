@@ -162,6 +162,7 @@ describe('Shaft Effects', () => {
         id: 'fakeid',
         deviceId: 'fakedeviceid',
         timeStamp: '2020-11-12T18:31:56.954003Z',
+        rsm01ShaftSpeed: 3,
         rsm01Shaftcountervalue: 666,
       };
 
