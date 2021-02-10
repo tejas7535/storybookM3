@@ -26,6 +26,7 @@ export * from './sales-orgs.model';
 export * from './sector-management.model';
 export * from './sub-key-account.model';
 export * from './sub-sector.model';
+export * from './price-source.enum';
 export * from './plant.model';
 export * from './validation-description.enum';
 export * from './view-quotation.model';

@@ -10,6 +10,10 @@ export const numberFormatter = (data: any) => {
   return pipe.transform(data.value, data.column.colId);
 };
 
+export const percentageFormatter = (data: any) => {
+  return data.value ? `${data.value} %` : '';
+};
+
 export const COLUMN_DEFS: ColDef[] = [
   {
     headerCheckboxSelection: true,
@@ -107,6 +111,7 @@ export const COLUMN_DEFS: ColDef[] = [
       'processCaseView.quotationDetailsTable.percentDifference'
     ),
     field: 'percentDifference',
+    valueFormatter: percentageFormatter,
   },
 
   {

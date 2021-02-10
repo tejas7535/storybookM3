@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { NumberFormatPipe } from '../../pipes/number-format.pipe';
-import { numberFormatter } from './column-defs';
+import { numberFormatter, percentageFormatter } from './column-defs';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -22,6 +22,13 @@ describe('columnDef', () => {
         column: {},
       });
       expect(NumberFormatPipe.prototype.transform).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('PercentageFormatter', () => {
+    test('should add %', () => {
+      const result = percentageFormatter({ value: 10 });
+
+      expect(result).toEqual('10 %');
     });
   });
 });

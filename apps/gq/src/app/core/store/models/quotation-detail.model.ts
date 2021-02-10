@@ -25,8 +25,9 @@ export class QuotationDetail {
   public sqv: number;
   public rlt: number;
   public productionSegment: number;
+  public priceSource: string;
+
   // properties added in GQ application
   public margin: number;
   public netValue: number;
-  public priceSource: string;
 }
