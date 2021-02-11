@@ -72,17 +72,32 @@
     </div>
 
     <div class="custom-options-container">
-      <mat-option
-        (onSelectionChange)="selectionChange($event)"
-        *ngFor="let option of filterOptions; trackBy: trackByFn"
-        [value]="option"
-        [matTooltip]="option.value"
-        matTooltipShowDelay="1000"
-        >{{ option | formatValue: filter?.autocomplete }}</mat-option
-      >
+      <ng-container [ngSwitch]="filter.name">
+        <ng-container *ngSwitchCase="'material_number'">
+          <mat-option
+            (onSelectionChange)="selectionChange($event)"
+            *ngFor="let option of filterOptions; trackBy: trackByFn"
+            [value]="option"
+            [matTooltip]="option.value"
+            matTooltipShowDelay="1000"
+            >{{ option.value | materialNumber }}
+          </mat-option>
+        </ng-container>
+
+        <ng-container *ngSwitchDefault>
+          <mat-option
+            (onSelectionChange)="selectionChange($event)"
+            *ngFor="let option of filterOptions; trackBy: trackByFn"
+            [value]="option"
+            [matTooltip]="option.value"
+            matTooltipShowDelay="1000"
+            >{{ option | formatValue: filter?.autocomplete }}
+          </mat-option>
+        </ng-container>
+      </ng-container>
     </div>
 
-    <p
+    <!--    <p
       class="no-results-found"
       *ngIf="
         filterOptions
@@ -94,6 +109,6 @@
       "
     >
       {{ t('noResultsFound') }}
-    </p>
+    </p> -->
   </mat-select>
 </mat-form-field>

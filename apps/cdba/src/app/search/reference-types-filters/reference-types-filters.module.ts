@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { MaterialNumberModule } from '../../shared/pipes';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { FormatValuePipe } from './multi-select-filter/pipes/format-value.pipe';
@@ -47,6 +48,7 @@ import { ReferenceTypesFiltersComponent } from './reference-types-filters.compon
     MatCheckboxModule,
     MatTooltipModule,
     MatProgressSpinnerModule,
+    MaterialNumberModule,
   ],
   exports: [ReferenceTypesFiltersComponent],
 })

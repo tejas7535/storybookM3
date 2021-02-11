@@ -35,6 +35,7 @@ import {
   getSearchSuccessful,
   getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
+import { MaterialNumberModule } from '../../shared/pipes';
 import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { FormatValuePipe } from './multi-select-filter/pipes/format-value.pipe';
@@ -75,6 +76,7 @@ describe('ReferenceTypesFiltersComponent', () => {
         MatCheckboxModule,
         MatTooltipModule,
         MatProgressSpinnerModule,
+        MaterialNumberModule,
       ],
       providers: [
         provideMockStore({

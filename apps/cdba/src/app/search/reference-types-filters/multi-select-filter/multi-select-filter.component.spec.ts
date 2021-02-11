@@ -20,6 +20,7 @@ import {
   FilterItemIdValue,
   IdValue,
 } from '../../../core/store/reducers/search/models';
+import { MaterialNumberModule } from '../../../shared/pipes';
 import { SearchUtilityService } from '../../services/search-utility.service';
 import { MultiSelectFilterComponent } from './multi-select-filter.component';
 import { FormatValuePipe } from './pipes/format-value.pipe';
@@ -51,6 +52,7 @@ describe('MultiSelectFilterComponent', () => {
         MatTooltipModule,
         MatIconModule,
         MatProgressSpinnerModule,
+        MaterialNumberModule,
       ],
       providers: [SearchUtilityService],
     });
@@ -221,9 +223,14 @@ describe('MultiSelectFilterComponent', () => {
   });
 
   describe('searchFieldChange', () => {
-    const testString = 'search';
+    let testString: string;
+
+    beforeEach(() => {
+      testString = undefined;
+    });
 
     it('should call handleLocalSearch when autocomplete off', () => {
+      testString = 'search';
       component.filter = new FilterItemIdValue('name', [], false);
       component['handleLocalSearch'] = jest.fn();
 
@@ -233,12 +240,34 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should call handleRemoteSearch when autocomplete on', () => {
+      testString = 'search';
       component.filter = new FilterItemIdValue('name', [], true);
       component['handleRemoteSearch'] = jest.fn();
 
       component.searchFieldChange(testString);
 
       expect(component['handleRemoteSearch']).toHaveBeenCalledWith(testString);
+    });
+
+    it('should try to replace dashes for material number inputs', () => {
+      testString = '012618918-0000';
+      component.filter = new FilterItemIdValue('material_number', [], true);
+      component['handleRemoteSearch'] = jest.fn();
+
+      component.searchFieldChange(testString);
+
+      expect(component['handleRemoteSearch']).toHaveBeenCalledWith(
+        '0126189180000'
+      );
+    });
+
+    it('should not replace dashes for material number inputs if value is undefined', () => {
+      component.filter = new FilterItemIdValue('material_number', [], true);
+      component['handleRemoteSearch'] = jest.fn();
+
+      component.searchFieldChange(testString);
+
+      expect(component['handleRemoteSearch']).toHaveBeenCalledWith(undefined);
     });
   });
 

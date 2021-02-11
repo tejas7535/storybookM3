@@ -131,7 +131,11 @@ export class MultiSelectFilterComponent
     if (!this.filter.autocomplete) {
       this.handleLocalSearch(search);
     } else {
-      this.handleRemoteSearch(search);
+      const searchText =
+        this.filter.name === 'material_number' && search?.length > 0
+          ? search.split('-').join('')
+          : search;
+      this.handleRemoteSearch(searchText);
     }
   }
 
