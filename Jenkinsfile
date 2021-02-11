@@ -236,6 +236,12 @@ def artifactoryFileCanBeRemoved(artifactoryFile) {
     return !artifactoryFile.folder && (artifactoryFile.uri.contains('bugfix/') || artifactoryFile.uri.contains('feature/') || artifactoryFile.uri.contains('hotfix/') || artifactoryFile.uri.contains('renovate/'))
 }
 
+// remove @ because frontend deployment pipelines add docker tags with BRANCH_NAME as value and '@' is not allowed in docker tags
+// example: depeendency update branch 'renovate/@nrwlnx' will get a docker tag of 'renovate-@nrwlnx' -> remove the @
+def getFilteredBranchName() {
+    return "${BRANCH_NAME}".replaceAll('@', '')
+}
+
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
@@ -855,7 +861,8 @@ pipeline {
 
                                         deployPackages(target, uploadFile, checksum)
                                     } else if (!isNightly()) {
-                                        target = "${artifactoryBasePath}/${app}/${BRANCH_NAME}.zip"
+                                        def fileName = getFilteredBranchName()
+                                        target = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
                                         deployPackages(target, uploadFile, checksum)
                                     }
@@ -950,7 +957,7 @@ pipeline {
                             def configuration = isAppRelease() ? 'PROD' : (isMaster() ? 'QA' : 'DEV')
 
                             // prod/release = latest, master = next, feature build = branch name
-                            def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : "${BRANCH_NAME}"
+                            def fileName = isAppRelease() ? 'latest' : isMaster() ? 'next' : getFilteredBranchName()
                             def artifactoryTargetPath = "${artifactoryBasePath}/${app}/${fileName}.zip"
 
                             try {
