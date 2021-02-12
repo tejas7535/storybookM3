@@ -1,0 +1,5 @@
+<div *ngIf="rating">
+  <ng-container *ngFor="let i of [].constructor(rating); trackBy: trackByFn">
+    <mat-icon fontSet="schaeffler-icons" fontIcon="icon-star"></mat-icon>
+  </ng-container>
+</div>

@@ -19,7 +19,7 @@ export const COLUMN_DEFS: ColDef[] = [
     headerCheckboxSelection: true,
     headerCheckboxSelectionFilteredOnly: true,
     checkboxSelection: true,
-    cellRenderer: 'infoCellComponent',
+    cellRenderer: 'offerCartCellComponent',
     headerName: '',
     field: ColumnFields.ADDED_TO_OFFER,
     pinned: 'left',
@@ -64,6 +64,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.per'),
     // TODO: where does this column come from ?
+    valueFormatter: () => '1',
     field: 'per',
   },
   {
@@ -84,7 +85,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gqRating'),
-    // currently missing in the database ?
+    cellRenderer: 'gqRatingComponent',
     field: 'gqRating',
   },
   {
