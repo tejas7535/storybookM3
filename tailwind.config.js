@@ -11,6 +11,7 @@ module.exports = {
     colors: {
       primary: '#00893D',
       white: '#fff',
+      background: '#F6F7F8',
     },
     fontSize: {
       h1: ['96px', { letterSpacing: '-1.5px' }],

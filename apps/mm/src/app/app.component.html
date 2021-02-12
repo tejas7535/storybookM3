@@ -1,10 +1,11 @@
-<schaeffler-header
-  [platformTitle]="title"
-  class="full-height"
-  toggleEnabled="true"
->
-  <router-outlet></router-outlet>
-  <schaeffler-footer-tailwind
-    [footerLinks]="footerLinks"
-  ></schaeffler-footer-tailwind>
+<schaeffler-header [platformTitle]="title" class="h-full" toggleEnabled="true">
+  <div class="h-full flex flex-col bg-background">
+    <div class="flex-auto md:m-4 p-4 bg-white">
+      <router-outlet></router-outlet>
+    </div>
+    <schaeffler-footer-tailwind
+      class="flex-shrink-0 bg-white md:bg-background"
+      [footerLinks]="footerLinks"
+    ></schaeffler-footer-tailwind>
+  </div>
 </schaeffler-header>
