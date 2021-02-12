@@ -24,6 +24,26 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'businessUnitKey',
+    headerName: 'Business Unit Key',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'businessUnitName',
+    headerName: 'Business Unit Name',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'productLineKey',
+    headerName: 'Product Line Key',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'productLineName',
+    headerName: 'Product Line Name',
+    filterParams: FILTER_PARAMS,
+  },
+  {
     field: 'keyaccountName',
     headerName: 'Key Account',
     filterParams: FILTER_PARAMS,
