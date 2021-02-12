@@ -1,4 +1,8 @@
-import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
+import {
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
+  QUOTATION_MOCK,
+} from '../../../../../testing/mocks';
 import { dummyRowData } from '../../reducers/create-case/config/dummy-row-data';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
@@ -15,6 +19,7 @@ describe('Process Case Selector', () => {
       quotation: {
         ...initialState.quotation,
         item: QUOTATION_MOCK,
+        selectedQuotationDetail: QUOTATION_DETAIL_MOCK.gqPositionId,
         quotationLoading: true,
       },
       addMaterials: {
@@ -191,6 +196,26 @@ describe('Process Case Selector', () => {
           mockState.processCase
         )
       ).toBeTruthy();
+    });
+  });
+
+  describe('getQuotationDetailId', () => {
+    test('should return id', () => {
+      expect(
+        quotationSelectors.getSelectedQuotationDetailId.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.quotation.selectedQuotationDetail);
+    });
+  });
+
+  describe('getSelectedQuotationDetail', () => {
+    test('should return quotationd detail', () => {
+      expect(
+        quotationSelectors.getSelectedQuotationDetail.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.quotation.item.quotationDetails[0]);
     });
   });
 });

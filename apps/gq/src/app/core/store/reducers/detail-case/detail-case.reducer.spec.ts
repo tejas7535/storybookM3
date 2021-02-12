@@ -3,7 +3,10 @@ import {
   loadMaterialInformationFailure,
   loadMaterialInformationSuccess,
 } from '../..';
-import { DETAIL_STATE_MOCK } from '../../../../../testing/mocks';
+import {
+  DETAIL_IDENTIFIERS_MOCK,
+  DETAIL_STATE_MOCK,
+} from '../../../../../testing/mocks';
 import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks/detail-case.mock';
 import { MaterialDetails } from '../../models';
 import { detailCaseReducer } from './detail-case.reducer';
@@ -11,13 +14,14 @@ import { detailCaseReducer } from './detail-case.reducer';
 describe('DetailCase Reducer', () => {
   describe('loadMaterialInformation', () => {
     test('should set materialInformation loading', () => {
-      const materialNumber15 = '15015';
-      const action = loadMaterialInformation({ materialNumber15 });
+      const action = loadMaterialInformation(DETAIL_IDENTIFIERS_MOCK);
 
       const state = detailCaseReducer(DETAIL_STATE_MOCK, action);
 
       expect(state.detailCase.materialLoading).toEqual(true);
-      expect(state.detailCase.materialNumber15).toEqual(materialNumber15);
+      expect(state.detailCase.materialNumber15).toEqual(
+        DETAIL_IDENTIFIERS_MOCK.materialNumber15
+      );
     });
   });
   describe('loadMaterialInformationSuccess', () => {

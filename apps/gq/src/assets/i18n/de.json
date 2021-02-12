@@ -77,7 +77,7 @@
       "label": "Manueller Preis",
       "hint": "Geben Sie einen manuellen Preis ein",
       "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen",
-      "selected": "ausgewählt"
+      "selected": "auswählen"
     },
     "pricingDetails": {
       "label": "Preis Details",
@@ -153,7 +153,8 @@
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
-      "updateMaterials": "Die Angebotsauswahl wurde gespeichert"
+      "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
+      "updateSelectedPrice": "Der Preis wurde gespeichert"
     }
   },
   "shared": {

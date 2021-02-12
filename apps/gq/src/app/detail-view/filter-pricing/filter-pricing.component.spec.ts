@@ -4,20 +4,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/auth';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { UserRoles } from '../../shared/roles/user-roles.enum';
 import { FilterPricingComponent } from './filter-pricing.component';
 
 describe('FilterPricingComponent', () => {
   let component: FilterPricingComponent;
   let spectator: Spectator<FilterPricingComponent>;
-  let store: MockStore;
   const createComponent = createComponentFactory({
     component: FilterPricingComponent,
     detectChanges: false,
@@ -36,7 +34,6 @@ describe('FilterPricingComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    store = spectator.inject(MockStore);
     component = spectator.debugElement.componentInstance;
   });
 
@@ -44,14 +41,78 @@ describe('FilterPricingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit', () => {
-    test('should set manualPricePermission to true', () => {
-      store.overrideSelector(getRoles, [UserRoles.MANUAL_PRICE]);
+  describe('selectPrice', () => {
+    test('should emit Output EventEmitter', () => {
+      component.selectManualPrice.emit = jest.fn();
+      component.manualPriceFormControl = { value: 1 } as any;
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
+      component.selectPrice();
 
-      expect(component.manualPricePermission$).toBeTruthy();
+      expect(component.selectManualPrice.emit).toHaveBeenCalledWith(1);
+    });
+  });
+  describe('Input setter', () => {
+    test('should set currentPrice', () => {
+      component.manualPriceFormControl = {
+        setValue: jest.fn(),
+      } as any;
+
+      component.currentPrice = 10;
+      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
+        1
+      );
+    });
+    test('should set manualPricePermission', () => {
+      component.manualPricePermission = true;
+      expect(component.manualPriceFormControl).toBeDefined();
+      expect(component.manualPriceFormControl.disabled).toBe(false);
+    });
+  });
+  describe('onKeyPress', () => {
+    test('should prevent Default', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20.022 };
+
+      component.onKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should prevent Default', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20 };
+
+      component.onKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default', () => {
+      const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20.022 };
+
+      component.onKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+  });
+  describe('onPaste', () => {
+    test('should set price', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => 20.022),
+        },
+        preventDefault: jest.fn(),
+      } as any;
+      component.manualPriceFormControl = { setValue: jest.fn() } as any;
+
+      component.onPaste(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
+        1
+      );
+      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledWith(
+        20.02
+      );
     });
   });
 });

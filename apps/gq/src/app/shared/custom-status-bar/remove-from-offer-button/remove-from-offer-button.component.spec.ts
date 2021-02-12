@@ -13,7 +13,7 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import { updateQuotationDetailOffer } from '../../../core/store/actions';
+import { updateQuotationDetails } from '../../../core/store/actions';
 import { RemoveFromOfferButtonComponent } from './remove-from-offer-button.component';
 
 describe('RemoveFromOfferComponent', () => {
@@ -97,7 +97,7 @@ describe('RemoveFromOfferComponent', () => {
       component.removeFromOffer();
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        updateQuotationDetailOffer({
+        updateQuotationDetails({
           quotationDetailIDs: [
             { gqPositionId: '5694232', addedToOffer: false },
           ],

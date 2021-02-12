@@ -19,7 +19,8 @@ import {
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
-  updateQuotationDetailOffer,
+  setSelectedQuotationDetail,
+  updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -47,6 +48,7 @@ export interface ProcessCaseState {
   quotation: {
     quotationLoading: boolean;
     item: Quotation;
+    selectedQuotationDetail: string;
     errorMessage: string;
     updateLoading: boolean;
   };
@@ -68,6 +70,7 @@ export const initialState: ProcessCaseState = {
   quotation: {
     quotationLoading: false,
     item: undefined,
+    selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,
   },
@@ -113,6 +116,7 @@ export const processCaseReducer = createReducer(
   on(loadQuotation, (state: ProcessCaseState) => ({
     ...state,
     quotation: {
+      ...state.quotation,
       item: undefined,
       quotationLoading: true,
       errorMessage: undefined,
@@ -136,7 +140,7 @@ export const processCaseReducer = createReducer(
       quotationLoading: false,
     },
   })),
-  on(updateQuotationDetailOffer, (state: ProcessCaseState) => ({
+  on(updateQuotationDetails, (state: ProcessCaseState) => ({
     ...state,
     quotation: {
       ...state.quotation,
@@ -152,16 +156,25 @@ export const processCaseReducer = createReducer(
         item: {
           ...state.quotation.item,
           quotationDetails: [...state.quotation.item.quotationDetails].map(
-            (quotationDetail) =>
-              quotationDetailIDs.some(
-                (item) => item.gqPositionId === quotationDetail.gqPositionId
-              )
+            (quotationDetail) => {
+              const update = quotationDetailIDs.find(
+                (elem) => elem.gqPositionId === quotationDetail.gqPositionId
+              );
+
+              return update
                 ? {
                     ...quotationDetail,
-                    addedToOffer: quotationDetailIDs[0].addedToOffer,
+                    // only update addedToOffer if value is set
                     // all transactions within a quotation have the same value for this property
+                    addedToOffer:
+                      update.addedToOffer !== undefined
+                        ? update.addedToOffer
+                        : quotationDetail.addedToOffer,
+                    // only update price if value is set
+                    price: update.price ? update.price : quotationDetail.price,
                   }
-                : quotationDetail
+                : quotationDetail;
+            }
           ),
         },
         updateLoading: false,
@@ -330,7 +343,17 @@ export const processCaseReducer = createReducer(
       ...state.addMaterials,
       removeQuotationDetailsIds: [],
     },
-  }))
+  })),
+  on(
+    setSelectedQuotationDetail,
+    (state: ProcessCaseState, { gqPositionId }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        selectedQuotationDetail: gqPositionId,
+      },
+    })
+  )
 );
 
 // tslint:disable-next-line: only-arrow-functions

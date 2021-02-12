@@ -40,8 +40,8 @@ export const selectQuotation = createAction(
   props<{ quotationIdentifier: QuotationIdentifier }>()
 );
 
-export const updateQuotationDetailOffer = createAction(
-  '[Offer] Update QuotationDetail offer',
+export const updateQuotationDetails = createAction(
+  '[Offer] Update QuotationDetails',
   props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
 );
 
@@ -113,6 +113,11 @@ export const removeMaterialsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const setSelectedQuotationDetail = createAction(
+  '[Process Case] Set Selected GqPositionId',
+  props<{ gqPositionId: string }>()
+);
+
 const all = union({
   addMaterials,
   deleteAddMaterialRowDataItem,
@@ -126,11 +131,12 @@ const all = union({
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
-  updateQuotationDetailOffer,
+  updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
+  setSelectedQuotationDetail,
 });
 
 export type CaseActions = typeof all;

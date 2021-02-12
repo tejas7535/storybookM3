@@ -37,7 +37,7 @@ import {
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
-  updateQuotationDetailOffer,
+  updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -227,13 +227,18 @@ export class ProcessCaseEffect {
 
   updateMaterials$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(updateQuotationDetailOffer.type),
+      ofType(updateQuotationDetails.type),
       map((action: any) => action.quotationDetailIDs),
       mergeMap((quotationDetailIDs: UpdateQuotationDetail[]) =>
         this.quotationDetailsService.updateMaterial(quotationDetailIDs).pipe(
           tap(() => {
+            // .price determines which property was updated
             const successMessage = translate(
-              'processCaseView.snackBarMessages.updateMaterials'
+              `processCaseView.snackBarMessages.${
+                quotationDetailIDs[0].price
+                  ? 'updateSelectedPrice'
+                  : 'updateSelectedOffers'
+              }`
             );
             this.snackBarService.showSuccessMessage(successMessage);
           }),

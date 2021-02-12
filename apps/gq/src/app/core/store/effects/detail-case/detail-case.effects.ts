@@ -13,8 +13,9 @@ import {
   loadMaterialInformation,
   loadMaterialInformationFailure,
   loadMaterialInformationSuccess,
+  setSelectedQuotationDetail,
 } from '../../actions';
-import { MaterialDetails } from '../../models';
+import { DetailIdentifiers, MaterialDetails } from '../../models';
 
 /**
  * Effect class for all tagging related actions which trigger side effects
@@ -33,15 +34,33 @@ export class DetailCaseEffects {
         (routerState) =>
           routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0
       ),
-      map((routerState) => routerState.queryParams['materialNumber15']),
-      filter((materialIdentifier: string) => {
-        if (!materialIdentifier) {
+      map(
+        (routerState): DetailIdentifiers => ({
+          materialNumber15: routerState.queryParams['materialNumber15'],
+          gqPositionId: routerState.queryParams['gqPositionId'],
+        })
+      ),
+      filter((materialIdentifiers: DetailIdentifiers) => {
+        if (
+          !materialIdentifiers.materialNumber15 ||
+          !materialIdentifiers.gqPositionId
+        ) {
           this.router.navigate(['not-found']);
         }
 
-        return materialIdentifier !== undefined;
+        return (
+          (materialIdentifiers.materialNumber15 &&
+            materialIdentifiers.gqPositionId) !== undefined
+        );
       }),
-      map((materialNumber15) => loadMaterialInformation({ materialNumber15 }))
+      mergeMap((materialIdentifiers: DetailIdentifiers) => [
+        loadMaterialInformation({
+          materialNumber15: materialIdentifiers.materialNumber15,
+        }),
+        setSelectedQuotationDetail({
+          gqPositionId: materialIdentifiers.gqPositionId,
+        }),
+      ])
     )
   );
 

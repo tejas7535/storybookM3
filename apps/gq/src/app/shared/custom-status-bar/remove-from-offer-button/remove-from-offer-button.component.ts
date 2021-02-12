@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
-import { updateQuotationDetailOffer } from '../../../core/store/actions';
+import { updateQuotationDetails } from '../../../core/store/actions';
 import {
   QuotationDetail,
   UpdateQuotationDetail,
@@ -44,6 +44,6 @@ export class RemoveFromOfferButtonComponent {
     const quotationDetailIDs: UpdateQuotationDetail[] = this.selections.map(
       (value) => ({ gqPositionId: value.gqPositionId, addedToOffer: false })
     );
-    this.store.dispatch(updateQuotationDetailOffer({ quotationDetailIDs }));
+    this.store.dispatch(updateQuotationDetails({ quotationDetailIDs }));
   }
 }

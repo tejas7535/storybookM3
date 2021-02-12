@@ -22,11 +22,11 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   },
   {
     headerName: translate('shared.offerTable.materialDescription'),
-    field: 'materialDesignation',
+    field: 'materialDescription',
   },
   {
     headerName: translate('shared.offerTable.price'),
-    field: 'rsp',
+    field: 'price',
     valueFormatter: numberFormatter,
   },
   {
