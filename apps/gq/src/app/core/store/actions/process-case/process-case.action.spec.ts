@@ -12,7 +12,8 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
-  updateQuotationDetailOffer,
+  setSelectedQuotationDetail,
+  updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
 } from './process-case.action';
@@ -95,18 +96,18 @@ describe('CaseActions', () => {
   });
 
   describe('Offer Actions', () => {
-    test('updateQuotationDetailOffer', () => {
+    test('updateQuotationDetails', () => {
       const quotationDetailIDs = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           addedToOffer: true,
         },
       ];
-      action = updateQuotationDetailOffer({ quotationDetailIDs });
+      action = updateQuotationDetails({ quotationDetailIDs });
 
       expect(action).toEqual({
         quotationDetailIDs,
-        type: '[Offer] Update QuotationDetail offer',
+        type: '[Offer] Update QuotationDetails',
       });
     });
 
@@ -140,6 +141,16 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Offer] Update QuotationDetails Failure',
+      });
+    });
+
+    test('setSelectedQuotationDetail', () => {
+      const gqPositionId = '1234';
+      action = setSelectedQuotationDetail({ gqPositionId });
+
+      expect(action).toEqual({
+        gqPositionId,
+        type: '[Process Case] Set Selected GqPositionId',
       });
     });
   });

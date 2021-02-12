@@ -7,23 +7,21 @@
           <mat-form-field appearance="outline">
             <mat-label> {{ t('label') }} </mat-label>
             <input
+              [formControl]="manualPriceFormControl"
+              (keydown)="onKeyPress($event, manualPrice)"
+              (paste)="onPaste($event)"
               class="input-field"
-              [disabled]="(manualPricePermission$ | ngrxPush) === false"
+              type="number"
+              #manualPrice
               matInput
             />
             <mat-hint
               class="noPermission"
               [ngClass]="{
-                noPermission: (manualPricePermission$ | ngrxPush) === false
+                noPermission: manualPricePermission
               }"
             >
-              {{
-                t(
-                  (manualPricePermission$ | ngrxPush)
-                    ? 'hint'
-                    : 'noPermissionHint'
-                )
-              }}
+              {{ t(!manualPricePermission ? 'hint' : 'noPermissionHint') }}
             </mat-hint>
           </mat-form-field>
         </div>
@@ -32,7 +30,8 @@
             mat-raised-button
             color="primary"
             class="select"
-            [disabled]="(manualPricePermission$ | ngrxPush) === false"
+            (click)="selectPrice()"
+            [disabled]="manualPricePermission || !manualPriceFormControl.value"
           >
             <mat-icon>check_circle</mat-icon>
             {{ t('selected') | uppercase }}

@@ -11,7 +11,9 @@ import {
   loadMaterialInformation,
   loadMaterialInformationFailure,
   loadMaterialInformationSuccess,
+  setSelectedQuotationDetail,
 } from '../..';
+import { DETAIL_IDENTIFIERS_MOCK } from '../../../../../testing/mocks';
 import { DETAIL_CASE_MOCK } from '../../../../../testing/mocks/detail-case.mock';
 import { MaterialDetailsService } from '../../../../detail-view/services/material-details.service';
 import { DetailCaseEffects } from './detail-case.effects';
@@ -49,14 +51,14 @@ describe('Create Case Effects', () => {
 
   describe('getMaterial$', () => {
     test('should return loadMaterialInformation', () => {
-      const materialNumber15 = '150015';
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
           routerState: {
             url: '/detail-view',
             queryParams: {
-              materialNumber15,
+              materialNumber15: DETAIL_IDENTIFIERS_MOCK.materialNumber15,
+              gqPositionId: DETAIL_IDENTIFIERS_MOCK.gqPositionId,
             },
           },
         },
@@ -64,8 +66,14 @@ describe('Create Case Effects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const result = loadMaterialInformation({ materialNumber15 });
-      const expected = cold('-b', { b: result });
+      const result1 = loadMaterialInformation({
+        materialNumber15: DETAIL_IDENTIFIERS_MOCK.materialNumber15,
+      });
+      const result2 = setSelectedQuotationDetail({
+        gqPositionId: DETAIL_IDENTIFIERS_MOCK.gqPositionId,
+      });
+
+      const expected = cold('-(bc)', { b: result1, c: result2 });
 
       expect(effects.getMaterial$).toBeObservable(expected);
     });
@@ -93,9 +101,8 @@ describe('Create Case Effects', () => {
   });
 
   describe('loadMaterial$', () => {
-    const materialNumber15 = '15015';
     beforeEach(() => {
-      action = loadMaterialInformation({ materialNumber15 });
+      action = loadMaterialInformation(DETAIL_IDENTIFIERS_MOCK);
     });
 
     test('should return loadMaterialSuccess when REST Call is successful', () => {
@@ -114,7 +121,7 @@ describe('Create Case Effects', () => {
       expect(effects.loadMaterialInformation$).toBeObservable(expected);
       expect(materialDetailsService.loadMaterials).toHaveBeenCalledTimes(1);
       expect(materialDetailsService.loadMaterials).toHaveBeenCalledWith(
-        materialNumber15
+        DETAIL_IDENTIFIERS_MOCK.materialNumber15
       );
     });
 

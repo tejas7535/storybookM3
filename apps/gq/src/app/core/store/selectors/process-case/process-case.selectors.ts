@@ -114,3 +114,19 @@ export const getAddMaterialRowDataValid = createSelector(
     return rowDataValid;
   }
 );
+
+export const getSelectedQuotationDetailId = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string => state.quotation.selectedQuotationDetail
+);
+
+export const getSelectedQuotationDetail = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): QuotationDetail =>
+    state.quotation.item
+      ? state.quotation.item.quotationDetails.find(
+          (detail) =>
+            detail.gqPositionId === state.quotation.selectedQuotationDetail
+        )
+      : undefined
+);

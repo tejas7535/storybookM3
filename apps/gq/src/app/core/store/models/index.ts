@@ -9,6 +9,7 @@ export * from './create-case-response.model';
 export * from './create-case.model';
 export * from './customer.model';
 export * from './customer-ids.model';
+export * from './detail-identifiers.model';
 export * from './id-value.model';
 export * from './import-case-response.model';
 export * from './import-case.model';

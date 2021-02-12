@@ -7,7 +7,7 @@ import {
 
 describe('Autocomplete Actions', () => {
   test('loadMaterialInformation', () => {
-    const materialNumber15 = '12345';
+    const materialNumber15 = '1234';
     const action = loadMaterialInformation({ materialNumber15 });
     expect(action).toEqual({
       materialNumber15,

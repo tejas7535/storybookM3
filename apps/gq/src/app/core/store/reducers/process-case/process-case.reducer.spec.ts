@@ -22,7 +22,8 @@ import {
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
-  updateQuotationDetailOffer,
+  setSelectedQuotationDetail,
+  updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -175,7 +176,7 @@ describe('Quotation Reducer', () => {
           },
         ];
 
-        const action = updateQuotationDetailOffer({
+        const action = updateQuotationDetails({
           quotationDetailIDs,
         });
 
@@ -513,6 +514,19 @@ describe('Quotation Reducer', () => {
         expect(state.quotation.quotationLoading).toBeFalsy();
         expect(state.quotation.errorMessage).toEqual(errorMessage);
       });
+    });
+  });
+
+  describe('setSelectedQuotationDetail', () => {
+    test('should set selectedQuotationDetail', () => {
+      const gqPositionId = '1234';
+      const action = setSelectedQuotationDetail({ gqPositionId });
+      const fakeState = {
+        ...QUOTATION_STATE_MOCK,
+      };
+      const state = processCaseReducer(fakeState, action);
+
+      expect(state.quotation.selectedQuotationDetail).toEqual(gqPositionId);
     });
   });
 });

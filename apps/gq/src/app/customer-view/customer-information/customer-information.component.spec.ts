@@ -27,4 +27,14 @@ describe('CustomerDetailsComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('ngOnInit', () => {
+    test('should set current and last year', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.currentYear).toBeDefined();
+      expect(component.lastYear).toBeDefined();
+    });
+  });
 });

@@ -1,4 +1,5 @@
 export class UpdateQuotationDetail {
   gqPositionId: string;
-  addedToOffer: boolean;
+  addedToOffer?: boolean;
+  price?: number;
 }

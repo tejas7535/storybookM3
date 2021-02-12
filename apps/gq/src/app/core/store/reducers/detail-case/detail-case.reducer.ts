@@ -19,8 +19,8 @@ export interface DetailState {
 export const initialState: DetailState = {
   detailCase: {
     materialLoading: false,
-    materialDetails: undefined,
     materialNumber15: undefined,
+    materialDetails: undefined,
     errorMessage: undefined,
   },
 };

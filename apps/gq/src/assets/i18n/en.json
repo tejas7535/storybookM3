@@ -77,7 +77,7 @@
       "label": "Manual Price",
       "noPermissionHint": "You do not have the permission to create a manual price",
       "title": "Manual Pricing",
-      "selected": "selected"
+      "selected": "select"
     },
     "pricingDetails": {
       "label": "Pricing Details",
@@ -153,7 +153,8 @@
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
-      "updateMaterials": "Offer selection was saved"
+      "updateSelectedOffers": "Offer selection was saved",
+      "updateSelectedPrice": "Price selection was saved"
     }
   },
   "shared": {

@@ -41,7 +41,7 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import { updateQuotationDetailOffer } from '../../actions/process-case/process-case.action';
+import { updateQuotationDetails } from '../../actions/process-case/process-case.action';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -439,7 +439,7 @@ describe('ProcessCaseEffect', () => {
           addedToOffer: true,
         },
       ];
-      action = updateQuotationDetailOffer({ quotationDetailIDs });
+      action = updateQuotationDetails({ quotationDetailIDs });
 
       quotationDetailsService.updateMaterial = jest.fn(() => response);
       const result = updateQuotationDetailsSuccess({ quotationDetailIDs });

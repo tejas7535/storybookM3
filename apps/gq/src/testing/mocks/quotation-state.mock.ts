@@ -11,6 +11,7 @@ export const QUOTATION_STATE_MOCK: ProcessCaseState = {
   quotation: {
     quotationLoading: false,
     item: undefined,
+    selectedQuotationDetail: undefined,
     errorMessage: undefined,
     updateLoading: false,
   },

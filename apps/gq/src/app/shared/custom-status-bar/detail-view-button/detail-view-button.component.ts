@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
+import { QuotationDetail } from '../../../core/store/models';
 
 @Component({
   selector: 'gq-detail-view-button',
@@ -11,7 +12,7 @@ import { AppRoutePath } from '../../../app-route-path.enum';
   styleUrls: ['./detail-view-button.component.scss'],
 })
 export class DetailViewButtonComponent {
-  selections: any[] = [];
+  selections: QuotationDetail[] = [];
 
   private params: IStatusPanelParams;
 
@@ -36,11 +37,12 @@ export class DetailViewButtonComponent {
   }
 
   showDetailView(): void {
-    const { materialNumber15 } = this.selections[0];
+    const { materialNumber15, gqPositionId } = this.selections[0];
     this.router.navigate([AppRoutePath.DetailViewPath], {
       queryParamsHandling: 'merge',
       queryParams: {
         materialNumber15,
+        gqPositionId,
       },
     });
   }

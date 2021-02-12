@@ -1,9 +1,10 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -73,7 +74,7 @@ describe('DetailViewButtonComponent', () => {
 
   describe('showDetailView', () => {
     test('should navigate', () => {
-      component.selections = [{ materialNumber: '' }];
+      component.selections = [{ materialNumber: '', gqPositionId: '' }] as any;
       spyOn(router, 'navigate');
       component.showDetailView();
       expect(router.navigate).toHaveBeenCalled();
