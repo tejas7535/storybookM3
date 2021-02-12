@@ -12,12 +12,12 @@ export class AppComponent {
 
   public footerLinks: FooterLink[] = [
     {
-      link: 'https://Datenschutz',
+      link: '/assets/legal/data-privacy.html',
       title: 'Datenschutz',
       external: true,
     },
     {
-      link: 'https://Impressum',
+      link: '/assets/legal/impressum.html',
       title: 'Impressum',
       external: true,
     },

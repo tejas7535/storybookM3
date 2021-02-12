@@ -1,0 +1,37 @@
+body {
+  background-color: #fff;
+  color: #646464;
+  display: block;
+  font-family: Open Sans, Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.h1,
+h1,
+.h2,
+h2 {
+  color: inherit;
+  font-family: inherit;
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-bottom: 10px;
+  margin-top: 20px;
+}
+
+.company-logo {
+  height: 22px;
+}
+.company-logo a {
+  margin-left: auto;
+}
+.company-logo img {
+  height: 100%;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  height: 90px;
+}
