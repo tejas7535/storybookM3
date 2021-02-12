@@ -2,7 +2,7 @@
   class="flex flex-col items-center my-4 lg:ml-5 lg:mr-3 lg:my-0 lg:flex-row lg:justify-end lg:h-12"
 >
   <div class="flex flex-row">
-    <div
+    <ng-container
       *ngFor="
         let footerLink of footerLinks;
         let index = index;
@@ -30,12 +30,12 @@
         *ngIf="index !== footerLinks.length - 1 || appVersion"
         >|</span
       >
-    </div>
-    <div *ngIf="appVersion">
+    </ng-container>
+    <ng-container *ngIf="appVersion">
       <span id="version" class="text-light text-caption leading-4">
         {{ appVersion }}
       </span>
-    </div>
+    </ng-container>
   </div>
   <div class="schaeffler-footer-logo m-3"></div>
 </footer>
