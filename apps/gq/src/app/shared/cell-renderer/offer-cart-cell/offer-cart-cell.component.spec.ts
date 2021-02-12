@@ -2,15 +2,15 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { InfoCellComponent } from './info-cell.component';
+import { OfferCartCellComponent } from './offer-cart-cell.component';
 
-describe('InfoCellComponent', () => {
-  let component: InfoCellComponent;
-  let spectator: Spectator<InfoCellComponent>;
+describe('OfferCartCellComponent', () => {
+  let component: OfferCartCellComponent;
+  let spectator: Spectator<OfferCartCellComponent>;
 
   const createComponent = createComponentFactory({
-    component: InfoCellComponent,
-    declarations: [InfoCellComponent],
+    component: OfferCartCellComponent,
+    declarations: [OfferCartCellComponent],
     imports: [MatIconModule],
   });
 

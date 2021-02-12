@@ -10,7 +10,6 @@ import { AddToOfferButtonComponent } from '../../shared/custom-status-bar/add-to
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
 import { TotalRowCountComponent } from '../../shared/custom-status-bar/total-row-count/total-row-count.component';
-import { CellRendererModule } from './cell-renderer/cell-renderer.module';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 @NgModule({
@@ -25,7 +24,6 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     ReactiveComponentModule,
     SharedTranslocoModule,
     CustomStatusBarModule,
-    CellRendererModule,
   ],
   exports: [QuotationDetailsTableComponent],
 })

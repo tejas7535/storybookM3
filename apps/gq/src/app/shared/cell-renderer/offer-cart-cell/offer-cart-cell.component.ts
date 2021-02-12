@@ -2,10 +2,10 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'gq-info-cell',
-  templateUrl: './info-cell.component.html',
-  styleUrls: ['./info-cell.component.scss'],
+  templateUrl: './offer-cart-cell.component.html',
+  styleUrls: ['./offer-cart-cell.component.scss'],
 })
-export class InfoCellComponent {
+export class OfferCartCellComponent {
   public addToOffer: boolean;
 
   agInit(params: any): void {
