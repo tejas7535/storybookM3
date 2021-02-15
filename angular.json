@@ -2888,7 +2888,7 @@
       "prefix": "mm",
       "architect": {
         "build": {
-          "builder": "@angular-builders/custom-webpack:browser",
+          "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "outputPath": "dist/apps/mm",
             "index": "apps/mm/src/index.html",
@@ -2907,9 +2907,6 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": []
-            },
-            "customWebpackConfig": {
-              "path": "webpack.config.js"
             }
           },
           "configurations": {
@@ -3005,7 +3002,7 @@
           }
         },
         "serve": {
-          "builder": "@angular-builders/custom-webpack:dev-server",
+          "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "mm:build"
           },
