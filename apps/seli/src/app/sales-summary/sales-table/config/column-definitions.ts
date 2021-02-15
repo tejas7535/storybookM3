@@ -34,6 +34,16 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'salesorgKey',
+    headerName: 'Sales Organization Key',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'salesorgName',
+    headerName: 'Sales Organization Name',
+    filterParams: FILTER_PARAMS,
+  },
+  {
     field: 'productLineKey',
     headerName: 'Product Line Key',
     filterParams: FILTER_PARAMS,

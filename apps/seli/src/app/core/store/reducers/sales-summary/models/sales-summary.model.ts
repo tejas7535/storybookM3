@@ -22,6 +22,8 @@ export class SalesSummary {
     public productLineKey: string,
     public productionPlantKey: string,
     public productionPlantName: string,
+    public salesorgName: string,
+    public salesorgKey: string,
     public lastUpdated: string,
     public eopDateTemp: string,
     public lastEopCalculated: string,
