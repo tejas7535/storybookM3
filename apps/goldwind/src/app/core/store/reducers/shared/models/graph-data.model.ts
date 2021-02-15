@@ -11,10 +11,12 @@ export interface GraphData {
     [index: number]: {
       name: string;
       type: string;
+      symbol?: string;
       coordinateSystem?: string;
       areaStyle?: any;
       smooth?: boolean;
-      data: GraphSeriesData[] | [number, number][][];
+      itemStyle?: any;
+      data: GraphSeriesData[] | [number, number][][] | [{ value: number[] }];
     };
   };
 }

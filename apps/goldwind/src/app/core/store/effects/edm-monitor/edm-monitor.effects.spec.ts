@@ -19,6 +19,11 @@ import * as fromRouter from '../../reducers';
 import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('Search Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;
   let actions$: any;

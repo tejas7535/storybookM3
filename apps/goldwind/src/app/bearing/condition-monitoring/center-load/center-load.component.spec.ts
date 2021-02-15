@@ -8,6 +8,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { DATE_FORMAT } from '../../../shared/constants';
 import { CenterLoadComponent } from './center-load.component';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('CenterLoadComponent', () => {
   let component: CenterLoadComponent;
   let spectator: Spectator<CenterLoadComponent>;

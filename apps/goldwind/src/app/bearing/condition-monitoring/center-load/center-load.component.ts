@@ -12,7 +12,7 @@ import {
   getLoadGraphData,
   getLoadSenseMeasturementTimes,
 } from '../../../core/store/selectors/';
-import { polarChartOptions } from '../../../shared/chart/chart';
+import { radarChartOptions } from '../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../shared/constants';
 
 @Component({
@@ -27,7 +27,7 @@ export class CenterLoadComponent implements OnInit {
   current: string;
 
   chartOptions: EChartsOption = {
-    ...polarChartOptions,
+    ...radarChartOptions,
   };
 
   public constructor(private readonly store: Store<LoadSenseState>) {}
