@@ -25,7 +25,7 @@
         <div class="box" fxFlex>
           <div class="label">{{ t('quantity') }}:</div>
           <div class="row" fxLayout="row" fxLayoutAlign="start center">
-            <span>{{ quotationDetail.orderQuantity }}</span>
+            <span>{{ quotationDetail.orderQuantity | number }}</span>
           </div>
         </div>
         <div class="box" fxFlex *ngIf="quotationDetail.gqRating">

@@ -105,7 +105,7 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .getQuotation(quotationIdentifier.gqId)
           .pipe(
-            map((item: Quotation) => this.priceService.addCalculations(item)),
+            map((item: Quotation) => PriceService.addCalculations(item)),
             catchError((errorMessage) =>
               of(loadQuotationFailure({ errorMessage }))
             )
@@ -303,8 +303,7 @@ export class ProcessCaseEffect {
     private readonly store: Store<fromRouter.AppState>,
     private readonly router: Router,
     private readonly validationService: ValidationService,
-    private readonly snackBarService: SnackBarService,
-    private readonly priceService: PriceService
+    private readonly snackBarService: SnackBarService
   ) {}
 
   private static mapQueryParamsToIdentifier(
