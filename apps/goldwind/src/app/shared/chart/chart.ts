@@ -79,7 +79,8 @@ const tooltipFormatter = (params: any): any => {
           Lsp 15:&nbsp;&nbsp;${params.data.value[7].toLocaleString(
             DATE_FORMAT.local
           )}<br />`;
-  } else if (params.seriesName === 'Generator') {
+  }
+  if (params.seriesName === 'Generator') {
     return `${params.seriesName}<br />
     Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;${params.data.value[0].toLocaleString(
       DATE_FORMAT.local
