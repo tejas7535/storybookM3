@@ -1,5 +1,4 @@
-import { GaugeColors } from 'apps/goldwind/src/app/shared/chart/chart';
-
+import { GaugeColors } from '../../../../shared/chart/chart';
 import { initialState } from '../../reducers/load-sense/load-sense.reducer';
 import {
   getLiveStatus,
