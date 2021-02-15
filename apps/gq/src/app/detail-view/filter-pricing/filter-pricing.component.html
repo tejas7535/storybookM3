@@ -1,43 +1,18 @@
 <div *transloco="let t; read: 'detailView.filterPricing'">
   <mat-card>
-    <mat-card-title> {{ t('title') }} </mat-card-title>
-    <mat-card-content>
-      <div fxLayout="row">
-        <div fxFlex="70%" fxLayoutAlign="center start">
-          <mat-form-field appearance="outline">
-            <mat-label> {{ t('label') }} </mat-label>
-            <input
-              [formControl]="manualPriceFormControl"
-              (keydown)="onKeyPress($event, manualPrice)"
-              (paste)="onPaste($event)"
-              class="input-field"
-              type="number"
-              #manualPrice
-              matInput
-            />
-            <mat-hint
-              class="noPermission"
-              [ngClass]="{
-                noPermission: manualPricePermission
-              }"
-            >
-              {{ t(!manualPricePermission ? 'hint' : 'noPermissionHint') }}
-            </mat-hint>
-          </mat-form-field>
-        </div>
-        <div fxFlex="30%">
-          <button
-            mat-raised-button
-            color="primary"
-            class="select"
-            (click)="selectPrice()"
-            [disabled]="manualPricePermission || !manualPriceFormControl.value"
-          >
-            <mat-icon>check_circle</mat-icon>
-            {{ t('selected') | uppercase }}
-          </button>
-        </div>
-      </div>
-    </mat-card-content>
+    <mat-card-title> {{ t('manualPrice.title') }} </mat-card-title>
+    <gq-manual-price
+      [manualPricePermission]="manualPricePermission$ | ngrxPush"
+      [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
+      (selectManualPrice)="selectManualPrice($event)"
+    ></gq-manual-price>
+  </mat-card>
+  <mat-card *ngIf="(selectedQuotationDetail$ | ngrxPush).recommendedPrice">
+    <mat-card-title> {{ t('gqPrice.title') }} </mat-card-title>
+    <gq-price
+      [quotationDetail]="selectedQuotationDetail$ | ngrxPush"
+      (selectManualPrice)="selectManualPrice($event)"
+    >
+    </gq-price>
   </mat-card>
 </div>

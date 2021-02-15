@@ -31,6 +31,7 @@ export class PriceService {
       ...detail,
       percentDifference: this.calculatePercentDiffernce(detail),
       netValue: this.calculateNetValue(detail.price, detail.orderQuantity),
+      gpi: this.calculateGPI(detail.price, detail.gpc),
     };
 
     return updatedDetail;
@@ -45,7 +46,9 @@ export class PriceService {
       detail.price;
 
     if (currentPrice && lastPrice) {
-      return Math.round(((currentPrice - lastPrice) / lastPrice) * 10000) / 100;
+      const priceDiff = (currentPrice - lastPrice) / lastPrice;
+
+      return this.roundToTwoDecimals(priceDiff);
     }
 
     return undefined;
@@ -57,5 +60,19 @@ export class PriceService {
     }
 
     return undefined;
+  }
+
+  public calculateGPI(price: number, gpc: number): number {
+    if (price && gpc) {
+      const gpi = (price - gpc) / price;
+
+      return this.roundToTwoDecimals(gpi);
+    }
+
+    return undefined;
+  }
+
+  public roundToTwoDecimals(number: number): number {
+    return Math.round(number * 10000) / 100;
   }
 }

@@ -4,18 +4,23 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { updateQuotationDetails } from '../../core/store';
+import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { FilterPricingComponent } from './filter-pricing.component';
+import { GqPriceModule } from './gq-price/gq-price.module';
+import { ManualPriceModule } from './manual-price/manual-price.module';
 
 describe('FilterPricingComponent', () => {
   let component: FilterPricingComponent;
   let spectator: Spectator<FilterPricingComponent>;
+  let mockStore: MockStore<ProcessCaseState>;
+
   const createComponent = createComponentFactory({
     component: FilterPricingComponent,
     detectChanges: false,
@@ -24,16 +29,28 @@ describe('FilterPricingComponent', () => {
       MatCardModule,
       MatIconModule,
       MatInputModule,
+      ManualPriceModule,
+      GqPriceModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({}),
     ],
-    providers: [provideMockStore({})],
+    providers: [
+      provideMockStore({
+        initialState: {
+          processCase: {
+            quotation: {},
+          },
+        },
+      }),
+    ],
     declarations: [FilterPricingComponent],
   });
 
   beforeEach(() => {
     spectator = createComponent();
+    mockStore = spectator.inject(MockStore);
+
     component = spectator.debugElement.componentInstance;
   });
 
@@ -41,77 +58,44 @@ describe('FilterPricingComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('selectPrice', () => {
-    test('should emit Output EventEmitter', () => {
-      component.selectManualPrice.emit = jest.fn();
-      component.manualPriceFormControl = { value: 1 } as any;
+  describe('ngOnInit', () => {
+    test('should define observables', () => {
+      component['subscription'].add = jest.fn();
 
-      component.selectPrice();
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
 
-      expect(component.selectManualPrice.emit).toHaveBeenCalledWith(1);
+      expect(component.manualPricePermission$).toBeDefined();
+      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
     });
   });
-  describe('Input setter', () => {
-    test('should set currentPrice', () => {
-      component.manualPriceFormControl = {
-        setValue: jest.fn(),
-      } as any;
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component['subscription'].unsubscribe = jest.fn();
 
-      component.currentPrice = 10;
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
-        1
-      );
-    });
-    test('should set manualPricePermission', () => {
-      component.manualPricePermission = true;
-      expect(component.manualPriceFormControl).toBeDefined();
-      expect(component.manualPriceFormControl.disabled).toBe(false);
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
     });
   });
-  describe('onKeyPress', () => {
-    test('should prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
 
-      component.onKeyPress(event, manualPriceInput);
+  describe('selectManualPrice', () => {
+    test('should dispatch action', () => {
+      component.gqPositionId = '1234';
+      mockStore.dispatch = jest.fn();
 
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20 };
+      component.selectManualPrice(10);
 
-      component.onKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default', () => {
-      const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
-
-      component.onKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-  });
-  describe('onPaste', () => {
-    test('should set price', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => 20.022),
-        },
-        preventDefault: jest.fn(),
-      } as any;
-      component.manualPriceFormControl = { setValue: jest.fn() } as any;
-
-      component.onPaste(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
-        1
-      );
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledWith(
-        20.02
+      expect(mockStore.dispatch).toHaveBeenLastCalledWith(
+        updateQuotationDetails({
+          quotationDetailIDs: [
+            {
+              gqPositionId: '1234',
+              price: 10,
+            },
+          ],
+        })
       );
     });
   });

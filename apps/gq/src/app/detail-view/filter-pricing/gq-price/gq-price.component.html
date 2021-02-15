@@ -1,0 +1,70 @@
+<div *ngIf="quotationDetail">
+  <div
+    fxLayout="row"
+    *transloco="let t; read: 'detailView.filterPricing.gqPrice'"
+  >
+    <div fxFlex="70%">
+      <div fxLayout="row" fxLayoutAlign="start start">
+        <div class="box" fxFlex>
+          <div class="label">{{ t('priceLabel') }}:</div>
+          <div class="row" fxLayout="row" fxLayoutAlign="start center">
+            <div FxFlex>
+              <span>{{ quotationDetail.recommendedPrice }}</span
+              ><span *ngIf="customerCurrency$ | ngrxPush as currency">
+                {{ currency }}</span
+              >
+            </div>
+          </div>
+        </div>
+        <div class="box" fxFlex>
+          <div class="label">{{ t('gpi') }}:</div>
+          <div class="row" fxLayout="row" fxLayoutAlign="start center">
+            <span>{{ gpi }} %</span>
+          </div>
+        </div>
+        <div class="box" fxFlex>
+          <div class="label">{{ t('quantity') }}:</div>
+          <div class="row" fxLayout="row" fxLayoutAlign="start center">
+            <span>{{ quotationDetail.orderQuantity }}</span>
+          </div>
+        </div>
+        <div class="box" fxFlex *ngIf="quotationDetail.gqRating">
+          <div class="label">{{ t('rating') }}:</div>
+          <div class="row" fxLayout="row" fxLayoutAlign="start center">
+            <ng-container
+              *ngFor="
+                let i of [].constructor(quotationDetail.gqRating);
+                trackBy: trackByFn
+              "
+            >
+              <mat-icon
+                class="rating-icon"
+                fontSet="schaeffler-icons"
+                fontIcon="icon-star"
+              ></mat-icon>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div fxFlex *transloco="let t; read: 'detailView.filterPricing'">
+      <button
+        mat-raised-button
+        color="primary"
+        *ngIf="
+          quotationDetail.price === quotationDetail.recommendedPrice;
+          else select
+        "
+      >
+        <mat-icon>check_circle</mat-icon>
+        {{ t('selected') | uppercase }}
+      </button>
+      <ng-template #select>
+        <button mat-stroked-button color="primary" (click)="selectPrice()">
+          <mat-icon>check_circle</mat-icon>
+          {{ t('select') | uppercase }}
+        </button>
+      </ng-template>
+    </div>
+  </div>
+</div>
