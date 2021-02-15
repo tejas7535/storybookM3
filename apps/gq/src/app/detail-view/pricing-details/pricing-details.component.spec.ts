@@ -3,6 +3,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -23,6 +24,7 @@ describe('PricingDetailsComponent', () => {
       MaterialDetailsModule,
       MatExpansionModule,
       provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],
     declarations: [PricingDetailsComponent],
@@ -35,5 +37,13 @@ describe('PricingDetailsComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should set observable', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+      expect(component.materialDetails$).toBeDefined();
+    });
   });
 });

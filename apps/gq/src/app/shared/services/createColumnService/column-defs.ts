@@ -36,13 +36,13 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialNumber'
     ),
-    field: 'materialNumber15',
+    field: 'material.materialNumber15',
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.materialDescription'
     ),
-    field: 'materialDescription',
+    field: 'material.materialDescription',
   },
   {
     headerName: translate(
@@ -58,23 +58,19 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.currency'),
-    // TODO: use currency from quotation ?
     field: 'unit',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.per'),
-    // TODO: where does this column come from ?
     valueFormatter: () => '1',
     field: 'per',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.uom'),
-    // where does this come from??
-    field: 'priceUnit',
+    field: 'material.baseUoM',
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.netValue'),
-    // where does this come from ?
     field: 'netValue',
     valueFormatter: numberFormatter,
   },
@@ -100,7 +96,6 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
-    // where does this come from?
     field: ColumnFields.GPI,
     valueFormatter: percentageFormatter,
   },
@@ -145,12 +140,10 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.productLine'),
-    // currently missing in the database
-    field: 'productLine',
+    field: 'material.productLineId',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.gspd'),
-    // currently missing in the database
-    field: 'gspd',
+    headerName: translate('processCaseView.quotationDetailsTable.gpsd'),
+    field: 'material.gpsdGroupId',
   },
 ];

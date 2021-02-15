@@ -1,4 +1,4 @@
-import { QuotationDetail } from '../../app/core/store/models';
+import { MaterialDetails, QuotationDetail } from '../../app/core/store/models';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
@@ -11,8 +11,10 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   addedToOffer: false,
   gqPositionId: '5694232',
   sapQuotationItemId: '1234',
-  materialNumber15: '016718798-0030',
-  materialDescription: '6052-M-C3',
+  material: ({
+    materialNumber15: '016718798-0030',
+    materialDescription: '6052-M-C3',
+  } as unknown) as MaterialDetails,
   orderQuantity: 10,
   plant: { plantNumber: '1', plantDesignation: 'desc' },
   productionPlant: { plantNumber: '1', plantDesignation: 'desc' },

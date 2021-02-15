@@ -4,11 +4,7 @@
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
-  *ngIf="
-    (materialLoading$ | ngrxPush) === false &&
-      (quotationLoading$ | ngrxPush) === false;
-    else loading
-  "
+  *ngIf="(quotationLoading$ | ngrxPush) === false; else loading"
 >
   <mat-drawer-content
     *ngIf="quotation$ | ngrxPush as quotation"
@@ -19,9 +15,7 @@
     <mat-card>
       <gq-case-header
         [gqId]="quotation.gqId"
-        [materialNumberAndDescription]="
-          materialNumberAndDescription$ | ngrxPush
-        "
+        [material]="material$ | ngrxPush"
         (toggleOfferDrawer)="drawer.toggle()"
       ></gq-case-header>
     </mat-card>

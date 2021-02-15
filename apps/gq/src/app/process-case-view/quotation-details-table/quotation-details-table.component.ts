@@ -23,7 +23,7 @@ import {
 } from './config';
 
 @Component({
-  selector: 'gq-result-table',
+  selector: 'gq-quotation-details-table',
   templateUrl: './quotation-details-table.component.html',
   styleUrls: ['./quotation-details-table.component.scss'],
 })

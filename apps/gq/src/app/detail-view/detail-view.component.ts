@@ -5,13 +5,16 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import {
-  getMaterialNumberAndDescription,
+  getMaterialOfSelectedQuotationDetail,
   getOffer,
   getQuotation,
-  isMaterialLoading,
   isQuotationLoading,
 } from '../core/store';
-import { Quotation, QuotationDetail } from '../core/store/models';
+import {
+  MaterialDetails,
+  Quotation,
+  QuotationDetail,
+} from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -21,25 +24,18 @@ import { ProcessCaseState } from '../core/store/reducers/process-case/process-ca
 })
 export class DetailViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
-  public offer$: Observable<QuotationDetail[]>;
-  public materialNumberAndDescription$: Observable<any>;
-  public materialLoading$: Observable<boolean>;
   public quotationLoading$: Observable<boolean>;
-  public manualPricePermission$: Observable<boolean>;
-  public gqPositionId: string;
+  public offer$: Observable<QuotationDetail[]>;
+  public material$: Observable<MaterialDetails>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
   public ngOnInit(): void {
     this.quotation$ = this.store.pipe(select(getQuotation));
-    this.materialNumberAndDescription$ = this.store.pipe(
-      select(getMaterialNumberAndDescription)
-    );
-    this.materialNumberAndDescription$ = this.store.pipe(
-      select(getMaterialNumberAndDescription)
-    );
-    this.materialLoading$ = this.store.pipe(select(isMaterialLoading));
     this.quotationLoading$ = this.store.pipe(select(isQuotationLoading));
+    this.material$ = this.store.pipe(
+      select(getMaterialOfSelectedQuotationDetail)
+    );
   }
 
   getOffer(): void {

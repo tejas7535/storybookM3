@@ -135,3 +135,8 @@ export const getCustomerCurrency = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): string => state.customer.item.currency
 );
+
+export const getMaterialOfSelectedQuotationDetail = createSelector(
+  getSelectedQuotationDetail,
+  (detail: QuotationDetail) => detail?.material
+);

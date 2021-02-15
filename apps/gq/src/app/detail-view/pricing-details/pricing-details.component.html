@@ -9,7 +9,9 @@
               {{ t('materialDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <gq-material-details></gq-material-details>
+          <gq-material-details
+            [materialDetails]="materialDetails$ | ngrxPush"
+          ></gq-material-details>
         </mat-expansion-panel>
         <mat-expansion-panel>
           <mat-expansion-panel-header>

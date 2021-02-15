@@ -9,7 +9,6 @@ import {
 
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
-import * as fromDetailCase from './detail-case/detail-case.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
 
@@ -22,7 +21,6 @@ export interface RouterStateUrl {
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
   case: fromCase.CaseState;
-  detailCase: fromDetailCase.DetailState;
   processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
 }
@@ -30,7 +28,6 @@ export interface AppState {
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
   case: fromCase.createCaseReducer,
-  detailCase: fromDetailCase.detailCaseReducer,
   processCase: fromProcessCase.processCaseReducer,
   viewCases: fromViewCases.viewCasesReducer,
 };
@@ -49,9 +46,6 @@ export const getProcessCaseState = createFeatureSelector<fromProcessCase.Process
 
 export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 
-export const getDetailState = createFeatureSelector<fromDetailCase.DetailState>(
-  'detailCase'
-);
 export const getViewCasesState = createFeatureSelector<fromViewCases.ViewCasesState>(
   'viewCases'
 );

@@ -32,11 +32,14 @@ import {
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
+  loadQuotationFromUrl,
+  loadSelectedQuotationDetailFromUrl,
   pasteRowDataItemsToAddMaterial,
   removeMaterials,
   removeMaterialsFailure,
   removeMaterialsSuccess,
   selectQuotation,
+  setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
@@ -120,7 +123,7 @@ export class ProcessCaseEffect {
     )
   );
 
-  selectQuotation$ = createEffect(() =>
+  loadFromUrl$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
@@ -131,8 +134,46 @@ export class ProcessCaseEffect {
           routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0 ||
           routerState.url.indexOf(AppRoutePath.OfferViewPath) >= 0
       ),
-      map((routerState) =>
-        ProcessCaseEffect.mapQueryParamsToIdentifier(routerState.queryParams)
+      mergeMap((routerState) => {
+        if (routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0) {
+          return [
+            loadSelectedQuotationDetailFromUrl({
+              gqPositionId: routerState.queryParams['gqPositionId'],
+            }),
+            loadQuotationFromUrl({ queryParams: routerState.queryParams }),
+          ];
+        }
+
+        return [loadQuotationFromUrl({ queryParams: routerState.queryParams })];
+      })
+    )
+  );
+
+  loadSelectedQuotationDetailFromUrl$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadSelectedQuotationDetailFromUrl),
+      map((action: any) => action.gqPositionId),
+      filter((gqPositionId: string) => {
+        if (!gqPositionId) {
+          this.router.navigate(['not-found']);
+        }
+
+        return gqPositionId !== undefined;
+      }),
+      map((gqPositionId: string) =>
+        setSelectedQuotationDetail({
+          gqPositionId,
+        })
+      )
+    )
+  );
+
+  loadQuotationFromUrl$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadQuotationFromUrl),
+      map((action: any) => action.queryParams),
+      map((queryParams) =>
+        ProcessCaseEffect.mapQueryParamsToIdentifier(queryParams)
       ),
       filter((quotationIdentifier: QuotationIdentifier) => {
         if (quotationIdentifier === undefined) {

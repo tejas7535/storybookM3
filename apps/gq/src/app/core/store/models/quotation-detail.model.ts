@@ -1,3 +1,4 @@
+import { MaterialDetails } from './material-details.model';
 import { Plant } from './plant.model';
 
 export class QuotationDetail {
@@ -11,8 +12,7 @@ export class QuotationDetail {
   public addedToOffer: boolean;
   public gqPositionId: string;
   public sapQuotationItemId: string;
-  public materialNumber15: string;
-  public materialDescription: string;
+  public material: MaterialDetails;
   public orderQuantity: number;
   public plant: Plant;
   public productionPlant: Plant;

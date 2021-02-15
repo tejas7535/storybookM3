@@ -137,7 +137,7 @@
     },
     "quotationDetailsTable": {
       "currency": "Currency",
-      "gspd": "GSPD",
+      "gpsd": "GPSD",
       "gpc": "GPC",
       "gpi": "GPI %",
       "info": "Info",
