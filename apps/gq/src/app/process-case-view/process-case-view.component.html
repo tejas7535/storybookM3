@@ -22,7 +22,9 @@
       [quotation]="quotation$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
-    <gq-result-table [rowData]="quotation.quotationDetails"></gq-result-table>
+    <gq-quotation-details-table
+      [rowData]="quotation.quotationDetails"
+    ></gq-quotation-details-table>
   </mat-drawer-content>
   <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer

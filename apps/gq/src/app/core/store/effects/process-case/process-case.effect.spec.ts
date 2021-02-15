@@ -41,7 +41,12 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import { updateQuotationDetails } from '../../actions/process-case/process-case.action';
+import {
+  loadQuotationFromUrl,
+  loadSelectedQuotationDetailFromUrl,
+  setSelectedQuotationDetail,
+  updateQuotationDetails,
+} from '../../actions/process-case/process-case.action';
 import {
   MaterialTableItem,
   MaterialValidation,
@@ -229,60 +234,136 @@ describe('ProcessCaseEffect', () => {
     });
   });
 
-  describe('selectQuotation$', () => {
-    test('should return select selectQuotation Action', () => {
-      const differentQuotationIdentifier: QuotationIdentifier = {
-        customerNumber: '123',
-        gqId: 1,
-        salesOrg: '02',
+  describe('loadFromUrl$', () => {
+    test('should return loadQuotationFromUrl', () => {
+      const queryParams = {
+        gqId: 12334,
+        customerNumber: '3456',
+        salesOrg: '0267',
+        gqPositionId: '5678',
       };
-      store.overrideSelector(
-        getSelectedQuotationIdentifier,
-        differentQuotationIdentifier
-      );
 
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
           routerState: {
+            queryParams,
             url: `/${AppRoutePath.ProcessCaseViewPath}`,
-            queryParams: {
-              quotation_number: QUOTATION_IDENTIFIER_MOCK.gqId,
-              customer_number: QUOTATION_IDENTIFIER_MOCK.customerNumber,
-              sales_org: QUOTATION_IDENTIFIER_MOCK.salesOrg,
-            },
           },
         },
       };
 
       actions$ = hot('-a', { a: action });
 
-      const result = selectQuotation({
-        quotationIdentifier: QUOTATION_IDENTIFIER_MOCK,
+      const result = loadQuotationFromUrl({
+        queryParams,
       });
       const expected = cold('-b', { b: result });
 
-      expect(effects.selectQuotation$).toBeObservable(expected);
+      expect(effects.loadFromUrl$).toBeObservable(expected);
+    });
+    test('should return loadQuotationFromUrl and loadSelectedQuotationDetailFromUrl', () => {
+      const queryParams = {
+        gqId: 12334,
+        customerNumber: '3456',
+        salesOrg: '0267',
+        gqPositionId: '5678',
+      };
+
+      action = {
+        type: ROUTER_NAVIGATED,
+        payload: {
+          routerState: {
+            queryParams,
+            url: `/${AppRoutePath.DetailViewPath}`,
+          },
+        },
+      };
+
+      actions$ = hot('-a', { a: action });
+
+      const resultB = loadQuotationFromUrl({
+        queryParams,
+      });
+
+      const resultC = loadSelectedQuotationDetailFromUrl({
+        gqPositionId: queryParams.gqPositionId,
+      });
+      const expected = cold('-(cb)', { b: resultB, c: resultC });
+
+      expect(effects.loadFromUrl$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadSelectedQuotationDetailFromUrl$', () => {
+    test('should return setSelectedQuotationDetail', () => {
+      action = loadSelectedQuotationDetailFromUrl({ gqPositionId: '1234' });
+      actions$ = hot('-a', { a: action });
+
+      const result = setSelectedQuotationDetail({ gqPositionId: '1234' });
+      const expected = cold('-b', { b: result });
+
+      expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
+        expected
+      );
     });
 
     test('should navigate to not-found if URL is not valid', () => {
       router.navigate = jest.fn();
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/process-case',
-            queryParams: {
-              any_number: '456789',
-            },
-          },
-        },
-      };
+      action = loadSelectedQuotationDetailFromUrl({ gqPositionId: undefined });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('---');
 
-      expect(effects.selectQuotation$).toBeObservable(expected);
+      expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
+        expected
+      );
+      expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+    });
+  });
+
+  describe('loadQuotationFromUrl$', () => {
+    test('should return selectQuotation', () => {
+      const queryParams = {
+        quotation_number: 123,
+        customer_number: '124',
+        sales_org: '456',
+      };
+      const identifier = {
+        gqId: 123,
+        customerNumber: '1246',
+        salesOrg: '4567',
+      };
+      store.overrideSelector(getSelectedQuotationIdentifier, identifier);
+      action = loadQuotationFromUrl({ queryParams });
+      actions$ = hot('-a', { a: action });
+
+      const result = selectQuotation({
+        quotationIdentifier: {
+          gqId: 123,
+          customerNumber: '124',
+          salesOrg: '456',
+        },
+      });
+      const expected = cold('-b', { b: result });
+
+      expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
+    });
+
+    test('should navigate to not-found if URL is not valid', () => {
+      router.navigate = jest.fn();
+      const identifier = {
+        gqId: 123,
+        customerNumber: '1246',
+        salesOrg: '4567',
+      };
+      store.overrideSelector(getSelectedQuotationIdentifier, identifier);
+      action = loadQuotationFromUrl({ queryParams: {} });
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('---');
+
+      expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
       expect(router.navigate).toHaveBeenCalledWith(['not-found']);
     });
   });

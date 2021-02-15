@@ -37,11 +37,10 @@ export class DetailViewButtonComponent {
   }
 
   showDetailView(): void {
-    const { materialNumber15, gqPositionId } = this.selections[0];
+    const { gqPositionId } = this.selections[0];
     this.router.navigate([AppRoutePath.DetailViewPath], {
       queryParamsHandling: 'merge',
       queryParams: {
-        materialNumber15,
         gqPositionId,
       },
     });

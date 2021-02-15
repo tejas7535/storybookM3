@@ -11,7 +11,9 @@ import {
   loadCustomerSuccess,
   loadQuotation,
   loadQuotationFailure,
+  loadQuotationFromUrl,
   loadQuotationSuccess,
+  loadSelectedQuotationDetailFromUrl,
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -86,11 +88,39 @@ describe('CaseActions', () => {
       });
     });
 
-    test('', () => {
+    test('addMaterials', () => {
       action = addMaterials();
 
       expect(action).toEqual({
         type: '[Process Case] Add material to Quotation',
+      });
+    });
+
+    test('setSelectedQuotationDetail', () => {
+      const gqPositionId = '1234';
+      action = setSelectedQuotationDetail({ gqPositionId });
+
+      expect(action).toEqual({
+        gqPositionId,
+        type: '[Process Case] Set Selected GqPositionId',
+      });
+    });
+    test('loadSelectedQuotationDetailFromUrl', () => {
+      const gqPositionId = '1234';
+      action = loadSelectedQuotationDetailFromUrl({ gqPositionId });
+
+      expect(action).toEqual({
+        gqPositionId,
+        type: '[Process Case] Load selected quotation detail from URL',
+      });
+    });
+    test('loadQuotationFromUrl', () => {
+      const queryParams = {};
+      action = loadQuotationFromUrl({ queryParams });
+
+      expect(action).toEqual({
+        queryParams,
+        type: '[Process Case] Load quotation from URL',
       });
     });
   });
@@ -141,16 +171,6 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Offer] Update QuotationDetails Failure',
-      });
-    });
-
-    test('setSelectedQuotationDetail', () => {
-      const gqPositionId = '1234';
-      action = setSelectedQuotationDetail({ gqPositionId });
-
-      expect(action).toEqual({
-        gqPositionId,
-        type: '[Process Case] Set Selected GqPositionId',
       });
     });
   });

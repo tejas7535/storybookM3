@@ -23,9 +23,7 @@
         <span *ngIf="sapId" class="additionalInfo">{{
           sapId | sapQuotation
         }}</span>
-        <span *ngIf="materialNumberAndDescription">
-          {{ materialNumberAndDescription | materialInfo }}</span
-        >
+        <span *ngIf="material"> {{ material | materialInfo }}</span>
         <span fxLayout="row" *ngIf="quotation">
           <mat-icon
             [matMenuTriggerFor]="infoMenu"

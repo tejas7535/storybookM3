@@ -118,6 +118,16 @@ export const setSelectedQuotationDetail = createAction(
   props<{ gqPositionId: string }>()
 );
 
+export const loadSelectedQuotationDetailFromUrl = createAction(
+  '[Process Case] Load selected quotation detail from URL',
+  props<{ gqPositionId: string }>()
+);
+
+export const loadQuotationFromUrl = createAction(
+  '[Process Case] Load quotation from URL',
+  props<{ queryParams: any }>()
+);
+
 const all = union({
   addMaterials,
   deleteAddMaterialRowDataItem,
@@ -137,6 +147,8 @@ const all = union({
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
   setSelectedQuotationDetail,
+  loadSelectedQuotationDetailFromUrl,
+  loadQuotationFromUrl,
 });
 
 export type CaseActions = typeof all;

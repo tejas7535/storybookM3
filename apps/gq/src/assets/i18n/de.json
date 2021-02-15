@@ -138,7 +138,7 @@
     "quotationDetailsTable": {
       "currency": "Currency",
       "gpi": "Preisspanne",
-      "gspd": "GSPD",
+      "gpsd": "GPSD",
       "gpc": "GPC",
       "info": "Info",
       "item": "Item",

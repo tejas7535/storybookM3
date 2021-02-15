@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Customer, Quotation } from '../../core/store/models';
+import { Customer, MaterialDetails, Quotation } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../core/store/selectors';
 
@@ -18,9 +18,8 @@ import { getCustomer } from '../../core/store/selectors';
 export class CaseHeaderComponent implements OnInit {
   @Input() gqId: number;
   @Input() sapId: string;
-  @Input() materialNumber15: string;
   @Input() customerName: string;
-  @Input() materialNumberAndDescription: any;
+  @Input() material: MaterialDetails;
   @Input() offerScreen: boolean;
   @Input() quotation: Quotation;
 
