@@ -91,10 +91,12 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpc'),
     field: ColumnFields.GPC,
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.sqv'),
     field: ColumnFields.SQV,
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
@@ -106,6 +108,7 @@ export const COLUMN_DEFS: ColDef[] = [
       'processCaseView.quotationDetailsTable.lastCustomerPrice'
     ),
     field: 'lastCustomerPrice',
+    valueFormatter: numberFormatter,
   },
   {
     headerName: translate(
