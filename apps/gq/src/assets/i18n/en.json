@@ -73,11 +73,21 @@
   },
   "detailView": {
     "filterPricing": {
-      "hint": "Enter a manual price",
-      "label": "Manual Price",
-      "noPermissionHint": "You do not have the permission to create a manual price",
-      "title": "Manual Pricing",
-      "selected": "select"
+      "manualPrice": {
+        "hint": "Enter a manual price",
+        "label": "Manual Price",
+        "noPermissionHint": "You do not have the permission to create a manual price",
+        "title": "Manual Pricing"
+      },
+      "gqPrice": {
+        "title": "GQ Pricing",
+        "priceLabel": "Price",
+        "rating": "GQ-Rating",
+        "gpi": "GPI% (GPC)",
+        "quantity": "Quantity"
+      },
+      "select": "select",
+      "selected": "selected"
     },
     "pricingDetails": {
       "label": "Pricing Details",

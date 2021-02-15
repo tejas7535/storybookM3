@@ -28,12 +28,7 @@
 
     <div class="container" fxLayout="row" fxLayoutAlign="space-between none">
       <div fxFlex="50%">
-        <gq-filter-pricing
-          [manualPricePermission]="manualPricePermission$ | ngrxPush"
-          [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
-          (selectManualPrice)="selectManualPrice($event)"
-        >
-        </gq-filter-pricing>
+        <gq-filter-pricing> </gq-filter-pricing>
       </div>
       <div fxFlex="50%">
         <gq-pricing-details> </gq-pricing-details>

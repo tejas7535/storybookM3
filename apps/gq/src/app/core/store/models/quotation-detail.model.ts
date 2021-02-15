@@ -17,6 +17,7 @@ export class QuotationDetail {
   public plant: Plant;
   public productionPlant: Plant;
   public price: number;
+  public gqRating: number;
   public recommendedPrice: number;
   public lastCustomerPrice: number;
   public percentDifference: number;
@@ -30,4 +31,5 @@ export class QuotationDetail {
   // properties added in GQ application
   public margin: number;
   public netValue: number;
+  public gpi: number;
 }

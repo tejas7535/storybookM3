@@ -1,58 +1,64 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { KeyName } from '@ag-grid-community/all-modules';
+import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
+
+import { select, Store } from '@ngrx/store';
+
+import { getRoles } from '@schaeffler/auth';
+
+import {
+  getSelectedQuotationDetail,
+  getSelectedQuotationDetailId,
+  updateQuotationDetails,
+} from '../../core/store';
+import {
+  QuotationDetail,
+  UpdateQuotationDetail,
+} from '../../core/store/models';
+import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
+import { UserRoles } from '../../shared/roles/user-roles.enum';
 
 @Component({
   selector: 'gq-filter-pricing',
   templateUrl: './filter-pricing.component.html',
   styleUrls: ['./filter-pricing.component.scss'],
 })
-export class FilterPricingComponent {
-  manualPriceFormControl: FormControl;
+export class FilterPricingComponent implements OnInit, OnDestroy {
+  private readonly subscription: Subscription = new Subscription();
+  public gqPositionId: string;
+  public manualPricePermission$: Observable<boolean>;
+  public selectedQuotationDetail$: Observable<QuotationDetail>;
 
-  @Input() set currentPrice(value: number) {
-    this.manualPriceFormControl.setValue(value);
-  }
-  @Input() set manualPricePermission(value: boolean) {
-    this.manualPriceFormControl = new FormControl({
-      value: '',
-      disabled: !value,
-    });
-  }
-  @Output() readonly selectManualPrice = new EventEmitter<number>();
+  constructor(private readonly store: Store<ProcessCaseState>) {}
 
-  onKeyPress(event: KeyboardEvent, manualPriceInput: any): void {
-    const parsedInput = parseInt(event.key, 10);
-    const isValidNumber = parsedInput === 0 || !isNaN(parsedInput);
+  public ngOnInit(): void {
+    this.selectedQuotationDetail$ = this.store.pipe(
+      select(getSelectedQuotationDetail)
+    );
+    this.manualPricePermission$ = this.store.pipe(
+      select(getRoles),
+      map((roles) => roles.includes(UserRoles.MANUAL_PRICE))
+    );
 
-    if (
-      isValidNumber &&
-      event.key !== KeyName.BACKSPACE &&
-      event.key !== KeyName.DELETE
-    ) {
-      const value: number = manualPriceInput.value;
-      // get all decimal digits for the input value
-      const decimalDigits = value ? value.toString().split('.') : [];
-
-      // prevent user from entering a third decimal place
-      if (decimalDigits[1]?.length > 1) {
-        event.preventDefault();
-      }
-    }
+    this.subscription.add(
+      this.store
+        .pipe(select(getSelectedQuotationDetailId))
+        .subscribe((id) => (this.gqPositionId = id))
+    );
   }
 
-  onPaste(event: ClipboardEvent): void {
-    event.preventDefault();
-    const price =
-      Math.round(parseFloat(event.clipboardData.getData('text')) * 100) / 100;
-
-    if (price) {
-      this.manualPriceFormControl.setValue(price);
-    }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
-  selectPrice(): void {
-    this.selectManualPrice.emit(this.manualPriceFormControl.value);
+  selectManualPrice(price: number): void {
+    const quotationDetailIDs: UpdateQuotationDetail[] = [
+      {
+        price,
+        gqPositionId: this.gqPositionId,
+      },
+    ];
+    this.store.dispatch(updateQuotationDetails({ quotationDetailIDs }));
   }
 }

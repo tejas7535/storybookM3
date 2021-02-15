@@ -11,14 +11,18 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { FilterPricingComponent } from './filter-pricing.component';
+import { GqPriceModule } from './gq-price/gq-price.module';
+import { ManualPriceModule } from './manual-price/manual-price.module';
 
 @NgModule({
   declarations: [FilterPricingComponent],
   imports: [
+    ManualPriceModule,
     MatButtonModule,
     MatCardModule,
     MatIconModule,
     MatInputModule,
+    GqPriceModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     SharedModule,

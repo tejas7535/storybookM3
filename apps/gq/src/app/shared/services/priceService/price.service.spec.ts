@@ -55,9 +55,14 @@ describe('PriceService', () => {
       const detail = QUOTATION_DETAIL_MOCK;
       service.calculatePercentDiffernce = jest.fn(() => 1);
       service.calculateNetValue = jest.fn(() => 2);
-
+      service.calculateGPI = jest.fn(() => 3);
       const result = service.addCalculationsForDetail(detail);
-      expect(result).toEqual({ ...detail, percentDifference: 1, netValue: 2 });
+      expect(result).toEqual({
+        ...detail,
+        percentDifference: 1,
+        netValue: 2,
+        gpi: 3,
+      });
       expect(service.calculatePercentDiffernce).toHaveBeenCalledTimes(1);
       expect(service.calculateNetValue).toHaveBeenCalledTimes(1);
     });
@@ -97,6 +102,31 @@ describe('PriceService', () => {
     test('should return undefined', () => {
       const result = service.calculateNetValue(undefined, 10);
       expect(result).toBeUndefined();
+    });
+  });
+  describe('calculateGPI', () => {
+    test('should return gpi', () => {
+      const price = 25;
+      const gpc = 20;
+
+      const result = service.calculateGPI(price, gpc);
+
+      expect(result).toEqual(20);
+    });
+    test('should return undefined', () => {
+      const price = 25;
+      const gpc = undefined as any;
+
+      const result = service.calculateGPI(price, gpc);
+
+      expect(result).toEqual(undefined);
+    });
+  });
+
+  describe('roundToTwoDecimals', () => {
+    test('should round to two decimals', () => {
+      const result = service.roundToTwoDecimals(0.5555);
+      expect(result).toEqual(55.55);
     });
   });
 });

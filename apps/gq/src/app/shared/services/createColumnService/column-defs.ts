@@ -102,6 +102,7 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
     // where does this come from?
     field: ColumnFields.GPI,
+    valueFormatter: percentageFormatter,
   },
   {
     headerName: translate(

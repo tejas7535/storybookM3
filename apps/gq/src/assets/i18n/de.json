@@ -73,11 +73,21 @@
   },
   "detailView": {
     "filterPricing": {
-      "title": "Manueller Preis",
-      "label": "Manueller Preis",
-      "hint": "Geben Sie einen manuellen Preis ein",
-      "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen",
-      "selected": "auswählen"
+      "manualPrice": {
+        "title": "Manueller Preis",
+        "label": "Manueller Preis",
+        "hint": "Geben Sie einen manuellen Preis ein",
+        "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen"
+      },
+      "gqPrice": {
+        "title": "GQ Preis",
+        "priceLabel": "Preis",
+        "rating": "GQ-Bewertung",
+        "gpi": "GPI% (KHK)",
+        "quantity": "Menge"
+      },
+      "select": "auswählen",
+      "selected": "ausgewählt"
     },
     "pricingDetails": {
       "label": "Preis Details",

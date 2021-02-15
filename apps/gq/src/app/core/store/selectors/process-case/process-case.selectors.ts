@@ -130,3 +130,8 @@ export const getSelectedQuotationDetail = createSelector(
         )
       : undefined
 );
+
+export const getCustomerCurrency = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): string => state.customer.item.currency
+);

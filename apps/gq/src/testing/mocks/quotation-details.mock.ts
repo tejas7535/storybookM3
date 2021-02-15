@@ -17,6 +17,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   plant: { plantNumber: '1', plantDesignation: 'desc' },
   productionPlant: { plantNumber: '1', plantDesignation: 'desc' },
   price: 200,
+  gqRating: 2,
   recommendedPrice: 250,
   lastCustomerPrice: 170,
   percentDifference: 17.65,
@@ -28,4 +29,5 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   margin: 8953,
   netValue: 2000,
   priceSource: 'MokSource',
+  gpi: 90,
 };
