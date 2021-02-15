@@ -111,7 +111,6 @@
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@ngneat/spectator": "7.0.0",
-    "@ngneat/tailwind": "6.0.3",
     "@ngneat/transloco-keys-manager": "2.7.1",
     "@ngneat/transloco-optimize": "1.0.2",
     "@ngneat/transloco-validator": "1.0.1",
