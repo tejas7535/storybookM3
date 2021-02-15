@@ -22,15 +22,12 @@ export class GqPriceComponent implements OnInit {
   @Input() quotationDetail: QuotationDetail;
   @Output() readonly selectManualPrice = new EventEmitter<number>();
 
-  constructor(
-    private readonly store: Store<ProcessCaseState>,
-    private readonly priceService: PriceService
-  ) {}
+  constructor(private readonly store: Store<ProcessCaseState>) {}
 
   ngOnInit(): void {
     this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
     if (this.quotationDetail) {
-      this.gpi = this.priceService.calculateGPI(
+      this.gpi = PriceService.calculateGPI(
         this.quotationDetail.recommendedPrice,
         this.quotationDetail.gpc
       );

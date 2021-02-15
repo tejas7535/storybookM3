@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 
+import { Action } from '@ngrx/store';
+
 import { loadQuotationSuccess } from '../../../core/store/actions/process-case/process-case.action';
 import { Quotation, QuotationDetail } from '../../../core/store/models';
 
@@ -7,10 +9,10 @@ import { Quotation, QuotationDetail } from '../../../core/store/models';
   providedIn: 'root',
 })
 export class PriceService {
-  public addCalculations(quotation: Quotation): any {
+  static addCalculations(quotation: Quotation): Action {
     const item: Quotation = {
       ...quotation,
-      quotationDetails: this.addCalculationsForDetails(
+      quotationDetails: PriceService.addCalculationsForDetails(
         quotation.quotationDetails
       ),
     };
@@ -20,24 +22,29 @@ export class PriceService {
     });
   }
 
-  public addCalculationsForDetails(
+  static addCalculationsForDetails(
     details: QuotationDetail[]
   ): QuotationDetail[] {
-    return details.map((detail) => this.addCalculationsForDetail(detail));
+    return details.map((detail) =>
+      PriceService.addCalculationsForDetail(detail)
+    );
   }
 
-  public addCalculationsForDetail(detail: QuotationDetail): QuotationDetail {
+  static addCalculationsForDetail(detail: QuotationDetail): QuotationDetail {
     const updatedDetail: QuotationDetail = {
       ...detail,
-      percentDifference: this.calculatePercentDiffernce(detail),
-      netValue: this.calculateNetValue(detail.price, detail.orderQuantity),
-      gpi: this.calculateGPI(detail.price, detail.gpc),
+      gpi: PriceService.calculateGPI(detail.price, detail.gpc),
+      percentDifference: PriceService.calculatePercentDiffernce(detail),
+      netValue: PriceService.calculateNetValue(
+        detail.price,
+        detail.orderQuantity
+      ),
     };
 
     return updatedDetail;
   }
 
-  public calculatePercentDiffernce(detail: QuotationDetail): number {
+  static calculatePercentDiffernce(detail: QuotationDetail): number {
     const lastPrice = detail.lastCustomerPrice;
     const currentPrice =
       // Use finalRecommendedSelling Price for the business price when price source is there
@@ -48,13 +55,13 @@ export class PriceService {
     if (currentPrice && lastPrice) {
       const priceDiff = (currentPrice - lastPrice) / lastPrice;
 
-      return this.roundToTwoDecimals(priceDiff);
+      return PriceService.roundToTwoDecimals(priceDiff);
     }
 
     return undefined;
   }
 
-  public calculateNetValue(price: number, quantity: number): number {
+  static calculateNetValue(price: number, quantity: number): number {
     if (price && quantity) {
       return price * quantity;
     }
@@ -62,17 +69,17 @@ export class PriceService {
     return undefined;
   }
 
-  public calculateGPI(price: number, gpc: number): number {
+  static calculateGPI(price: number, gpc: number): number {
     if (price && gpc) {
       const gpi = (price - gpc) / price;
 
-      return this.roundToTwoDecimals(gpi);
+      return PriceService.roundToTwoDecimals(gpi);
     }
 
     return undefined;
   }
 
-  public roundToTwoDecimals(number: number): number {
+  static roundToTwoDecimals(number: number): number {
     return Math.round(number * 10000) / 100;
   }
 }

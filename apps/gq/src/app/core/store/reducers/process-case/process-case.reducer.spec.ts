@@ -4,6 +4,7 @@ import {
   QUOTATION_MOCK,
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
+import { PriceService } from '../../../../shared/services/priceService/price.service';
 import {
   addMaterialRowDataItem,
   addMaterials,
@@ -37,7 +38,10 @@ import {
   UpdateQuotationDetail,
 } from '../../models';
 import { dummyRowData } from '../create-case/config/dummy-row-data';
-import { processCaseReducer } from './process-case.reducer';
+import {
+  processCaseReducer,
+  updateQuotationDetailsArray,
+} from './process-case.reducer';
 
 describe('Quotation Reducer', () => {
   const errorMessage = 'An error occured';
@@ -528,6 +532,24 @@ describe('Quotation Reducer', () => {
 
       expect(state.quotation.selectedQuotationDetail).toEqual(gqPositionId);
     });
+  });
+});
+
+describe('updateQuotationDetailsArray', () => {
+  test('should add calculations', () => {
+    const quotationDetailIDs: UpdateQuotationDetail[] = [
+      {
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        price: 10,
+      },
+    ];
+    PriceService.addCalculationsForDetail = jest.fn(
+      () => QUOTATION_DETAIL_MOCK
+    );
+
+    updateQuotationDetailsArray([QUOTATION_DETAIL_MOCK], quotationDetailIDs);
+
+    expect(PriceService.addCalculationsForDetail).toHaveBeenCalledTimes(1);
   });
 });
 // tslint:disable-next-line: max-file-line-count

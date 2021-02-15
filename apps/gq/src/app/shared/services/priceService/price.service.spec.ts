@@ -1,6 +1,3 @@
-import { SpectatorService } from '@ngneat/spectator';
-import { createServiceFactory } from '@ngneat/spectator/jest';
-
 import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
@@ -9,28 +6,13 @@ import { loadQuotationSuccess } from '../../../core/store';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
-  let service: PriceService;
-  let spectator: SpectatorService<PriceService>;
-  const createService = createServiceFactory({
-    service: PriceService,
-  });
-
-  beforeEach(() => {
-    spectator = createService();
-    service = spectator.service;
-  });
-
-  test('should be created', () => {
-    expect(service).toBeTruthy();
-  });
-
   describe('addCalculations', () => {
     test('should call addCalculations', () => {
-      service.addCalculationsForDetails = jest
+      PriceService.addCalculationsForDetails = jest
         .fn()
         .mockReturnValue([QUOTATION_DETAIL_MOCK]);
 
-      const result = service.addCalculations(QUOTATION_MOCK);
+      const result = PriceService.addCalculations(QUOTATION_MOCK);
 
       expect(result).toEqual({
         item: QUOTATION_MOCK,
@@ -42,29 +24,23 @@ describe('PriceService', () => {
   describe('addCalculationForDetails', () => {
     test('should call addCalculationForDetail', () => {
       const details = [QUOTATION_DETAIL_MOCK];
-      service.addCalculationsForDetail = jest.fn(() => details[0]);
+      PriceService.addCalculationsForDetail = jest.fn(() => details[0]);
 
-      const result = service.addCalculationsForDetails(details);
+      const result = PriceService.addCalculationsForDetails(details);
       expect(result).toEqual(result);
-      expect(service.addCalculationsForDetail).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('addCalculationForDetail', () => {
     test('should return detail', () => {
       const detail = QUOTATION_DETAIL_MOCK;
-      service.calculatePercentDiffernce = jest.fn(() => 1);
-      service.calculateNetValue = jest.fn(() => 2);
-      service.calculateGPI = jest.fn(() => 3);
-      const result = service.addCalculationsForDetail(detail);
+
+      const result = PriceService.addCalculationsForDetail(detail);
       expect(result).toEqual({
         ...detail,
-        percentDifference: 1,
-        netValue: 2,
-        gpi: 3,
+        percentDifference: QUOTATION_DETAIL_MOCK.percentDifference,
+        netValue: QUOTATION_DETAIL_MOCK.netValue,
       });
-      expect(service.calculatePercentDiffernce).toHaveBeenCalledTimes(1);
-      expect(service.calculateNetValue).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -75,7 +51,7 @@ describe('PriceService', () => {
         price: 120,
       } as any;
 
-      const result = service.calculatePercentDiffernce(detail);
+      const result = PriceService.calculatePercentDiffernce(detail);
 
       expect(result).toEqual(9.09);
     });
@@ -85,7 +61,7 @@ describe('PriceService', () => {
         price: 100,
       } as any;
 
-      const result = service.calculatePercentDiffernce(detail);
+      const result = PriceService.calculatePercentDiffernce(detail);
 
       expect(result).toEqual(undefined);
     });
@@ -96,11 +72,11 @@ describe('PriceService', () => {
       const price = 10;
       const quantity = 5;
 
-      const result = service.calculateNetValue(price, quantity);
+      const result = PriceService.calculateNetValue(price, quantity);
       expect(result).toEqual(50);
     });
     test('should return undefined', () => {
-      const result = service.calculateNetValue(undefined, 10);
+      const result = PriceService.calculateNetValue(undefined, 10);
       expect(result).toBeUndefined();
     });
   });
@@ -109,7 +85,7 @@ describe('PriceService', () => {
       const price = 25;
       const gpc = 20;
 
-      const result = service.calculateGPI(price, gpc);
+      const result = PriceService.calculateGPI(price, gpc);
 
       expect(result).toEqual(20);
     });
@@ -117,7 +93,7 @@ describe('PriceService', () => {
       const price = 25;
       const gpc = undefined as any;
 
-      const result = service.calculateGPI(price, gpc);
+      const result = PriceService.calculateGPI(price, gpc);
 
       expect(result).toEqual(undefined);
     });
@@ -125,7 +101,7 @@ describe('PriceService', () => {
 
   describe('roundToTwoDecimals', () => {
     test('should round to two decimals', () => {
-      const result = service.roundToTwoDecimals(0.5555);
+      const result = PriceService.roundToTwoDecimals(0.5555);
       expect(result).toEqual(55.55);
     });
   });

@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { PriceService } from '../../../../shared/services/priceService/price.service';
 import { TableService } from '../../../../shared/services/tableService/table.service';
 import {
   addMaterialRowDataItem,
@@ -30,7 +31,9 @@ import {
   Customer,
   MaterialTableItem,
   Quotation,
+  QuotationDetail,
   QuotationIdentifier,
+  UpdateQuotationDetail,
   ValidationDescription,
 } from '../../models';
 import {
@@ -155,26 +158,9 @@ export const processCaseReducer = createReducer(
         ...state.quotation,
         item: {
           ...state.quotation.item,
-          quotationDetails: [...state.quotation.item.quotationDetails].map(
-            (quotationDetail) => {
-              const update = quotationDetailIDs.find(
-                (elem) => elem.gqPositionId === quotationDetail.gqPositionId
-              );
-
-              return update
-                ? {
-                    ...quotationDetail,
-                    // only update addedToOffer if value is set
-                    // all transactions within a quotation have the same value for this property
-                    addedToOffer:
-                      update.addedToOffer !== undefined
-                        ? update.addedToOffer
-                        : quotationDetail.addedToOffer,
-                    // only update price if value is set
-                    price: update.price ? update.price : quotationDetail.price,
-                  }
-                : quotationDetail;
-            }
+          quotationDetails: updateQuotationDetailsArray(
+            [...state.quotation.item.quotationDetails],
+            quotationDetailIDs
           ),
         },
         updateLoading: false,
@@ -355,6 +341,37 @@ export const processCaseReducer = createReducer(
     })
   )
 );
+
+export const updateQuotationDetailsArray = (
+  quotationDetails: QuotationDetail[],
+  quotationDetailIDs: UpdateQuotationDetail[]
+): QuotationDetail[] => {
+  return quotationDetails.map((quotationDetail) => {
+    const update = quotationDetailIDs.find(
+      (elem) => elem.gqPositionId === quotationDetail.gqPositionId
+    );
+
+    if (update) {
+      const updatedDetail = {
+        ...quotationDetail,
+        // only update addedToOffer if value is set
+        // all transactions within a quotation have the same value for this property
+        addedToOffer:
+          update.addedToOffer !== undefined
+            ? update.addedToOffer
+            : quotationDetail.addedToOffer,
+        // only update price if value is set
+        price: update.price ? update.price : quotationDetail.price,
+      };
+
+      return update.price
+        ? PriceService.addCalculationsForDetail(updatedDetail)
+        : updatedDetail;
+    }
+
+    return quotationDetail;
+  });
+};
 
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(
