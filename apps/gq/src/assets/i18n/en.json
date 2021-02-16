@@ -236,11 +236,11 @@
         "resetAll": "Reset All"
       },
       "totalRowCount": {
-        "selectedMargin": "Selected Average Margin",
+        "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
         "selectedNetValue": "Selected Net Value",
-        "totalMargin": "Total Average Margin",
+        "totalAverageGPI": "Total Weigh. Avg. GPI %",
         "totalNetValue": "Total Net Value",
-        "offerMargin": "Offered Average Margin",
+        "offerAverageGPI": "Offered Weigh. Avg. GPI %",
         "offerNetValue": "Offered Net Value"
       },
       "uploadToSAPButton": {

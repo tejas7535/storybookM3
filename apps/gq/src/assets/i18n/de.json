@@ -236,12 +236,12 @@
         "resetAll": "Reset All"
       },
       "totalRowCount": {
-        "selectedMargin": "Ausgewählte durchschnittliche Marge",
-        "selectedNetValue": "Ausgewählte durchschnittliche Summe",
-        "totalMargin": "Gesamt durchschnittliche Marge",
-        "totalNetValue": "Gesamtsumme",
-        "offerMargin": "Angebotene durchschn. Marge",
-        "offerNetValue": "Angebotene Gesamtsumme"
+        "selectedAverageGPI": "Ausgewählter gew. ø GPI%",
+        "selectedNetValue": "Ausgewählter Nettowert",
+        "totalAverageGPI": "Gesamt gew. ø GPI%",
+        "totalNetValue": "Gesamt Nettowert",
+        "offerAverageGPI": "Angebotener gew. ø GPI%",
+        "offerNetValue": "Angebotener Nettowert"
       },
       "uploadToSAPButton": {
         "uploadToSAP": "Angebot zu SAP hochladen"

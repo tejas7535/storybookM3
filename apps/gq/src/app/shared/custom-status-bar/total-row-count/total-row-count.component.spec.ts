@@ -11,7 +11,13 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { UserRoles } from '../../roles/user-roles.enum';
+import { PriceService } from '../../services/price-service/price.service';
 import { TotalRowCountComponent } from './total-row-count.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('TotalRowCountComponent', () => {
   let component: TotalRowCountComponent;
@@ -34,6 +40,9 @@ describe('TotalRowCountComponent', () => {
           auth: {
             token: {},
           },
+          processCase: {
+            customer: { item: {} },
+          },
         },
       }),
     ],
@@ -47,7 +56,7 @@ describe('TotalRowCountComponent', () => {
       api: {
         addEventListener: jest.fn(),
         getSelectedRows: jest.fn().mockReturnValue([QUOTATION_DETAIL_MOCK]),
-        forEachLeafNode: jest.fn(),
+        forEachNode: jest.fn(),
       },
     } as unknown) as IStatusPanelParams;
   });
@@ -63,10 +72,10 @@ describe('TotalRowCountComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.showMargins$).toBeTruthy();
+      expect(component.showAverageGPI$).toBeTruthy();
     });
   });
-  describe('onrowDataChanged', () => {
+  describe('onRowDataChanged', () => {
     beforeEach(() => {
       component['params'] = params;
       component.onSelectionChange = jest.fn();
@@ -74,24 +83,23 @@ describe('TotalRowCountComponent', () => {
     test('should set margin and Value if data exists', () => {
       const rowNode = {
         data: {
-          netValue: 10,
-          margin: 15,
+          netValue: QUOTATION_DETAIL_MOCK.netValue,
+          gpi: QUOTATION_DETAIL_MOCK.gpi,
         },
       };
-      component['params'].api.forEachLeafNode = jest.fn((callback) =>
-        callback(rowNode as any)
+      PriceService.calculateStatusBarValues = jest.fn(() => ({
+        netValue: QUOTATION_DETAIL_MOCK.netValue,
+        weightedGPI: QUOTATION_DETAIL_MOCK.gpi,
+      }));
+      component['params'].api.forEachNode = jest.fn((callback) =>
+        callback(rowNode as any, 1)
       );
 
       component.rowValueChanges();
 
-      expect(component.totalNetValue).toEqual(10);
-      expect(component.totalMargin).toEqual(15);
-      expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
-    });
-    test('should not set if no data exists', () => {
-      component.rowValueChanges();
-      expect(component.totalNetValue).toEqual(0);
-      expect(component.totalMargin).toEqual(0);
+      expect(component.totalNetValue).toEqual(QUOTATION_DETAIL_MOCK.netValue);
+      expect(component.totalAverageGPI).toEqual(QUOTATION_DETAIL_MOCK.gpi);
+      expect(PriceService.calculateStatusBarValues).toHaveBeenCalledTimes(1);
       expect(component.onSelectionChange).toHaveBeenCalledTimes(1);
     });
   });
@@ -102,7 +110,7 @@ describe('TotalRowCountComponent', () => {
       component.onSelectionChange();
 
       expect(params.api.getSelectedRows).toHaveBeenCalled();
-      expect(component.selectedMargin).toEqual(QUOTATION_DETAIL_MOCK.margin);
+      expect(component.selectedAverageGPI).toEqual(QUOTATION_DETAIL_MOCK.gpi);
       expect(component.selectedNetValue).toEqual(
         QUOTATION_DETAIL_MOCK.netValue
       );

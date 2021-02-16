@@ -6,15 +6,17 @@
 >
   <div fxLayout class="count" *ngIf="selections.length && !isOfferTable">
     <div>{{ t('selectedNetValue') }}:&nbsp;</div>
-    {{ selectedNetValue | number: '.2' }}
+    <span *ngIf="customerCurrency$ | ngrxPush as currency">
+      {{ selectedNetValue | number: '.2' }} {{ currency }}
+    </span>
   </div>
   <div
     fxLayout
     class="count"
-    *ngIf="selections.length && !isOfferTable && (showMargins$ | ngrxPush)"
+    *ngIf="selections.length && !isOfferTable && (showAverageGPI$ | ngrxPush)"
   >
-    <div>{{ t('selectedMargin') }}:&nbsp;</div>
-    {{ selectedMargin }} %
+    <div>{{ t('selectedAverageGPI') }}:&nbsp;</div>
+    {{ selectedAverageGPI }} %
   </div>
   <div fxLayout class="count">
     <div *ngIf="!isOfferTable; else offerValue">
@@ -23,15 +25,17 @@
     <ng-template #offerValue>
       <div>{{ t('offerNetValue') }}:&nbsp;</div>
     </ng-template>
-    {{ totalNetValue | number: '.2' }}
+    <span *ngIf="customerCurrency$ | ngrxPush as currency"
+      >{{ totalNetValue | number: '.2' }} {{ currency }}</span
+    >
   </div>
-  <div fxLayout class="count" *ngIf="showMargins$ | ngrxPush">
+  <div fxLayout class="count" *ngIf="showAverageGPI$ | ngrxPush">
     <div *ngIf="!isOfferTable; else offerMargin">
-      {{ t('totalMargin') }}:&nbsp;
+      {{ t('totalAverageGPI') }}:&nbsp;
     </div>
     <ng-template #offerMargin>
-      <div>{{ t('offerMargin') }}:&nbsp;</div>
+      <div>{{ t('offerAverageGPI') }}:&nbsp;</div>
     </ng-template>
-    {{ totalMargin }} %
+    {{ totalAverageGPI }} %
   </div>
 </div>

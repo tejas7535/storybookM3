@@ -4,6 +4,7 @@ import { AgGridModule } from '@ag-grid-community/angular';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { CellRendererModule } from '../cell-renderer/cell-renderer.module';
 import { CustomStatusBarModule } from '../custom-status-bar/custom-status-bar.module';
 import { ExportToExcelButtonComponent } from '../custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { FinishOfferButtonComponent } from '../custom-status-bar/finish-offer-button/finish-offer-button.component';
@@ -23,6 +24,7 @@ import { OfferTableComponent } from './offer-table.component';
       ExportToExcelButtonComponent,
       TotalRowCountComponent,
     ]),
+    CellRendererModule,
     CustomStatusBarModule,
     SharedModule,
     SharedTranslocoModule,
