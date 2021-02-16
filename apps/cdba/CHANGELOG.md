@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.16.0](///compare/cdba-v1.16.0...cdba-v1.15.3) (2021-02-16)
+
+
+### 🎸 Features
+
+* **cdba:** support different material number notations in filter (DSCDA-2128) ([671e864](///commit/671e8644ec0a8c8cc5b27349cc5dade49ad8c82e))
+* **transloco:** support cache busting (DSCDA-1780) ([b3977ae](///commit/b3977aefd6534d8be3689f2240bac6f4b5861fa8))
+
 ### [1.15.3](///compare/cdba-v1.15.3...cdba-v1.15.2) (2021-02-02)
 
 
