@@ -10,11 +10,7 @@ import {
   getQuotation,
   isQuotationLoading,
 } from '../core/store';
-import {
-  MaterialDetails,
-  Quotation,
-  QuotationDetail,
-} from '../core/store/models';
+import { MaterialDetails, Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -25,7 +21,7 @@ import { ProcessCaseState } from '../core/store/reducers/process-case/process-ca
 export class DetailViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
   public quotationLoading$: Observable<boolean>;
-  public offer$: Observable<QuotationDetail[]>;
+  public offer$: Observable<Quotation>;
   public material$: Observable<MaterialDetails>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}

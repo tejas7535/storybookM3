@@ -21,7 +21,7 @@ import {
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
 import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
-import { ValidationService } from '../../../../shared/services/validationService/validation.service';
+import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
 import {
   addMaterials,
   addMaterialsFailure,

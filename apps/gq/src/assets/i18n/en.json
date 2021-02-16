@@ -136,7 +136,6 @@
       "title": "Add Material"
     },
     "quotationDetailsTable": {
-      "currency": "Currency",
       "gpsd": "GPSD",
       "gpc": "GPC",
       "gpi": "GPI %",

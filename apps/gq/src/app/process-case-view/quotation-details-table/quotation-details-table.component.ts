@@ -13,8 +13,9 @@ import { select, Store } from '@ngrx/store';
 import { getRoles } from '@schaeffler/auth';
 
 import { AppState } from '../../core/store';
-import { QuotationDetail } from '../../core/store/models';
-import { ColumnUtilityService } from '../../shared/services/createColumnService/column-utility.service';
+import { Quotation, QuotationDetail } from '../../core/store/models';
+import { COLUMN_DEFS } from '../../shared/services/create-column-service/column-defs';
+import { ColumnUtilityService } from '../../shared/services/create-column-service/column-utility.service';
 import {
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,
@@ -28,7 +29,16 @@ import {
   styleUrls: ['./quotation-details-table.component.scss'],
 })
 export class QuotationDetailsTableComponent implements OnInit {
-  @Input() rowData: QuotationDetail[];
+  rowData: QuotationDetail[];
+
+  tableContext: any = {
+    currency: undefined,
+  };
+
+  @Input() set quotation(quotation: Quotation) {
+    this.rowData = quotation?.quotationDetails;
+    this.tableContext.currency = quotation?.currency;
+  }
 
   modules: any[] = MODULES;
 
@@ -47,7 +57,9 @@ export class QuotationDetailsTableComponent implements OnInit {
   ngOnInit(): void {
     this.columnDefs$ = this.store.pipe(
       select(getRoles),
-      map((roles) => ColumnUtilityService.createColumnDefs(roles, true))
+      map((roles) =>
+        ColumnUtilityService.createColumnDefs(roles, true, COLUMN_DEFS)
+      )
     );
   }
 

@@ -34,7 +34,7 @@
       fxLayout="column"
       fxFlexFill
       *ngIf="offer$ | ngrxPush"
-      [rowData]="offer$ | ngrxPush"
+      [quotation]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-offer-drawer>
   </mat-drawer>

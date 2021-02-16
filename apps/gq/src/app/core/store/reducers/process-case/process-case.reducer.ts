@@ -1,7 +1,7 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { PriceService } from '../../../../shared/services/priceService/price.service';
-import { TableService } from '../../../../shared/services/tableService/table.service';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addMaterialRowDataItem,
   addMaterials,

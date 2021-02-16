@@ -8,8 +8,9 @@ import { select, Store } from '@ngrx/store';
 import { getRoles } from '@schaeffler/auth';
 
 import { AppState } from '../../core/store';
-import { QuotationDetail } from '../../core/store/models';
-import { ColumnUtilityService } from '../services/createColumnService/column-utility.service';
+import { Quotation, QuotationDetail } from '../../core/store/models';
+import { COLUMN_DEFS } from '../services/create-column-service/column-defs';
+import { ColumnUtilityService } from '../services/create-column-service/column-utility.service';
 import {
   COLUMN_DEFS_SHORT,
   DEFAULT_COLUMN_DEFS,
@@ -26,7 +27,16 @@ import {
   styleUrls: ['./offer-table.component.scss'],
 })
 export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
-  @Input() rowData: QuotationDetail[];
+  rowData: QuotationDetail[];
+
+  tableContext: any = {
+    currency: undefined,
+  };
+
+  @Input() set quotation(quotation: Quotation) {
+    this.rowData = quotation?.quotationDetails;
+    this.tableContext.currency = quotation?.currency;
+  }
 
   @Input() drawerTable = false;
 
@@ -54,7 +64,7 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
         this.roles = roles;
         this.columnDefs = this.drawerTable
           ? COLUMN_DEFS_SHORT
-          : ColumnUtilityService.createColumnDefs(roles, false);
+          : ColumnUtilityService.createColumnDefs(roles, false, COLUMN_DEFS);
       })
     );
   }
@@ -72,7 +82,7 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(): void {
     this.columnDefs = this.drawerTable
       ? COLUMN_DEFS_SHORT
-      : ColumnUtilityService.createColumnDefs(this.roles, false);
+      : ColumnUtilityService.createColumnDefs(this.roles, false, COLUMN_DEFS);
     this.frameworkComponents = this.drawerTable
       ? FRAMEWORK_COMPONENTS
       : FRAMEWORK_COMPONENTS_FINISH_OFFER;

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
-
 import { Observable } from 'rxjs';
 
-import { Quotation, QuotationDetail } from '../core/store/models';
+import { select, Store } from '@ngrx/store';
+
+import { Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import {
   getOffer,
@@ -20,7 +20,7 @@ import {
 })
 export class ProcessCaseViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
-  public offer$: Observable<QuotationDetail[]>;
+  public offer$: Observable<Quotation>;
   public isCustomerLoading$: Observable<boolean>;
   public isQuotationLoading$: Observable<boolean>;
 

@@ -15,7 +15,7 @@ import { AutocompleteService } from '../../../../case-view/create-case-dialog/se
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
 import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
-import { ValidationService } from '../../../../shared/services/validationService/validation.service';
+import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
 import {
   autocomplete,
   autocompleteFailure,

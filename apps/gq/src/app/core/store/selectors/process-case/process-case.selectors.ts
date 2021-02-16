@@ -39,12 +39,15 @@ export const getSelectedQuotationIdentifier = createSelector(
 
 export const getOffer = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): QuotationDetail[] =>
+  (state: ProcessCaseState): Quotation =>
     state.quotation.item === undefined
-      ? []
-      : state.quotation.item.quotationDetails.filter(
-          (quotationDetail) => quotationDetail.addedToOffer
-        )
+      ? undefined
+      : {
+          ...state.quotation.item,
+          quotationDetails: state.quotation.item.quotationDetails.filter(
+            (quotationDetail) => quotationDetail.addedToOffer
+          ),
+        }
 );
 
 export const getSapId = createSelector(

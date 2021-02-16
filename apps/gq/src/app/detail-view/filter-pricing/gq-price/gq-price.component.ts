@@ -7,7 +7,7 @@ import { select, Store } from '@ngrx/store';
 import { getCustomerCurrency } from '../../../core/store';
 import { QuotationDetail } from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
-import { PriceService } from '../../../shared/services/priceService/price.service';
+import { PriceService } from '../../../shared/services/price-service/price.service';
 
 @Component({
   selector: 'gq-price',

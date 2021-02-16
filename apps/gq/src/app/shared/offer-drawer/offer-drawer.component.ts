@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { QuotationDetail } from '../../core/store/models';
+import { Quotation } from '../../core/store/models';
 
 @Component({
   selector: 'gq-offer-drawer',
@@ -8,7 +8,7 @@ import { QuotationDetail } from '../../core/store/models';
   styleUrls: ['./offer-drawer.component.scss'],
 })
 export class OfferDrawerComponent {
-  @Input() rowData: QuotationDetail[];
+  @Input() quotation: Quotation;
 
   @Output()
   readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();

@@ -1,13 +1,7 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { NumberFormatPipe } from '../../pipes/number-format.pipe';
-
-export const numberFormatter = (data: any) => {
-  const pipe = new NumberFormatPipe();
-
-  return pipe.transform(data.value, data.column.colId);
-};
+import { ColumnUtilityService } from '../../services/create-column-service/column-utility.service';
 
 export const COLUMN_DEFS_SHORT: ColDef[] = [
   {
@@ -27,16 +21,16 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   {
     headerName: translate('shared.offerTable.price'),
     field: 'price',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.offerTable.netValue'),
     field: 'netValue',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.offerTable.quantity'),
     field: 'orderQuantity',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
 ];

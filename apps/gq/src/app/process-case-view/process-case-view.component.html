@@ -23,7 +23,7 @@
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
     <gq-quotation-details-table
-      [rowData]="quotation.quotationDetails"
+      [quotation]="quotation"
     ></gq-quotation-details-table>
   </mat-drawer-content>
   <mat-drawer #drawer position="end" (opened)="getOffer()">
@@ -31,7 +31,7 @@
       fxLayout="column"
       fxFlexFill
       *ngIf="offer$ | ngrxPush"
-      [rowData]="offer$ | ngrxPush"
+      [quotation]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-offer-drawer>
   </mat-drawer>

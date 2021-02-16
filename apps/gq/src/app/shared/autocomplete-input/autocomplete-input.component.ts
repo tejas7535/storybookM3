@@ -21,7 +21,7 @@ import {
   IdValue,
   SapQuotation,
 } from '../../core/store/models';
-import { TableService } from '../services/tableService/table.service';
+import { TableService } from '../services/table-service/table.service';
 import { FilterNames } from './filter-names.enum';
 
 @Component({
