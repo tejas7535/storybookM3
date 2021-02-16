@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { Customer } from '../../core/store/models';
-import { HelperService } from '../../shared/services/helperService/helper-service.service';
+import { HelperService } from '../../shared/services/helper-service/helper-service.service';
 
 @Component({
   selector: 'gq-customer-information',

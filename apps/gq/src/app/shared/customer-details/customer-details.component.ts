@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { Customer } from '../../core/store/models';
-import { HelperService } from '../services/helperService/helper-service.service';
+import { HelperService } from '../services/helper-service/helper-service.service';
 
 @Component({
   selector: 'gq-customer-details',

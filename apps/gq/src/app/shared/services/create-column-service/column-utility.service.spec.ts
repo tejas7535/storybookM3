@@ -1,3 +1,6 @@
+import { ValueFormatterParams } from '@ag-grid-community/all-modules';
+
+import { ValidationDescription } from '../../../core/store/models';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { COLUMN_DEFS } from './column-defs';
 import { ColumnFields } from './column-fields.enum';
@@ -73,9 +76,96 @@ describe('CreateColumnService', () => {
         UserRoles.COST_SQV,
       ];
 
-      const columns = ColumnUtilityService.createColumnDefs(allRoles, true);
+      const columns = ColumnUtilityService.createColumnDefs(
+        allRoles,
+        true,
+        COLUMN_DEFS
+      );
 
       expect(columns).toEqual(COLUMN_DEFS);
+    });
+  });
+
+  describe('numberFormatter', () => {
+    test('should render number', () => {
+      const params = {
+        value: 1234,
+        column: {
+          colId: 'test',
+        },
+      };
+      const result = ColumnUtilityService.numberFormatter(
+        (params as unknown) as ValueFormatterParams
+      );
+
+      expect(result).toEqual('1,234.00');
+    });
+  });
+
+  describe('numberCurrencyFormatter', () => {
+    test('should render number', () => {
+      const params = {
+        value: 1234,
+        column: {
+          colId: 'test',
+        },
+        context: {
+          currency: 'USD',
+        },
+      };
+      const result = ColumnUtilityService.numberCurrencyFormatter(
+        (params as unknown) as ValueFormatterParams
+      );
+
+      expect(result).toEqual('1,234.00 USD');
+    });
+  });
+
+  describe('percentageFormatter', () => {
+    test('should add %', () => {
+      const result = ColumnUtilityService.percentageFormatter(({
+        value: 10,
+      } as unknown) as ValueFormatterParams);
+
+      expect(result).toEqual('10 %');
+    });
+  });
+
+  describe('infoComparator', () => {
+    let cell1: any;
+    let cell2: any;
+    beforeAll(() => {
+      cell1 = {
+        valid: true,
+        description: [ValidationDescription.Valid],
+      };
+      cell2 = {
+        valid: false,
+        description: [ValidationDescription.MaterialNumberInValid],
+      };
+    });
+
+    test('should short info column', () => {
+      const res = ColumnUtilityService.infoComparator(cell1, cell2);
+      expect(res).toEqual(1);
+    });
+    test('should short info column', () => {
+      cell2.valid = true;
+      const res = ColumnUtilityService.infoComparator(cell1, cell2);
+      expect(res).toEqual(0);
+    });
+    test('should short info column', () => {
+      cell1.valid = false;
+      cell2.valid = true;
+      const res = ColumnUtilityService.infoComparator(cell1, cell2);
+      expect(res).toEqual(-1);
+    });
+  });
+  describe('transformMaterial', () => {
+    test('should call pipe transform', () => {
+      const data = ({ value: 'any' } as any) as ValueFormatterParams;
+      const result = ColumnUtilityService.transformMaterial(data);
+      expect(result).toEqual(data.value);
     });
   });
 });

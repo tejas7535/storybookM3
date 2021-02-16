@@ -1,18 +1,8 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { NumberFormatPipe } from '../../../shared/pipes/number-format.pipe';
 import { ColumnFields } from './column-fields.enum';
-
-export const numberFormatter = (data: any) => {
-  const pipe = new NumberFormatPipe();
-
-  return pipe.transform(data.value, data.column.colId);
-};
-
-export const percentageFormatter = (data: any) => {
-  return data.value ? `${data.value} %` : '';
-};
+import { ColumnUtilityService } from './column-utility.service';
 
 export const COLUMN_DEFS: ColDef[] = [
   {
@@ -49,16 +39,12 @@ export const COLUMN_DEFS: ColDef[] = [
       'processCaseView.quotationDetailsTable.orderQuantity'
     ),
     field: 'orderQuantity',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.offerPrice'),
     field: 'price',
-    valueFormatter: numberFormatter,
-  },
-  {
-    headerName: translate('processCaseView.quotationDetailsTable.currency'),
-    field: 'unit',
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.per'),
@@ -72,7 +58,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.netValue'),
     field: 'netValue',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.priceSource'),
@@ -87,31 +73,31 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpc'),
     field: ColumnFields.GPC,
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.sqv'),
     field: ColumnFields.SQV,
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
     headerName: translate('processCaseView.quotationDetailsTable.gpi'),
     field: ColumnFields.GPI,
-    valueFormatter: percentageFormatter,
+    valueFormatter: ColumnUtilityService.percentageFormatter,
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.lastCustomerPrice'
     ),
     field: 'lastCustomerPrice',
-    valueFormatter: numberFormatter,
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
     headerName: translate(
       'processCaseView.quotationDetailsTable.percentDifference'
     ),
     field: 'percentDifference',
-    valueFormatter: percentageFormatter,
+    valueFormatter: ColumnUtilityService.percentageFormatter,
   },
 
   {

@@ -4,7 +4,7 @@ import {
   QUOTATION_MOCK,
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
-import { PriceService } from '../../../../shared/services/priceService/price.service';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 import {
   addMaterialRowDataItem,
   addMaterials,

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomer, getOffer, isCustomerLoading } from '../core/store';
-import { Customer, QuotationDetail } from '../core/store/models';
+import { Customer, Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -14,7 +14,7 @@ import { ProcessCaseState } from '../core/store/reducers/process-case/process-ca
   styleUrls: ['./customer-view.component.scss'],
 })
 export class CustomerViewComponent implements OnInit {
-  public offer$: Observable<QuotationDetail[]>;
+  public offer$: Observable<Quotation>;
   public customer$: Observable<Customer>;
   public isCustomerLoading$: Observable<boolean>;
 

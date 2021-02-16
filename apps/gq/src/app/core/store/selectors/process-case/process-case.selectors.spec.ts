@@ -78,7 +78,7 @@ describe('Process Case Selector', () => {
         quotationSelectors.getOffer.projector(fakeState.processCase)
       ).toBeTruthy();
     });
-    test('should return empty array if quotation is undefined', () => {
+    test('should return undefined if quotation is undefined', () => {
       const mockState = {
         ...fakeState,
         processCase: {
@@ -91,7 +91,7 @@ describe('Process Case Selector', () => {
       };
       expect(
         quotationSelectors.getOffer.projector(mockState.processCase)
-      ).toBeTruthy();
+      ).toBeUndefined();
     });
   });
 

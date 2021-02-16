@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Quotation, QuotationDetail } from '../core/store/models';
+import { Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import { getOffer, getQuotation } from '../core/store/selectors';
 
@@ -14,7 +14,7 @@ import { getOffer, getQuotation } from '../core/store/selectors';
   styleUrls: ['./offer-view.component.scss'],
 })
 export class OfferViewComponent implements OnInit {
-  public offer$: Observable<QuotationDetail[]>;
+  public offer$: Observable<Quotation>;
   public quotation$: Observable<Quotation>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}

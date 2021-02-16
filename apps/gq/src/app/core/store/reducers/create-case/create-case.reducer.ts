@@ -2,7 +2,7 @@ import { Action, createReducer, on } from '@ngrx/store';
 
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { MaterialTransformPipe } from '../../../../shared/pipes/material-transform.pipe';
-import { TableService } from '../../../../shared/services/tableService/table.service';
+import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addRowDataItem,
   autocomplete,
