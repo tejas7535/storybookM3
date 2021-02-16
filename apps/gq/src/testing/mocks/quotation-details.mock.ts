@@ -28,7 +28,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   sqv: 30,
   rlt: 20,
   productionSegment: 10,
-  margin: 8953,
   netValue: 2000,
   priceSource: 'MokSource',
   gpi: 90,

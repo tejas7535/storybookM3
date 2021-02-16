@@ -99,6 +99,18 @@ describe('PriceService', () => {
     });
   });
 
+  describe('calculateStatusBarValues', () => {
+    test('should return calculatedValues', () => {
+      const details = [QUOTATION_DETAIL_MOCK];
+      const result = PriceService.calculateStatusBarValues(details);
+
+      expect(result).toEqual({
+        netValue: QUOTATION_DETAIL_MOCK.netValue,
+        weightedGPI: QUOTATION_DETAIL_MOCK.gpi,
+      });
+    });
+  });
+
   describe('roundToTwoDecimals', () => {
     test('should round to two decimals', () => {
       const result = PriceService.roundToTwoDecimals(0.5555);

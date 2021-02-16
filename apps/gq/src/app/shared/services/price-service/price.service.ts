@@ -3,7 +3,11 @@ import { Injectable } from '@angular/core';
 import { Action } from '@ngrx/store';
 
 import { loadQuotationSuccess } from '../../../core/store/actions/process-case/process-case.action';
-import { Quotation, QuotationDetail } from '../../../core/store/models';
+import {
+  Quotation,
+  QuotationDetail,
+  StatusBarCalculation,
+} from '../../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
@@ -77,6 +81,24 @@ export class PriceService {
     }
 
     return undefined;
+  }
+
+  static calculateStatusBarValues(
+    details: QuotationDetail[]
+  ): StatusBarCalculation {
+    let netValue = 0;
+    // sum of (gpi% * netValue) of each line
+    let sumGPINetValue = 0;
+
+    details.forEach((row: QuotationDetail) => {
+      netValue += row.netValue;
+      sumGPINetValue += row.gpi * row.netValue;
+    });
+
+    const weightedGPI = Math.round((sumGPINetValue / netValue) * 100) / 100;
+    netValue = Math.round(netValue * 100) / 100;
+
+    return { netValue, weightedGPI };
   }
 
   static roundToTwoDecimals(number: number): number {

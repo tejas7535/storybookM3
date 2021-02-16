@@ -3,14 +3,17 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 import { select, Store } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/auth';
 
-import { AppState } from '../../../core/store';
+import { AppState, getCustomerCurrency } from '../../../core/store';
 import { QuotationDetail } from '../../../core/store/models';
+import { COLUMN_DEFS_SHORT } from '../../offer-table/config/column-defs';
 import { UserRoles } from '../../roles/user-roles.enum';
+import { COLUMN_DEFS } from '../../services/create-column-service/column-defs';
+import { PriceService } from '../../services/price-service/price.service';
 
 @Component({
   selector: 'gq-total-row-count',
@@ -18,22 +21,24 @@ import { UserRoles } from '../../roles/user-roles.enum';
   styleUrls: ['./total-row-count.component.scss'],
 })
 export class TotalRowCountComponent implements OnInit {
-  showMargins$: Observable<boolean>;
+  showAverageGPI$: Observable<boolean>;
+  customerCurrency$: Observable<string>;
   totalNetValue = 0;
-  totalMargin = 0;
-  selections: QuotationDetail[] = [];
+  totalAverageGPI = 0;
   selectedNetValue = 0;
-  selectedMargin = 0;
+  selectedAverageGPI = 0;
   isOfferTable = false;
+  selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
   constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.showMargins$ = this.store.pipe(
+    this.showAverageGPI$ = this.store.pipe(
       select(getRoles),
       map((roles: string[]) => roles.includes(UserRoles.COST_GPC))
     );
+    this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
   }
 
   agInit(params: IStatusPanelParams): void {
@@ -52,47 +57,30 @@ export class TotalRowCountComponent implements OnInit {
   getTableSpec(): void {
     const colDefs = this.params.api.getColumnDefs();
     this.isOfferTable =
-      colDefs.length === 5 || colDefs.length === 22 ? true : false;
+      colDefs.length === COLUMN_DEFS_SHORT.length ||
+      colDefs.length === COLUMN_DEFS.length - 1
+        ? true
+        : false;
   }
+
   rowValueChanges(): void {
     this.onSelectionChange();
 
-    let sumMargin = 0;
-    let totalRowCount = 0;
-    this.totalNetValue = 0;
+    const details: QuotationDetail[] = [];
+    this.params.api.forEachNode((row: RowNode) => details.push(row.data));
+    const allRows = PriceService.calculateStatusBarValues(details);
 
-    this.params.api.forEachLeafNode((rowNode) => {
-      this.totalNetValue += parseFloat(rowNode.data.netValue);
-      this.totalNetValue = parseFloat(this.totalNetValue.toFixed(2));
-      sumMargin += parseFloat(rowNode.data.margin);
-      totalRowCount += 1;
-    });
-
-    if (totalRowCount > 0) {
-      this.totalMargin = parseFloat((sumMargin / totalRowCount).toFixed(2));
-    } else {
-      this.totalMargin = 0;
-      this.totalNetValue = 0;
-      this.selectedMargin = 0;
-      this.selectedNetValue = 0;
-    }
+    this.totalNetValue = allRows.netValue;
+    this.totalAverageGPI = allRows.weightedGPI;
   }
 
   onSelectionChange(): void {
-    let sumMargin = 0;
-    let selectionRowCount = 0;
-    this.selectedNetValue = 0;
-
     this.selections = this.params.api.getSelectedRows();
-    this.selections.forEach((value) => {
-      this.selectedNetValue += value.netValue;
-      this.selectedNetValue = parseFloat(this.selectedNetValue.toFixed(2));
-      sumMargin += value.margin;
-      selectionRowCount += 1;
-    });
-
-    this.selectedMargin = parseFloat(
-      (sumMargin / selectionRowCount).toFixed(2)
+    const selectedDetails = PriceService.calculateStatusBarValues(
+      this.selections
     );
+
+    this.selectedNetValue = selectedDetails.netValue;
+    this.selectedAverageGPI = selectedDetails.weightedGPI;
   }
 }

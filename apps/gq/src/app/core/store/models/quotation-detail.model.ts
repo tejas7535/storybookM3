@@ -29,7 +29,6 @@ export class QuotationDetail {
   public priceSource: string;
 
   // properties added in GQ application
-  public margin: number;
   public netValue: number;
   public gpi: number;
 }

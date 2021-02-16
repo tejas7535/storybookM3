@@ -16,7 +16,7 @@ export const COLUMN_DEFS_SHORT: ColDef[] = [
   },
   {
     headerName: translate('shared.offerTable.materialDescription'),
-    field: 'materialDescription',
+    field: 'material.materialDescription',
   },
   {
     headerName: translate('shared.offerTable.price'),
