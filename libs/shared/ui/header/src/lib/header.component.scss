@@ -20,6 +20,10 @@ mat-toolbar {
   outline: none;
 }
 
+.pointer {
+  cursor: pointer;
+}
+
 .header {
   background-color: $schaeffler-white;
   height: 60px;
@@ -80,8 +84,4 @@ mat-toolbar {
   @media screen and (max-width: $screen-xs-max) {
     top: 73px;
   }
-}
-
-[ng-reflect-router-link] {
-  cursor: pointer;
 }
