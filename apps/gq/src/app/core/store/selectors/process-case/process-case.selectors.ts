@@ -143,3 +143,8 @@ export const getMaterialOfSelectedQuotationDetail = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail) => detail?.material
 );
+
+export const getUpdateLoading = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): boolean => state.quotation.updateLoading
+);

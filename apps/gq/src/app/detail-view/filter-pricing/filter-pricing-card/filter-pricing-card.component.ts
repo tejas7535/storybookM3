@@ -1,0 +1,19 @@
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+@Component({
+  selector: 'gq-filter-pricing-card',
+  templateUrl: './filter-pricing-card.component.html',
+  styleUrls: ['./filter-pricing-card.component.scss'],
+})
+export class FilterPricingCardComponent {
+  @Input() title: string;
+  @Input() isSelected: boolean;
+  @Input() isDisabled: boolean;
+  @Input() isLoading: boolean;
+
+  @Output() readonly selectManualPrice = new EventEmitter();
+
+  selectPrice(): void {
+    this.selectManualPrice.emit();
+  }
+}

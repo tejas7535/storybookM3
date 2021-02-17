@@ -218,4 +218,12 @@ describe('Process Case Selector', () => {
       ).toEqual(fakeState.processCase.quotation.item.quotationDetails[0]);
     });
   });
+
+  describe('getUpdateLoading', () => {
+    test('should return updateLoading', () => {
+      expect(
+        quotationSelectors.getUpdateLoading.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotation.updateLoading);
+    });
+  });
 });

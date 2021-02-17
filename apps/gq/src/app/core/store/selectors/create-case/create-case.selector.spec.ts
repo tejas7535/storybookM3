@@ -118,8 +118,18 @@ describe('Create Case Selector', () => {
     });
   });
   describe('getSalesOrgs', () => {
-    expect(createSelectors.getSalesOrgs.projector(fakeState.case)).toEqual(
-      salesOrgs
-    );
+    test('should return salesOrgs', () => {
+      expect(createSelectors.getSalesOrgs.projector(fakeState.case)).toEqual(
+        salesOrgs
+      );
+    });
+  });
+
+  describe('getCreateCaseLoading', () => {
+    test('should return createCaseLoading', () => {
+      expect(
+        createSelectors.getCreateCaseLoading.projector(fakeState.case)
+      ).toBeFalsy();
+    });
   });
 });

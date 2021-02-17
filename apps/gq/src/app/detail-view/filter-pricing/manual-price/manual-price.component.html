@@ -1,49 +1,30 @@
-<div
-  fxLayout="row"
+<gq-filter-pricing-card
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
+  [title]="title"
+  [isDisabled]="disableInput || !manualPriceFormControl.value"
+  [isSelected]="manualPriceFormControl.value === currentPrice"
+  (selectManualPrice)="selectPrice()"
+  [isLoading]="isLoading"
 >
-  <div fxFlex="70%" fxLayoutAlign="center start">
-    <mat-form-field appearance="outline">
-      <mat-label> {{ t('label') }} </mat-label>
-      <input
-        [formControl]="manualPriceFormControl"
-        [placeholder]="currentPrice"
-        (keydown)="onKeyPress($event, manualPrice)"
-        (paste)="onPaste($event)"
-        class="input-field"
-        type="number"
-        #manualPrice
-        matInput
-      />
-      <mat-hint
-        class="noPermission"
-        [ngClass]="{
-          noPermission: disableInput
-        }"
-      >
-        {{ t(disableInput ? 'noPermissionHint' : 'hint') }}
-      </mat-hint>
-    </mat-form-field>
-  </div>
-  <div fxFlex *transloco="let t; read: 'detailView.filterPricing'">
-    <button
-      mat-raised-button
-      color="primary"
-      *ngIf="currentPrice === manualPriceFormControl.value; else select"
+  <mat-form-field appearance="outline">
+    <mat-label> {{ t('label') }} </mat-label>
+    <input
+      [formControl]="manualPriceFormControl"
+      [placeholder]="currentPrice"
+      (keydown)="onKeyPress($event, manualPrice)"
+      (paste)="onPaste($event)"
+      class="input-field"
+      type="number"
+      #manualPrice
+      matInput
+    />
+    <mat-hint
+      class="noPermission"
+      [ngClass]="{
+        noPermission: disableInput
+      }"
     >
-      <mat-icon>check_circle</mat-icon>
-      {{ t('selected') | uppercase }}
-    </button>
-    <ng-template #select>
-      <button
-        mat-stroked-button
-        color="primary"
-        (click)="selectPrice()"
-        [disabled]="disableInput || !manualPriceFormControl.value"
-      >
-        <mat-icon>check_circle</mat-icon>
-        {{ t('select') | uppercase }}
-      </button>
-    </ng-template>
-  </div>
-</div>
+      {{ t(disableInput ? 'noPermissionHint' : 'hint') }}
+    </mat-hint>
+  </mat-form-field>
+</gq-filter-pricing-card>

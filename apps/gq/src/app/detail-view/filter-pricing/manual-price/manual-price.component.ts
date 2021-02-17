@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { KeyName } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 
 @Component({
   selector: 'gq-manual-price',
@@ -11,6 +12,9 @@ import { KeyName } from '@ag-grid-community/all-modules';
 export class ManualPriceComponent {
   manualPriceFormControl: FormControl;
   disableInput: boolean;
+  _isLoading: boolean;
+
+  title: string = translate('detailView.filterPricing.manualPrice.title');
 
   @Input() currentPrice: number;
 
@@ -21,6 +25,15 @@ export class ManualPriceComponent {
     });
     this.disableInput = !value;
   }
+
+  @Input() set isLoading(value: boolean) {
+    this._isLoading = this.isLoading && value;
+  }
+
+  get isLoading(): boolean {
+    return this._isLoading;
+  }
+
   @Output() readonly selectManualPrice = new EventEmitter<number>();
 
   onKeyPress(event: KeyboardEvent, manualPriceInput: any): void {
@@ -54,6 +67,7 @@ export class ManualPriceComponent {
   }
 
   selectPrice(): void {
+    this._isLoading = true;
     this.selectManualPrice.emit(this.manualPriceFormControl.value);
   }
 }

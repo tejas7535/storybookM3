@@ -10,6 +10,7 @@ import { getRoles } from '@schaeffler/auth';
 import {
   getSelectedQuotationDetail,
   getSelectedQuotationDetailId,
+  getUpdateLoading,
   updateQuotationDetails,
 } from '../../core/store';
 import {
@@ -22,13 +23,13 @@ import { UserRoles } from '../../shared/roles/user-roles.enum';
 @Component({
   selector: 'gq-filter-pricing',
   templateUrl: './filter-pricing.component.html',
-  styleUrls: ['./filter-pricing.component.scss'],
 })
 export class FilterPricingComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
   public gqPositionId: string;
   public manualPricePermission$: Observable<boolean>;
   public selectedQuotationDetail$: Observable<QuotationDetail>;
+  public updateIsLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
@@ -40,7 +41,7 @@ export class FilterPricingComponent implements OnInit, OnDestroy {
       select(getRoles),
       map((roles) => roles.includes(UserRoles.MANUAL_PRICE))
     );
-
+    this.updateIsLoading$ = this.store.pipe(select(getUpdateLoading));
     this.subscription.add(
       this.store
         .pipe(select(getSelectedQuotationDetailId))

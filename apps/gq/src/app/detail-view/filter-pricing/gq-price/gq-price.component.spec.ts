@@ -1,5 +1,4 @@
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -8,8 +7,15 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/quotation-details.mock';
+import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
+import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('GqPriceComponent', () => {
   let component: GqPriceComponent;
@@ -17,11 +23,12 @@ describe('GqPriceComponent', () => {
 
   const createComponent = createComponentFactory({
     component: GqPriceComponent,
+    detectChanges: false,
     imports: [
-      MatButtonModule,
+      MatCardModule,
       MatIconModule,
-      ReactiveFormsModule,
       ReactiveComponentModule,
+      LoadingSpinnerModule,
       provideTranslocoTestingModule({}),
     ],
     providers: [
@@ -36,7 +43,7 @@ describe('GqPriceComponent', () => {
         },
       }),
     ],
-    declarations: [GqPriceComponent],
+    declarations: [GqPriceComponent, FilterPricingCardComponent],
   });
 
   beforeEach(() => {
@@ -58,6 +65,22 @@ describe('GqPriceComponent', () => {
     });
   });
 
+  describe('set isLoading', () => {
+    test('should set isLoading', () => {
+      component._isLoading = false;
+
+      component.isLoading = true;
+
+      expect(component.isLoading).toEqual(false);
+    });
+    test('should set isLoading', () => {
+      component._isLoading = true;
+
+      component.isLoading = true;
+
+      expect(component.isLoading).toEqual(true);
+    });
+  });
   describe('selectPrice', () => {
     test('should emit Output EventEmitter', () => {
       component.selectManualPrice.emit = jest.fn();

@@ -140,3 +140,8 @@ export const getSelectedSalesOrg = createSelector(
   (state: CaseState): SalesOrg =>
     state.createCase.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
 );
+
+export const getCreateCaseLoading = createSelector(
+  getCaseState,
+  (state: CaseState): boolean => state.createCase.createCaseLoading
+);

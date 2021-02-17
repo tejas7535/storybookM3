@@ -1,9 +1,8 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/fonts';
 
-button {
-  font-weight: bold;
-  margin: 10px;
+.container {
+  margin-top: 10px;
   width: 100%;
 }
 
@@ -17,9 +16,11 @@ button {
   font-size: 26px;
   margin-right: 5px;
 }
+
 span {
   font-weight: bold;
 }
+
 .row {
   height: 30px;
 }

@@ -91,12 +91,16 @@ export class PriceService {
     let sumGPINetValue = 0;
 
     details.forEach((row: QuotationDetail) => {
-      netValue += row.netValue;
-      sumGPINetValue += row.gpi * row.netValue;
+      if (row.netValue) {
+        netValue += row.netValue;
+        sumGPINetValue += row.gpi * row.netValue;
+      }
     });
-
-    const weightedGPI = Math.round((sumGPINetValue / netValue) * 100) / 100;
-    netValue = Math.round(netValue * 100) / 100;
+    let weightedGPI = 0;
+    if (netValue !== 0) {
+      weightedGPI = Math.round((sumGPINetValue / netValue) * 100) / 100;
+      netValue = Math.round(netValue * 100) / 100;
+    }
 
     return { netValue, weightedGPI };
   }
