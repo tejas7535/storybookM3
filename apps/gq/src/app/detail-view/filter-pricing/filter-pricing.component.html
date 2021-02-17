@@ -1,18 +1,16 @@
-<div *transloco="let t; read: 'detailView.filterPricing'">
-  <mat-card>
-    <mat-card-title> {{ t('manualPrice.title') }} </mat-card-title>
-    <gq-manual-price
-      [manualPricePermission]="manualPricePermission$ | ngrxPush"
-      [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
-      (selectManualPrice)="selectManualPrice($event)"
-    ></gq-manual-price>
-  </mat-card>
-  <mat-card *ngIf="(selectedQuotationDetail$ | ngrxPush).recommendedPrice">
-    <mat-card-title> {{ t('gqPrice.title') }} </mat-card-title>
-    <gq-price
-      [quotationDetail]="selectedQuotationDetail$ | ngrxPush"
-      (selectManualPrice)="selectManualPrice($event)"
-    >
-    </gq-price>
-  </mat-card>
+<div>
+  <gq-manual-price
+    [manualPricePermission]="manualPricePermission$ | ngrxPush"
+    [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
+    (selectManualPrice)="selectManualPrice($event)"
+    [isLoading]="updateIsLoading$ | ngrxPush"
+  ></gq-manual-price>
+
+  <gq-price
+    *ngIf="(selectedQuotationDetail$ | ngrxPush)?.recommendedPrice"
+    [quotationDetail]="selectedQuotationDetail$ | ngrxPush"
+    (selectManualPrice)="selectManualPrice($event)"
+    [isLoading]="updateIsLoading$ | ngrxPush"
+  >
+  </gq-price>
 </div>

@@ -3,9 +3,16 @@
 
 mat-card {
   margin: 20px 5px 20px 10px;
+  min-height: 120px;
 }
 mat-card-title {
   color: $schaeffler-carbon-gray;
   font-size: $schaeffler-h5;
   font-weight: bold;
+}
+button {
+  font-weight: bold;
+  margin: 10px;
+  margin-top: 15px;
+  width: 100%;
 }

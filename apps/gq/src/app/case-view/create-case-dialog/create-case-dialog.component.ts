@@ -24,6 +24,7 @@ import {
   getCaseCustomer,
   getCaseQuotation,
   getCaseRowData,
+  getCreateCaseLoading,
 } from '../../core/store/selectors/';
 import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 
@@ -35,6 +36,7 @@ import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 export class CreateCaseDialogComponent implements OnInit {
   quotationAutocompleteLoading$: Observable<boolean>;
   customerAutocompleteLoading$: Observable<boolean>;
+  createCaseLoading$: Observable<boolean>;
   quotation$: Observable<CaseFilterItem>;
   customer$: Observable<CaseFilterItem>;
   rowData$: Observable<MaterialTableItem[]>;
@@ -57,6 +59,7 @@ export class CreateCaseDialogComponent implements OnInit {
     this.customerAutocompleteLoading$ = this.store.pipe(
       select(getCaseAutocompleteLoading, FilterNames.CUSTOMER)
     );
+    this.createCaseLoading$ = this.store.pipe(select(getCreateCaseLoading));
     this.quotation$ = this.store.pipe(select(getCaseQuotation));
 
     this.customer$ = this.store.pipe(select(getCaseCustomer));

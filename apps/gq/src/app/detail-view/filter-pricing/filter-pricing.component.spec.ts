@@ -1,5 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -12,9 +13,11 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { updateQuotationDetails } from '../../core/store';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
+import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { FilterPricingComponent } from './filter-pricing.component';
-import { GqPriceModule } from './gq-price/gq-price.module';
-import { ManualPriceModule } from './manual-price/manual-price.module';
+import { GqPriceComponent } from './gq-price/gq-price.component';
+import { ManualPriceComponent } from './manual-price/manual-price.component';
 
 describe('FilterPricingComponent', () => {
   let component: FilterPricingComponent;
@@ -26,11 +29,11 @@ describe('FilterPricingComponent', () => {
     detectChanges: false,
     imports: [
       BrowserAnimationsModule,
+      LoadingSpinnerModule,
       MatCardModule,
       MatIconModule,
+      MatFormFieldModule,
       MatInputModule,
-      ManualPriceModule,
-      GqPriceModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({}),
@@ -44,7 +47,12 @@ describe('FilterPricingComponent', () => {
         },
       }),
     ],
-    declarations: [FilterPricingComponent],
+    declarations: [
+      FilterPricingComponent,
+      FilterPricingCardComponent,
+      ManualPriceComponent,
+      GqPriceComponent,
+    ],
   });
 
   beforeEach(() => {

@@ -24,6 +24,7 @@ import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocom
 import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
 import { SelectSalesOrgModule } from './select-sales-org/select-sales-org.module';
 
@@ -45,6 +46,7 @@ describe('CreateCaseDialogComponent', () => {
       AgGridModule.withComponents([]),
       AutocompleteInputModule,
       InputTableModule,
+      LoadingSpinnerModule,
       MatButtonModule,
       MatIconModule,
       MatInputModule,

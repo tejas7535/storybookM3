@@ -1,4 +1,6 @@
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -9,7 +11,14 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
+import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { ManualPriceComponent } from './manual-price.component';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
 
 describe('ManualPriceComponent', () => {
   let component: ManualPriceComponent;
@@ -20,13 +29,16 @@ describe('ManualPriceComponent', () => {
     detectChanges: false,
     imports: [
       BrowserAnimationsModule,
+      LoadingSpinnerModule,
       MatIconModule,
+      MatCardModule,
+      MatFormFieldModule,
       MatInputModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({}),
     ],
     providers: [provideMockStore({})],
-    declarations: [ManualPriceComponent],
+    declarations: [ManualPriceComponent, FilterPricingCardComponent],
   });
 
   beforeEach(() => {
@@ -45,6 +57,23 @@ describe('ManualPriceComponent', () => {
       component.selectPrice();
 
       expect(component.selectManualPrice.emit).toHaveBeenCalledWith(1);
+    });
+  });
+
+  describe('set isLoading', () => {
+    test('should set isLoading', () => {
+      component._isLoading = false;
+
+      component.isLoading = true;
+
+      expect(component.isLoading).toEqual(false);
+    });
+    test('should set isLoading', () => {
+      component._isLoading = true;
+
+      component.isLoading = true;
+
+      expect(component.isLoading).toEqual(true);
     });
   });
 
