@@ -22,6 +22,11 @@ import * as fromRouter from '../../reducers';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('Search Effects', () => {
   let spectator: SpectatorService<GreaseStatusEffects>;
   let actions$: any;

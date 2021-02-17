@@ -9,6 +9,11 @@ import { NgxEchartsModule } from 'ngx-echarts';
 import { SensorModule } from '../../../shared/sensor/sensor.module';
 import { GreaseMonitorComponent } from './grease-monitor.component';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('GreaseStatusComponent', () => {
   let component: GreaseMonitorComponent;
   let spectator: Spectator<GreaseMonitorComponent>;

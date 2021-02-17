@@ -49,30 +49,16 @@ export const axisChartOptions: EChartsOption = {
   ],
 };
 
-export const polarChartOptions: EChartsOption = {
+export const radarChartOptions: EChartsOption = {
   ...chartOptions,
-  legend: {
-    width: 20,
-    textStyle: {
-      fontWeight: 'bolder',
-      fontSize: 14,
-    },
-  },
-  polar: {},
+  legend: {},
   tooltip: {
-    trigger: 'axis',
-    axisPointer: {
-      type: 'cross',
-    },
+    trigger: 'item',
   },
-  angleAxis: {
-    type: 'value',
-    startAngle: 0,
-    max: 360,
-    clockwise: false,
-  },
-  radiusAxis: {
-    type: 'value',
+  radar: {
+    startAngle: 90,
+    shape: 'circle',
+    splitNumber: 4,
   },
 };
 

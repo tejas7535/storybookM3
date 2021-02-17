@@ -14,6 +14,11 @@ import * as fromRouter from '../../reducers';
 import { getLoadInterval } from '../../selectors/load-sense/load-sense.selector';
 import { ConditionMonitoringEffects } from './load-sense.effects';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('Search Effects', () => {
   let spectator: SpectatorService<ConditionMonitoringEffects>;
   let actions$: any;

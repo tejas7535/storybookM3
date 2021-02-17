@@ -1,3 +1,4 @@
+import { GaugeColors } from '../../../../shared/chart/chart';
 import { initialState } from '../../reducers/load-sense/load-sense.reducer';
 import {
   getLiveStatus,
@@ -80,34 +81,33 @@ describe('ConditionMonitoring Selector', () => {
   });
 
   describe('getLoadGraphData', () => {
+    const formattedMockLabel = 'translate it';
     test('should return the load sense polar according the timestamp', () => {
       const expectedResult = {
         series: [
           {
-            name: 'TRANSLATE IT TRANSLATE IT',
-            type: 'line',
-            coordinateSystem: 'polar',
-            data: [
-              [1, 0],
-              [2, 22.5],
-              [3, 45],
-              [4, 67.5],
-              [5, 90],
-              [6, 112.5],
-              [7, 135],
-              [8, 157.5],
-              [9, 180],
-              [10, 202.5],
-              [11, 225],
-              [12, 247.5],
-              [13, 270],
-              [14, 292.5],
-              [15, 315],
-              [16, 337.5],
-              [1, 0],
-            ],
-            areaStyle: {},
-            smooth: true,
+            name: formattedMockLabel,
+            type: 'radar',
+            symbol: 'none',
+            data: [{ value: [2, 4, 6, 8, 10, 12, 14, 16] }],
+            areaStyle: {
+              opacity: 0.01,
+            },
+            itemStyle: {
+              color: GaugeColors.GREEN,
+            },
+          },
+          {
+            name: formattedMockLabel,
+            type: 'radar',
+            symbol: 'none',
+            data: [{ value: [1, 3, 5, 7, 9, 11, 13, 15] }],
+            areaStyle: {
+              opacity: 0.01,
+            },
+            itemStyle: {
+              color: GaugeColors.YELLOW,
+            },
           },
         ],
       };

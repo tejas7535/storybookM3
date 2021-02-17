@@ -34,12 +34,12 @@
       "peakValues": "Peak values"
     },
     "centerLoad": {
-      "title": "Bearing center load and temperature",
+      "title": "Bearing center load",
       "bearingTemperature": "Bearing Temperature",
       "bearingCenterLoad": "Bearing Center Load",
       "time": "Time",
       "generator": "Generator",
-      "rotor": "rotor"
+      "rotor": "Rotor"
     },
     "shaft": {
       "title": "Rotor - Rotation Speed",

@@ -1,6 +1,7 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
+import { GaugeColors } from '../../../../shared/chart/chart';
 import { getLoadSenseState } from '../../reducers';
 import { LoadSenseState } from '../../reducers/load-sense/load-sense.reducer';
 import { LoadSense } from '../../reducers/load-sense/models';
@@ -38,6 +39,30 @@ export const getLoadSenseMeasturementTimes = createSelector(
     )
 );
 
+const rotorSideValues = (lsp: LoadSense): number[] =>
+  lsp && [
+    lsp.lsp01Strain,
+    lsp.lsp03Strain,
+    lsp.lsp05Strain,
+    lsp.lsp07Strain,
+    lsp.lsp09Strain,
+    lsp.lsp11Strain,
+    lsp.lsp13Strain,
+    lsp.lsp15Strain,
+  ];
+
+const generatorSideValues = (lsp: LoadSense): number[] =>
+  lsp && [
+    lsp.lsp02Strain,
+    lsp.lsp04Strain,
+    lsp.lsp06Strain,
+    lsp.lsp08Strain,
+    lsp.lsp10Strain,
+    lsp.lsp12Strain,
+    lsp.lsp14Strain,
+    lsp.lsp16Strain,
+  ];
+
 export const getLoadGraphData = createSelector(
   getLoadSenseResult,
   (loadSenseResults: LoadSense[], { timestamp }: Timestamp): GraphData => {
@@ -49,33 +74,40 @@ export const getLoadGraphData = createSelector(
           )[0]
         : loadSenseResults[loadSenseResults.length - 1]);
 
-    const sensors =
-      lspMeasurement &&
-      Object.keys(lspMeasurement)
-        .filter((key) => key.startsWith('lsp'))
-        .map((entry) => entry.substring(3, 5));
-
     return (
-      lspMeasurement &&
-      sensors && {
+      lspMeasurement && {
         series: [
           {
-            name: `${translate(
-              `conditionMonitoring.centerLoad.bearingCenterLoad`
-            ).toUpperCase()} ${translate(
-              `conditionMonitoring.centerLoad.generator`
-            ).toUpperCase()}`,
-            type: 'line',
-            coordinateSystem: 'polar',
+            name: `${translate(`conditionMonitoring.centerLoad.generator`)}`,
+            type: 'radar',
+            symbol: 'none',
             data: [
-              ...sensors.map((number, index) => [
-                (lspMeasurement as any)[`lsp${number}Strain`],
-                (360 / sensors.length) * index,
-              ]),
-              ...[[lspMeasurement['lsp01Strain'], 0]], // required to make a complete circle
+              {
+                value: generatorSideValues(lspMeasurement),
+              },
             ],
-            areaStyle: {},
-            smooth: true,
+            areaStyle: {
+              opacity: 0.01,
+            },
+            itemStyle: {
+              color: GaugeColors.GREEN,
+            },
+          },
+          {
+            name: `${translate(`conditionMonitoring.centerLoad.rotor`)}`,
+            type: 'radar',
+            symbol: 'none',
+            data: [
+              {
+                value: rotorSideValues(lspMeasurement),
+              },
+            ],
+            areaStyle: {
+              opacity: 0.01,
+            },
+            itemStyle: {
+              color: GaugeColors.YELLOW,
+            },
           },
         ],
       }
