@@ -72,8 +72,8 @@
     "@angular/flex-layout": "11.0.0-beta.33",
     "@angular/forms": "11.2.0",
     "@angular/material": "11.2.0",
-    "@angular/platform-browser": "11.1.2",
-    "@angular/platform-browser-dynamic": "11.1.2",
+    "@angular/platform-browser": "11.2.0",
+    "@angular/platform-browser-dynamic": "11.2.0",
     "@angular/router": "11.2.0",
     "@fontsource/roboto": "4.2.1",
     "@microsoft/applicationinsights-web": "2.5.11",
@@ -94,7 +94,7 @@
     "rxjs": "6.6.3",
     "schaeffler-icons": "1.1.1",
     "tslib": "2.1.0",
-    "zone.js": "0.11.3"
+    "zone.js": "0.11.4"
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "11.0.0",
