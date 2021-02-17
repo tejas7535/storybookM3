@@ -62,9 +62,7 @@ describe('SalesTableComponent', () => {
         provide: ActivatedRoute,
         useValue: {
           snapshot: {
-            queryParams: {
-              combinedKey: 'abc key',
-            },
+            queryParams: {},
           },
         },
       },
@@ -83,7 +81,24 @@ describe('SalesTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    it('should setServerSideDataSource and set combinedKey filter from queryparams', () => {
+    it('should setServerSideDataSource', () => {
+      const fakeApi = new GridApi();
+      fakeApi.setServerSideDatasource = jest.fn();
+
+      const fakeEvent: IStatusPanelParams = {
+        api: fakeApi,
+        columnApi: undefined,
+        context: undefined,
+      };
+
+      component.onGridReady(fakeEvent);
+      expect(fakeApi.setServerSideDatasource).toHaveBeenCalledTimes(1);
+    });
+
+    it('should set combinedKey filter from queryparams when defined', () => {
+      const combinedKey = 'abc key';
+      activatedRoute.snapshot.queryParams = { combinedKey };
+
       const fakeApi = new GridApi();
       fakeApi.setServerSideDatasource = jest.fn();
 
@@ -100,7 +115,6 @@ describe('SalesTableComponent', () => {
       };
 
       component.onGridReady(fakeEvent);
-      expect(fakeApi.setServerSideDatasource).toHaveBeenCalledTimes(1);
 
       expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledTimes(1);
       expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledWith(
@@ -110,11 +124,47 @@ describe('SalesTableComponent', () => {
       expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(1);
       expect(fakeFilterModel.setModel).toHaveBeenCalledWith({
         type: 'equals',
-        filter: 'abc key',
+        filter: combinedKey,
       });
+      expect(component.combinedKeyQueryParam).toEqual(combinedKey);
     });
 
-    it('should not set filter and expand row if no combinedKey queryParam', () => {
+    it('should set materialNumber filter from queryparams when defined', () => {
+      const materialNumber = '0000-111-222-333';
+      activatedRoute.snapshot.queryParams = { materialNumber };
+
+      const fakeApi = new GridApi();
+      fakeApi.setServerSideDatasource = jest.fn();
+
+      const fakeFilterModel = {
+        setModel: jest.fn(),
+      };
+
+      fakeApi.getFilterInstance = jest.fn().mockReturnValue(fakeFilterModel);
+
+      const fakeEvent: IStatusPanelParams = {
+        api: fakeApi,
+        columnApi: undefined,
+        context: undefined,
+      };
+
+      component.onGridReady(fakeEvent);
+
+      expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledTimes(1);
+      expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledWith(
+        'socoArticleNumberGlobalKey'
+      );
+
+      expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(1);
+      expect(fakeFilterModel.setModel).toHaveBeenCalledWith({
+        type: 'equals',
+        filter: materialNumber,
+      });
+
+      expect(component.combinedKeyQueryParam).toBeUndefined();
+    });
+
+    it('should not set filter if no queryParams', () => {
       activatedRoute.snapshot.queryParams = {};
       const fakeApi = new GridApi();
       fakeApi.setServerSideDatasource = jest.fn();
@@ -136,6 +186,8 @@ describe('SalesTableComponent', () => {
       expect(fakeEvent.api.getFilterInstance).toHaveBeenCalledTimes(0);
 
       expect(fakeFilterModel.setModel).toHaveBeenCalledTimes(0);
+
+      expect(component.combinedKeyQueryParam).toBeUndefined();
     });
   });
 
@@ -370,3 +422,4 @@ describe('SalesTableComponent', () => {
     );
   });
 });
+// tslint:disable-next-line: max-file-line-count
