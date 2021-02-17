@@ -61,7 +61,7 @@ export const filterReducer = createReducer(
   on(loadInitialFilters, (state: FilterState) => ({
     ...state,
     loading: true,
-    errorMessage: undefined,
+    errorMessage: initialState.errorMessage,
   })),
   on(loadInitialFiltersSuccess, (state: FilterState, { filters }) => ({
     ...state,

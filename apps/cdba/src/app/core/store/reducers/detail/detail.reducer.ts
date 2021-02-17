@@ -71,18 +71,15 @@ export const detailReducer = createReducer(
   on(loadReferenceType, (state: DetailState) => ({
     ...state,
     detail: {
-      referenceType: undefined,
+      ...initialState.detail,
       loading: true,
-      errorMessage: undefined,
     },
   })),
   on(loadReferenceTypeSuccess, (state: DetailState, { item }) => ({
     ...state,
     detail: {
-      ...state.detail,
-      loading: false,
+      ...initialState.detail,
       referenceType: item.referenceTypeDto,
-      errorMessage: undefined,
     },
   })),
   on(loadReferenceTypeFailure, (state: DetailState, { errorMessage }) => ({
@@ -96,16 +93,12 @@ export const detailReducer = createReducer(
   on(loadCalculations, (state: DetailState) => ({
     ...state,
     calculations: {
-      items: undefined,
-      selected: undefined,
+      ...initialState.calculations,
       loading: true,
-      errorMessage: undefined,
     },
     bom: {
-      items: undefined,
+      ...initialState.bom,
       loading: true,
-      selectedItem: undefined,
-      errorMessage: undefined,
     },
   })),
   on(loadCalculationsSuccess, (state: DetailState, { items }) => ({
@@ -142,10 +135,8 @@ export const detailReducer = createReducer(
   on(loadBom, (state: DetailState) => ({
     ...state,
     bom: {
-      items: undefined,
+      ...initialState.bom,
       loading: true,
-      selectedItem: undefined,
-      errorMessage: undefined,
     },
   })),
   on(loadBomSuccess, (state: DetailState, { items }) => ({

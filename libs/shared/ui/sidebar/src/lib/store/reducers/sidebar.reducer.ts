@@ -1,7 +1,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { SidebarMode } from '../../models';
-import { setSidebarMode, toggleSidebar } from '../actions/sidebar.actions';
+import { setSidebarMode } from '../actions/sidebar.actions';
 
 export interface SidebarState {
   mode: SidebarMode;
@@ -13,7 +13,6 @@ export const initialState: SidebarState = {
 
 export const sidebarReducer = createReducer(
   initialState,
-  on(toggleSidebar),
   on(setSidebarMode, (state, { sidebarMode }) => ({
     ...state,
     mode: sidebarMode,

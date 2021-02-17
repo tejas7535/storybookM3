@@ -93,7 +93,11 @@ export const searchReducer = createReducer(
   // initial filters
   on(loadInitialFilters, (state: SearchState) => ({
     ...state,
-    filters: { ...state.filters, loading: true, errorMessage: undefined },
+    filters: {
+      ...state.filters,
+      loading: true,
+      errorMessage: initialState.filters.errorMessage,
+    },
   })),
   on(loadInitialFiltersSuccess, (state: SearchState, { items }) => ({
     ...state,
@@ -117,7 +121,7 @@ export const searchReducer = createReducer(
     referenceTypes: {
       ...state.referenceTypes,
       loading: true,
-      errorMessage: undefined,
+      errorMessage: initialState.referenceTypes.errorMessage,
     },
   })),
   on(searchSuccess, (state: SearchState, { searchResult }) => ({
@@ -155,7 +159,7 @@ export const searchReducer = createReducer(
     referenceTypes: {
       ...state.referenceTypes,
       loading: true,
-      errorMessage: undefined,
+      errorMessage: initialState.referenceTypes.errorMessage,
     },
   })),
   on(applyTextSearchSuccess, (state: SearchState, { searchResult }) => ({
@@ -204,7 +208,7 @@ export const searchReducer = createReducer(
     },
     referenceTypes: {
       ...state.referenceTypes,
-      items: undefined,
+      items: initialState.referenceTypes.items,
       loading: false,
     },
   })),

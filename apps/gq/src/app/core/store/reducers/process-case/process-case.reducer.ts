@@ -96,8 +96,8 @@ export const processCaseReducer = createReducer(
     customer: {
       ...state.customer,
       customerLoading: true,
-      item: undefined,
-      errorMessage: undefined,
+      item: initialState.customer.item,
+      errorMessage: initialState.customer.errorMessage,
     },
   })),
   on(loadCustomerSuccess, (state: ProcessCaseState, { item }) => ({
@@ -120,9 +120,9 @@ export const processCaseReducer = createReducer(
     ...state,
     quotation: {
       ...state.quotation,
-      item: undefined,
+      item: initialState.quotation.item,
       quotationLoading: true,
-      errorMessage: undefined,
+      errorMessage: initialState.quotation.errorMessage,
       updateLoading: false,
     },
   })),
@@ -183,9 +183,9 @@ export const processCaseReducer = createReducer(
     ...state,
     quotation: {
       ...state.quotation,
-      item: undefined,
+      item: initialState.quotation.item,
       quotationLoading: true,
-      errorMessage: undefined,
+      errorMessage: initialState.quotation.errorMessage,
     },
     addMaterials: {
       ...state.addMaterials,
