@@ -261,6 +261,9 @@ export const createCaseReducer = createReducer(
       ...state.createCase,
       createdCase,
       createCaseLoading: false,
+      autocompleteItems: initialState.createCase.autocompleteItems,
+      customer: initialState.createCase.customer,
+      rowData: initialState.createCase.rowData,
     },
   })),
   on(createCaseFailure, (state: CaseState) => ({
