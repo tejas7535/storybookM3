@@ -86,6 +86,7 @@ export const getCustomerConditionsValid = createSelector(
         }
       }
     }
+
     const customerValid = state
       ? state.createCase.autocompleteItems
           .find((el) => el.filter === FilterNames.CUSTOMER)

@@ -100,7 +100,7 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('1', 'test', true),
         new IdValue('2', 'test2', false),
       ];
-      component.autofilled = true;
+
       component.valueInput = ({
         nativeElement: { value: 'test' },
       } as unknown) as any;
@@ -108,7 +108,6 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
-      expect(component.autofilled).toBeFalsy();
     });
 
     test('should set test options when filter name is customer', () => {
@@ -117,7 +116,6 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('2', 'test2', false),
       ];
       component.filterName = FilterNames.CUSTOMER;
-      component.autofilled = true;
       component.valueInput = ({
         nativeElement: { value: 'test | 1' },
       } as unknown) as any;
@@ -125,7 +123,6 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
-      expect(component.autofilled).toBeFalsy();
     });
 
     test('should set test options with SapQuotation', () => {
@@ -155,7 +152,6 @@ describe('AutocompleteInputComponent', () => {
           }
         ),
       ];
-      component.autofilled = true;
       component.valueInput = ({
         nativeElement: { value: 'customerName | 1' },
       } as unknown) as any;
@@ -163,7 +159,6 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
-      expect(component.autofilled).toBeFalsy();
     });
   });
 
@@ -212,13 +207,11 @@ describe('AutocompleteInputComponent', () => {
   describe('selected', () => {
     test('should emit event', () => {
       component.added.emit = jest.fn();
-      component.autofilled = false;
 
       component.selected(({
         option: { value: 'value' },
       } as unknown) as MatAutocompleteSelectedEvent);
       expect(component.added.emit).toHaveBeenCalledTimes(1);
-      expect(component.autofilled).toBeTruthy();
     });
   });
   describe('clearInput', () => {

@@ -41,16 +41,15 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() set options(itemOptions: IdValue[] | SapQuotation[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
-    if (this.selectedIdValue && this.autofilled) {
+    if (this.selectedIdValue) {
       const value =
         this.filterName === FilterNames.CUSTOMER
           ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
           : this.isSapQuotation(this.selectedIdValue)
           ? `${this.selectedIdValue.customerName} | ${this.selectedIdValue.id}`
           : this.selectedIdValue.id;
-      this.valueInput.nativeElement.value = value;
-      this.searchFormControl.setValue(value);
-      this.autofilled = false;
+      this.searchFormControl.setValue(value, { emitEvent: false });
+      this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     }
   }
 
@@ -79,7 +78,6 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   selectedIdValue: IdValue;
   unselectedOptions: IdValue[];
-  autofilled = false;
   searchFormControl: FormControl = new FormControl();
 
   ngOnInit(): void {
@@ -189,7 +187,6 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   selected(event: MatAutocompleteSelectedEvent): void {
     this.added.emit(event.option.value);
-    this.autofilled = true;
   }
 
   public clearInput(): void {
