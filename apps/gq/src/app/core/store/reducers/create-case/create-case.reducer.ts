@@ -91,14 +91,14 @@ export const createCaseReducer = createReducer(
     ...state,
     createCase: {
       ...state.createCase,
-      autocompleteLoading: undefined,
+      autocompleteLoading: initialState.createCase.autocompleteLoading,
     },
   })),
   on(autocompleteSuccess, (state: CaseState, { options, filter }) => ({
     ...state,
     createCase: {
       ...state.createCase,
-      autocompleteLoading: undefined,
+      autocompleteLoading: initialState.createCase.autocompleteLoading,
       autocompleteItems: [...state.createCase.autocompleteItems].map((it) => {
         const tmp = { ...it };
         let itemOptions = [...options];

@@ -1,7 +1,7 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AccessToken, User } from '../../models';
-import { login, loginSuccess, logout, setToken } from '../actions/auth.actions';
+import { loginSuccess, logout, setToken } from '../actions/auth.actions';
 
 export interface AuthState {
   user: User;
@@ -19,7 +19,6 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
   initialState,
-  on(login),
   on(loginSuccess, (state, { user }) => ({
     ...state,
     user,
