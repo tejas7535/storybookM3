@@ -8,7 +8,7 @@
     <div
       fxLayout="row"
       fxLayoutAlign="start center"
-      class="platform-title-mobile"
+      class="platform-title-mobile pointer"
       *ngIf="link"
       [routerLink]="link"
     >
@@ -44,7 +44,7 @@
       fxHide.xs="true"
       fxShow.gt-xs="true"
     >
-      <h3 class="platform-title" *ngIf="link" [routerLink]="link">
+      <h3 class="platform-title pointer" *ngIf="link" [routerLink]="link">
         {{ platformTitle }}
       </h3>
       <h3 class="platform-title" *ngIf="!link">
