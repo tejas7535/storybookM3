@@ -16,7 +16,14 @@ export interface GraphData {
       areaStyle?: any;
       smooth?: boolean;
       itemStyle?: any;
-      data: GraphSeriesData[] | [number, number][][] | [{ value: number[] }];
+      data:
+        | GraphSeriesData[]
+        | [number, number][][]
+        | [
+            {
+              value: number[];
+            }
+          ];
     };
   };
 }

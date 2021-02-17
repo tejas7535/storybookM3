@@ -89,9 +89,9 @@ describe('ConditionMonitoring Selector', () => {
             name: formattedMockLabel,
             type: 'radar',
             symbol: 'none',
-            data: [{ value: [1, 3, 5, 7, 9, 11, 13, 15] }],
+            data: [{ value: [2, 4, 6, 8, 10, 12, 14, 16] }],
             areaStyle: {
-              opacity: 0.05,
+              opacity: 0.01,
             },
             itemStyle: {
               color: GaugeColors.GREEN,
@@ -101,9 +101,9 @@ describe('ConditionMonitoring Selector', () => {
             name: formattedMockLabel,
             type: 'radar',
             symbol: 'none',
-            data: [{ value: [2, 4, 6, 8, 10, 12, 14, 16] }],
+            data: [{ value: [1, 3, 5, 7, 9, 11, 13, 15] }],
             areaStyle: {
-              opacity: 0.05,
+              opacity: 0.01,
             },
             itemStyle: {
               color: GaugeColors.YELLOW,

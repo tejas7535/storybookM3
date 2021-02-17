@@ -81,9 +81,13 @@ export const getLoadGraphData = createSelector(
             name: `${translate(`conditionMonitoring.centerLoad.generator`)}`,
             type: 'radar',
             symbol: 'none',
-            data: [{ value: rotorSideValues(lspMeasurement) }],
+            data: [
+              {
+                value: generatorSideValues(lspMeasurement),
+              },
+            ],
             areaStyle: {
-              opacity: 0.05,
+              opacity: 0.01,
             },
             itemStyle: {
               color: GaugeColors.GREEN,
@@ -93,9 +97,13 @@ export const getLoadGraphData = createSelector(
             name: `${translate(`conditionMonitoring.centerLoad.rotor`)}`,
             type: 'radar',
             symbol: 'none',
-            data: [{ value: generatorSideValues(lspMeasurement) }],
+            data: [
+              {
+                value: rotorSideValues(lspMeasurement),
+              },
+            ],
             areaStyle: {
-              opacity: 0.05,
+              opacity: 0.01,
             },
             itemStyle: {
               color: GaugeColors.YELLOW,
