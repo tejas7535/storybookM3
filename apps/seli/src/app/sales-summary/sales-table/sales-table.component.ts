@@ -63,6 +63,14 @@ export class SalesTableComponent {
         type: 'equals',
         filter: queryParams.combinedKey,
       });
+    } else if (queryParams.materialNumber) {
+      const filterModel = event.api.getFilterInstance(
+        'socoArticleNumberGlobalKey'
+      );
+      filterModel.setModel({
+        type: 'equals',
+        filter: queryParams.materialNumber,
+      });
     }
 
     const dataSource: IServerSideDatasource = {
