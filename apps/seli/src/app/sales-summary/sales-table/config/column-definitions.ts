@@ -15,12 +15,12 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'sectorKey',
-    headerName: 'Branch Key',
+    headerName: 'Sector Key',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'sectorName',
-    headerName: 'Branch Name',
+    headerName: 'Sector Name',
     filterParams: FILTER_PARAMS,
   },
   {
@@ -44,13 +44,18 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'keyaccountKey',
+    headerName: 'Key Account Key',
+    filterParams: FILTER_PARAMS,
+  },
+  {
     field: 'keyaccountName',
-    headerName: 'Key Account',
+    headerName: 'Key Account Name',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'socoCustomerNumberGlobalKey',
-    headerName: 'Customer Key',
+    headerName: 'Customer Number Global',
     filterParams: FILTER_PARAMS,
   },
   {
@@ -60,22 +65,27 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'socoArticleNumberGlobalKey',
-    headerName: 'Part Number',
+    headerName: 'Material Number Global',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'socoArticleNumberGlobalName',
-    headerName: 'Short Text',
+    headerName: 'Material Name',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'productionPlantKey',
-    headerName: 'Production Plant',
+    headerName: 'Production Plant Key',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'productionPlantName',
+    headerName: 'Production Plant Name',
     filterParams: FILTER_PARAMS,
   },
   {
     field: 'categoryNetSales',
-    headerName: 'Category',
+    headerName: 'Net Sales Category',
     filterParams: FILTER_PARAMS,
   },
   {
@@ -96,16 +106,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   {
     field: 'edoDate',
     headerName: 'EDO',
-    filter: 'agDateColumnFilter',
-    valueFormatter: dateFormatter,
-    filterParams: {
-      ...FILTER_PARAMS,
-      filterOptions: ['equals', 'inRange'],
-    },
-  },
-  {
-    field: 'lastUpdated',
-    headerName: 'Last Modified',
     filter: 'agDateColumnFilter',
     valueFormatter: dateFormatter,
     filterParams: {
