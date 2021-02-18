@@ -4,7 +4,8 @@ const plugin = require('tailwindcss/plugin');
 module.exports = {
   prefix: '',
   purge: {
-    content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts}'],
+    enabled: process.env.PURGE_TAILWIND === 'true',
+    content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts,}'],
   },
   darkMode: false, // or 'media' or 'class'
   theme: {

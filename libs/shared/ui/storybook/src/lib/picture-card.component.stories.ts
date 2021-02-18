@@ -25,6 +25,12 @@ const baseComponent = {
 
 export const primary = () => ({
   ...baseComponent,
+  template: `<div style="width: 400px">
+    <schaeffler-picture-card
+      [title]="title"
+      [img]="img"   
+    ></schaeffler-picture-card>
+  </div>`,
   props: {
     title: text('title', 'Storybook Demo'),
     img: text(
@@ -36,6 +42,13 @@ export const primary = () => ({
 
 export const withAction = () => ({
   ...baseComponent,
+  template: `<div style="width: 400px">
+    <schaeffler-picture-card
+      [title]="title"
+      [img]="img"
+      [actions]="actions"
+    ></schaeffler-picture-card>
+  </div>`,
   props: {
     title: text('title', 'Storybook Demo'),
     img: text(
@@ -56,17 +69,19 @@ export const withAction = () => ({
 
 export const withContent = () => ({
   ...baseComponent,
-  template: `<schaeffler-picture-card
-    [title]="title"
-    [img]="img"
-    [toggleEnabled]="toggleEnabled"
-    [hideActionsOnActive]="true"
-    [actions]="actions"
-  >
-    <ng-container select="card-content">
-      <p>Here is the content</p>
-    </ng-container>
-  </schaeffler-picture-card>`,
+  template: `<div style="width: 400px">
+    <schaeffler-picture-card
+      [title]="title"
+      [img]="img"
+      [toggleEnabled]="toggleEnabled"
+      [hideActionsOnActive]="true"
+      [actions]="actions"
+    >
+      <ng-container card-content>
+        <p>Here is the content</p>
+      </ng-container>
+    </schaeffler-picture-card>
+  </div>`,
   props: {
     title: text('title', 'Storybook Demo'),
     img: text(
