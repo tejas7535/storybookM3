@@ -1,51 +1,53 @@
-import { TestBed } from '@angular/core/testing';
-
 import { ColumnState } from '@ag-grid-community/all-modules';
-import { configureTestSuite } from 'ng-bullet';
+import { LOCAL_STORAGE } from '@ng-web-apis/common';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { AgGridStateService } from './ag-grid-state.service';
 
+class LocalStorageMock {
+  public store: { [key: string]: string } = {};
+
+  setStore(store: { [key: string]: string }): void {
+    this.store = store;
+  }
+
+  clear(): void {
+    this.store = {};
+  }
+
+  getItem(key: string): string {
+    // tslint:disable-next-line
+    return this.store[key] || null;
+  }
+
+  setItem(key: string, value: string): void {
+    this.store[key] = value;
+  }
+
+  removeItem(key: string): void {
+    // tslint:disable-next-line: no-dynamic-delete
+    delete this.store[key];
+  }
+}
+
 describe('AgGridStateService', () => {
+  let spectator: SpectatorService<AgGridStateService>;
   let service: AgGridStateService;
-  let store: any;
+  let localStorage: LocalStorageMock;
 
-  const mockLocalStorage = (newStore: any) => {
-    store = newStore;
-
-    /* tslint:disable */
-    const mockStore = {
-      getItem: (key: string): string => (key in store ? store[key] : null),
-      setItem: (key: string, value: string) => {
-        store[key] = value.toString();
-      },
-      removeItem: (key: string) => {
-        delete store[key];
-      },
-      clear: () => {
-        store = {};
-      },
-    };
-    /* tslint:enable */
-
-    // add spies
-    spyOn(localStorage, 'getItem').and.callFake(mockStore.getItem);
-    spyOn(localStorage, 'setItem').and.callFake(mockStore.setItem);
-    spyOn(localStorage, 'removeItem').and.callFake(mockStore.removeItem);
-    spyOn(localStorage, 'clear').and.callFake(mockStore.clear);
-
-    Object.defineProperty(window, 'localStorage', {
-      value: mockStore,
-    });
-  };
-
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [AgGridStateService],
-    });
+  const createService = createServiceFactory({
+    service: AgGridStateService,
+    providers: [{ provide: LOCAL_STORAGE, useClass: LocalStorageMock }],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(AgGridStateService);
+    spectator = createService();
+    service = spectator.inject(AgGridStateService);
+    localStorage = (spectator.inject(
+      LOCAL_STORAGE
+    ) as unknown) as LocalStorageMock;
+
+    localStorage.clear();
   });
 
   it('should be created', () => {
@@ -54,8 +56,6 @@ describe('AgGridStateService', () => {
 
   describe('getColumnState', () => {
     it('should return undefined if theres no entry in localstorage', () => {
-      mockLocalStorage({});
-
       expect(service.getColumnState('any')).toBeUndefined();
     });
 
@@ -63,7 +63,7 @@ describe('AgGridStateService', () => {
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
       const fakeStore = { key: JSON.stringify({ columnState }) };
 
-      mockLocalStorage(fakeStore);
+      localStorage.setStore(fakeStore);
 
       const result = service.getColumnState('key');
 
@@ -73,20 +73,20 @@ describe('AgGridStateService', () => {
 
   describe('setColumnsState', () => {
     it('should set the given column state in localstorage', () => {
-      mockLocalStorage({});
+      service.localStorage.setStore({});
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
       const expected = '{"columnState":[{"colId":"width","pinned":"left"}]}';
 
       service.setColumnState('key', columnState);
 
-      expect(store.key).toEqual(expected);
+      expect(localStorage.store.key).toEqual(expected);
     });
 
     it('should extend localstorage if key is already present', () => {
       const fakeStore = { key: JSON.stringify({ foo: 'bar' }) };
 
-      mockLocalStorage(fakeStore);
+      service.localStorage.setStore(fakeStore);
 
       const columnState: ColumnState[] = [{ colId: 'width', pinned: 'left' }];
       const expected =
@@ -94,7 +94,7 @@ describe('AgGridStateService', () => {
 
       service.setColumnState('key', columnState);
 
-      expect(store.key).toEqual(expected);
+      expect(localStorage.store.key).toEqual(expected);
     });
   });
 });

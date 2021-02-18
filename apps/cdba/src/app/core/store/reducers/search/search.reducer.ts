@@ -119,9 +119,8 @@ export const searchReducer = createReducer(
   on(search, (state: SearchState) => ({
     ...state,
     referenceTypes: {
-      ...state.referenceTypes,
+      ...initialState.referenceTypes,
       loading: true,
-      errorMessage: initialState.referenceTypes.errorMessage,
     },
   })),
   on(searchSuccess, (state: SearchState, { searchResult }) => ({

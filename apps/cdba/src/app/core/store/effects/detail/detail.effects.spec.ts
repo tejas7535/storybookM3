@@ -296,12 +296,14 @@ describe('Detail Effects', () => {
   });
 
   describe('selectReferenceType$', () => {
-    test('should return select referenceTypeAction', () => {
+    beforeEach(() => {
       store.overrideSelector(
         getSelectedReferenceTypeIdentifier,
         REFERENCE_TYPE_IDENTIFIER_MOCK
       );
+    });
 
+    test('should return select referenceTypeAction', () => {
       action = {
         type: ROUTER_NAVIGATED,
         payload: {

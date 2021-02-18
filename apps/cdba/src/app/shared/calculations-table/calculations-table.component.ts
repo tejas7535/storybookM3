@@ -12,8 +12,8 @@ import {
   ColDef,
   Column,
   ColumnEvent,
-  ColumnState,
   GridApi,
+  GridReadyEvent,
   IStatusPanelParams,
   RowSelectedEvent,
   SideBarDef,
@@ -28,7 +28,6 @@ import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/cus
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
-  DEFAULT_COLUMN_STATE,
   FRAMEWORK_COMPONENTS,
   FRAMEWORK_COMPONENTS_MINIFIED,
   MODULES,
@@ -60,7 +59,9 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public modules: any[];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[] = [];
+  public columnDefs: ColDef[] = Object.values(
+    this.columnDefinitionService.COLUMN_DEFINITIONS
+  );
 
   public frameworkComponents: any;
 
@@ -83,30 +84,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
   public getMainMenuItems = getMainMenuItems;
 
-  /**
-   * Identify necessary column definitions on provided data.
-   */
-  private getUpdatedDefaultColumnDefinitions(
-    update: Calculation[]
-  ): { [key: string]: ColDef } {
-    const defaultColumnDefinitions: { [key: string]: ColDef } = {};
-
-    Object.keys(this.columnDefinitionService.COLUMN_DEFINITIONS).forEach(
-      (column: string) => {
-        const showColumn =
-          update.length > 0 && (update[0] as any)[column] !== undefined;
-
-        if (showColumn || column === 'checkbox') {
-          defaultColumnDefinitions[
-            column
-          ] = this.columnDefinitionService.COLUMN_DEFINITIONS[column];
-        }
-      }
-    );
-
-    return defaultColumnDefinitions;
-  }
-
   public constructor(
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefinitionService
@@ -117,22 +94,6 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rowData && changes.rowData.currentValue) {
-      // get updated default column definitions
-      const updatedDefaultColumnDefinitions = this.getUpdatedDefaultColumnDefinitions(
-        changes.rowData.currentValue
-      );
-
-      // set column definitions
-      this.setColumnDefinitions(
-        updatedDefaultColumnDefinitions,
-        DEFAULT_COLUMN_STATE,
-        this.agGridStateService.getColumnState(
-          CalculationsTableComponent.TABLE_KEY
-        )
-      );
-    }
-
     if (!this.gridApi) {
       return;
     }
@@ -206,38 +167,17 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     this.rowGroupPanelShow = minified ? 'never' : 'always';
   }
 
-  /**
-   * Set complete column config for AG Grid table.
-   */
-  private setColumnDefinitions(
-    defaultColumnDefinitions: { [key: string]: ColDef },
-    defaultColumnState: { [key: string]: ColumnState },
-    usersColumnState: ColumnState[]
-  ): void {
-    const columnDefinitions: ColDef[] = [];
+  onGridReady(params: GridReadyEvent): void {
+    this.gridApi = params.api;
 
-    Object.keys(defaultColumnDefinitions).forEach(
-      (key: string, index: number) => {
-        const columnStateUser = usersColumnState
-          ? usersColumnState.find((col) => col.colId === key)
-          : undefined;
-
-        columnDefinitions[
-          (columnStateUser && usersColumnState.indexOf(columnStateUser)) ||
-            index
-        ] = {
-          ...defaultColumnDefinitions[key],
-          ...(defaultColumnState[key] as any),
-          ...columnStateUser,
-        };
-      }
+    const state = this.agGridStateService.getColumnState(
+      CalculationsTableComponent.TABLE_KEY
     );
 
-    this.columnDefs = columnDefinitions;
-  }
-
-  onGridReady(params: IStatusPanelParams): void {
-    this.gridApi = params.api;
+    params.columnApi.applyColumnState({
+      state,
+      applyOrder: true,
+    });
 
     if (!this.isLoading) {
       this.gridApi.showNoRowsOverlay();

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { ColDef } from '@ag-grid-community/all-modules';
+import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { formatDate, formatNumber, valueGetterDate } from '../../table';
@@ -23,8 +23,11 @@ export class ColumnDefinitionService {
       suppressColumnsToolPanel: true,
       minWidth: 70,
       width: 70,
+      pinned: 'left',
+      colId: 'checkbox',
     },
     calculationDate: {
+      field: 'calculationDate',
       headerName: translate('detail.shared.calculationTable.calculationDate'),
       headerTooltip: translate(
         'detail.shared.calculationTable.calculationDate'
