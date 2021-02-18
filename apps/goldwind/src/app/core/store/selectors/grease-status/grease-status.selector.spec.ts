@@ -27,8 +27,8 @@ describe('Grease Status Selector', () => {
         {
           timestamp: '2020-07-30T11:02:35',
           gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 0.12,
-          gcm01WaterContent: 0.69,
+          gcm01Deterioration: 12,
+          gcm01WaterContent: 69,
         },
       ],
       loading: false,
@@ -36,8 +36,8 @@ describe('Grease Status Selector', () => {
         result: {
           timestamp: '2020-07-31T11:02:35',
           gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 0.55,
-          gcm01WaterContent: 0.12,
+          gcm01Deterioration: 55,
+          gcm01WaterContent: 12,
         },
         loading: false,
       },

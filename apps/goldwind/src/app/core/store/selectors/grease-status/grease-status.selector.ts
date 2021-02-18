@@ -73,12 +73,9 @@ export const getGreaseStatusGraphData = createSelector(
           data:
             (value &&
               greaseStatus.map((measurement: GreaseStatus) => {
-                let measurementValue = (measurement as any)[
+                const measurementValue: number = (measurement as any)[
                   `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
                 ];
-                measurementValue = !isTempGauge(key)
-                  ? Math.round(measurementValue * 100)
-                  : measurementValue; // also probably temporary
 
                 return {
                   value: [new Date(measurement.timestamp), measurementValue],
@@ -102,13 +99,12 @@ export const getGreaseStatusLatestGraphData = createSelector(
       greaseStatus && {
         series: GREASE_CONTROLS.map(
           ({ label, formControl, unit }: GreaseControl) => {
-            let value =
+            const value: number =
               greaseStatus[
                 `${sensorName}${formControl
                   .charAt(0)
                   .toUpperCase()}${formControl.slice(1)}`
               ];
-            value = !isTempGauge(formControl) ? Math.round(value * 100) : value; // also probably temporary
 
             return {
               ...GREASE_GAUGE_SERIES,
@@ -117,7 +113,7 @@ export const getGreaseStatusLatestGraphData = createSelector(
               center: (gaugePositions as any)[formControl],
               detail: {
                 ...GREASE_GAUGE_SERIES.detail,
-                formatter: `{value} ${unit}`,
+                formatter: `${value.toFixed(0)} ${unit}`,
               },
               data: [
                 {
