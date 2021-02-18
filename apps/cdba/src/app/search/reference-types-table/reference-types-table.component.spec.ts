@@ -1,27 +1,26 @@
-import { SimpleChange } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
-  ColDef,
+  ColumnApi,
   ColumnEvent,
-  ColumnState,
+  GridApi,
+  GridReadyEvent,
   IStatusPanelParams,
   RowSelectedEvent,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import {
   provideTranslocoTestingModule,
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { REFERENCE_TYPE_MOCK } from '../../../testing/mocks';
+import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { SharedModule } from '../../shared/shared.module';
-import { columnDefinitionToReferenceTypeProp } from '../../shared/table';
 import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CompareViewButtonComponent } from '../../shared/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
@@ -36,125 +35,92 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('ReferenceTypesTableComponent', () => {
   let component: ReferenceTypesTableComponent;
-  let fixture: ComponentFixture<ReferenceTypesTableComponent>;
-  let columDefinitionService: ColumnDefinitionService;
-
+  let spectator: Spectator<ReferenceTypesTableComponent>;
   let stateService: AgGridStateService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        SharedTranslocoModule,
-        SharedModule,
-        AgGridModule.withComponents([
-          DetailViewButtonComponent,
-          BomViewButtonComponent,
-          CompareViewButtonComponent,
-        ]),
-        MatIconModule,
-        RouterTestingModule,
-        provideTranslocoTestingModule({}),
-        CustomStatusBarModule,
-      ],
-      declarations: [ReferenceTypesTableComponent],
-      providers: [
-        ColumnDefinitionService,
-        {
-          provide: AgGridStateService,
-          useValue: {
-            getColumnState: jest.fn(),
-            setColumnState: jest.fn(),
-          },
+  const createComponent = createComponentFactory({
+    component: ReferenceTypesTableComponent,
+    imports: [
+      SharedTranslocoModule,
+      SharedModule,
+      AgGridModule.withComponents([
+        DetailViewButtonComponent,
+        BomViewButtonComponent,
+        CompareViewButtonComponent,
+      ]),
+      MatIconModule,
+      RouterTestingModule,
+      provideTranslocoTestingModule({}),
+      CustomStatusBarModule,
+    ],
+    declarations: [ReferenceTypesTableComponent],
+    providers: [
+      ColumnDefinitionService,
+      {
+        provide: AgGridStateService,
+        useValue: {
+          getColumnState: jest.fn(),
+          setColumnState: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ReferenceTypesTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
 
-    stateService = TestBed.inject(AgGridStateService);
-    columDefinitionService = TestBed.inject(ColumnDefinitionService);
+    stateService = spectator.inject(AgGridStateService);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getUpdatedDefaultColumnDefinitions', () => {
-    it('should only contain columns that are part of provided update', () => {
-      const mock = { ...REFERENCE_TYPE_MOCK };
-      const update = [mock];
-
-      // delete two props
-      delete mock.netSales;
-      delete mock.productLine;
-
-      const result = component['getUpdatedDefaultColumnDefinitions'](update);
-
-      let size: any[] = [];
-
-      Object.keys(mock).forEach((key: string) => {
-        size = [...size, key];
-      });
-
-      const mapDefaultColumnDefinitions = new Map<string, string>();
-      Object.keys(columDefinitionService.COLUMN_DEFINITIONS).forEach(
-        (key: string) => {
-          mapDefaultColumnDefinitions.set(
-            columnDefinitionToReferenceTypeProp(key),
-            key
-          );
-        }
-      );
-
-      expect(Object.keys(result).length).toBeGreaterThanOrEqual(size.length);
-      size.forEach((elem: string) => {
-        if (!result[mapDefaultColumnDefinitions.get(elem)]) {
-          expect(
-            Object.keys(columDefinitionService.COLUMN_DEFINITIONS).includes(
-              elem
-            )
-          ).toBeFalsy();
-        } else {
-          expect(result[mapDefaultColumnDefinitions.get(elem)]).toBeDefined();
-        }
-      });
-      expect(Object.keys(result).includes('checkbox')).toBeTruthy();
-    });
-  });
-
   describe('ngOnChanges', () => {
-    beforeEach(() => {
-      component['getUpdatedDefaultColumnDefinitions'] = jest.fn(() => ({}));
-      component['setColumnDefinitions'] = jest.fn();
-    });
+    let rowData;
 
-    it('should set column definitions when rowData changes', () => {
-      const change = { rowData: new SimpleChange(undefined, [], true) };
+    beforeEach(() => (rowData = undefined));
 
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges(change);
-
-      expect(stateService.getColumnState).toHaveBeenCalled();
-      expect(component['setColumnDefinitions']).toHaveBeenCalled();
-      expect(
-        component['getUpdatedDefaultColumnDefinitions']
-      ).toHaveBeenCalled();
-    });
-
-    it('should do nothing when change is not rowData', () => {
-      const change = { anyThing: new SimpleChange(undefined, [], true) };
+    it('should do nothing if rowData is undefined', () => {
+      component['gridApi'] = ({
+        setRowData: jest.fn(),
+      } as unknown) as GridApi;
 
       // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnChanges(change);
+      component.ngOnChanges({});
 
-      expect(component['setColumnDefinitions']).not.toHaveBeenCalled();
-      expect(
-        component['getUpdatedDefaultColumnDefinitions']
-      ).not.toHaveBeenCalled();
+      expect(component['gridApi'].setRowData).not.toHaveBeenCalled();
+    });
+
+    it('should do nothing if grid api is undefined', () => {
+      rowData = { currentValue: { foo: 'bar' } };
+      const changes: SimpleChanges = ({
+        rowData,
+      } as unknown) as SimpleChanges;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges(changes);
+
+      // no expectation since grid api is not defined yet
+    });
+
+    it('should set row data if api and data is defined', () => {
+      component['gridApi'] = ({
+        setRowData: jest.fn(),
+      } as unknown) as GridApi;
+
+      rowData = { currentValue: { foo: 'bar' } };
+      const changes: SimpleChanges = ({
+        rowData,
+      } as unknown) as SimpleChanges;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnChanges(changes);
+
+      expect(component['gridApi'].setRowData).toHaveBeenCalledWith(
+        rowData.currentValue
+      );
     });
   });
 
@@ -171,6 +137,45 @@ describe('ReferenceTypesTableComponent', () => {
         'referenceTypes',
         []
       );
+    });
+  });
+
+  describe('onGridReady', () => {
+    const event: GridReadyEvent = ({
+      api: ({
+        setRowData: jest.fn(),
+      } as unknown) as GridApi,
+      columnApi: ({
+        applyColumnState: jest.fn(),
+      } as unknown) as ColumnApi,
+    } as unknown) as GridReadyEvent;
+
+    it('should set gridApi', () => {
+      component.onGridReady(event);
+
+      expect(component['gridApi']).toEqual(event.api);
+    });
+
+    it('should applyColumnState', () => {
+      const mockColumnState = [{ colId: 'foo', sort: 'asc' }];
+      stateService.getColumnState = jest.fn(() => mockColumnState);
+
+      component.onGridReady(event);
+
+      expect(event.columnApi.applyColumnState).toHaveBeenCalledWith({
+        state: mockColumnState,
+        applyOrder: true,
+      });
+    });
+
+    it('should set row data', () => {
+      const rowData = [({ foo: 'bar' } as unknown) as ReferenceType];
+
+      component.rowData = rowData;
+
+      component.onGridReady(event);
+
+      expect(event.api.setRowData).toHaveBeenCalledWith(rowData);
     });
   });
 
@@ -233,70 +238,6 @@ describe('ReferenceTypesTableComponent', () => {
       expect(component.selectedRows).toHaveLength(2);
 
       expect(event.api.deselectIndex).toHaveBeenCalledWith(1);
-    });
-  });
-
-  describe('setColumnDefinitions', () => {
-    const defaultDefinitions: { [key: string]: ColDef } = {
-      materialNumber: {
-        field: 'materialNumber',
-        checkboxSelection: true,
-      },
-      plant: {
-        field: 'plant',
-      },
-    };
-    const defaultState: { [key: string]: ColumnState } = {
-      materialNumber: {
-        colId: 'materialNumber',
-        pinned: 'left',
-      },
-      plant: {
-        colId: 'plant',
-      },
-    };
-
-    let expected: ColDef[];
-
-    it('should merge default definition and default state', () => {
-      expected = [
-        {
-          field: 'materialNumber',
-          checkboxSelection: true,
-          colId: 'materialNumber',
-          pinned: 'left',
-        },
-        { field: 'plant', colId: 'plant' },
-      ];
-
-      component['setColumnDefinitions'](
-        defaultDefinitions,
-        defaultState,
-        undefined
-      );
-
-      expect(component.columnDefs).toEqual(expected);
-    });
-
-    it('should add column state of the user if present', () => {
-      const usersColumnState = [{ colId: 'plant', pinned: 'right' }];
-      expected = [
-        {
-          field: 'materialNumber',
-          checkboxSelection: true,
-          colId: 'materialNumber',
-          pinned: 'left',
-        },
-        { field: 'plant', colId: 'plant', pinned: 'right' },
-      ];
-
-      component['setColumnDefinitions'](
-        defaultDefinitions,
-        defaultState,
-        usersColumnState
-      );
-
-      expect(component.columnDefs).toEqual(expected);
     });
   });
 });

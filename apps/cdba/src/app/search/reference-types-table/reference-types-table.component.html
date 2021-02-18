@@ -1,7 +1,6 @@
 <div class="table-container">
   <ag-grid-angular
     class="ag-theme-material"
-    [rowData]="rowData"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
     [modules]="modules"
@@ -27,6 +26,7 @@
     (sortChanged)="columnChange($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
     (rowSelected)="onRowSelected($event)"
+    (gridReady)="onGridReady($event)"
   >
   </ag-grid-angular>
 </div>

@@ -1,6 +1,4 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -21,30 +19,30 @@ jest.mock('../../../shared/table/column-utils', () => ({
 
 describe('ColumnDefinitions', () => {
   let service: ColumnDefinitionService;
+  let spectator: SpectatorService<ColumnDefinitionService>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({})],
-      providers: [ColumnDefinitionService],
-    });
+  const createService = createServiceFactory({
+    service: ColumnDefinitionService,
+    imports: [provideTranslocoTestingModule({})],
+    providers: [ColumnDefinitionService],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(ColumnDefinitionService);
+    spectator = createService();
+    service = spectator.inject(ColumnDefinitionService);
   });
 
   it('should call value getter and format methods', () => {
     const columnDefinitions = service.COLUMN_DEFINITIONS;
 
-    Object.keys(columnDefinitions).forEach((column) => {
-      if (columnDefinitions[column].valueGetter) {
-        const valueGetter = columnDefinitions[column].valueGetter as Function;
+    columnDefinitions.forEach((column) => {
+      if (column.valueGetter) {
+        const valueGetter = column.valueGetter as Function;
         valueGetter({ data: {} });
       }
 
-      if (columnDefinitions[column].valueFormatter) {
-        const valueFormatter = columnDefinitions[column]
-          .valueFormatter as Function;
+      if (column.valueFormatter) {
+        const valueFormatter = column.valueFormatter as Function;
         valueFormatter({ data: {} });
       }
     });

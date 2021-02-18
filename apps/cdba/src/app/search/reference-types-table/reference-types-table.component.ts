@@ -4,7 +4,8 @@ import {
   ClientSideRowModelModule,
   ColDef,
   ColumnEvent,
-  ColumnState,
+  GridApi,
+  GridReadyEvent,
   IStatusPanelParams,
   RowSelectedEvent,
   SideBarDef,
@@ -26,11 +27,7 @@ import { translate } from '@ngneat/transloco';
 import { environment } from '../../../environments/environment';
 import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
-import {
-  columnDefinitionToReferenceTypeProp,
-  getMainMenuItems,
-  SIDE_BAR_CONFIG,
-} from '../../shared/table';
+import { getMainMenuItems, SIDE_BAR_CONFIG } from '../../shared/table';
 import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
@@ -40,7 +37,6 @@ import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,
-  DEFAULT_COLUMN_STATE,
   STATUS_BAR_CONFIG,
 } from './config';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
@@ -52,6 +48,8 @@ import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.
 })
 export class ReferenceTypesTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
+
+  private gridApi: GridApi;
 
   public modules = [
     ClientSideRowModelModule,
@@ -67,7 +65,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
   ];
 
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
-  public columnDefs: ColDef[] = [];
+  public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
   public rowSelection = !environment.production ? 'multiple' : 'single';
 
@@ -97,52 +95,14 @@ export class ReferenceTypesTableComponent implements OnChanges {
 
   @Input() rowData: ReferenceType[];
 
-  /**
-   * Identify necessary column definitions on provided data.
-   */
-  private getUpdatedDefaultColumnDefinitions(
-    update: ReferenceType[]
-  ): { [key: string]: ColDef } {
-    const defaultColumnDefinitions: { [key: string]: ColDef } = {};
-
-    Object.keys(this.columnDefinitionService.COLUMN_DEFINITIONS).forEach(
-      (column: string) => {
-        const showColumn =
-          update.length > 0 &&
-          (update[0] as any)[columnDefinitionToReferenceTypeProp(column)] !==
-            undefined;
-
-        if (showColumn || column === 'checkbox') {
-          defaultColumnDefinitions[
-            column
-          ] = this.columnDefinitionService.COLUMN_DEFINITIONS[column];
-        }
-      }
-    );
-
-    return defaultColumnDefinitions;
-  }
-
   public constructor(
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
-  public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.rowData) {
-      // get updated default column definitions
-      const updatedDefaultColumnDefinitions = this.getUpdatedDefaultColumnDefinitions(
-        changes.rowData.currentValue
-      );
-
-      // set column definitions
-      this.setColumnDefinitions(
-        updatedDefaultColumnDefinitions,
-        DEFAULT_COLUMN_STATE,
-        this.agGridStateService.getColumnState(
-          ReferenceTypesTableComponent.TABLE_KEY
-        )
-      );
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes.rowData && this.gridApi) {
+      this.gridApi.setRowData(changes.rowData.currentValue);
     }
   }
 
@@ -156,6 +116,21 @@ export class ReferenceTypesTableComponent implements OnChanges {
       ReferenceTypesTableComponent.TABLE_KEY,
       columnState
     );
+  }
+
+  public onGridReady(event: GridReadyEvent): void {
+    this.gridApi = event.api;
+
+    const state = this.agGridStateService.getColumnState(
+      ReferenceTypesTableComponent.TABLE_KEY
+    );
+
+    event.columnApi.applyColumnState({
+      state,
+      applyOrder: true,
+    });
+
+    event.api.setRowData(this.rowData);
   }
 
   /**
@@ -180,35 +155,5 @@ export class ReferenceTypesTableComponent implements OnChanges {
     if (this.selectedRows.length > 2) {
       api.deselectIndex(this.selectedRows.shift());
     }
-  }
-
-  /**
-   * Set complete column config for AG Grid table.
-   */
-  private setColumnDefinitions(
-    defaultColumnDefinitions: { [key: string]: ColDef },
-    defaultColumnState: { [key: string]: ColumnState },
-    usersColumnState: ColumnState[]
-  ): void {
-    const columnDefinitions: ColDef[] = [];
-
-    Object.keys(defaultColumnDefinitions).forEach(
-      (key: string, index: number) => {
-        const columnStateUser = usersColumnState
-          ? usersColumnState.find((col) => col.colId === key)
-          : undefined;
-
-        columnDefinitions[
-          (columnStateUser && usersColumnState.indexOf(columnStateUser)) ||
-            index
-        ] = {
-          ...defaultColumnDefinitions[key],
-          ...(defaultColumnState[key] as any),
-          ...columnStateUser,
-        };
-      }
-    );
-
-    this.columnDefs = columnDefinitions;
   }
 }
