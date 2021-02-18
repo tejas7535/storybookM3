@@ -44,10 +44,7 @@ describe('Create Case Reducer', () => {
 
       expect(state).toEqual({
         ...CREATE_CASE_STORE_STATE_MOCK,
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: FilterNames.CUSTOMER,
-        },
+        autocompleteLoading: FilterNames.CUSTOMER,
       });
     });
   });
@@ -61,13 +58,11 @@ describe('Create Case Reducer', () => {
       ];
 
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: FilterNames.CUSTOMER,
-          autocompleteItems: [
-            { filter: FilterNames.CUSTOMER, options: fakeOptions },
-          ],
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        autocompleteLoading: FilterNames.CUSTOMER,
+        autocompleteItems: [
+          { filter: FilterNames.CUSTOMER, options: fakeOptions },
+        ],
       };
 
       const action = autocompleteSuccess({
@@ -77,7 +72,7 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.autocompleteItems[0].options;
+      const stateItem = state.autocompleteItems[0].options;
       expect(stateItem).toEqual([fakeOptions[0]]);
     });
     test('should transform material numbers', () => {
@@ -86,11 +81,9 @@ describe('Create Case Reducer', () => {
       ];
 
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: FilterNames.MATERIAL,
-          autocompleteItems: [{ filter: FilterNames.MATERIAL, options: [] }],
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        autocompleteLoading: FilterNames.MATERIAL,
+        autocompleteItems: [{ filter: FilterNames.MATERIAL, options: [] }],
       };
 
       const action = autocompleteSuccess({
@@ -100,7 +93,7 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.autocompleteItems[0].options[0].id;
+      const stateItem = state.autocompleteItems[0].options[0].id;
       expect(stateItem).toEqual('000000167-0000-10');
     });
   });
@@ -113,25 +106,23 @@ describe('Create Case Reducer', () => {
     });
   });
   describe('selectAutocompleteOptions', () => {
-    test('should set customer option selected true', () => {
-      const fakeOptions = [
-        new IdValue('mcd', 'mercedes', false),
-        new IdValue('aud', 'audi', false),
-      ];
-      const selectOption = new IdValue('mcd', 'mercedes', true);
-      const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: FilterNames.CUSTOMER,
-          autocompleteItems: [
-            {
-              filter: FilterNames.CUSTOMER,
-              options: fakeOptions,
-            },
-          ],
-        },
-      };
+    const fakeOptions = [
+      new IdValue('mcd', 'mercedes', false),
+      new IdValue('aud', 'audi', false),
+    ];
+    const selectOption = new IdValue('mcd', 'mercedes', true);
 
+    const fakeState: CaseState = {
+      ...CREATE_CASE_STORE_STATE_MOCK,
+      autocompleteItems: [
+        {
+          filter: FilterNames.CUSTOMER,
+          options: fakeOptions,
+        },
+        { filter: FilterNames.MATERIAL, options: fakeOptions },
+      ],
+    };
+    test('should set customer option selected true', () => {
       const action = selectAutocompleteOption({
         option: selectOption,
         filter: FilterNames.CUSTOMER,
@@ -139,46 +130,70 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase;
-      expect(stateItem.autocompleteItems[0].options).toEqual([
+      expect(state.autocompleteItems[0].options).toEqual([
         selectOption,
         fakeOptions[1],
       ]);
-      expect(stateItem.customer.salesOrgsLoading).toBeTruthy();
-      expect(stateItem.customer.customerId).toEqual(selectOption.id);
+      expect(state.customer.salesOrgsLoading).toBeTruthy();
+      expect(state.customer.customerId).toEqual(selectOption.id);
+    });
+
+    test('should set material option selected true', () => {
+      const action = selectAutocompleteOption({
+        option: selectOption,
+        filter: FilterNames.MATERIAL,
+      });
+      fakeState.autocompleteItems[1].options = [];
+
+      fakeState.autocompleteLoading = FilterNames.MATERIAL;
+
+      const state = createCaseReducer(fakeState, action);
+
+      expect(state.autocompleteItems[1].options).toEqual([selectOption]);
+      expect(state.customer.salesOrgsLoading).toBeFalsy();
+      expect(state.customer.customerId).toEqual(fakeState.customer.customerId);
     });
   });
   describe('unselectAutocompleteOptions', () => {
-    test('should unselect customer options', () => {
-      const fakeOptions = [
-        new IdValue('mcd', 'mercedes', true),
-        new IdValue('aud', 'audi', false),
-      ];
-      const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          autocompleteLoading: FilterNames.CUSTOMER,
-          autocompleteItems: [
-            {
-              filter: FilterNames.CUSTOMER,
-              options: fakeOptions,
-            },
-          ],
+    const fakeOptions = [
+      new IdValue('mcd', 'mercedes', true),
+      new IdValue('aud', 'audi', false),
+    ];
+    const fakeState: CaseState = {
+      ...CREATE_CASE_STORE_STATE_MOCK,
+      autocompleteItems: [
+        {
+          filter: FilterNames.CUSTOMER,
+          options: fakeOptions,
         },
-      };
+        { filter: FilterNames.MATERIAL, options: fakeOptions },
+      ],
+    };
 
+    test('should unselect customer options', () => {
       const action = unselectAutocompleteOptions({
         filter: FilterNames.CUSTOMER,
       });
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase;
-      expect(stateItem.autocompleteItems[0].options).toEqual([
+      expect(state.autocompleteItems[0].options).toEqual([
         { ...fakeOptions[0], selected: false },
         fakeOptions[1],
       ]);
-      expect(stateItem.customer.salesOrgs).toEqual([]);
+      expect(state.customer.salesOrgs).toEqual([]);
+    });
+    test('should unselect material options', () => {
+      const action = unselectAutocompleteOptions({
+        filter: FilterNames.MATERIAL,
+      });
+      const state = createCaseReducer(fakeState, action);
+
+      expect(state.autocompleteItems[1].options).toEqual([
+        { ...fakeOptions[0], selected: false },
+        fakeOptions[1],
+      ]);
+      expect(state.customer.salesOrgs).toEqual(fakeState.customer.salesOrgs);
     });
   });
   describe('addRowDataItem', () => {
@@ -199,18 +214,15 @@ describe('Create Case Reducer', () => {
         },
       ];
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          rowData: fakeData,
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        rowData: fakeData,
       };
 
       const action = addRowDataItem({ items });
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([...items, fakeData[1]]);
+      expect(state.rowData).toEqual([...items, fakeData[1]]);
     });
   });
   describe('pasteRowDataItems', () => {
@@ -252,17 +264,14 @@ describe('Create Case Reducer', () => {
         },
       };
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          rowData: fakeData,
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        rowData: fakeData,
       };
 
       const action = pasteRowDataItems({ items, pasteDestination });
 
       const state = createCaseReducer(fakeState, action);
-      const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([...fakeData, ...items]);
+      expect(state.rowData).toEqual([...fakeData, ...items]);
     });
   });
   describe('clearRowData', () => {
@@ -276,18 +285,15 @@ describe('Create Case Reducer', () => {
       ];
 
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          rowData: fakeData,
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        rowData: fakeData,
       };
 
       const action = clearRowData();
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([dummyRowData]);
+      expect(state.rowData).toEqual([dummyRowData]);
     });
   });
   describe('deleteRowDataItem', () => {
@@ -307,10 +313,8 @@ describe('Create Case Reducer', () => {
       ];
 
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          rowData: fakeData,
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        rowData: fakeData,
       };
 
       const action = deleteRowDataItem({
@@ -319,8 +323,7 @@ describe('Create Case Reducer', () => {
 
       const state = createCaseReducer(fakeState, action);
 
-      const stateItem = state.createCase.rowData;
-      expect(stateItem).toEqual([fakeData[0]]);
+      expect(state.rowData).toEqual([fakeData[0]]);
     });
   });
   describe('validateSuccess', () => {
@@ -349,10 +352,8 @@ describe('Create Case Reducer', () => {
       ];
 
       const fakeState: CaseState = {
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          rowData: fakeData,
-        },
+        ...CREATE_CASE_STORE_STATE_MOCK,
+        rowData: fakeData,
       };
 
       const expected = fakeData;
@@ -366,9 +367,8 @@ describe('Create Case Reducer', () => {
       const action = validateSuccess({ materialValidations });
 
       const state = createCaseReducer(fakeState, action);
-      const { rowData } = state.createCase;
 
-      expect(rowData).toEqual(expected);
+      expect(state.rowData).toEqual(expected);
     });
   });
   describe('validateFailure', () => {
@@ -376,24 +376,21 @@ describe('Create Case Reducer', () => {
       const action = validateFailure();
       const mockState: CaseState = {
         ...CREATE_CASE_STORE_STATE_MOCK,
-        createCase: {
-          ...CREATE_CASE_STORE_STATE_MOCK.createCase,
-          validationLoading: true,
-          rowData: [
-            {
-              info: {
-                valid: true,
-                description: [ValidationDescription.Valid],
-              },
+        validationLoading: true,
+        rowData: [
+          {
+            info: {
+              valid: true,
+              description: [ValidationDescription.Valid],
             },
-            {
-              info: {
-                valid: false,
-                description: [ValidationDescription.Not_Validated],
-              },
+          },
+          {
+            info: {
+              valid: false,
+              description: [ValidationDescription.Not_Validated],
             },
-          ],
-        },
+          },
+        ],
       };
 
       const expected = [
@@ -412,15 +409,14 @@ describe('Create Case Reducer', () => {
       ];
 
       const state = createCaseReducer(mockState, action);
-      const resultTable = state.createCase.rowData;
-      expect(resultTable).toEqual(expected);
+      expect(state.rowData).toEqual(expected);
     });
   });
   describe('createCase', () => {
     test('should set createCaseLoading', () => {
       const action = createCase();
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-      expect(state.createCase.createCaseLoading).toBeTruthy();
+      expect(state.createCaseLoading).toBeTruthy();
     });
   });
   describe('createCaseSuccess', () => {
@@ -432,7 +428,7 @@ describe('Create Case Reducer', () => {
       };
       const action = createCaseSuccess({ createdCase });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-      expect(state.createCase.createdCase).toEqual(createdCase);
+      expect(state.createdCase).toEqual(createdCase);
     });
   });
   describe('getSalesOrgsSuccess', () => {
@@ -442,7 +438,7 @@ describe('Create Case Reducer', () => {
       const action = getSalesOrgsSuccess({ salesOrgs });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
-      expect(state.createCase.customer.salesOrgs).toEqual(salesOrgs);
+      expect(state.customer.salesOrgs).toEqual(salesOrgs);
     });
   });
   describe('getSalesOrgsFailure', () => {
@@ -452,14 +448,14 @@ describe('Create Case Reducer', () => {
       const action = getSalesOrgsFailure({ errorMessage });
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
-      expect(state.createCase.customer.errorMessage).toEqual(errorMessage);
+      expect(state.customer.errorMessage).toEqual(errorMessage);
     });
   });
   describe('createCaseFailure', () => {
     test('should set createCaseLoading to false', () => {
       const action = createCaseFailure();
       const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
-      expect(state.createCase.createCaseLoading).toBeFalsy();
+      expect(state.createCaseLoading).toBeFalsy();
     });
   });
 

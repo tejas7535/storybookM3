@@ -101,6 +101,14 @@ describe('Process Case Selector', () => {
         quotationSelectors.getSapId.projector(fakeState.processCase)
       ).toEqual(fakeState.processCase.quotation.item.sapId);
     });
+    test('should return undefined', () => {
+      const processCase = {
+        quotation: {},
+      };
+      expect(quotationSelectors.getSapId.projector(processCase)).toEqual(
+        undefined
+      );
+    });
   });
 
   describe(' getAddQuotationDetailsRequest', () => {
@@ -216,6 +224,14 @@ describe('Process Case Selector', () => {
           fakeState.processCase
         )
       ).toEqual(fakeState.processCase.quotation.item.quotationDetails[0]);
+    });
+    test('should return undefined', () => {
+      const processCase = {
+        quotation: {},
+      };
+      expect(
+        quotationSelectors.getSelectedQuotationDetail.projector(processCase)
+      ).toEqual(undefined);
     });
   });
 

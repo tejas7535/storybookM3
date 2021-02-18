@@ -61,11 +61,9 @@ describe('CreateCaseDialogComponent', () => {
       provideMockStore({
         initialState: {
           case: {
-            createCase: {
-              autocompleteItems: [],
-              customer: {
-                salesOrg: [],
-              },
+            autocompleteItems: [],
+            customer: {
+              salesOrg: [],
             },
           },
         },

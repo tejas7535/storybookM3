@@ -62,6 +62,15 @@ describe('GqPriceComponent', () => {
       component.ngOnInit();
 
       expect(component.customerCurrency$).toBeDefined();
+      expect(component.gpi).toBeDefined();
+    });
+    test('should not set gpi', () => {
+      component.quotationDetail = undefined;
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.customerCurrency$).toBeDefined();
+      expect(component.gpi).toBeUndefined();
     });
   });
 

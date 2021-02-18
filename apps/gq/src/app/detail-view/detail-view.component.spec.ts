@@ -59,6 +59,14 @@ describe('DetailViewComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    test('should set observables', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.quotation$).toBeDefined();
+    });
+  });
   describe('getOffer', () => {
     test('set offer', () => {
       component.getOffer();
