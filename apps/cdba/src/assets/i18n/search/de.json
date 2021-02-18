@@ -11,6 +11,7 @@
       "product_line": "Produkt Linie",
       "material_number": "Materialnummer",
       "material_designation": "Material Designation",
+      "key_account": "Key Account",
       "customer": "Kunde",
       "material_short_description": "Material Kurzbeschreibung",
       "budget_quantity": "Budgetierte Menge",
@@ -24,6 +25,7 @@
       "material_number": "Beispielwert: 012618918-0000",
       "material_designation": "Beispielwert: F-230539",
       "customer": "Beispielwert: Audi Hungaria Zrt.",
+      "key_account": "Beispielwert: VW",
       "material_short_description": "Beispielwert: SLH",
       "project_name": "Beispielwert: Mazda J59Y",
       "rfq": "Beispielwert: 000031144313"

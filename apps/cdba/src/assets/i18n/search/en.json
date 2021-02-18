@@ -11,6 +11,7 @@
       "product_line": "Product Line",
       "material_number": "Material Number",
       "material_designation": "Material Designation",
+      "key_account": "Key Account",
       "customer": "Customer",
       "material_short_description": "Material Short Description",
       "budget_quantity": "Budget Quantity",
@@ -24,6 +25,7 @@
       "material_number": "Example Value: 012618918-0000",
       "material_designation": "Example Value: F-230539",
       "customer": "Example Value: Audi Hungaria Zrt.",
+      "key_account": "Example Value: VW",
       "material_short_description": "Example Value: SLH",
       "project_name": "Example Value: Mazda J59Y",
       "rfq": "Example Value: 000031144313"
