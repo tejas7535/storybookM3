@@ -1,0 +1,54 @@
+{
+  "title": "Quotation Cases",
+  "buttonCreateCase": "Create New Case",
+  "caseTable": {
+    "customerNumber": "Customer Number",
+    "customerName": "Customer Name",
+    "createdBy": "Created By",
+    "creationDate": "GQ Creation Date",
+    "gqId": "GQ Case",
+    "sapId": "SAP Quotation",
+    "status": "Status",
+    "synchronized": "Synchronized"
+  },
+  "createCaseDialog": {
+    "title": "Create New Case",
+    "customer": {
+      "addEntry": {
+        "button": "Add position",
+        "title": "Add position"
+      },
+      "salesOrg": "Sales Org",
+      "button": "Create",
+      "hint": "Enter a Customer Number or a Customer Name",
+      "label": "Customer",
+      "nothingFound": "Nothing found",
+      "title": "Create Case manually",
+      "wrongInput": "Please enter a valid customer name or customer number"
+    },
+    "materialNumber": {
+      "hint": "Enter a 15-digit Material Number",
+      "label": "Material Number",
+      "nothingFound": "Nothing found",
+      "wrongInput": "Please enter a valid material number"
+    },
+    "quotation": {
+      "button": "Import",
+      "hint": "Enter a SAP Quotation Number",
+      "label": "Quotation Number",
+      "nothingFound": "Nothing found",
+      "title": "SAP Quotation Import",
+      "wrongInput": "Please enter a valid quotation number"
+    }
+  },
+  "deleteAccept": {
+    "cancelButton": "cancel",
+    "deleteButton": "delete",
+    "text": "Do you really want to delete the following case(s)?"
+  },
+  "snackBarMessages": {
+    "createSuccess": "Case was created successfully",
+    "deleteSuccess": "Case was deleted successfully",
+    "importSuccess": "Case was imported successfully"
+  }
+}

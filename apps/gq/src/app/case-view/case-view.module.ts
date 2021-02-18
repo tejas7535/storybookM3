@@ -7,6 +7,8 @@ import {
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
@@ -34,6 +36,7 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     LoadingSpinnerModule,
   ],
   providers: [
+    { provide: TRANSLOCO_SCOPE, useValue: 'case-view' },
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { disableClose: true, hasBackdrop: true },

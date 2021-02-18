@@ -1,0 +1,51 @@
+{
+  "filterPricing": {
+    "manualPrice": {
+      "title": "Manueller Preis",
+      "label": "Manueller Preis",
+      "hint": "Geben Sie einen manuellen Preis ein",
+      "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen"
+    },
+    "gqPrice": {
+      "title": "GQ Preis",
+      "priceLabel": "Preis",
+      "rating": "GQ-Bewertung",
+      "gpi": "GPI% (KHK)",
+      "quantity": "Menge"
+    },
+    "select": "auswählen",
+    "selected": "ausgewählt"
+  },
+  "pricingDetails": {
+    "label": "Preis Details",
+    "materialDetails": {
+      "15digit": "15-stellig",
+      "baseUoM": "Base UoM",
+      "dimension": "Dimensionen",
+      "ean11": "EAN Code",
+      "followingType": "Following Type",
+      "gpsdGroup": "GPSD-Gruppe",
+      "grossWeight": "Bruttogewicht",
+      "innerDiameter": "Innendurchmesser",
+      "label": "Material",
+      "materialDescription": "Material Beschreibung",
+      "materialType": "Material Typ",
+      "materialStatus": "X-Plant-Material status",
+      "outerDiameter": "Außendurchmesser",
+      "productHierarchy": "Prod. Hierarchie",
+      "productLine": "Prod. Line",
+      "series": "Series",
+      "width": "Breite"
+    },
+    "productionCostDetails": {
+      "label": "Produktion und Kosten",
+      "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
+      "available_data": "Beeinhaltet: Produktionwerk, Segment, Kosten and Kontext"
+    },
+    "scmDetails": {
+      "label": "Supply Chain Daten",
+      "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
+      "available_data": "Beeinhaltet: Lieferzeit and Kontext"
+    }
+  }
+}

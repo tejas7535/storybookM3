@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -36,6 +37,7 @@ import { ManualPriceComponent } from './manual-price/manual-price.component';
     SharedModule,
     SharedTranslocoModule,
   ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],
   exports: [FilterPricingComponent],
 })
 export class FilterPricingModule {}

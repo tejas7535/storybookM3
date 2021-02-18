@@ -1,6 +1,6 @@
 <gq-filter-pricing-card
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
-  [title]="title"
+  [title]="title$ | ngrxPush"
   [isDisabled]="disableInput || !manualPriceFormControl.value"
   [isSelected]="manualPriceFormControl.value === currentPrice"
   (selectManualPrice)="selectPrice()"

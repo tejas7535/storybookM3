@@ -1,140 +1,5 @@
 {
-  "caseView": {
-    "title": "Quotation Cases",
-    "buttonCreateCase": "Neuen Case Erstellen",
-    "caseTable": {
-      "customerNumber": "Kundennummer",
-      "customerName": "Kundenname",
-      "createdBy": "Erstellt von ",
-      "creationDate": "Erstelldatum",
-      "gqId": "GQ ID",
-      "sapId": "SAP Quotation",
-      "status": "Status",
-      "synchronized": "Synchronisiert"
-    },
-    "createCaseDialog": {
-      "title": "Neuen Fall erstellen",
-      "customer": {
-        "addEntry": {
-          "button": "Eintrag hinzufügen",
-          "title": "Neuen Eintrag hinzufügen"
-        },
-        "salesOrg": "Sales Org",
-        "button": "Case erstellen",
-        "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
-        "label": "Kunde",
-        "nothingFound": "Keine Ergebnisse",
-        "title": "Neuen Case erstellen",
-        "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
-      },
-      "materialNumber": {
-        "hint": "Geben Sie eine 15-stellige Materialnummer ein",
-        "label": "Material Nummer",
-        "nothingFound": "Keine Ergebnisse",
-        "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
-      },
-      "quotation": {
-        "button": "Angebot öffnen",
-        "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
-        "label": "Angebotsnummer",
-        "nothingFound": "Keine Ergebnisse",
-        "title": "SAP Case importieren",
-        "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
-      }
-    },
-    "deleteAccept": {
-      "cancelButton": "abbrechen",
-      "deleteButton": "löschen",
-      "text": "Möchten Sie wirkliche folgende Angebote löschen?"
-    },
-    "snackBarMessages": {
-      "createSuccess": "Angebot wurde erfolgreich erstellt",
-      "deleteSuccess": "Angebot wurde erfolgreich gelöscht",
-      "importSuccess": "Angebot wurde erfolgreich importiert"
-    }
-  },
-  "customerView": {
-    "country": "Land",
-    "customer": "Kunde",
-    "customerId": "Kundennummer",
-    "abcClassification": "Kunden Segmentierung (A,B,C)",
-    "netSales": "Umsatz",
-    "gpi": "GPI",
-    "incoterms": "Incoterms",
-    "keyAccount": "Keyaccount",
-    "paymentTerms": "Payment Terms",
-    "region": "Region",
-    "salesOrg": "Sales Org",
-    "sectorManagement": "Sector Management",
-    "subKeyAccount": "SubKeyAccount",
-    "subRegion": "Sub-Region",
-    "subSector": "Subsector",
-    "title": "Kunde"
-  },
-  "detailView": {
-    "filterPricing": {
-      "manualPrice": {
-        "title": "Manueller Preis",
-        "label": "Manueller Preis",
-        "hint": "Geben Sie einen manuellen Preis ein",
-        "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen"
-      },
-      "gqPrice": {
-        "title": "GQ Preis",
-        "priceLabel": "Preis",
-        "rating": "GQ-Bewertung",
-        "gpi": "GPI% (KHK)",
-        "quantity": "Menge"
-      },
-      "select": "auswählen",
-      "selected": "ausgewählt"
-    },
-    "pricingDetails": {
-      "label": "Preis Details",
-      "materialDetails": {
-        "15digit": "15-stellig",
-        "baseUoM": "Base UoM",
-        "dimension": "Dimensionen",
-        "ean11": "EAN Code",
-        "followingType": "Following Type",
-        "gpsdGroup": "GPSD-Gruppe",
-        "grossWeight": "Bruttogewicht",
-        "innerDiameter": "Innendurchmesser",
-        "label": "Material",
-        "materialDescription": "Material Beschreibung",
-        "materialType": "Material Typ",
-        "materialStatus": "X-Plant-Material status",
-        "outerDiameter": "Außendurchmesser",
-        "productHierarchy": "Prod. Hierarchie",
-        "productLine": "Prod. Line",
-        "series": "Series",
-        "width": "Breite"
-      },
-      "productionCostDetails": {
-        "label": "Produktion und Kosten",
-        "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
-        "available_data": "Beeinhaltet: Produktionwerk, Segment, Kosten and Kontext"
-      },
-      "scmDetails": {
-        "label": "Supply Chain Daten",
-        "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
-        "available_data": "Beeinhaltet: Lieferzeit and Kontext"
-      }
-    }
-  },
-  "offerView": {
-    "offerHeader": {
-      "newCase": "Neuen Fall erstellen",
-      "title": "Angebot"
-    }
-  },
-  "processCaseView": {
-    "addMaterialDialog": {
-      "addEntry": {
-        "title": "Neuen Eintrag hinzufügen"
-      },
-      "title": "Material hinzufügen"
-    },
+  "shared": {
     "quotationDetailsTable": {
       "gpi": "Preisspanne",
       "gpsd": "GPSD",
@@ -159,14 +24,6 @@
       "sqv": "SQV",
       "uom": "Maßeinheit"
     },
-    "snackBarMessages": {
-      "materialAdded": "Material wurde hinzugefügt",
-      "materialDeleted": "Material wurde entfernt",
-      "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
-      "updateSelectedPrice": "Der Preis wurde gespeichert"
-    }
-  },
-  "shared": {
     "caseHeader": {
       "gqCreated": "(GQ) Erstellt am",
       "gqCreatedByUser": "(GQ) Erstellt von",
@@ -268,46 +125,7 @@
       "quantity": "Stückzahl"
     },
     "roleModal": {
-      "menuTitle": "Rollen",
-      "modalTitle": "Zugewiesene Rollen",
-      "subtitle": "Folgende Rollen sind aktuell dem Benutzer zugewiesen:",
-      "noRoles": "Ihnen sind keine Rollen zugewiesen",
-      "geoRoles": {
-        "title": "Geografische Rollen",
-        "REGION.WORLD": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Regionen.",
-        "REGION.EMEA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Europa.",
-        "REGION.AMERICAS": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Amerikas.",
-        "REGION.ASIA.PACIFIC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region Asien Pazifik.",
-        "REGION.GREATER.CHINA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus der Region China."
-      },
-      "sectoralRoles": {
-        "title": "Sektor Rollen",
-        "SECTOR.ALL": "Diese Rolle berechtigt zum Zugriff auf Kunden aus allen Sektoren.",
-        "SECTOR.ID": "Diese Rolle berechtigt zum Zugriff auf Distribution - Kunden.",
-        "SECTOR.OEM": "Diese Rolle berechtigt zum Zugriff auf OEM/MRO - Kunden.",
-        "SECTOR.IA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Industrial Automation.",
-        "SECTOR.OR": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Offroad.",
-        "SECTOR.PT": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Power Transmission.",
-        "SECTOR.RM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Raw Materials.",
-        "SECTOR.RW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Railway.",
-        "SECTOR.TW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Two Wheelers.",
-        "SECTOR.WE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Windenergy.",
-        "SECTOR.XA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Aerospace.",
-        "SECTOR.AG": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Transmission Application.",
-        "SECTOR.AC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Chassis/Accessory Drive Application.",
-        "SECTOR.AM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Automotive Aftermarket.",
-        "SECTOR.AE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Engine Components.",
-        "SECTOR.AO": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Automotive Sales."
-      },
-      "costRoles": {
-        "title": "Kosten Rollen",
-        "COST.GPC": "Diese Rolle berechtigt zur Anzeige von KHK und GPI Informationen.",
-        "COST.SQV": "Diese Rolle berechtigt zur Anzeige von SAW."
-      },
-      "priceRoles": {
-        "title": "Preis Rollen",
-        "PRICE.MANUAL": "Diese Rolle berechtigt zur Anlage von manuellen Preisen (ZMAN)."
-      }
+      "menuTitle": "Rollen"
     }
   }
 }

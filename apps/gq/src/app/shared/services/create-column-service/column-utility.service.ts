@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
+import { GqQuotationPipe } from '../../pipes/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform.pipe';
 import { NumberFormatPipe } from '../../pipes/number-format.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
@@ -90,5 +91,15 @@ export class ColumnUtilityService {
     const materialPipe = new MaterialTransformPipe();
 
     return materialPipe.transform(data.value);
+  }
+
+  static dateFormatter(data: any): string {
+    return data.value ? new Date(data.value).toLocaleDateString() : '';
+  }
+
+  static idFormatter(data: any): string {
+    const pipe = new GqQuotationPipe();
+
+    return pipe.transform(data.value);
   }
 }

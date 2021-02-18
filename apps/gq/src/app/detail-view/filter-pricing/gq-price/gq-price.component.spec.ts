@@ -12,11 +12,6 @@ import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-sp
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('GqPriceComponent', () => {
   let component: GqPriceComponent;
   let spectator: Spectator<GqPriceComponent>;

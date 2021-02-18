@@ -19,117 +19,101 @@ export const COLUMN_DEFS: ColDef[] = [
     cellStyle: { textAlign: 'right' },
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.item'),
+    headerName: translate('shared.quotationDetailsTable.item'),
     field: 'sapQuotationItemId',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.materialNumber'
-    ),
+    headerName: translate('shared.quotationDetailsTable.materialNumber'),
     field: 'material.materialNumber15',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.materialDescription'
-    ),
+    headerName: translate('shared.quotationDetailsTable.materialDescription'),
     field: 'material.materialDescription',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.orderQuantity'
-    ),
+    headerName: translate('shared.quotationDetailsTable.orderQuantity'),
     field: 'orderQuantity',
     valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.offerPrice'),
+    headerName: translate('shared.quotationDetailsTable.offerPrice'),
     field: 'price',
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.per'),
+    headerName: translate('shared.quotationDetailsTable.per'),
     valueFormatter: () => '1',
     field: 'per',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.uom'),
+    headerName: translate('shared.quotationDetailsTable.uom'),
     field: 'material.baseUoM',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.netValue'),
+    headerName: translate('shared.quotationDetailsTable.netValue'),
     field: 'netValue',
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.priceSource'),
+    headerName: translate('shared.quotationDetailsTable.priceSource'),
     // currently missing in the database ?
     field: 'priceSource',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.gqRating'),
+    headerName: translate('shared.quotationDetailsTable.gqRating'),
     cellRenderer: 'gqRatingComponent',
     field: 'gqRating',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.gpc'),
+    headerName: translate('shared.quotationDetailsTable.gpc'),
     field: ColumnFields.GPC,
     valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.sqv'),
+    headerName: translate('shared.quotationDetailsTable.sqv'),
     field: ColumnFields.SQV,
     valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.gpi'),
+    headerName: translate('shared.quotationDetailsTable.gpi'),
     field: ColumnFields.GPI,
     valueFormatter: ColumnUtilityService.percentageFormatter,
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.lastCustomerPrice'
-    ),
+    headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
     field: 'lastCustomerPrice',
     valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.percentDifference'
-    ),
+    headerName: translate('shared.quotationDetailsTable.percentDifference'),
     field: 'percentDifference',
     valueFormatter: ColumnUtilityService.percentageFormatter,
   },
 
   {
-    headerName: translate('processCaseView.quotationDetailsTable.rlt'),
+    headerName: translate('shared.quotationDetailsTable.rlt'),
     field: 'rlt',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.productionPlant'
-    ),
+    headerName: translate('shared.quotationDetailsTable.productionPlant'),
     field: 'productionPlant.plantNumber',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.productionCity'
-    ),
+    headerName: translate('shared.quotationDetailsTable.productionCity'),
     // currently missing in the database -> BE: adjust PlantDto
     field: 'productionCity',
   },
   {
-    headerName: translate(
-      'processCaseView.quotationDetailsTable.productionCountry'
-    ),
+    headerName: translate('shared.quotationDetailsTable.productionCountry'),
     // currently missing in the database -> BE: adjust PlantDto
     field: 'productionCountry',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.productLine'),
+    headerName: translate('shared.quotationDetailsTable.productLine'),
     field: 'material.productLineId',
   },
   {
-    headerName: translate('processCaseView.quotationDetailsTable.gpsd'),
+    headerName: translate('shared.quotationDetailsTable.gpsd'),
     field: 'material.gpsdGroupId',
   },
 ];

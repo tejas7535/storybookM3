@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -21,5 +22,11 @@ import { RoleModalComponent } from './role-modal.component';
     RoleDescModule,
   ],
   exports: [RoleModalComponent],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'role-modal',
+    },
+  ],
 })
 export class RoleModalModule {}

@@ -1,6 +1,7 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 
 import { ValidationDescription } from '../../../core/store/models';
+import { GqQuotationPipe } from '../../pipes/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { COLUMN_DEFS } from './column-defs';
 import { ColumnFields } from './column-fields.enum';
@@ -166,6 +167,30 @@ describe('CreateColumnService', () => {
       const data = ({ value: 'any' } as any) as ValueFormatterParams;
       const result = ColumnUtilityService.transformMaterial(data);
       expect(result).toEqual(data.value);
+    });
+  });
+  describe('dateFormatter', () => {
+    test('should render Date', () => {
+      const data = {
+        value: '2020-11-24T07:46:32.446388',
+      };
+      const res = ColumnUtilityService.dateFormatter(data);
+
+      const expected = new Date(data.value).toLocaleDateString();
+      expect(res).toEqual(expected);
+    });
+    test('should render Date', () => {
+      const data = {};
+      const res = ColumnUtilityService.dateFormatter(data);
+      expect(res).toEqual('');
+    });
+  });
+
+  describe('idFormatter', () => {
+    test('should call pipe', () => {
+      GqQuotationPipe.prototype.transform = jest.fn();
+      ColumnUtilityService.idFormatter('11');
+      expect(GqQuotationPipe.prototype.transform).toHaveBeenCalledTimes(1);
     });
   });
 });

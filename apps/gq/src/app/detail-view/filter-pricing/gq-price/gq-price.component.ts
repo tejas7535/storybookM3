@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { translate } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomerCurrency } from '../../../core/store';
@@ -21,7 +21,7 @@ export class GqPriceComponent implements OnInit {
   public gpi: number;
   _isLoading: boolean;
 
-  title: string = translate('detailView.filterPricing.gqPrice.title');
+  title$: Observable<string>;
 
   @Input() quotationDetail: QuotationDetail;
   @Input() set isLoading(value: boolean) {
@@ -32,7 +32,16 @@ export class GqPriceComponent implements OnInit {
   }
   @Output() readonly selectManualPrice = new EventEmitter<number>();
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  constructor(
+    private readonly store: Store<ProcessCaseState>,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.title$ = this.translocoService.selectTranslate(
+      'filterPricing.gqPrice.title',
+      {},
+      'detail-view'
+    );
+  }
 
   ngOnInit(): void {
     this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));

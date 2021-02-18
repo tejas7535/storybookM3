@@ -1,0 +1,54 @@
+{
+  "title": "Quotation Cases",
+  "buttonCreateCase": "Neuen Case Erstellen",
+  "caseTable": {
+    "customerNumber": "Kundennummer",
+    "customerName": "Kundenname",
+    "createdBy": "Erstellt von ",
+    "creationDate": "Erstelldatum",
+    "gqId": "GQ ID",
+    "sapId": "SAP Quotation",
+    "status": "Status",
+    "synchronized": "Synchronisiert"
+  },
+  "createCaseDialog": {
+    "title": "Neuen Fall erstellen",
+    "customer": {
+      "addEntry": {
+        "button": "Eintrag hinzufügen",
+        "title": "Neuen Eintrag hinzufügen"
+      },
+      "salesOrg": "Sales Org",
+      "button": "Case erstellen",
+      "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
+      "label": "Kunde",
+      "nothingFound": "Keine Ergebnisse",
+      "title": "Neuen Case erstellen",
+      "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
+    },
+    "materialNumber": {
+      "hint": "Geben Sie eine 15-stellige Materialnummer ein",
+      "label": "Material Nummer",
+      "nothingFound": "Keine Ergebnisse",
+      "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
+    },
+    "quotation": {
+      "button": "Angebot öffnen",
+      "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
+      "label": "Angebotsnummer",
+      "nothingFound": "Keine Ergebnisse",
+      "title": "SAP Case importieren",
+      "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+    }
+  },
+  "deleteAccept": {
+    "cancelButton": "abbrechen",
+    "deleteButton": "löschen",
+    "text": "Möchten Sie wirkliche folgende Angebote löschen?"
+  },
+  "snackBarMessages": {
+    "createSuccess": "Angebot wurde erfolgreich erstellt",
+    "deleteSuccess": "Angebot wurde erfolgreich gelöscht",
+    "importSuccess": "Angebot wurde erfolgreich importiert"
+  }
+}
