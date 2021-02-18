@@ -27,7 +27,7 @@ describe('RoleDescComponent', () => {
     test('should set key', () => {
       component.key = '1';
 
-      expect(component.translationKey).toEqual('shared.roleModal.1');
+      expect(component.translationKey).toEqual('roleModal.1');
     });
   });
   describe('trackByFn', () => {
