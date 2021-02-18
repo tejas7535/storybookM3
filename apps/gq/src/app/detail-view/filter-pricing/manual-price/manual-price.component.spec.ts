@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -14,11 +15,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { ManualPriceComponent } from './manual-price.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('ManualPriceComponent', () => {
   let component: ManualPriceComponent;
@@ -34,6 +30,7 @@ describe('ManualPriceComponent', () => {
       MatCardModule,
       MatFormFieldModule,
       MatInputModule,
+      ReactiveComponentModule,
       ReactiveFormsModule,
       provideTranslocoTestingModule({}),
     ],

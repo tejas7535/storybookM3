@@ -1,0 +1,14 @@
+{
+  "addMaterialDialog": {
+    "addEntry": {
+      "title": "Neuen Eintrag hinzufügen"
+    },
+    "title": "Material hinzufügen"
+  },
+  "snackBarMessages": {
+    "materialAdded": "Material wurde hinzugefügt",
+    "materialDeleted": "Material wurde entfernt",
+    "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
+    "updateSelectedPrice": "Der Preis wurde gespeichert"
+  }
+}

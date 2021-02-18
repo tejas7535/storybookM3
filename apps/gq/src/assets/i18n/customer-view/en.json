@@ -1,0 +1,18 @@
+{
+  "country": "Country",
+  "customer": "Customer",
+  "customerId": "Customer Number",
+  "abcClassification": "Customer Segmentation (A,B,C)",
+  "netSales": "Net Sales",
+  "gpi": "GPI",
+  "incoterms": "Incoterms",
+  "keyAccount": "Key Account",
+  "paymentTerms": "Payment Terms",
+  "region": "Region",
+  "salesOrg": "Sales Org",
+  "sectorManagement": "Sector Management",
+  "subKeyAccount": "Sub Key Account",
+  "subRegion": "Sub-Region",
+  "subSector": "Subsector",
+  "title": "Customer"
+}

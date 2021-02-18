@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { Observable } from 'rxjs';
+
 import { KeyName } from '@ag-grid-community/all-modules';
-import { translate } from '@ngneat/transloco';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'gq-manual-price',
@@ -14,7 +16,7 @@ export class ManualPriceComponent {
   disableInput: boolean;
   _isLoading: boolean;
 
-  title: string = translate('detailView.filterPricing.manualPrice.title');
+  title$: Observable<string>;
 
   @Input() currentPrice: number;
 
@@ -35,6 +37,14 @@ export class ManualPriceComponent {
   }
 
   @Output() readonly selectManualPrice = new EventEmitter<number>();
+
+  constructor(private readonly translocoService: TranslocoService) {
+    this.title$ = this.translocoService.selectTranslate(
+      'filterPricing.manualPrice.title',
+      {},
+      'detail-view'
+    );
+  }
 
   onKeyPress(event: KeyboardEvent, manualPriceInput: any): void {
     const parsedInput = parseInt(event.key, 10);

@@ -1,0 +1,51 @@
+{
+  "filterPricing": {
+    "manualPrice": {
+      "hint": "Enter a manual price",
+      "label": "Manual Price",
+      "noPermissionHint": "You do not have the permission to create a manual price",
+      "title": "Manual Pricing"
+    },
+    "gqPrice": {
+      "title": "GQ Pricing",
+      "priceLabel": "Price",
+      "rating": "GQ-Rating",
+      "gpi": "GPI% (GPC)",
+      "quantity": "Quantity"
+    },
+    "select": "select",
+    "selected": "selected"
+  },
+  "pricingDetails": {
+    "label": "Pricing Details",
+    "materialDetails": {
+      "15digit": "15-digit",
+      "baseUoM": "Base UoM",
+      "dimension": "Dimensions",
+      "ean11": "EAN Code",
+      "followingType": "Following Type",
+      "gpsdGroup": "GPSD-Group",
+      "grossWeight": "Gross Weight",
+      "innerDiameter": "Inner Diameter",
+      "label": "Material",
+      "materialDescription": "Material Description",
+      "materialType": "Material Type",
+      "materialStatus": "X-Plant-Material Status",
+      "outerDiameter": "Outer Diameter",
+      "productHierarchy": "Prod. Hierarchy",
+      "productLine": "Prod. Line",
+      "series": "Series",
+      "width": "Width"
+    },
+    "productionCostDetails": {
+      "label": "Production and Cost",
+      "dummy": "This data will be available by the next update expected in January",
+      "available_data": "Including: Production plant, segment, costs and contexts"
+    },
+    "scmDetails": {
+      "label": "Supply Chain Data",
+      "dummy": "This data will be available by the next update expected in January",
+      "available_data": "Including: Replenishment lead time and context"
+    }
+  }
+}

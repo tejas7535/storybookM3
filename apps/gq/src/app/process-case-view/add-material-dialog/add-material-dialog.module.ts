@@ -3,6 +3,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
@@ -22,5 +24,6 @@ import { AddMaterialDialogComponent } from './add-material-dialog.component';
     MatIconModule,
   ],
   exports: [AddMaterialDialogComponent],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' }],
 })
 export class AddMaterialDialogModule {}
