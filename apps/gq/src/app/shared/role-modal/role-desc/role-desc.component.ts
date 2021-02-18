@@ -8,7 +8,7 @@ export class RoleDescComponent {
   public translationKey: string;
   @Input() roles: string[];
   @Input() set key(value: string) {
-    this.translationKey = `shared.roleModal.${value}`;
+    this.translationKey = `roleModal.${value}`;
   }
 
   public trackByFn(index: number): number {
