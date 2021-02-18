@@ -28,6 +28,7 @@ describe('QuotationDetailsTableComponent', () => {
   const createComponent = createComponentFactory({
     component: QuotationDetailsTableComponent,
     declarations: [QuotationDetailsTableComponent],
+    detectChanges: false,
     imports: [
       AgGridModule.withComponents([
         AddToOfferButtonComponent,
@@ -65,7 +66,37 @@ describe('QuotationDetailsTableComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    test('should set columnDefs', () => {
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.columnDefs$).toBeDefined();
+    });
+  });
+  describe('set quotation', () => {
+    test('should set rowData and tableContext.currency', () => {
+      component.quotation = QUOTATION_MOCK;
+
+      expect(component.rowData).toEqual(QUOTATION_MOCK.quotationDetails);
+      expect(component.tableContext.currency).toEqual(QUOTATION_MOCK.currency);
+    });
+  });
+  describe('onFirstDataRenderer', () => {
+    test('should call autoSizeAllColumns', () => {
+      const params = {
+        columnApi: {
+          autoSizeAllColumns: jest.fn(),
+        },
+      } as any;
+
+      component.onFirstDataRendered(params);
+
+      expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledTimes(1);
+    });
   });
 });

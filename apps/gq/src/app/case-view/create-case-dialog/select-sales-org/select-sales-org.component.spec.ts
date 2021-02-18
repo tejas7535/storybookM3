@@ -24,10 +24,8 @@ describe('SelectSalesOrgComponent', () => {
       provideMockStore({
         initialState: {
           case: {
-            createCase: {
-              customer: {
-                salesOrgs: [],
-              },
+            customer: {
+              salesOrgs: [],
             },
           },
         },

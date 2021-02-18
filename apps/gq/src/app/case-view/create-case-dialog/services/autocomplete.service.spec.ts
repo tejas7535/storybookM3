@@ -2,9 +2,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
@@ -14,29 +13,30 @@ import { AutocompleteService } from './autocomplete.service';
 
 describe('AutocompleteService', (): void => {
   let service: AutocompleteService;
+  let spectator: SpectatorService<AutocompleteService>;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        AutocompleteService,
-        DataService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: AutocompleteService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      AutocompleteService,
+      DataService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(AutocompleteService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.service;
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {

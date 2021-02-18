@@ -17,16 +17,14 @@ import { CaseState } from '../../reducers/create-case/create-case.reducer';
 export const getCaseQuotation = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.createCase.autocompleteItems.find(
-      (it) => it.filter === FilterNames.QUOTATION
-    )
+    state.autocompleteItems.find((it) => it.filter === FilterNames.QUOTATION)
 );
 
 export const getSelectedQuotation = createSelector(
   getCaseState,
   (state: CaseState): ImportCaseResponse => {
     let quotation: ImportCaseResponse = {};
-    const quotationOptions = state.createCase.autocompleteItems.find(
+    const quotationOptions = state.autocompleteItems.find(
       (it) => it.filter === FilterNames.QUOTATION
     );
     (quotationOptions.options as SapQuotation[]).forEach((value) => {
@@ -45,32 +43,28 @@ export const getSelectedQuotation = createSelector(
 export const getCaseCustomer = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.createCase.autocompleteItems.find(
-      (it) => it.filter === FilterNames.CUSTOMER
-    )
+    state.autocompleteItems.find((it) => it.filter === FilterNames.CUSTOMER)
 );
 export const getCaseMaterialNumber = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.createCase.autocompleteItems.find(
-      (it) => it.filter === FilterNames.MATERIAL
-    )
+    state.autocompleteItems.find((it) => it.filter === FilterNames.MATERIAL)
 );
 
 export const getCaseAutocompleteLoading = createSelector(
   getCaseState,
   (state: CaseState, autocompleteItem: string): boolean =>
-    state.createCase.autocompleteLoading === autocompleteItem
+    state.autocompleteLoading === autocompleteItem
 );
 export const getCaseRowData = createSelector(
   getCaseState,
-  (state: CaseState): MaterialTableItem[] => state.createCase.rowData
+  (state: CaseState): MaterialTableItem[] => state.rowData
 );
 
 export const getCustomerConditionsValid = createSelector(
   getCaseState,
   (state: CaseState): boolean => {
-    const rowData = state ? [...state.createCase.rowData] : [];
+    const rowData = state ? [...state.rowData] : [];
     let rowDataValid = rowData.length >= 1;
     for (const row of rowData) {
       if (row.materialNumber || row.quantity) {
@@ -88,7 +82,7 @@ export const getCustomerConditionsValid = createSelector(
     }
 
     const customerValid = state
-      ? state.createCase.autocompleteItems
+      ? state.autocompleteItems
           .find((el) => el.filter === FilterNames.CUSTOMER)
           .options.find((opt) => opt.selected)
       : undefined;
@@ -99,13 +93,11 @@ export const getCustomerConditionsValid = createSelector(
 export const getCreateCaseData = createSelector(
   getCaseState,
   (state: CaseState): CreateCase => {
-    const customerId = state.createCase.customer.customerId;
-    const salesOrg = state.createCase.customer.salesOrgs.find(
-      (org) => org.selected
-    )?.id;
+    const customerId = state.customer.customerId;
+    const salesOrg = state.customer.salesOrgs.find((org) => org.selected)?.id;
 
     const materialQuantities: MaterialQuantities[] = [];
-    state.createCase.rowData.forEach((el) => {
+    state.rowData.forEach((el) => {
       materialQuantities.push({
         materialId: el.materialNumber,
         quantity:
@@ -127,21 +119,21 @@ export const getCreateCaseData = createSelector(
 
 export const getCreatedCase = createSelector(
   getCaseState,
-  (state: CaseState): CreateCaseResponse => state.createCase.createdCase
+  (state: CaseState): CreateCaseResponse => state.createdCase
 );
 
 export const getSalesOrgs = createSelector(
   getCaseState,
-  (state: CaseState): SalesOrg[] => state.createCase.customer.salesOrgs
+  (state: CaseState): SalesOrg[] => state.customer.salesOrgs
 );
 
 export const getSelectedSalesOrg = createSelector(
   getCaseState,
   (state: CaseState): SalesOrg =>
-    state.createCase.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
+    state.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
 );
 
 export const getCreateCaseLoading = createSelector(
   getCaseState,
-  (state: CaseState): boolean => state.createCase.createCaseLoading
+  (state: CaseState): boolean => state.createCaseLoading
 );

@@ -8,34 +8,31 @@ describe('Create Case Selector', () => {
   const fakeState = {
     case: {
       ...initialState,
-      createCase: {
-        ...initialState.createCase,
-        autocompleteLoading: FilterNames.CUSTOMER,
-        autocompleteItems: [
-          {
-            filter: FilterNames.CUSTOMER,
-            options: [new IdValue('1', '1', true)],
-          },
-          {
-            filter: FilterNames.QUOTATION,
-            options: [new IdValue('1', '1', true)],
-          },
-        ],
-        customer: {
-          ...initialState.createCase.customer,
-          salesOrgs,
+      autocompleteLoading: FilterNames.CUSTOMER,
+      autocompleteItems: [
+        {
+          filter: FilterNames.CUSTOMER,
+          options: [new IdValue('1', '1', true)],
         },
-        rowData: [
-          {
-            materialNumber: '1234',
-            quantity: 20,
-            info: {
-              valid: true,
-              description: ValidationDescription.Valid,
-            },
-          },
-        ],
+        {
+          filter: FilterNames.QUOTATION,
+          options: [new IdValue('1', '1', true)],
+        },
+      ],
+      customer: {
+        ...initialState.customer,
+        salesOrgs,
       },
+      rowData: [
+        {
+          materialNumber: '1234',
+          quantity: 20,
+          info: {
+            valid: true,
+            description: ValidationDescription.Valid,
+          },
+        },
+      ],
     },
   };
 
@@ -44,7 +41,7 @@ describe('Create Case Selector', () => {
       expect(
         createSelectors.getCaseQuotation.projector(fakeState.case)
       ).toEqual(
-        fakeState.case.createCase.autocompleteItems.find(
+        fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.QUOTATION
         )
       );
@@ -60,7 +57,7 @@ describe('Create Case Selector', () => {
   describe('getCustomer', () => {
     test('should return customer', () => {
       expect(createSelectors.getCaseCustomer.projector(fakeState.case)).toEqual(
-        fakeState.case.createCase.autocompleteItems.find(
+        fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.CUSTOMER
         )
       );
@@ -71,7 +68,7 @@ describe('Create Case Selector', () => {
       expect(
         createSelectors.getCaseMaterialNumber.projector(fakeState.case)
       ).toEqual(
-        fakeState.case.createCase.autocompleteItems.find(
+        fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.MATERIAL
         )
       );
@@ -81,7 +78,7 @@ describe('Create Case Selector', () => {
   describe('getRowData', () => {
     test('should return row data', () => {
       expect(createSelectors.getCaseRowData.projector(fakeState.case)).toEqual(
-        fakeState.case.createCase.rowData
+        fakeState.case.rowData
       );
     });
   });

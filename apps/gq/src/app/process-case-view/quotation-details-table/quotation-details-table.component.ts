@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import {
   ColDef,
   ColumnApi,
+  IStatusPanelParams,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
 import { select, Store } from '@ngrx/store';
@@ -63,7 +64,7 @@ export class QuotationDetailsTableComponent implements OnInit {
     );
   }
 
-  onFirstDataRendered(params: any): void {
+  onFirstDataRendered(params: IStatusPanelParams): void {
     const gridColumnApi: ColumnApi = params.columnApi;
     gridColumnApi.autoSizeAllColumns(false);
   }
