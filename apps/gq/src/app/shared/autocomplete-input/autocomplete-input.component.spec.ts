@@ -163,8 +163,8 @@ describe('AutocompleteInputComponent', () => {
   });
 
   describe('onKeyPress', () => {
+    const event = ({ key: '1', preventDefault: jest.fn() } as unknown) as any;
     test('should return formatted', () => {
-      const event = ({ key: '1' } as unknown) as any;
       component.searchFormControl = ({
         value: '000001562606302',
         setValue: jest.fn(),
@@ -177,7 +177,8 @@ describe('AutocompleteInputComponent', () => {
       );
     });
     test('should return the same value', () => {
-      const event = ({ key: KeyName.BACKSPACE } as unknown) as any;
+      event.key = KeyName.BACKSPACE;
+
       component.searchFormControl = ({
         value: '000001562-6063-',
         setValue: jest.fn(),
@@ -188,6 +189,53 @@ describe('AutocompleteInputComponent', () => {
       expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
         '000001562-6063-'
       );
+    });
+    test('should preventDefault', () => {
+      component.searchFormControl = ({
+        value: '000001562-6063-111',
+        setValue: jest.fn(),
+      } as unknown) as any;
+      component.filterName = FilterNames.MATERIAL;
+      component.onKeypress(event);
+
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        '000001562-6063-11'
+      );
+    });
+  });
+
+  describe('sliceMaterialString', () => {
+    test('should slice material string', () => {
+      const value = '000001562-6063-1111';
+      expect(component.sliceMaterialString(value)).toEqual('000001562-6063-11');
+    });
+  });
+
+  describe('onPaste', () => {
+    test('should set input value', () => {
+      component.filterName = FilterNames.MATERIAL;
+      const string = '000001562-6063-1111';
+      const expectedString = '000001562-6063-11';
+      const event = {
+        preventDefault: jest.fn(),
+        clipboardData: {
+          getData: jest.fn(() => string),
+        },
+      } as any;
+      component.formatMaterialNumber = jest.fn(() => string);
+      component.searchFormControl.setValue = jest.fn();
+      component.sliceMaterialString = jest.fn(() => expectedString);
+
+      component.onPaste(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      expect(component.formatMaterialNumber).toHaveBeenCalledTimes(1);
+      expect(component.formatMaterialNumber).toHaveBeenCalledWith(string);
+      expect(event.clipboardData.getData).toHaveBeenCalledTimes(1);
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(component.searchFormControl.setValue).toHaveBeenLastCalledWith(
+        expectedString
+      );
+      expect(component.sliceMaterialString).toHaveBeenCalledWith(string);
     });
   });
   describe('set isDisabled', () => {

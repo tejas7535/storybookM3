@@ -25,6 +25,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.quotationDetailsTable.materialNumber'),
     field: 'material.materialNumber15',
+    valueFormatter: ColumnUtilityService.transformMaterial,
   },
   {
     headerName: translate('shared.quotationDetailsTable.materialDescription'),
