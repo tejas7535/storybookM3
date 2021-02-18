@@ -10,7 +10,8 @@
     <input
       class="input-field"
       [formControl]="searchFormControl"
-      (keyup)="onKeypress($event)"
+      (keydown)="onKeypress($event)"
+      (paste)="onPaste($event)"
       matInput
       #valueInput
       [matAutocomplete]="auto"

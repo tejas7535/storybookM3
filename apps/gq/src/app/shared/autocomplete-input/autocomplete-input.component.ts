@@ -123,14 +123,38 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   onKeypress(event: KeyboardEvent): void {
-    if (this.filterName === FilterNames.MATERIAL) {
-      let value: string = this.searchFormControl.value.slice(0, 17);
+    if (
+      this.filterName === FilterNames.MATERIAL &&
+      this.searchFormControl.value
+    ) {
+      let value: string = this.sliceMaterialString(
+        this.searchFormControl.value
+      );
 
       if (event.key !== KeyName.BACKSPACE) {
         value = this.formatMaterialNumber(value);
+        if (value.length >= 17) {
+          event.preventDefault();
+        }
       }
 
       this.searchFormControl.setValue(value);
+    }
+  }
+
+  sliceMaterialString(text: string): string {
+    // 17 equals max string length with dashes
+    return text.slice(0, 17);
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    if (this.filterName === FilterNames.MATERIAL) {
+      event.preventDefault();
+      const data = this.formatMaterialNumber(
+        event.clipboardData.getData('text')
+      );
+
+      this.searchFormControl.setValue(this.sliceMaterialString(data));
     }
   }
 
