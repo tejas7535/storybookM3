@@ -23,7 +23,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '{value} %',
+        formatter: '12 %',
       },
       pointer: {},
       axisLine: {
@@ -71,7 +71,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '{value} %',
+        formatter: '55 %',
       },
       pointer: {},
       axisLine: {
@@ -119,7 +119,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '{value} °C',
+        formatter: '99 °C',
       },
       pointer: {},
       axisLine: {
