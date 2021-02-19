@@ -21,6 +21,8 @@ export const salesSummaryMock = new SalesSummary(
   'product line key',
   'key',
   'name',
+  '0205',
+  'FAS',
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
