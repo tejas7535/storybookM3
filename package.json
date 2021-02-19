@@ -99,13 +99,13 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "11.0.0",
-    "@angular-devkit/build-angular": "0.1102.0",
-    "@angular-devkit/core": "11.2.0",
-    "@angular-devkit/schematics": "11.2.0",
+    "@angular-devkit/build-angular": "0.1102.1",
+    "@angular-devkit/core": "11.2.1",
+    "@angular-devkit/schematics": "11.2.1",
     "@angular-eslint/eslint-plugin": "1.2.0",
     "@angular-eslint/eslint-plugin-template": "1.2.0",
     "@angular-eslint/template-parser": "1.2.0",
-    "@angular/cli": "11.2.0",
+    "@angular/cli": "11.2.1",
     "@angular/compiler-cli": "11.2.0",
     "@angular/language-service": "11.2.0",
     "@babel/core": "7.12.16",
@@ -161,7 +161,7 @@
     "markdown-magic": "1.0.0",
     "markdown-magic-version-badge": "1.1.1",
     "ng-bullet": "1.0.3",
-    "ng-packagr": "11.2.1",
+    "ng-packagr": "11.2.2",
     "ngx-build-plus": "11.0.0",
     "npm-audit-html": "1.4.3",
     "npm-force-resolutions": "0.0.3",
@@ -193,6 +193,6 @@
     ]
   },
   "resolutions": {
-    "@angular-devkit/schematics": "11.2.0"
+    "@angular-devkit/schematics": "11.2.1"
   }
 }
