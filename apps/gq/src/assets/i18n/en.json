@@ -36,6 +36,10 @@
     },
     "caseMaterial": {
       "addEntry": {
+        "processCase": {
+          "dialogTitle": "Add Material",
+          "addEntryTitle": "Add new position"
+        },
         "quantity": {
           "error": "Invalid quantity",
           "hint": "Enter a quantity",
@@ -126,6 +130,12 @@
     },
     "roleModal": {
       "menuTitle": "User Roles"
+    },
+    "snackBarMessages": {
+      "materialAdded": "Material(s) added to the case",
+      "materialDeleted": "Material(s) deleted from the case",
+      "updateSelectedOffers": "Offer selection was saved",
+      "updateSelectedPrice": "Price selection was saved"
     }
   }
 }

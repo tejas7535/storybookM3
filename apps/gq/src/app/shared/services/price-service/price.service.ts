@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Action } from '@ngrx/store';
-
-import { loadQuotationSuccess } from '../../../core/store/actions/process-case/process-case.action';
 import {
-  Quotation,
   QuotationDetail,
   StatusBarCalculation,
 } from '../../../core/store/models';
@@ -13,39 +9,17 @@ import {
   providedIn: 'root',
 })
 export class PriceService {
-  static addCalculations(quotation: Quotation): Action {
-    const item: Quotation = {
-      ...quotation,
-      quotationDetails: PriceService.addCalculationsForDetails(
-        quotation.quotationDetails
-      ),
-    };
-
-    return loadQuotationSuccess({
-      item,
-    });
+  static addCalculationsForDetails(details: QuotationDetail[]): void {
+    details.forEach((detail) => PriceService.addCalculationsForDetail(detail));
   }
 
-  static addCalculationsForDetails(
-    details: QuotationDetail[]
-  ): QuotationDetail[] {
-    return details.map((detail) =>
-      PriceService.addCalculationsForDetail(detail)
+  static addCalculationsForDetail(detail: QuotationDetail): void {
+    detail.gpi = PriceService.calculateGPI(detail.price, detail.gpc);
+    detail.percentDifference = PriceService.calculatePercentDiffernce(detail);
+    detail.netValue = PriceService.calculateNetValue(
+      detail.price,
+      detail.orderQuantity
     );
-  }
-
-  static addCalculationsForDetail(detail: QuotationDetail): QuotationDetail {
-    const updatedDetail: QuotationDetail = {
-      ...detail,
-      gpi: PriceService.calculateGPI(detail.price, detail.gpc),
-      percentDifference: PriceService.calculatePercentDiffernce(detail),
-      netValue: PriceService.calculateNetValue(
-        detail.price,
-        detail.orderQuantity
-      ),
-    };
-
-    return updatedDetail;
   }
 
   static calculatePercentDiffernce(detail: QuotationDetail): number {
@@ -93,7 +67,9 @@ export class PriceService {
     details.forEach((row: QuotationDetail) => {
       if (row.netValue) {
         netValue += row.netValue;
-        sumGPINetValue += row.gpi * row.netValue;
+        if (row.gpi) {
+          sumGPINetValue += row.gpi * row.netValue;
+        }
       }
     });
     let weightedGPI = 0;

@@ -246,7 +246,7 @@ describe('Quotation Reducer', () => {
           ...QUOTATION_STATE_MOCK,
           quotation: {
             ...QUOTATION_STATE_MOCK.quotation,
-            quotationLoading: true,
+            updateLoading: true,
           },
         });
       });
@@ -476,7 +476,7 @@ describe('Quotation Reducer', () => {
           ...QUOTATION_STATE_MOCK,
           quotation: {
             ...QUOTATION_STATE_MOCK.quotation,
-            quotationLoading: true,
+            updateLoading: true,
           },
         });
       });

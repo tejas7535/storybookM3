@@ -23,8 +23,12 @@
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
     <gq-quotation-details-table
+      *ngIf="(isUpdateLoading$ | ngrxPush) === false; else updateLoading"
       [quotation]="quotation"
     ></gq-quotation-details-table>
+    <ng-template #updateLoading>
+      <gq-loading-spinner [show]="true"></gq-loading-spinner>
+    </ng-template>
   </mat-drawer-content>
   <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer

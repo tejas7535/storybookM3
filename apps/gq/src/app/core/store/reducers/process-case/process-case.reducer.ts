@@ -183,8 +183,7 @@ export const processCaseReducer = createReducer(
     ...state,
     quotation: {
       ...state.quotation,
-      item: initialState.quotation.item,
-      quotationLoading: true,
+      updateLoading: true,
       errorMessage: initialState.quotation.errorMessage,
     },
     addMaterials: {
@@ -196,7 +195,7 @@ export const processCaseReducer = createReducer(
     quotation: {
       ...state.quotation,
       item,
-      quotationLoading: false,
+      updateLoading: false,
       errorMessage: undefined,
     },
     addMaterials: {
@@ -209,7 +208,7 @@ export const processCaseReducer = createReducer(
     quotation: {
       ...state.quotation,
       errorMessage,
-      quotationLoading: false,
+      updateLoading: false,
     },
   })),
   on(addMaterialRowDataItem, (state: ProcessCaseState, { items }) => ({
@@ -302,7 +301,7 @@ export const processCaseReducer = createReducer(
     ...state,
     quotation: {
       ...state.quotation,
-      quotationLoading: true,
+      updateLoading: true,
     },
   })),
   on(removeMaterialsSuccess, (state: ProcessCaseState, { item }) => ({
@@ -310,7 +309,7 @@ export const processCaseReducer = createReducer(
     quotation: {
       ...state.quotation,
       item,
-      quotationLoading: false,
+      updateLoading: false,
       errorMessage: undefined,
     },
     addMaterials: {
@@ -323,7 +322,7 @@ export const processCaseReducer = createReducer(
     quotation: {
       ...state.quotation,
       errorMessage,
-      quotationLoading: false,
+      updateLoading: false,
     },
     addMaterials: {
       ...state.addMaterials,
@@ -364,9 +363,11 @@ export const updateQuotationDetailsArray = (
         price: update.price ? update.price : quotationDetail.price,
       };
 
-      return update.price
-        ? PriceService.addCalculationsForDetail(updatedDetail)
-        : updatedDetail;
+      if (update.price) {
+        PriceService.addCalculationsForDetail(updatedDetail);
+      }
+
+      return updatedDetail;
     }
 
     return quotationDetail;

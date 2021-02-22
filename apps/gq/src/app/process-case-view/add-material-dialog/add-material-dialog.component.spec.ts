@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -12,6 +13,7 @@ import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
+import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -31,14 +33,20 @@ describe('AddMaterialDialogComponent', () => {
       InputTableModule,
       AgGridModule.withComponents([]),
       AutocompleteInputModule,
+      LoadingSpinnerModule,
       MatCardModule,
       MatDialogModule,
       MatIconModule,
+      ReactiveComponentModule,
       SharedModule,
       provideTranslocoTestingModule({}),
     ],
     providers: [
-      provideMockStore({}),
+      provideMockStore({
+        initialState: {
+          processCase: { quotation: {} },
+        },
+      }),
       {
         provide: MatDialogRef,
         useValue: {},
@@ -53,5 +61,35 @@ describe('AddMaterialDialogComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
+  });
+  describe('ngOnInit', () => {
+    test('should add subscriptions', () => {
+      component['subscription'].add = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.rowData$).toBeDefined();
+      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('closeDialog', () => {
+    test('should close dialog', () => {
+      component['dialogRef'].close = jest.fn();
+      component.closeDialog();
+
+      expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+    });
   });
 });

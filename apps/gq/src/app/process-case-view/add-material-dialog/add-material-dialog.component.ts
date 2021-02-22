@@ -1,19 +1,28 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
+
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map, pairwise } from 'rxjs/operators';
+
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
 
 import { MaterialTableItem } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
-import { getAddMaterialRowData } from '../../core/store/selectors';
+import {
+  getAddMaterialRowData,
+  getQuotationErrorMessage,
+  getUpdateLoading,
+} from '../../core/store/selectors';
 
 @Component({
   selector: 'gq-add-material-dialog',
   templateUrl: './add-material-dialog.component.html',
   styleUrls: ['./add-material-dialog.component.scss'],
 })
-export class AddMaterialDialogComponent implements OnInit {
+export class AddMaterialDialogComponent implements OnInit, OnDestroy {
+  private readonly subscription: Subscription = new Subscription();
   rowData$: Observable<MaterialTableItem[]>;
+  updateLoading$: Observable<boolean>;
 
   constructor(
     private readonly store: Store<ProcessCaseState>,
@@ -22,6 +31,28 @@ export class AddMaterialDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.rowData$ = this.store.pipe(select(getAddMaterialRowData));
+    this.updateLoading$ = this.store.pipe(select(getUpdateLoading));
+
+    const isErrorMessage$ = this.store.pipe(select(getQuotationErrorMessage));
+
+    const loadingStopped$ = this.store.pipe(
+      select(getUpdateLoading),
+      pairwise(),
+      map(([preVal, curVal]) => preVal && !curVal)
+    );
+    this.subscription.add(
+      combineLatest([isErrorMessage$, loadingStopped$]).subscribe(
+        ([isErrorMessage, loadingStopped]) => {
+          if (!isErrorMessage && loadingStopped) {
+            this.closeDialog();
+          }
+        }
+      )
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   closeDialog(): void {
