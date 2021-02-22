@@ -53,15 +53,15 @@ export class OverviewComponent {
     },
     {
       title: 'Steel Cleanliness Data Base',
-      url: undefined,
+      url: 'https://sconnect.schaeffler.com/groups/steel-cleanliness-database',
       className: 'steel-cleanliness-db-icon',
-      externalLink: false,
+      externalLink: true,
     },
     {
       title: 'Polyassist',
-      url: undefined,
+      url: 'https://sconnect.schaeffler.com/groups/polyassist/',
       className: 'polyassist-icon',
-      externalLink: false,
+      externalLink: true,
     },
   ];
 

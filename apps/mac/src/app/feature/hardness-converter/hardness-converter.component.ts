@@ -100,11 +100,11 @@ export class HardnessConverterComponent implements OnInit {
 
   getValue(result: HardnessConversionSingleUnit): number | string {
     if (result.unit === 'HRc' && result.value) {
-      return Math.round(result.value * 10) / 10;
+      return (Math.round(result.value * 10) / 10).toLocaleString();
     }
 
     if (result.value) {
-      return Math.round(result.value);
+      return Math.round(result.value).toLocaleString();
     }
 
     return result.warning;

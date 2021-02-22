@@ -141,10 +141,10 @@ describe('HardnessConverterComponent', () => {
       const val3 = component.getValue({ unit: 'HRc', value: 0.99999999 });
       const val4 = component.getValue({ unit: 'HRc', value: 0.00000004 });
 
-      expect(val1).toEqual(50.4);
-      expect(val2).toEqual(1);
-      expect(val3).toEqual(1);
-      expect(val4).toEqual(0);
+      expect(val1).toEqual((50.4).toLocaleString());
+      expect(val2).toEqual((1).toLocaleString());
+      expect(val3).toEqual((1).toLocaleString());
+      expect(val4).toEqual((0).toLocaleString());
     });
 
     it('should return the value as an integer for other units', () => {
@@ -156,10 +156,10 @@ describe('HardnessConverterComponent', () => {
         value: 50.35346,
       });
 
-      expect(val1).toEqual(50);
-      expect(val2).toEqual(50);
-      expect(val3).toEqual(50);
-      expect(val4).toEqual(50);
+      expect(val1).toEqual((50).toLocaleString());
+      expect(val2).toEqual((50).toLocaleString());
+      expect(val3).toEqual((50).toLocaleString());
+      expect(val4).toEqual((50).toLocaleString());
     });
 
     it('should return the warning if no value is present', () => {
