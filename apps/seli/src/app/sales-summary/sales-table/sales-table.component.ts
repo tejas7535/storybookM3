@@ -109,12 +109,15 @@ export class SalesTableComponent {
           if (response.content.length === 0) {
             params.api.showNoRowsOverlay();
           }
-          params.successCallback(response.content, response.totalItemsCount);
+          params.success({
+            rowData: response.content,
+            rowCount: response.totalItemsCount,
+          });
           resolve();
         })
         .catch((error) => {
           console.error(error);
-          params.failCallback();
+          params.fail();
           resolve();
         });
     });

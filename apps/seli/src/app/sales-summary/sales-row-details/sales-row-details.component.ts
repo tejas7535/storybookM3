@@ -70,7 +70,7 @@ export class SalesRowDetailsComponent implements ICellRendererAngularComp {
         this.dataService
           .updateDates(updateDatesParams)
           .then(() => {
-            this.gridApi.purgeServerSideCache();
+            this.gridApi.refreshServerSideStore({ purge: true });
             this.snackBarService
               .showSuccessMessage('Update successful')
               .subscribe();

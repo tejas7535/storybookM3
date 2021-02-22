@@ -183,7 +183,7 @@ describe('SalesRowDetailsComponent', () => {
       waitForAsync(() => {
         dataService.updateDates = jest.fn().mockResolvedValue({});
         component.gridApi = ({
-          purgeServerSideCache: jest.fn(),
+          refreshServerSideStore: jest.fn(),
         } as unknown) as GridApi;
         snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
         snackBarService.showErrorMessage = jest.fn();
@@ -221,9 +221,9 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(component.gridApi.purgeServerSideCache).toHaveBeenCalledTimes(
-            1
-          );
+          expect(
+            component.gridApi.refreshServerSideStore
+          ).toHaveBeenCalledTimes(1);
 
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledWith(
@@ -240,7 +240,7 @@ describe('SalesRowDetailsComponent', () => {
       waitForAsync(() => {
         dataService.updateDates = jest.fn().mockRejectedValue({});
         component.gridApi = ({
-          purgeServerSideCache: jest.fn(),
+          refreshServerSideStore: jest.fn(),
         } as unknown) as GridApi;
         snackBarService.showSuccessMessage = jest.fn();
         snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
@@ -278,9 +278,9 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(component.gridApi.purgeServerSideCache).toHaveBeenCalledTimes(
-            0
-          );
+          expect(
+            component.gridApi.refreshServerSideStore
+          ).toHaveBeenCalledTimes(0);
 
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(0);
 
