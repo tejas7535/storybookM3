@@ -148,3 +148,8 @@ export const getUpdateLoading = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => state.quotation.updateLoading
 );
+
+export const getQuotationErrorMessage = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState) => state.quotation.errorMessage
+);

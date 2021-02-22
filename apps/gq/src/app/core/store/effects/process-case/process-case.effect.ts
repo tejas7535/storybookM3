@@ -33,6 +33,7 @@ import {
   loadQuotation,
   loadQuotationFailure,
   loadQuotationFromUrl,
+  loadQuotationSuccess,
   loadSelectedQuotationDetailFromUrl,
   pasteRowDataItemsToAddMaterial,
   removeMaterials,
@@ -105,7 +106,14 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .getQuotation(quotationIdentifier.gqId)
           .pipe(
-            map((item: Quotation) => PriceService.addCalculations(item)),
+            tap((item) =>
+              PriceService.addCalculationsForDetails(item.quotationDetails)
+            ),
+            map((item: Quotation) =>
+              loadQuotationSuccess({
+                item,
+              })
+            ),
             catchError((errorMessage) =>
               of(loadQuotationFailure({ errorMessage }))
             )
@@ -231,10 +239,13 @@ export class ProcessCaseEffect {
           .pipe(
             tap(() => {
               const successMessage = translate(
-                'processCaseView.snackBarMessages.materialAdded'
+                'shared.snackBarMessages.materialAdded'
               );
               this.snackBarService.showSuccessMessage(successMessage);
             }),
+            tap((item) =>
+              PriceService.addCalculationsForDetails(item.quotationDetails)
+            ),
             map((item) => addMaterialsSuccess({ item })),
             catchError((errorMessage) =>
               of(addMaterialsFailure({ errorMessage }))
@@ -253,10 +264,13 @@ export class ProcessCaseEffect {
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
           tap(() => {
             const successMessage = translate(
-              'processCaseView.snackBarMessages.materialDeleted'
+              'shared.snackBarMessages.materialDeleted'
             );
             this.snackBarService.showSuccessMessage(successMessage);
           }),
+          tap((item) =>
+            PriceService.addCalculationsForDetails(item.quotationDetails)
+          ),
           map((item) => removeMaterialsSuccess({ item })),
           catchError((errorMessage) =>
             of(removeMaterialsFailure({ errorMessage }))
@@ -275,7 +289,7 @@ export class ProcessCaseEffect {
           tap(() => {
             // .price determines which property was updated
             const successMessage = translate(
-              `processCaseView.snackBarMessages.${
+              `shared.snackBarMessages.${
                 quotationDetailIDs[0].price
                   ? 'updateSelectedPrice'
                   : 'updateSelectedOffers'

@@ -8,6 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AutocompleteInputComponent } from './autocomplete-input.component';
@@ -25,6 +27,12 @@ import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
     ReactiveFormsModule,
     MatProgressSpinnerModule,
     SharedTranslocoModule,
+  ],
+  providers: [
+    {
+      provide: TRANSLOCO_SCOPE,
+      useValue: 'case-view',
+    },
   ],
   exports: [AutocompleteInputComponent],
 })

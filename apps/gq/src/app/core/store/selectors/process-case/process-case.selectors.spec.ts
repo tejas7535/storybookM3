@@ -242,4 +242,14 @@ describe('Process Case Selector', () => {
       ).toEqual(fakeState.processCase.quotation.updateLoading);
     });
   });
+
+  describe('getQuotationErrorMessage', () => {
+    test('should return errorMessage', () => {
+      expect(
+        quotationSelectors.getQuotationErrorMessage.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.quotation.errorMessage);
+    });
+  });
 });

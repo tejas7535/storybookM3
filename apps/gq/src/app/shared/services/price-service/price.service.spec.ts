@@ -1,46 +1,27 @@
-import {
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../../../testing/mocks';
-import { loadQuotationSuccess } from '../../../core/store';
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
-  describe('addCalculations', () => {
-    test('should call addCalculations', () => {
-      PriceService.addCalculationsForDetails = jest
-        .fn()
-        .mockReturnValue([QUOTATION_DETAIL_MOCK]);
-
-      const result = PriceService.addCalculations(QUOTATION_MOCK);
-
-      expect(result).toEqual({
-        item: QUOTATION_MOCK,
-        type: loadQuotationSuccess.type,
-      });
-    });
-  });
-
   describe('addCalculationForDetails', () => {
     test('should call addCalculationForDetail', () => {
       const details = [QUOTATION_DETAIL_MOCK];
-      PriceService.addCalculationsForDetail = jest.fn(() => details[0]);
+      PriceService.addCalculationsForDetail = jest.fn();
 
-      const result = PriceService.addCalculationsForDetails(details);
-      expect(result).toEqual(result);
+      PriceService.addCalculationsForDetails(details);
+      expect(PriceService.addCalculationsForDetail).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('addCalculationForDetail', () => {
     test('should return detail', () => {
       const detail = QUOTATION_DETAIL_MOCK;
+      detail.gpi = 0;
+      detail.percentDifference = 0;
+      detail.netValue = 0;
 
-      const result = PriceService.addCalculationsForDetail(detail);
-      expect(result).toEqual({
-        ...detail,
-        percentDifference: QUOTATION_DETAIL_MOCK.percentDifference,
-        netValue: QUOTATION_DETAIL_MOCK.netValue,
-      });
+      PriceService.addCalculationsForDetail(detail);
+
+      expect(detail).toEqual(QUOTATION_DETAIL_MOCK);
     });
   });
 

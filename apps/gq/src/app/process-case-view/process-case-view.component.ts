@@ -9,6 +9,7 @@ import { ProcessCaseState } from '../core/store/reducers/process-case/process-ca
 import {
   getOffer,
   getQuotation,
+  getUpdateLoading,
   isCustomerLoading,
   isQuotationLoading,
 } from '../core/store/selectors';
@@ -23,6 +24,7 @@ export class ProcessCaseViewComponent implements OnInit {
   public offer$: Observable<Quotation>;
   public isCustomerLoading$: Observable<boolean>;
   public isQuotationLoading$: Observable<boolean>;
+  public isUpdateLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
@@ -30,6 +32,7 @@ export class ProcessCaseViewComponent implements OnInit {
     this.quotation$ = this.store.pipe(select(getQuotation));
     this.isCustomerLoading$ = this.store.pipe(select(isCustomerLoading));
     this.isQuotationLoading$ = this.store.pipe(select(isQuotationLoading));
+    this.isUpdateLoading$ = this.store.pipe(select(getUpdateLoading));
   }
 
   getOffer(): void {

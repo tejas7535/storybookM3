@@ -36,6 +36,10 @@
     },
     "caseMaterial": {
       "addEntry": {
+        "processCase": {
+          "dialogTitle": "Neuen Eintrag hinzufügen",
+          "addEntryTitle": "Material hinzufügen"
+        },
         "quantity": {
           "error": "Invalide Anzahl",
           "label": "Anzahl",
@@ -126,6 +130,12 @@
     },
     "roleModal": {
       "menuTitle": "Rollen"
+    },
+    "snackBarMessages": {
+      "materialAdded": "Material wurde hinzugefügt",
+      "materialDeleted": "Material wurde entfernt",
+      "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
+      "updateSelectedPrice": "Der Preis wurde gespeichert"
     }
   }
 }
