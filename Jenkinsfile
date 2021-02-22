@@ -796,7 +796,6 @@ pipeline {
                                 sh "npx nx affected --base=${buildBase} --target=build-storybook"
 
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
-                                publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-empty-states', reportFiles: 'index.html', reportName: 'Storybook Empty States', reportTitles: ''])
                             }
                         }
                     }
