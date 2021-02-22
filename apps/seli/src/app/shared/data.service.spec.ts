@@ -55,14 +55,14 @@ describe('DataService', () => {
 
   describe('addSortParams', () => {
     it('should do nothing if no sort params given', () => {
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParamsMock,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       expect(
         DataService['addSortParams'](new HttpParams(), serverSideGetRowParams)
@@ -78,14 +78,14 @@ describe('DataService', () => {
         },
       ];
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       let expectedHttpParams = new HttpParams();
       expectedHttpParams = expectedHttpParams.set(
@@ -104,14 +104,14 @@ describe('DataService', () => {
       DataService['buildFilterParamKey'] = jest.fn();
       DataService['createIsoDateString'] = jest.fn();
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParamsMock,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       expect(
         DataService['addFilterParams'](new HttpParams(), serverSideGetRowParams)
@@ -133,14 +133,14 @@ describe('DataService', () => {
         },
       };
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       expect(
         DataService['addFilterParams'](new HttpParams(), serverSideGetRowParams)
@@ -165,14 +165,14 @@ describe('DataService', () => {
         },
       };
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       let expectedHttpParams = new HttpParams();
       expectedHttpParams = expectedHttpParams.set(
@@ -210,14 +210,14 @@ describe('DataService', () => {
         },
       };
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       let expectedHttpParams = new HttpParams();
       expectedHttpParams = expectedHttpParams.set(
@@ -260,14 +260,14 @@ describe('DataService', () => {
         },
       };
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       let expectedHttpParams = new HttpParams();
       expectedHttpParams = expectedHttpParams.set(
@@ -320,14 +320,14 @@ describe('DataService', () => {
         },
       };
 
-      const serverSideGetRowParams: IServerSideGetRowsParams = {
+      const serverSideGetRowParams: IServerSideGetRowsParams = ({
         api: undefined,
         parentNode: undefined,
         successCallback: undefined,
         failCallback: undefined,
         columnApi: undefined,
         request: requestParams,
-      };
+      } as unknown) as IServerSideGetRowsParams;
 
       let expectedHttpParams = new HttpParams();
       expectedHttpParams = expectedHttpParams.set(
@@ -390,14 +390,14 @@ describe('DataService', () => {
     it(
       'should return response',
       waitForAsync(() => {
-        const serverSideGetRowParams: IServerSideGetRowsParams = {
+        const serverSideGetRowParams: IServerSideGetRowsParams = ({
           api: undefined,
           parentNode: undefined,
           successCallback: undefined,
           failCallback: undefined,
           columnApi: undefined,
           request: requestParamsMock,
-        };
+        } as unknown) as IServerSideGetRowsParams;
 
         const expectedResponse: Page<SalesSummary> = {
           content: [],

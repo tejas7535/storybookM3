@@ -279,7 +279,7 @@ describe('SalesTableComponent', () => {
 
   describe('fetchRows', () => {
     it(
-      'should call successCallback and showNoRowsOverlay',
+      'should call params.success and showNoRowsOverlay',
       waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
@@ -293,16 +293,16 @@ describe('SalesTableComponent', () => {
           sortModel: [],
         };
 
-        const serverSideGetRowParams: IServerSideGetRowsParams = {
+        const serverSideGetRowParams: IServerSideGetRowsParams = ({
           api: ({
             showNoRowsOverlay: jest.fn(),
           } as unknown) as GridApi,
           parentNode: undefined,
-          successCallback: jest.fn(),
-          failCallback: jest.fn(),
+          success: jest.fn(),
+          fail: jest.fn(),
           columnApi: undefined,
           request: requestParams,
-        };
+        } as unknown) as IServerSideGetRowsParams;
 
         const fakeResponse: Page<SalesSummary> = {
           content: [],
@@ -318,13 +318,13 @@ describe('SalesTableComponent', () => {
 
         await component['fetchRows'](serverSideGetRowParams);
 
-        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(1);
-        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
-          fakeResponse.content,
-          fakeResponse.totalItemsCount
-        );
+        expect(serverSideGetRowParams.success).toHaveBeenCalledTimes(1);
+        expect(serverSideGetRowParams.success).toHaveBeenCalledWith({
+          rowData: fakeResponse.content,
+          rowCount: fakeResponse.totalItemsCount,
+        });
 
-        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(0);
+        expect(serverSideGetRowParams.fail).toHaveBeenCalledTimes(0);
 
         expect(
           serverSideGetRowParams.api.showNoRowsOverlay
@@ -333,7 +333,7 @@ describe('SalesTableComponent', () => {
     );
 
     it(
-      'should call successCallback but not showNoRowsOverlay',
+      'should call params.success but not showNoRowsOverlay',
       waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
@@ -347,16 +347,16 @@ describe('SalesTableComponent', () => {
           sortModel: [],
         };
 
-        const serverSideGetRowParams: IServerSideGetRowsParams = {
+        const serverSideGetRowParams: IServerSideGetRowsParams = ({
           api: ({
             showNoRowsOverlay: jest.fn(),
           } as unknown) as GridApi,
           parentNode: undefined,
-          successCallback: jest.fn(),
-          failCallback: jest.fn(),
+          success: jest.fn(),
+          fail: jest.fn(),
           columnApi: undefined,
           request: requestParams,
-        };
+        } as unknown) as IServerSideGetRowsParams;
 
         const fakeResponse: Page<SalesSummary> = {
           content: [salesSummaryMock],
@@ -372,13 +372,13 @@ describe('SalesTableComponent', () => {
 
         await component['fetchRows'](serverSideGetRowParams);
 
-        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(1);
-        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledWith(
-          fakeResponse.content,
-          fakeResponse.totalItemsCount
-        );
+        expect(serverSideGetRowParams.success).toHaveBeenCalledTimes(1);
+        expect(serverSideGetRowParams.success).toHaveBeenCalledWith({
+          rowData: fakeResponse.content,
+          rowCount: fakeResponse.totalItemsCount,
+        });
 
-        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(0);
+        expect(serverSideGetRowParams.fail).toHaveBeenCalledTimes(0);
 
         expect(
           serverSideGetRowParams.api.showNoRowsOverlay
@@ -387,7 +387,7 @@ describe('SalesTableComponent', () => {
     );
 
     it(
-      'should call failCallback',
+      'should call params.fail',
       waitForAsync(async () => {
         const requestParams: IServerSideGetRowsRequest = {
           startRow: 0,
@@ -401,14 +401,14 @@ describe('SalesTableComponent', () => {
           sortModel: [],
         };
 
-        const serverSideGetRowParams: IServerSideGetRowsParams = {
+        const serverSideGetRowParams: IServerSideGetRowsParams = ({
           api: undefined,
           parentNode: undefined,
-          successCallback: jest.fn(),
-          failCallback: jest.fn(),
+          success: jest.fn(),
+          fail: jest.fn(),
           columnApi: undefined,
           request: requestParams,
-        };
+        } as unknown) as IServerSideGetRowsParams;
 
         dataService.getSalesSummaryPromise = jest
           .fn()
@@ -416,8 +416,8 @@ describe('SalesTableComponent', () => {
 
         await component['fetchRows'](serverSideGetRowParams);
 
-        expect(serverSideGetRowParams.successCallback).toHaveBeenCalledTimes(0);
-        expect(serverSideGetRowParams.failCallback).toHaveBeenCalledTimes(1);
+        expect(serverSideGetRowParams.success).toHaveBeenCalledTimes(0);
+        expect(serverSideGetRowParams.fail).toHaveBeenCalledTimes(1);
       })
     );
   });
