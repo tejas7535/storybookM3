@@ -47,8 +47,8 @@ export class GreaseMonitorComponent implements OnInit {
 
   getGreaseStatusLatestGraphData({ sensor }: { sensor: boolean }): void {
     const greaseSensor = sensor
-      ? GreaseSensorName.GCM01
-      : GreaseSensorName.GCM02;
+      ? GreaseSensorName.GCM02
+      : GreaseSensorName.GCM01;
 
     this.greaseStatusLatestGraphData$ = this.store.pipe(
       select(getGreaseStatusLatestGraphData, { sensorName: greaseSensor })

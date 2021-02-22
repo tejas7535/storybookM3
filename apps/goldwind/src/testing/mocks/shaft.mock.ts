@@ -38,7 +38,7 @@ export const SHAFT_LATEST_GRAPH_DATA = {
     max: 20,
     data: [
       {
-        value: 3,
+        value: '3.00',
         name: 'TRANSLATE IT',
       },
     ],
