@@ -10,7 +10,7 @@ class I18nChecksumPlugin {
 
   // Define `apply` as its prototype method which is supplied with compiler as its argument
   apply(compiler) {
-    compiler.hooks.beforeCompile.tap('I18nChecksumPlugin', () => {
+    compiler.hooks.entryOption.tap('I18nChecksumPlugin', () => {
       spawn('node', [
         'tools/webpack/i18n-checksum.js',
         '--in',
