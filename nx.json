@@ -19,20 +19,10 @@
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-cypress-utils": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "ltp-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ltp"]
-    },
-    "ltp": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-assets": {
-      "tags": ["scope:shared", "type:assets"]
-    },
+    "shared-cypress-utils": { "tags": ["scope:shared", "type:utils"] },
+    "ltp-e2e": { "tags": [], "implicitDependencies": ["ltp"] },
+    "ltp": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "shared-assets": { "tags": ["scope:shared", "type:assets"] },
     "helloworld-azure-e2e": {
       "tags": [],
       "implicitDependencies": ["helloworld-azure"]
@@ -41,31 +31,19 @@
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "cdba": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "cdba-e2e": {
-      "tags": [],
-      "implicitDependencies": ["cdba"]
-    },
+    "cdba": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "cdba-e2e": { "tags": [], "implicitDependencies": ["cdba"] },
     "shared-ui-header": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles", "shared-assets"]
     },
-    "shared-utils-responsive": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-transloco": {
-      "tags": ["scope:shared", "type:utils"]
-    },
+    "shared-utils-responsive": { "tags": ["scope:shared", "type:utils"] },
+    "shared-utils-transloco": { "tags": ["scope:shared", "type:utils"] },
     "shared-ui-sidebar": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-ui-icons": {
-      "tags": ["scope:shared", "type:ui"]
-    },
+    "shared-ui-icons": { "tags": ["scope:shared", "type:ui"] },
     "shared-ui-footer": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
@@ -94,81 +72,39 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "goldwind": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "goldwind-e2e": {
-      "tags": [],
-      "implicitDependencies": ["goldwind"]
-    },
-    "shared-ui-storybook": {
-      "tags": []
-    },
+    "goldwind": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "goldwind-e2e": { "tags": [], "implicitDependencies": ["goldwind"] },
+    "shared-ui-storybook": { "tags": [] },
     "shared-ui-storybook-e2e": {
       "tags": [],
       "implicitDependencies": ["shared-ui-storybook"]
     },
-    "seli": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "seli-e2e": {
-      "tags": [],
-      "implicitDependencies": ["seli"]
-    },
-    "shared-utils-auth": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-ui-empty-states": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-styles": {
-      "tags": ["scope:shared", "type:styles"]
-    },
-    "gq": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "gq-e2e": {
-      "tags": [],
-      "implicitDependencies": ["gq"]
-    },
-    "ia": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "ia-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ia"]
-    },
-    "mac": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "mac-e2e": {
-      "tags": [],
-      "implicitDependencies": ["mac"]
-    },
-    "shared-utils-http": {
-      "tags": ["scope:shared", "type:utils"]
-    },
+    "seli": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "seli-e2e": { "tags": [], "implicitDependencies": ["seli"] },
+    "shared-utils-auth": { "tags": ["scope:shared", "type:utils"] },
+    "shared-ui-empty-states": { "tags": ["scope:shared", "type:ui"] },
+    "shared-ui-styles": { "tags": ["scope:shared", "type:styles"] },
+    "gq": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "gq-e2e": { "tags": [], "implicitDependencies": ["gq"] },
+    "ia": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "ia-e2e": { "tags": [], "implicitDependencies": ["ia"] },
+    "mac": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "mac-e2e": { "tags": [], "implicitDependencies": ["mac"] },
+    "shared-utils-http": { "tags": ["scope:shared", "type:utils"] },
     "shared-utils-application-insights": {
       "tags": ["scope:shared", "type:utils"]
     },
-    "mm": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "mm-e2e": {
-      "tags": [],
-      "implicitDependencies": ["mm"]
-    },
+    "mm": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
+    "mm-e2e": { "tags": [], "implicitDependencies": ["mm"] },
     "shared-ui-footer-tailwind": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": []
     },
     "shared-ui-picture-card": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-dropdown-input": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     }
@@ -187,7 +123,5 @@
       }
     }
   },
-  "affected": {
-    "defaultBase": "master"
-  }
+  "affected": { "defaultBase": "master" }
 }

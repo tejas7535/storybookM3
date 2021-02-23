@@ -1,0 +1,34 @@
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+.mat-option {
+  @apply border-t;
+  @apply -mr-1;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+
+::ng-deep .mat-form-field-underline {
+  background-color: rgba(0, 0, 0, 0.12) !important;
+  height: 2px !important;
+}
+
+::ng-deep .custom-scrollbar {
+  &::-webkit-scrollbar {
+    background-color: $schaeffler-gray-0;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $schaeffler-gray-7;
+    border-radius: 20px;
+  }
+}
+
+.active-option {
+  background-color: $schaeffler-green-5 !important;
+  color: $schaeffler-green-1 !important;
+}

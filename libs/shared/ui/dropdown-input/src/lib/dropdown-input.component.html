@@ -1,0 +1,31 @@
+<mat-form-field appearance="outline" class="w-full">
+  <mat-select
+    controlType="mat-select"
+    disableOptionCentering
+    [placeholder]="placeholder"
+    [formControl]="selectionControl"
+    panelClass="select-panel"
+    [ngClass]="{ 'select-active': selectInput.panelOpen }"
+    (openedChange)="onOpenedChange($event, autocomplete, selectInput.panel)"
+    #selectInput
+  >
+    <mat-select-trigger>{{ selectionControl.value }} </mat-select-trigger>
+    <div
+      matAutocompleteOrigin
+      #autocompletePanel="matAutocompleteOrigin"
+      (keydown)="$event.stopPropagation()"
+    >
+      <mat-option #dummyOption class="dummy-option"></mat-option>
+      <schaeffler-autocomplete-search
+        [options]="options"
+        [hint]="hint"
+        [attachToCustomElement]="true"
+        #autocomplete
+        (optionSelected)="
+          dummyOption.value = $event?.value; select($event); selectInput.close()
+        "
+        (updateSearch)="onUpdateSearch($event)"
+      ></schaeffler-autocomplete-search>
+    </div>
+  </mat-select>
+</mat-form-field>
