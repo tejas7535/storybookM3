@@ -1,0 +1,54 @@
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+
+.material-icons {
+  font-family: 'Material Icons' !important;
+}
+
+::ng-deep .select-panel {
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+  min-width: calc(100% + 24px) !important;
+  @apply mt-9;
+  @apply mx-1;
+}
+
+.dummy-option {
+  height: 0 !important;
+}
+
+::ng-deep
+  .mat-form-field-appearance-outline:hover
+  .mat-form-field-outline-thick {
+  color: $schaeffler-green-1;
+}
+
+::ng-deep .mat-select-value {
+  color: $schaeffler-green-1;
+}
+
+::ng-deep .mat-form-field-infix {
+  border-top: 0.4em solid transparent;
+}
+
+::ng-deep .mat-select-arrow-wrapper {
+  transform: rotate(0deg) !important;
+  transition-duration: 0.2s;
+}
+
+::ng-deep .select-active {
+  .mat-select-arrow-wrapper {
+    transform: rotate(180deg) !important;
+    transition-duration: 0.2s;
+    vertical-align: unset !important;
+  }
+}
+
+::ng-deep .select-overlay {
+  z-index: 1001 !important;
+}
