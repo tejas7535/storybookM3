@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.11.0](///compare/goldwind-v1.11.0...goldwind-v1.10.0) (2021-02-23)
+
+
+### 🎸 Features
+
+* **goldwind:** add formatted time stamp to shaft and grease status (DIGDTGW-1773) ([98dbf26](///commit/98dbf26acf5c9bfe6fb1bf2b6d1e437878e0b077))
+* **goldwind:** added http interceptor for showing api error calls ([eee96af](///commit/eee96af10ab927d31e7065c3d94b6350e47e2ad9))
+* **goldwind:** adjust to recent api and db changes (DIGDTGW-1575) ([c2903ce](///commit/c2903cedc5f1701c7bb3a28da7f4f3e202ac8940))
+* **goldwind:** continously refresh grease data (DIGDTGW-1525) ([1fd0cb4](///commit/1fd0cb4160d61e257fad15c019d3f862ee63d16a))
+* **goldwind:** remove const routing (DIGDTGW-1866) ([f5b0fa2](///commit/f5b0fa2607f681331714f088cb6727d4dbeca075))
+* **workspace:** improve extension, docu, echarts bundle ([7d1bce4](///commit/7d1bce4080a052fe7d88d4ee4e6536f4c25c48da))
+
+
+### 📈 Improvements
+
+* **goldwind:** sort devices by status and name ([7cd32b0](///commit/7cd32b08cf95f0b8d233f5bfe3a39047e255b17a))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** fix grease status sensor toggle ([b381f78](///commit/b381f78fdb4a0be5ba25e53b90f272c41635d2f9))
+* **goldwind:** fix lint ([60677f3](///commit/60677f3cdb322604f342786a786d710414e5915c))
+* **goldwind:** fix lint ([65972d9](///commit/65972d96cf56a8e5f172928e0bab551b61085fa2))
+* **goldwind:** fix multiplication 100 in grease status for content and deterioration not necessary ([052d807](///commit/052d8078b3a7f3ee4e10ca0d8f0d88359a16c96c))
+* **goldwind:** fix review issues ([a6dd2c3](///commit/a6dd2c394e5a524b599de479aeba2fc972dff884))
+* **goldwind:** fix shaft speed in gauge (not shaft counter value) ([ebf1a38](///commit/ebf1a38936c8ab2229a2f56161d917ade0a37188))
+* **goldwind:** fix unit tests ([ca51b76](///commit/ca51b765002f40af57887b09faf8f4015dfc6e5a))
+* **goldwind:** fixed date format for ui in center load component ([ac93377](///commit/ac93377da4c2416a78e04a4c85557e5cd2538159))
+* **goldwind:** load sense graph switch to radar echart ([15da056](///commit/15da056339e4787c5926c893474c7fb3cb06419d))
+* **goldwind:** mock devicelist ([2edad30](///commit/2edad308f5a14d513d058a96b66bda2d94b56cf5))
+
 ## [1.10.0](///compare/goldwind-v1.10.0...goldwind-v1.9.0) (2020-12-15)
 
 
