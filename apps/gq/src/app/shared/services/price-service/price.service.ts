@@ -24,11 +24,7 @@ export class PriceService {
 
   static calculatePercentDiffernce(detail: QuotationDetail): number {
     const lastPrice = detail.lastCustomerPrice;
-    const currentPrice =
-      // Use finalRecommendedSelling Price for the business price when price source is there
-      //  detail.priceSource === PriceSource.GQ
-      //    ? detail.finalRecommendedSellingPrice :
-      detail.price;
+    const currentPrice = detail.price;
 
     if (currentPrice && lastPrice) {
       const priceDiff = (currentPrice - lastPrice) / lastPrice;
