@@ -102,7 +102,7 @@
     "@angular/cli": "11.2.1",
     "@angular/compiler-cli": "11.2.0",
     "@angular/language-service": "11.2.0",
-    "@babel/core": "7.12.17",
+    "@babel/core": "7.13.1",
     "@commitlint/cli": "11.0.0",
     "@commitlint/config-conventional": "11.0.0",
     "@ngneat/spectator": "7.0.0",
