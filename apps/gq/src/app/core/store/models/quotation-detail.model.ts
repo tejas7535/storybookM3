@@ -21,7 +21,6 @@ export class QuotationDetail {
   public recommendedPrice: number;
   public lastCustomerPrice: number;
   public percentDifference: number;
-  public finalRecommendedSellingPrice: number;
   public gpc: number;
   public sqv: number;
   public rlt: number;

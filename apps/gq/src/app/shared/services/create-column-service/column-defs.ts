@@ -68,12 +68,12 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.quotationDetailsTable.gpc'),
     field: ColumnFields.GPC,
-    valueFormatter: ColumnUtilityService.numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.quotationDetailsTable.sqv'),
     field: ColumnFields.SQV,
-    valueFormatter: ColumnUtilityService.numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.quotationDetailsTable.gpi'),
@@ -83,7 +83,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
     field: 'lastCustomerPrice',
-    valueFormatter: ColumnUtilityService.numberFormatter,
+    valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.quotationDetailsTable.percentDifference'),
