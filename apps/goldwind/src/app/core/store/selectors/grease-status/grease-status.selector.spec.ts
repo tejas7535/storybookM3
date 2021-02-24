@@ -23,21 +23,29 @@ describe('Grease Status Selector', () => {
   const fakeState = {
     greaseStatus: {
       ...initialState,
-      result: [
-        {
-          timestamp: '2020-07-30T11:02:35',
-          gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 12,
-          gcm01WaterContent: 69,
-        },
-      ],
+      result: {
+        GcmProcessed: [
+          {
+            timestamp: '2020-07-30T11:02:35',
+            gcm01TemperatureOptics: 99.991,
+            gcm01Deterioration: 12.121,
+            gcm01WaterContent: 69,
+          },
+        ],
+        RsmShafts: [
+          {
+            timeStamp: '2020-07-30T11:02:35',
+            rsm01ShaftSpeed: 15.12,
+          },
+        ],
+      },
       loading: false,
       status: {
         result: {
           timestamp: '2020-07-31T11:02:35',
-          gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 55,
-          gcm01WaterContent: 12,
+          gcm01TemperatureOptics: 99.99,
+          gcm01Deterioration: 55.55,
+          gcm01WaterContent: 12.55,
         },
         loading: false,
       },
@@ -45,7 +53,7 @@ describe('Grease Status Selector', () => {
         deterioration: true,
         waterContent: true,
         temperatureOptics: true,
-        // rotationalSpeed: false,
+        rsmShaftSpeed: true,
       },
       interval: {
         startDate: 123456789,
@@ -104,7 +112,12 @@ describe('Grease Status Selector', () => {
     test('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: ['deterioration', 'waterContent', 'temperatureOptics'],
+          data: [
+            'deterioration',
+            'waterContent',
+            'temperatureOptics',
+            'rsmShaftSpeed',
+          ],
         },
         series: [
           {
@@ -112,7 +125,7 @@ describe('Grease Status Selector', () => {
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 12],
+                value: [new Date('2020-07-30T11:02:35'), '12.12'],
               },
             ],
           },
@@ -121,7 +134,7 @@ describe('Grease Status Selector', () => {
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 69],
+                value: [new Date('2020-07-30T11:02:35'), '69.00'],
               },
             ],
           },
@@ -130,15 +143,19 @@ describe('Grease Status Selector', () => {
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 99],
+                value: [new Date('2020-07-30T11:02:35'), '99.99'],
               },
             ],
           },
-          // {
-          //   name: 'rotationalSpeed',
-          //   type: 'line',
-          //   data: [],
-          // },
+          {
+            name: 'rsmShaftSpeed',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '15.12'],
+              },
+            ],
+          },
         ],
       };
 
@@ -149,11 +166,10 @@ describe('Grease Status Selector', () => {
   describe('getGreaseStatusLatestGraphData', () => {
     test('should return latest grease status series data', () => {
       const expectedResult = GREASE_STATUS_MOCK;
-      expect(
-        getGreaseStatusLatestGraphData(fakeState, {
-          sensorName: GreaseSensorName.GCM01,
-        })
-      ).toEqual(expectedResult);
+      const result = getGreaseStatusLatestGraphData(fakeState, {
+        sensorName: GreaseSensorName.GCM01,
+      });
+      expect(result).toEqual(expectedResult);
     });
   });
 

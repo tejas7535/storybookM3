@@ -10,6 +10,7 @@ import {
   setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '..';
+import { GcmStatus } from '../../reducers/grease-status/models';
 
 describe('GreaseStatus Actions', () => {
   let deviceId: string;
@@ -39,11 +40,14 @@ describe('GreaseStatus Actions', () => {
     });
 
     test('getGreaseStatusSuccess', () => {
-      const greaseStatus: any = {};
-      const action = getGreaseStatusSuccess({ greaseStatus });
+      const gcmStatus: GcmStatus = {
+        GcmProcessed: [],
+        RsmShafts: [],
+      };
+      const action = getGreaseStatusSuccess({ gcmStatus });
 
       expect(action).toEqual({
-        greaseStatus,
+        gcmStatus,
         type: '[Grease Status] Load Grease Status Success',
       });
     });

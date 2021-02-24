@@ -1,4 +1,6 @@
-export interface GreaseStatus {
+import { ShaftStatus } from '../../shaft/models';
+
+export interface GcmProcessed {
   deviceId: string;
   gcm01TemperatureOptics: number;
   gcm01TemperatureOpticsMax: number;
@@ -19,4 +21,9 @@ export interface GreaseStatus {
   gcm02WaterContentMax: number;
   gcm02WaterContentMin: number;
   timestamp: string;
+}
+
+export interface GcmStatus {
+  GcmProcessed: GcmProcessed[];
+  RsmShafts: ShaftStatus[];
 }

@@ -44,8 +44,7 @@ describe('GreaseStatusComponent', () => {
               deterioration: true,
               waterContent: true,
               temperatureOptics: true,
-
-              // rotationalSpeed: false,
+              rsmShaftSpeed: true,
             },
             interval: {
               startDate: 123456789,

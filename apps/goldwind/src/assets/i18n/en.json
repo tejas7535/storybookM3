@@ -54,7 +54,7 @@
     "temperatureOptics": "Grease Temperatur",
     "waterContent": "Water Content",
     "deteroration": "Deterioration",
-    "rotationalSpeed": "Rotational Speed",
+    "rsmShaftSpeed": "Rotor Rotation Speed",
     "pleaseSelectTrendsToShow": "Please select trends to show"
   },
   "dataView": {

@@ -19,6 +19,7 @@ import {
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
 import * as fromRouter from '../../reducers';
+import { ShaftStatus } from '../../reducers/shaft/models';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
@@ -174,39 +175,52 @@ describe('Search Effects', () => {
     });
 
     test('should return getGreaseStatusSuccess action when REST call is successful', () => {
-      const mockGreaseStatus = [
+      const mockGcmProcessed = {
+        deviceId: '1',
+        gcm01TemperatureOptics: 500,
+        gcm01TemperatureOpticsMin: 1,
+        gcm01TemperatureOpticsMax: 1000,
+        gcm01Deterioration: 19,
+        gcm01DeteriorationMin: 22,
+        gcm01DeteriorationMax: 33,
+        gcm01WaterContent: 0,
+        gcm01WaterContentMin: 0,
+        gcm01WaterContentMax: 1,
+        gcm02TemperatureOptics: 0,
+        gcm02TemperatureOpticsMin: 0,
+        gcm02TemperatureOpticsMax: 0,
+        gcm02Deterioration: 0,
+        gcm02DeteriorationMin: 0,
+        gcm02DeteriorationMax: 0,
+        gcm02WaterContent: 0,
+        gcm02WaterContentMin: 0,
+        gcm02WaterContentMax: 0,
+        timestamp: '2020-08-02T16:18:59Z',
+      };
+
+      const mockShaftStatus: ShaftStatus[] = [
         {
           deviceId: '1',
-          gcm01TemperatureOptics: 500,
-          gcm01TemperatureOpticsMin: 1,
-          gcm01TemperatureOpticsMax: 1000,
-          gcm01Deterioration: 19,
-          gcm01DeteriorationMin: 22,
-          gcm01DeteriorationMax: 33,
-          gcm01WaterContent: 0,
-          gcm01WaterContentMin: 0,
-          gcm01WaterContentMax: 1,
-          gcm02TemperatureOptics: 0,
-          gcm02TemperatureOpticsMin: 0,
-          gcm02TemperatureOpticsMax: 0,
-          gcm02Deterioration: 0,
-          gcm02DeteriorationMin: 0,
-          gcm02DeteriorationMax: 0,
-          gcm02WaterContent: 0,
-          gcm02WaterContentMin: 0,
-          gcm02WaterContentMax: 0,
-          timestamp: '2020-08-02T16:18:59Z',
+          id: 'id-123',
+          rsm01ShaftSpeed: 13,
+          rsm01Shaftcountervalue: 3,
+          timeStamp: '2020-08-02T16:18:59Z',
         },
       ];
 
+      const mockGcmStatus = {
+        GcmProcessed: [mockGcmProcessed],
+        RsmShafts: mockShaftStatus,
+      };
+
       const result = getGreaseStatusSuccess({
-        greaseStatus: mockGreaseStatus,
+        gcmStatus: mockGcmStatus,
       });
 
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: mockGreaseStatus,
+        a: mockGcmStatus,
       });
       const expected = cold('--b', { b: result });
 

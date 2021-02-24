@@ -47,7 +47,7 @@ describe('GreaseStatusComponent', () => {
               waterContent: true,
               deterioration: true,
               temperatureOptics: true,
-              // rotationalSpeed: true,
+              rsmShaftSpeed: true,
             },
             interval: {
               startDate: 123456789,
@@ -86,7 +86,7 @@ describe('GreaseStatusComponent', () => {
         waterContent: true,
         deterioration: true,
         temperatureOptics: true,
-        // rotationalSpeed: false,
+        rsmShaftSpeed: true,
       };
 
       mockStore.dispatch = jest.fn();
@@ -173,7 +173,7 @@ describe('GreaseStatusComponent', () => {
       const formattedMockTooltip = `translate it: 123 %<br>${mockDate.toLocaleString(
         DATE_FORMAT.local,
         DATE_FORMAT.options
-      )}`;
+      )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
     });

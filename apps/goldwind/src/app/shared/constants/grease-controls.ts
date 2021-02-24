@@ -3,6 +3,24 @@ import {
   Unit,
 } from '../../core/store/reducers/grease-status/models';
 
+export const GREASE_DASHBOARD: GreaseControl[] = [
+  {
+    label: 'waterContent',
+    formControl: 'waterContent',
+    unit: Unit.percent,
+  },
+  {
+    label: 'deteroration',
+    formControl: 'deterioration',
+    unit: Unit.percent,
+  },
+  {
+    label: 'temperatureOptics',
+    formControl: 'temperatureOptics',
+    unit: Unit.degree,
+  },
+];
+
 export const GREASE_CONTROLS: GreaseControl[] = [
   {
     label: 'waterContent',
@@ -19,10 +37,9 @@ export const GREASE_CONTROLS: GreaseControl[] = [
     formControl: 'temperatureOptics',
     unit: Unit.degree,
   },
-  // will be activated later on
-  // {
-  //   label: 'rotationalSpeed',
-  //   formControl: 'rotationalSpeed',
-  //   unit: Unit.percent,
-  // },
+  {
+    label: 'rsmShaftSpeed',
+    formControl: 'rsmShaftSpeed',
+    unit: Unit.rotationSpeed,
+  },
 ];

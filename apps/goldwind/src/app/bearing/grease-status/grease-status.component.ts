@@ -37,7 +37,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     waterContent: new FormControl(''),
     deterioration: new FormControl(''),
     temperatureOptics: new FormControl(''),
-    // rotationalSpeed: new FormControl(''),
+    rsmShaftSpeed: new FormControl(''),
   });
 
   chartOptions: EChartsOption = {
@@ -111,6 +111,8 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
           ? `${result}${new Date(param.data.value[0]).toLocaleString(
               DATE_FORMAT.local,
               DATE_FORMAT.options
+            )} ${new Date(param.data.value[0]).toLocaleTimeString(
+              DATE_FORMAT.local
             )}`
           : `${result}`;
       }, '')

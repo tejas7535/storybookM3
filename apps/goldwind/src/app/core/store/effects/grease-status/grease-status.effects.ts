@@ -114,7 +114,7 @@ export class GreaseStatusEffects {
       })),
       mergeMap((greaseParams) =>
         this.restService.getGreaseStatus(greaseParams).pipe(
-          map((greaseStatus) => getGreaseStatusSuccess({ greaseStatus })),
+          map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
         )
       )
