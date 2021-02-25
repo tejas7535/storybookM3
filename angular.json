@@ -3200,6 +3200,63 @@
           }
         }
       }
+    },
+    "shared-utils-azure-auth": {
+      "projectType": "library",
+      "root": "libs/shared/utils/azure-auth",
+      "sourceRoot": "libs/shared/utils/azure-auth/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/utils/azure-auth/tsconfig.lib.json",
+            "project": "libs/shared/utils/azure-auth/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "libs/shared/utils/azure-auth/tsconfig.lib.json",
+              "libs/shared/utils/azure-auth/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**",
+              "!libs/shared/utils/azure-auth/**/*"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/azure-auth/jest.config.js",
+            "tsConfig": "libs/shared/utils/azure-auth/tsconfig.spec.json",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/utils/azure-auth/src/test-setup.ts"
+          },
+          "outputs": ["coverage/libs/shared/utils/azure-auth"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/utils/azure-auth"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/utils/azure-auth --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {}
     }
   },
   "cli": {
