@@ -107,7 +107,8 @@
     "shared-ui-dropdown-input": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
-    }
+    },
+    "shared-utils-azure-auth": { "tags": ["scope:shared", "type:utils"] }
   },
   "tasksRunnerOptions": {
     "default": {

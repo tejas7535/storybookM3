@@ -69,6 +69,9 @@
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
       "@schaeffler/dropdown-input": [
         "libs/shared/ui/dropdown-input/src/index.ts"
+      ],
+      "@schaeffler/shared/utils/azure-auth": [
+        "libs/shared/utils/azure-auth/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
