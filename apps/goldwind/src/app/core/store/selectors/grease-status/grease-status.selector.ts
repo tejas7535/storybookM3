@@ -59,8 +59,8 @@ export const getGreaseDisplay = createSelector(
 export const getGreaseStatusGraphData = createSelector(
   getGreaseStatusResult,
   getGreaseDisplay,
-  (greaseStatus: any, display: GreaseDisplay): GraphData =>
-    greaseStatus && {
+  (gcmStatus: any, display: GreaseDisplay): GraphData =>
+    gcmStatus && {
       legend: {
         data: Object.entries(display)
           .map(([key, value]) => [key, value] as DisplayOption)
@@ -73,29 +73,30 @@ export const getGreaseStatusGraphData = createSelector(
           name: key,
           type: 'line',
           data:
-            value && key === 'rsmShaftSpeed'
-              ? greaseStatus.RsmShafts.map((measurement: ShaftStatus) => ({
-                  value: [
-                    new Date(measurement.timeStamp),
-                    measurement.rsm01ShaftSpeed.toFixed(2),
-                  ],
-                }))
-              : greaseStatus.GcmProcessed.map((measurement: GcmProcessed) => {
-                  const measurementValue: number = (measurement as any)[
-                    `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
-                  ];
+            (value &&
+              (key === 'rsmShaftSpeed'
+                ? gcmStatus.RsmShafts.map((measurement: ShaftStatus) => ({
+                    value: [
+                      new Date(measurement.timeStamp),
+                      measurement.rsm01ShaftSpeed.toFixed(2),
+                    ],
+                  }))
+                : gcmStatus.GcmProcessed.map((measurement: GcmProcessed) => {
+                    const measurementValue: number = (measurement as any)[
+                      `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
+                    ];
+                    if (measurementValue) {
+                      return {
+                        value: [
+                          new Date(measurement.timestamp),
+                          measurementValue.toFixed(2),
+                        ],
+                      };
+                    }
 
-                  if (measurementValue) {
-                    return {
-                      value: [
-                        new Date(measurement.timestamp),
-                        measurementValue.toFixed(2),
-                      ],
-                    };
-                  }
-
-                  return { value: [] };
-                }),
+                    return { value: [] };
+                  }))) ||
+            [],
         })),
     }
 );
