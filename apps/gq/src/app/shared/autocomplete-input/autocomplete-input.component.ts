@@ -14,8 +14,6 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
-import { KeyName } from '@ag-grid-community/all-modules';
-
 import {
   AutocompleteSearch,
   IdValue,
@@ -42,14 +40,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue) {
-      const value =
-        this.filterName === FilterNames.CUSTOMER
-          ? `${this.selectedIdValue.value} | ${this.selectedIdValue.id}`
-          : this.isSapQuotation(this.selectedIdValue)
-          ? `${this.selectedIdValue.customerName} | ${this.selectedIdValue.id}`
-          : this.selectedIdValue.id;
-      this.searchFormControl.setValue(value, { emitEvent: false });
-      this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
+      this.setFormControlValue();
     }
   }
 
@@ -122,24 +113,30 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.subscription.unsubscribe();
   }
 
-  onKeypress(event: KeyboardEvent): void {
-    if (
-      this.filterName === FilterNames.MATERIAL &&
-      this.searchFormControl.value
-    ) {
-      let value: string = this.sliceMaterialString(
-        this.searchFormControl.value
-      );
+  setFormControlValue(): void {
+    let id = this.selectedIdValue.id;
+    let value = id;
 
-      if (event.key !== KeyName.BACKSPACE) {
-        value = this.formatMaterialNumber(value);
-        if (value.length >= 17) {
-          event.preventDefault();
-        }
-      }
-
-      this.searchFormControl.setValue(value);
+    if (this.filterName === FilterNames.CUSTOMER) {
+      // display customer as CustomerName | CustomerNumber
+      id = this.selectedIdValue.value;
+    } else if (this.isSapQuotation(this.selectedIdValue)) {
+      // display SAP Quotation as CustomerName | QuotationNumber
+      id = this.selectedIdValue.customerName;
+    } else if (this.filterName === FilterNames.MATERIAL) {
+      // display material as MaterialNumber | MaterialDescription
+      value = this.selectedIdValue.value;
     }
+
+    const formValue = this.transformFormValue(id, value);
+
+    this.searchFormControl.setValue(formValue, { emitEvent: false });
+    this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
+    this.inputContent.emit(true);
+  }
+
+  transformFormValue(id: string, value: string): string {
+    return `${id} | ${value}`;
   }
 
   sliceMaterialString(text: string): string {
@@ -181,12 +178,13 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   isInputValid(control: AbstractControl): ValidationErrors {
     const formValue =
-      (this.filterName === FilterNames.CUSTOMER ||
-        this.filterName === FilterNames.QUOTATION) &&
       control.value &&
       typeof control.value === 'string' &&
       control.value.includes('|')
-        ? control.value.split(' | ')[1]
+        ? control.value.split(' | ')[
+            // only compare the id of the selected id
+            this.filterName === FilterNames.MATERIAL ? 0 : 1
+          ]
         : control.value;
 
     const isValid =
