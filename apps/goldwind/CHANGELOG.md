@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.11.1](///compare/goldwind-v1.11.1...goldwind-v1.11.0) (2021-02-25)
+
 ## [1.11.0](///compare/goldwind-v1.11.0...goldwind-v1.10.0) (2021-02-23)
 
 
