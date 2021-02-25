@@ -7,6 +7,7 @@ import { select, Store } from '@ngrx/store';
 
 import { AppState, getAllRoles } from '../../core/store';
 import { RoleGroup } from '../../core/store/models';
+import { infoMessage } from '../constants';
 
 @Component({
   selector: 'gq-role-modal',
@@ -15,6 +16,7 @@ import { RoleGroup } from '../../core/store/models';
 })
 export class RoleModalComponent implements OnInit {
   public allRoles$: Observable<RoleGroup[]>;
+  public contactInfo = infoMessage;
 
   constructor(
     private readonly dialogRef: MatDialogRef<RoleModalComponent>,

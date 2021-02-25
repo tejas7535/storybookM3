@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { AppRoutePath } from './app-route-path.enum';
 import { RoleGuard } from './core/guards';
+import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutePaths: Routes = [
   {
@@ -14,6 +15,9 @@ export const appRoutePaths: Routes = [
     path: AppRoutePath.ForbiddenPath,
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+    data: {
+      action: encodeURI(FORBIDDEN_ACTION),
+    },
   },
   {
     path: AppRoutePath.CaseViewPath,

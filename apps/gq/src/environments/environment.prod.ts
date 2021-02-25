@@ -5,6 +5,7 @@ export const environment = {
   appId: 'api://935a83d6-b953-47bc-af1e-e301629427e6/gqapi',
   devToolsEnabled: false,
   baseUrl: '/api/v1',
+  envName: 'https://guided-quoting.dp.schaeffler (prod)',
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'fcb2b368-c19b-44ab-a72b-2a58d37ed795',
