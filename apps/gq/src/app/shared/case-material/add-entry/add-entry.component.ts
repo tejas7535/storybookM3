@@ -137,19 +137,11 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   rowInputValid(): void {
     this.addRowEnabled =
-      this.materialNumberIsValid && this.materialNumberInput
-        ? this.quantityValid && this.rowDoesNotExist()
-        : false;
+      this.materialNumberIsValid &&
+      this.materialNumberInput &&
+      this.quantityValid;
   }
-  rowDoesNotExist(): boolean {
-    const exists = this.rowData.find(
-      (el) =>
-        el.materialNumber === this.materialNumber &&
-        el.quantity === this.quantity
-    );
 
-    return exists === undefined;
-  }
   addRow(): void {
     const items: MaterialTableItem[] = [
       {

@@ -10,7 +10,6 @@ import { MatSelectModule } from '@angular/material/select';
 
 import * as rxjs from 'rxjs';
 
-import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -100,7 +99,7 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('1', 'test', true),
         new IdValue('2', 'test2', false),
       ];
-
+      component.setFormControlValue = jest.fn();
       component.valueInput = ({
         nativeElement: { value: 'test' },
       } as unknown) as any;
@@ -108,6 +107,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
+      expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
     });
 
     test('should set test options when filter name is customer', () => {
@@ -116,6 +116,7 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('2', 'test2', false),
       ];
       component.filterName = FilterNames.CUSTOMER;
+      component.setFormControlValue = jest.fn();
       component.valueInput = ({
         nativeElement: { value: 'test | 1' },
       } as unknown) as any;
@@ -123,6 +124,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
+      expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
     });
 
     test('should set test options with SapQuotation', () => {
@@ -152,6 +154,7 @@ describe('AutocompleteInputComponent', () => {
           }
         ),
       ];
+      component.setFormControlValue = jest.fn();
       component.valueInput = ({
         nativeElement: { value: 'customerName | 1' },
       } as unknown) as any;
@@ -159,51 +162,44 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
+      expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
     });
   });
-
-  describe('onKeyPress', () => {
-    const event = ({ key: '1', preventDefault: jest.fn() } as unknown) as any;
-    test('should return formatted', () => {
-      component.searchFormControl = ({
-        value: '000001562606302',
+  describe('setFormControlValue', () => {
+    test('should set value', () => {
+      component.selectedIdValue = {
+        id: '1',
+        value: '2',
+      } as any;
+      component.filterName = FilterNames.CUSTOMER;
+      const transformresult = `1 | 2`;
+      component.transformFormValue = jest.fn(() => transformresult);
+      component.searchFormControl = {
         setValue: jest.fn(),
-      } as unknown) as any;
-      component.filterName = FilterNames.MATERIAL;
-      component.onKeypress(event);
+        hasError: jest.fn(),
+      } as any;
+      component.isValid.emit = jest.fn();
+      component.inputContent.emit = jest.fn();
+      component.setFormControlValue();
 
-      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
-        '000001562-6063-02'
-      );
-    });
-    test('should return the same value', () => {
-      event.key = KeyName.BACKSPACE;
-
-      component.searchFormControl = ({
-        value: '000001562-6063-',
-        setValue: jest.fn(),
-      } as unknown) as any;
-      component.filterName = FilterNames.MATERIAL;
-      component.onKeypress(event);
-
-      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
-        '000001562-6063-'
-      );
-    });
-    test('should preventDefault', () => {
-      component.searchFormControl = ({
-        value: '000001562-6063-111',
-        setValue: jest.fn(),
-      } as unknown) as any;
-      component.filterName = FilterNames.MATERIAL;
-      component.onKeypress(event);
-
-      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
-        '000001562-6063-11'
-      );
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(
+        component.searchFormControl.setValue
+      ).toHaveBeenCalledWith(transformresult, { emitEvent: false });
+      expect(component.isValid.emit).toHaveBeenCalledTimes(1);
+      expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
     });
   });
+  describe('transformFormValue', () => {
+    test('should return string with dash', () => {
+      const id = '13';
+      const value = '45';
 
+      const result = component.transformFormValue(id, value);
+
+      expect(result).toEqual(`${id} | ${value}`);
+    });
+  });
   describe('sliceMaterialString', () => {
     test('should slice material string', () => {
       const value = '000001562-6063-1111';

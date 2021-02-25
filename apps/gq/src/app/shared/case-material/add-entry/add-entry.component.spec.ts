@@ -194,21 +194,6 @@ describe('InputbarComponent', () => {
       expect(component.materialNumberInput).toBeTruthy();
     });
   });
-  describe('rowDoesNotExist', () => {
-    test('should return false', () => {
-      component.rowData = [
-        {
-          materialNumber: '1',
-          info: { valid: true, description: [ValidationDescription.Valid] },
-          quantity: 20,
-        },
-      ];
-      component.materialNumber = '1';
-      component.quantity = 20;
-      const response = component.rowDoesNotExist();
-      expect(response).toBeFalsy();
-    });
-  });
   describe('numberOnly', () => {
     test('should return false if not number', () => {
       const eventMock = {
