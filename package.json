@@ -86,7 +86,7 @@
     "jwt-decode": "3.1.2",
     "ngx-echarts": "6.0.0",
     "ngx-papaparse": "5.0.0",
-    "rxjs": "6.6.3",
+    "rxjs": "6.6.6",
     "schaeffler-icons": "1.1.1",
     "tslib": "2.1.0",
     "zone.js": "0.11.4"
