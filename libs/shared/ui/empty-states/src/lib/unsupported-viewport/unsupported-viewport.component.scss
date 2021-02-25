@@ -1,4 +1,10 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+@import 'libs/shared/ui/styles/src/lib/helpers';
+@import 'libs/shared/ui/styles/src/lib/buttons';
+
 .container {
+  max-width: 100%;
   padding: 50px 20px;
   width: 100%;
 }

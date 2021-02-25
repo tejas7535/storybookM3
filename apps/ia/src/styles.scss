@@ -3,6 +3,9 @@
 @import 'libs/shared/ui/styles/src';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 @import 'libs/shared/ui/styles/src/lib/tabs';
+@import 'libs/shared/ui/styles/src/lib/material-theme';
+@include mat-core();
+@include angular-material-theme($schaeffler-theme);
 
 .material-icons {
   font-family: 'Material Icons' !important;
