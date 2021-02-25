@@ -144,9 +144,12 @@ describe('Grease Status Reducer', () => {
   describe('setGreaseDisplay', () => {
     test('should set grease display', () => {
       const mockGreaseDisplay = {
-        deterioration: false,
-        waterContent: false,
-        temperatureOptics: true,
+        deterioration_1: false,
+        waterContent_1: false,
+        temperatureOptics_1: true,
+        deterioration_2: false,
+        waterContent_2: false,
+        temperatureOptics_2: true,
         rsmShaftSpeed: true,
       };
       const action = setGreaseDisplay({ greaseDisplay: mockGreaseDisplay });

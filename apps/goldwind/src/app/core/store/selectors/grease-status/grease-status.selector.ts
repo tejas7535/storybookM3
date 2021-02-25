@@ -82,9 +82,19 @@ export const getGreaseStatusGraphData = createSelector(
                     ],
                   }))
                 : gcmStatus.GcmProcessed.map((measurement: GcmProcessed) => {
-                    const measurementValue: number = (measurement as any)[
-                      `gcm01${key.charAt(0).toUpperCase()}${key.slice(1)}`
-                    ];
+                    let measurementValue: number;
+                    if (key.endsWith('_1')) {
+                      measurementValue = (measurement as any)[
+                        `gcm01${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
+                      ];
+                    } else if (key.endsWith('_2')) {
+                      measurementValue = (measurement as any)[
+                        `gcm02${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
+                      ];
+                    } else {
+                      console.log('kann nicht sein');
+                    }
+
                     if (measurementValue) {
                       return {
                         value: [

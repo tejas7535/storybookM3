@@ -30,6 +30,9 @@ describe('Grease Status Selector', () => {
             gcm01TemperatureOptics: 99.991,
             gcm01Deterioration: 12.121,
             gcm01WaterContent: 69,
+            gcm02TemperatureOptics: 33.333,
+            gcm02Deterioration: 22,
+            gcm02WaterContent: 11.111,
           },
         ],
         RsmShafts: [
@@ -46,13 +49,19 @@ describe('Grease Status Selector', () => {
           gcm01TemperatureOptics: 99.99,
           gcm01Deterioration: 55.55,
           gcm01WaterContent: 12.55,
+          gcm02TemperatureOptics: 33.333,
+          gcm02Deterioration: 22,
+          gcm02WaterContent: 11.111,
         },
         loading: false,
       },
       display: {
-        deterioration: true,
-        waterContent: true,
-        temperatureOptics: true,
+        deterioration_1: true,
+        waterContent_1: true,
+        temperatureOptics_1: true,
+        deterioration_2: true,
+        waterContent_2: true,
+        temperatureOptics_2: true,
         rsmShaftSpeed: true,
       },
       interval: {
@@ -113,15 +122,19 @@ describe('Grease Status Selector', () => {
       const expectedResult = {
         legend: {
           data: [
-            'deterioration',
-            'waterContent',
-            'temperatureOptics',
+            'deterioration_1',
+            'waterContent_1',
+            'temperatureOptics_1',
+            'deterioration_2',
+            'waterContent_2',
+            'temperatureOptics_2',
+
             'rsmShaftSpeed',
           ],
         },
         series: [
           {
-            name: 'deterioration',
+            name: 'deterioration_1',
             type: 'line',
             data: [
               {
@@ -130,7 +143,7 @@ describe('Grease Status Selector', () => {
             ],
           },
           {
-            name: 'waterContent',
+            name: 'waterContent_1',
             type: 'line',
             data: [
               {
@@ -139,11 +152,38 @@ describe('Grease Status Selector', () => {
             ],
           },
           {
-            name: 'temperatureOptics',
+            name: 'temperatureOptics_1',
             type: 'line',
             data: [
               {
                 value: [new Date('2020-07-30T11:02:35'), '99.99'],
+              },
+            ],
+          },
+          {
+            name: 'deterioration_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '22.00'],
+              },
+            ],
+          },
+          {
+            name: 'waterContent_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '11.11'],
+              },
+            ],
+          },
+          {
+            name: 'temperatureOptics_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '33.33'],
               },
             ],
           },

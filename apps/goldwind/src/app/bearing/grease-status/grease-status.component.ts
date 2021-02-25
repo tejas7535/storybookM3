@@ -34,9 +34,12 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   checkBoxes = GREASE_CONTROLS;
 
   displayForm = new FormGroup({
-    waterContent: new FormControl(''),
-    deterioration: new FormControl(''),
-    temperatureOptics: new FormControl(''),
+    waterContent_1: new FormControl(''),
+    deterioration_1: new FormControl(''),
+    temperatureOptics_1: new FormControl(''),
+    waterContent_2: new FormControl(''),
+    deterioration_2: new FormControl(''),
+    temperatureOptics_2: new FormControl(''),
     rsmShaftSpeed: new FormControl(''),
   });
 

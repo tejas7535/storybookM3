@@ -41,9 +41,12 @@ describe('GreaseStatusComponent', () => {
               result: undefined,
             },
             display: {
-              deterioration: true,
-              waterContent: true,
-              temperatureOptics: true,
+              deterioration_1: true,
+              waterContent_1: true,
+              temperatureOptics_1: true,
+              deterioration_2: true,
+              waterContent_2: true,
+              temperatureOptics_2: true,
               rsmShaftSpeed: true,
             },
             interval: {

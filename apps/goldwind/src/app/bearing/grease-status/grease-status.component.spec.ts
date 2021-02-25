@@ -44,9 +44,12 @@ describe('GreaseStatusComponent', () => {
             loading: false,
             result: undefined,
             display: {
-              waterContent: true,
-              deterioration: true,
-              temperatureOptics: true,
+              waterContent_1: true,
+              deterioration_1: true,
+              temperatureOptics_1: true,
+              waterContent_2: true,
+              deterioration_2: true,
+              temperatureOptics_2: true,
               rsmShaftSpeed: true,
             },
             interval: {
@@ -83,9 +86,12 @@ describe('GreaseStatusComponent', () => {
   describe('Display Form', () => {
     test('should dispatch setGreaseAction on valueChanges', () => {
       const mockGreaseDisplay = {
-        waterContent: true,
-        deterioration: true,
-        temperatureOptics: true,
+        waterContent_1: true,
+        deterioration_1: true,
+        temperatureOptics_1: true,
+        waterContent_2: true,
+        deterioration_2: true,
+        temperatureOptics_2: true,
         rsmShaftSpeed: true,
       };
 
@@ -120,7 +126,7 @@ describe('GreaseStatusComponent', () => {
 
   describe('chartOptions', () => {
     it('should call legend formatter method', () => {
-      const mockLabelName = 'waterContent';
+      const mockLabelName = 'waterContent_1';
       component.formatLegend = jest.fn();
 
       const legendFormatter = (component.chartOptions.legend as any)
@@ -133,7 +139,7 @@ describe('GreaseStatusComponent', () => {
     it('should call tooltip formatter method', () => {
       const mockParams = [
         {
-          seriesName: 'waterContent',
+          seriesName: 'waterContent_1',
           data: {
             value: [new Date(), 123],
           },
@@ -151,7 +157,7 @@ describe('GreaseStatusComponent', () => {
 
   describe('formatLegend', () => {
     it('should return a translated text with physical symbol ', () => {
-      const mockLabelName = 'waterContent';
+      const mockLabelName = 'waterContent_1';
       const formattedMockLabel = 'translate it (%)';
 
       expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
@@ -164,7 +170,7 @@ describe('GreaseStatusComponent', () => {
       jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
       const mockParams = [
         {
-          seriesName: 'waterContent',
+          seriesName: 'waterContent_1',
           data: {
             value: [new Date(), 123],
           },
