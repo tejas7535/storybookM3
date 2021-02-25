@@ -1748,7 +1748,7 @@
             "config": {
               "configFolder": "libs/shared/ui/storybook/.storybook"
             },
-            "projectBuildConfig": "kitchen-sink"
+            "projectBuildConfig": "mm"
           },
           "configurations": {
             "ci": {

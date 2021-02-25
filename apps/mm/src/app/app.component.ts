@@ -5,7 +5,6 @@ import { FooterLink } from '@schaeffler/footer-tailwind';
 @Component({
   selector: 'mm-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
   title = 'Mounting Manager';

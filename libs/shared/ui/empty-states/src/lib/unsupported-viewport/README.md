@@ -7,7 +7,9 @@ This lib depends on the `@schaeffler/styles`, which can be installed with npm:
 ```css
 /* styles.scss */
 
-@import '@schaeffler/styles/src';
+@import '@schaffler/styles/src/lib/material-theme';  
+@include mat-core();
+@include angular-material-theme($schaeffler-theme);
 ```
 
 Import into your project like:
