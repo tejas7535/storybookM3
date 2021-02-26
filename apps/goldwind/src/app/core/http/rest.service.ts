@@ -36,7 +36,9 @@ export class RestService {
   }
 
   public getEdm({ id, startDate, endDate }: IotParams): Observable<Edm[]> {
-    return this.getIot(`${id}/edm/${startDate}/${endDate}`);
+    return this.getIot(
+      `${id}/telemetry/electric-discharge/${startDate}/${endDate}`
+    );
   }
 
   public getGreaseStatus({
@@ -44,15 +46,15 @@ export class RestService {
     startDate,
     endDate,
   }: IotParams): Observable<GreaseStatus[]> {
-    return this.getIot(`${id}/greasecheck/${startDate}/${endDate}`);
+    return this.getIot(`${id}/telemetry/grease-status/${startDate}/${endDate}`);
   }
 
   public getGreaseStatusLatest(id: string): Observable<GreaseStatus> {
-    return this.getIot(`${id}/greasecheck/latest`);
+    return this.getIot(`${id}/telemetry/grease-status/latest`);
   }
 
   public getShaftLatest(id: string): Observable<ShaftStatus> {
-    return this.getIot(`${id}/shaft/latest`);
+    return this.getIot(`${id}/telemetry/rotation-speed/latest`);
   }
 
   public getDevices(): Observable<Device[]> {
@@ -64,7 +66,7 @@ export class RestService {
     startDate,
     endDate,
   }: IotParams): Observable<LoadSense[]> {
-    return this.getIot(`${id}/lsp/detail/${startDate}/${endDate}`);
+    return this.getIot(`${id}/telemetry/bearing-load/${startDate}/${endDate}`);
   }
 
   public getData({
