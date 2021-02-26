@@ -61,7 +61,7 @@ describe('Rest Service', () => {
 
       service.getEdm(mockEdmDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockEdmDevice.id}/edm/${mockEdmDevice.startDate}/${mockEdmDevice.endDate}`
+        `iot/things/${mockEdmDevice.id}/telemetry/electric-discharge/${mockEdmDevice.startDate}/${mockEdmDevice.endDate}`
       );
     });
   });
@@ -76,18 +76,18 @@ describe('Rest Service', () => {
 
       service.getGreaseStatus(mockGreaseDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockGreaseDevice.id}/greasecheck/${mockGreaseDevice.startDate}/${mockGreaseDevice.endDate}`
+        `iot/things/${mockGreaseDevice.id}/telemetry/grease-status/${mockGreaseDevice.startDate}/${mockGreaseDevice.endDate}`
       );
     });
   });
 
   describe('getGreaseStatusLatest', () => {
-    test('should call dataService getAll with all grease params', () => {
+    test('should call dataService getShaftLatest', () => {
       const mockShaftDeviceID = '123';
 
       service.getShaftLatest(mockShaftDeviceID);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockShaftDeviceID}/shaft/latest`
+        `iot/things/${mockShaftDeviceID}/telemetry/rotation-speed/latest`
       );
     });
   });
@@ -98,7 +98,7 @@ describe('Rest Service', () => {
 
       service.getGreaseStatusLatest(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockBearingId}/greasecheck/latest`
+        `iot/things/${mockBearingId}/telemetry/grease-status/latest`
       );
     });
   });
@@ -111,7 +111,7 @@ describe('Rest Service', () => {
   });
 
   describe('getLoad', () => {
-    test('should call dataService getAll with the load params', () => {
+    test('should call dataService getLoad', () => {
       const mockLoadSenseParams = {
         id: 'du1-bist2-flop3',
         startDate: 1599651508,
@@ -120,7 +120,7 @@ describe('Rest Service', () => {
 
       service.getLoad(mockLoadSenseParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockLoadSenseParams.id}/lsp/detail/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
+        `iot/things/${mockLoadSenseParams.id}/telemetry/bearing-load/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
       );
     });
   });
