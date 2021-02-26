@@ -7,8 +7,7 @@
   },
   "bearing": {
     "overview": "Overview",
-    "bearingLoadAndAssessment": "Bearing Load",
-    "greaseStatus": "Grease Status",
+    "dataAnalysis": "Data Analysis",
     "dataView": "Download Manager",
     "live": "Live",
     "offline": "Offline",

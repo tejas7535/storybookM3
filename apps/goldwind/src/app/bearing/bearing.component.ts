@@ -29,11 +29,7 @@ export class BearingComponent implements OnInit {
       link: BearingRoutePath.ConditionMonitoringPath,
     },
     {
-      name: 'bearingLoadAndAssessment',
-      link: BearingRoutePath.LoadPath,
-    },
-    {
-      name: 'greaseStatus',
+      name: 'dataAnalysis',
       link: BearingRoutePath.GreaseStatusPath,
     },
     {
