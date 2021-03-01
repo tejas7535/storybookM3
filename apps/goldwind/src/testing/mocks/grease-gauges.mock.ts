@@ -7,7 +7,7 @@ export const GREASE_STATUS_MOCK = {
       type: 'gauge',
       data: [
         {
-          value: 12,
+          value: 12.55,
           name: 'TRANSLATE IT',
         },
       ],
@@ -23,7 +23,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '12 %',
+        formatter: '12.55 %',
       },
       pointer: {},
       axisLine: {
@@ -55,7 +55,7 @@ export const GREASE_STATUS_MOCK = {
       type: 'gauge',
       data: [
         {
-          value: 55,
+          value: 55.55,
           name: 'TRANSLATE IT',
         },
       ],
@@ -71,7 +71,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '55 %',
+        formatter: '55.55 %',
       },
       pointer: {},
       axisLine: {
@@ -104,7 +104,7 @@ export const GREASE_STATUS_MOCK = {
       data: [
         {
           name: 'TRANSLATE IT',
-          value: 99,
+          value: 99.99,
         },
       ],
       max: 120,
@@ -119,7 +119,7 @@ export const GREASE_STATUS_MOCK = {
         color: '#646464',
         fontSize: 18,
         fontWeight: 'bolder',
-        formatter: '99 °C',
+        formatter: '99.99 °C',
       },
       pointer: {},
       axisLine: {

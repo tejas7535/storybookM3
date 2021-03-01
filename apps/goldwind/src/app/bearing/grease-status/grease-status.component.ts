@@ -34,10 +34,13 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   checkBoxes = GREASE_CONTROLS;
 
   displayForm = new FormGroup({
-    waterContent: new FormControl(''),
-    deterioration: new FormControl(''),
-    temperatureOptics: new FormControl(''),
-    // rotationalSpeed: new FormControl(''),
+    waterContent_1: new FormControl(''),
+    deterioration_1: new FormControl(''),
+    temperatureOptics_1: new FormControl(''),
+    waterContent_2: new FormControl(''),
+    deterioration_2: new FormControl(''),
+    temperatureOptics_2: new FormControl(''),
+    rsmShaftSpeed: new FormControl(''),
   });
 
   chartOptions: EChartsOption = {
@@ -111,6 +114,8 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
           ? `${result}${new Date(param.data.value[0]).toLocaleString(
               DATE_FORMAT.local,
               DATE_FORMAT.options
+            )} ${new Date(param.data.value[0]).toLocaleTimeString(
+              DATE_FORMAT.local
             )}`
           : `${result}`;
       }, '')

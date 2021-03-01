@@ -23,29 +23,46 @@ describe('Grease Status Selector', () => {
   const fakeState = {
     greaseStatus: {
       ...initialState,
-      result: [
-        {
-          timestamp: '2020-07-30T11:02:35',
-          gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 12,
-          gcm01WaterContent: 69,
-        },
-      ],
+      result: {
+        GcmProcessed: [
+          {
+            timestamp: '2020-07-30T11:02:35',
+            gcm01TemperatureOptics: 99.991,
+            gcm01Deterioration: 12.121,
+            gcm01WaterContent: 69,
+            gcm02TemperatureOptics: 33.333,
+            gcm02Deterioration: 22,
+            gcm02WaterContent: 11.111,
+          },
+        ],
+        RsmShafts: [
+          {
+            timeStamp: '2020-07-30T11:02:35',
+            rsm01ShaftSpeed: 15.12,
+          },
+        ],
+      },
       loading: false,
       status: {
         result: {
           timestamp: '2020-07-31T11:02:35',
-          gcm01TemperatureOptics: 99,
-          gcm01Deterioration: 55,
-          gcm01WaterContent: 12,
+          gcm01TemperatureOptics: 99.99,
+          gcm01Deterioration: 55.55,
+          gcm01WaterContent: 12.55,
+          gcm02TemperatureOptics: 33.333,
+          gcm02Deterioration: 22,
+          gcm02WaterContent: 11.111,
         },
         loading: false,
       },
       display: {
-        deterioration: true,
-        waterContent: true,
-        temperatureOptics: true,
-        // rotationalSpeed: false,
+        deterioration_1: true,
+        waterContent_1: true,
+        temperatureOptics_1: true,
+        deterioration_2: true,
+        waterContent_2: true,
+        temperatureOptics_2: true,
+        rsmShaftSpeed: true,
       },
       interval: {
         startDate: 123456789,
@@ -104,41 +121,80 @@ describe('Grease Status Selector', () => {
     test('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
-          data: ['deterioration', 'waterContent', 'temperatureOptics'],
+          data: [
+            'deterioration_1',
+            'waterContent_1',
+            'temperatureOptics_1',
+            'deterioration_2',
+            'waterContent_2',
+            'temperatureOptics_2',
+            'rsmShaftSpeed',
+          ],
         },
         series: [
           {
-            name: 'deterioration',
+            name: 'deterioration_1',
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 12],
+                value: [new Date('2020-07-30T11:02:35'), '12.12'],
               },
             ],
           },
           {
-            name: 'waterContent',
+            name: 'waterContent_1',
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 69],
+                value: [new Date('2020-07-30T11:02:35'), '69.00'],
               },
             ],
           },
           {
-            name: 'temperatureOptics',
+            name: 'temperatureOptics_1',
             type: 'line',
             data: [
               {
-                value: [new Date('2020-07-30T11:02:35'), 99],
+                value: [new Date('2020-07-30T11:02:35'), '99.99'],
               },
             ],
           },
-          // {
-          //   name: 'rotationalSpeed',
-          //   type: 'line',
-          //   data: [],
-          // },
+          {
+            name: 'deterioration_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '22.00'],
+              },
+            ],
+          },
+          {
+            name: 'waterContent_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '11.11'],
+              },
+            ],
+          },
+          {
+            name: 'temperatureOptics_2',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '33.33'],
+              },
+            ],
+          },
+          {
+            name: 'rsmShaftSpeed',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-07-30T11:02:35'), '15.12'],
+              },
+            ],
+          },
         ],
       };
 
@@ -149,11 +205,10 @@ describe('Grease Status Selector', () => {
   describe('getGreaseStatusLatestGraphData', () => {
     test('should return latest grease status series data', () => {
       const expectedResult = GREASE_STATUS_MOCK;
-      expect(
-        getGreaseStatusLatestGraphData(fakeState, {
-          sensorName: GreaseSensorName.GCM01,
-        })
-      ).toEqual(expectedResult);
+      const result = getGreaseStatusLatestGraphData(fakeState, {
+        sensorName: GreaseSensorName.GCM01,
+      });
+      expect(result).toEqual(expectedResult);
     });
   });
 

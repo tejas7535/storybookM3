@@ -7,8 +7,7 @@
   },
   "bearing": {
     "overview": "Overview",
-    "bearingLoadAndAssessment": "Bearing Load",
-    "greaseStatus": "Grease Status",
+    "dataAnalysis": "Data Analysis",
     "dataView": "Download Manager",
     "live": "Live",
     "offline": "Offline",
@@ -54,7 +53,13 @@
     "temperatureOptics": "Grease Temperatur",
     "waterContent": "Water Content",
     "deteroration": "Deterioration",
-    "rotationalSpeed": "Rotational Speed",
+    "temperatureOptics_1": "Grease Temperatur 1",
+    "waterContent_1": "Water Content 1",
+    "deteroration_1": "Deterioration 1",
+    "temperatureOptics_2": "Grease Temperatur 2",
+    "waterContent_2": "Water Content 2",
+    "deteroration_2": "Deterioration 2",
+    "rsmShaftSpeed": "Rotor Rotation Speed",
     "pleaseSelectTrendsToShow": "Please select trends to show"
   },
   "dataView": {

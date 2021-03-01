@@ -8,7 +8,10 @@ import { BearingMetadata } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
-import { GreaseStatus } from '../store/reducers/grease-status/models';
+import {
+  GcmProcessed,
+  GcmStatus,
+} from '../store/reducers/grease-status/models';
 import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
 
@@ -27,7 +30,7 @@ export class RestService {
 
   public getIot(path: string): Observable<any> {
     return this.dataService.getAll<
-      BearingMetadata | Edm[] | GreaseStatus[] | LoadSense[]
+      BearingMetadata | Edm[] | GcmProcessed[] | LoadSense[]
     >(`iot/things/${path}`);
   }
 
@@ -45,11 +48,11 @@ export class RestService {
     id,
     startDate,
     endDate,
-  }: IotParams): Observable<GreaseStatus[]> {
+  }: IotParams): Observable<GcmStatus> {
     return this.getIot(`${id}/telemetry/grease-status/${startDate}/${endDate}`);
   }
 
-  public getGreaseStatusLatest(id: string): Observable<GreaseStatus> {
+  public getGreaseStatusLatest(id: string): Observable<GcmProcessed> {
     return this.getIot(`${id}/telemetry/grease-status/latest`);
   }
 
