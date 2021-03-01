@@ -5,11 +5,10 @@ import {
   CaseFilterItem,
   CreateCase,
   CreateCaseResponse,
-  ImportCaseResponse,
+  IdValue,
   MaterialQuantities,
   MaterialTableItem,
   SalesOrg,
-  SapQuotation,
 } from '../../models';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
@@ -17,26 +16,24 @@ import { CaseState } from '../../reducers/create-case/create-case.reducer';
 export const getCaseQuotation = createSelector(
   getCaseState,
   (state: CaseState): CaseFilterItem =>
-    state.autocompleteItems.find((it) => it.filter === FilterNames.QUOTATION)
+    state.autocompleteItems.find(
+      (it) => it.filter === FilterNames.SAP_QUOTATION
+    )
 );
 
 export const getSelectedQuotation = createSelector(
   getCaseState,
-  (state: CaseState): ImportCaseResponse => {
-    let quotation: ImportCaseResponse = {};
+  (state: CaseState): IdValue => {
     const quotationOptions = state.autocompleteItems.find(
-      (it) => it.filter === FilterNames.QUOTATION
-    );
-    (quotationOptions.options as SapQuotation[]).forEach((value) => {
-      if (value.selected) {
-        quotation = {
-          customerId: value.customerId,
-          sapId: value.id,
-        };
+      (it) => it.filter === FilterNames.SAP_QUOTATION
+    )?.options;
+    for (const item of quotationOptions) {
+      if (item.selected) {
+        return item;
       }
-    });
+    }
 
-    return quotation;
+    return undefined;
   }
 );
 

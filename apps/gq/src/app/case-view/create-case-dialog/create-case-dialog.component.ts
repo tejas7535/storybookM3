@@ -16,7 +16,6 @@ import {
   CaseFilterItem,
   IdValue,
   MaterialTableItem,
-  SapQuotation,
 } from '../../core/store/models';
 import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
 import {
@@ -54,7 +53,7 @@ export class CreateCaseDialogComponent implements OnInit {
 
   public ngOnInit(): void {
     this.quotationAutocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading, FilterNames.QUOTATION)
+      select(getCaseAutocompleteLoading, FilterNames.SAP_QUOTATION)
     );
     this.customerAutocompleteLoading$ = this.store.pipe(
       select(getCaseAutocompleteLoading, FilterNames.CUSTOMER)
@@ -69,7 +68,7 @@ export class CreateCaseDialogComponent implements OnInit {
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
-  selectOption(option: IdValue | SapQuotation, filter: string): void {
+  selectOption(option: IdValue, filter: string): void {
     this.store.dispatch(
       selectAutocompleteOption({
         option,

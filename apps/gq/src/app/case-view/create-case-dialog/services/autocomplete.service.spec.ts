@@ -69,7 +69,7 @@ describe('AutocompleteService', (): void => {
     });
     test('should call for sapquotation ', () => {
       const search: AutocompleteSearch = new AutocompleteSearch(
-        FilterNames.QUOTATION,
+        FilterNames.SAP_QUOTATION,
         'test'
       );
       const mock: CaseFilterItem = {

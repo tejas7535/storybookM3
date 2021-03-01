@@ -1,7 +1,5 @@
 export * from './add-quotation-details-request.model';
 export * from './autocomplete-response.model';
-export * from './autocomplete-sap-quotation-response.model';
-export * from './autocomplete-sap-quotation.model';
 export * from './autocomplete-search.model';
 export * from './abc-classification.enum';
 export * from './case-filter-item.model';
@@ -10,7 +8,6 @@ export * from './create-case.model';
 export * from './customer.model';
 export * from './customer-ids.model';
 export * from './id-value.model';
-export * from './import-case-response.model';
 export * from './import-case.model';
 export * from './key-account.model';
 export * from './material-details.model';

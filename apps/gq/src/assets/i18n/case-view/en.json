@@ -32,7 +32,7 @@
       "nothingFound": "Nothing found",
       "wrongInput": "Please enter a valid material number"
     },
-    "quotation": {
+    "sap-quotation": {
       "button": "Import",
       "hint": "Enter a SAP Quotation Number",
       "label": "Quotation Number",

@@ -7,13 +7,10 @@ import { map } from 'rxjs/operators';
 import { DataService, GetOptions } from '@schaeffler/http';
 
 import {
-  AutocompleteQuotationResponse,
   AutocompleteResponse,
   AutocompleteSearch,
   IdValue,
-  SapQuotation,
 } from '../../../core/store/models';
-import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 
 /**
  *  Auto-complete service
@@ -30,7 +27,7 @@ export class AutocompleteService {
 
   public autocomplete(
     autocompleteSearch: AutocompleteSearch
-  ): Observable<IdValue[] | SapQuotation[]> {
+  ): Observable<IdValue[]> {
     const httpParams = new HttpParams().set(
       this.PARAM_SEARCH_FOR,
       autocompleteSearch.searchFor
@@ -39,29 +36,12 @@ export class AutocompleteService {
       params: httpParams,
     };
     const filter = autocompleteSearch.filter.toLowerCase();
-    const filterPath =
-      filter === FilterNames.QUOTATION ? 'sap-quotation' : filter;
 
     return this.dataService
-      .getAll<AutocompleteResponse>(
-        `${this.AUTO_COMPLETE}/${filterPath}`,
-        options
-      )
+      .getAll<AutocompleteResponse>(`${this.AUTO_COMPLETE}/${filter}`, options)
       .pipe(
         map((res: AutocompleteResponse) => {
-          if (filter === FilterNames.QUOTATION) {
-            return (res.items as AutocompleteQuotationResponse[]).map((el) => ({
-              id: el.sapId,
-              value: el.sapId,
-              selected: false,
-              customerId: el.customerId,
-              customerName: el.customerName,
-              gqImportedUser: el.gqImportUser,
-              imported: el.imported,
-            })) as SapQuotation[];
-          }
-
-          return (res.items as IdValue[]).map((opt: IdValue) => ({
+          return res.items.map((opt: IdValue) => ({
             ...opt,
             selected: false,
           }));

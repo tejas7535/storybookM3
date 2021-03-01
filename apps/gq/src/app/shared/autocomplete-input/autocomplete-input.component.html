@@ -32,14 +32,7 @@
         *ngFor="let idValue of unselectedOptions; trackBy: trackByFn"
         [value]="idValue"
       >
-        {{ idValue.id }} |
-        <span
-          *ngIf="!isSapQuotation(unselectedOptions[0]); else showCustomerName"
-          >{{ idValue.value }}</span
-        >
-        <ng-template #showCustomerName>
-          <span>{{ idValue.customerName }}</span>
-        </ng-template>
+        {{ idValue.id }} | {{ idValue.value }}
       </mat-option>
       <mat-option
         disabled

@@ -7,7 +7,6 @@ import {
   MaterialTableItem,
   MaterialValidation,
   SalesOrg,
-  SapQuotation,
 } from '../../models';
 
 export const autocomplete = createAction(
@@ -21,12 +20,12 @@ export const autocompleteFailure = createAction(
 
 export const autocompleteSuccess = createAction(
   '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
-  props<{ options: IdValue[] | SapQuotation[]; filter: string }>()
+  props<{ options: IdValue[]; filter: string }>()
 );
 
 export const selectAutocompleteOption = createAction(
   '[Create Case] Select Option for selected Autocomplete Option',
-  props<{ option: IdValue | SapQuotation; filter: string }>()
+  props<{ option: IdValue; filter: string }>()
 );
 
 export const unselectAutocompleteOptions = createAction(
@@ -70,7 +69,8 @@ export const createCaseSuccess = createAction(
 );
 
 export const createCaseFailure = createAction(
-  '[Create Case] CreateCase from table and selected customer Failure'
+  '[Create Case] CreateCase from table and selected customer Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const importCase = createAction('[Create Case] Import SAP Quotation');
@@ -81,7 +81,8 @@ export const importCaseSuccess = createAction(
 );
 
 export const importCaseFailure = createAction(
-  '[Create Case] Import SAP Quotation Failure'
+  '[Create Case] Import SAP Quotation Failure',
+  props<{ errorMessage: string }>()
 );
 
 export const getSalesOrgsSuccess = createAction(

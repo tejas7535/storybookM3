@@ -1,5 +1,5 @@
 export enum FilterNames {
   CUSTOMER = 'customer',
-  QUOTATION = 'quotation',
+  SAP_QUOTATION = 'sap-quotation',
   MATERIAL = 'materialNumber',
 }
