@@ -1,6 +1,7 @@
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import {
   AutocompleteSearch,
+  CreateCaseResponse,
   IdValue,
   MaterialTableItem,
   SalesOrg,
@@ -12,6 +13,9 @@ import {
   autocompleteFailure,
   autocompleteSuccess,
   clearRowData,
+  createCase,
+  createCaseFailure,
+  createCaseSuccess,
   deleteRowDataItem,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
@@ -142,6 +146,41 @@ describe('Create Actions', () => {
     });
   });
 
+  describe('createCase Actions', () => {
+    test('createCase', () => {
+      const action = createCase();
+
+      expect(action).toEqual({
+        type: '[Create Case] CreateCase from table and selected customer',
+      });
+    });
+
+    test('createCaseSuccess', () => {
+      const createdCase: CreateCaseResponse = {
+        customerId: '1',
+        gqId: '2',
+        salesOrg: '3',
+      };
+      const action = createCaseSuccess({ createdCase });
+
+      expect(action).toEqual({
+        createdCase,
+        type:
+          '[Create Case] CreateCase from table and selected customer Success',
+      });
+    });
+
+    test('createCaseFailure', () => {
+      const errorMessage = 'Hello i am an error';
+      const action = createCaseFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type:
+          '[Create Case] CreateCase from table and selected customer Failure',
+      });
+    });
+  });
   describe('importCase Actions', () => {
     test('importCase', () => {
       const action = importCase();
@@ -163,9 +202,11 @@ describe('Create Actions', () => {
     });
 
     test('importCaseFailure', () => {
-      const action = importCaseFailure();
+      const errorMessage = 'Hello i am an error';
+      const action = importCaseFailure({ errorMessage });
 
       expect(action).toEqual({
+        errorMessage,
         type: '[Create Case] Import SAP Quotation Failure',
       });
     });

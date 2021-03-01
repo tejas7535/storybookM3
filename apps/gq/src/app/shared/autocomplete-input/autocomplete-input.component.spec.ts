@@ -14,7 +14,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { IdValue, SapQuotation } from '../../core/store/models';
+import { IdValue } from '../../core/store/models';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { FilterNames } from './filter-names.enum';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
@@ -72,7 +72,7 @@ describe('AutocompleteInputComponent', () => {
     });
     test('should add valueChanges subscription after DEBOUNCE_TIME_DEFAULT on searchRemote with >1 chars', (done) => {
       component.options = [new IdValue('1', 'test', false)];
-      component.filterName = FilterNames.QUOTATION;
+      component.filterName = FilterNames.SAP_QUOTATION;
       component['autocomplete'].emit = jest.fn();
 
       const spy = jest.spyOn(rxjs, 'timer');
@@ -86,7 +86,7 @@ describe('AutocompleteInputComponent', () => {
       setTimeout(() => {
         expect(spy).toHaveBeenCalledWith(component['DEBOUNCE_TIME_DEFAULT']);
         expect(component['autocomplete'].emit).toHaveBeenCalledWith({
-          filter: FilterNames.QUOTATION,
+          filter: FilterNames.SAP_QUOTATION,
           searchFor: testVal,
         });
         done();
@@ -129,30 +129,8 @@ describe('AutocompleteInputComponent', () => {
 
     test('should set test options with SapQuotation', () => {
       const options = [
-        new SapQuotation(
-          '1',
-          'test',
-          true,
-          false,
-          'customerId',
-          'customerName',
-          {
-            id: 'id',
-            name: 'name',
-          }
-        ),
-        new SapQuotation(
-          '2',
-          'test',
-          false,
-          false,
-          'customerId',
-          'customerName',
-          {
-            id: 'id',
-            name: 'name',
-          }
-        ),
+        new IdValue('1', 'test', true),
+        new IdValue('2', 'test2', false),
       ];
       component.setFormControlValue = jest.fn();
       component.valueInput = ({
@@ -278,31 +256,6 @@ describe('AutocompleteInputComponent', () => {
       const indexNum = 1337;
       const retId = component.trackByFn(indexNum);
       expect(retId).toEqual(indexNum);
-    });
-  });
-
-  describe('isSapQuotation()', () => {
-    test('should return true', () => {
-      const retValue = component.isSapQuotation(
-        new SapQuotation(
-          '1',
-          'test',
-          true,
-          false,
-          'customerId',
-          'customerName',
-          {
-            id: 'id',
-            name: 'name',
-          }
-        )
-      );
-      expect(retValue).toBeTruthy();
-    });
-
-    test('should return false', () => {
-      const retValue = component.isSapQuotation(new IdValue('1', 'test', true));
-      expect(retValue).toBeFalsy();
     });
   });
 });

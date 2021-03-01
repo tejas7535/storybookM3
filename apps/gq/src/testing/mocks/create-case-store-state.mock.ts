@@ -11,6 +11,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CaseState = {
   },
   createdCase: undefined,
   createCaseLoading: false,
+  errorMessage: undefined,
   rowData: [],
   validationLoading: false,
 };

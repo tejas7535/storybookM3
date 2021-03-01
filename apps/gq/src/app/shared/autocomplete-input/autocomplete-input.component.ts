@@ -14,11 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
-import {
-  AutocompleteSearch,
-  IdValue,
-  SapQuotation,
-} from '../../core/store/models';
+import { AutocompleteSearch, IdValue } from '../../core/store/models';
 import { TableService } from '../services/table-service/table.service';
 import { FilterNames } from './filter-names.enum';
 
@@ -36,7 +32,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       : this.searchFormControl.enable();
   }
 
-  @Input() set options(itemOptions: IdValue[] | SapQuotation[]) {
+  @Input() set options(itemOptions: IdValue[]) {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue) {
@@ -53,7 +49,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   @Output() readonly added: EventEmitter<IdValue> = new EventEmitter();
 
-  @Output() readonly isValid: EventEmitter<boolean> = new EventEmitter();
+  @Output() readonly isValid: EventEmitter<boolean> = new EventEmitter(true);
 
   @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
     true
@@ -117,12 +113,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     let id = this.selectedIdValue.id;
     let value = id;
 
-    if (this.filterName === FilterNames.CUSTOMER) {
+    if (
+      this.filterName === FilterNames.CUSTOMER ||
+      this.filterName === FilterNames.SAP_QUOTATION
+    ) {
       // display customer as CustomerName | CustomerNumber
       id = this.selectedIdValue.value;
-    } else if (this.isSapQuotation(this.selectedIdValue)) {
-      // display SAP Quotation as CustomerName | QuotationNumber
-      id = this.selectedIdValue.customerName;
     } else if (this.filterName === FilterNames.MATERIAL) {
       // display material as MaterialNumber | MaterialDescription
       value = this.selectedIdValue.value;
@@ -219,11 +215,5 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
 
   public trackByFn(index: number): number {
     return index;
-  }
-
-  public isSapQuotation(
-    sapQuotation: IdValue | SapQuotation
-  ): sapQuotation is SapQuotation {
-    return (sapQuotation as SapQuotation).customerName !== undefined;
   }
 }

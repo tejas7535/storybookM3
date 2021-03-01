@@ -6,7 +6,7 @@
   <div *ngIf="(createCaseLoading$ | ngrxPush) === false; else loading">
     <mat-card>
       <mat-card-title>
-        {{ t('quotation.title') }}
+        {{ t('sap-quotation.title') }}
       </mat-card-title>
       <mat-card-content>
         <div
@@ -41,7 +41,7 @@
               [disabled]="!quotationIsValid || !customerDisabled"
               (click)="openQuotation()"
             >
-              {{ t('quotation.button') | uppercase }}
+              {{ t('sap-quotation.button') | uppercase }}
             </button>
           </div>
         </div>

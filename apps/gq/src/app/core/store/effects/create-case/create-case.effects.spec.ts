@@ -11,6 +11,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
+import { QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
 import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
 import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
@@ -38,7 +39,6 @@ import {
   CreateCase,
   CreateCaseResponse,
   IdValue,
-  ImportCaseResponse,
   MaterialTableItem,
   MaterialValidation,
   SalesOrg,
@@ -156,7 +156,7 @@ describe('Create Case Effects', () => {
     });
     test('should return autocompleteQuotationSuccess action when REST call is successful', () => {
       autocompleteSearch = new AutocompleteSearch(
-        FilterNames.QUOTATION,
+        FilterNames.SAP_QUOTATION,
         '12345'
       );
       action = autocomplete({ autocompleteSearch });
@@ -164,7 +164,7 @@ describe('Create Case Effects', () => {
       const options: IdValue[] = [];
       const result = autocompleteSuccess({
         options,
-        filter: FilterNames.QUOTATION,
+        filter: FilterNames.SAP_QUOTATION,
       });
 
       actions$ = hot('-a', { a: action });
@@ -282,11 +282,12 @@ describe('Create Case Effects', () => {
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
     test('should return validateFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = createCaseFailure();
+      const errorMessage = 'errorMessage';
+
+      const result = createCaseFailure({ errorMessage });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       createCaseService.createCase = jest.fn(() => response);
@@ -297,9 +298,10 @@ describe('Create Case Effects', () => {
   });
 
   describe('importQuotation', () => {
-    const importCaseData: ImportCaseResponse = {
-      customerId: '123',
-      sapId: '1234687',
+    const importCaseData: IdValue = {
+      value: QUOTATION_MOCK.customer.identifiers.customerId,
+      id: `${QUOTATION_MOCK.gqId}`,
+      selected: false,
     };
     beforeEach(() => {
       store.overrideSelector(getSelectedQuotation, importCaseData);
@@ -311,29 +313,28 @@ describe('Create Case Effects', () => {
       action = importCase();
 
       createCaseService.importCase = jest.fn(() => response);
-      const gqId = 1234687;
-      const result = importCaseSuccess({ gqId });
+      const result = importCaseSuccess({ gqId: QUOTATION_MOCK.gqId });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-a|', {
-        a: gqId,
+        a: QUOTATION_MOCK,
       });
       const expected = cold('--b', { b: result });
       expect(effects.importCase$).toBeObservable(expected);
       expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
       expect(createCaseService.importCase).toHaveBeenCalledWith(
-        importCaseData.sapId
+        `${QUOTATION_MOCK.gqId}`
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
     test('should return importCaseFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = importCaseFailure();
+      const errorMessage = 'errorMessage';
+      const result = importCaseFailure({ errorMessage });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       createCaseService.importCase = jest.fn(() => response);

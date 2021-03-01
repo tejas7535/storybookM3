@@ -43,9 +43,10 @@ import {
 import {
   CreateCase,
   CreateCaseResponse,
-  ImportCaseResponse,
+  IdValue,
   MaterialTableItem,
   MaterialValidation,
+  Quotation,
   SalesOrg,
 } from '../../models';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
@@ -125,7 +126,7 @@ export class CreateCaseEffects {
           map((createdCase: CreateCaseResponse) =>
             createCaseSuccess({ createdCase })
           ),
-          catchError((_e) => of(createCaseFailure()))
+          catchError((errorMessage) => of(createCaseFailure({ errorMessage })))
         )
       )
     )
@@ -138,14 +139,15 @@ export class CreateCaseEffects {
     this.actions$.pipe(
       ofType(importCase.type),
       withLatestFrom(this.store.pipe(select(getSelectedQuotation))),
-      map(([_action, importCaseData]) => importCaseData),
-      mergeMap((importCaseData: ImportCaseResponse) =>
-        this.createCaseService.importCase(importCaseData.sapId).pipe(
-          tap((gqId: number) => {
+      map(([_action, idValue]) => idValue),
+      mergeMap((importedCase: IdValue) =>
+        this.createCaseService.importCase(importedCase.id).pipe(
+          tap((quotation: Quotation) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
-                quotation_number: gqId,
-                customer_number: importCaseData.customerId,
+                quotation_number: quotation.gqId,
+                customer_number: quotation.customer.identifiers.customerId,
+                sales_org: quotation.customer.identifiers.salesOrg,
               },
             });
             const successMessage = translate(
@@ -153,8 +155,10 @@ export class CreateCaseEffects {
             );
             this.snackBarService.showSuccessMessage(successMessage);
           }),
-          map((gqId: number) => importCaseSuccess({ gqId })),
-          catchError((_e) => of(importCaseFailure()))
+          map((quotation: Quotation) =>
+            importCaseSuccess({ gqId: quotation.gqId })
+          ),
+          catchError((errorMessage) => of(importCaseFailure({ errorMessage })))
         )
       )
     )

@@ -15,6 +15,9 @@ import {
   deleteRowDataItem,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
+  importCase,
+  importCaseFailure,
+  importCaseSuccess,
   pasteRowDataItems,
   selectAutocompleteOption,
   selectSalesOrg,
@@ -43,6 +46,7 @@ export interface CaseState {
   };
   createdCase: CreateCaseResponse;
   createCaseLoading: boolean;
+  errorMessage: string;
   rowData: MaterialTableItem[];
   validationLoading: boolean;
 }
@@ -50,7 +54,7 @@ export const initialState: CaseState = {
   autocompleteLoading: undefined,
   autocompleteItems: [
     {
-      filter: FilterNames.QUOTATION,
+      filter: FilterNames.SAP_QUOTATION,
       options: [],
     },
     {
@@ -70,6 +74,7 @@ export const initialState: CaseState = {
   },
   createdCase: undefined,
   createCaseLoading: false,
+  errorMessage: undefined,
   rowData: [dummyRowData],
   validationLoading: false,
 };
@@ -217,8 +222,24 @@ export const createCaseReducer = createReducer(
     customer: initialState.customer,
     rowData: initialState.rowData,
   })),
-  on(createCaseFailure, (state: CaseState) => ({
+  on(createCaseFailure, (state: CaseState, { errorMessage }) => ({
     ...state,
+    errorMessage,
+    createCaseLoading: false,
+  })),
+  on(importCase, (state: CaseState) => ({
+    ...state,
+    createCaseLoading: true,
+    errorMessage: initialState.errorMessage,
+  })),
+  on(importCaseSuccess, (state: CaseState) => ({
+    ...state,
+    createCaseLoading: false,
+    autocompleteItems: initialState.autocompleteItems,
+  })),
+  on(importCaseFailure, (state: CaseState, { errorMessage }) => ({
+    ...state,
+    errorMessage,
     createCaseLoading: false,
   })),
   on(getSalesOrgsSuccess, (state: CaseState, { salesOrgs }) => ({

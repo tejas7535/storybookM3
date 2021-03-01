@@ -32,7 +32,7 @@
       "nothingFound": "Keine Ergebnisse",
       "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
     },
-    "quotation": {
+    "sap-quotation": {
       "button": "Angebot öffnen",
       "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
       "label": "Angebotsnummer",

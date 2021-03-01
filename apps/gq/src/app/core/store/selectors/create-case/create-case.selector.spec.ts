@@ -15,7 +15,7 @@ describe('Create Case Selector', () => {
           options: [new IdValue('1', '1', true)],
         },
         {
-          filter: FilterNames.QUOTATION,
+          filter: FilterNames.SAP_QUOTATION,
           options: [new IdValue('1', '1', true)],
         },
       ],
@@ -42,7 +42,7 @@ describe('Create Case Selector', () => {
         createSelectors.getCaseQuotation.projector(fakeState.case)
       ).toEqual(
         fakeState.case.autocompleteItems.find(
-          (elm) => elm.filter === FilterNames.QUOTATION
+          (elm) => elm.filter === FilterNames.SAP_QUOTATION
         )
       );
     });

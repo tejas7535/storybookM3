@@ -5,7 +5,11 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
-import { CreateCase, CreateCaseResponse } from '../../../core/store/models';
+import {
+  CreateCase,
+  CreateCaseResponse,
+  Quotation,
+} from '../../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
@@ -29,11 +33,7 @@ export class CreateCaseService {
     );
   }
 
-  public importCase(importCase: string): Observable<any> {
-    return this.dataService.put(this.path, importCase).pipe(
-      map((res: any) => {
-        return res.gqId;
-      })
-    );
+  public importCase(importCase: string): Observable<Quotation> {
+    return this.dataService.put(this.path, importCase);
   }
 }
