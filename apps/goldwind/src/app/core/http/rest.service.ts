@@ -8,7 +8,10 @@ import { BearingMetadata } from '../store/reducers/bearing/models';
 import { SensorData } from '../store/reducers/data-view/models';
 import { Device } from '../store/reducers/devices/models';
 import { Edm } from '../store/reducers/edm-monitor/models';
-import { GcmProcessed, GcmStatus } from '../store/reducers/grease-status/models';
+import {
+  GcmProcessed,
+  GcmStatus,
+} from '../store/reducers/grease-status/models';
 import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
 
