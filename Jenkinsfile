@@ -169,7 +169,7 @@ def getPackageVersion() {
     return packageJSON.version
 }
 
-// returns codeowners e.g. [kauppfbi, krausrbe, berndcri, herpisef] for kitchen-sink
+// returns codeowners e.g. [kauppfbi, herpisef] for helloworld-azure
 def getCodeOwners(appName) {
     def codeOwnersFile = readFile(file: 'CODEOWNERS').trim().split('\n')
 
@@ -184,10 +184,10 @@ def getCodeOwners(appName) {
     def codeOwners = []
     for (line in codeOwnersFile) {
         if (line.contains(appString)) {
-            // example for codeOwner line -> "apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef"
+            // example for codeOwner line -> "apps/helloworld-azure @kauppfbi @herpisef"
             def splitted = line.split(' ')
             for (int i = 0; i < splitted.size(); i++) {
-                // dont push first element this would be the app name "apps/kitchen-sink" and we just want the codeowners
+                // dont push first element this would be the app name "apps/helloworld-azure" and we just want the codeowners
                 if (i != 0) {
                     // currently codeowners are strings like "@userId" -> we want to remove the @ -> "userId"
                     codeOwners.push(splitted[i].replaceAll('@', '').toLowerCase())

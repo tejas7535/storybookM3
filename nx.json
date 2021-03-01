@@ -11,14 +11,6 @@
     "tsconfig.base.json": "*"
   },
   "projects": {
-    "kitchen-sink-e2e": {
-      "tags": [],
-      "implicitDependencies": ["kitchen-sink"]
-    },
-    "kitchen-sink": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "shared-cypress-utils": { "tags": ["scope:shared", "type:utils"] },
     "ltp-e2e": { "tags": [], "implicitDependencies": ["ltp"] },
     "ltp": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },

@@ -31,10 +31,6 @@ Monorepository based on [Nx](https://nx.dev) to support and improve the developm
 
 ## Usage
 
-### Demo Application
-
-✨ **Please checkout our [kitchen sink app](./apps/kitchen-sink/README.md) to get started.** ✨
-
 ### NX Quick Start & Documentation
 
 [Nx Documentation](https://nx.dev)
