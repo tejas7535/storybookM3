@@ -1,5 +1,4 @@
 {
-  "kitchen-sink": "/frontend-schaeffler/kitchen-sink-deployment/master/",
   "ltp": "/material_app_center/LTP/LTP-Frontend-Deployment/master",
   "helloworld-azure": "/hello-world/hw-frontend-deployment/master/",
   "cdba": "/cdba/cdba-fe-deployment/master/",

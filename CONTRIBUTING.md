@@ -22,7 +22,7 @@ We work with merge requests exclusively and set up code owners. Use Gitlab MR-Te
 
 ## How to get started
 
-Check out our [README](readme.md). If you want to know more about how the implementation of an application may look or how to work with NX within a project you are welcomed to take a look at our [kitchen sink app](apps/kitchen-sink).
+Check out our [README](readme.md).
 
 ### Visual Studio Code
 
@@ -58,7 +58,7 @@ For commit messages [conventional commits](https://www.conventionalcommits.org/e
 
 As a scope, please use your project name.
 
-> Example: `feat(kitchen-sink): add ui-component scroll-to-top (JIRA-1234)`
+> Example: `feat(helloworld-azure): add ui-component scroll-to-top (JIRA-1234)`
 
 This is where [commitlint](https://github.com/conventional-changelog/commitlint) comes in handy. It is executed before a commit is applied to verify the correct syntax has been used. If you have problems finding the right type for a commit or with the format in general do not hesitate to run
 
@@ -89,7 +89,5 @@ In order to keep up a well formatted and consistent code all over the repository
 - htmlhint
 - prettier
 - tslint
-
-A more detailed description about their usage can be found in our kitchen sink app's [README](apps/kitchen-sink/README.md).
 
 Another aspect of code quality is strongly associated with code coverage. Please make sure to meet our threshold from at least **80 %** coverage for newly added or changed code.

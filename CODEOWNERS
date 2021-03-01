@@ -11,10 +11,6 @@
 apps/helloworld-azure @kauppfbi @herpisef
 apps/helloworld-azure-e2e @kauppfbi @herpisef
 
-# Kitchen-Sink
-apps/kitchen-sink @kauppfbi @krausrbe @berndcri @herpisef
-apps/kitchen-sink-e2e @kauppfbi @krausrbe @berndcri @herpisef
-
 # LTP
 apps/ltp @krausrbe @berndcri @pelzesen
 apps/ltp-e2e @krausrbe @berndcri @pelzesen
