@@ -128,7 +128,6 @@ describe('Grease Status Selector', () => {
             'deterioration_2',
             'waterContent_2',
             'temperatureOptics_2',
-
             'rsmShaftSpeed',
           ],
         },

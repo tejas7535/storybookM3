@@ -91,8 +91,6 @@ export const getGreaseStatusGraphData = createSelector(
                       measurementValue = (measurement as any)[
                         `gcm02${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
                       ];
-                    } else {
-                      console.log('kann nicht sein');
                     }
 
                     if (measurementValue) {
