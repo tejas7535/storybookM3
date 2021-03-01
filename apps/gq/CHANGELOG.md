@@ -3,6 +3,53 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.11.0](///compare/gq-v1.11.0...gq-v1.10.0) (2021-03-01)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** calc average margin ([83d2e07](///commit/83d2e07f86856020757da7d3f4834f89806d90df))
+* **gq:** empty modal after success, keep data on close (GQUOTE-350) ([a409d20](///commit/a409d20a06ceacb4f9eaf9bfead91a533de49c4e))
+* **gq:** fix mat number pasting bug (GQUOTE-270) ([d8fee59](///commit/d8fee593cd9e2d3a9aa8e0a80dc1749ecb7df8e9))
+* **gq:** fix quotation error when roles are missing ([98bae72](///commit/98bae724ecf5206103bead040d4c1926534db990))
+* **gq:** fix translations for roles ([fb71dbe](///commit/fb71dbe0d608427ecf180311ab93551f89fe3762))
+* **gq:** fixed updateMaterials bug (GQUOTE-413) ([dc481cf](///commit/dc481cf7b3a4fd8101b5d3d0dd504bb90e6dfdc4))
+* **gq:** import quotation bug ([831cc21](///commit/831cc217ad242c410da1b3a204035e0735d19d4a))
+* **mm:** fix empty state styles ([de912f6](///commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+
+
+### 🎸 Features
+
+* **gq:** add application insight ([f873dcc](///commit/f873dcc5a33e571f4a0364360074071d3634c3f3))
+* **gq:** add data to material details (GQUOZE-265) ([7013a39](///commit/7013a39cc5839271c007f61cf1dafae4db7da392))
+* **gq:** add favicon (GQUOTE-351) ([d3fa3c5](///commit/d3fa3c5489f3da4f18dd58cf04a4c939f0bd97a4))
+* **gq:** add loading spinners (GQUOTE-393) ([17f488a](///commit/17f488a122e024c43cf4386a2f66aa7440ca2325))
+* **gq:** add role description modal (GQUOTE-303) ([1f66586](///commit/1f665860b5d8c8949ee0e2621ec1ea98aacd5394))
+* **gq:** added percentDiff calculation (GQUOTE-343) ([976cc98](///commit/976cc98da5c4cab49227deffb52b9659808b43c5))
+* **gq:** added rest call on select manual price tile (GQUOTE-378) ([4b61b38](///commit/4b61b3887ffdaae1a500bc613fdfc7d6aad4cc47))
+* **gq:** added role concept to the application (GQUOTE-281) ([199269f](///commit/199269f65bb7ede3ff22de081f5bd90016860356))
+* **gq:** adjust customer autocomplete ([182f6b7](///commit/182f6b7ac4b5f7e03f5c96b411d529c546429eb2))
+* **gq:** adjust project structure for shared components (GQUOTE-271) ([89db441](///commit/89db441e64a7de99ecb0b27a52ac1568805483cc))
+* **gq:** adjusted FE material validation for new endpoint ([603e8e5](///commit/603e8e5dfc44248fe12f314463f6a1866f5a4832))
+* **gq:** adjusted frontend to backend endpoints (GQUOTE-359) ([8f848db](///commit/8f848db25ed6df0dd429114243d29c5f60d89c67))
+* **gq:** display gq rating in table ([caf4141](///commit/caf41415fbdfe1e1954319f2291c88341ca99017))
+* **gq:** display material-no with dashes ([8791a0f](///commit/8791a0fd9e0a09ab01f526de79b7a44027cca5e8))
+* **gq:** displaying Quotation-Case Details in Case Header (GQUOTE-236) ([1c20c22](///commit/1c20c2279edef3f97cee0ddde4005013f267899f))
+* **gq:** enable search by material description (QUOTE-421) ([31f9b37](///commit/31f9b3759504da8a84b1cc43fbb81f4e95f622db))
+* **gq:** fixed import quotation ([7d345a5](///commit/7d345a5a862d12d94107ca4ebbd7b021a8ab0f0f))
+* **gq:** format numbers in table ([3e8a4fb](///commit/3e8a4fb2f9f4c623a110487f57ed4b5363873af4))
+* **gq:** recalculate on price selection (GQUOTE-404) ([f2e38a3](///commit/f2e38a30bf42ea1045c39407ac9852bc4cf2ad3b))
+* **gq:** refactor case feature store (GQUOTE-358) ([ec64a3e](///commit/ec64a3e575ee7e3ddd71d14aa55275e285e16008))
+* **gq:** removed finalRecommendedSellingPrice (GQUOTE-417) ([d7a3eb2](///commit/d7a3eb257f357d29c2d19fa6baedee8caa2181fa))
+* **gq:** restructure translation files (GQUOTE-380) ([2277404](///commit/2277404ac3841f84d057ef5b54cdbb97ec43abf5))
+* **gq:** save case in the database (GQUOTE-294) ([5ace3e9](///commit/5ace3e925837ec4cdf702bfa348b3c39eaa929a8))
+* **gq:** select gq business price (GQUOTE-385) ([0a46caa](///commit/0a46caa8483ce5c98466e733e647c20be4584e49))
+* **gq:** show contact information (GQUOTE-396) ([fe19ae3](///commit/fe19ae3f211bb72837e7c72b2d5afaac891a796b))
+* **gq:** show currency in price column (GQUOTE-403) ([058bc11](///commit/058bc113f5999e1633dfbebcdcef587cfc9ff956))
+* **gq:** show material details from updated object (GQUOTE-400) ([f9ea712](///commit/f9ea71257a1e67f6c51a48927f54b1a4d06bf97a))
+* **gq:** transform pasted quantities ([dba09b5](///commit/dba09b53933b7ec095997a1d416e223108269a1e))
+* **gq:** use shared ui components ([a4a915e](///commit/a4a915e46809df8b9d37c46d520e7afc355f5bbc))
+
 ## [1.10.0](///compare/gq-v1.10.0...gq-v1.9.0) (2020-12-14)
 
 
