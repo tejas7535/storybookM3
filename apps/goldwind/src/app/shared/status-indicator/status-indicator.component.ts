@@ -1,14 +1,10 @@
 import { Component, Input } from '@angular/core';
 
-export enum StatusType {
-  ok = 'OK',
-  error = 'ER',
-}
+import { ConnectionState } from '../../core/store/reducers/devices/models';
 
 export interface Status {
-  type: StatusType;
+  type: ConnectionState;
   text: string;
-  notifications: string[];
 }
 
 @Component({
@@ -18,9 +14,15 @@ export interface Status {
 })
 export class StatusIndicatorComponent {
   @Input() status: Status = {
-    type: StatusType.ok,
+    type: ConnectionState.connected,
     text: '',
-    notifications: [],
   };
-  statusType = StatusType;
+
+  isConnected(): boolean {
+    if (this.status.type === ConnectionState.connected) {
+      return true;
+    }
+
+    return false;
+  }
 }

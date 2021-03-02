@@ -9,10 +9,7 @@ import { BreakpointService } from '@schaeffler/responsive';
 import { DevicesState } from '../core/store/reducers/devices/devices.reducer';
 import { ConnectionState, Device } from '../core/store/reducers/devices/models';
 import { getDevicesResult } from '../core/store/selectors/devices/devices.selector';
-import {
-  Status,
-  StatusType,
-} from '../shared/status-indicator/status-indicator.component';
+import { Status } from '../shared/status-indicator/status-indicator.component';
 
 @Component({
   selector: 'goldwind-overview',
@@ -45,28 +42,23 @@ export class OverviewComponent implements OnInit, OnDestroy {
     this.subscriptions.unsubscribe();
   }
 
-  composeStatus(
-    state: string,
-    text: string,
-    notifications: string[] = []
-  ): Status {
-    let type: StatusType;
+  composeStatus(state: string, text: string): Status {
+    let type: ConnectionState;
     switch (state) {
       case ConnectionState.connected:
-        type = StatusType.ok;
+        type = ConnectionState.connected;
         break;
       case ConnectionState.disconnected:
-        type = StatusType.error;
+        type = ConnectionState.disconnected;
         break;
       default:
         console.log(`Unknown status: ${type}`);
-        type = StatusType.error;
+        type = ConnectionState.disconnected;
     }
 
     return {
       type,
       text,
-      notifications,
     };
   }
 

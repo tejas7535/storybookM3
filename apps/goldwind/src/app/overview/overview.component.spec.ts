@@ -6,7 +6,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { ConnectionState } from '../core/store/reducers/devices/models';
-import { StatusType } from '../shared/status-indicator/status-indicator.component';
 import { StatusIndicatorModule } from '../shared/status-indicator/status-indicator.module';
 import { OverviewComponent } from './overview.component';
 
@@ -46,15 +45,13 @@ describe('OverviewComponent', () => {
 
   describe('composeStatus', () => {
     const testText = 'This is the title';
-    const testNotifications: any[] = [];
 
     test('should return a "ok" status object on connect', () => {
       const testState = ConnectionState.connected;
 
       const expectedStatus = {
-        type: StatusType.ok,
+        type: ConnectionState.connected,
         text: testText,
-        notifications: testNotifications,
       };
 
       expect(component.composeStatus(testState, testText)).toStrictEqual(
@@ -66,9 +63,8 @@ describe('OverviewComponent', () => {
       const testState = ConnectionState.disconnected;
 
       const expectedStatus = {
-        type: StatusType.error,
+        type: ConnectionState.disconnected,
         text: testText,
-        notifications: testNotifications,
       };
 
       expect(component.composeStatus(testState, testText)).toStrictEqual(
@@ -80,9 +76,8 @@ describe('OverviewComponent', () => {
       const testState = 'unknown connection';
 
       const expectedStatus = {
-        type: StatusType.error,
+        type: ConnectionState.disconnected,
         text: testText,
-        notifications: testNotifications,
       };
 
       // prevents the unknown status output
