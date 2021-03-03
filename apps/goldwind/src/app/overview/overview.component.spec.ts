@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { ConnectionState } from '../core/store/reducers/devices/models';
 import { StatusIndicatorModule } from '../shared/status-indicator/status-indicator.module';
 import { OverviewComponent } from './overview.component';
 
@@ -41,52 +40,6 @@ describe('OverviewComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('composeStatus', () => {
-    const testText = 'This is the title';
-
-    test('should return a "ok" status object on connect', () => {
-      const testState = ConnectionState.connected;
-
-      const expectedStatus = {
-        type: ConnectionState.connected,
-        text: testText,
-      };
-
-      expect(component.composeStatus(testState, testText)).toStrictEqual(
-        expectedStatus
-      );
-    });
-
-    test('should return a "error" status object on disconnect', () => {
-      const testState = ConnectionState.disconnected;
-
-      const expectedStatus = {
-        type: ConnectionState.disconnected,
-        text: testText,
-      };
-
-      expect(component.composeStatus(testState, testText)).toStrictEqual(
-        expectedStatus
-      );
-    });
-
-    test('should return also a "error" status object on unknown connection', () => {
-      const testState = 'unknown connection';
-
-      const expectedStatus = {
-        type: ConnectionState.disconnected,
-        text: testText,
-      };
-
-      // prevents the unknown status output
-      console.log = jest.fn();
-
-      expect(component.composeStatus(testState, testText)).toStrictEqual(
-        expectedStatus
-      );
-    });
   });
 
   describe('trackByFn', () => {

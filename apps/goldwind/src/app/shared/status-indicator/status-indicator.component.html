@@ -8,7 +8,7 @@
     fxLayoutAlign="center center"
     class="indicator"
     [class.error]="!isConnected()"
-    title="{{ status.type.toLowerCase() }}"
+    title="{{ connectionState.toLowerCase() }}"
   >
     <mat-icon *ngIf="isConnected()">wifi</mat-icon>
     <mat-icon *ngIf="!isConnected()">wifi_off</mat-icon>

@@ -18,7 +18,7 @@
         </mat-card-subtitle>
       </mat-card-header>
       <goldwind-status-indicator
-        [status]="composeStatus(device.connectionState, t('overallStatus'))"
+        [connectionState]="device.connectionState"
       ></goldwind-status-indicator>
       <div>
         <mat-divider fxFlex [vertical]="!isHandsetViewPort"></mat-divider>

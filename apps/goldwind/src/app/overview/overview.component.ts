@@ -7,9 +7,8 @@ import { select, Store } from '@ngrx/store';
 import { BreakpointService } from '@schaeffler/responsive';
 
 import { DevicesState } from '../core/store/reducers/devices/devices.reducer';
-import { ConnectionState, Device } from '../core/store/reducers/devices/models';
+import { Device } from '../core/store/reducers/devices/models';
 import { getDevicesResult } from '../core/store/selectors/devices/devices.selector';
-import { Status } from '../shared/status-indicator/status-indicator.component';
 
 @Component({
   selector: 'goldwind-overview',
@@ -40,26 +39,6 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
-  }
-
-  composeStatus(state: string, text: string): Status {
-    let type: ConnectionState;
-    switch (state) {
-      case ConnectionState.connected:
-        type = ConnectionState.connected;
-        break;
-      case ConnectionState.disconnected:
-        type = ConnectionState.disconnected;
-        break;
-      default:
-        console.log(`Unknown status: ${type}`);
-        type = ConnectionState.disconnected;
-    }
-
-    return {
-      type,
-      text,
-    };
   }
 
   public trackByFn(index: number, _item: any): number {
