@@ -1,15 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-export enum StatusType {
-  ok = 'OK',
-  error = 'ER',
-}
-
-export interface Status {
-  type: StatusType;
-  text: string;
-  notifications: string[];
-}
+import { ConnectionState } from '../../core/store/reducers/devices/models';
 
 @Component({
   selector: 'goldwind-status-indicator',
@@ -17,10 +8,13 @@ export interface Status {
   styleUrls: ['./status-indicator.component.scss'],
 })
 export class StatusIndicatorComponent {
-  @Input() status: Status = {
-    type: StatusType.ok,
-    text: '',
-    notifications: [],
-  };
-  statusType = StatusType;
+  @Input() connectionState: ConnectionState = ConnectionState.disconnected;
+
+  isConnected(): boolean {
+    if (this.connectionState === ConnectionState.connected) {
+      return true;
+    }
+
+    return false;
+  }
 }
