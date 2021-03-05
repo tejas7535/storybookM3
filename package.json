@@ -179,6 +179,9 @@
     "webpack-bundle-analyzer": "4.4.0",
     "yargs": "16.2.0"
   },
+  "engines": {
+    "node": ">= 14.0.0"
+  },
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
