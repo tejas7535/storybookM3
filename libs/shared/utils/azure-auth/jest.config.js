@@ -13,6 +13,7 @@ module.exports = {
         ],
       },
     },
+    crypto: require('crypto'),
   },
   coverageDirectory: '../../../../coverage/libs/shared/utils/azure-auth',
   snapshotSerializers: [

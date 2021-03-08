@@ -5,7 +5,9 @@
     "entryFile": "src/index.ts",
     "umdModuleIds": {
       "@azure/msal-angular": "@azure/msal-angular",
-      "@azure/msal-browser": "@azure/msal-browser"
+      "@azure/msal-browser": "@azure/msal-browser",
+      "@ngrx/effects": "@ngrx/effects",
+      "@ngrx/store": "@ngrx/store"
     }
   }
 }
