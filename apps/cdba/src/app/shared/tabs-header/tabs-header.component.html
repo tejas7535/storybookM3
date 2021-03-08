@@ -1,0 +1,26 @@
+<div fxLayout="column" class="container">
+  <div fxLayout="row" fxLayoutAlign="start center" class="tabs-header">
+    <mat-icon
+      fontSet="schaeffler-icons"
+      fontIcon="icon-arrow-west"
+      color="secondary"
+      routerLink="/search"
+    ></mat-icon>
+    <ng-content></ng-content>
+  </div>
+  <nav mat-tab-nav-bar mat-stretch-tabs>
+    <a
+      *ngFor="let tab of tabs; trackBy: trackByFn"
+      mat-tab-link
+      queryParamsHandling="merge"
+      routerLinkActive
+      #rla="routerLinkActive"
+      [routerLink]="tab.link"
+      [active]="rla.isActive"
+      >{{ tab.label$ | ngrxPush }}
+    </a>
+  </nav>
+  <div class="tab-content">
+    <router-outlet></router-outlet>
+  </div>
+</div>

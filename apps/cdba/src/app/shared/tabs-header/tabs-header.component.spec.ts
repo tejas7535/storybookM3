@@ -1,29 +1,25 @@
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { TabsHeaderComponent } from './tabs-header.component';
 
-import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
-import { CompareComponent } from './compare.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
-describe('CompareComponent', () => {
-  let component: CompareComponent;
-  let spectator: Spectator<CompareComponent>;
+describe('TabsHeaderComponent', () => {
+  let component: TabsHeaderComponent;
+  let spectator: Spectator<TabsHeaderComponent>;
 
   const createComponent = createComponentFactory({
-    component: CompareComponent,
+    component: TabsHeaderComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      MatIconModule,
+      MatTabsModule,
+      ReactiveComponentModule,
       RouterTestingModule,
-      TabsHeaderModule,
     ],
-    declarations: [CompareComponent],
+    declarations: [TabsHeaderComponent],
   });
 
   beforeEach(() => {

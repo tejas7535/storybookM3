@@ -1,3 +1,7 @@
 {
-  "title": "Compare"
+  "title": "Detail Comparison",
+  "tabs": {
+    "details": "DETAILS",
+    "billOfMaterial": "BILL OF MATERIALS"
+  }
 }

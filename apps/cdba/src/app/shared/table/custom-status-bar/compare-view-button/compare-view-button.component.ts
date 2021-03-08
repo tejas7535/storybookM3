@@ -4,6 +4,9 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { environment } from '../../../../../environments/environment';
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { CompareRoutePath } from '../../../../compare/compare-route-path.enum';
+import { ReferenceType } from '../../../../core/store/reducers/shared/models';
 
 @Component({
   selector: 'cdba-compare-view-button',
@@ -37,6 +40,20 @@ export class CompareViewButtonComponent {
   }
 
   showCompareView(): void {
-    this.router.navigate(['compare']);
+    const queryParams = {} as any;
+    this.selections.forEach((selection: ReferenceType, index) => {
+      queryParams[`material_number_item_${index + 1}`] =
+        selection.materialNumber;
+      queryParams[`plant_item_${index + 1}`] = selection.plant;
+      queryParams[`identification_hash_item_${index + 1}`] =
+        selection.identificationHash;
+    });
+
+    this.router.navigate(
+      [`${AppRoutePath.ComparePath}/${CompareRoutePath.DetailsPath}`],
+      {
+        queryParams,
+      }
+    );
   }
 }

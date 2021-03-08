@@ -2,17 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { DetailState } from '../core/store/reducers/detail/detail.reducer';
 import { ReferenceType } from '../core/store/reducers/shared/models';
 import { getReferenceType } from '../core/store/selectors';
+import { Tab } from '../shared/interfaces';
 import { DetailRoutePath } from './detail-route-path.enum';
-
-interface Tab {
-  label: string;
-  link: string;
-}
 
 @Component({
   selector: 'cdba-detail',
@@ -21,16 +18,32 @@ interface Tab {
 })
 export class DetailComponent implements OnInit {
   public referenceType$: Observable<ReferenceType>;
-  public activeRoutPath$: Observable<string>;
+  public tabs: Tab[];
 
-  public tabs: Tab[] = [
-    { label: 'tabs.detail', link: DetailRoutePath.DetailsPath },
-    { label: 'tabs.billOfMaterial', link: DetailRoutePath.BomPath },
-    { label: 'tabs.calculations', link: DetailRoutePath.CalculationsPath },
-    // { label: 'tabs.drawings', link: DetailRoutePath.DrawingsPath },
-  ];
+  public constructor(
+    private readonly store: Store<DetailState>,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.tabs = [
+      {
+        label$: this.translateKey('tabs.detail'),
+        link: DetailRoutePath.DetailsPath,
+      },
+      {
+        label$: this.translateKey('tabs.billOfMaterial'),
+        link: DetailRoutePath.BomPath,
+      },
+      {
+        label$: this.translateKey('tabs.calculations'),
+        link: DetailRoutePath.CalculationsPath,
+      },
+      // { label: this.translateKey('tabs.drawings'), link: DetailRoutePath.DrawingsPath },
+    ];
+  }
 
-  public constructor(private readonly store: Store<DetailState>) {}
+  translateKey(key: string): Observable<string> {
+    return this.translocoService.selectTranslate(key, {}, 'detail');
+  }
 
   public ngOnInit(): void {
     this.referenceType$ = this.store.pipe(select(getReferenceType));

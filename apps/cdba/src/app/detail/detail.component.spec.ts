@@ -1,11 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
-import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -13,6 +10,7 @@ import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { MaterialNumberModule } from '../shared/pipes';
 import { SharedModule } from '../shared/shared.module';
+import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
 import { DetailComponent } from './detail.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -22,48 +20,45 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('DetailComponent', () => {
   let component: DetailComponent;
-  let fixture: ComponentFixture<DetailComponent>;
+  let spectator: Spectator<DetailComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        MatTabsModule,
-        MatIconModule,
-        NoopAnimationsModule,
-        SharedModule,
-        RouterTestingModule,
-        provideTranslocoTestingModule({}),
-        MaterialNumberModule,
-      ],
-      declarations: [DetailComponent],
-      providers: [
-        provideMockStore({
-          initialState: {
-            detail: {},
+  const createComponent = createComponentFactory({
+    component: DetailComponent,
+    imports: [
+      NoopAnimationsModule,
+      SharedModule,
+      RouterTestingModule,
+      provideTranslocoTestingModule({}),
+      MaterialNumberModule,
+      TabsHeaderModule,
+    ],
+    declarations: [DetailComponent],
+    providers: [
+      provideMockStore({
+        initialState: {
+          detail: {},
+        },
+        selectors: [
+          {
+            selector: getReferenceType,
+            value: REFERENCE_TYPE_MOCK,
           },
-          selectors: [
-            {
-              selector: getReferenceType,
-              value: REFERENCE_TYPE_MOCK,
-            },
-          ],
-        }),
-      ],
-    });
+        ],
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('ngOnInit', () => {
-    it('should set referenceType$ observable', () => {
+    test('should set referenceType$ observable', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
@@ -72,7 +67,7 @@ describe('DetailComponent', () => {
   });
 
   describe('trackByFn', () => {
-    it('should return index', () => {
+    test('should return index', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);

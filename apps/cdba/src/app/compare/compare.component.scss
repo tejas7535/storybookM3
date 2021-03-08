@@ -1,27 +1,9 @@
 :host {
   width: 100%;
 
-  .container {
-    height: 100%;
-
-    mat-card {
-      height: calc(100% - 32px);
-      width: calc(100% - 32px);
-
-      .mat-card-inner {
-        height: 100%;
-        width: 100%;
-
-        h3 {
-          font-weight: bold;
-          line-height: 36px;
-          margin: 0;
-        }
-
-        .table-container {
-          height: calc(100% - 36px);
-        }
-      }
-    }
+  h1 {
+    // temporary until we adjust whole cdba styles to the design
+    color: rgba(0, 0, 0, 0.87);
+    font-family: Roboto;
   }
 }

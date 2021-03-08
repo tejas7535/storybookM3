@@ -1,13 +1,3 @@
-<div class="container">
-  <mat-card>
-    <div
-      class="mat-card-inner"
-      fxLayout="column"
-      *transloco="let t; read: 'compare'"
-    >
-      <h3>{{ t('title') }}</h3>
-
-      <div class="table-container"></div>
-    </div>
-  </mat-card>
-</div>
+<cdba-tabs-header [tabs]="tabs" *transloco="let t; read: 'compare'">
+  <h1>{{ t('title') }}</h1>
+</cdba-tabs-header>
