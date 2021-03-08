@@ -134,7 +134,7 @@ export class DetailEffects {
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
       filter(
-        (routerState) => routerState.url.indexOf(AppRoutePath.DetailPath) >= 0
+        (routerState) => routerState.url.indexOf(AppRoutePath.DetailPath) === 1
       ),
       map((routerState) =>
         DetailEffects.mapQueryParamsToIdentifier(routerState.queryParams)

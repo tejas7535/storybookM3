@@ -3,6 +3,10 @@ import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
+import { AppRoutePath } from '../../../../app-route-path.enum';
+import { ReferenceType } from '../../../../core/store/reducers/shared/models';
+import { DetailRoutePath } from '../../../../detail/detail-route-path.enum';
+
 @Component({
   selector: 'cdba-detail-view-button',
   templateUrl: './detail-view-button.component.html',
@@ -34,12 +38,17 @@ export class DetailViewButtonComponent {
   }
 
   showDetailView(): void {
-    this.router.navigate(['/detail/detail'], {
-      queryParams: {
-        material_number: this.selections[0].materialNumber,
-        plant: this.selections[0].plant,
-        identification_hash: this.selections[0].identificationHash,
-      },
-    });
+    const selection: ReferenceType = this.selections[0];
+
+    this.router.navigate(
+      [`${AppRoutePath.DetailPath}/${DetailRoutePath.DetailsPath}`],
+      {
+        queryParams: {
+          material_number: selection.materialNumber,
+          plant: selection.plant,
+          identification_hash: selection.identificationHash,
+        },
+      }
+    );
   }
 }

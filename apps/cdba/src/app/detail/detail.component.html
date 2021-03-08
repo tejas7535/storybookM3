@@ -1,32 +1,9 @@
-<div fxLayout="column" class="container" *transloco="let t; read: 'detail'">
-  <div fxLayout="row" fxLayoutAlign="start center" class="details-page-header">
-    <mat-icon
-      fontSet="schaeffler-icons"
-      fontIcon="icon-arrow-west"
-      color="secondary"
-      routerLink="/search"
-    ></mat-icon>
-    <h1 *ngIf="referenceType$ | async">
-      {{ (referenceType$ | async)?.materialDesignation }} |
-      {{ (referenceType$ | async)?.materialNumber | materialNumber }}
-    </h1>
-    <h1 *ngIf="(referenceType$ | async) === undefined">
-      {{ t('errorTitle') }}
-    </h1>
-  </div>
-  <nav mat-tab-nav-bar mat-stretch-tabs>
-    <a
-      *ngFor="let tab of tabs; trackBy: trackByFn()"
-      mat-tab-link
-      queryParamsHandling="merge"
-      routerLinkActive
-      #rla="routerLinkActive"
-      [routerLink]="tab.link"
-      [active]="rla.isActive"
-      >{{ t(tab.label) }}</a
-    >
-  </nav>
-  <div class="tab-content">
-    <router-outlet></router-outlet>
-  </div>
-</div>
+<cdba-tabs-header [tabs]="tabs" *transloco="let t; read: 'detail'">
+  <h1 *ngIf="referenceType$ | async">
+    {{ (referenceType$ | async)?.materialDesignation }} |
+    {{ (referenceType$ | async)?.materialNumber | materialNumber }}
+  </h1>
+  <h1 *ngIf="(referenceType$ | async) === undefined">
+    {{ t('errorTitle') }}
+  </h1>
+</cdba-tabs-header>
