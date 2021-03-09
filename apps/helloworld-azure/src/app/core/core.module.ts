@@ -8,7 +8,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
-import { AuthGuard } from './guards/auth.guard';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -33,7 +32,7 @@ import { StoreModule } from './store/store.module';
       true
     ),
   ],
-  providers: [AuthGuard],
+  providers: [],
   exports: [AppComponent],
 })
 export class CoreModule {}

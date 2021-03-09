@@ -21,3 +21,8 @@ export const getRoles = createSelector(
   getAuthState,
   (state) => (state.accountInfo?.idTokenClaims as any)?.roles || []
 );
+
+export const getProfileImage = createSelector(
+  getAuthState,
+  (state) => state.profileImage.url
+);

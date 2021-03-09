@@ -4,6 +4,7 @@ export {
   getUsername,
   getIsLoggedIn,
   getRoles,
+  getProfileImage,
 } from './lib/store/selectors/auth.selectors';
 export {
   AzureConfig,

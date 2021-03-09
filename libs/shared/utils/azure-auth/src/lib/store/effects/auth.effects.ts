@@ -11,12 +11,7 @@ import {
 } from 'rxjs/operators';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
-import {
-  AccountInfo,
-  EventMessage,
-  EventType,
-  InteractionStatus,
-} from '@azure/msal-browser';
+import { AccountInfo, InteractionStatus } from '@azure/msal-browser';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { AzureAuthService } from '../../azure-auth.service';
@@ -28,6 +23,7 @@ import {
   loginSuccess,
   logout,
 } from '../actions/auth.actions';
+import { LoadProfileImageError } from './../../models/load-profile-image-error.model';
 
 @Injectable()
 export class AuthEffects {
@@ -59,29 +55,15 @@ export class AuthEffects {
               url,
             })
           ),
-          catchError((errorMessage: string) =>
-            of(loadProfileImageFailure({ errorMessage }))
+          catchError((errorMessage: LoadProfileImageError) =>
+            of(
+              loadProfileImageFailure({
+                errorMessage: errorMessage.message,
+              })
+            )
           )
         )
       )
-    )
-  );
-
-  eventLoginSuccess$ = createEffect(() =>
-    this.msalBroadcastService.msalSubject$.pipe(
-      filter(
-        (msg: EventMessage) =>
-          msg.eventType === EventType.LOGIN_SUCCESS &&
-          msg.payload?.account !== undefined
-      ),
-      map((result: EventMessage) => result.payload.account),
-      tap((accountInfo: AccountInfo) =>
-        this.authService.setActiveAccount(accountInfo)
-      ),
-      mergeMap((accountInfo: AccountInfo) => [
-        loginSuccess({ accountInfo }),
-        loadProfileImage(),
-      ])
     )
   );
 
@@ -91,7 +73,6 @@ export class AuthEffects {
       map(() => this.authService.handleAccount()),
       filter((accountInfo: AccountInfo) => accountInfo !== undefined),
       distinctUntilChanged((old: AccountInfo, current: AccountInfo) => {
-        // TODO: better approach?
         return (
           (old.idTokenClaims as any)?.nonce ===
           (current.idTokenClaims as any)?.nonce

@@ -1,7 +1,7 @@
 import { defer } from 'rxjs';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
-import { AccountInfo, EventType, InteractionStatus } from '@azure/msal-browser';
+import { AccountInfo, InteractionStatus } from '@azure/msal-browser';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -17,6 +17,7 @@ import {
   loginSuccess,
   logout,
 } from '../actions/auth.actions';
+import { LoadProfileImageError } from './../../models/load-profile-image-error.model';
 import { AuthEffects } from './auth.effects';
 
 describe('Azure Auth Effects', () => {
@@ -25,7 +26,6 @@ describe('Azure Auth Effects', () => {
   let metadata: EffectsMetadata<AuthEffects>;
   let authService: AzureAuthService;
   let spectator: SpectatorService<AuthEffects>;
-  let msalSubjectAction$: any;
   let inProgressAction$: any;
 
   const createService = createServiceFactory({
@@ -46,7 +46,6 @@ describe('Azure Auth Effects', () => {
       {
         provide: MsalBroadcastService,
         useValue: {
-          msalSubject$: defer(() => msalSubjectAction$),
           inProgress$: defer(() => inProgressAction$),
         },
       },
@@ -114,8 +113,12 @@ describe('Azure Auth Effects', () => {
     });
 
     test('should return loadProfileImageFailure if REST call fails', () => {
-      const errorMessage = 'err';
-      const result = loadProfileImageFailure({ errorMessage });
+      const errorMessage = ({
+        message: 'err',
+      } as unknown) as LoadProfileImageError;
+      const result = loadProfileImageFailure({
+        errorMessage: errorMessage.message,
+      });
 
       actions$ = hot('-a', { a: loadProfileImage() });
 
@@ -126,63 +129,6 @@ describe('Azure Auth Effects', () => {
 
       expect(effects.profileImage$).toBeObservable(expected);
       expect(authService.getProfileImage).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('eventLoginSuccess$', () => {
-    test('should do nothing when payload is missing', () => {
-      const action = hot('-a', {
-        a: { eventType: EventType.LOGIN_SUCCESS },
-      });
-      msalSubjectAction$ = action;
-
-      const expected = cold('--');
-      expect(effects.eventLoginSuccess$).toBeObservable(expected);
-    });
-
-    test('should do nothing when payload account is missing', () => {
-      const action = hot('-a', {
-        a: { eventType: EventType.LOGIN_SUCCESS, payload: {} },
-      });
-      msalSubjectAction$ = action;
-
-      const expected = cold('--');
-      expect(effects.eventLoginSuccess$).toBeObservable(expected);
-    });
-
-    test('should do nothing when not LOGIN_SUCCESS event', () => {
-      const action = hot('-a', {
-        a: {
-          eventType: EventType.ACQUIRE_TOKEN_FAILURE,
-          payload: { account: {} },
-        },
-      });
-      msalSubjectAction$ = action;
-
-      const expected = cold('--');
-      expect(effects.eventLoginSuccess$).toBeObservable(expected);
-    });
-
-    test('should set account if EventType LOGIN_SUCCESS and return loginSuccess/loadProfileImage actions', () => {
-      authService.setActiveAccount = jest.fn();
-      const accountInfo = ({
-        name: 'test',
-      } as unknown) as AccountInfo;
-      const action = hot('-a', {
-        a: {
-          eventType: EventType.LOGIN_SUCCESS,
-          payload: { account: accountInfo },
-        },
-      });
-
-      msalSubjectAction$ = action;
-
-      const expected = cold('-(bc)', {
-        b: loginSuccess({ accountInfo }),
-        c: loadProfileImage(),
-      });
-      expect(effects.eventLoginSuccess$).toBeObservable(expected);
-      expect(authService.setActiveAccount).toHaveBeenCalledWith(accountInfo);
     });
   });
 

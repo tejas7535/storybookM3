@@ -18,6 +18,12 @@
   cursor: pointer;
 }
 
+.avatar {
+  border-radius: 9999px;
+  height: 2rem;
+  width: 2rem;
+}
+
 .head-icon {
   color: $schaeffler-carbon-gray;
   font-size: 24px;

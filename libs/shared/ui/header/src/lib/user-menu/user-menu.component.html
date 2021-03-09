@@ -23,7 +23,16 @@
   fxFlexAlign="end"
 >
   <div id="headerUserName" fxLayout="row" fxLayoutAlign="center center">
-    <mat-icon class="head-icon icon icon-user"></mat-icon>
+    <img
+      *ngIf="profileImage; else defaultAvatar"
+      class="avatar m-r-5"
+      [src]="profileImage"
+      alt
+    />
+    <ng-template #defaultAvatar>
+      <mat-icon class="head-icon icon icon-user"></mat-icon>
+    </ng-template>
+
     <p class="user-menu-text" fxHide.sm="true">{{ user }}</p>
   </div>
   <mat-icon

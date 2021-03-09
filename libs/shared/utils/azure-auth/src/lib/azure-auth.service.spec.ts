@@ -2,11 +2,13 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { DomSanitizer } from '@angular/platform-browser';
-import { MsalService, MSAL_GUARD_CONFIG } from '@azure/msal-angular';
-import { AccountInfo, InteractionType } from '@azure/msal-browser';
-import { SpectatorService, createServiceFactory } from '@ngneat/spectator';
+
 import { of } from 'rxjs';
+
+import { MSAL_GUARD_CONFIG, MsalService } from '@azure/msal-angular';
+import { AccountInfo, InteractionType } from '@azure/msal-browser';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+
 import { AzureAuthService } from './azure-auth.service';
 
 const guardConfig: any = {
@@ -23,7 +25,6 @@ describe('Azure Auth Service', () => {
   let spectator: SpectatorService<AzureAuthService>;
   let msalService: MsalService;
   let httpMock: HttpTestingController;
-  let sanitizer: DomSanitizer;
 
   const createService = createServiceFactory({
     service: AzureAuthService,
@@ -52,7 +53,31 @@ describe('Azure Auth Service', () => {
     service = spectator.service;
     msalService = spectator.inject(MsalService);
     httpMock = spectator.inject(HttpTestingController);
-    sanitizer = spectator.inject(DomSanitizer);
+  });
+
+  describe('test createImageFromBlob', () => {
+    test('should return promise with image url', (done) => {
+      const url = 'test';
+
+      const dummyReader = ({
+        readAsDataURL: jest.fn(),
+        result: url,
+      } as unknown) as FileReader;
+
+      const spy = jest
+        .spyOn(global, 'FileReader')
+        .mockImplementation(() => dummyReader);
+
+      const blob: Blob = new Blob(['test'], { type: 'image/png' });
+
+      AzureAuthService.createImageFromBlob(blob).subscribe((res) => {
+        expect(res).toEqual(url);
+        expect(spy).toHaveBeenCalledTimes(1);
+        done();
+      });
+
+      dummyReader.onload({} as any);
+    });
   });
 
   describe('login', () => {
@@ -132,12 +157,12 @@ describe('Azure Auth Service', () => {
     test('should return profile image url', () => {
       const blob: Blob = new Blob(['test'], { type: 'image/png' });
       const url = 'url/to/img';
-      global.URL.createObjectURL = jest.fn(() => url);
-      sanitizer.sanitize = jest.fn(() => url);
-      sanitizer.bypassSecurityTrustUrl = jest.fn(() => url);
+
+      AzureAuthService.createImageFromBlob = jest.fn(() => of(url));
 
       service.getProfileImage().subscribe((response) => {
         expect(response).toEqual(url);
+        expect(AzureAuthService.createImageFromBlob).toHaveBeenCalledTimes(1);
       });
 
       const req = httpMock.expectOne(

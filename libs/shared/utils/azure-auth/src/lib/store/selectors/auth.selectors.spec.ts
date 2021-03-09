@@ -56,4 +56,12 @@ describe('Azure Auth selectors', () => {
 
     expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([]);
   });
+
+  test('should return profile image url', () => {
+    const url = 'my-sweet-img.png';
+
+    expect(
+      fromAuthSelectors.getProfileImage.projector({ profileImage: { url } })
+    ).toEqual(url);
+  });
 });
