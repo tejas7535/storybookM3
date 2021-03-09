@@ -6,23 +6,11 @@
 >
   <mat-card-header>
     <mat-card-title>{{ t('title') }} </mat-card-title>
-    <mat-card-subtitle *transloco="let t; read: 'bearing'">
-      {{ t('mainBearing') }}
+    <mat-card-subtitle>
+      {{ timeStamp$ | ngrxPush }} | {{ t('updateFrequency') }}: {{ refresh }}s
     </mat-card-subtitle>
   </mat-card-header>
   <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="space-between end">
-    <ng-container
-      *ngIf="loadSenseMeasurementTimes$ | ngrxPush as loadSenseMeasurementTimes"
-    >
-      <mat-slider
-        color="primary"
-        [max]="loadSenseMeasurementTimes.length - 1"
-        [value]="loadSenseMeasurementTimes.length"
-        (input)="timeChange($event, loadSenseMeasurementTimes)"
-      ></mat-slider>
-      <span>{{ current }}</span>
-    </ng-container>
-
     <div
       fxFlex
       echarts

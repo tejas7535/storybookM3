@@ -1,10 +1,15 @@
-import { getLoad, getLoadFailure, getLoadId, getLoadSuccess } from '..';
+import {
+  getBearingLoadFailure,
+  getBearingLoadLatest,
+  getBearingLoadSuccess,
+  getLoadId,
+} from '..';
 
 describe('LoadSense Actions', () => {
-  let bearingId: string;
+  let deviceId: string;
 
   beforeEach(() => {
-    bearingId = '123';
+    deviceId = '123';
   });
   describe('Get LoadSense Actions', () => {
     test('getLoadId', () => {
@@ -14,27 +19,27 @@ describe('LoadSense Actions', () => {
         type: '[Load Sense] Load Load Id',
       });
     });
-    test('getLoad', () => {
-      const action = getLoad({ bearingId });
+    test('getBearingLoadLatest', () => {
+      const action = getBearingLoadLatest({ deviceId });
 
       expect(action).toEqual({
-        bearingId,
+        deviceId,
         type: '[Load Sense] Get Load',
       });
     });
 
-    test('getLoadSuccess', () => {
-      const loadSense: any = {};
-      const action = getLoadSuccess({ loadSense });
+    test('getBearingLoadSuccess', () => {
+      const bearingLoadLatest: any = {};
+      const action = getBearingLoadSuccess({ bearingLoadLatest });
 
       expect(action).toEqual({
-        loadSense,
+        bearingLoadLatest,
         type: '[Load Sense] Get Load Success',
       });
     });
 
-    test('getLoadFailure', () => {
-      const action = getLoadFailure();
+    test('getBearingLoadFailure', () => {
+      const action = getBearingLoadFailure();
 
       expect(action).toEqual({
         type: '[Load Sense] Get Load Failure',

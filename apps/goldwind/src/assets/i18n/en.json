@@ -33,6 +33,7 @@
     },
     "centerLoad": {
       "title": "Bearing center load",
+      "updateFrequency": "Update frequency",
       "bearingTemperature": "Bearing Temperature",
       "bearingCenterLoad": "Bearing Center Load",
       "time": "Time",

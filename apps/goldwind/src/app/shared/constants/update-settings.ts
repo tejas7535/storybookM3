@@ -5,6 +5,9 @@ export interface UpdateSettings {
   grease: {
     refresh: number;
   };
+  bearingLoad: {
+    refresh: number;
+  };
 }
 
 export const UPDATE_SETTINGS: UpdateSettings = {
@@ -12,6 +15,9 @@ export const UPDATE_SETTINGS: UpdateSettings = {
     refresh: 10,
   },
   grease: {
+    refresh: 10,
+  },
+  bearingLoad: {
     refresh: 10,
   },
 };

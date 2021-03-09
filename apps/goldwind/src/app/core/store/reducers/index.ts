@@ -42,7 +42,7 @@ export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
   'bearing'
 );
 
-export const getLoadSenseState = createFeatureSelector<fromLoadSense.LoadSenseState>(
+export const getBearingLoadState = createFeatureSelector<fromLoadSense.BearingLoadLatestState>(
   'loadSense'
 );
 

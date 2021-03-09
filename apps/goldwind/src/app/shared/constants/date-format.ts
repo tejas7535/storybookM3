@@ -1,11 +1,6 @@
 export interface DateFormat {
   local: string;
-  options: {
-    year: string;
-    month: string;
-    day: string;
-    weekday: string;
-  };
+  options: Intl.DateTimeFormatOptions;
 }
 
 export const DATE_FORMAT: DateFormat = {

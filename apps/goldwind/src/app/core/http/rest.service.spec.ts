@@ -110,7 +110,7 @@ describe('Rest Service', () => {
     });
   });
 
-  describe('getLoad', () => {
+  describe('getBearingLoad', () => {
     test('should call dataService getLoad', () => {
       const mockLoadSenseParams = {
         id: 'du1-bist2-flop3',
@@ -118,9 +118,20 @@ describe('Rest Service', () => {
         endDate: 1599651509,
       };
 
-      service.getLoad(mockLoadSenseParams);
+      service.getBearingLoad(mockLoadSenseParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
         `iot/things/${mockLoadSenseParams.id}/telemetry/bearing-load/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
+      );
+    });
+  });
+
+  describe('getBearingLoadLatest', () => {
+    test('should call dataService', () => {
+      const deviceId = 'du1-bist2-flop3';
+
+      service.getBearingLoadLatest(deviceId);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `iot/things/${deviceId}/telemetry/bearing-load/latest`
       );
     });
   });

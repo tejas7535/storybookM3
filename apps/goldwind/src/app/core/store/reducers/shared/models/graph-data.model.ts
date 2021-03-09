@@ -9,7 +9,7 @@ export interface GraphData {
   };
   series: {
     [index: number]: {
-      name: string;
+      name?: string;
       type: string;
       symbol?: string;
       coordinateSystem?: string;
@@ -21,6 +21,7 @@ export interface GraphData {
         | [number, number][][]
         | [
             {
+              name?: string;
               value: number[];
             }
           ];

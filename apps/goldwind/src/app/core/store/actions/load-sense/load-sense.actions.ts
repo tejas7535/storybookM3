@@ -4,23 +4,28 @@ import { LoadSense } from '../../reducers/load-sense/models';
 
 export const getLoadId = createAction('[Load Sense] Load Load Id');
 
-export const getLoad = createAction(
+export const getBearingLoadLatest = createAction(
   '[Load Sense] Get Load',
-  props<{ bearingId: string }>()
+  props<{ deviceId: string }>()
 );
 
-export const getLoadSuccess = createAction(
+export const stopGetLoad = createAction('[Load Sense] Stop Load');
+
+export const getBearingLoadSuccess = createAction(
   '[Load Sense] Get Load Success',
-  props<{ loadSense: LoadSense[] }>()
+  props<{ bearingLoadLatest: LoadSense }>()
 );
 
-export const getLoadFailure = createAction('[Load Sense] Get Load Failure');
+export const getBearingLoadFailure = createAction(
+  '[Load Sense] Get Load Failure'
+);
 
 const all = union({
   getLoadId,
-  getLoad,
-  getLoadFailure,
-  getLoadSuccess,
+  getBearingLoadLatest,
+  stopGetLoad,
+  getBearingLoadFailure,
+  getBearingLoadSuccess,
 });
 
 export type LoadSenseActions = typeof all;

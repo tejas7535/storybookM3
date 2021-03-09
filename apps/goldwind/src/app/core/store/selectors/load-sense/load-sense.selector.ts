@@ -2,40 +2,30 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { GaugeColors } from '../../../../shared/chart/chart';
-import { getLoadSenseState } from '../../reducers';
-import { LoadSenseState } from '../../reducers/load-sense/load-sense.reducer';
+import { DATE_FORMAT } from '../../../../shared/constants';
+import { getBearingLoadState } from '../../reducers';
+import { BearingLoadLatestState } from '../../reducers/load-sense/load-sense.reducer';
 import { LoadSense } from '../../reducers/load-sense/models';
-import { GraphData, Interval } from '../../reducers/shared/models';
+import { GraphData } from '../../reducers/shared/models';
 
-interface Timestamp {
-  timestamp: string;
-}
 // Will at some point only return true if last result is not too old
-export const getLiveStatus = createSelector(
-  getLoadSenseState,
-  (state: LoadSenseState): boolean => state && false
-);
-
 export const getLoadSenseLoading = createSelector(
-  getLoadSenseState,
-  (state: LoadSenseState) => state.loading
+  getBearingLoadState,
+  (state: BearingLoadLatestState) => state.loading
 );
 
-export const getLoadSenseResult = createSelector(
-  getLoadSenseState,
-  (state: LoadSenseState): LoadSense[] => state.result
+export const getBearingLoadLatestResult = createSelector(
+  getBearingLoadState,
+  (state: BearingLoadLatestState): LoadSense => state.result
 );
 
-export const getLoadInterval = createSelector(
-  getLoadSenseState,
-  (state: LoadSenseState): Interval => state.interval
-);
-
-export const getLoadSenseMeasturementTimes = createSelector(
-  getLoadSenseResult,
-  (loadSenseResults: LoadSense[]): any =>
-    loadSenseResults?.map(
-      (loadSenseMeasurment: LoadSense) => loadSenseMeasurment.timestamp
+export const getBearingLoadLatestTimeStamp = createSelector(
+  getBearingLoadLatestResult,
+  (loadSense: LoadSense) =>
+    loadSense &&
+    new Date(loadSense.timestamp).toLocaleTimeString(
+      DATE_FORMAT.local,
+      DATE_FORMAT.options
     )
 );
 
@@ -64,18 +54,10 @@ const generatorSideValues = (lsp: LoadSense): number[] =>
   ];
 
 export const getLoadGraphData = createSelector(
-  getLoadSenseResult,
-  (loadSenseResults: LoadSense[], { timestamp }: Timestamp): GraphData => {
-    const lspMeasurement =
-      loadSenseResults &&
-      (timestamp
-        ? loadSenseResults.filter(
-            (loadSense: LoadSense) => loadSense.timestamp === timestamp
-          )[0]
-        : loadSenseResults[loadSenseResults.length - 1]);
-
+  getBearingLoadLatestResult,
+  (loadSenseResult: LoadSense): GraphData => {
     return (
-      lspMeasurement && {
+      loadSenseResult && {
         series: [
           {
             name: `${translate(`conditionMonitoring.centerLoad.generator`)}`,
@@ -83,7 +65,10 @@ export const getLoadGraphData = createSelector(
             symbol: 'none',
             data: [
               {
-                value: generatorSideValues(lspMeasurement),
+                value: generatorSideValues(loadSenseResult),
+                name: `${translate(
+                  `conditionMonitoring.centerLoad.generator`
+                )}`,
               },
             ],
             areaStyle: {
@@ -99,7 +84,8 @@ export const getLoadGraphData = createSelector(
             symbol: 'none',
             data: [
               {
-                value: rotorSideValues(lspMeasurement),
+                value: rotorSideValues(loadSenseResult),
+                name: `${translate(`conditionMonitoring.centerLoad.rotor`)}`,
               },
             ],
             areaStyle: {

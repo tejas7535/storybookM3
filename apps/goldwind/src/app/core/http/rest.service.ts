@@ -64,12 +64,16 @@ export class RestService {
     return this.dataService.getAll<Device[]>(`device/listedgedevices`);
   }
 
-  public getLoad({
+  public getBearingLoad({
     id,
     startDate,
     endDate,
   }: IotParams): Observable<LoadSense[]> {
     return this.getIot(`${id}/telemetry/bearing-load/${startDate}/${endDate}`);
+  }
+
+  public getBearingLoadLatest(deviceId: string): Observable<LoadSense> {
+    return this.getIot(`${deviceId}/telemetry/bearing-load/latest`);
   }
 
   public getData({
