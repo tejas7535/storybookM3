@@ -1,46 +1,46 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { getLoad, getLoadFailure, getLoadSuccess } from '../../actions';
+import {
+  getBearingLoadFailure,
+  getBearingLoadLatest,
+  getBearingLoadSuccess,
+} from '../../actions';
 import { LoadSense } from './models';
 
-export interface LoadSenseState {
+export interface BearingLoadLatestState {
   loading: boolean;
-  result: LoadSense[];
-  interval: {
-    startDate: number;
-    endDate: number;
-  };
+  result: LoadSense;
 }
 
-export const initialState: LoadSenseState = {
+export const initialState: BearingLoadLatestState = {
   loading: false,
   result: undefined,
-  interval: {
-    startDate: Math.floor(
-      +new Date().setFullYear(new Date().getFullYear() - 1) / 1000
-    ),
-    endDate: Math.floor(+new Date() / 1000),
-  },
 };
 
 export const loadSenseReducer = createReducer(
   initialState,
-  on(getLoad, (state: LoadSenseState) => ({
+  on(getBearingLoadLatest, (state: BearingLoadLatestState) => ({
     ...state,
     loading: true,
   })),
-  on(getLoadSuccess, (state: LoadSenseState, { loadSense }) => ({
-    ...state,
-    loading: false,
-    result: loadSense,
-  })),
-  on(getLoadFailure, (state: LoadSenseState) => ({
+  on(
+    getBearingLoadSuccess,
+    (state: BearingLoadLatestState, { bearingLoadLatest }) => ({
+      ...state,
+      loading: false,
+      result: bearingLoadLatest,
+    })
+  ),
+  on(getBearingLoadFailure, (state: BearingLoadLatestState) => ({
     ...state,
     loading: false,
   }))
 );
 
 // tslint:disable-next-line: only-arrow-functions
-export function reducer(state: LoadSenseState, action: Action): LoadSenseState {
+export function reducer(
+  state: BearingLoadLatestState,
+  action: Action
+): BearingLoadLatestState {
   return loadSenseReducer(state, action);
 }

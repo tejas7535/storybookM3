@@ -1,20 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { LoadSenseState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
+import { BearingLoadLatestState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
+  getBearingLoadLatestTimeStamp,
   getLoadGraphData,
-  getLoadSenseMeasturementTimes,
 } from '../../../core/store/selectors/';
 import { radarChartOptions } from '../../../shared/chart/chart';
-import { DATE_FORMAT } from '../../../shared/constants';
+import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
 
 @Component({
   selector: 'goldwind-center-load',
@@ -22,10 +20,9 @@ import { DATE_FORMAT } from '../../../shared/constants';
   styleUrls: ['./center-load.component.scss'],
 })
 export class CenterLoadComponent implements OnInit {
-  @Input() live: boolean;
   loadSenseGraphData$: Observable<GraphData>;
-  loadSenseMeasurementTimes$: Observable<string[]>;
-  current: string;
+  timeStamp$: Observable<string>;
+  refresh = UPDATE_SETTINGS.shaft.refresh;
 
   chartOptions: EChartsOption = {
     ...radarChartOptions,
@@ -35,10 +32,6 @@ export class CenterLoadComponent implements OnInit {
     },
     legend: {
       ...radarChartOptions.legend,
-      data: [
-        translate('conditionMonitoring.centerLoad.generator'),
-        translate('conditionMonitoring.centerLoad.rotor'),
-      ],
     },
     radar: {
       ...radarChartOptions.radar,
@@ -55,7 +48,7 @@ export class CenterLoadComponent implements OnInit {
     },
   };
 
-  public constructor(private readonly store: Store<LoadSenseState>) {}
+  public constructor(private readonly store: Store<BearingLoadLatestState>) {}
 
   tooltipFormatter(params: any): any {
     if (params.seriesName === 'Rotor') {
@@ -131,28 +124,8 @@ export class CenterLoadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getLoadSenseGraphData();
-
-    this.loadSenseMeasurementTimes$ = this.store.pipe(
-      select(getLoadSenseMeasturementTimes),
-      tap((val) => {
-        this.current =
-          this.current ?? val ? this.formatDate(val.pop()) : undefined;
-      })
-    );
-  }
-
-  getLoadSenseGraphData(timestamp?: string): void {
-    this.loadSenseGraphData$ = this.store.pipe(
-      select(getLoadGraphData, { timestamp })
-    );
-  }
-
-  timeChange(event: any, loadSenseMeasurementTimes: string[]): void {
-    const current = loadSenseMeasurementTimes[event.value];
-
-    this.current = this.formatDate(current);
-    this.getLoadSenseGraphData(current);
+    this.loadSenseGraphData$ = this.store.pipe(select(getLoadGraphData));
+    this.timeStamp$ = this.store.pipe(select(getBearingLoadLatestTimeStamp));
   }
 
   formatDate(current: string): string {

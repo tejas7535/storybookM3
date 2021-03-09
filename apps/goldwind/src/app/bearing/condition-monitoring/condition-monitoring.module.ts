@@ -11,7 +11,7 @@ import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
-  ConditionMonitoringEffects,
+  BearingLoadEffects,
   EdmMonitorEffects,
   GreaseStatusEffects,
   ShaftEffects,
@@ -52,7 +52,7 @@ import { ShaftModule } from './shaft/shaft.module';
 
     // Store
     EffectsModule.forFeature([
-      ConditionMonitoringEffects,
+      BearingLoadEffects,
       GreaseStatusEffects,
       EdmMonitorEffects,
       ShaftEffects,

@@ -4,15 +4,22 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
 import { getAccessToken } from '@schaeffler/auth';
 
+import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
-import { getLoad, getLoadId, getLoadSuccess } from '../../actions';
+import {
+  getBearingLoadFailure,
+  getBearingLoadLatest,
+  getBearingLoadSuccess,
+  getLoadId,
+  stopGetLoad,
+} from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
-import { getLoadInterval } from '../../selectors/load-sense/load-sense.selector';
-import { ConditionMonitoringEffects } from './load-sense.effects';
+import { LoadSense } from '../../reducers/load-sense/models';
+import { BearingLoadEffects } from './load-sense.effects';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
@@ -20,19 +27,20 @@ jest.mock('@ngneat/transloco', () => ({
 }));
 
 describe('Search Effects', () => {
-  let spectator: SpectatorService<ConditionMonitoringEffects>;
+  let spectator: SpectatorService<BearingLoadEffects>;
   let actions$: any;
   let action: any;
   let store: any;
-  let metadata: EffectsMetadata<ConditionMonitoringEffects>;
-  let effects: ConditionMonitoringEffects;
+  let metadata: EffectsMetadata<BearingLoadEffects>;
+  let effects: BearingLoadEffects;
   let restService: RestService;
 
-  const bearingId = '123';
-  const mockUrl = `/bearing/${bearingId}/condition-monitoring`;
+  const deviceId = '123';
+  const mockUrl = `/bearing/${deviceId}/condition-monitoring`;
+  const mockLeaveUrl = '/overview';
 
   const createService = createServiceFactory({
-    service: ConditionMonitoringEffects,
+    service: BearingLoadEffects,
     providers: [
       provideMockActions(() => actions$),
       provideMockStore(),
@@ -49,17 +57,13 @@ describe('Search Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
-    effects = spectator.inject(ConditionMonitoringEffects);
+    effects = spectator.inject(BearingLoadEffects);
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
     store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {
-      state: { params: { id: '666' } },
-    });
-    store.overrideSelector(getLoadInterval, {
-      startDate: 1599651508,
-      endDate: 1599651509,
+      state: { params: { id: deviceId } },
     });
   });
 
@@ -71,7 +75,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getGreaseStatusId and getLoadId', () => {
+    test('should dispatch getLoadId', () => {
       store.dispatch = jest.fn();
       actions$ = hot('-a', {
         a: {
@@ -85,6 +89,39 @@ describe('Search Effects', () => {
       expect(effects.router$).toBeObservable(expected);
       expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
     });
+
+    test('should dispatch stopGetLoad when leaving the bearing route', () => {
+      store.dispatch = jest.fn();
+      actions$ = hot('-a', {
+        a: {
+          type: ROUTER_NAVIGATED,
+          payload: { routerState: { url: mockLeaveUrl } },
+        },
+      });
+
+      const expected = cold('-b', { b: 'overview' });
+
+      expect(effects.router$).toBeObservable(expected);
+      expect(store.dispatch).toHaveBeenCalledWith(stopGetLoad());
+    });
+  });
+
+  describe('stopLoad$', () => {
+    test('should not return an action', () => {
+      expect(metadata.stopLoad$).toEqual({
+        dispatch: false,
+        useEffectsErrorHandler: true,
+      });
+    });
+    test('should set isPollingActive to false', () => {
+      effects['isPollingActive'] = true;
+      action = stopGetLoad();
+
+      actions$ = hot('-a', { a: action });
+      const expected = cold('-b', { b: undefined });
+      expect(effects.stopLoad$).toBeObservable(expected);
+      expect(effects['isPollingActive']).toBe(false);
+    });
   });
 
   describe('loadId$', () => {
@@ -94,44 +131,62 @@ describe('Search Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const expected = cold('-(b)', {
-        b: getLoad({ bearingId: '666' }),
+        b: getBearingLoadLatest({ deviceId }),
       });
 
       expect(effects.loadId$).toBeObservable(expected);
     });
   });
 
-  describe('load$', () => {
+  describe('continueLoadId$', () => {
+    test('should return getBearingLoadLatest', () => {
+      const scheduler = getTestScheduler();
+      scheduler.run((helpers) => {
+        effects['isPollingActive'] = true;
+        action = getBearingLoadFailure();
+
+        actions$ = helpers.hot('-a', { a: action });
+
+        const expected = {
+          b: getBearingLoadLatest({ deviceId }),
+        };
+
+        helpers
+          .expectObservable(effects.continueLoadId$)
+          .toBe(`- ${UPDATE_SETTINGS.shaft.refresh}s b`, expected);
+      });
+    });
+  });
+  describe('bearingLoadLatest$', () => {
     beforeEach(() => {
-      action = getLoad({ bearingId });
+      action = getBearingLoadLatest({ deviceId });
     });
 
-    test('should return getLoadSuccess action when REST call is successful', () => {
-      const mockLoadSense = [
-        {
-          deviceId: 'string',
-          id: 'string',
-          lsp01Strain: 0,
-          lsp02Strain: 0,
-          lsp03Strain: 0,
-          lsp04Strain: 0,
-          lsp05Strain: 0,
-          lsp06Strain: 0,
-          lsp07Strain: 0,
-          lsp08Strain: 0,
-          lsp09Strain: 0,
-          lsp10Strain: 0,
-          lsp11Strain: 0,
-          lsp12Strain: 0,
-          lsp13Strain: 0,
-          lsp14Strain: 0,
-          lsp15Strain: 0,
-          lsp16Strain: 0,
-          timestamp: '2020-11-04T09:39:19.499Z',
-        },
-      ];
-
-      const result = getLoadSuccess({ loadSense: mockLoadSense });
+    test('should return getBearingLoadSuccess action when REST call is successful', () => {
+      const mockLoadSense: LoadSense = {
+        deviceId: 'string',
+        id: 'string',
+        lsp01Strain: 0,
+        lsp02Strain: 0,
+        lsp03Strain: 0,
+        lsp04Strain: 0,
+        lsp05Strain: 0,
+        lsp06Strain: 0,
+        lsp07Strain: 0,
+        lsp08Strain: 0,
+        lsp09Strain: 0,
+        lsp10Strain: 0,
+        lsp11Strain: 0,
+        lsp12Strain: 0,
+        lsp13Strain: 0,
+        lsp14Strain: 0,
+        lsp15Strain: 0,
+        lsp16Strain: 0,
+        timestamp: '2020-11-04T09:39:19.499Z',
+      };
+      const result = getBearingLoadSuccess({
+        bearingLoadLatest: mockLoadSense,
+      });
 
       actions$ = hot('-a', { a: action });
 
@@ -140,15 +195,11 @@ describe('Search Effects', () => {
       });
       const expected = cold('--b', { b: result });
 
-      restService.getLoad = jest.fn(() => response);
+      restService.getBearingLoadLatest = jest.fn(() => response);
 
-      expect(effects.load$).toBeObservable(expected);
-      expect(restService.getLoad).toHaveBeenCalledTimes(1);
-      expect(restService.getLoad).toHaveBeenCalledWith({
-        id: bearingId,
-        startDate: 1599651508,
-        endDate: 1599651509,
-      });
+      expect(effects.bearingLoadLatest$).toBeObservable(expected);
+      expect(restService.getBearingLoadLatest).toHaveBeenCalledTimes(1);
+      expect(restService.getBearingLoadLatest).toHaveBeenCalledWith(deviceId);
     });
   });
 });
