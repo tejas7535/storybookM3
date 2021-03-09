@@ -21,7 +21,7 @@ describe('Steps Reducer', () => {
 
   it('should set the bearing type', () => {
     const bearingType = 'some bearing type';
-    const action = setBearingType({ bearingType: bearingType });
+    const action = setBearingType({ bearingType });
     const state = stepsReducer(initialState, action);
 
     expect(state.bearingType).toEqual(bearingType);
@@ -29,7 +29,7 @@ describe('Steps Reducer', () => {
 
   it('should set the bearing series', () => {
     const bearingSeries = 'some bearing series';
-    const action = setBearingSeries({ bearingSeries: bearingSeries });
+    const action = setBearingSeries({ bearingSeries });
     const state = stepsReducer(initialState, action);
 
     expect(state.bearingSeries).toEqual(bearingSeries);
@@ -37,7 +37,7 @@ describe('Steps Reducer', () => {
 
   it('should set the bearing model', () => {
     const bearingModel = 'some bearing model';
-    const action = setBearingModel({ bearingModel: bearingModel });
+    const action = setBearingModel({ bearingModel });
     const state = stepsReducer(initialState, action);
 
     expect(state.bearingModel).toEqual(bearingModel);
@@ -45,7 +45,7 @@ describe('Steps Reducer', () => {
 
   it('should set the bearing seat', () => {
     const bearingSeat = 'some bearing seat';
-    const action = setBearingSeat({ bearingSeat: bearingSeat });
+    const action = setBearingSeat({ bearingSeat });
     const state = stepsReducer(initialState, action);
 
     expect(state.bearingSeat).toEqual(bearingSeat);
@@ -54,7 +54,7 @@ describe('Steps Reducer', () => {
   it('should set measurement method', () => {
     const measurementMethod = 'some bearing seat';
     const action = setMeasurementMethod({
-      measurementMethod: measurementMethod,
+      measurementMethod,
     });
     const state = stepsReducer(initialState, action);
 
@@ -64,7 +64,7 @@ describe('Steps Reducer', () => {
   it('should set mounting method', () => {
     const mountingMethod = 'some bearing seat';
     const action = setMountingMethod({
-      mountingMethod: mountingMethod,
+      mountingMethod,
     });
     const state = stepsReducer(initialState, action);
 

@@ -571,9 +571,9 @@ pipeline {
 
                             script {
                                 if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
+                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')} || true"
                                 } else {
-                                    sh "npm run affected:lint -- --base=${buildBase} --parallel"
+                                    sh "npm run affected:lint -- --base=${buildBase} --parallel || true"
                                 }
                             }
                         }
