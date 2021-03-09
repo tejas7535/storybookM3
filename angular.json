@@ -3041,6 +3041,43 @@
         }
       },
       "schematics": {}
+    },
+    "shared-ui-stepper": {
+      "projectType": "library",
+      "root": "libs/shared/ui/stepper",
+      "sourceRoot": "libs/shared/ui/stepper/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.json",
+            "project": "libs/shared/ui/stepper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/stepper/src/**/*.ts",
+              "libs/shared/ui/stepper/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/stepper"],
+          "options": {
+            "jestConfig": "libs/shared/ui/stepper/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   },
   "cli": {

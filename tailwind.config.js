@@ -11,8 +11,13 @@ module.exports = {
   theme: {
     colors: {
       primary: '#00893D',
+      secondary: '#005f14',
       white: '#fff',
       background: '#F6F7F8',
+      darkGrey: 'rgba(0,0,0,0.87)',
+      mediumGrey: 'rgba(0,0,0,.6)',
+      lightGrey: 'rgba(0,0,0,0.11)',
+      transparent: 'rgba(0,0,0,0)',
     },
     fontSize: {
       h1: ['96px', { letterSpacing: '-1.5px' }],
@@ -86,7 +91,15 @@ module.exports = {
     textColor: {
       dark: 'rgba(0,0,0,0.87)',
       light: 'rgba(0,0,0,0.60)',
+      primary: '#00893D',
       white: '#fff',
+      disabled: 'rgba(0,0,0,.38)',
+    },
+    screens: {
+      sm: '600px',
+      md: '960px',
+      lg: '1280px',
+      xl: '1920px',
     },
     extend: {},
   },

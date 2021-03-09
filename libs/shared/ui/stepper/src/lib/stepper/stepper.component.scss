@@ -1,0 +1,60 @@
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+@import 'libs/shared/ui/styles/src';
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+.schaeffler-stepper {
+  ::ng-deep {
+    .mat-step {
+      &-icon {
+        @apply bg-lightGrey text-disabled;
+
+        &-state-done,
+        &-state-edit {
+          @apply bg-mediumGrey text-white;
+        }
+      }
+
+      &-icon-selected {
+        @apply bg-primary text-white;
+      }
+
+      &-label {
+        @apply text-disabled font-medium hidden md:block;
+
+        &-active {
+          @apply text-light;
+        }
+      }
+
+      &-label-selected {
+        @apply text-primary block;
+      }
+
+      &-header {
+        @apply rounded-lg text-body-2;
+      }
+
+      &-header-container {
+        @apply mb-4;
+      }
+    }
+
+    .mat-step-header {
+      @apply rounded-none;
+    }
+
+    @media screen and (max-width: $screen-sm-max) {
+      .mat-stepper-horizontal-line {
+        max-width: 1rem;
+        min-width: initial;
+
+        &.active {
+          @apply block;
+          max-width: initial;
+        }
+      }
+    }
+  }
+}
