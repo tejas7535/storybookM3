@@ -13,7 +13,7 @@
     {
       "files": ["*.ts"],
       "parserOptions": {
-        "project": ["apps/mm-e2e/tsconfig.*?.json"]
+        "project": ["apps/goldwind-e2e/tsconfig.*?.json"]
       },
       "extends": ["plugin:cypress/recommended"]
     }

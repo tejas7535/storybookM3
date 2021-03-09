@@ -127,8 +127,12 @@
         "@typescript-eslint/eslint-plugin",
         "@typescript-eslint/parser",
         "eslint",
+        "eslint-config-airbnb-typescript",
         "eslint-config-prettier",
-        "eslint-plugin-cypress"
+        "eslint-plugin-cypress",
+        "eslint-plugin-import",
+        "eslint-plugin-jest",
+        "eslint-plugin-prettier"
       ],
       "groupName": "eslint"
     }

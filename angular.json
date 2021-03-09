@@ -1473,13 +1473,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/goldwind/tsconfig.app.json",
-              "apps/goldwind/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/goldwind/**"]
+            "lintFilePatterns": [
+              "apps/goldwind/src/**/*.ts",
+              "apps/goldwind/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -1521,10 +1520,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": ["apps/goldwind-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/goldwind-e2e/**/*"]
+            "lintFilePatterns": ["apps/goldwind-e2e/**/*.{js,ts}"]
           }
         }
       }

@@ -1,7 +1,8 @@
 {
   "root": true,
   "ignorePatterns": ["**/*"],
-  "plugins": ["@nrwl/nx"],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@nrwl/nx", "jest", "@typescript-eslint"],
   "overrides": [
     {
       "files": ["*.ts", "*.tsx", "*.js", "*.jsx"],
@@ -20,9 +21,29 @@
     },
     {
       "files": ["*.ts", "*.tsx"],
-      "extends": ["plugin:@nrwl/nx/typescript"],
-      "parserOptions": { "project": "./tsconfig.*?.json" },
-      "rules": {}
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "airbnb-typescript/base",
+        "plugin:@nrwl/nx/typescript",
+        "prettier/@typescript-eslint",
+        "plugin:jest/recommended",
+        "plugin:prettier/recommended"
+      ],
+      "parserOptions": { "project": "./tsconfig.base.json" },
+      "rules": {
+        "import/prefer-default-export": "off",
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true,
+            "optionalDependencies": false,
+            "peerDependencies": false,
+            "packageDir": "./"
+          }
+        ],
+        "@typescript-eslint/object-curly-spacing": "off"
+      }
     },
     {
       "files": ["*.js", "*.jsx"],
