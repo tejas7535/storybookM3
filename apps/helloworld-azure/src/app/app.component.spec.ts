@@ -1,11 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
@@ -13,38 +11,46 @@ import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
+  let spectator: Spectator<AppComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        HeaderModule,
-        FooterModule,
-        NoopAnimationsModule,
-      ],
-      providers: [provideMockStore()],
-      declarations: [AppComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    imports: [
+      RouterTestingModule,
+      HeaderModule,
+      FooterModule,
+      NoopAnimationsModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          'azure-auth': {
+            accountInfo: {
+              name: 'Jefferson',
+            },
+            profileImage: {
+              url: 'img',
+            },
+          },
+        },
+      }),
+    ],
+    declarations: [AppComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    store = TestBed.inject(MockStore);
-    store.overrideSelector(getUsername, 'John');
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create the app', () => {
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
+    expect(component).toBeTruthy();
   });
 
   test(`should have as title 'helloworld-azure'`, () => {
-    const app = fixture.debugElement.componentInstance;
-    expect(app.platformTitle).toEqual('Hello World Azure');
+    expect(component.platformTitle).toEqual('Hello World Azure');
   });
 
   describe('ngOnInit', () => {
@@ -53,7 +59,8 @@ describe('AppComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(component.username$).toBeDefined();
+      expect(component.profileImage$).toBeDefined();
     });
   });
 });

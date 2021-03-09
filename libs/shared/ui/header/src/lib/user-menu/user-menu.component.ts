@@ -10,6 +10,8 @@ import { UserMenuEntry } from './models/user-menu-entry.model';
 export class UserMenuComponent {
   @Input() user: string;
 
+  @Input() profileImage: string;
+
   @Input() entries: UserMenuEntry[] = [];
 
   @Output() readonly clicked: EventEmitter<string> = new EventEmitter();

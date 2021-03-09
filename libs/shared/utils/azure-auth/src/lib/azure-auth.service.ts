@@ -1,9 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Inject, Injectable, SecurityContext } from '@angular/core';
-import { DomSanitizer } from '@angular/platform-browser';
+import { Inject, Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { from, Observable } from 'rxjs';
+import { mergeMap } from 'rxjs/operators';
 
 import {
   MSAL_GUARD_CONFIG,
@@ -29,9 +28,18 @@ export class AzureAuthService {
     @Inject(MSAL_GUARD_CONFIG)
     private readonly msalGuardConfig: MsalGuardConfiguration,
     private readonly authService: MsalService,
-    private readonly http: HttpClient,
-    private readonly sanitizer: DomSanitizer
+    private readonly http: HttpClient
   ) {}
+
+  static createImageFromBlob(image: Blob): Observable<string> {
+    const promise: Promise<string> = new Promise((resolve) => {
+      const fileReader = new FileReader();
+      fileReader.onload = (_e) => resolve(fileReader.result as string);
+      fileReader.readAsDataURL(image);
+    });
+
+    return from(promise);
+  }
 
   login(): void {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
@@ -69,13 +77,8 @@ export class AzureAuthService {
     return this.http
       .get(GRAPH_PROFILE_IMAGE_ENDPOINT, { responseType: 'blob' })
       .pipe(
-        map((photoBlob) => {
-          const objectUrl = URL.createObjectURL(photoBlob);
-
-          return this.sanitizer.sanitize(
-            SecurityContext.URL,
-            this.sanitizer.bypassSecurityTrustUrl(objectUrl)
-          );
+        mergeMap((photoBlob) => {
+          return AzureAuthService.createImageFromBlob(photoBlob);
         })
       );
   }
