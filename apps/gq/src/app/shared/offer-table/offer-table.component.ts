@@ -31,11 +31,13 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
 
   tableContext: any = {
     currency: undefined,
+    gqId: undefined,
   };
 
   @Input() set quotation(quotation: Quotation) {
     this.rowData = quotation?.quotationDetails;
     this.tableContext.currency = quotation?.currency;
+    this.tableContext.gqId = quotation?.gqId;
   }
 
   @Input() drawerTable = false;

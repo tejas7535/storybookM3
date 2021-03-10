@@ -1,6 +1,12 @@
 import { Component } from '@angular/core';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import {
+  IStatusPanelParams,
+  ProcessCellForExportParams,
+  ValueFormatterParams,
+} from '@ag-grid-community/all-modules';
+
+import { ColumnFields } from '../../services/create-column-service/column-fields.enum';
 
 @Component({
   selector: 'gq-remove-from-offer',
@@ -30,8 +36,28 @@ export class ExportToExcelButtonComponent {
     const excelParams = {
       columnKeys,
       allColumns: false,
-      fileName: `GQ_Case_12346_${date}_${time}`, // TODO add case number
+      fileName: `GQ_Case_${this.params.context?.gqId}_${date}_${time}`,
       skipHeader: false,
+      processCellCallback: (params: ProcessCellForExportParams) => {
+        const colDef = params.column.getColDef();
+        if (
+          colDef.valueFormatter &&
+          colDef.field === ColumnFields.MATERIAL_NUMBER_15
+        ) {
+          const valueFormatterParams: ValueFormatterParams = {
+            ...params,
+            data: params.node.data,
+            node: params.node,
+            colDef: params.column.getColDef(),
+          };
+
+          return (colDef.valueFormatter as (
+            params: ValueFormatterParams
+          ) => string)(valueFormatterParams);
+        }
+
+        return params.value;
+      },
     };
 
     this.params.api.exportDataAsExcel(excelParams);

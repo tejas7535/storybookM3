@@ -8,15 +8,12 @@
     [modules]="modules"
     [statusBar]="statusBar"
     [rowSelection]="rowSelection"
-    [components]="components"
     [context]="tableContext"
     (firstDataRendered)="onFirstDataRendered($event)"
     rowHeight="40"
     valueCache
-    enableRangeSelection
     animateRows
-    suppressCsvExport
-    suppressExcelExport
+    suppressContextMenu
   >
   </ag-grid-angular>
 </div>

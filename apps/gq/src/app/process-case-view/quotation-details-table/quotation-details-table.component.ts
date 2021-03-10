@@ -51,7 +51,6 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';
-  public components: any[] = [];
 
   constructor(private readonly store: Store<AppState>) {}
 
