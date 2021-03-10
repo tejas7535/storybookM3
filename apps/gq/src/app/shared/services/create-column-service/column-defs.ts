@@ -24,7 +24,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.materialNumber'),
-    field: 'material.materialNumber15',
+    field: ColumnFields.MATERIAL_NUMBER_15,
     valueFormatter: ColumnUtilityService.transformMaterial,
   },
   {

@@ -11,9 +11,9 @@ import {
 export const MODULES: any[] = [
   ClientSideRowModelModule,
   ColumnsToolPanelModule,
-  ExcelExportModule,
   FiltersToolPanelModule,
   MenuModule,
   RowGroupingModule,
   StatusBarModule,
+  ExcelExportModule,
 ];

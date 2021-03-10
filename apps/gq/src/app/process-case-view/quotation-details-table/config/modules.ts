@@ -9,9 +9,9 @@ import {
 
 export const MODULES: any[] = [
   ClientSideRowModelModule,
-  RowGroupingModule,
-  FiltersToolPanelModule,
   ColumnsToolPanelModule,
+  FiltersToolPanelModule,
   MenuModule,
+  RowGroupingModule,
   StatusBarModule,
 ];
