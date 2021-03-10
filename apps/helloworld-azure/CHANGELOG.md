@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.1.0](///compare/hellworld-azure-v2.1.0...hellworld-azure-v2.0.1) (2021-03-10)
+
+
+### 🐛 Bug Fixes
+
+* **mm:** fix empty state styles ([de912f6](///commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+
+
+### 🎸 Features
+
+* **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
+* **helloworld-azure:** use new azure auth (UFTABI-4029) ([846deb3](///commit/846deb3eb15078fb3eaa9aba74dcee23af157244))
+
 ### [2.0.1](///compare/hellworld-azure-v2.0.1...hellworld-azure-v2.0.0) (2020-11-30)
 
 ## 2.0.0 (2020-11-19)
