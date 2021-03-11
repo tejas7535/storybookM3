@@ -5,6 +5,11 @@ import { EdmMonitorState } from '../../reducers/edm-monitor/edm-monitor.reducer'
 import { Antenna, AntennaName, Edm } from '../../reducers/edm-monitor/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
+export const getEdmLoading = createSelector(
+  getEdmMonitorState,
+  (state: EdmMonitorState): boolean => state.loading
+);
+
 export const getEdmResult = createSelector(
   getEdmMonitorState,
   (state: EdmMonitorState): Edm[] => state.measurements

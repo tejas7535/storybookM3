@@ -1,36 +1,46 @@
-<mat-card
-  *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
-  class="full-height-card"
-  fxFill
-  fxLayout="column"
->
-  <div fxLayout="row" fxLayoutAlign="space-between start">
-    <mat-card-header>
-      <mat-card-title>{{ t('title') }}</mat-card-title>
-      <mat-card-subtitle *transloco="let t; read: 'bearing'">
-        {{ t('mainBearing') }}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <goldwind-sensor
-      [type]="type"
-      [sensor]="sensor"
-      (sensorToggle)="getEdmGraphData($event)"
-    ></goldwind-sensor>
-  </div>
-  <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="space-between end">
-    <goldwind-date-range
-      [interval]="interval$ | ngrxPush"
-      (rangeChange)="setInterval($event)"
-    ></goldwind-date-range>
-    <ng-container *ngrxLet="edmGraphData$ as graphData">
-      <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-    </ng-container>
-    <div
+<ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+  <mat-card
+    *transloco="let t; read: 'conditionMonitoring.edmMonitor'"
+    class="full-height-card"
+    fxFill
+    fxLayout="column"
+  >
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <mat-card-header>
+        <mat-card-title>{{ t('title') }}</mat-card-title>
+        <mat-card-subtitle *transloco="let t; read: 'bearing'">
+          {{ t('mainBearing') }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <goldwind-sensor
+        [type]="type"
+        [sensor]="sensor"
+        (sensorToggle)="getEdmGraphData($event)"
+      ></goldwind-sensor>
+    </div>
+    <mat-card-content
       fxFlex
-      echarts
-      [options]="chartOptions"
-      [merge]="edmGraphData$ | ngrxPush"
-      class="edm-chart"
-    ></div>
-  </mat-card-content>
-</mat-card>
+      fxLayout="column"
+      fxLayoutAlign="space-between end"
+    >
+      <goldwind-date-range
+        [interval]="interval$ | ngrxPush"
+        (rangeChange)="setInterval($event)"
+      ></goldwind-date-range>
+      <ng-container *ngrxLet="edmGraphData$ as graphData">
+        <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
+      </ng-container>
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="edmGraphData$ | ngrxPush"
+        class="edm-chart"
+      ></div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <mat-card class="full-height-card placeholder-item"></mat-card>
+</ng-template>

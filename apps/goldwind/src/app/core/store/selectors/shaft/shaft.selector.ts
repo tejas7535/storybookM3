@@ -15,11 +15,16 @@ export const getShaftResult = createSelector(
   (state: ShaftState) => state?.result
 );
 
+export const getShaftLoading = createSelector(
+  getShaftState,
+  (state: ShaftState) => state?.loading
+);
+
 export const getShaftTimeStamp = createSelector(
   getShaftResult,
   (state: ShaftStatus) =>
     state &&
-    new Date(state.timeStamp).toLocaleTimeString(
+    new Date(state.timestamp).toLocaleTimeString(
       DATE_FORMAT.local,
       DATE_FORMAT.options
     )

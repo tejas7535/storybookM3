@@ -37,7 +37,7 @@ describe('Grease Status Selector', () => {
         ],
         RsmShafts: [
           {
-            timeStamp: '2020-07-30T11:02:35',
+            timestamp: '2020-07-30T11:02:35',
             rsm01ShaftSpeed: 15.12,
           },
         ],

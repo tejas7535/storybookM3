@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
@@ -11,6 +12,7 @@ import { GreaseSensorName } from '../../../core/store/reducers/grease-status/mod
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getGreaseStatusLatestGraphData,
+  getGreaseStatusLatestLoading,
   getGreaseTimeStamp,
 } from '../../../core/store/selectors/';
 import { chartOptions } from '../../../shared/chart/chart';
@@ -27,6 +29,7 @@ export class GreaseMonitorComponent implements OnInit {
   greaseTimeStamp$: Observable<string>;
   sensor = false;
   type = Sensor.GC;
+  loading$: Observable<boolean>;
   chartOptions: EChartsOption = {
     ...chartOptions,
     legend: {
@@ -43,6 +46,10 @@ export class GreaseMonitorComponent implements OnInit {
 
   ngOnInit(): void {
     this.getGreaseStatusLatestGraphData({ sensor: this.sensor });
+    this.loading$ = this.store.pipe(
+      select(getGreaseStatusLatestLoading),
+      take(2)
+    );
   }
 
   getGreaseStatusLatestGraphData({ sensor }: { sensor: boolean }): void {

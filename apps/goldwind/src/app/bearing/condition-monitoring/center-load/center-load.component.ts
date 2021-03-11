@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
@@ -10,6 +11,7 @@ import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getBearingLoadLatestTimeStamp,
   getLoadGraphData,
+  getLoadSenseLoading,
 } from '../../../core/store/selectors/';
 import { radarChartOptions } from '../../../shared/chart/chart';
 import { DATE_FORMAT, UPDATE_SETTINGS } from '../../../shared/constants';
@@ -23,6 +25,7 @@ export class CenterLoadComponent implements OnInit {
   loadSenseGraphData$: Observable<GraphData>;
   timeStamp$: Observable<string>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
+  loading$: Observable<boolean>;
 
   chartOptions: EChartsOption = {
     ...radarChartOptions,
@@ -126,6 +129,7 @@ export class CenterLoadComponent implements OnInit {
   ngOnInit(): void {
     this.loadSenseGraphData$ = this.store.pipe(select(getLoadGraphData));
     this.timeStamp$ = this.store.pipe(select(getBearingLoadLatestTimeStamp));
+    this.loading$ = this.store.pipe(select(getLoadSenseLoading), take(2));
   }
 
   formatDate(current: string): string {

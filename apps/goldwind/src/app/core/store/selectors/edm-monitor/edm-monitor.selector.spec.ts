@@ -3,6 +3,7 @@ import { AntennaName } from '../../reducers/edm-monitor/models';
 import {
   getEdmGraphData,
   getEdmInterval,
+  getEdmLoading,
   getEdmResult,
 } from './edm-monitor.selector';
 
@@ -32,6 +33,12 @@ describe('EdmMonitor Selector', () => {
       expect(getEdmResult(fakeState)).toEqual(
         fakeState.edmMonitor.measurements
       );
+    });
+  });
+
+  describe('getEdmLoading', () => {
+    test('should return EDM measurements', () => {
+      expect(getEdmLoading(fakeState)).toEqual(fakeState.edmMonitor.loading);
     });
   });
 

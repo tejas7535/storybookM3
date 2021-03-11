@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
@@ -10,6 +11,7 @@ import { ShaftState } from '../../../core/store/reducers/shaft/shaft.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getShaftLatestGraphData,
+  getShaftLoading,
   getShaftTimeStamp,
 } from '../../../core/store/selectors/';
 import { chartOptions } from '../../../shared/chart/chart';
@@ -25,6 +27,7 @@ export class ShaftComponent implements OnInit {
   shaftLatestGraphData$: Observable<GraphData>;
   shaftTimeStamp$: Observable<string>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
+  loading$: Observable<boolean>;
 
   chartOptions: EChartsOption = {
     ...chartOptions,
@@ -46,6 +49,7 @@ export class ShaftComponent implements OnInit {
     );
 
     this.shaftTimeStamp$ = this.store.pipe(select(getShaftTimeStamp));
+    this.loading$ = this.store.pipe(select(getShaftLoading), take(2));
   }
 
   navigateToGreaseStatus(): void {
