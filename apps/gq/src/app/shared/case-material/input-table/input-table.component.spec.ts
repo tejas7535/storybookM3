@@ -168,4 +168,28 @@ describe('InputTableComponent', () => {
       expect(component['currentCell']).toEqual(params.data);
     });
   });
+
+  describe('ngOnInit', () => {
+    test('should set create case btn if isCaseView true', () => {
+      component.isCaseView = true;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.statusBar.statusPanels[0].statusPanel).toEqual(
+        'createCaseButtonComponent'
+      );
+    });
+
+    test('should set add material btn if isCaseView false', () => {
+      component.isCaseView = false;
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component.statusBar.statusPanels[0].statusPanel).toEqual(
+        'addMaterialButtonComponent'
+      );
+    });
+  });
 });
