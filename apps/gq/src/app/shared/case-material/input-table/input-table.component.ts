@@ -38,12 +38,13 @@ export class InputTableComponent implements OnInit {
   constructor(private readonly store: Store<CaseState>) {}
 
   ngOnInit(): void {
-    if (!this.isCaseView) {
-      this.statusBar.statusPanels[0] = {
-        statusPanel: 'addMaterialButtonComponent',
-        align: 'left',
-      };
-    }
+    // differentiate between create case and process case
+    this.statusBar.statusPanels[0] = {
+      statusPanel: this.isCaseView
+        ? 'createCaseButtonComponent'
+        : 'addMaterialButtonComponent',
+      align: 'left',
+    };
   }
 
   async onPasteStart(): Promise<void> {
