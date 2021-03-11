@@ -36,3 +36,35 @@
 label {
   font-size: 14px;
 }
+
+.placeholder-item {
+  border-radius: 4px;
+  overflow: hidden;
+  position: relative;
+}
+
+.placeholder-item::before {
+  animation: load 1s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  background: linear-gradient(
+    to right,
+    transparent 0%,
+    $schaeffler-gray-2 50%,
+    transparent 100%
+  );
+  content: '';
+  display: block;
+  height: 100%;
+  left: -150px;
+  position: absolute;
+  top: 0;
+  width: 150px;
+}
+
+@keyframes load {
+  from {
+    left: -150px;
+  }
+  to {
+    left: 100%;
+  }
+}

@@ -1,34 +1,44 @@
-<mat-card
-  *transloco="let t; read: 'greaseStatus'"
-  class="full-height-card"
-  fxFill
-  fxLayout="column"
->
-  <div fxLayout="row" fxLayoutAlign="space-between start">
-    <mat-card-header>
-      <mat-card-title>{{ t('title') }}</mat-card-title>
-      <mat-card-subtitle *transloco="let t; read: 'bearing'">
-        {{ greaseTimeStamp$ | ngrxPush }} | {{ t('mainBearing') }}
-      </mat-card-subtitle>
-    </mat-card-header>
-    <goldwind-sensor
-      [type]="type"
-      [sensor]="sensor"
-      (sensorToggle)="getGreaseStatusLatestGraphData($event)"
-    ></goldwind-sensor>
-  </div>
-  <mat-card-content fxFlex fxLayout="column" fxLayoutAlign="space-between end">
-    <div
+<ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+  <mat-card
+    *transloco="let t; read: 'greaseStatus'"
+    class="full-height-card"
+    fxFill
+    fxLayout="column"
+  >
+    <div fxLayout="row" fxLayoutAlign="space-between start">
+      <mat-card-header>
+        <mat-card-title>{{ t('title') }}</mat-card-title>
+        <mat-card-subtitle *transloco="let t; read: 'bearing'">
+          {{ greaseTimeStamp$ | ngrxPush }} | {{ t('mainBearing') }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <goldwind-sensor
+        [type]="type"
+        [sensor]="sensor"
+        (sensorToggle)="getGreaseStatusLatestGraphData($event)"
+      ></goldwind-sensor>
+    </div>
+    <mat-card-content
       fxFlex
-      echarts
-      [options]="chartOptions"
-      [merge]="greaseStatusLatestGraphData$ | ngrxPush"
-      class="grease-monitor-chart"
-    ></div>
-  </mat-card-content>
-  <mat-card-actions *transloco="let t; read: 'overview'">
-    <button (click)="navigateToGreaseStatus()" mat-button color="primary">
-      {{ t('details') }}
-    </button>
-  </mat-card-actions>
-</mat-card>
+      fxLayout="column"
+      fxLayoutAlign="space-between end"
+    >
+      <div
+        fxFlex
+        echarts
+        [options]="chartOptions"
+        [merge]="greaseStatusLatestGraphData$ | ngrxPush"
+        class="grease-monitor-chart"
+      ></div>
+    </mat-card-content>
+    <mat-card-actions *transloco="let t; read: 'overview'">
+      <button (click)="navigateToGreaseStatus()" mat-button color="primary">
+        {{ t('details') }}
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <mat-card class="full-height-card placeholder-item"></mat-card>
+</ng-template>

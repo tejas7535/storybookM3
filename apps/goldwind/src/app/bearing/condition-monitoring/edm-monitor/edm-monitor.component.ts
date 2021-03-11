@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
@@ -16,6 +17,7 @@ import {
 import {
   getEdmGraphData,
   getEdmInterval,
+  getEdmLoading,
 } from '../../../core/store/selectors/edm-monitor/edm-monitor.selector';
 import { axisChartOptions } from '../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../shared/constants';
@@ -29,6 +31,7 @@ import { Sensor } from '../../../shared/sensor/sensor.enum';
 export class EdmMonitorComponent implements OnInit {
   edmGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
+  loading$: Observable<boolean>;
   sensor = false;
   type = Sensor.ANTENNA;
   chartOptions: EChartsOption = {
@@ -52,6 +55,7 @@ export class EdmMonitorComponent implements OnInit {
   ngOnInit(): void {
     this.getEdmGraphData({ sensor: this.sensor });
     this.interval$ = this.store.pipe(select(getEdmInterval));
+    this.loading$ = this.store.pipe(select(getEdmLoading), take(2));
   }
 
   getEdmGraphData({ sensor }: { sensor: boolean }): void {
