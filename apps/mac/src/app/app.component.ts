@@ -39,10 +39,9 @@ export class AppComponent implements OnInit {
       });
   }
 
-  get link(): string {
-    return (
-      this.url === `/${RoutePath.HardnessConverterPath}` &&
-      `/${RoutePath.OverviewPath}`
-    );
+  get link(): string | boolean {
+    return this.url && this.url !== `/${RoutePath.OverviewPath}`
+      ? `/${RoutePath.OverviewPath}`
+      : false;
   }
 }

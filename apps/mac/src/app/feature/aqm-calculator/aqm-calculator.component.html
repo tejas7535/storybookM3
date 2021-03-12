@@ -1,0 +1,175 @@
+<div
+  class="aqm-calculator-wrapper"
+  fxLayout="row"
+  fxLayoutAlign="center center"
+>
+  <div fxLayout="column" fxLayoutAlign="start start">
+    <h2 class>AQM Calculator</h2>
+    <mat-card class="aqm-calculator-card">
+      <mat-card-content class="aqm-calculator-card-content">
+        <h4>Alloy configuration</h4>
+        <div class="spinner-wrapper" [ngClass]="{ hidden: materials }">
+          <mat-spinner></mat-spinner>
+        </div>
+        <div fxLayout="column">
+          <!-- select alloy -->
+          <div fxLayout="column" fxLayoutAlign="center center">
+            <p>Choose a specific alloy</p>
+            <mat-form-field appearance="outline" class="alloy-select">
+              <mat-select
+                [formControl]="materialInput"
+                placeholder="Custom Alloy"
+              >
+                <mat-option
+                  *ngFor="let material of materials; trackBy: trackByFn"
+                  [value]="material"
+                  >{{ material.name }}</mat-option
+                >
+              </mat-select>
+            </mat-form-field>
+          </div>
+          <!-- seperator horizontal -->
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-around center"
+            fxLayoutGap="24px"
+            class="full-width aqm-divider-container"
+          >
+            <div fxFlex>
+              <div class="divider-horizontal"></div>
+            </div>
+            <p>OR</p>
+            <div fxFlex>
+              <div class="divider-horizontal"></div>
+            </div>
+          </div>
+          <!-- input composition -->
+          <div
+            fxLayout="column"
+            fxLayoutAlign="center center"
+            fxLayoutGap="24px"
+          >
+            <p>Specify the composition manually</p>
+            <div
+              fxLayout="row"
+              fxLayoutAlign="space-around center"
+              fxLayoutGap="24px"
+              fxLayout.lt-md="column"
+              fxLayoutAlign.lt-md="start center"
+              fxLayoutGap.lt-md="8px"
+            >
+              <mat-form-field
+                appearance="outline"
+                *ngFor="
+                  let control of compositionForm?.controls | keyvalue;
+                  trackBy: trackByFn
+                "
+                class="composition-input"
+              >
+                <mat-label>{{ control.key | titlecase }}</mat-label>
+                <input matInput type="number" [formControl]="control.value" />
+                <mat-hint
+                  *ngIf="
+                    !control.value.pristine && control.value.errors?.required
+                  "
+                  >Input is required</mat-hint
+                >
+                <mat-hint
+                  *ngIf="!control.value.pristine && control.value.errors?.max"
+                  >Value is too high</mat-hint
+                >
+                <mat-hint
+                  *ngIf="!control.value.pristine && control.value.errors?.min"
+                  >Value is too low</mat-hint
+                >
+              </mat-form-field>
+            </div>
+          </div>
+          <!-- results -->
+          <div
+            fxLayout="row"
+            fxLayoutAlign="space-between stretch"
+            fxLayoutGap="24px"
+            fxLayout.lt-md="column"
+            fxLayoutAlign.lt-md="start start"
+            class="full-width"
+          >
+            <div
+              class="spinner-wrapper-results"
+              [ngClass]="{ hidden: (aqmCalculationResult | async)?.aqm }"
+            >
+              <mat-spinner></mat-spinner>
+            </div>
+            <!-- results aqm -->
+            <div fxLayout="column">
+              <h4>Results</h4>
+              <div
+                fxLayout="row"
+                fxLayoutAlign="space-between start"
+                fxLayoutGap="100px"
+              >
+                <p>AQM value according to S130998:</p>
+                <p
+                  *ngIf="
+                    (aqmCalculationResult | async)?.aqm?.result;
+                    else aqmError
+                  "
+                >
+                  {{
+                    (
+                      aqmCalculationResult | async
+                    )?.aqm?.result?.toLocaleString()
+                  }}
+                </p>
+                <ng-template #aqmError>
+                  <p>{{ (aqmCalculationResult | async)?.aqm?.error }}</p>
+                </ng-template>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="space-between center">
+                <p>Sum value (Si + Mn + Cr):</p>
+                <p>
+                  {{
+                    (aqmCalculationResult | async)?.sumValue?.toLocaleString()
+                  }}
+                </p>
+              </div>
+            </div>
+            <!-- seperator vertical -->
+            <div
+              fxLayout="column"
+              fxLayoutAlign="center center"
+              fxHide.lt-md
+              class="aqm-divider-container-vertical"
+            >
+              <div class="divider-vertical" fxFlex></div>
+            </div>
+            <!-- results limits -->
+            <div fxLayout="column" class="aqm-limits">
+              <h4 class="aqm-limits-title">Limits</h4>
+              <p class="aqm-limits-minor-title">Sum limits reached for</p>
+              <mat-chip-list>
+                <mat-chip
+                  *ngFor="
+                    let item of (aqmCalculationResult | async)?.limits
+                      | keyvalue;
+                    trackBy: trackByFn
+                  "
+                  fxLayout="row"
+                  fxLayoutAlign="space-between center"
+                  fxLayoutGap="4px"
+                >
+                  <mat-icon [color]="item.value ? 'primary' : 'error'">{{
+                    item.value ? 'check_circle' : 'error'
+                  }}</mat-icon>
+                  <p>
+                    {{ item.key }}
+                  </p>
+                </mat-chip>
+              </mat-chip-list>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
