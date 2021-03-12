@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { RoutePath } from './app-routing.enum';
 
 export const appRoutePaths: Routes = [
@@ -20,6 +21,13 @@ export const appRoutePaths: Routes = [
     loadChildren: () =>
       import('./feature/hardness-converter/hardness-converter.module').then(
         (m) => m.HardnessConverterModule
+      ),
+  },
+  {
+    path: RoutePath.AQMCalculatorPath,
+    loadChildren: () =>
+      import('./feature/aqm-calculator/aqm-calculator.module').then(
+        (m) => m.AqmCalculatorModule
       ),
   },
   {

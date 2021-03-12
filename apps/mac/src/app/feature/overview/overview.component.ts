@@ -40,7 +40,7 @@ export class OverviewComponent {
     },
     {
       title: 'AQM Calculator',
-      url: undefined,
+      url: '/aqm-calculator',
       className: 'aqm-icon',
       externalLink: false,
     },
