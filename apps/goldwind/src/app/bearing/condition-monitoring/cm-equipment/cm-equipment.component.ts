@@ -1,6 +1,12 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
-import { MainBearing } from '../../../core/store/reducers/bearing/models';
+import { Observable } from 'rxjs';
+
+import { select, Store } from '@ngrx/store';
+
+import { getBearingLoading } from '../../../core/store';
+import { BearingState } from '../../../core/store/reducers/bearing/bearing.reducer';
+import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
 
 interface BearingProperties {
   name: string;
@@ -13,17 +19,23 @@ interface BearingProperties {
   templateUrl: './cm-equipment.component.html',
   styleUrls: ['./cm-equipment.component.scss'],
 })
-export class CmEquipmentComponent {
-  @Input() mainBearing: MainBearing;
+export class CmEquipmentComponent implements OnInit {
+  @Input() mainBearing: BearingMetadata;
   bearingProperties: BearingProperties[] = [
-    { name: 'designation', property: 'designation' },
-    { name: 'shortDescription', property: 'model' },
+    { name: 'description', property: 'description' },
+    { name: 'name', property: 'name' },
     { name: 'manufacturer', property: 'manufacturer' },
-    { name: 'outerDiameter', property: 'outerDiameter', unit: 'mm' },
-    { name: 'innerDiameter', property: 'innerDiameter', unit: 'mm' },
-    { name: 'overallWidth', property: 'overallWidth', unit: 'mm' },
-    { name: 'mass', property: 'mass', unit: 'kg' },
+    { name: 'type', property: 'type' },
+    { name: 'locationLatitude', property: 'locationLatitude' },
+    { name: 'locationLongitude', property: 'locationLongitude' },
   ];
+  loading$: Observable<boolean>;
+
+  public constructor(private readonly store: Store<BearingState>) {}
+
+  ngOnInit(): void {
+    this.loading$ = this.store.pipe(select(getBearingLoading));
+  }
 
   public trackByFn(index: number, _item: any): number {
     return index;

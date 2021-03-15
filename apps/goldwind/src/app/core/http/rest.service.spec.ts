@@ -46,7 +46,7 @@ describe('Rest Service', () => {
 
       service.getBearing(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `iot/things/${mockBearingId}/metadata`
+        `iot/things/${mockBearingId}/`
       );
     });
   });

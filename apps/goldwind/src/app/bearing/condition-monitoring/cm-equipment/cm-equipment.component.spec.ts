@@ -1,6 +1,7 @@
 import { MatCardModule } from '@angular/material/card';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { CmEquipmentComponent } from './cm-equipment.component';
 
@@ -11,6 +12,16 @@ describe('ConditionMeasuringEquipmentComponent', () => {
   const createComponent = createComponentFactory({
     component: CmEquipmentComponent,
     imports: [MatCardModule],
+    providers: [
+      provideMockStore({
+        initialState: {
+          bearing: {
+            loading: false,
+            result: undefined,
+          },
+        },
+      }),
+    ],
     declarations: [CmEquipmentComponent],
   });
 

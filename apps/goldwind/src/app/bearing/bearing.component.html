@@ -6,9 +6,11 @@
       color="secondary"
       routerLink="/overview"
     ></mat-icon>
-    <h1 *ngIf="bearing$ | ngrxPush as bearing; else bearing_loading">
-      {{ bearing.model }}
-    </h1>
+    <div *ngIf="!(loading$ | ngrxPush); else bearing_loading">
+      <h1 *ngIf="bearing$ | ngrxPush as bearing">
+        {{ bearing.name }}
+      </h1>
+    </div>
     <ng-template #bearing_loading>
       <h1>{{ t('bearingLoading') }}</h1>
     </ng-template>

@@ -1,25 +1,31 @@
-<mat-card
-  *transloco="let t; read: 'conditionMonitoring.conditionMeasuringEquipment'"
-  class="full-height-card"
->
-  <mat-card-header>
-    <mat-card-title>{{ t('title') }} </mat-card-title>
-  </mat-card-header>
-  <img
-    mat-card-image
-    src="/assets/images/turbine-bearing.jpg"
-    [alt]="t('windturbineImage')"
-  />
-  <mat-card-content>
-    <div
-      *ngFor="let bearingProperty of bearingProperties; trackBy: trackByFn"
-      class="bearingMetaData"
-    >
-      <label>{{ t(bearingProperty.name) }}: </label>
-      <span>
-        {{ (mainBearing && mainBearing[bearingProperty.property]) || 'n/a' }}
-        {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
-      </span>
-    </div>
-  </mat-card-content>
-</mat-card>
+<ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+  <mat-card
+    *transloco="let t; read: 'conditionMonitoring.conditionMeasuringEquipment'"
+    class="full-height-card"
+  >
+    <mat-card-header>
+      <mat-card-title>{{ t('title') }} </mat-card-title>
+    </mat-card-header>
+    <img
+      mat-card-image
+      src="/assets/images/turbine-bearing.jpg"
+      [alt]="t('windturbineImage')"
+    />
+    <mat-card-content>
+      <div
+        *ngFor="let bearingProperty of bearingProperties; trackBy: trackByFn"
+        class="bearingMetaData"
+      >
+        <label>{{ t(bearingProperty.name) }}: </label>
+        <span>
+          {{ (mainBearing && mainBearing[bearingProperty.property]) || 'n/a' }}
+          {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
+        </span>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</ng-container>
+
+<ng-template #loading>
+  <mat-card class="full-height-card placeholder-item"></mat-card>
+</ng-template>
