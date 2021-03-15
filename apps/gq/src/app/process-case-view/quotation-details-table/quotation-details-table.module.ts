@@ -9,7 +9,7 @@ import { SharedModule } from '../../shared';
 import { AddToOfferButtonComponent } from '../../shared/custom-status-bar/add-to-offer-button/add-to-offer-button.component';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
-import { TotalRowCountComponent } from '../../shared/custom-status-bar/total-row-count/total-row-count.component';
+import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
     AgGridModule.withComponents([
       DetailViewButtonComponent,
       AddToOfferButtonComponent,
-      TotalRowCountComponent,
+      QuotationDetailsStatusComponent,
     ]),
     ReactiveComponentModule,
     SharedTranslocoModule,

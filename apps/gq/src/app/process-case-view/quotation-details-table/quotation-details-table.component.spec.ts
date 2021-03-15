@@ -13,7 +13,7 @@ import { AddToOfferButtonComponent } from '../../shared/custom-status-bar/add-to
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
 import { FlatButtonsComponent } from '../../shared/custom-status-bar/flat-buttons/flat-buttons.component';
-import { TotalRowCountComponent } from '../../shared/custom-status-bar/total-row-count/total-row-count.component';
+import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,7 +33,7 @@ describe('QuotationDetailsTableComponent', () => {
       AgGridModule.withComponents([
         AddToOfferButtonComponent,
         DetailViewButtonComponent,
-        TotalRowCountComponent,
+        QuotationDetailsStatusComponent,
         FlatButtonsComponent,
       ]),
       CustomStatusBarModule,

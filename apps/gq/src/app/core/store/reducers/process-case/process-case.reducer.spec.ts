@@ -346,7 +346,10 @@ describe('Quotation Reducer', () => {
     describe('deleteAddMaterialRowDataItem', () => {
       test('should delete AddMaterialRowDataItem', () => {
         const materialNumber = '123465';
-        const action = deleteAddMaterialRowDataItem({ materialNumber });
+        const action = deleteAddMaterialRowDataItem({
+          materialNumber,
+          quantity: 100,
+        });
 
         const fakeState = {
           ...QUOTATION_STATE_MOCK,

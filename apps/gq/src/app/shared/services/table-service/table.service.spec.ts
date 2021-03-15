@@ -63,13 +63,14 @@ describe('TableService', () => {
   describe('deleteItem', () => {
     describe('should delete an Item', () => {
       const materialNumber = '1234';
+      const quantity = 10;
       const rowData: MaterialTableItem[] = [
         { quantity: 100, materialNumber: '23457' },
         { quantity: 10, materialNumber: '1234' },
         { quantity: 120, materialNumber: '76543' },
       ];
 
-      const result = TableService.deleteItem(materialNumber, rowData);
+      const result = TableService.deleteItem(materialNumber, quantity, rowData);
       expect(result).toEqual([
         { quantity: 100, materialNumber: '23457' },
         { quantity: 120, materialNumber: '76543' },
@@ -78,11 +79,12 @@ describe('TableService', () => {
 
     describe('should delete an Item and return the dummyRowData', () => {
       const materialNumber = '1234';
+      const quantity = 10;
       const rowData: MaterialTableItem[] = [
         { quantity: 10, materialNumber: '1234' },
       ];
 
-      const result = TableService.deleteItem(materialNumber, rowData);
+      const result = TableService.deleteItem(materialNumber, quantity, rowData);
       expect(result).toEqual([dummyRowData]);
     });
   });

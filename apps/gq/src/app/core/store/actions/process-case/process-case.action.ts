@@ -76,7 +76,7 @@ export const addMaterialRowDataItem = createAction(
 
 export const deleteAddMaterialRowDataItem = createAction(
   '[Process Case] Delete Item from Material Table',
-  props<{ materialNumber: string }>()
+  props<{ materialNumber: string; quantity: number }>()
 );
 
 export const pasteRowDataItemsToAddMaterial = createAction(

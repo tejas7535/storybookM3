@@ -1,0 +1,18 @@
+@import 'lib/colors';
+
+.status {
+  color: $schaeffler-black;
+  margin-left: 24px;
+
+  div {
+    color: $schaeffler-carbon-gray;
+  }
+}
+
+div {
+  font-size: 14px;
+}
+
+.error {
+  color: $schaeffler-red;
+}

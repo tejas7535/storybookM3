@@ -12,22 +12,22 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { PriceService } from '../../services/price-service/price.service';
-import { TotalRowCountComponent } from './total-row-count.component';
+import { QuotationDetailsStatusComponent } from './quotation-details-status.component';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 
-describe('TotalRowCountComponent', () => {
-  let component: TotalRowCountComponent;
-  let spectator: Spectator<TotalRowCountComponent>;
+describe('QuotationDetailsStatusComponent', () => {
+  let component: QuotationDetailsStatusComponent;
+  let spectator: Spectator<QuotationDetailsStatusComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
 
   const createComponent = createComponentFactory({
-    component: TotalRowCountComponent,
-    declarations: [TotalRowCountComponent],
+    component: QuotationDetailsStatusComponent,
+    declarations: [QuotationDetailsStatusComponent],
     imports: [
       MatButtonModule,
       MatIconModule,

@@ -96,7 +96,7 @@
       "resetAllButton": {
         "resetAll": "Reset All"
       },
-      "totalRowCount": {
+      "quotationDetailsStatus": {
         "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
         "selectedNetValue": "Selected Net Value",
         "totalAverageGPI": "Total Weigh. Avg. GPI %",
@@ -106,6 +106,10 @@
       },
       "uploadToSAPButton": {
         "uploadToSAP": "Upload offer to SAP"
+      },
+      "materialValidationStatus": {
+        "invalid": "Invalid",
+        "total": "Total"
       }
     },
     "customerDetails": {

@@ -136,11 +136,12 @@ describe('Create Actions', () => {
 
     test('deleteRowDataItem', () => {
       const materialNumber = '12132';
-
-      const action = deleteRowDataItem({ materialNumber });
+      const quantity = 10;
+      const action = deleteRowDataItem({ materialNumber, quantity });
 
       expect(action).toEqual({
         materialNumber,
+        quantity,
         type: '[Create Case] Delete Item from Customer Table',
       });
     });

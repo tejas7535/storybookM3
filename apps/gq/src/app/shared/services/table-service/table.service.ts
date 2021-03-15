@@ -65,10 +65,12 @@ export class TableService {
 
   static deleteItem(
     materialNumber: string,
+    quantity: number,
     rowData: MaterialTableItem[]
   ): MaterialTableItem[] {
     const filteredRowData = rowData.filter(
-      (it) => it.materialNumber !== materialNumber
+      (it) =>
+        !(it.materialNumber === materialNumber && it.quantity === quantity)
     );
 
     return filteredRowData.length > 0 ? filteredRowData : [dummyRowData];
