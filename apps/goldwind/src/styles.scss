@@ -5,6 +5,17 @@
 @include mat-core();
 @include angular-material-theme($schaeffler-theme);
 
+*:not(.ag-icon):not(.ag-theme-material
+    .ag-checkbox-input-wrapper):not(.material-icons):not(.icon) {
+  font-family: Roboto !important;
+}
+
+h1 {
+  color: rgb(0, 0, 0, 0.87) !important;
+  font-size: 1.5em !important;
+  margin: 1rem 0 !important;
+}
+
 .ag-theme-material {
   @include ag-theme-material(
     (
@@ -31,6 +42,10 @@
     box-sizing: border-box;
     height: 100%;
   }
+}
+
+.dashboard-echart {
+  min-height: 200px;
 }
 
 label {
@@ -67,4 +82,8 @@ label {
   to {
     left: 100%;
   }
+}
+
+.page-container {
+  margin: 0;
 }

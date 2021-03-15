@@ -31,8 +31,8 @@ import { Sensor } from '../../../shared/sensor/sensor.enum';
 export class EdmMonitorComponent implements OnInit {
   edmGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
-  loading$: Observable<boolean>;
   sensor = false;
+  loading$: Observable<boolean>;
   type = Sensor.ANTENNA;
   chartOptions: EChartsOption = {
     ...axisChartOptions,

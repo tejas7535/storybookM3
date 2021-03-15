@@ -35,11 +35,11 @@
       </div>
 
       <div
+        class="chart"
         fxFlex
         echarts
         [options]="chartOptions"
         [merge]="greaseStatusGraphData$ | ngrxPush"
-        class="grease-chart"
       ></div>
     </div>
   </mat-card-content>

@@ -2,8 +2,7 @@ export const GREASE_STATUS_MOCK = {
   series: [
     {
       name: 'waterContent',
-      radius: '33%',
-      center: ['75%', '30%'],
+      center: ['50%', '50%'],
       type: 'gauge',
       data: [
         {
@@ -50,8 +49,7 @@ export const GREASE_STATUS_MOCK = {
     },
     {
       name: 'deteroration',
-      radius: '33%',
-      center: ['75%', '75%'],
+      center: ['80%', '50%'],
       type: 'gauge',
       data: [
         {
@@ -98,8 +96,7 @@ export const GREASE_STATUS_MOCK = {
     },
     {
       name: 'temperatureOptics',
-      radius: '50%',
-      center: ['25%', '50%'],
+      center: ['20%', '50%'],
       type: 'gauge',
       data: [
         {
