@@ -35,7 +35,7 @@ export class RestService {
   }
 
   public getBearing(id: string): Observable<BearingMetadata> {
-    return this.getIot(`${id}/metadata`);
+    return this.getIot(`${id}/`);
   }
 
   public getEdm({ id, startDate, endDate }: IotParams): Observable<Edm[]> {

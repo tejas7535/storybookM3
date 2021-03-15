@@ -6,7 +6,10 @@ import { select, Store } from '@ngrx/store';
 
 import { BearingState } from '../core/store/reducers/bearing/bearing.reducer';
 import { BearingMetadata } from '../core/store/reducers/bearing/models';
-import { getBearingResult } from '../core/store/selectors/bearing/bearing.selector';
+import {
+  getBearingLoading,
+  getBearingResult,
+} from '../core/store/selectors/bearing/bearing.selector';
 import { BearingRoutePath } from './bearing-route-path.enum';
 
 interface TabLinks {
@@ -20,6 +23,7 @@ interface TabLinks {
 })
 export class BearingComponent implements OnInit {
   bearing$: Observable<BearingMetadata>;
+  loading$: Observable<boolean>;
 
   public constructor(private readonly store: Store<BearingState>) {}
 
@@ -40,6 +44,7 @@ export class BearingComponent implements OnInit {
 
   ngOnInit(): void {
     this.bearing$ = this.store.pipe(select(getBearingResult));
+    this.loading$ = this.store.pipe(select(getBearingLoading));
   }
 
   public trackByFn(index: number, _item: any): number {

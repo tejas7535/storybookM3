@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { AppState } from '../../core/store/reducers';
-import { MainBearing } from '../../core/store/reducers/bearing/models';
-import { getMainBearing } from '../../core/store/selectors';
+import { BearingMetadata } from '../../core/store/reducers/bearing/models';
+import { getBearingResult } from '../../core/store/selectors';
 
 @Component({
   selector: 'goldwind-condition-monitoring',
@@ -14,11 +14,11 @@ import { getMainBearing } from '../../core/store/selectors';
   styleUrls: ['./condition-monitoring.component.scss'],
 })
 export class ConditionMonitoringComponent implements OnInit {
-  mainBearing$: Observable<MainBearing>;
+  mainBearing$: Observable<BearingMetadata>;
 
   public constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.mainBearing$ = this.store.pipe(select(getMainBearing));
+    this.mainBearing$ = this.store.pipe(select(getBearingResult));
   }
 }

@@ -17,13 +17,12 @@
   "conditionMonitoring": {
     "conditionMeasuringEquipment": {
       "title": "Condition measuring equipment",
-      "designation": "Designation",
-      "shortDescription": "Short description",
+      "description": "Description",
+      "name": "Name",
       "manufacturer": "Manufacturer",
-      "outerDiameter": "Outer diameter (D)",
-      "innerDiameter": "Inner diameter (d)",
-      "overallWidth": "Overall width (B)",
-      "mass": "Mass (m)",
+      "type": "Type",
+      "locationLatitude": "Location Latitude",
+      "locationLongitude": "Location Longitude",
       "windturbineImage": "Image of a wind turbine"
     },
     "edmMonitor": {
