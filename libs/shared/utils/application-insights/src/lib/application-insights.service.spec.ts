@@ -87,6 +87,16 @@ describe('ApplicationInsightService', () => {
     });
   });
 
+  describe('addTelemetryData', () => {
+    it('should call method addTelemetryInitializer', () => {
+      service['appInsights'].addTelemetryInitializer = jest.fn();
+
+      service.addTelemetryData('foo', 'bar');
+
+      expect(service['appInsights'].addTelemetryInitializer).toHaveBeenCalled();
+    });
+  });
+
   describe('logPageView', () => {
     it('should call trackPageView', () => {
       service['appInsights'].trackPageView = jest.fn();
