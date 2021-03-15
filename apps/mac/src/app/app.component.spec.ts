@@ -9,7 +9,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 
 import { RoutePath } from './app-routing.enum';
@@ -39,9 +38,12 @@ describe('AppComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          auth: {
-            user: {
-              username: 'Jefferson',
+          'azure-auth': {
+            accountInfo: {
+              name: 'Jefferson',
+            },
+            profileImage: {
+              url: 'img',
             },
           },
         },
@@ -72,7 +74,7 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(component.profileImage$).toBeDefined();
     });
   });
 

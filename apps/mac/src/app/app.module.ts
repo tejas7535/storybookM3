@@ -1,7 +1,16 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
+import { MsalRedirectComponent } from '@azure/msal-angular';
+
+import {
+  AzureConfig,
+  MsalGuardConfig,
+  MsalInstanceConfig,
+  MsalInterceptorConfig,
+  ProtectedResource,
+  SharedAzureAuthModule,
+} from '@schaeffler/azure-auth';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -11,11 +20,15 @@ import { SharedModule } from './shared/shared.module';
 
 // tslint:disable-next-line: no-implicit-dependencies
 const azureConfig = new AzureConfig(
-  environment.azureTenantId,
-  environment.azureClientId,
-  environment.appId,
-  FlowType.CODE_FLOW,
-  !environment.production
+  new MsalInstanceConfig(
+    environment.azureClientId,
+    environment.azureTenantId,
+    !environment.production
+  ),
+  new MsalInterceptorConfig([
+    new ProtectedResource('*/api/*', [environment.appId]),
+  ]),
+  new MsalGuardConfig('/login-failed', [environment.appId])
 );
 
 @NgModule({
@@ -24,9 +37,9 @@ const azureConfig = new AzureConfig(
     HttpClientModule,
     CoreModule,
     SharedModule,
-    SharedAuthModule.forRoot(azureConfig),
+    SharedAzureAuthModule.forRoot(azureConfig),
   ],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

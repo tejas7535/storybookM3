@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
+import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { RoutePath } from './app-routing.enum';
@@ -18,9 +18,11 @@ import { AppState } from './core/store/reducers';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Materials App Center';
+  public title = 'Materials App Center';
 
-  username$: Observable<string>;
+  public username$: Observable<string>;
+  public profileImage$: Observable<string>;
+
   userMenuEntries: UserMenuEntry[] = [];
   url: string;
 
@@ -31,7 +33,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
-    this.store.dispatch(startLoginFlow());
+    this.profileImage$ = this.store.pipe(select(getProfileImage));
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe((event) => {

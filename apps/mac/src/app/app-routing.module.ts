@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MsalGuard } from '@azure/msal-angular';
+
 import { RoutePath } from './app-routing.enum';
 
 export const appRoutePaths: Routes = [
@@ -10,6 +12,7 @@ export const appRoutePaths: Routes = [
     pathMatch: 'full',
   },
   {
+    canActivate: [MsalGuard],
     path: RoutePath.OverviewPath,
     loadChildren: () =>
       import('./feature/overview/overview.module').then(
@@ -17,6 +20,7 @@ export const appRoutePaths: Routes = [
       ),
   },
   {
+    canLoad: [MsalGuard],
     path: RoutePath.HardnessConverterPath,
     loadChildren: () =>
       import('./feature/hardness-converter/hardness-converter.module').then(
@@ -24,6 +28,7 @@ export const appRoutePaths: Routes = [
       ),
   },
   {
+    canLoad: [MsalGuard],
     path: RoutePath.AQMCalculatorPath,
     loadChildren: () =>
       import('./feature/aqm-calculator/aqm-calculator.module').then(
