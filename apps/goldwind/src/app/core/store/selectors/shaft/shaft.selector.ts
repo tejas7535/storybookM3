@@ -24,7 +24,7 @@ export const getShaftTimeStamp = createSelector(
   getShaftResult,
   (state: ShaftStatus) =>
     state &&
-    new Date(state.timestamp).toLocaleTimeString(
+    new Date(state.timeStamp).toLocaleTimeString(
       DATE_FORMAT.local,
       DATE_FORMAT.options
     )

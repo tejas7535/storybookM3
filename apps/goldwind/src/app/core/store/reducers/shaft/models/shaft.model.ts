@@ -3,5 +3,5 @@ export interface ShaftStatus {
   id: string;
   rsm01ShaftSpeed: number;
   rsm01Shaftcountervalue: number;
-  timestamp: string;
+  timeStamp: string;
 }

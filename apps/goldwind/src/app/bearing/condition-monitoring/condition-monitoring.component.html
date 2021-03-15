@@ -4,20 +4,17 @@
       [mainBearing]="mainBearing$ | ngrxPush"
     ></goldwind-cm-equipment>
   </div>
-  <div id="edm-monitoring" class="grid-element">
-    <goldwind-edm-monitor></goldwind-edm-monitor>
-  </div>
   <div id="grease-status" class="grid-element">
     <goldwind-grease-monitor></goldwind-grease-monitor>
-  </div>
-  <div id="center-load" class="grid-element">
-    <goldwind-center-load></goldwind-center-load>
   </div>
   <div id="rotor-speed" class="grid-element">
     <goldwind-shaft></goldwind-shaft>
   </div>
-  <div id="safety-factor" class="grid-element">
-    <ng-container *ngTemplateOutlet="construction_card"></ng-container>
+  <div id="center-load" class="grid-element">
+    <goldwind-center-load></goldwind-center-load>
+  </div>
+  <div id="edm-monitoring" class="grid-element">
+    <goldwind-edm-monitor></goldwind-edm-monitor>
   </div>
 </div>
 

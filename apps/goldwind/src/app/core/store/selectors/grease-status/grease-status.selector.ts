@@ -77,7 +77,7 @@ export const getGreaseStatusGraphData = createSelector(
               (key === 'rsmShaftSpeed'
                 ? gcmStatus.RsmShafts.map((measurement: ShaftStatus) => ({
                     value: [
-                      new Date(measurement.timestamp),
+                      new Date(measurement.timeStamp),
                       measurement.rsm01ShaftSpeed.toFixed(2),
                     ],
                   }))
@@ -113,9 +113,9 @@ export const getGreaseStatusLatestGraphData = createSelector(
   getGreaseStatusLatestResult,
   (gcmProcessed: GcmProcessed, { sensorName }: GreaseSensor): GraphData => {
     const gaugePositions = {
-      temperatureOptics: ['25%', '50%'],
-      waterContent: ['75%', '30%'],
-      deterioration: ['75%', '75%'],
+      temperatureOptics: ['20%', '50%'],
+      waterContent: ['50%', '50%'],
+      deterioration: ['80%', '50%'],
     };
 
     return (
@@ -130,7 +130,6 @@ export const getGreaseStatusLatestGraphData = createSelector(
             return {
               ...GREASE_GAUGE_SERIES,
               name: label,
-              radius: isTempGauge(formControl) ? '50%' : '33%',
               center: (gaugePositions as any)[formControl],
               detail: {
                 ...GREASE_GAUGE_SERIES.detail,

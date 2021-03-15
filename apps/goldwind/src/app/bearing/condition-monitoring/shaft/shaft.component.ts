@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -13,10 +12,9 @@ import {
   getShaftLatestGraphData,
   getShaftLoading,
   getShaftTimeStamp,
-} from '../../../core/store/selectors/';
+} from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
-import { BearingRoutePath } from '../../bearing-route-path.enum';
 
 @Component({
   selector: 'goldwind-shaft',
@@ -37,11 +35,7 @@ export class ShaftComponent implements OnInit {
     },
   };
 
-  public constructor(
-    private readonly store: Store<ShaftState>,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
-  ) {}
+  public constructor(private readonly store: Store<ShaftState>) {}
 
   ngOnInit(): void {
     this.shaftLatestGraphData$ = this.store.pipe(
@@ -50,11 +44,5 @@ export class ShaftComponent implements OnInit {
 
     this.shaftTimeStamp$ = this.store.pipe(select(getShaftTimeStamp));
     this.loading$ = this.store.pipe(select(getShaftLoading), take(2));
-  }
-
-  navigateToGreaseStatus(): void {
-    this.router.navigate([`../${BearingRoutePath.GreaseStatusPath}`], {
-      relativeTo: this.activatedRoute.parent,
-    });
   }
 }

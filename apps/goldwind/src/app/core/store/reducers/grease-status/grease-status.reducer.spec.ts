@@ -65,7 +65,7 @@ describe('Grease Status Reducer', () => {
       id: 'id-123',
       rsm01ShaftSpeed: 13,
       rsm01Shaftcountervalue: 3,
-      timestamp: '2020-08-02T16:18:59Z',
+      timeStamp: '2020-08-02T16:18:59Z',
     },
   ];
 

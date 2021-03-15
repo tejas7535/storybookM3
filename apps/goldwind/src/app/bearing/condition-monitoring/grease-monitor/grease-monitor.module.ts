@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -24,7 +23,6 @@ import { GreaseMonitorComponent } from './grease-monitor.component';
 
     // UI Modules
     MatCardModule,
-    MatButtonModule,
 
     // Translation
     SharedTranslocoModule,

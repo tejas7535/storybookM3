@@ -3,7 +3,6 @@ import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import {
   getShaftLatestGraphData,
-  getShaftLoading,
   getShaftResult,
   getShaftTimeStamp,
 } from './shaft.selector';
@@ -19,7 +18,7 @@ describe('Bearing Selector', () => {
       result: {
         id: 'fakeid',
         deviceId: 'fakedeviceid',
-        timestamp: '2020-11-12T18:31:56.954003Z',
+        timeStamp: '2020-11-12T18:31:56.954003Z',
         rsm01ShaftSpeed: 3,
         rsm01Shaftcountervalue: 666,
       },
@@ -33,16 +32,10 @@ describe('Bearing Selector', () => {
     });
   });
 
-  describe('getShaftLoading', () => {
-    test('should return the shaft result', () => {
-      expect(getShaftLoading(fakeState)).toEqual(fakeState.shaft.loading);
-    });
-  });
-
   describe('getShaftTimeStamp', () => {
     test('should return the shaft result time stamp', () => {
       expect(getShaftTimeStamp(fakeState)).toEqual(
-        new Date(fakeState.shaft.result.timestamp).toLocaleTimeString(
+        new Date(fakeState.shaft.result.timeStamp).toLocaleTimeString(
           DATE_FORMAT.local,
           DATE_FORMAT.options
         )

@@ -22,7 +22,7 @@ describe('Shaft Reducer', () => {
       const SHAFT_MOCK = {
         id: 'fakeid',
         deviceId: 'fakedeviceid',
-        timestamp: '2020-11-12T18:31:56.954003Z',
+        timeStamp: '2020-11-12T18:31:56.954003Z',
         rsm01ShaftSpeed: 3,
         rsm01Shaftcountervalue: 666,
       };

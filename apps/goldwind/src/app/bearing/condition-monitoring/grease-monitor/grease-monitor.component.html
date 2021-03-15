@@ -28,14 +28,9 @@
         echarts
         [options]="chartOptions"
         [merge]="greaseStatusLatestGraphData$ | ngrxPush"
-        class="grease-monitor-chart"
+        class="grease-monitor-chart dashboard-echart"
       ></div>
     </mat-card-content>
-    <mat-card-actions *transloco="let t; read: 'overview'">
-      <button (click)="navigateToGreaseStatus()" mat-button color="primary">
-        {{ t('details') }}
-      </button>
-    </mat-card-actions>
   </mat-card>
 </ng-container>
 

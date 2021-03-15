@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -17,7 +16,6 @@ import {
 } from '../../../core/store/selectors/';
 import { chartOptions } from '../../../shared/chart/chart';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
-import { BearingRoutePath } from '../../bearing-route-path.enum';
 
 @Component({
   selector: 'goldwind-grease-monitor',
@@ -28,8 +26,8 @@ export class GreaseMonitorComponent implements OnInit {
   greaseStatusLatestGraphData$: Observable<GraphData>;
   greaseTimeStamp$: Observable<string>;
   sensor = false;
-  type = Sensor.GC;
   loading$: Observable<boolean>;
+  type = Sensor.GC;
   chartOptions: EChartsOption = {
     ...chartOptions,
     legend: {
@@ -38,11 +36,7 @@ export class GreaseMonitorComponent implements OnInit {
     },
   };
 
-  constructor(
-    private readonly store: Store<AppState>,
-    private readonly router: Router,
-    private readonly activatedRoute: ActivatedRoute
-  ) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.getGreaseStatusLatestGraphData({ sensor: this.sensor });
@@ -62,11 +56,5 @@ export class GreaseMonitorComponent implements OnInit {
     );
 
     this.greaseTimeStamp$ = this.store.pipe(select(getGreaseTimeStamp));
-  }
-
-  navigateToGreaseStatus(): void {
-    this.router.navigate([`../${BearingRoutePath.GreaseStatusPath}`], {
-      relativeTo: this.activatedRoute.parent,
-    });
   }
 }

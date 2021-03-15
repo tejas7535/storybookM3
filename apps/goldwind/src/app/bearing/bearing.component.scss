@@ -10,6 +10,8 @@
 }
 
 #bearing-page-header {
+  padding: 0 1em;
+
   mat-icon {
     color: $schaeffler-carbon-gray;
     cursor: pointer;
@@ -23,14 +25,5 @@
   box-sizing: border-box;
   display: flex;
   flex-grow: 1;
-  margin: auto -30px;
   padding: 16px;
-
-  @media screen and (max-width: $screen-sm-max) {
-    margin: auto -20px;
-  }
-}
-
-nav.mat-tab-nav-bar {
-  margin: auto -30px;
 }
