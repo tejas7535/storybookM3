@@ -238,11 +238,11 @@ export const processCaseReducer = createReducer(
   ),
   on(
     deleteAddMaterialRowDataItem,
-    (state: ProcessCaseState, { materialNumber }) => ({
+    (state: ProcessCaseState, { materialNumber, quantity }) => ({
       ...state,
       addMaterials: {
         ...state.addMaterials,
-        addMaterialRowData: TableService.deleteItem(materialNumber, [
+        addMaterialRowData: TableService.deleteItem(materialNumber, quantity, [
           ...state.addMaterials.addMaterialRowData,
         ]),
       },

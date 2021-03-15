@@ -47,7 +47,7 @@ export const clearRowData = createAction('[Create Case] Clear RowData');
 
 export const deleteRowDataItem = createAction(
   '[Create Case] Delete Item from Customer Table',
-  props<{ materialNumber: string }>()
+  props<{ materialNumber: string; quantity: number }>()
 );
 
 export const validateFailure = createAction(

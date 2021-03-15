@@ -53,6 +53,7 @@ describe('ActionCellComponent', () => {
       component.params = {
         data: {
           materialNumber: '1234',
+          quantity: 10,
         },
         colDef: {
           cellRendererParams: 'createCase',
@@ -62,7 +63,7 @@ describe('ActionCellComponent', () => {
       component.deleteItem();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteRowDataItem({ materialNumber: '1234' })
+        deleteRowDataItem({ materialNumber: '1234', quantity: 10 })
       );
     });
 
@@ -72,6 +73,7 @@ describe('ActionCellComponent', () => {
       component.params = {
         data: {
           materialNumber: '1234',
+          quantity: 10,
         },
         colDef: {},
       };
@@ -79,7 +81,7 @@ describe('ActionCellComponent', () => {
       component.deleteItem();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteAddMaterialRowDataItem({ materialNumber: '1234' })
+        deleteAddMaterialRowDataItem({ materialNumber: '1234', quantity: 10 })
       );
     });
   });

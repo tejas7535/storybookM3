@@ -19,6 +19,7 @@ import { CellRendererModule } from '../../cell-renderer/cell-renderer.module';
 import { AddMaterialButtonComponent } from '../../custom-status-bar/add-material-button/add-material-button.component';
 import { CreateCaseButtonComponent } from '../../custom-status-bar/create-case-button/create-case-button.component';
 import { CustomStatusBarModule } from '../../custom-status-bar/custom-status-bar.module';
+import { MaterialValidationStatusComponent } from '../../custom-status-bar/material-validation-status/material-validation-status.component';
 import { ResetAllButtonComponent } from '../../custom-status-bar/reset-all-button/reset-all-button.component';
 import { InputTableComponent } from './input-table.component';
 
@@ -41,6 +42,7 @@ describe('InputTableComponent', () => {
         AddMaterialButtonComponent,
         CreateCaseButtonComponent,
         ResetAllButtonComponent,
+        MaterialValidationStatusComponent,
       ]),
       CellRendererModule,
       CustomStatusBarModule,

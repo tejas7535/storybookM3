@@ -1,0 +1,17 @@
+<div
+  fxLayout
+  fxFill
+  fxLayoutAlign="start center"
+  *transloco="let t; read: 'shared.customStatusBar.materialValidationStatus'"
+>
+  <div fxLayout class="status">
+    <div>{{ t('invalid') }}:&nbsp;</div>
+    <span [ngClass]="{ error: invalid > 0 }"> {{ invalid }} </span>
+  </div>
+  <div fxLayout class="status">
+    <div>{{ t('total') }}:&nbsp;</div>
+    <span [ngClass]="{ error: combinations > MAX_NUMBER_OF_QUOTATION_DETAILS }">
+      {{ combinations }} / {{ MAX_NUMBER_OF_QUOTATION_DETAILS }}
+    </span>
+  </div>
+</div>

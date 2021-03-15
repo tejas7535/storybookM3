@@ -6,6 +6,7 @@ import {
 import {
   addMaterials,
   CaseActions,
+  deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
   loadCustomerSuccess,
@@ -171,6 +172,21 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Offer] Update QuotationDetails Failure',
+      });
+    });
+  });
+
+  describe('Row Data Actions', () => {
+    test('deleteAddMaterialRowDataItem', () => {
+      const materialNumber = '12345';
+      const quantity = 10;
+
+      action = deleteAddMaterialRowDataItem({ materialNumber, quantity });
+
+      expect(action).toEqual({
+        materialNumber,
+        quantity,
+        type: '[Process Case] Delete Item from Material Table',
       });
     });
   });

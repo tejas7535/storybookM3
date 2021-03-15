@@ -6,7 +6,7 @@ export const STATUS_BAR_CONFIG: {
   statusPanels: [
     { statusPanel: 'finishOfferButtonComponent', align: 'left' },
     { statusPanel: 'removeFromOfferButtonComponent', align: 'left' },
-    { statusPanel: 'totalRowCountComponent', align: 'right' },
+    { statusPanel: 'quotationDetailsStatusComponent', align: 'right' },
   ],
 };
 
@@ -16,6 +16,6 @@ export const STATUS_BAR_CONFIG_FINISH_OFFER: {
   statusPanels: [
     { statusPanel: 'uploadToSAPButtonComponent', align: 'left' },
     { statusPanel: 'exportToExcelButtonComponent', align: 'left' },
-    { statusPanel: 'totalRowCountComponent', align: 'right' },
+    { statusPanel: 'quotationDetailsStatusComponent', align: 'right' },
   ],
 };

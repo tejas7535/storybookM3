@@ -5,6 +5,7 @@ export const STATUS_BAR_CONFIG: {
 } = {
   statusPanels: [
     { statusPanel: 'createCaseButtonComponent', align: 'left' },
+    { statusPanel: 'materialValidationStatusComponent', align: 'center' },
     { statusPanel: 'resetAllButtonComponent', align: 'right' },
   ],
 };

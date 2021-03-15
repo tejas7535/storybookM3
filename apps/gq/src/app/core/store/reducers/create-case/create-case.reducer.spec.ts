@@ -332,6 +332,7 @@ describe('Create Case Reducer', () => {
 
         const action = deleteRowDataItem({
           materialNumber: materialNumberDelete,
+          quantity: 10,
         });
 
         const state = createCaseReducer(fakeState, action);

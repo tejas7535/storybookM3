@@ -26,10 +26,12 @@ export class ActionCellComponent {
   }
 
   deleteItem(): void {
-    const { materialNumber } = this.params.data;
+    const { materialNumber, quantity } = this.params.data;
 
     this.params.colDef.cellRendererParams === 'createCase'
-      ? this.store.dispatch(deleteRowDataItem({ materialNumber }))
-      : this.store.dispatch(deleteAddMaterialRowDataItem({ materialNumber }));
+      ? this.store.dispatch(deleteRowDataItem({ materialNumber, quantity }))
+      : this.store.dispatch(
+          deleteAddMaterialRowDataItem({ materialNumber, quantity })
+        );
   }
 }

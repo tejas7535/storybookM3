@@ -182,9 +182,11 @@ export const createCaseReducer = createReducer(
     ...state,
     rowData: [dummyRowData],
   })),
-  on(deleteRowDataItem, (state: CaseState, { materialNumber }) => ({
+  on(deleteRowDataItem, (state: CaseState, { materialNumber, quantity }) => ({
     ...state,
-    rowData: TableService.deleteItem(materialNumber, [...state.rowData]),
+    rowData: TableService.deleteItem(materialNumber, quantity, [
+      ...state.rowData,
+    ]),
   })),
   on(validateSuccess, (state: CaseState, { materialValidations }) => ({
     ...state,

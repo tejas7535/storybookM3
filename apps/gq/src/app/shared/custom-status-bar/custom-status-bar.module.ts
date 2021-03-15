@@ -17,10 +17,11 @@ import { DetailViewButtonComponent } from './detail-view-button/detail-view-butt
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
 import { FinishOfferButtonComponent } from './finish-offer-button/finish-offer-button.component';
 import { FlatButtonsComponent } from './flat-buttons/flat-buttons.component';
+import { MaterialValidationStatusComponent } from './material-validation-status/material-validation-status.component';
 import { OpenCaseButtonComponent } from './open-case-button/open-case-button.component';
+import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
 import { RemoveFromOfferButtonComponent } from './remove-from-offer-button/remove-from-offer-button.component';
 import { ResetAllButtonComponent } from './reset-all-button/reset-all-button.component';
-import { TotalRowCountComponent } from './total-row-count/total-row-count.component';
 import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap-button.component';
 
 @NgModule({
@@ -35,9 +36,10 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     OpenCaseButtonComponent,
     ResetAllButtonComponent,
     RemoveFromOfferButtonComponent,
-    TotalRowCountComponent,
+    QuotationDetailsStatusComponent,
     UploadToSapButtonComponent,
     FlatButtonsComponent,
+    MaterialValidationStatusComponent,
   ],
   imports: [
     CommonModule,
@@ -59,9 +61,10 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     OpenCaseButtonComponent,
     RemoveFromOfferButtonComponent,
     ResetAllButtonComponent,
-    TotalRowCountComponent,
+    QuotationDetailsStatusComponent,
     UploadToSapButtonComponent,
     FlatButtonsComponent,
+    MaterialValidationStatusComponent,
   ],
 })
 export class CustomStatusBarModule {}

@@ -16,11 +16,11 @@ import { COLUMN_DEFS } from '../../services/create-column-service/column-defs';
 import { PriceService } from '../../services/price-service/price.service';
 
 @Component({
-  selector: 'gq-total-row-count',
-  templateUrl: './total-row-count.component.html',
-  styleUrls: ['./total-row-count.component.scss'],
+  selector: 'gq-quotation-details-status',
+  templateUrl: './quotation-details-status.component.html',
+  styleUrls: ['./quotation-details-status.component.scss'],
 })
-export class TotalRowCountComponent implements OnInit {
+export class QuotationDetailsStatusComponent implements OnInit {
   showAverageGPI$: Observable<boolean>;
   customerCurrency$: Observable<string>;
   totalNetValue = 0;
