@@ -36,6 +36,7 @@ This library provides the following selectors that can be used from within your 
 - `getIsLoggedIn`: get logged in status
 - `getRoles`: get roles of user
 - `getAccountInfo`: get whole account information from user
+- `getProfileImage`: get url to load the profile image
 
 ### Guards
 
@@ -102,7 +103,7 @@ This library provides the following selectors that can be used from within your 
             ...
             RouterModule.forRoot(routes),
             HttpClientModule,
-            SharedAuthModule.forRoot(azureConfig),
+            SharedAzureAuthModule.forRoot(azureConfig),
             StoreModule.forRoot({}),
             EffectsModule.forRoot(),
         ],
