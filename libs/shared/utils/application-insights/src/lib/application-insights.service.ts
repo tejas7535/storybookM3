@@ -35,6 +35,13 @@ export class ApplicationInsightsService {
       : snapshot.component;
   }
 
+  public addTelemetryData(tag: string, value: string): void {
+    const telemetryInitializer = (envelope: any) => {
+      envelope.tags[tag] = value;
+    };
+    this.appInsights.addTelemetryInitializer(telemetryInitializer);
+  }
+
   public logPageView(name?: string, uri?: string): void {
     this.appInsights.trackPageView({ name, uri });
   }
