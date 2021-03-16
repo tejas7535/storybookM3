@@ -6,6 +6,8 @@ import {
   filter,
   map,
   mergeMap,
+  pairwise,
+  startWith,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -53,7 +55,10 @@ export class BearingEffects {
       ofType(getBearingId),
       withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
       map(([_action, routerState]) => routerState.state.params.id),
-      map((bearingId) => getBearing({ bearingId }))
+      startWith('0'),
+      pairwise(),
+      filter(([prevId, currentId]) => prevId !== currentId),
+      map(([_prevId, currentId]) => getBearing({ bearingId: currentId }))
     )
   );
 
