@@ -13,6 +13,7 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { StoreModule } from './store';
@@ -39,7 +40,8 @@ import { StoreModule } from './store';
       ['en'],
       'en', // default -> undefined would lead to browser detection
       'en',
-      true
+      true,
+      i18nChecksumsJson
     ),
 
     // HTTP
