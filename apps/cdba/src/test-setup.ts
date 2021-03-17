@@ -1,8 +1,8 @@
 /* tslint:disable:ordered-imports */
-import '../../../global-mocks';
-import 'jest-preset-angular';
-
 import { LicenseManager } from '@ag-grid-enterprise/all-modules';
+
+import '../../../global-mocks';
+import 'jest-preset-angular/setup-jest';
 
 global.beforeEach(() => {
   LicenseManager.setLicenseKey(

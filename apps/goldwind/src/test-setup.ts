@@ -1,7 +1,7 @@
 /* tslint:disable:ordered-imports */
 import '../../../global-mocks';
 import 'jest-canvas-mock';
-import 'jest-preset-angular';
+import 'jest-preset-angular/setup-jest';
 
 import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 import { defineGlobalsInjections } from '@ngneat/spectator';
