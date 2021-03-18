@@ -86,7 +86,7 @@
 * gq: [1.10.0](./apps/gq/CHANGELOG.md)
 
 ## 12/14/2020
-* seli: [1.10.0](./apps/seli/CHANGELOG.md)
+* sedo: [1.10.0](./apps/sedo/CHANGELOG.md)
 
 ## 12/14/2020
 * cdba: [1.14.0](./apps/cdba/CHANGELOG.md)
@@ -133,7 +133,7 @@
 
 
 ## 11/23/2020
-* seli: [1.9.0](./apps/seli/CHANGELOG.md)
+* sedo: [1.9.0](./apps/sedo/CHANGELOG.md)
 
 ## 11/19/2020
 * helloworld-azure: [2.0.0](./apps/helloworld-azure/CHANGELOG.md)

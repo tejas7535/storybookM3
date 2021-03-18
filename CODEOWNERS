@@ -23,9 +23,9 @@ apps/cdba-e2e @kauppfbi @herpisef @andrafnk
 apps/goldwind @krausrbe @saragjri
 apps/goldwind-e2e @krausrbe @saragjri
 
-# SELI
-apps/seli @birketho @soehnpsc 
-apps/seli-e2e @birketho @soehnpsc
+# SEDO
+apps/sedo @birketho @soehnpsc @pelzesen
+apps/sedo-e2e @birketho @soehnpsc @pelzesen
  
 # GQ
 apps/gq @andrafnk @soehnpsc @herpisef 

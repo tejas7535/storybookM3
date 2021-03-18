@@ -1,7 +1,7 @@
 module.exports = {
-  displayName: 'seli',
+  displayName: 'sedo',
   preset: '../../jest.preset.js',
-  coverageDirectory: '../../coverage/apps/seli',
+  coverageDirectory: '../../coverage/apps/sedo',
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',

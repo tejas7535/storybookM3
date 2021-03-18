@@ -10,12 +10,12 @@ import { UserMenuEntry } from '@schaeffler/header';
 import { AppState } from './core/store/reducers';
 
 @Component({
-  selector: 'seli-root',
+  selector: 'sedo-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'SeLi';
+  title = 'SeDo';
 
   username$: Observable<string>;
 
