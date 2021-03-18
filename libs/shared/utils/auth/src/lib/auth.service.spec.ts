@@ -241,6 +241,7 @@ describe('AuthService', () => {
       AuthService['getDecodedAccessToken'] = jest
         .fn()
         .mockImplementation(() => ({
+          name: 'family name, given name department',
           given_name: 'given name',
           family_name: 'family name',
         }));

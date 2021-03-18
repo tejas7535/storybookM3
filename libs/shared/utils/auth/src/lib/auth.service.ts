@@ -91,8 +91,12 @@ export class AuthService {
     }
 
     const username = `${decodedAccess.given_name} ${decodedAccess.family_name}`;
+    const department = decodedAccess.name.replace(
+      `${decodedAccess.family_name}, ${decodedAccess.given_name}  `,
+      ''
+    );
 
-    return { username };
+    return { username, department };
   }
 
   public logout(): void {
