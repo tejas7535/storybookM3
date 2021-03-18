@@ -26,7 +26,7 @@ import { GRID_OPTIONS } from './config/grid-options';
 import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
 
 @Component({
-  selector: 'seli-sales.-table',
+  selector: 'sedo-sales.-table',
   templateUrl: './sales-table.component.html',
   styleUrls: ['./sales-table.component.scss'],
 })

@@ -1,8 +1,8 @@
 {
   "extends": "../../.versionrc.json",
   "path": ".",
-  "releaseCommitMessageFormat": "chore(seli): 🚀  {{currentTag}}  [ci skip]",
-  "tagPrefix": "seli-v",
+  "releaseCommitMessageFormat": "chore(sedo): 🚀  {{currentTag}}  [ci skip]",
+  "tagPrefix": "sedo-v",
   "skip": {
     "bump": false,
     "changelog": false,

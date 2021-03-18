@@ -14,7 +14,7 @@ import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
 
 @Component({
-  selector: 'seli-sales-row-details',
+  selector: 'sedo-sales-row-details',
   templateUrl: './sales-row-details.component.html',
   styleUrls: ['./sales-row-details.component.scss'],
 })

@@ -3,7 +3,7 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
-## [1.10.0](///compare/seli-v1.10.0...seli-v1.9.0) (2020-12-14)
+## [1.10.0](///compare/sedo-v1.10.0...sedo-v1.9.0) (2020-12-14)
 
 
 ### 📈 Improvements
@@ -14,7 +14,7 @@ All notable changes to this project will be documented in this file. See [standa
 ### 🎸 Features
 
 * **deps:** update to nx 11 and fix jest setup ([4df2df3](///commit/4df2df38f8a3fa29abae9b9f736e7d237344541b))
-* **seli:** format dates in sales table ([00a08eb](///commit/00a08ebac645f878544b84038f1085a62003720d))
+* **sedo:** format dates in sales table ([00a08eb](///commit/00a08ebac645f878544b84038f1085a62003720d))
 
 ## 1.9.0 (2020-11-23)
 
@@ -24,12 +24,12 @@ All notable changes to this project will be documented in this file. See [standa
 * **auth:** make auth library publishable (UFTABI-2636) ([26833ff](///commit/26833ffdccd5dc448e99130de7fd240462721e02))
 * **ci:** enable manual releases (UFTABI-2968) ([a7daa45](///commit/a7daa45700b798bae3340e87400c92288d4dd84b))
 * **empty-states:** migrate lib to publishable lib (UFTABI-2635) ([977435f](///commit/977435f2481c68dcb842cbe3f3aaa93302e0175d))
-* **seli:** add authentication for seli (UFTABI-2608) ([1636105](///commit/163610568944417b4150132600c9082e5a25bb00))
-* **seli:** add configurable table columns (UFTABI-3042) ([4e9f0b0](///commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
-* **seli:** add expandable details  (UFTABI-2626) ([414e52a](///commit/414e52a4a3e1bc9cff3bc71aad308be1e185aa4e))
-* **seli:** added datasource to table (UFTABI-3034) ([1db86e6](///commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
-* **seli:** basic sales summary view (UFTABI-3036) ([2b2d688](///commit/2b2d688ed730616ab76b1552135139a432958279))
-* **seli:** create seli app (UFTABI-2542) ([5dd7b41](///commit/5dd7b41a859fb0dacf0ffd85c0767b74fc77ce36))
+* **sedo:** add authentication for sedo (UFTABI-2608) ([1636105](///commit/163610568944417b4150132600c9082e5a25bb00))
+* **sedo:** add configurable table columns (UFTABI-3042) ([4e9f0b0](///commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
+* **sedo:** add expandable details  (UFTABI-2626) ([414e52a](///commit/414e52a4a3e1bc9cff3bc71aad308be1e185aa4e))
+* **sedo:** added datasource to table (UFTABI-3034) ([1db86e6](///commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
+* **sedo:** basic sales summary view (UFTABI-3036) ([2b2d688](///commit/2b2d688ed730616ab76b1552135139a432958279))
+* **sedo:** create sedo app (UFTABI-2542) ([5dd7b41](///commit/5dd7b41a859fb0dacf0ffd85c0767b74fc77ce36))
 * **sta:** use shared auth library (UFTABI-2265) ([3eb7c69](///commit/3eb7c69b3c6aec1b05766205d06f87ce4c821d7a))
 * **styles:** make styles lib publishable (UFTABI-2916) ([245e355](///commit/245e355c6de4dafff18bdf03301074adb41669c3))
 * **workspace:** update to angular 11 ([2701a47](///commit/2701a47e42d4740cb0efd5671a1e3e5694d2f347))
@@ -37,23 +37,23 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 🐛 Bug Fixes
 
-* **seli:** fix bug in ag grid expanded row ([653911c](///commit/653911c7529fd9c8889e17fae79feb0e31f94323))
-* **seli:** fix unit tests jenkins error ([eacd0e1](///commit/eacd0e1c0845dc903031ec0f9a1fc608fdfe7cdf))
+* **sedo:** fix bug in ag grid expanded row ([653911c](///commit/653911c7529fd9c8889e17fae79feb0e31f94323))
+* **sedo:** fix unit tests jenkins error ([eacd0e1](///commit/eacd0e1c0845dc903031ec0f9a1fc608fdfe7cdf))
 
 ## [1.9.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.8.0...v1.9.0) (2020-10-26)
 
 
 ### 🎸 Features
 
-* **seli:** add configurable table columns (UFTABI-3042) ([4e9f0b0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
-* **seli:** added datasource to table (UFTABI-3034) ([1db86e6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
+* **sedo:** add configurable table columns (UFTABI-3042) ([4e9f0b0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/4e9f0b00d21fa6697fa4bd296e9c2b7e1e62c983))
+* **sedo:** added datasource to table (UFTABI-3034) ([1db86e6](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/1db86e6224666d87bb13356322d16f0bd93fe8ef))
 
 ## [1.8.0](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.7.0...v1.8.0) (2020-10-12)
 
 
 ### 🎸 Features
 
-* **seli:** basic sales summary view (UFTABI-3036) ([2b2d688](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2b2d688ed730616ab76b1552135139a432958279))
+* **sedo:** basic sales summary view (UFTABI-3036) ([2b2d688](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/2b2d688ed730616ab76b1552135139a432958279))
 
 ### [1.6.1](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/compare/v1.6.0...v1.6.1) (2020-09-28)
 
@@ -82,5 +82,5 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 🎸 Features
 
-* **seli:** add authentication for seli (UFTABI-2608) ([1636105](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/163610568944417b4150132600c9082e5a25bb00))
-* **seli:** create seli app (UFTABI-2542) ([5dd7b41](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5dd7b41a859fb0dacf0ffd85c0767b74fc77ce36))
+* **sedo:** add authentication for sedo (UFTABI-2608) ([1636105](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/163610568944417b4150132600c9082e5a25bb00))
+* **sedo:** create sedo app (UFTABI-2542) ([5dd7b41](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/commit/5dd7b41a859fb0dacf0ffd85c0767b74fc77ce36))

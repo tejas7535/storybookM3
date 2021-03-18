@@ -91,13 +91,13 @@
       "tags": [],
       "implicitDependencies": ["shared-ui-storybook"]
     },
-    "seli": {
+    "sedo": {
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "seli-e2e": {
+    "sedo-e2e": {
       "tags": [],
-      "implicitDependencies": ["seli"]
+      "implicitDependencies": ["sedo"]
     },
     "shared-utils-auth": {
       "tags": ["scope:shared", "type:utils"]
