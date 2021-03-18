@@ -6,6 +6,11 @@ export const getUser = createSelector(getAuthState, (state) => state.user);
 
 export const getUsername = createSelector(getUser, (user) => user?.username);
 
+export const getUserDepartment = createSelector(
+  getUser,
+  (user) => user?.department
+);
+
 export const getIsLoggedIn = createSelector(
   getAuthState,
   (state) => state.loggedIn

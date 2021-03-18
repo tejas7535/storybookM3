@@ -98,6 +98,7 @@ Either way, you need to add the following redirect URIs to it:
 * Use the provided selectors to get relevant user information in your app, for example:
     ```typescript
       this.username$ = this.store.pipe(select(getUsername));
+      this.department$ = this.store.pipe(select(getUserDepartment));
       this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
       this.token$ = this.store.pipe(select(getToken));
       this.claim$ = this.store.pipe(select(getClaim('myClaim')));

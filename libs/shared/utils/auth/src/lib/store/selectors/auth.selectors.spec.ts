@@ -15,6 +15,13 @@ describe('Auth selectors', () => {
     );
   });
 
+  test('should return department', () => {
+    const user = { username: 'Test', department: 'C-IT' };
+    expect(fromAuthSelectors.getUserDepartment.projector(user)).toEqual(
+      user.department
+    );
+  });
+
   test('should return undefined on undefined user', () => {
     const user: User = undefined;
     expect(fromAuthSelectors.getUsername.projector(user)).toBeUndefined();

@@ -39,6 +39,7 @@ describe('AppComponent', () => {
     store = TestBed.inject(MockStore);
     store.overrideSelector(getUser, {
       username: 'John',
+      department: 'C-IT',
     });
     fixture.detectChanges();
   });
