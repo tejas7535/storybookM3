@@ -44,7 +44,8 @@
       "gpcLatestYear": "GPC",
       "gpcDate": "GPC Datum",
       "puUm": "PU / UM",
-      "pricePerUnit": "{{currency}}/ST"
+      "pricePerUnit": "{{currency}}/ST",
+      "averagePrice": "Durchschnittspreis"
     },
     "production": {
       "title": "Production",
