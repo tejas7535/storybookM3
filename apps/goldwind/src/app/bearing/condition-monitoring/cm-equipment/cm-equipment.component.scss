@@ -25,19 +25,19 @@
   row-gap: 0.5rem;
 }
 
-.mat-tab-labels {
-  .mat-tab-label {
-    min-width: 3rem !important;
-    width: 3rem;
-  }
-}
-
-.mat-tab-label-content {
-  font-size: 24px;
-}
-
 :host::ng-deep {
   .mat-card-header-text {
     margin: 0 !important;
+  }
+
+  .mat-tab-labels {
+    .mat-tab-label {
+      min-width: 3rem !important;
+      width: 3rem;
+    }
+  }
+
+  .mat-tab-label-content {
+    font-size: 24px;
   }
 }

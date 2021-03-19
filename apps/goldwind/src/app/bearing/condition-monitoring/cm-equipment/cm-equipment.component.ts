@@ -1,10 +1,4 @@
-import {
-  ChangeDetectorRef,
-  Component,
-  Input,
-  OnInit,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -24,7 +18,6 @@ interface BearingProperties {
   selector: 'goldwind-cm-equipment',
   templateUrl: './cm-equipment.component.html',
   styleUrls: ['./cm-equipment.component.scss'],
-  encapsulation: ViewEncapsulation.None,
 })
 export class CmEquipmentComponent implements OnInit {
   @Input() mainBearing: BearingMetadata;

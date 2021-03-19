@@ -40,3 +40,17 @@
     margin-bottom: 16px;
   }
 }
+
+.highlight {
+  animation: fadeIn ease 1s;
+  outline: solid 2px green;
+}
+
+@keyframes fadeIn {
+  0% {
+    outline: solid 2px transparent;
+  }
+  100% {
+    outline: solid 2px green;
+  }
+}
