@@ -1,3 +1,9 @@
 .shaft-chart {
   width: 100%;
 }
+
+:host::ng-deep {
+  .mat-card-header-text {
+    margin: 0 !important;
+  }
+}

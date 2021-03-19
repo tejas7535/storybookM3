@@ -6,7 +6,10 @@
     fxLayout="column"
   >
     <mat-card-header>
-      <mat-card-title>{{ t('title') }} </mat-card-title>
+      <mat-card-title fxLayout="row" layout-align="center center"
+        ><mat-icon fontSet="schaeffler-icons" fontIcon="icon-load"></mat-icon
+        ><span>{{ t('title') }}</span></mat-card-title
+      >
       <mat-card-subtitle>
         {{ timeStamp$ | ngrxPush }} | {{ t('updateFrequency') }}: {{ refresh }}s
       </mat-card-subtitle>

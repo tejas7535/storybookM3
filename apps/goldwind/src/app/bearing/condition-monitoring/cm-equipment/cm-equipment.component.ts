@@ -1,4 +1,10 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  ViewEncapsulation,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -18,9 +24,11 @@ interface BearingProperties {
   selector: 'goldwind-cm-equipment',
   templateUrl: './cm-equipment.component.html',
   styleUrls: ['./cm-equipment.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class CmEquipmentComponent implements OnInit {
   @Input() mainBearing: BearingMetadata;
+
   bearingProperties: BearingProperties[] = [
     { name: 'description', property: 'description' },
     { name: 'name', property: 'name' },
@@ -29,12 +37,23 @@ export class CmEquipmentComponent implements OnInit {
     { name: 'locationLatitude', property: 'locationLatitude' },
     { name: 'locationLongitude', property: 'locationLongitude' },
   ];
+
+  selectedTab = 0;
+
   loading$: Observable<boolean>;
 
-  public constructor(private readonly store: Store<BearingState>) {}
+  public constructor(
+    private readonly store: Store<BearingState>,
+    private change: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.loading$ = this.store.pipe(select(getBearingLoading));
+  }
+
+  handleSelectedTabChange(event: number): void {
+    this.selectedTab = event;
+    this.change.markForCheck();
   }
 
   public trackByFn(index: number, _item: any): number {

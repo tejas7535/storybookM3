@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -25,6 +26,7 @@ import { CenterLoadComponent } from './center-load.component';
     // UI Modules
     MatCardModule,
     MatSliderModule,
+    MatIconModule,
 
     // Translation
     SharedTranslocoModule,
