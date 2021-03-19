@@ -3,7 +3,7 @@
 ![version](https://img.shields.io/badge/version-v1.48.0-green.svg)
 ![@nrwl/workspace: 11.5.1](https://img.shields.io/badge/%40nrwl%2Fworkspace-11.5.1-brightgreen)
 ![typescript: 4.1.5](https://img.shields.io/badge/typescript-4.1.5-brightgreen)
-![@angular/core: 11.2.5](https://img.shields.io/badge/%40angular%2Fcore-11.2.5-brightgreen)
+![@angular/core: 11.2.6](https://img.shields.io/badge/%40angular%2Fcore-11.2.6-brightgreen)
 ![@angular/cli: 11.2.4](https://img.shields.io/badge/%40angular%2Fcli-11.2.4-brightgreen)
 ![@angular/cdk: 11.2.4](https://img.shields.io/badge/%40angular%2Fcdk-11.2.4-brightgreen)
 ![@angular/material: 11.2.4](https://img.shields.io/badge/%40angular%2Fmaterial-11.2.4-brightgreen)
