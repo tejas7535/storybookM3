@@ -3,6 +3,16 @@
     <h6>{{ t('pricing.title') }}</h6>
     <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
+        <label fxFlexAlign="end">{{ t('pricing.averagePrice') }}:&nbsp;</label>
+        <div>
+          {{ salesPrice?.averagePrice | number: '1.3-3':'de-DE' }}&nbsp;{{
+            t('pricing.pricePerUnit', {
+              currency: salesPrice?.currency
+            })
+          }}
+        </div>
+      </div>
+      <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
         <div>
           {{ salesPrice?.pcmSqv | number: '1.3-3':'de-DE' }}&nbsp;{{

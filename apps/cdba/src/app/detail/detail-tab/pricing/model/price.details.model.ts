@@ -7,6 +7,7 @@ export class PriceDetails {
     public gpcLatestYear: number,
     public gpcDate: number,
     public puUm: string,
-    public currency: string
+    public currency: string,
+    public averagePrice: number
   ) {}
 }
