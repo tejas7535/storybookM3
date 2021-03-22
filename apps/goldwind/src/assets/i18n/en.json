@@ -5,8 +5,8 @@
     "noDevices": "There are no devices"
   },
   "bearing": {
-    "overview": "Overview",
-    "dataAnalysis": "Data Analysis",
+    "overview": "Dashboard",
+    "dataAnalysis": "Detailed Analysis",
     "dataView": "Download Manager",
     "live": "Live",
     "offline": "Offline",
@@ -16,14 +16,34 @@
   },
   "conditionMonitoring": {
     "conditionMeasuringEquipment": {
-      "title": "Condition measuring equipment",
+      "benefit": "Benefit:",
+      "benefitEdge": "Schaeffler software can process and enrich sensor data, to provide a wide range of services and applications.",
+      "benefitEdm": "Transparency about grounding system and electrical discharges in bearing. Turbine operator can apply direct changes to grounding system to minimize risk of electricity-induced bearing failures.",
+      "benefitGrease": "Optimized grease quantities and relubrication intervals, early detection of sealing failures, Lower maintenance and lubricant costs.",
+      "benefitLoad": "Detailled analysis of operating loads on wind turbine can be used for optimizing the turbine and bearing design as well as the turbine control strategy.",
+      "title": "Equipment meta data",
       "description": "Description",
+      "edgeDevice": "Edge Device",
+      "edm": "Electric Discharge Monitor (EDM)",
+      "functionality": "Functionality:",
+      "functionalityEdge": "The edge device configures sensors and receives data from them. Local data processing for live applications and data reduction takes place. Long term analysis and calculations are done in Schaeffler cloud. Data and processed results can be provided to customer devices via cloud interfaces and to local computers via Ethercat Automation Protocol (EAP). Internet connectivity must be given for full functionality.",
+      "functionalityEdm": "The EDM has two antennas, which are inserted in a hole in the housing as close as possible to the rolling bearing. These antennas measure electrical discharges locally in the bearing. This information is transferred by cable to the evaluation unit, which generates an analogue signal that enables a long term analysis of discharge events. A rising number of discharges can, for example, be a sign for decreasing quality of the installed grounding system.",
+      "functionalityGrease": "The grease sensor has a diameter of 5 mm and is inserted in a hole in the housing as close as possible to the rolling bearing. The sensor is positioned in the lubricant. This grease sensor optically measures the water content, turbidity, thermal and mechanical wear and the grease temperature directly in the bearing arrangement. This information is transferred by cable to the evaluation unit, which generates an analogue signal that gives the user rapid and simple information on the condition of the grease.",
+      "functionalityLoad": "Continuous measurement of local stresses with steel pins, that are pressed in the core material of the bearing´s outer ring through additional drill holes. Schaeffler Sensotect Technology is applied on these steel pins with lasered measurement structures, to provide a non aging and precise measurment tool. Calculation of bearing load with software based on Schaeffler´s simulation tools BearinX on local edge device and in the cloud.",
+      "greaseStatus": "Grease Status",
+      "interfaces": "Interfaces:",
+      "interfacesEdge": "Sensors (CAN, digital, analogue 4-20mA), Schaeffler Cloud, customer data collecting device / control unit (EAP)",
       "name": "Name",
       "manufacturer": "Manufacturer",
-      "type": "Type",
+      "measurementPoints": "Measurement Points:",
+      "measurementPointsGrease": "Grease Temperature, Grease Water Content, Grease Deterioration",
+      "measurementPointsLoad": "Temperature, Bearing Load",
+      "measurementPointsEdm": "Number of electric discharges between components of the main bearing.",
+      "metaData": "Meta data",
+      "loadSensePin": "Load Sense Pin",
       "locationLatitude": "Location Latitude",
       "locationLongitude": "Location Longitude",
-      "windturbineImage": "Image of a wind turbine"
+      "type": "Type"
     },
     "edmMonitor": {
       "title": "EDM Monitor",

@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSliderModule } from '@angular/material/slider';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -22,6 +23,7 @@ describe('CenterLoadComponent', () => {
     detectChanges: false,
     imports: [
       MatCardModule,
+      MatIconModule,
       MatSliderModule,
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),

@@ -6,22 +6,162 @@
     <mat-card-header>
       <mat-card-title>{{ t('title') }} </mat-card-title>
     </mat-card-header>
-    <img
-      mat-card-image
-      src="/assets/images/turbine-bearing.jpg"
-      [alt]="t('windturbineImage')"
-    />
+
     <mat-card-content>
       <div
-        *ngFor="let bearingProperty of bearingProperties; trackBy: trackByFn"
-        class="bearingMetaData"
+        class="equipment-image"
+        fxLayout="row"
+        fxLayoutAlign="center"
+        [ngSwitch]="selectedTab"
       >
-        <label>{{ t(bearingProperty.name) }}: </label>
-        <span>
-          {{ (mainBearing && mainBearing[bearingProperty.property]) || 'n/a' }}
-          {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
-        </span>
+        <img *ngSwitchCase="0" src="/assets/images/Bearing.png" />
+        <img *ngSwitchCase="1" src="/assets/images/Grease.png" />
+        <img *ngSwitchCase="2" src="/assets/images/Load.png" />
+        <img *ngSwitchCase="3" src="/assets/images/EDM.png" />
+        <img *ngSwitchCase="4" src="/assets/images/EdgeDevice.png" />
       </div>
+
+      <mat-tab-group
+        animationDuration="0ms"
+        [selectedIndex]="selectedTab"
+        (selectedIndexChange)="handleSelectedTabChange($event)"
+      >
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon
+              fontSet="schaeffler-icons"
+              fontIcon="icon-bearing"
+            ></mat-icon>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="meta-info-header">{{ t('metaData') }}</div>
+            <div
+              class="meta-info-container"
+              *ngFor="
+                let bearingProperty of bearingProperties;
+                trackBy: trackByFn
+              "
+            >
+              <label class="meta-info-item"
+                >{{ t(bearingProperty.name) }}:
+              </label>
+              <span class="meta-info-item">
+                {{
+                  (mainBearing && mainBearing[bearingProperty.property]) ||
+                    'n/a'
+                }}
+                {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
+              </span>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>opacity</mat-icon>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="meta-info-header">{{ t('greaseStatus') }}</div>
+            <div class="meta-info-container">
+              <div class="meta-info-item meta-label">
+                {{ t('measurementPoints') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('measurementPointsGrease') }}
+              </div>
+              <div class="meta-info-item meta-label">
+                {{ t('functionality') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('functionalityGrease') }}
+              </div>
+              <div class="meta-info-item meta-label">{{ t('benefit') }}</div>
+              <div class="meta-info-item">
+                {{ t('benefitGrease') }}
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon
+              fontSet="schaeffler-icons"
+              fontIcon="icon-load"
+            ></mat-icon>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="meta-info-header">{{ t('loadSensePin') }}</div>
+            <div class="meta-info-container">
+              <div class="meta-info-item meta-label">
+                {{ t('measurementPoints') }}
+              </div>
+              <div class="meta-info-item">{{ t('measurementPointsLoad') }}</div>
+              <div class="meta-info-item meta-label">
+                {{ t('functionality') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('functionalityLoad') }}
+              </div>
+              <div class="meta-info-item meta-label">{{ t('benefit') }}</div>
+              <div class="meta-info-item">
+                {{ t('benefitLoad') }}
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon
+              fontSet="schaeffler-icons"
+              fontIcon="icon-vibration"
+            ></mat-icon>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="meta-info-header">{{ t('edm') }}</div>
+            <div class="meta-info-container">
+              <div class="meta-info-item meta-label">
+                {{ t('measurementPoints') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('measurementPointsEdm') }}
+              </div>
+              <div class="meta-info-item meta-label">
+                {{ t('functionality') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('functionalityEdm') }}
+              </div>
+              <div class="meta-info-item meta-label">{{ t('benefit') }}</div>
+              <div class="meta-info-item">
+                {{ t('benefitEdm') }}
+              </div>
+            </div>
+          </ng-template>
+        </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <mat-icon>router</mat-icon>
+          </ng-template>
+          <ng-template matTabContent>
+            <div class="meta-info-header">{{ t('edgeDevice') }}</div>
+            <div class="meta-info-container">
+              <div class="meta-info-item meta-label">{{ t('interfaces') }}</div>
+              <div class="meta-info-item">{{ t('interfacesEdge') }}</div>
+              <div class="meta-info-item meta-label">
+                {{ t('functionality') }}
+              </div>
+              <div class="meta-info-item">
+                {{ t('functionalityEdge') }}
+              </div>
+              <div class="meta-info-item meta-label">{{ t('benefit') }}</div>
+              <div class="meta-info-item">
+                {{ t('benefitEdge') }}
+              </div>
+            </div>
+          </ng-template></mat-tab
+        >
+      </mat-tab-group>
     </mat-card-content>
   </mat-card>
 </ng-container>

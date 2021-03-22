@@ -7,7 +7,13 @@
   >
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <mat-card-header>
-        <mat-card-title>{{ t('title') }}</mat-card-title>
+        <mat-card-title fxLayout="row" layout-align="center center"
+          ><mat-icon
+            fontSet="schaeffler-icons"
+            fontIcon="icon-vibration"
+          ></mat-icon
+          ><span>{{ t('title') }}</span></mat-card-title
+        >
         <mat-card-subtitle *transloco="let t; read: 'bearing'">
           {{ t('mainBearing') }}
         </mat-card-subtitle>

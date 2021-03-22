@@ -1,4 +1,5 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -24,6 +25,7 @@ describe('GreaseStatusComponent', () => {
       RouterTestingModule,
       SensorModule,
       MatCardModule,
+      MatIconModule,
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),

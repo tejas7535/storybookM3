@@ -1,4 +1,6 @@
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -34,6 +36,8 @@ describe('ConditionMonitoringComponent', () => {
       CenterLoadModule,
       ShaftModule,
       MatCardModule,
+      MatTabsModule,
+      MatIconModule,
     ],
     providers: [
       provideMockStore({

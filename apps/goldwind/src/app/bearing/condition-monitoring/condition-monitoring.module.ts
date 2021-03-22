@@ -2,6 +2,8 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTabsModule } from '@angular/material/tabs';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -46,6 +48,8 @@ import { ShaftModule } from './shaft/shaft.module';
     // UI Modules
     MatCardModule,
     MatButtonModule,
+    MatIconModule,
+    MatTabsModule,
 
     // Translation
     SharedTranslocoModule,
