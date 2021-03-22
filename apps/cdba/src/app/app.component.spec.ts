@@ -1,12 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
-import { getUser, startLoginFlow } from '@schaeffler/auth';
+import { startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
@@ -14,34 +13,39 @@ import { AppComponent } from './app.component';
 import { LoadingSpinnerModule } from './shared/loading-spinner/loading-spinner.module';
 
 describe('AppComponent', () => {
+  let spectator: Spectator<AppComponent>;
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        HeaderModule,
-        FooterModule,
-        MatButtonModule,
-        LoadingSpinnerModule,
-        RouterTestingModule,
-      ],
-      providers: [provideMockStore()],
-      declarations: [AppComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    imports: [
+      NoopAnimationsModule,
+      HeaderModule,
+      FooterModule,
+      MatButtonModule,
+      LoadingSpinnerModule,
+      RouterTestingModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          auth: {
+            user: {
+              username: 'John',
+              department: 'C-IT',
+            },
+          },
+        },
+      }),
+    ],
+    declarations: [AppComponent],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.debugElement.componentInstance;
-    store = TestBed.inject(MockStore);
-    store.overrideSelector(getUser, {
-      username: 'John',
-      department: 'C-IT',
-    });
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create the app', () => {
