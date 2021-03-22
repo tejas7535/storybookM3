@@ -19,6 +19,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  uploadOfferToSap,
+  uploadOfferToSapFailure,
+  uploadOfferToSapSuccess,
 } from './process-case.action';
 
 describe('CaseActions', () => {
@@ -172,6 +175,29 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Offer] Update QuotationDetails Failure',
+      });
+    });
+
+    test('uploadOfferToSap', () => {
+      action = uploadOfferToSap();
+
+      expect(action).toEqual({
+        type: '[Process Case] Upload offer to Sap',
+      });
+    });
+    test('uploadOfferToSapFailure', () => {
+      action = uploadOfferToSapFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Process Case] Upload offer to Sap Failure',
+      });
+    });
+    test('uploadOfferToSapSuccess', () => {
+      action = uploadOfferToSapSuccess();
+
+      expect(action).toEqual({
+        type: '[Process Case] Upload offer to Sap Success',
       });
     });
   });

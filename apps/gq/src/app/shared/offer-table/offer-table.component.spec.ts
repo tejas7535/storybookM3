@@ -7,6 +7,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
+import { Quotation } from '../../core/store/models';
 import { CustomStatusBarModule } from '../custom-status-bar/custom-status-bar.module';
 import { ExportToExcelButtonComponent } from '../custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { QuotationDetailsStatusComponent } from '../custom-status-bar/quotation-details-status/quotation-details-status.component';
@@ -63,6 +64,32 @@ describe('OfferTableComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('setQuotation', () => {
+    test('should set quotation', () => {
+      component.tableContext = {
+        currency: undefined,
+        gqId: undefined,
+      };
+      const quotation: Quotation = QUOTATION_MOCK;
+
+      component.quotation = quotation;
+      expect(component.rowData).toBeDefined();
+      expect(component.tableContext.currency).toBeDefined();
+      expect(component.tableContext.gqId).toBeDefined();
+    });
+    test('should not set quotation when undefined', () => {
+      component.tableContext = {
+        currency: undefined,
+        gqId: undefined,
+      };
+      const quotation: Quotation = undefined;
+
+      component.quotation = quotation;
+      expect(component.rowData).toBeUndefined();
+      expect(component.tableContext.currency).toBeUndefined();
+      expect(component.tableContext.gqId).toBeUndefined();
+    });
+  });
   describe('ngOnInit', () => {
     test('should add subscriptions', () => {
       component.subscription.add = jest.fn();

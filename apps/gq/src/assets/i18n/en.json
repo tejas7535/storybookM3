@@ -139,7 +139,8 @@
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedOffers": "Offer selection was saved",
-      "updateSelectedPrice": "Price selection was saved"
+      "updateSelectedPrice": "Price selection was saved",
+      "uploadOfferSuccess": "The offer selection was saved in SAP"
     }
   }
 }

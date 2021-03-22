@@ -19,10 +19,11 @@ import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
-import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
-import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
+import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
   addMaterials,
   addMaterialsFailure,
@@ -44,6 +45,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  uploadOfferToSap,
+  uploadOfferToSapFailure,
+  uploadOfferToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -60,6 +64,7 @@ import * as fromRouter from '../../reducers';
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
+  getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
 } from '../../selectors';
@@ -79,7 +84,7 @@ export class ProcessCaseEffect {
       withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
-        this.customerDetailsService.getCustomer(quotationIdentifier).pipe(
+        this.searchService.getCustomer(quotationIdentifier).pipe(
           map((item: Customer) =>
             loadCustomerSuccess({
               item,
@@ -103,21 +108,19 @@ export class ProcessCaseEffect {
       withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
-        this.quotationDetailsService
-          .getQuotation(quotationIdentifier.gqId)
-          .pipe(
-            tap((item) =>
-              PriceService.addCalculationsForDetails(item.quotationDetails)
-            ),
-            map((item: Quotation) =>
-              loadQuotationSuccess({
-                item,
-              })
-            ),
-            catchError((errorMessage) =>
-              of(loadQuotationFailure({ errorMessage }))
-            )
+        this.quotationService.getQuotation(quotationIdentifier.gqId).pipe(
+          tap((item) =>
+            PriceService.addCalculationsForDetails(item.quotationDetails)
+          ),
+          map((item: Quotation) =>
+            loadQuotationSuccess({
+              item,
+            })
+          ),
+          catchError((errorMessage) =>
+            of(loadQuotationFailure({ errorMessage }))
           )
+        )
       )
     )
   );
@@ -214,7 +217,7 @@ export class ProcessCaseEffect {
       withLatestFrom(this.store.pipe(select(getAddMaterialRowData))),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
-        this.validationService.validate(tableData).pipe(
+        this.materialService.validateMaterials(tableData).pipe(
           map((materialValidations: MaterialValidation[]) =>
             validateAddMaterialsSuccess({ materialValidations })
           ),
@@ -310,13 +313,37 @@ export class ProcessCaseEffect {
     )
   );
 
+  uploadToSap$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(uploadOfferToSap.type),
+      withLatestFrom(this.store.pipe(select(getGqId))),
+      map(([_action, gqId]) => gqId),
+
+      mergeMap((gqId: number) =>
+        this.quotationService.uploadOfferToSap(gqId).pipe(
+          tap(() => {
+            const successMessage = translate(
+              'shared.snackBarMessages.uploadOfferSuccess'
+            );
+            this.snackBarService.showSuccessMessage(successMessage);
+          }),
+          map(uploadOfferToSapSuccess),
+          catchError((errorMessage) =>
+            of(uploadOfferToSapFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
-    private readonly customerDetailsService: CustomerDetailsService,
+    private readonly searchService: SearchService,
     private readonly quotationDetailsService: QuotationDetailsService,
+    private readonly quotationService: QuotationService,
     private readonly store: Store<fromRouter.AppState>,
     private readonly router: Router,
-    private readonly validationService: ValidationService,
+    private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService
   ) {}
 

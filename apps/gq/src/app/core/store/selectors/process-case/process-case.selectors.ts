@@ -153,3 +153,8 @@ export const getQuotationErrorMessage = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState) => state.quotation.errorMessage
 );
+
+export const getGqId = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState) => state.quotationIdentifier?.gqId
+);

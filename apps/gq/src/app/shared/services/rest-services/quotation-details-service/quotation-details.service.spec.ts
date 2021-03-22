@@ -2,44 +2,51 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+
+import {
+  createServiceFactory,
+  HttpMethod,
+  SpectatorService,
+} from '@ngneat/spectator';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import { CUSTOMER_MOCK, QUOTATION_DETAIL_MOCK } from '../../../testing/mocks';
+import {
+  CUSTOMER_MOCK,
+  QUOTATION_DETAIL_MOCK,
+} from '../../../../../testing/mocks';
 import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
-} from '../../core/store/models';
+} from '../../../../core/store/models';
 import { QuotationDetailsService } from './quotation-details.service';
 
 describe('QuotationDetailsService', (): void => {
   let service: QuotationDetailsService;
+  let spectator: SpectatorService<QuotationDetailsService>;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        QuotationDetailsService,
-        DataService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: QuotationDetailsService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      QuotationDetailsService,
+      DataService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(QuotationDetailsService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.service;
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -48,23 +55,6 @@ describe('QuotationDetailsService', (): void => {
 
   test('should be created', (): void => {
     expect(service).toBeTruthy();
-  });
-
-  describe('quotationDetails', () => {
-    test('should call ', () => {
-      const gqId = 123456;
-
-      const mock = {
-        quotationDetails: [CUSTOMER_MOCK],
-      };
-      service.getQuotation(gqId).subscribe((response) => {
-        expect(response).toEqual(mock.quotationDetails);
-      });
-
-      const req = httpMock.expectOne('/quotations/123456');
-      expect(req.request.method).toBe('GET');
-      req.flush(mock);
-    });
   });
 
   describe('addMaterial', () => {
@@ -86,8 +76,8 @@ describe('QuotationDetailsService', (): void => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
-      const req = httpMock.expectOne('/quotation-details');
-      expect(req.request.method).toBe('POST');
+      const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
+      expect(req.request.method).toBe(HttpMethod.POST);
       req.flush(mock);
     });
   });
@@ -102,8 +92,8 @@ describe('QuotationDetailsService', (): void => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
-      const req = httpMock.expectOne('/quotation-details');
-      expect(req.request.method).toBe('DELETE');
+      const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
+      expect(req.request.method).toBe(HttpMethod.DELETE);
       req.flush(mock);
     });
   });
@@ -120,8 +110,8 @@ describe('QuotationDetailsService', (): void => {
       service.updateMaterial(quotationDetails).subscribe((response) => {
         expect(response).toEqual([]);
       });
-      const req = httpMock.expectOne('/quotation-details');
-      expect(req.request.method).toBe('PUT');
+      const req = httpMock.expectOne(`/${service['PATH_QUOTATION_DETAILS']}`);
+      expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(quotationDetails);
     });
   });

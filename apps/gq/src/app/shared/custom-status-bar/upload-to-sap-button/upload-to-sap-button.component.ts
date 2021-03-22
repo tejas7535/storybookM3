@@ -1,14 +1,24 @@
 import { Component } from '@angular/core';
 
+import { Store } from '@ngrx/store';
+
+import { environment } from '../../../../environments/environment';
+import { uploadOfferToSap } from '../../../core/store';
+import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
+
 @Component({
-  selector: 'gq-finish-offer',
+  selector: 'gq-upload-offer',
   templateUrl: './upload-to-sap-button.component.html',
   styleUrls: ['./upload-to-sap-button.component.scss'],
 })
 export class UploadToSapButtonComponent {
+  isDisabled: boolean = environment.production;
+
   agInit(): void {}
 
+  constructor(private readonly store: Store<ProcessCaseState>) {}
+
   uploadToSAP(): void {
-    alert('upload to SAP not yet Implemented');
+    this.store.dispatch(uploadOfferToSap());
   }
 }

@@ -9,6 +9,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferTableModule } from '../shared/offer-table/offer-table.module';
 import { OfferViewRoutingModule } from './offer-view-routing.module';
 import { OfferViewComponent } from './offer-view.component';
@@ -33,6 +34,7 @@ describe('OfferViewComponent', () => {
       ReactiveComponentModule,
       RouterTestingModule,
       SharedModule,
+      LoadingSpinnerModule,
     ],
     providers: [
       provideMockStore({

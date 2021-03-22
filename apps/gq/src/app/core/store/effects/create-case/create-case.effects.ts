@@ -18,11 +18,10 @@ import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
-import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
-import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
-import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
+import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
+import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
 import {
   autocomplete,
   autocompleteFailure,
@@ -69,7 +68,7 @@ export class CreateCaseEffects {
     this.actions$.pipe(
       ofType(autocomplete.type),
       mergeMap((action: any) =>
-        this.autocompleteService.autocomplete(action.autocompleteSearch).pipe(
+        this.searchService.autocomplete(action.autocompleteSearch).pipe(
           map((options) =>
             autocompleteSuccess({
               options,
@@ -90,7 +89,7 @@ export class CreateCaseEffects {
       withLatestFrom(this.store.pipe(select(getCaseRowData))),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
-        this.validationService.validate(tableData).pipe(
+        this.materialService.validateMaterials(tableData).pipe(
           map((materialValidations: MaterialValidation[]) =>
             validateSuccess({ materialValidations })
           ),
@@ -109,7 +108,7 @@ export class CreateCaseEffects {
       withLatestFrom(this.store.pipe(select(getCreateCaseData))),
       map(([_action, createCaseData]) => createCaseData),
       mergeMap((createCaseData: CreateCase) =>
-        this.createCaseService.createCase(createCaseData).pipe(
+        this.quotationService.createCase(createCaseData).pipe(
           tap((createdCase: CreateCaseResponse) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
@@ -141,7 +140,7 @@ export class CreateCaseEffects {
       withLatestFrom(this.store.pipe(select(getSelectedQuotation))),
       map(([_action, idValue]) => idValue),
       mergeMap((importedCase: IdValue) =>
-        this.createCaseService.importCase(importedCase.id).pipe(
+        this.quotationService.importCase(importedCase.id).pipe(
           tap((quotation: Quotation) => {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
@@ -172,7 +171,7 @@ export class CreateCaseEffects {
       ofType(selectAutocompleteOption.type),
       filter((action: any) => action.filter === FilterNames.CUSTOMER),
       mergeMap((action: any) =>
-        this.salesOrgsService.getSalesOrgs(action.option.id).pipe(
+        this.searchService.getSalesOrgs(action.option.id).pipe(
           map((salesOrgs: SalesOrg[]) => getSalesOrgsSuccess({ salesOrgs })),
           catchError((errorMessage) =>
             of(getSalesOrgsFailure({ errorMessage }))
@@ -184,12 +183,11 @@ export class CreateCaseEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly autocompleteService: AutocompleteService,
-    private readonly salesOrgsService: SalesOrgsService,
-    private readonly createCaseService: CreateCaseService,
+    private readonly searchService: SearchService,
+    private readonly quotationService: QuotationService,
     private readonly router: Router,
     private readonly store: Store<CaseState>,
-    private readonly validationService: ValidationService,
+    private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService
   ) {}
 }
