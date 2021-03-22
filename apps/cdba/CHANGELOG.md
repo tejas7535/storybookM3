@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.17.0](///compare/cdba-v1.17.0...cdba-v1.16.0) (2021-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** fix font issue within tabs ([4e43ebc](///commit/4e43ebc78fbc8b8fb930282c639e662e2dded83d))
+* **cdba:** fix tooltip behaviour of the chart ([7aada45](///commit/7aada45a1755a999b3ad66aca8a74cf23f63071d))
+* **cdba:** resolve column visibility issue (DSCDA-2164) ([4f1ce33](///commit/4f1ce3349b4665a3a671e5467c8b03728f6988b7))
+* **mm:** fix empty state styles ([de912f6](///commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+
+
+### 🎸 Features
+
+* **auth:** add selector for users department ([8a8f925](///commit/8a8f9255037df07977d03be0b4eded21e5d50402))
+* **cdba:** add translations for key account ([039590c](///commit/039590c16872cf6851914fcbbe3d8513e9d0e6fb))
+* **cdba:** add user department to ai telemetry data (DSCDA-2216) ([e4a7d42](///commit/e4a7d42c76bc17841dcdf473d786d84ddffaa911))
+* **cdba:** added routing for compare page (DSCDA-2230) ([80cee0f](///commit/80cee0f4af109bc0ba8103f9266250467f82791a))
+* **cdba:** show average price in pricing detail widget (DSCDA-2218) ([0441bbb](///commit/0441bbb4a9ad790062b5c88d223e25927aaa2b53))
+
 ## [1.16.0](///compare/cdba-v1.16.0...cdba-v1.15.3) (2021-02-16)
 
 
