@@ -1,10 +1,11 @@
+import { AccountInfo } from '@azure/msal-common';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { loginSuccess } from '@schaeffler/auth';
+import { loginSuccess } from '@schaeffler/azure-auth';
 
 import { IdValue } from '../../../../shared/models';
 import { EmployeeService } from '../../../../shared/services/employee.service';
@@ -100,7 +101,7 @@ describe('Filter Effects', () => {
 
   describe('loginSuccessful$', () => {
     test('should return loadInitialFilters for the first login success event', () => {
-      action = loginSuccess({ user: {} });
+      action = loginSuccess({ accountInfo: ({} as unknown) as AccountInfo });
       actions$ = hot('-a', { a: action });
       const result = loadInitialFilters();
 

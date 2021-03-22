@@ -5,7 +5,7 @@ import { catchError, map, mergeMap, take } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
-import { loginSuccess } from '@schaeffler/auth';
+import { loginSuccess } from '@schaeffler/azure-auth';
 
 import { InitialFiltersResponse } from '../../../../shared/models';
 import { EmployeeService } from '../../../../shared/services/employee.service';
