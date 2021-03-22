@@ -39,13 +39,15 @@
     },
     "productionCostDetails": {
       "label": "Production and Cost",
-      "dummy": "This data will be available by the next update expected in January",
-      "available_data": "Including: Production plant, segment, costs and contexts"
+      "gpc": "GPC",
+      "sqv": "SQV",
+      "productionPlant": "Production Plant"
     },
-    "scmDetails": {
+    "supplyChainDetails": {
       "label": "Supply Chain Data",
-      "dummy": "This data will be available by the next update expected in January",
-      "available_data": "Including: Replenishment lead time and context"
+      "supplyPlant": "Supply Plant",
+      "productionPlant": "Production Plant",
+      "productionPlantRlt": "Production Plant RLT"
     }
   }
 }

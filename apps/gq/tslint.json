@@ -3,7 +3,8 @@
   "rules": {
     "directive-selector": [true, "attribute", "gq", "camelCase"],
     "component-selector": [true, "element", "gq", "kebab-case"],
-    "template-cyclomatic-complexity": [true, 15]
+    "template-cyclomatic-complexity": [true, 15],
+    "no-default-import": false
   },
   "linterOptions": {
     "exclude": ["!**/*"]

@@ -1,0 +1,22 @@
+<div
+  *transloco="let t; read: 'detailView.pricingDetails.productionCostDetails'"
+>
+  <div *ngrxLet="customerCurrency$ as currency">
+    <div *ngIf="quotationDetail">
+      <p>
+        <span class="label">{{ t('gpc') }}: </span>{{ quotationDetail.sqv }}
+        {{ currency }}
+      </p>
+      <p>
+        <span class="label">{{ t('sqv') }}: </span>{{ quotationDetail.gpc }}
+        {{ currency }}
+      </p>
+      <p>
+        <span class="label">{{ t('productionPlant') }}: </span
+        >{{ quotationDetail.productionPlant.plantNumber }} |
+        {{ quotationDetail.productionPlant.city }},
+        {{ quotationDetail.productionPlant.country }}
+      </p>
+    </div>
+  </div>
+</div>
