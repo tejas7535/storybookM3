@@ -128,6 +128,19 @@ export const loadQuotationFromUrl = createAction(
   props<{ queryParams: any }>()
 );
 
+export const uploadOfferToSap = createAction(
+  '[Process Case] Upload offer to Sap'
+);
+
+export const uploadOfferToSapFailure = createAction(
+  '[Process Case] Upload offer to Sap Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const uploadOfferToSapSuccess = createAction(
+  '[Process Case] Upload offer to Sap Success'
+);
+
 const all = union({
   addMaterials,
   deleteAddMaterialRowDataItem,
@@ -149,6 +162,9 @@ const all = union({
   setSelectedQuotationDetail,
   loadSelectedQuotationDetailFromUrl,
   loadQuotationFromUrl,
+  uploadOfferToSap,
+  uploadOfferToSapSuccess,
+  uploadOfferToSapFailure,
 });
 
 export type CaseActions = typeof all;

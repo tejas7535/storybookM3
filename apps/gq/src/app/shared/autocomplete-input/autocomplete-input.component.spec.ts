@@ -212,6 +212,16 @@ describe('AutocompleteInputComponent', () => {
       expect(component.sliceMaterialString).toHaveBeenCalledWith(string);
     });
   });
+
+  describe('formatMaterialNumber', () => {
+    test('should return formated material', () => {
+      const materialNumberInput = '001682873000002';
+      const expectedResult = '001682873-0000-02';
+      const result = component.formatMaterialNumber(materialNumberInput);
+
+      expect(result).toEqual(expectedResult);
+    });
+  });
   describe('set isDisabled', () => {
     test('should set test options', () => {
       component.isDisabled = true;

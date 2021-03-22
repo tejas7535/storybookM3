@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
@@ -10,6 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 import { configureTestSuite } from 'ng-bullet';
 
+import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import {
@@ -19,9 +21,10 @@ import {
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { CustomerDetailsService } from '../../../../process-case-view/service/customer-details.service';
-import { QuotationDetailsService } from '../../../../process-case-view/service/quotation-details.service';
-import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
+import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
   addMaterials,
   addMaterialsFailure,
@@ -46,6 +49,10 @@ import {
   loadSelectedQuotationDetailFromUrl,
   setSelectedQuotationDetail,
   updateQuotationDetails,
+  updateQuotationDetailsFailure,
+  uploadOfferToSap,
+  uploadOfferToSapFailure,
+  uploadOfferToSapSuccess,
 } from '../../actions/process-case/process-case.action';
 import {
   MaterialTableItem,
@@ -57,6 +64,7 @@ import {
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
+  getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
 } from '../../selectors';
@@ -70,9 +78,10 @@ describe('ProcessCaseEffect', () => {
   let action: any;
   let actions$: any;
   let effects: ProcessCaseEffect;
-  let customerDetailsService: CustomerDetailsService;
+  let searchService: SearchService;
   let quotationDetailsService: QuotationDetailsService;
-  let validationService: ValidationService;
+  let quotationService: QuotationService;
+  let materialService: MaterialService;
   let snackBarService: SnackBarService;
 
   let store: any;
@@ -82,13 +91,18 @@ describe('ProcessCaseEffect', () => {
 
   configureTestSuite(() => {
     TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, SnackBarModule, RouterTestingModule],
+      imports: [
+        BrowserAnimationsModule,
+        SnackBarModule,
+        RouterTestingModule,
+        HttpClientTestingModule,
+      ],
       providers: [
         ProcessCaseEffect,
         provideMockActions(() => actions$),
         provideMockStore(),
         {
-          provide: CustomerDetailsService,
+          provide: SearchService,
           useValue: {
             getCustomer: jest.fn(),
           },
@@ -102,9 +116,23 @@ describe('ProcessCaseEffect', () => {
           },
         },
         {
-          provide: ValidationService,
+          provide: QuotationService,
           useValue: {
-            validate: jest.fn(),
+            uploadOfferToSap: jest.fn(),
+          },
+        },
+        {
+          provide: MaterialService,
+          useValue: {
+            validateMaterials: jest.fn(),
+          },
+        },
+        {
+          provide: ENV_CONFIG,
+          useValue: {
+            environment: {
+              baseUrl: '',
+            },
           },
         },
       ],
@@ -114,9 +142,10 @@ describe('ProcessCaseEffect', () => {
   beforeEach(() => {
     actions$ = TestBed.inject(Actions);
     effects = TestBed.inject(ProcessCaseEffect);
-    customerDetailsService = TestBed.inject(CustomerDetailsService);
+    searchService = TestBed.inject(SearchService);
     quotationDetailsService = TestBed.inject(QuotationDetailsService);
-    validationService = TestBed.inject(ValidationService);
+    quotationService = TestBed.inject(QuotationService);
+    materialService = TestBed.inject(MaterialService);
     store = TestBed.inject(MockStore);
     router = TestBed.inject(Router);
     snackBarService = TestBed.inject(SnackBarService);
@@ -133,7 +162,7 @@ describe('ProcessCaseEffect', () => {
     });
 
     test('should return customerDetailsSuccess action when REST call is successful', () => {
-      customerDetailsService.getCustomer = jest.fn(() => response);
+      searchService.getCustomer = jest.fn(() => response);
       const item = CUSTOMER_MOCK;
       const result = loadCustomerSuccess({ item });
 
@@ -145,8 +174,8 @@ describe('ProcessCaseEffect', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.customerDetails$).toBeObservable(expected);
-      expect(customerDetailsService.getCustomer).toHaveBeenCalledTimes(1);
-      expect(customerDetailsService.getCustomer).toHaveBeenCalledWith(
+      expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
+      expect(searchService.getCustomer).toHaveBeenCalledWith(
         QUOTATION_IDENTIFIER_MOCK
       );
     });
@@ -159,10 +188,10 @@ describe('ProcessCaseEffect', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      customerDetailsService.getCustomer = jest.fn(() => response);
+      searchService.getCustomer = jest.fn(() => response);
 
       expect(effects.customerDetails$).toBeObservable(expected);
-      expect(customerDetailsService.getCustomer).toHaveBeenCalledTimes(1);
+      expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -186,7 +215,7 @@ describe('ProcessCaseEffect', () => {
     });
 
     test('should return quotationDetailsSuccess action when REST call is successful', () => {
-      quotationDetailsService.getQuotation = jest.fn(() => response);
+      quotationService.getQuotation = jest.fn(() => response);
       const item = QUOTATION_MOCK;
       const result = loadQuotationSuccess({ item });
 
@@ -198,8 +227,8 @@ describe('ProcessCaseEffect', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.quotationDetails$).toBeObservable(expected);
-      expect(quotationDetailsService.getQuotation).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.getQuotation).toHaveBeenCalledWith(gqId);
+      expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+      expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
     });
 
     test('should return quotationDetailsFailure on REST error', () => {
@@ -210,10 +239,10 @@ describe('ProcessCaseEffect', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      quotationDetailsService.getQuotation = jest.fn(() => response);
+      quotationService.getQuotation = jest.fn(() => response);
 
       expect(effects.quotationDetails$).toBeObservable(expected);
-      expect(quotationDetailsService.getQuotation).toHaveBeenCalledTimes(1);
+      expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -262,6 +291,33 @@ describe('ProcessCaseEffect', () => {
 
       expect(effects.loadFromUrl$).toBeObservable(expected);
     });
+    test('should return loadQuotationFromUrl', () => {
+      const queryParams = {
+        gqId: 12334,
+        customerNumber: '3456',
+        salesOrg: '0267',
+        gqPositionId: '5678',
+      };
+
+      action = {
+        type: ROUTER_NAVIGATED,
+        payload: {
+          routerState: {
+            queryParams,
+            url: `/${AppRoutePath.OfferViewPath}`,
+          },
+        },
+      };
+
+      actions$ = hot('-a', { a: action });
+
+      const result = loadQuotationFromUrl({
+        queryParams,
+      });
+      const expected = cold('-b', { b: result });
+
+      expect(effects.loadFromUrl$).toBeObservable(expected);
+    });
     test('should return loadQuotationFromUrl and loadSelectedQuotationDetailFromUrl', () => {
       const queryParams = {
         gqId: 12334,
@@ -294,7 +350,6 @@ describe('ProcessCaseEffect', () => {
       expect(effects.loadFromUrl$).toBeObservable(expected);
     });
   });
-
   describe('loadSelectedQuotationDetailFromUrl$', () => {
     test('should return setSelectedQuotationDetail', () => {
       action = loadSelectedQuotationDetailFromUrl({ gqPositionId: '1234' });
@@ -389,7 +444,7 @@ describe('ProcessCaseEffect', () => {
         pasteDestination: {},
       });
 
-      validationService.validate = jest.fn(() => response);
+      materialService.validateMaterials = jest.fn(() => response);
       const materialValidations: MaterialValidation[] = [];
       const result = validateAddMaterialsSuccess({ materialValidations });
 
@@ -399,8 +454,8 @@ describe('ProcessCaseEffect', () => {
       });
       const expected = cold('--b', { b: result });
       expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validate).toHaveBeenCalledTimes(1);
-      expect(validationService.validate).toHaveBeenCalledWith(tableData);
+      expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
+      expect(materialService.validateMaterials).toHaveBeenCalledWith(tableData);
     });
     test('should return validateFailure on REST error', () => {
       const result = validateAddMaterialsFailure({ errorMessage });
@@ -409,10 +464,10 @@ describe('ProcessCaseEffect', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      validationService.validate = jest.fn(() => response);
+      materialService.validateMaterials = jest.fn(() => response);
 
       expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validate).toHaveBeenCalledTimes(1);
+      expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -512,15 +567,16 @@ describe('ProcessCaseEffect', () => {
   });
 
   describe('updateMaterials$', () => {
+    const quotationDetailIDs: UpdateQuotationDetail[] = [
+      {
+        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+        addedToOffer: true,
+      },
+    ];
+
     test('should return removeMaterialsSuccess when REST call is successful', () => {
-      snackBarService.showSuccessMessage = jest.fn();
-      const quotationDetailIDs: UpdateQuotationDetail[] = [
-        {
-          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          addedToOffer: true,
-        },
-      ];
       action = updateQuotationDetails({ quotationDetailIDs });
+      snackBarService.showSuccessMessage = jest.fn();
 
       quotationDetailsService.updateMaterial = jest.fn(() => response);
       const result = updateQuotationDetailsSuccess({ quotationDetailIDs });
@@ -536,8 +592,78 @@ describe('ProcessCaseEffect', () => {
       );
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
+    test('should return removeMaterialsSuccess when REST call is successful', () => {
+      action = updateQuotationDetails({ quotationDetailIDs });
+      snackBarService.showSuccessMessage = jest.fn();
+
+      quotationDetailsService.updateMaterial = jest.fn(() => response);
+      quotationDetailIDs[0].price = 10;
+      const result = updateQuotationDetailsSuccess({ quotationDetailIDs });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|');
+      const expected = cold('--b', { b: result });
+
+      expect(effects.updateMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+        quotationDetailIDs
+      );
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return updateQuotationDetailsFailure on REST error', () => {
+      quotationDetailsService.updateMaterial = jest.fn(() => response);
+
+      const result = updateQuotationDetailsFailure({ errorMessage });
+
+      action = updateQuotationDetails({ quotationDetailIDs });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      expect(effects.updateMaterials$).toBeObservable(expected);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+        quotationDetailIDs
+      );
+    });
   });
 
+  describe('uploadToSap$', () => {
+    const gqId = 123;
+    beforeEach(() => {
+      store.overrideSelector(getGqId, gqId);
+    });
+
+    test('should return uploadOfferToSapSuccess when REST call is successful', () => {
+      snackBarService.showSuccessMessage = jest.fn();
+
+      action = uploadOfferToSap();
+      const result = uploadOfferToSapSuccess();
+      quotationService.uploadOfferToSap = jest.fn(() => response);
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|');
+      const expected = cold('--b', { b: result });
+
+      expect(effects.uploadToSap$).toBeObservable(expected);
+      expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+    });
+    test('should return uploadOfferToSapSuccess on REST error', () => {
+      quotationService.uploadOfferToSap = jest.fn(() => response);
+      const result = uploadOfferToSapFailure({ errorMessage });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      expect(effects.uploadToSap$).toBeObservable(expected);
+      expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('mapQueryParamsToIdentifier', () => {
     let queryParams;
 
@@ -598,6 +724,17 @@ describe('ProcessCaseEffect', () => {
       );
 
       expect(result).toBeFalsy();
+    });
+    test('should return true, if all values are the same', () => {
+      fromRoute = QUOTATION_IDENTIFIER_MOCK;
+      current = fromRoute;
+
+      result = ProcessCaseEffect['checkEqualityOfIdentifier'](
+        fromRoute,
+        current
+      );
+
+      expect(result).toBeTruthy();
     });
   });
   // tslint:disable-next-line: max-file-line-count

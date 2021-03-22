@@ -24,6 +24,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  uploadOfferToSap,
+  uploadOfferToSapFailure,
+  uploadOfferToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -338,7 +341,29 @@ export const processCaseReducer = createReducer(
         selectedQuotationDetail: gqPositionId,
       },
     })
-  )
+  ),
+  on(uploadOfferToSap, (state: ProcessCaseState) => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      updateLoading: true,
+    },
+  })),
+  on(uploadOfferToSapFailure, (state: ProcessCaseState, { errorMessage }) => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      errorMessage,
+      updateLoading: false,
+    },
+  })),
+  on(uploadOfferToSapSuccess, (state: ProcessCaseState) => ({
+    ...state,
+    quotation: {
+      ...state.quotation,
+      updateLoading: false,
+    },
+  }))
 );
 
 export const updateQuotationDetailsArray = (
@@ -381,3 +406,4 @@ export function reducer(
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
+// tslint:disable-next-line: max-file-line-count

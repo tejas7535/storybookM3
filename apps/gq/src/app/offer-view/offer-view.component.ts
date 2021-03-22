@@ -6,7 +6,11 @@ import { select, Store } from '@ngrx/store';
 
 import { Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
-import { getOffer, getQuotation } from '../core/store/selectors';
+import {
+  getOffer,
+  getQuotation,
+  getUpdateLoading,
+} from '../core/store/selectors';
 
 @Component({
   selector: 'gq-offer-view',
@@ -16,11 +20,12 @@ import { getOffer, getQuotation } from '../core/store/selectors';
 export class OfferViewComponent implements OnInit {
   public offer$: Observable<Quotation>;
   public quotation$: Observable<Quotation>;
-
+  public updateIsLoading$: Observable<boolean>;
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
   public ngOnInit(): void {
     this.offer$ = this.store.pipe(select(getOffer));
     this.quotation$ = this.store.pipe(select(getQuotation));
+    this.updateIsLoading$ = this.store.pipe(select(getUpdateLoading));
   }
 }

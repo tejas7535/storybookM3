@@ -7,24 +7,24 @@ import { DataService } from '@schaeffler/http';
 import {
   MaterialTableItem,
   MaterialValidation,
-} from '../../../core/store/models';
+} from '../../../../core/store/models';
 
 @Injectable({
   providedIn: 'root',
 })
 /**
- *  Validation Service
+ *  Material Service
  */
-export class ValidationService {
-  private readonly path = 'materials/validation';
+export class MaterialService {
+  private readonly PATH_VALIDATION = 'materials/validation';
 
   constructor(private readonly dataService: DataService) {}
 
-  public validate(
+  public validateMaterials(
     tableData: MaterialTableItem[]
   ): Observable<MaterialValidation[]> {
     const body = tableData.map((el) => el.materialNumber);
 
-    return this.dataService.post(this.path, body);
+    return this.dataService.post(this.PATH_VALIDATION, body);
   }
 }

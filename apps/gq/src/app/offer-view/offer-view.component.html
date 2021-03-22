@@ -12,5 +12,12 @@
     [quotation]="quotation"
     offerScreen="true"
   ></gq-case-header>
-  <gq-offer-table [quotation]="offer$ | ngrxPush"></gq-offer-table>
+  <gq-offer-table
+    *ngIf="(updateIsLoading$ | ngrxPush) === false; else loading"
+    [quotation]="offer$ | ngrxPush"
+  ></gq-offer-table>
+
+  <ng-template #loading>
+    <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  </ng-template>
 </div>

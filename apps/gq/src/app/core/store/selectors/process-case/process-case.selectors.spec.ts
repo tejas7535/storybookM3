@@ -27,6 +27,11 @@ describe('Process Case Selector', () => {
         addMaterialRowData: [dummyRowData],
         validationLoading: false,
       },
+      quotationIdentifier: {
+        gqId: 123,
+        customerNumber: '12345',
+        salesOrg: '0267',
+      },
     },
   };
 
@@ -110,7 +115,15 @@ describe('Process Case Selector', () => {
       );
     });
   });
-
+  describe('getAddMaterialRowData  ', () => {
+    test('should return add addMaterial row data', () => {
+      expect(
+        quotationSelectors.getAddMaterialRowData.projector(
+          fakeState.processCase
+        )
+      ).toEqual(fakeState.processCase.addMaterials.addMaterialRowData);
+    });
+  });
   describe(' getAddQuotationDetailsRequest', () => {
     test('should return a AddQuotationDetailsRequest', () => {
       expect(
@@ -118,7 +131,7 @@ describe('Process Case Selector', () => {
           fakeState.processCase
         )
       ).toEqual({
-        gqId: undefined,
+        gqId: fakeState.processCase.quotationIdentifier.gqId,
         items: [{ materialId: '0167187...', quantity: 123 }],
       });
     });
@@ -235,6 +248,13 @@ describe('Process Case Selector', () => {
     });
   });
 
+  describe('getCustomerCurrency', () => {
+    test('should return customer currency', () => {
+      expect(
+        quotationSelectors.getCustomerCurrency.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.customer.item.currency);
+    });
+  });
   describe('getUpdateLoading', () => {
     test('should return updateLoading', () => {
       expect(
@@ -250,6 +270,13 @@ describe('Process Case Selector', () => {
           fakeState.processCase
         )
       ).toEqual(fakeState.processCase.quotation.errorMessage);
+    });
+  });
+  describe('getGqId ', () => {
+    test('should return gqId', () => {
+      expect(
+        quotationSelectors.getGqId.projector(fakeState.processCase)
+      ).toEqual(fakeState.processCase.quotationIdentifier.gqId);
     });
   });
 });

@@ -139,7 +139,8 @@
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
       "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
-      "updateSelectedPrice": "Der Preis wurde gespeichert"
+      "updateSelectedPrice": "Der Preis wurde gespeichert",
+      "uploadOfferSuccess": "Die Angebotsauwahl wurde in SAP gespeichert"
     }
   }
 }

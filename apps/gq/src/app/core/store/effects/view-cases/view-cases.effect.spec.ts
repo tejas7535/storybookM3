@@ -10,8 +10,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
-import { DeleteCaseService } from '../../../../case-view/services/delete-case.service';
-import { ViewCasesService } from '../../../../case-view/services/view-cases.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -31,8 +30,7 @@ describe('View Cases Effects', () => {
   let action: any;
   let actions$: any;
   let effects: ViewCasesEffect;
-  let viewCasesService: ViewCasesService;
-  let deleteCasesService: DeleteCaseService;
+  let quotationService: QuotationService;
   let snackBarService: SnackBarService;
 
   const createService = createServiceFactory({
@@ -45,14 +43,9 @@ describe('View Cases Effects', () => {
     providers: [
       provideMockActions(() => actions$),
       {
-        provide: ViewCasesService,
+        provide: QuotationService,
         useValue: {
           getCases: jest.fn(),
-        },
-      },
-      {
-        provide: DeleteCaseService,
-        useValue: {
           deleteCase: jest.fn(),
         },
       },
@@ -70,8 +63,7 @@ describe('View Cases Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(ViewCasesEffect);
-    viewCasesService = spectator.inject(ViewCasesService);
-    deleteCasesService = spectator.inject(DeleteCaseService);
+    quotationService = spectator.inject(QuotationService);
     snackBarService = spectator.inject(SnackBarService);
   });
 
@@ -102,7 +94,7 @@ describe('View Cases Effects', () => {
     });
 
     test('should return loadCases Success', () => {
-      viewCasesService.getCases = jest.fn(() => response);
+      quotationService.getCases = jest.fn(() => response);
       const quotations: any = [];
 
       const result = loadCasesSuccess({ quotations });
@@ -114,7 +106,7 @@ describe('View Cases Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadCases$).toBeObservable(expected);
-      expect(viewCasesService.getCases).toHaveBeenCalledTimes(1);
+      expect(quotationService.getCases).toHaveBeenCalledTimes(1);
     });
 
     test('should return loadCasesFailure', () => {
@@ -126,10 +118,10 @@ describe('View Cases Effects', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      viewCasesService.getCases = jest.fn(() => response);
+      quotationService.getCases = jest.fn(() => response);
 
       expect(effects.loadCases$).toBeObservable(expected);
-      expect(viewCasesService.getCases).toHaveBeenCalledTimes(1);
+      expect(quotationService.getCases).toHaveBeenCalledTimes(1);
     });
   });
   describe('deleteCase$', () => {
@@ -139,7 +131,7 @@ describe('View Cases Effects', () => {
     });
     test('should return deleteCaseSuccess', () => {
       snackBarService.showSuccessMessage = jest.fn();
-      deleteCasesService.deleteCase = jest.fn(() => response);
+      quotationService.deleteCases = jest.fn(() => response);
 
       const result = deleteCasesSuccess();
       actions$ = hot('-a', { a: action });
@@ -148,7 +140,7 @@ describe('View Cases Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.deleteCase$).toBeObservable(expected);
-      expect(deleteCasesService.deleteCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
 
@@ -161,10 +153,10 @@ describe('View Cases Effects', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      deleteCasesService.deleteCase = jest.fn(() => response);
+      quotationService.deleteCases = jest.fn(() => response);
 
       expect(effects.deleteCase$).toBeObservable(expected);
-      expect(deleteCasesService.deleteCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
     });
   });
 });

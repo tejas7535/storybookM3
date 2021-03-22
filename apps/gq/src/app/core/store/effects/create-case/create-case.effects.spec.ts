@@ -12,11 +12,10 @@ import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { QUOTATION_MOCK } from '../../../../../testing/mocks';
-import { AutocompleteService } from '../../../../case-view/create-case-dialog/services/autocomplete.service';
-import { CreateCaseService } from '../../../../case-view/create-case-dialog/services/create-case.service';
-import { SalesOrgsService } from '../../../../case-view/create-case-dialog/services/sales-orgs.service';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
-import { ValidationService } from '../../../../shared/services/validation-service/validation.service';
+import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
+import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
+import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
 import {
   autocomplete,
   autocompleteFailure,
@@ -64,11 +63,10 @@ describe('Create Case Effects', () => {
   let spectator: SpectatorService<CreateCaseEffects>;
   let store: MockStore;
 
-  let createCaseService: CreateCaseService;
-  let autocompleteService: AutocompleteService;
-  let validationService: ValidationService;
+  let quotationService: QuotationService;
+  let searchService: SearchService;
+  let validationService: MaterialService;
   let snackBarService: SnackBarService;
-  let salesOrgService: SalesOrgsService;
 
   const createService = createServiceFactory({
     service: CreateCaseEffects,
@@ -79,27 +77,21 @@ describe('Create Case Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { search: initialState } }),
       {
-        provide: AutocompleteService,
+        provide: SearchService,
         useValue: {
           autocomplete: jest.fn(),
         },
       },
       {
-        provide: ValidationService,
+        provide: MaterialService,
         useValue: {
           validate: jest.fn(),
         },
       },
       {
-        provide: CreateCaseService,
+        provide: QuotationService,
         useValue: {
           createCase: jest.fn(),
-        },
-      },
-      {
-        provide: SalesOrgsService,
-        useValue: {
-          getSalesOrgs: jest.fn(),
         },
       },
       {
@@ -121,11 +113,10 @@ describe('Create Case Effects', () => {
     router = spectator.inject(Router);
     store = spectator.inject(MockStore);
 
-    createCaseService = spectator.inject(CreateCaseService);
-    autocompleteService = spectator.inject(AutocompleteService);
-    validationService = spectator.inject(ValidationService);
+    quotationService = spectator.inject(QuotationService);
+    searchService = spectator.inject(SearchService);
+    validationService = spectator.inject(MaterialService);
     snackBarService = spectator.inject(SnackBarService);
-    salesOrgService = spectator.inject(SalesOrgsService);
   });
 
   describe('autocomplete$', () => {
@@ -134,7 +125,7 @@ describe('Create Case Effects', () => {
     test('should return autocompleteCustomerSuccess action when REST call is successful', () => {
       autocompleteSearch = new AutocompleteSearch(FilterNames.CUSTOMER, 'Aud');
       action = autocomplete({ autocompleteSearch });
-      autocompleteService.autocomplete = jest.fn(() => response);
+      searchService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
       const result = autocompleteSuccess({
         options,
@@ -149,8 +140,8 @@ describe('Create Case Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.autocomplete$).toBeObservable(expected);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledWith(
+      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+      expect(searchService.autocomplete).toHaveBeenCalledWith(
         autocompleteSearch
       );
     });
@@ -160,7 +151,7 @@ describe('Create Case Effects', () => {
         '12345'
       );
       action = autocomplete({ autocompleteSearch });
-      autocompleteService.autocomplete = jest.fn(() => response);
+      searchService.autocomplete = jest.fn(() => response);
       const options: IdValue[] = [];
       const result = autocompleteSuccess({
         options,
@@ -175,8 +166,8 @@ describe('Create Case Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.autocomplete$).toBeObservable(expected);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledWith(
+      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+      expect(searchService.autocomplete).toHaveBeenCalledWith(
         autocompleteSearch
       );
     });
@@ -189,10 +180,10 @@ describe('Create Case Effects', () => {
       const response = cold('-#|', undefined, error);
       const expected = cold('--b', { b: result });
 
-      autocompleteService.autocomplete = jest.fn(() => response);
+      searchService.autocomplete = jest.fn(() => response);
 
       expect(effects.autocomplete$).toBeObservable(expected);
-      expect(autocompleteService.autocomplete).toHaveBeenCalledTimes(1);
+      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
     });
   });
   describe('validate', () => {
@@ -213,7 +204,7 @@ describe('Create Case Effects', () => {
     test('should return validateSuccess when REST call is successful', () => {
       action = pasteRowDataItems({ items: [], pasteDestination: {} });
 
-      validationService.validate = jest.fn(() => response);
+      validationService.validateMaterials = jest.fn(() => response);
       const materialValidations: MaterialValidation[] = [];
       const result = validateSuccess({ materialValidations });
 
@@ -223,8 +214,10 @@ describe('Create Case Effects', () => {
       });
       const expected = cold('--b', { b: result });
       expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validate).toHaveBeenCalledTimes(1);
-      expect(validationService.validate).toHaveBeenCalledWith(tableData);
+      expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
+      expect(validationService.validateMaterials).toHaveBeenCalledWith(
+        tableData
+      );
     });
     test('should return validateFailure on REST error', () => {
       const error = new Error('damn');
@@ -234,10 +227,10 @@ describe('Create Case Effects', () => {
       const response = cold('-#|', undefined, error);
       const expected = cold('--b', { b: result });
 
-      validationService.validate = jest.fn(() => response);
+      validationService.validateMaterials = jest.fn(() => response);
 
       expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validate).toHaveBeenCalledTimes(1);
+      expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
     });
   });
   describe('createCase', () => {
@@ -262,7 +255,7 @@ describe('Create Case Effects', () => {
       snackBarService.showSuccessMessage = jest.fn();
       action = createCase();
 
-      createCaseService.createCase = jest.fn(() => response);
+      quotationService.createCase = jest.fn(() => response);
       const createdCase: CreateCaseResponse = {
         customerId: '',
         gqId: '',
@@ -276,8 +269,8 @@ describe('Create Case Effects', () => {
       });
       const expected = cold('--b', { b: result });
       expect(effects.createCase$).toBeObservable(expected);
-      expect(createCaseService.createCase).toHaveBeenCalledTimes(1);
-      expect(createCaseService.createCase).toHaveBeenCalledWith(createCaseData);
+      expect(quotationService.createCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.createCase).toHaveBeenCalledWith(createCaseData);
       expect(router.navigate).toHaveBeenCalledTimes(1);
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
@@ -290,10 +283,10 @@ describe('Create Case Effects', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      createCaseService.createCase = jest.fn(() => response);
+      quotationService.createCase = jest.fn(() => response);
 
       expect(effects.createCase$).toBeObservable(expected);
-      expect(createCaseService.createCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.createCase).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -312,7 +305,7 @@ describe('Create Case Effects', () => {
       snackBarService.showSuccessMessage = jest.fn();
       action = importCase();
 
-      createCaseService.importCase = jest.fn(() => response);
+      quotationService.importCase = jest.fn(() => response);
       const result = importCaseSuccess({ gqId: QUOTATION_MOCK.gqId });
 
       actions$ = hot('-a', { a: action });
@@ -321,8 +314,8 @@ describe('Create Case Effects', () => {
       });
       const expected = cold('--b', { b: result });
       expect(effects.importCase$).toBeObservable(expected);
-      expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
-      expect(createCaseService.importCase).toHaveBeenCalledWith(
+      expect(quotationService.importCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.importCase).toHaveBeenCalledWith(
         `${QUOTATION_MOCK.gqId}`
       );
       expect(router.navigate).toHaveBeenCalledTimes(1);
@@ -337,10 +330,10 @@ describe('Create Case Effects', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      createCaseService.importCase = jest.fn(() => response);
+      quotationService.importCase = jest.fn(() => response);
 
       expect(effects.importCase$).toBeObservable(expected);
-      expect(createCaseService.importCase).toHaveBeenCalledTimes(1);
+      expect(quotationService.importCase).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -349,7 +342,7 @@ describe('Create Case Effects', () => {
       const option = new IdValue('id', 'value', true);
       const filter = FilterNames.CUSTOMER;
       action = selectAutocompleteOption({ option, filter });
-      salesOrgService.getSalesOrgs = jest.fn(() => response);
+      searchService.getSalesOrgs = jest.fn(() => response);
       const salesOrgs = [new SalesOrg('id', true)];
       const result = getSalesOrgsSuccess({ salesOrgs });
 
@@ -360,8 +353,8 @@ describe('Create Case Effects', () => {
 
       const expected = cold('--b', { b: result });
       expect(effects.getSalesOrgs$).toBeObservable(expected);
-      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledTimes(1);
-      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledWith(option.id);
+      expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
+      expect(searchService.getSalesOrgs).toHaveBeenCalledWith(option.id);
     });
 
     test('should return getSalesOrgsFailure on REST error', () => {
@@ -372,10 +365,10 @@ describe('Create Case Effects', () => {
       const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
-      salesOrgService.getSalesOrgs = jest.fn(() => response);
+      searchService.getSalesOrgs = jest.fn(() => response);
 
       expect(effects.getSalesOrgs$).toBeObservable(expected);
-      expect(salesOrgService.getSalesOrgs).toHaveBeenCalledTimes(1);
+      expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
     });
   });
 });

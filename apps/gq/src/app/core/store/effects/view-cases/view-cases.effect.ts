@@ -10,8 +10,7 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { DeleteCaseService } from '../../../../case-view/services/delete-case.service';
-import { ViewCasesService } from '../../../../case-view/services/view-cases.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -48,7 +47,7 @@ export class ViewCasesEffect {
     this.actions$.pipe(
       ofType(loadCases.type, deleteCasesSuccess.type),
       mergeMap(() =>
-        this.viewCasesService.getCases().pipe(
+        this.quotationService.getCases().pipe(
           map((quotations: ViewQuotation[]) =>
             loadCasesSuccess({ quotations })
           ),
@@ -65,7 +64,7 @@ export class ViewCasesEffect {
     this.actions$.pipe(
       ofType(deleteCase.type),
       mergeMap((action: any) =>
-        this.deleteCaseService.deleteCase(action.gqIds).pipe(
+        this.quotationService.deleteCases(action.gqIds).pipe(
           tap(() => {
             const successMessage = translate(
               'caseView.snackBarMessages.deleteSuccess'
@@ -81,8 +80,7 @@ export class ViewCasesEffect {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly viewCasesService: ViewCasesService,
-    private readonly deleteCaseService: DeleteCaseService,
+    private readonly quotationService: QuotationService,
     private readonly snackBarService: SnackBarService
   ) {}
 }

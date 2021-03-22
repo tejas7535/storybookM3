@@ -99,7 +99,13 @@ describe('Create Case Selector', () => {
         createSelectors.getCustomerConditionsValid.projector(fakeState.case)
       ).toBeTruthy();
     });
+    test('should return false if no state exists', () => {
+      expect(
+        createSelectors.getCustomerConditionsValid.projector(undefined)
+      ).toBeFalsy();
+    });
   });
+
   describe('getCreateCaseData', () => {
     test('should return data to create a case', () => {
       expect(

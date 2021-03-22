@@ -2,43 +2,43 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import {
   MaterialTableItem,
   ValidationDescription,
-} from '../../../core/store/models';
-import { ValidationService } from './validation.service';
+} from '../../../../core/store/models';
+import { MaterialService } from './material.service';
 
 describe('ValidationService', () => {
   let httpMock: HttpTestingController;
-  let service: ValidationService;
+  let spectator: SpectatorService<MaterialService>;
+  let service: MaterialService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        ValidationService,
-        DataService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: MaterialService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      MaterialService,
+      DataService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(ValidationService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.service;
+    httpMock = spectator.inject(HttpTestingController);
   });
   afterEach(() => {
     httpMock.verify();
@@ -56,7 +56,7 @@ describe('ValidationService', () => {
           },
         },
       ];
-      service.validate(mockTable).subscribe((response) => {
+      service.validateMaterials(mockTable).subscribe((response) => {
         expect(response).toEqual([]);
       });
       const req = httpMock.expectOne('/materials/validation');
