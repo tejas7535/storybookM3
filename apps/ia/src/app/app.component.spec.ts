@@ -8,7 +8,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -69,7 +68,6 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
   });
 

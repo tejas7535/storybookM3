@@ -4,7 +4,11 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
+import {
+  getIsLoggedIn,
+  getProfileImage,
+  getUsername,
+} from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { AppRoutePath } from './app-route-path.enum';
@@ -24,6 +28,7 @@ export class AppComponent implements OnInit {
   title = 'Insight Attrition';
 
   username$: Observable<string>;
+  profileImage$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
   getIsLoggedIn$: Observable<boolean>;
 
@@ -56,9 +61,8 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
+    this.profileImage$ = this.store.pipe(select(getProfileImage));
     this.getIsLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
-
-    this.store.dispatch(startLoginFlow());
   }
 
   public trackByFn(index: number): number {

@@ -27,6 +27,11 @@ export const appRoutePaths: Routes = [
     ],
   },
   {
+    path: AppRoutePath.Forbidden,
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
+  },
+  {
     path: '**',
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
@@ -37,8 +42,6 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: 'disabled',
-      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],
