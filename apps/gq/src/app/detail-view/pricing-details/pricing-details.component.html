@@ -2,38 +2,36 @@
   <mat-card>
     <mat-card-title> {{ t('label') }} </mat-card-title>
     <mat-card-content>
-      <mat-accordion>
-        <mat-expansion-panel>
+      <mat-accordion multi="true">
+        <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ t('materialDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <gq-material-details
-            [materialDetails]="materialDetails$ | ngrxPush"
+            [materialDetails]="(quotationDetail$ | ngrxPush)?.material"
           ></gq-material-details>
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
-            <mat-panel-title> {{ t('scmDetails.label') }} </mat-panel-title>
+            <mat-panel-title>
+              {{ t('supplyChainDetails.label') }}
+            </mat-panel-title>
           </mat-expansion-panel-header>
-          <!--Placeholder until data is available, requested by stakeholders-->
-          <div>
-            <p>{{ t('scmDetails.dummy') }}</p>
-            <p>{{ t('scmDetails.available_data') }}</p>
-          </div>
+          <gq-supply-chain-details
+            [quotationDetail]="quotationDetail$ | ngrxPush"
+          ></gq-supply-chain-details>
         </mat-expansion-panel>
-        <mat-expansion-panel>
+        <mat-expansion-panel expanded="true">
           <mat-expansion-panel-header>
             <mat-panel-title>
               {{ t('productionCostDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <!--Placeholder until data is available, requested by stakeholders-->
-          <div>
-            <p>{{ t('productionCostDetails.dummy') }}</p>
-            <p>{{ t('productionCostDetails.available_data') }}</p>
-          </div>
+          <gq-production-cost-details
+            [quotationDetail]="quotationDetail$ | ngrxPush"
+          ></gq-production-cost-details>
         </mat-expansion-panel>
       </mat-accordion>
     </mat-card-content>

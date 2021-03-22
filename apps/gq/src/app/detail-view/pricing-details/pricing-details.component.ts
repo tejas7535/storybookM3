@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getMaterialOfSelectedQuotationDetail } from '../../core/store';
-import { MaterialDetails } from '../../core/store/models';
+import { getSelectedQuotationDetail } from '../../core/store';
+import { QuotationDetail } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -14,13 +14,11 @@ import { ProcessCaseState } from '../../core/store/reducers/process-case/process
   styleUrls: ['./pricing-details.component.scss'],
 })
 export class PricingDetailsComponent implements OnInit {
-  public materialDetails$: Observable<MaterialDetails>;
+  public quotationDetail$: Observable<QuotationDetail>;
 
   public constructor(private readonly store: Store<ProcessCaseState>) {}
 
   ngOnInit(): void {
-    this.materialDetails$ = this.store.pipe(
-      select(getMaterialOfSelectedQuotationDetail)
-    );
+    this.quotationDetail$ = this.store.pipe(select(getSelectedQuotationDetail));
   }
 }

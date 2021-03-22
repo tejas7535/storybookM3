@@ -101,13 +101,11 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.productionCity'),
-    // currently missing in the database -> BE: adjust PlantDto
-    field: 'productionCity',
+    field: 'productionPlant.city',
   },
   {
     headerName: translate('shared.quotationDetailsTable.productionCountry'),
-    // currently missing in the database -> BE: adjust PlantDto
-    field: 'productionCountry',
+    field: 'productionPlant.country',
   },
   {
     headerName: translate('shared.quotationDetailsTable.productLine'),

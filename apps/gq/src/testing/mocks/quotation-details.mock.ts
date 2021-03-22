@@ -1,4 +1,5 @@
 import { MaterialDetails, QuotationDetail } from '../../app/core/store/models';
+import { PLANT_MOCK } from './plant.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   quotationId: '123456',
@@ -16,8 +17,8 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
     materialDescription: '6052-M-C3',
   } as unknown) as MaterialDetails,
   orderQuantity: 10,
-  plant: { plantNumber: '1', plantDesignation: 'desc' },
-  productionPlant: { plantNumber: '1', plantDesignation: 'desc' },
+  plant: PLANT_MOCK,
+  productionPlant: PLANT_MOCK,
   price: 200,
   gqRating: 2,
   recommendedPrice: 250,

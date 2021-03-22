@@ -5,5 +5,6 @@ export * from './quotation.mock';
 export * from './quotation-details.mock';
 export * from './quotation-state.mock';
 export * from './quotation-identifier.mock';
+export * from './plant.mock';
 export * from './view-cases-state.mock';
 export * from './view-quotation.mock';

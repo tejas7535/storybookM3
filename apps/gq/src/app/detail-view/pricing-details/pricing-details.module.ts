@@ -10,9 +10,15 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
+import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
+import { SupplyChainDetailsComponent } from './supply-chain-details/supply-chain-details.component';
 
 @NgModule({
-  declarations: [PricingDetailsComponent],
+  declarations: [
+    PricingDetailsComponent,
+    SupplyChainDetailsComponent,
+    ProductionCostDetailsComponent,
+  ],
   imports: [
     CommonModule,
     MatCardModule,

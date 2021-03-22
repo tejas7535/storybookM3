@@ -39,13 +39,15 @@
     },
     "productionCostDetails": {
       "label": "Produktion und Kosten",
-      "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
-      "available_data": "Beeinhaltet: Produktionwerk, Segment, Kosten and Kontext"
+      "gpc": "GPC",
+      "sqv": "SQV",
+      "productionPlant": "Produktionswerk"
     },
-    "scmDetails": {
+    "supplyChainDetails": {
       "label": "Supply Chain Daten",
-      "dummy": "Diese Daten werden mit dem nächsten Update verfügbar sein (voraussichtlich Januar 2021)",
-      "available_data": "Beeinhaltet: Lieferzeit and Kontext"
+      "supplyPlant": "Lieferungswerk",
+      "productionPlant": "Produktionswerk",
+      "productionPlantRlt": "Produktionswerk RLT"
     }
   }
 }
