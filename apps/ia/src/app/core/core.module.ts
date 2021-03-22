@@ -8,22 +8,34 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
-import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
+import {
+  AzureConfig,
+  MsalGuardConfig,
+  MsalInstanceConfig,
+  MsalInterceptorConfig,
+  ProtectedResource,
+  SharedAzureAuthModule,
+} from '@schaeffler/azure-auth';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
+import { AppRoutePath } from '../app-route-path.enum';
 import { AppComponent } from '../app.component';
 import { FilterSectionModule } from '../filter-section/filter-section.module';
 import { StoreModule } from './store/store.module';
 
 const azureConfig = new AzureConfig(
-  environment.tenantId,
-  environment.clientId,
-  environment.appId,
-  FlowType.CODE_FLOW,
-  !environment.production
+  new MsalInstanceConfig(
+    environment.clientId,
+    environment.tenantId,
+    !environment.production
+  ),
+  new MsalInterceptorConfig([
+    new ProtectedResource('/api/*', [environment.appScope]),
+  ]),
+  new MsalGuardConfig(`/${AppRoutePath.Forbidden}`, [environment.appScope])
 );
 
 @NgModule({
@@ -50,7 +62,7 @@ const azureConfig = new AzureConfig(
     ),
 
     // Auth
-    SharedAuthModule.forRoot(azureConfig),
+    SharedAzureAuthModule.forRoot(azureConfig),
     MatProgressSpinnerModule,
 
     // http

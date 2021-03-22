@@ -6,4 +6,5 @@ export enum AppRoutePath {
   AnalyticsPath = 'analytics',
   PersonaPath = 'persona',
   SummaryPath = 'summary',
+  Forbidden = 'forbidden',
 }
