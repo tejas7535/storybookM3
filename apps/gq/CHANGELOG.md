@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](///compare/gq-v1.12.0...gq-v1.11.0) (2021-03-22)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** autocomplete material number ignores dashes (GQUOTE-452) ([eaccefd](///commit/eaccefd90319e6ac88e2c1e8eef869d89effb52d))
+* **gq:** create case button missing in dialog after adding a detail (GQUOTE-463) ([e10fe28](///commit/e10fe286f48ff35183d5afbb53cb97eff031db78))
+* **gq:** internal server error after copy paste (GQUOTE-484) ([b0a2885](///commit/b0a288593cc2fbb6f4d2addd0fd511a9cdcd290e))
+* **gq:** update cache when translation keys change (GQUOTE-465) ([378a1a4](///commit/378a1a4d26ceeaf37e24003eba3529d940aaacff))
+* **gq:** wrong format of material no in excel export (GQUOTE-457) ([5ee50e4](///commit/5ee50e485b5c1c5bd6e45e1e99daeb7b46443e1e))
+
+
+### 🎸 Features
+
+* **gq:** added plant masterdata to columns and detail screen (GQUOTE-392) ([d3f21f9](///commit/d3f21f9ba0e054def7ee49e8ff827802fd3865e9))
+* **gq:** added upload offer to sap rest call (GQUOTE-376) ([67e5c9c](///commit/67e5c9cc7ef24d50f8d6ecb2f5b34eab59ed38b8))
+
 ## [1.11.0](///compare/gq-v1.11.0...gq-v1.10.0) (2021-03-01)
 
 
