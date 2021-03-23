@@ -4,11 +4,11 @@
   <div *ngrxLet="customerCurrency$ as currency">
     <div *ngIf="quotationDetail">
       <p>
-        <span class="label">{{ t('gpc') }}: </span>{{ quotationDetail.sqv }}
+        <span class="label">{{ t('gpc') }}: </span>{{ quotationDetail.gpc }}
         {{ currency }}
       </p>
       <p>
-        <span class="label">{{ t('sqv') }}: </span>{{ quotationDetail.gpc }}
+        <span class="label">{{ t('sqv') }}: </span>{{ quotationDetail.sqv }}
         {{ currency }}
       </p>
       <p>
