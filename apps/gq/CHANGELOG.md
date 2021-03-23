@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.12.1](///compare/gq-v1.12.1...gq-v1.12.0) (2021-03-23)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed header bug ([13ff971](///commit/13ff97138039acdf8c74afb36793d0a67f72a50b))
+* **gq:** fixed switched sqv and gpc ([cb356a8](///commit/cb356a810428fd663517c5575616df20616e68a7))
+
 ## [1.12.0](///compare/gq-v1.12.0...gq-v1.11.0) (2021-03-22)
 
 
