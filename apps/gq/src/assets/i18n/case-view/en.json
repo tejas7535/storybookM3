@@ -7,9 +7,7 @@
     "createdBy": "Created By",
     "creationDate": "GQ Creation Date",
     "gqId": "GQ Case",
-    "sapId": "SAP Quotation",
-    "status": "Status",
-    "synchronized": "Synchronized"
+    "sapId": "SAP Quotation"
   },
   "createCaseDialog": {
     "title": "Create New Case",

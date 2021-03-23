@@ -7,9 +7,7 @@
     "createdBy": "Erstellt von ",
     "creationDate": "Erstelldatum",
     "gqId": "GQ ID",
-    "sapId": "SAP Quotation",
-    "status": "Status",
-    "synchronized": "Synchronisiert"
+    "sapId": "SAP Quotation"
   },
   "createCaseDialog": {
     "title": "Neuen Fall erstellen",

@@ -18,10 +18,8 @@
         >
       </p>
       <p>
-        <span class="label">{{ t('productionPlant') }}: </span
-        >{{ quotationDetail.productionPlant.plantNumber }} |
-        {{ quotationDetail.productionPlant.city }},
-        {{ quotationDetail.productionPlant.country }}
+        <span class="label">{{ t('productionPlant') }}: </span>
+        <span> {{ quotationDetail.productionPlant | plantDisplay }}</span>
       </p>
     </div>
   </div>

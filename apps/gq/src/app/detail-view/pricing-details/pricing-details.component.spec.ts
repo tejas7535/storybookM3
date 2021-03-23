@@ -8,6 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { PlantDisplayPipe } from '../../shared/pipes/plant-display.pipe';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
@@ -33,6 +34,7 @@ describe('PricingDetailsComponent', () => {
       PricingDetailsComponent,
       ProductionCostDetailsComponent,
       SupplyChainDetailsComponent,
+      PlantDisplayPipe,
     ],
   });
 

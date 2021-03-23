@@ -72,14 +72,5 @@ export class ColumnDefService {
       headerName: translate('caseView.caseTable.customerName'),
       field: 'customer.name',
     },
-
-    {
-      headerName: translate('caseView.caseTable.status'),
-      field: 'status',
-    },
-    {
-      headerName: translate('caseView.caseTable.synchronized'),
-      field: 'synchronized',
-    },
   ];
 }
