@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.12.2](///compare/gq-v1.12.2...gq-v1.12.1) (2021-03-23)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** display formatted numbers (GQUOTE-524) ([9cb47bf](///commit/9cb47bf65d4447fda9ad1355c64267133f10785c))
+
 ### [1.12.1](///compare/gq-v1.12.1...gq-v1.12.0) (2021-03-23)
 
 
