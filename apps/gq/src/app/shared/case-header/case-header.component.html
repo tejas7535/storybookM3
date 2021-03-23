@@ -24,7 +24,7 @@
           sapId | sapQuotation
         }}</span>
         <span *ngIf="material"> {{ material | materialInfo }}</span>
-        <span fxLayout="row" *ngIf="quotation.gqCreatedByUser">
+        <span fxLayout="row" *ngIf="quotation?.gqCreatedByUser">
           <mat-icon
             [matMenuTriggerFor]="infoMenu"
             #infoMenuTrigger="matMenuTrigger"
