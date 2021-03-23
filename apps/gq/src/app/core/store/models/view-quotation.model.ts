@@ -9,8 +9,6 @@ export class ViewQuotation {
   public sapCreated: Date;
   public sapCreatedByUser: User;
   public sapId: string;
-  public status?: string;
-  public synchronized?: string;
   public gqCreated: Date;
   public gqCreatedByUser: User;
   public gqLastUpdatedByUser: User;
