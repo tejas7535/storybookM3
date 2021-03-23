@@ -4,12 +4,18 @@
   <div *ngrxLet="customerCurrency$ as currency">
     <div *ngIf="quotationDetail">
       <p>
-        <span class="label">{{ t('gpc') }}: </span>{{ quotationDetail.gpc }}
-        {{ currency }}
+        <span class="label">{{ t('gpc') }}: </span>
+        <span
+          >{{ (quotationDetail.gpc | number: '.2-2') || '-' }}
+          {{ currency }}</span
+        >
       </p>
       <p>
-        <span class="label">{{ t('sqv') }}: </span>{{ quotationDetail.sqv }}
-        {{ currency }}
+        <span class="label">{{ t('sqv') }}: </span>
+        <span
+          >{{ (quotationDetail.sqv | number: '.2-2') || '-' }}
+          {{ currency }}</span
+        >
       </p>
       <p>
         <span class="label">{{ t('productionPlant') }}: </span
