@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](///compare/header-v2.3.0...header-v2.1.0) (2021-03-24)
+
+
+### 📈 Improvements
+
+* **header:** fix cursor behavior across browsers (UFTABI-3955) ([ccd20fa](///commit/ccd20fa064407f9615417762cb1bfa68a42ecde4))
+
+
+### 🎸 Features
+
+* **header:** allow links in header title  (UFTABI-3751) ([0193893](///commit/0193893576f6d63d89b5763d2e0414d58f32a467))
+* **header:** fix logo sizing ([278316d](///commit/278316dce43d2b62c551239deb1c90a5cf424cd2))
+* **helloworld-azure:** use new azure auth (UFTABI-4029) ([846deb3](///commit/846deb3eb15078fb3eaa9aba74dcee23af157244))
+* **mm:** setup tailwind with schematic (UFTABI-3647) ([c7766c3](///commit/c7766c37d22de27da23c173dda495b8e008ce3c9))
+* **workspace:** build libs with prod config (UFTABI-4112) ([6cd84a2](///commit/6cd84a2b3f3b5fe695d93c28e6cf5eb69bf6c205))
+
+
+### 🐛 Bug Fixes
+
+* **header:** fix header burger icon size (UFTABI-3747) ([11479ab](///commit/11479ab2286934283a504d6f7647064ab55a77cf))
+* **workspace:** adjust libs version ([df88244](///commit/df88244a1a49ef9d4eef59a2e6b2e5cd5e2de976))
+
 ## [2.1.0](///compare/header-v2.1.0...header-v2.0.0) (2021-01-22)
 
 
