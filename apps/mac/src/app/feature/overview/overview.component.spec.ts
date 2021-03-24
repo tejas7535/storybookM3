@@ -10,6 +10,10 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
 
+jest.mock('../../shared/change-favicon', () => ({
+  changeFavicon: jest.fn(() => {}),
+}));
+
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
   let spectator: Spectator<OverviewComponent>;

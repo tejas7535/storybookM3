@@ -13,6 +13,8 @@ import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
+import { SharedModule } from '../../shared/shared.module';
 import {
   AQM_CALCULATION_CALCULATION_MOCK,
   AQM_CALCULATION_ERROR_MOCK,
@@ -25,6 +27,10 @@ import {
   AQMComposition,
   AQMMaterial,
 } from './services/aqm-calulator-response.model';
+
+jest.mock('../../shared/change-favicon', () => ({
+  changeFavicon: jest.fn(() => {}),
+}));
 
 describe('AqmCalculatorComponent', () => {
   let component: AqmCalculatorComponent;
@@ -43,6 +49,7 @@ describe('AqmCalculatorComponent', () => {
       MatCardModule,
       MatChipsModule,
       MatIconModule,
+      SharedModule,
     ],
     declarations: [AqmCalculatorComponent],
     providers: [
@@ -55,6 +62,12 @@ describe('AqmCalculatorComponent', () => {
               ? of(AQM_CALCULATION_CALCULATION_MOCK)
               : of(AQM_CALCULATION_ERROR_MOCK);
           }),
+        },
+      },
+      {
+        provide: BreadcrumbsService,
+        useValue: {
+          updateBreadcrumb: jest.fn(() => {}),
         },
       },
     ],

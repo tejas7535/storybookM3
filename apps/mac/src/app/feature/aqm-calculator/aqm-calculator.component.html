@@ -4,8 +4,9 @@
   fxLayoutAlign="center center"
 >
   <div fxLayout="column" fxLayoutAlign="start start">
-    <h2 class>AQM Calculator</h2>
     <mat-card class="aqm-calculator-card">
+      <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | async"></mac-breadcrumbs>
+      <mat-card-title><h2>AQM Calculator</h2></mat-card-title>
       <mat-card-content class="aqm-calculator-card-content">
         <h4>Alloy configuration</h4>
         <div class="spinner-wrapper" [ngClass]="{ hidden: materials }">

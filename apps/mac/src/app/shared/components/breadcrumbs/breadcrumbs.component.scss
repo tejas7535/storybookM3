@@ -1,0 +1,31 @@
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'libs/shared/ui/styles/src/lib/colors';
+
+.breadcrumbs {
+  align-items: center;
+  display: flex;
+  font-size: 12px;
+  line-height: 1rem;
+  padding: 1rem;
+}
+
+.crumb-wrapper {
+  align-items: center;
+  display: flex;
+}
+
+.crumb[ng-reflect-router-link] {
+  color: $schaeffler-green-1;
+  cursor: pointer;
+}
+
+mat-icon {
+  align-items: center;
+  color: $schaeffler-green-1;
+  display: flex;
+  font-size: 18px;
+  height: 16px;
+  justify-content: center;
+  padding: 0 8px;
+  width: 16px;
+}

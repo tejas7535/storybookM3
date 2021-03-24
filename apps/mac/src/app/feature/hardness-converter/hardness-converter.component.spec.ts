@@ -14,8 +14,14 @@ import {
   HARDNESS_CONVERSION_ERROR_MOCK,
   HARDNESS_CONVERSION_MOCK,
 } from '../../../testing/mocks/hardness-conversion.mock';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
+import { SharedModule } from '../../shared/shared.module';
 import { HardnessConverterComponent } from './hardness-converter.component';
 import { HardnessConverterApiService } from './services/hardness-converter-api.service';
+
+jest.mock('../../shared/change-favicon', () => ({
+  changeFavicon: jest.fn(() => {}),
+}));
 
 describe('HardnessConverterComponent', () => {
   let component: HardnessConverterComponent;
@@ -31,6 +37,7 @@ describe('HardnessConverterComponent', () => {
       MatSelectModule,
       ReactiveFormsModule,
       MatCardModule,
+      SharedModule,
     ],
     declarations: [HardnessConverterComponent],
     providers: [
@@ -43,6 +50,12 @@ describe('HardnessConverterComponent', () => {
               ? of(HARDNESS_CONVERSION_MOCK)
               : of(HARDNESS_CONVERSION_ERROR_MOCK);
           }),
+        },
+      },
+      {
+        provide: BreadcrumbsService,
+        useValue: {
+          updateBreadcrumb: jest.fn(() => {}),
         },
       },
     ],
@@ -74,7 +87,7 @@ describe('HardnessConverterComponent', () => {
       waitForAsync(() => {
         let valueChanged = false;
         component.convertValue('42');
-        component.$valueChange.subscribe(() => {
+        component.valueChange$.subscribe(() => {
           valueChanged = true;
           expect(valueChanged).toBeTruthy();
         });
@@ -86,7 +99,7 @@ describe('HardnessConverterComponent', () => {
       waitForAsync(() => {
         let valueChanged = false;
         component.convertValue('');
-        component.$valueChange.subscribe(() => {
+        component.valueChange$.subscribe(() => {
           valueChanged = true;
           expect(valueChanged).toBeFalsy();
         });
@@ -115,11 +128,11 @@ describe('HardnessConverterComponent', () => {
   it(
     'should receive conversion results after a new input',
     waitForAsync(() => {
-      component.$results.subscribe((result) => {
+      component.results$.subscribe((result) => {
         expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
       });
       component.hardness.get('value').setValue(42);
-      component.$valueChange.next();
+      component.valueChange$.next();
     })
   );
 
@@ -129,7 +142,7 @@ describe('HardnessConverterComponent', () => {
       component.hardness
         .get('value')
         .setValue('totally wrong and unacceptable');
-      component.$valueChange.next();
+      component.valueChange$.next();
       expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
     })
   );

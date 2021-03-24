@@ -3,6 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+import { RouteNames } from '../../app-routing.enum';
+import { changeFavicon } from '../../shared/change-favicon';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { HardnessConverterApiService } from './services/hardness-converter-api.service';
 import {
   HardnessConversionResponse,
@@ -28,12 +31,14 @@ import {
 })
 export class HardnessConverterComponent implements OnInit {
   public constructor(
-    private readonly hardnessService: HardnessConverterApiService
+    private readonly hardnessService: HardnessConverterApiService,
+    private readonly breadcrumbsService: BreadcrumbsService
   ) {}
 
-  $valueChange = new Subject();
-  $results = new Subject<HardnessConversionSingleUnit[]>();
-  $resultsUpToDate = new BehaviorSubject<boolean>(true);
+  valueChange$ = new Subject();
+  results$ = new Subject<HardnessConversionSingleUnit[]>();
+  resultsUpToDate$ = new BehaviorSubject<boolean>(true);
+  breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
   unitList: string[] = [];
   error: string;
   hardness = new FormGroup({
@@ -42,6 +47,8 @@ export class HardnessConverterComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    changeFavicon('assets/favicons/hardness-converter.ico');
+    this.breadcrumbsService.updateBreadcrumb(RouteNames.HardnessConverter);
     this.setupUnitList();
     this.setupConversionResultStream();
   }
@@ -56,10 +63,10 @@ export class HardnessConverterComponent implements OnInit {
   }
 
   private setupConversionResultStream(): void {
-    this.$valueChange
+    this.valueChange$
       .pipe(
         switchMap(() => {
-          this.$resultsUpToDate.next(false);
+          this.resultsUpToDate$.next(false);
 
           return this.hardnessService.getConversionResult(
             this.hardness.get('unit').value,
@@ -71,9 +78,9 @@ export class HardnessConverterComponent implements OnInit {
         if (result.error) {
           this.error = result.error;
         } else {
-          this.$results.next(result.converted);
+          this.results$.next(result.converted);
         }
-        this.$resultsUpToDate.next(true);
+        this.resultsUpToDate$.next(true);
       });
   }
 
@@ -94,7 +101,7 @@ export class HardnessConverterComponent implements OnInit {
   convertValue(val: string): void {
     if (val !== '') {
       this.error = undefined;
-      this.$valueChange.next();
+      this.valueChange$.next();
     }
   }
 

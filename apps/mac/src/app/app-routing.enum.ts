@@ -4,3 +4,10 @@ export enum RoutePath {
   HardnessConverterPath = 'hardness-converter',
   AQMCalculatorPath = 'aqm-calculator',
 }
+
+export enum RouteNames {
+  Base = 'Material Apps Center',
+  Overview = 'Overview',
+  HardnessConverter = 'Hardness Converter',
+  AQMCalculator = 'AQM Calculator',
+}

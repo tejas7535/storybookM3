@@ -1,6 +1,7 @@
 <div class="hardness-converter-wrapper">
-  <h2>Hardness Converter</h2>
   <mat-card class="hardness-converter">
+    <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | async"></mac-breadcrumbs>
+    <mat-card-title>Hardness Converter</mat-card-title>
     <mat-card-content>
       <div
         class="spinner-wrapper"
@@ -36,10 +37,10 @@
           </mat-form-field>
         </div>
       </form>
-      <p class="conversion-info" [@inOutAnimation] *ngIf="$results | async">
+      <p class="conversion-info" [@inOutAnimation] *ngIf="results$ | async">
         Converted after ISO 18265 - A.1
       </p>
-      <div class="results" [@inOutAnimation] *ngIf="$results | async">
+      <div class="results" [@inOutAnimation] *ngIf="results$ | async">
         <div
           class="spinner-wrapper"
           [ngClass]="{ hidden: ($resultsUpToDate | async) }"
