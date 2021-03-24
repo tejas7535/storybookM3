@@ -47,8 +47,13 @@ describe('OfferTableComponent', () => {
               item: QUOTATION_MOCK,
             },
           },
-          auth: {
-            token: {},
+          'azure-auth': {
+            accountInfo: {
+              name: 'Jefferson',
+            },
+            profileImage: {
+              url: 'img',
+            },
           },
         },
       }),

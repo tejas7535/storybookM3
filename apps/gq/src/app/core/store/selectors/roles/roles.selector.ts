@@ -1,12 +1,12 @@
 import { createSelector } from '@ngrx/store';
 
-import { getClaim } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
 import { RoleGroup } from '../../models';
 
 export const getAllRoles = createSelector(
-  getClaim('roles'),
+  getRoles,
   (roles: string[]): RoleGroup[] =>
     roles
       ? [

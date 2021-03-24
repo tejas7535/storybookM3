@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MsalGuard } from '@azure/msal-angular';
+
 import { AppRoutePath } from './app-route-path.enum';
 import { RoleGuard } from './core/guards';
 import { FORBIDDEN_ACTION } from './shared/constants';
@@ -24,6 +26,7 @@ export const appRoutePaths: Routes = [
     loadChildren: () =>
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
     canActivateChild: [RoleGuard],
+    canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.ProcessCaseViewPath,
@@ -66,8 +69,6 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: 'disabled',
-      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],

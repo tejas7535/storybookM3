@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 import { select, Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState, getCustomerCurrency } from '../../../core/store';
 import { QuotationDetail } from '../../../core/store/models';
