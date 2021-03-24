@@ -761,14 +761,14 @@ pipeline {
                             script {
                                 lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
                                     if (isAppRelease()) {
-                                        sh "npx cross-env PURGE_TAILWIND=true nx run ${env.RELEASE_SCOPE}:build:prod --with-deps"
+                                        sh "npx cross-env PURGE_TAILWIND=true nx run ${env.RELEASE_SCOPE}:build --with-deps --prod"
                                         try {
                                             sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                                         } catch (error) {
                                             echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                                         }
                                     } else if (isLibsRelease()) {
-                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps"
+                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps --prod"
                                     } else {
                                         if (isMaster()) {
                                             sh "npx cross-env PURGE_TAILWIND=true nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"

@@ -52,7 +52,7 @@ export const getBuildConfigurations = (projectPath: string) => ({
       },
     ],
   },
-  prod: {
+  production: {
     fileReplacements: [
       {
         replace: `${projectPath}/src/environments/environment.ts`,
@@ -94,7 +94,7 @@ export const getServeConfigurations = (project: string) => ({
   e2e: {
     browserTarget: `${project}:build:e2e`,
   },
-  prod: {
+  production: {
     browserTarget: `${project}:build:prod`,
   },
 });
@@ -103,7 +103,7 @@ export const getE2eConfigurations = (project: string) => ({
   e2e: {
     devServerTarget: `${project}:serve:e2e`,
   },
-  prod: {
+  production: {
     devServerTarget: `${project}:serve:prod`,
   },
 });
