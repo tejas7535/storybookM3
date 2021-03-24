@@ -31,13 +31,7 @@ describe('RoleModalComponent', () => {
       RoleDescModule,
     ],
     providers: [
-      provideMockStore({
-        initialState: {
-          auth: {
-            token: {},
-          },
-        },
-      }),
+      provideMockStore({}),
       {
         provide: MatDialogRef,
         useValue: {},

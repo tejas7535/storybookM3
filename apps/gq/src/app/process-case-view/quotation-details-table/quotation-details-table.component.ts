@@ -11,7 +11,7 @@ import {
 } from '@ag-grid-community/all-modules';
 import { select, Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState } from '../../core/store';
 import { Quotation, QuotationDetail } from '../../core/store/models';

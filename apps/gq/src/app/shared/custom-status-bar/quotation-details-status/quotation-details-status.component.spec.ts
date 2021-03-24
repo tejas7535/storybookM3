@@ -6,7 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
@@ -37,9 +37,6 @@ describe('QuotationDetailsStatusComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          auth: {
-            token: {},
-          },
           processCase: {
             customer: { item: {} },
           },

@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import {
   getSelectedQuotationDetail,

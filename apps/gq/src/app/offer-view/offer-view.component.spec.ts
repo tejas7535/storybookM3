@@ -47,9 +47,6 @@ describe('OfferViewComponent', () => {
               item: QUOTATION_MOCK,
             },
           },
-          auth: {
-            token: {},
-          },
         },
       }),
     ],

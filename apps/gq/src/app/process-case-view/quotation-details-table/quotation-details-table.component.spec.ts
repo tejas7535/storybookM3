@@ -53,9 +53,6 @@ describe('QuotationDetailsTableComponent', () => {
               item: QUOTATION_MOCK,
             },
           },
-          auth: {
-            token: {},
-          },
         },
       }),
     ],

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
-import { getUsername, startLoginFlow } from '@schaeffler/auth';
+import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { AppState } from './core/store';
@@ -21,6 +21,7 @@ export class AppComponent implements OnInit {
   title = 'Guided Quoting';
 
   username$: Observable<string>;
+  public profileImage$: Observable<string>;
 
   userMenuEntries: UserMenuEntry[] = [
     new UserMenuEntry('roles', translate('shared.roleModal.menuTitle')),
@@ -33,7 +34,7 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
-    this.store.dispatch(startLoginFlow());
+    this.profileImage$ = this.store.pipe(select(getProfileImage));
   }
 
   public userMenuClicked(): void {
