@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.7.0](///compare/footer-v1.7.0...footer-v1.6.0) (2021-03-24)
+
+
+### 🎸 Features
+
+* **workspace:** build libs with prod config (UFTABI-4112) ([6cd84a2](///commit/6cd84a2b3f3b5fe695d93c28e6cf5eb69bf6c205))
+
 ## [1.6.0](///compare/footer-v1.6.0...footer-v1.5.0) (2021-01-22)
 
 
