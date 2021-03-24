@@ -1,12 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { configureTestSuite } from 'ng-bullet';
 
-import { startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -23,6 +24,8 @@ describe('AppComponent', () => {
         HeaderModule,
         MatButtonModule,
         RouterTestingModule,
+        ReactiveComponentModule,
+        MatProgressSpinnerModule,
       ],
       providers: [provideMockStore()],
       declarations: [AppComponent],
@@ -49,7 +52,8 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(component.profileImage$).toBeDefined();
+      expect(component.getIsLoggedIn$).toBeDefined();
     });
   });
 });

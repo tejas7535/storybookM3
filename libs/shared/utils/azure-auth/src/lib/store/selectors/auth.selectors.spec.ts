@@ -22,6 +22,38 @@ describe('Azure Auth selectors', () => {
     expect(
       fromAuthSelectors.getUsername.projector({ accountInfo })
     ).toBeUndefined();
+    expect(
+      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+    ).toBeUndefined();
+  });
+
+  test('should return user unique identifier', () => {
+    const accountInfo = ({
+      username: 'Test@schaeffler.com',
+    } as unknown) as AccountInfo;
+    const expectedUserId = 'Test';
+    expect(
+      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+    ).toEqual(expectedUserId);
+  });
+
+  test('should return undefined on undefined username', () => {
+    const accountInfo = ({
+      username: undefined,
+    } as unknown) as AccountInfo;
+    expect(
+      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+    ).toBeUndefined();
+  });
+
+  test('should return empty string with empty string as username', () => {
+    const accountInfo = ({
+      username: '',
+    } as unknown) as AccountInfo;
+    const expected = '';
+    expect(
+      fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
+    ).toEqual(expected);
   });
 
   test('should return login true for authenticated user', () => {

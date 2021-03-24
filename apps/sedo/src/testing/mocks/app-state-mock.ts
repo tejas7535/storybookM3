@@ -12,9 +12,9 @@ export const APP_STATE_MOCK = {
     pageNumber: 0,
     pageSize: 25,
   },
-  auth: {
-    token: {
-      upn: 'user@mail.com',
+  'azure-auth': {
+    accountInfo: {
+      username: 'user@mail.com',
     },
   },
 };

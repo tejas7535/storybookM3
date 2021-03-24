@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
-  CanActivate,
+  CanActivateChild,
   Router,
   RouterStateSnapshot,
 } from '@angular/router';
@@ -11,19 +11,18 @@ import { map } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 
 @Injectable({
   providedIn: 'root',
 })
-export class RoleGuard implements CanActivate {
+export class RoleGuard implements CanActivateChild {
   private readonly BASE_ROLE = 'USER_READ';
 
   constructor(private readonly store: Store, private readonly router: Router) {}
-
-  canActivate(
+  canActivateChild(
     _childRoute: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<boolean> {
@@ -31,7 +30,7 @@ export class RoleGuard implements CanActivate {
       select(getRoles),
       map((roles) => {
         if (!roles.includes(this.BASE_ROLE)) {
-          this.router.navigate([AppRoutePath.ForbiddenPath]);
+          this.router.navigate([AppRoutePath.Forbidden]);
 
           return false;
         }

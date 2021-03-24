@@ -66,6 +66,7 @@ describe('SalesRowDetailsComponent', () => {
   describe('agInit', () => {
     it('should set rowData and call setInitialFormValues', () => {
       component['setInitialFormValues'] = jest.fn();
+      component['setSubscription'] = jest.fn();
 
       const fakeParams = {
         data: salesSummaryMock,
@@ -76,12 +77,34 @@ describe('SalesRowDetailsComponent', () => {
       expect(component.rowData).toEqual(salesSummaryMock);
 
       expect(component['setInitialFormValues']).toHaveBeenCalledTimes(1);
+      expect(component['setSubscription']).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    it('should unsubscribe', () => {
+      component.subscription.unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component.subscription.unsubscribe).toHaveBeenCalled();
     });
   });
 
   describe('refresh', () => {
     it('should return false', () => {
       expect(component.refresh({})).toBeFalsy();
+    });
+  });
+
+  describe('setSubscription', () => {
+    it('should add subscription', () => {
+      component['handleUserAccess'] = jest.fn();
+
+      component['setSubscription']();
+
+      expect(component['handleUserAccess']).toHaveBeenCalled();
     });
   });
 
@@ -121,16 +144,15 @@ describe('SalesRowDetailsComponent', () => {
     });
   });
 
-  describe('setUniqueUserName', () => {
+  describe('handleUserAccess', () => {
     it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
         // tslint:disable-next-line: no-null-keyword
         lastModifier: null,
       } as unknown) as SalesSummary;
-      component['setUniqueUserName']();
+      component['handleUserAccess']('');
 
-      expect(component.uniqueUserName).toEqual('user');
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
     });
 
@@ -139,9 +161,8 @@ describe('SalesRowDetailsComponent', () => {
       component.rowData = ({
         lastModifier: 'wrong user',
       } as unknown) as SalesSummary;
-      component['setUniqueUserName']();
+      component['handleUserAccess']('user');
 
-      expect(component.uniqueUserName).toEqual('user');
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
     });
 
@@ -151,9 +172,8 @@ describe('SalesRowDetailsComponent', () => {
         // tslint:disable-next-line: no-null-keyword
         lastModifier: 'USER',
       } as unknown) as SalesSummary;
-      component['setUniqueUserName']();
+      component['handleUserAccess']('user');
 
-      expect(component.uniqueUserName).toEqual('user');
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
     });
   });
