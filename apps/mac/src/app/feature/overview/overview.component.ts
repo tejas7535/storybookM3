@@ -1,16 +1,21 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+import { changeFavicon } from '../../shared/change-favicon';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 @Component({
   selector: 'mac-overview',
   templateUrl: './overview.component.html',
   styleUrls: ['./overview.component.scss'],
 })
-export class OverviewComponent {
+export class OverviewComponent implements OnInit {
   constructor(
-    private readonly appInsightsService: ApplicationInsightsService
+    private readonly appInsightsService: ApplicationInsightsService,
+    private readonly breadcrumbsService: BreadcrumbsService
   ) {}
+
+  $breadcrumbs = this.breadcrumbsService.currentBreadcrumbs;
 
   public elements = [
     {
@@ -64,6 +69,11 @@ export class OverviewComponent {
       externalLink: true,
     },
   ];
+
+  ngOnInit(): void {
+    changeFavicon('assets/favicons/overview.ico');
+    this.breadcrumbsService.updateBreadcrumb('');
+  }
 
   public trackByFn(index: number): number {
     return index;

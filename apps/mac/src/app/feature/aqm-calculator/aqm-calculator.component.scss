@@ -6,15 +6,6 @@
   width: 100%;
 }
 
-.aqm-calculator-wrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.aqm-calculator-card-content {
-  padding: 24px;
-}
-
 @media screen and (max-width: $screen-md-min) {
   .aqm-calculator-card {
     margin-top: 73px;
@@ -109,4 +100,21 @@ input[type='number']::-webkit-inner-spin-button {
 
 .composition-input {
   max-width: 150px;
+}
+
+mat-card {
+  margin: 2rem 0;
+  padding: 1rem;
+
+  &-title {
+    padding: 0 1rem;
+
+    h2 {
+      margin-top: 0;
+    }
+  }
+
+  &-content {
+    padding: 0 1rem 2rem 1rem;
+  }
 }

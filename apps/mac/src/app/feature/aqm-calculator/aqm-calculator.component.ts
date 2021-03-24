@@ -2,6 +2,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
+import { RouteNames } from '../../app-routing.enum';
+import { changeFavicon } from '../../shared/change-favicon';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
 import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
@@ -26,6 +29,8 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   aqmCalculationResult: Observable<AQMCalculationResponse>;
   fetchingCalculation: boolean;
 
+  breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
+
   materialInput: FormControl = new FormControl();
 
   compositionForm: FormGroup = new FormGroup({});
@@ -33,10 +38,13 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   subscription = new Subscription();
 
   constructor(
-    private readonly aqmCalculationService: AqmCalculatorApiService
+    private readonly aqmCalculationService: AqmCalculatorApiService,
+    private readonly breadcrumbsService: BreadcrumbsService
   ) {}
 
   ngOnInit(): void {
+    this.breadcrumbsService.updateBreadcrumb(RouteNames.AQMCalculator);
+    changeFavicon('assets/favicons/aqm.ico');
     this.subscription.add(
       this.aqmCalculationService.getMaterialsData().subscribe((result) => {
         this.materials = result.materials;
