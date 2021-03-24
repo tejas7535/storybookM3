@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](///compare/transloco-v2.3.0...transloco-v2.1.0) (2021-03-24)
+
+
+### 🎸 Features
+
+* **transloco:** support cache busting (DSCDA-1780) ([b3977ae](///commit/b3977aefd6534d8be3689f2240bac6f4b5861fa8))
+* **workspace:** build libs with prod config (UFTABI-4112) ([6cd84a2](///commit/6cd84a2b3f3b5fe695d93c28e6cf5eb69bf6c205))
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** adjust libs version ([df88244](///commit/df88244a1a49ef9d4eef59a2e6b2e5cd5e2de976))
+
 ## [2.1.0](///compare/transloco-v2.1.0...transloco-v2.0.0) (2021-01-22)
 
 
