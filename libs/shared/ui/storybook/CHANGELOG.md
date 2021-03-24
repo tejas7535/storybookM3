@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.11.0](///compare/storybook-v1.11.0...storybook-v1.10.1) (2021-03-24)
+
+
+### 🎸 Features
+
+* **dropdown-input:** add dropdown input component (UFTABI-3593) ([1cf36ca](///commit/1cf36caeff37a89a5eaa5eaa23c1304bb80e8066))
+* **header:** allow links in header title  (UFTABI-3751) ([0193893](///commit/0193893576f6d63d89b5763d2e0414d58f32a467))
+* **picture-card:** create picture card (UFTABI-3590) ([0e5e11b](///commit/0e5e11b54e2444b4b04b99e5d2356034dd8f8fc1))
+* **stepper:** add a mobile-friendly stepper (UFTABI-3641) ([fd81bdd](///commit/fd81bdd79eec74fb3bd15ad004ff316491602d3f))
+* **storybooks:** allow tailwind styling in storybooks (UFTABI-3850) ([ee1ec06](///commit/ee1ec0675b2c7a4b5f589a73d0f8a46dc64d1144))
+
 ### [1.10.1](///compare/storybook-v1.10.1...storybook-v1.10.0) (2021-01-22)
 
 
