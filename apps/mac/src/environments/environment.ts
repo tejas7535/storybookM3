@@ -12,7 +12,7 @@ export const environment = {
   applicationInsights: {
     applicationInsightsConfig: {
       instrumentationKey: 'a9d73f13-6b7a-4dae-bac6-d41930e6c311',
-      isCookieUseDisabled: true,
+      disableCookiesUsage: true,
       autoTrackPageVisitTime: true,
     },
     enableGlobalErrorHandler: true,
