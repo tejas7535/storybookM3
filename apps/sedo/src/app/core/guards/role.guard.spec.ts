@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppRoutePath } from '../../app-route-path.enum';
 import { RoleGuard } from './role.guard';
@@ -31,14 +31,14 @@ describe('RoleGuard', () => {
     expect(guard).toBeTruthy();
   });
 
-  describe('canActivate', () => {
+  describe('canActivateChild', () => {
     test(
       'should grant access, if user has base role',
       waitForAsync(() => {
         store.overrideSelector(getRoles, ['USER_READ']);
 
         guard
-          .canActivate(undefined, undefined)
+          .canActivateChild(undefined, undefined)
           .subscribe((granted) => expect(granted).toBeTruthy());
       })
     );
@@ -50,7 +50,7 @@ describe('RoleGuard', () => {
         guard['router'].navigate = jest.fn().mockImplementation();
 
         guard
-          .canActivate(undefined, undefined)
+          .canActivateChild(undefined, undefined)
           .subscribe((granted) => expect(granted).toBeFalsy());
       })
     );
@@ -59,10 +59,10 @@ describe('RoleGuard', () => {
       store.overrideSelector(getRoles, []);
       guard['router'].navigate = jest.fn().mockImplementation();
 
-      guard.canActivate(undefined, undefined).subscribe();
+      guard.canActivateChild(undefined, undefined).subscribe();
 
       expect(guard['router'].navigate).toHaveBeenCalledWith([
-        AppRoutePath.ForbiddenPath,
+        AppRoutePath.Forbidden,
       ]);
     });
   });

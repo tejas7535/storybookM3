@@ -1,31 +1,16 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 
-import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
+import { MsalRedirectComponent } from '@azure/msal-angular';
 
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-const azureConfig = new AzureConfig(
-  environment.tenantId,
-  environment.clientId,
-  environment.appId,
-  FlowType.CODE_FLOW,
-  !environment.production
-);
-
 @NgModule({
-  imports: [
-    AppRoutingModule,
-    HttpClientModule,
-    CoreModule,
-    SharedModule,
-    SharedAuthModule.forRoot(azureConfig),
-  ],
+  imports: [AppRoutingModule, HttpClientModule, CoreModule, SharedModule],
   providers: [],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent, MsalRedirectComponent],
 })
 export class AppModule {}

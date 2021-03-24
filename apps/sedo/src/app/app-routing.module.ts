@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MsalGuard } from '@azure/msal-angular';
+
 import { AppRoutePath } from './app-route-path.enum';
 import { RoleGuard } from './core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {
-    path: AppRoutePath.BasePath,
+    path: AppRoutePath.Base,
     loadChildren: () =>
       import('./sales-summary/sales-summary.module').then(
         (m) => m.SalesSummaryModule
       ),
-    canActivate: [RoleGuard],
+    canActivateChild: [RoleGuard],
+    canActivate: [MsalGuard],
   },
   {
-    path: AppRoutePath.ForbiddenPath,
+    path: AppRoutePath.Forbidden,
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
@@ -29,8 +32,6 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: 'disabled',
-      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],

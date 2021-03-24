@@ -1,11 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { Subscription } from 'rxjs';
 
 import { GridApi } from '@ag-grid-community/all-modules';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { select, Store } from '@ngrx/store';
 
-import { getClaim } from '@schaeffler/auth';
+import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppState } from '../../core/store';
@@ -18,15 +20,17 @@ import { UpdateDatesParams } from '../../shared/models/dates-update.model';
   templateUrl: './sales-row-details.component.html',
   styleUrls: ['./sales-row-details.component.scss'],
 })
-export class SalesRowDetailsComponent implements ICellRendererAngularComp {
+export class SalesRowDetailsComponent
+  implements ICellRendererAngularComp, OnDestroy {
   public datesFormGroup = new FormGroup({
     eopDateControl: new FormControl('', Validators.required),
     edoDateControl: new FormControl('', Validators.required),
   });
   public rowData: SalesSummary;
-  public uniqueUserName: string;
 
   public gridApi: GridApi;
+
+  readonly subscription: Subscription = new Subscription();
 
   constructor(
     private readonly store: Store<AppState>,
@@ -45,8 +49,12 @@ export class SalesRowDetailsComponent implements ICellRendererAngularComp {
   public agInit(params: any): void {
     this.gridApi = params.api;
     this.rowData = params.data;
-    this.setUniqueUserName();
+    this.setSubscription();
     this.setInitialFormValues();
+  }
+
+  public ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   // Is currently not being called but needed to fulfill the ICellRendererAngularComp interface
@@ -98,16 +106,22 @@ export class SalesRowDetailsComponent implements ICellRendererAngularComp {
     this.datesFormGroup.markAsPristine();
   }
 
-  private setUniqueUserName(): void {
-    this.store.pipe(select(getClaim('upn'))).subscribe((upn: string) => {
-      this.uniqueUserName = upn.split('@')[0];
-      if (
-        !this.rowData.lastModifier ||
-        this.rowData.lastModifier.toLowerCase() !==
-          this.uniqueUserName.toLowerCase()
-      ) {
-        this.datesFormGroup.disable();
-      }
-    });
+  private setSubscription(): void {
+    this.subscription.add(
+      this.store
+        .pipe(select(getUserUniqueIdentifier))
+        .subscribe((userId: string) => {
+          this.handleUserAccess(userId);
+        })
+    );
+  }
+
+  private handleUserAccess(userId: string): void {
+    if (
+      !this.rowData.lastModifier ||
+      this.rowData.lastModifier.toLowerCase() !== userId.toLowerCase()
+    ) {
+      this.datesFormGroup.disable();
+    }
   }
 }

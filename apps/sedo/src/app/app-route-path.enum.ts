@@ -1,4 +1,4 @@
 export enum AppRoutePath {
-  BasePath = '',
-  ForbiddenPath = 'forbidden',
+  Base = '',
+  Forbidden = 'forbidden',
 }

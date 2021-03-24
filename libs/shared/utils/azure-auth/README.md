@@ -90,7 +90,7 @@ This library provides the following selectors that can be used from within your 
             new ProtectedResource('/api/*', [environment.appScope]), // the resources the scope is needed
         ]),
         new MsalGuardConfig('/login-failed', [ // redirect URI for failed login requests
-            environment.appId,
+            environment.appScope,
         ])
     );
 

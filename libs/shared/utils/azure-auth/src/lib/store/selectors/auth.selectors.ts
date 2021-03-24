@@ -12,6 +12,11 @@ export const getUsername = createSelector(
   (state) => state.accountInfo?.name
 );
 
+export const getUserUniqueIdentifier = createSelector(
+  getAuthState,
+  (state) => state.accountInfo?.username?.split('@')[0]
+);
+
 export const getIsLoggedIn = createSelector(
   getAuthState,
   (state) => state.accountInfo !== undefined

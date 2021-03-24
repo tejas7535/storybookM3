@@ -1,9 +1,27 @@
-<schaeffler-header [platformTitle]="title" class="full-height">
+<schaeffler-header
+  [platformTitle]="title"
+  class="full-height"
+  *ngIf="getIsLoggedIn$ | ngrxPush; else loading"
+>
   <schaeffler-user-menu
     user-menu
-    [user]="username$ | async"
+    [user]="username$ | ngrxPush"
+    [profileImage]="profileImage$ | ngrxPush"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
 
   <router-outlet></router-outlet>
 </schaeffler-header>
+
+<ng-template #loading>
+  <div class="progress-spinner-wrapper">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate"
+      diameter="40"
+      value="50"
+      class="progress-spinner"
+    >
+    </mat-progress-spinner>
+  </div>
+</ng-template>
