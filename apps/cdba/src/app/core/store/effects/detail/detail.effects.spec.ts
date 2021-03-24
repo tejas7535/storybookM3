@@ -303,7 +303,7 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return select referenceTypeAction', () => {
+    xtest('should return select referenceTypeAction', () => {
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
