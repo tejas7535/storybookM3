@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.6](///compare/http-v0.0.6...http-v0.0.4) (2021-03-24)
+
+
+### 📈 Improvements
+
+* **shared-utils-http:** add exception to http interceptor ([ea7f584](///commit/ea7f5848b0bd3dec9d8bb52cea66deb802067620))
+
+
+### 🎸 Features
+
+* **workspace:** build libs with prod config (UFTABI-4112) ([6cd84a2](///commit/6cd84a2b3f3b5fe695d93c28e6cf5eb69bf6c205))
+
+
+### 🐛 Bug Fixes
+
+* **workspace:** adjust libs version ([df88244](///commit/df88244a1a49ef9d4eef59a2e6b2e5cd5e2de976))
+
 ### [0.0.4](///compare/http-v0.0.4...http-v0.0.3) (2021-01-22)
 
 
