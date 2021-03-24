@@ -2,6 +2,34 @@
 
 **Note:** old/deprecated changelog can be found [here](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/184ca646a740a82b55eee4f43c56c076a0ca82e2/CHANGELOG.md)
 
+## 3/24/2021
+* assets: [1.11.2](libs/shared/assets/CHANGELOG.md)
+* cypress-utils: [1.11.2](libs/shared/cypress-utils/CHANGELOG.md)
+* @schaeffler/banner: [2.2.0](libs/shared/ui/banner/CHANGELOG.md)
+* @schaeffler/dropdown-input: [0.0.2](libs/shared/ui/dropdown-input/CHANGELOG.md)
+* @schaeffler/empty-states: [1.8.0](libs/shared/ui/empty-states/CHANGELOG.md)
+* @schaeffler/file-drop: [1.6.0](libs/shared/ui/file-drop/CHANGELOG.md)
+* @schaeffler/footer: [1.7.0](libs/shared/ui/footer/CHANGELOG.md)
+* @schaeffler/footer-tailwind: [0.0.1](libs/shared/ui/footer-tailwind/CHANGELOG.md)
+* @schaeffler/header: [2.3.0](libs/shared/ui/header/CHANGELOG.md)
+* @schaeffler/icons: [1.7.0](libs/shared/ui/icons/CHANGELOG.md)
+* @schaeffler/picture-card: [0.0.2](libs/shared/ui/picture-card/CHANGELOG.md)
+* @schaeffler/scroll-to-top: [1.6.0](libs/shared/ui/scroll-to-top/CHANGELOG.md)
+* @schaeffler/settings-sidebar: [1.6.0](libs/shared/ui/settings-sidebar/CHANGELOG.md)
+* @schaeffler/sidebar: [1.8.0](libs/shared/ui/sidebar/CHANGELOG.md)
+* @schaeffler/snackbar: [1.7.0](libs/shared/ui/snackbar/CHANGELOG.md)
+* @schaeffler/speed-dial-fab: [2.2.0](libs/shared/ui/speed-dial-fab/CHANGELOG.md)
+* @schaeffler/stepper: [0.0.2](libs/shared/ui/stepper/CHANGELOG.md)
+* storybook: [1.11.0](libs/shared/ui/storybook/CHANGELOG.md)
+* @schaeffler/styles: [1.1.0](libs/shared/ui/styles/CHANGELOG.md)
+* @schaeffler/application-insights: [0.0.5](libs/shared/utils/application-insights/CHANGELOG.md)
+* @schaeffler/auth: [1.7.0](libs/shared/utils/auth/CHANGELOG.md)
+* @schaeffler/azure-auth: [0.0.3](libs/shared/utils/azure-auth/CHANGELOG.md)
+* @schaeffler/http: [0.0.6](libs/shared/utils/http/CHANGELOG.md)
+* @schaeffler/responsive: [2.2.0](libs/shared/utils/responsive/CHANGELOG.md)
+* @schaeffler/transloco: [2.3.0](libs/shared/utils/transloco/CHANGELOG.md)
+
+
 ## 3/23/2021
 * gq: [1.12.2](./apps/gq/CHANGELOG.md)
 
