@@ -4,7 +4,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService } from '@schaeffler/http';
 
-import { RestService } from './rest.service';
+import { IotParams, RestService } from './rest.service';
 
 describe('Rest Service', () => {
   let service: RestService;
@@ -132,6 +132,25 @@ describe('Rest Service', () => {
       service.getBearingLoadLatest(deviceId);
       expect(dataService.getAll).toHaveBeenCalledWith(
         `iot/things/${deviceId}/telemetry/bearing-load/latest`
+      );
+    });
+  });
+
+  describe('getBearingLoadAverage', () => {
+    test('should call dataService', () => {
+      const deviceId = 'du1-bist2-flop3';
+      const startDate = 123;
+      const endDate = 456;
+
+      const iotParams: IotParams = {
+        id: deviceId,
+        startDate,
+        endDate,
+      };
+
+      service.getBearingLoadAverage(iotParams);
+      expect(dataService.getAll).toHaveBeenCalledWith(
+        `iot/things/${deviceId}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}`
       );
     });
   });

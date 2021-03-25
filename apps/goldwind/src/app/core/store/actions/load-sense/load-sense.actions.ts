@@ -1,12 +1,26 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { LoadSense } from '../../reducers/load-sense/models';
+import { LoadSense, LoadSenseAvg } from '../../reducers/load-sense/models';
 
 export const getLoadId = createAction('[Load Sense] Load Load Id');
 
 export const getBearingLoadLatest = createAction(
   '[Load Sense] Get Load',
   props<{ deviceId: string }>()
+);
+
+export const getLoadAverage = createAction(
+  '[Load Sense] Get Load Average',
+  props<{ deviceId: string }>()
+);
+
+export const getLoadAverageSuccess = createAction(
+  '[Load Sense] Get Load Average Success',
+  props<{ loadAverage: LoadSenseAvg }>()
+);
+
+export const getLoadAverageFailure = createAction(
+  '[Load Sense] Get Load Average Failure'
 );
 
 export const stopGetLoad = createAction('[Load Sense] Stop Load');
@@ -26,6 +40,9 @@ const all = union({
   stopGetLoad,
   getBearingLoadFailure,
   getBearingLoadSuccess,
+  getLoadAverage,
+  getLoadAverageSuccess,
+  getLoadAverageFailure,
 });
 
 export type LoadSenseActions = typeof all;

@@ -10,9 +10,11 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
+import { BearingMetadata } from '../../core/store/reducers/bearing/models';
 import { DATE_FORMAT } from '../../shared/constants';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
+import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
 import { GreaseStatusComponent } from './grease-status.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -25,12 +27,41 @@ describe('GreaseStatusComponent', () => {
   let spectator: Spectator<GreaseStatusComponent>;
   let mockStore: MockStore;
 
+  const bearingMetaData: BearingMetadata = {
+    id: 'bbc9a782-f0fc-4a5a-976e-b28cfe187b19',
+    name: 'Windturbine of qa-009',
+    type: 'WT_QA_009',
+    description:
+      'Windturbing with qa-009 connected. Used for generating mock data',
+    manufacturer: 'Schaeffler',
+    locationLatitude: 49.5631065,
+    locationLongitude: 10.8847362,
+    edgeDevice: {
+      description: 'Edge device test desc',
+      id: 'id-edge-device',
+      manufacturer: 'Schaeffler',
+      name: 'edge-device-test',
+      serialNumber: '234',
+      type: 'test',
+    },
+    windFarm: {
+      id: 'test-windfarm',
+      country: 'Test',
+      description: 'Test Windfarm',
+      locationLatitude: 0.22,
+      locationLongitude: 2.33,
+      name: 'Windfarm Test',
+      owner: 'Goldwind',
+    },
+  };
+
   const createComponent = createComponentFactory({
     component: GreaseStatusComponent,
     imports: [
       ReactiveFormsModule,
       DateRangeModule,
       EmptyGraphModule,
+      CenterLoadModule,
       MatCardModule,
       MatCheckboxModule,
       NgxEchartsModule.forRoot({
@@ -56,6 +87,10 @@ describe('GreaseStatusComponent', () => {
               startDate: 123456789,
               endDate: 987654321,
             },
+          },
+          bearing: {
+            loading: false,
+            result: bearingMetaData,
           },
         },
       }),

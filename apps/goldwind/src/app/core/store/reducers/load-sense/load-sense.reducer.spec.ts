@@ -5,8 +5,13 @@ import {
   getBearingLoadLatest,
   getBearingLoadSuccess,
 } from '../..';
+import {
+  getLoadAverage,
+  getLoadAverageFailure,
+  getLoadAverageSuccess,
+} from '../../actions';
 import { initialState, loadSenseReducer, reducer } from './load-sense.reducer';
-import { LoadSense } from './models';
+import { LoadSense, LoadSenseAvg } from './models';
 
 describe('Load Sense Reducer', () => {
   describe('getLoad', () => {
@@ -15,6 +20,55 @@ describe('Load Sense Reducer', () => {
       const state = loadSenseReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();
+    });
+  });
+
+  describe('getLoadAverage', () => {
+    test('should set loading', () => {
+      const action = getLoadAverage({ deviceId: '123' });
+      const state = loadSenseReducer(initialState, action);
+
+      expect(state.averageResult.loading).toBeTruthy();
+    });
+  });
+
+  describe('getLoadAverageSuccess', () => {
+    test('should unset loading and set state', () => {
+      const mockResult: LoadSenseAvg = {
+        deviceId: 'string',
+        id: 'string',
+        lsp02StrainAvg: 0,
+        lsp01StrainAvg: 0,
+        lsp03StrainAvg: 0,
+        lsp04StrainAvg: 0,
+        lsp05StrainAvg: 0,
+        lsp06StrainAvg: 0,
+        lsp07StrainAvg: 0,
+        lsp08StrainAvg: 0,
+        lsp09StrainAvg: 0,
+        lsp10StrainAvg: 0,
+        lsp11StrainAvg: 0,
+        lsp12StrainAvg: 0,
+        lsp13StrainAvg: 0,
+        lsp14StrainAvg: 0,
+        lsp15StrainAvg: 0,
+        lsp16StrainAvg: 0,
+        timestamp: '2020-11-04T09:39:19.499Z',
+      };
+      const action = getLoadAverageSuccess({ loadAverage: mockResult });
+
+      const fakeState = {
+        ...initialState,
+        averageResult: {
+          loading: true,
+        },
+      };
+
+      const state = loadSenseReducer(fakeState, action);
+
+      expect(state.averageResult.loading).toBeFalsy();
+
+      expect(state.averageResult.result).toEqual(mockResult);
     });
   });
 
@@ -69,6 +123,23 @@ describe('Load Sense Reducer', () => {
       expect(state.loading).toBeFalsy();
     });
   });
+
+  describe('getLoadAverageFailure', () => {
+    test('should unset loading', () => {
+      const action = getLoadAverageFailure();
+      const fakeState = {
+        ...initialState,
+        averageResult: {
+          loading: true,
+        },
+      };
+
+      const state = loadSenseReducer(fakeState, action);
+
+      expect(state.averageResult.loading).toBeFalsy();
+    });
+  });
+
   describe('Reducer function', () => {
     test('should return loadSenseReducer', () => {
       // prepare any action

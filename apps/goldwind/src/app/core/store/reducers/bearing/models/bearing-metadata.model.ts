@@ -54,8 +54,8 @@ export interface BearingMetadata {
     type: string;
   };
   id: string;
-  locationLatitude: 0;
-  locationLongitude: 0;
+  locationLatitude: number;
+  locationLongitude: number;
   manufacturer: string;
   name: string;
   type: string;
@@ -63,8 +63,8 @@ export interface BearingMetadata {
     country: string;
     description: string;
     id: string;
-    locationLatitude: 0;
-    locationLongitude: 0;
+    locationLatitude: number;
+    locationLongitude: number;
     name: string;
     owner: string;
   };

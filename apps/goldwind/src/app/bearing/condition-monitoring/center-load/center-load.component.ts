@@ -1,15 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
 import { BearingLoadLatestState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
+  getAverageLoadGraphData,
   getBearingLoadLatestTimeStamp,
+  getLoadAverageLoading,
   getLoadGraphData,
   getLoadSenseLoading,
 } from '../../../core/store/selectors/';
@@ -26,6 +29,8 @@ export class CenterLoadComponent implements OnInit {
   timeStamp$: Observable<string>;
   refresh = UPDATE_SETTINGS.shaft.refresh;
   loading$: Observable<boolean>;
+
+  @Input() averageLoad = false;
 
   chartOptions: EChartsOption = {
     ...radarChartOptions,
@@ -54,7 +59,12 @@ export class CenterLoadComponent implements OnInit {
   public constructor(private readonly store: Store<BearingLoadLatestState>) {}
 
   tooltipFormatter(params: any): any {
-    if (params.seriesName === 'Rotor') {
+    if (
+      params.seriesName ===
+        `${translate(`conditionMonitoring.centerLoad.rotor`)}` ||
+      params.seriesName ===
+        `${translate(`conditionMonitoring.centerLoad.rotorAverage`)}`
+    ) {
       return `${params.seriesName}<br />
       Lsp 1:&nbsp;&nbsp;&nbsp;&nbsp;${params.data.value[0].toLocaleString(
         DATE_FORMAT.local,
@@ -89,7 +99,12 @@ export class CenterLoadComponent implements OnInit {
         { maximumFractionDigits: 0 }
       )} N<br />`;
     }
-    if (params.seriesName === 'Generator') {
+    if (
+      params.seriesName ===
+        `${translate(`conditionMonitoring.centerLoad.generator`)}` ||
+      params.seriesName ===
+        `${translate(`conditionMonitoring.centerLoad.generatorAverage`)}`
+    ) {
       return `${params.seriesName}<br />
       Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;${params.data.value[0].toLocaleString(
         DATE_FORMAT.local,
@@ -127,9 +142,17 @@ export class CenterLoadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.loadSenseGraphData$ = this.store.pipe(select(getLoadGraphData));
     this.timeStamp$ = this.store.pipe(select(getBearingLoadLatestTimeStamp));
-    this.loading$ = this.store.pipe(select(getLoadSenseLoading), take(2));
+
+    if (this.averageLoad) {
+      this.loadSenseGraphData$ = this.store.pipe(
+        select(getAverageLoadGraphData)
+      );
+      this.loading$ = this.store.pipe(select(getLoadAverageLoading));
+    } else {
+      this.loadSenseGraphData$ = this.store.pipe(select(getLoadGraphData));
+      this.loading$ = this.store.pipe(select(getLoadSenseLoading), take(2));
+    }
   }
 
   formatDate(current: string): string {

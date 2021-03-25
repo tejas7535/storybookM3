@@ -12,10 +12,10 @@ import {
   GcmProcessed,
   GcmStatus,
 } from '../store/reducers/grease-status/models';
-import { LoadSense } from '../store/reducers/load-sense/models';
+import { LoadSense, LoadSenseAvg } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
 
-interface IotParams {
+export interface IotParams {
   id: string;
   startDate: number;
   endDate: number;
@@ -74,6 +74,16 @@ export class RestService {
 
   public getBearingLoadLatest(deviceId: string): Observable<LoadSense> {
     return this.getIot(`${deviceId}/telemetry/bearing-load/latest`);
+  }
+
+  public getBearingLoadAverage({
+    id: deviceID,
+    startDate,
+    endDate,
+  }: IotParams): Observable<LoadSenseAvg> {
+    return this.getIot(
+      `${deviceID}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}`
+    );
   }
 
   public getData({

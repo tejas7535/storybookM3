@@ -30,6 +30,11 @@ import {
   setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
+import {
+  getLoadAverage,
+  getLoadAverageFailure,
+  getLoadAverageSuccess,
+} from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
 import { Interval } from '../../reducers/shared/models';
 import { getGreaseInterval } from '../../selectors';
@@ -95,6 +100,7 @@ export class GreaseStatusEffects {
             this.store.dispatch(getGreaseStatusLatest({ deviceId }));
           } else {
             this.store.dispatch(getGreaseStatus({ deviceId }));
+            this.store.dispatch(getLoadAverage({ deviceId }));
           }
         })
       ),
@@ -116,6 +122,23 @@ export class GreaseStatusEffects {
         this.restService.getGreaseStatus(greaseParams).pipe(
           map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
+        )
+      )
+    )
+  );
+
+  loadAverage$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getLoadAverage),
+      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.deviceId,
+        ...interval,
+      })),
+      mergeMap((greaseParams) =>
+        this.restService.getBearingLoadAverage(greaseParams).pipe(
+          map((loadAverage) => getLoadAverageSuccess({ loadAverage })),
+          catchError((_e) => of(getLoadAverageFailure()))
         )
       )
     )

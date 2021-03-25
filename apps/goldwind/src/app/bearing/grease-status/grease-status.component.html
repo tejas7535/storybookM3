@@ -1,46 +1,55 @@
-<mat-card *transloco="let t; read: 'greaseStatus'">
-  <mat-card-header>
-    <mat-card-title>{{ t('title') }}</mat-card-title>
-    <mat-card-subtitle *transloco="let t; read: 'bearing'">
-      {{ t('mainBearing') }}
-    </mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
-    <goldwind-date-range
-      [interval]="interval$ | ngrxPush"
-      (rangeChange)="setInterval($event)"
-    ></goldwind-date-range>
-    <ng-container *ngrxLet="greaseStatusGraphData$ as graphData">
-      <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
-    </ng-container>
-    <div
-      fxFill
-      fxLayout="column"
-      fxLayout.gt-sm="row"
-      fxLayoutAlign="space-between"
-      fxLayoutGap="30px"
-    >
-      <div fxFlex="20">
-        <label>{{ t('pleaseSelectTrendsToShow') }}</label>
-        <ul [formGroup]="displayForm">
-          <li *ngFor="let checkBox of checkBoxes; trackBy: trackByFn">
-            <mat-checkbox
-              [formControlName]="checkBox.formControl"
-              [color]="'primary'"
-            >
-              {{ t(checkBox.label) }}
-            </mat-checkbox>
-          </li>
-        </ul>
-      </div>
-
+<div class="grid-container">
+  <mat-card *transloco="let t; read: 'greaseStatus'">
+    <mat-card-header>
+      <mat-card-title>{{ t('title') }}</mat-card-title>
+      <mat-card-subtitle *transloco="let t; read: 'bearing'">
+        {{ t('mainBearing') }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
+      <goldwind-date-range
+        [interval]="interval$ | ngrxPush"
+        (rangeChange)="setInterval($event)"
+      ></goldwind-date-range>
+      <ng-container *ngrxLet="greaseStatusGraphData$ as graphData">
+        <goldwind-empty-graph [graphData]="graphData"></goldwind-empty-graph>
+      </ng-container>
       <div
-        class="chart"
-        fxFlex
-        echarts
-        [options]="chartOptions"
-        [merge]="greaseStatusGraphData$ | ngrxPush"
-      ></div>
-    </div>
-  </mat-card-content>
-</mat-card>
+        fxFill
+        fxLayout="column"
+        fxLayout.gt-sm="row"
+        fxLayoutAlign="space-between"
+        fxLayoutGap="30px"
+      >
+        <div fxFlex="20">
+          <label>{{ t('pleaseSelectTrendsToShow') }}</label>
+          <ul [formGroup]="displayForm">
+            <li *ngFor="let checkBox of checkBoxes; trackBy: trackByFn">
+              <mat-checkbox
+                [formControlName]="checkBox.formControl"
+                [color]="'primary'"
+              >
+                {{ t(checkBox.label) }}
+              </mat-checkbox>
+            </li>
+          </ul>
+        </div>
+
+        <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+          <div
+            class="chart"
+            fxFlex
+            echarts
+            [options]="chartOptions"
+            [merge]="greaseStatusGraphData$ | ngrxPush"
+          ></div>
+        </ng-container>
+        <ng-template #loading>
+          <div fxFlex class="chart placeholder-item"></div>
+        </ng-template>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <goldwind-center-load [averageLoad]="true"></goldwind-center-load>
+</div>
