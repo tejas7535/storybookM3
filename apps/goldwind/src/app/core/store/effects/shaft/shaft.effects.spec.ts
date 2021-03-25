@@ -18,6 +18,7 @@ import {
   stopGetShaft,
 } from '../../actions/shaft/shaft.actions';
 import * as fromRouter from '../../reducers';
+import { ShaftStatus } from '../../reducers/shaft/models';
 import { ShaftEffects } from './shaft.effects';
 
 describe('Shaft Effects', () => {
@@ -158,10 +159,9 @@ describe('Shaft Effects', () => {
     });
 
     test('should return getShaftSuccess action when REST call is successful', () => {
-      const SHAFT_MOCK = {
-        id: 'fakeid',
+      const SHAFT_MOCK: ShaftStatus = {
         deviceId: 'fakedeviceid',
-        timeStamp: '2020-11-12T18:31:56.954003Z',
+        timestamp: '2020-11-12T18:31:56.954003Z',
         rsm01ShaftSpeed: 3,
         rsm01Shaftcountervalue: 666,
       };

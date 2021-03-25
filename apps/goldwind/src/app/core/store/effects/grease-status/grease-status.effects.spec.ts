@@ -207,10 +207,9 @@ describe('Search Effects', () => {
       const mockShaftStatus: ShaftStatus[] = [
         {
           deviceId: '1',
-          id: 'id-123',
           rsm01ShaftSpeed: 13,
           rsm01Shaftcountervalue: 3,
-          timeStamp: '2020-08-02T16:18:59Z',
+          timestamp: '2020-08-02T16:18:59Z',
         },
       ];
 

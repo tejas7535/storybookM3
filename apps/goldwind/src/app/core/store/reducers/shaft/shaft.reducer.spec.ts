@@ -5,7 +5,13 @@ import {
   getShaftFailure,
   getShaftSuccess,
 } from '../../actions/shaft/shaft.actions';
-import { initialState, reducer, shaftReducer } from './shaft.reducer';
+import { ShaftStatus } from './models';
+import {
+  initialState,
+  reducer,
+  shaftReducer,
+  ShaftState,
+} from './shaft.reducer';
 
 describe('Shaft Reducer', () => {
   describe('getShaft', () => {
@@ -19,16 +25,15 @@ describe('Shaft Reducer', () => {
 
   describe('getShaftSuccess', () => {
     test('should unset shaft loading and set shaft result', () => {
-      const SHAFT_MOCK = {
-        id: 'fakeid',
+      const SHAFT_MOCK: ShaftStatus = {
         deviceId: 'fakedeviceid',
-        timeStamp: '2020-11-12T18:31:56.954003Z',
+        timestamp: '2020-11-12T18:31:56.954003Z',
         rsm01ShaftSpeed: 3,
         rsm01Shaftcountervalue: 666,
       };
       const action = getShaftSuccess({ shaft: SHAFT_MOCK });
 
-      const fakeState = {
+      const fakeState: ShaftState = {
         ...initialState,
         loading: true,
       };

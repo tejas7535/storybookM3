@@ -11,6 +11,7 @@ import {
   initialState,
   reducer,
 } from './edm-monitor.reducer';
+import { Edm } from './models';
 
 describe('Condition Monitoring Reducer', () => {
   describe('getEdm', () => {
@@ -24,7 +25,7 @@ describe('Condition Monitoring Reducer', () => {
 
   describe('getEdmSuccess', () => {
     test('should unset loading and set measurements', () => {
-      const mockMeasurements = [
+      const mockMeasurements: Edm[] = [
         {
           startDate: '2020-07-30T11:02:25',
           edmValue1Counter: 100,
