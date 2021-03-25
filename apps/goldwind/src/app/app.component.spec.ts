@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
@@ -61,7 +60,7 @@ describe('AppComponent', () => {
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(component.isLoggedIn$).toBeDefined();
     });
   });
 });

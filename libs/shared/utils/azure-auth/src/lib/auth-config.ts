@@ -54,7 +54,7 @@ export const getMsalInstanceConfig = (
   return new PublicClientApplication({
     auth: {
       clientId: msalInstanceConfig.clientId,
-      authority: `https://login.microsoftonline.com/${msalInstanceConfig.tenantId}/`,
+      authority: `${msalInstanceConfig.loginUrl}${msalInstanceConfig.tenantId}/`,
       redirectUri: msalInstanceConfig.redirectUri,
       postLogoutRedirectUri: msalInstanceConfig.postLogoutRedirectUri,
     },

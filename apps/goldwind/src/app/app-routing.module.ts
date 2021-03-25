@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MsalGuard } from '@azure/msal-angular';
+
 import { AppRoutePath } from './app-route-path.enum';
-import { RoleGuard } from './core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {
@@ -14,13 +15,13 @@ export const appRoutePaths: Routes = [
     path: AppRoutePath.OverviewPath,
     loadChildren: () =>
       import('./overview/overview.module').then((m) => m.OverviewModule),
-    canActivate: [RoleGuard],
+    canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.BearingPath,
     loadChildren: () =>
       import('./bearing/bearing.module').then((m) => m.BearingModule),
-    canActivate: [RoleGuard],
+    canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.ForbiddenPath,
@@ -38,8 +39,6 @@ export const appRoutePaths: Routes = [
   imports: [
     RouterModule.forRoot(appRoutePaths, {
       useHash: true,
-      initialNavigation: 'disabled',
-      relativeLinkResolution: 'legacy',
     }),
   ],
   exports: [RouterModule],
