@@ -135,6 +135,10 @@
         "eslint-plugin-prettier"
       ],
       "groupName": "eslint"
+    },
+    {
+      "packageNames": ["@azure/msal-browser", "@azure/msal-angular"],
+      "groupName": "@azure/msal"
     }
   ]
 }
