@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
+import { getIsLoggedIn, getUsername } from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import { AppState } from './core/store';
@@ -26,7 +26,5 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
     this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
-
-    this.store.dispatch(startLoginFlow());
   }
 }
