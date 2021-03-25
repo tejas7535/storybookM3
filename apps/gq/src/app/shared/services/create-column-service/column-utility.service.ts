@@ -102,4 +102,7 @@ export class ColumnUtilityService {
 
     return pipe.transform(data.value);
   }
+  static transformPer(): string {
+    return '1';
+  }
 }
