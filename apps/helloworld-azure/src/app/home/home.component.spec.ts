@@ -31,7 +31,7 @@ describe('HomeComponent', () => {
 
   test('should render title', () => {
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h2').textContent).toContain(
+    expect(compiled.querySelector('h5').textContent).toContain(
       'Here are some links to help you start:'
     );
   });

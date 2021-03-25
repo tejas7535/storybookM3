@@ -1,18 +1,19 @@
-<div fxLayout="column" class="full-height fullscreen-bg">
-  <schaeffler-header [platformTitle]="platformTitle" [toggleEnabled]="false">
-    <schaeffler-user-menu
-      user-menu
-      [user]="username$ | async"
-      [profileImage]="profileImage$ | async"
-    ></schaeffler-user-menu>
-    <div class="site-content">
-      <div class="router-content">
-        <router-outlet></router-outlet>
-      </div>
-
-      <div class="footer-wrapper">
-        <schaeffler-footer></schaeffler-footer>
-      </div>
+<schaeffler-header
+  [platformTitle]="platformTitle"
+  [toggleEnabled]="false"
+  class="h-full"
+>
+  <schaeffler-user-menu
+    user-menu
+    [user]="username$ | async"
+    [profileImage]="profileImage$ | async"
+  ></schaeffler-user-menu>
+  <div class="h-full flex flex-col fullscreen-bg">
+    <div class="flex-auto">
+      <router-outlet></router-outlet>
     </div>
-  </schaeffler-header>
-</div>
+    <schaeffler-footer-tailwind
+      class="flex-shrink-0 bg-white md:bg-background"
+    ></schaeffler-footer-tailwind>
+  </div>
+</schaeffler-header>

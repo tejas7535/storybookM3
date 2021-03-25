@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -21,7 +21,7 @@ import { StoreModule } from './store/store.module';
 
     // UI Modules
     HeaderModule,
-    FooterModule,
+    FooterTailwindModule,
 
     // Translation
     SharedTranslocoModule.forRoot(
