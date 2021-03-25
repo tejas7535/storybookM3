@@ -43,6 +43,27 @@ Make sure, you have them installed via `npm` properly.
         ...
     ```
 
+**Optional**:  
+If you want to log additonal custom properties for any event (pageView, customEvent, metric, ...), you can use the `ApplicationInsightsService`:
+
+```typescript
+    import { ApplicationInsightsService } from '@schaeffler/application-insights';
+    
+    ...
+
+    constructor(private readonly applicationInsights: ApplicationInsightsService){}
+
+    ...
+    
+    private addCustomProperty(): void {
+
+        const tag = 'department';
+        const value = 'SF/HZA-CDAI2';
+        
+        this.applicationInsights.addCustomPropertyToTelemetryData(tag, value);
+    }
+```
+
 
 **Optional**:  
 If you want to log additonal events, metrics & co, you can use the `ApplicationInsightsService`:

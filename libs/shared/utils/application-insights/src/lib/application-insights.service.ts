@@ -3,7 +3,10 @@ import { ActivatedRouteSnapshot, ResolveEnd, Router } from '@angular/router';
 
 import { filter, map, tap } from 'rxjs/operators';
 
-import { ApplicationInsights } from '@microsoft/applicationinsights-web';
+import {
+  ApplicationInsights,
+  ITelemetryItem,
+} from '@microsoft/applicationinsights-web';
 
 import {
   APPLICATION_INSIGHTS_CONFIG,
@@ -35,9 +38,9 @@ export class ApplicationInsightsService {
       : snapshot.component;
   }
 
-  public addTelemetryData(tag: string, value: string): void {
-    const telemetryInitializer = (envelope: any) => {
-      envelope.tags[tag] = value;
+  public addCustomPropertyToTelemetryData(tag: string, value: string): void {
+    const telemetryInitializer = (envelope: ITelemetryItem) => {
+      envelope.data = { ...envelope.data, [tag]: value };
     };
     this.appInsights.addTelemetryInitializer(telemetryInitializer);
   }

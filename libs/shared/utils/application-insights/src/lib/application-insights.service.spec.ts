@@ -9,6 +9,7 @@ import {
 
 import { ReplaySubject } from 'rxjs';
 
+import { ITelemetryItem } from '@microsoft/applicationinsights-web';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
@@ -87,13 +88,29 @@ describe('ApplicationInsightService', () => {
     });
   });
 
-  describe('addTelemetryData', () => {
-    it('should call method addTelemetryInitializer', () => {
-      service['appInsights'].addTelemetryInitializer = jest.fn();
+  describe('addCustomPropertyToTelemetryData', () => {
+    let spy: jasmine.Spy;
+    beforeEach(() => {
+      spy = spyOn(
+        service['appInsights'],
+        'addTelemetryInitializer'
+      ).and.callThrough();
+    });
 
-      service.addTelemetryData('foo', 'bar');
+    it('should call method addTelemetryInitializer', () => {
+      service.addCustomPropertyToTelemetryData('foo', 'bar');
 
       expect(service['appInsights'].addTelemetryInitializer).toHaveBeenCalled();
+    });
+
+    it('should register telemetry initializer with correct data properties ', () => {
+      service.addCustomPropertyToTelemetryData('foo', 'bar');
+
+      const telemetryItem: ITelemetryItem = ({} as unknown) as ITelemetryItem;
+      spy.calls.allArgs()[0][0](telemetryItem);
+
+      const expected = { foo: 'bar' };
+      expect(telemetryItem.data).toEqual(expected);
     });
   });
 
