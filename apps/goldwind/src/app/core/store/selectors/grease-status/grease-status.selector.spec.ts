@@ -3,9 +3,9 @@ import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
+  getAnalysisGraphData,
   getGreaseDisplay,
   getGreaseInterval,
-  getGreaseStatusGraphData,
   getGreaseStatusLatestGraphData,
   getGreaseStatusLatestLoading,
   getGreaseStatusLatestResult,
@@ -37,7 +37,7 @@ describe('Grease Status Selector', () => {
         ],
         RsmShafts: [
           {
-            timeStamp: '2020-07-30T11:02:35',
+            timestamp: '2020-07-30T11:02:35',
             rsm01ShaftSpeed: 15.12,
           },
         ],
@@ -198,7 +198,7 @@ describe('Grease Status Selector', () => {
         ],
       };
 
-      expect(getGreaseStatusGraphData(fakeState)).toEqual(expectedResult);
+      expect(getAnalysisGraphData(fakeState)).toEqual(expectedResult);
     });
   });
 

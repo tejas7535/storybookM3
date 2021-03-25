@@ -56,7 +56,7 @@ export const getGreaseDisplay = createSelector(
   (state: GreaseStatusState) => state.display
 );
 
-export const getGreaseStatusGraphData = createSelector(
+export const getAnalysisGraphData = createSelector(
   getGreaseStatusResult,
   getGreaseDisplay,
   (gcmStatus: any, display: GreaseDisplay): GraphData =>
@@ -77,7 +77,7 @@ export const getGreaseStatusGraphData = createSelector(
               (key === 'rsmShaftSpeed'
                 ? gcmStatus.RsmShafts.map((measurement: ShaftStatus) => ({
                     value: [
-                      new Date(measurement.timeStamp),
+                      new Date(measurement.timestamp),
                       measurement.rsm01ShaftSpeed.toFixed(2),
                     ],
                   }))

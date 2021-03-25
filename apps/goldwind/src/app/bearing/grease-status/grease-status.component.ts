@@ -16,9 +16,9 @@ import { GreaseStatusState } from '../../core/store/reducers/grease-status/greas
 import { GreaseDisplay } from '../../core/store/reducers/grease-status/models';
 import { GraphData, Interval } from '../../core/store/reducers/shared/models';
 import {
+  getAnalysisGraphData,
   getGreaseDisplay,
   getGreaseInterval,
-  getGreaseStatusGraphData,
   getGreaseStatusLoading,
 } from '../../core/store/selectors/';
 import { axisChartOptions } from '../../shared/chart/chart';
@@ -62,9 +62,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
   public constructor(private readonly store: Store<GreaseStatusState>) {}
 
   ngOnInit(): void {
-    this.greaseStatusGraphData$ = this.store.pipe(
-      select(getGreaseStatusGraphData)
-    );
+    this.greaseStatusGraphData$ = this.store.pipe(select(getAnalysisGraphData));
 
     this.interval$ = this.store.pipe(select(getGreaseInterval));
     this.loading$ = this.store.pipe(select(getGreaseStatusLoading));

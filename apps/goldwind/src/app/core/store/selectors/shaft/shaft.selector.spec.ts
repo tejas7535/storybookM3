@@ -1,6 +1,6 @@
 import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { SHAFT_LATEST_GRAPH_DATA } from '../../../../../testing/mocks';
-import { initialState } from '../../reducers/bearing/bearing.reducer';
+import { initialState, ShaftState } from '../../reducers/shaft/shaft.reducer';
 import {
   getShaftLatestGraphData,
   getShaftResult,
@@ -11,19 +11,20 @@ jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
-describe('Bearing Selector', () => {
-  const fakeState = {
-    shaft: {
-      ...initialState,
-      result: {
-        id: 'fakeid',
-        deviceId: 'fakedeviceid',
-        timeStamp: '2020-11-12T18:31:56.954003Z',
-        rsm01ShaftSpeed: 3,
-        rsm01Shaftcountervalue: 666,
-      },
-      loading: false,
+describe('Shaft Selector', () => {
+  const fakeShaftState: ShaftState = {
+    ...initialState,
+    result: {
+      deviceId: 'fakedeviceid',
+      timestamp: '2020-11-12T18:31:56.954003Z',
+      rsm01ShaftSpeed: 3,
+      rsm01Shaftcountervalue: 666,
     },
+    loading: false,
+  };
+
+  const fakeState = {
+    shaft: fakeShaftState,
   };
 
   describe('getShaftResult', () => {
@@ -35,7 +36,7 @@ describe('Bearing Selector', () => {
   describe('getShaftTimeStamp', () => {
     test('should return the shaft result time stamp', () => {
       expect(getShaftTimeStamp(fakeState)).toEqual(
-        new Date(fakeState.shaft.result.timeStamp).toLocaleTimeString(
+        new Date(fakeShaftState.result.timestamp).toLocaleTimeString(
           DATE_FORMAT.local,
           DATE_FORMAT.options
         )
