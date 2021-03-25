@@ -91,10 +91,11 @@ export class AuthService {
     }
 
     const username = `${decodedAccess.given_name} ${decodedAccess.family_name}`;
-    const department = decodedAccess.name.replace(
-      `${decodedAccess.family_name}, ${decodedAccess.given_name}  `,
-      ''
-    );
+    const splittedName = decodedAccess.name.split(' ');
+    const department =
+      splittedName.length < 3
+        ? undefined
+        : splittedName[splittedName.length - 1];
 
     return { username, department };
   }
