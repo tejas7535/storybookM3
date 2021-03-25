@@ -19,6 +19,7 @@ import {
   getGreaseDisplay,
   getGreaseInterval,
   getGreaseStatusGraphData,
+  getGreaseStatusLoading,
 } from '../../core/store/selectors/';
 import { axisChartOptions } from '../../shared/chart/chart';
 import { DATE_FORMAT, GREASE_CONTROLS } from '../../shared/constants';
@@ -31,6 +32,7 @@ import { DATE_FORMAT, GREASE_CONTROLS } from '../../shared/constants';
 export class GreaseStatusComponent implements OnInit, OnDestroy {
   greaseStatusGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
+  loading$: Observable<boolean>;
   checkBoxes = GREASE_CONTROLS;
 
   displayForm = new FormGroup({
@@ -65,6 +67,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy {
     );
 
     this.interval$ = this.store.pipe(select(getGreaseInterval));
+    this.loading$ = this.store.pipe(select(getGreaseStatusLoading));
 
     this.subscription.add(
       this.store

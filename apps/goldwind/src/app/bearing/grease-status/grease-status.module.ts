@@ -16,6 +16,7 @@ import { greaseStatusReducer } from '../../core/store/reducers/grease-status/gre
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../shared/shared.module';
+import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
 import { GreaseStatusRoutingModule } from './grease-status-routing.module';
 import { GreaseStatusComponent } from './grease-status.component';
 
@@ -31,6 +32,7 @@ import { GreaseStatusComponent } from './grease-status.component';
     NgxEchartsModule.forRoot({
       echarts: () => import('../../shared/chart/echarts'),
     }),
+    CenterLoadModule,
 
     // UI Modules
     MatCardModule,

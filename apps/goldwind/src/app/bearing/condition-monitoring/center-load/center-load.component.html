@@ -11,7 +11,10 @@
         ><span>{{ t('title') }}</span></mat-card-title
       >
       <mat-card-subtitle>
-        {{ timeStamp$ | ngrxPush }} | {{ t('updateFrequency') }}: {{ refresh }}s
+        <ng-container *ngIf="!averageLoad">
+          {{ timeStamp$ | ngrxPush }} | {{ t('updateFrequency') }}:
+          {{ refresh }}s</ng-container
+        >
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content

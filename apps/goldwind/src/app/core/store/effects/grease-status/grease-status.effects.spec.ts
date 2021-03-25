@@ -18,7 +18,12 @@ import {
   setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
+import {
+  getLoadAverage,
+  getLoadAverageSuccess,
+} from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
+import { LoadSenseAvg } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
@@ -146,6 +151,7 @@ describe('Search Effects', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         getGreaseStatus({ deviceId })
       );
+      expect(store.dispatch).toHaveBeenCalledWith(getLoadAverage({ deviceId }));
     });
 
     test('should return getGreaseStatusLatest', () => {
@@ -229,6 +235,57 @@ describe('Search Effects', () => {
       expect(effects.greaseStatus$).toBeObservable(expected);
       expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
       expect(restService.getGreaseStatus).toHaveBeenCalledWith({
+        id: deviceId,
+        startDate: 1599651508,
+        endDate: 1599651509,
+      });
+    });
+  });
+
+  describe('loadAverage$', () => {
+    beforeEach(() => {
+      action = getLoadAverage({ deviceId });
+    });
+
+    test('should return getLoadAverage action when REST call is successful', () => {
+      const mockAverage: LoadSenseAvg = {
+        lsp01StrainAvg: 2666.925857162287,
+        lsp02StrainAvg: 2862.7850295843746,
+        lsp03StrainAvg: 1029.066039711919,
+        lsp04StrainAvg: 1197.0452518575266,
+        lsp05StrainAvg: 1764.0509199538271,
+        lsp06StrainAvg: 1908.1549786913706,
+        lsp07StrainAvg: 2768.88648856736,
+        lsp08StrainAvg: 1786.153885813422,
+        lsp09StrainAvg: 1454.445470021493,
+        lsp10StrainAvg: 1301.790787653976,
+        lsp11StrainAvg: 1769.612550842888,
+        lsp12StrainAvg: 1569.480195591359,
+        lsp13StrainAvg: 1096.408815157941,
+        lsp14StrainAvg: 1427.2028369240074,
+        lsp15StrainAvg: 1066.072787878487,
+        lsp16StrainAvg: 1392.7892699377624,
+        deviceId: 'edge-goldwind-qa-009',
+        id: 'id-load-sense-average',
+        timestamp: '2020-08-02T16:18:59Z',
+      };
+
+      const result = getLoadAverageSuccess({
+        loadAverage: mockAverage,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: mockAverage,
+      });
+      const expected = cold('--b', { b: result });
+
+      restService.getBearingLoadAverage = jest.fn(() => response);
+
+      expect(effects.loadAverage$).toBeObservable(expected);
+      expect(restService.getBearingLoadAverage).toHaveBeenCalledTimes(1);
+      expect(restService.getBearingLoadAverage).toHaveBeenCalledWith({
         id: deviceId,
         startDate: 1599651508,
         endDate: 1599651509,

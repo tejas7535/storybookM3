@@ -12,3 +12,8 @@ export const getBearingResult = createSelector(
   getBearingState,
   (state: BearingState) => state.result
 );
+
+export const getDeviceId = createSelector(
+  getBearingState,
+  (state: BearingState) => state.result.edgeDevice.name
+);

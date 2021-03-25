@@ -1,4 +1,5 @@
 @import 'libs/shared/ui/styles/src/lib/mediaqueries';
+@import 'libs/shared/ui/styles/src/lib/colors';
 
 :host {
   width: 100%;
@@ -35,6 +36,10 @@
   }
 }
 
+.grid-element {
+  border-radius: 0.25rem;
+}
+
 @media only screen and (max-width: $screen-sm-max) {
   .grid-element {
     margin-bottom: 16px;
@@ -43,14 +48,14 @@
 
 .highlight {
   animation: fadeIn ease 1s;
-  outline: solid 2px green;
+  box-shadow: 0 0 0 2px $schaeffler-green-1;
 }
 
 @keyframes fadeIn {
   0% {
-    outline: solid 2px transparent;
+    box-shadow: 0 0 0 2px transparent;
   }
   100% {
-    outline: solid 2px green;
+    box-shadow: 0 0 0 2px $schaeffler-green-1;
   }
 }

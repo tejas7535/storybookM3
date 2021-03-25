@@ -57,7 +57,9 @@
       "bearingCenterLoad": "Bearing Center Load",
       "time": "Time",
       "generator": "Generator",
-      "rotor": "Rotor"
+      "generatorAverage": "Generator Average",
+      "rotor": "Rotor",
+      "rotorAverage": "Rotor Average"
     },
     "shaft": {
       "title": "Rotor - Rotation Speed",
