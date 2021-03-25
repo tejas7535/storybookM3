@@ -38,12 +38,13 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.offerPrice'),
-    field: 'price',
+    field: ColumnFields.PRICE,
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
     headerName: translate('shared.quotationDetailsTable.per'),
-    valueFormatter: () => '1',
+    // ToDo: Adjust when per column is defined in datasources
+    valueFormatter: ColumnUtilityService.transformPer,
     field: 'per',
   },
   {
@@ -52,7 +53,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.netValue'),
-    field: 'netValue',
+    field: ColumnFields.NET_VALUE,
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
@@ -82,7 +83,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
-    field: 'lastCustomerPrice',
+    field: ColumnFields.LAST_CUSTOMER_PRICE,
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {

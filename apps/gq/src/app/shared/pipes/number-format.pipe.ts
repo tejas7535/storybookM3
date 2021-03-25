@@ -9,6 +9,6 @@ export class NumberFormatPipe implements PipeTransform {
     const digits = colId !== 'orderQuantity';
     const pipe = new DecimalPipe('en');
 
-    return pipe.transform(number, digits ? '.2' : '');
+    return pipe.transform(number, digits ? '.2-2' : '');
   }
 }
