@@ -9,7 +9,7 @@ import { loginSuccess } from '@schaeffler/auth';
 
 @Injectable()
 export class RootEffects {
-  private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'Department';
+  private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'department';
 
   initializeApplicationInsights$ = createEffect(
     () =>
@@ -18,7 +18,7 @@ export class RootEffects {
         take(1),
         map((action: any) => action.user.department),
         tap((department) =>
-          this.applicationInsightsService.addTelemetryData(
+          this.applicationInsightsService.addCustomPropertyToTelemetryData(
             this.APPLICATION_INSIGHTS_DEPARTMENT,
             department
           )

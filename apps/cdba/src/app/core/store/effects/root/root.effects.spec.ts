@@ -25,7 +25,7 @@ describe('Root Effects', () => {
       {
         provide: ApplicationInsightsService,
         useValue: {
-          addTelemetryData: jest.fn(),
+          addCustomPropertyToTelemetryData: jest.fn(),
         },
       },
     ],
@@ -53,8 +53,8 @@ describe('Root Effects', () => {
         // tslint:disable-next-line: deprecation
         effects.initializeApplicationInsights$.subscribe(() => {
           expect(
-            applicationInsightsService.addTelemetryData
-          ).toHaveBeenCalledWith('Department', 'C-IT');
+            applicationInsightsService.addCustomPropertyToTelemetryData
+          ).toHaveBeenCalledWith('department', 'C-IT');
         });
       })
     );

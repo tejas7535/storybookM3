@@ -65,29 +65,36 @@ describe('ApplicationInsightsMetaReducerFactory', () => {
   });
 
   describe('shouldLogEvent', () => {
-    const ignorePatternRegExpressions: RegExp[] = [new RegExp('@ngrx/*')];
+    const ignorePatternRegExpressions: RegExp[] = [
+      new RegExp('@ngrx/*'),
+      new RegExp('Auth\b*'),
+    ];
     let actionType: string;
-    let result: boolean;
 
     beforeEach(() => {
       actionType = '';
-      result = false;
     });
 
     it('should return true', () => {
       actionType = '[Search] Update Filter';
 
-      result = shouldLogEvent(actionType, ignorePatternRegExpressions);
+      const result = shouldLogEvent(actionType, ignorePatternRegExpressions);
 
       expect(result).toBeTruthy();
     });
 
-    it('should return false', () => {
+    it('should return false for @ngrx internal actions', () => {
       actionType = '@ngrx/store-devtools/do-this-and-that';
 
-      // prove that function is working
-      result = true;
-      result = shouldLogEvent(actionType, ignorePatternRegExpressions);
+      const result = shouldLogEvent(actionType, ignorePatternRegExpressions);
+
+      expect(result).toBeFalsy();
+    });
+
+    it('should return false for [Auth] action types', () => {
+      actionType = '[Auth] Login Successful';
+
+      const result = shouldLogEvent(actionType, ignorePatternRegExpressions);
 
       expect(result).toBeFalsy();
     });
