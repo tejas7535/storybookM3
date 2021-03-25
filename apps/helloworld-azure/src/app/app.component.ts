@@ -11,7 +11,6 @@ import { AppState } from './core/store/reducers/reducer';
 @Component({
   selector: 'schaeffler-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
   public platformTitle = 'Hello World Azure';

@@ -57,6 +57,7 @@ export const getMsalInstanceConfig = (
       authority: `${msalInstanceConfig.loginUrl}${msalInstanceConfig.tenantId}/`,
       redirectUri: msalInstanceConfig.redirectUri,
       postLogoutRedirectUri: msalInstanceConfig.postLogoutRedirectUri,
+      navigateToLoginRequestUrl: true,
     },
     cache: {
       cacheLocation: BrowserCacheLocation.LocalStorage,
