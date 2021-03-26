@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.17.1](///compare/cdba-v1.17.1...cdba-v1.17.0) (2021-03-26)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** correctly report department to application insights (DSCDA-2079) ([4bc998c](///commit/4bc998c930be893c7c8f0b3d8168a615fa594f51))
+
+
+### 📈 Improvements
+
+* **cdba:** map undefined departments to department unavailable ([4885274](///commit/488527432632f9142282b7edd6c8da3be5e207fa))
+
 ## [1.17.0](///compare/cdba-v1.17.0...cdba-v1.16.0) (2021-03-22)
 
 
