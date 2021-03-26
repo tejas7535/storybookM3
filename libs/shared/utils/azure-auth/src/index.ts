@@ -9,6 +9,7 @@ export {
   getUserUniqueIdentifier,
 } from './lib/store/selectors/auth.selectors';
 export {
+  AccountInfo,
   AzureConfig,
   MsalGuardConfig,
   MsalInstanceConfig,

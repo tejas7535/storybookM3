@@ -33,6 +33,8 @@ This library provides the following actions for you to dispatch from within your
 This library provides the following selectors that can be used from within your application to retrieve auth information:
 
 - `getUsername`: get username
+- `getUserDepartment`: get department of the user
+- `getUserUniqueIdentifier`: get the uid of an user (e.g. 'kauppfbi')
 - `getIsLoggedIn`: get logged in status
 - `getRoles`: get roles of user
 - `getAccountInfo`: get whole account information from user

@@ -10,12 +10,14 @@ import {
   MsalService,
 } from '@azure/msal-angular';
 import {
-  AccountInfo,
+  AccountInfo as AzureAccountInfo,
   AuthenticationResult,
   InteractionType,
   PopupRequest,
   RedirectRequest,
 } from '@azure/msal-browser';
+
+import { AccountInfo } from './models';
 
 const GRAPH_PROFILE_IMAGE_ENDPOINT =
   'https://graph.microsoft.com/v1.0/me/photos/48x48/$value';
@@ -39,6 +41,20 @@ export class AzureAuthService {
     });
 
     return from(promise);
+  }
+
+  static extractDepartmentFromAzureAccountInfo(
+    accountInfo: AzureAccountInfo
+  ): string {
+    if (accountInfo.name) {
+      const splittedName = accountInfo.name.split(' ');
+
+      return splittedName.length < 3
+        ? undefined
+        : splittedName[splittedName.length - 1];
+    }
+
+    return undefined;
   }
 
   login(): void {
@@ -83,7 +99,7 @@ export class AzureAuthService {
       );
   }
 
-  setActiveAccount(acc: AccountInfo): void {
+  setActiveAccount(acc: AzureAccountInfo): void {
     this.authService.instance.setActiveAccount(acc);
   }
 
@@ -100,6 +116,10 @@ export class AzureAuthService {
       activeAccount = accounts[0];
     }
 
-    return activeAccount;
+    const department = AzureAuthService.extractDepartmentFromAzureAccountInfo(
+      activeAccount
+    );
+
+    return { ...activeAccount, department };
   }
 }

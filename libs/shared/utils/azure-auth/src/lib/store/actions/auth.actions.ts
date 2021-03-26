@@ -1,5 +1,6 @@
-import { AccountInfo } from '@azure/msal-browser';
 import { createAction, props } from '@ngrx/store';
+
+import { AccountInfo } from '../../models';
 
 export const login = createAction('[Azure Auth] Login');
 export const loginSuccess = createAction(
