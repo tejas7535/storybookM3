@@ -26,7 +26,6 @@
         "plugin:@typescript-eslint/recommended",
         "airbnb-typescript/base",
         "plugin:@nrwl/nx/typescript",
-        "prettier/@typescript-eslint",
         "plugin:jest/recommended",
         "plugin:prettier/recommended"
       ],
