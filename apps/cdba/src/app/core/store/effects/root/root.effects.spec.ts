@@ -6,7 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { loginSuccess } from '@schaeffler/auth';
+import { loginSuccess, User } from '@schaeffler/auth';
 
 import { RootEffects } from './root.effects';
 
@@ -39,15 +39,16 @@ describe('Root Effects', () => {
   });
 
   describe('initializeApplicationInsights$', () => {
-    const user = {
-      name: 'Bob',
-      department: 'C-IT',
-    };
-
-    action = loginSuccess({ user });
     test(
       'should call addTelemetryData of AI Service',
       waitForAsync(() => {
+        const user: User = {
+          username: 'Bob',
+          department: 'C-IT',
+        };
+
+        action = loginSuccess({ user });
+
         actions$ = hot('-a', { a: action });
 
         // tslint:disable-next-line: deprecation
@@ -55,6 +56,27 @@ describe('Root Effects', () => {
           expect(
             applicationInsightsService.addCustomPropertyToTelemetryData
           ).toHaveBeenCalledWith('department', 'C-IT');
+        });
+      })
+    );
+
+    test(
+      'should call addTelemetryData of AI Service with department unavailable',
+      waitForAsync(() => {
+        const user: User = {
+          username: 'Bob',
+          department: undefined,
+        };
+
+        action = loginSuccess({ user });
+
+        actions$ = hot('-a', { a: action });
+
+        // tslint:disable-next-line: deprecation
+        effects.initializeApplicationInsights$.subscribe(() => {
+          expect(
+            applicationInsightsService.addCustomPropertyToTelemetryData
+          ).toHaveBeenCalledWith('department', 'Department unavailable');
         });
       })
     );

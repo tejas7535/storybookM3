@@ -17,6 +17,9 @@ export class RootEffects {
         ofType(loginSuccess.type),
         take(1),
         map((action: any) => action.user.department),
+        map((department) =>
+          department ? department : 'Department unavailable'
+        ),
         tap((department) =>
           this.applicationInsightsService.addCustomPropertyToTelemetryData(
             this.APPLICATION_INSIGHTS_DEPARTMENT,
