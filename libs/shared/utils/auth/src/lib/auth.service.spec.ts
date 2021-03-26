@@ -251,6 +251,54 @@ describe('AuthService', () => {
       expect(user).toBeDefined();
       expect(AuthService['getDecodedAccessToken']).toHaveBeenCalled();
     });
+
+    test('should return correct department for external employee', () => {
+      oAuthService.hasValidAccessToken = jest.fn(() => true);
+
+      AuthService['getDecodedAccessToken'] = jest
+        .fn()
+        .mockImplementation(() => ({
+          name: 'family name, given name (ext.) department',
+          given_name: 'given name',
+          family_name: 'family name',
+        }));
+
+      const user = service.getUser();
+
+      expect(user.department).toEqual('department');
+    });
+
+    test('should return correct department for internal employee', () => {
+      oAuthService.hasValidAccessToken = jest.fn(() => true);
+
+      AuthService['getDecodedAccessToken'] = jest
+        .fn()
+        .mockImplementation(() => ({
+          name: 'Kaupp, Fabian SF/HZA-CDAI2',
+          given_name: 'given name',
+          family_name: 'family name',
+        }));
+
+      const user = service.getUser();
+
+      expect(user.department).toEqual('SF/HZA-CDAI2');
+    });
+
+    test('should return undefined department', () => {
+      oAuthService.hasValidAccessToken = jest.fn(() => true);
+
+      AuthService['getDecodedAccessToken'] = jest
+        .fn()
+        .mockImplementation(() => ({
+          name: 'Philip Riecks',
+          given_name: 'Philip',
+          family_name: 'Riecks',
+        }));
+
+      const user = service.getUser();
+
+      expect(user.department).not.toBeDefined();
+    });
   });
 
   describe('logout', () => {
