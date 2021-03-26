@@ -393,13 +393,12 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": [
-              "apps/helloworld-azure/tsconfig.app.json",
-              "apps/helloworld-azure/tsconfig.spec.json"
-            ],
-            "exclude": ["**/node_modules/**", "!apps/helloworld-azure/**/*"]
+            "lintFilePatterns": [
+              "apps/helloworld-azure/src/**/*.ts",
+              "apps/helloworld-azure/src/**/*.html"
+            ]
           }
         },
         "test": {
@@ -441,10 +440,9 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@nrwl/linter:eslint",
           "options": {
-            "tsConfig": ["apps/helloworld-azure-e2e/tsconfig.e2e.json"],
-            "exclude": ["**/node_modules/**", "!apps/helloworld-azure-e2e/**/*"]
+            "lintFilePatterns": ["apps/helloworld-azure-e2e/**/*.{js,ts}"]
           }
         }
       }
