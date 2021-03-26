@@ -11,10 +11,11 @@ import {
 } from 'rxjs/operators';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
-import { AccountInfo, InteractionStatus } from '@azure/msal-browser';
+import { InteractionStatus } from '@azure/msal-browser';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { AzureAuthService } from '../../azure-auth.service';
+import { AccountInfo, LoadProfileImageError } from '../../models';
 import {
   loadProfileImage,
   loadProfileImageFailure,
@@ -23,7 +24,6 @@ import {
   loginSuccess,
   logout,
 } from '../actions/auth.actions';
-import { LoadProfileImageError } from './../../models/load-profile-image-error.model';
 
 @Injectable()
 export class AuthEffects {

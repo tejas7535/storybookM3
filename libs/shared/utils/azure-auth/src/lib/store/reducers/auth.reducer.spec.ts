@@ -1,4 +1,4 @@
-import { AccountInfo } from '@azure/msal-browser';
+import { AccountInfo } from '../../models';
 import {
   loadProfileImage,
   loadProfileImageFailure,

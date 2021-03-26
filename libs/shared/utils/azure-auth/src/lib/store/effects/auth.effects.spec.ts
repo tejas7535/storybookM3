@@ -1,7 +1,7 @@
 import { defer } from 'rxjs';
 
 import { MsalBroadcastService } from '@azure/msal-angular';
-import { AccountInfo, InteractionStatus } from '@azure/msal-browser';
+import { InteractionStatus } from '@azure/msal-browser';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -17,7 +17,7 @@ import {
   loginSuccess,
   logout,
 } from '../actions/auth.actions';
-import { LoadProfileImageError } from './../../models/load-profile-image-error.model';
+import { AccountInfo, LoadProfileImageError } from './../../models';
 import { AuthEffects } from './auth.effects';
 
 describe('Azure Auth Effects', () => {

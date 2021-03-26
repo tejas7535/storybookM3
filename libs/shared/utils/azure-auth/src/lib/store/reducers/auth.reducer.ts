@@ -1,5 +1,6 @@
-import { AccountInfo } from '@azure/msal-browser';
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
+
+import { AccountInfo } from '../../models';
 import {
   loadProfileImage,
   loadProfileImageFailure,

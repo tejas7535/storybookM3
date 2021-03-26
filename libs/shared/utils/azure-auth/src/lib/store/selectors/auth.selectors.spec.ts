@@ -1,5 +1,4 @@
-import { AccountInfo } from '@azure/msal-browser';
-
+import { AccountInfo } from '../../models';
 import * as fromAuthSelectors from './auth.selectors';
 
 describe('Azure Auth selectors', () => {
@@ -54,6 +53,27 @@ describe('Azure Auth selectors', () => {
     expect(
       fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
     ).toEqual(expected);
+  });
+
+  test('should return users department', () => {
+    const accountInfo = ({
+      username: '',
+      department: 'C-IT',
+    } as unknown) as AccountInfo;
+
+    expect(
+      fromAuthSelectors.getUserDepartment.projector({ accountInfo })
+    ).toEqual('C-IT');
+  });
+
+  test('should return undefined as department', () => {
+    const accountInfo = ({
+      username: '',
+    } as unknown) as AccountInfo;
+
+    expect(
+      fromAuthSelectors.getUserDepartment.projector({ accountInfo })
+    ).toBeUndefined();
   });
 
   test('should return login true for authenticated user', () => {
