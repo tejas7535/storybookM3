@@ -1,18 +1,17 @@
 @import '~tailwindcss/base';
 @import '~tailwindcss/components';
 @import '~tailwindcss/utilities';
-@import 'libs/shared/ui/styles/src';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
 .schaeffler-stepper {
   ::ng-deep {
     .mat-step {
       &-icon {
-        @apply bg-lightGrey text-disabled;
+        @apply bg-disabled text-disabled;
 
         &-state-done,
         &-state-edit {
-          @apply bg-mediumGrey text-white;
+          @apply bg-mediumEmphasis text-white;
         }
       }
 
@@ -45,7 +44,7 @@
       @apply rounded-none;
     }
 
-    @media screen and (max-width: $screen-sm-max) {
+    @screen sm {
       .mat-stepper-horizontal-line {
         max-width: 1rem;
         min-width: initial;

@@ -1,6 +1,33 @@
 // const defaultTheme = require('tailwindcss/defaultTheme'); // will be used as soon as the theme is extended
 const plugin = require('tailwindcss/plugin');
 
+const baseColors = {
+  primary: '#00893D',
+  secondary: '#005f14',
+  disabledPrimary: '#99d0b1',
+  error: '#e62c27',
+  warning: '#fccf46',
+  informationAccent: '#1d9bb2',
+  success: '#0ebc5b',
+  highlightedTableCell: '#e1eece',
+  activeTableCell: '#e5f3eb',
+};
+
+const greys = {
+  inputFieldAltBg: '#f6f7f8',
+  hover: '#ebeef0',
+  background: '#dde3e6',
+  border: '#ced5da',
+  labels: '#9ca2a5',
+  toastBg: '#414546',
+};
+
+const emphasis = {
+  highEmphasis: 'rgba(0,0,0,0.87)',
+  mediumEmphasis: 'rgba(0,0,0,.6)',
+  disabled: 'rgba(0,0,0,0.11)',
+};
+
 module.exports = {
   prefix: '',
   purge: {
@@ -10,13 +37,10 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {
-      primary: '#00893D',
-      secondary: '#005f14',
+      ...baseColors,
+      ...greys,
+      ...emphasis,
       white: '#fff',
-      background: '#F6F7F8',
-      darkGrey: 'rgba(0,0,0,0.87)',
-      mediumGrey: 'rgba(0,0,0,.6)',
-      lightGrey: 'rgba(0,0,0,0.11)',
       transparent: 'rgba(0,0,0,0)',
     },
     fontSize: {
