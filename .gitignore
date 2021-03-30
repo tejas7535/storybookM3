@@ -40,8 +40,7 @@ testem.log
 Thumbs.db
 
 # lint outputs
-**/*checkstyle-result.xml
-**/*checkstyle-result.txt
+/checkstyle
 
 # i18n checksum files
 **/i18n-checksums.json

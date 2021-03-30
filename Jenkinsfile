@@ -571,11 +571,16 @@ pipeline {
 
                             script {
                                 if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')} || true"
+                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')} --configuration=ci"
                                 } else {
-                                    sh "npm run affected:lint -- --base=${buildBase} --parallel || true"
+                                    sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci"
                                 }
                             }
+                        }
+                    }
+                    post {
+                        always {
+                            recordIssues(tools: [checkStyle(pattern: 'checkstyle/**/checkstyle.xml')])
                         }
                     }
                 }
