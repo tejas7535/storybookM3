@@ -12,16 +12,17 @@
   <p class="schaeffler-text">
     {{ t('forbiddenMessage') }}
   </p>
-  <button
-    mat-raised-button
-    color="primary"
-    class="m-t-25"
-    routerLink="/"
-    data-cy="visitHome"
-  >
-    {{ t('visitHomepage') | uppercase }}
-  </button>
-  <a *ngIf="action" mat-raised-button data-cy="requestAccess" [href]="action">
-    {{ t('requestAccess') | uppercase }}
-  </a>
+  <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="20px" class="m-t-25">
+    <button
+      mat-raised-button
+      color="primary"
+      routerLink="/"
+      data-cy="visitHome"
+    >
+      {{ t('visitHomepage') | uppercase }}
+    </button>
+    <a *ngIf="action" mat-raised-button data-cy="requestAccess" [href]="action">
+      {{ t('requestAccess') | uppercase }}
+    </a>
+  </div>
 </div>
