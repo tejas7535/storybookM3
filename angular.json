@@ -399,6 +399,13 @@
               "apps/helloworld-azure/src/**/*.ts",
               "apps/helloworld-azure/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -443,6 +450,13 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/helloworld-azure-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml",
+              "force": true
+            }
           }
         }
       }
@@ -1550,6 +1564,13 @@
               "apps/goldwind/src/**/*.ts",
               "apps/goldwind/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/goldwind/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -1594,6 +1615,13 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/goldwind-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/goldwind-e2e/checkstyle.xml",
+              "force": true
+            }
           }
         }
       }
@@ -2934,6 +2962,13 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/mm/src/**/*.ts", "apps/mm/src/**/*.html"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/mm/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -2978,6 +3013,13 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": ["apps/mm-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/mm-e2e/checkstyle.xml",
+              "force": true
+            }
           }
         }
       }
@@ -3007,6 +3049,13 @@
               "libs/shared/ui/footer-tailwind/src/**/*.ts",
               "libs/shared/ui/footer-tailwind/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/footer-tailwind/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -3044,6 +3093,13 @@
               "libs/shared/ui/picture-card/src/**/*.ts",
               "libs/shared/ui/picture-card/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/pircture-card/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -3098,6 +3154,13 @@
               "libs/shared/ui/dropdown-input/src/**/*.ts",
               "libs/shared/ui/dropdown-input/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/dropdown-input/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {
@@ -3213,6 +3276,13 @@
               "libs/shared/ui/stepper/src/**/*.ts",
               "libs/shared/ui/stepper/src/**/*.html"
             ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/stepper/checkstyle.xml",
+              "force": true
+            }
           }
         },
         "test": {

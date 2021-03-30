@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+
 import { BehaviorSubject, Observable } from 'rxjs';
+
 import { RouteNames, RoutePath } from '../../../app-routing.enum';
 import { Breadcrumb } from '../../components/breadcrumbs/breadcrumb.model';
 
@@ -7,9 +9,9 @@ import { Breadcrumb } from '../../components/breadcrumbs/breadcrumb.model';
   providedIn: 'root',
 })
 export class BreadcrumbsService {
-  constructor() {}
-
-  private breadcrumbs: BehaviorSubject<Breadcrumb[]> = new BehaviorSubject([]);
+  private readonly breadcrumbs: BehaviorSubject<
+    Breadcrumb[]
+  > = new BehaviorSubject([]);
 
   public currentBreadcrumbs: Observable<
     Breadcrumb[]

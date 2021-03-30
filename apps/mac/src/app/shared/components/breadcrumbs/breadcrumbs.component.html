@@ -1,6 +1,6 @@
 <div *ngIf="breadcrumbs" class="breadcrumbs">
   <div
-    *ngFor="let breadcrumb of breadcrumbs; let i = index"
+    *ngFor="let breadcrumb of breadcrumbs; let i = index; trackBy: trackByFn"
     class="crumb-wrapper"
   >
     <mat-icon *ngIf="i > 0">chevron_right</mat-icon>
