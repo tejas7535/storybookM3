@@ -22,6 +22,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   price: 200,
   gqRating: 2,
   recommendedPrice: 250,
+  fixedPrice: undefined,
   lastCustomerPrice: 170,
   percentDifference: 17.65,
   gpc: 20,

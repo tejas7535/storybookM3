@@ -1,6 +1,5 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addMaterialRowDataItem,
@@ -34,9 +33,7 @@ import {
   Customer,
   MaterialTableItem,
   Quotation,
-  QuotationDetail,
   QuotationIdentifier,
-  UpdateQuotationDetail,
   ValidationDescription,
 } from '../../models';
 import {
@@ -155,15 +152,20 @@ export const processCaseReducer = createReducer(
   })),
   on(
     updateQuotationDetailsSuccess,
-    (state: ProcessCaseState, { quotationDetailIDs }) => ({
+    (state: ProcessCaseState, { quotationDetails }) => ({
       ...state,
       quotation: {
         ...state.quotation,
         item: {
           ...state.quotation.item,
-          quotationDetails: updateQuotationDetailsArray(
-            [...state.quotation.item.quotationDetails],
-            quotationDetailIDs
+          quotationDetails: [...state.quotation.item.quotationDetails].map(
+            (el) => {
+              const update = quotationDetails.find(
+                (detail) => detail.gqPositionId === el.gqPositionId
+              );
+
+              return update ?? el;
+            }
           ),
         },
         updateLoading: false,
@@ -365,39 +367,6 @@ export const processCaseReducer = createReducer(
     },
   }))
 );
-
-export const updateQuotationDetailsArray = (
-  quotationDetails: QuotationDetail[],
-  quotationDetailIDs: UpdateQuotationDetail[]
-): QuotationDetail[] => {
-  return quotationDetails.map((quotationDetail) => {
-    const update = quotationDetailIDs.find(
-      (elem) => elem.gqPositionId === quotationDetail.gqPositionId
-    );
-
-    if (update) {
-      const updatedDetail = {
-        ...quotationDetail,
-        // only update addedToOffer if value is set
-        // all transactions within a quotation have the same value for this property
-        addedToOffer:
-          update.addedToOffer !== undefined
-            ? update.addedToOffer
-            : quotationDetail.addedToOffer,
-        // only update price if value is set
-        price: update.price ? update.price : quotationDetail.price,
-      };
-
-      if (update.price) {
-        PriceService.addCalculationsForDetail(updatedDetail);
-      }
-
-      return updatedDetail;
-    }
-
-    return quotationDetail;
-  });
-};
 
 // tslint:disable-next-line: only-arrow-functions
 export function reducer(

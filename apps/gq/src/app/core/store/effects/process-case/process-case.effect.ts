@@ -57,6 +57,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
   Quotation,
+  QuotationDetail,
   QuotationIdentifier,
   UpdateQuotationDetail,
 } from '../../models';
@@ -286,29 +287,37 @@ export class ProcessCaseEffect {
   updateMaterials$ = createEffect(() =>
     this.actions$.pipe(
       ofType(updateQuotationDetails.type),
-      map((action: any) => action.quotationDetailIDs),
-      mergeMap((quotationDetailIDs: UpdateQuotationDetail[]) =>
-        this.quotationDetailsService.updateMaterial(quotationDetailIDs).pipe(
-          tap(() => {
-            // .price determines which property was updated
-            const successMessage = translate(
-              `shared.snackBarMessages.${
-                quotationDetailIDs[0].price
-                  ? 'updateSelectedPrice'
-                  : 'updateSelectedOffers'
-              }`
-            );
-            this.snackBarService.showSuccessMessage(successMessage);
-          }),
-          map(() =>
-            updateQuotationDetailsSuccess({
-              quotationDetailIDs,
-            })
-          ),
-          catchError((errorMessage) =>
-            of(updateQuotationDetailsFailure({ errorMessage }))
+      map((action: any) => action.updateQuotationDetailList),
+      mergeMap((updateQuotationDetailList: UpdateQuotationDetail[]) =>
+        this.quotationDetailsService
+          .updateMaterial(updateQuotationDetailList)
+          .pipe(
+            tap(() => {
+              // .price determines which property was updated
+              const successMessage = translate(
+                `shared.snackBarMessages.${
+                  updateQuotationDetailList[0].price
+                    ? 'updateSelectedPrice'
+                    : 'updateSelectedOffers'
+                }`
+              );
+              this.snackBarService.showSuccessMessage(successMessage);
+            }),
+            tap((quotationDetails) => {
+              // .price determines which property was updated
+              if (updateQuotationDetailList[0].price) {
+                PriceService.addCalculationsForDetails(quotationDetails);
+              }
+            }),
+            map((quotationDetails: QuotationDetail[]) =>
+              updateQuotationDetailsSuccess({
+                quotationDetails,
+              })
+            ),
+            catchError((errorMessage) =>
+              of(updateQuotationDetailsFailure({ errorMessage }))
+            )
           )
-        )
       )
     )
   );

@@ -12,6 +12,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { PriceSource, UpdatePrice } from '../../../core/store/models';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { ManualPriceComponent } from './manual-price.component';
@@ -53,7 +54,8 @@ describe('ManualPriceComponent', () => {
 
       component.selectPrice();
 
-      expect(component.selectManualPrice.emit).toHaveBeenCalledWith(1);
+      const expected = new UpdatePrice(1, PriceSource.MANUAL);
+      expect(component.selectManualPrice.emit).toHaveBeenCalledWith(expected);
     });
   });
 

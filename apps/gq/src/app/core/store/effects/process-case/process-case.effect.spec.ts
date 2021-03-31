@@ -567,47 +567,47 @@ describe('ProcessCaseEffect', () => {
   });
 
   describe('updateMaterials$', () => {
-    const quotationDetailIDs: UpdateQuotationDetail[] = [
+    const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
         addedToOffer: true,
       },
     ];
+    const quotationDetails = QUOTATION_MOCK.quotationDetails;
 
     test('should return removeMaterialsSuccess when REST call is successful', () => {
-      action = updateQuotationDetails({ quotationDetailIDs });
+      action = updateQuotationDetails({ updateQuotationDetailList });
       snackBarService.showSuccessMessage = jest.fn();
-
       quotationDetailsService.updateMaterial = jest.fn(() => response);
-      const result = updateQuotationDetailsSuccess({ quotationDetailIDs });
+      const result = updateQuotationDetailsSuccess({ quotationDetails });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-a|');
+      const response = cold('-a|', { a: quotationDetails });
       const expected = cold('--b', { b: result });
 
       expect(effects.updateMaterials$).toBeObservable(expected);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        quotationDetailIDs
+        updateQuotationDetailList
       );
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
     test('should return removeMaterialsSuccess when REST call is successful', () => {
-      action = updateQuotationDetails({ quotationDetailIDs });
+      action = updateQuotationDetails({ updateQuotationDetailList });
       snackBarService.showSuccessMessage = jest.fn();
 
       quotationDetailsService.updateMaterial = jest.fn(() => response);
-      quotationDetailIDs[0].price = 10;
-      const result = updateQuotationDetailsSuccess({ quotationDetailIDs });
+      updateQuotationDetailList[0].price = 10;
+      const result = updateQuotationDetailsSuccess({ quotationDetails });
 
       actions$ = hot('-a', { a: action });
-      const response = cold('-a|');
+      const response = cold('-a|', { a: quotationDetails });
       const expected = cold('--b', { b: result });
 
       expect(effects.updateMaterials$).toBeObservable(expected);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        quotationDetailIDs
+        updateQuotationDetailList
       );
       expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
@@ -617,7 +617,7 @@ describe('ProcessCaseEffect', () => {
 
       const result = updateQuotationDetailsFailure({ errorMessage });
 
-      action = updateQuotationDetails({ quotationDetailIDs });
+      action = updateQuotationDetails({ updateQuotationDetailList });
 
       actions$ = hot('-a', { a: action });
       const response = cold('-#|', undefined, errorMessage);
@@ -626,7 +626,7 @@ describe('ProcessCaseEffect', () => {
       expect(effects.updateMaterials$).toBeObservable(expected);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
       expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        quotationDetailIDs
+        updateQuotationDetailList
       );
     });
   });

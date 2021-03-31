@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { KeyName } from '@ag-grid-community/all-modules';
 import { TranslocoService } from '@ngneat/transloco';
 
+import { PriceSource, UpdatePrice } from '../../../core/store/models';
+
 @Component({
   selector: 'gq-manual-price',
   templateUrl: './manual-price.component.html',
@@ -36,7 +38,7 @@ export class ManualPriceComponent {
     return this._isLoading;
   }
 
-  @Output() readonly selectManualPrice = new EventEmitter<number>();
+  @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
   constructor(private readonly translocoService: TranslocoService) {
     this.title$ = this.translocoService.selectTranslate(
@@ -78,6 +80,10 @@ export class ManualPriceComponent {
 
   selectPrice(): void {
     this._isLoading = true;
-    this.selectManualPrice.emit(this.manualPriceFormControl.value);
+    const updatePrice = new UpdatePrice(
+      this.manualPriceFormControl.value,
+      PriceSource.MANUAL
+    );
+    this.selectManualPrice.emit(updatePrice);
   }
 }
