@@ -9,6 +9,7 @@ import { DataService } from '@schaeffler/http';
 import {
   AddQuotationDetailsRequest,
   Quotation,
+  QuotationDetail,
   UpdateQuotationDetail,
 } from '../../../../core/store/models';
 
@@ -41,7 +42,7 @@ export class QuotationDetailsService {
 
   public updateMaterial(
     quotationDetails: UpdateQuotationDetail[]
-  ): Observable<any> {
+  ): Observable<QuotationDetail[]> {
     return this.dataService.put(this.PATH_QUOTATION_DETAILS, quotationDetails);
   }
 }

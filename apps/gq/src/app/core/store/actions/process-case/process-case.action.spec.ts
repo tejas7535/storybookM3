@@ -131,31 +131,26 @@ describe('CaseActions', () => {
 
   describe('Offer Actions', () => {
     test('updateQuotationDetails', () => {
-      const quotationDetailIDs = [
+      const updateQuotationDetailList = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
           addedToOffer: true,
         },
       ];
-      action = updateQuotationDetails({ quotationDetailIDs });
+      action = updateQuotationDetails({ updateQuotationDetailList });
 
       expect(action).toEqual({
-        quotationDetailIDs,
+        updateQuotationDetailList,
         type: '[Offer] Update QuotationDetails',
       });
     });
 
     test('updateQuotationDetailsSuccess', () => {
-      const quotationDetailIDs = [
-        {
-          gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          addedToOffer: false,
-        },
-      ];
-      action = updateQuotationDetailsSuccess({ quotationDetailIDs });
+      const quotationDetails = QUOTATION_MOCK.quotationDetails;
+      action = updateQuotationDetailsSuccess({ quotationDetails });
 
       expect(action).toEqual({
-        quotationDetailIDs,
+        quotationDetails,
         type: '[Offer] Update QuotationDetails Success',
       });
     });

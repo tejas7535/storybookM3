@@ -25,6 +25,7 @@ export class QuotationDetail {
   public sqv: number;
   public rlt: number;
   public productionSegment: number;
+  public fixedPrice: number;
   public priceSource: string;
 
   // properties added in GQ application

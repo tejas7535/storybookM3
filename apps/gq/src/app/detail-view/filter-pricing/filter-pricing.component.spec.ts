@@ -12,6 +12,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { updateQuotationDetails } from '../../core/store';
+import { PriceSource, UpdatePrice } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
@@ -92,15 +93,16 @@ describe('FilterPricingComponent', () => {
     test('should dispatch action', () => {
       component.gqPositionId = '1234';
       mockStore.dispatch = jest.fn();
-
-      component.selectManualPrice(10);
+      const updatePrice = new UpdatePrice(10, PriceSource.GQ);
+      component.selectManualPrice(updatePrice);
 
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
         updateQuotationDetails({
-          quotationDetailIDs: [
+          updateQuotationDetailList: [
             {
               gqPositionId: '1234',
               price: 10,
+              priceSource: PriceSource.GQ,
             },
           ],
         })

@@ -4,7 +4,6 @@ import {
   QUOTATION_MOCK,
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
 import {
   addMaterialRowDataItem,
   addMaterials,
@@ -35,13 +34,9 @@ import {
   MaterialValidation,
   Quotation,
   QuotationIdentifier,
-  UpdateQuotationDetail,
 } from '../../models';
 import { dummyRowData } from '../create-case/config/dummy-row-data';
-import {
-  processCaseReducer,
-  updateQuotationDetailsArray,
-} from './process-case.reducer';
+import { processCaseReducer } from './process-case.reducer';
 
 describe('Quotation Reducer', () => {
   const errorMessage = 'An error occured';
@@ -173,7 +168,7 @@ describe('Quotation Reducer', () => {
   describe('offer', () => {
     describe('updateQuotationDetailsOffer', () => {
       test('should add a quotationDetail to Offer', () => {
-        const quotationDetailIDs = [
+        const updateQuotationDetailList = [
           {
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
             addedToOffer: true,
@@ -181,7 +176,7 @@ describe('Quotation Reducer', () => {
         ];
 
         const action = updateQuotationDetails({
-          quotationDetailIDs,
+          updateQuotationDetailList,
         });
 
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
@@ -192,15 +187,10 @@ describe('Quotation Reducer', () => {
 
     describe('updateQuotationDetailsSuccess', () => {
       test(' should update quotationDetails', () => {
-        const quotationDetailIDs: UpdateQuotationDetail[] = [
-          {
-            gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-            addedToOffer: true,
-          },
-        ];
         const mockItem: Quotation = QUOTATION_MOCK;
+        const quotationDetails = mockItem.quotationDetails;
 
-        const action = updateQuotationDetailsSuccess({ quotationDetailIDs });
+        const action = updateQuotationDetailsSuccess({ quotationDetails });
 
         const fakeState = {
           ...QUOTATION_STATE_MOCK,
@@ -535,24 +525,6 @@ describe('Quotation Reducer', () => {
 
       expect(state.quotation.selectedQuotationDetail).toEqual(gqPositionId);
     });
-  });
-});
-
-describe('updateQuotationDetailsArray', () => {
-  test('should add calculations', () => {
-    const quotationDetailIDs: UpdateQuotationDetail[] = [
-      {
-        gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        price: 10,
-      },
-    ];
-    PriceService.addCalculationsForDetail = jest.fn(
-      () => QUOTATION_DETAIL_MOCK
-    );
-
-    updateQuotationDetailsArray([QUOTATION_DETAIL_MOCK], quotationDetailIDs);
-
-    expect(PriceService.addCalculationsForDetail).toHaveBeenCalledTimes(1);
   });
 });
 // tslint:disable-next-line: max-file-line-count

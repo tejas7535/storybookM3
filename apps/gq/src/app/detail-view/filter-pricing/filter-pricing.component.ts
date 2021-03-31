@@ -15,6 +15,7 @@ import {
 } from '../../core/store';
 import {
   QuotationDetail,
+  UpdatePrice,
   UpdateQuotationDetail,
 } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
@@ -53,13 +54,15 @@ export class FilterPricingComponent implements OnInit, OnDestroy {
     this.subscription.unsubscribe();
   }
 
-  selectManualPrice(price: number): void {
-    const quotationDetailIDs: UpdateQuotationDetail[] = [
+  selectManualPrice(updatePrice: UpdatePrice): void {
+    const { price, priceSource } = updatePrice;
+    const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         price,
+        priceSource,
         gqPositionId: this.gqPositionId,
       },
     ];
-    this.store.dispatch(updateQuotationDetails({ quotationDetailIDs }));
+    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
   }
 }

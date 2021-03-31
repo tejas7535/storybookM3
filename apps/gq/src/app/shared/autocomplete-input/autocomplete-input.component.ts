@@ -15,7 +15,6 @@ import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
 import { AutocompleteSearch, IdValue } from '../../core/store/models';
-import { TableService } from '../services/table-service/table.service';
 import { FilterNames } from './filter-names.enum';
 
 @Component({
@@ -94,10 +93,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
           this.inputContent.emit(true);
 
           this.autocomplete.emit({
-            searchFor:
-              this.filterName === FilterNames.MATERIAL
-                ? TableService.removeDashes(searchFor)
-                : searchFor,
+            searchFor,
             filter: this.filterName,
           });
           this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));

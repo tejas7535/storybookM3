@@ -29,3 +29,4 @@ export * from './status-bar-calculation.model';
 export * from './validation-description.enum';
 export * from './view-quotation.model';
 export * from './update-quotation-detail.model';
+export * from './update-price.model';

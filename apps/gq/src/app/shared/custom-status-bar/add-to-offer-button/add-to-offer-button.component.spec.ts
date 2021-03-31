@@ -99,7 +99,9 @@ describe('AddToOfferButtonComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateQuotationDetails({
-          quotationDetailIDs: [{ gqPositionId: '5694232', addedToOffer: true }],
+          updateQuotationDetailList: [
+            { gqPositionId: '5694232', addedToOffer: true },
+          ],
         })
       );
     });

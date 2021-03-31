@@ -98,7 +98,7 @@ describe('RemoveFromOfferComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         updateQuotationDetails({
-          quotationDetailIDs: [
+          updateQuotationDetailList: [
             { gqPositionId: '5694232', addedToOffer: false },
           ],
         })

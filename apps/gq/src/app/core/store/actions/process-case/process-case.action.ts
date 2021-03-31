@@ -5,6 +5,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
   Quotation,
+  QuotationDetail,
   QuotationIdentifier,
   UpdateQuotationDetail,
 } from '../../models';
@@ -42,12 +43,12 @@ export const selectQuotation = createAction(
 
 export const updateQuotationDetails = createAction(
   '[Offer] Update QuotationDetails',
-  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
+  props<{ updateQuotationDetailList: UpdateQuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsSuccess = createAction(
   '[Offer] Update QuotationDetails Success',
-  props<{ quotationDetailIDs: UpdateQuotationDetail[] }>()
+  props<{ quotationDetails: QuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsFailure = createAction(

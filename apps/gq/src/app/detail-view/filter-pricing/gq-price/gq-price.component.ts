@@ -6,7 +6,11 @@ import { TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomerCurrency } from '../../../core/store';
-import { QuotationDetail } from '../../../core/store/models';
+import {
+  PriceSource,
+  QuotationDetail,
+  UpdatePrice,
+} from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { PriceService } from '../../../shared/services/price-service/price.service';
 
@@ -30,7 +34,7 @@ export class GqPriceComponent implements OnInit {
   get isLoading(): boolean {
     return this._isLoading;
   }
-  @Output() readonly selectManualPrice = new EventEmitter<number>();
+  @Output() readonly selectManualPrice = new EventEmitter<UpdatePrice>();
 
   constructor(
     private readonly store: Store<ProcessCaseState>,
@@ -55,6 +59,12 @@ export class GqPriceComponent implements OnInit {
 
   selectPrice(): void {
     this._isLoading = true;
-    this.selectManualPrice.emit(this.quotationDetail.recommendedPrice);
+    const priceSource = this.quotationDetail.fixedPrice
+      ? PriceSource.FIXED
+      : PriceSource.GQ;
+    const price =
+      this.quotationDetail.fixedPrice ?? this.quotationDetail.recommendedPrice;
+    const updatePrice = new UpdatePrice(price, priceSource);
+    this.selectManualPrice.emit(updatePrice);
   }
 }
