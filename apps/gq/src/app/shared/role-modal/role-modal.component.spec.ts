@@ -14,6 +14,11 @@ import {
 import { RoleDescModule } from './role-desc/role-desc.module';
 import { RoleModalComponent } from './role-modal.component';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn(() => 'translate it'),
+}));
+
 describe('RoleModalComponent', () => {
   let component: RoleModalComponent;
   let spectator: Spectator<RoleModalComponent>;

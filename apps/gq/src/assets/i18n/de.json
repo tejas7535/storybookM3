@@ -1,28 +1,28 @@
 {
   "shared": {
     "quotationDetailsTable": {
-      "gpi": "Preisspanne",
+      "gpi": "GPI % (KHK)",
       "gpsd": "GPSD",
-      "gpc": "GPC",
+      "gpc": "KHK",
       "info": "Info",
-      "item": "Item",
-      "lastCustomerPrice": "letzter Kundenpreis",
-      "materialDescription": "Materialbeschreibung",
+      "item": "Position",
+      "lastCustomerPrice": "Letzter Kundenpreis",
+      "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",
       "netValue": "Nettowert",
-      "offerPrice": "Preis",
-      "percentDifference": "% Unterschied Preise",
+      "offerPrice": "Nettopreis",
+      "percentDifference": "Preisunterschied %",
       "gqRating": "GQ Rating",
-      "per": "per",
-      "priceSource": "Preis Quelle",
+      "per": "pro",
+      "priceSource": "Preisherkunft",
       "productionCity": "Ort",
-      "productionPlant": "Werk",
+      "productionPlant": "Produktionswerk",
       "productionCountry": "Land",
       "productLine": "PL",
-      "orderQuantity": "Anzahl",
-      "rlt": "RLT",
-      "sqv": "SQV",
-      "uom": "Maßeinheit"
+      "orderQuantity": "Menge",
+      "rlt": "WBZ",
+      "sqv": "SAW",
+      "uom": "Mengeneinheit"
     },
     "caseHeader": {
       "gqCreated": "(GQ) Erstellt am",
@@ -32,20 +32,20 @@
       "sapCreated": "(SAP) Erstellt am",
       "sapCreatedByUser": "(SAP) Erstellt von",
       "sapLastUpdated": "(SAP) Aktualisiert am",
-      "seeOffer": "Angebot ansehen"
+      "seeOffer": "Auswahl anzeigen"
     },
     "caseMaterial": {
       "addEntry": {
         "processCase": {
-          "dialogTitle": "Neuen Eintrag hinzufügen",
+          "dialogTitle": "Neuen Position hinzufügen",
           "addEntryTitle": "Material hinzufügen"
         },
         "quantity": {
-          "error": "Invalide Anzahl",
-          "label": "Anzahl",
-          "hint": "Geben Sie die Anzahl ein"
+          "error": "Invalide Menge",
+          "label": "Menge",
+          "hint": "Geben Sie die Menge ein"
         },
-        "button": "Eintrag hinzufügen"
+        "button": "Position hinzufügen"
       },
       "table": {
         "info": {
@@ -55,14 +55,14 @@
             "isDummy": "Dies ist ein Beispieldatensatz",
             "materialNumberInValid": "Die Materialnummer ist invalide",
             "not_validated": "Item noch nicht validiert",
-            "quantityInValid": "Die Anzahl ist invalide",
+            "quantityInValid": "Die Menge ist invalide",
             "valid": "Das Item ist valide",
             "validationFailure": "Validierung fehlgeschlagen, versuche es erneut"
           }
         },
         "matDesc": "Material Beschreibung",
         "materialNumber": "Material Nummer (15-stellig)",
-        "quantity": "Anzahl"
+        "quantity": "Menge"
       }
     },
     "customStatusBar": {
@@ -70,31 +70,31 @@
         "addMaterial": "hinzufügen"
       },
       "addToOfferButton": {
-        "addToOffer": "Zum Angebot hinzufügen"
+        "addToOffer": "Zur Auswahl hinzufügen"
       },
       "exportToExcelButton": {
         "exportToExcel": "als Excel Datei exportieren"
       },
       "finishOfferButton": {
-        "finishOffer": "Angebot abschließen"
+        "finishOffer": "Auswahl abschließen"
       },
       "flatButtons": {
         "addNewItem": "Neues Item hinzufügen"
       },
       "deleteCaseButton": {
-        "deleteCase": "Fall löschen"
+        "deleteCase": "case löschen"
       },
       "detailViewButton": {
         "openDetail": "Details öffnen"
       },
       "openCaseButton": {
-        "openCase": "Fall öffnen"
+        "openCase": "case öffnen"
       },
       "removeFromOfferButton": {
-        "removeFromOffer": "vom Angebot entfernen"
+        "removeFromOffer": "von Auswahl entfernen"
       },
       "resetAllButton": {
-        "resetAll": "Reset All"
+        "resetAll": "Zurücksetzen"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Ausgewählter gew. ø GPI%",
@@ -105,11 +105,11 @@
         "offerNetValue": "Angebotener Nettowert"
       },
       "uploadToSAPButton": {
-        "uploadToSAP": "Angebot zu SAP hochladen"
+        "uploadToSAP": "Nettopreise in SAP aktualisieren"
       },
       "materialValidationStatus": {
         "invalid": "Invalide",
-        "total": "Total"
+        "total": "Gesamt"
       }
     },
     "customerDetails": {
@@ -124,16 +124,17 @@
       "lastYearGPI": "GPI"
     },
     "offerDrawer": {
-      "title": "Alles zurücksetzen"
+      "title": "Aktuelle Auswahl"
     },
     "offerTable": {
-      "materialDescription": "Materialbeschreibung",
+      "materialDescription": "Materialbezeichnung",
       "netValue": "Nettowert",
-      "price": "Preis",
-      "quantity": "Stückzahl"
+      "price": "Nettopreis",
+      "quantity": "Menge"
     },
     "roleModal": {
-      "menuTitle": "Rollen"
+      "menuTitle": "Rollen",
+      "contactInformation": "Bei Fragen bezüglich den zugewiesenen Rollen kontaktieren Sie bitte: <a href='mailto:{mailAdress}?subject=Category: Assigned User Roles'>OR-SWE-Global-Pricing-Industry</a>"
     },
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",

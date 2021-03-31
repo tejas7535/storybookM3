@@ -3,11 +3,12 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { AppState, getAllRoles } from '../../core/store';
 import { RoleGroup } from '../../core/store/models';
-import { infoMessage } from '../constants';
+import { mailAdress } from '../constants';
 
 @Component({
   selector: 'gq-role-modal',
@@ -16,7 +17,7 @@ import { infoMessage } from '../constants';
 })
 export class RoleModalComponent implements OnInit {
   public allRoles$: Observable<RoleGroup[]>;
-  public contactInfo = infoMessage;
+  public contactInfo: String;
 
   constructor(
     private readonly dialogRef: MatDialogRef<RoleModalComponent>,
@@ -25,6 +26,10 @@ export class RoleModalComponent implements OnInit {
 
   ngOnInit(): void {
     this.allRoles$ = this.store.pipe(select(getAllRoles));
+    const translationString: String = translate(
+      'shared.roleModal.contactInformation'
+    );
+    this.contactInfo = translationString.replace('{mailAdress}', mailAdress);
   }
 
   closeDialog(): void {

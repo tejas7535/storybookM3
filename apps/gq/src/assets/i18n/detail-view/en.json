@@ -8,7 +8,7 @@
     },
     "gqPrice": {
       "title": "GQ Pricing",
-      "priceLabel": "Price",
+      "priceLabel": "Netprice",
       "rating": "GQ-Rating",
       "gpi": "GPI% (GPC)",
       "quantity": "Quantity"
@@ -17,9 +17,9 @@
     "selected": "selected"
   },
   "pricingDetails": {
-    "label": "Pricing Details",
+    "label": "General Information",
     "materialDetails": {
-      "15digit": "15-digit",
+      "15digit": "Material",
       "baseUoM": "Base UoM",
       "dimension": "Dimensions",
       "ean11": "EAN Code",
@@ -28,7 +28,7 @@
       "grossWeight": "Gross Weight",
       "innerDiameter": "Inner Diameter",
       "label": "Material",
-      "materialDescription": "Material Description",
+      "materialDescription": "Description",
       "materialType": "Material Type",
       "materialStatus": "X-Plant-Material Status",
       "outerDiameter": "Outer Diameter",
@@ -44,8 +44,8 @@
       "productionPlant": "Production Plant"
     },
     "supplyChainDetails": {
-      "label": "Supply Chain Data",
-      "supplyPlant": "Supply Plant",
+      "label": "Supply Chain Information",
+      "supplyPlant": "Delivery Plant",
       "productionPlant": "Production Plant",
       "productionPlantRlt": "Production Plant RLT"
     }
