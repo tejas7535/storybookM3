@@ -3,15 +3,15 @@
     "quotationDetailsTable": {
       "gpsd": "GPSD",
       "gpc": "GPC",
-      "gpi": "GPI %",
+      "gpi": "GPI % (GPC)",
       "info": "Info",
       "item": "Item",
-      "lastCustomerPrice": "Last Price",
+      "lastCustomerPrice": "Last Customer Price",
       "materialDescription": "Description",
       "materialNumber": "Material",
       "netValue": "Net Value",
-      "offerPrice": "Price",
-      "percentDifference": "% Diff Prices",
+      "offerPrice": "Net Price",
+      "percentDifference": "Price Diff %",
       "gqRating": "GQ Rating",
       "per": "per",
       "priceSource": "Price Source",
@@ -105,7 +105,7 @@
         "offerNetValue": "Offered Net Value"
       },
       "uploadToSAPButton": {
-        "uploadToSAP": "Upload offer to SAP"
+        "uploadToSAP": "Update prices in SAP Quotation"
       },
       "materialValidationStatus": {
         "invalid": "Invalid",
@@ -133,7 +133,8 @@
       "quantity": "Quantity"
     },
     "roleModal": {
-      "menuTitle": "User Roles"
+      "menuTitle": "User Roles",
+      "contactInformation": "Please contact <a href='mailto:{mailAdress}?subject=Category: Assigned User Roles'>OR-SWE-Global-Pricing-Industry</a> if you have questions about your user roles or need access to additional user roles."
     },
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",

@@ -1,11 +1,11 @@
 {
-  "title": "Quotation Cases",
+  "title": "Case Overview",
   "buttonCreateCase": "Create New Case",
   "caseTable": {
     "customerNumber": "Customer Number",
     "customerName": "Customer Name",
-    "createdBy": "Created By",
-    "creationDate": "GQ Creation Date",
+    "createdBy": "SAP Created By",
+    "creationDate": "Case Created On",
     "gqId": "GQ Case",
     "sapId": "SAP Quotation"
   },
@@ -17,7 +17,7 @@
         "title": "Add position"
       },
       "salesOrg": "Sales Org",
-      "button": "Create",
+      "button": "Create Case",
       "hint": "Enter a Customer Number or a Customer Name",
       "label": "Customer",
       "nothingFound": "Nothing found",

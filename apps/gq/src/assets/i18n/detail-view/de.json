@@ -4,12 +4,12 @@
       "title": "Manueller Preis",
       "label": "Manueller Preis",
       "hint": "Geben Sie einen manuellen Preis ein",
-      "noPermissionHint": "Sie haben nicht genug Rechte um einen manuellen Preis zu erstellen"
+      "noPermissionHint": "Sie haben nicht die benötigte Rolle um einen manuellen Preis zu erstellen"
     },
     "gqPrice": {
       "title": "GQ Preis",
-      "priceLabel": "Preis",
-      "rating": "GQ-Bewertung",
+      "priceLabel": "Nettopreis",
+      "rating": "GQ-Rating",
       "gpi": "GPI% (KHK)",
       "quantity": "Menge"
     },
@@ -17,37 +17,37 @@
     "selected": "ausgewählt"
   },
   "pricingDetails": {
-    "label": "Preis Details",
+    "label": "Detailinformationen",
     "materialDetails": {
-      "15digit": "15-stellig",
-      "baseUoM": "Base UoM",
-      "dimension": "Dimensionen",
+      "15digit": "Material",
+      "baseUoM": "Mengeneinheit",
+      "dimension": "Abmessungen",
       "ean11": "EAN Code",
-      "followingType": "Following Type",
+      "followingType": "Folgetype",
       "gpsdGroup": "GPSD-Gruppe",
       "grossWeight": "Bruttogewicht",
       "innerDiameter": "Innendurchmesser",
       "label": "Material",
-      "materialDescription": "Material Beschreibung",
-      "materialType": "Material Typ",
-      "materialStatus": "X-Plant-Material status",
+      "materialDescription": "Materialbezeichnung",
+      "materialType": "Materialtyp",
+      "materialStatus": "Material Status Werk",
       "outerDiameter": "Außendurchmesser",
       "productHierarchy": "Prod. Hierarchie",
-      "productLine": "Prod. Line",
-      "series": "Series",
+      "productLine": "Prod. Linie",
+      "series": "Serie",
       "width": "Breite"
     },
     "productionCostDetails": {
       "label": "Produktion und Kosten",
-      "gpc": "GPC",
-      "sqv": "SQV",
+      "gpc": "KHK",
+      "sqv": "SAW",
       "productionPlant": "Produktionswerk"
     },
     "supplyChainDetails": {
-      "label": "Supply Chain Daten",
-      "supplyPlant": "Lieferungswerk",
+      "label": "Supply Chain Informationen",
+      "supplyPlant": "Lieferwerk",
       "productionPlant": "Produktionswerk",
-      "productionPlantRlt": "Produktionswerk RLT"
+      "productionPlantRlt": "Produktionswerk WBZ"
     }
   }
 }

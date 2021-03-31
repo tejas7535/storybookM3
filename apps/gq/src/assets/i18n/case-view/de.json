@@ -1,22 +1,22 @@
 {
-  "title": "Quotation Cases",
-  "buttonCreateCase": "Neuen Case Erstellen",
+  "title": "Case Übersicht",
+  "buttonCreateCase": "Neuen Case erstellen",
   "caseTable": {
     "customerNumber": "Kundennummer",
     "customerName": "Kundenname",
-    "createdBy": "Erstellt von ",
-    "creationDate": "Erstelldatum",
-    "gqId": "GQ ID",
-    "sapId": "SAP Quotation"
+    "createdBy": "SAP erstellt von",
+    "creationDate": "Case erstellt am",
+    "gqId": "GQ Case",
+    "sapId": "SAP Angebotsnummer"
   },
   "createCaseDialog": {
-    "title": "Neuen Fall erstellen",
+    "title": "Neuen Case erstellen",
     "customer": {
       "addEntry": {
-        "button": "Eintrag hinzufügen",
-        "title": "Neuen Eintrag hinzufügen"
+        "button": "Position hinzufügen",
+        "title": "Neue Position hinzufügen"
       },
-      "salesOrg": "Sales Org",
+      "salesOrg": "VkOrg",
       "button": "Case erstellen",
       "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
       "label": "Kunde",
@@ -31,22 +31,22 @@
       "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
     },
     "sap-quotation": {
-      "button": "Angebot öffnen",
-      "hint": "Geben Sie eine Angebotsnummer eines in SAP erstellten Angebots an",
+      "button": "Importieren",
+      "hint": "Geben Sie eine SAP-Angebotsnummer ein",
       "label": "Angebotsnummer",
       "nothingFound": "Keine Ergebnisse",
-      "title": "SAP Case importieren",
+      "title": "SAP Angebot importieren",
       "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
     }
   },
   "deleteAccept": {
     "cancelButton": "abbrechen",
     "deleteButton": "löschen",
-    "text": "Möchten Sie wirkliche folgende Angebote löschen?"
+    "text": "Möchten Sie wirkliche folgende Cases löschen?"
   },
   "snackBarMessages": {
-    "createSuccess": "Angebot wurde erfolgreich erstellt",
-    "deleteSuccess": "Angebot wurde erfolgreich gelöscht",
-    "importSuccess": "Angebot wurde erfolgreich importiert"
+    "createSuccess": "Case wurde erfolgreich erstellt",
+    "deleteSuccess": "Case wurde erfolgreich gelöscht",
+    "importSuccess": "Case wurde erfolgreich importiert"
   }
 }
