@@ -52,7 +52,7 @@ export class OverviewComponent implements OnInit {
     {
       title: 'Carbonitriding Prediction',
       url:
-        'http://ws000704:9988/webapps/home/session.html?app=Carbonitriding_prediction',
+        'https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/materials-technology/materials-development/blog/2021/03/10/simulation-tool-for-carbonitriding-heat-treatment',
       className: 'carbonitriding-icon',
       externalLink: true,
     },
