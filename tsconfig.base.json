@@ -74,7 +74,10 @@
       "@schaeffler/shared/utils/azure-auth": [
         "libs/shared/utils/azure-auth/src/index.ts"
       ],
-      "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"]
+      "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
+      "@schaeffler/horizontal-separator": [
+        "libs/shared/ui/horizontal-separator/src/index.ts"
+      ]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true
