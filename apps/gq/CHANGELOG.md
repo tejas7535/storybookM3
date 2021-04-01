@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.13.0](///compare/gq-v1.13.0...gq-v1.12.2) (2021-04-01)
+
+
+### 🎸 Features
+
+* **gq:** added adjusted translations for prod release ([0becbef](///commit/0becbef43f3445dd4e0d376c522968ac3673347e))
+* **gq:** adjusted rest call to set price sources (GQUOTE-423) ([23c7b39](///commit/23c7b395c1859bc8e49941b4cb34949b7367d3ef))
+* **gq:** migrate to azure auth lib (GQUOTE-529) ([332d254](///commit/332d2541498bbbd6fa2df2815d3e60a0749acc68))
+* **gq:** removed status and synchronized columns ([eb023eb](///commit/eb023ebb92f7ed2d3078bcb789d39fef45588545))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** fixed added to offer bug ([88b0c4b](///commit/88b0c4b949f5c5a7e2d92e85fc3e268768b3fe3f))
+* **gq:** fixed excel download (GQUOTE-468) ([35591ed](///commit/35591edc180fba7354f9f8366d995dbd86d18e48))
+
 ### [1.12.2](///compare/gq-v1.12.2...gq-v1.12.1) (2021-03-23)
 
 
