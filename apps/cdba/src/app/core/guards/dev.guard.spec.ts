@@ -1,23 +1,18 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { configureTestSuite } from 'ng-bullet';
+import { environment } from '@cdba/environments/environment';
 
-import { environment } from '../../../environments/environment';
 import { DevGuard } from './dev.guard';
 
 describe('DevGuard', () => {
+  let spectator: SpectatorService<DevGuard>;
   let guard: DevGuard;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      providers: [DevGuard],
-    });
-  });
+  const createService = createServiceFactory(DevGuard);
 
   beforeEach(() => {
-    guard = TestBed.inject(DevGuard);
+    spectator = createService();
+    guard = spectator.inject(DevGuard);
   });
 
   test('should create', () => {

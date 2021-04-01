@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
-import { environment } from '../../../../../environments/environment';
-import { AppRoutePath } from '../../../../app-route-path.enum';
-import { CompareRoutePath } from '../../../../compare/compare-route-path.enum';
-import { ReferenceType } from '../../../../core/store/reducers/shared/models';
+import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
+import { ReferenceType } from '@cdba/core/store/reducers/shared/models';
+import { environment } from '@cdba/environments/environment';
 
 @Component({
   selector: 'cdba-compare-view-button',

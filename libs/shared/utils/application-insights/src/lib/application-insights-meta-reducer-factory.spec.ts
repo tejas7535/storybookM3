@@ -1,7 +1,7 @@
 import { Injector } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { META_REDUCERS, Store, StoreModule } from '@ngrx/store';
 
 import {

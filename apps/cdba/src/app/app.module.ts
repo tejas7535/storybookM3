@@ -4,9 +4,9 @@ import { NgModule } from '@angular/core';
 import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 
 import { CoreModule } from '@cdba/core';
+import { environment } from '@cdba/environments/environment';
 import { SharedModule } from '@cdba/shared';
 
-import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 

@@ -1,6 +1,6 @@
 import { waitForAsync } from '@angular/core/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
@@ -20,7 +20,6 @@ describe('Root Effects', () => {
   const createService = createServiceFactory({
     service: RootEffects,
     providers: [
-      RootEffects,
       provideMockActions(() => actions$),
       {
         provide: ApplicationInsightsService,

@@ -4,7 +4,7 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 

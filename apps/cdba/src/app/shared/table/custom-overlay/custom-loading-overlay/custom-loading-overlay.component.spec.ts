@@ -1,25 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { LoadingSpinnerModule } from '../../../loading-spinner/loading-spinner.module';
 import { CustomLoadingOverlayComponent } from './custom-loading-overlay.component';
 
 describe('CustomLoadingOverlayComponent', () => {
+  let spectator: Spectator<CustomLoadingOverlayComponent>;
   let component: CustomLoadingOverlayComponent;
-  let fixture: ComponentFixture<CustomLoadingOverlayComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CustomLoadingOverlayComponent],
-      imports: [LoadingSpinnerModule],
-    });
+  const createComponent = createComponentFactory({
+    component: CustomLoadingOverlayComponent,
+    imports: [LoadingSpinnerModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomLoadingOverlayComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

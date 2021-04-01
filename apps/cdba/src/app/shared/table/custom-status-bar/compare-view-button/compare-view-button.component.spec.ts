@@ -1,38 +1,35 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CompareViewButtonComponent } from './compare-view-button.component';
 
 describe('CompareViewButtonComponent', () => {
+  let spectator: Spectator<CompareViewButtonComponent>;
   let component: CompareViewButtonComponent;
-  let fixture: ComponentFixture<CompareViewButtonComponent>;
-  let params: IStatusPanelParams;
   let router: Router;
+  let params: IStatusPanelParams;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CompareViewButtonComponent],
-      imports: [
-        MatButtonModule,
-        RouterTestingModule.withRoutes([]),
-        provideTranslocoTestingModule({}),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: CompareViewButtonComponent,
+    imports: [
+      MatButtonModule,
+      RouterTestingModule.withRoutes([]),
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CompareViewButtonComponent);
+    spectator = createComponent();
+    component = spectator.component;
 
-    router = TestBed.inject(Router);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    router = spectator.inject(Router);
+
     params = ({
       api: {
         addEventListener: jest.fn(),

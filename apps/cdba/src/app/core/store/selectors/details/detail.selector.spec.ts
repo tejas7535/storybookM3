@@ -2,14 +2,15 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   CUSTOMER_DETAILS_MOCK,
+  DETAIL_STATE_MOCK,
   DIMENSION_AND_WEIGHT_DETAILS_MOCK,
   PRICE_DETAILS_MOCK,
   PRODUCTION_DETAILS_MOCK,
   QUANTITIES_DETAILS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
-  REFERENCE_TYPE_MOCK,
   SALES_DETAILS_MOCK,
-} from '../../../../../testing/mocks';
+} from '@cdba/testing/mocks';
+
 import {
   DetailState,
   initialState,
@@ -35,32 +36,7 @@ import {
 } from './detail.selector';
 
 describe('Detail Selector', () => {
-  const fakeState: { detail: DetailState } = {
-    detail: {
-      ...initialState,
-      selectedReferenceType: REFERENCE_TYPE_IDENTIFIER_MOCK,
-      detail: {
-        ...initialState.detail,
-        loading: true,
-        referenceType: REFERENCE_TYPE_MOCK,
-      },
-      calculations: {
-        ...initialState.calculations,
-        loading: true,
-        items: CALCULATIONS_MOCK,
-        selected: {
-          nodeId: '3',
-          calculation: CALCULATIONS_MOCK[2],
-        },
-      },
-      bom: {
-        loading: true,
-        items: BOM_MOCK,
-        selectedItem: BOM_MOCK[0],
-        errorMessage: 'Error',
-      },
-    },
-  };
+  const fakeState: { detail: DetailState } = { detail: DETAIL_STATE_MOCK };
 
   const initialDetailState: { detail: DetailState } = {
     detail: initialState,

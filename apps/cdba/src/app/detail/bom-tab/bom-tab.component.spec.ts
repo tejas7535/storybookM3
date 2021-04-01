@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AgGridModule } from '@ag-grid-community/angular';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { BOM_MOCK } from '../../../testing/mocks';
+import { BOM_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
+
 import { selectBomItem } from '../../core/store';
 import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../../shared/table/custom-overlay/custom-overlay.module';
@@ -19,41 +19,38 @@ import { AdditionalInformationModule } from './additional-information/additional
 import { BomTabComponent } from './bom-tab.component';
 import { BomTableModule } from './bom-table/bom-table.module';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('BomTabComponent', () => {
+  let spectator: Spectator<BomTabComponent>;
   let component: BomTabComponent;
-  let fixture: ComponentFixture<BomTabComponent>;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        CommonModule,
-        NoopAnimationsModule,
-        MatCardModule,
-        MatIconModule,
-        AgGridModule.withComponents([CustomLoadingOverlayComponent]),
-        provideTranslocoTestingModule({}),
-        CustomOverlayModule,
-        BomTableModule,
-        MatSidenavModule,
-        AdditionalInformationModule,
-      ],
-      declarations: [BomTabComponent],
-      providers: [provideMockStore({})],
-    });
+  const createComponent = createComponentFactory({
+    component: BomTabComponent,
+    imports: [
+      CommonModule,
+      MatCardModule,
+      MatIconModule,
+      AgGridModule.withComponents([CustomLoadingOverlayComponent]),
+      provideTranslocoTestingModule({}),
+      CustomOverlayModule,
+      MatSidenavModule,
+      MockModule(BomTableModule),
+      MockModule(AdditionalInformationModule),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: { detail: DETAIL_STATE_MOCK },
+      }),
+    ],
+    disableAnimations: true,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BomTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
+    spectator.detectChanges();
 
-    store = TestBed.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {

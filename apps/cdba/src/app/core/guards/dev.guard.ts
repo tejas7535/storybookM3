@@ -3,7 +3,7 @@ import { CanActivateChild } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@cdba/environments/environment';
 
 @Injectable({
   providedIn: 'root',

@@ -3,9 +3,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
@@ -13,7 +12,8 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   REFERENCE_TYPE_MOCK,
-} from '../../../testing/mocks';
+} from '@cdba/testing/mocks';
+
 import {
   BomIdentifier,
   BomResult,
@@ -24,29 +24,29 @@ import { CalculationsResultModel } from '../../core/store/reducers/detail/models
 import { DetailService } from './detail.service';
 
 describe('DetailService', () => {
+  let spectator: SpectatorService<DetailService>;
   let service: DetailService;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        DetailService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: DetailService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(DetailService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.inject(DetailService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   describe('getDetails', () => {

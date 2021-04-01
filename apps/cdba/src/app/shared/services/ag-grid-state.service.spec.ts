@@ -1,6 +1,6 @@
 import { ColumnState } from '@ag-grid-community/all-modules';
 import { LOCAL_STORAGE } from '@ng-web-apis/common';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { AgGridStateService } from './ag-grid-state.service';
 

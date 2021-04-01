@@ -21,11 +21,6 @@ import {
 
 registerLocaleData(de);
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn((key) => key),
-}));
-
 describe('ColumnUtils', () => {
   describe('currentYear', () => {
     it('should have type number', () => {

@@ -10,7 +10,7 @@ import {
   AccountInfo as AzureAccountInfo,
   InteractionType,
 } from '@azure/msal-browser';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { AzureAuthService } from './azure-auth.service';
 

@@ -1,6 +1,6 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 
 import { SharedModule } from '../../../../shared/shared.module';

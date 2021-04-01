@@ -1,4 +1,4 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {
   CustomNoRowsOverlayComponent,
@@ -9,14 +9,11 @@ describe('CustomNoRowsOverlayComponent', () => {
   let spectator: Spectator<CustomNoRowsOverlayComponent>;
   let component: CustomNoRowsOverlayComponent;
 
-  const createComponent = createComponentFactory({
-    component: CustomNoRowsOverlayComponent,
-    declarations: [CustomNoRowsOverlayComponent],
-  });
+  const createComponent = createComponentFactory(CustomNoRowsOverlayComponent);
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.fixture.componentInstance;
+    component = spectator.component;
   });
 
   it('should create', () => {

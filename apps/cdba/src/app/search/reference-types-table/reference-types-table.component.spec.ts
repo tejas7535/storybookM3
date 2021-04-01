@@ -11,7 +11,7 @@ import {
   RowSelectedEvent,
 } from '@ag-grid-community/all-modules';
 import { AgGridModule } from '@ag-grid-community/angular';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {
   provideTranslocoTestingModule,
@@ -27,11 +27,6 @@ import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/cust
 import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('ReferenceTypesTableComponent', () => {
   let component: ReferenceTypesTableComponent;
@@ -68,7 +63,7 @@ describe('ReferenceTypesTableComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
 
     stateService = spectator.inject(AgGridStateService);
   });

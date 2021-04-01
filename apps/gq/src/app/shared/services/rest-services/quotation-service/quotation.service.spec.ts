@@ -7,7 +7,7 @@ import {
   createServiceFactory,
   HttpMethod,
   SpectatorService,
-} from '@ngneat/spectator';
+} from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 

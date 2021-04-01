@@ -14,7 +14,8 @@ import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { environment } from '../../environments/environment';
+import { environment } from '@cdba/environments/environment';
+
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';

@@ -1,26 +1,19 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FlexLayoutModule } from '@angular/flex-layout';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer.component';
 
 describe('MaterialDesignationCellRendererComponent', () => {
+  let spectator: Spectator<MaterialDesignationCellRendererComponent>;
   let component: MaterialDesignationCellRendererComponent;
-  let fixture: ComponentFixture<MaterialDesignationCellRendererComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [FlexLayoutModule],
-      declarations: [MaterialDesignationCellRendererComponent],
-    });
-  });
+  const createComponent = createComponentFactory(
+    MaterialDesignationCellRendererComponent
+  );
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MaterialDesignationCellRendererComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

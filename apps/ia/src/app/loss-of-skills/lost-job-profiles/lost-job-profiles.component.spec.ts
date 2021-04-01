@@ -1,5 +1,5 @@
 import { AgGridModule } from '@ag-grid-community/angular';
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { translate } from '@ngneat/transloco';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
