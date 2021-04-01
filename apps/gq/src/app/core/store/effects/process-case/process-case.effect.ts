@@ -304,10 +304,7 @@ export class ProcessCaseEffect {
               this.snackBarService.showSuccessMessage(successMessage);
             }),
             tap((quotationDetails) => {
-              // .price determines which property was updated
-              if (updateQuotationDetailList[0].price) {
-                PriceService.addCalculationsForDetails(quotationDetails);
-              }
+              PriceService.addCalculationsForDetails(quotationDetails);
             }),
             map((quotationDetails: QuotationDetail[]) =>
               updateQuotationDetailsSuccess({
