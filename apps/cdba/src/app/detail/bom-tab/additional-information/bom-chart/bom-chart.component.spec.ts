@@ -1,16 +1,14 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { BomItem } from '@cdba/core/store/reducers/detail/models';
 import { SharedModule } from '@cdba/shared';
+import { BOM_MOCK } from '@cdba/testing/mocks';
 
-import { BOM_MOCK } from '../../../../../testing/mocks';
-import { BomItem } from '../../../../core/store/reducers/detail/models';
 import { BomChartComponent } from './bom-chart.component';
 import {
   COLOR_PLATTE,
@@ -20,31 +18,31 @@ import {
 } from './bom-chart.config';
 
 describe('BomChartComponent', () => {
+  let specatator: Spectator<BomChartComponent>;
   let component: BomChartComponent;
-  let fixture: ComponentFixture<BomChartComponent>;
 
   const data: BomItem[] = [BOM_MOCK[0], BOM_MOCK[1]];
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [BomChartComponent],
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        NgxEchartsModule.forRoot({
-          echarts: () => import('echarts'),
-        }),
-        provideTranslocoTestingModule({}),
-        MatIconModule,
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: BomChartComponent,
+    imports: [
+      SharedModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+      provideTranslocoTestingModule({}),
+      MatIconModule,
+    ],
+    disableAnimations: true,
+    detectChanges: false,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BomChartComponent);
-    component = fixture.componentInstance;
+    specatator = createComponent();
+    component = specatator.component;
     component.chartData = data;
-    fixture.detectChanges();
+
+    specatator.detectChanges();
   });
 
   it('should create', () => {

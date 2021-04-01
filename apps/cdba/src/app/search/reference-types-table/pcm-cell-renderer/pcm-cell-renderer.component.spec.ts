@@ -25,7 +25,7 @@ describe('PcmCellRendererComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
   });
 
   it('should create', () => {

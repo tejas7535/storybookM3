@@ -1,16 +1,7 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
-
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import * as utils from '../../table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 jest.mock('../../table/column-utils', () => ({
   ...jest.requireActual('../../table/column-utils'),
@@ -20,16 +11,13 @@ jest.mock('../../table/column-utils', () => ({
 
 describe('ColumnDefinitions', () => {
   let service: ColumnDefinitionService;
+  let spectator: SpectatorService<ColumnDefinitionService>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({})],
-      providers: [ColumnDefinitionService],
-    });
-  });
+  const createService = createServiceFactory(ColumnDefinitionService);
 
   beforeEach(() => {
-    service = TestBed.inject(ColumnDefinitionService);
+    spectator = createService();
+    service = spectator.inject(ColumnDefinitionService);
   });
 
   it('should call value getter and format methods', () => {

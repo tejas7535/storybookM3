@@ -1,9 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -20,60 +20,51 @@ import { CalculationsTableModule } from '../../shared/calculations-table/calcula
 import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('CalculationsTabComponent', () => {
+  let spectator: Spectator<CalculationsTabComponent>;
   let component: CalculationsTabComponent;
-  let fixture: ComponentFixture<CalculationsTabComponent>;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [CalculationsTabComponent],
-      imports: [
-        CalculationsTableModule,
-        provideTranslocoTestingModule({}),
-        CustomStatusBarModule,
-        RouterTestingModule,
-        MatCardModule,
-      ],
-      providers: [
-        provideMockStore({
-          initialState: {
-            calculations: {},
+  const createComponent = createComponentFactory({
+    component: CalculationsTabComponent,
+    imports: [
+      RouterTestingModule,
+      provideTranslocoTestingModule({}),
+      MockModule(CalculationsTableModule),
+      MockModule(CustomStatusBarModule),
+      MatCardModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          calculations: {},
+        },
+        selectors: [
+          {
+            selector: getCalculations,
+            value: CALCULATIONS_MOCK,
           },
-          selectors: [
-            {
-              selector: getCalculations,
-              value: CALCULATIONS_MOCK,
-            },
-            {
-              selector: getSelectedNodeId,
-              value: '7',
-            },
-            {
-              selector: getCalculationsErrorMessage,
-              value: 'Error Message',
-            },
-            {
-              selector: getCalculationsLoading,
-              value: false,
-            },
-          ],
-        }),
-      ],
-    });
+          {
+            selector: getSelectedNodeId,
+            value: '7',
+          },
+          {
+            selector: getCalculationsErrorMessage,
+            value: 'Error Message',
+          },
+          {
+            selector: getCalculationsLoading,
+            value: false,
+          },
+        ],
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CalculationsTabComponent);
-    component = fixture.componentInstance;
-    store = TestBed.inject(MockStore);
-
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {

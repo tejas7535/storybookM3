@@ -1,11 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import { SearchService } from '../../../../search/services/search.service';
@@ -38,6 +36,7 @@ import {
 import { SearchEffects } from './search.effects';
 
 describe('Search Effects', () => {
+  let spectator: SpectatorService<SearchEffects>;
   let action: any;
   let actions$: any;
   let store: any;
@@ -47,31 +46,30 @@ describe('Search Effects', () => {
 
   const errorMessage = 'An error message occured';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        SearchEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: SearchService,
-          useValue: {
-            getInitialFilters: jest.fn(),
-            search: jest.fn(),
-            autocomplete: jest.fn(),
-            textSearch: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: SearchEffects,
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: SearchService,
+        useValue: {
+          getInitialFilters: jest.fn(),
+          search: jest.fn(),
+          autocomplete: jest.fn(),
+          textSearch: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    store = TestBed.inject(Store);
-    effects = TestBed.inject(SearchEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    store = spectator.inject(Store);
+    effects = spectator.inject(SearchEffects);
     metadata = getEffectsMetadata(effects);
-    searchService = TestBed.inject(SearchService);
+    searchService = spectator.inject(SearchService);
 
     store.overrideSelector(getSelectedFilters, []);
     store.overrideSelector(getSelectedFilterIdValueOptionsByFilterName, []);

@@ -1,7 +1,6 @@
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -13,11 +12,6 @@ import { SharedModule } from '../shared/shared.module';
 import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
 import { DetailComponent } from './detail.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('DetailComponent', () => {
   let component: DetailComponent;
   let spectator: Spectator<DetailComponent>;
@@ -25,7 +19,6 @@ describe('DetailComponent', () => {
   const createComponent = createComponentFactory({
     component: DetailComponent,
     imports: [
-      NoopAnimationsModule,
       SharedModule,
       RouterTestingModule,
       provideTranslocoTestingModule({}),
@@ -46,11 +39,12 @@ describe('DetailComponent', () => {
         ],
       }),
     ],
+    disableAnimations: true,
   });
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
   });
 
   test('should create', () => {

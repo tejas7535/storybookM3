@@ -41,7 +41,6 @@ export const CALCULATIONS_MOCK = [
     '0',
     'SQB'
   ),
-
   new Calculation(
     '0060',
     100000,
@@ -62,7 +61,6 @@ export const CALCULATIONS_MOCK = [
     '0',
     'SQB'
   ),
-
   new Calculation(
     '0060',
     100000,
@@ -83,7 +81,6 @@ export const CALCULATIONS_MOCK = [
     '0',
     'SQB'
   ),
-
   new Calculation(
     '0060',
     100000,
@@ -125,6 +122,4 @@ export const CALCULATIONS_MOCK = [
     '0',
     'SQB'
   ),
-
-  // tslint:disable-next-line:max-file-line-count
 ];

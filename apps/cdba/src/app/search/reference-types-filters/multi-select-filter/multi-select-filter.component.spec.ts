@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,11 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import * as rxjs from 'rxjs';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -29,41 +27,36 @@ import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';
 
 describe('MultiSelectFilterComponent', () => {
   let component: MultiSelectFilterComponent;
-  let fixture: ComponentFixture<MultiSelectFilterComponent>;
+  let spectator: Spectator<MultiSelectFilterComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        MultiSelectFilterComponent,
-        MultiSelectValuePipe,
-        NoResultsFoundPipe,
-        FormatValuePipe,
-      ],
-      imports: [
-        NoopAnimationsModule,
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        provideTranslocoTestingModule({}),
-        MatCheckboxModule,
-        MatTooltipModule,
-        MatIconModule,
-        MatProgressSpinnerModule,
-        MaterialNumberModule,
-      ],
-      providers: [SearchUtilityService],
-    });
+  const createComponent = createComponentFactory({
+    component: MultiSelectFilterComponent,
+    imports: [
+      CommonModule,
+      FormsModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+      provideTranslocoTestingModule({}),
+      MatCheckboxModule,
+      MatTooltipModule,
+      MatIconModule,
+      MatProgressSpinnerModule,
+      MaterialNumberModule,
+    ],
+    declarations: [MultiSelectValuePipe, NoResultsFoundPipe, FormatValuePipe],
+    providers: [SearchUtilityService],
+    disableAnimations: true,
+    detectChanges: false,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MultiSelectFilterComponent);
-    component = fixture.componentInstance;
-    component.filter = new FilterItemIdValue('test', [], false, true);
+    spectator = createComponent();
+    component = spectator.component;
 
-    fixture.detectChanges();
+    component.filter = new FilterItemIdValue('test', [], false, true);
+    spectator.detectChanges();
   });
 
   it('should create', () => {
@@ -494,8 +487,17 @@ describe('MultiSelectFilterComponent', () => {
   });
 
   describe('dropdownOpenedChange', () => {
-    it('should autofocus autocomplete input on open', () => {
+    beforeEach(() => {
       jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      // this is a workaround:
+      // only using useFakeTimers will affect all following specs, which leads to failures
+      jest.useRealTimers();
+    });
+
+    it('should autofocus autocomplete input on open', () => {
       component['emitUpdate'] = jest.fn();
       component.autocompleteInput = {
         nativeElement: {
@@ -516,7 +518,7 @@ describe('MultiSelectFilterComponent', () => {
 
     it('should update filter on close', () => {
       component.form.setValue([new IdValue('001', 'val', true)]);
-      jest.useFakeTimers();
+
       component.autocompleteInput = {
         nativeElement: {
           focus: jest.fn(),

@@ -1,30 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { MaterialNumberModule } from '../../../shared/pipes';
+import { MaterialNumberModule } from '@cdba/shared';
+
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 describe('SalesAndDescriptionComponent', () => {
+  let spectator: Spectator<SalesAndDescriptionComponent>;
   let component: SalesAndDescriptionComponent;
-  let fixture: ComponentFixture<SalesAndDescriptionComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({}), MaterialNumberModule],
-      declarations: [SalesAndDescriptionComponent],
-      providers: [],
-    });
+  const createComponent = createComponentFactory({
+    component: SalesAndDescriptionComponent,
+    imports: [MaterialNumberModule, provideTranslocoTestingModule({})],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SalesAndDescriptionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

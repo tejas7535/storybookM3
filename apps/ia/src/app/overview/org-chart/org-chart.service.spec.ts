@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { HeatType } from '../models/heat-type.enum';
 import { OrgChartEmployee } from './models/org-chart-employee.model';

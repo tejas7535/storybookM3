@@ -1,14 +1,9 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as utils from '../../../shared/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 jest.mock('../../../shared/table/column-utils', () => ({
   ...jest.requireActual('../../../shared/table/column-utils'),

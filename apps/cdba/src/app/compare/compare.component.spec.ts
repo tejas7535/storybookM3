@@ -1,16 +1,11 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
 import { CompareComponent } from './compare.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('CompareComponent', () => {
   let component: CompareComponent;
@@ -28,7 +23,7 @@ describe('CompareComponent', () => {
 
   beforeEach(() => {
     spectator = createComponent();
-    component = spectator.debugElement.componentInstance;
+    component = spectator.component;
   });
 
   test('should create', () => {

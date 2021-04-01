@@ -1,27 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomerComponent } from './customer.component';
 
-describe('DimensionAndWeightComponent', () => {
+describe('CustomerComponent', () => {
+  let spectator: Spectator<CustomerComponent>;
   let component: CustomerComponent;
-  let fixture: ComponentFixture<CustomerComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({})],
-      declarations: [CustomerComponent],
-      providers: [],
-    });
+  const createComponent = createComponentFactory({
+    component: CustomerComponent,
+    imports: [provideTranslocoTestingModule({})],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CustomerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

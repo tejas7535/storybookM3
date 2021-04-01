@@ -1,8 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import de from '@angular/common/locales/de';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -11,23 +10,18 @@ import { PricingComponent } from './pricing.component';
 registerLocaleData(de);
 
 describe('PricingComponent', () => {
+  let spectator: Spectator<PricingComponent>;
   let component: PricingComponent;
-  let fixture: ComponentFixture<PricingComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [provideTranslocoTestingModule({})],
-      declarations: [PricingComponent],
-      providers: [],
-    });
+  const createComponent = createComponentFactory({
+    component: PricingComponent,
+    imports: [provideTranslocoTestingModule({})],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PricingComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

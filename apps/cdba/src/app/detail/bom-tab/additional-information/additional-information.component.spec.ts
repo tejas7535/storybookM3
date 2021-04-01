@@ -1,13 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { MockModule } from 'ng-mocks';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { selectCalculation } from '../../../core/store';
 import { Calculation } from '../../../core/store/reducers/shared/models';
@@ -15,44 +17,44 @@ import { CalculationsTableModule } from '../../../shared/calculations-table/calc
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { AdditionalInformationComponent } from './additional-information.component';
-import { BomChartModule } from './bom-chart/bom-chart.module';
+import { BomChartComponent } from './bom-chart/bom-chart.component';
 import { BomLegendModule } from './bom-legend/bom-legend.module';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('AdditionalInformationComponent', () => {
+  let spectator: Spectator<AdditionalInformationComponent>;
   let component: AdditionalInformationComponent;
-  let fixture: ComponentFixture<AdditionalInformationComponent>;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [AdditionalInformationComponent],
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        provideTranslocoTestingModule({}),
-        MatIconModule,
-        MatTabsModule,
-        MatRippleModule,
-        CalculationsTableModule,
-        BomChartModule,
-        BomLegendModule,
-        LoadingSpinnerModule,
-      ],
-      providers: [provideMockStore()],
-    });
+  const createComponent = createComponentFactory({
+    component: AdditionalInformationComponent,
+    declarations: [BomChartComponent],
+    imports: [
+      SharedModule,
+      provideTranslocoTestingModule({}),
+      MatIconModule,
+      MatTabsModule,
+      MatRippleModule,
+      MockModule(CalculationsTableModule),
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
+      BomLegendModule,
+      LoadingSpinnerModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: { detail: DETAIL_STATE_MOCK },
+      }),
+    ],
+    disableAnimations: true,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AdditionalInformationComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
+    spectator.detectChanges();
 
-    store = TestBed.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {

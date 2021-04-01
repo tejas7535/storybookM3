@@ -1,73 +1,58 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { AgGridModule } from '@ag-grid-community/angular';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { getReferenceTypes, getSearchSuccessful } from '../core/store';
 import { BlockUiModule } from '../shared/block-ui/block-ui.module';
-import { AgGridStateService } from '../shared/services/ag-grid-state.service';
 import { SharedModule } from '../shared/shared.module';
-import { CustomNoRowsOverlayComponent } from '../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CustomOverlayModule } from '../shared/table/custom-overlay/custom-overlay.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
 import { SearchComponent } from './search.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('SearchComponent', () => {
   let component: SearchComponent;
-  let fixture: ComponentFixture<SearchComponent>;
+  let spectator: Spectator<SearchComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        provideTranslocoTestingModule({}),
-        FilterPanelModule,
-        ReferenceTypesFiltersModule,
-        ReferenceTypesTableModule,
-        RouterTestingModule,
-        AgGridModule.withComponents([CustomNoRowsOverlayComponent]),
-        BlockUiModule,
-        CustomOverlayModule,
-      ],
-      declarations: [SearchComponent],
-      providers: [
-        AgGridStateService,
-        provideMockStore({
-          initialState: {
-            search: {},
+  const createComponent = createComponentFactory({
+    component: SearchComponent,
+    imports: [
+      SharedModule,
+      provideTranslocoTestingModule({}),
+      MockModule(FilterPanelModule),
+      MockModule(ReferenceTypesFiltersModule),
+      MockModule(ReferenceTypesTableModule),
+      RouterTestingModule,
+      BlockUiModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          search: {},
+        },
+        selectors: [
+          {
+            selector: getSearchSuccessful,
+            value: true,
           },
-          selectors: [
-            {
-              selector: getSearchSuccessful,
-              value: true,
-            },
-            {
-              selector: getReferenceTypes,
-              value: [],
-            },
-          ],
-        }),
-      ],
-    });
+          {
+            selector: getReferenceTypes,
+            value: [],
+          },
+        ],
+      }),
+    ],
+    disableAnimations: true,
+    detectChanges: false,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SearchComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

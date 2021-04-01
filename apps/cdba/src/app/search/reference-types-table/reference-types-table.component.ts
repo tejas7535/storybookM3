@@ -24,7 +24,8 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@cdba/environments/environment';
+
 import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../../shared/table';

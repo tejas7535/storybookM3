@@ -2,11 +2,10 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
-import { DataService, ENV_CONFIG } from '@schaeffler/http';
+import { ENV_CONFIG } from '@schaeffler/http';
 
 import {
   FilterItem,
@@ -14,35 +13,32 @@ import {
   SearchResult,
   TextSearch,
 } from '../../core/store/reducers/search/models';
-import { SearchUtilityService } from './search-utility.service';
 import { SearchService } from './search.service';
 
 describe('SearchService', () => {
+  let spectator: SpectatorService<SearchService>;
   let service: SearchService;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        SearchService,
-        DataService,
-        SearchUtilityService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: SearchService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(SearchService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.inject(SearchService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {

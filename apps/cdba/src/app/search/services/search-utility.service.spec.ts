@@ -1,14 +1,17 @@
-import { TestBed } from '@angular/core/testing';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { IdValue } from '../../core/store/reducers/search/models';
 import { SearchUtilityService } from './search-utility.service';
 
 describe('SearchUtilityService', () => {
   let service: SearchUtilityService;
-  beforeEach(() => TestBed.configureTestingModule({}));
+  let spectator: SpectatorService<SearchUtilityService>;
+
+  const createService = createServiceFactory(SearchUtilityService);
 
   beforeEach(() => {
-    service = TestBed.inject(SearchUtilityService);
+    spectator = createService();
+    service = spectator.inject(SearchUtilityService);
   });
 
   it('should be created', () => {

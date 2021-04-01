@@ -1,8 +1,6 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -10,25 +8,21 @@ import { SharedModule } from '../../shared/shared.module';
 import { FilterPanelComponent } from './filter-panel.component';
 
 describe('FilterPanelComponent', () => {
+  let spectator: Spectator<FilterPanelComponent>;
   let component: FilterPanelComponent;
-  let fixture: ComponentFixture<FilterPanelComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        provideTranslocoTestingModule({}),
-        MatExpansionModule,
-        NoopAnimationsModule,
-      ],
-      declarations: [FilterPanelComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: FilterPanelComponent,
+    imports: [
+      SharedModule,
+      provideTranslocoTestingModule({}),
+      MatExpansionModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FilterPanelComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

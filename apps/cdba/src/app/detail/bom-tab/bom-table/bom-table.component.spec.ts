@@ -1,47 +1,42 @@
 import { SimpleChange } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnApi,
   GridApi,
   IStatusPanelParams,
   RowClickedEvent,
   RowNode,
-} from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
-import { configureTestSuite } from 'ng-bullet';
+} from '@ag-grid-enterprise/all-modules';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import { BomItem } from '@cdba/core/store/reducers/detail/models';
+import { SharedModule } from '@cdba/shared';
+import { CustomNoRowsOverlayComponent } from '@cdba/shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 
-import { BomItem } from '../../../core/store/reducers/detail/models';
 import { CustomLoadingOverlayComponent } from '../../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../../../shared/table/custom-overlay/custom-overlay.module';
 import { BomTableComponent } from './bom-table.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('BomTableComponent', () => {
   let component: BomTableComponent;
-  let fixture: ComponentFixture<BomTableComponent>;
+  let spectator: Spectator<BomTableComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [BomTableComponent],
-      imports: [
-        AgGridModule.withComponents([CustomLoadingOverlayComponent]),
-        CustomOverlayModule,
-        provideTranslocoTestingModule({}),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: BomTableComponent,
+    imports: [
+      SharedModule,
+      AgGridModule.withComponents([
+        CustomLoadingOverlayComponent,
+        CustomNoRowsOverlayComponent,
+      ]),
+      CustomOverlayModule,
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BomTableComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {
@@ -87,9 +82,8 @@ describe('BomTableComponent', () => {
   });
 
   describe('ngOnChanges', () => {
-    jest.useFakeTimers();
-
     it('should showLoadingOverlay if grid loaded and isLoading active', () => {
+      spyOn(window, 'setTimeout');
       component['gridApi'] = ({
         showLoadingOverlay: jest.fn(),
       } as unknown) as GridApi;

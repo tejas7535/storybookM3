@@ -1,11 +1,12 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -18,39 +19,36 @@ import { QuantitiesModule } from './quantities/quantities.module';
 import { SalesAndDescriptionModule } from './sales-and-description/sales-and-description.module';
 
 describe('DetailTabComponent', () => {
+  let spectator: Spectator<DetailTabComponent>;
   let component: DetailTabComponent;
-  let fixture: ComponentFixture<DetailTabComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-        provideTranslocoTestingModule({}),
-        MatCardModule,
-        CustomerModule,
-        DimensionAndWeightModule,
-        PricingModule,
-        ProductionModule,
-        QuantitiesModule,
-        SalesAndDescriptionModule,
-        UnderConstructionModule,
-        LoadingSpinnerModule,
-      ],
-      declarations: [DetailTabComponent],
-      providers: [
-        provideMockStore({
-          initialState: {
-            detail: {},
-          },
-        }),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: DetailTabComponent,
+    imports: [
+      SharedModule,
+      provideTranslocoTestingModule({}),
+      MatCardModule,
+      CustomerModule,
+      DimensionAndWeightModule,
+      PricingModule,
+      ProductionModule,
+      QuantitiesModule,
+      SalesAndDescriptionModule,
+      UnderConstructionModule,
+      LoadingSpinnerModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          detail: DETAIL_STATE_MOCK,
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DetailTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

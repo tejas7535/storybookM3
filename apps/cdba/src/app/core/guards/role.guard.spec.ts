@@ -1,27 +1,27 @@
-import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { getRoles } from '@schaeffler/auth';
 
 import { RoleGuard } from './role.guard';
 
 describe('RoleGuard', () => {
+  let spectator: SpectatorService<RoleGuard>;
   let guard: RoleGuard;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      providers: [RoleGuard, provideMockStore({})],
-    });
+  const createService = createServiceFactory({
+    service: RoleGuard,
+    imports: [RouterTestingModule],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {
-    guard = TestBed.inject(RoleGuard);
-    store = TestBed.inject(MockStore);
+    spectator = createService();
+    guard = spectator.inject(RoleGuard);
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {

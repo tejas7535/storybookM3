@@ -1,13 +1,12 @@
-import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
@@ -42,12 +41,8 @@ import {
 } from '../../selectors/details/detail.selector';
 import { DetailEffects } from './detail.effects';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('Detail Effects', () => {
+  let spectator: SpectatorService<DetailEffects>;
   let action: any;
   let actions$: any;
   let effects: DetailEffects;
@@ -58,38 +53,37 @@ describe('Detail Effects', () => {
 
   const errorMessage = 'An error occured';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
-      providers: [
-        DetailEffects,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: DetailService,
-          useValue: {
-            getDetails: jest.fn(),
-            calculations: jest.fn(),
-            getBom: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: DetailEffects,
+    imports: [RouterTestingModule],
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: DetailService,
+        useValue: {
+          getDetails: jest.fn(),
+          calculations: jest.fn(),
+          getBom: jest.fn(),
         },
-        {
-          provide: SnackBarService,
-          useValue: {
-            showInfoMessage: jest.fn(),
-          },
+      },
+      {
+        provide: SnackBarService,
+        useValue: {
+          showInfoMessage: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    effects = TestBed.inject(DetailEffects);
-    detailService = TestBed.inject(DetailService);
-    store = TestBed.inject(MockStore);
-    router = TestBed.inject(Router);
-    snackbarService = TestBed.inject(SnackBarService);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    effects = spectator.inject(DetailEffects);
+    detailService = spectator.inject(DetailService);
+    store = spectator.inject(MockStore);
+    router = spectator.inject(Router);
+    snackbarService = spectator.inject(SnackBarService);
   });
 
   describe('loadReferenceType$', () => {

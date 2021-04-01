@@ -2,7 +2,13 @@
 import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 
 import '../../../global-mocks';
+import 'jest-canvas-mock';
 import 'jest-preset-angular/setup-jest';
+
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn((key) => key),
+}));
 
 global.beforeEach(() => {
   LicenseManager.setLicenseKey(

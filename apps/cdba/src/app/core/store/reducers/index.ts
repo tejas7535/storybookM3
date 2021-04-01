@@ -7,7 +7,8 @@ import {
   MetaReducer,
 } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
+import { environment } from '@cdba/environments/environment';
+
 import * as fromDetail from './detail/detail.reducer';
 import * as fromSearch from './search/search.reducer';
 

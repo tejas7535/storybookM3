@@ -1,7 +1,7 @@
 // tslint:disable: no-default-import
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -17,7 +17,6 @@ import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
 
 jest.mock('echarts', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
   registerMap: jest.fn(),
 }));
 

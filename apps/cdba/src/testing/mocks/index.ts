@@ -3,6 +3,7 @@ export * from './reference-type-identifier.mock';
 export * from './sales-details.mock';
 export * from './price-details.mock';
 export * from './dimension-and-weight-details.mock';
+export * from './detail-state.mock';
 export * from './customer-details.mock';
 export * from './quantities-detail.mock';
 export * from './production-details.mock';

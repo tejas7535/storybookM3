@@ -1,23 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { configureTestSuite } from 'ng-bullet';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DrawingsTabComponent } from './drawings-tab.component';
 
 describe('DrawingsTabComponent', () => {
+  let spectator: Spectator<DrawingsTabComponent>;
   let component: DrawingsTabComponent;
-  let fixture: ComponentFixture<DrawingsTabComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [DrawingsTabComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: DrawingsTabComponent,
+    imports: [provideTranslocoTestingModule({})],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DrawingsTabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

@@ -6,7 +6,8 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreModule as NgrxStoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@cdba/environments/environment';
+
 import { RootEffects } from './effects';
 import { CustomSerializer, metaReducers, reducers } from './reducers';
 

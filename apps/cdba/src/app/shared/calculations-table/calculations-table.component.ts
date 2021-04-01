@@ -20,7 +20,8 @@ import {
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
 
-import { environment } from '../../../environments/environment';
+import { environment } from '@cdba/environments/environment';
+
 import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
 import { AgGridStateService } from '../services/ag-grid-state.service';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';

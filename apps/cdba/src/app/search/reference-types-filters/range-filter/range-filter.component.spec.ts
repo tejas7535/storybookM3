@@ -1,14 +1,12 @@
 import { SimpleChange, SimpleChanges } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSliderModule } from '@angular/material/slider';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -20,29 +18,29 @@ import { RangeFilterComponent } from './range-filter.component';
 
 describe('RangeFilterComponent', () => {
   let component: RangeFilterComponent;
-  let fixture: ComponentFixture<RangeFilterComponent>;
+  let spectator: Spectator<RangeFilterComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [RangeFilterComponent, RangeFilterValuePipe],
-      imports: [
-        NoopAnimationsModule,
-        SharedModule,
-        provideTranslocoTestingModule({}),
-        FormsModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatSelectModule,
-        MatSliderModule,
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: RangeFilterComponent,
+    imports: [
+      SharedModule,
+      provideTranslocoTestingModule({}),
+      FormsModule,
+      MatIconModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatInputModule,
+      MatSelectModule,
+      MatSliderModule,
+    ],
+    declarations: [RangeFilterValuePipe],
+    disableAnimations: true,
+    detectChanges: false,
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RangeFilterComponent);
-    component = fixture.componentInstance;
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

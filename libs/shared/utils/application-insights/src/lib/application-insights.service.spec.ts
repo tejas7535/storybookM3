@@ -10,7 +10,7 @@ import {
 import { ReplaySubject } from 'rxjs';
 
 import { ITelemetryItem } from '@microsoft/applicationinsights-web';
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
 import { ApplicationInsightsService } from './application-insights.service';
