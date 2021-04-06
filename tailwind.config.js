@@ -20,6 +20,7 @@ const greys = {
   border: '#ced5da',
   labels: '#9ca2a5',
   toastBg: '#414546',
+  lightBg: 'rgba(0,0,0,0.11)',
 };
 
 const emphasis = {
