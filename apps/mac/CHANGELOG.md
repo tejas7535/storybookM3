@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.6](///compare/mac-v0.0.6...mac-v0.0.5) (2021-04-06)
+
+
+### 📈 Improvements
+
+* **mac:** apply user feedback (UFTABI-3955) ([3e9820b](///commit/3e9820bc630be172546e84f1c3f0ebe6dfb48d0f))
+
+
+### 🐛 Bug Fixes
+
+* **mm:** fix empty state styles ([de912f6](///commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+
+
+### 🏭 Automation
+
+* **workspace:** enable checkstyle visualization for eslint projects ([4b624d6](///commit/4b624d6853b14ff247a6b1782f82c2203121996d))
+
+
+### 🎸 Features
+
+* **favicon:** add fav icon (UFTABI-3971) ([8e68f0c](///commit/8e68f0cbb74d9c7aa2fa87daa2cf564e0a51a6e8))
+* **favicon:** replace favicon (UFTABI-3971) ([cbbe78d](///commit/cbbe78d4d4806398218fb2d4ab556860e0f8493c))
+* **mac:** add aqm calculator (UFTABI-3878) ([cc00f8c](///commit/cc00f8c613c0752432333da0cd922b48912408b4))
+* **mac:** favicons and breadcrumbs [UFTABI-4078] ([f009da0](///commit/f009da0406dc667f959e70fc30a3cdf98aa53f4a))
+* **mac:** fix typos ([8b5977f](///commit/8b5977f7c5b5653f6de325e936ca7248901ce5c7))
+* **mac:** update carbontriding link ([91379de](///commit/91379de0b0a78ceee5b7968c1a6a9b7157395bba))
+* **mac:** use azure-auth package (UFTABI-3958) ([b143e75](///commit/b143e755bd3693c96199ff9aafbd702d85f6c6b5))
+
 ### [0.0.5](///compare/mac-v0.0.5...mac-v0.0.4) (2021-02-09)
 
 
