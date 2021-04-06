@@ -43,12 +43,12 @@
       <div class="results" [@inOutAnimation] *ngIf="results$ | async">
         <div
           class="spinner-wrapper"
-          [ngClass]="{ hidden: ($resultsUpToDate | async) }"
+          [ngClass]="{ hidden: (resultsUpToDate$ | async) }"
         >
           <mat-spinner></mat-spinner>
         </div>
         <mat-card
-          *ngFor="let result of $results | async; trackBy: trackByFn"
+          *ngFor="let result of results$ | async; trackBy: trackByFn"
           class="unit-result"
         >
           <span class="value" [ngClass]="{ warning: result.warning }">{{
