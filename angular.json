@@ -2564,7 +2564,7 @@
               "fileReplacements": [
                 {
                   "replace": "apps/mac/src/environments/environment.ts",
-                  "with": "apps/mac/src/environments/environment.dev.ts"
+                  "with": "apps/mac/src/environments/environment.qa.ts"
                 }
               ],
               "budgets": [
