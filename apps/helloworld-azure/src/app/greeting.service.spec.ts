@@ -1,30 +1,30 @@
-import { of } from 'rxjs';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { of } from 'rxjs';
 
-import { GreetingService } from './greeting.service';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { environment } from '../environments/environment';
+import { GreetingService } from './greeting.service';
 
 describe('GreetingService', () => {
   let service: GreetingService;
+  let spectator: SpectatorService<GreetingService>;
   let backend: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [GreetingService],
-      imports: [HttpClientTestingModule],
-    });
+  const createService = createServiceFactory({
+    service: GreetingService,
+    imports: [HttpClientTestingModule],
+  });
 
-    service = TestBed.inject(GreetingService);
-    backend = TestBed.inject(HttpTestingController);
+  beforeEach(() => {
+    spectator = createService();
+    service = spectator.service;
+    backend = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {

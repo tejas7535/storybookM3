@@ -5,8 +5,8 @@
 >
   <schaeffler-user-menu
     user-menu
-    [user]="username$ | async"
-    [profileImage]="profileImage$ | async"
+    [user]="username$ | ngrxPush"
+    [profileImage]="profileImage$ | ngrxPush"
   ></schaeffler-user-menu>
   <div class="h-full flex flex-col fullscreen-bg">
     <div class="flex-auto">
