@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -37,7 +36,7 @@ describe('ResetAllButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = TestBed.inject(MockStore);
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {

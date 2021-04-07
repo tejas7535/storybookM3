@@ -72,28 +72,9 @@ describe('Create Case Effects', () => {
     service: CreateCaseEffects,
     imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
     providers: [
-      CreateCaseEffects,
       SnackBarService,
       provideMockActions(() => actions$),
       provideMockStore({ initialState: { search: initialState } }),
-      {
-        provide: SearchService,
-        useValue: {
-          autocomplete: jest.fn(),
-        },
-      },
-      {
-        provide: MaterialService,
-        useValue: {
-          validate: jest.fn(),
-        },
-      },
-      {
-        provide: QuotationService,
-        useValue: {
-          createCase: jest.fn(),
-        },
-      },
       {
         provide: ENV_CONFIG,
         useValue: {

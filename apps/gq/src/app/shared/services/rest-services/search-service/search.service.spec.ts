@@ -29,7 +29,6 @@ describe('SearchService', () => {
     service: SearchService,
     imports: [HttpClientTestingModule],
     providers: [
-      SearchService,
       DataService,
       {
         provide: ENV_CONFIG,

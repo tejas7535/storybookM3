@@ -30,7 +30,6 @@ describe('QuotationDetailsService', (): void => {
     service: QuotationDetailsService,
     imports: [HttpClientTestingModule],
     providers: [
-      QuotationDetailsService,
       DataService,
       {
         provide: ENV_CONFIG,

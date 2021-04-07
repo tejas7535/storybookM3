@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -26,7 +25,7 @@ describe('ActionCellComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = TestBed.inject(MockStore);
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {

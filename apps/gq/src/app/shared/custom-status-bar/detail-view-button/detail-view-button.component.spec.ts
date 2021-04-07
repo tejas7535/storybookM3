@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
@@ -31,7 +30,7 @@ describe('DetailViewButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    router = TestBed.inject(Router);
+    router = spectator.inject(Router);
     params = ({
       api: {
         addEventListener: jest.fn(),
