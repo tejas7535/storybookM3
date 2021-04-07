@@ -59,11 +59,12 @@ export class GqPriceComponent implements OnInit {
 
   selectPrice(): void {
     this._isLoading = true;
-    const priceSource = this.quotationDetail.fixedPrice
-      ? PriceSource.FIXED
+    const priceSource = this.quotationDetail.strategicPrice
+      ? PriceSource.STRATEGIC
       : PriceSource.GQ;
     const price =
-      this.quotationDetail.fixedPrice ?? this.quotationDetail.recommendedPrice;
+      this.quotationDetail.strategicPrice ??
+      this.quotationDetail.recommendedPrice;
     const updatePrice = new UpdatePrice(price, priceSource);
     this.selectManualPrice.emit(updatePrice);
   }

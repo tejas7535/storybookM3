@@ -96,14 +96,14 @@ describe('GqPriceComponent', () => {
       );
       expect(component.selectManualPrice.emit).toHaveBeenCalledWith(expected);
     });
-    test('should emit Output EventEmitter with fixed price', () => {
+    test('should emit Output EventEmitter with strategic price', () => {
       component.selectManualPrice.emit = jest.fn();
-      component.quotationDetail.fixedPrice = 10;
+      component.quotationDetail.strategicPrice = 10;
       component.quotationDetail.recommendedPrice = undefined;
       component.selectPrice();
       const expected = new UpdatePrice(
-        QUOTATION_DETAIL_MOCK.fixedPrice,
-        PriceSource.FIXED
+        QUOTATION_DETAIL_MOCK.strategicPrice,
+        PriceSource.STRATEGIC
       );
       expect(component.selectManualPrice.emit).toHaveBeenCalledWith(expected);
     });
