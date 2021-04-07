@@ -1,17 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterStateSnapshot } from '@angular/router';
 
-import { configureTestSuite } from 'ng-bullet';
-
-import * as fromRoot from './index';
+import * as fromRoot from '.';
 
 describe('NGRX Store Reducer Index', () => {
-  it('should define the reducers object', () => {
+  test('should define the reducers object', () => {
     expect(fromRoot.reducers).toBeDefined();
     expect(fromRoot.reducers.router).toBeDefined();
   });
 
-  it('should define feature selectors', () => {
+  test('should define feature selectors', () => {
     expect(fromRoot.getRouterState).toBeDefined();
   });
 
@@ -19,8 +17,7 @@ describe('NGRX Store Reducer Index', () => {
     describe('serialize', () => {
       let state: RouterStateSnapshot;
       const firstChildParams = { params: ['id', 'name', 'sortBy'] };
-
-      configureTestSuite(() => {
+      beforeEach(() =>
         TestBed.configureTestingModule({
           providers: [
             {
@@ -34,14 +31,14 @@ describe('NGRX Store Reducer Index', () => {
               },
             },
           ],
-        });
-      });
+        })
+      );
 
       beforeEach(() => {
         state = TestBed.inject(RouterStateSnapshot);
       });
 
-      it('should return object with certain attributes', () => {
+      test('should return object with certain attributes', () => {
         const serializer = new fromRoot.CustomSerializer();
         const routerStateUrl = serializer.serialize(state);
 
@@ -50,7 +47,7 @@ describe('NGRX Store Reducer Index', () => {
         expect('params' in routerStateUrl).toBeTruthy();
       });
 
-      it('should return firstChild as current state', () => {
+      test('should return firstChild as current state', () => {
         const serializer = new fromRoot.CustomSerializer();
         const routerStateUrl = serializer.serialize(state);
 

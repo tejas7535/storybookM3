@@ -24,7 +24,6 @@ describe('QuotationService', () => {
     service: QuotationService,
     imports: [HttpClientTestingModule],
     providers: [
-      QuotationService,
       {
         provide: ENV_CONFIG,
         useValue: {

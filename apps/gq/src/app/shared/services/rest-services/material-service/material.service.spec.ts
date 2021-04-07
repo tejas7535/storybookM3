@@ -22,7 +22,6 @@ describe('ValidationService', () => {
     service: MaterialService,
     imports: [HttpClientTestingModule],
     providers: [
-      MaterialService,
       DataService,
       {
         provide: ENV_CONFIG,

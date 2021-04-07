@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -59,7 +58,7 @@ describe('InputTableComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    mockStore = TestBed.inject(MockStore);
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {

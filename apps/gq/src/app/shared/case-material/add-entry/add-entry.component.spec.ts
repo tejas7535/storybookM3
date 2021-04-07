@@ -1,14 +1,12 @@
 import { BACKSLASH, FIVE, PAGE_UP } from '@angular/cdk/keycodes';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -36,32 +34,36 @@ jest.mock('@ngneat/transloco', () => ({
 
 describe('InputbarComponent', () => {
   let component: AddEntryComponent;
-  let fixture: ComponentFixture<AddEntryComponent>;
   let mockStore: MockStore;
+  let spectator: Spectator<AddEntryComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [AddEntryComponent],
-      imports: [
-        AutocompleteInputModule,
-        BrowserAnimationsModule,
-        MatInputModule,
-        MatButtonModule,
-        MatCardModule,
-        MatIconModule,
-        provideTranslocoTestingModule({}),
-        SharedModule,
-        ReactiveFormsModule,
-      ],
-      providers: [provideMockStore({})],
-    });
+  const createComponent = createComponentFactory({
+    component: AddEntryComponent,
+    imports: [
+      AutocompleteInputModule,
+      MatInputModule,
+      MatButtonModule,
+      MatCardModule,
+      MatIconModule,
+      provideTranslocoTestingModule({}),
+      SharedModule,
+      ReactiveFormsModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          case: {
+            autocompleteItems: [],
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AddEntryComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-    mockStore = TestBed.inject(MockStore);
+    spectator = createComponent();
+    component = spectator.component;
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {

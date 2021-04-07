@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -55,7 +54,7 @@ describe('AddToOfferButtonComponent', () => {
         getSelectedRows: jest.fn(),
       },
     } as unknown) as IStatusPanelParams;
-    store = TestBed.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {

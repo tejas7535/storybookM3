@@ -43,13 +43,6 @@ describe('View Cases Effects', () => {
     providers: [
       provideMockActions(() => actions$),
       {
-        provide: QuotationService,
-        useValue: {
-          getCases: jest.fn(),
-          deleteCase: jest.fn(),
-        },
-      },
-      {
         provide: ENV_CONFIG,
         useValue: {
           environment: {

@@ -80,7 +80,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       this.store
         .pipe(select(getCaseMaterialNumber))
         .subscribe((res: CaseFilterItem) => {
-          if (res.options.length > 0) {
+          if (res?.options.length > 0) {
             const idValueItem = res.options.find(
               (opt: IdValue) => opt.selected
             );

@@ -1,8 +1,8 @@
-import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -28,7 +28,7 @@ describe('FinishOfferComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    router = TestBed.inject(Router);
+    router = spectator.inject(Router);
   });
 
   it('should create', () => {

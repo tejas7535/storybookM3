@@ -1,15 +1,13 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
@@ -75,6 +73,7 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn(() => 'translate it'),
 }));
 describe('ProcessCaseEffect', () => {
+  let spectator: SpectatorService<ProcessCaseEffect>;
   let action: any;
   let actions$: any;
   let effects: ProcessCaseEffect;
@@ -89,66 +88,34 @@ describe('ProcessCaseEffect', () => {
 
   const errorMessage = 'An error occured';
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        SnackBarModule,
-        RouterTestingModule,
-        HttpClientTestingModule,
-      ],
-      providers: [
-        ProcessCaseEffect,
-        provideMockActions(() => actions$),
-        provideMockStore(),
-        {
-          provide: SearchService,
-          useValue: {
-            getCustomer: jest.fn(),
+  const createService = createServiceFactory({
+    service: ProcessCaseEffect,
+    imports: [SnackBarModule, RouterTestingModule, HttpClientTestingModule],
+    providers: [
+      provideMockActions(() => actions$),
+      provideMockStore(),
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-        {
-          provide: QuotationDetailsService,
-          useValue: {
-            getQuotation: jest.fn(),
-            addMaterial: jest.fn(),
-            removeMaterial: jest.fn(),
-          },
-        },
-        {
-          provide: QuotationService,
-          useValue: {
-            uploadOfferToSap: jest.fn(),
-          },
-        },
-        {
-          provide: MaterialService,
-          useValue: {
-            validateMaterials: jest.fn(),
-          },
-        },
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    effects = TestBed.inject(ProcessCaseEffect);
-    searchService = TestBed.inject(SearchService);
-    quotationDetailsService = TestBed.inject(QuotationDetailsService);
-    quotationService = TestBed.inject(QuotationService);
-    materialService = TestBed.inject(MaterialService);
-    store = TestBed.inject(MockStore);
-    router = TestBed.inject(Router);
-    snackBarService = TestBed.inject(SnackBarService);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    effects = spectator.inject(ProcessCaseEffect);
+    searchService = spectator.inject(SearchService);
+    quotationDetailsService = spectator.inject(QuotationDetailsService);
+    quotationService = spectator.inject(QuotationService);
+    materialService = spectator.inject(MaterialService);
+    store = spectator.inject(MockStore);
+    router = spectator.inject(Router);
+    snackBarService = spectator.inject(SnackBarService);
   });
 
   describe('customerDetails$', () => {

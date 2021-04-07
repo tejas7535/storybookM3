@@ -1,4 +1,3 @@
-import { TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -55,7 +54,7 @@ describe('FlatButtonsComponent', () => {
         getSelectedRows: jest.fn(),
       },
     } as unknown) as IStatusPanelParams;
-    store = TestBed.inject(MockStore);
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
