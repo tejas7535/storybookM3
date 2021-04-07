@@ -170,7 +170,7 @@
     "postcss": "8.2.9",
     "prettier": "2.2.1",
     "pretty-quick": "3.1.0",
-    "standard-version": "9.1.1",
+    "standard-version": "9.2.0",
     "stylelint": "13.12.0",
     "stylelint-order": "4.1.0",
     "tailwindcss": "2.0.4",
