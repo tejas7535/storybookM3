@@ -37,6 +37,8 @@ export class DetailService {
   private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
   private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
 
+  private readonly PARAM_ENABLE_CACHE = 'cache$';
+
   private static defineBomTreeForAgGrid(
     items: BomItem[],
     idx: number
@@ -111,7 +113,8 @@ export class DetailService {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant)
-      .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash);
+      .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash)
+      .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService.getAll<ReferenceTypeResultModel>(this.DETAIL, {
       params,
@@ -119,10 +122,9 @@ export class DetailService {
   }
 
   public calculations(materialNumber: string): Observable<Calculation[]> {
-    const params = new HttpParams().set(
-      this.PARAM_MATERIAL_NUMBER,
-      materialNumber
-    );
+    const params = new HttpParams()
+      .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
+      .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
       .getAll<CalculationsResultModel>(this.CALCULATIONS, { params })
@@ -137,7 +139,8 @@ export class DetailService {
       .set(this.PARAM_BOM_COSTING_VERSION, bomIdentifier.bomCostingVersion)
       .set(this.PARAM_BOM_ENTERED_MANUALLY, bomIdentifier.bomEnteredManually)
       .set(this.PARAM_BOM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
-      .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
+      .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant)
+      .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
       .getAll<BomResult>(this.BOM, { params })

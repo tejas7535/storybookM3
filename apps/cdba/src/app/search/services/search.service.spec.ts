@@ -53,7 +53,7 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/initial-filter');
+      const req = httpMock.expectOne('/initial-filter?cache$=true');
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -87,7 +87,7 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/possible-filter/${textSearch.field}?search_for=${textSearch.value}`
+        `/possible-filter/${textSearch.field}?search_for=${textSearch.value}&cache$=true`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

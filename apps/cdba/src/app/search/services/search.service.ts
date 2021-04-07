@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { withCache } from '@ngneat/cashew';
+
 import { DataService } from '@schaeffler/http';
 
 import {
@@ -28,6 +30,7 @@ export class SearchService {
 
   private readonly POSSIBLE_FILTER = 'possible-filter';
   private readonly PARAM_SEARCH_FOR = 'search_for';
+  private readonly PARAM_ENABLE_CACHE = 'cache$';
 
   public constructor(
     private readonly dataService: DataService,
@@ -36,7 +39,7 @@ export class SearchService {
 
   public getInitialFilters(): Observable<FilterItem[]> {
     return this.dataService
-      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER)
+      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER, withCache())
       .pipe(map((response) => response.items));
   }
 
@@ -50,10 +53,9 @@ export class SearchService {
     textSearch: TextSearch,
     selectedOptions: IdValue[]
   ): Observable<FilterItemIdValue> {
-    const params = new HttpParams().set(
-      this.PARAM_SEARCH_FOR,
-      textSearch.value
-    );
+    const params = new HttpParams()
+      .set(this.PARAM_SEARCH_FOR, textSearch.value)
+      .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
       .getAll<FilterItemIdValue>(
