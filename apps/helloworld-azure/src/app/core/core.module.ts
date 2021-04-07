@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
@@ -31,6 +33,8 @@ import { StoreModule } from './store/store.module';
       'en',
       true
     ),
+
+    ReactiveComponentModule,
   ],
   providers: [],
   exports: [AppComponent],

@@ -1,8 +1,9 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { GreetingService } from '../greeting.service';
 import { HomeComponent } from './home.component';
@@ -10,19 +11,22 @@ import { HomeComponent } from './home.component';
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
+  let spectator: Spectator<HomeComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatProgressBarModule, HttpClientTestingModule],
-      declarations: [HomeComponent],
-      providers: [GreetingService],
-    });
+  const createComponent = createComponentFactory({
+    component: HomeComponent,
+    imports: [
+      MatProgressBarModule,
+      HttpClientTestingModule,
+      ReactiveComponentModule,
+    ],
+    providers: [GreetingService],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HomeComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
+    fixture = spectator.fixture;
   });
 
   test('should create', () => {

@@ -4,8 +4,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RouterModule } from '@angular/router';
 
-import { HomeRoutingModule } from './home-routing.module';
+import { ReactiveComponentModule } from '@ngrx/component';
 
+import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
 @NgModule({
@@ -17,6 +18,7 @@ import { HomeComponent } from './home.component';
     HomeRoutingModule,
     RouterModule,
     MatProgressBarModule,
+    ReactiveComponentModule,
   ],
   exports: [HomeComponent],
 })
