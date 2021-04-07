@@ -55,7 +55,8 @@ describe('DetailService', () => {
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
         .set('plant', mock.referenceTypeDto.plant)
-        .set('identification_hash', mock.referenceTypeDto.identificationHash);
+        .set('identification_hash', mock.referenceTypeDto.identificationHash)
+        .set('cache$', 'true');
 
       service
         .getDetails(
@@ -80,11 +81,13 @@ describe('DetailService', () => {
     test('should get calculations result', () => {
       const mock = new CalculationsResultModel(CALCULATIONS_MOCK);
 
-      service.calculations('').subscribe((response) => {
+      service.calculations('2345').subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/calculations?material_number=');
+      const req = httpMock.expectOne(
+        '/calculations?material_number=2345&cache$=true'
+      );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
     });
@@ -108,7 +111,7 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}`
+        `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}&cache$=true`
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
