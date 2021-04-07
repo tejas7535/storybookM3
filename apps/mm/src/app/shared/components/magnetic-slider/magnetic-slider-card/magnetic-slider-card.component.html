@@ -1,0 +1,17 @@
+<mat-card class="w-80 m-4 snap-start">
+  <mat-card-title *ngIf="title"
+    ><h6>{{ title }}</h6></mat-card-title
+  >
+  <mat-card-content>
+    <ng-content></ng-content>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      *ngIf="buttonText"
+      (click)="buttonAction()"
+      class="text-primary uppercase font-medium text-button ml-4 mb-2"
+    >
+      {{ buttonText }}
+    </button>
+  </mat-card-actions>
+</mat-card>

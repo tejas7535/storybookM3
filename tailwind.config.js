@@ -29,6 +29,42 @@ const emphasis = {
   disabled: 'rgba(0,0,0,0.11)',
 };
 
+const scrollSnapUtilities = {
+  '.snap-y-mandatory': {
+    'scroll-snap-type': 'y mandatory',
+  },
+  '.snap-x-mandatory': {
+    'scroll-snap-type': 'x mandatory',
+  },
+  '.snap-y-proximity': {
+    'scroll-snap-type': 'y proximity',
+  },
+  '.snap-x-proximity': {
+    'scroll-snap-type': 'x proximity',
+  },
+  '.snap-start': {
+    'scroll-snap-align': 'start',
+  },
+  '.snap-end': {
+    'scroll-snap-align': 'end',
+  },
+  '.snap-center': {
+    'scroll-snap-align': 'center',
+  },
+  '.no-snap': {
+    '.scroll-snap-type': 'none',
+  },
+  '.snap-both': {
+    'scroll-snap-direction': 'both',
+  },
+  '.snap-block': {
+    'scroll-snap-direction': 'block',
+  },
+  '.snap-inline': {
+    'scroll-snap-direction': 'inline',
+  },
+};
+
 module.exports = {
   prefix: '',
   purge: {
@@ -184,6 +220,9 @@ module.exports = {
           color: theme('textColor.light'),
         },
       });
+    }),
+    plugin(function ({ addUtilities }) {
+      addUtilities(scrollSnapUtilities);
     }),
   ],
 };
