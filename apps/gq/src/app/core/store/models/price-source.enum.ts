@@ -1,6 +1,6 @@
 export enum PriceSource {
   GQ = 'GQ',
   SAP = 'SAP',
-  FIXED = 'FIXED',
+  STRATEGIC = 'STRATEGIC',
   MANUAL = 'MANUAL',
 }
