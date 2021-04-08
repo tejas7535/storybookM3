@@ -20,16 +20,15 @@ export class HelperService {
   }
 
   static transformNumberCurrency(number: string, currency: string): string {
-    if (number && currency) {
-      return `${number} ${currency}`;
-    }
-
-    return undefined;
+    return number ? `${number} ${currency}` : `-`;
   }
 
   static transformMarginDetails(value: number, currency: string): string {
     const transformedNumber = HelperService.transformNumber(value, true);
 
     return HelperService.transformNumberCurrency(transformedNumber, currency);
+  }
+  static transformPercentage(percentage: number): string {
+    return `${percentage || '-'} %`;
   }
 }

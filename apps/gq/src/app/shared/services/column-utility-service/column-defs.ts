@@ -60,6 +60,7 @@ export const COLUMN_DEFS: ColDef[] = [
     headerName: translate('shared.quotationDetailsTable.priceSource'),
     // currently missing in the database ?
     field: 'priceSource',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.gqRating'),
@@ -95,25 +96,31 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.quotationDetailsTable.rlt'),
     field: 'rlt',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.productionPlant'),
     field: 'productionPlant.plantNumber',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.productionCity'),
     field: 'productionPlant.city',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.productionCountry'),
     field: 'productionPlant.country',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.productLine'),
     field: 'material.productLineId',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
     headerName: translate('shared.quotationDetailsTable.gpsd'),
     field: 'material.gpsdGroupId',
+    valueFormatter: ColumnUtilityService.basicTransform,
   },
 ];
