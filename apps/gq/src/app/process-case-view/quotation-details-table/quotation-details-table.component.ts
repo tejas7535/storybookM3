@@ -15,8 +15,8 @@ import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState } from '../../core/store';
 import { Quotation, QuotationDetail } from '../../core/store/models';
-import { COLUMN_DEFS } from '../../shared/services/create-column-service/column-defs';
-import { ColumnUtilityService } from '../../shared/services/create-column-service/column-utility.service';
+import { COLUMN_DEFS } from '../../shared/services/column-utility-service/column-defs';
+import { ColumnUtilityService } from '../../shared/services/column-utility-service/column-utility.service';
 import {
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,

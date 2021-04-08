@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { ColumnUtilityService } from '../../../shared/services/create-column-service/column-utility.service';
+import { ColumnUtilityService } from '../../../shared/services/column-utility-service/column-utility.service';
 
 @Injectable({
   providedIn: 'root',

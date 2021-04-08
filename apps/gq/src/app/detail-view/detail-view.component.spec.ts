@@ -7,7 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { DetailViewComponent } from './detail-view.component';

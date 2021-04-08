@@ -1,0 +1,70 @@
+<mat-card class="mat-elevation-z0">
+  <div
+    class="mat-card-inner"
+    fxLayout="row"
+    *transloco="let t; read: 'shared.customerDetails'"
+  >
+    <div fxFlex="90" *ngIf="customer">
+      <div fxLayout="row">
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('name') }}:</div>
+          <div class="customer-detail" fxFlex="60">{{ customer.name }}</div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('id') }}:</div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.identifiers.customerId }}
+          </div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('classification') }}:</div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.abcClassification }}
+          </div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">
+            {{ t('netSalesLastYear') }} {{ lastYear }}:
+          </div>
+          <div class="customer-detail" fxFlex="60">
+            {{
+              customer.marginDetail.netSalesLastYear
+                | numberCurrency: customer.currency
+            }}
+          </div>
+        </div>
+      </div>
+      <div fxLayout="row">
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('keyAccount') }}:</div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.keyAccount }}
+          </div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('subKeyAccount') }}:</div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.subKeyAccount }}
+          </div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">{{ t('sectorManagement') }}:</div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.sectorManagement }}
+          </div>
+        </div>
+        <div fxFlex="25">
+          <div fxFlex="40" class="label">
+            {{ t('gpiLastYear') }} {{ lastYear }}:
+          </div>
+          <div class="customer-detail" fxFlex="60">
+            {{ customer.marginDetail.gpiLastYear }} %
+          </div>
+        </div>
+      </div>
+    </div>
+    <button fxFlex="10" mat-flat-button (click)="openCustomer()">
+      {{ t('details') | uppercase }}
+    </button>
+  </div>
+</mat-card>

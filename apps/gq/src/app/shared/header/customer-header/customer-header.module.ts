@@ -4,17 +4,19 @@ import { MatCardModule } from '@angular/material/card';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../index';
-import { CustomerDetailsComponent } from './customer-details.component';
+import { SharedModule } from '../../';
+import { SharedPipesModule } from '../../pipes/shared-pipes.module';
+import { CustomerHeaderComponent } from './customer-header.component';
 
 @NgModule({
-  declarations: [CustomerDetailsComponent],
+  declarations: [CustomerHeaderComponent],
   imports: [
     SharedModule,
     SharedTranslocoModule,
     MatCardModule,
     MatButtonModule,
+    SharedPipesModule,
   ],
-  exports: [CustomerDetailsComponent],
+  exports: [CustomerHeaderComponent],
 })
-export class CustomerDetailsModule {}
+export class CustomerHeaderModule {}

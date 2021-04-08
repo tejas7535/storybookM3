@@ -18,17 +18,25 @@
       </div>
       <div>
         <span>{{ currentYear }} {{ t('netSales') }}: </span
-        >{{ customer.yearNetSales }}
+        >{{
+          customer.marginDetail.currentNetSales
+            | numberCurrency: customer.currency
+        }}
       </div>
       <div>
-        <span>{{ currentYear }} {{ t('gpi') }}: </span>{{ customer.yearGPI }}
+        <span>{{ currentYear }} {{ t('gpi') }}: </span
+        >{{ customer.marginDetail.currentGpi }} %
       </div>
       <div>
         <span>{{ lastYear }} {{ t('netSales') }}: </span
-        >{{ customer.lastYearNetSales }}
+        >{{
+          customer.marginDetail.netSalesLastYear
+            | numberCurrency: customer.currency
+        }}
       </div>
       <div>
-        <span>{{ lastYear }} {{ t('gpi') }}: </span>{{ customer.lastYearGPI }}
+        <span>{{ lastYear }} {{ t('gpi') }}: </span
+        >{{ customer.marginDetail.gpiLastYear }} %
       </div>
 
       <div class="break"></div>

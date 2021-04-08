@@ -1,4 +1,5 @@
 import { AbcClassification, Customer } from '../../app/core/store/models';
+import { MARGIN_DETAIL_MOCK } from './margin-detail.mock';
 
 export const CUSTOMER_MOCK: Customer = {
   identifiers: {
@@ -30,8 +31,5 @@ export const CUSTOMER_MOCK: Customer = {
   sectorCluster: 'sectorCluster',
   sectorClusterChina: 'sectorClusterChina',
   abcClassification: AbcClassification.A,
-  lastYearGPI: 1,
-  lastYearNetSales: 2,
-  yearGPI: 3,
-  yearNetSales: 4,
+  marginDetail: MARGIN_DETAIL_MOCK,
 };

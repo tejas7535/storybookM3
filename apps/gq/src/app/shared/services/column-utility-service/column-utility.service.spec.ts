@@ -1,7 +1,7 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 
 import { ValidationDescription } from '../../../core/store/models';
-import { GqQuotationPipe } from '../../pipes/gq-quotation.pipe';
+import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { COLUMN_DEFS } from './column-defs';
 import { ColumnFields } from './column-fields.enum';
@@ -91,15 +91,12 @@ describe('CreateColumnService', () => {
     test('should render number', () => {
       const params = {
         value: 1234,
-        column: {
-          colId: 'test',
-        },
       };
       const result = ColumnUtilityService.numberFormatter(
         (params as unknown) as ValueFormatterParams
       );
 
-      expect(result).toEqual('1,234.00');
+      expect(result).toEqual('1,234');
     });
   });
 

@@ -7,22 +7,15 @@ import { RouterModule } from '@angular/router';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared';
-import { CustomerDetailsModule } from '../customer-details/customer-details.module';
-import { GqQuotationPipe } from '../pipes/gq-quotation.pipe';
-import { MaterialInfoPipe } from '../pipes/material-info.pipe';
-import { SapQuotationPipe } from '../pipes/sap-quotation.pipe';
+import { SharedModule } from '../../../shared';
+import { SharedPipesModule } from '../../pipes/shared-pipes.module';
+import { CustomerHeaderModule } from '../customer-header/customer-header.module';
 import { CaseHeaderComponent } from './case-header.component';
 
 @NgModule({
-  declarations: [
-    CaseHeaderComponent,
-    SapQuotationPipe,
-    MaterialInfoPipe,
-    GqQuotationPipe,
-  ],
+  declarations: [CaseHeaderComponent],
   imports: [
-    CustomerDetailsModule,
+    CustomerHeaderModule,
     IconsModule,
     MatButtonModule,
     MatIconModule,
@@ -30,6 +23,7 @@ import { CaseHeaderComponent } from './case-header.component';
     RouterModule,
     SharedModule,
     SharedTranslocoModule,
+    SharedPipesModule,
   ],
   exports: [CaseHeaderComponent],
 })

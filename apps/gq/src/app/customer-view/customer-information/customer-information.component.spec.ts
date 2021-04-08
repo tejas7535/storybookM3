@@ -5,6 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK } from '../../../testing/mocks';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { CustomerInformationComponent } from './customer-information.component';
 
 describe('CustomerDetailsComponent', () => {
@@ -14,7 +15,11 @@ describe('CustomerDetailsComponent', () => {
   const createComponent = createComponentFactory({
     component: CustomerInformationComponent,
     detectChanges: false,
-    imports: [MatCardModule, provideTranslocoTestingModule({})],
+    imports: [
+      MatCardModule,
+      SharedPipesModule,
+      provideTranslocoTestingModule({}),
+    ],
     declarations: [CustomerInformationComponent],
   });
 

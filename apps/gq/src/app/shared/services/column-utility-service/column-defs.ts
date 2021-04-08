@@ -33,7 +33,7 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.orderQuantity'),
-    field: 'orderQuantity',
+    field: ColumnFields.ORDER_QUANTITY,
     valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {

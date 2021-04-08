@@ -3,7 +3,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PlantDisplayPipe } from '../../../shared/pipes/plant-display.pipe';
+import { PlantDisplayPipe } from '../../../shared/pipes/plant-display/plant-display.pipe';
 import { ProductionCostDetailsComponent } from '../production-cost-details/production-cost-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details.component';
 

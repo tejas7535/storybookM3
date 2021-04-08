@@ -92,10 +92,16 @@ describe('PriceService', () => {
     });
   });
 
+  describe('roundPercentageToTwoDecimals', () => {
+    test('should round to two decimals', () => {
+      const result = PriceService.roundPercentageToTwoDecimals(0.5555);
+      expect(result).toEqual(55.55);
+    });
+  });
   describe('roundToTwoDecimals', () => {
     test('should round to two decimals', () => {
-      const result = PriceService.roundToTwoDecimals(0.5555);
-      expect(result).toEqual(55.55);
+      const result = PriceService.roundToTwoDecimals(1.2222);
+      expect(result).toEqual(1.22);
     });
   });
 });

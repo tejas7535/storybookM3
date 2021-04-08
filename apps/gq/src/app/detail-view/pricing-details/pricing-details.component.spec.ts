@@ -8,7 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PlantDisplayPipe } from '../../shared/pipes/plant-display.pipe';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsModule } from './material-details/material-details.module';
 import { PricingDetailsComponent } from './pricing-details.component';
 import { ProductionCostDetailsComponent } from './production-cost-details/production-cost-details.component';
@@ -28,14 +28,10 @@ describe('PricingDetailsComponent', () => {
       MatExpansionModule,
       provideTranslocoTestingModule({}),
       ReactiveComponentModule,
+      SharedPipesModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [
-      PricingDetailsComponent,
-      ProductionCostDetailsComponent,
-      SupplyChainDetailsComponent,
-      PlantDisplayPipe,
-    ],
+    declarations: [ProductionCostDetailsComponent, SupplyChainDetailsComponent],
   });
 
   beforeEach(() => {

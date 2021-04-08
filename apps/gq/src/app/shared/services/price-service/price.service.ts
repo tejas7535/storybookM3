@@ -29,7 +29,7 @@ export class PriceService {
     if (currentPrice && lastPrice) {
       const priceDiff = (currentPrice - lastPrice) / lastPrice;
 
-      return PriceService.roundToTwoDecimals(priceDiff);
+      return PriceService.roundPercentageToTwoDecimals(priceDiff);
     }
 
     return undefined;
@@ -47,7 +47,7 @@ export class PriceService {
     if (price && gpc) {
       const gpi = (price - gpc) / price;
 
-      return PriceService.roundToTwoDecimals(gpi);
+      return PriceService.roundPercentageToTwoDecimals(gpi);
     }
 
     return undefined;
@@ -77,7 +77,10 @@ export class PriceService {
     return { netValue, weightedGPI };
   }
 
-  static roundToTwoDecimals(number: number): number {
+  static roundPercentageToTwoDecimals(number: number): number {
     return Math.round(number * 10000) / 100;
+  }
+  static roundToTwoDecimals(number: number): number {
+    return Math.round(number * 100) / 100;
   }
 }

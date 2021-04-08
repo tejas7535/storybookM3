@@ -10,7 +10,7 @@ import {
 import {
   ColumnFields,
   PriceColumns,
-} from '../../services/create-column-service/column-fields.enum';
+} from '../../services/column-utility-service/column-fields.enum';
 
 @Component({
   selector: 'gq-remove-from-offer',

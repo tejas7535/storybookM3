@@ -5,6 +5,7 @@ export enum ColumnFields {
   PER = 'per',
   PRICE = 'price',
   NET_VALUE = 'netValue',
+  ORDER_QUANTITY = 'orderQuantity',
   GPC = 'gpc',
   SQV = 'sqv',
   LAST_CUSTOMER_PRICE = 'lastCustomerPrice',

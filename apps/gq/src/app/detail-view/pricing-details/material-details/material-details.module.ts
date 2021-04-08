@@ -3,12 +3,12 @@ import { NgModule } from '@angular/core';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared';
-import { MaterialTransformPipe } from '../../../shared/pipes/material-transform.pipe';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { MaterialDetailsComponent } from './material-details.component';
 
 @NgModule({
-  declarations: [MaterialDetailsComponent, MaterialTransformPipe],
-  imports: [SharedModule, SharedTranslocoModule],
+  declarations: [MaterialDetailsComponent],
+  imports: [SharedModule, SharedTranslocoModule, SharedPipesModule],
   exports: [MaterialDetailsComponent],
 })
 export class MaterialDetailsModule {}

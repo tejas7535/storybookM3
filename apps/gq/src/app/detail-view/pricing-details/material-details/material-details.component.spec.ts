@@ -3,7 +3,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { MaterialTransformPipe } from '../../../shared/pipes/material-transform.pipe';
+import { MaterialTransformPipe } from '../../../shared/pipes/material-transform/material-transform.pipe';
 import { MaterialDetailsComponent } from './material-details.component';
 
 describe('MaterialDetailsComponent', () => {
