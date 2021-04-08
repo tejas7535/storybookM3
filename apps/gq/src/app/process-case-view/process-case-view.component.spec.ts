@@ -19,11 +19,11 @@ import {
 } from '../../testing/mocks';
 import { getOffer } from '../core/store/selectors';
 import { SharedModule } from '../shared';
-import { CaseHeaderModule } from '../shared/case-header/case-header.module';
 import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
 import { FlatButtonsComponent } from '../shared/custom-status-bar/flat-buttons/flat-buttons.component';
+import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';

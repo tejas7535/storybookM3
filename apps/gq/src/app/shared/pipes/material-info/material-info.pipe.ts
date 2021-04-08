@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { MaterialDetails } from '../../core/store/models';
-import { MaterialTransformPipe } from './material-transform.pipe';
+import { MaterialDetails } from '../../../core/store/models';
+import { MaterialTransformPipe } from '../material-transform/material-transform.pipe';
 
 @Pipe({
   name: 'materialInfo',

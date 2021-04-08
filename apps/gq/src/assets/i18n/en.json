@@ -120,8 +120,8 @@
       "sectorManagement": "Sector Management",
       "subKeyAccount": "Subkey Account",
       "classification": "Customer Classification",
-      "lastYearNetSales": "Net Sales",
-      "lastYearGPI": "GPI"
+      "netSalesLastYear": "Net Sales",
+      "gpiLastYear": "GPI"
     },
     "offerDrawer": {
       "title": "Current Offer"

@@ -9,7 +9,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import {
   ColumnFields,
   PriceColumns,
-} from '../../services/create-column-service/column-fields.enum';
+} from '../../services/column-utility-service/column-fields.enum';
 import { ExportToExcelButtonComponent } from './export-to-excel-button.component';
 
 describe('ExportToExcelButtonComponent', () => {

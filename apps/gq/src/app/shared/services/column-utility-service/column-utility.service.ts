@@ -2,10 +2,10 @@ import { Injectable } from '@angular/core';
 
 import { ColDef, ValueFormatterParams } from '@ag-grid-community/all-modules';
 
-import { GqQuotationPipe } from '../../pipes/gq-quotation.pipe';
-import { MaterialTransformPipe } from '../../pipes/material-transform.pipe';
-import { NumberFormatPipe } from '../../pipes/number-format.pipe';
+import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
+import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
+import { HelperService } from '../helper-service/helper-service.service';
 import { ColumnFields } from './column-fields.enum';
 
 @Injectable({
@@ -40,30 +40,17 @@ export class ColumnUtilityService {
     return col.field === ColumnFields.ADDED_TO_OFFER ? addedToOffer : true;
   }
 
-  static transformNumber(value: number, colId: string): string {
-    const pipe = new NumberFormatPipe();
-
-    return pipe.transform(value, colId);
-  }
-
   static numberFormatter(data: ValueFormatterParams): string {
-    return ColumnUtilityService.transformNumber(
-      data.value,
-      data.column['colId']
-    );
+    return HelperService.transformNumber(data.value, false);
   }
 
   static numberCurrencyFormatter(params: ValueFormatterParams): string {
-    const formattedNumber = ColumnUtilityService.transformNumber(
-      params.value,
-      params.column['colId']
+    const formattedNumber = HelperService.transformNumber(params.value, true);
+
+    return HelperService.transformNumberCurrency(
+      formattedNumber,
+      params.context.currency
     );
-
-    const value = formattedNumber
-      ? `${formattedNumber} ${params.context.currency}`
-      : undefined;
-
-    return value;
   }
 
   static percentageFormatter(data: ValueFormatterParams): string {

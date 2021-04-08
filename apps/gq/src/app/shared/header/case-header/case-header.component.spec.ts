@@ -7,10 +7,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { CustomerDetailsModule } from '../customer-details/customer-details.module';
-import { GqQuotationPipe } from '../pipes/gq-quotation.pipe';
-import { MaterialInfoPipe } from '../pipes/material-info.pipe';
-import { SapQuotationPipe } from '../pipes/sap-quotation.pipe';
+import { SharedPipesModule } from '../../pipes/shared-pipes.module';
+import { CustomerHeaderModule } from '../customer-header/customer-header.module';
 import { CaseHeaderComponent } from './case-header.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -26,19 +24,14 @@ describe('ProcessCaseHeaderComponent', () => {
     component: CaseHeaderComponent,
     detectChanges: false,
     imports: [
-      CustomerDetailsModule,
+      CustomerHeaderModule,
       MatIconModule,
       MatMenuModule,
       provideTranslocoTestingModule({}),
       RouterTestingModule,
+      SharedPipesModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [
-      CaseHeaderComponent,
-      SapQuotationPipe,
-      MaterialInfoPipe,
-      GqQuotationPipe,
-    ],
   });
 
   beforeEach(() => {

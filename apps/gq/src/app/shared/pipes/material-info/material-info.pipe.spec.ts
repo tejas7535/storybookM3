@@ -1,4 +1,4 @@
-import { MaterialDetails } from '../../core/store/models';
+import { MaterialDetails } from '../../../core/store/models';
 import { MaterialInfoPipe } from './material-info.pipe';
 
 describe('MaterialInfoPipe', () => {

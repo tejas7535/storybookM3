@@ -1,4 +1,6 @@
-import { AbcClassification, CustomerIds } from '.';
+import { AbcClassification } from './abc-classification.enum';
+import { CustomerIds } from './customer-ids.model';
+import { MarginDetail } from './margin-detail.model';
 
 export class Customer {
   public identifiers: CustomerIds;
@@ -27,8 +29,5 @@ export class Customer {
   public sectorCluster: string;
   public sectorClusterChina: string;
   public abcClassification: AbcClassification;
-  public yearNetSales: number;
-  public yearGPI: number;
-  public lastYearNetSales: number;
-  public lastYearGPI: number;
+  public marginDetail: MarginDetail;
 }

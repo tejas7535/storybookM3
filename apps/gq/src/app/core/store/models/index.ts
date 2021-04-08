@@ -14,6 +14,7 @@ export * from './material-details.model';
 export * from './material-quantities.model';
 export * from './material-table-item-model';
 export * from './material-validation.model';
+export * from './margin-detail.model';
 export * from './quotation-detail.model';
 export * from './quotation-identifier.model';
 export * from './quotation-info.enum';

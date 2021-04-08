@@ -14,6 +14,7 @@ import {
   QuotationIdentifier,
   SalesOrg,
 } from '../../../../core/store/models';
+import { PriceService } from '../../price-service/price.service';
 
 @Injectable({
   providedIn: 'root',
@@ -73,8 +74,27 @@ export class SearchService {
   ): Observable<Customer> {
     const { customerNumber, salesOrg } = quotationIdentifier;
 
-    return this.dataService.getAll<Customer>(
-      `${this.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`
-    );
+    return this.dataService
+      .getAll<Customer>(`${this.PATH_CUSTOMERS}/${customerNumber}/${salesOrg}`)
+      .pipe(
+        map((customer: Customer) => ({
+          ...customer,
+          marginDetail: {
+            ...customer.marginDetail,
+            currentGpi: PriceService.roundToTwoDecimals(
+              customer.marginDetail.currentGpi
+            ),
+            currentNetSales: PriceService.roundToTwoDecimals(
+              customer.marginDetail.currentNetSales
+            ),
+            gpiLastYear: PriceService.roundToTwoDecimals(
+              customer.marginDetail.gpiLastYear
+            ),
+            netSalesLastYear: PriceService.roundToTwoDecimals(
+              customer.marginDetail.netSalesLastYear
+            ),
+          },
+        }))
+      );
   }
 }

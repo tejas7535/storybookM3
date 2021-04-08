@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
-import { Plant } from '../../core/store/models';
+import { Plant } from '../../../core/store/models';
 
 @Pipe({
   name: 'plantDisplay',

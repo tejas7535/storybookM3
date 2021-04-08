@@ -4,7 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PlantDisplayPipe } from '../../../shared/pipes/plant-display.pipe';
+import { PlantDisplayPipe } from '../../../shared/pipes/plant-display/plant-display.pipe';
 import { ProductionCostDetailsComponent } from './production-cost-details.component';
 
 describe('ProductionCostDetailsComponent', () => {

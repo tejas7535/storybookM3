@@ -12,7 +12,7 @@ import { AppState, getCustomerCurrency } from '../../../core/store';
 import { QuotationDetail } from '../../../core/store/models';
 import { COLUMN_DEFS_SHORT } from '../../offer-table/config/column-defs';
 import { UserRoles } from '../../roles/user-roles.enum';
-import { COLUMN_DEFS } from '../../services/create-column-service/column-defs';
+import { COLUMN_DEFS } from '../../services/column-utility-service/column-defs';
 import { PriceService } from '../../services/price-service/price.service';
 
 @Component({

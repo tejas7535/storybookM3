@@ -9,7 +9,7 @@ import { StoreModule } from '@ngrx/store';
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effect';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { SharedModule } from '../shared';
-import { CaseHeaderModule } from '../shared/case-header/case-header.module';
+import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';

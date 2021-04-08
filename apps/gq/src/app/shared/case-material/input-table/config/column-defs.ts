@@ -1,7 +1,7 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { ColumnUtilityService } from '../../../services/create-column-service/column-utility.service';
+import { ColumnUtilityService } from '../../../services/column-utility-service/column-utility.service';
 
 export const COLUMN_DEFS: ColDef[] = [
   {
