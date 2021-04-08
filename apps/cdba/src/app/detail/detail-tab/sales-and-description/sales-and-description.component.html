@@ -6,25 +6,37 @@
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialDesignation') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.materialDesignation }}</div>
+        <div>
+          {{ salesDetails?.materialDesignation | undefinedAttributeFallback }}
+        </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialNumber') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.materialNumber | materialNumber }}</div>
+        <div>
+          {{
+            salesDetails?.materialNumber
+              | materialNumber
+              | undefinedAttributeFallback
+          }}
+        </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.materialShortDescription') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.materialShortDescription }}</div>
+        <div>
+          {{
+            salesDetails?.materialShortDescription | undefinedAttributeFallback
+          }}
+        </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.productLine') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.productLine }}</div>
+        <div>{{ salesDetails?.productLine | undefinedAttributeFallback }}</div>
       </div>
     </div>
     <div class="widget-group" *ngIf="salesDetails && !errorMessage">
@@ -32,14 +44,14 @@
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.rfq') }}:&nbsp;
         </label>
-        <div>{{ salesDetails?.rfq }}</div>
+        <div>{{ salesDetails?.rfq | undefinedAttributeFallback }}</div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.salesOrganization') }}:&nbsp;
         </label>
         <div fxFlex="100%">
-          {{ salesDetails?.salesOrganization }}
+          {{ salesDetails?.salesOrganization | undefinedAttributeFallback }}
         </div>
       </div>
     </div>
@@ -48,7 +60,9 @@
         <label fxFlexAlign="end">
           {{ t('salesAndDescription.projectName') }}:&nbsp;
         </label>
-        <div fxFlex="100%">{{ salesDetails?.projectName }}</div>
+        <div fxFlex="100%">
+          {{ salesDetails?.projectName | undefinedAttributeFallback }}
+        </div>
       </div>
     </div>
     <div class="widget-group" *ngIf="salesDetails && !errorMessage">
@@ -57,7 +71,7 @@
           {{ t('salesAndDescription.productDescription') }}:&nbsp;
         </label>
         <div fxFlex="100%">
-          {{ salesDetails?.productDescription }}
+          {{ salesDetails?.productDescription | undefinedAttributeFallback }}
         </div>
       </div>
     </div>

@@ -7,8 +7,15 @@
           >{{ t('dimensionAndWeight.height') }}:&nbsp;</label
         >
         <div>
-          {{ dimensionAndWeight?.height | number: '':'de-DE'
-          }}{{ dimensionAndWeight?.unitOfDimension }}
+          {{
+            dimensionAndWeight?.height
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            dimensionAndWeight?.height
+              ? dimensionAndWeight?.unitOfDimension
+              : ''
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -16,8 +23,13 @@
           >{{ t('dimensionAndWeight.width') }}:&nbsp;</label
         >
         <div>
-          {{ dimensionAndWeight?.width | number: '':'de-DE'
-          }}{{ dimensionAndWeight?.unitOfDimension }}
+          {{
+            dimensionAndWeight?.width
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            dimensionAndWeight?.width ? dimensionAndWeight?.unitOfDimension : ''
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -25,8 +37,15 @@
           >{{ t('dimensionAndWeight.length') }}:&nbsp;</label
         >
         <div>
-          {{ dimensionAndWeight?.length | number: '':'de-DE'
-          }}{{ dimensionAndWeight?.unitOfDimension }}
+          {{
+            dimensionAndWeight?.length
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            dimensionAndWeight?.length
+              ? dimensionAndWeight?.unitOfDimension
+              : ''
+          }}
         </div>
       </div>
     </div>
@@ -36,8 +55,13 @@
           >{{ t('dimensionAndWeight.weight') }}:&nbsp;</label
         >
         <div>
-          {{ dimensionAndWeight?.weight | number: '':'de-DE'
-          }}{{ dimensionAndWeight?.weightUnit }}
+          {{
+            dimensionAndWeight?.weight
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            dimensionAndWeight?.weight ? dimensionAndWeight?.weightUnit : ''
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -45,8 +69,14 @@
           >{{ t('dimensionAndWeight.volumeCubic') }}:&nbsp;</label
         >
         <div>
-          {{ dimensionAndWeight?.volumeCubic | number: '':'de-DE' }}&nbsp;{{
-            dimensionAndWeight?.volumeUnit
+          {{
+            dimensionAndWeight?.volumeCubic
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            dimensionAndWeight?.volumeCubic
+              ? dimensionAndWeight?.volumeUnit
+              : ''
           }}
         </div>
       </div>

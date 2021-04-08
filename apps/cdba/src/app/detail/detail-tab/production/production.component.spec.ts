@@ -3,6 +3,7 @@ import de from '@angular/common/locales/de';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { ProductionComponent } from './production.component';
@@ -15,7 +16,10 @@ describe('ProductionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ProductionComponent,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [
+      UndefinedAttributeFallbackModule,
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {

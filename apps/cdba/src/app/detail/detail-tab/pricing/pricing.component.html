@@ -5,20 +5,32 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.averagePrice') }}:&nbsp;</label>
         <div>
-          {{ salesPrice?.averagePrice | number: '1.3-3':'de-DE' }}&nbsp;{{
-            t('pricing.pricePerUnit', {
-              currency: salesPrice?.currency
-            })
+          {{
+            salesPrice?.averagePrice
+              | number: '1.3-3':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            salesPrice?.averagePrice
+              ? t('pricing.pricePerUnit', {
+                  currency: salesPrice?.currency
+                })
+              : ''
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.pcmSqv') }}:&nbsp;</label>
         <div>
-          {{ salesPrice?.pcmSqv | number: '1.3-3':'de-DE' }}&nbsp;{{
-            t('pricing.pricePerUnit', {
-              currency: salesPrice?.currency
-            })
+          {{
+            salesPrice?.pcmSqv
+              | number: '1.3-3':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            salesPrice?.pcmSqv
+              ? t('pricing.pricePerUnit', {
+                  currency: salesPrice?.currency
+                })
+              : ''
           }}
         </div>
       </div>
@@ -27,7 +39,11 @@
           >{{ t('pricing.pcmCalculationDate') }}:&nbsp;</label
         >
         <div>
-          {{ salesPrice?.pcmCalculationDate | date: 'shortDate':'':'de-DE' }}
+          {{
+            salesPrice?.pcmCalculationDate
+              | date: 'shortDate':'':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
@@ -37,17 +53,27 @@
           >{{ t('pricing.sqvSapLatestMonth') }}:&nbsp;</label
         >
         <div>
-          {{ salesPrice?.sqvSapLatestMonth | number: '1.3-3':'de-DE' }}&nbsp;{{
-            t('pricing.pricePerUnit', {
-              currency: salesPrice?.currency
-            })
+          {{
+            salesPrice?.sqvSapLatestMonth
+              | number: '1.3-3':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            salesPrice?.sqvSapLatestMonth
+              ? t('pricing.pricePerUnit', {
+                  currency: salesPrice?.currency
+                })
+              : ''
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.sqvDate') }}:&nbsp;</label>
         <div>
-          {{ salesPrice?.sqvDate | date: 'mediumDate':'':'de-DE' }}
+          {{
+            salesPrice?.sqvDate
+              | date: 'mediumDate':'':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
@@ -55,24 +81,34 @@
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.gpcLatestYear') }}:&nbsp;</label>
         <div>
-          {{ salesPrice?.gpcLatestYear | number: '1.3-3':'de-DE' }}&nbsp;{{
-            t('pricing.pricePerUnit', {
-              currency: salesPrice?.currency
-            })
+          {{
+            salesPrice?.gpcLatestYear
+              | number: '1.3-3':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{
+            salesPrice?.gpcLatestYear
+              ? t('pricing.pricePerUnit', {
+                  currency: salesPrice?.currency
+                })
+              : ''
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.gpcDate') }}:&nbsp;</label>
         <div>
-          {{ salesPrice?.gpcDate | date: 'mediumDate':'':'de-DE' }}
+          {{
+            salesPrice?.gpcDate
+              | date: 'mediumDate':'':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
     <div class="widget-group" *ngIf="salesPrice && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('pricing.puUm') }}:&nbsp;</label>
-        <div>{{ salesPrice?.puUm }}</div>
+        <div>{{ salesPrice?.puUm | undefinedAttributeFallback }}</div>
       </div>
     </div>
     <div

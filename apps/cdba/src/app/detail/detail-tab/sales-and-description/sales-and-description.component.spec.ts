@@ -3,6 +3,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { MaterialNumberModule } from '@cdba/shared';
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
@@ -12,7 +13,11 @@ describe('SalesAndDescriptionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SalesAndDescriptionComponent,
-    imports: [MaterialNumberModule, provideTranslocoTestingModule({})],
+    imports: [
+      UndefinedAttributeFallbackModule,
+      MaterialNumberModule,
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {

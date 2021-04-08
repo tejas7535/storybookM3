@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomerComponent } from './customer.component';
@@ -10,7 +11,10 @@ describe('CustomerComponent', () => {
 
   const createComponent = createComponentFactory({
     component: CustomerComponent,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [
+      UndefinedAttributeFallbackModule,
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {
