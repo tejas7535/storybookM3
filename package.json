@@ -92,7 +92,7 @@
     "ngx-papaparse": "5.0.0",
     "rxjs": "6.6.7",
     "schaeffler-icons": "1.1.1",
-    "tslib": "2.1.0",
+    "tslib": "2.2.0",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
