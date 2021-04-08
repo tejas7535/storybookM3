@@ -4,7 +4,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PlantDisplayPipe } from '../../../shared/pipes/plant-display/plant-display.pipe';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { ProductionCostDetailsComponent } from './production-cost-details.component';
 
 describe('ProductionCostDetailsComponent', () => {
@@ -13,9 +13,13 @@ describe('ProductionCostDetailsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ProductionCostDetailsComponent,
-    imports: [provideTranslocoTestingModule({}), ReactiveComponentModule],
+    imports: [
+      provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
+      SharedPipesModule,
+    ],
     providers: [provideMockStore({})],
-    declarations: [ProductionCostDetailsComponent, PlantDisplayPipe],
+    declarations: [ProductionCostDetailsComponent],
   });
 
   beforeEach(() => {

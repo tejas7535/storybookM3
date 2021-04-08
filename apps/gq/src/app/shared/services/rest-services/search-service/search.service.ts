@@ -82,16 +82,16 @@ export class SearchService {
           marginDetail: {
             ...customer.marginDetail,
             currentGpi: PriceService.roundToTwoDecimals(
-              customer.marginDetail.currentGpi
+              customer.marginDetail?.currentGpi
             ),
             currentNetSales: PriceService.roundToTwoDecimals(
-              customer.marginDetail.currentNetSales
+              customer.marginDetail?.currentNetSales
             ),
             gpiLastYear: PriceService.roundToTwoDecimals(
-              customer.marginDetail.gpiLastYear
+              customer.marginDetail?.gpiLastYear
             ),
             netSalesLastYear: PriceService.roundToTwoDecimals(
-              customer.marginDetail.netSalesLastYear
+              customer.marginDetail?.netSalesLastYear
             ),
           },
         }))

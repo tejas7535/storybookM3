@@ -3,7 +3,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PlantDisplayPipe } from '../../../shared/pipes/plant-display/plant-display.pipe';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { ProductionCostDetailsComponent } from '../production-cost-details/production-cost-details.component';
 import { SupplyChainDetailsComponent } from './supply-chain-details.component';
 
@@ -13,12 +13,12 @@ describe('SupplyChainDetailsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: SupplyChainDetailsComponent,
-    imports: [provideTranslocoTestingModule({}), ReactiveComponentModule],
-    declarations: [
-      SupplyChainDetailsComponent,
-      ProductionCostDetailsComponent,
-      PlantDisplayPipe,
+    imports: [
+      provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
+      SharedPipesModule,
     ],
+    declarations: [SupplyChainDetailsComponent, ProductionCostDetailsComponent],
   });
 
   beforeEach(() => {

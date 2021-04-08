@@ -54,7 +54,7 @@ export class ColumnUtilityService {
   }
 
   static percentageFormatter(data: ValueFormatterParams): string {
-    return data.value ? `${data.value} %` : '';
+    return HelperService.transformPercentage(data.value);
   }
 
   static infoComparator(info1: any, info2: any): number {
@@ -80,6 +80,9 @@ export class ColumnUtilityService {
     return materialPipe.transform(data.value);
   }
 
+  static basicTransform(data: ValueFormatterParams): string {
+    return data.value || '-';
+  }
   static dateFormatter(data: any): string {
     return data.value ? new Date(data.value).toLocaleDateString() : '';
   }

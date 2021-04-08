@@ -38,7 +38,7 @@ describe('HelperServiceService', () => {
     test('should return undefined', () => {
       const result = HelperService.transformNumberCurrency(undefined, 'EUR');
 
-      expect(result).toBeUndefined();
+      expect(result).toEqual('-');
     });
   });
   describe('transformMarginDetails', () => {

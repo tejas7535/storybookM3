@@ -25,7 +25,7 @@
       </div>
       <div>
         <span>{{ currentYear }} {{ t('gpi') }}: </span
-        >{{ customer.marginDetail.currentGpi }} %
+        >{{ customer.marginDetail.currentGpi | percentage }}
       </div>
       <div>
         <span>{{ lastYear }} {{ t('netSales') }}: </span
@@ -36,7 +36,7 @@
       </div>
       <div>
         <span>{{ lastYear }} {{ t('gpi') }}: </span
-        >{{ customer.marginDetail.gpiLastYear }} %
+        >{{ customer.marginDetail.gpiLastYear | percentage }}
       </div>
 
       <div class="break"></div>
