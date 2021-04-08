@@ -7,13 +7,13 @@
           >{{ t('production.procurementType') }}:&nbsp;</label
         >
         <div>
-          {{ productionDetails?.procurementType }}
+          {{ productionDetails?.procurementType | undefinedAttributeFallback }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('production.plant') }}:&nbsp;</label>
         <div>
-          {{ productionDetails?.plant }}
+          {{ productionDetails?.plant | undefinedAttributeFallback }}
         </div>
       </div>
       <!-- <div fxLayout="row wrap">
@@ -31,7 +31,9 @@
           >{{ t('production.productionTechnology') }}:&nbsp;</label
         >
         <div>
-          {{ productionDetails?.productionTechnology }}
+          {{
+            productionDetails?.productionTechnology | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -39,7 +41,9 @@
           >{{ t('production.manufacturingProcess') }}:&nbsp;</label
         >
         <div>
-          {{ productionDetails?.manufacturingProcess }}
+          {{
+            productionDetails?.manufacturingProcess | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
@@ -49,7 +53,9 @@
           >{{ t('production.specialProcurement') }}:&nbsp;</label
         >
         <div>
-          {{ productionDetails?.specialProcurement }}
+          {{
+            productionDetails?.specialProcurement | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -60,6 +66,7 @@
           {{
             productionDetails?.purchasePriceValidFrom
               | date: 'mediumDate':'':'de-DE'
+              | undefinedAttributeFallback
           }}
         </div>
       </div>
@@ -71,13 +78,14 @@
           {{
             productionDetails?.purchasePriceValidUntil
               | date: 'mediumDate':'':'de-DE'
+              | undefinedAttributeFallback
           }}
         </div>
       </div>
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('production.supplier') }}:&nbsp;</label>
         <div fxFlex="100%">
-          {{ productionDetails?.supplier }}
+          {{ productionDetails?.supplier | undefinedAttributeFallback }}
         </div>
       </div>
     </div>

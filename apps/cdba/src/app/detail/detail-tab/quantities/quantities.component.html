@@ -7,7 +7,11 @@
           >{{ t('quantities.pcmQuantity') }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.pcmQuantity | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.pcmQuantity
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -17,9 +21,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.netSales[0] | number: '':'de-DE' }}&nbsp;{{
-            quantitiesDetails.currency
-          }}
+          {{
+            quantitiesDetails.netSales[0]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}&nbsp;{{ quantitiesDetails.currency }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -29,7 +35,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.budgetQuantityCurrentYear | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.budgetQuantityCurrentYear
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div fxLayout="row wrap">
@@ -39,7 +49,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.budgetQuantitySoco | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.budgetQuantitySoco
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
@@ -54,7 +68,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[3] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.actualQuantities[3]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -67,7 +85,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[2] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.actualQuantities[2]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -80,7 +102,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[1] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.actualQuantities[1]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -93,7 +119,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.actualQuantities[0] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.actualQuantities[0]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>
@@ -108,7 +138,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.plannedQuantities[0] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.plannedQuantities[0]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -121,7 +155,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.plannedQuantities[1] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.plannedQuantities[1]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -134,7 +172,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.plannedQuantities[2] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.plannedQuantities[2]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
       <div
@@ -147,7 +189,11 @@
           }}:&nbsp;</label
         >
         <div>
-          {{ quantitiesDetails.plannedQuantities[3] | number: '':'de-DE' }}
+          {{
+            quantitiesDetails.plannedQuantities[3]
+              | number: '':'de-DE'
+              | undefinedAttributeFallback
+          }}
         </div>
       </div>
     </div>

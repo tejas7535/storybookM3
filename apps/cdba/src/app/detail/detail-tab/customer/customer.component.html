@@ -4,7 +4,9 @@
     <div class="widget-group" *ngIf="customerDetails && !errorMessage">
       <div fxLayout="row wrap">
         <label fxFlexAlign="end">{{ t('customer.customers') }}:&nbsp;</label>
-        <div fxFlex="100%">{{ customerDetails?.customer }}</div>
+        <div fxFlex="100%">
+          {{ customerDetails?.customer | undefinedAttributeFallback }}
+        </div>
       </div>
     </div>
     <div class="widget-group" *ngIf="customerDetails && !errorMessage">
@@ -12,7 +14,9 @@
         <label fxFlexAlign="end"
           >{{ t('customer.customerGroup') }}:&nbsp;</label
         >
-        <div fxFlex="100%">{{ customerDetails?.customerGroup }}</div>
+        <div fxFlex="100%">
+          {{ customerDetails?.customerGroup | undefinedAttributeFallback }}
+        </div>
       </div>
     </div>
 
