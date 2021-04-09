@@ -1,3 +1,11 @@
+
+# <span style="color:red">**Deprecation Warning:**</span>
+
+This Library is marked as deprecated. Further development of features is not planned, the library will entirely be removed from the frontend@schaeffler Monorepository beginning July. Existing packages in Artifactory will not be removed!
+
+The successor library is [@schaeffler/azure-auth](https://gitlab.schaeffler.com/frontend-schaeffler/schaeffler-frontend/-/blob/master/libs/shared/utils/azure-auth/README.md), which comes with more features, faster auth flows and more stability. Additionally the base libraries are directly developed by the `Azure AD` development team.
+
+
 # oAuth2 Library for Authentication with AAD
 
 This library was generated with [Nx](https://nx.dev).
