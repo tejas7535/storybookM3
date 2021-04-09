@@ -1,43 +1,49 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
+  let spectator: Spectator<AppComponent>;
   let component: AppComponent;
-  let fixture: ComponentFixture<AppComponent>;
   let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        NoopAnimationsModule,
-        HeaderModule,
-        MatButtonModule,
-        RouterTestingModule,
-        ReactiveComponentModule,
-        MatProgressSpinnerModule,
-      ],
-      providers: [provideMockStore()],
-      declarations: [AppComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: AppComponent,
+    imports: [
+      NoopAnimationsModule,
+      HeaderModule,
+      MatButtonModule,
+      RouterTestingModule,
+      ReactiveComponentModule,
+      MatProgressSpinnerModule,
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          auth: {
+            user: {
+              username: 'John',
+              department: 'C-IT',
+            },
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppComponent);
-    component = fixture.debugElement.componentInstance;
-    store = TestBed.inject(MockStore);
-
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
+    store = spectator.inject(MockStore);
   });
 
   test('should create the app', () => {
