@@ -46,7 +46,7 @@ Use like:
 ```html
 <div>
   <my-app-component
-      *ngIf="(unsupportedViewport$ | async) === false; else unsupportedViewport"
+      *ngIf="(unsupportedViewport$ | ngrxPush) === false; else unsupportedViewport"
     ></my-app-component>
 </div>
 

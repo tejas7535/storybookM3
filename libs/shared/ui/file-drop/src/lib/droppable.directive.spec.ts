@@ -1,24 +1,22 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
 
 import { DroppableDirective } from './droppable.directive';
 
 describe('DroppableDirective', () => {
+  let spectator: SpectatorDirective<DroppableDirective>;
   let directive: DroppableDirective;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [DroppableDirective],
-    });
-  });
+  const createDirective = createDirectiveFactory(DroppableDirective);
 
   beforeEach(() => {
-    directive = TestBed.inject(DroppableDirective);
+    spectator = createDirective(
+      `<div schaefflerDroppable>Testing Drop Directive</div>`
+    );
+    directive = spectator.directive;
   });
 
-  it('should create an instance', () => {
-    expect(directive).toBeTruthy();
+  it('should get the instance', () => {
+    expect(directive).toBeDefined();
   });
 
   describe('drop', () => {
@@ -28,7 +26,6 @@ describe('DroppableDirective', () => {
       preventDefault: jest.fn(),
       dataTransfer: {},
     };
-
     beforeEach(() => {
       directive['checkFileTypeAcceptance'] = jest.fn().mockReturnValue(false);
       spyOn(directive.dropped, 'emit');
@@ -37,7 +34,7 @@ describe('DroppableDirective', () => {
 
     it('should prevent the default event', () => {
       event = defaultEvent;
-
+      spectator.dispatchFakeEvent(spectator.element, 'drop');
       directive.drop(event);
 
       expect(event.preventDefault).toHaveBeenCalled();

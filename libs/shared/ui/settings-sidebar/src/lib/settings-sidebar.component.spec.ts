@@ -1,41 +1,36 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { BreakpointService } from '@schaeffler/responsive';
 
 import { SettingsSidebarComponent } from './settings-sidebar.component';
 
 describe('SettingsSidebarComponent', () => {
+  let spectator: Spectator<SettingsSidebarComponent>;
   let component: SettingsSidebarComponent;
-  let fixture: ComponentFixture<SettingsSidebarComponent>;
   let breakpointService: BreakpointService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [SettingsSidebarComponent],
-      imports: [
-        MatIconModule,
-        MatSidenavModule,
-        MatButtonModule,
-        FlexLayoutModule,
-        NoopAnimationsModule,
-      ],
-      providers: [BreakpointService],
-    });
+  const createComponent = createComponentFactory({
+    component: SettingsSidebarComponent,
+    imports: [
+      MatIconModule,
+      MatSidenavModule,
+      MatButtonModule,
+      FlexLayoutModule,
+      NoopAnimationsModule,
+    ],
+    providers: [BreakpointService],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SettingsSidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    breakpointService = TestBed.inject(BreakpointService);
+    spectator = createComponent();
+    component = spectator.component;
+    breakpointService = spectator.inject(BreakpointService);
   });
 
   test('should create', () => {

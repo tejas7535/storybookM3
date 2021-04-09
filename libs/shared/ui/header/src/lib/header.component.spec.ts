@@ -1,45 +1,35 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { toggleSidebar } from '@schaeffler/sidebar';
 
 import { HeaderComponent } from './header.component';
 
-describe('In HeaderComponent', () => {
+describe('HeaderComponent', () => {
+  let spectator: Spectator<HeaderComponent>;
   let component: HeaderComponent;
-  let fixture: ComponentFixture<HeaderComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [HeaderComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatIconModule,
-        MatToolbarModule,
-        RouterTestingModule,
-        FlexLayoutModule,
-      ],
-      providers: [provideMockStore()],
-    }).overrideComponent(HeaderComponent, {
-      set: {
-        changeDetection: ChangeDetectionStrategy.Default,
-      },
-    });
+  const createComponent = createComponentFactory({
+    component: HeaderComponent,
+    imports: [
+      NoopAnimationsModule,
+      MatIconModule,
+      MatToolbarModule,
+      RouterTestingModule,
+      FlexLayoutModule,
+    ],
+    providers: [provideMockStore()],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(HeaderComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {
@@ -72,17 +62,15 @@ describe('In HeaderComponent', () => {
 
   describe('toggleClicked()', () => {
     beforeEach(() => {
-      component.toggleEnabled = true;
-      fixture.detectChanges();
+      spectator.setInput('toggleEnabled', true);
+      spectator.detectChanges();
     });
 
     it('should be triggered by click at burgerButton', () => {
-      const burgerButton: Element = Array.from(
-        document.querySelectorAll('mat-icon')
-      ).find((element: Element) => element.id === 'burger-menu');
       jest.spyOn(component, 'toggleClicked');
+      const burgerMenu = spectator.query('#burger-menu');
+      spectator.click(burgerMenu);
 
-      burgerButton.dispatchEvent(new Event('click'));
       expect(component.toggleClicked).toHaveBeenCalled();
     });
 
@@ -105,20 +93,21 @@ describe('In HeaderComponent', () => {
   describe('template test', () => {
     it('should display a platformTitle', () => {
       const platformTitle = 'Nebuchadnezzar Shipment';
-      component.platformTitle = platformTitle;
-      fixture.detectChanges();
-      const userMenu = document.querySelector('h3');
+      spectator.setInput('platformTitle', platformTitle);
+      spectator.detectChanges();
+      const userMenu = spectator.query('.platform-title');
       expect(userMenu.innerHTML).toContain(platformTitle);
     });
 
     it('should display a burgerMenu', () => {
-      let burgerMenu = fixture.debugElement.query(By.css('#burger-menu'));
+      let burgerMenu = spectator.query('#burger-menu');
       expect(burgerMenu).toBeFalsy();
-      component.toggleEnabled = true;
-      fixture.detectChanges();
 
-      burgerMenu = fixture.debugElement.query(By.css('#burger-menu'));
-      expect(burgerMenu.nativeElement).toHaveClass('icon-menu');
+      spectator.setInput('toggleEnabled', true);
+      spectator.detectChanges();
+
+      burgerMenu = spectator.query('#burger-menu');
+      expect(burgerMenu).toHaveClass('icon-menu');
     });
   });
 });

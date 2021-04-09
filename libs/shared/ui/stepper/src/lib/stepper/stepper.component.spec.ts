@@ -1,9 +1,10 @@
 import { Component, TemplateRef, ViewChild } from '@angular/core';
-import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { Step } from './stepper-step.model';
 import { StepperComponent } from './stepper.component';
@@ -68,58 +69,47 @@ class WrapperComponent {
 }
 
 describe('StepperComponent', () => {
+  let spectator: Spectator<WrapperComponent>;
   let component: StepperComponent;
-  let fixture: ComponentFixture<WrapperComponent>;
-  beforeEach(
-    waitForAsync(() => {
-      TestBed.configureTestingModule({
-        imports: [
-          NoopAnimationsModule,
-          ReactiveFormsModule,
-          MatStepperModule,
-          MatButtonModule,
-        ],
-        declarations: [WrapperComponent, StepperComponent],
-      }).compileComponents();
-    })
-  );
-  beforeEach(() => {
-    fixture = TestBed.createComponent(WrapperComponent);
-    const wrapperComponent = fixture.debugElement.componentInstance;
-    component = wrapperComponent.stepperComponentRef;
-    fixture.detectChanges();
+
+  const createComponent = createComponentFactory({
+    component: WrapperComponent,
+    imports: [
+      NoopAnimationsModule,
+      ReactiveFormsModule,
+      MatStepperModule,
+      MatButtonModule,
+    ],
+    declarations: [StepperComponent],
   });
 
-  it(
-    'should create',
-    waitForAsync(() => {
-      expect(component).toBeTruthy();
-    })
-  );
+  beforeEach(() => {
+    spectator = createComponent();
+    component =
+      spectator.fixture.debugElement.componentInstance.stepperComponentRef;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 
   describe('markActiveSeparators', () => {
-    it('should mark the active separator', () => {
+    it('should mark the active separator after view init', () => {
       component.ngAfterViewInit();
-      const separators: HTMLElement[] = Array.from(
-        document.querySelectorAll('.mat-stepper-horizontal-line')
-      );
+      const separators = spectator.queryAll('.mat-stepper-horizontal-line');
       expect(separators[0].classList.contains('active')).toBeTruthy();
     });
 
-    it(
-      'should mark the active separator',
-      waitForAsync(() => {
-        component.stepper.selectionChange.subscribe(() => {
-          fixture.detectChanges();
-          const separators: HTMLElement[] = Array.from(
-            document.querySelectorAll('.mat-stepper-horizontal-line')
-          );
-          expect(separators[0].classList.contains('active')).toBeFalsy();
-          expect(separators[1].classList.contains('active')).toBeTruthy();
-        });
-        component.stepper.next();
-      })
-    );
+    it('should mark the active separator on stepper next', (done) => {
+      component.stepper.selectionChange.subscribe(() => {
+        spectator.detectChanges();
+        const separators = spectator.queryAll('.mat-stepper-horizontal-line');
+        expect(separators[0].classList).not.toContain('active');
+        expect(separators[1].classList).toContain('active');
+        done();
+      });
+      component.stepper.next();
+    });
   });
 
   it('should select next step when nextStep is called', () => {

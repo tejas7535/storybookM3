@@ -52,7 +52,7 @@
 </div>
 <mat-autocomplete #auto="matAutocomplete" class="custom-scrollbar">
   <mat-option
-    *ngFor="let option of filteredOptions | async"
+    *ngFor="let option of filteredOptions$ | ngrxPush"
     [value]="option.value"
     (click)="select(option)"
     (onSelectionChange)="onOptionSelect($event)"

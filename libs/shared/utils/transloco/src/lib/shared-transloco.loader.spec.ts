@@ -2,8 +2,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Translation } from '@ngneat/transloco';
 
 import { I18N_CACHE_CHECKSUM } from './injection-tokens';
@@ -13,21 +13,21 @@ describe('Transloco Loader', () => {
   let loader: SharedHttpLoader;
   let http: HttpTestingController;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        SharedHttpLoader,
-        { provide: I18N_CACHE_CHECKSUM, useValue: undefined },
-      ],
-    });
+  let spectator: SpectatorService<SharedHttpLoader>;
+  const createService = createServiceFactory({
+    service: SharedHttpLoader,
+    imports: [HttpClientTestingModule],
+    providers: [
+      SharedHttpLoader,
+      { provide: I18N_CACHE_CHECKSUM, useValue: undefined },
+    ],
   });
 
   describe('getTranslation', () => {
     it('should load json file', () => {
-      loader = TestBed.inject(SharedHttpLoader);
-      http = TestBed.inject(HttpTestingController);
-
+      spectator = createService();
+      loader = spectator.inject(SharedHttpLoader);
+      http = spectator.inject(HttpTestingController);
       const lang = 'en';
       const mock = { test: 'Test in English' };
 
@@ -39,12 +39,13 @@ describe('Transloco Loader', () => {
     });
 
     it('should attach the checksum', () => {
-      TestBed.overrideProvider(I18N_CACHE_CHECKSUM, {
-        useValue: { en: 'hello' },
+      spectator = createService({
+        providers: [
+          { provide: I18N_CACHE_CHECKSUM, useValue: { en: 'hello' } },
+        ],
       });
-
-      loader = TestBed.inject(SharedHttpLoader);
-      http = TestBed.inject(HttpTestingController);
+      loader = spectator.inject(SharedHttpLoader);
+      http = spectator.inject(HttpTestingController);
 
       const lang = 'en';
       const mock = { test: 'Test in English' };
@@ -57,12 +58,11 @@ describe('Transloco Loader', () => {
     });
 
     it('should not attach the checksum if the key is not defined', () => {
-      TestBed.overrideProvider(I18N_CACHE_CHECKSUM, {
-        useValue: { foo: 'bar' },
+      spectator = createService({
+        providers: [{ provide: I18N_CACHE_CHECKSUM, useValue: { foo: 'bar' } }],
       });
-
-      loader = TestBed.inject(SharedHttpLoader);
-      http = TestBed.inject(HttpTestingController);
+      loader = spectator.inject(SharedHttpLoader);
+      http = spectator.inject(HttpTestingController);
 
       const lang = 'en';
       const mock = { test: 'Test in English' };

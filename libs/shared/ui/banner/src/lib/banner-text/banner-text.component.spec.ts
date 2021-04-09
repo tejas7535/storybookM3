@@ -1,8 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { Icon } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -11,24 +10,22 @@ import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
 
 describe('BannerTextComponent', () => {
+  let spectator: Spectator<BannerTextComponent>;
   let component: BannerTextComponent;
-  let fixture: ComponentFixture<BannerTextComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [BannerTextComponent, TruncatePipe],
-      imports: [
-        provideTranslocoTestingModule({}),
-        FlexLayoutModule,
-        MatIconModule,
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: BannerTextComponent,
+    imports: [
+      provideTranslocoTestingModule({}),
+      FlexLayoutModule,
+      MatIconModule,
+    ],
+    declarations: [TruncatePipe],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BannerTextComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

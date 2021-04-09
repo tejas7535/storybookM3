@@ -1,27 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { PageNotFoundComponent } from './page-not-found.component';
 
 describe('PageNotFoundComponent', () => {
+  let spectator: Spectator<PageNotFoundComponent>;
   let component: PageNotFoundComponent;
-  let fixture: ComponentFixture<PageNotFoundComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [PageNotFoundComponent],
-      imports: [MatButtonModule],
-    });
+  const createComponent = createComponentFactory({
+    component: PageNotFoundComponent,
+    imports: [MatButtonModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PageNotFoundComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });

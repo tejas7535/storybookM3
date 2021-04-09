@@ -1,13 +1,11 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import {
-  MatSnackBarModule,
   MAT_SNACK_BAR_DATA,
+  MatSnackBarModule,
 } from '@angular/material/snack-bar';
-import { By } from '@angular/platform-browser';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { SnackBarData } from './snackbar-data.model';
 import { SnackBarType } from './snackbar-type.enum';
@@ -31,97 +29,97 @@ const infoConfig = new SnackBarData(
 );
 
 describe('SnackBarComponent', () => {
+  let spectator: Spectator<SnackBarComponent>;
   let component: SnackBarComponent;
-  let fixture: ComponentFixture<SnackBarComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
-      declarations: [SnackBarComponent],
-      providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }],
+  const componentFactoryObject = {
+    component: SnackBarComponent,
+    imports: [MatButtonModule, MatIconModule, MatSnackBarModule],
+    providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }],
+  };
+
+  const createComponent = createComponentFactory(componentFactoryObject);
+
+  describe('General Tests', () => {
+    beforeEach(() => {
+      spectator = createComponent();
+      component = spectator.component;
     });
-  });
 
-  beforeEach(() => {
-    fixture = TestBed.createComponent(SnackBarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
-
-  test('should create', () => {
-    expect(component).toBeTruthy();
-  });
-
-  describe('Properties and Inputs', () => {
-    test('should define the properties', () => {
-      expect(component.data).toBeDefined();
-      expect(component.action).toBeDefined();
-      expect(component.icon).toEqual('icon-toast-success');
+    test('should create', () => {
+      expect(component).toBeTruthy();
     });
-  });
 
-  describe('#clickActionButton()', () => {
-    test('should emit dismiss event', () => {
-      const spy = spyOn(component.action, 'emit');
+    describe('Properties and Inputs', () => {
+      test('should define the properties', () => {
+        expect(component.data).toBeDefined();
+        expect(component.action).toBeDefined();
+        expect(component.icon).toEqual('icon-toast-success');
+      });
+    });
 
-      component.clickActionButton();
+    describe('#clickActionButton()', () => {
+      test('should emit dismiss event', () => {
+        const spy = spyOn(component.action, 'emit');
 
-      expect(spy).toHaveBeenCalled();
+        component.clickActionButton();
+
+        expect(spy).toHaveBeenCalled();
+      });
     });
   });
 
   describe('template test', () => {
     describe('snackbar of type success', () => {
-      beforeAll(() => {
-        TestBed.overrideProvider(MAT_SNACK_BAR_DATA, {
-          useValue: successConfig,
+      beforeEach(() => {
+        spectator = createComponent({
+          providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: successConfig }],
         });
       });
-
       test('should have correct icon', () => {
-        const matIcon = fixture.debugElement.query(By.css('mat-icon'))
-          .nativeElement;
+        const matIcon = spectator.query('mat-icon');
 
         expect(matIcon).toHaveClass('icon-toast-success');
       });
     });
 
     describe('snackbar of type warning', () => {
-      beforeAll(() => {
-        TestBed.overrideProvider(MAT_SNACK_BAR_DATA, {
-          useValue: warningConfig,
+      beforeEach(() => {
+        spectator = createComponent({
+          providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: warningConfig }],
         });
       });
 
       test('should have correct icon', () => {
-        const matIcon = fixture.debugElement.query(By.css('mat-icon'))
-          .nativeElement;
+        const matIcon = spectator.query('mat-icon');
 
         expect(matIcon).toHaveClass('icon-toast-warning');
       });
     });
 
     describe('snackbar of type error', () => {
-      beforeAll(() => {
-        TestBed.overrideProvider(MAT_SNACK_BAR_DATA, { useValue: errorConfig });
+      beforeEach(() => {
+        spectator = createComponent({
+          providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: errorConfig }],
+        });
       });
 
       test('should have correct icon', () => {
-        const matIcon = fixture.debugElement.query(By.css('mat-icon'))
-          .nativeElement;
+        const matIcon = spectator.query('mat-icon');
 
         expect(matIcon).toHaveClass('icon-toast-error');
       });
     });
 
     describe('snackbar of type information', () => {
-      beforeAll(() => {
-        TestBed.overrideProvider(MAT_SNACK_BAR_DATA, { useValue: infoConfig });
+      beforeEach(() => {
+        spectator = createComponent({
+          providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: infoConfig }],
+        });
       });
 
       test('should have correct icon', () => {
-        const matIcon = fixture.debugElement.query(By.css('mat-icon'))
-          .nativeElement;
+        const matIcon = spectator.query('mat-icon');
 
         expect(matIcon).toHaveClass('icon-toast-information');
       });

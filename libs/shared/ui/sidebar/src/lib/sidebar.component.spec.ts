@@ -1,44 +1,33 @@
-import { ChangeDetectionStrategy } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { SidebarMode } from './models';
 import { SidebarComponent } from './sidebar.component';
 import { initialState } from './store/reducers/sidebar.reducer';
 
 describe('In SidebarComponent', () => {
+  let spectator: Spectator<SidebarComponent>;
   let component: SidebarComponent;
-  let fixture: ComponentFixture<SidebarComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [SidebarComponent],
-      imports: [
-        NoopAnimationsModule,
-        MatSidenavModule,
-        MatIconModule,
-        RouterTestingModule,
-      ],
-      providers: [
-        provideMockStore({ initialState: { sidebar: initialState } }),
-      ],
-    }).overrideComponent(SidebarComponent, {
-      set: {
-        changeDetection: ChangeDetectionStrategy.Default,
-      },
-    });
+  const createComponent = createComponentFactory({
+    component: SidebarComponent,
+    imports: [
+      NoopAnimationsModule,
+      MatSidenavModule,
+      MatIconModule,
+      RouterTestingModule,
+    ],
+    providers: [provideMockStore({ initialState: { sidebar: initialState } })],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SidebarComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

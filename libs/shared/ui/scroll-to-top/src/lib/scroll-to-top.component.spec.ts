@@ -1,37 +1,33 @@
-import { Subject } from 'rxjs';
-
 import { ElementRef } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { Subject } from 'rxjs';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { ScrollToTopComponent } from './scroll-to-top.component';
-
 import { ScrollToTopDirective } from './scroll-to-top.directive';
 
 describe('ScrollToTopComponent', () => {
-  let component: ScrollToTopComponent;
-  let fixture: ComponentFixture<ScrollToTopComponent>;
-
   const mockScrollToTopContainer = {
     scrollEvent$: new Subject<HTMLElement>(),
     element: new ElementRef('<div></div>'),
   };
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [MatIconModule, MatButtonModule, NoopAnimationsModule],
-      declarations: [ScrollToTopComponent, ScrollToTopDirective],
-    });
+  let spectator: Spectator<ScrollToTopComponent>;
+  let component: ScrollToTopComponent;
+
+  const createComponent = createComponentFactory({
+    component: ScrollToTopComponent,
+    imports: [MatIconModule, MatButtonModule, NoopAnimationsModule],
+    declarations: [ScrollToTopDirective],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ScrollToTopComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   test('should create', () => {

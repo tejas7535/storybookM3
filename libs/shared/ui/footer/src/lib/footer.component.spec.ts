@@ -1,9 +1,8 @@
-import { CommonModule } from '@angular/common';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { FooterLink } from './footer-link.model';
 import { FooterComponent } from './footer.component';
@@ -13,16 +12,17 @@ describe('FooterComponent', () => {
   let fixture: ComponentFixture<FooterComponent>;
   let compiled: HTMLElement;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [CommonModule, RouterTestingModule],
-      declarations: [FooterComponent],
-    });
+  let spectator: Spectator<FooterComponent>;
+
+  const createComponent = createComponentFactory({
+    component: FooterComponent,
+    imports: [RouterTestingModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FooterComponent);
-    component = fixture.componentInstance;
+    spectator = createComponent();
+    component = spectator.component;
+    fixture = spectator.fixture;
     compiled = fixture.debugElement.nativeElement;
   });
 

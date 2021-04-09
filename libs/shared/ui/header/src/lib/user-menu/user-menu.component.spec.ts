@@ -1,34 +1,30 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { UserMenuComponent } from './user-menu.component';
 
 describe('UserMenuComponent', () => {
+  let spectator: Spectator<UserMenuComponent>;
   let component: UserMenuComponent;
-  let fixture: ComponentFixture<UserMenuComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatMenuModule,
-        FlexLayoutModule,
-        provideTranslocoTestingModule({}),
-      ],
-      declarations: [UserMenuComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: UserMenuComponent,
+    imports: [
+      MatIconModule,
+      MatMenuModule,
+      FlexLayoutModule,
+      provideTranslocoTestingModule({}),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UserMenuComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {

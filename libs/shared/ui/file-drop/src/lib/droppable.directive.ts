@@ -18,7 +18,7 @@ export class DroppableDirective {
    */
   @HostListener('drop', ['$event']) public drop(event: any): void {
     event.preventDefault();
-    if (event.dataTransfer.files) {
+    if (event.dataTransfer?.files) {
       const name = event.dataTransfer.files[0].name;
 
       if (this.checkFileTypeAcceptance(name)) {

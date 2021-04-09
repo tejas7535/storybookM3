@@ -1,35 +1,27 @@
-import { ChangeDetectionStrategy, SimpleChange } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
+import { SimpleChange } from '@angular/core';
+import { fakeAsync } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { By } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { Icon } from '@schaeffler/icons';
 
 import { SpeedDialFabComponent } from './speed-dial-fab.component';
 
 describe('SpeedDialFabComponent', () => {
+  let spectator: Spectator<SpeedDialFabComponent>;
   let component: SpeedDialFabComponent;
-  let fixture: ComponentFixture<SpeedDialFabComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, MatButtonModule, MatIconModule],
-      declarations: [SpeedDialFabComponent],
-    }).overrideComponent(SpeedDialFabComponent, {
-      set: {
-        changeDetection: ChangeDetectionStrategy.Default,
-      },
-    });
+  const createComponent = createComponentFactory({
+    component: SpeedDialFabComponent,
+    imports: [NoopAnimationsModule, MatButtonModule, MatIconModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SpeedDialFabComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should create', () => {
@@ -106,8 +98,8 @@ describe('SpeedDialFabComponent', () => {
 
   it('secondary button should have text', fakeAsync(() => {
     const openState = true;
-    component.open = openState;
-    component.secondaryButtons = [
+
+    spectator.setInput('secondaryButtons', [
       {
         key: 'save',
         icon: new Icon('patronus', false),
@@ -115,17 +107,17 @@ describe('SpeedDialFabComponent', () => {
         label: true,
         title: 'Patronum!',
       },
-    ];
+    ]);
+    spectator.setInput('open', openState);
 
     // tslint:disable-next-line: no-lifecycle-call
     component.ngOnChanges({
       open: new SimpleChange(false, openState, false),
     });
 
-    fixture.detectChanges();
+    spectator.detectChanges();
 
-    const spanElem = fixture.debugElement.query(By.css('.btn-title'))
-      .nativeElement;
+    const spanElem = spectator.query('.btn-title');
     expect(spanElem.innerHTML).toContain('Patronum!');
   }));
 

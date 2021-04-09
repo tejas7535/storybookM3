@@ -4,15 +4,15 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { Injectable } from '@angular/core';
-import { TestBed, waitForAsync } from '@angular/core/testing';
+import { waitForAsync } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from './auth.service';
 import { TokenInterceptor } from './token.interceptor';
@@ -27,58 +27,58 @@ export class ExampleService {
 }
 
 describe(`TokenInterceptor`, () => {
+  let spectator: SpectatorService<ExampleService>;
   let service: ExampleService;
   let httpMock: HttpTestingController;
   let mockOAuth2: OAuthService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule, HttpClientTestingModule],
-      providers: [
-        ExampleService,
-        AuthService,
-        TokenInterceptor,
-        provideMockStore(),
-        {
-          provide: HTTP_INTERCEPTORS,
-          useClass: TokenInterceptor,
-          multi: true,
+  const createService = createServiceFactory({
+    service: ExampleService,
+    imports: [NoopAnimationsModule, HttpClientTestingModule],
+    providers: [
+      AuthService,
+      TokenInterceptor,
+      provideMockStore(),
+      {
+        provide: HTTP_INTERCEPTORS,
+        useClass: TokenInterceptor,
+        multi: true,
+      },
+      {
+        provide: OAuthService,
+        useValue: {
+          tryLogin: jest.fn(),
+          hasValidAccessToken: jest.fn().mockImplementation(() => true),
+          events: of({ type: 'token_received' }),
+          setupAutomaticSilentRefresh: jest.fn(),
+          loadDiscoveryDocument: jest
+            .fn()
+            .mockImplementation(() => Promise.resolve()),
+          initImplicitFlow: jest.fn(),
+          state: 'state/link',
         },
-        {
-          provide: OAuthService,
-          useValue: {
-            tryLogin: jest.fn(),
-            hasValidAccessToken: jest.fn().mockImplementation(() => true),
-            events: of({ type: 'token_received' }),
-            setupAutomaticSilentRefresh: jest.fn(),
-            loadDiscoveryDocument: jest
-              .fn()
-              .mockImplementation(() => Promise.resolve()),
-            initImplicitFlow: jest.fn(),
-            state: 'state/link',
-          },
+      },
+      {
+        provide: AuthConfig,
+        useValue: {
+          useSilentRefresh: jest.fn(() => true),
         },
-        {
-          provide: AuthConfig,
-          useValue: {
-            useSilentRefresh: jest.fn(() => true),
-          },
+      },
+      {
+        provide: Router,
+        useValue: {
+          navigateByUrl: jest.fn(),
+          url: 'test',
         },
-        {
-          provide: Router,
-          useValue: {
-            navigateByUrl: jest.fn(),
-            url: 'test',
-          },
-        },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(ExampleService);
-    httpMock = TestBed.inject(HttpTestingController);
-    mockOAuth2 = TestBed.inject(OAuthService);
+    spectator = createService();
+    service = spectator.inject(ExampleService);
+    mockOAuth2 = spectator.inject(OAuthService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   it('should be truthy', () => {

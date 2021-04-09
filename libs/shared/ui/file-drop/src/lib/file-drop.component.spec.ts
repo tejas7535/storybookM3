@@ -1,25 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { DroppableDirective } from './droppable.directive';
 import { FileDropComponent } from './file-drop.component';
 
 describe('FileDropComponent', () => {
+  let spectator: Spectator<FileDropComponent>;
   let component: FileDropComponent;
-  let fixture: ComponentFixture<FileDropComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [FileDropComponent, DroppableDirective],
-    });
+  const createComponent = createComponentFactory({
+    component: FileDropComponent,
+
+    declarations: [DroppableDirective],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FileDropComponent);
-    component = fixture.componentInstance;
-
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
 
   it('should be created', () => {

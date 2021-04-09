@@ -1,25 +1,20 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { UnderConstructionComponent } from './under-construction.component';
 
 describe('UnderConstructionComponent', () => {
+  let spectator: Spectator<UnderConstructionComponent>;
   let component: UnderConstructionComponent;
-  let fixture: ComponentFixture<UnderConstructionComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [UnderConstructionComponent],
-    });
+  const createComponent = createComponentFactory({
+    component: UnderConstructionComponent,
+    imports: [],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnderConstructionComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.component;
   });
-
   it('should create', () => {
     expect(component).toBeTruthy();
   });
