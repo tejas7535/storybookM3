@@ -49,7 +49,7 @@ export const appRoutes: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutes, {
-      useHash: true,
+      useHash: false,
       initialNavigation: 'disabled',
       relativeLinkResolution: 'legacy',
     }),
