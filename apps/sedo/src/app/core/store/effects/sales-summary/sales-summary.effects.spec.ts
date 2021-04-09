@@ -1,10 +1,10 @@
-import { TestBed } from '@angular/core/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { APP_STATE_MOCK } from '../../../../../testing/mocks/app-state-mock';
 import { DataService } from '../../../../shared/data.service';
@@ -20,28 +20,30 @@ describe('ClassificationEffects', () => {
   let action: any;
   let actions$: any;
   let effects: SalesSummaryEffects;
+  let spectator: SpectatorService<DataService>;
   let dataService: DataService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        SalesSummaryEffects,
-        provideMockActions(() => actions$),
-        provideMockStore({ initialState }),
-        {
-          provide: DataService,
-          useValue: {
-            getSalesSummary: jest.fn(),
-          },
+  const createService = createServiceFactory({
+    service: DataService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      SalesSummaryEffects,
+      provideMockActions(() => actions$),
+      provideMockStore({ initialState }),
+      {
+        provide: DataService,
+        useValue: {
+          getSalesSummary: jest.fn(),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    actions$ = TestBed.inject(Actions);
-    effects = TestBed.inject(SalesSummaryEffects);
-    dataService = TestBed.inject(DataService);
+    spectator = createService();
+    dataService = spectator.service;
+    actions$ = spectator.inject(Actions);
+    effects = spectator.inject(SalesSummaryEffects);
   });
 
   describe('loadSalesSummary', () => {
