@@ -1,14 +1,13 @@
-import { TestBed } from '@angular/core/testing';
 import { ActivationEnd, Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jest-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { SidebarMode, Viewport } from '../../models';
 import { SidebarService } from '../../sidebar.service';
@@ -22,6 +21,7 @@ interface State {
 }
 
 describe('SidebarEffects', () => {
+  let spectator: SpectatorService<SidebarEffects>;
   let action: Action;
   let actions$: Actions;
   let store: MockStore<State>;
@@ -29,36 +29,34 @@ describe('SidebarEffects', () => {
   let sidebarService: SidebarService;
   let router: Router;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [
-        SidebarEffects,
-        provideMockStore(),
-        provideMockActions(() => actions$),
-        {
-          provide: SidebarService,
-          useValue: {
-            getSidebarMode: jest.fn(() => of(SidebarMode.Closed)),
-            getViewport: jest.fn(() => of(Viewport.Large)),
-          },
+  const createService = createServiceFactory({
+    service: SidebarEffects,
+    providers: [
+      provideMockStore(),
+      provideMockActions(() => actions$),
+      {
+        provide: SidebarService,
+        useValue: {
+          getSidebarMode: jest.fn(() => of(SidebarMode.Closed)),
+          getViewport: jest.fn(() => of(Viewport.Large)),
         },
-        {
-          provide: Router,
-          useValue: {
-            events: of(new ActivationEnd(undefined)),
-          },
+      },
+      {
+        provide: Router,
+        useValue: {
+          events: of(new ActivationEnd(undefined)),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    store = TestBed.inject(MockStore);
-    actions$ = TestBed.inject(Actions);
-    sidebarEffects = TestBed.inject(SidebarEffects);
-    sidebarService = TestBed.inject(SidebarService);
-    router = TestBed.inject(Router);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    sidebarEffects = spectator.inject(SidebarEffects);
+    sidebarService = spectator.inject(SidebarService);
+    router = spectator.inject(Router);
+    store = spectator.inject(MockStore);
   });
 
   describe('setSidebarState$', () => {

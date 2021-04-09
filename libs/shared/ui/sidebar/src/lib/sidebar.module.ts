@@ -7,6 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SidebarElementsComponent } from './sidebar-elements/sidebar-elements.component';
 import { SidebarComponent } from './sidebar.component';
 import { StoreModule } from './store/store.module';
@@ -21,6 +23,7 @@ import { StoreModule } from './store/store.module';
     RouterModule,
     FlexLayoutModule,
     StoreModule,
+    ReactiveComponentModule,
   ],
   declarations: [SidebarComponent, SidebarElementsComponent],
   exports: [SidebarComponent, SidebarElementsComponent],

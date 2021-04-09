@@ -1,37 +1,31 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Store } from '@ngrx/store';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { configureTestSuite } from 'ng-bullet';
 
 import { BannerTextModule } from './banner-text/banner-text.module';
 import { BannerComponent } from './banner.component';
 import { closeBanner, toggleFullText } from './store/actions/banner.actions';
-import { BannerState, initialState } from './store/reducers/banner.reducer';
+import { initialState } from './store/reducers/banner.reducer';
 
 describe('BannerComponent', () => {
+  let spectator: Spectator<BannerComponent>;
   let component: BannerComponent;
-  let fixture: ComponentFixture<BannerComponent>;
-  let store: MockStore<{ banner: BannerState }>;
+  let store: MockStore;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [BannerComponent],
-      imports: [BannerTextModule],
-      providers: [
-        provideMockStore({
-          initialState: { banner: initialState },
-        }),
-      ],
-    });
+  const createComponent = createComponentFactory({
+    component: BannerComponent,
+    imports: [BannerTextModule, ReactiveComponentModule],
+    providers: [
+      provideMockStore({
+        initialState: { banner: initialState },
+      }),
+    ],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BannerComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-
-    store = TestBed.inject(Store) as MockStore<{ banner: BannerState }>;
+    spectator = createComponent();
+    component = spectator.component;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {

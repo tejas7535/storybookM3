@@ -1,10 +1,10 @@
 <schaeffler-banner-text
-  *ngIf="showBanner$ | async"
-  [text]="bannerText$ | async"
-  [showFullText]="showFullText$ | async"
-  [truncateSize]="truncateSize$ | async"
-  [buttonText]="bannerButtonText$ | async"
-  [bannerIcon]="bannerIcon$ | async"
+  *ngIf="showBanner$ | ngrxPush"
+  [text]="bannerText$ | ngrxPush"
+  [showFullText]="showFullText$ | ngrxPush"
+  [truncateSize]="truncateSize$ | ngrxPush"
+  [buttonText]="bannerButtonText$ | ngrxPush"
+  [bannerIcon]="bannerIcon$ | ngrxPush"
   (closeBanner)="closeBanner()"
   (toggleFullText)="toggleFullText()"
 ></schaeffler-banner-text>

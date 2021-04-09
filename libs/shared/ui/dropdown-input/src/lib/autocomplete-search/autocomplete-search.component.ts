@@ -38,7 +38,7 @@ export class AutocompleteSearchComponent implements OnInit {
   @ViewChild(MatAutocompleteTrigger, { read: MatAutocompleteTrigger })
   _autocompleteTriggerElement!: MatAutocompleteTrigger;
 
-  filteredOptions!: Observable<DropdownInputOption[]>;
+  filteredOptions$!: Observable<DropdownInputOption[]>;
   searchControl = new FormControl('');
   selectedItem!: DropdownInputOption;
 
@@ -49,7 +49,7 @@ export class AutocompleteSearchComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.filteredOptions = this.searchControl.valueChanges.pipe(
+    this.filteredOptions$ = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
       map((value) => {
         this.updateSearch.emit(value);

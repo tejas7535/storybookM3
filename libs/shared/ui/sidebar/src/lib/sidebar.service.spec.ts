@@ -1,10 +1,9 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { TestBed } from '@angular/core/testing';
 
 import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { SidebarMode, Viewport } from './models';
 import { SidebarService } from './sidebar.service';
@@ -76,17 +75,17 @@ describe('SidebarService', () => {
   const breakpointObserverMock = { observe: jest.fn() };
   breakpointObserverMock.observe.mockImplementation(fakeObserve);
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        SidebarService,
-        { provide: BreakpointObserver, useValue: breakpointObserverMock },
-      ],
-    });
+  let spectator: SpectatorService<SidebarService>;
+  const createService = createServiceFactory({
+    service: SidebarService,
+    providers: [
+      { provide: BreakpointObserver, useValue: breakpointObserverMock },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(SidebarService);
+    spectator = createService();
+    service = spectator.inject(SidebarService);
   });
 
   test('should be created', () => {

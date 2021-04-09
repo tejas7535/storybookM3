@@ -1,10 +1,9 @@
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
-import { TestBed } from '@angular/core/testing';
 
 import { from, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { BreakpointService } from './breakpoint.service';
 
@@ -79,17 +78,17 @@ describe('BreakpointService', () => {
   const breakpointObserverMock = { observe: jest.fn() };
   breakpointObserverMock.observe.mockImplementation(fakeObserve);
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        BreakpointService,
-        { provide: BreakpointObserver, useValue: breakpointObserverMock },
-      ],
-    });
+  let spectator: SpectatorService<BreakpointService>;
+  const createService = createServiceFactory({
+    service: BreakpointService,
+    providers: [
+      { provide: BreakpointObserver, useValue: breakpointObserverMock },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(BreakpointService);
+    spectator = createService();
+    service = spectator.inject(BreakpointService);
   });
 
   test('should be createable', () => {

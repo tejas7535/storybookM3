@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { AutocompleteSearchComponent } from './autocomplete-search.component';
 
@@ -24,6 +25,7 @@ describe('AutocompleteSearchComponent', () => {
       MatInputModule,
       MatAutocompleteModule,
       MatIconModule,
+      ReactiveComponentModule,
     ],
   });
 
@@ -46,7 +48,7 @@ describe('AutocompleteSearchComponent', () => {
 
       expect(component.updateSearch.emit).toHaveBeenCalledWith('');
       expect(component.filter).toHaveBeenCalledWith('');
-      expect(component.filteredOptions).toBeDefined();
+      expect(component.filteredOptions$).toBeDefined();
     });
   });
 

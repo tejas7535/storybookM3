@@ -1,10 +1,9 @@
-import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AuthService } from './auth.service';
 
@@ -12,49 +11,50 @@ describe('AuthService', () => {
   let service: AuthService;
   let oAuthService: OAuthService;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      providers: [
-        AuthService,
-        {
-          provide: OAuthService,
-          useValue: {
-            tryLogin: jest.fn(() => true),
-            hasValidAccessToken: jest.fn(() => true),
-            getAccessToken: jest.fn(() => 'token'),
-            events: of({ type: 'token_received' }),
-            setupAutomaticSilentRefresh: jest.fn(),
-            loadDiscoveryDocument: jest.fn(() => Promise.resolve()),
-            initLoginFlow: jest.fn(),
-            state: 'state/link',
-            loadDiscoveryDocumentAndTryLogin: jest.fn(() =>
-              Promise.resolve(true)
-            ),
-            silentRefresh: jest.fn(() => Promise.resolve(true)),
-            refreshToken: jest.fn(() => Promise.resolve(true)),
-            logOut: jest.fn(),
-          },
+  let spectator: SpectatorService<AuthService>;
+
+  const createService = createServiceFactory({
+    service: AuthService,
+    providers: [
+      {
+        provide: OAuthService,
+        useValue: {
+          tryLogin: jest.fn(() => true),
+          hasValidAccessToken: jest.fn(() => true),
+          getAccessToken: jest.fn(() => 'token'),
+          events: of({ type: 'token_received' }),
+          setupAutomaticSilentRefresh: jest.fn(),
+          loadDiscoveryDocument: jest.fn(() => Promise.resolve()),
+          initLoginFlow: jest.fn(),
+          state: 'state/link',
+          loadDiscoveryDocumentAndTryLogin: jest.fn(() =>
+            Promise.resolve(true)
+          ),
+          silentRefresh: jest.fn(() => Promise.resolve(true)),
+          refreshToken: jest.fn(() => Promise.resolve(true)),
+          logOut: jest.fn(),
         },
-        {
-          provide: Router,
-          useValue: {
-            navigateByUrl: jest.fn(),
-            url: 'test',
-          },
+      },
+      {
+        provide: Router,
+        useValue: {
+          navigateByUrl: jest.fn(),
+          url: 'test',
         },
-        {
-          provide: AuthConfig,
-          useValue: {
-            useSilentRefresh: jest.fn(() => true),
-          },
+      },
+      {
+        provide: AuthConfig,
+        useValue: {
+          useSilentRefresh: jest.fn(() => true),
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(AuthService);
-    oAuthService = TestBed.inject(OAuthService);
+    spectator = createService();
+    service = spectator.inject(AuthService);
+    oAuthService = spectator.inject(OAuthService);
   });
 
   test('should be created', () => {

@@ -1,13 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { TestBed } from '@angular/core/testing';
 import {
   MAT_SNACK_BAR_DEFAULT_OPTIONS,
   MatSnackBar,
   MatSnackBarConfig,
 } from '@angular/material/snack-bar';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { SnackBarData } from './snackbar-data.model';
 import { SnackBarType } from './snackbar-type.enum';
@@ -19,22 +17,23 @@ describe('SnackBarService', () => {
   let snackBarService: SnackBarService;
   let snackBar: MatSnackBar;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [CommonModule, BrowserAnimationsModule, SnackBarModule],
-      providers: [
-        SnackBarService,
-        {
-          provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-          useValue: { duration: 100 },
-        },
-      ],
-    });
+  let spectator: SpectatorService<SnackBarService>;
+
+  const createService = createServiceFactory({
+    service: SnackBarService,
+    imports: [NoopAnimationsModule, SnackBarModule],
+    providers: [
+      {
+        provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+        useValue: { duration: 100 },
+      },
+    ],
   });
 
   beforeEach(() => {
-    snackBar = TestBed.inject(MatSnackBar);
-    snackBarService = TestBed.inject(SnackBarService);
+    spectator = createService();
+    snackBarService = spectator.inject(SnackBarService);
+    snackBar = spectator.inject(MatSnackBar);
   });
 
   test('should be created', () => {

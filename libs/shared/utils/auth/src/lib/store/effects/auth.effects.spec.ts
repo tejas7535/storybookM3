@@ -1,15 +1,14 @@
-import { TestBed } from '@angular/core/testing';
 import { Router } from '@angular/router';
 
 import { Observable, of } from 'rxjs';
 
-import { EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { OAuthSuccessEvent } from 'angular-oauth2-oidc';
 import { cold, hot } from 'jest-marbles';
-import { configureTestSuite } from 'ng-bullet';
 
 import { AuthState } from '..';
 import { AuthService } from '../../auth.service';
@@ -24,51 +23,51 @@ import { getIsLoggedIn } from '../selectors/auth.selectors';
 import { AuthEffects } from './auth.effects';
 
 describe('Auth Effects', () => {
+  let spectator: SpectatorService<AuthEffects>;
   let actions$: Observable<Action>;
   let effects: AuthEffects;
   let metadata: EffectsMetadata<AuthEffects>;
   let authService: AuthService;
   let store: MockStore<AuthState>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [],
-      providers: [
-        AuthEffects,
-        {
-          provide: AuthService,
-          useValue: {
-            initAuth: jest.fn(),
-            getDecodedAccessToken: jest.fn(() => {}),
-            hasValidAccessToken: jest.fn(() => true),
-            getUser: jest.fn(() => {}),
-            configureImplicitFlow: jest.fn(),
-            navigateToState: jest.fn(),
-            login: jest.fn(),
-            logout: jest.fn(),
-            oauthService: {
-              events: of(new OAuthSuccessEvent('token_received')),
-            },
+  const createService = createServiceFactory({
+    service: AuthEffects,
+    providers: [
+      {
+        provide: AuthService,
+        useValue: {
+          initAuth: jest.fn(),
+          getDecodedAccessToken: jest.fn(() => {}),
+          hasValidAccessToken: jest.fn(() => true),
+          getUser: jest.fn(() => {}),
+          configureImplicitFlow: jest.fn(),
+          navigateToState: jest.fn(),
+          login: jest.fn(),
+          logout: jest.fn(),
+          oauthService: {
+            events: of(new OAuthSuccessEvent('token_received')),
           },
         },
-        {
-          provide: Router,
-          useValue: {
-            navigateByUrl: jest.fn(),
-            url: 'test',
-          },
+      },
+      {
+        provide: Router,
+        useValue: {
+          navigateByUrl: jest.fn(),
+          url: 'test',
         },
-        provideMockStore(),
-        provideMockActions(() => actions$),
-      ],
-    });
+      },
+      provideMockStore(),
+      provideMockActions(() => actions$),
+    ],
   });
 
   beforeEach(() => {
-    effects = TestBed.inject(AuthEffects);
+    spectator = createService();
+    actions$ = spectator.inject(Actions);
+    effects = spectator.inject(AuthEffects);
     metadata = getEffectsMetadata(effects);
-    authService = TestBed.inject(AuthService);
-    store = TestBed.inject(MockStore);
+    authService = spectator.inject(AuthService);
+    store = spectator.inject(MockStore);
     store.overrideSelector(getIsLoggedIn, false);
   });
 

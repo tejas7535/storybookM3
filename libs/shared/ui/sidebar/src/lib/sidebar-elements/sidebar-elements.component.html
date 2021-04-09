@@ -6,12 +6,12 @@
   routerLinkActive="active"
   [routerLinkActiveOptions]="{ exact: true }"
   [routerLink]="element.link"
-  [matTooltipDisabled]="(mode$ | async) !== 1"
+  [matTooltipDisabled]="(mode$ | ngrxPush) !== 1"
   [matTooltip]="element.text"
 >
   <div
     class="sidebar-item-wrapper"
-    [ngClass]="{ minified: (mode$ | async) === 1 }"
+    [ngClass]="{ minified: (mode$ | ngrxPush) === 1 }"
   >
     <mat-icon
       [fontSet]="!element.icon.materialIcon ? 'icon' : null"

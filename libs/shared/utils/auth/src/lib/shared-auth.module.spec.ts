@@ -1,19 +1,10 @@
-import { TestBed } from '@angular/core/testing';
-
-import { configureTestSuite } from 'ng-bullet';
-
 import { AzureConfig, FlowType } from './models';
 import { SharedAuthModule, storageFactory } from './shared-auth.module';
 
 describe('SharedAuthModule', () => {
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [SharedAuthModule],
-    });
-  });
-
   test('should create', () => {
-    expect(SharedAuthModule).toBeDefined();
+    const module = new SharedAuthModule(undefined);
+    expect(module).toBeDefined();
   });
 
   test('storageFactory should return localStorage', () => {
