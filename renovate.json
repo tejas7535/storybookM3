@@ -15,6 +15,15 @@
     "commands": ["npm ci --ignore-scripts", "npm run generate-readme"],
     "fileFilters": ["docs/01_description.md", "README.md"]
   },
+  "major": {
+    "enabled": true
+  },
+  "minor": {
+    "enabled": true
+  },
+  "patch": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "packageNames": [
@@ -32,7 +41,9 @@
         "zone.js"
       ],
       "groupName": "@angular/angular",
-      "updateTypes": ["minor", "patch"]
+      "major": {
+        "enabled": false
+      }
     },
     {
       "packageNames": [
@@ -45,7 +56,9 @@
         "ng-packagr"
       ],
       "groupName": "@angular/angular-cli",
-      "updateTypes": ["minor", "patch"]
+      "major": {
+        "enabled": false
+      }
     },
     {
       "packageNames": [
@@ -54,7 +67,9 @@
         "@angular/flex-layout"
       ],
       "groupName": "@angular/components",
-      "updateTypes": ["minor", "patch"]
+      "major": {
+        "enabled": false
+      }
     },
     {
       "packageNames": [
@@ -67,7 +82,9 @@
         "@nrwl/workspace"
       ],
       "groupName": "@nrwl/nx",
-      "updateTypes": ["minor", "patch"]
+      "major": {
+        "enabled": false
+      }
     },
     {
       "packageNames": [
@@ -79,7 +96,9 @@
         "@ngrx/store-devtools"
       ],
       "groupName": "ngrx",
-      "updateTypes": ["minor", "patch"]
+      "major": {
+        "enabled": false
+      }
     },
     {
       "packageNames": ["typescript"],
