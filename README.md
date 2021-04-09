@@ -1,15 +1,15 @@
 # Frontend@Schaeffler
 
 ![version](https://img.shields.io/badge/version-v1.56.0-green.svg)
-![@nrwl/workspace: 11.6.0](https://img.shields.io/badge/%40nrwl%2Fworkspace-11.6.0-brightgreen)
+![@nrwl/workspace: 11.6.1](https://img.shields.io/badge/%40nrwl%2Fworkspace-11.6.1-brightgreen)
 ![typescript: 4.1.5](https://img.shields.io/badge/typescript-4.1.5-brightgreen)
-![@angular/core: 11.2.7](https://img.shields.io/badge/%40angular%2Fcore-11.2.7-brightgreen)
-![@angular/cli: 11.2.6](https://img.shields.io/badge/%40angular%2Fcli-11.2.6-brightgreen)
-![@angular/cdk: 11.2.6](https://img.shields.io/badge/%40angular%2Fcdk-11.2.6-brightgreen)
-![@angular/material: 11.2.6](https://img.shields.io/badge/%40angular%2Fmaterial-11.2.6-brightgreen)
+![@angular/core: 11.2.9](https://img.shields.io/badge/%40angular%2Fcore-11.2.9-brightgreen)
+![@angular/cli: 11.2.7](https://img.shields.io/badge/%40angular%2Fcli-11.2.7-brightgreen)
+![@angular/cdk: 11.2.8](https://img.shields.io/badge/%40angular%2Fcdk-11.2.8-brightgreen)
+![@angular/material: 11.2.8](https://img.shields.io/badge/%40angular%2Fmaterial-11.2.8-brightgreen)
 ![@ngrx/store: 11.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-11.1.0-brightgreen)
 ![jest: 26.6.3](https://img.shields.io/badge/jest-26.6.3-brightgreen)
-![cypress: 6.8.0](https://img.shields.io/badge/cypress-6.8.0-brightgreen)
+![cypress: 6.9.1](https://img.shields.io/badge/cypress-6.9.1-brightgreen)
 ![prettier: 2.2.1](https://img.shields.io/badge/prettier-2.2.1-brightgreen)
 
 Monorepository based on [Nx](https://nx.dev) to support and improve the development of modern web applications.
