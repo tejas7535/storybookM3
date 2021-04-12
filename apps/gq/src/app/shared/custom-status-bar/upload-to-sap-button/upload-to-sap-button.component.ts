@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 
-import { environment } from '../../../../environments/environment';
 import { uploadOfferToSap } from '../../../core/store';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 
@@ -12,8 +11,6 @@ import { ProcessCaseState } from '../../../core/store/reducers/process-case/proc
   styleUrls: ['./upload-to-sap-button.component.scss'],
 })
 export class UploadToSapButtonComponent {
-  isDisabled: boolean = environment.production;
-
   agInit(): void {}
 
   constructor(private readonly store: Store<ProcessCaseState>) {}
