@@ -7,6 +7,8 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared';
+
 import { CALCULATIONS_MOCK } from '../../../testing/mocks';
 import { selectCalculation } from '../../core/store';
 import { Calculation } from '../../core/store/reducers/shared/models';
@@ -28,6 +30,7 @@ describe('CalculationsTabComponent', () => {
   const createComponent = createComponentFactory({
     component: CalculationsTabComponent,
     imports: [
+      SharedModule,
       RouterTestingModule,
       provideTranslocoTestingModule({}),
       MockModule(CalculationsTableModule),

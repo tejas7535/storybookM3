@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
@@ -31,6 +33,7 @@ registerLocaleData(de, 'de-DE');
     // NgRx Setup
     StoreModule,
     RouterModule,
+    ReactiveComponentModule,
 
     // UI Modules
     IconsModule,

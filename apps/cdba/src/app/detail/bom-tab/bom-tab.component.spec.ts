@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -10,6 +9,7 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared';
 import { BOM_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { selectBomItem } from '../../core/store';
@@ -27,7 +27,7 @@ describe('BomTabComponent', () => {
   const createComponent = createComponentFactory({
     component: BomTabComponent,
     imports: [
-      CommonModule,
+      SharedModule,
       MatCardModule,
       MatIconModule,
       AgGridModule.withComponents([CustomLoadingOverlayComponent]),

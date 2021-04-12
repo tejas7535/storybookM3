@@ -10,21 +10,17 @@
 >
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 8">
     <cdba-sales-and-description
-      [salesDetails]="salesDetails$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [salesDetails]="salesDetails$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     ></cdba-sales-and-description>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
   <mat-card gdColumn="auto / span 3" gdRow="auto / span 6">
     <cdba-dimension-and-weight
-      [dimensionAndWeight]="dimensionAndWeight$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [dimensionAndWeight]="dimensionAndWeight$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     ></cdba-dimension-and-weight>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="auto / span 3"
@@ -33,13 +29,11 @@
     gdRow.lt-md="15 / span 7"
   >
     <cdba-customer
-      [customerDetails]="customerDetails$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [customerDetails]="customerDetails$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     >
     </cdba-customer>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="auto / span 6"
@@ -67,12 +61,10 @@
     gdRow.xs="22 / span 6"
   >
     <cdba-pricing
-      [salesPrice]="salesPrice$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [salesPrice]="salesPrice$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     ></cdba-pricing>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="4 / span 3"
@@ -83,12 +75,10 @@
     gdRow.xs="28 / span 8"
   >
     <cdba-quantities
-      [quantitiesDetails]="quantitiesDetails$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [quantitiesDetails]="quantitiesDetails$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     ></cdba-quantities>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
   <mat-card
     gdColumn="7 / span 3"
@@ -99,11 +89,13 @@
     gdRow.xs="36 / span 7"
   >
     <cdba-production
-      [productionDetails]="productionDetails$ | async"
-      [errorMessage]="errorMessageDetails$ | async"
+      *ngIf="!(isLoading$ | ngrxPush); else loading"
+      [productionDetails]="productionDetails$ | ngrxPush"
+      [errorMessage]="errorMessageDetails$ | ngrxPush"
     ></cdba-production>
-    <cdba-loading-spinner
-      [show]="(isLoading$ | async) === true"
-    ></cdba-loading-spinner>
   </mat-card>
 </div>
+
+<ng-template #loading>
+  <cdba-loading-spinner show="true"></cdba-loading-spinner>
+</ng-template>

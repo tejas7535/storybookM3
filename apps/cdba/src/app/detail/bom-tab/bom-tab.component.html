@@ -33,9 +33,9 @@
         </div>
         <div class="table-container">
           <cdba-bom-table
-            [rowData]="bomItems$ | async"
-            [isLoading]="bomLoading$ | async"
-            [errorMessage]="bomErrorMessage$ | async"
+            [rowData]="bomItems$ | ngrxPush"
+            [isLoading]="bomLoading$ | ngrxPush"
+            [errorMessage]="bomErrorMessage$ | ngrxPush"
             (rowSelected)="selectBomItem($event)"
           ></cdba-bom-table>
         </div>

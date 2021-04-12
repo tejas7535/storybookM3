@@ -12,10 +12,10 @@
         *transloco="let t; read: 'detail.shared.calculationTable'"
       >
         <cdba-calculations-table
-          [rowData]="calculations$ | async"
-          [selectedNodeId]="selectedNodeId$ | async"
-          [isLoading]="loading$ | async"
-          [errorMessage]="errorMessage$ | async"
+          [rowData]="calculations$ | ngrxPush"
+          [selectedNodeId]="selectedNodeId$ | ngrxPush"
+          [isLoading]="loading$ | ngrxPush"
+          [errorMessage]="errorMessage$ | ngrxPush"
           (selectionChange)="selectCalculation($event)"
         ></cdba-calculations-table>
       </div>

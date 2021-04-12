@@ -1,14 +1,14 @@
 <div *transloco="let t; read: 'search.referenceTypesFilters'">
   <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
     <ng-container
-      *ngFor="let filter of filters$ | async; trackBy: trackByFn"
+      *ngFor="let filter of filters$ | ngrxPush; trackBy: trackByFn"
       [ngSwitch]="filter.type"
     >
       <cdba-multi-select-filter
         fxFlex="233px"
         *ngSwitchCase="filterType.ID_VALUE"
         [filter]="filter"
-        [autocompleteLoading]="autocompleteLoading$ | async"
+        [autocompleteLoading]="autocompleteLoading$ | ngrxPush"
         (autocomplete)="autocomplete($event)"
         (updateFilter)="updateFilter($event)"
       ></cdba-multi-select-filter>
@@ -29,7 +29,7 @@
     <button
       fxFlex="nogrow"
       mat-stroked-button
-      [disabled]="(showResetButton$ | async) === false"
+      [disabled]="!(showResetButton$ | ngrxPush)"
       (click)="resetFilters()"
     >
       {{ t('resetFilter') }}

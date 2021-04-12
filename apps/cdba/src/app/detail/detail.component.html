@@ -1,9 +1,12 @@
-<cdba-tabs-header [tabs]="tabs" *transloco="let t; read: 'detail'">
-  <h1 *ngIf="referenceType$ | async">
-    {{ (referenceType$ | async)?.materialDesignation }} |
-    {{ (referenceType$ | async)?.materialNumber | materialNumber }}
-  </h1>
-  <h1 *ngIf="(referenceType$ | async) === undefined">
-    {{ t('errorTitle') }}
+<cdba-tabs-header [tabs]="tabs">
+  <h1 *ngIf="referenceType$ | ngrxPush as referenceType; else error">
+    {{ referenceType?.materialDesignation }} |
+    {{ referenceType?.materialNumber | materialNumber }}
   </h1>
 </cdba-tabs-header>
+
+<ng-template #error>
+  <h1 *transloco="let t; read: 'detail'">
+    {{ t('errorTitle') }}
+  </h1>
+</ng-template>

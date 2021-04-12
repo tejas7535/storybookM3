@@ -30,7 +30,6 @@ const azureConfig = new AzureConfig(
     SharedAuthModule.forRoot(azureConfig),
     SharedModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
