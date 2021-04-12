@@ -51,7 +51,6 @@
 }
 
 .spinner-wrapper-results {
-  @apply spinner-wrapper;
   background: transparent;
 }
 
@@ -70,13 +69,11 @@
 }
 
 .divider-horizontal {
-  @apply divider;
   border-top-style: solid;
   border-top-width: 1px;
 }
 
 .divider-vertical {
-  @apply divider;
   border-left-style: solid;
   border-left-width: 1px;
 }
