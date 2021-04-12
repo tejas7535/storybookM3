@@ -31,7 +31,7 @@ export const appRoutePaths: Routes = [
 @NgModule({
   imports: [
     RouterModule.forRoot(appRoutePaths, {
-      useHash: true,
+      useHash: false,
     }),
   ],
   exports: [RouterModule],
