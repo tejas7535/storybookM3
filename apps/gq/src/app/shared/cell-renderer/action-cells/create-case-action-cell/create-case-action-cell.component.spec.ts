@@ -3,21 +3,18 @@ import { MatIconModule } from '@angular/material/icon';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import {
-  deleteAddMaterialRowDataItem,
-  deleteRowDataItem,
-} from '../../../core/store/actions';
-import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
-import { ActionCellComponent } from './action-cell.component';
+import { deleteRowDataItem } from '../../../../core/store/actions';
+import { dummyRowData } from '../../../../core/store/reducers/create-case/config/dummy-row-data';
+import { CreateCaseActionCellComponent } from './create-case-action-cell.component';
 
 describe('ActionCellComponent', () => {
-  let component: ActionCellComponent;
-  let spectator: Spectator<ActionCellComponent>;
+  let component: CreateCaseActionCellComponent;
+  let spectator: Spectator<CreateCaseActionCellComponent>;
   let mockStore: MockStore;
 
   const createComponent = createComponentFactory({
-    component: ActionCellComponent,
-    declarations: [ActionCellComponent],
+    component: CreateCaseActionCellComponent,
+    declarations: [CreateCaseActionCellComponent],
     imports: [MatIconModule],
     providers: [provideMockStore({})],
   });
@@ -46,7 +43,7 @@ describe('ActionCellComponent', () => {
   });
 
   describe('deleteItem', () => {
-    test('should dispatch "[Create Case] Delete Item from Customer Table" action', () => {
+    test('should dispatch deleteRowData action', () => {
       mockStore.dispatch = jest.fn();
 
       component.params = {
@@ -57,30 +54,12 @@ describe('ActionCellComponent', () => {
         colDef: {
           cellRendererParams: 'createCase',
         },
-      };
+      } as any;
 
       component.deleteItem();
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
         deleteRowDataItem({ materialNumber: '1234', quantity: 10 })
-      );
-    });
-
-    test('should dispatch "[Process Case] Delete Item from Material Table" action', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.params = {
-        data: {
-          materialNumber: '1234',
-          quantity: 10,
-        },
-        colDef: {},
-      };
-
-      component.deleteItem();
-
-      expect(mockStore.dispatch).toHaveBeenCalledWith(
-        deleteAddMaterialRowDataItem({ materialNumber: '1234', quantity: 10 })
       );
     });
   });

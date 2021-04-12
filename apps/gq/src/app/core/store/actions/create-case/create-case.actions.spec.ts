@@ -12,7 +12,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  clearRowData,
+  clearCreateCaseRowData,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -127,7 +127,7 @@ describe('Create Actions', () => {
     });
 
     test('clearRowData', () => {
-      const action = clearRowData();
+      const action = clearCreateCaseRowData();
 
       expect(action).toEqual({
         type: '[Create Case] Clear RowData',

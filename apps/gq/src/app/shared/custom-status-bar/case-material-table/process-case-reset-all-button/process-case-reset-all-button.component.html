@@ -1,0 +1,7 @@
+<div *transloco="let t; read: 'shared.customStatusBar.resetAllButton'">
+  <button mat-stroked-button color="primary" (click)="resetAll()">
+    <mat-icon fontSet="schaeffler-icons" fontIcon="icon-trash"></mat-icon>
+
+    {{ t('resetAll') | uppercase }}
+  </button>
+</div>

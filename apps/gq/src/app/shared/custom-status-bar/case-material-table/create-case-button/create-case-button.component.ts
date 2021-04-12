@@ -4,8 +4,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { createCase, getCustomerConditionsValid } from '../../../core/store';
-import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
+import { createCase, getCustomerConditionsValid } from '../../../../core/store';
+import { CaseState } from '../../../../core/store/reducers/create-case/create-case.reducer';
 
 @Component({
   selector: 'gq-create-case-button',

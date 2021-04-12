@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 
+import { CellClassParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { ValidationDescription } from '../../../core/store/models';
@@ -15,7 +16,7 @@ export class InfoCellComponent {
   public isDummy: boolean;
   public toolTipText: string;
 
-  agInit(params: any): void {
+  agInit(params: CellClassParams): void {
     this.valid = params.value.valid;
     this.isDummy = isDummyData(params.data);
     this.toolTipText = this.setToolTipText(params.data.info.description);

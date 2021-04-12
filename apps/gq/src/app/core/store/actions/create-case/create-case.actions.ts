@@ -43,7 +43,9 @@ export const pasteRowDataItems = createAction(
   props<{ items: MaterialTableItem[]; pasteDestination: MaterialTableItem }>()
 );
 
-export const clearRowData = createAction('[Create Case] Clear RowData');
+export const clearCreateCaseRowData = createAction(
+  '[Create Case] Clear RowData'
+);
 
 export const deleteRowDataItem = createAction(
   '[Create Case] Delete Item from Customer Table',
@@ -105,7 +107,7 @@ const all = union({
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  clearRowData,
+  clearCreateCaseRowData,
   createCase,
   createCaseFailure,
   createCaseSuccess,

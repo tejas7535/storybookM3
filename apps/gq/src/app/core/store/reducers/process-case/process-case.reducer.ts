@@ -7,6 +7,7 @@ import {
   addMaterialsFailure,
   addMaterialsSuccess,
   addToRemoveMaterials,
+  clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -184,6 +185,13 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
+  on(clearProcessCaseRowData, (state: ProcessCaseState) => ({
+    ...state,
+    addMaterials: {
+      ...state.addMaterials,
+      addMaterialRowData: [dummyRowData],
+    },
+  })),
   on(addMaterials, (state: ProcessCaseState) => ({
     ...state,
     quotation: {

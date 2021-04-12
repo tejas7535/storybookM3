@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 
+import { CellClassParams } from '@ag-grid-community/core';
+
 @Component({
   selector: 'gq-gq-rating',
   templateUrl: './gq-rating.component.html',
@@ -8,7 +10,7 @@ import { Component } from '@angular/core';
 export class GqRatingComponent {
   rating: number;
 
-  agInit(params: any): void {
+  agInit(params: CellClassParams): void {
     this.rating = params.value;
   }
   public trackByFn(index: number): number {

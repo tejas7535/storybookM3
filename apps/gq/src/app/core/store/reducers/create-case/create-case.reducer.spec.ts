@@ -7,7 +7,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  clearRowData,
+  clearCreateCaseRowData,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -302,7 +302,7 @@ describe('Create Case Reducer', () => {
           rowData: fakeData,
         };
 
-        const action = clearRowData();
+        const action = clearCreateCaseRowData();
 
         const state = createCaseReducer(fakeState, action);
 

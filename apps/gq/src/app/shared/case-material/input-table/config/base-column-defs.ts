@@ -3,7 +3,7 @@ import { translate } from '@ngneat/transloco';
 
 import { ColumnUtilityService } from '../../../services/column-utility-service/column-utility.service';
 
-export const COLUMN_DEFS: ColDef[] = [
+export const BASE_COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.caseMaterial.table.materialNumber'),
     field: 'materialNumber',
@@ -24,10 +24,5 @@ export const COLUMN_DEFS: ColDef[] = [
     flex: 0.1,
     sortable: true,
     comparator: ColumnUtilityService.infoComparator,
-  },
-  {
-    cellRenderer: 'actionCellComponent',
-    cellRendererParams: 'createCase',
-    flex: 0.1,
   },
 ];

@@ -8,7 +8,7 @@ import {
   autocomplete,
   autocompleteFailure,
   autocompleteSuccess,
-  clearRowData,
+  clearCreateCaseRowData,
   createCase,
   createCaseFailure,
   createCaseSuccess,
@@ -178,7 +178,7 @@ export const createCaseReducer = createReducer(
     ]),
     validationLoading: true,
   })),
-  on(clearRowData, (state: CaseState) => ({
+  on(clearCreateCaseRowData, (state: CaseState) => ({
     ...state,
     rowData: [dummyRowData],
   })),

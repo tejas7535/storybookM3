@@ -10,6 +10,7 @@ import {
   addMaterialsFailure,
   addMaterialsSuccess,
   addToRemoveMaterials,
+  clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -513,7 +514,15 @@ describe('Quotation Reducer', () => {
       });
     });
   });
+  describe('clearRowData', () => {
+    test('should clearRowData', () => {
+      const action = clearProcessCaseRowData();
 
+      const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+
+      expect(state.addMaterials.addMaterialRowData).toEqual([dummyRowData]);
+    });
+  });
   describe('setSelectedQuotationDetail', () => {
     test('should set selectedQuotationDetail', () => {
       const gqPositionId = '1234';

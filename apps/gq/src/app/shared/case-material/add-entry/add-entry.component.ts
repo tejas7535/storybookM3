@@ -105,7 +105,7 @@ export class AddEntryComponent implements OnInit, OnDestroy {
       !value || (value && value.length > 0 && parseInt(value, 10) > 0);
     // input field should stay green when empty
     this.quantityValid = value && valid;
-    this.quantity = value;
+    this.quantity = parseInt(value, 10);
     this.rowInputValid();
 
     return !valid ? { invalidInput: !valid } : undefined;
