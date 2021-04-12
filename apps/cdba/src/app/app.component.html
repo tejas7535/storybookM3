@@ -1,11 +1,11 @@
 <schaeffler-header
-  *ngIf="isLoggedIn$ | async; else loading"
+  *ngIf="isLoggedIn$ | ngrxPush; else loading"
   [platformTitle]="title"
   class="full-height"
 >
   <schaeffler-user-menu
     user-menu
-    [user]="username$ | async"
+    [user]="username$ | ngrxPush"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
   <div class="site-content">

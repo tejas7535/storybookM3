@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +15,6 @@ import { BomLegendModule } from './bom-legend/bom-legend.module';
 @NgModule({
   declarations: [AdditionalInformationComponent],
   imports: [
-    CommonModule,
     SharedModule,
     SharedTranslocoModule,
     MatTabsModule,

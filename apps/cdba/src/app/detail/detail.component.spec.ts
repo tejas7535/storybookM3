@@ -25,7 +25,6 @@ describe('DetailComponent', () => {
       MaterialNumberModule,
       TabsHeaderModule,
     ],
-    declarations: [DetailComponent],
     providers: [
       provideMockStore({
         initialState: {

@@ -19,16 +19,16 @@
       <div class="table-container">
         <cdba-calculations-table
           minified="true"
-          [rowData]="calculations$ | async"
-          [selectedNodeId]="selectedCalculationNodeId$ | async"
-          [isLoading]="calculationsLoading$ | async"
-          [errorMessage]="calculationsErrorMessage$ | async"
+          [rowData]="calculations$ | ngrxPush"
+          [selectedNodeId]="selectedCalculationNodeId$ | ngrxPush"
+          [isLoading]="calculationsLoading$ | ngrxPush"
+          [errorMessage]="calculationsErrorMessage$ | ngrxPush"
           (selectionChange)="selectCalculation($event)"
         ></cdba-calculations-table>
       </div>
     </mat-tab>
     <mat-tab label="{{ t('chart') }}">
-      <ng-container *ngIf="childrenOfSelectedBomItem$ | async as children">
+      <ng-container *ngIf="childrenOfSelectedBomItem$ | ngrxPush as children">
         <cdba-bom-chart [data]="children"></cdba-bom-chart>
         <cdba-bom-legend
           *ngIf="children.length > 0"
@@ -37,7 +37,7 @@
          </ng-container
       >
       <cdba-loading-spinner
-        *ngIf="bomLoading$ | async"
+        *ngIf="bomLoading$ | ngrxPush"
         show="true"
       ></cdba-loading-spinner>
     </mat-tab>
