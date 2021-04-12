@@ -80,7 +80,7 @@ describe('InputbarComponent', () => {
       component.quantityFormControl.setValue(testValue);
 
       expect(component.quantityValid).toBeTruthy();
-      expect(component.quantity).toEqual(testValue);
+      expect(component.quantity).toEqual(10);
       expect(component.rowInputValid).toHaveBeenCalled();
     });
   });
@@ -153,7 +153,7 @@ describe('InputbarComponent', () => {
       const response = component.quantityValidator(control);
 
       expect(component.quantityValid).toBeTruthy();
-      expect(component.quantity).toEqual(control.value);
+      expect(component.quantity).toEqual(10);
       expect(component.quantityValid).toBeTruthy();
       expect(component.rowInputValid).toHaveBeenCalledTimes(1);
       expect(response).toBeUndefined();

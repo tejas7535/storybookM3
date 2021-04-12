@@ -56,6 +56,10 @@ export const updateQuotationDetailsFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const clearProcessCaseRowData = createAction(
+  '[Process Case] Clear RowData'
+);
+
 export const addMaterials = createAction(
   '[Process Case] Add material to Quotation'
 );
@@ -143,6 +147,7 @@ export const uploadOfferToSapSuccess = createAction(
 );
 
 const all = union({
+  clearProcessCaseRowData,
   addMaterials,
   deleteAddMaterialRowDataItem,
   loadCustomer,

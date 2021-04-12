@@ -9,9 +9,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { AddMaterialButtonComponent } from './add-material-button/add-material-button.component';
 import { AddToOfferButtonComponent } from './add-to-offer-button/add-to-offer-button.component';
-import { CreateCaseButtonComponent } from './create-case-button/create-case-button.component';
+import { AddMaterialButtonComponent } from './case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from './case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from './case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
@@ -21,7 +23,6 @@ import { MaterialValidationStatusComponent } from './material-validation-status/
 import { OpenCaseButtonComponent } from './open-case-button/open-case-button.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
 import { RemoveFromOfferButtonComponent } from './remove-from-offer-button/remove-from-offer-button.component';
-import { ResetAllButtonComponent } from './reset-all-button/reset-all-button.component';
 import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap-button.component';
 
 @NgModule({
@@ -34,12 +35,13 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     ExportToExcelButtonComponent,
     FinishOfferButtonComponent,
     OpenCaseButtonComponent,
-    ResetAllButtonComponent,
     RemoveFromOfferButtonComponent,
     QuotationDetailsStatusComponent,
     UploadToSapButtonComponent,
     FlatButtonsComponent,
     MaterialValidationStatusComponent,
+    CreateCaseResetAllButtonComponent,
+    ProcessCaseResetAllButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -60,11 +62,12 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     FinishOfferButtonComponent,
     OpenCaseButtonComponent,
     RemoveFromOfferButtonComponent,
-    ResetAllButtonComponent,
     QuotationDetailsStatusComponent,
     UploadToSapButtonComponent,
     FlatButtonsComponent,
     MaterialValidationStatusComponent,
+    CreateCaseResetAllButtonComponent,
+    ProcessCaseResetAllButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

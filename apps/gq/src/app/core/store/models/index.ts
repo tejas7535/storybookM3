@@ -22,6 +22,7 @@ export * from './quotation.model';
 export * from './role-group.model';
 export * from './sales-orgs.model';
 export * from './sector-management.model';
+export * from './status-bar-config.model';
 export * from './sub-key-account.model';
 export * from './sub-sector.model';
 export * from './price-source.enum';

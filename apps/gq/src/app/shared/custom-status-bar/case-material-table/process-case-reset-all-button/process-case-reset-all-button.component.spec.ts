@@ -11,17 +11,17 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { clearRowData } from '../../../core/store';
-import { ResetAllButtonComponent } from './reset-all-button.component';
+import { clearProcessCaseRowData } from '../../../../core/store';
+import { ProcessCaseResetAllButtonComponent } from './process-case-reset-all-button.component';
 
 describe('ResetAllButtonComponent', () => {
-  let component: ResetAllButtonComponent;
-  let spectator: Spectator<ResetAllButtonComponent>;
+  let component: ProcessCaseResetAllButtonComponent;
+  let spectator: Spectator<ProcessCaseResetAllButtonComponent>;
   let mockStore: MockStore;
 
   const createComponent = createComponentFactory({
-    component: ResetAllButtonComponent,
-    declarations: [ResetAllButtonComponent],
+    component: ProcessCaseResetAllButtonComponent,
+    declarations: [ProcessCaseResetAllButtonComponent],
     imports: [
       CommonModule,
       SharedTranslocoModule,
@@ -46,7 +46,9 @@ describe('ResetAllButtonComponent', () => {
     test('should dispatch action', () => {
       mockStore.dispatch = jest.fn();
       component.resetAll();
-      expect(mockStore.dispatch).toHaveBeenCalledWith(clearRowData());
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        clearProcessCaseRowData()
+      );
     });
   });
 });

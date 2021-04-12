@@ -6,6 +6,7 @@ import {
 import {
   addMaterials,
   CaseActions,
+  clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
   loadCustomerFailure,
@@ -89,6 +90,14 @@ describe('CaseActions', () => {
       expect(action).toEqual({
         errorMessage,
         type: '[Process Case] Get Quotation Details Failure',
+      });
+    });
+
+    test('clearRowData', () => {
+      action = clearProcessCaseRowData();
+
+      expect(action).toEqual({
+        type: '[Process Case] Clear RowData',
       });
     });
 

@@ -15,11 +15,12 @@ import {
   ValidationDescription,
 } from '../../../core/store/models';
 import { CellRendererModule } from '../../cell-renderer/cell-renderer.module';
-import { AddMaterialButtonComponent } from '../../custom-status-bar/add-material-button/add-material-button.component';
-import { CreateCaseButtonComponent } from '../../custom-status-bar/create-case-button/create-case-button.component';
+import { AddMaterialButtonComponent } from '../../custom-status-bar/case-material-table/add-material-button/add-material-button.component';
+import { CreateCaseButtonComponent } from '../../custom-status-bar/case-material-table/create-case-button/create-case-button.component';
+import { CreateCaseResetAllButtonComponent } from '../../custom-status-bar/case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
+import { ProcessCaseResetAllButtonComponent } from '../../custom-status-bar/case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
 import { CustomStatusBarModule } from '../../custom-status-bar/custom-status-bar.module';
 import { MaterialValidationStatusComponent } from '../../custom-status-bar/material-validation-status/material-validation-status.component';
-import { ResetAllButtonComponent } from '../../custom-status-bar/reset-all-button/reset-all-button.component';
 import { InputTableComponent } from './input-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -38,9 +39,10 @@ describe('InputTableComponent', () => {
     component: InputTableComponent,
     imports: [
       AgGridModule.withComponents([
-        AddMaterialButtonComponent,
         CreateCaseButtonComponent,
-        ResetAllButtonComponent,
+        AddMaterialButtonComponent,
+        ProcessCaseResetAllButtonComponent,
+        CreateCaseResetAllButtonComponent,
         MaterialValidationStatusComponent,
       ]),
       CellRendererModule,

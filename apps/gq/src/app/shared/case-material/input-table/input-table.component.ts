@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
+import { ColDef } from '@ag-grid-community/core';
 import { Store } from '@ngrx/store';
 
 import {
@@ -8,15 +9,17 @@ import {
 } from '../../../core/store';
 import {
   MaterialTableItem,
+  StatusBarConfig,
   ValidationDescription,
 } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
+import { HelperService } from '../../services/helper-service/helper-service.service';
 import {
-  COLUMN_DEFS,
+  BASE_COLUMN_DEFS,
+  BASE_STATUS_BAR_CONFIG,
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,
   MODULES,
-  STATUS_BAR_CONFIG,
 } from './config';
 
 @Component({
@@ -27,8 +30,8 @@ import {
 export class InputTableComponent implements OnInit {
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
-  public columnDefs = COLUMN_DEFS;
-  public statusBar = STATUS_BAR_CONFIG;
+  public columnDefs: ColDef[];
+  public statusBar: StatusBarConfig;
   public frameworkComponents = FRAMEWORK_COMPONENTS;
 
   private currentCell: MaterialTableItem;
@@ -38,12 +41,14 @@ export class InputTableComponent implements OnInit {
   constructor(private readonly store: Store<CaseState>) {}
 
   ngOnInit(): void {
-    this.statusBar.statusPanels[0] = {
-      statusPanel: this.isCaseView
-        ? 'createCaseButtonComponent'
-        : 'addMaterialButtonComponent',
-      align: 'left',
-    };
+    this.columnDefs = HelperService.initColDef(
+      this.isCaseView,
+      BASE_COLUMN_DEFS
+    );
+    this.statusBar = HelperService.initStatusBar(
+      this.isCaseView,
+      BASE_STATUS_BAR_CONFIG
+    );
   }
 
   async onPasteStart(): Promise<void> {
