@@ -21,6 +21,7 @@ export const COLUMN_DEFS: ColDef[] = [
   {
     headerName: translate('shared.quotationDetailsTable.item'),
     field: 'sapQuotationItemId',
+    sort: 'asc',
   },
   {
     headerName: translate('shared.quotationDetailsTable.materialNumber'),

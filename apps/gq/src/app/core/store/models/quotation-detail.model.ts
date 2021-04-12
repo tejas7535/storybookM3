@@ -11,7 +11,7 @@ export class QuotationDetail {
   public gqLastUpdatedByUser: string;
   public addedToOffer: boolean;
   public gqPositionId: string;
-  public sapQuotationItemId: string;
+  public sapQuotationItemId: number;
   public material: MaterialDetails;
   public orderQuantity: number;
   public plant: Plant;

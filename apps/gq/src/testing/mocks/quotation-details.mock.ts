@@ -11,7 +11,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   gqLastUpdatedByUser: 'userid2',
   addedToOffer: false,
   gqPositionId: '5694232',
-  sapQuotationItemId: '1234',
+  sapQuotationItemId: 1234,
   material: ({
     materialNumber15: '016718798-0030',
     materialDescription: '6052-M-C3',

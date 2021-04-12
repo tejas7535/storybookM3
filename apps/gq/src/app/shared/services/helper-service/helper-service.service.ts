@@ -29,6 +29,6 @@ export class HelperService {
     return HelperService.transformNumberCurrency(transformedNumber, currency);
   }
   static transformPercentage(percentage: number): string {
-    return `${percentage || '-'} %`;
+    return percentage ? `${percentage} %` : '-';
   }
 }
