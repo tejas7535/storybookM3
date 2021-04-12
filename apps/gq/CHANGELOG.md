@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.14.0](///compare/gq-v1.14.0...gq-v1.13.0) (2021-04-12)
+
+
+### 🎸 Features
+
+* **gq:** show customer marginDetails (GQUOTE-375) ([bbb4e7a](///commit/bbb4e7ac2cbd43f0ed255bb79c7bf0f419cb1216))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** changed price source fixed to strategic (GQUOTE-583) ([978b2b4](///commit/978b2b43c2ebf812cdd3793effb7bfa6d1987559))
+* **gq:** fixed auth routing issues ([be5241a](///commit/be5241a4a98d13bc7413c4dc58054f18535b857a))
+* **gq:** fixed create case bug ([9dfd948](///commit/9dfd9489f2e1080219ab2c58293ddd528ef1e4a5))
+* **gq:** fixed error on adding new positions (GQUOTE-584) ([3bc3194](///commit/3bc31949fc505dea257ca8b4ab5a2cd122945fce))
+* **gq:** fixed margin formatting bug (GQUOTE-587) ([917d063](///commit/917d063a4e4a244d0a173b699c057509902039f1))
+* **gq:** sort sapQuotationItem ascending (GQUOTE-585) ([d4ad248](///commit/d4ad2483994483642f94cb19138d3e6bd090debd))
+
 ## [1.13.0](///compare/gq-v1.13.0...gq-v1.12.2) (2021-04-01)
 
 
