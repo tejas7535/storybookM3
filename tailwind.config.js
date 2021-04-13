@@ -71,6 +71,7 @@ module.exports = {
     enabled: process.env.PURGE_TAILWIND === 'true',
     content: ['./apps/**/*.{html,ts}', './libs/**/*.{html,ts,}'],
   },
+  mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
     colors: {

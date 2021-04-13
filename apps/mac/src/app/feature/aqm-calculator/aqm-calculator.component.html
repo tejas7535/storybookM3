@@ -37,11 +37,11 @@
             class="full-width aqm-divider-container"
           >
             <div fxFlex>
-              <div class="divider-horizontal"></div>
+              <div class="divider divider-horizontal"></div>
             </div>
             <p>OR</p>
             <div fxFlex>
-              <div class="divider-horizontal"></div>
+              <div class="divider divider-horizontal"></div>
             </div>
           </div>
           <!-- input composition -->
@@ -96,7 +96,7 @@
             class="full-width"
           >
             <div
-              class="spinner-wrapper-results"
+              class="spinner-wrapper spinner-wrapper-results"
               [ngClass]="{ hidden: (aqmCalculationResult | async)?.aqm }"
             >
               <mat-spinner></mat-spinner>
@@ -142,7 +142,7 @@
               fxHide.lt-md
               class="aqm-divider-container-vertical"
             >
-              <div class="divider-vertical" fxFlex></div>
+              <div class="divider divider-vertical" fxFlex></div>
             </div>
             <!-- results limits -->
             <div fxLayout="column" class="aqm-limits">
