@@ -2,8 +2,8 @@ import { MatCardModule } from '@angular/material/card';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
@@ -13,6 +13,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabComponent } from './detail-tab.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
+import { DrawingsModule } from './drawings/drawings.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ProductionModule } from './production/production.module';
 import { QuantitiesModule } from './quantities/quantities.module';
@@ -34,7 +35,7 @@ describe('DetailTabComponent', () => {
       ProductionModule,
       QuantitiesModule,
       SalesAndDescriptionModule,
-      UnderConstructionModule,
+      MockModule(DrawingsModule),
       LoadingSpinnerModule,
     ],
     providers: [

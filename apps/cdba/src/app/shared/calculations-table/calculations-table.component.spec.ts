@@ -3,15 +3,19 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnEvent,
   GridApi,
   GridReadyEvent,
   IStatusPanelParams,
   RowSelectedEvent,
-} from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+} from '@ag-grid-enterprise/all-modules';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 
 import {
   provideTranslocoTestingModule,
@@ -50,18 +54,7 @@ describe('CalculationsTableComponent', () => {
       CustomStatusBarModule,
       CustomOverlayModule,
     ],
-    declarations: [CalculationsTableComponent],
-    providers: [
-      ColumnDefinitionService,
-
-      {
-        provide: AgGridStateService,
-        useValue: {
-          getColumnState: jest.fn(),
-          setColumnState: jest.fn(),
-        },
-      },
-    ],
+    providers: [ColumnDefinitionService, mockProvider(AgGridStateService)],
   });
 
   beforeEach(() => {

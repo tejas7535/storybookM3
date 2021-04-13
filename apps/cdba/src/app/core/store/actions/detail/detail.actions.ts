@@ -5,7 +5,7 @@ import {
   ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
-import { Calculation } from '../../reducers/shared/models/calculation.model';
+import { Calculation, Drawing } from '../../reducers/shared/models';
 
 export const selectReferenceType = createAction(
   '[Detail] Select Reference Type',
@@ -58,10 +58,12 @@ export const selectCalculation = createAction(
   props<{ nodeId: string; calculation: Calculation }>()
 );
 
-export const loadDrawings = createAction(
-  '[Detail] Load Drawings',
-  props<{ referenceTypeId: any }>()
+export const selectDrawing = createAction(
+  '[Detail] Select Drawing',
+  props<{ nodeId: string; drawing: Drawing }>()
 );
+
+export const loadDrawings = createAction('[Detail] Load Drawings');
 
 export const loadDrawingsSuccess = createAction(
   '[Detail] Load Drawings Success',
@@ -94,6 +96,7 @@ const all = union({
   loadBomSuccess,
   loadBomFailure,
   selectBomItem,
+  selectDrawing,
   loadDrawings,
   loadDrawingsSuccess,
   loadDrawingsFailure,

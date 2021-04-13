@@ -9,14 +9,11 @@
   width: 100%;
 }
 
+h6 {
+  margin: 0;
+}
 mat-card {
   .widget-content {
-    margin: 16px;
-
-    h6 {
-      margin: 0;
-    }
-
     .widget-group {
       border-bottom: 1px solid $schaeffler-gray-4;
       padding-bottom: 16px;
@@ -30,14 +27,5 @@ mat-card {
         border: none;
       }
     }
-  }
-}
-
-.under-construction-container {
-  height: 100%;
-
-  .widget-group {
-    height: 100%;
-    margin-top: -30px;
   }
 }

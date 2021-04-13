@@ -1,7 +1,11 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -13,6 +17,7 @@ import { SnackBarService } from '@schaeffler/snackbar';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
+  DRAWINGS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '../../../../../testing/mocks';
@@ -24,6 +29,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadDrawings,
+  loadDrawingsFailure,
+  loadDrawingsSuccess,
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
@@ -59,20 +67,8 @@ describe('Detail Effects', () => {
     providers: [
       provideMockActions(() => actions$),
       provideMockStore(),
-      {
-        provide: DetailService,
-        useValue: {
-          getDetails: jest.fn(),
-          calculations: jest.fn(),
-          getBom: jest.fn(),
-        },
-      },
-      {
-        provide: SnackBarService,
-        useValue: {
-          showInfoMessage: jest.fn(),
-        },
-      },
+      mockProvider(DetailService),
+      mockProvider(SnackBarService),
     ],
   });
 
@@ -191,6 +187,48 @@ describe('Detail Effects', () => {
     });
   });
 
+  describe('loadDrawings$', () => {
+    beforeEach(() => {
+      action = loadDrawings();
+
+      store.overrideSelector(
+        getSelectedReferenceTypeIdentifier,
+        REFERENCE_TYPE_IDENTIFIER_MOCK
+      );
+    });
+
+    test('should return Success Action', () => {
+      actions$ = hot('-a', { a: action });
+
+      const items = DRAWINGS_MOCK;
+
+      const response = cold('-a|', {
+        a: items,
+      });
+      detailService.getDrawings = jest.fn(() => response);
+
+      const result = loadDrawingsSuccess({ items });
+      const expected = cold('--b', { b: result });
+
+      expect(effects.loadDrawings$).toBeObservable(expected);
+      expect(detailService.getDrawings).toHaveBeenCalledTimes(1);
+    });
+
+    test('should return Failure Action', () => {
+      actions$ = hot('-a', { a: action });
+
+      const result = loadDrawingsFailure({ errorMessage });
+
+      const response = cold('-#|', undefined, errorMessage);
+      const expected = cold('--b', { b: result });
+
+      detailService.getDrawings = jest.fn(() => response);
+
+      expect(effects.loadDrawings$).toBeObservable(expected);
+      expect(detailService.getDrawings).toHaveBeenCalledTimes(1);
+    });
+  });
+
   describe('loadBom$', () => {
     beforeEach(() => {
       action = loadBom();
@@ -273,16 +311,17 @@ describe('Detail Effects', () => {
   });
 
   describe('triggerDataLoad$', () => {
-    test('should return loadRefType and loadCalculations Action', () => {
+    test('should return loadRefType, loadCalculations and loadDrawings Action', () => {
       action = selectReferenceType({
         referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
       });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(bc)', {
+      const expected = cold('-(bcd)', {
         b: loadReferenceType(),
         c: loadCalculations(),
+        d: loadDrawings(),
       });
 
       expect(effects.triggerDataLoad$).toBeObservable(expected);

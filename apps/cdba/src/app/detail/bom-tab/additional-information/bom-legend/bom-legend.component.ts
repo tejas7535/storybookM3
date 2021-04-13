@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import {
   ClientSideRowModelModule,
   ColDef,
-} from '@ag-grid-community/all-modules';
+} from '@ag-grid-enterprise/all-modules';
 
 import { BomItem } from '../../../../core/store/reducers/detail/models';
 import { formatNumber } from '../../../../shared/table';

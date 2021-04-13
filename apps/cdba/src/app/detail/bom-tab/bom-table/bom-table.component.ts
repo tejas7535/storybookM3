@@ -15,9 +15,9 @@ import {
   GridApi,
   IStatusPanelParams,
   RowClickedEvent,
+  RowGroupingModule,
   RowNode,
-} from '@ag-grid-community/all-modules';
-import { RowGroupingModule } from '@ag-grid-enterprise/all-modules';
+} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../../core/store/reducers/detail/models';

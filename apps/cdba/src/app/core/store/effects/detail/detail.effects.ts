@@ -27,6 +27,9 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadDrawings,
+  loadDrawingsFailure,
+  loadDrawingsSuccess,
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
@@ -40,7 +43,7 @@ import {
   ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../reducers/detail/models';
-import { Calculation } from '../../reducers/shared/models/calculation.model';
+import { Calculation, Drawing } from '../../reducers/shared/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -97,6 +100,28 @@ export class DetailEffects {
     )
   );
 
+  loadDrawings$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadDrawings),
+      withLatestFrom(
+        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
+      ),
+      map(([_action, refTypeIdentifier]) => refTypeIdentifier),
+      map(
+        (refTypeIdentifier: ReferenceTypeIdentifier) =>
+          refTypeIdentifier.materialNumber
+      ),
+      mergeMap((materialNumber: string) =>
+        this.detailService.getDrawings(materialNumber).pipe(
+          map((items: Drawing[]) => loadDrawingsSuccess({ items })),
+          catchError((errorMessage) =>
+            of(loadDrawingsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
   triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationsSuccess),
@@ -124,7 +149,7 @@ export class DetailEffects {
     this.actions$.pipe(
       ofType(selectReferenceType),
       mergeMap(() => {
-        return [loadReferenceType(), loadCalculations()];
+        return [loadReferenceType(), loadCalculations(), loadDrawings()];
       })
     )
   );

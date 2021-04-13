@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { ReferenceType } from '../../../../core/store/reducers/shared/models';

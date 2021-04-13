@@ -43,14 +43,20 @@
     gdColumn.xs="auto / span 3"
     gdRow.xs="auto / span 14"
   >
-    <div class="widget-content under-construction-container">
-      <h6>Drawing</h6>
+    <div>
+      <h6 class="m-b-10" *transloco="let t; read: 'detail.drawings'">
+        {{
+          t('title', {
+            material: (salesDetails$ | ngrxPush)?.materialDesignation
+          })
+        }}
+      </h6>
       <div
         class="widget-group"
         fxLayout="row"
         fxLayoutAlign="space-around center"
       >
-        <schaeffler-under-construction></schaeffler-under-construction>
+        <cdba-drawings></cdba-drawings>
       </div>
     </div>
   </mat-card>

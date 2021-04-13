@@ -5,6 +5,7 @@ import {
 
 import { BOM_MOCK } from './bom.mock';
 import { CALCULATIONS_MOCK } from './calculations-type.mock';
+import { DRAWINGS_MOCK } from './drawings.mock';
 import { REFERENCE_TYPE_IDENTIFIER_MOCK } from './reference-type-identifier.mock';
 import { REFERENCE_TYPE_MOCK } from './reference-type.mock';
 
@@ -30,5 +31,14 @@ export const DETAIL_STATE_MOCK: DetailState = {
     items: BOM_MOCK,
     selectedItem: BOM_MOCK[0],
     errorMessage: 'Error',
+  },
+  drawings: {
+    loading: true,
+    items: DRAWINGS_MOCK,
+    selected: {
+      nodeId: '3',
+      drawing: DRAWINGS_MOCK[2],
+    },
+    errorMessage: '404',
   },
 };

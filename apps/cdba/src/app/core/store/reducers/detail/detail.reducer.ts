@@ -7,14 +7,18 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadDrawings,
+  loadDrawingsFailure,
+  loadDrawingsSuccess,
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
   selectBomItem,
   selectCalculation,
+  selectDrawing,
   selectReferenceType,
 } from '../../actions';
-import { Calculation, ReferenceType } from '../shared/models';
+import { Calculation, Drawing, ReferenceType } from '../shared/models';
 import { BomItem, ReferenceTypeIdentifier } from './models';
 
 export interface DetailState {
@@ -36,6 +40,12 @@ export interface DetailState {
     selectedItem: BomItem;
     errorMessage: string;
   };
+  drawings: {
+    loading: boolean;
+    items: Drawing[];
+    selected: { nodeId: string; drawing: Drawing };
+    errorMessage: string;
+  };
 }
 
 export const initialState: DetailState = {
@@ -55,6 +65,12 @@ export const initialState: DetailState = {
     loading: false,
     items: undefined,
     selectedItem: undefined,
+    errorMessage: undefined,
+  },
+  drawings: {
+    loading: false,
+    items: undefined,
+    selected: undefined,
     errorMessage: undefined,
   },
 };
@@ -131,6 +147,38 @@ export const detailReducer = createReducer(
   on(selectCalculation, (state: DetailState, { nodeId, calculation }) => ({
     ...state,
     calculations: { ...state.calculations, selected: { nodeId, calculation } },
+  })),
+  on(loadDrawings, (state: DetailState) => ({
+    ...state,
+    drawings: {
+      ...initialState.drawings,
+      loading: true,
+    },
+  })),
+  on(loadDrawingsSuccess, (state: DetailState, { items }) => ({
+    ...state,
+    drawings: {
+      ...state.drawings,
+      items,
+      selected: {
+        nodeId: '0',
+        drawing: items[0],
+      },
+      loading: false,
+    },
+  })),
+  on(loadDrawingsFailure, (state: DetailState, { errorMessage }) => ({
+    ...state,
+    drawings: {
+      ...state.drawings,
+      errorMessage,
+      items: [],
+      loading: false,
+    },
+  })),
+  on(selectDrawing, (state: DetailState, { nodeId, drawing }) => ({
+    ...state,
+    drawings: { ...state.drawings, selected: { nodeId, drawing } },
   })),
   on(loadBom, (state: DetailState) => ({
     ...state,

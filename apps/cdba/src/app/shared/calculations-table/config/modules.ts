@@ -1,5 +1,5 @@
-import { ClientSideRowModelModule } from '@ag-grid-community/all-modules';
 import {
+  ClientSideRowModelModule,
   ClipboardModule,
   ColumnsToolPanelModule,
   FiltersToolPanelModule,
