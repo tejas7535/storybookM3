@@ -135,6 +135,18 @@ describe('GreetingService', () => {
     });
   });
 
+  describe('greetDotNetPublic()', () => {
+    test('should call getGreetingFromAPI', () => {
+      const mock = of('test');
+      service['getGreetingFromAPI'] = jest.fn().mockImplementation(() => mock);
+
+      const result = service.greetDotNetPublic();
+
+      expect(service['getGreetingFromAPI']).toHaveBeenCalled();
+      expect(result).toEqual(mock);
+    });
+  });
+
   describe('greetAdmins()', () => {
     test('should call getGreetingFromAPI', () => {
       const mock = of('test');

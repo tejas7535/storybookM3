@@ -1,8 +1,8 @@
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
-
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+
+import { Observable, of } from 'rxjs';
+import { catchError, map } from 'rxjs/operators';
 
 import { environment } from '../environments/environment';
 
@@ -38,6 +38,22 @@ export class GreetingService {
 
   public greetAdmins(): Observable<string> {
     return this.getGreetingFromAPI(`${this.baseUrl}/admin/api/hello`);
+  }
+
+  public greetDotNetPublic(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/dotnet/api/hello`);
+  }
+
+  public greetDotNetAuthorized(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/dotnet/api/hello/auth`);
+  }
+
+  public greetDotNetUsers(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/dotnet/api/hello/user`);
+  }
+
+  public greetDotNetAdmins(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/dotnet/api/hello/admin`);
   }
 
   private getGreetingFromAPI(endpoint: string): Observable<string> {
