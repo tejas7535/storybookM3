@@ -2,7 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';

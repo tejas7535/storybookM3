@@ -1,4 +1,4 @@
-import { Calculation } from '../../app/core/store/reducers/shared/models/calculation.model';
+import { Calculation } from '../../app/core/store/reducers/shared/models';
 
 export const CALCULATIONS_MOCK = [
   new Calculation(

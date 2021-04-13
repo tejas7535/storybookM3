@@ -1,0 +1,24 @@
+<ag-grid-angular
+  class="ag-theme-material"
+  [rowData]="rowData"
+  [defaultColDef]="defaultColDef"
+  [columnDefs]="columnDefs"
+  [modules]="modules"
+  [frameworkComponents]="frameworkComponents"
+  [loadingOverlayComponent]="loadingOverlayComponent"
+  [suppressNoRowsOverlay]="rowData === undefined || isLoading"
+  [noRowsOverlayComponent]="noRowsOverlayComponent"
+  [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+  rowSelection="single"
+  rowHeight="30"
+  domLayout="autoHeight"
+  valueCache
+  animateRows
+  suppressCsvExport
+  suppressExcelExport
+  suppressCellSelection
+  (rowSelected)="onRowSelected($event)"
+  (gridReady)="onGridReady($event)"
+  (firstDataRendered)="onFirstDataRendered($event)"
+>
+</ag-grid-angular>

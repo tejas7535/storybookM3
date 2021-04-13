@@ -11,16 +11,17 @@ import { ENV_CONFIG } from '@schaeffler/http';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
+  DRAWINGS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
   BomIdentifier,
   BomResult,
+  CalculationsResultModel,
   ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../core/store/reducers/detail/models';
-import { CalculationsResultModel } from '../../core/store/reducers/detail/models/calculations-result-model';
 import { DetailService } from './detail.service';
 
 describe('DetailService', () => {
@@ -112,6 +113,22 @@ describe('DetailService', () => {
 
       const req = httpMock.expectOne(
         `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}&cache$=true`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(mock);
+    });
+  });
+
+  describe('getDrawings', () => {
+    test('should get drawings', () => {
+      const mock = DRAWINGS_MOCK;
+
+      service.getDrawings('2345').subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
+
+      const req = httpMock.expectOne(
+        '/products/drawings?material_number=2345&cache$=true'
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

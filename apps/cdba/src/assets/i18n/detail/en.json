@@ -105,5 +105,18 @@
       "workCenter": "Work Center"
     }
   },
+  "drawings": {
+    "title": "Drawing: {{material}}",
+    "notFoundErrorMessage": "Sorry, we couldn't find any drawings for the selected material.",
+    "headers": {
+      "version": "Version",
+      "status": "Status",
+      "part": "Part",
+      "date": "Date",
+      "type": "Type",
+      "documentNumber": "Document Number",
+      "actions": "Actions"
+    }
+  },
   "errorTitle": "??? | ???"
 }

@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
@@ -10,6 +11,7 @@ import { CustomerModule } from './customer/customer.module';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';
 import { DetailTabComponent } from './detail-tab.component';
 import { DimensionAndWeightModule } from './dimension-and-weight/dimension-and-weight.module';
+import { DrawingsModule } from './drawings/drawings.module';
 import { PricingModule } from './pricing/pricing.module';
 import { ProductionModule } from './production/production.module';
 import { QuantitiesModule } from './quantities/quantities.module';
@@ -28,8 +30,9 @@ import { SalesAndDescriptionModule } from './sales-and-description/sales-and-des
     CustomerModule,
     QuantitiesModule,
     ProductionModule,
-    UnderConstructionModule,
+    DrawingsModule,
     LoadingSpinnerModule,
+    ReactiveComponentModule,
   ],
 })
 export class DetailTabModule {}

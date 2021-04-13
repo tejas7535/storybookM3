@@ -2,25 +2,23 @@ import { Component, Input, OnChanges, SimpleChanges } from '@angular/core';
 
 import {
   ClientSideRowModelModule,
+  ClipboardModule,
   ColDef,
   ColumnEvent,
+  ColumnsToolPanelModule,
+  FiltersToolPanelModule,
   GridApi,
   GridReadyEvent,
   IStatusPanelParams,
-  RowSelectedEvent,
-  SideBarDef,
-  StatusPanelDef,
-} from '@ag-grid-community/all-modules';
-import {
-  ClipboardModule,
-  ColumnsToolPanelModule,
-  FiltersToolPanelModule,
   MenuModule,
   RangeSelectionModule,
   RowGroupingModule,
+  RowSelectedEvent,
   SetFilterModule,
+  SideBarDef,
   SideBarModule,
   StatusBarModule,
+  StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 

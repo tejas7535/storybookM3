@@ -2,7 +2,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ICellRendererParams } from '@ag-grid-community/all-modules';
+import { ICellRendererParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 

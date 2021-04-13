@@ -1,4 +1,4 @@
-import { SideBarDef } from '@ag-grid-community/all-modules';
+import { SideBarDef } from '@ag-grid-enterprise/all-modules';
 
 export const SIDE_BAR_CONFIG: SideBarDef = {
   toolPanels: [

@@ -149,10 +149,9 @@ describe('Detail Actions', () => {
 
   describe('Get Drawings Actions', () => {
     test('loadDrawings', () => {
-      action = loadDrawings({ referenceTypeId: referenceTypeIdentifier });
+      action = loadDrawings();
 
       expect(action).toEqual({
-        referenceTypeId: referenceTypeIdentifier,
         type: '[Detail] Load Drawings',
       });
     });

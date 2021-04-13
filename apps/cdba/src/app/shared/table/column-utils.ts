@@ -5,7 +5,7 @@ import {
   MenuItemDef,
   ValueFormatterParams,
   ValueGetterParams,
-} from '@ag-grid-community/all-modules';
+} from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
 import { MaterialNumberPipe } from '../pipes';

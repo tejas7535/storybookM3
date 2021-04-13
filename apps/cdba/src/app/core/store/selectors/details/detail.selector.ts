@@ -1,3 +1,4 @@
+import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { CustomerDetails } from '../../../../detail/detail-tab/customer/model/customer.details.model';
@@ -13,8 +14,11 @@ import {
   BomItem,
   ReferenceTypeIdentifier,
 } from '../../reducers/detail/models';
-import { ReferenceType } from '../../reducers/shared/models';
-import { Calculation } from '../../reducers/shared/models/calculation.model';
+import {
+  Calculation,
+  Drawing,
+  ReferenceType,
+} from '../../reducers/shared/models';
 
 export const getReferenceType = createSelector(
   getDetailState,
@@ -206,4 +210,34 @@ export const getBomIdentifierForSelectedCalculation = createSelector(
 export const getSelectedReferenceTypeIdentifier = createSelector(
   getDetailState,
   (state: DetailState): ReferenceTypeIdentifier => state.selectedReferenceType
+);
+
+export const getDrawings = createSelector(
+  getDetailState,
+  (state: DetailState): Drawing[] => state.drawings.items
+);
+
+export const getDrawingsLoading = createSelector(
+  getDetailState,
+  (state: DetailState) => state.drawings.loading
+);
+
+export const getDrawingsErrorMessage = createSelector(
+  getDetailState,
+  (state: DetailState) => {
+    if (state.drawings.errorMessage) {
+      return state.drawings.errorMessage;
+    }
+
+    if (!state.drawings.loading && state.drawings.items?.length === 0) {
+      return translate('detail.drawings.notFoundErrorMessage');
+    }
+
+    return undefined;
+  }
+);
+
+export const getNodeIdOfSelectedDrawing = createSelector(
+  getDetailState,
+  (state: DetailState) => state.drawings.selected?.nodeId
 );

@@ -2,6 +2,7 @@ import { SimpleChanges } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { AgGridModule } from '@ag-grid-community/angular';
 import {
   ColumnApi,
   ColumnEvent,
@@ -9,8 +10,7 @@ import {
   GridReadyEvent,
   IStatusPanelParams,
   RowSelectedEvent,
-} from '@ag-grid-community/all-modules';
-import { AgGridModule } from '@ag-grid-community/angular';
+} from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {

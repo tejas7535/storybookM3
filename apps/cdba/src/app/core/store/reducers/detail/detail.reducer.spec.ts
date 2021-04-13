@@ -1,6 +1,7 @@
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
+  DRAWINGS_MOCK,
   REFERENCE_TYPE_MOCK,
 } from '../../../../../testing/mocks';
 import {
@@ -10,20 +11,24 @@ import {
   loadCalculations,
   loadCalculationsFailure,
   loadCalculationsSuccess,
+  loadDrawings,
+  loadDrawingsFailure,
+  loadDrawingsSuccess,
   loadReferenceType,
   loadReferenceTypeFailure,
   loadReferenceTypeSuccess,
   selectBomItem,
   selectCalculation,
+  selectDrawing,
   selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
 import {
   BomResult,
+  CalculationsResultModel,
   ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from './models';
-import { CalculationsResultModel } from './models/calculations-result-model';
 
 describe('Detail Reducer', () => {
   const fakeState = {
@@ -177,6 +182,70 @@ describe('Detail Reducer', () => {
 
       expect(state.calculations.selected.nodeId).toEqual(nodeId);
       expect(state.calculations.selected.calculation).toEqual(calculation);
+    });
+  });
+
+  describe('loadDrawings', () => {
+    test('should set loading of drawings', () => {
+      const action = loadDrawings();
+      const state = detailReducer(initialState, action);
+
+      expect(state.drawings.loading).toBeTruthy();
+    });
+
+    test('should reset drawings state', () => {
+      const action = loadDrawings();
+      const state = detailReducer(initialState, action);
+
+      expect(state.drawings.items).toBeUndefined();
+      expect(state.drawings.selected).toBeUndefined();
+      expect(state.drawings.errorMessage).toBeUndefined();
+    });
+  });
+
+  describe('loadDrawingsSuccess', () => {
+    test('should unset loading and set drawings', () => {
+      const items = DRAWINGS_MOCK;
+      const action = loadDrawingsSuccess({ items });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.drawings.loading).toBeFalsy();
+      expect(state.drawings.items).toEqual(items);
+    });
+
+    test('should select the first drawing', () => {
+      const items = DRAWINGS_MOCK;
+      const action = loadDrawingsSuccess({ items });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.drawings.selected.nodeId).toEqual('0');
+      expect(state.drawings.selected.drawing).toEqual(DRAWINGS_MOCK[0]);
+    });
+  });
+
+  describe('loadDrawingsFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadDrawingsFailure({ errorMessage });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.drawings.loading).toBeFalsy();
+      expect(state.drawings.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('selectDrawing', () => {
+    test('should set new selected drawing', () => {
+      const nodeId = '4';
+      const drawing = DRAWINGS_MOCK[4];
+      const action = selectDrawing({ nodeId, drawing });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.drawings.selected.nodeId).toEqual(nodeId);
+      expect(state.drawings.selected.drawing).toEqual(drawing);
     });
   });
 

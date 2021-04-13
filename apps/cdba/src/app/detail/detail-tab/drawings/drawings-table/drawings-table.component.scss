@@ -1,0 +1,18 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+
+ag-grid-angular {
+  border: 1px solid $schaeffler-gray-4;
+  border-radius: 3px;
+  padding: 3px;
+  width: 100%;
+
+  ::ng-deep .ag-cell {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  ::ng-deep .ag-header-cell {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}

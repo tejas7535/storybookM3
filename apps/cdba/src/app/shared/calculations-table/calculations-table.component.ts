@@ -18,11 +18,11 @@ import {
   RowSelectedEvent,
   SideBarDef,
   StatusPanelDef,
-} from '@ag-grid-community/all-modules';
+} from '@ag-grid-enterprise/all-modules';
 
 import { environment } from '@cdba/environments/environment';
 
-import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
+import { Calculation } from '../../core/store/reducers/shared/models';
 import { AgGridStateService } from '../services/ag-grid-state.service';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';

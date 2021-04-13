@@ -25,6 +25,8 @@ import {
   getChildrenOfSelectedBomItem,
   getCustomerDetails,
   getDimensionAndWeightDetails,
+  getDrawingsErrorMessage,
+  getNodeIdOfSelectedDrawing,
   getPriceDetails,
   getProductionDetails,
   getQuantitiesDetails,
@@ -212,6 +214,50 @@ describe('Detail Selector', () => {
       expect(getBomIdentifierForSelectedCalculation(fakeState)).toEqual(
         expectedIdentifier
       );
+    });
+  });
+
+  describe('Drawings Selectors', () => {
+    describe('getDrawings', () => {});
+
+    describe('getDrawingsLoading', () => {});
+
+    describe('getDrawingsErrorMessage', () => {
+      it('should return errorMessage if present', () => {
+        expect(getDrawingsErrorMessage(fakeState)).toEqual('404');
+      });
+
+      it('should return notFoundErrorMessage if loading false and drawing items empty', () => {
+        const notFoundState: { detail: DetailState } = {
+          ...initialDetailState,
+          detail: {
+            ...initialDetailState.detail,
+            drawings: {
+              ...initialDetailState.detail.drawings,
+              loading: false,
+              items: [],
+            },
+          },
+        };
+
+        expect(getDrawingsErrorMessage(notFoundState)).toEqual(
+          'detail.drawings.notFoundErrorMessage'
+        );
+      });
+
+      it('should return undefined as fallback', () => {
+        expect(getDrawingsErrorMessage(initialDetailState)).toBeUndefined();
+      });
+    });
+
+    describe('getNodeIdOfSelectedDrawing', () => {
+      test('should return undefined if selected is undefined', () => {
+        expect(getNodeIdOfSelectedDrawing(initialDetailState)).toBeUndefined();
+      });
+
+      test('should return string of the node id', () => {
+        expect(getNodeIdOfSelectedDrawing(fakeState)).toEqual('3');
+      });
     });
   });
 });

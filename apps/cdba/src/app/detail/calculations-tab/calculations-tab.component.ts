@@ -6,7 +6,7 @@ import { select, Store } from '@ngrx/store';
 
 import { selectCalculation } from '../../core/store';
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
-import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
+import { Calculation } from '../../core/store/reducers/shared/models';
 import {
   getCalculations,
   getCalculationsErrorMessage,

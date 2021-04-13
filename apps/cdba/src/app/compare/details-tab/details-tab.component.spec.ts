@@ -1,5 +1,6 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
+// tslint:disable-next-line: nx-enforce-module-boundaries
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 

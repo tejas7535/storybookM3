@@ -1,0 +1,9 @@
+<div class="table-container">
+  <cdba-drawings-table
+    [rowData]="drawings$ | ngrxPush"
+    [selectedNodeId]="selectedNodeId$ | ngrxPush"
+    [isLoading]="loading$ | ngrxPush"
+    [errorMessage]="errorMessage$ | ngrxPush"
+    (selectionChange)="selectDrawing($event)"
+  ></cdba-drawings-table>
+</div>

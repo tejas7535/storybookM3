@@ -6,29 +6,31 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
+import { Drawing } from '@cdba/core/store/reducers/shared/models';
+
 import {
   BomIdentifier,
   BomItem,
   BomResult,
+  CalculationsResultModel,
   ReferenceTypeIdentifier,
   ReferenceTypeResultModel,
 } from '../../core/store/reducers/detail/models';
-import { CalculationsResultModel } from '../../core/store/reducers/detail/models/calculations-result-model';
-import { Calculation } from '../../core/store/reducers/shared/models/calculation.model';
+import { Calculation } from '../../core/store/reducers/shared/models';
 
 @Injectable({
   providedIn: 'root',
 })
 export class DetailService {
-  private readonly DETAIL = 'detail';
-
-  private readonly CALCULATIONS = 'calculations';
+  private readonly DETAIL_PATH = 'detail';
+  private readonly CALCULATIONS_PATH = 'calculations';
+  private readonly BOM_PATH = 'bom';
+  private readonly DRAWINGS_PATH = 'products/drawings';
 
   private readonly PARAM_MATERIAL_NUMBER = 'material_number';
   private readonly PARAM_PLANT = 'plant';
   private readonly PARAM_IDENTIFICATION_HASH = 'identification_hash';
 
-  private readonly BOM = 'bom';
   private readonly PARAM_BOM_COSTING_DATE = 'bom_costing_date';
   private readonly PARAM_BOM_COSTING_NUMBER = 'bom_costing_number';
   private readonly PARAM_BOM_COSTING_TYPE = 'bom_costing_type';
@@ -116,7 +118,7 @@ export class DetailService {
       .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash)
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
-    return this.dataService.getAll<ReferenceTypeResultModel>(this.DETAIL, {
+    return this.dataService.getAll<ReferenceTypeResultModel>(this.DETAIL_PATH, {
       params,
     });
   }
@@ -127,7 +129,7 @@ export class DetailService {
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
-      .getAll<CalculationsResultModel>(this.CALCULATIONS, { params })
+      .getAll<CalculationsResultModel>(this.CALCULATIONS_PATH, { params })
       .pipe(map((response: CalculationsResultModel) => response.items));
   }
 
@@ -143,7 +145,7 @@ export class DetailService {
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
-      .getAll<BomResult>(this.BOM, { params })
+      .getAll<BomResult>(this.BOM_PATH, { params })
       .pipe(
         map((response: BomResult) =>
           response.items.map((item) => ({
@@ -155,5 +157,13 @@ export class DetailService {
           DetailService.defineBomTreeForAgGrid(items, 0)
         )
       );
+  }
+
+  public getDrawings(materialNumber: string): Observable<Drawing[]> {
+    const params = new HttpParams()
+      .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
+      .set(this.PARAM_ENABLE_CACHE, 'true');
+
+    return this.dataService.getAll<Drawing[]>(this.DRAWINGS_PATH, { params });
   }
 }
