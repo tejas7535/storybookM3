@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.18.0](///compare/cdba-v1.18.0...cdba-v1.17.1) (2021-04-13)
+
+
+### 🎸 Features
+
+* **cdba:** add visual fallback for undefined values (DSCDA-2258) ([3764f47](///commit/3764f478e0884531048757806c6d09c4545dd18f))
+* **cdba:** display drawings table on detail page (DSCDA-2274) ([315e17c](///commit/315e17cb9077eb87c1e850325a7a66bf6a87b873))
+* **cdba:** enable caching of rest calls (DSCDA-2306) ([eae4c26](///commit/eae4c26fd6750f6f3780011c3218b1c62a24dc4d))
+
 ### [1.17.1](///compare/cdba-v1.17.1...cdba-v1.17.0) (2021-03-26)
 
 
