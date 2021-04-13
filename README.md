@@ -119,4 +119,5 @@ Made with ❤️ by
 - [Borys Juskiw](https://gitlab.schaeffler.com/juskibry) 🐕
 - [Sven Pelzer](https://gitlab.schaeffler.com/pelzesen) 🤙
 - [Jan Meiswinkel](https://gitlab.schaeffler.com/meiswjn) 💻
+- [Philip Riecks (ext.)](https://gitlab.schaeffler.com/rieckpil_ext) 🎩
 
