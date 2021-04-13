@@ -8,8 +8,8 @@
 ############
 
 # helloworld-azure
-apps/helloworld-azure @kauppfbi @herpisef
-apps/helloworld-azure-e2e @kauppfbi @herpisef
+apps/helloworld-azure @kauppfbi @herpisef @pelzesen
+apps/helloworld-azure-e2e @kauppfbi @herpisef @pelzesen
 
 # LTP
 apps/ltp @krausrbe @berndcri @pelzesen
@@ -40,7 +40,7 @@ apps/ia @herpisef
 apps/ia-e2e @herpisef 
 
 # MM
-apps/mm @juskibry @birketho @krausrbe @berndcri  
+apps/mm @juskibry @birketho @krausrbe @berndcri 
 apps/mm-e2e @juskibry @birketho @krausrbe @berndcri  
 
 ############

@@ -46,6 +46,8 @@ describe('HomeComponent', () => {
       component['greetingsService'].greetAdmins = jest.fn();
       component['greetingsService'].greetAuthorized = jest.fn();
       component['greetingsService'].greetUsers = jest.fn();
+      component['greetingsService'].greetDotNetAuthorized = jest.fn();
+      component['greetingsService'].greetDotNetPublic = jest.fn();
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
@@ -54,6 +56,12 @@ describe('HomeComponent', () => {
       expect(component['greetingsService'].greetAdmins).toHaveBeenCalled();
       expect(component['greetingsService'].greetAuthorized).toHaveBeenCalled();
       expect(component['greetingsService'].greetUsers).toHaveBeenCalled();
+      expect(
+        component['greetingsService'].greetDotNetAuthorized
+      ).toHaveBeenCalled();
+      expect(
+        component['greetingsService'].greetDotNetPublic
+      ).toHaveBeenCalled();
     });
   });
 });

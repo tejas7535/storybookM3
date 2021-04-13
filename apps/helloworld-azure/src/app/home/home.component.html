@@ -46,6 +46,9 @@
       <p *ngIf="responsePublic | ngrxPush as message; else loading">
         {{ message }}
       </p>
+      <p *ngIf="responseDotNetPublic | ngrxPush as message; else loading">
+        {{ message }}
+      </p>
 
       <h5 class="mt-5 mb-3">
         What the backend has to say to authorized employees:
@@ -53,14 +56,23 @@
       <p *ngIf="responseAuthorized | ngrxPush as message; else loading">
         {{ message }}
       </p>
+      <p *ngIf="responseDotNetAuthorized | ngrxPush as message; else loading">
+        {{ message }}
+      </p>
 
       <h5 class="mt-5 mb-3">What the backend has to say to official Users:</h5>
       <p *ngIf="responseUsers | ngrxPush as message; else loading">
         {{ message }}
       </p>
+      <p *ngIf="responseDotNetUsers | ngrxPush as message; else loading">
+        {{ message }}
+      </p>
 
       <h5 class="mt-5 mb-3">What the backend has to say to Admins:</h5>
       <p *ngIf="responseAdmins | ngrxPush as message; else loading">
+        {{ message }}
+      </p>
+      <p *ngIf="responseDotNetAdmins | ngrxPush as message; else loading">
         {{ message }}
       </p>
 
