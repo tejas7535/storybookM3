@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.14.1](///compare/gq-v1.14.1...gq-v1.14.0) (2021-04-13)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** enable upload to SAP on prod (GQUOTE-591) ([ca1879c](///commit/ca1879c43582f4ac0a4ce337ada6adc9fd898c7e))
+
 ## [1.14.0](///compare/gq-v1.14.0...gq-v1.13.0) (2021-04-12)
 
 
