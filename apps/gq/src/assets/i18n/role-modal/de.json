@@ -19,15 +19,10 @@
     "SECTOR.OR": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Offroad.",
     "SECTOR.PT": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Power Transmission.",
     "SECTOR.RM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Raw Materials.",
-    "SECTOR.RW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Railway.",
+    "SECTOR.RV": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Railway.",
     "SECTOR.TW": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Two Wheelers.",
     "SECTOR.WE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Windenergy.",
-    "SECTOR.XA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Aerospace.",
-    "SECTOR.AG": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Transmission Application.",
-    "SECTOR.AC": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Chassis/Accessory Drive Application.",
-    "SECTOR.AM": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Automotive Aftermarket.",
-    "SECTOR.AE": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Engine Components.",
-    "SECTOR.AO": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Automotive Sales."
+    "SECTOR.XA": "Diese Rolle berechtigt zum Zugriff auf Kunden aus dem Sektor Aerospace."
   },
   "costRoles": {
     "title": "Kosten Rollen",

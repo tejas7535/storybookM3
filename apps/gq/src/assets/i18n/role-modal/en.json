@@ -19,15 +19,10 @@
     "SECTOR.OR": "This role enables a user to query customers allocated to sector Offroad.",
     "SECTOR.PT": "This role enables a user to query customers allocated to sector Power Transmission.",
     "SECTOR.RM": "This role enables a user to query customers allocated to sector Raw Materials.",
-    "SECTOR.RW": "This role enables a user to query customers allocated to sector Railway.",
+    "SECTOR.RV": "This role enables a user to query customers allocated to sector Railway.",
     "SECTOR.TW": "This role enables a user to query customers allocated to sector Two Wheelers.",
     "SECTOR.WE": "This role enables a user to query customers allocated to sector Windenergy.",
-    "SECTOR.XA": "This role enables a user to query customers allocated to sector Aerospace.",
-    "SECTOR.AG": "This role enables a user to query customers allocated to sector Transmission Application.",
-    "SECTOR.AC": "This role enables a user to query customers allocated to sector Chassis/Accessory Drive Application.",
-    "SECTOR.AM": "This role enables a user to query customers allocated to sector Automotive Aftermarket.",
-    "SECTOR.AE": "This role enables a user to query customers allocated to sector Engine Components.",
-    "SECTOR.AO": "This role enables a user to query customers allocated to sector Automotive Sales."
+    "SECTOR.XA": "This role enables a user to query customers allocated to sector Aerospace."
   },
   "costRoles": {
     "title": "Cost Roles",
