@@ -3,6 +3,8 @@ export enum RoutePath {
   OverviewPath = 'overview',
   HardnessConverterPath = 'hardness-converter',
   AQMCalculatorPath = 'aqm-calculator',
+  LifetimePredictorPath = 'lifetime-predictor',
+  ForbiddenPath = 'forbidden',
 }
 
 export enum RouteNames {
@@ -10,4 +12,6 @@ export enum RouteNames {
   Overview = 'Overview',
   HardnessConverter = 'Hardness Converter',
   AQMCalculator = 'AQM Calculator',
+  LifetimePredictor = 'Lifetime Predictor',
+  Forbidden = 'forbidden',
 }

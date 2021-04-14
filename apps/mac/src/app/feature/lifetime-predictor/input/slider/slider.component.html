@@ -1,0 +1,56 @@
+<div fxLayout="column" *transloco="let t; read: 'ltp'">
+  <div
+    *ngIf="control.infoText; else defaultLabel"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <label
+      [innerHTML]="
+        control.flexibleLabel
+          ? control.flexibleLabel(t(control.name))
+          : t(control.name)
+      "
+    ></label>
+    <mac-tooltip
+      (click)="$event.stopPropagation()"
+      class="slider-tooltip"
+      [content]="t(control.infoText)"
+      manualcolor="#1d9bb2"
+      icon="icon-toast-information"
+    ></mac-tooltip>
+  </div>
+  <ng-template #defaultLabel>
+    <label
+      [innerHTML]="
+        control.flexibleLabel
+          ? control.flexibleLabel(t(control.name))
+          : t(control.name)
+      "
+    ></label>
+  </ng-template>
+  <div fxLayout="row" fxLayoutAlign="space-between top">
+    <mat-slider
+      fxFlex="80"
+      [formControl]="control.formControl"
+      [max]="control.max"
+      [min]="control.min"
+      [step]="control.step"
+      (input)="
+        control.formControl.patchValue($event.value, { emitEvent: false })
+      "
+    ></mat-slider>
+    <mat-form-field fxFlex="20">
+      <input
+        matInput
+        type="number"
+        [formControl]="control.formControl"
+        (change)="validate($event.srcElement.value)"
+      />
+    </mat-form-field>
+  </div>
+  <div
+    class="slider-validation-warning"
+    *ngIf="control.formControl.warnings?.validationWarning"
+    [innerHTML]="t(control.formControl.warnings.validationWarning.text)"
+  ></div>
+</div>

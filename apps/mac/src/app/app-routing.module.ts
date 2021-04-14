@@ -4,6 +4,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { MsalGuard } from '@azure/msal-angular';
 
 import { RoutePath } from './app-routing.enum';
+import { RoleGuard } from './core/guards/role.guard';
 
 export const appRoutePaths: Routes = [
   {
@@ -34,6 +35,23 @@ export const appRoutePaths: Routes = [
       import('./feature/aqm-calculator/aqm-calculator.module').then(
         (m) => m.AqmCalculatorModule
       ),
+  },
+  {
+    canLoad: [MsalGuard],
+    canActivateChild: [RoleGuard],
+    path: RoutePath.LifetimePredictorPath,
+    loadChildren: () =>
+      import('./feature/lifetime-predictor/lifetime-predictor.module').then(
+        (m) => m.LifetimePredictorModule
+      ),
+    data: {
+      requiredRoles: ['lifetime-predictor-user'],
+    },
+  },
+  {
+    path: 'forbidden',
+    loadChildren: () =>
+      import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',

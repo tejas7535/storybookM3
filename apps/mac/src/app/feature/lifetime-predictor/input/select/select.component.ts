@@ -1,0 +1,18 @@
+import { Component, Input } from '@angular/core';
+
+import { SelectControl } from './select-control.model';
+
+@Component({
+  selector: 'mac-ltp-select',
+  templateUrl: './select.component.html',
+})
+export class SelectComponent {
+  @Input() control: SelectControl;
+
+  /**
+   * Helps Angular to track array
+   */
+  public trackByFn(index: number): number {
+    return index;
+  }
+}

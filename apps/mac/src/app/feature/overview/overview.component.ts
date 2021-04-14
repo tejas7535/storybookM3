@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 
@@ -26,9 +27,10 @@ export class OverviewComponent implements OnInit {
     },
     {
       title: 'Lifetime Predictor',
-      url: 'https://lifetime-predictor.dp.schaeffler/',
+      // url: 'https://lifetime-predictor.dp.schaeffler/',
+      url: '/lifetime-predictor',
       className: 'ltp-icon',
-      externalLink: true,
+      externalLink: false,
     },
     {
       title: 'Lifetime Visualizer',
