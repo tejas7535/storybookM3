@@ -14,8 +14,8 @@ export const getDevicesResult = createSelector(
     state.result &&
     state.result.length > 0 &&
     [...state.result]
+      .sort((a, b) => ((a.deviceId as any) < (b.deviceId as any) ? -1 : 1))
       .sort((a, b) =>
         (a.connectionState as any) < (b.connectionState as any) ? -1 : 1
       )
-      .sort((a, b) => ((a.deviceId as any) < (b.deviceId as any) ? -1 : 1))
 );

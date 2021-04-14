@@ -2,12 +2,17 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { getIsLoggedIn, getUsername } from '@schaeffler/azure-auth';
+import { FooterLink } from '@schaeffler/footer-tailwind';
 import { UserMenuEntry } from '@schaeffler/header';
 
+import { version } from '../../package.json';
+import { AppRoutePath } from './app-route-path.enum';
 import { AppState } from './core/store';
+import { LegalPath } from './legal/legal-route-path.enum';
 
 @Component({
   selector: 'goldwind-root',
@@ -16,6 +21,26 @@ import { AppState } from './core/store';
 })
 export class AppComponent implements OnInit {
   title = 'Goldwind';
+
+  public footerLinks: FooterLink[] = [
+    {
+      link: `${AppRoutePath.LegalPath}/${LegalPath.ImprintPath}`,
+      title: translate('app.imprint'),
+      external: false,
+    },
+    {
+      link: `${AppRoutePath.LegalPath}/${LegalPath.DataprivacyPath}`,
+      title: translate('app.dataPrivacy'),
+      external: false,
+    },
+    {
+      link: `${AppRoutePath.LegalPath}/${LegalPath.TermsPath}`,
+      title: translate('app.termsOfUse'),
+      external: false,
+    },
+  ];
+
+  public appVersion = version;
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
