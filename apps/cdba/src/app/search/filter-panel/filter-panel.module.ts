@@ -3,7 +3,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@cdba/shared';
+
 import { FilterPanelComponent } from './filter-panel.component';
 
 @NgModule({

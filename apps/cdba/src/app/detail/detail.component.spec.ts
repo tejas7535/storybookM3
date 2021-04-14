@@ -5,11 +5,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { TabsHeaderModule } from '@cdba/shared/components';
+
 import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
 import { MaterialNumberModule } from '../shared/pipes';
 import { SharedModule } from '../shared/shared.module';
-import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
 import { DetailComponent } from './detail.component';
 
 describe('DetailComponent', () => {

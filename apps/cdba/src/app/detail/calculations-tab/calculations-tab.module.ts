@@ -4,8 +4,8 @@ import { MatCardModule } from '@angular/material/card';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
+import { CalculationsTableModule } from '@cdba/shared/components';
 
-import { CalculationsTableModule } from '../../shared/calculations-table/calculations-table.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
 import { CalculationsTabRoutingModule } from './caluclations-tab-routing.module';
 

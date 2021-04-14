@@ -5,10 +5,11 @@ import { Observable } from 'rxjs';
 import { TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
+import { Tab } from '@cdba/shared/components';
+
 import { DetailState } from '../core/store/reducers/detail/detail.reducer';
 import { ReferenceType } from '../core/store/reducers/shared/models';
 import { getReferenceType } from '../core/store/selectors';
-import { Tab } from '../shared/interfaces';
 import { DetailRoutePath } from './detail-route-path.enum';
 
 @Component({

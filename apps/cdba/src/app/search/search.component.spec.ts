@@ -6,8 +6,9 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { BlockUiModule } from '@cdba/shared/components';
+
 import { getReferenceTypes, getSearchSuccessful } from '../core/store';
-import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';

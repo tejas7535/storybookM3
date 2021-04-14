@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
+
 import {
   applyTextSearch,
   applyTextSearchFailure,

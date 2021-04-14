@@ -6,9 +6,9 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { LoadingSpinnerModule } from '@cdba/shared/components';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabComponent } from './detail-tab.component';

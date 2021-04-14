@@ -18,13 +18,14 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared';
+import { BomViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/bom-view-button/bom-view-button.component';
+import { CompareViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
+import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
+import { DetailViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
+import { AgGridStateService } from '@cdba/shared/services';
+
 import { ReferenceType } from '../../core/store/reducers/shared/models';
-import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
-import { SharedModule } from '../../shared/shared.module';
-import { BomViewButtonComponent } from '../../shared/table/custom-status-bar/bom-view-button/bom-view-button.component';
-import { CompareViewButtonComponent } from '../../shared/table/custom-status-bar/compare-view-button/compare-view-button.component';
-import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
-import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 

@@ -9,12 +9,14 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import {
+  CalculationsTableModule,
+  LoadingSpinnerModule,
+} from '@cdba/shared/components';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { selectCalculation } from '../../../core/store';
 import { Calculation } from '../../../core/store/reducers/shared/models';
-import { CalculationsTableModule } from '../../../shared/calculations-table/calculations-table.module';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { AdditionalInformationComponent } from './additional-information.component';
 import { BomChartComponent } from './bom-chart/bom-chart.component';

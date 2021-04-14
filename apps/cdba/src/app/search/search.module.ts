@@ -6,9 +6,10 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { BlockUiModule } from '@cdba/shared/components';
+
 import { SearchEffects } from '../core/store/effects';
 import { searchReducer } from '../core/store/reducers/search/search.reducer';
-import { BlockUiModule } from '../shared/block-ui/block-ui.module';
 import { SharedModule } from '../shared/shared.module';
 import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';

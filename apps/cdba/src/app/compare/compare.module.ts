@@ -1,25 +1,28 @@
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { EffectsModule } from '@ngrx/effects';
+import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../shared/shared.module';
-import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
-import { BomTabModule } from './bom-tab/bom-tab.module';
+import { SharedModule } from '@cdba/shared';
+import { TabsHeaderModule } from '@cdba/shared/components';
+
 import { CompareRoutingModule } from './compare-routing.module';
 import { CompareComponent } from './compare.component';
-import { DetailsTabModule } from './details-tab/details-tab.module';
+import { CompareEffects } from './store/effects/compare.effects';
+import { compareReducer } from './store/reducers/compare.reducer';
 
 @NgModule({
   declarations: [CompareComponent],
   imports: [
     SharedModule,
     CompareRoutingModule,
-    DetailsTabModule,
-    BomTabModule,
     SharedTranslocoModule,
     TabsHeaderModule,
+    StoreModule.forFeature('compare', compareReducer),
+    EffectsModule.forFeature([CompareEffects]),
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'compare' }],
 })

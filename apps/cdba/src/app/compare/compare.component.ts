@@ -4,7 +4,8 @@ import { Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { Tab } from '../shared/interfaces';
+import { Tab } from '@cdba/shared/components';
+
 import { CompareRoutePath } from './compare-route-path.enum';
 
 @Component({

@@ -1,4 +1,5 @@
-import { BOM_MOCK, CALCULATIONS_MOCK } from '../../../../../testing/mocks';
+import { BOM_MOCK, CALCULATIONS_MOCK } from '@cdba/testing/mocks';
+
 import { BomItem, ReferenceTypeIdentifier } from '../../reducers/detail/models';
 import {
   DetailActions,

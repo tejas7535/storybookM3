@@ -4,7 +4,8 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
+import { TabsHeaderModule } from '@cdba/shared/components';
+
 import { CompareComponent } from './compare.component';
 
 describe('CompareComponent', () => {

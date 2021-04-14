@@ -12,7 +12,7 @@ import {
   formatNumber,
   valueGetterArray,
   valueGetterDate,
-} from '../../../shared/table';
+} from '@cdba/shared/components/table';
 
 @Injectable({
   providedIn: 'root',

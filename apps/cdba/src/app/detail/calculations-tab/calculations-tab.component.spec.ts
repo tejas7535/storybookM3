@@ -8,6 +8,7 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
+import { CalculationsTableModule } from '@cdba/shared/components';
 
 import { CALCULATIONS_MOCK } from '../../../testing/mocks';
 import { selectCalculation } from '../../core/store';
@@ -18,8 +19,7 @@ import {
   getCalculationsLoading,
   getSelectedNodeId,
 } from '../../core/store/selectors';
-import { CalculationsTableModule } from '../../shared/calculations-table/calculations-table.module';
-import { CustomStatusBarModule } from '../../shared/table/custom-status-bar/custom-status-bar.module';
+import { CustomStatusBarModule } from '../../shared/components/table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
 
 describe('CalculationsTabComponent', () => {
