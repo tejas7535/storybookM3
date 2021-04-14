@@ -7,7 +7,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@cdba/shared';
+
 import { AdditionalInformationModule } from './additional-information/additional-information.module';
 import { BomTabRoutingModule } from './bom-tab-routing.module';
 import { BomTabComponent } from './bom-tab.component';

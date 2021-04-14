@@ -2,11 +2,11 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import * as utils from '../../../shared/table/column-utils';
+import * as utils from '../../../shared/components/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
 
-jest.mock('../../../shared/table/column-utils', () => ({
-  ...jest.requireActual('../../../shared/table/column-utils'),
+jest.mock('../../../shared/components/table/column-utils', () => ({
+  ...jest.requireActual('../../../shared/components/table/column-utils'),
   valueGetterDate: jest.fn(),
   valueGetterArray: jest.fn(),
   formatNumber: jest.fn(),

@@ -8,11 +8,11 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialNumberModule } from '@cdba/shared';
+import { TabsHeaderModule } from '@cdba/shared/components';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
 import { SharedModule } from '../shared/shared.module';
-import { TabsHeaderModule } from '../shared/tabs-header/tabs-header.module';
 import { DetailRoutingModule } from './detail-routing.module';
 import { DetailComponent } from './detail.component';
 

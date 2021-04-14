@@ -10,8 +10,9 @@ import { startLoginFlow } from '@schaeffler/auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+
 import { AppComponent } from './app.component';
-import { LoadingSpinnerModule } from './shared/loading-spinner/loading-spinner.module';
 
 describe('AppComponent', () => {
   let spectator: Spectator<AppComponent>;

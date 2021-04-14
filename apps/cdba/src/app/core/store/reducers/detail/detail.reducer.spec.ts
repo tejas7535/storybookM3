@@ -2,8 +2,10 @@ import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
+  REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
-} from '../../../../../testing/mocks';
+} from '@cdba/testing/mocks';
+
 import {
   loadBom,
   loadBomFailure,
@@ -44,11 +46,7 @@ describe('Detail Reducer', () => {
   };
   const errorMessage = 'An error occured';
 
-  const referenceTypeIdentifier: ReferenceTypeIdentifier = new ReferenceTypeIdentifier(
-    REFERENCE_TYPE_MOCK.materialNumber,
-    REFERENCE_TYPE_MOCK.plant,
-    REFERENCE_TYPE_MOCK.identificationHash
-  );
+  const referenceTypeIdentifier: ReferenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
 
   describe('selectReferenceType', () => {
     test('should set selectedReferenceType', () => {

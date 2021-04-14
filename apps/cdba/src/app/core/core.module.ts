@@ -17,10 +17,10 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '@cdba/environments/environment';
+import { LoadingSpinnerModule } from '@cdba/shared/components';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
-import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { StoreModule } from './store/store.module';
 
 registerLocaleData(de, 'de-DE');

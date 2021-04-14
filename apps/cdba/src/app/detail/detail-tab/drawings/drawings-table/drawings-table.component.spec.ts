@@ -13,9 +13,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedModule } from '@cdba/shared';
-import { CustomLoadingOverlayComponent } from '@cdba/shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomNoRowsOverlayComponent } from '@cdba/shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CustomOverlayModule } from '@cdba/shared/table/custom-overlay/custom-overlay.module';
+import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomNoRowsOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { CustomOverlayModule } from '@cdba/shared/components/table/custom-overlay/custom-overlay.module';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
 import { DrawingsTableComponent } from './drawings-table.component';

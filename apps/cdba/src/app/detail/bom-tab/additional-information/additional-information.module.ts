@@ -5,9 +5,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { CalculationsTableModule } from '../../../shared/calculations-table/calculations-table.module';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
-import { SharedModule } from '../../../shared/shared.module';
+import { SharedModule } from '@cdba/shared';
+import {
+  CalculationsTableModule,
+  LoadingSpinnerModule,
+} from '@cdba/shared/components';
+
 import { AdditionalInformationComponent } from './additional-information.component';
 import { BomChartModule } from './bom-chart/bom-chart.module';
 import { BomLegendModule } from './bom-legend/bom-legend.module';

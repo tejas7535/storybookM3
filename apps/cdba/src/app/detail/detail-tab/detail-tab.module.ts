@@ -5,8 +5,9 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
-import { SharedModule } from '../../shared/shared.module';
+import { SharedModule } from '@cdba/shared';
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+
 import { CustomerModule } from './customer/customer.module';
 import { DetailTabRoutingModule } from './detail-tab-routing.module';
 import { DetailTabComponent } from './detail-tab.component';

@@ -23,16 +23,19 @@ import {
 import { translate } from '@ngneat/transloco';
 
 import { environment } from '@cdba/environments/environment';
+import { AgGridStateService } from '@cdba/shared/services';
 
 import { ReferenceType } from '../../core/store/reducers/shared/models';
-import { AgGridStateService } from '../../shared/services/ag-grid-state.service';
-import { getMainMenuItems, SIDE_BAR_CONFIG } from '../../shared/table';
+import {
+  getMainMenuItems,
+  SIDE_BAR_CONFIG,
+} from '../../shared/components/table';
 import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
-} from '../../shared/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CompareViewButtonComponent } from '../../shared/table/custom-status-bar/compare-view-button/compare-view-button.component';
-import { DetailViewButtonComponent } from '../../shared/table/custom-status-bar/detail-view-button/detail-view-button.component';
+} from '../../shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { CompareViewButtonComponent } from '../../shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
+import { DetailViewButtonComponent } from '../../shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import {
   ColumnDefinitionService,
   DEFAULT_COLUMN_DEFINITION,

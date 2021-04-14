@@ -13,8 +13,8 @@ import { SharedModule } from '@cdba/shared';
 import { BOM_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { selectBomItem } from '../../core/store';
-import { CustomLoadingOverlayComponent } from '../../shared/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomOverlayModule } from '../../shared/table/custom-overlay/custom-overlay.module';
+import { CustomLoadingOverlayComponent } from '../../shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomOverlayModule } from '../../shared/components/table/custom-overlay/custom-overlay.module';
 import { AdditionalInformationModule } from './additional-information/additional-information.module';
 import { BomTabComponent } from './bom-tab.component';
 import { BomTableModule } from './bom-table/bom-table.module';

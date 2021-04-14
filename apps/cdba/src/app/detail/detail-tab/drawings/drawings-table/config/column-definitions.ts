@@ -1,7 +1,7 @@
 import { ColDef } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { formatDate, valueGetterDate } from '@cdba/shared/table';
+import { formatDate, valueGetterDate } from '@cdba/shared/components/table';
 
 export const COLUMN_DEFINITIONS: ColDef[] = [
   {

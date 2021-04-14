@@ -1,3 +1,12 @@
+import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
+
+import {
+  FilterItemIdValue,
+  FilterItemRange,
+  IdValue,
+  SearchResult,
+  TextSearch,
+} from '../../reducers/search/models';
 import {
   applyTextSearch,
   applyTextSearchFailure,
@@ -14,15 +23,7 @@ import {
   searchSuccess,
   shareSearchResult,
   updateFilter,
-} from '../';
-import { REFERENCE_TYPE_MOCK } from '../../../../../testing/mocks/reference-type.mock';
-import {
-  FilterItemIdValue,
-  FilterItemRange,
-  IdValue,
-  SearchResult,
-  TextSearch,
-} from '../../reducers/search/models';
+} from './search.actions';
 
 describe('Search Actions', () => {
   const errorMessage = 'An error occured';

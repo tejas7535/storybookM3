@@ -5,8 +5,9 @@ import {
   ColDef,
 } from '@ag-grid-enterprise/all-modules';
 
+import { formatNumber } from '@cdba/shared/components/table';
+
 import { BomItem } from '../../../../core/store/reducers/detail/models';
-import { formatNumber } from '../../../../shared/table';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';
 
 @Component({

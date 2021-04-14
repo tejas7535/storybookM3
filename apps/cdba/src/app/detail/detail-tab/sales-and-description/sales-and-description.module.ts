@@ -2,11 +2,12 @@ import { NgModule } from '@angular/core';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared';
 import {
   MaterialNumberModule,
   UndefinedAttributeFallbackModule,
-} from '../../../shared/pipes';
-import { SharedModule } from '../../../shared/shared.module';
+} from '@cdba/shared/pipes';
+
 import { SalesAndDescriptionComponent } from './sales-and-description.component';
 
 @NgModule({

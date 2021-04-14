@@ -5,7 +5,8 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
+import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
+
 import { SearchService } from '../../../../search/services/search.service';
 import {
   applyTextSearch,
@@ -21,7 +22,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
-} from '../../actions/search/search.actions';
+} from '../../actions';
 import {
   FilterItemIdValue,
   FilterItemRange,
@@ -32,7 +33,7 @@ import {
 import {
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
-} from '../../selectors/search/search.selector';
+} from '../../selectors';
 import { SearchEffects } from './search.effects';
 
 describe('Search Effects', () => {
