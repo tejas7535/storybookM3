@@ -102,7 +102,8 @@
     },
     "shared-utils-azure-auth": { "tags": ["scope:shared", "type:utils"] },
     "shared-ui-stepper": { "tags": ["scope:shared", "type:ui"] },
-    "shared-ui-horizontal-separator": { "tags": ["scope:shared", "type:ui"] }
+    "shared-ui-horizontal-separator": { "tags": ["scope:shared", "type:ui"] },
+    "shared-ui-loading-spinner": { "tags": ["scope:shared", "type:ui"] }
   },
   "tasksRunnerOptions": {
     "default": {
