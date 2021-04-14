@@ -4,6 +4,9 @@ interface GraphSeriesData {
 }
 
 export interface GraphData {
+  tooltip?: {
+    formatter: any;
+  };
   legend?: {
     data: string[];
   };
@@ -19,6 +22,7 @@ export interface GraphData {
       data:
         | GraphSeriesData[]
         | [number, number][][]
+        | [number, number][]
         | [
             {
               name?: string;

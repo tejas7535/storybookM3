@@ -47,7 +47,10 @@ export const loadSenseReducer = createReducer(
   })),
   on(getLoadAverage, (state: BearingLoadLatestState) => ({
     ...state,
-    averageResult: { loading: true },
+    averageResult: {
+      ...state.averageResult,
+      loading: true,
+    },
   })),
   on(
     getLoadAverageSuccess,
@@ -58,7 +61,10 @@ export const loadSenseReducer = createReducer(
   ),
   on(getLoadAverageFailure, (state: BearingLoadLatestState) => ({
     ...state,
-    averageResult: { loading: false },
+    averageResult: {
+      ...state.averageResult,
+      loading: false,
+    },
   }))
 );
 

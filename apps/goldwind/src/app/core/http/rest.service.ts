@@ -31,7 +31,7 @@ export class RestService {
   public getIot(path: string): Observable<any> {
     return this.dataService.getAll<
       BearingMetadata | Edm[] | GcmProcessed[] | LoadSense[]
-    >(`iot/things/${path}`);
+    >(`things/${path}`);
   }
 
   public getBearing(id: string): Observable<BearingMetadata> {

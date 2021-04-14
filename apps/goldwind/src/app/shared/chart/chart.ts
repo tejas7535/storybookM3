@@ -49,16 +49,25 @@ export const axisChartOptions: EChartsOption = {
   ],
 };
 
-export const radarChartOptions: EChartsOption = {
+export const polarChartOptions: EChartsOption = {
   ...chartOptions,
   legend: {},
   tooltip: {
-    trigger: 'item',
+    trigger: 'axis',
   },
-  radar: {
-    startAngle: 90,
-    shape: 'circle',
-    splitNumber: 4,
+  polar: {},
+  angleAxis: {
+    type: 'value',
+    max: 360,
+    clockwise: false,
+    interval: 22.5,
+    splitLine: {
+      show: true,
+    },
+  },
+  radiusAxis: {
+    type: 'value',
+    max: 8000,
   },
 };
 
