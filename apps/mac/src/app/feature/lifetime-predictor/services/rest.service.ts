@@ -17,12 +17,9 @@ import {
   providedIn: 'root',
 })
 export class RestService {
-  public SERVER_URL_PREDICTION =
-    'https://materials-app-center-d.dev.dp.schaeffler/lifetime-predictor/ml-prediction/api';
-  public SERVER_URL_STATISTICAL =
-    'https://materials-app-center-d.dev.dp.schaeffler/lifetime-predictor/statistical/api';
-  public SERVER_URL_LOADS =
-    'https://materials-app-center-d.dev.dp.schaeffler/lifetime-predictor/loads/api';
+  public SERVER_URL_PREDICTION = 'lifetime-predictor/ml-prediction/api';
+  public SERVER_URL_STATISTICAL = 'lifetime-predictor/statistical/api';
+  public SERVER_URL_LOADS = 'lifetime-predictor/loads/api';
 
   constructor(private readonly httpService: HttpClient) {}
 
