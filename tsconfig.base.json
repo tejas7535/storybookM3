@@ -78,6 +78,9 @@
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
       "@schaeffler/horizontal-separator": [
         "libs/shared/ui/horizontal-separator/src/index.ts"
+      ],
+      "@schaeffler/loading-spinner": [
+        "libs/shared/ui/loading-spinner/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
