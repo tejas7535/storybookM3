@@ -11,6 +11,7 @@ import {
   ProtectedResource,
   SharedAzureAuthModule,
 } from '@schaeffler/azure-auth';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +39,13 @@ const azureConfig = new AzureConfig(
     CoreModule,
     SharedModule,
     SharedAzureAuthModule.forRoot(azureConfig),
+    SharedTranslocoModule.forRoot(
+      environment.production,
+      ['de', 'en'],
+      undefined,
+      'en',
+      true
+    ),
   ],
   providers: [],
   bootstrap: [AppComponent, MsalRedirectComponent],

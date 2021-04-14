@@ -1,0 +1,65 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'lib/colors';
+
+mac-ltp-slider {
+  mat-form-field {
+    margin-top: -2.5px;
+  }
+
+  .mat-form-field-infix {
+    border: none;
+  }
+
+  .mat-input-element {
+    text-align: center;
+  }
+
+  .slider-tooltip {
+    margin-right: 10px;
+  }
+
+  .slider-validation-warning {
+    color: #fccf46;
+    font-size: 12px;
+    margin-top: -10px;
+  }
+
+  .mat-slider.mat-slider-horizontal {
+    min-width: 0;
+  }
+
+  .mat-accent .mat-slider-track-fill,
+  .mat-accent .mat-slider-thumb,
+  .mat-accent .mat-slider-thumb-label {
+    background-color: $schaeffler-green-1;
+  }
+
+  .mat-slider-min-value:not(.mat-slider-thumb-label-showing) .mat-slider-thumb {
+    background-color: $schaeffler-green-1;
+    border-color: $schaeffler-green-1;
+  }
+
+  .mat-slider-min-value .mat-slider-focus-ring {
+    background-color: $schaeffler-green-1;
+  }
+
+  .mat-slider-min-value:not(.mat-slider-thumb-label-showing):hover
+    .mat-slider-thumb,
+  .mat-slider-min-value:not(.mat-slider-thumb-label-showing).cdk-focused
+    .mat-slider-thumb {
+    border-color: $schaeffler-green-1;
+  }
+
+  .mat-slider-disabled .mat-slider-track-background,
+  .mat-slider-disabled .mat-slider-track-fill,
+  .mat-slider-disabled .mat-slider-thumb {
+    background-color: $schaeffler-gray-4 !important;
+    border-color: transparent !important;
+  }
+
+  input[type='number']::-webkit-inner-spin-button,
+  input[type='number']::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+}

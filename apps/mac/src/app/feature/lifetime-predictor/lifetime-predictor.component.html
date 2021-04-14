@@ -1,0 +1,21 @@
+<schaeffler-settings-sidebar
+  [openSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
+  [closeSidebarBtn]="isLessThanMediumViewPort$ | ngrxPush"
+  [open]="(isLessThanMediumViewPort$ | ngrxPush) === false"
+>
+  <ng-container settings-header>
+    <button
+      (click)="handleReset()"
+      mat-button
+      color="primary"
+      class="reset-button"
+    >
+      RESET
+    </button>
+  </ng-container>
+  <ng-container container
+    ><mac-ltp-prediction></mac-ltp-prediction></ng-container
+  ><ng-container sidebar>
+    <mac-ltp-input></mac-ltp-input>
+  </ng-container>
+</schaeffler-settings-sidebar>

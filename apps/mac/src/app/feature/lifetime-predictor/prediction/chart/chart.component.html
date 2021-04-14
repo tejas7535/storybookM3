@@ -1,0 +1,15 @@
+<div
+  fxLayout="column"
+  #chartContainer
+  id="chart-container"
+  *transloco="let t; read: 'ltp'"
+>
+  <div
+    #ltpChart
+    fxFlex
+    echarts
+    [options]="chartSettings"
+    [merge]="mergeData$ | ngrxPush"
+    (chartInit)="initChart($event)"
+  ></div>
+</div>
