@@ -1,4 +1,5 @@
 import { initialState } from '../../reducers/devices/devices.reducer';
+import { ConnectionState } from '../../reducers/devices/models/devices.model';
 import { getDevicesLoading, getDevicesResult } from './devices.selector';
 
 describe('Devices Selector', () => {
@@ -7,7 +8,16 @@ describe('Devices Selector', () => {
       ...initialState,
       result: [
         {
+          deviceId: 'TestDeviceID2',
+          connectionState: ConnectionState.connected,
+        },
+        {
+          deviceId: 'TestDeviceID3',
+          connectionState: ConnectionState.connected,
+        },
+        {
           deviceId: 'TestDeviceID',
+          connectionState: ConnectionState.disconnected,
         },
       ],
       loading: false,

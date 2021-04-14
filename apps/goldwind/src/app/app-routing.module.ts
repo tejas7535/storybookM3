@@ -24,6 +24,11 @@ export const appRoutePaths: Routes = [
     canActivate: [MsalGuard],
   },
   {
+    path: AppRoutePath.LegalPath,
+    loadChildren: () =>
+      import('./legal/legal.module').then((m) => m.LegalModule),
+  },
+  {
     path: AppRoutePath.ForbiddenPath,
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),

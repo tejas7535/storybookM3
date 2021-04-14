@@ -1,4 +1,9 @@
 {
+  "app": {
+    "imprint": "Imprint",
+    "dataPrivacy": "Data Privacy",
+    "termsOfUse": "Terms of Use"
+  },
   "overview": {
     "details": "Details",
     "version": "Version",

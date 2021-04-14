@@ -3,4 +3,5 @@ export enum AppRoutePath {
   OverviewPath = 'overview',
   BearingPath = 'bearing',
   ForbiddenPath = 'forbidden',
+  LegalPath = 'legal',
 }

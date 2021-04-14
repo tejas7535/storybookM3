@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 
 import { AppComponent } from './app.component';
@@ -22,7 +22,7 @@ describe('AppComponent', () => {
       MatButtonModule,
       MatProgressSpinnerModule,
       RouterTestingModule,
-      FooterModule,
+      FooterTailwindModule,
     ],
     providers: [
       provideMockStore({

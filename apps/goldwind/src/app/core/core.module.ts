@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
@@ -30,7 +30,7 @@ import { StoreModule } from './store/store.module';
 
     // UI Modules
     IconsModule,
-    FooterModule,
+    FooterTailwindModule,
     HeaderModule,
     MatButtonModule,
     MatProgressSpinnerModule,
