@@ -27,6 +27,7 @@ const routes = [
     RouterModule.forChild(routes),
     TranslocoModule,
   ],
+  exports: [ForbiddenComponent],
 })
 export class ForbiddenModule {
   constructor(private readonly translocoService: TranslocoService) {
