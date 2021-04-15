@@ -82,29 +82,6 @@
       "productDescription": "Produktbeschreibung"
     }
   },
-  "bom": {
-    "additionalInformation": {
-      "title": "Zusätzliche Informationen",
-      "calculations": "Kalkulationen",
-      "chart": "Diagramm",
-      "selectionStatus": "Sie haben eine Komponente / Arbeitsgang ohne Folgeelemente ausgewählt.",
-      "selectionHint": "Bitte wählen Sie eine Baugruppe mit mindestens einem Folgeelement für die Diagrammdarstellung aus."
-    },
-    "title": "Bill of Material",
-    "headers": {
-      "totalPricePerPc": "Cost",
-      "currency": "Currency",
-      "materialNumber": "Material Number",
-      "plant": "Plant",
-      "lotsize": "Lot Size",
-      "setupTime": "Setup Time",
-      "cycleTime": "Cycle Time",
-      "toolingFactor": "Tooling Factor",
-      "quantityPerParent": "Quantity Per Parent",
-      "unitOfMeasure": "Einheit",
-      "workCenter": "Arbeitsplatz"
-    }
-  },
   "drawings": {
     "title": "Zeichnung: {{material}}",
     "notFoundErrorMessage": "Entschuldigung, wir konnten keine Zeichnungen für das gewählte Produkt finden.",

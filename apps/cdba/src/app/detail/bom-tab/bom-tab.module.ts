@@ -8,11 +8,13 @@ import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
+import {
+  AdditionalInformationModule,
+  BomTableModule,
+} from '@cdba/shared/components';
 
-import { AdditionalInformationModule } from './additional-information/additional-information.module';
 import { BomTabRoutingModule } from './bom-tab-routing.module';
 import { BomTabComponent } from './bom-tab.component';
-import { BomTableModule } from './bom-table/bom-table.module';
 
 @NgModule({
   declarations: [BomTabComponent],

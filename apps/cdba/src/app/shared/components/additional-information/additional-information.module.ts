@@ -6,11 +6,9 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
-import {
-  CalculationsTableModule,
-  LoadingSpinnerModule,
-} from '@cdba/shared/components';
 
+import { CalculationsTableModule } from '../calculations-table/calculations-table.module';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { AdditionalInformationComponent } from './additional-information.component';
 import { BomChartModule } from './bom-chart/bom-chart.module';
 import { BomLegendModule } from './bom-legend/bom-legend.module';

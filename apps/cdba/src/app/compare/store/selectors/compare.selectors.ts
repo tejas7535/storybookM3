@@ -50,3 +50,19 @@ export const getBomIdentifierForSelectedCalculation = createSelector(
     return undefined;
   }
 );
+
+export const getBomItems = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) => state[index]?.billOfMaterial?.items
+);
+
+export const getBomLoading = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) => state[index]?.billOfMaterial?.loading
+);
+
+export const getBomErrorMessage = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) =>
+    state[index]?.billOfMaterial?.error.message
+);
