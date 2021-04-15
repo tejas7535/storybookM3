@@ -41,7 +41,11 @@
       </p>
       <p>
         <span class="label">{{ t('followingType') }}: </span
-        >{{ materialDetails.followingType }}
+        >{{ materialDetails.followingType || '-' }}
+      </p>
+      <p>
+        <span class="label">{{ t('customerMaterial') }}: </span
+        >{{ customerMaterial || '-' }}
       </p>
     </div>
     <div fxFlex="50%">

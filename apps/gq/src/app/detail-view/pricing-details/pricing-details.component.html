@@ -11,6 +11,7 @@
           </mat-expansion-panel-header>
           <gq-material-details
             [materialDetails]="(quotationDetail$ | ngrxPush)?.material"
+            [customerMaterial]="(quotationDetail$ | ngrxPush)?.customerMaterial"
           ></gq-material-details>
         </mat-expansion-panel>
         <mat-expansion-panel expanded="true">

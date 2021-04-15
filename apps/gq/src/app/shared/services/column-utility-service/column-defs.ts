@@ -115,6 +115,11 @@ export const COLUMN_DEFS: ColDef[] = [
     valueFormatter: ColumnUtilityService.basicTransform,
   },
   {
+    headerName: translate('shared.quotationDetailsTable.customerMaterial'),
+    field: 'customerMaterial',
+    valueFormatter: ColumnUtilityService.basicTransform,
+  },
+  {
     headerName: translate('shared.quotationDetailsTable.productLine'),
     field: 'material.productLineId',
     valueFormatter: ColumnUtilityService.basicTransform,

@@ -1,4 +1,8 @@
-import { MaterialDetails, QuotationDetail } from '../../app/core/store/models';
+import {
+  MaterialDetails,
+  PriceSource,
+  QuotationDetail,
+} from '../../app/core/store/models';
 import { PLANT_MOCK } from './plant.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
@@ -30,6 +34,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   rlt: 20,
   productionSegment: 10,
   netValue: 2000,
-  priceSource: 'MokSource',
+  priceSource: PriceSource.GQ,
   gpi: 90,
+  customerMaterial: 'mockCustomerMaterial',
 };
