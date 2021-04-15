@@ -7,7 +7,10 @@ import { boolean, text } from '@storybook/addon-knobs';
 
 import { HeaderModule } from '@schaeffler/header';
 import { IconsModule } from '@schaeffler/icons';
-import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
+import {
+  SettingsSidebarComponent,
+  SettingsSidebarModule,
+} from '@schaeffler/settings-sidebar';
 
 import READMEMd from '../../../settings-sidebar/README.md';
 
@@ -24,6 +27,7 @@ const moduleMetadata = {
 
 const baseComponent = {
   moduleMetadata,
+  component: SettingsSidebarComponent,
 };
 
 // tslint:disable-next-line: no-default-export

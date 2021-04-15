@@ -8,7 +8,7 @@ import { SnackbarLauncherComponent } from './snackbar/snackbar-launcher.componen
 
 const moduleMetadata = {
   imports: [BrowserAnimationsModule, SnackBarModule, MatButtonModule],
-  declarations: [SnackbarLauncherComponent],
+  entryComponents: [SnackbarLauncherComponent],
 };
 
 const baseComponent = {

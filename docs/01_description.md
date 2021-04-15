@@ -5,7 +5,7 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nrwl/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
 
-![@nrwl/workspace: 12.0.1](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.0.1-brightgreen)
+![@nrwl/workspace: 12.0.6](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.0.6-brightgreen)
 ![typescript: 4.1.5](https://img.shields.io/badge/typescript-4.1.5-brightgreen)
 ![@angular/core: 11.2.9](https://img.shields.io/badge/%40angular%2Fcore-11.2.9-brightgreen)
 ![@angular/cli: 11.2.8](https://img.shields.io/badge/%40angular%2Fcli-11.2.8-brightgreen)

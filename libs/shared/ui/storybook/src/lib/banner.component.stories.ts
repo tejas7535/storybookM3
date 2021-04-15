@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 
 import { TranslocoModule } from '@ngneat/transloco';
-import { StoreModule } from '@ngrx/store';
 import { action } from '@storybook/addon-actions';
 import { boolean, number, text } from '@storybook/addon-knobs';
+import { BannerTextModule } from 'libs/shared/ui/banner/src/lib/banner-text/banner-text.module';
 
-import { BannerModule, BannerTextComponent } from '@schaeffler/banner';
+import { BannerTextComponent } from '@schaeffler/banner';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -14,8 +14,7 @@ import READMEMd from '../../../banner/README.md';
 const moduleMetadata = {
   imports: [
     CommonModule,
-    BannerModule,
-    StoreModule.forRoot({}),
+    BannerTextModule,
     provideTranslocoTestingModule({}),
     TranslocoModule,
     IconsModule,
