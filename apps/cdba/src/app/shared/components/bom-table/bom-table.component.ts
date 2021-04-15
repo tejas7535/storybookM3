@@ -76,50 +76,50 @@ export class BomTableComponent implements OnChanges {
   columnDefs: ColDef[] = [
     {
       field: 'totalPricePerPc',
-      headerName: translate('detail.bom.headers.totalPricePerPc'),
+      headerName: translate('shared.bom.headers.totalPricePerPc'),
       valueFormatter: (params) => formatNumber(params, '1.5-5'),
     },
     {
       field: 'currency',
-      headerName: translate('detail.bom.headers.currency'),
+      headerName: translate('shared.bom.headers.currency'),
     },
     {
       field: 'materialNumber',
-      headerName: translate('detail.bom.headers.materialNumber'),
+      headerName: translate('shared.bom.headers.materialNumber'),
       valueFormatter: formatMaterialNumber,
     },
     {
       field: 'plant',
-      headerName: translate('detail.bom.headers.plant'),
+      headerName: translate('shared.bom.headers.plant'),
     },
     {
       field: 'lotsize',
-      headerName: translate('detail.bom.headers.lotsize'),
+      headerName: translate('shared.bom.headers.lotsize'),
       valueFormatter: formatNumber,
     },
     {
       field: 'setupTime',
-      headerName: translate('detail.bom.headers.setupTime'),
+      headerName: translate('shared.bom.headers.setupTime'),
     },
     {
       field: 'cycleTime',
-      headerName: translate('detail.bom.headers.cycleTime'),
+      headerName: translate('shared.bom.headers.cycleTime'),
     },
     {
       field: 'toolingFactor',
-      headerName: translate('detail.bom.headers.toolingFactor'),
+      headerName: translate('shared.bom.headers.toolingFactor'),
     },
     {
       field: 'quantityPerParent',
-      headerName: translate('detail.bom.headers.quantityPerParent'),
+      headerName: translate('shared.bom.headers.quantityPerParent'),
     },
     {
       field: 'unitOfMeasure',
-      headerName: translate('detail.bom.headers.unitOfMeasure'),
+      headerName: translate('shared.bom.headers.unitOfMeasure'),
     },
     {
       field: 'costCenter',
-      headerName: translate('detail.bom.headers.workCenter'),
+      headerName: translate('shared.bom.headers.workCenter'),
     },
   ];
 

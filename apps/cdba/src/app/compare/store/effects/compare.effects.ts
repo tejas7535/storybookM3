@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, switchMap } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -73,7 +73,7 @@ export class CompareEffects {
   loadCalculationHistory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCalculationHistory),
-      switchMap((action: any) =>
+      mergeMap((action: any) =>
         this.detailService.calculations(action.materialNumber).pipe(
           map((items: Calculation[]) =>
             loadCalculationHistorySuccess({ items, index: action.index })
@@ -95,7 +95,7 @@ export class CompareEffects {
           select(getBomIdentifierForSelectedCalculation, { index })
         )
       ),
-      switchMap(([index, identifier]) =>
+      mergeMap(([index, identifier]) =>
         this.detailService.getBom(identifier).pipe(
           map((items: BomItem[]) => loadBomSuccess({ items, index })),
           catchError((error) => of(loadBomFailure({ error, index })))

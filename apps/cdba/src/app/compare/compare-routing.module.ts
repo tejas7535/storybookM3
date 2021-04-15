@@ -19,7 +19,9 @@ const routes: Routes = [
       {
         path: CompareRoutePath.BomPath,
         loadChildren: () =>
-          import('./bom-tab/bom-tab.module').then((m) => m.BomTabModule),
+          import('./bom-compare-tab/bom-compare-tab.module').then(
+            (m) => m.BomCompareTabModule
+          ),
       },
       {
         path: '',

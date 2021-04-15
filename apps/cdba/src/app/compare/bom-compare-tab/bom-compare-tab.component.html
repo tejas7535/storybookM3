@@ -1,0 +1,23 @@
+<div
+  class="compare-container"
+  fxLayout="row"
+  fxLayoutAlign="space-between start"
+  fxLayoutGap="20px"
+>
+  <div class="table-container" fxFlex="50%">
+    <cdba-bom-table
+      [rowData]="bomItems1$ | ngrxPush"
+      [isLoading]="bomLoading1$ | ngrxPush"
+      [errorMessage]="bomErrorMessage1$ | ngrxPush"
+      (rowSelected)="selectBomItem($event, 0)"
+    ></cdba-bom-table>
+  </div>
+  <div class="table-container" fxFlex="50%">
+    <cdba-bom-table
+      [rowData]="bomItems2$ | ngrxPush"
+      [isLoading]="bomLoading2$ | ngrxPush"
+      [errorMessage]="bomErrorMessage2$ | ngrxPush"
+      (rowSelected)="selectBomItem($event, 1)"
+    ></cdba-bom-table>
+  </div>
+</div>

@@ -10,14 +10,16 @@ import { MockModule } from 'ng-mocks';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
+import {
+  AdditionalInformationModule,
+  BomTableModule,
+} from '@cdba/shared/components';
 import { BOM_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { selectBomItem } from '../../core/store';
 import { CustomLoadingOverlayComponent } from '../../shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../../shared/components/table/custom-overlay/custom-overlay.module';
-import { AdditionalInformationModule } from './additional-information/additional-information.module';
 import { BomTabComponent } from './bom-tab.component';
-import { BomTableModule } from './bom-table/bom-table.module';
 
 describe('BomTabComponent', () => {
   let spectator: Spectator<BomTabComponent>;

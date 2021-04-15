@@ -82,29 +82,6 @@
       "productDescription": "Product Description"
     }
   },
-  "bom": {
-    "additionalInformation": {
-      "title": "Additional Information",
-      "calculations": "Calculations",
-      "chart": "Chart",
-      "selectionStatus": "You selected a component / workstep without any subelements.",
-      "selectionHint": "Please choose a assembly with at least one subelement to display the chart."
-    },
-    "title": "Bill of Material",
-    "headers": {
-      "totalPricePerPc": "Cost",
-      "currency": "Currency",
-      "materialNumber": "Material Number",
-      "plant": "Plant",
-      "lotsize": "Lot Size",
-      "setupTime": "Setup Time",
-      "cycleTime": "Cycle Time",
-      "toolingFactor": "Tooling Factor",
-      "quantityPerParent": "Quantity Per Parent",
-      "unitOfMeasure": "Unit",
-      "workCenter": "Work Center"
-    }
-  },
   "drawings": {
     "title": "Drawing: {{material}}",
     "notFoundErrorMessage": "Sorry, we couldn't find any drawings for the selected material.",
