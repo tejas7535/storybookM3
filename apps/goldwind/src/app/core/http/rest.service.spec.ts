@@ -36,7 +36,7 @@ describe('Rest Service', () => {
       const mockPath = 'many/paths/should/be/handled';
 
       service.getIot(mockPath);
-      expect(dataService.getAll).toHaveBeenCalledWith(`things/${mockPath}`);
+      expect(dataService.getAll).toHaveBeenCalledWith(`iot/things/${mockPath}`);
     });
   });
 
@@ -46,7 +46,7 @@ describe('Rest Service', () => {
 
       service.getBearing(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}/`
+        `iot/things/${mockBearingId}/`
       );
     });
   });
@@ -61,7 +61,7 @@ describe('Rest Service', () => {
 
       service.getEdm(mockEdmDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockEdmDevice.id}/telemetry/electric-discharge/${mockEdmDevice.startDate}/${mockEdmDevice.endDate}`
+        `iot/things/${mockEdmDevice.id}/telemetry/electric-discharge/${mockEdmDevice.startDate}/${mockEdmDevice.endDate}`
       );
     });
   });
@@ -76,7 +76,7 @@ describe('Rest Service', () => {
 
       service.getGreaseStatus(mockGreaseDevice);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockGreaseDevice.id}/telemetry/grease-status/${mockGreaseDevice.startDate}/${mockGreaseDevice.endDate}`
+        `iot/things/${mockGreaseDevice.id}/telemetry/grease-status/${mockGreaseDevice.startDate}/${mockGreaseDevice.endDate}`
       );
     });
   });
@@ -87,7 +87,7 @@ describe('Rest Service', () => {
 
       service.getShaftLatest(mockShaftDeviceID);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockShaftDeviceID}/telemetry/rotation-speed/latest`
+        `iot/things/${mockShaftDeviceID}/telemetry/rotation-speed/latest`
       );
     });
   });
@@ -98,7 +98,7 @@ describe('Rest Service', () => {
 
       service.getGreaseStatusLatest(mockBearingId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockBearingId}/telemetry/grease-status/latest`
+        `iot/things/${mockBearingId}/telemetry/grease-status/latest`
       );
     });
   });
@@ -120,7 +120,7 @@ describe('Rest Service', () => {
 
       service.getBearingLoad(mockLoadSenseParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockLoadSenseParams.id}/telemetry/bearing-load/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
+        `iot/things/${mockLoadSenseParams.id}/telemetry/bearing-load/${mockLoadSenseParams.startDate}/${mockLoadSenseParams.endDate}`
       );
     });
   });
@@ -131,7 +131,7 @@ describe('Rest Service', () => {
 
       service.getBearingLoadLatest(deviceId);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/telemetry/bearing-load/latest`
+        `iot/things/${deviceId}/telemetry/bearing-load/latest`
       );
     });
   });
@@ -150,7 +150,7 @@ describe('Rest Service', () => {
 
       service.getBearingLoadAverage(iotParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${deviceId}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}`
+        `iot/things/${deviceId}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}`
       );
     });
   });
