@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {
+  ScrollToTopComponent,
   ScrollToTopDirective,
   ScrollToTopModule,
 } from '@schaeffler/scroll-to-top';
@@ -15,6 +16,7 @@ const moduleMetadata = {
 
 const baseComponent = {
   moduleMetadata,
+  component: ScrollToTopComponent,
 };
 
 // tslint:disable-next-line: no-default-export
