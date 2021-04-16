@@ -3,11 +3,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
+import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { OfferTableModule } from '../offer-table/offer-table.module';
 import { OfferDrawerComponent } from './offer-drawer.component';
 
@@ -25,10 +27,12 @@ describe('OfferDrawerComponent', () => {
     declarations: [OfferDrawerComponent],
     imports: [
       OfferTableModule,
+      LoadingSpinnerModule,
       MatIconModule,
       MatButtonModule,
-      provideTranslocoTestingModule({}),
+      ReactiveComponentModule,
       RouterTestingModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [
       provideMockStore({
@@ -59,11 +63,11 @@ describe('OfferDrawerComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('toggle drawer', () => {
+  test('toggle drawer', () => {
     component['toggleOfferDrawer'].emit = jest.fn();
 
     component.drawerToggle();

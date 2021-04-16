@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
-import { uploadOfferToSap } from '../../../core/store';
+import { isManualCase, uploadOfferToSap } from '../../../core/store';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
@@ -11,9 +13,13 @@ import { ProcessCaseState } from '../../../core/store/reducers/process-case/proc
   styleUrls: ['./upload-to-sap-button.component.scss'],
 })
 export class UploadToSapButtonComponent {
+  isManualCase$: Observable<boolean>;
+
   agInit(): void {}
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  constructor(private readonly store: Store<ProcessCaseState>) {
+    this.isManualCase$ = this.store.select(isManualCase);
+  }
 
   uploadToSAP(): void {
     this.store.dispatch(uploadOfferToSap());

@@ -38,8 +38,17 @@ describe('DeleteAcceptComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('onCancelClick', () => {
+    test('should close dialogRef', () => {
+      component.dialogRef.close = jest.fn();
+
+      component.onCancelClick();
+
+      expect(component.dialogRef.close).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('trackByFn', () => {
-    it('should return index', () => {
+    test('should return index', () => {
       const result = component.trackByFn(3);
 
       expect(result).toEqual(3);

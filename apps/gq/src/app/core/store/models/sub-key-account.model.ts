@@ -1,3 +1,0 @@
-export class SubKeyAccount {
-  constructor(public id: string, public name: string) {}
-}

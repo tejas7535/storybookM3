@@ -14,4 +14,11 @@
     <h4>{{ t('title') }}</h4>
   </div>
 </div>
-<gq-offer-table [quotation]="quotation" [drawerTable]="true"></gq-offer-table>
+<gq-offer-table
+  [quotation]="quotation"
+  [drawerTable]="true"
+  *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
+></gq-offer-table>
+<ng-template #loading>
+  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+</ng-template>
