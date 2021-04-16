@@ -1,0 +1,31 @@
+<mat-sidenav-container class="h-full" *transloco="let t; read: 'sidebar'">
+  <mat-sidenav #sidenav class="w-full md:w-80 p-4">
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ t('languageSelectLabel') }}</mat-label>
+      <mat-select
+        [formControl]="languageSelectControl"
+        (selectionChange)="setLanguage($event.value)"
+      >
+        <mat-option
+          *ngFor="let lang of availableLangs; trackBy: trackByFn"
+          [value]="lang.id"
+          >{{ lang.label }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+    <mat-form-field appearance="outline" class="w-full">
+      <mat-label>{{ t('decimalSeparatorSelectLabel') }}</mat-label>
+      <mat-select
+        class="hover:outline-green focus:outline-green"
+        [formControl]="separatorSelectControl"
+        (selectionChange)="setSeparator($event.value)"
+      >
+        <mat-option value=",">{{ t('decimalSeparatorComma') }}</mat-option>
+        <mat-option value=".">{{ t('decimalSeparatorPoint') }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>
