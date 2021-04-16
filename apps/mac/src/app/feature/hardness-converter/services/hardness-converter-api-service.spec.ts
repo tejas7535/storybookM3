@@ -2,38 +2,40 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+
 import { ENV_CONFIG } from '@schaeffler/http';
-import { configureTestSuite } from 'ng-bullet';
 
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
 import { HARDNESS_CONVERSION_MOCK } from '../../../../testing/mocks/hardness-conversion.mock';
 import { HardnessConverterApiService } from './hardness-converter-api.service';
 
 describe('HardnessConverterApiService', () => {
+  let spectator: SpectatorService<HardnessConverterApiService>;
   let service: HardnessConverterApiService;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        HardnessConverterApiService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: HardnessConverterApiService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      HardnessConverterApiService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(HardnessConverterApiService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.inject(HardnessConverterApiService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   it('should be created', () => {

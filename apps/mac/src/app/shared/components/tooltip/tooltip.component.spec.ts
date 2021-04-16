@@ -1,27 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { TooltipComponent } from './tooltip.component';
 
 describe('TooltipComponent', () => {
+  let spectator: Spectator<TooltipComponent>;
   let component: TooltipComponent;
-  let fixture: ComponentFixture<TooltipComponent>;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      declarations: [TooltipComponent],
-      imports: [MatButtonModule, MatTooltipModule, MatIconModule],
-    });
+  const createComponent = createComponentFactory({
+    component: TooltipComponent,
+    declarations: [TooltipComponent],
+    imports: [MatButtonModule, MatTooltipModule, MatIconModule],
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TooltipComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    spectator = createComponent();
+    component = spectator.debugElement.componentInstance;
   });
 
   it('should create', () => {

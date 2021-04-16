@@ -7,8 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { SharedModule } from '../../shared/shared.module';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SharedModule } from '../../shared/shared.module';
 import { HardnessConverterRoutingModule } from './hardness-converter-routing.module';
 import { HardnessConverterComponent } from './hardness-converter.component';
 
@@ -25,6 +27,7 @@ import { HardnessConverterComponent } from './hardness-converter.component';
     MatCardModule,
     HardnessConverterRoutingModule,
     SharedModule,
+    ReactiveComponentModule,
   ],
 })
 export class HardnessConverterModule {}

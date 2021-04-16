@@ -2,9 +2,8 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
 
-import { configureTestSuite } from 'ng-bullet';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
@@ -14,29 +13,30 @@ import { AqmCalculatorApiService } from './aqm-calculator-api.service';
 import { AQMCalculationRequest } from './aqm-calulator-response.model';
 
 describe('AqmCalculatorApiService', () => {
+  let spectator: SpectatorService<AqmCalculatorApiService>;
   let service: AqmCalculatorApiService;
   let httpMock: HttpTestingController;
 
-  configureTestSuite(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [
-        AqmCalculatorApiService,
-        {
-          provide: ENV_CONFIG,
-          useValue: {
-            environment: {
-              baseUrl: '',
-            },
+  const createService = createServiceFactory({
+    service: AqmCalculatorApiService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      AqmCalculatorApiService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
           },
         },
-      ],
-    });
+      },
+    ],
   });
 
   beforeEach(() => {
-    service = TestBed.inject(AqmCalculatorApiService);
-    httpMock = TestBed.inject(HttpTestingController);
+    spectator = createService();
+    service = spectator.inject(AqmCalculatorApiService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   it('should be created', () => {

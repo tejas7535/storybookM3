@@ -12,8 +12,6 @@
   },
   "projects": {
     "shared-cypress-utils": { "tags": ["scope:shared", "type:utils"] },
-    "ltp-e2e": { "tags": [], "implicitDependencies": ["ltp"] },
-    "ltp": { "tags": [], "implicitDependencies": ["shared-ui-styles"] },
     "shared-assets": { "tags": ["scope:shared", "type:assets"] },
     "helloworld-azure-e2e": {
       "tags": [],

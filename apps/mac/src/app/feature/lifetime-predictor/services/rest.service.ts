@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+
+import { DataService } from '@schaeffler/http';
 
 import {
   Loads,
@@ -21,7 +22,7 @@ export class RestService {
   public SERVER_URL_STATISTICAL = 'lifetime-predictor/statistical/api';
   public SERVER_URL_LOADS = 'lifetime-predictor/loads/api';
 
-  constructor(private readonly httpService: HttpClient) {}
+  constructor(private readonly dataService: DataService) {}
 
   /**
    * posts prediction request and returns result of prediction
@@ -56,7 +57,7 @@ export class RestService {
     };
 
     if (mode === 2) {
-      return this.httpService
+      return this.dataService
         .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
         .pipe(
           map((res) => {
@@ -87,7 +88,7 @@ export class RestService {
         );
     }
 
-    return this.httpService.post<any>(
+    return this.dataService.post<any>(
       `${this.SERVER_URL_PREDICTION}/score`,
       prediction
     );
@@ -120,7 +121,7 @@ export class RestService {
       new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
     );
 
-    return this.httpService.post<any>(
+    return this.dataService.post<any>(
       `${this.SERVER_URL_LOADS}/score`,
       formData
     );
@@ -129,7 +130,7 @@ export class RestService {
   public postStatisticalService(
     statisticalRequest: StatisticalRequest
   ): Observable<StatisticalPrediction> {
-    return this.httpService.post<any>(
+    return this.dataService.post<any>(
       `${this.SERVER_URL_STATISTICAL}/score`,
       statisticalRequest
     );

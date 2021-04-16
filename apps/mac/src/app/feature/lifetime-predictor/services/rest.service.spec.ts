@@ -2,24 +2,40 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { TestBed } from '@angular/core/testing';
+
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+
+import { ENV_CONFIG } from '@schaeffler/http';
 
 import { PredictionRequest, StatisticalRequest } from '../models';
 import { mockedStatisticalResult } from './../mock/mock.constants';
 import { RestService } from './rest.service';
 
 describe('RestService', () => {
+  let spectator: SpectatorService<RestService>;
   let myProvider: RestService;
   let httpMock: HttpTestingController;
 
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
-      providers: [RestService],
-    });
+  const createService = createServiceFactory({
+    service: RestService,
+    imports: [HttpClientTestingModule],
+    providers: [
+      RestService,
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
+          },
+        },
+      },
+    ],
+  });
 
-    myProvider = TestBed.inject(RestService);
-    httpMock = TestBed.inject(HttpTestingController);
+  beforeEach(() => {
+    spectator = createService();
+    myProvider = spectator.inject(RestService);
+    httpMock = spectator.inject(HttpTestingController);
   });
 
   afterEach(() => {
@@ -72,7 +88,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/score`
+        `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -86,7 +102,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_PREDICTION}/score`
+        `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
@@ -112,7 +128,7 @@ describe('RestService', () => {
         expect(loadsResult).toEqual(mockedLoadsPrediction);
       });
 
-      const req = httpMock.expectOne(`${myProvider.SERVER_URL_LOADS}/score`);
+      const req = httpMock.expectOne(`/${myProvider.SERVER_URL_LOADS}/score`);
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
     });
@@ -139,7 +155,7 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `${myProvider.SERVER_URL_STATISTICAL}/score`
+        `/${myProvider.SERVER_URL_STATISTICAL}/score`
       );
       expect(req.request.method).toBe('POST');
       req.flush(statisticalResult);

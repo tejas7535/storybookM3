@@ -2,7 +2,9 @@
 <div class="sidenav-content-container">
   <div fxFlex="1 0 calc(100% - 40px)">
     <mat-card class="ltp-prediction-card" fxLayout="column" fxFlexFill>
-      <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | async"></mac-breadcrumbs>
+      <mac-breadcrumbs
+        [breadcrumbs]="breadcrumbs$ | ngrxPush"
+      ></mac-breadcrumbs>
       <mat-card-title>{{ 'ltp.home.headline' | transloco }}</mat-card-title>
       <div fxFlex>
         <mat-card-content

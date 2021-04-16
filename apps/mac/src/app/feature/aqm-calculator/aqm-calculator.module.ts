@@ -9,8 +9,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
-import { SharedModule } from '../../shared/shared.module';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SharedModule } from '../../shared/shared.module';
 import { AqmCalculatorRoutingModule } from './aqm-calculator-routing.module';
 import { AqmCalculatorComponent } from './aqm-calculator.component';
 
@@ -29,6 +31,7 @@ import { AqmCalculatorComponent } from './aqm-calculator.component';
     MatCardModule,
     MatChipsModule,
     MatIconModule,
+    ReactiveComponentModule,
   ],
 })
 export class AqmCalculatorModule {}
