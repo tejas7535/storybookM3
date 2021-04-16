@@ -1,0 +1,9 @@
+{
+  "sidebar": {
+    "languageSelectLabel": "Sprache",
+    "decimalSeparatorSelectLabel": "Dezimaltrennzeichen",
+    "decimalSeparatorComma": "Komma",
+    "decimalSeparatorPoint": "Punkt"
+  },
+  "test": "test de"
+}

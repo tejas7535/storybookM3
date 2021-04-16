@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
@@ -22,6 +23,7 @@ describe('AppComponent', () => {
       FooterTailwindModule,
       MatButtonModule,
       RouterTestingModule,
+      TranslocoTestingModule,
     ],
     providers: [provideMockStore()],
     declarations: [AppComponent],

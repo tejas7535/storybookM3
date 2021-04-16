@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { APP_INITIALIZER, ModuleWithProviders, NgModule } from '@angular/core';
 
 import {
+  AvailableLangs,
   getBrowserLang,
   TRANSLOCO_CONFIG,
   TRANSLOCO_SCOPE,
@@ -53,7 +54,7 @@ export const preLoad = {
 export class SharedTranslocoModule {
   static forRoot(
     prodMode: boolean,
-    availableLangs: string[],
+    availableLangs: AvailableLangs,
     defaultLang: string,
     fallbackLang: string,
     appHasTranslations: boolean = true,

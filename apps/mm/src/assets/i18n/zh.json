@@ -1,0 +1,9 @@
+{
+  "sidebar": {
+    "languageSelectLabel": "语",
+    "decimalSeparatorSelectLabel": "小數點分隔符",
+    "decimalSeparatorComma": "逗號",
+    "decimalSeparatorPoint": "觀點"
+  },
+  "test": "test zh"
+}

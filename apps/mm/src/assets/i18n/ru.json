@@ -1,0 +1,9 @@
+{
+  "sidebar": {
+    "languageSelectLabel": "Язык",
+    "decimalSeparatorSelectLabel": "Десятичный разделитель",
+    "decimalSeparatorComma": "Запятая",
+    "decimalSeparatorPoint": "Точка"
+  },
+  "test": "test ru"
+}
