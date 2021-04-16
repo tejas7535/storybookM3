@@ -12,6 +12,7 @@ describe('HomeComponent', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
   let spectator: Spectator<HomeComponent>;
+  let service: GreetingService;
 
   const createComponent = createComponentFactory({
     component: HomeComponent,
@@ -27,6 +28,7 @@ describe('HomeComponent', () => {
     spectator = createComponent();
     component = spectator.component;
     fixture = spectator.fixture;
+    service = spectator.inject(GreetingService);
   });
 
   test('should create', () => {
@@ -42,26 +44,24 @@ describe('HomeComponent', () => {
 
   describe('ngOnInit', () => {
     test('should call greetingService', () => {
-      component['greetingsService'].greetPublic = jest.fn();
-      component['greetingsService'].greetAdmins = jest.fn();
-      component['greetingsService'].greetAuthorized = jest.fn();
-      component['greetingsService'].greetUsers = jest.fn();
-      component['greetingsService'].greetDotNetAuthorized = jest.fn();
-      component['greetingsService'].greetDotNetPublic = jest.fn();
+      service.greetPublic = jest.fn();
+      service.greetAdmins = jest.fn();
+      service.greetAuthorized = jest.fn();
+      service.greetUsers = jest.fn();
+      service.greetDotNetAuthorized = jest.fn();
+      service.greetDotNetPublic = jest.fn();
+      service.greetAzFunctions = jest.fn();
 
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component['greetingsService'].greetPublic).toHaveBeenCalled();
-      expect(component['greetingsService'].greetAdmins).toHaveBeenCalled();
-      expect(component['greetingsService'].greetAuthorized).toHaveBeenCalled();
-      expect(component['greetingsService'].greetUsers).toHaveBeenCalled();
-      expect(
-        component['greetingsService'].greetDotNetAuthorized
-      ).toHaveBeenCalled();
-      expect(
-        component['greetingsService'].greetDotNetPublic
-      ).toHaveBeenCalled();
+      expect(service.greetPublic).toHaveBeenCalled();
+      expect(service.greetAdmins).toHaveBeenCalled();
+      expect(service.greetAuthorized).toHaveBeenCalled();
+      expect(service.greetUsers).toHaveBeenCalled();
+      expect(service.greetDotNetAuthorized).toHaveBeenCalled();
+      expect(service.greetDotNetPublic).toHaveBeenCalled();
+      expect(service.greetAzFunctions).toHaveBeenCalledTimes(1);
     });
   });
 });
