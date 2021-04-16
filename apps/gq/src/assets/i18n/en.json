@@ -17,6 +17,7 @@
       "priceSource": "Price Source",
       "productionCity": "City",
       "productionCountry": "Country",
+      "customerMaterial": "Customer Material",
       "productionPlant": "Prod. Plant",
       "productLine": "PL",
       "orderQuantity": "Quantity",

@@ -9,4 +9,5 @@ import { MaterialDetails } from '../../../core/store/models';
 })
 export class MaterialDetailsComponent {
   @Input() materialDetails: MaterialDetails;
+  @Input() customerMaterial: string;
 }

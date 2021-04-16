@@ -21,6 +21,7 @@
     "materialDetails": {
       "15digit": "Material",
       "baseUoM": "Mengeneinheit",
+      "customerMaterial": "Kundenmaterialnummer",
       "dimension": "Abmessungen",
       "ean11": "EAN Code",
       "followingType": "Folgetype",

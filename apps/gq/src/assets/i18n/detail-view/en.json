@@ -21,6 +21,7 @@
     "materialDetails": {
       "15digit": "Material",
       "baseUoM": "Base UoM",
+      "customerMaterial": "Customer Material",
       "dimension": "Dimensions",
       "ean11": "EAN Code",
       "followingType": "Following Type",
