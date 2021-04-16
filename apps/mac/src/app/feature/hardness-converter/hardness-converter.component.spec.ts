@@ -6,8 +6,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+
 import { of } from 'rxjs';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
 import {
@@ -38,6 +41,7 @@ describe('HardnessConverterComponent', () => {
       ReactiveFormsModule,
       MatCardModule,
       SharedModule,
+      ReactiveComponentModule,
     ],
     declarations: [HardnessConverterComponent],
     providers: [

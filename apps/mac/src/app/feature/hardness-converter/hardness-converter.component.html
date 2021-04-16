@@ -1,6 +1,6 @@
 <div class="hardness-converter-wrapper">
   <mat-card class="hardness-converter">
-    <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | async"></mac-breadcrumbs>
+    <mac-breadcrumbs [breadcrumbs]="breadcrumbs$ | ngrxPush"></mac-breadcrumbs>
     <mat-card-title>Hardness Converter</mat-card-title>
     <mat-card-content>
       <div
@@ -37,18 +37,18 @@
           </mat-form-field>
         </div>
       </form>
-      <p class="conversion-info" [@inOutAnimation] *ngIf="results$ | async">
+      <p class="conversion-info" [@inOutAnimation] *ngIf="results$ | ngrxPush">
         Converted after ISO 18265 - A.1
       </p>
-      <div class="results" [@inOutAnimation] *ngIf="results$ | async">
+      <div class="results" [@inOutAnimation] *ngIf="results$ | ngrxPush">
         <div
           class="spinner-wrapper"
-          [ngClass]="{ hidden: (resultsUpToDate$ | async) }"
+          [ngClass]="{ hidden: (resultsUpToDate$ | ngrxPush) }"
         >
           <mat-spinner></mat-spinner>
         </div>
         <mat-card
-          *ngFor="let result of results$ | async; trackBy: trackByFn"
+          *ngFor="let result of results$ | ngrxPush; trackBy: trackByFn"
           class="unit-result"
         >
           <span class="value" [ngClass]="{ warning: result.warning }">{{
