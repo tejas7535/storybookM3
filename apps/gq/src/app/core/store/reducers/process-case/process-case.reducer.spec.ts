@@ -98,11 +98,8 @@ describe('Quotation Reducer', () => {
   describe('quotation', () => {
     describe('selectQuotation', () => {
       test('should set selectQuotation', () => {
-        const quotationIdentifier: QuotationIdentifier = {
-          salesOrg: '0267',
-          gqId: 123,
-          customerNumber: '456',
-        };
+        const quotationIdentifier = new QuotationIdentifier(123, '0267', '456');
+
         const action = selectQuotation({ quotationIdentifier });
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
 

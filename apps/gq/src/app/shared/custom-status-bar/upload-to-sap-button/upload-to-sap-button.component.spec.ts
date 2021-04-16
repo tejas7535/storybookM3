@@ -2,6 +2,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -18,8 +19,9 @@ describe('UploadToSapButtonComponent', () => {
     declarations: [UploadToSapButtonComponent],
     imports: [
       MatButtonModule,
-      provideTranslocoTestingModule({}),
       MatIconModule,
+      ReactiveComponentModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [provideMockStore({})],
   });
@@ -38,7 +40,6 @@ describe('UploadToSapButtonComponent', () => {
       jest.spyOn(window, 'alert').mockImplementation(() => {});
 
       component.uploadToSAP();
-      // ToDo: Add open window
     });
   });
 });

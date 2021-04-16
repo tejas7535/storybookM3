@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import {
   AddQuotationDetailsRequest,
   Customer,
+  MaterialDetails,
   MaterialQuantities,
   MaterialTableItem,
   Quotation,
@@ -141,7 +142,7 @@ export const getCustomerCurrency = createSelector(
 
 export const getMaterialOfSelectedQuotationDetail = createSelector(
   getSelectedQuotationDetail,
-  (detail: QuotationDetail) => detail?.material
+  (detail: QuotationDetail): MaterialDetails => detail?.material
 );
 
 export const getUpdateLoading = createSelector(
@@ -151,10 +152,15 @@ export const getUpdateLoading = createSelector(
 
 export const getQuotationErrorMessage = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState) => state.quotation.errorMessage
+  (state: ProcessCaseState): string => state.quotation.errorMessage
 );
 
 export const getGqId = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState) => state.quotationIdentifier?.gqId
+  (state: ProcessCaseState): number => state.quotationIdentifier?.gqId
+);
+
+export const isManualCase = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): boolean => !state.quotation.item?.sapId
 );

@@ -279,4 +279,11 @@ describe('Process Case Selector', () => {
       ).toEqual(fakeState.processCase.quotationIdentifier.gqId);
     });
   });
+  describe('isManualCase ', () => {
+    test('should return if manual case', () => {
+      expect(
+        quotationSelectors.isManualCase.projector(fakeState.processCase)
+      ).toEqual(false);
+    });
+  });
 });
