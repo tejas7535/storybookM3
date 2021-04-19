@@ -3,17 +3,21 @@ import { RouterModule, Routes } from '@angular/router';
 
 export enum RoutePath {
   BasePath = '',
-  HomePath = 'home',
+  HomePath = 'app',
 }
 
 export const appRoutePaths: Routes = [
   {
-    path: RoutePath.BasePath,
-    redirectTo: `/${RoutePath.HomePath}`,
-    pathMatch: 'full',
+    path: `${RoutePath.HomePath}/:step/:id/:language/:seperator/:head/:iframe`,
+    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
-    path: RoutePath.HomePath,
+    path: RoutePath.BasePath,
+    redirectTo: `/${RoutePath.HomePath}`,
+    pathMatch: 'prefix',
+  },
+  {
+    path: `${RoutePath.HomePath}`,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {
@@ -24,11 +28,7 @@ export const appRoutePaths: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutePaths, {
-      useHash: true,
-    }),
-  ],
+  imports: [RouterModule.forRoot(appRoutePaths)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

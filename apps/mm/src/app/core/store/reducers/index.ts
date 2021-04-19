@@ -8,7 +8,6 @@ import {
 } from '@ngrx/store';
 
 import { environment } from '../../../../environments/environment';
-import * as fromSteps from './steps/steps.reducer';
 
 export interface RouterStateUrl {
   url: string;
@@ -18,12 +17,10 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
-  steps: fromSteps.StepsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
-  steps: fromSteps.stepsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -33,10 +30,6 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
 export const getRouterState = createFeatureSelector<
   fromRouter.RouterReducerState<RouterStateUrl>
 >('router');
-
-export const getStepsState = createFeatureSelector<fromSteps.StepsState>(
-  'steps'
-);
 
 export class CustomSerializer
   implements fromRouter.RouterStateSerializer<RouterStateUrl> {

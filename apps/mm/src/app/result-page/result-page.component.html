@@ -1,0 +1,15 @@
+<ng-container *ngIf="active">
+  <h4>Result Page</h4>
+
+  <div *ngIf="result$ | ngrxPush as result">
+    <a
+      mat-raised-button
+      type="button"
+      target="_blank"
+      [href]="result.pdfReportUrl"
+    >
+      Download
+    </a>
+    <div [innerHtml]="result.htmlReport"></div>
+  </div>
+</ng-container>

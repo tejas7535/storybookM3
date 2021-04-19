@@ -13,3 +13,71 @@
 <p>test: 100</p>
 <p>{{ 100 | mmNumber }}</p>
 <br />
+<!-- <pre>{{ dialog | json }}</pre> -->
+
+<cae-dynamic-form
+  [description]="dialog"
+  [model]="model"
+  [object]="object"
+  (loaded)="dynamicFormLoaded($event)"
+>
+  <div
+    *caeLayout="let metaArray; let pages = pages; let form = form"
+    class="content"
+  >
+    <mm-pages-stepper
+      #stepper
+      [pages]="pages"
+      [maxPageId]="maxPageId$ | ngrxPush"
+      [activePageId]="activePageId$ | ngrxPush"
+      [inactivePageId]="inactivePageId$ | ngrxPush"
+      (activePageIdChange)="homeStore.setActivePageId($event)"
+    >
+    </mm-pages-stepper>
+
+    <div>
+      <mm-bearing-search
+        *ngIf="(activePageId$ | ngrxPush) === 'RSY_PAGE_BEARING_TYPE'"
+        (bearing)="selectBearing($event)"
+      ></mm-bearing-search>
+
+      <ng-container *ngFor="let pagedMeta of pagedMetas$ | ngrxPush">
+        <ng-container *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)">
+          <ng-container *ngFor="let meta of pagedMeta.metas">
+            <div *ngIf="meta.page.visible" class="control-container">
+              <label *ngIf="meta.member.text">{{ meta.member.text }}</label>
+              <cae-member-control
+                [class.wide]="!meta.member.text"
+                [meta]="meta"
+              ></cae-member-control>
+            </div>
+          </ng-container>
+
+          <button
+            *ngIf="stepper.hasPrev"
+            mat-raised-button
+            (click)="stepper.prev()"
+          >
+            prev
+          </button>
+
+          <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
+            <button
+              mat-raised-button
+              *ngIf="stepper.hasNext"
+              [disabled]="!(pagedMeta.valid$ | async)"
+              (click)="
+                next(pagedMeta.page.id, pagedMetas, stepper);
+                stepper.hasResultNext && resultPage.send(form)
+              "
+            >
+              {{ stepper.hasResultNext ? 'submit' : 'next' }}
+            </button>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+
+      <mm-result-page [active]="!stepper.hasNext" #resultPage></mm-result-page>
+    </div>
+  </div>
+</cae-dynamic-form>

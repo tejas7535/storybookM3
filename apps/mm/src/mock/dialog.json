@@ -1,0 +1,944 @@
+{
+  "pages": [
+    {
+      "id": "RSY_PAGE_BEARING_TYPE",
+      "title": "RSY_BEARING_TYPE",
+      "text": "Lager",
+      "visible": {
+        "value": true,
+        "dataType": "boolean",
+        "functionType": null,
+        "expressionType": "CONSTANT",
+        "ids": null,
+        "id": null
+      },
+      "groups": [
+        {
+          "members": [
+            {
+              "id": "RSY_BEARING_TYPE",
+              "text": "Lager-Art",
+              "type": "list",
+              "defaultValue": null,
+              "abbreviation": "",
+              "memberType": "Variable",
+              "requiresUpdate": true,
+              "requiresInitialization": false,
+              "input": {
+                "value": true,
+                "dataType": "boolean",
+                "functionType": null,
+                "expressionType": "CONSTANT",
+                "ids": null,
+                "id": null
+              },
+              "listValues": [
+                {
+                  "id": 1,
+                  "text": "Pendelkugellager",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
+                },
+                {
+                  "id": 2,
+                  "text": "Tonnenrollenlager",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/toro_unknown.bmp"
+                },
+                {
+                  "id": 3,
+                  "text": "Pendelrollenlager",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
+                },
+                {
+                  "id": 4,
+                  "text": "Radialrollenlager",
+                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/zyro_unknown.bmp"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "subPages": [
+        {
+          "id": "RSY_PAGE_BEARING_SERIES",
+          "title": "RSY_BEARING_SERIES",
+          "text": "Lager",
+          "visible": {
+            "operator": "NOT_EQUAL",
+            "left": {
+              "id": "RSY_BEARING_TYPE",
+              "object": null,
+              "specifications": [],
+              "expressionType": "MEMBER"
+            },
+            "right": {
+              "value": null,
+              "dataType": "NONE",
+              "expressionType": "CONSTANT"
+            },
+            "expressionType": "BINARY"
+          },
+          "groups": [
+            {
+              "members": [
+                {
+                  "id": "RSY_BEARING_SERIES",
+                  "text": "Lager-Baureihe",
+                  "type": "lazy-list",
+                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series",
+                  "sources": [
+                    {
+                      "id": "RSY_BEARING_TYPE",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    }
+                  ],
+                  "defaultValue": null,
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  }
+                }
+              ],
+              "subPages": null
+            }
+          ]
+        },
+        {
+          "id": "RSY_PAGE_BEARING",
+          "title": "RSY_BEARING",
+          "text": "Lager",
+          "visible": {
+            "operator": "AND",
+            "left": {
+              "operator": "NOT_EQUAL",
+              "left": {
+                "id": "RSY_BEARING_SERIES",
+                "object": null,
+                "specifications": [],
+                "expressionType": "MEMBER"
+              },
+              "right": {
+                "value": null,
+                "dataType": "NONE",
+                "expressionType": "CONSTANT"
+              },
+              "expressionType": "BINARY"
+            },
+            "right": {
+              "operator": "NOT_EQUAL",
+              "left": {
+                "id": "RSY_BEARING_TYPE",
+                "object": null,
+                "specifications": [],
+                "expressionType": "MEMBER"
+              },
+              "right": {
+                "value": null,
+                "dataType": "NONE",
+                "expressionType": "CONSTANT"
+              },
+              "expressionType": "BINARY"
+            },
+            "expressionType": "BINARY"
+          },
+          "groups": [
+            {
+              "members": [
+                {
+                  "id": "RSY_BEARING",
+                  "text": "Lager",
+                  "type": "lazy-list",
+                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings",
+                  "sources": [
+                    {
+                      "id": "RSY_BEARING_TYPE",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "RSY_BEARING_SERIES",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    }
+                  ],
+                  "defaultValue": null,
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  }
+                }
+              ],
+              "subPages": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PAGE_MOUNTING_MANAGER_SEAT",
+      "title": "IDMM_BEARING_SEAT",
+      "text": "Lagersitz",
+      "visible": {
+        "value": true,
+        "dataType": "boolean",
+        "functionType": null,
+        "expressionType": "CONSTANT",
+        "ids": null,
+        "id": null
+      },
+      "groups": [
+        {
+          "members": [
+            {
+              "id": "IDMM_BEARING_SEAT",
+              "text": "Lagersitz",
+              "type": "lazy-list",
+              "defaultValue": null,
+              "sources": [
+                {
+                  "id": "RSY_BEARING_TYPE",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                },
+                {
+                  "id": "RSY_BEARING_SERIES",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                },
+                {
+                  "id": "RSY_BEARING",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                }
+              ],
+              "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>",
+              "abbreviation": "",
+              "memberType": "Variable",
+              "requiresUpdate": true,
+              "requiresInitialization": false,
+              "input": {
+                "value": true,
+                "dataType": "boolean",
+                "functionType": null,
+                "expressionType": "CONSTANT",
+                "ids": null,
+                "id": null
+              }
+            }
+          ],
+          "subPages": null
+        }
+      ]
+    },
+    {
+      "id": "PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS",
+      "title": "IDMM_MEASSURING_METHOD",
+      "text": "Messen & Montage",
+      "visible": {
+        "value": true,
+        "dataType": "boolean",
+        "functionType": null,
+        "expressionType": "CONSTANT",
+        "ids": null,
+        "id": null
+      },
+      "groups": [
+        {
+          "members": [
+            {
+              "id": "IDMM_MEASSURING_METHOD",
+              "text": "Messmethode",
+              "type": "lazy-list",
+              "defaultValue": null,
+              "sources": [
+                {
+                  "id": "RSY_BEARING_TYPE",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                },
+                {
+                  "id": "RSY_BEARING_SERIES",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                },
+                {
+                  "id": "RSY_BEARING",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                },
+                {
+                  "id": "IDMM_BEARING_SEAT",
+                  "object": null,
+                  "specifications": [],
+                  "expressionType": "MEMBER"
+                }
+              ],
+              "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods",
+              "abbreviation": "",
+              "memberType": "Variable",
+              "requiresUpdate": true,
+              "requiresInitialization": false,
+              "input": {
+                "value": true,
+                "dataType": "boolean",
+                "functionType": null,
+                "expressionType": "CONSTANT",
+                "ids": null,
+                "id": null
+              }
+            }
+          ]
+        }
+      ],
+      "subPages": [
+        {
+          "id": "PAGE_MOUNTING_MANAGER_MOUTING_METHODS",
+          "title": "IDMM_MOUNTING_METHOD",
+          "text": "Montage",
+          "visible": {
+            "operator": "NOT_EQUAL",
+            "left": {
+              "id": "IDMM_MEASSURING_METHOD",
+              "object": null,
+              "specifications": [],
+              "expressionType": "MEMBER"
+            },
+            "right": {
+              "value": null,
+              "dataType": "NONE",
+              "expressionType": "CONSTANT"
+            },
+            "expressionType": "BINARY"
+          },
+          "groups": [
+            {
+              "members": [
+                {
+                  "id": "IDMM_MOUNTING_METHOD",
+                  "text": "Montagemethode",
+                  "type": "lazy-list",
+                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods/<IDMM_MEASSURING_METHOD>/mountingMethods",
+                  "sources": [
+                    {
+                      "id": "RSY_BEARING_TYPE",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "RSY_BEARING_SERIES",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "RSY_BEARING",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "IDMM_BEARING_SEAT",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "IDMM_MEASSURING_METHOD",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    }
+                  ],
+                  "defaultValue": null,
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "runtimeDescription": {
+                    "assignMembers": [
+                      {
+                        "assignee": {
+                          "id": "IDMM_HYDRAULIC_NUT_TYPE",
+                          "object": null,
+                          "specifications": [],
+                          "expressionType": "MEMBER"
+                        },
+                        "initializer": {
+                          "columnName": "IDMM_HYDRAULIC_NUT_TYPE",
+                          "tableId": "TBL_BEARING_PREFLIGHT",
+                          "defaultExpression": {
+                            "id": "IDMM_HYDRAULIC_NUT_TYPE",
+                            "object": null,
+                            "specifications": [],
+                            "expressionType": "MEMBER"
+                          },
+                          "whereConditions": [],
+                          "functionType": "SELECT_STATEMENT",
+                          "expressionType": "FUNCTION"
+                        }
+                      },
+                      {
+                        "assignee": {
+                          "id": "IDMM_INNER_RING_EXPANSION",
+                          "object": null,
+                          "specifications": [],
+                          "expressionType": "MEMBER"
+                        },
+                        "initializer": {
+                          "columnName": "IDMM_INNER_RING_EXPANSION",
+                          "tableId": "TBL_BEARING_PREFLIGHT",
+                          "defaultExpression": {
+                            "id": "IDMM_INNER_RING_EXPANSION",
+                            "object": null,
+                            "specifications": [],
+                            "expressionType": "MEMBER"
+                          },
+                          "whereConditions": [],
+                          "functionType": "SELECT_STATEMENT",
+                          "expressionType": "FUNCTION"
+                        }
+                      },
+                      {
+                        "assignee": {
+                          "id": "IDMM_RADIAL_CLEARANCE_REDUCTION",
+                          "object": null,
+                          "specifications": [],
+                          "expressionType": "MEMBER"
+                        },
+                        "initializer": {
+                          "columnName": "IDMM_RADIAL_CLEARANCE_REDUCTION",
+                          "tableId": "TBL_BEARING_PREFLIGHT",
+                          "defaultExpression": {
+                            "id": "IDMM_RADIAL_CLEARANCE_REDUCTION",
+                            "object": null,
+                            "specifications": [],
+                            "expressionType": "MEMBER"
+                          },
+                          "whereConditions": [],
+                          "functionType": "SELECT_STATEMENT",
+                          "expressionType": "FUNCTION"
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PROPERTY_PAGE_MOUNTING_SITUATION",
+      "title": "PROPERTY_PAGE_TITLE_MOUNTING_SITUATION",
+      "text": "Berechnungsoptionen",
+      "visible": {
+        "value": false,
+        "dataType": null,
+        "functionType": "SET_ID_CHECK",
+        "expressionType": "FUNCTION",
+        "ids": ["LB_AXIAL_DISPLACEMENT"],
+        "id": {
+          "id": "IDMM_MEASSURING_METHOD",
+          "object": null,
+          "specifications": [],
+          "expressionType": "MEMBER"
+        }
+      },
+      "groups": [
+        {
+          "members": []
+        }
+      ],
+      "subPages": [
+        {
+          "id": "PROPERTY_PAGE_MOUNTING",
+          "title": "STRING_OUTP_MOUNTING",
+          "text": "Montage",
+          "visible": {
+            "value": true,
+            "dataType": "boolean",
+            "functionType": null,
+            "expressionType": "CONSTANT",
+            "ids": null,
+            "id": null
+          },
+          "groups": [
+            {
+              "members": [
+                {
+                  "id": "IDMM_HYDRAULIC_NUT_TYPE",
+                  "text": "Typ der Hydraulikmutter",
+                  "type": "lazy-list",
+                  "unit": "",
+                  "precision": null,
+                  "defaultValue": "LB_NOT_AVAILABLE",
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "sources": [
+                    {
+                      "id": "RSY_BEARING_TYPE",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "RSY_BEARING_SERIES",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "RSY_BEARING",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    {
+                      "id": "IDMM_BEARING_SEAT",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    }
+                  ],
+                  "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-preflight"
+                },
+                {
+                  "id": "IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS",
+                  "text": "Anzahl vorheriger Montagen",
+                  "type": "list",
+                  "unit": "",
+                  "precision": null,
+                  "defaultValue": "LB_ZERO_TO_ONE",
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "listValues": [
+                    {
+                      "id": "LB_ZERO_TO_ONE",
+                      "text": "0-1"
+                    },
+                    {
+                      "id": "LB_TWO",
+                      "text": "2"
+                    },
+                    {
+                      "id": "LB_THREE",
+                      "text": "3"
+                    },
+                    {
+                      "id": "LB_FOUR",
+                      "text": "4"
+                    },
+                    {
+                      "id": "LB_FIVE",
+                      "text": "5"
+                    },
+                    {
+                      "id": "LB_SIX_PLUS",
+                      "text": "6+"
+                    }
+                  ]
+                },
+                {
+                  "id": "IDMM_CLEARANCE_REDUCTION_INPUT",
+                  "text": "Vorgabe für Montage",
+                  "type": "list",
+                  "unit": "",
+                  "precision": null,
+                  "defaultValue": "LB_RADIAL_CLEARANCE_REDUCTION",
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "listValues": [
+                    {
+                      "id": "LB_RADIAL_CLEARANCE_REDUCTION",
+                      "text": "Radialluftminderung"
+                    },
+                    {
+                      "id": "LB_INNER_RING_EXPANSION",
+                      "text": "Innenlaufbahndehnung"
+                    }
+                  ]
+                },
+                {
+                  "id": "IDMM_INNER_RING_EXPANSION",
+                  "text": "Innenlaufbahndehnung",
+                  "type": "number",
+                  "unit": "�",
+                  "precision": 3,
+                  "defaultValue": 0.0,
+                  "abbreviation": "eps_d_ir",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "operator": "EQUAL",
+                    "left": {
+                      "id": "IDMM_CLEARANCE_REDUCTION_INPUT",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    "right": {
+                      "value": "LB_INNER_RING_EXPANSION",
+                      "dataType": "NONE",
+                      "expressionType": "CONSTANT"
+                    },
+                    "expressionType": "BINARY"
+                  }
+                },
+                {
+                  "id": "IDMM_RADIAL_CLEARANCE_REDUCTION",
+                  "text": "Radialluftminderung",
+                  "type": "number",
+                  "unit": "�m",
+                  "precision": 1,
+                  "defaultValue": 0.0,
+                  "abbreviation": "delta_sr",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "operator": "EQUAL",
+                    "left": {
+                      "id": "IDMM_CLEARANCE_REDUCTION_INPUT",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    "right": {
+                      "value": "LB_RADIAL_CLEARANCE_REDUCTION",
+                      "dataType": "NONE",
+                      "expressionType": "CONSTANT"
+                    },
+                    "expressionType": "BINARY"
+                  }
+                }
+              ],
+              "subPages": []
+            }
+          ],
+          "helpId": null
+        },
+        {
+          "id": "PROPERTY_PAGE_MOUNTING_SITUATION_SUB",
+          "title": "STRING_OUTP_SHAFT_DATA",
+          "text": "Wellendaten",
+          "visible": {
+            "value": true,
+            "dataType": "boolean",
+            "functionType": null,
+            "expressionType": "CONSTANT",
+            "ids": null,
+            "id": null
+          },
+          "groups": [
+            {
+              "members": [
+                {
+                  "id": "IDMM_INNER_SHAFT_DIAMETER",
+                  "text": "Welleninnendurchmesser",
+                  "type": "number",
+                  "unit": "mm",
+                  "precision": 3,
+                  "defaultValue": 0.0,
+                  "abbreviation": "d_sft",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "listValues": []
+                },
+                {
+                  "id": "IDMM_SHAFT_MATERIAL",
+                  "text": "Wellenwerkstoff",
+                  "type": "list",
+                  "unit": "",
+                  "precision": null,
+                  "defaultValue": "STEEL_20_DEGREE",
+                  "abbreviation": "",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": null,
+                  "minEqual": null,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "value": true,
+                    "dataType": "boolean",
+                    "functionType": null,
+                    "expressionType": "CONSTANT",
+                    "ids": null,
+                    "id": null
+                  },
+                  "listValues": [
+                    {
+                      "id": "STEEL_20_DEGREE",
+                      "text": "Stahl"
+                    },
+                    {
+                      "id": "STEEL_100_CR_6",
+                      "text": "100Cr6"
+                    },
+                    {
+                      "id": "STEEL_C_45",
+                      "text": "C45"
+                    },
+                    {
+                      "id": "STEEL_16_MN_CR_5",
+                      "text": "16MnCr5"
+                    },
+                    {
+                      "id": "STEEL_16_MN_CR_5",
+                      "text": "16MnCr5"
+                    },
+                    {
+                      "id": "CAST_IRON_GG14",
+                      "text": "Gusseisen GG14"
+                    },
+                    {
+                      "id": "CAST_IRON_GG26",
+                      "text": "Gusseisen GG26"
+                    },
+                    {
+                      "id": "CAST_IRON_GGG",
+                      "text": "Gusseisen GGG"
+                    },
+                    {
+                      "id": "BRASS",
+                      "text": "Messing"
+                    },
+                    {
+                      "id": "BRONZE",
+                      "text": "Bronze"
+                    },
+                    {
+                      "id": "ALLOY_ALUMINIUM",
+                      "text": "Aluminium Legierung"
+                    },
+                    {
+                      "id": "USER_DEFINED_MATERIAL",
+                      "text": "benutzerdefiniert"
+                    }
+                  ],
+                  "runtimeDescription": {
+                    "assignMembers": [
+                      {
+                        "assignee": {
+                          "id": "IDMM_MODULUS_OF_ELASTICITY",
+                          "object": null,
+                          "specifications": [],
+                          "expressionType": "MEMBER"
+                        },
+                        "initializer": {
+                          "columnName": "IDMM_MODULUS_OF_ELASTICITY",
+                          "tableId": "TBL_SHAFT_MATERIAL",
+                          "defaultExpression": {
+                            "id": "IDMM_MODULUS_OF_ELASTICITY",
+                            "object": null,
+                            "specifications": [],
+                            "expressionType": "MEMBER"
+                          },
+                          "whereConditions": [],
+                          "functionType": "SELECT_STATEMENT",
+                          "expressionType": "FUNCTION"
+                        }
+                      },
+                      {
+                        "assignee": {
+                          "id": "IDMM_POISSON_RATIO",
+                          "object": null,
+                          "specifications": [],
+                          "expressionType": "MEMBER"
+                        },
+                        "initializer": {
+                          "columnName": "IDMM_POISSON_RATIO",
+                          "tableId": "TBL_SHAFT_MATERIAL",
+                          "defaultExpression": {
+                            "id": "IDMM_POISSON_RATIO",
+                            "object": null,
+                            "specifications": [],
+                            "expressionType": "MEMBER"
+                          },
+                          "whereConditions": [],
+                          "functionType": "SELECT_STATEMENT",
+                          "expressionType": "FUNCTION"
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "id": "IDMM_MODULUS_OF_ELASTICITY",
+                  "text": "E-Modul",
+                  "type": "number",
+                  "unit": "N/mm�",
+                  "precision": 0,
+                  "defaultValue": 210000.0,
+                  "abbreviation": "E",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": 0.0,
+                  "minEqual": false,
+                  "maxValue": null,
+                  "maxEqual": null,
+                  "input": {
+                    "operator": "EQUAL",
+                    "left": {
+                      "id": "IDMM_SHAFT_MATERIAL",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    "right": {
+                      "value": "USER_DEFINED_MATERIAL",
+                      "dataType": "NONE",
+                      "expressionType": "CONSTANT"
+                    },
+                    "expressionType": "BINARY"
+                  },
+                  "listValues": []
+                },
+                {
+                  "id": "IDMM_POISSON_RATIO",
+                  "text": "Querkontraktionszahl",
+                  "type": "number",
+                  "unit": "",
+                  "precision": 2,
+                  "defaultValue": 0.3,
+                  "abbreviation": "Nue",
+                  "memberType": "Variable",
+                  "requiresUpdate": true,
+                  "requiresInitialization": false,
+                  "minValue": 0.0,
+                  "minEqual": false,
+                  "maxValue": 0.51,
+                  "maxEqual": true,
+                  "input": {
+                    "operator": "EQUAL",
+                    "left": {
+                      "id": "IDMM_SHAFT_MATERIAL",
+                      "object": null,
+                      "specifications": [],
+                      "expressionType": "MEMBER"
+                    },
+                    "right": {
+                      "value": "USER_DEFINED_MATERIAL",
+                      "dataType": "NONE",
+                      "expressionType": "CONSTANT"
+                    },
+                    "expressionType": "BINARY"
+                  },
+                  "listValues": []
+                }
+              ],
+              "subPages": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "PAGE_RESULT",
+      "title": "IDMM_RESULT",
+      "text": "Bericht",
+      "visible": {
+        "value": false
+      },
+      "groups": []
+    }
+  ]
+}

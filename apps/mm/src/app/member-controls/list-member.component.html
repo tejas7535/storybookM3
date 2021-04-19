@@ -1,0 +1,38 @@
+<input
+  *ngIf="isBoolean; else dropdown"
+  type="checkbox"
+  [formControl]="control"
+/>
+
+<ng-template #dropdown>
+  <ng-container
+    *ngIf="
+      !meta.listValuesLoading$ || !(meta.listValuesLoading$ | async);
+      else loading
+    "
+  >
+    <!-- <select
+      *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
+      [formControl]="control"
+    >
+      <option [value]="null">Bitte wählen</option>
+      <option *ngFor="let option of options$ | ngrxPush" [value]="option.id">
+        {{ option.caption }}
+      </option>
+    </select> -->
+    <schaeffler-dropdown-input
+      *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
+      [options]="options$ | ngrxPush"
+      [formControl]="control"
+    ></schaeffler-dropdown-input>
+  </ng-container>
+</ng-template>
+
+<ng-template #pictureCardList>
+  <mm-picture-card-list
+    [options]="options$ | ngrxPush"
+    [formControl]="control"
+  ></mm-picture-card-list>
+</ng-template>
+
+<ng-template #loading> LOADING </ng-template>

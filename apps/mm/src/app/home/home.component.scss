@@ -1,0 +1,22 @@
+.content {
+  display: flex;
+}
+
+.side {
+  width: 15rem;
+}
+
+.control-container {
+  margin-bottom: 2rem;
+
+  label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+  }
+}
+
+mm-pages-stepper {
+  margin-right: 2rem;
+  width: 10rem;
+}
