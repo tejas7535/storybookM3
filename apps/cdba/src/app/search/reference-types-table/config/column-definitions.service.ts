@@ -34,7 +34,6 @@ export class ColumnDefinitionService {
       maxWidth: 50,
       pinned: 'left',
     },
-
     {
       field: columnDefinitionToReferenceTypeProp('isPcmRow'),
       headerName: translate('search.referenceTypesTable.headers.pcmRow'),

@@ -4,6 +4,8 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { ReferenceType } from '@cdba/shared/models';
+
 import {
   getReferenceTypes,
   getReferenceTypesLoading,
@@ -12,7 +14,6 @@ import {
   getTooManyResults,
 } from '../core/store';
 import { SearchState } from '../core/store/reducers/search/search.reducer';
-import { ReferenceType } from '../core/store/reducers/shared/models';
 
 @Component({
   selector: 'cdba-search',

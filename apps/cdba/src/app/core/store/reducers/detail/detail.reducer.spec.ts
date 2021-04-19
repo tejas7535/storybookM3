@@ -1,3 +1,4 @@
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -25,12 +26,7 @@ import {
   selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
-import {
-  BomResult,
-  CalculationsResultModel,
-  ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
-} from './models';
+import { BomResult, CalculationsResult, ReferenceTypeResult } from './models';
 
 describe('Detail Reducer', () => {
   const fakeState = {
@@ -90,7 +86,7 @@ describe('Detail Reducer', () => {
 
   describe('loadReferenceTypeSuccess', () => {
     test('should unset loading and set ref types', () => {
-      const item = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
+      const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
 
       const action = loadReferenceTypeSuccess({ item });
 
@@ -134,7 +130,7 @@ describe('Detail Reducer', () => {
 
   describe('loadCalculationsSuccess', () => {
     test('should unset loading and set calculations', () => {
-      const item = new CalculationsResultModel(CALCULATIONS_MOCK);
+      const item = new CalculationsResult(CALCULATIONS_MOCK);
 
       const action = loadCalculationsSuccess({ items: item.items });
 
@@ -146,7 +142,7 @@ describe('Detail Reducer', () => {
     });
 
     test('should select the first calculation', () => {
-      const item = new CalculationsResultModel(CALCULATIONS_MOCK);
+      const item = new CalculationsResult(CALCULATIONS_MOCK);
 
       const action = loadCalculationsSuccess({ items: item.items });
 

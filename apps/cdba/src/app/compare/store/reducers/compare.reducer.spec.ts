@@ -1,5 +1,4 @@
-import { BomItem } from '@cdba/core/store/reducers/detail/models';
-import { Calculation } from '@cdba/core/store/reducers/shared/models';
+import { BomItem, Calculation } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -9,6 +8,7 @@ import {
 
 import {
   CompareActions,
+  loadBom,
   loadBomFailure,
   loadBomSuccess,
   loadCalculationHistory,
@@ -51,6 +51,25 @@ describe('Compare Reducer', () => {
   });
 
   describe('Bom Actions', () => {
+    describe('loadBom', () => {
+      it('should set loading to true', () => {
+        const index = 2;
+        action = loadBom({ index });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].billOfMaterial.loading).toBeTruthy();
+      });
+
+      it('should return previous state for undefined index', () => {
+        const index = 99;
+        action = loadBom({ index });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
     describe('loadBomSuccess', () => {
       it('should set items and switch off loading for correct material', () => {
         const index = 1;

@@ -1,0 +1,48 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
+:host {
+  height: 100%;
+  width: 100%;
+
+  .card-container {
+    height: 100%;
+
+    mat-card {
+      height: calc(100% - 32px);
+      width: calc(100% - 32px);
+
+      .mat-card-inner {
+        height: 100%;
+        width: 100%;
+      }
+    }
+
+    .bom-overlay-sidenav {
+      width: 500px;
+    }
+  }
+}
+
+.bom-overlay {
+  button {
+    cursor: pointer;
+    font-size: $schaeffler-h4;
+
+    mat-icon {
+      font-size: 24px;
+      margin-top: -3px;
+    }
+  }
+  margin-left: auto;
+}
+
+h3 {
+  font-weight: bold;
+  line-height: 36px;
+  margin: 0;
+}
+
+.table-container {
+  height: 100%;
+}

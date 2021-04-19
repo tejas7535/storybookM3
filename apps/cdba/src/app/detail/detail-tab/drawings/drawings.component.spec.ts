@@ -3,8 +3,8 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { selectDrawing } from '@cdba/core/store';
-import { Drawing } from '@cdba/core/store/reducers/shared/models';
 import { SharedModule } from '@cdba/shared';
+import { Drawing } from '@cdba/shared/models';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { DrawingsTableModule } from './drawings-table/drawings-table.module';

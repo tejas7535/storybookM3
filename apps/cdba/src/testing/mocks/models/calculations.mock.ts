@@ -1,4 +1,4 @@
-import { Calculation } from '@cdba/core/store/reducers/shared/models';
+import { Calculation } from '@cdba/shared/models';
 
 export const CALCULATIONS_MOCK = [
   new Calculation(

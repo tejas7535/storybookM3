@@ -5,10 +5,10 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { BomItem } from '@cdba/core/store/reducers/detail/models';
-import { SharedModule } from '@cdba/shared';
 import { BOM_MOCK } from '@cdba/testing/mocks';
 
+import { BomItem } from '../../models';
+import { SharedModule } from '../../shared.module';
 import { BomChartComponent } from './bom-chart.component';
 import {
   COLOR_PLATTE,

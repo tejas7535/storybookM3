@@ -1,0 +1,68 @@
+<mat-sidenav-container
+  hasBackdrop="false"
+  autosize="true"
+  class="card-container"
+>
+  <mat-sidenav
+    #additionalInformation
+    mode="over"
+    open="false"
+    position="end"
+    class="bom-overlay-sidenav"
+  >
+    <cdba-bom-overlay (closeOverlay)="additionalInformation.close()">
+      <ng-container calculations>
+        <cdba-calculations-table
+          minified="true"
+          [rowData]="calculations$ | ngrxPush"
+          [selectedNodeId]="selectedCalculationNodeId$ | ngrxPush"
+          [isLoading]="calculationsLoading$ | ngrxPush"
+          [errorMessage]="calculationsErrorMessage$ | ngrxPush"
+          (selectionChange)="selectCalculation($event)"
+        ></cdba-calculations-table>
+      </ng-container>
+      <div chart>
+        <ng-container *ngIf="childrenOfSelectedBomItem$ | ngrxPush as children">
+          <cdba-bom-chart [data]="children"></cdba-bom-chart>
+          <cdba-bom-legend
+            *ngIf="children.length > 0"
+            [data]="children"
+          ></cdba-bom-legend>
+           </ng-container
+        >
+        <cdba-loading-spinner
+          *ngIf="bomLoading$ | ngrxPush"
+          show="true"
+        ></cdba-loading-spinner>
+      </div>
+    </cdba-bom-overlay>
+  </mat-sidenav>
+
+  <mat-sidenav-content>
+    <mat-card>
+      <div
+        class="mat-card-inner"
+        fxLayout="column"
+        *transloco="let t; read: 'shared.bom'"
+      >
+        <div fxLayout="row" fxLayoutAlign="center">
+          <h3>{{ t('title') }}</h3>
+          <div class="bom-overlay">
+            <button mat-button (click)="additionalInformation.open()">
+              <mat-icon>insert_chart_outlined</mat-icon>
+              {{ t('additionalInformation.title') }}
+            </button>
+          </div>
+        </div>
+        <div class="table-container">
+          <cdba-bom-table
+            [rowData]="bomItems$ | ngrxPush"
+            [isLoading]="bomLoading$ | ngrxPush"
+            [errorMessage]="bomErrorMessage$ | ngrxPush"
+            (rowSelected)="selectBomItem($event)"
+          ></cdba-bom-table>
+        </div>
+      </div>
+    </mat-card>
+  </mat-sidenav-content>
+</mat-sidenav-container>

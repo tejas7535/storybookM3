@@ -22,8 +22,8 @@ import {
 
 import { environment } from '@cdba/environments/environment';
 
-import { Calculation } from '../../../core/store/reducers/shared/models';
-import { AgGridStateService } from '../../services/ag-grid-state.service';
+import { Calculation } from '../../models';
+import { AgGridStateService } from '../../services';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
 import { NoRowsParams } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import {

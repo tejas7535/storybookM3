@@ -18,6 +18,14 @@ import { select, Store } from '@ngrx/store';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
+import {
+  BomIdentifier,
+  BomItem,
+  Calculation,
+  Drawing,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
+
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailService } from '../../../../detail/service/detail.service';
 import {
@@ -37,13 +45,7 @@ import {
   selectReferenceType,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import {
-  BomIdentifier,
-  BomItem,
-  ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
-} from '../../reducers/detail/models';
-import { Calculation, Drawing } from '../../reducers/shared/models';
+import { ReferenceTypeResult } from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -67,7 +69,7 @@ export class DetailEffects {
                 )
               : undefined
           ),
-          map((item: ReferenceTypeResultModel) =>
+          map((item: ReferenceTypeResult) =>
             loadReferenceTypeSuccess({ item })
           ),
           catchError((errorMessage) =>

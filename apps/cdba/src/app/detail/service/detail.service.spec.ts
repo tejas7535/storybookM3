@@ -8,6 +8,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
+import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -16,11 +17,9 @@ import {
 } from '@cdba/testing/mocks';
 
 import {
-  BomIdentifier,
   BomResult,
-  CalculationsResultModel,
-  ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
+  CalculationsResult,
+  ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
 import { DetailService } from './detail.service';
 
@@ -52,7 +51,7 @@ describe('DetailService', () => {
 
   describe('getDetails', () => {
     test('should get detail result', () => {
-      const mock = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
+      const mock = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
         .set('plant', mock.referenceTypeDto.plant)
@@ -80,7 +79,7 @@ describe('DetailService', () => {
 
   describe('calculations', () => {
     test('should get calculations result', () => {
-      const mock = new CalculationsResultModel(CALCULATIONS_MOCK);
+      const mock = new CalculationsResult(CALCULATIONS_MOCK);
 
       service.calculations('2345').subscribe((response) => {
         expect(response).toEqual(mock);

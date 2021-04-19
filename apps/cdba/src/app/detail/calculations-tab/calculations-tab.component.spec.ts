@@ -9,10 +9,10 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
 import { CalculationsTableModule } from '@cdba/shared/components';
+import { Calculation } from '@cdba/shared/models';
+import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
-import { CALCULATIONS_MOCK } from '../../../testing/mocks';
 import { selectCalculation } from '../../core/store';
-import { Calculation } from '../../core/store/reducers/shared/models';
 import {
   getCalculations,
   getCalculationsErrorMessage,

@@ -5,11 +5,8 @@ import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
-import {
-  Calculation,
-  ReferenceType,
-} from '@cdba/core/store/reducers/shared/models';
 import { environment } from '@cdba/environments/environment';
+import { Calculation, ReferenceType } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-compare-view-button',
@@ -49,9 +46,9 @@ export class CompareViewButtonComponent {
         queryParams[`material_number_item_${index + 1}`] =
           selection.materialNumber;
         queryParams[`plant_item_${index + 1}`] = selection.plant;
-        queryParams[
+        /* queryParams[
           `identification_hash_item_${index + 1}`
-        ] = (selection as ReferenceType).identificationHash;
+        ] = (selection as ReferenceType).identificationHash; */
       }
     );
 

@@ -1,6 +1,15 @@
 import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
+import {
+  BomIdentifier,
+  BomItem,
+  Calculation,
+  Drawing,
+  ReferenceType,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
+
 import { CustomerDetails } from '../../../../detail/detail-tab/customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from '../../../../detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from '../../../../detail/detail-tab/pricing/model/price.details.model';
@@ -9,16 +18,6 @@ import { QuantitiesDetails } from '../../../../detail/detail-tab/quantities/mode
 import { SalesDetails } from '../../../../detail/detail-tab/sales-and-description/model/sales-details.model';
 import { getDetailState } from '../../reducers';
 import { DetailState } from '../../reducers/detail/detail.reducer';
-import {
-  BomIdentifier,
-  BomItem,
-  ReferenceTypeIdentifier,
-} from '../../reducers/detail/models';
-import {
-  Calculation,
-  Drawing,
-  ReferenceType,
-} from '../../reducers/shared/models';
 
 export const getReferenceType = createSelector(
   getDetailState,

@@ -12,7 +12,7 @@ import {
   selectDrawing,
 } from '@cdba/core/store';
 import { DetailState } from '@cdba/core/store/reducers/detail/detail.reducer';
-import { Drawing } from '@cdba/core/store/reducers/shared/models';
+import { Drawing } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-drawings',

@@ -7,8 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { Calculation } from '@cdba/core/store/reducers/shared/models';
-
+import { Calculation, ReferenceType } from '../../../../models';
 import { CompareViewButtonComponent } from './compare-view-button.component';
 
 describe('CompareViewButtonComponent', () => {
@@ -73,13 +72,39 @@ describe('CompareViewButtonComponent', () => {
   });
 
   describe('showCompareView', () => {
-    test('should navigate', () => {
+    test('should navigate with correct query params', () => {
       component.selections = [
-        ({ materialNumber: '', plant: '' } as unknown) as Calculation,
+        ({ materialNumber: '1234', plant: '0060' } as unknown) as Calculation,
+        ({ materialNumber: '5678', plant: '0076' } as unknown) as Calculation,
       ];
       spyOn(router, 'navigate');
       component.showCompareView();
-      expect(router.navigate).toHaveBeenCalled();
+      expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+          material_number_item_2: '5678',
+          plant_item_2: '0076',
+        },
+      });
+    });
+
+    test('should not add identification hash to query params', () => {
+      component.selections = [
+        ({
+          materialNumber: '1234',
+          plant: '0060',
+          identificationHash: 'servus',
+        } as unknown) as ReferenceType,
+      ];
+      spyOn(router, 'navigate');
+      component.showCompareView();
+      expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+        },
+      });
     });
   });
 });

@@ -2,10 +2,12 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   BomItem,
+  Calculation,
+  Drawing,
   ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
-} from '../../reducers/detail/models';
-import { Calculation, Drawing } from '../../reducers/shared/models';
+} from '@cdba/shared/models';
+
+import { ReferenceTypeResult } from '../../reducers/detail/models';
 
 export const selectReferenceType = createAction(
   '[Detail] Select Reference Type',
@@ -16,7 +18,7 @@ export const loadReferenceType = createAction('[Detail] Load Reference Type');
 
 export const loadReferenceTypeSuccess = createAction(
   '[Detail] Load Reference Type Success',
-  props<{ item: ReferenceTypeResultModel }>()
+  props<{ item: ReferenceTypeResult }>()
 );
 
 export const loadReferenceTypeFailure = createAction(

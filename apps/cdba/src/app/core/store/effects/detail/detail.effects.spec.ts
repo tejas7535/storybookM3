@@ -14,14 +14,16 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
+import { DetailService } from '@cdba/detail/service/detail.service';
+import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
   REFERENCE_TYPE_MOCK,
-} from '../../../../../testing/mocks';
-import { DetailService } from '../../../../detail/service/detail.service';
+} from '@cdba/testing/mocks';
+
 import {
   loadBom,
   loadBomFailure,
@@ -38,11 +40,7 @@ import {
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
-import {
-  BomIdentifier,
-  ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
-} from '../../reducers/detail/models';
+import { ReferenceTypeResult } from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
   getSelectedReferenceTypeIdentifier,
@@ -95,7 +93,7 @@ describe('Detail Effects', () => {
     test('should return Success Action', () => {
       actions$ = hot('-a', { a: action });
 
-      const item = new ReferenceTypeResultModel(REFERENCE_TYPE_MOCK);
+      const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
 
       const response = cold('-a|', {
         a: item,
@@ -113,7 +111,7 @@ describe('Detail Effects', () => {
     test('should call showInfoMessage', () => {
       actions$ = hot('-a', { a: action });
 
-      const item = new ReferenceTypeResultModel({
+      const item = new ReferenceTypeResult({
         ...REFERENCE_TYPE_MOCK,
         isPcmRow: true,
       });

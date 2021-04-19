@@ -18,12 +18,12 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { Drawing } from '@cdba/core/store/reducers/shared/models';
 import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
 } from '@cdba/shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { Drawing } from '@cdba/shared/models';
 
 import { ActionsCellRendererComponent } from './actions-cell-renderer/actions-cell-renderer.component';
 import { COLUMN_DEFINITIONS, DEFAULT_COLUMN_DEFINITION } from './config';

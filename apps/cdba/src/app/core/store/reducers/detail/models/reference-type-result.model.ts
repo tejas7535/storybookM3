@@ -1,5 +1,5 @@
-import { ReferenceType } from '../../shared/models';
+import { ReferenceType } from '@cdba/shared/models';
 
-export class ReferenceTypeResultModel {
+export class ReferenceTypeResult {
   public constructor(public referenceTypeDto: ReferenceType) {}
 }

@@ -6,8 +6,8 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 
 import { formatNumber } from '@cdba/shared/components/table';
+import { BomItem } from '@cdba/shared/models';
 
-import { BomItem } from '../../../../core/store/reducers/detail/models';
 import { MaterialDesignationCellRendererComponent } from './material-designation-cell-renderer/material-designation-cell-renderer.component';
 
 @Component({

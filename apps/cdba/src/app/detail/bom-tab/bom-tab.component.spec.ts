@@ -1,48 +1,23 @@
-import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-
-import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
-import {
-  AdditionalInformationModule,
-  BomTableModule,
-} from '@cdba/shared/components';
-import { BOM_MOCK, DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
+import { BomContainerModule } from '@cdba/shared/components';
 
-import { selectBomItem } from '../../core/store';
-import { CustomLoadingOverlayComponent } from '../../shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomOverlayModule } from '../../shared/components/table/custom-overlay/custom-overlay.module';
 import { BomTabComponent } from './bom-tab.component';
 
 describe('BomTabComponent', () => {
   let spectator: Spectator<BomTabComponent>;
   let component: BomTabComponent;
-  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: BomTabComponent,
     imports: [
       SharedModule,
-      MatCardModule,
-      MatIconModule,
-      AgGridModule.withComponents([CustomLoadingOverlayComponent]),
+      MockModule(BomContainerModule),
       provideTranslocoTestingModule({}),
-      CustomOverlayModule,
-      MatSidenavModule,
-      MockModule(BomTableModule),
-      MockModule(AdditionalInformationModule),
-    ],
-    providers: [
-      provideMockStore({
-        initialState: { detail: DETAIL_STATE_MOCK },
-      }),
     ],
     disableAnimations: true,
   });
@@ -50,34 +25,9 @@ describe('BomTabComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-    spectator.detectChanges();
-
-    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    it('should set observable', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component.bomItems$).toBeDefined();
-      expect(component.bomLoading$).toBeDefined();
-      expect(component.bomErrorMessage$).toBeDefined();
-    });
-  });
-
-  describe('selectBomItem', () => {
-    it('should dispatch selectBomItem Action', () => {
-      store.dispatch = jest.fn();
-      const item = BOM_MOCK[0];
-
-      component.selectBomItem(item);
-
-      expect(store.dispatch).toHaveBeenCalledWith(selectBomItem({ item }));
-    });
   });
 });

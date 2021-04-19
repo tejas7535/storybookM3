@@ -10,12 +10,12 @@ import { select, Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
-
 import {
   BomItem,
+  Calculation,
   ReferenceTypeIdentifier,
-} from '../../../core/store/reducers/detail/models';
-import { Calculation } from '../../../core/store/reducers/shared/models';
+} from '@cdba/shared/models';
+
 import { DetailService } from '../../../detail/service/detail.service';
 import {
   loadBom,
@@ -91,9 +91,7 @@ export class CompareEffects {
       ofType(loadBom.type),
       map((action: any) => action.index),
       concatLatestFrom((index) =>
-        this.store.pipe(
-          select(getBomIdentifierForSelectedCalculation, { index })
-        )
+        this.store.pipe(select(getBomIdentifierForSelectedCalculation, index))
       ),
       mergeMap(([index, identifier]) =>
         this.detailService.getBom(identifier).pipe(

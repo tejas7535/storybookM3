@@ -1,4 +1,4 @@
-import { BomItem } from '@cdba/core/store/reducers/detail/models';
+import { BomItem } from '@cdba/shared/models';
 
 export const BOM_MOCK: BomItem[] = [
   new BomItem(

@@ -1,4 +1,4 @@
-import { Drawing } from '@cdba/core/store/reducers/shared/models';
+import { Drawing } from '@cdba/shared/models';
 
 export const DRAWINGS_MOCK: Drawing[] = [
   new Drawing(

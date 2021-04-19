@@ -7,6 +7,8 @@ import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared/shared.module';
+
 import {
   autocomplete,
   resetFilters,
@@ -26,7 +28,6 @@ import {
   getSearchSuccessful,
   getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
-import { SharedModule } from '../../shared/shared.module';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
 import { RangeFilterComponent } from './range-filter/range-filter.component';
 import { ReferenceTypesFiltersComponent } from './reference-types-filters.component';
