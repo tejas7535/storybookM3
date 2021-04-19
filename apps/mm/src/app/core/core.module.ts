@@ -17,8 +17,8 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 import { SharedModule } from '../shared/shared.module';
-import { StoreModule } from './store/store.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { StoreModule } from './store/store.module';
 
 export class DynamicLocaleId extends String {
   constructor(protected service: TranslocoService) {

@@ -21,6 +21,4 @@ export class AppComponent {
       external: true,
     },
   ];
-
-  constructor() {}
 }

@@ -101,19 +101,6 @@ describe('DropdownInputComponent', () => {
   });
 
   describe('events', () => {
-    it('should patch value and emit selection event on selection', () => {
-      component.selectionControl.patchValue = jest.fn();
-      component.optionSelected.emit = jest.fn();
-
-      const selectedOption = { id: 0, value: 'val' };
-      component.select(selectedOption);
-
-      expect(component.selectionControl.patchValue).toHaveBeenCalledWith('val');
-      expect(component.optionSelected.emit).toHaveBeenCalledWith(
-        selectedOption
-      );
-    });
-
     it('shoult emit update search event on search update', () => {
       component.updateSearch.emit = jest.fn();
       component.options = [];
@@ -123,5 +110,48 @@ describe('DropdownInputComponent', () => {
 
       expect(component.updateSearch.emit).toHaveBeenCalledWith(query);
     });
+  });
+
+  test('writeValue set value', () => {
+    const mockValue = 'mockValueString';
+    const spy = jest.spyOn(component['cdRef'], 'markForCheck');
+
+    component.writeValue(mockValue);
+    expect(component.value).toEqual(mockValue);
+    expect(spy).toHaveBeenCalledTimes(1);
+  });
+
+  test('registerOnChange call onChange method', () => {
+    const mockFn = () => {};
+
+    component.registerOnChange(mockFn);
+    expect(component['onChange']).toEqual(mockFn);
+  });
+
+  test('registerOnTouched call onTouched method', () => {
+    const mockFn = () => {};
+
+    component.registerOnTouched(mockFn);
+    expect(component['onTouched']).toEqual(mockFn);
+  });
+
+  test('setDisabledState should set disabled var', () => {
+    component.setDisabledState(false);
+    expect(component.disabled).toEqual(false);
+  });
+
+  test('setValue should trigger multiple things', () => {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const changeSpy = jest.spyOn(component, 'onChange');
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const touchSpy = jest.spyOn(component, 'onTouched');
+
+    const mockValue = { id: 'mockString' };
+    component.setValue(mockValue);
+    expect(component.value).toEqual(mockValue.id);
+    expect(changeSpy).toHaveBeenCalledWith(mockValue.id);
+    expect(touchSpy).toHaveBeenCalledTimes(1);
   });
 });

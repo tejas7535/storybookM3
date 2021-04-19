@@ -22,7 +22,9 @@
         [attachToCustomElement]="true"
         #autocomplete
         (optionSelected)="
-          dummyOption.value = $event?.value; select($event); selectInput.close()
+          dummyOption.value = $event?.value;
+          setValue($event);
+          selectInput.close()
         "
         (updateSearch)="onUpdateSearch($event)"
       ></schaeffler-autocomplete-search>

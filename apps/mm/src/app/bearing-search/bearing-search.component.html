@@ -1,0 +1,20 @@
+<mat-form-field class="example-full-width">
+  <mat-label>Bearing</mat-label>
+  <input
+    type="text"
+    placeholder="Search for SCHAEFFLER bearings"
+    aria-label="text"
+    matInput
+    [formControl]="myControl"
+    [matAutocomplete]="auto"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayValue"
+    (optionSelected)="selectBearing($event)"
+  >
+    <mat-option *ngFor="let option of options$ | ngrxPush" [value]="option">
+      {{ option.title }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

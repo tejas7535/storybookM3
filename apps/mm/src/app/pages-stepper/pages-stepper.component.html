@@ -1,0 +1,15 @@
+<div *ngFor="let page of pages; let i = index">
+  <button
+    mat-raised-button
+    [color]="page.id === activePageId ? 'primary' : 'secondary'"
+    [disabled]="
+      page.id === inactivePageId ||
+      !page.visible ||
+      !(page.id | mmPageBefore: maxPageId:pages)
+    "
+    class="block"
+    (click)="activate(page)"
+  >
+    {{ page.page.text }}
+  </button>
+</div>
