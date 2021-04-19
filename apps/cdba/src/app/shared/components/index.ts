@@ -3,4 +3,5 @@ export { CalculationsTableModule } from './calculations-table/calculations-table
 export { LoadingSpinnerModule } from './loading-spinner/loading-spinner.module';
 export { Tab, TabsHeaderModule } from './tabs-header/index';
 export { BomTableModule } from './bom-table/bom-table.module';
-export { AdditionalInformationModule } from './additional-information/additional-information.module';
+export { BomOverlayModule } from './bom-overlay/bom-overlay.module';
+export { BomContainerModule } from './bom-container/bom-container.module';

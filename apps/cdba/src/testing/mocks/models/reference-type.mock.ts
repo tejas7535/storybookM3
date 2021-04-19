@@ -1,4 +1,4 @@
-import { ReferenceType } from '@cdba/core/store/reducers/shared/models';
+import { ReferenceType } from '@cdba/shared/models';
 
 export const REFERENCE_TYPE_MOCK: ReferenceType = new ReferenceType(
   '0781403820000',

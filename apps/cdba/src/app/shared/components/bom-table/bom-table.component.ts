@@ -20,17 +20,13 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import {
-  formatMaterialNumber,
-  formatNumber,
-} from '@cdba/shared/components/table';
-import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { BomItem } from '../../models';
+import { formatMaterialNumber, formatNumber } from '../table';
+import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import {
   CustomNoRowsOverlayComponent,
   NoRowsParams,
-} from '@cdba/shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-
-import { BomItem } from '../../../core/store/reducers/detail/models';
+} from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 
 @Component({
   selector: 'cdba-bom-table',

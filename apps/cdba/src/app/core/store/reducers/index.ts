@@ -13,6 +13,8 @@ import * as fromCompare from '../../../compare/store/reducers/compare.reducer';
 import * as fromDetail from './detail/detail.reducer';
 import * as fromSearch from './search/search.reducer';
 
+export { DetailState } from './detail/detail.reducer';
+
 export interface RouterStateUrl {
   url: string;
   queryParams: Params;

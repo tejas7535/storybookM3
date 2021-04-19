@@ -10,8 +10,6 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     sortable: false,
     filter: false,
     resizable: false,
-    enablePivot: false,
-    enableRowGroup: false,
     filterParams: false,
     suppressColumnsToolPanel: true,
     lockPinned: true,

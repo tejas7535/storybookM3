@@ -1,29 +1,25 @@
 import { createSelector } from '@ngrx/store';
 
 import { getCompareState } from '@cdba/core/store/reducers';
-
 import {
   BomIdentifier,
+  BomItem,
+  Calculation,
   ReferenceTypeIdentifier,
-} from '../../../core/store/reducers/detail/models';
-import { CompareState } from '../reducers/compare.reducer';
+} from '@cdba/shared/models';
 
-export const getSelectedReferenceTypeIdentifier = createSelector(
-  getCompareState,
-  (state: CompareState, props: { index: number }): ReferenceTypeIdentifier =>
-    state[props.index]?.referenceType
-);
+import { CompareState } from '../reducers/compare.reducer';
 
 export const getSelectedReferenceTypeIdentifiers = createSelector(
   getCompareState,
   (state: CompareState): ReferenceTypeIdentifier[] =>
-    Object.keys(state).map((index: string) => state[+index]?.referenceType)
+    Object.keys(state).map((index: string) => state[+index].referenceType)
 );
 
 export const getBomIdentifierForSelectedCalculation = createSelector(
   getCompareState,
-  (state: CompareState, props: { index: number }): BomIdentifier => {
-    const calculation = state[props.index]?.calculations?.selected;
+  (state: CompareState, index: number): BomIdentifier => {
+    const calculation = state[index]?.calculations?.selected;
 
     if (calculation) {
       const {
@@ -51,6 +47,29 @@ export const getBomIdentifierForSelectedCalculation = createSelector(
   }
 );
 
+export const getCalculations = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): Calculation[] =>
+    state[index]?.calculations?.items
+);
+
+export const getCalculationsLoading = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) => state[index]?.calculations?.loading
+);
+
+export const getCalculationsErrorMessage = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) =>
+    state[index]?.calculations?.error?.message
+);
+
+export const getSelectedCalculationNodeId = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): string =>
+    state[index]?.calculations?.selectedNodeId
+);
+
 export const getBomItems = createSelector(
   getCompareState,
   (state: CompareState, index: number) => state[index]?.billOfMaterial?.items
@@ -64,5 +83,17 @@ export const getBomLoading = createSelector(
 export const getBomErrorMessage = createSelector(
   getCompareState,
   (state: CompareState, index: number) =>
-    state[index]?.billOfMaterial?.error.message
+    state[index]?.billOfMaterial?.error?.message
+);
+
+export const getChildrenOfSelectedBomItem = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): BomItem[] =>
+    state[index]?.billOfMaterial?.selected
+      ? state[index].billOfMaterial.items.filter(
+          (item: BomItem) =>
+            item.predecessorsInTree[item.predecessorsInTree.length - 2] ===
+            state[index].billOfMaterial.selected.materialDesignation
+        )
+      : undefined
 );

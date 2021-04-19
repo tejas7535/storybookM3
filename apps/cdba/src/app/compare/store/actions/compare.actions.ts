@@ -2,9 +2,9 @@ import { createAction, props, union } from '@ngrx/store';
 
 import {
   BomItem,
+  Calculation,
   ReferenceTypeIdentifier,
-} from '@cdba/core/store/reducers/detail/models';
-import { Calculation } from '@cdba/core/store/reducers/shared/models';
+} from '@cdba/shared/models';
 
 export const selectReferenceTypes = createAction(
   '[Compare] Select Reference Types',

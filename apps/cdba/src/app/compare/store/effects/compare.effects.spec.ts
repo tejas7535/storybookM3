@@ -11,8 +11,8 @@ import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jest-marbles';
 
-import { ReferenceTypeIdentifier } from '@cdba/core/store/reducers/detail/models';
 import { DetailService } from '@cdba/detail/service/detail.service';
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,

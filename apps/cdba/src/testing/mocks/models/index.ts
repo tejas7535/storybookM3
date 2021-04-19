@@ -1,3 +1,4 @@
+export * from './bom-identifier.mock';
 export * from './reference-type.mock';
 export * from './reference-type-identifier.mock';
 export * from './sales-details.mock';

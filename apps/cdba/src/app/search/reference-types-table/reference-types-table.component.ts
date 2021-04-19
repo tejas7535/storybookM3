@@ -23,9 +23,9 @@ import {
 import { translate } from '@ngneat/transloco';
 
 import { environment } from '@cdba/environments/environment';
+import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
-import { ReferenceType } from '../../core/store/reducers/shared/models';
 import {
   getMainMenuItems,
   SIDE_BAR_CONFIG,

@@ -4,9 +4,10 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { Calculation } from '@cdba/shared/models';
+
 import { selectCalculation } from '../../core/store';
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
-import { Calculation } from '../../core/store/reducers/shared/models';
 import {
   getCalculations,
   getCalculationsErrorMessage,

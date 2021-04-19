@@ -6,17 +6,19 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
-import { Drawing } from '@cdba/core/store/reducers/shared/models';
-
 import {
   BomIdentifier,
   BomItem,
-  BomResult,
-  CalculationsResultModel,
+  Calculation,
+  Drawing,
   ReferenceTypeIdentifier,
-  ReferenceTypeResultModel,
+} from '@cdba/shared/models';
+
+import {
+  BomResult,
+  CalculationsResult,
+  ReferenceTypeResult,
 } from '../../core/store/reducers/detail/models';
-import { Calculation } from '../../core/store/reducers/shared/models';
 
 @Injectable({
   providedIn: 'root',
@@ -111,14 +113,14 @@ export class DetailService {
 
   public getDetails(
     item: ReferenceTypeIdentifier
-  ): Observable<ReferenceTypeResultModel> {
+  ): Observable<ReferenceTypeResult> {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant)
       .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash)
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
-    return this.dataService.getAll<ReferenceTypeResultModel>(this.DETAIL_PATH, {
+    return this.dataService.getAll<ReferenceTypeResult>(this.DETAIL_PATH, {
       params,
     });
   }
@@ -129,8 +131,8 @@ export class DetailService {
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
-      .getAll<CalculationsResultModel>(this.CALCULATIONS_PATH, { params })
-      .pipe(map((response: CalculationsResultModel) => response.items));
+      .getAll<CalculationsResult>(this.CALCULATIONS_PATH, { params })
+      .pipe(map((response: CalculationsResult) => response.items));
   }
 
   public getBom(bomIdentifier: BomIdentifier): Observable<BomItem[]> {

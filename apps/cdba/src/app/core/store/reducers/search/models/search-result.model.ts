@@ -1,4 +1,5 @@
-import { ReferenceType } from '../../shared/models/index';
+import { ReferenceType } from '@cdba/shared/models';
+
 import { FilterItem } from './filter-item.model';
 
 export class SearchResult {

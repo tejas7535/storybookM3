@@ -1,6 +1,14 @@
 import { createReducer, on } from '@ngrx/store';
 
 import {
+  BomItem,
+  Calculation,
+  Drawing,
+  ReferenceType,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
+
+import {
   loadBom,
   loadBomFailure,
   loadBomSuccess,
@@ -18,8 +26,6 @@ import {
   selectDrawing,
   selectReferenceType,
 } from '../../actions';
-import { Calculation, Drawing, ReferenceType } from '../shared/models';
-import { BomItem, ReferenceTypeIdentifier } from './models';
 
 export interface DetailState {
   selectedReferenceType: ReferenceTypeIdentifier;

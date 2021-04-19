@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
-import { ReferenceType } from '@cdba/core/store/reducers/shared/models';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
+import { ReferenceType } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-detail-view-button',

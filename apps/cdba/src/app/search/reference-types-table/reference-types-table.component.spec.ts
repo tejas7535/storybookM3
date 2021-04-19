@@ -23,9 +23,9 @@ import { BomViewButtonComponent } from '@cdba/shared/components/table/custom-sta
 import { CompareViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
 import { DetailViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
+import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
-import { ReferenceType } from '../../core/store/reducers/shared/models';
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
 

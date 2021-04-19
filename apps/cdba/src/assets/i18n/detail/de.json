@@ -1,18 +1,5 @@
 {
   "shared": {
-    "calculationTable": {
-      "calculationDate": "Calculation Date",
-      "costType": "Cost Type",
-      "price": "Cost",
-      "currency": "Currency",
-      "priceUnit": "PU/UM",
-      "plant": "Plant",
-      "quantity": "Quantity",
-      "lotSize": "Lot Size",
-      "costingVersion": "Costing Version",
-      "rfqNumber": "RFQ Nummer"
-    },
-    "title": "Calculations",
     "pcmRowHint": "Dies ist nur eine Kalkulation. Dieses Produkt wird noch nicht hergestellt. Deshalb sind  keine produktionrelevanten Informationen verfügbar."
   },
   "tabs": {
@@ -81,6 +68,9 @@
       "projectName": "Projektname",
       "productDescription": "Produktbeschreibung"
     }
+  },
+  "calculations": {
+    "title": "Kalulationen"
   },
   "drawings": {
     "title": "Zeichnung: {{material}}",

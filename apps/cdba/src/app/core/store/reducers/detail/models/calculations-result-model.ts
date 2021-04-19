@@ -1,5 +1,5 @@
-import { Calculation } from '../../shared/models';
+import { Calculation } from '@cdba/shared/models';
 
-export class CalculationsResultModel {
+export class CalculationsResult {
   public constructor(public items: Calculation[]) {}
 }

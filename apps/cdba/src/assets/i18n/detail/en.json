@@ -1,18 +1,5 @@
 {
   "shared": {
-    "calculationTable": {
-      "calculationDate": "Calculation Date",
-      "costType": "Cost Type",
-      "price": "Cost",
-      "currency": "Currency",
-      "priceUnit": "PU/UM",
-      "plant": "Plant",
-      "quantity": "Quantity",
-      "lotSize": "Lot Size",
-      "costingVersion": "Costing Version",
-      "rfqNumber": "RFQ Number"
-    },
-    "title": "Calculations",
     "pcmRowHint": "You selected a PCM row. As it is only a calculation, you won't see production relevant information."
   },
   "tabs": {
@@ -81,6 +68,9 @@
       "projectName": "Project Name",
       "productDescription": "Product Description"
     }
+  },
+  "calculations": {
+    "title": "Calculations"
   },
   "drawings": {
     "title": "Drawing: {{material}}",

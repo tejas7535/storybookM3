@@ -5,7 +5,7 @@ import {
   OnChanges,
 } from '@angular/core';
 
-import { BomItem } from '../../../../core/store/reducers/detail/models';
+import { BomItem } from '../../models';
 import {
   COLOR_PLATTE,
   getChartSeries,

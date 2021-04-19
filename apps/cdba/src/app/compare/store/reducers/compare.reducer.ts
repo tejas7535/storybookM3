@@ -1,10 +1,13 @@
 import { createReducer, on } from '@ngrx/store';
 
-import { BomItem } from '@cdba/core/store/reducers/detail/models';
-
-import { ReferenceTypeIdentifier } from '../../../core/store/reducers/detail/models';
-import { Calculation } from '../../../core/store/reducers/shared/models';
 import {
+  BomItem,
+  Calculation,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
+
+import {
+  loadBom,
   loadBomFailure,
   loadBomSuccess,
   loadCalculationHistory,
@@ -47,6 +50,19 @@ export const compareReducer = createReducer(
 
     return state;
   }),
+  on(loadBom, (state, { index }) =>
+    state[index]
+      ? {
+          ...state,
+          [index]: {
+            ...state[index],
+            billOfMaterial: {
+              loading: true,
+            },
+          },
+        }
+      : state
+  ),
   on(loadBomSuccess, (state, { items, index }) =>
     state[index]
       ? {
@@ -56,6 +72,7 @@ export const compareReducer = createReducer(
             billOfMaterial: {
               ...state[index].billOfMaterial,
               items,
+              selected: items[0],
               loading: false,
             },
           },

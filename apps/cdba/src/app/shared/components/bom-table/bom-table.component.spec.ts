@@ -10,12 +10,11 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { BomItem } from '@cdba/core/store/reducers/detail/models';
-import { SharedModule } from '@cdba/shared';
-import { CustomLoadingOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
-import { CustomNoRowsOverlayComponent } from '@cdba/shared/components/table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
-import { CustomOverlayModule } from '@cdba/shared/components/table/custom-overlay/custom-overlay.module';
-
+import { BomItem } from '../../models';
+import { SharedModule } from '../../shared.module';
+import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
+import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
+import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomTableComponent } from './bom-table.component';
 
 describe('BomTableComponent', () => {
