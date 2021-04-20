@@ -1,12 +1,11 @@
 import { Component } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { IStatusPanelParams, RowNode } from '@ag-grid-enterprise/all-modules';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
 import { environment } from '@cdba/environments/environment';
-import { Calculation, ReferenceType } from '@cdba/shared/models';
 
 @Component({
   selector: 'cdba-compare-view-button',
@@ -14,7 +13,7 @@ import { Calculation, ReferenceType } from '@cdba/shared/models';
   styleUrls: ['./compare-view-button.component.scss'],
 })
 export class CompareViewButtonComponent {
-  selections: Calculation[] | ReferenceType[] = [];
+  selections: RowNode[] = [];
   production = environment.production;
 
   private params: IStatusPanelParams;
@@ -32,25 +31,24 @@ export class CompareViewButtonComponent {
   }
 
   onGridReady(): void {
-    this.selections = this.params.api.getSelectedRows();
+    this.selections = this.params.api.getSelectedNodes();
   }
 
   onSelectionChange(): void {
-    this.selections = this.params.api.getSelectedRows();
+    this.selections = this.params.api.getSelectedNodes();
   }
 
   showCompareView(): void {
     const queryParams: Params = {};
-    this.selections.forEach(
-      (selection: ReferenceType | Calculation, index: number) => {
-        queryParams[`material_number_item_${index + 1}`] =
-          selection.materialNumber;
-        queryParams[`plant_item_${index + 1}`] = selection.plant;
-        /* queryParams[
-          `identification_hash_item_${index + 1}`
-        ] = (selection as ReferenceType).identificationHash; */
-      }
-    );
+    this.selections.forEach((selection: RowNode, index: number) => {
+      queryParams[`material_number_item_${index + 1}`] =
+        selection.data.materialNumber;
+      queryParams[`plant_item_${index + 1}`] = selection.data.plant;
+      queryParams[`node_id_item_${index + 1}`] = !selection.data
+        .identificationHash
+        ? selection.id
+        : undefined;
+    });
 
     this.router.navigate(
       [`${AppRoutePath.ComparePath}/${CompareRoutePath.BomPath}`],

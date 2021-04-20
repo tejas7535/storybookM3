@@ -15,17 +15,17 @@ import {
   loadCalculationHistorySuccess,
   selectBomItem,
   selectCalculation,
-  selectReferenceTypes,
+  selectCompareItems,
 } from '../actions/compare.actions';
 
 export interface CompareState {
   [index: number]: {
     referenceType?: ReferenceTypeIdentifier;
     calculations?: {
-      items: Calculation[];
-      selected: Calculation;
-      selectedNodeId: string;
-      loading: boolean;
+      items?: Calculation[];
+      selected?: Calculation;
+      selectedNodeId?: string;
+      loading?: boolean;
       error?: Error;
     };
     billOfMaterial?: {
@@ -41,11 +41,14 @@ export const initialState: CompareState = {};
 
 export const compareReducer = createReducer(
   initialState,
-  on(selectReferenceTypes, (_state, { referenceTypeIdentifiers }) => {
+  on(selectCompareItems, (_state, { items }) => {
     const state: CompareState = {};
 
-    referenceTypeIdentifiers.forEach((identifier, index: number) => {
-      state[index] = { referenceType: identifier };
+    items.forEach((item, index: number) => {
+      state[index] = {
+        referenceType: item[1],
+        calculations: { selectedNodeId: item[0] },
+      };
     });
 
     return state;
@@ -111,7 +114,6 @@ export const compareReducer = createReducer(
               ...state[index].calculations,
               items: undefined,
               selected: undefined,
-              selectedNodeId: undefined,
               loading: true,
             },
             billOfMaterial: {
@@ -124,23 +126,29 @@ export const compareReducer = createReducer(
         }
       : state
   ),
-  on(loadCalculationHistorySuccess, (state, { items, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            calculations: {
-              ...state[index].calculations,
-              items,
-              selected: items[0],
-              selectedNodeId: '0',
-              loading: false,
-            },
-          },
-        }
-      : state
-  ),
+  on(loadCalculationHistorySuccess, (state, { items, index }) => {
+    if (!state[index]) {
+      return state;
+    }
+
+    const selectedNodeId: string =
+      // tslint:disable-next-line: strict-boolean-expressions
+      state[index].calculations?.selectedNodeId || '0';
+
+    return {
+      ...state,
+      [index]: {
+        ...state[index],
+        calculations: {
+          ...state[index].calculations,
+          items,
+          selectedNodeId,
+          selected: items[+selectedNodeId],
+          loading: false,
+        },
+      },
+    };
+  }),
   on(loadCalculationHistoryFailure, (state, { error, index }) =>
     state[index]
       ? {

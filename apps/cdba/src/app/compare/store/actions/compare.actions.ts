@@ -6,9 +6,11 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
-export const selectReferenceTypes = createAction(
-  '[Compare] Select Reference Types',
-  props<{ referenceTypeIdentifiers: ReferenceTypeIdentifier[] }>()
+export const selectCompareItems = createAction(
+  '[Compare] Select Compare Items',
+  props<{
+    items: [nodeId: string, referenceTypeIdentifier: ReferenceTypeIdentifier][];
+  }>()
 );
 
 export const loadCalculations = createAction('[Compare] Load Calculations');
@@ -57,7 +59,7 @@ export const selectBomItem = createAction(
 );
 
 const all = union({
-  selectReferenceTypes,
+  selectCompareItems,
   loadCalculations,
   loadCalculationHistory,
   loadCalculationHistorySuccess,
