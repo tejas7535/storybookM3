@@ -29,7 +29,8 @@
         "selectionStatus": "Sie haben eine Komponente / Arbeitsgang ohne Folgeelemente ausgewählt.",
         "selectionHint": "Bitte wählen Sie eine Baugruppe mit mindestens einem Folgeelement für die Diagrammdarstellung aus."
       },
-      "title": "Bill of Material",
+      "costType": "Kostentyp",
+      "calculationDate": "Kalkulationsdatum",
       "headers": {
         "totalPricePerPc": "Cost",
         "currency": "Currency",

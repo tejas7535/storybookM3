@@ -34,6 +34,11 @@ export const getReferenceTypeErrorMessage = createSelector(
   (state: DetailState) => state.detail.errorMessage
 );
 
+export const getMaterialDesignation = createSelector(
+  getDetailState,
+  (state: DetailState) => state.detail.referenceType?.materialDesignation
+);
+
 export const getSalesDetails = createSelector(
   getReferenceType,
   (referenceType: ReferenceType): SalesDetails =>
@@ -143,6 +148,16 @@ export const getCalculationsErrorMessage = createSelector(
   (state: DetailState) => state.calculations.errorMessage
 );
 
+export const getSelectedCalculation = createSelector(
+  getDetailState,
+  (state: DetailState) => state.calculations.selected?.calculation
+);
+
+export const getSelectedCalculationNodeId = createSelector(
+  getDetailState,
+  (state: DetailState): string => state.calculations.selected?.nodeId
+);
+
 export const getBomItems = createSelector(
   getDetailState,
   (state: DetailState) => state.bom.items
@@ -168,11 +183,6 @@ export const getChildrenOfSelectedBomItem = createSelector(
             state.bom.selectedItem.materialDesignation
         )
       : undefined
-);
-
-export const getSelectedNodeId = createSelector(
-  getDetailState,
-  (state: DetailState): string => state.calculations.selected?.nodeId
 );
 
 export const getBomIdentifierForSelectedCalculation = createSelector(

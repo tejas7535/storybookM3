@@ -26,14 +26,17 @@ import {
   getCustomerDetails,
   getDimensionAndWeightDetails,
   getDrawingsErrorMessage,
+  getMaterialDesignation,
   getNodeIdOfSelectedDrawing,
   getPriceDetails,
   getProductionDetails,
   getQuantitiesDetails,
   getReferenceType,
+  getReferenceTypeErrorMessage,
   getReferenceTypeLoading,
   getSalesDetails,
-  getSelectedNodeId,
+  getSelectedCalculation,
+  getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifier,
 } from './detail.selector';
 
@@ -63,6 +66,26 @@ describe('Detail Selector', () => {
 
     test('should return false', () => {
       expect(getReferenceTypeLoading(initialDetailState)).toBeFalsy();
+    });
+  });
+
+  describe('getReferenceTypeErrorMessage', () => {
+    test('should return error message', () => {
+      expect(getReferenceTypeErrorMessage(fakeState)).toEqual('Error');
+    });
+
+    test('should return undefined', () => {
+      expect(getReferenceTypeErrorMessage(initialDetailState)).toBeUndefined();
+    });
+  });
+
+  describe('getMaterialDesignation', () => {
+    test('should return error message', () => {
+      expect(getMaterialDesignation(fakeState)).toEqual('F-446509.SLH');
+    });
+
+    test('should return undefined', () => {
+      expect(getMaterialDesignation(initialDetailState)).toBeUndefined();
     });
   });
 
@@ -184,13 +207,23 @@ describe('Detail Selector', () => {
     });
   });
 
-  describe('getSelectedNodeId', () => {
+  describe('getSelectedCalculationNodeId', () => {
     test('should return undefined if selected is undefined', () => {
-      expect(getSelectedNodeId(initialDetailState)).toBeUndefined();
+      expect(getSelectedCalculationNodeId(initialDetailState)).toBeUndefined();
     });
 
     test('should return string of the node id', () => {
-      expect(getSelectedNodeId(fakeState)).toEqual('3');
+      expect(getSelectedCalculationNodeId(fakeState)).toEqual('3');
+    });
+  });
+
+  describe('getSelectedCalculation', () => {
+    test('should return undefined if selected is undefined', () => {
+      expect(getSelectedCalculation(initialDetailState)).toBeUndefined();
+    });
+
+    test('should return selected calculation', () => {
+      expect(getSelectedCalculation(fakeState)).toEqual(CALCULATIONS_MOCK[2]);
     });
   });
 

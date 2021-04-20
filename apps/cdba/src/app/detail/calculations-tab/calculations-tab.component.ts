@@ -12,7 +12,7 @@ import {
   getCalculations,
   getCalculationsErrorMessage,
   getCalculationsLoading,
-  getSelectedNodeId,
+  getSelectedCalculationNodeId,
 } from '../../core/store/selectors';
 
 @Component({
@@ -30,7 +30,9 @@ export class CalculationsTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.calculations$ = this.store.pipe(select(getCalculations));
-    this.selectedNodeId$ = this.store.pipe(select(getSelectedNodeId));
+    this.selectedNodeId$ = this.store.pipe(
+      select(getSelectedCalculationNodeId)
+    );
     this.loading$ = this.store.pipe(select(getCalculationsLoading));
     this.errorMessage$ = this.store.pipe(select(getCalculationsErrorMessage));
   }

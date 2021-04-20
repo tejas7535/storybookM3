@@ -15,6 +15,8 @@ import {
   getCalculationsErrorMessage,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
+  getMaterialDesignation,
+  getSelectedCalculation,
   getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifiers,
 } from './compare.selectors';
@@ -181,9 +183,29 @@ describe('Compare Selectors', () => {
       expect(result).toBeUndefined();
     });
 
-    it('should return calc history for provided index', () => {
+    it('should return node id of selected calculation for provided index', () => {
       expected = '3';
       result = getSelectedCalculationNodeId(fakeState, 0);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getSelectedCalculation', () => {
+    it('should return undefined for non existing index', () => {
+      result = getSelectedCalculation(fakeState, 99);
+
+      expect(result).toBeUndefined();
+    });
+    it('should return undefined for non existing calculation for provided index', () => {
+      result = getSelectedCalculation(fakeState, 3);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return calculation for provided index', () => {
+      expected = CALCULATIONS_MOCK[2];
+      result = getSelectedCalculation(fakeState, 0);
 
       expect(result).toEqual(expected);
     });
@@ -264,6 +286,27 @@ describe('Compare Selectors', () => {
       expected = [];
 
       result = getChildrenOfSelectedBomItem(fakeState, 0);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getMaterialDesignation', () => {
+    it('should return undefined for non existing index', () => {
+      result = getMaterialDesignation(fakeState, 99);
+
+      expect(result).toBeUndefined();
+    });
+    it('should return undefined for non existing bom for provided index', () => {
+      result = getMaterialDesignation(fakeState, 3);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return material designation of first bom item', () => {
+      expected = 'FE-2313';
+
+      result = getMaterialDesignation(fakeState, 0);
 
       expect(result).toEqual(expected);
     });
