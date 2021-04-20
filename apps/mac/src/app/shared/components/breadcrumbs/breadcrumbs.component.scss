@@ -14,7 +14,7 @@
   display: flex;
 }
 
-.crumb[ng-reflect-router-link] {
+.crumb-active {
   color: $schaeffler-green-1;
   cursor: pointer;
 }
