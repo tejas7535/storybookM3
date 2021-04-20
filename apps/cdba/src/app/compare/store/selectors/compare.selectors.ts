@@ -70,6 +70,12 @@ export const getSelectedCalculationNodeId = createSelector(
     state[index]?.calculations?.selectedNodeId
 );
 
+export const getSelectedCalculation = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): Calculation =>
+    state[index]?.calculations?.selected
+);
+
 export const getBomItems = createSelector(
   getCompareState,
   (state: CompareState, index: number) => state[index]?.billOfMaterial?.items
@@ -96,4 +102,18 @@ export const getChildrenOfSelectedBomItem = createSelector(
             state[index].billOfMaterial.selected.materialDesignation
         )
       : undefined
+);
+
+// TODO: refactor to use materialDesignation from details (earlier available)
+export const getMaterialDesignation = createSelector(
+  getCompareState,
+  (state: CompareState, index: number) => {
+    const bomItems = state[index]?.billOfMaterial?.items;
+
+    if (bomItems && bomItems[0]) {
+      return bomItems[0].materialDesignation;
+    }
+
+    return undefined;
+  }
 );

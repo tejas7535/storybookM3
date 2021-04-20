@@ -7,6 +7,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { UndefinedAttributeFallbackModule } from '../../pipes';
 import { SharedModule } from '../../shared.module';
 import { BomChartModule } from '../bom-chart/bom-chart.module';
 import { BomLegendModule } from '../bom-legend/bom-legend.module';
@@ -32,6 +33,7 @@ import { BomContainerComponent } from './bom-container.component';
     BomLegendModule,
     LoadingSpinnerModule,
     BomOverlayModule,
+    UndefinedAttributeFallbackModule,
   ],
   exports: [BomContainerComponent],
 })

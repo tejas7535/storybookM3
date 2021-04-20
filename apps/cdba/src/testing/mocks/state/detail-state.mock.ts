@@ -18,6 +18,7 @@ export const DETAIL_STATE_MOCK: DetailState = {
     ...initialState.detail,
     loading: true,
     referenceType: REFERENCE_TYPE_MOCK,
+    errorMessage: 'Error',
   },
   calculations: {
     ...initialState.calculations,

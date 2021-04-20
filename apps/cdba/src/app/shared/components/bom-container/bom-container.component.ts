@@ -23,9 +23,12 @@ import { BomItem, Calculation } from '../../models';
 export class BomContainerComponent implements OnInit {
   @Input() index: number;
 
+  materialDesignation$: Observable<string>;
+
   // Calculation Variables
   calculations$: Observable<Calculation[]>;
   selectedCalculationNodeId$: Observable<string>;
+  selectedCalculation$: Observable<Calculation>;
   calculationsLoading$: Observable<boolean>;
   calculationsErrorMessage$: Observable<string>;
 
@@ -50,11 +53,18 @@ export class BomContainerComponent implements OnInit {
   }
 
   private initializeWithCompareSelectors(): void {
+    this.materialDesignation$ = this.store.pipe(
+      select(fromCompare.getMaterialDesignation, this.index)
+    );
+
     this.calculations$ = this.store.pipe(
       select(fromCompare.getCalculations, this.index)
     );
     this.selectedCalculationNodeId$ = this.store.pipe(
       select(fromCompare.getSelectedCalculationNodeId, this.index)
+    );
+    this.selectedCalculation$ = this.store.pipe(
+      select(fromCompare.getSelectedCalculation, this.index)
     );
     this.calculationsLoading$ = this.store.pipe(
       select(fromCompare.getCalculationsLoading, this.index)
@@ -78,9 +88,16 @@ export class BomContainerComponent implements OnInit {
   }
 
   private initializeWithDetailSelectors(): void {
+    this.materialDesignation$ = this.store.pipe(
+      select(fromDetail.getMaterialDesignation)
+    );
+
     this.calculations$ = this.store.pipe(select(fromDetail.getCalculations));
     this.selectedCalculationNodeId$ = this.store.pipe(
-      select(fromDetail.getSelectedNodeId)
+      select(fromDetail.getSelectedCalculationNodeId)
+    );
+    this.selectedCalculation$ = this.store.pipe(
+      select(fromDetail.getSelectedCalculation)
     );
     this.calculationsLoading$ = this.store.pipe(
       select(fromDetail.getCalculationsLoading)

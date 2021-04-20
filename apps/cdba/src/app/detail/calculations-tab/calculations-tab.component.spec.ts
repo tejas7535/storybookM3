@@ -17,7 +17,7 @@ import {
   getCalculations,
   getCalculationsErrorMessage,
   getCalculationsLoading,
-  getSelectedNodeId,
+  getSelectedCalculationNodeId,
 } from '../../core/store/selectors';
 import { CustomStatusBarModule } from '../../shared/components/table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTabComponent } from './calculations-tab.component';
@@ -48,7 +48,7 @@ describe('CalculationsTabComponent', () => {
             value: CALCULATIONS_MOCK,
           },
           {
-            selector: getSelectedNodeId,
+            selector: getSelectedCalculationNodeId,
             value: '7',
           },
           {
