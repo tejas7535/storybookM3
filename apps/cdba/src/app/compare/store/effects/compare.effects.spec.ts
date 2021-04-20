@@ -1,3 +1,4 @@
+import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import {
@@ -39,11 +40,10 @@ describe('CompareEffects', () => {
   let spectator: SpectatorService<CompareEffects>;
   let store: MockStore;
   let detailService: DetailService;
+  let router: Router;
 
   let actions$: any;
   let action: any;
-
-  //  const _mockState = COMPARE_STATE_MOCK;
 
   const createService = createServiceFactory({
     service: CompareEffects,
@@ -62,6 +62,7 @@ describe('CompareEffects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(MockStore);
     detailService = spectator.inject(DetailService);
+    router = spectator.inject(Router);
   });
 
   describe('selectReferenceTypes$', () => {
@@ -99,6 +100,38 @@ describe('CompareEffects', () => {
       const expected = cold('-b', { b: result });
 
       expect(effects.selectReferenceTypes$).toBeObservable(expected);
+    });
+
+    test('should abort effect', () => {
+      router.navigate = jest.fn();
+
+      action = {
+        type: ROUTER_NAVIGATED,
+        payload: {
+          routerState: {
+            url: '/compare/bom',
+            queryParams: {
+              plant_item_1: '0060',
+              material_number_item_2: '4123789',
+              plant_item_2: '0076',
+            },
+          },
+          event: {
+            id: 2,
+            url: '/',
+            urlAfterRedirects: '/search',
+          },
+        },
+      };
+
+      actions$ = hot('-a', { a: action });
+
+      const expected = cold('---');
+
+      expect(effects.selectReferenceTypes$).toBeObservable(expected);
+      expect(effects.selectReferenceTypes$).toSatisfyOnFlush(() => {
+        expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+      });
     });
   });
 
@@ -255,6 +288,51 @@ describe('CompareEffects', () => {
       });
 
       expect(effects.triggerDataLoad$).toBeObservable(expected);
+    });
+  });
+
+  describe('mapQueryParamsToIdentifiers', () => {
+    const queryParams: Params = {
+      material_number_item_1: '456789',
+      plant_item_1: '0060',
+      identification_hash_item_1: 'identifier',
+      material_number_item_2: '4123789',
+      plant_item_2: '0076',
+      identification_hash_item_2: 'identifier 2',
+    };
+    test('should return undefined for incomplete query params', () => {
+      const incompleteQueryParams = { ...queryParams };
+      delete incompleteQueryParams.material_number_item_1;
+
+      const result = CompareEffects['mapQueryParamsToIdentifiers'](
+        incompleteQueryParams
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return undefined for invalid number of compare items', () => {
+      const invalidQueryParams = {
+        material_number_item_1: '456789',
+        plant_item_1: '0060',
+        identification_hash_item_1: 'identifier',
+      };
+
+      const result = CompareEffects['mapQueryParamsToIdentifiers'](
+        invalidQueryParams
+      );
+
+      expect(result).toBeUndefined();
+    });
+
+    test('should return list of referencetypeidentifiers', () => {
+      const expected = [
+        new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
+        new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+      ];
+      const result = CompareEffects['mapQueryParamsToIdentifiers'](queryParams);
+
+      expect(result).toEqual(expected);
     });
   });
 });

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Params } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import { catchError, filter, map, mergeMap } from 'rxjs/operators';
@@ -44,8 +44,15 @@ export class CompareEffects {
           routerState.url.indexOf(AppRoutePath.ComparePath) === 1
       ),
       map((routerState) =>
-        CompareEffects.mapQueryParamsToIdentifier(routerState.queryParams)
+        CompareEffects.mapQueryParamsToIdentifiers(routerState.queryParams)
       ),
+      filter((referenceTypeIdentifiers: ReferenceTypeIdentifier[]) => {
+        if (referenceTypeIdentifiers === undefined) {
+          this.router.navigate(['not-found']);
+        }
+
+        return referenceTypeIdentifiers !== undefined;
+      }),
       map((referenceTypeIdentifiers: ReferenceTypeIdentifier[]) =>
         selectReferenceTypes({ referenceTypeIdentifiers })
       )
@@ -120,10 +127,11 @@ export class CompareEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
-    private readonly store: Store<{}>
+    private readonly store: Store<{}>,
+    private readonly router: Router
   ) {}
 
-  private static mapQueryParamsToIdentifier(
+  private static mapQueryParamsToIdentifiers(
     queryParams: Params
   ): ReferenceTypeIdentifier[] {
     const mappingTable: { [key: string]: string } = {
@@ -148,7 +156,11 @@ export class CompareEffects {
       };
     }
 
-    return Object.values(refTypesIdentifiers);
+    const identifiersComplete = CompareEffects.checkValidityOfIdentifiers(
+      refTypesIdentifiers
+    );
+
+    return identifiersComplete ? Object.values(refTypesIdentifiers) : undefined;
   }
 
   private static splitQueryKey(
@@ -160,5 +172,27 @@ export class CompareEffects {
     const splitted = queryKey.split('_item_');
 
     return { index: splitted[1], queryKey: splitted[0] };
+  }
+
+  private static checkValidityOfIdentifiers(identifiersMap: {
+    [index: string]: ReferenceTypeIdentifier;
+  }): boolean {
+    const referenceTypeIdentifiers: ReferenceTypeIdentifier[] = Object.values(
+      identifiersMap
+    );
+
+    if (referenceTypeIdentifiers.length !== 2) {
+      return false;
+    }
+
+    for (const identifier of referenceTypeIdentifiers) {
+      if (identifier.materialNumber && identifier.plant) {
+        continue;
+      }
+
+      return false;
+    }
+
+    return true;
   }
 }
