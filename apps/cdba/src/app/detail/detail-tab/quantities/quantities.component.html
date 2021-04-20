@@ -15,7 +15,7 @@
         </div>
       </div>
       <div fxLayout="row wrap">
-        <label fxFlexAlign="end" *ngIf="quantitiesDetails.netSales.length"
+        <label fxFlexAlign="end" *ngIf="quantitiesDetails.netSales?.length"
           >{{
             t('quantities.netSales', { year: currentYear - 1 })
           }}:&nbsp;</label
@@ -60,7 +60,7 @@
     <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length > 3"
+        *ngIf="quantitiesDetails.actualQuantities?.length > 3"
       >
         <label fxFlexAlign="end"
           >{{
@@ -77,7 +77,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length > 2"
+        *ngIf="quantitiesDetails.actualQuantities?.length > 2"
       >
         <label fxFlexAlign="end"
           >{{
@@ -94,7 +94,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length > 1"
+        *ngIf="quantitiesDetails.actualQuantities?.length > 1"
       >
         <label fxFlexAlign="end"
           >{{
@@ -111,7 +111,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.actualQuantities.length"
+        *ngIf="quantitiesDetails.actualQuantities?.length"
       >
         <label fxFlexAlign="end"
           >{{
@@ -130,7 +130,7 @@
     <div class="widget-group" *ngIf="quantitiesDetails && !errorMessage">
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities.length"
+        *ngIf="quantitiesDetails.plannedQuantities?.length"
       >
         <label fxFlexAlign="end"
           >{{
@@ -147,7 +147,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities.length > 1"
+        *ngIf="quantitiesDetails.plannedQuantities?.length > 1"
       >
         <label fxFlexAlign="end"
           >{{
@@ -164,7 +164,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities.length > 2"
+        *ngIf="quantitiesDetails.plannedQuantities?.length > 2"
       >
         <label fxFlexAlign="end"
           >{{
@@ -181,7 +181,7 @@
       </div>
       <div
         fxLayout="row wrap"
-        *ngIf="quantitiesDetails.plannedQuantities.length > 3"
+        *ngIf="quantitiesDetails.plannedQuantities?.length > 3"
       >
         <label fxFlexAlign="end"
           >{{
