@@ -1,4 +1,8 @@
-import { BomItem, Calculation } from '@cdba/shared/models';
+import {
+  BomItem,
+  Calculation,
+  ReferenceTypeIdentifier,
+} from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -17,7 +21,7 @@ import {
   loadCalculations,
   selectBomItem,
   selectCalculation,
-  selectReferenceTypes,
+  selectCompareItems,
 } from '../actions/compare.actions';
 import { compareReducer, CompareState, initialState } from './compare.reducer';
 
@@ -34,19 +38,25 @@ describe('Compare Reducer', () => {
     expected = undefined;
   });
 
-  describe('selectReferenceTypes', () => {
-    const referenceTypeIdentifiers = [
-      REFERENCE_TYPE_IDENTIFIER_MOCK,
-      REFERENCE_TYPE_IDENTIFIER_MOCK,
+  describe('selectCompareItems', () => {
+    const compareItems: [
+      nodeId: string,
+      referenceTypeIdentifier: ReferenceTypeIdentifier
+    ][] = [
+      ['0', REFERENCE_TYPE_IDENTIFIER_MOCK],
+      ['7', REFERENCE_TYPE_IDENTIFIER_MOCK],
     ];
-    it('should set reftypes identifier at correct index', () => {
-      action = selectReferenceTypes({ referenceTypeIdentifiers });
+    it('should set reftypes identifier and selected nodeid at correct index', () => {
+      action = selectCompareItems({ items: compareItems });
       expected = REFERENCE_TYPE_IDENTIFIER_MOCK;
 
       state = compareReducer(initialState, action);
 
       expect(state[0].referenceType).toEqual(expected);
       expect(state[1].referenceType).toEqual(expected);
+
+      expect(state[0].calculations.selectedNodeId).toEqual('0');
+      expect(state[1].calculations.selectedNodeId).toEqual('7');
     });
   });
 
@@ -172,7 +182,6 @@ describe('Compare Reducer', () => {
 
         expect(state[index].calculations.items).toBeUndefined();
         expect(state[index].calculations.selected).toBeUndefined();
-        expect(state[index].calculations.selectedNodeId).toBeUndefined();
         expect(state[index].billOfMaterial.items).toBeUndefined();
         expect(state[index].billOfMaterial.selected).toBeUndefined();
       });

@@ -1,3 +1,4 @@
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
   BOM_MOCK,
   CALCULATIONS_MOCK,
@@ -15,14 +16,17 @@ import {
   loadCalculations,
   selectBomItem,
   selectCalculation,
-  selectReferenceTypes,
+  selectCompareItems,
 } from './compare.actions';
 
 describe('Compare Actions', () => {
   let action: CompareActions;
   let expectedType: string;
 
-  const referenceTypeIdentifiers = [REFERENCE_TYPE_IDENTIFIER_MOCK];
+  const compareItems: [
+    nodeId: string,
+    referenceTypeIdentifier: ReferenceTypeIdentifier
+  ][] = [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]];
   const materialNumber = 'Material-12345';
   const index = 1;
   const error = new Error('Please Help');
@@ -38,12 +42,12 @@ describe('Compare Actions', () => {
   });
 
   describe('Reference Type Actions', () => {
-    test('selectReferenceTypes', () => {
-      action = selectReferenceTypes({ referenceTypeIdentifiers });
-      expectedType = '[Compare] Select Reference Types';
+    test('selectCompareItems', () => {
+      action = selectCompareItems({ items: compareItems });
+      expectedType = '[Compare] Select Compare Items';
 
       expect(action).toEqual({
-        referenceTypeIdentifiers,
+        items: compareItems,
         type: expectedType,
       });
     });

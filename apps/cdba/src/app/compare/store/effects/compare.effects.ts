@@ -26,7 +26,7 @@ import {
   loadCalculationHistorySuccess,
   loadCalculations,
   selectCalculation,
-  selectReferenceTypes,
+  selectCompareItems,
 } from '../actions/compare.actions';
 import {
   getBomIdentifierForSelectedCalculation,
@@ -35,7 +35,7 @@ import {
 
 @Injectable()
 export class CompareEffects {
-  selectReferenceTypes$ = createEffect(() =>
+  selectCompareItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
@@ -44,17 +44,29 @@ export class CompareEffects {
           routerState.url.indexOf(AppRoutePath.ComparePath) === 1
       ),
       map((routerState) =>
-        CompareEffects.mapQueryParamsToIdentifiers(routerState.queryParams)
+        CompareEffects.mapQueryParams(routerState.queryParams)
       ),
-      filter((referenceTypeIdentifiers: ReferenceTypeIdentifier[]) => {
-        if (referenceTypeIdentifiers === undefined) {
-          this.router.navigate(['not-found']);
-        }
+      filter(
+        (
+          value: [
+            nodeId: string,
+            referenceTypeIdentifier: ReferenceTypeIdentifier
+          ][]
+        ) => {
+          if (value === undefined) {
+            this.router.navigate(['not-found']);
+          }
 
-        return referenceTypeIdentifiers !== undefined;
-      }),
-      map((referenceTypeIdentifiers: ReferenceTypeIdentifier[]) =>
-        selectReferenceTypes({ referenceTypeIdentifiers })
+          return value !== undefined;
+        }
+      ),
+      map(
+        (
+          items: [
+            nodeId: string,
+            referenceTypeIdentifier: ReferenceTypeIdentifier
+          ][]
+        ) => selectCompareItems({ items })
       )
     )
   );
@@ -119,7 +131,7 @@ export class CompareEffects {
 
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(selectReferenceTypes),
+      ofType(selectCompareItems),
       mergeMap(() => [loadCalculations()])
     )
   );
@@ -131,36 +143,44 @@ export class CompareEffects {
     private readonly router: Router
   ) {}
 
-  private static mapQueryParamsToIdentifiers(
+  private static mapQueryParams(
     queryParams: Params
-  ): ReferenceTypeIdentifier[] {
+  ): [nodeId: string, referenceTypeIdentifier: ReferenceTypeIdentifier][] {
     const mappingTable: { [key: string]: string } = {
       material_number: 'materialNumber',
       plant: 'plant',
       identification_hash: 'identificationHash',
+      node_id: 'nodeId',
     };
 
-    let refTypesIdentifiers: {
-      [index: string]: ReferenceTypeIdentifier;
+    let compareItems: {
+      [index: string]: any;
     } = {};
 
     for (const [key, value] of Object.entries(queryParams)) {
       const { index, queryKey } = CompareEffects.splitQueryKey(key);
 
-      refTypesIdentifiers = {
-        ...refTypesIdentifiers,
+      compareItems = {
+        ...compareItems,
         [index]: {
-          ...refTypesIdentifiers[index],
+          ...compareItems[index],
           [`${mappingTable[queryKey]}`]: value,
         },
       };
     }
 
     const identifiersComplete = CompareEffects.checkValidityOfIdentifiers(
-      refTypesIdentifiers
+      compareItems
     );
 
-    return identifiersComplete ? Object.values(refTypesIdentifiers) : undefined;
+    return identifiersComplete
+      ? Object.values(
+          compareItems
+        ).map(({ nodeId, ...referenceTypeIdentifier }) => [
+          nodeId,
+          referenceTypeIdentifier,
+        ])
+      : undefined;
   }
 
   private static splitQueryKey(

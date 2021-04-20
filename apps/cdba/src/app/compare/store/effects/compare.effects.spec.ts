@@ -30,7 +30,7 @@ import {
   loadCalculationHistorySuccess,
   loadCalculations,
   selectCalculation,
-  selectReferenceTypes,
+  selectCompareItems,
 } from '../actions/compare.actions';
 import { getSelectedReferenceTypeIdentifiers } from '../selectors/compare.selectors';
 import { CompareEffects } from './compare.effects';
@@ -65,8 +65,8 @@ describe('CompareEffects', () => {
     router = spectator.inject(Router);
   });
 
-  describe('selectReferenceTypes$', () => {
-    test('should return selectReferenceTypes Action', () => {
+  describe('selectCompareItems$', () => {
+    test('should return selectCompareItems Action', () => {
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
@@ -91,15 +91,24 @@ describe('CompareEffects', () => {
 
       actions$ = hot('-a', { a: action });
 
-      const referenceTypeIdentifiers = [
-        new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-        new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+      const items: [
+        nodeId: string,
+        referenceTypeIdentifier: ReferenceTypeIdentifier
+      ][] = [
+        [
+          undefined,
+          new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
+        ],
+        [
+          undefined,
+          new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+        ],
       ];
 
-      const result = selectReferenceTypes({ referenceTypeIdentifiers });
+      const result = selectCompareItems({ items });
       const expected = cold('-b', { b: result });
 
-      expect(effects.selectReferenceTypes$).toBeObservable(expected);
+      expect(effects.selectCompareItems$).toBeObservable(expected);
     });
 
     test('should abort effect', () => {
@@ -128,8 +137,8 @@ describe('CompareEffects', () => {
 
       const expected = cold('---');
 
-      expect(effects.selectReferenceTypes$).toBeObservable(expected);
-      expect(effects.selectReferenceTypes$).toSatisfyOnFlush(() => {
+      expect(effects.selectCompareItems$).toBeObservable(expected);
+      expect(effects.selectCompareItems$).toSatisfyOnFlush(() => {
         expect(router.navigate).toHaveBeenCalledWith(['not-found']);
       });
     });
@@ -277,8 +286,8 @@ describe('CompareEffects', () => {
 
   describe('triggerDataLoad$', () => {
     test('should return loadCalculations action', () => {
-      action = selectReferenceTypes({
-        referenceTypeIdentifiers: [REFERENCE_TYPE_IDENTIFIER_MOCK],
+      action = selectCompareItems({
+        items: [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]],
       });
 
       actions$ = hot('-a', { a: action });
@@ -291,22 +300,22 @@ describe('CompareEffects', () => {
     });
   });
 
-  describe('mapQueryParamsToIdentifiers', () => {
+  describe('mapQueryParams', () => {
     const queryParams: Params = {
       material_number_item_1: '456789',
       plant_item_1: '0060',
       identification_hash_item_1: 'identifier',
+      node_id_item_1: '1',
       material_number_item_2: '4123789',
       plant_item_2: '0076',
       identification_hash_item_2: 'identifier 2',
+      node_id_item_2: '2',
     };
     test('should return undefined for incomplete query params', () => {
       const incompleteQueryParams = { ...queryParams };
       delete incompleteQueryParams.material_number_item_1;
 
-      const result = CompareEffects['mapQueryParamsToIdentifiers'](
-        incompleteQueryParams
-      );
+      const result = CompareEffects['mapQueryParams'](incompleteQueryParams);
 
       expect(result).toBeUndefined();
     });
@@ -318,19 +327,17 @@ describe('CompareEffects', () => {
         identification_hash_item_1: 'identifier',
       };
 
-      const result = CompareEffects['mapQueryParamsToIdentifiers'](
-        invalidQueryParams
-      );
+      const result = CompareEffects['mapQueryParams'](invalidQueryParams);
 
       expect(result).toBeUndefined();
     });
 
-    test('should return list of referencetypeidentifiers', () => {
+    test('should return list of nodeIds and referencetypeidentifiers', () => {
       const expected = [
-        new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-        new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+        ['1', new ReferenceTypeIdentifier('456789', '0060', 'identifier')],
+        ['2', new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2')],
       ];
-      const result = CompareEffects['mapQueryParamsToIdentifiers'](queryParams);
+      const result = CompareEffects['mapQueryParams'](queryParams);
 
       expect(result).toEqual(expected);
     });
