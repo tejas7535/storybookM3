@@ -1,3 +1,4 @@
+import { MsalGuardAuthRequest } from '@azure/msal-angular';
 import { InteractionType, LogLevel } from '@azure/msal-browser';
 
 import {
@@ -113,7 +114,9 @@ describe('Azure Auth Config', () => {
 
       expect(result.interactionType).toEqual(InteractionType.Popup);
       expect(result.loginFailedRoute).toEqual('failed route');
-      expect(result.authRequest.scopes).toEqual(['testscope']);
+      expect((result.authRequest as MsalGuardAuthRequest).scopes).toEqual([
+        'testscope',
+      ]);
     });
   });
 });
