@@ -12,8 +12,8 @@ apps/helloworld-azure @kauppfbi @herpisef @pelzesen
 apps/helloworld-azure-e2e @kauppfbi @herpisef @pelzesen
 
 # CDBA
-apps/cdba @kauppfbi @herpisef @andrafnk
-apps/cdba-e2e @kauppfbi @herpisef @andrafnk
+apps/cdba @kauppfbi @herpisef @rieckpil_ext
+apps/cdba-e2e @kauppfbi @herpisef @rieckpil_ext
 
 # GOLDWIND
 apps/goldwind @krausrbe @saragjri
@@ -22,25 +22,25 @@ apps/goldwind-e2e @krausrbe @saragjri
 # SEDO
 apps/sedo @birketho @soehnpsc @pelzesen
 apps/sedo-e2e @birketho @soehnpsc @pelzesen
- 
+
 # GQ
-apps/gq @andrafnk @soehnpsc @herpisef 
-apps/gq-e2e @andrafnk @soehnpsc @herpisef
+apps/gq @soehnpsc @herpisef
+apps/gq-e2e @soehnpsc @herpisef
 
 # MAC
 apps/mac @berndcri @birketho @pelzesen
 apps/mac-e2e @berndcri @birketho @pelzesen
 
 # IA
-apps/ia @herpisef 
-apps/ia-e2e @herpisef 
+apps/ia @herpisef
+apps/ia-e2e @herpisef
 
 # MM
-apps/mm @juskibry @birketho @krausrbe @berndcri 
-apps/mm-e2e @juskibry @birketho @krausrbe @berndcri  
+apps/mm @juskibry @birketho @krausrbe @berndcri
+apps/mm-e2e @juskibry @birketho @krausrbe @berndcri
 
 ############
 ### Libs ###
-############ 
+############
 
 
