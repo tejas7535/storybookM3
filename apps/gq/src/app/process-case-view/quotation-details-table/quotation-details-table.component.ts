@@ -6,6 +6,9 @@ import { map } from 'rxjs/operators';
 import {
   ColDef,
   ColumnApi,
+  ColumnEvent,
+  ColumnState,
+  GridReadyEvent,
   IStatusPanelParams,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
@@ -16,6 +19,7 @@ import { getRoles } from '@schaeffler/azure-auth';
 import { AppState } from '../../core/store';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
+import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
 import { COLUMN_DEFS } from '../../shared/services/column-utility-service/column-defs';
 import { ColumnUtilityService } from '../../shared/services/column-utility-service/column-utility.service';
 import {
@@ -31,6 +35,8 @@ import {
   styleUrls: ['./quotation-details-table.component.scss'],
 })
 export class QuotationDetailsTableComponent implements OnInit {
+  private readonly TABLE_KEY = 'processCase';
+
   rowData: QuotationDetail[];
 
   tableContext: any = {
@@ -53,7 +59,10 @@ export class QuotationDetailsTableComponent implements OnInit {
   public columnDefs$: Observable<ColDef[]>;
   public rowSelection = 'multiple';
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly agGridStateService: AgGridStateService
+  ) {}
 
   ngOnInit(): void {
     this.columnDefs$ = this.store.pipe(
@@ -64,7 +73,20 @@ export class QuotationDetailsTableComponent implements OnInit {
     );
   }
 
-  onFirstDataRendered(params: IStatusPanelParams): void {
+  public onColumnChange(event: ColumnEvent): void {
+    const columnState: ColumnState[] = event.columnApi.getColumnState();
+
+    this.agGridStateService.setColumnState(this.TABLE_KEY, columnState);
+  }
+
+  public onGridReady(event: GridReadyEvent): void {
+    const state = this.agGridStateService.getColumnState(this.TABLE_KEY);
+    if (state) {
+      event.columnApi.setColumnState(state);
+    }
+  }
+
+  public onFirstDataRendered(params: IStatusPanelParams): void {
     const gridColumnApi: ColumnApi = params.columnApi;
     gridColumnApi.autoSizeAllColumns(false);
   }

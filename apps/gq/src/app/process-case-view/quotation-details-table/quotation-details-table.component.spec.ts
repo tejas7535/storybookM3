@@ -83,6 +83,54 @@ describe('QuotationDetailsTableComponent', () => {
       expect(component.tableContext.currency).toEqual(QUOTATION_MOCK.currency);
     });
   });
+
+  describe('columnChange', () => {
+    test('should set column state', () => {
+      const event = {
+        columnApi: {
+          getColumnState: jest.fn(),
+        },
+      } as any;
+      component['agGridStateService'].setColumnState = jest.fn();
+      component.onColumnChange(event);
+
+      expect(
+        component['agGridStateService'].setColumnState
+      ).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('onGridReady', () => {
+    test('should set columnState', () => {
+      const event = {
+        columnApi: {
+          setColumnState: jest.fn(),
+        },
+      } as any;
+
+      component[
+        'agGridStateService'
+      ].getColumnState = jest.fn().mockReturnValue('state');
+      component.onGridReady(event);
+      expect(
+        component['agGridStateService'].getColumnState
+      ).toHaveBeenCalledTimes(1);
+      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(1);
+    });
+    test('should not set columnState', () => {
+      const event = {
+        columnApi: {
+          setColumnState: jest.fn(),
+        },
+      } as any;
+      component['agGridStateService'].getColumnState = jest.fn();
+      component.onGridReady(event);
+      expect(
+        component['agGridStateService'].getColumnState
+      ).toHaveBeenCalledTimes(1);
+      expect(event.columnApi.setColumnState).toHaveBeenCalledTimes(0);
+    });
+  });
+
   describe('onFirstDataRenderer', () => {
     test('should call autoSizeAllColumns', () => {
       const params = {
