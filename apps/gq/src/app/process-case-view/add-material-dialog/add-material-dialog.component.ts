@@ -6,13 +6,13 @@ import { map, pairwise } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { MaterialTableItem } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import {
   getAddMaterialRowData,
   getQuotationErrorMessage,
   getUpdateLoading,
 } from '../../core/store/selectors';
+import { MaterialTableItem } from '../../shared/models/table';
 
 @Component({
   selector: 'gq-add-material-dialog',

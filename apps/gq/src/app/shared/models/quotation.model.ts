@@ -1,6 +1,6 @@
-import { Customer } from './customer.model';
-import { QuotationDetail } from './quotation-detail.model';
-import { User } from './user';
+import { Customer } from './customer';
+import { QuotationDetail } from './quotation-detail';
+import { User } from './user.model';
 
 export class Quotation {
   public gqId: number;

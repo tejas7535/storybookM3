@@ -10,7 +10,7 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 import {
   MaterialTableItem,
   ValidationDescription,
-} from '../../../../core/store/models';
+} from '../../../models/table';
 import { MaterialService } from './material.service';
 
 describe('ValidationService', () => {

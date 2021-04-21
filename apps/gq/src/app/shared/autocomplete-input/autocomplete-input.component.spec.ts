@@ -14,7 +14,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { IdValue } from '../../core/store/models';
+import { IdValue } from '../models/search';
 import { AutocompleteInputComponent } from './autocomplete-input.component';
 import { FilterNames } from './filter-names.enum';
 import { NoResultsFoundPipe } from './pipes/no-results-found.pipe';

@@ -6,7 +6,10 @@ import { Observable } from 'rxjs';
 import { KeyName } from '@ag-grid-community/all-modules';
 import { TranslocoService } from '@ngneat/transloco';
 
-import { PriceSource, UpdatePrice } from '../../../core/store/models';
+import {
+  PriceSource,
+  UpdatePrice,
+} from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-manual-price',

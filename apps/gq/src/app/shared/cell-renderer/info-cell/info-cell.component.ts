@@ -3,8 +3,8 @@ import { Component } from '@angular/core';
 import { CellClassParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { ValidationDescription } from '../../../core/store/models';
 import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+import { ValidationDescription } from '../../models/table';
 
 @Component({
   selector: 'gq-info-cell',

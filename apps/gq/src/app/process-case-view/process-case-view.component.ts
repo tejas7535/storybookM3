@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import { Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import {
   getOffer,
@@ -13,6 +12,7 @@ import {
   isCustomerLoading,
   isQuotationLoading,
 } from '../core/store/selectors';
+import { Quotation } from '../shared/models';
 
 @Component({
   selector: 'gq-case-view',

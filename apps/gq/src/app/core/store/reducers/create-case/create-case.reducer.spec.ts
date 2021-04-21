@@ -2,6 +2,12 @@ import { Action } from '@ngrx/store';
 
 import { CREATE_CASE_STORE_STATE_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../../../shared/models/table';
 import {
   addRowDataItem,
   autocomplete,
@@ -23,15 +29,6 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
-import {
-  AutocompleteSearch,
-  CreateCaseResponse,
-  IdValue,
-  MaterialTableItem,
-  MaterialValidation,
-  SalesOrg,
-  ValidationDescription,
-} from '../../models';
 import { dummyRowData } from './config/dummy-row-data';
 import {
   CaseState,
@@ -39,6 +36,7 @@ import {
   initialState,
   reducer,
 } from './create-case.reducer';
+import { CreateCaseResponse, SalesOrg } from './models';
 
 describe('Create Case Reducer', () => {
   describe('autocomplete Actions', () => {

@@ -1,16 +1,17 @@
-import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+
+import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { select, Store } from '@ngrx/store';
 
 import {
   addToRemoveMaterials,
   removeMaterials,
 } from '../../../core/store/actions';
-import { QuotationDetail } from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getSapId } from '../../../core/store/selectors';
 import { AddMaterialDialogComponent } from '../../../process-case-view/add-material-dialog/add-material-dialog.component';
+import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
   selector: 'gq-flat-buttons',

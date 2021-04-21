@@ -10,8 +10,8 @@ import {
   getSelectedSalesOrg,
   selectSalesOrg,
 } from '../../../core/store';
-import { SalesOrg } from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
+import { SalesOrg } from '../../../core/store/reducers/create-case/models';
 
 @Component({
   selector: 'gq-select-sales-org',

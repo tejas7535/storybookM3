@@ -14,7 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { EMPTY, Subscription, timer } from 'rxjs';
 import { debounce, filter, tap } from 'rxjs/operators';
 
-import { AutocompleteSearch, IdValue } from '../../core/store/models';
+import { AutocompleteSearch, IdValue } from '../models/search';
 import { FilterNames } from './filter-names.enum';
 
 @Component({

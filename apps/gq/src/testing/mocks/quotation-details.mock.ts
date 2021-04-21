@@ -2,7 +2,7 @@ import {
   MaterialDetails,
   PriceSource,
   QuotationDetail,
-} from '../../app/core/store/models';
+} from '../../app/shared/models/quotation-detail';
 import { PLANT_MOCK } from './plant.mock';
 
 export const QUOTATION_DETAIL_MOCK: QuotationDetail = {

@@ -10,8 +10,9 @@ import {
   getQuotation,
   isQuotationLoading,
 } from '../core/store';
-import { MaterialDetails, Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
+import { Quotation } from '../shared/models';
+import { MaterialDetails } from '../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-detail-view',

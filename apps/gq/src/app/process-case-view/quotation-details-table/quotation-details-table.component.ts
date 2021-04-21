@@ -14,7 +14,8 @@ import { select, Store } from '@ngrx/store';
 import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState } from '../../core/store';
-import { Quotation, QuotationDetail } from '../../core/store/models';
+import { Quotation } from '../../shared/models';
+import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { COLUMN_DEFS } from '../../shared/services/column-utility-service/column-defs';
 import { ColumnUtilityService } from '../../shared/services/column-utility-service/column-utility.service';
 import {

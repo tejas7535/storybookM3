@@ -12,9 +12,9 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { updateQuotationDetails } from '../../core/store';
-import { PriceSource, UpdatePrice } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
+import { PriceSource, UpdatePrice } from '../../shared/models/quotation-detail';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';

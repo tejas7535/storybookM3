@@ -19,6 +19,11 @@ import {
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../../../shared/models/table';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
@@ -53,12 +58,9 @@ import {
   uploadOfferToSapSuccess,
 } from '../../actions/process-case/process-case.action';
 import {
-  MaterialTableItem,
-  MaterialValidation,
   QuotationIdentifier,
   UpdateQuotationDetail,
-  ValidationDescription,
-} from '../../models';
+} from '../../reducers/process-case/models';
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,

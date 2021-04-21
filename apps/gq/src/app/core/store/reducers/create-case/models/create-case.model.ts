@@ -1,4 +1,4 @@
-import { MaterialQuantities } from './material-quantities.model';
+import { MaterialQuantities } from '../../../../../shared/models/table';
 
 export class CreateCase {
   customer: {

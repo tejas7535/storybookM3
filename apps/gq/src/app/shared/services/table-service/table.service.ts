@@ -1,14 +1,11 @@
 import { Injectable } from '@angular/core';
 
 import {
-  MaterialTableItem,
-  MaterialValidation,
-  ValidationDescription,
-} from '../../../core/store/models';
-import {
   dummyRowData,
   isDummyData,
 } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+import { MaterialValidation, ValidationDescription } from '../../models/table';
+import { MaterialTableItem } from '../../models/table/material-table-item-model';
 
 @Injectable({
   providedIn: 'root',

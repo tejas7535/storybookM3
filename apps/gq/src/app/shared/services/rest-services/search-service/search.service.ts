@@ -6,15 +6,12 @@ import { map } from 'rxjs/operators';
 
 import { DataService, GetOptions } from '@schaeffler/http';
 
-import {
-  AutocompleteResponse,
-  AutocompleteSearch,
-  Customer,
-  IdValue,
-  QuotationIdentifier,
-  SalesOrg,
-} from '../../../../core/store/models';
+import { SalesOrg } from '../../../../core/store/reducers/create-case/models';
+import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
+import { Customer } from '../../../models/customer';
+import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { PriceService } from '../../price-service/price.service';
+import { AutocompleteResponse } from './models/autocomplete-response.model';
 
 @Injectable({
   providedIn: 'root',

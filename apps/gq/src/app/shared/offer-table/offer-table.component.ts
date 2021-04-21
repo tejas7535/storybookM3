@@ -8,7 +8,8 @@ import { select, Store } from '@ngrx/store';
 import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState } from '../../core/store';
-import { Quotation, QuotationDetail } from '../../core/store/models';
+import { Quotation } from '../models';
+import { QuotationDetail } from '../models/quotation-detail';
 import { COLUMN_DEFS } from '../services/column-utility-service/column-defs';
 import { ColumnUtilityService } from '../services/column-utility-service/column-utility.service';
 import {

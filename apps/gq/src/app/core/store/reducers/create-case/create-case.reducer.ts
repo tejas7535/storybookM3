@@ -1,6 +1,15 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import {
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { IdValue } from '../../../../shared/models/search';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '../../../../shared/models/table';
 import { MaterialTransformPipe } from '../../../../shared/pipes/material-transform/material-transform.pipe';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
@@ -25,15 +34,8 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
-import {
-  CaseFilterItem,
-  CreateCaseResponse,
-  IdValue,
-  MaterialTableItem,
-  SalesOrg,
-  ValidationDescription,
-} from '../../models';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
+import { CaseFilterItem } from './models';
 
 export interface CaseState {
   autocompleteLoading: string;

@@ -1,4 +1,7 @@
-import { MaterialTableItem, ValidationDescription } from '../../../models';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '../../../../../shared/models/table';
 
 export const dummyRowData: MaterialTableItem = {
   materialNumber: '0167187...',

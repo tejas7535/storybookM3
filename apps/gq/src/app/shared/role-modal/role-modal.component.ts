@@ -7,8 +7,8 @@ import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { AppState, getAllRoles } from '../../core/store';
-import { RoleGroup } from '../../core/store/models';
 import { mailAdress } from '../constants';
+import { RoleGroup } from './models/role-group.model';
 
 @Component({
   selector: 'gq-role-modal',

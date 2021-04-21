@@ -7,12 +7,9 @@ import {
   pasteRowDataItems,
   pasteRowDataItemsToAddMaterial,
 } from '../../../core/store';
-import {
-  MaterialTableItem,
-  StatusBarConfig,
-  ValidationDescription,
-} from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
+import { StatusBarConfig, ValidationDescription } from '../../models/table';
+import { MaterialTableItem } from '../../models/table/material-table-item-model';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 import {
   BASE_COLUMN_DEFS,

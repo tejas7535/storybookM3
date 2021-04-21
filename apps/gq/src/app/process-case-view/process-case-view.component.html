@@ -4,8 +4,7 @@
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
   *ngIf="
-    (isCustomerLoading$ | ngrxPush) === false &&
-      (isQuotationLoading$ | ngrxPush) === false;
+    !(isCustomerLoading$ | ngrxPush) && !(isQuotationLoading$ | ngrxPush);
     else loading
   "
 >
@@ -23,7 +22,7 @@
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-case-header>
     <gq-quotation-details-table
-      *ngIf="(isUpdateLoading$ | ngrxPush) === false; else updateLoading"
+      *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
       [quotation]="quotation"
     ></gq-quotation-details-table>
     <ng-template #updateLoading>

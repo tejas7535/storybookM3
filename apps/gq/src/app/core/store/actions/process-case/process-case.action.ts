@@ -1,14 +1,16 @@
 import { createAction, props, union } from '@ngrx/store';
 
+import { Quotation } from '../../../../shared/models';
+import { Customer } from '../../../../shared/models/customer';
+import { QuotationDetail } from '../../../../shared/models/quotation-detail';
 import {
-  Customer,
   MaterialTableItem,
   MaterialValidation,
-  Quotation,
-  QuotationDetail,
+} from '../../../../shared/models/table';
+import {
   QuotationIdentifier,
   UpdateQuotationDetail,
-} from '../../models';
+} from '../../reducers/process-case/models';
 
 export const loadCustomer = createAction('[Process Case] Get Customer Details');
 

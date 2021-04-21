@@ -1,6 +1,6 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 
-import { ValidationDescription } from '../../../core/store/models';
+import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { COLUMN_DEFS } from './column-defs';

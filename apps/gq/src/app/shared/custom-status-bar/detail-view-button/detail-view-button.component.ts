@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import { QuotationDetail } from '../../../core/store/models';
+import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
   selector: 'gq-detail-view-button',

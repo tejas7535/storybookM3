@@ -2,8 +2,8 @@ import { createSelector } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
+import { RoleGroup } from '../../../../shared/role-modal/models/role-group.model';
 import { UserRoles } from '../../../../shared/roles/user-roles.enum';
-import { RoleGroup } from '../../models';
 
 export const getAllRoles = createSelector(
   getRoles,

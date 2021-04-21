@@ -12,8 +12,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { PriceSource, UpdatePrice } from '../../../core/store/models';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
+import {
+  PriceSource,
+  UpdatePrice,
+} from '../../../shared/models/quotation-detail';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { ManualPriceComponent } from './manual-price.component';
 

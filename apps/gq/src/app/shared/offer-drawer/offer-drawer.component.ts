@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { getUpdateLoading } from '../../core/store';
-import { Quotation } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
+import { Quotation } from '../models';
 
 @Component({
   selector: 'gq-offer-drawer',

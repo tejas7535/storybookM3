@@ -13,12 +13,12 @@ import {
   getUpdateLoading,
   updateQuotationDetails,
 } from '../../core/store';
+import { UpdateQuotationDetail } from '../../core/store/reducers/process-case/models';
+import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import {
   QuotationDetail,
   UpdatePrice,
-  UpdateQuotationDetail,
-} from '../../core/store/models';
-import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
+} from '../../shared/models/quotation-detail';
 import { UserRoles } from '../../shared/roles/user-roles.enum';
 
 @Component({

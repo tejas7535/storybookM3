@@ -1,4 +1,4 @@
-export class CreateCaseResponse {
+export interface CreateCaseResponse {
   gqId: string;
   customerId: string;
   salesOrg: string;

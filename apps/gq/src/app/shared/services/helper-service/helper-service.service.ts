@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
-import { StatusBarConfig } from '../../../core/store/models';
+import { StatusBarConfig } from '../../models/table';
 
 @Injectable({
   providedIn: 'root',

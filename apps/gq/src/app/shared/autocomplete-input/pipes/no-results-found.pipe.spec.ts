@@ -1,4 +1,4 @@
-import { IdValue } from '../../../core/store/models';
+import { IdValue } from '../../models/search';
 import { NoResultsFoundPipe } from './no-results-found.pipe';
 
 describe('NoResultsFoundPipe', () => {

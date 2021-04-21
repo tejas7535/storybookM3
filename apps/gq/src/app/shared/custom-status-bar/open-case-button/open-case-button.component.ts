@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import { ViewQuotation } from '../../../core/store/models';
+import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 
 @Component({
   selector: 'gq-open-case-button',
