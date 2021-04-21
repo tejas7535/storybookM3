@@ -11,7 +11,8 @@
       "priceLabel": "Netprice",
       "rating": "GQ-Rating",
       "gpi": "GPI% (GPC)",
-      "quantity": "Quantity"
+      "quantity": "Quantity",
+      "details": "Details"
     },
     "select": "select",
     "selected": "selected"

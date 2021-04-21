@@ -62,7 +62,6 @@ describe('ProcessCaseViewComponent', () => {
       LoadingSpinnerModule,
       ReactiveComponentModule,
     ],
-    declarations: [ProcessCaseViewComponent],
     providers: [
       provideMockStore({
         initialState: {
