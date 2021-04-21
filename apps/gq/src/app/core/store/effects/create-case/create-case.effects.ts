@@ -18,7 +18,18 @@ import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import {
+  CreateCase,
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { Quotation } from '../../../../shared/models';
+import { IdValue } from '../../../../shared/models/search';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+} from '../../../../shared/models/table';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
@@ -39,15 +50,6 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
-import {
-  CreateCase,
-  CreateCaseResponse,
-  IdValue,
-  MaterialTableItem,
-  MaterialValidation,
-  Quotation,
-  SalesOrg,
-} from '../../models';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 import {
   getCaseRowData,

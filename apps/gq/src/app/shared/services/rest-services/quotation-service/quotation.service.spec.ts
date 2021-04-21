@@ -12,7 +12,7 @@ import {
 import { ENV_CONFIG } from '@schaeffler/http';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import { CreateCase } from '../../../../core/store/models';
+import { CreateCase } from '../../../../core/store/reducers/create-case/models';
 import { QuotationService } from './quotation.service';
 
 describe('QuotationService', () => {

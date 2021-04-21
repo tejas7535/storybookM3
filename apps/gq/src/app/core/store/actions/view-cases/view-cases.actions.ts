@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { ViewQuotation } from '../../models';
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 
 export const loadCases = createAction(
   '[View Cases] Get Cases For Authenticated User'

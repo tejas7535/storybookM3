@@ -12,12 +12,10 @@ import {
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
-import {
-  AutocompleteSearch,
-  CaseFilterItem,
-  QuotationIdentifier,
-} from '../../../../core/store/models';
+import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
+import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
 import { FilterNames } from '../../../autocomplete-input/filter-names.enum';
+import { AutocompleteSearch } from '../../../models/search';
 import { SearchService } from './search.service';
 
 describe('SearchService', () => {

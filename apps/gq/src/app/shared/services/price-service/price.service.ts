@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 
-import {
-  QuotationDetail,
-  StatusBarCalculation,
-} from '../../../core/store/models';
+import { QuotationDetail } from '../../models/quotation-detail';
+import { StatusBarCalculation } from './models/status-bar-calculation.model';
 
 @Injectable({
   providedIn: 'root',

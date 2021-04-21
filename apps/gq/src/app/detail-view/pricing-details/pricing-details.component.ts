@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { getSelectedQuotationDetail } from '../../core/store';
-import { QuotationDetail } from '../../core/store/models';
 import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
+import { QuotationDetail } from '../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-pricing-details',

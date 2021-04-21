@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { MaterialDetails } from '../../../core/store/models';
+import { MaterialDetails } from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-material-details',

@@ -13,6 +13,12 @@ import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../../../shared/models/table';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
@@ -33,17 +39,12 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
+import { initialState } from '../../reducers/create-case/create-case.reducer';
 import {
-  AutocompleteSearch,
   CreateCase,
   CreateCaseResponse,
-  IdValue,
-  MaterialTableItem,
-  MaterialValidation,
   SalesOrg,
-  ValidationDescription,
-} from '../../models';
-import { initialState } from '../../reducers/create-case/create-case.reducer';
+} from '../../reducers/create-case/models';
 import {
   getCaseRowData,
   getCreateCaseData,

@@ -1,15 +1,17 @@
 import { createSelector } from '@ngrx/store';
 
-import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import {
   CaseFilterItem,
   CreateCase,
   CreateCaseResponse,
-  IdValue,
+  SalesOrg,
+} from '../../../../core/store/reducers/create-case/models';
+import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { IdValue } from '../../../../shared/models/search';
+import {
   MaterialQuantities,
   MaterialTableItem,
-  SalesOrg,
-} from '../../models';
+} from '../../../../shared/models/table';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 
@@ -81,7 +83,7 @@ export const getCustomerConditionsValid = createSelector(
     const customerValid = state
       ? state.autocompleteItems
           .find((el) => el.filter === FilterNames.CUSTOMER)
-          .options.find((opt) => opt.selected)
+          .options.find((opt: IdValue) => opt.selected)
       : undefined;
 
     return customerValid !== undefined ? rowDataValid : false;

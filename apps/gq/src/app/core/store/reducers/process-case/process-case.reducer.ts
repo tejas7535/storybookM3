@@ -1,5 +1,11 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { Quotation } from '../../../../shared/models';
+import { Customer } from '../../../../shared/models/customer';
+import {
+  MaterialTableItem,
+  ValidationDescription,
+} from '../../../../shared/models/table';
 import { TableService } from '../../../../shared/services/table-service/table.service';
 import {
   addMaterialRowDataItem,
@@ -31,16 +37,10 @@ import {
   validateAddMaterialsSuccess,
 } from '../../actions';
 import {
-  Customer,
-  MaterialTableItem,
-  Quotation,
-  QuotationIdentifier,
-  ValidationDescription,
-} from '../../models';
-import {
   dummyRowData,
   isDummyData,
 } from '../create-case/config/dummy-row-data';
+import { QuotationIdentifier } from './models';
 
 export interface ProcessCaseState {
   quotationIdentifier: QuotationIdentifier;

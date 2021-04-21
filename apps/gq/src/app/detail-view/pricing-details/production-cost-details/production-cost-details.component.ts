@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomerCurrency } from '../../../core/store';
-import { QuotationDetail } from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
+import { QuotationDetail } from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-production-cost-details',

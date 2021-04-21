@@ -5,12 +5,12 @@ import { map } from 'rxjs/operators';
 
 import { DataService, DeleteOptions } from '@schaeffler/http';
 
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import {
   CreateCase,
   CreateCaseResponse,
-  Quotation,
-  ViewQuotation,
-} from '../../../../core/store/models';
+} from '../../../../core/store/reducers/create-case/models';
+import { Quotation } from '../../../models';
 
 @Injectable({
   providedIn: 'root',

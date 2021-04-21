@@ -24,16 +24,13 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import {
-  AutocompleteSearch,
-  CaseFilterItem,
-  IdValue,
-  MaterialTableItem,
-  ValidationDescription,
-} from '../../../core/store/models';
 import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
+import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../models/search';
+import { MaterialTableItem } from '../../models/table/material-table-item-model';
+import { ValidationDescription } from '../../models/table/validation-description.enum';
 
 @Component({
   selector: 'gq-add-entry',

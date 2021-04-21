@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { ViewQuotation } from '../../models';
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import { getViewCasesState } from '../../reducers';
 import { ViewCasesState } from '../../reducers/view-cases/view-cases.reducer';
 

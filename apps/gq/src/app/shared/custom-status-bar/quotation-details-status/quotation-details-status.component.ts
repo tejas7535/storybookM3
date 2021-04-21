@@ -9,7 +9,7 @@ import { select, Store } from '@ngrx/store';
 import { getRoles } from '@schaeffler/azure-auth';
 
 import { AppState, getCustomerCurrency } from '../../../core/store';
-import { QuotationDetail } from '../../../core/store/models';
+import { QuotationDetail } from '../../models/quotation-detail';
 import { COLUMN_DEFS_SHORT } from '../../offer-table/config/column-defs';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { COLUMN_DEFS } from '../../services/column-utility-service/column-defs';

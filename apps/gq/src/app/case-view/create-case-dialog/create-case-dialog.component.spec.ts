@@ -18,13 +18,13 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../core/store/actions';
-import { AutocompleteSearch, IdValue } from '../../core/store/models';
 import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
+import { AutocompleteSearch, IdValue } from '../../shared/models/search';
 import { CreateCaseDialogComponent } from './create-case-dialog.component';
 import { SelectSalesOrgModule } from './select-sales-org/select-sales-org.module';
 

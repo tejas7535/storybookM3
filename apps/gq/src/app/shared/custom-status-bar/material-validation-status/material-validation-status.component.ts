@@ -2,8 +2,8 @@ import { Component } from '@angular/core';
 
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 
-import { MaterialTableItem } from '../../../core/store/models';
 import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+import { MaterialTableItem } from '../../models/table';
 
 @Component({
   selector: 'gq-material-validation-status',

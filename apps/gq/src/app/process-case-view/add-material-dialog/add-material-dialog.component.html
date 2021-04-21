@@ -3,7 +3,7 @@
     {{ t('dialogTitle') }}
     <mat-icon class="close-dialog" (click)="closeDialog()">close</mat-icon>
   </h2>
-  <mat-card *ngIf="(updateLoading$ | ngrxPush) === false; else loading">
+  <mat-card *ngIf="!(updateLoading$ | ngrxPush); else loading">
     <mat-card-content>
       {{ t('addEntryTitle') }}
       <gq-add-entry></gq-add-entry>

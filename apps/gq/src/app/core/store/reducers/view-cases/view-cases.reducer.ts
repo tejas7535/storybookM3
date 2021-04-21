@@ -1,5 +1,6 @@
 import { Action, createReducer, on } from '@ngrx/store';
 
+import { ViewQuotation } from '../../../../case-view/models/view-quotation.model';
 import {
   deleteCase,
   deleteCasesFailure,
@@ -8,7 +9,6 @@ import {
   loadCasesFailure,
   loadCasesSuccess,
 } from '../../actions';
-import { ViewQuotation } from '../../models';
 
 export interface ViewCasesState {
   quotationsLoading: boolean;

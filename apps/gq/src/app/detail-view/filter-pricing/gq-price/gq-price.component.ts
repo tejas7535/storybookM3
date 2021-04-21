@@ -6,12 +6,12 @@ import { TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomerCurrency } from '../../../core/store';
+import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import {
   PriceSource,
   QuotationDetail,
   UpdatePrice,
-} from '../../../core/store/models';
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
+} from '../../../shared/models/quotation-detail';
 import { PriceService } from '../../../shared/services/price-service/price.service';
 
 @Component({

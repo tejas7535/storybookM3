@@ -10,9 +10,9 @@ import {
   isDeleteLoading,
   isQuotationsLoading,
 } from '../core/store';
-import { ViewQuotation } from '../core/store/models';
 import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducer';
 import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
+import { ViewQuotation } from './models/view-quotation.model';
 
 @Component({
   selector: 'gq-case-view',

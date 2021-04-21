@@ -1,4 +1,4 @@
-import { PriceSource } from './price-source.enum';
+import { PriceSource } from '../../../../../shared/models/quotation-detail';
 
 export class UpdateQuotationDetail {
   gqPositionId: string;

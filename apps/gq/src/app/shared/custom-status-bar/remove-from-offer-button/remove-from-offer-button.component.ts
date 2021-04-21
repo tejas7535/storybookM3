@@ -4,11 +4,9 @@ import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
 import { updateQuotationDetails } from '../../../core/store/actions';
-import {
-  QuotationDetail,
-  UpdateQuotationDetail,
-} from '../../../core/store/models';
+import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
+import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
   selector: 'gq-remove-from-offer',

@@ -8,8 +8,11 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks/quotation-details.mock';
-import { PriceSource, UpdatePrice } from '../../../core/store/models';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
+import {
+  PriceSource,
+  UpdatePrice,
+} from '../../../shared/models/quotation-detail';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { GqPriceComponent } from './gq-price.component';
 

@@ -1,12 +1,13 @@
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
-  AutocompleteSearch,
-  CreateCaseResponse,
-  IdValue,
   MaterialTableItem,
-  SalesOrg,
   ValidationDescription,
-} from '../../models';
+} from '../../../../shared/models/table';
+import {
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../reducers/create-case/models';
 import {
   addRowDataItem,
   autocomplete,

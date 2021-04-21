@@ -2,7 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AppRoutePath } from '../../../app-route-path.enum';
-import { Customer } from '../../../core/store/models';
+import { Customer } from '../../models/customer';
 import { HelperService } from '../../services/helper-service/helper-service.service';
 
 @Component({

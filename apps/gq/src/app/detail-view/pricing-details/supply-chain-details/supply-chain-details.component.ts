@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { QuotationDetail } from '../../../core/store/models';
+import { QuotationDetail } from '../../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-supply-chain-details',

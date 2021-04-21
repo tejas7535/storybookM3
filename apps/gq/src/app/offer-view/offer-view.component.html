@@ -13,7 +13,7 @@
     offerScreen="true"
   ></gq-case-header>
   <gq-offer-table
-    *ngIf="(updateIsLoading$ | ngrxPush) === false; else loading"
+    *ngIf="!(updateIsLoading$ | ngrxPush); else loading"
     [quotation]="offer$ | ngrxPush"
   ></gq-offer-table>
 

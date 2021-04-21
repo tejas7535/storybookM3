@@ -15,10 +15,8 @@ import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
 } from '../../../../../testing/mocks';
-import {
-  AddQuotationDetailsRequest,
-  UpdateQuotationDetail,
-} from '../../../../core/store/models';
+import { UpdateQuotationDetail } from '../../../../core/store/reducers/process-case/models';
+import { AddQuotationDetailsRequest } from '../../../../core/store/reducers/process-case/models/add-quotation-details-request.model';
 import { QuotationDetailsService } from './quotation-details.service';
 
 describe('QuotationDetailsService', (): void => {

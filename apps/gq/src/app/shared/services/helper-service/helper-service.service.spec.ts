@@ -1,10 +1,10 @@
 import { ColDef } from '@ag-grid-community/core';
 
-import { StatusBarConfig } from '../../../core/store/models';
 import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
 } from '../../case-material/input-table/config';
+import { StatusBarConfig } from '../../models/table';
 import { HelperService } from './helper-service.service';
 
 jest.mock('@ngneat/transloco', () => ({

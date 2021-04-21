@@ -16,14 +16,10 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import {
-  AutocompleteSearch,
-  IdValue,
-  MaterialTableItem,
-  ValidationDescription,
-} from '../../../core/store/models';
 import { SharedModule } from '../../../shared';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../models/search';
+import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
 import { AddEntryComponent } from './add-entry.component';
 

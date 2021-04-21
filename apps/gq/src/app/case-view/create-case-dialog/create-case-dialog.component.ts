@@ -11,13 +11,8 @@ import {
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../core/store/actions';
-import {
-  AutocompleteSearch,
-  CaseFilterItem,
-  IdValue,
-  MaterialTableItem,
-} from '../../core/store/models';
 import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
+import { CaseFilterItem } from '../../core/store/reducers/create-case/models';
 import {
   getCaseAutocompleteLoading,
   getCaseCustomer,
@@ -26,6 +21,8 @@ import {
   getCreateCaseLoading,
 } from '../../core/store/selectors/';
 import { FilterNames } from '../../shared/autocomplete-input/filter-names.enum';
+import { AutocompleteSearch, IdValue } from '../../shared/models/search';
+import { MaterialTableItem } from '../../shared/models/table';
 
 @Component({
   selector: 'gq-create-case-dialog',

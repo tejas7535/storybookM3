@@ -4,10 +4,7 @@ import { Observable } from 'rxjs';
 
 import { DataService } from '@schaeffler/http';
 
-import {
-  MaterialTableItem,
-  MaterialValidation,
-} from '../../../../core/store/models';
+import { MaterialTableItem, MaterialValidation } from '../../../models/table';
 
 @Injectable({
   providedIn: 'root',

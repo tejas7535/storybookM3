@@ -1,5 +1,5 @@
-import { Customer } from './customer.model';
-import { User } from './user';
+import { User } from '../../shared/models';
+import { Customer } from '../../shared/models/customer';
 
 export class ViewQuotation {
   public gqId: string;

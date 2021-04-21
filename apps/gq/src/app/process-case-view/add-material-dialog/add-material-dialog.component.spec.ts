@@ -44,7 +44,8 @@ describe('AddMaterialDialogComponent', () => {
     providers: [
       provideMockStore({
         initialState: {
-          processCase: { quotation: {} },
+          case: { autocompleteItems: [] },
+          processCase: { quotation: {}, addMaterials: {} },
         },
       }),
       {

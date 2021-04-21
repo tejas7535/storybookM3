@@ -1,9 +1,9 @@
+import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import {
   MaterialTableItem,
   MaterialValidation,
   ValidationDescription,
-} from '../../../core/store/models';
-import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+} from '../../models/table';
 import { TableService } from './table.service';
 
 describe('TableService', () => {

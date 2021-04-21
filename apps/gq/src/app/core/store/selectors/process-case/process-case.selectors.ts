@@ -1,16 +1,20 @@
 import { createSelector } from '@ngrx/store';
 
+import { Quotation } from '../../../../shared/models';
+import { Customer } from '../../../../shared/models/customer';
 import {
-  AddQuotationDetailsRequest,
-  Customer,
   MaterialDetails,
+  QuotationDetail,
+} from '../../../../shared/models/quotation-detail';
+import {
   MaterialQuantities,
   MaterialTableItem,
-  Quotation,
-  QuotationDetail,
-  QuotationIdentifier,
-} from '../../models';
+} from '../../../../shared/models/table';
 import { getProcessCaseState } from '../../reducers';
+import {
+  AddQuotationDetailsRequest,
+  QuotationIdentifier,
+} from '../../reducers/process-case/models';
 import { ProcessCaseState } from '../../reducers/process-case/process-case.reducer';
 
 export const getCustomer = createSelector(
@@ -46,7 +50,7 @@ export const getOffer = createSelector(
       : {
           ...state.quotation.item,
           quotationDetails: state.quotation.item.quotationDetails.filter(
-            (quotationDetail) => quotationDetail.addedToOffer
+            (quotationDetail: QuotationDetail) => quotationDetail.addedToOffer
           ),
         }
 );
@@ -129,7 +133,7 @@ export const getSelectedQuotationDetail = createSelector(
   (state: ProcessCaseState): QuotationDetail =>
     state.quotation.item
       ? state.quotation.item.quotationDetails.find(
-          (detail) =>
+          (detail: QuotationDetail) =>
             detail.gqPositionId === state.quotation.selectedQuotationDetail
         )
       : undefined

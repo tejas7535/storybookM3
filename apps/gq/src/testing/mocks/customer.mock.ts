@@ -1,4 +1,4 @@
-import { AbcClassification, Customer } from '../../app/core/store/models';
+import { AbcClassification, Customer } from '../../app/shared/models/customer';
 import { MARGIN_DETAIL_MOCK } from './margin-detail.mock';
 
 export const CUSTOMER_MOCK: Customer = {

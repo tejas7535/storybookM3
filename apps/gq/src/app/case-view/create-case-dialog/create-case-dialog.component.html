@@ -3,7 +3,7 @@
     {{ t('title') }}
     <mat-icon class="close-dialog" (click)="closeDialog()"> close </mat-icon>
   </h2>
-  <div *ngIf="(createCaseLoading$ | ngrxPush) === false; else loading">
+  <div *ngIf="!(createCaseLoading$ | ngrxPush); else loading">
     <mat-card>
       <mat-card-title>
         {{ t('sap-quotation.title') }}

@@ -5,8 +5,9 @@ import { Observable } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 
 import { getCustomer, getOffer, isCustomerLoading } from '../core/store';
-import { Customer, Quotation } from '../core/store/models';
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
+import { Quotation } from '../shared/models';
+import { Customer } from '../shared/models/customer';
 
 @Component({
   selector: 'gq-customer-view',

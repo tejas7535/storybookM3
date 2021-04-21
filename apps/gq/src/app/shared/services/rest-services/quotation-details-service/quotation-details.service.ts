@@ -8,10 +8,10 @@ import { DataService } from '@schaeffler/http';
 
 import {
   AddQuotationDetailsRequest,
-  Quotation,
-  QuotationDetail,
   UpdateQuotationDetail,
-} from '../../../../core/store/models';
+} from '../../../../core/store/reducers/process-case/models';
+import { Quotation } from '../../../models';
+import { QuotationDetail } from '../../../models/quotation-detail';
 
 @Injectable({
   providedIn: 'root',

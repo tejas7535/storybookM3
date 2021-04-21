@@ -19,6 +19,13 @@ import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
+import { Quotation } from '../../../../shared/models';
+import { Customer } from '../../../../shared/models/customer';
+import { QuotationDetail } from '../../../../shared/models/quotation-detail';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+} from '../../../../shared/models/table';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
@@ -51,17 +58,12 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
+import * as fromRouter from '../../reducers';
 import {
   AddQuotationDetailsRequest,
-  Customer,
-  MaterialTableItem,
-  MaterialValidation,
-  Quotation,
-  QuotationDetail,
   QuotationIdentifier,
   UpdateQuotationDetail,
-} from '../../models';
-import * as fromRouter from '../../reducers';
+} from '../../reducers/process-case/models';
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,

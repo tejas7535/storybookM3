@@ -4,6 +4,11 @@ import {
   QUOTATION_MOCK,
   QUOTATION_STATE_MOCK,
 } from '../../../../../testing/mocks';
+import { Quotation } from '../../../../shared/models/';
+import {
+  MaterialTableItem,
+  MaterialValidation,
+} from '../../../../shared/models/table';
 import {
   addMaterialRowDataItem,
   addMaterials,
@@ -30,13 +35,8 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import {
-  MaterialTableItem,
-  MaterialValidation,
-  Quotation,
-  QuotationIdentifier,
-} from '../../models';
 import { dummyRowData } from '../create-case/config/dummy-row-data';
+import { QuotationIdentifier } from './models';
 import { processCaseReducer } from './process-case.reducer';
 
 describe('Quotation Reducer', () => {

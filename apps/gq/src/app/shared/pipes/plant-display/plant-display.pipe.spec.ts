@@ -1,5 +1,5 @@
 import { PLANT_MOCK } from '../../../../testing/mocks';
-import { Plant } from '../../../core/store/models';
+import { Plant } from '../../models/quotation-detail';
 import { PlantDisplayPipe } from './plant-display.pipe';
 
 describe('PlantDisplayPipe', () => {

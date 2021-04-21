@@ -6,13 +6,11 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
-import {
-  Customer,
-  MaterialDetails,
-  Quotation,
-} from '../../../core/store/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../../core/store/selectors';
+import { Quotation } from '../../models';
+import { Customer } from '../../models/customer';
+import { MaterialDetails } from '../../models/quotation-detail';
 
 @Component({
   selector: 'gq-case-header',

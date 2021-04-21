@@ -1,4 +1,4 @@
-import { MaterialDetails } from '../../app/core/store/models';
+import { MaterialDetails } from '../../app/shared/models/quotation-detail';
 
 export const DETAIL_CASE_MOCK: MaterialDetails = {
   baseUoM: 'ST',

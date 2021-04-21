@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 
-import { ViewQuotation } from '../../core/store/models';
+import { ViewQuotation } from '../models/view-quotation.model';
 import {
   DEFAULT_COLUMN_DEFS,
   FRAMEWORK_COMPONENTS,

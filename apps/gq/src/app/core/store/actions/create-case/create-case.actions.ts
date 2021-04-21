@@ -1,13 +1,14 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
-  AutocompleteSearch,
   CreateCaseResponse,
-  IdValue,
+  SalesOrg,
+} from '../../../../core/store/reducers/create-case/models';
+import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
+import {
   MaterialTableItem,
   MaterialValidation,
-  SalesOrg,
-} from '../../models';
+} from '../../../../shared/models/table';
 
 export const autocomplete = createAction(
   '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',

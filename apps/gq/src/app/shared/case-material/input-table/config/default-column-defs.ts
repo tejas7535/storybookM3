@@ -1,7 +1,7 @@
 import { ColDef } from '@ag-grid-community/all-modules';
 
-import { MaterialTableItem } from '../../../../core/store/models';
 import { isDummyData } from '../../../../core/store/reducers/create-case/config/dummy-row-data';
+import { MaterialTableItem } from '../../../models/table';
 
 export const setStyle = (params: any): any => {
   const data: MaterialTableItem = params.data;

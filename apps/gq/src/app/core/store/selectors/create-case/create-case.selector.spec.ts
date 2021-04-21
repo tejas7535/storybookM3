@@ -1,5 +1,6 @@
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
-import { IdValue, ValidationDescription } from '../../models';
+import { IdValue } from '../../../../shared/models/search';
+import { ValidationDescription } from '../../../../shared/models/table';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
 import * as createSelectors from './create-case.selector';
 
