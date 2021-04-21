@@ -1,4 +1,3 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -26,7 +25,6 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     AutocompleteInputModule,
     CaseTableModule,
     CaseViewRoutingModule,
-    CommonModule,
     CreateCaseDialogModule,
     MatButtonModule,
     MatDialogModule,

@@ -11,7 +11,8 @@
       "priceLabel": "Nettopreis",
       "rating": "GQ-Rating",
       "gpi": "GPI% (KHK)",
-      "quantity": "Menge"
+      "quantity": "Menge",
+      "details": "Details"
     },
     "select": "auswählen",
     "selected": "ausgewählt"

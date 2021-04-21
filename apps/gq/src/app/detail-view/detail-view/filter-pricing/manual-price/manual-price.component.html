@@ -1,0 +1,30 @@
+<gq-filter-pricing-card
+  *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
+  [title]="title$ | ngrxPush"
+  [isDisabled]="disableInput || !manualPriceFormControl.value"
+  [isSelected]="manualPriceFormControl.value === currentPrice"
+  (selectManualPrice)="selectPrice()"
+  [isLoading]="isLoading"
+>
+  <mat-form-field content appearance="outline">
+    <mat-label> {{ t('label') }} </mat-label>
+    <input
+      [formControl]="manualPriceFormControl"
+      [placeholder]="currentPrice"
+      (keydown)="onKeyPress($event, manualPrice)"
+      (paste)="onPaste($event)"
+      class="input-field"
+      type="number"
+      #manualPrice
+      matInput
+    />
+    <mat-hint
+      class="noPermission"
+      [ngClass]="{
+        noPermission: disableInput
+      }"
+    >
+      {{ t(disableInput ? 'noPermissionHint' : 'hint') }}
+    </mat-hint>
+  </mat-form-field>
+</gq-filter-pricing-card>
