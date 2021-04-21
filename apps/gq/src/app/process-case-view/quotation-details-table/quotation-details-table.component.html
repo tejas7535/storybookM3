@@ -10,6 +10,9 @@
     [rowSelection]="rowSelection"
     [context]="tableContext"
     (firstDataRendered)="onFirstDataRendered($event)"
+    (columnMoved)="onColumnChange($event)"
+    (sortChanged)="onColumnChange($event)"
+    (gridReady)="onGridReady($event)"
     rowHeight="40"
     valueCache
     animateRows
