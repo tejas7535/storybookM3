@@ -56,6 +56,10 @@ export class GreetingService {
     return this.getGreetingFromAPI(`${this.baseUrl}/dotnet/api/hello/admin`);
   }
 
+  public greetAzFunctions(): Observable<string> {
+    return this.getGreetingFromAPI(`${this.baseUrl}/api/func-hello`);
+  }
+
   private getGreetingFromAPI(endpoint: string): Observable<string> {
     return this.httpClient.get<{ greeting: string }>(endpoint).pipe(
       map((response) => response.greeting),
