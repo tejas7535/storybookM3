@@ -15,12 +15,13 @@
     fxFlexFill
   >
     <gq-case-header
-      [gqId]="quotation.gqId"
-      [sapId]="quotation.sapId"
-      [customerName]="quotation.customer.name"
-      [quotation]="quotation$ | ngrxPush"
+      showCustomerHeader="true"
       (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-case-header>
+    >
+      <gq-header-content
+        [quotation]="quotation$ | ngrxPush"
+      ></gq-header-content>
+    </gq-case-header>
     <gq-quotation-details-table
       *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
       [quotation]="quotation"

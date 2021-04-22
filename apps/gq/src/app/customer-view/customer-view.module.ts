@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
@@ -23,6 +25,7 @@ import { CustomerViewComponent } from './customer-view.component';
     MatSidenavModule,
     SharedModule,
     LoadingSpinnerModule,
+    ReactiveComponentModule,
   ],
   exports: [CustomerViewComponent],
 })

@@ -9,10 +9,6 @@
   background-color: $schaeffler-gray-0;
   height: 100%;
 
-  @media screen and (max-width: $screen-sm-max) {
-    margin: 30px 20px 0;
-  }
-
   mat-drawer {
     margin-bottom: 0 !important;
     width: 50%;

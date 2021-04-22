@@ -7,7 +7,7 @@
     <mat-card-content>
       {{ t('addEntryTitle') }}
       <gq-add-entry></gq-add-entry>
-      <div *ngIf="rowData$ | async as rowData">
+      <div *ngIf="rowData$ | ngrxPush as rowData">
         <gq-material-input-table [rowData]="rowData"></gq-material-input-table>
       </div>
     </mat-card-content>

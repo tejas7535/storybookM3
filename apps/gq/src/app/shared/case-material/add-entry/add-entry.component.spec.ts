@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -44,6 +45,7 @@ describe('InputbarComponent', () => {
       provideTranslocoTestingModule({}),
       SharedModule,
       ReactiveFormsModule,
+      ReactiveComponentModule,
     ],
     providers: [
       provideMockStore({

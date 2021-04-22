@@ -7,6 +7,7 @@ import {
 import { MatIconModule } from '@angular/material/icon';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
+import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -32,6 +33,7 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     SharedModule,
     SharedTranslocoModule,
     LoadingSpinnerModule,
+    ReactiveComponentModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'case-view' },

@@ -149,6 +149,11 @@ export const getMaterialOfSelectedQuotationDetail = createSelector(
   (detail: QuotationDetail): MaterialDetails => detail?.material
 );
 
+export const getGqPriceOfSelectedQuotationDetail = createSelector(
+  getSelectedQuotationDetail,
+  (detail: QuotationDetail): number => detail?.recommendedPrice
+);
+
 export const getUpdateLoading = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => state.quotation.updateLoading

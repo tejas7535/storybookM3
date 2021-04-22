@@ -9,7 +9,7 @@
   <div
     fxFlex="40%"
     fxLayoutAlign="start start"
-    *ngIf="materialNumber$ | async as materialNumber"
+    *ngIf="materialNumber$ | ngrxPush as materialNumber"
     class="rowInput"
   >
     <gq-autocomplete-input
@@ -22,7 +22,7 @@
       (unselected)="unselectOptions(materialNumber.filter)"
       (added)="selectOption($event, materialNumber.filter)"
       (isValid)="materialNumberValid($event)"
-      [autocompleteLoading]="materialNumberAutocompleteLoading$ | async"
+      [autocompleteLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
       (autocomplete)="autocomplete($event)"
     ></gq-autocomplete-input>
   </div>

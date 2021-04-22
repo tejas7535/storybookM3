@@ -2,9 +2,12 @@ import { NgModule } from '@angular/core';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
+
+import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effect';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
@@ -12,7 +15,9 @@ import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
+import { SharedPipesModule } from '../shared/pipes/shared-pipes.module';
 import { AddMaterialDialogModule } from './add-material-dialog/add-material-dialog.module';
+import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
@@ -23,20 +28,24 @@ import { QuotationDetailsTableModule } from './quotation-details-table/quotation
     CaseHeaderModule,
     EffectsModule.forFeature([ProcessCaseEffect]),
     MatSidenavModule,
+    HeaderContentModule,
     OfferDrawerModule,
     ProcessCaseViewRoutingModule,
     QuotationDetailsTableModule,
     SharedModule,
+    SharedPipesModule,
     StoreModule.forFeature('processCase', processCaseReducer),
     AddMaterialDialogModule,
     LoadingSpinnerModule,
     ReactiveComponentModule,
+    SharedTranslocoModule,
   ],
   providers: [
     {
       provide: MAT_DIALOG_DEFAULT_OPTIONS,
       useValue: { hasBackdrop: true },
     },
+    { provide: TRANSLOCO_SCOPE, useValue: 'process-case-view' },
   ],
 })
 export class ProcessCaseViewModule {}

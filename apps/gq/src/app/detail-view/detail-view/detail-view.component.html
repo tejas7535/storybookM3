@@ -14,10 +14,14 @@
   >
     <mat-card>
       <gq-case-header
-        [gqId]="quotation.gqId"
-        [material]="material$ | ngrxPush"
+        showCustomerHeader="true"
         (toggleOfferDrawer)="drawer.toggle()"
-      ></gq-case-header>
+      >
+        <span>{{ quotation.gqId | gqQuotation }} </span>
+        <span *ngIf="material$ | ngrxPush as material"
+          >{{ material | materialInfo }}
+        </span>
+      </gq-case-header>
     </mat-card>
 
     <div class="container" fxLayout="row" fxLayoutAlign="space-between none">

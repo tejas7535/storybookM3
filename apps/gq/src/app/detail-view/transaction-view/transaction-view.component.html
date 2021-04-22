@@ -1,1 +1,26 @@
-<schaeffler-under-construction></schaeffler-under-construction>
+<div class="container" *ngIf="gqPrice$ | ngrxPush as price; else loading">
+  <mat-card class="p-t-0" *transloco="let t; read: 'transactionView.header'">
+    <gq-case-header showOfferSlider="false">
+      <span
+        >{{ t('title') | uppercase }} {{ price }}
+        {{ currency$ | ngrxPush }}</span
+      >
+    </gq-case-header>
+  </mat-card>
+
+  <div class="content" fxLayout="row" fxLayoutAlign="space-between none">
+    <div fxFlex="50%">
+      <mat-card>
+        <gq-transparency-graph></gq-transparency-graph>
+      </mat-card>
+    </div>
+    <div fxFlex="50%">
+      <mat-card>
+        <gq-comparable-transactions></gq-comparable-transactions>
+      </mat-card>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+</ng-template>

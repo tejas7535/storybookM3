@@ -25,11 +25,11 @@
   </div>
   <gq-case-table
     *ngIf="
-      (quotationsLoading$ | async) === false &&
-        (deleteLoading$ | async) === false;
+      (quotationsLoading$ | ngrxPush) === false &&
+        (deleteLoading$ | ngrxPush) === false;
       else loading
     "
-    [rowData]="quotations$ | async"
+    [rowData]="quotations$ | ngrxPush"
   ></gq-case-table>
 </div>
 
