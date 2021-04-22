@@ -1,0 +1,54 @@
+<div fxLayout="row" *ngIf="quotation">
+  <span>{{ quotation.gqId | gqQuotation }} </span>
+  <span *ngIf="quotation.sapId" class="additionalInfo">{{
+    quotation.sapId | sapQuotation
+  }}</span>
+  <span fxLayout="row" *transloco="let t; read: 'processCaseView.header'">
+    <mat-icon
+      [matMenuTriggerFor]="infoMenu"
+      #infoMenuTrigger="matMenuTrigger"
+      (mouseenter)="iconEnter(infoMenuTrigger)"
+      (mouseleave)="iconLeave(infoMenuTrigger)"
+      class="info-icon"
+    >
+      info
+    </mat-icon>
+    <mat-menu
+      #infoMenu="matMenu"
+      direction="down"
+      yPosition="below"
+      [hasBackdrop]="false"
+    >
+      <div fxLayout="column">
+        <span
+          >{{ t('gqCreatedByUser') }}:
+          {{ quotation.gqCreatedByUser.name }}</span
+        >
+        <span
+          >{{ t('gqCreated') }}:
+          {{ quotation.gqCreated | date: 'dd.MM.yyyy HH:mm' }}</span
+        >
+        <span
+          >{{ t('gqLastUpdatedByUser') }}:
+          {{ quotation.gqLastUpdatedByUser.name }}</span
+        >
+        <span
+          >{{ t('gqLastUpdated') }}:
+          {{ quotation.gqLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
+        >
+        <span *ngIf="quotation.sapCreatedByUser"
+          >{{ t('sapCreatedByUser') }} :
+          {{ quotation.sapCreatedByUser.name }}</span
+        >
+        <span *ngIf="quotation.sapCreated"
+          >{{ t('sapCreated') }} :
+          {{ quotation.sapCreated | date: 'dd.MM.yyyy HH:mm' }}</span
+        >
+        <span *ngIf="quotation.sapLastUpdated"
+          >{{ t('sapLastUpdated') }} :
+          {{ quotation.sapLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
+        >
+      </div>
+    </mat-menu>
+  </span>
+</div>

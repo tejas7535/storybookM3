@@ -3,6 +3,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -16,7 +17,7 @@ jest.mock('@ngneat/transloco', () => ({
   translate: jest.fn(() => 'translate it'),
 }));
 
-describe('ProcessCaseHeaderComponent', () => {
+describe('CaseHeaderComponent', () => {
   let component: CaseHeaderComponent;
   let spectator: Spectator<CaseHeaderComponent>;
 
@@ -30,6 +31,7 @@ describe('ProcessCaseHeaderComponent', () => {
       provideTranslocoTestingModule({}),
       RouterTestingModule,
       SharedPipesModule,
+      ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],
   });
@@ -57,28 +59,6 @@ describe('ProcessCaseHeaderComponent', () => {
 
       component.backClicked();
       expect(component['location'].back).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('iconEnter', () => {
-    test('open menu ', () => {
-      const menuTrigger: any = { openMenu: jest.fn() };
-      component.iconEnter(menuTrigger);
-      expect(menuTrigger.openMenu).toHaveBeenCalled();
-    });
-  });
-
-  describe('iconLeave', () => {
-    test('iconLeave', () => {
-      jest.useFakeTimers();
-      const menuTrigger: any = { closeMenu: jest.fn() };
-
-      component.iconLeave(menuTrigger);
-
-      expect(setTimeout).toHaveBeenCalledTimes(1);
-      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1500);
-      jest.advanceTimersByTime(1501);
-      expect(menuTrigger.closeMenu).toHaveBeenCalled();
     });
   });
 });

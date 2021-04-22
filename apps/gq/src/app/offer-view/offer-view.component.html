@@ -5,17 +5,19 @@
   fxLayoutGap="20px"
   *ngIf="quotation$ | ngrxPush as quotation"
 >
-  <gq-case-header
-    [gqId]="quotation.gqId"
-    [sapId]="quotation.sapId"
-    [customerName]="quotation.customer.name"
-    [quotation]="quotation"
-    offerScreen="true"
-  ></gq-case-header>
+  <gq-case-header showCustomerHeader="true" showOfferSlider="true">
+    <mat-icon
+      fontSet="schaeffler-icons"
+      fontIcon="icon-cart"
+      class="cart-icon"
+    ></mat-icon>
+    <gq-header-content [quotation]="quotation"></gq-header-content>
+  </gq-case-header>
   <gq-offer-table
     *ngIf="!(updateIsLoading$ | ngrxPush); else loading"
     [quotation]="offer$ | ngrxPush"
-  ></gq-offer-table>
+  >
+  </gq-offer-table>
 
   <ng-template #loading>
     <gq-loading-spinner [show]="true"></gq-loading-spinner>

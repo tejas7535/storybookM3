@@ -27,6 +27,7 @@ import { CaseHeaderModule } from '../shared/header/case-header/case-header.modul
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
+import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
 import { QuotationDetailsTableModule } from './quotation-details-table/quotation-details-table.module';
@@ -58,6 +59,7 @@ describe('ProcessCaseViewComponent', () => {
       QuotationDetailsTableModule,
       RouterTestingModule,
       SharedModule,
+      HeaderContentModule,
       provideTranslocoTestingModule({}),
       LoadingSpinnerModule,
       ReactiveComponentModule,

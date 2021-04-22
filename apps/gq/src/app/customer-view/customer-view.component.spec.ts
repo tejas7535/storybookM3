@@ -3,6 +3,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
@@ -31,6 +32,7 @@ describe('CustomerViewComponent', () => {
       MatCardModule,
       MatSidenavModule,
       LoadingSpinnerModule,
+      ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],
     declarations: [CustomerViewComponent],

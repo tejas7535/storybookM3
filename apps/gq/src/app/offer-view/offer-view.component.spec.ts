@@ -1,3 +1,4 @@
+import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -7,6 +8,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
+import { HeaderContentModule } from '../process-case-view/header-content/header-content.module';
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
@@ -30,6 +32,8 @@ describe('OfferViewComponent', () => {
       CaseHeaderModule,
       OfferTableModule,
       OfferViewRoutingModule,
+      MatIconModule,
+      HeaderContentModule,
       provideTranslocoTestingModule({}),
       ReactiveComponentModule,
       RouterTestingModule,

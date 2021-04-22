@@ -10,6 +10,7 @@ import { SharedModule } from '../../shared';
 import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { OfferDrawerModule } from '../../shared/offer-drawer/offer-drawer.module';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewRoutingModule } from './detail-view-routing.module';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
@@ -27,6 +28,7 @@ import { PricingDetailsModule } from './pricing-details/pricing-details.module';
     MatSidenavModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
+    SharedPipesModule,
     SharedModule,
     PricingDetailsModule,
     LoadingSpinnerModule,

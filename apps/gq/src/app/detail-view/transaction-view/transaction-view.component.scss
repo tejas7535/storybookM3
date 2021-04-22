@@ -1,3 +1,25 @@
+@import 'libs/shared/ui/styles/src/lib/colors';
+@import 'libs/shared/ui/styles/src/lib/fonts';
+
 :host {
-  margin: auto;
+  width: 100%;
+}
+.container {
+  background-color: $schaeffler-gray-1;
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  width: 100%;
+
+  .content {
+    flex: 1;
+
+    div {
+      display: flex;
+    }
+    mat-card {
+      flex: 1;
+      margin: 20px 8px 10px 8px;
+    }
+  }
 }

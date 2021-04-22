@@ -8,9 +8,7 @@ import { select, Store } from '@ngrx/store';
 
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../../core/store/selectors';
-import { Quotation } from '../../models';
 import { Customer } from '../../models/customer';
-import { MaterialDetails } from '../../models/quotation-detail';
 
 @Component({
   selector: 'gq-case-header',
@@ -18,12 +16,8 @@ import { MaterialDetails } from '../../models/quotation-detail';
   styleUrls: ['./case-header.component.scss'],
 })
 export class CaseHeaderComponent implements OnInit {
-  @Input() gqId: number;
-  @Input() sapId: string;
-  @Input() customerName: string;
-  @Input() material: MaterialDetails;
-  @Input() offerScreen: boolean;
-  @Input() quotation: Quotation;
+  @Input() showCustomerHeader: boolean;
+  @Input() showOfferSlider: boolean;
 
   @Output()
   readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();

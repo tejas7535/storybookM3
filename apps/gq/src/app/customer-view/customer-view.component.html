@@ -8,25 +8,26 @@
   <mat-drawer-content
     fxLayout="column"
     fxFlexFill
-    *ngIf="(isCustomerLoading$ | async) === false; else loading"
+    *ngIf="(isCustomerLoading$ | ngrxPush) === false; else loading"
   >
     <mat-card>
-      <gq-case-header
-        [customerName]="(customer$ | async).name"
-        (toggleOfferDrawer)="drawer.toggle()"
-      ></gq-case-header>
+      <gq-case-header (toggleOfferDrawer)="drawer.toggle()">
+        <span *ngIf="customer$ | ngrxPush as customer">{{
+          customer.name
+        }}</span>
+      </gq-case-header>
     </mat-card>
 
     <gq-customer-information
-      [customer]="customer$ | async"
+      [customer]="customer$ | ngrxPush"
     ></gq-customer-information>
   </mat-drawer-content>
   <mat-drawer #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
       fxLayout="column"
       fxFlexFill
-      *ngIf="offer$ | async"
-      [quotation]="offer$ | async"
+      *ngIf="offer$ | ngrxPush"
+      [quotation]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"
     ></gq-offer-drawer>
   </mat-drawer>
