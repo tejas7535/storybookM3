@@ -274,7 +274,7 @@ describe('Create Case Effects', () => {
 
   describe('importQuotation', () => {
     const importCaseData: IdValue = {
-      value: QUOTATION_MOCK.customer.identifiers.customerId,
+      value: QUOTATION_MOCK.customer.identifier.customerId,
       id: `${QUOTATION_MOCK.gqId}`,
       selected: false,
     };
