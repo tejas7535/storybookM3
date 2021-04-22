@@ -22,7 +22,6 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { environment } from '@cdba/environments/environment';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
@@ -69,7 +68,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = this.columnDefinitionService.COLUMN_DEFINITIONS;
 
-  public rowSelection = !environment.production ? 'multiple' : 'single';
+  public rowSelection = 'multiple';
 
   public rowHeight = 30;
 

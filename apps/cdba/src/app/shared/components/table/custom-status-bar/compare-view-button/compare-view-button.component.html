@@ -1,11 +1,9 @@
-<ng-container *ngIf="!production">
-  <button
-    mat-flat-button
-    color="primary"
-    *transloco="let t; read: 'shared.statusBar'"
-    [disabled]="selections.length !== 2"
-    (click)="showCompareView()"
-  >
-    {{ t('compare') | uppercase }}
-  </button>
-</ng-container>
+<button
+  mat-flat-button
+  color="primary"
+  *transloco="let t; read: 'shared.statusBar'"
+  [disabled]="selections.length !== 2"
+  (click)="showCompareView()"
+>
+  {{ t('compare') | uppercase }}
+</button>
