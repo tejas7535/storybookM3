@@ -20,8 +20,6 @@ import {
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
 
-import { environment } from '@cdba/environments/environment';
-
 import { Calculation } from '../../models';
 import { AgGridStateService } from '../../services';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
@@ -78,7 +76,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   };
 
   public sideBar: SideBarDef;
-  public rowSelection = !environment.production ? 'multiple' : 'single';
+  public rowSelection: 'multiple' | 'single';
   public enableRangeSelection: boolean;
   public rowGroupPanelShow: string;
   public selectedRows: number[] = [];
@@ -164,6 +162,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
     this.modules = minified ? MODULES_MINIFIED : MODULES;
 
+    this.rowSelection = minified ? 'single' : 'multiple';
     this.enableRangeSelection = minified ? false : true;
     this.rowGroupPanelShow = minified ? 'never' : 'always';
   }

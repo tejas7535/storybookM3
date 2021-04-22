@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { RoleGuard } from '@cdba/core';
 
 import { AppRoutePath } from './app-route-path.enum';
-import { DevGuard } from './core/guards';
 import { FORBIDDEN_ACTION } from './shared/constants';
 
 export const appRoutes: Routes = [
@@ -29,7 +28,7 @@ export const appRoutes: Routes = [
     path: AppRoutePath.ComparePath,
     loadChildren: () =>
       import('./compare/compare.module').then((m) => m.CompareModule),
-    canActivateChild: [RoleGuard, DevGuard],
+    canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.ForbiddenPath,

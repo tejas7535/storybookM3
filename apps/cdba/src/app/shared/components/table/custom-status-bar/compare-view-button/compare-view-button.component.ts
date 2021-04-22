@@ -5,7 +5,6 @@ import { IStatusPanelParams, RowNode } from '@ag-grid-enterprise/all-modules';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
-import { environment } from '@cdba/environments/environment';
 
 @Component({
   selector: 'cdba-compare-view-button',
@@ -14,7 +13,6 @@ import { environment } from '@cdba/environments/environment';
 })
 export class CompareViewButtonComponent {
   selections: RowNode[] = [];
-  production = environment.production;
 
   private params: IStatusPanelParams;
 
