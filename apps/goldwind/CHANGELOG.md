@@ -3,6 +3,45 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](///compare/goldwind-v1.12.0...goldwind-v1.11.1) (2021-04-22)
+
+
+### 📈 Improvements
+
+* **goldwind:** migrate to azure auth lib ([9e7823d](///commit/9e7823d74a427d01bad5fab1944a97fda893ba31))
+
+
+### 🎸 Features
+
+* **goldwind:** add icons (DIGDTGW-631) ([d810332](///commit/d81033234bf8b596fe79b2cb1ba95cf82fbc7adf))
+* **goldwind:** add legal pages (DIGDTGW-2152) ([e8d0ed8](///commit/e8d0ed8ee4d370e1e27877e47ca4a8660be72f61))
+* **goldwind:** added grease sensor 2 data ([a3f7cec](///commit/a3f7cec36df5045890038d7d1a107f20fc59e1be))
+* **goldwind:** adjust to use polar chart for load sense (DIGDTGW-2169) ([c3c39dd](///commit/c3c39dddc425515b8da9905efc3e2448dc0892e3))
+* **goldwind:** disable hash routing strategy (UFTABI-4331) ([572d4fa](///commit/572d4fa56ebdb0f0eade7b7703463ece59741e53))
+* **goldwind:** fix selection of series in grease analysis ([58d0c8f](///commit/58d0c8f2b5e7a8e05c5355ab79c54315b8d72ebd))
+* **goldwind:** highlight selected dashboard tile ([11cd71c](///commit/11cd71c6e643ad028047a8c0fad69dda367f144c))
+* **goldwind:** implement new meta data tile on dashboard ([89a64c7](///commit/89a64c72861669ee302dd3cfae789f84b7f29c78))
+* **goldwind:** reduce metadata requests ([b0e1b80](///commit/b0e1b80934b3f8d8f6ac7bb2e76688d13a0dec37))
+* **goldwind:** refactor connection state in status indicator ([a85375b](///commit/a85375bedd12969ddfd3e831224a9206e849bdca))
+* **goldwind:** remove overall status from overview. Fix connection icon ([a57e434](///commit/a57e434b8bf95637a9becff1f50adb65696f6b6d))
+* **goldwind:** remove slider and update bearing load data on dashboard (DIGDTGW-1969) ([1233ab8](///commit/1233ab8e76b6ae4a822d660973869c95bc8e2184))
+* **goldwind:** remove tab for bearing load assesment ([e52abb1](///commit/e52abb1e2de77ca6b31662e6e969f7cfb93efa9f))
+* **goldwind:** remove unused route path ([77443d8](///commit/77443d80a69939de1ccdc61c5b5de38dbe8023f0))
+* **goldwind:** rename api calls after api update ([cc7aeb6](///commit/cc7aeb66d685689341e0a9785664e230b767d320))
+* **goldwind:** show average loads in detailed analysis (DIGDTGW-2053) ([e8361e7](///commit/e8361e72854655cbb0cd9a008b78d4f4f0e69f82))
+* **goldwind:** show loading state in dashboard tiles (DIGDTGW-2059) ([e2b4f0c](///commit/e2b4f0c706fcc88fbbaf524de8e0a4738e87a4d0))
+* **goldwind:** Show metadata on dashboard (DIGDTGW-1944) ([0f19fc0](///commit/0f19fc0c7cf1808eb5a02fd1c667e2f7d3b449e7))
+* **goldwind:** update gcm detail page on api update ([169ae7b](///commit/169ae7b92abfcdee942a3e004f35ec2623492e90))
+* **helloworld-azure:** migrate to eslint ([d0d394a](///commit/d0d394a429cf10eafd34d5052d043000465f7fd9))
+* **workspace:** add eslint config (UFTABI-3762) ([4d3b417](///commit/4d3b417a7a01b99d3c211203414c2bc80540a783))
+
+
+### 🐛 Bug Fixes
+
+* **goldwind:** change url back for old api structure ([c1a46fc](///commit/c1a46fcee08e4b0c8d42761aaf541a9650a16dca))
+* **goldwind:** rsm line not shown in detailed analysis (DIGDTGW-2150) ([9e3347b](///commit/9e3347b6d5a0af0a516286908d4331a25240d20a))
+* **mm:** fix empty state styles ([de912f6](///commit/de912f6b2a70e7863c94c868fd9191e4fc958d7f))
+
 ### [1.11.1](///compare/goldwind-v1.11.1...goldwind-v1.11.0) (2021-02-25)
 
 ## [1.11.0](///compare/goldwind-v1.11.0...goldwind-v1.10.0) (2021-02-23)
