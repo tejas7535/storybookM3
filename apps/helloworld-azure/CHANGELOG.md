@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.2.0](///compare/hellworld-azure-v2.2.0...hellworld-azure-v2.1.0) (2021-04-22)
+
+
+### 🎸 Features
+
+* **helloworld:** add dotnet api to hello world greetings ([9b9dd55](///commit/9b9dd55afb2635db7fd3dcf65fe5cdd52180e3a5))
+* **helloworld-azure:** add azure function greeting ([d60b428](///commit/d60b42836bcc940de1d9955338bc6e468c205c35))
+* **helloworld-azure:** migrate to eslint ([d0d394a](///commit/d0d394a429cf10eafd34d5052d043000465f7fd9))
+* **helloworld-azure:** migrate to tailwind (UFTABI-4019) ([50378ff](///commit/50378ff1d349d4526d4d39480ce8b1e4e35d56d9))
+* **mac:** use azure-auth package (UFTABI-3958) ([b143e75](///commit/b143e755bd3693c96199ff9aafbd702d85f6c6b5))
+
 ## [2.1.0](///compare/hellworld-azure-v2.1.0...hellworld-azure-v2.0.1) (2021-03-10)
 
 
