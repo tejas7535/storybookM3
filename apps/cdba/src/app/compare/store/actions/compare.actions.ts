@@ -27,7 +27,7 @@ export const loadCalculationHistorySuccess = createAction(
 
 export const loadCalculationHistoryFailure = createAction(
   '[Compare] Load Calculation History Failure',
-  props<{ error: Error; index: number }>()
+  props<{ errorMessage: string; index: number }>()
 );
 
 export const selectCalculation = createAction(
@@ -50,7 +50,7 @@ export const loadBomSuccess = createAction(
 
 export const loadBomFailure = createAction(
   '[Compare] Load BOM Failure',
-  props<{ error: Error; index: number }>()
+  props<{ errorMessage: string; index: number }>()
 );
 
 export const selectBomItem = createAction(

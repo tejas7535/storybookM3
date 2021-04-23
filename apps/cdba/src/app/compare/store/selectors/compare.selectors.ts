@@ -61,7 +61,7 @@ export const getCalculationsLoading = createSelector(
 export const getCalculationsErrorMessage = createSelector(
   getCompareState,
   (state: CompareState, index: number) =>
-    state[index]?.calculations?.error?.message
+    state[index]?.calculations?.errorMessage
 );
 
 export const getSelectedCalculationNodeId = createSelector(
@@ -89,7 +89,7 @@ export const getBomLoading = createSelector(
 export const getBomErrorMessage = createSelector(
   getCompareState,
   (state: CompareState, index: number) =>
-    state[index]?.billOfMaterial?.error?.message
+    state[index]?.billOfMaterial?.errorMessage
 );
 
 export const getChildrenOfSelectedBomItem = createSelector(
