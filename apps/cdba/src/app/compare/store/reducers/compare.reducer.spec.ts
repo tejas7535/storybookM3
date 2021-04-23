@@ -105,21 +105,20 @@ describe('Compare Reducer', () => {
     describe('loadBomFailure', () => {
       it('should set items to empty [] and switch off loading for correct material', () => {
         const index = 1;
-        const error = new Error('Something went wrong!');
-        action = loadBomFailure({ index, error });
-        expected = error;
+        const errorMessage = 'Something went wrong!';
+        action = loadBomFailure({ errorMessage, index });
 
         state = compareReducer(mockState, action);
 
         expect(state[index].billOfMaterial.loading).toBeFalsy();
         expect(state[index].billOfMaterial.items).toEqual([]);
-        expect(state[index].billOfMaterial.error).toEqual(expected);
+        expect(state[index].billOfMaterial.errorMessage).toEqual(errorMessage);
       });
 
       it('should return previous state for undefined index', () => {
         const index = 99;
-        const error = new Error('Something went wrong!');
-        action = loadBomFailure({ index, error });
+        const errorMessage = 'Something went wrong!';
+        action = loadBomFailure({ index, errorMessage });
 
         state = compareReducer(mockState, action);
 
@@ -227,15 +226,15 @@ describe('Compare Reducer', () => {
     });
 
     describe('loadCalculationHistoryFailure', () => {
-      const error = new Error('Something bad happened');
+      const errorMessage = 'Something bad happened';
       it('should reset loading, set empty items and error for calculations and bom', () => {
         const index = 1;
-        action = loadCalculationHistoryFailure({ index, error });
+        action = loadCalculationHistoryFailure({ index, errorMessage });
 
         state = compareReducer(mockState, action);
 
-        expect(state[index].calculations.error).toEqual(error);
-        expect(state[index].billOfMaterial.error).toEqual(error);
+        expect(state[index].calculations.errorMessage).toEqual(errorMessage);
+        expect(state[index].billOfMaterial.errorMessage).toEqual(errorMessage);
 
         expect(state[index].calculations.loading).toBeFalsy();
         expect(state[index].billOfMaterial.loading).toBeFalsy();
@@ -246,7 +245,7 @@ describe('Compare Reducer', () => {
 
       it('should return previous state for undefined index', () => {
         const index = 99;
-        action = loadCalculationHistoryFailure({ index, error });
+        action = loadCalculationHistoryFailure({ index, errorMessage });
 
         state = compareReducer(mockState, action);
 

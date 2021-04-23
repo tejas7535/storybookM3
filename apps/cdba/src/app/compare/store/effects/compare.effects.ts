@@ -97,8 +97,13 @@ export class CompareEffects {
           map((items: Calculation[]) =>
             loadCalculationHistorySuccess({ items, index: action.index })
           ),
-          catchError((error) =>
-            of(loadCalculationHistoryFailure({ error, index: action.index }))
+          catchError((errorMessage) =>
+            of(
+              loadCalculationHistoryFailure({
+                errorMessage,
+                index: action.index,
+              })
+            )
           )
         )
       )
@@ -115,7 +120,9 @@ export class CompareEffects {
       mergeMap(([index, identifier]) =>
         this.detailService.getBom(identifier).pipe(
           map((items: BomItem[]) => loadBomSuccess({ items, index })),
-          catchError((error) => of(loadBomFailure({ error, index })))
+          catchError((errorMessage) =>
+            of(loadBomFailure({ errorMessage, index }))
+          )
         )
       )
     )

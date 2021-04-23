@@ -178,7 +178,7 @@ describe('CompareEffects', () => {
   describe('loadCalculationHistory$', () => {
     const index = 0;
     const materialNumber = '12434';
-    const error = new Error('Bad stuff going on');
+    const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
       action = loadCalculationHistory({ index, materialNumber });
@@ -203,9 +203,9 @@ describe('CompareEffects', () => {
     test('should return Failure Action', () => {
       actions$ = hot('-a', { a: action });
 
-      const result = loadCalculationHistoryFailure({ index, error });
+      const result = loadCalculationHistoryFailure({ index, errorMessage });
 
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       detailService.calculations = jest.fn(() => response);
@@ -216,7 +216,7 @@ describe('CompareEffects', () => {
 
   describe('loadBillOfMaterial$', () => {
     const index = 0;
-    const error = new Error('Bad stuff going on');
+    const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
       action = loadBom({ index });
@@ -241,9 +241,9 @@ describe('CompareEffects', () => {
     test('should return Failure Action', () => {
       actions$ = hot('-a', { a: action });
 
-      const result = loadBomFailure({ index, error });
+      const result = loadBomFailure({ index, errorMessage });
 
-      const response = cold('-#|', undefined, error);
+      const response = cold('-#|', undefined, errorMessage);
       const expected = cold('--b', { b: result });
 
       detailService.getBom = jest.fn(() => response);

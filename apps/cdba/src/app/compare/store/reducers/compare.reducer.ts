@@ -26,13 +26,13 @@ export interface CompareState {
       selected?: Calculation;
       selectedNodeId?: string;
       loading?: boolean;
-      error?: Error;
+      errorMessage?: string;
     };
     billOfMaterial?: {
       items?: BomItem[];
       selected?: BomItem;
       loading?: boolean;
-      error?: Error;
+      errorMessage?: string;
     };
   };
 }
@@ -82,13 +82,13 @@ export const compareReducer = createReducer(
         }
       : state
   ),
-  on(loadBomFailure, (state, { error, index }) =>
+  on(loadBomFailure, (state, { errorMessage, index }) =>
     state[index]
       ? {
           ...state,
           [index]: {
             ...state[index],
-            billOfMaterial: { error, items: [], loading: false },
+            billOfMaterial: { errorMessage, items: [], loading: false },
           },
         }
       : state
@@ -149,7 +149,7 @@ export const compareReducer = createReducer(
       },
     };
   }),
-  on(loadCalculationHistoryFailure, (state, { error, index }) =>
+  on(loadCalculationHistoryFailure, (state, { errorMessage, index }) =>
     state[index]
       ? {
           ...state,
@@ -157,13 +157,13 @@ export const compareReducer = createReducer(
             ...state[index],
             calculations: {
               ...state[index].calculations,
-              error,
+              errorMessage,
               items: [],
               loading: false,
             },
             billOfMaterial: {
               ...state[index].billOfMaterial,
-              error,
+              errorMessage,
               items: [],
               loading: false,
             },

@@ -15,13 +15,13 @@ export const COMPARE_STATE_MOCK: CompareState = {
       items: CALCULATIONS_MOCK,
       selected: CALCULATIONS_MOCK[3],
       selectedNodeId: '3',
-      error: undefined,
+      errorMessage: undefined,
     },
     billOfMaterial: {
       loading: true,
       items: BOM_MOCK,
       selected: BOM_MOCK[1],
-      error: undefined,
+      errorMessage: undefined,
     },
   },
   '1': {
@@ -36,13 +36,13 @@ export const COMPARE_STATE_MOCK: CompareState = {
       items: undefined,
       selected: undefined,
       selectedNodeId: undefined,
-      error: undefined,
+      errorMessage: undefined,
     },
     billOfMaterial: {
       loading: true,
       items: undefined,
       selected: undefined,
-      error: undefined,
+      errorMessage: undefined,
     },
   },
   '2': {
@@ -57,13 +57,13 @@ export const COMPARE_STATE_MOCK: CompareState = {
       items: [],
       selected: undefined,
       selectedNodeId: undefined,
-      error: new Error('Service unavailable'),
+      errorMessage: 'Service unavailable',
     },
     billOfMaterial: {
       loading: false,
       items: [],
       selected: undefined,
-      error: new Error('Service unavailable'),
+      errorMessage: 'Service unavailable',
     },
   },
   '3': {
