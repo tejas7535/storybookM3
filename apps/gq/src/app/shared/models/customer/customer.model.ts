@@ -3,7 +3,7 @@ import { CustomerIds } from './customer-ids.model';
 import { MarginDetail } from './margin-detail.model';
 
 export class Customer {
-  public identifiers: CustomerIds;
+  public identifier: CustomerIds;
   public name: string;
   public subSector: string;
   public subSectorId: string;

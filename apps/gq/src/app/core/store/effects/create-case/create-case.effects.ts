@@ -147,8 +147,8 @@ export class CreateCaseEffects {
             this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
               queryParams: {
                 quotation_number: quotation.gqId,
-                customer_number: quotation.customer.identifiers.customerId,
-                sales_org: quotation.customer.identifiers.salesOrg,
+                customer_number: quotation.customer.identifier.customerId,
+                sales_org: quotation.customer.identifier.salesOrg,
               },
             });
             const successMessage = translate(

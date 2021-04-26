@@ -33,8 +33,8 @@ export class OpenCaseButtonComponent {
     this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
       queryParams: {
         quotation_number: this.selections[0].gqId,
-        customer_number: this.selections[0].customer.identifiers.customerId,
-        sales_org: this.selections[0].customer.identifiers.salesOrg,
+        customer_number: this.selections[0].customer.identifier.customerId,
+        sales_org: this.selections[0].customer.identifier.salesOrg,
       },
     });
   }
