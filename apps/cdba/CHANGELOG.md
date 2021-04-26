@@ -3,6 +3,28 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.19.0](///compare/cdba-v1.19.0...cdba-v1.18.0) (2021-04-26)
+
+
+### 📈 Improvements
+
+* **cdba:** route to 404 for malformed compare urls (DSCDA-2311) ([bff8bd6](///commit/bff8bd680125825be0375e9cac0c2b4b6581d9a4))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** avoid unprotected access to possible undefined field ([d5a18b6](///commit/d5a18b6beed23aee5f0208e608f23af1a9ecd433))
+
+
+### 🎸 Features
+
+* **cdba:** add basic state management for compare screen (DSCDA-2309) ([9e4eefe](///commit/9e4eefe96844c8c05f99255ba56638ee6ee3f1b5))
+* **cdba:** align error handling for BoM container (DSCDA-2315) ([3e506e1](///commit/3e506e11c5e4fb9a4e439abe88e32f4759284d2f))
+* **cdba:** integrate bom overlay bom on compare screen ([bce2b88](///commit/bce2b88614a1c64fa1edb28e0cfa9fd80bdfef8a))
+* **cdba:** pass selected calculation node to compare screen (DSCDA-2310) ([8e4f745](///commit/8e4f745826fa82a3760ec12a9485864d3c15ba48))
+* **cdba:** show bom table on compare bom page ([6a410fb](///commit/6a410fbe487feee8da4d803befc2f4bbb7ed0baa))
+* **cdba:** show detail information in bom headline (DSCDA-2349) ([b45930e](///commit/b45930e6c67c0998cf6e5499be2fd2861966fd78))
+
 ## [1.18.0](///compare/cdba-v1.18.0...cdba-v1.17.1) (2021-04-13)
 
 
