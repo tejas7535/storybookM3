@@ -1,6 +1,6 @@
 <!-- AUTO-GENERATED-CONTENT:START (VERSIONBADGE:link=false&prefix=version) -->
 
-![version](https://img.shields.io/badge/version-v1.62.0-green.svg)
+![version](https://img.shields.io/badge/version-v1.63.0-green.svg)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nrwl/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
@@ -11,11 +11,11 @@
 ![@angular/cli: 11.2.10](https://img.shields.io/badge/%40angular%2Fcli-11.2.10-brightgreen)
 ![@angular/cdk: 11.2.10](https://img.shields.io/badge/%40angular%2Fcdk-11.2.10-brightgreen)
 ![@angular/material: 11.2.10](https://img.shields.io/badge/%40angular%2Fmaterial-11.2.10-brightgreen)
-![@ngrx/store: 11.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-11.1.0-brightgreen)
+![@ngrx/store: 11.1.1](https://img.shields.io/badge/%40ngrx%2Fstore-11.1.1-brightgreen)
 ![jest: 26.6.3](https://img.shields.io/badge/jest-26.6.3-brightgreen)
 ![cypress: 7.1.0](https://img.shields.io/badge/cypress-7.1.0-brightgreen)
 ![prettier: 2.2.1](https://img.shields.io/badge/prettier-2.2.1-brightgreen)
-![tailwindcss: 2.1.1](https://img.shields.io/badge/tailwindcss-2.1.1-brightgreen)
+![tailwindcss: 2.1.2](https://img.shields.io/badge/tailwindcss-2.1.2-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
