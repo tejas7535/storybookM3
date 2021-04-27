@@ -9,6 +9,7 @@ import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 
 describe('AttritionDialogComponent', () => {
@@ -25,7 +26,7 @@ describe('AttritionDialogComponent', () => {
       MatIconModule,
       MatDividerModule,
       UnderConstructionModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       {

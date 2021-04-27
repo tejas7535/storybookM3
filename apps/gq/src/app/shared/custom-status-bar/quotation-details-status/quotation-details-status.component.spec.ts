@@ -31,7 +31,7 @@ describe('QuotationDetailsStatusComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
     ],
     providers: [

@@ -22,7 +22,7 @@ describe('DetailViewButtonComponent', () => {
     imports: [
       MatButtonModule,
       RouterTestingModule.withRoutes([]),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
     ],
   });

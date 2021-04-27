@@ -50,7 +50,7 @@ describe('CalculationsTableComponent', () => {
       MatCardModule,
       MatIconModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       CustomStatusBarModule,
       CustomOverlayModule,
     ],

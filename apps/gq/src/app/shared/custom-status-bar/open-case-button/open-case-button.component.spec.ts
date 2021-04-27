@@ -22,7 +22,7 @@ describe('OpenCaseButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule.withRoutes([]),
     ],
     declarations: [OpenCaseButtonComponent],

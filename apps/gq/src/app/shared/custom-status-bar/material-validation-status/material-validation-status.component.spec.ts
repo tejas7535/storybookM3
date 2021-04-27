@@ -13,7 +13,7 @@ describe('MaterialValidationStatusComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialValidationStatusComponent,
     declarations: [MaterialValidationStatusComponent],
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [],
   });
 

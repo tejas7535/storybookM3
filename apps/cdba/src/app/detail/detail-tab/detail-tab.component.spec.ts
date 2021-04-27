@@ -27,7 +27,7 @@ describe('DetailTabComponent', () => {
     component: DetailTabComponent,
     imports: [
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatCardModule,
       CustomerModule,
       DimensionAndWeightModule,

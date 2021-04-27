@@ -14,7 +14,7 @@ describe('ProductionCostDetailsComponent', () => {
   const createComponent = createComponentFactory({
     component: ProductionCostDetailsComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       SharedPipesModule,
     ],

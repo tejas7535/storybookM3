@@ -14,7 +14,7 @@ const moduleMetadata = {
   imports: [
     UnsupportedViewportModule,
     HttpClientModule,
-    provideTranslocoTestingModule({}),
+    provideTranslocoTestingModule({ en: {} }),
     TranslocoModule,
   ],
 };

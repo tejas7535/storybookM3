@@ -28,7 +28,7 @@ describe('CustomerDetailsComponent', () => {
       MatCardModule,
       MatButtonModule,
       SharedPipesModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
     ],
   });

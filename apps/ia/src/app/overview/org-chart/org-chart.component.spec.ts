@@ -6,6 +6,7 @@ import d3OrgChart from 'd3-org-chart';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { EmployeeAttritionMeta } from '../../shared/models';
 import { AttritionDialogComponent } from '..//attrition-dialog/attrition-dialog.component';
@@ -25,7 +26,7 @@ describe('OrgChartComponent', () => {
       MatProgressSpinnerModule,
       AttritionDialogModule,
       TeamMemberDialogModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
       LoadingSpinnerModule,
     ],
     providers: [provideMockStore({})],

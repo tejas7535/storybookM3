@@ -16,7 +16,7 @@ describe('DeleteAcceptComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DeleteAcceptComponent,
-    imports: [MatDialogModule, provideTranslocoTestingModule({})],
+    imports: [MatDialogModule, provideTranslocoTestingModule({ en: {} })],
     providers: [
       {
         provide: MatDialogRef,

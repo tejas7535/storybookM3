@@ -17,7 +17,7 @@ describe('BomOverlayComponent', () => {
     component: BomOverlayComponent,
     imports: [
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
       MatTabsModule,
       MatRippleModule,

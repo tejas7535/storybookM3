@@ -46,7 +46,7 @@ describe('ReferenceTypesTableComponent', () => {
       ]),
       MatIconModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       CustomStatusBarModule,
     ],
     declarations: [ReferenceTypesTableComponent],

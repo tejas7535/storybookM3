@@ -26,7 +26,7 @@ describe('PricingDetailsComponent', () => {
       MatCardModule,
       MaterialDetailsModule,
       MatExpansionModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       SharedPipesModule,
     ],

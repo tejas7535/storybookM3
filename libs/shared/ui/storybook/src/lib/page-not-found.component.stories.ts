@@ -26,7 +26,7 @@ export const primary = () => ({
         useHash: true,
       }),
       HttpClientModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       TranslocoModule,
     ],
   },

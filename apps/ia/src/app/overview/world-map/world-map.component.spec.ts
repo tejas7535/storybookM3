@@ -7,6 +7,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import worldJson from '../../../assets/world.json';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { IdValue } from '../../shared/models';
@@ -32,7 +33,7 @@ describe('WorldMapComponent', () => {
         echarts: () => import('echarts'),
       }),
       LoadingSpinnerModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
       MatTooltipModule,
       AttritionDialogModule,
     ],

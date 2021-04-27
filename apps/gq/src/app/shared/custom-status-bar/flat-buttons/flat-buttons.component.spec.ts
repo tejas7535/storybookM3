@@ -31,7 +31,7 @@ describe('FlatButtonsComponent', () => {
       MatButtonModule,
       MatDialogModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

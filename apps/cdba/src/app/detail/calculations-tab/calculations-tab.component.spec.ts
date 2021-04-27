@@ -32,7 +32,7 @@ describe('CalculationsTabComponent', () => {
     imports: [
       SharedModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MockModule(CalculationsTableModule),
       MockModule(CustomStatusBarModule),
       MatCardModule,

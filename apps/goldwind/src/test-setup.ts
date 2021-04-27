@@ -10,7 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 defineGlobalsInjections({
-  imports: [provideTranslocoTestingModule({}), ReactiveComponentModule],
+  imports: [provideTranslocoTestingModule({ en: {} }), ReactiveComponentModule],
 });
 
 global.beforeEach(() => {

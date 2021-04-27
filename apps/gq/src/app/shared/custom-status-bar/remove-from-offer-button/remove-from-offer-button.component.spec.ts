@@ -27,7 +27,7 @@ describe('RemoveFromOfferComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

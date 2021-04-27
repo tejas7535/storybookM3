@@ -11,7 +11,10 @@ describe('TransparencyGraphComponent', () => {
 
   const createComponent = createComponentFactory({
     component: TransparencyGraphComponent,
-    imports: [UnderConstructionModule, provideTranslocoTestingModule({})],
+    imports: [
+      UnderConstructionModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
   });
 
   beforeEach(() => {

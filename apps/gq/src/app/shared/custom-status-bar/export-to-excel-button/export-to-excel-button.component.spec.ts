@@ -23,7 +23,7 @@ describe('ExportToExcelButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

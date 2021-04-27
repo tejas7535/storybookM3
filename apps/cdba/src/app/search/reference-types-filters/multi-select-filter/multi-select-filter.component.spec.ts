@@ -38,7 +38,7 @@ describe('MultiSelectFilterComponent', () => {
       MatFormFieldModule,
       MatInputModule,
       MatSelectModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatCheckboxModule,
       MatTooltipModule,
       MatIconModule,

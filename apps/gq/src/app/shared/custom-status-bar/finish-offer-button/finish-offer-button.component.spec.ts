@@ -20,7 +20,7 @@ describe('FinishOfferComponent', () => {
     imports: [
       MatButtonModule,
       RouterTestingModule.withRoutes([]),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
     ],
   });

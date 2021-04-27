@@ -12,6 +12,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import { TimePeriod } from '../models';
 import { DateInputComponent } from './date-input.component';
 
@@ -29,7 +30,7 @@ describe('DateInputComponent', () => {
       MatInputModule,
       MatNativeDateModule,
       ReactiveFormsModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
     ],
   });
 

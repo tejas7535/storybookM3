@@ -13,7 +13,7 @@ const moduleMetadata = {
     ForbiddenModule,
     HttpClientModule,
     RouterTestingModule,
-    provideTranslocoTestingModule({}),
+    provideTranslocoTestingModule({ en: {} }),
     TranslocoModule,
   ],
 };

@@ -40,7 +40,7 @@ describe('FilterPricingComponent', () => {
       MatInputModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

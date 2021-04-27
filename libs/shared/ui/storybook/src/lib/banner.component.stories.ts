@@ -15,7 +15,7 @@ const moduleMetadata = {
   imports: [
     CommonModule,
     BannerTextModule,
-    provideTranslocoTestingModule({}),
+    provideTranslocoTestingModule({ en: {} }),
     TranslocoModule,
     IconsModule,
   ],

@@ -4,6 +4,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from './i18n/en.json';
 import { UnsupportedViewportComponent } from './unsupported-viewport.component';
 
 describe('UnsupportedViewportComponent', () => {
@@ -12,7 +13,7 @@ describe('UnsupportedViewportComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UnsupportedViewportComponent,
-    imports: [provideTranslocoTestingModule({}), FlexLayoutModule],
+    imports: [provideTranslocoTestingModule({ en }), FlexLayoutModule],
   });
 
   beforeEach(() => {

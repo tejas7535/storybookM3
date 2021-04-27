@@ -18,7 +18,7 @@ describe('ColumnDefinitions', () => {
 
   const createService = createServiceFactory({
     service: ColumnDefinitionService,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [ColumnDefinitionService],
   });
 

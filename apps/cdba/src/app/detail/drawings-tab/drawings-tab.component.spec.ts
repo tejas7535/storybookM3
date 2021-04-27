@@ -10,7 +10,7 @@ describe('DrawingsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DrawingsTabComponent,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({ en: {} })],
   });
 
   beforeEach(() => {

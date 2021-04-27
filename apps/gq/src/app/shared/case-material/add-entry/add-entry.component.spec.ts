@@ -42,7 +42,7 @@ describe('InputbarComponent', () => {
       MatButtonModule,
       MatCardModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       SharedModule,
       ReactiveFormsModule,
       ReactiveComponentModule,

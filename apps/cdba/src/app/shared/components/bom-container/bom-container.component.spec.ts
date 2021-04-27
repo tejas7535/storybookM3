@@ -40,7 +40,7 @@ describe('BomContainerComponent', () => {
   const createComponent = createComponentFactory({
     component: BomContainerComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       SharedModule,
       MatCardModule,
       MatIconModule,

@@ -4,8 +4,6 @@ import { MatMenuModule } from '@angular/material/menu';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
 import { UserMenuComponent } from './user-menu.component';
 
 describe('UserMenuComponent', () => {
@@ -14,12 +12,7 @@ describe('UserMenuComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UserMenuComponent,
-    imports: [
-      MatIconModule,
-      MatMenuModule,
-      FlexLayoutModule,
-      provideTranslocoTestingModule({}),
-    ],
+    imports: [MatIconModule, MatMenuModule, FlexLayoutModule],
   });
 
   beforeEach(() => {

@@ -32,7 +32,7 @@ describe('RoleModalComponent', () => {
       SharedTranslocoModule,
       MatIconModule,
       ReactiveComponentModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RoleDescModule,
     ],
     providers: [

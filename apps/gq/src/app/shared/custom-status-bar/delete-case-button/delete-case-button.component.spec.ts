@@ -20,7 +20,7 @@ describe('DeleteCaseButtonComponent', () => {
     component: DeleteCaseButtonComponent,
     imports: [
       MatButtonModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
     ],
     providers: [provideMockStore({})],

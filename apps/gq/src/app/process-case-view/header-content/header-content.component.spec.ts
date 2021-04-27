@@ -18,7 +18,7 @@ describe('HeaderContentComponent', () => {
       MatMenuModule,
       MatIconModule,
       SharedPipesModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

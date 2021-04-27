@@ -55,7 +55,7 @@ describe('CreateCaseDialogComponent', () => {
       ReactiveComponentModule,
       SelectSalesOrgModule,
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

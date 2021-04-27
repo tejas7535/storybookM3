@@ -16,7 +16,7 @@ describe('SalesAndDescriptionComponent', () => {
     imports: [
       UndefinedAttributeFallbackModule,
       MaterialNumberModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

@@ -7,7 +7,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { ForbiddenComponent } from './forbidden.component';
-import * as en from './i18n/de.json';
+import * as en from './i18n/en.json';
 
 describe('ForbiddenComponent', () => {
   let spectator: Spectator<ForbiddenComponent>;

@@ -28,7 +28,7 @@ describe('CaseHeaderComponent', () => {
       CustomerHeaderModule,
       MatIconModule,
       MatMenuModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       SharedPipesModule,
       ReactiveComponentModule,

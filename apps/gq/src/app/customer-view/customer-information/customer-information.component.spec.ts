@@ -18,7 +18,7 @@ describe('CustomerDetailsComponent', () => {
     imports: [
       MatCardModule,
       SharedPipesModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [CustomerInformationComponent],
   });

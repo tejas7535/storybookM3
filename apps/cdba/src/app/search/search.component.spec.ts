@@ -23,7 +23,7 @@ describe('SearchComponent', () => {
     component: SearchComponent,
     imports: [
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MockModule(FilterPanelModule),
       MockModule(ReferenceTypesFiltersModule),
       MockModule(ReferenceTypesTableModule),
