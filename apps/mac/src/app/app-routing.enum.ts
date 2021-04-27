@@ -8,7 +8,7 @@ export enum RoutePath {
 }
 
 export enum RouteNames {
-  Base = 'Material Apps Center',
+  Base = 'Materials Apps Center',
   Overview = 'Overview',
   HardnessConverter = 'Hardness Converter',
   AQMCalculator = 'AQM Calculator',
