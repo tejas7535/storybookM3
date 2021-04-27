@@ -11,7 +11,7 @@ describe('RoleDescComponent', () => {
   const createComponent = createComponentFactory({
     component: RoleDescComponent,
     declarations: [RoleDescComponent],
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({ en: {} })],
   });
 
   beforeEach(() => {

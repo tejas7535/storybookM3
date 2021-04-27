@@ -13,7 +13,7 @@ describe('MaterialDetailsComponent', () => {
   const createComponent = createComponentFactory({
     component: MaterialDetailsComponent,
     detectChanges: false,
-    imports: [provideTranslocoTestingModule({})],
+    imports: [provideTranslocoTestingModule({ en: {} })],
     providers: [provideMockStore({})],
     declarations: [MaterialDetailsComponent, MaterialTransformPipe],
   });

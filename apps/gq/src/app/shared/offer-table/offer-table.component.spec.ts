@@ -32,7 +32,7 @@ describe('OfferTableComponent', () => {
         ExportToExcelButtonComponent,
         QuotationDetailsStatusComponent,
       ]),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       CustomStatusBarModule,
       RouterTestingModule,
     ],

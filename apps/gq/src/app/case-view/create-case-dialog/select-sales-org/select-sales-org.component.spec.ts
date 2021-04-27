@@ -16,7 +16,7 @@ describe('SelectSalesOrgComponent', () => {
   const createComponent = createComponentFactory({
     component: SelectSalesOrgComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatSelectModule,
       ReactiveComponentModule,
     ],

@@ -40,7 +40,7 @@ describe('QuotationDetailsTableComponent', () => {
       MatDialogModule,
       ReactiveComponentModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

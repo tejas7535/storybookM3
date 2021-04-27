@@ -24,7 +24,7 @@ describe('CreateCaseButtonComponent', () => {
       CommonModule,
       SharedTranslocoModule,
       MatButtonModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
     ],
     providers: [

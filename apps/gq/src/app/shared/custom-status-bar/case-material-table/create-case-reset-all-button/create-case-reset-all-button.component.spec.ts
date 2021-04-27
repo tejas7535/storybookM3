@@ -28,7 +28,7 @@ describe('ResetAllButtonComponent', () => {
       MatButtonModule,
       MatIconModule,
       ReactiveComponentModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [provideMockStore({})],
   });

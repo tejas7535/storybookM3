@@ -32,7 +32,7 @@ describe('OfferDrawerComponent', () => {
       MatButtonModule,
       ReactiveComponentModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

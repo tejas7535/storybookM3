@@ -15,7 +15,7 @@ describe('BomCompareTabComponent', () => {
   const createComponent = createComponentFactory({
     component: BomCompareTabComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       SharedModule,
       MockModule(BomContainerModule),
     ],

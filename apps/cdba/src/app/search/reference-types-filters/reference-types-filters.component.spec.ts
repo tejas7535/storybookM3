@@ -65,7 +65,7 @@ describe('ReferenceTypesFiltersComponent', () => {
       SharedModule,
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [
       MockComponent(RangeFilterComponent),

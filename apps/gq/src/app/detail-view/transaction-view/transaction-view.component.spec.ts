@@ -24,7 +24,7 @@ describe('TransactionViewComponent', () => {
       TransparencyGraphModule,
       MatCardModule,
       LoadingSpinnerModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],

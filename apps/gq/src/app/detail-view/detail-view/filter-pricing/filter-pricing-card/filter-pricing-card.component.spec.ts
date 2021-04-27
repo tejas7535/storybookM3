@@ -20,7 +20,7 @@ describe('FilterPricingCardComponent', () => {
       MatCardModule,
       MatIconModule,
       LoadingSpinnerModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [FilterPricingCardComponent],
   });

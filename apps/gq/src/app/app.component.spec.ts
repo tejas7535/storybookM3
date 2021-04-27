@@ -37,7 +37,7 @@ describe('AppComponent', () => {
       FooterModule,
       MatButtonModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
     ],
     providers: [

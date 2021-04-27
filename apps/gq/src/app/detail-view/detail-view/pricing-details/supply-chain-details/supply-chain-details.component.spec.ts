@@ -14,7 +14,7 @@ describe('SupplyChainDetailsComponent', () => {
   const createComponent = createComponentFactory({
     component: SupplyChainDetailsComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       SharedPipesModule,
     ],

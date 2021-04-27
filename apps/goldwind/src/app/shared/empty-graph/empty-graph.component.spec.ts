@@ -13,7 +13,7 @@ describe('StatusIndicatorComponent', () => {
 
   const createComponent = createComponentFactory({
     component: EmptyGraphComponent,
-    imports: [MatIconModule, provideTranslocoTestingModule({})],
+    imports: [MatIconModule, provideTranslocoTestingModule({ en: {} })],
     declarations: [EmptyGraphComponent],
   });
 

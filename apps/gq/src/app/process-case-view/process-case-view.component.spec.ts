@@ -60,7 +60,7 @@ describe('ProcessCaseViewComponent', () => {
       RouterTestingModule,
       SharedModule,
       HeaderContentModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
       ReactiveComponentModule,
     ],

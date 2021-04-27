@@ -15,7 +15,7 @@ describe('FilterPanelComponent', () => {
     component: FilterPanelComponent,
     imports: [
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatExpansionModule,
     ],
   });

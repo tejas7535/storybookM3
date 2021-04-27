@@ -22,7 +22,7 @@ describe('DetailComponent', () => {
     imports: [
       SharedModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MaterialNumberModule,
       TabsHeaderModule,
     ],

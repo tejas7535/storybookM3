@@ -12,7 +12,7 @@ describe('BlockUiComponent', () => {
 
   const createComponent = createComponentFactory({
     component: BlockUiComponent,
-    imports: [provideTranslocoTestingModule({}), MatProgressBarModule],
+    imports: [provideTranslocoTestingModule({ en: {} }), MatProgressBarModule],
   });
 
   beforeEach(() => {

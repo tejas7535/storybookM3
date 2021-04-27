@@ -48,7 +48,7 @@ describe('CaseViewComponent', () => {
       MatCardModule,
       NoopAnimationsModule,
       InputTableModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule.withRoutes([]),
       LoadingSpinnerModule,
       ReactiveComponentModule,

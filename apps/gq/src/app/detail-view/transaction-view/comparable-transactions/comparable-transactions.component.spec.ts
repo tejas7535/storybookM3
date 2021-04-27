@@ -11,7 +11,10 @@ describe('ComparableTransactionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
-    imports: [UnderConstructionModule, provideTranslocoTestingModule({})],
+    imports: [
+      UnderConstructionModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
   });
 
   beforeEach(() => {

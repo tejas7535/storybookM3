@@ -34,7 +34,7 @@ describe('AutocompleteInputComponent', () => {
       MatInputModule,
       ReactiveFormsModule,
       MatProgressSpinnerModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

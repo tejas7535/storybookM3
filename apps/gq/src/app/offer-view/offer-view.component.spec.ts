@@ -34,7 +34,7 @@ describe('OfferViewComponent', () => {
       OfferViewRoutingModule,
       MatIconModule,
       HeaderContentModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       RouterTestingModule,
       SharedModule,

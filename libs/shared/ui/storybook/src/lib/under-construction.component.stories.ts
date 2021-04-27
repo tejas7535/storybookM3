@@ -14,7 +14,7 @@ const moduleMetadata = {
   imports: [
     UnderConstructionModule,
     HttpClientModule,
-    provideTranslocoTestingModule({}),
+    provideTranslocoTestingModule({ en: {} }),
     TranslocoModule,
   ],
 };

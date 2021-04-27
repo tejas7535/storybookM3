@@ -39,7 +39,7 @@ describe('AddMaterialDialogComponent', () => {
       MatIconModule,
       ReactiveComponentModule,
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

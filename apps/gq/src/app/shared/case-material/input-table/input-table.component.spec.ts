@@ -44,7 +44,7 @@ describe('InputTableComponent', () => {
       ]),
       CellRendererModule,
       CustomStatusBarModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({}),

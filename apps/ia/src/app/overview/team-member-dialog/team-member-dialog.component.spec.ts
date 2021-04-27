@@ -9,6 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import { TeamMemberDialogComponent } from './team-member-dialog.component';
 
 describe('TeamMemberDialogComponent', () => {
@@ -25,7 +26,7 @@ describe('TeamMemberDialogComponent', () => {
       MatIconModule,
       MatDividerModule,
       MatListModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       {

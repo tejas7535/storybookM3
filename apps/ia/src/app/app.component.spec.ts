@@ -11,6 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../assets/i18n/en.json';
 import { AppComponent } from './app.component';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 
@@ -30,7 +31,7 @@ describe('AppComponent', () => {
       MatProgressSpinnerModule,
       FilterSectionModule,
       MatTabsModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
     ],
     providers: [
       provideMockStore({

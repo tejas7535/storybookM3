@@ -10,6 +10,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../../assets/i18n/en.json';
 import { ToggleChartsComponent } from './toggle-charts.component';
 
 describe('ToggleChartsComponent', () => {
@@ -23,7 +24,7 @@ describe('ToggleChartsComponent', () => {
       MatButtonToggleModule,
       IconsModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
       MatTooltipModule,
     ],
     providers: [],

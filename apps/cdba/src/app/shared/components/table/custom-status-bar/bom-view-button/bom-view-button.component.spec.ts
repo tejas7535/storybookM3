@@ -19,7 +19,7 @@ describe('BomViewButtonComponent', () => {
     imports: [
       MatButtonModule,
       RouterTestingModule.withRoutes([]),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

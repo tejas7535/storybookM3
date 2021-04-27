@@ -6,6 +6,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { Icon } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../i18n/en.json';
 import { TruncatePipe } from '../truncate-pipe/truncate.pipe';
 import { BannerTextComponent } from './banner-text.component';
 
@@ -16,7 +17,7 @@ describe('BannerTextComponent', () => {
   const createComponent = createComponentFactory({
     component: BannerTextComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
       FlexLayoutModule,
       MatIconModule,
     ],

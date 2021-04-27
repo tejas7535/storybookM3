@@ -24,7 +24,7 @@ describe('RangeFilterComponent', () => {
     component: RangeFilterComponent,
     imports: [
       SharedModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       FormsModule,
       MatIconModule,
       ReactiveFormsModule,

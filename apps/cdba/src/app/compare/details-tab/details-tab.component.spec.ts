@@ -12,7 +12,10 @@ describe('DetailsTabComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DetailsTabComponent,
-    imports: [provideTranslocoTestingModule({}), UnderConstructionModule],
+    imports: [
+      provideTranslocoTestingModule({ en: {} }),
+      UnderConstructionModule,
+    ],
     declarations: [DetailsTabComponent],
   });
 

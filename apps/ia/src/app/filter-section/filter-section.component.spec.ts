@@ -6,6 +6,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import * as en from '../../assets/i18n/en.json';
 import { filterSelected, timeRangeSelected } from '../core/store/actions';
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
 import { DateInputModule } from '../shared/date-input/date-input.module';
@@ -24,7 +25,7 @@ describe('FilterSectionComponent', () => {
     imports: [
       NoopAnimationsModule,
       AutocompleteInputModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en }),
       ReactiveComponentModule,
       SelectInputModule,
       DateInputModule,

@@ -32,7 +32,7 @@ describe('GqPriceComponent', () => {
       ReactiveComponentModule,
       LoadingSpinnerModule,
       RouterTestingModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

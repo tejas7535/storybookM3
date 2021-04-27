@@ -36,7 +36,7 @@ describe('ManualPriceComponent', () => {
       MatInputModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [provideMockStore({})],
     declarations: [ManualPriceComponent, FilterPricingCardComponent],

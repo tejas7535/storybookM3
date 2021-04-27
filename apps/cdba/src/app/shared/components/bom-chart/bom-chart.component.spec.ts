@@ -30,7 +30,7 @@ describe('BomChartComponent', () => {
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       MatIconModule,
     ],
     disableAnimations: true,

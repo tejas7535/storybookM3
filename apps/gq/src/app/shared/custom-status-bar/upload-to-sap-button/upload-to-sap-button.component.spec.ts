@@ -21,7 +21,7 @@ describe('UploadToSapButtonComponent', () => {
       MatButtonModule,
       MatIconModule,
       ReactiveComponentModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [provideMockStore({})],
   });

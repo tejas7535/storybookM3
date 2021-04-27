@@ -20,7 +20,7 @@ describe('CompareViewButtonComponent', () => {
     imports: [
       MatButtonModule,
       RouterTestingModule.withRoutes([]),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
   });
 

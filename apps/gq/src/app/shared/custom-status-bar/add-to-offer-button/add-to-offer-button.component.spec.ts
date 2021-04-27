@@ -27,7 +27,7 @@ describe('AddToOfferButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
       provideMockStore({

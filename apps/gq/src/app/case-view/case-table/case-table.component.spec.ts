@@ -31,7 +31,7 @@ describe('CaseTableComponent', () => {
       CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
       MatDialogModule,
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [provideMockStore({})],
     declarations: [CaseTableComponent],

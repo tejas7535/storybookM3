@@ -17,7 +17,7 @@ describe('BomTabComponent', () => {
     imports: [
       SharedModule,
       MockModule(BomContainerModule),
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
     ],
     disableAnimations: true,
   });

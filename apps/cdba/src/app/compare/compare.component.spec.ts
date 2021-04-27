@@ -15,7 +15,7 @@ describe('CompareComponent', () => {
   const createComponent = createComponentFactory({
     component: CompareComponent,
     imports: [
-      provideTranslocoTestingModule({}),
+      provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       TabsHeaderModule,
     ],
