@@ -9,11 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 
 import { AgGridModule } from '@ag-grid-community/angular';
-import { EffectsModule } from '@ngrx/effects';
 
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
-import { SalesSummaryEffects } from '../core/store/effects';
 import { DataService } from '../shared/data.service';
 import { SalesRowDetailsComponent } from './sales-row-details/sales-row-details.component';
 import { SalesSummaryRoutingModule } from './sales-summary-routing.module';
@@ -32,7 +30,6 @@ import { SalesTableComponent } from './sales-table/sales-table.component';
     MatNativeDateModule,
     MatButtonModule,
     SalesSummaryRoutingModule,
-    EffectsModule.forFeature([SalesSummaryEffects]),
     SnackBarModule,
   ],
   providers: [DataService, SnackBarService],

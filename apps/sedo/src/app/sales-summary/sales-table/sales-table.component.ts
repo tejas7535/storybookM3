@@ -1,20 +1,20 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import {
   ColDef,
   GridOptions,
-  IServerSideDatasource,
-  IStatusPanelParams,
   Module,
   RowClickedEvent,
   SideBarDef,
 } from '@ag-grid-community/all-modules';
 import {
+  ClientSideRowModelModule,
   ColumnsToolPanelModule,
-  IServerSideGetRowsParams,
+  FiltersToolPanelModule,
   MasterDetailModule,
-  ServerSideRowModelModule,
+  MultiFilterModule,
+  SetFilterModule,
   SideBarModule,
 } from '@ag-grid-enterprise/all-modules';
 
@@ -26,16 +26,21 @@ import { GRID_OPTIONS } from './config/grid-options';
 import { SIDE_BAR_CONFIG } from './config/sidebar-definition';
 
 @Component({
-  selector: 'sedo-sales.-table',
+  selector: 'sedo-sales-table',
   templateUrl: './sales-table.component.html',
   styleUrls: ['./sales-table.component.scss'],
 })
-export class SalesTableComponent {
+export class SalesTableComponent implements OnInit {
   public modules: Module[] = [
+    ClientSideRowModelModule,
     SideBarModule,
     ColumnsToolPanelModule,
-    ServerSideRowModelModule,
     MasterDetailModule,
+    MultiFilterModule,
+    FiltersToolPanelModule,
+    ColumnsToolPanelModule,
+    SetFilterModule,
+    SideBarModule,
   ];
   public defaultColDef: ColDef = DEFAULT_COLUMN_DEFINITION;
   public columnDefs: ColDef[] = COLUMN_DEFINITIONS;
@@ -44,7 +49,8 @@ export class SalesTableComponent {
 
   public detailCellRenderer: any;
   public frameworkComponents: any;
-  public combinedKeyQueryParam: string;
+
+  public rowData: any;
 
   public constructor(
     public dataService: DataService,
@@ -54,72 +60,29 @@ export class SalesTableComponent {
     this.frameworkComponents = { rowDetails: SalesRowDetailsComponent };
   }
 
-  public onGridReady(event: IStatusPanelParams): void {
-    const queryParams = this.activatedRoute.snapshot.queryParams;
-    if (queryParams.combinedKey) {
-      this.combinedKeyQueryParam = queryParams.combinedKey;
-      const filterModel = event.api.getFilterInstance('combinedKey');
-      filterModel.setModel({
-        type: 'equals',
-        filter: queryParams.combinedKey,
-      });
-    } else if (queryParams.materialNumber) {
-      const filterModel = event.api.getFilterInstance(
-        'socoArticleNumberGlobalKey'
-      );
-      filterModel.setModel({
-        type: 'equals',
-        filter: queryParams.materialNumber,
-      });
-    }
-
-    const dataSource: IServerSideDatasource = {
-      getRows: (params: IServerSideGetRowsParams) => {
-        this.fetchRows(params);
-      },
-    };
-
-    event.api.setServerSideDatasource(dataSource);
+  public async ngOnInit(): Promise<void> {
+    this.rowData = await this.dataService.getAllSales();
   }
 
   public onRowClicked(event: RowClickedEvent): void {
     event.node.setExpanded(!event.node.expanded);
   }
 
-  public async onFirstDataRendered(params: any): Promise<void> {
-    return new Promise<void>((resolve) => {
-      if (this.combinedKeyQueryParam) {
-        // Timeout might look ugly but doesnt work without
-        // and ag grid docs examples use timeout for the same use case sadly
-        setTimeout(() => {
-          params.api.getDisplayedRowAtIndex(0).setExpanded(true);
-          resolve();
-        }, 1500);
-      } else {
-        resolve();
-      }
-    });
-  }
-
-  private async fetchRows(params: IServerSideGetRowsParams): Promise<void> {
-    return new Promise<void>((resolve) => {
-      this.dataService
-        .getSalesSummaryPromise(params)
-        .then((response) => {
-          if (response.content.length === 0) {
-            params.api.showNoRowsOverlay();
-          }
-          params.success({
-            rowData: response.content,
-            rowCount: response.totalItemsCount,
-          });
-          resolve();
-        })
-        .catch((error) => {
-          console.error(error);
-          params.fail();
-          resolve();
-        });
-    });
+  public onFirstDataRendered(params: any): void {
+    const queryParams = this.activatedRoute.snapshot.queryParams;
+    if (queryParams.combinedKey) {
+      const filterModel = params.api.getFilterInstance('combinedKey');
+      filterModel.setModel({ values: [queryParams.combinedKey] });
+      params.api.onFilterChanged();
+      params.api.getDisplayedRowAtIndex(0).setExpanded(true);
+    } else if (queryParams.materialNumber) {
+      const filterModel = params.api.getFilterInstance(
+        'socoArticleNumberGlobalKey'
+      );
+      filterModel.setModel({
+        values: [queryParams.materialNumber],
+      });
+      params.api.onFilterChanged();
+    }
   }
 }

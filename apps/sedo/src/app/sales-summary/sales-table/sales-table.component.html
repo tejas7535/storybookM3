@@ -11,9 +11,9 @@
     [masterDetail]="true"
     [detailRowHeight]="240"
     [enableCellTextSelection]="true"
-    (gridReady)="onGridReady($event)"
     (rowClicked)="onRowClicked($event)"
     (firstDataRendered)="onFirstDataRendered($event)"
+    [rowData]="rowData"
   >
   </ag-grid-angular>
 </div>
