@@ -1,7 +1,7 @@
 import {
   SalesCategory,
   SalesSummary,
-} from '../../app/core/store/reducers/sales-summary/models/sales-summary.model';
+} from '../../app/shared/models/sales-summary.model';
 
 export const salesSummaryMock = new SalesSummary(
   'combined key',

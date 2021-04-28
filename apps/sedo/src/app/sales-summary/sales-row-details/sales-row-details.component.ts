@@ -3,7 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
 
-import { GridApi } from '@ag-grid-community/all-modules';
+import { RowNode } from '@ag-grid-community/all-modules';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
 import { select, Store } from '@ngrx/store';
 
@@ -11,9 +11,9 @@ import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppState } from '../../core/store';
-import { SalesSummary } from '../../core/store/reducers/sales-summary/models/sales-summary.model';
 import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
+import { SalesSummary } from '../../shared/models/sales-summary.model';
 
 @Component({
   selector: 'sedo-sales-row-details',
@@ -28,7 +28,7 @@ export class SalesRowDetailsComponent
   });
   public rowData: SalesSummary;
 
-  public gridApi: GridApi;
+  private rowNode: RowNode;
 
   readonly subscription: Subscription = new Subscription();
 
@@ -47,8 +47,8 @@ export class SalesRowDetailsComponent
   }
 
   public agInit(params: any): void {
-    this.gridApi = params.api;
     this.rowData = params.data;
+    this.rowNode = params.node;
     this.setSubscription();
     this.setInitialFormValues();
   }
@@ -78,7 +78,14 @@ export class SalesRowDetailsComponent
         this.dataService
           .updateDates(updateDatesParams)
           .then(() => {
-            this.gridApi.refreshServerSideStore({ purge: true });
+            this.rowNode.setDataValue(
+              'eopDateVerified',
+              this.datesFormGroup.get('eopDateControl').value
+            );
+            this.rowNode.setDataValue(
+              'edoDate',
+              this.datesFormGroup.get('edoDateControl').value
+            );
             this.snackBarService
               .showSuccessMessage('Update successful')
               .subscribe();

@@ -11,7 +11,7 @@ import { BrowserDynamicTestingModule } from '@angular/platform-browser-dynamic/t
 
 import { of } from 'rxjs';
 
-import { GridApi } from '@ag-grid-enterprise/all-modules';
+import { RowNode } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -19,9 +19,9 @@ import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
 import { APP_STATE_MOCK } from '../../../testing/mocks/app-state-mock';
 import { salesSummaryMock } from '../../../testing/mocks/sales-summary.mock';
-import { SalesSummary } from '../../core/store/reducers/sales-summary/models/sales-summary.model';
 import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
+import { SalesSummary } from '../../shared/models/sales-summary.model';
 import { SalesRowDetailsComponent } from './sales-row-details.component';
 
 describe('SalesRowDetailsComponent', () => {
@@ -201,10 +201,11 @@ describe('SalesRowDetailsComponent', () => {
     it(
       'should send update, reload grid and show success message',
       waitForAsync(() => {
+        component['rowNode'] = ({
+          setDataValue: jest.fn(),
+        } as unknown) as RowNode;
+
         dataService.updateDates = jest.fn().mockResolvedValue({});
-        component.gridApi = ({
-          refreshServerSideStore: jest.fn(),
-        } as unknown) as GridApi;
         snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
         snackBarService.showErrorMessage = jest.fn();
 
@@ -241,9 +242,15 @@ describe('SalesRowDetailsComponent', () => {
             expectedUpdateParams
           );
 
-          expect(
-            component.gridApi.refreshServerSideStore
-          ).toHaveBeenCalledTimes(1);
+          expect(component['rowNode'].setDataValue).toHaveBeenCalledTimes(2);
+          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+            'eopDateVerified',
+            dateString
+          );
+          expect(component['rowNode'].setDataValue).toHaveBeenCalledWith(
+            'edoDate',
+            dateString
+          );
 
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledWith(
@@ -259,9 +266,6 @@ describe('SalesRowDetailsComponent', () => {
       'should show an error message on error',
       waitForAsync(() => {
         dataService.updateDates = jest.fn().mockRejectedValue({});
-        component.gridApi = ({
-          refreshServerSideStore: jest.fn(),
-        } as unknown) as GridApi;
         snackBarService.showSuccessMessage = jest.fn();
         snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
 
@@ -297,10 +301,6 @@ describe('SalesRowDetailsComponent', () => {
           expect(dataService.updateDates).toHaveBeenCalledWith(
             expectedUpdateParams
           );
-
-          expect(
-            component.gridApi.refreshServerSideStore
-          ).toHaveBeenCalledTimes(0);
 
           expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(0);
 
