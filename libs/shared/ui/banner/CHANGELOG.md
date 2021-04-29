@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [2.3.0](///compare/banner-v2.3.0...banner-v2.2.0) (2021-04-29)
+
+
+### 🎸 Features
+
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](///commit/47630c62ca451d70e613182684fc34506a34705a))
+
 ## [2.2.0](///compare/banner-v2.2.0...banner-v2.1.0) (2021-03-24)
 
 
