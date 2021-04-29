@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.7](///compare/http-v0.0.7...http-v0.0.6) (2021-04-29)
+
+
+### 📈 Improvements
+
+* **goldwind:** migrate to azure auth lib ([9e7823d](///commit/9e7823d74a427d01bad5fab1944a97fda893ba31))
+
+
+### 🎸 Features
+
+* **http:** provide options for every http request ([5df8f37](///commit/5df8f3774edab04561224f75b4d5952bb39a7024))
+
 ### [0.0.6](///compare/http-v0.0.6...http-v0.0.4) (2021-03-24)
 
 
