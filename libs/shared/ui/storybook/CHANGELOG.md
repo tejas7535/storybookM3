@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](///compare/storybook-v1.12.0...storybook-v1.11.0) (2021-04-29)
+
+
+### 🎸 Features
+
+* **horizontal-separator:** add Horizontal Separator UI lib (UFTABI-3725) ([7ad30ba](///commit/7ad30ba7d38dfb074dca190d8425ff7110243909))
+* **loading-spinner:** add loading spinner ui lib (UFTABI-3691) ([a5306de](///commit/a5306ded9570347792480d2aa26223b6111c46eb))
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](///commit/47630c62ca451d70e613182684fc34506a34705a))
+
 ## [1.11.0](///compare/storybook-v1.11.0...storybook-v1.10.1) (2021-03-24)
 
 
