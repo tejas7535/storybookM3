@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.7.1](///compare/auth-v1.7.1...auth-v1.7.0) (2021-04-29)
+
+
+### ✏️ Documentation
+
+* **auth:** add deprecation warning ([70d0968](///commit/70d0968d22d9f82928d4d9a6f9715a34c4c33548))
+
 ## [1.7.0](///compare/auth-v1.7.0...auth-v1.6.0) (2021-03-24)
 
 
