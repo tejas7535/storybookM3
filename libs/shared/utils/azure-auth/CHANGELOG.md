@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.4](///compare/azure-auth-v0.0.4...azure-auth-v0.0.3) (2021-04-29)
+
+
+### 📈 Improvements
+
+* **goldwind:** migrate to azure auth lib ([9e7823d](///commit/9e7823d74a427d01bad5fab1944a97fda893ba31))
+
+
+### 🎸 Features
+
+* **azure-auth:** implement selector for user department ([d639514](///commit/d639514910bbd5c2eaa0e1c824f79b98a8f809f9))
+* **helloworld-azure:** migrate to tailwind (UFTABI-4019) ([50378ff](///commit/50378ff1d349d4526d4d39480ce8b1e4e35d56d9))
+
 ### 0.0.3 (2021-03-24)
 
 
