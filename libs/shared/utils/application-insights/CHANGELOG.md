@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.6](///compare/application-insights-v0.0.6...application-insights-v0.0.5) (2021-04-29)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** correctly report department to application insights (DSCDA-2079) ([4bc998c](///commit/4bc998c930be893c7c8f0b3d8168a615fa594f51))
+
 ### [0.0.5](///compare/application-insights-v0.0.5...application-insights-v0.0.3) (2021-03-24)
 
 
