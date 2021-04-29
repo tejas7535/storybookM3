@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.9.0](///compare/empty-states-v1.9.0...empty-states-v1.8.0) (2021-04-29)
+
+
+### 🐛 Bug Fixes
+
+* **empty-states:** correct position of forbidden action buttons ([99e5693](///commit/99e569364285512a220b7bd0bd072b999215894c))
+
+
+### 🎸 Features
+
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](///commit/47630c62ca451d70e613182684fc34506a34705a))
+
 ## [1.8.0](///compare/empty-states-v1.8.0...empty-states-v1.7.0) (2021-03-24)
 
 
