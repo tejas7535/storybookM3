@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.2.1](///compare/speed-dial-fab-v2.2.1...speed-dial-fab-v2.2.0) (2021-04-29)
+
 ## [2.2.0](///compare/speed-dial-fab-v2.2.0...speed-dial-fab-v2.1.0) (2021-03-24)
 
 
