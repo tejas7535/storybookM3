@@ -22,7 +22,6 @@ import { CountryData } from './world-map/models/country-data.model';
 @Component({
   selector: 'ia-overview',
   templateUrl: './overview.component.html',
-  styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
   orgChart$: Observable<OrgChartEmployee[]>;

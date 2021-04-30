@@ -1,54 +1,76 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
+<h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
+  {{ data.title }}
+</h2>
 <mat-dialog-content *transloco="let t; read: 'attritionDialog'">
-  <div fxLayout="row" fxLayout.lt-lg="column" fxLayoutGap="30px">
-    <div fxLayout="column">
-      <h6 class="sub-title">{{ t('metaTitle') }}</h6>
-      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon>insert_chart</mat-icon>
-        <div>{{ t('attritionRate') }}:</div>
-        <span>{{ data.attritionRate }}%</span>
+  <div class="flex flex-col lg:flex-row gap-8">
+    <div class="flex flex-col">
+      <h6
+        class="text-overline font-medium leading-3 uppercase mt-0 mr-0 mb-2 ml-1"
+      >
+        {{ t('metaTitle') }}
+      </h6>
+      <div class="text-body-1 leading-8 flex items-center">
+        <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5"
+          >insert_chart</mat-icon
+        >
+        <div class="text-light">{{ t('attritionRate') }}:</div>
+        <span class="text-dark ml-2">{{ data.attritionRate }}%</span>
       </div>
-      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon>person_outline</mat-icon>
-        <div>{{ t('employeesLost') }}:</div>
-        <span>{{ data.employeesLost }}</span>
+      <div class="text-body-1 leading-8 flex items-center">
+        <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5"
+          >person_outline</mat-icon
+        >
+        <div class="text-light">{{ t('employeesLost') }}:</div>
+        <span class="text-dark ml-2">{{ data.employeesLost }}</span>
       </div>
-      <div class="attrition-elem" fxLayout="row">
-        <div fxLayout="column" fxLayoutAlign="start">
-          <mat-divider [vertical]="true"></mat-divider>
+      <div class="text-body-1 leading-8 flex">
+        <mat-divider
+          class="h-full !-mt-1 !mr-4 !mb-3 !ml-3"
+          [vertical]="true"
+        ></mat-divider>
+        <div class="flex flex-col">
+          <div>
+            {{ t('naturalTurnover') }}:
+            <span class="text-dark ml-2">{{ data.naturalTurnover }}</span>
+          </div>
+          <div>
+            {{ t('forcedLeavers') }}:
+            <span class="text-dark ml-2">{{ data.forcedLeavers }}</span>
+          </div>
+          <div>
+            {{ t('unforcedLeavers') }}:
+            <span class="text-dark ml-2">{{ data.unforcedLeavers }}</span>
+          </div>
         </div>
-        <div fxLayout="column">
-          <div>
-            {{ t('naturalTurnover') }}: <span>{{ data.naturalTurnover }}</span>
-          </div>
-          <div>
-            {{ t('forcedLeavers') }}: <span>{{ data.forcedLeavers }}</span>
-          </div>
-          <div>
-            {{ t('unforcedLeavers') }}: <span>{{ data.unforcedLeavers }}</span>
-          </div>
-        </div>
       </div>
-      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon>block</mat-icon>
-        <div>{{ t('terminationReceived') }}:</div>
-        <span>{{ data.terminationReceived }}</span>
+      <div class="text-body-1 leading-8 flex items-center">
+        <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">block</mat-icon>
+        <div class="text-light">{{ t('terminationReceived') }}:</div>
+        <span class="text-dark ml-2">{{ data.terminationReceived }}</span>
       </div>
-      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon>person_add</mat-icon>
-        <div>{{ t('employeesAdded') }}:</div>
-        <span>{{ data.employeesAdded }}</span>
+      <div class="text-body-1 leading-8 flex items-center">
+        <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5">person_add</mat-icon>
+        <div class="text-light">{{ t('employeesAdded') }}:</div>
+        <span class="text-dark ml-2">{{ data.employeesAdded }}</span>
       </div>
-      <div class="attrition-elem" fxLayout="row" fxLayoutAlign="start center">
-        <mat-icon>people_outlined</mat-icon>
-        <div>{{ t('openPositions') }}:</div>
-        <span>{{ data.openPositions }}</span>
+      <div class="text-body-1 leading-8 flex items-center">
+        <mat-icon class="text-light mr-1.5 !h-4.5 !w-4.5"
+          >people_outlined</mat-icon
+        >
+        <div class="text-light">{{ t('openPositions') }}:</div>
+        <span class="text-dark ml-2">{{ data.openPositions }}</span>
       </div>
     </div>
-    <div fxHide.lt-lg><mat-divider [vertical]="true"></mat-divider></div>
-    <div fxLayout="column">
-      <h6 class="sub-title">{{ t('chartTitle') }}</h6>
-      <div class="chart-container">
+    <div class="invisible lg:visible">
+      <mat-divider class="h-full" [vertical]="true"></mat-divider>
+    </div>
+    <div class="flex flex-col">
+      <h6
+        class="text-light text-overline font-medium leading-4 uppercase mt-0 mr-0 mb-2 ml-1"
+      >
+        {{ t('chartTitle') }}
+      </h6>
+      <div>
         <schaeffler-under-construction></schaeffler-under-construction>
       </div>
     </div>

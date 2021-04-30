@@ -15,7 +15,6 @@ import {
 @Component({
   selector: 'ia-attrition-quota-details',
   templateUrl: './attrition-quota-details.component.html',
-  styleUrls: ['./attrition-quota-details.component.scss'],
 })
 export class AttritionQuotaDetailsComponent implements OnInit {
   public loading$: Observable<boolean>;

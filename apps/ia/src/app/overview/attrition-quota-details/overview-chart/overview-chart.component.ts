@@ -14,7 +14,6 @@ import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialo
 @Component({
   selector: 'ia-overview-chart',
   templateUrl: './overview-chart.component.html',
-  styleUrls: ['./overview-chart.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OverviewChartComponent {
@@ -36,21 +35,25 @@ export class OverviewChartComponent {
   }) {
     this._data = data;
 
-    const series: any = Object.keys(data).map((name) => ({
-      ...SERIES_BASE_OPTIONS,
-      name,
-      data: data[name].attrition,
-    }));
+    const series: any = data
+      ? Object.keys(data).map((name) => ({
+          ...SERIES_BASE_OPTIONS,
+          name,
+          data: data[name].attrition,
+        }))
+      : [];
 
     this.options = {
       ...CHART_BASE_OPTIONS,
       series,
     };
 
-    this.chartSeries = Object.keys(data).map((name) => ({
-      name,
-      checked: true,
-    }));
+    this.chartSeries = data
+      ? Object.keys(data).map((name) => ({
+          name,
+          checked: true,
+        }))
+      : [];
   }
 
   public get data(): {

@@ -1,11 +1,9 @@
 <div
-  fxLayout="column"
-  fxLayoutAlign="end start"
-  fxLayoutGap="10px"
+  class="flex flex-col gap-3"
   *transloco="let t; read: 'attritionQuotaDetails.chart.legend'"
 >
-  <h6 fxFlexOffset="200px">{{ t('charts') }}</h6>
-  <div id="chart-series" fxLayout="column" fxLayoutGap="5px">
+  <h6 *ngIf="series.length">{{ t('charts') }}</h6>
+  <div id="chart-series" class="flex flex-col gap-2">
     <ng-container *ngFor="let serie of series; trackBy: trackByFn">
       <mat-checkbox
         color="primary"

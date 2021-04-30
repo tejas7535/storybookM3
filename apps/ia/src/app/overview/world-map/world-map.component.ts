@@ -19,7 +19,6 @@ import { CountryData } from './models/country-data.model';
 @Component({
   selector: 'ia-world-map',
   templateUrl: './world-map.component.html',
-  styleUrls: ['./world-map.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorldMapComponent implements OnInit {

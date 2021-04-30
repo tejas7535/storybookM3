@@ -766,7 +766,7 @@ pipeline {
                             script {
                                 lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
                                     if (isAppRelease()) {
-                                        sh "npx cross-env PURGE_TAILWIND=true nx run ${env.RELEASE_SCOPE}:build --with-deps --prod"
+                                        sh "npx nx run ${env.RELEASE_SCOPE}:build --with-deps --prod"
                                         try {
                                             sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                                         } catch (error) {
@@ -776,9 +776,9 @@ pipeline {
                                         sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps --prod"
                                     } else {
                                         if (isMaster()) {
-                                            sh "npx cross-env PURGE_TAILWIND=true nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
                                         } else {
-                                            sh "npx cross-env PURGE_TAILWIND=true nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
                                         }
 
                                         for (app in affectedApps) {

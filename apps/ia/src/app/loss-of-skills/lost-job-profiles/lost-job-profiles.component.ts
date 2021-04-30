@@ -16,7 +16,6 @@ type CellType = 'workforce' | 'leavers';
 @Component({
   selector: 'ia-lost-job-profiles',
   templateUrl: './lost-job-profiles.component.html',
-  styleUrls: ['./lost-job-profiles.component.scss'],
 })
 export class LostJobProfilesComponent {
   @Input() loading: boolean;
@@ -35,6 +34,8 @@ export class LostJobProfilesComponent {
     floatingFilter: true,
     resizable: true,
     suppressMenu: true,
+    width: 100,
+    flex: 1,
   };
 
   public columnDefs: ColDef[] = [

@@ -4,7 +4,6 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 @Component({
   selector: 'ia-employee-list-dialog',
   templateUrl: './employee-list-dialog.component.html',
-  styleUrls: ['./employee-list-dialog.component.scss'],
 })
 export class EmployeeListDialogComponent {
   constructor(

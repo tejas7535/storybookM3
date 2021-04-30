@@ -1,13 +1,16 @@
-<div #chartContainer id="chartContainer" *transloco="let t; read: 'orgChart'">
-  <ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
-  <div *ngIf="!chartData?.length">
-    <div
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      *ngIf="!isLoading"
-      class="no-data"
-    >
-      <span>{{ t('noData') }}</span>
+<div
+  #chartContainer
+  id="chartContainer"
+  class="flex-grow overflow-hidden flex flex-col"
+  *transloco="let t; read: 'orgChart'"
+>
+  <schaeffler-loading-spinner *ngIf="isLoading"></schaeffler-loading-spinner>
+  <div
+    *ngIf="!chartData?.length"
+    class="flex-grow flex justify-center items-center"
+  >
+    <div *ngIf="!isLoading">
+      <span class="self-center">{{ t('noData') }}</span>
     </div>
   </div>
 </div>

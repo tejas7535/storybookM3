@@ -1,19 +1,17 @@
 <div
-  class="table-container"
-  fxLayout="row"
-  fxLayoutAlign="space-around start"
-  fxLayoutGap="10px"
+  class="grid gap-3 grid-cols-2 bg-white p-4"
   *transloco="let t; read: 'lossOfSkills'"
 >
-  <mat-card fxFlex="50">
-    <h5>{{ t('lostJobProfiles.title') }}</h5>
+  <mat-card class="!flex flex-col pb-2">
+    <h5 class="font-bold mb-5">{{ t('lostJobProfiles.title') }}</h5>
     <ia-lost-job-profiles
+      class="h-[390px]"
       [loading]="lostJobProfilesLoading$ | ngrxPush"
       [data]="lostJobProfilesData$ | ngrxPush"
     ></ia-lost-job-profiles>
   </mat-card>
-  <mat-card fxFlex="50">
-    <h5>{{ t('riskOfLeaving.title') }}</h5>
+  <mat-card class="pb-2">
+    <h5 class="font-bold mb-5">{{ t('riskOfLeaving.title') }}</h5>
     <ia-risk-of-leaving></ia-risk-of-leaving>
   </mat-card>
 </div>

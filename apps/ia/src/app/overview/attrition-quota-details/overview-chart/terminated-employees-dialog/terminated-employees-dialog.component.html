@@ -1,4 +1,6 @@
-<h2 mat-dialog-title>{{ data.title }}</h2>
+<h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
+  {{ data.title }}
+</h2>
 <mat-dialog-content
   *transloco="let t; read: 'attritionQuotaDetails.chart.dialog'"
 >
@@ -10,26 +12,29 @@
         trackBy: trackByFn()
       "
     >
-      <mat-list-item>
+      <mat-list-item class="!h-[100px]">
         <img
           matListAvatar
           src="assets/images/dummy.png"
           [alt]="employee.employeeName"
         />
-        <div
-          matLine
-          fxLayout="column"
-          fxLayoutAlign="space-around start"
-          fxFlex="80px"
-        >
-          <div fxFlex="20px">{{ employee.employeeName }}</div>
-          <div fxFlex="20px" fxLayout="row">
-            <label>{{ t('orgUnit') }}:&nbsp;</label>
-            <div class="value">{{ employee.orgUnit }}</div>
+        <div matLine class="!grid grid-cols-1 gap-2">
+          <div>{{ employee.employeeName }}</div>
+          <div class="flex">
+            <label class="text-light uppercase leading-4 h-4 text-[12px]"
+              >{{ t('orgUnit') }}:&nbsp;</label
+            >
+            <div class="text-[12px] text-dark leading-4">
+              {{ employee.orgUnit }}
+            </div>
           </div>
-          <div fxFlex="20px" fxLayout="row">
-            <label>{{ t('position') }}:&nbsp;</label>
-            <div class="value">{{ employee.position }}</div>
+          <div class="flex">
+            <label class="text-light uppercase leading-4 h-4 text-[12px]"
+              >{{ t('position') }}:&nbsp;</label
+            >
+            <div class="text-[12px] text-dark leading-4">
+              {{ employee.position }}
+            </div>
           </div>
         </div>
       </mat-list-item>

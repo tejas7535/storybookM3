@@ -14,7 +14,6 @@ import {
 @Component({
   selector: 'ia-loss-of-skills',
   templateUrl: './loss-of-skills.component.html',
-  styleUrls: ['./loss-of-skills.component.scss'],
 })
 export class LossOfSkillsComponent implements OnInit {
   public lostJobProfilesLoading$: Observable<boolean>;

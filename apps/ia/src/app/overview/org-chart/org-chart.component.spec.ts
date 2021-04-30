@@ -4,10 +4,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import d3OrgChart from 'd3-org-chart';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { EmployeeAttritionMeta } from '../../shared/models';
 import { AttritionDialogComponent } from '..//attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';

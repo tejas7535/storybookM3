@@ -1,6 +1,10 @@
-<h2 mat-dialog-title>{{ data.employeeName }} ({{ data.orgUnit }})</h2>
+<h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
+  {{ data.employeeName }} ({{ data.orgUnit }})
+</h2>
 <mat-dialog-content *transloco="let t; read: 'teamMemberDialog'">
-  <h6 class="sub-title">{{ t('metaTitle') }}</h6>
+  <h6 class="text-overline font-medium leading-3 uppercase mt-0 mr-0 mb-2 ml-1">
+    {{ t('metaTitle') }}
+  </h6>
   <mat-list>
     <ng-container
       *ngFor="
@@ -16,7 +20,7 @@
           [alt]="child.employeeName"
         />
         <p matLine>{{ child.employeeName }}</p>
-        <mat-icon>whatshot</mat-icon>
+        <mat-icon class="text-light">whatshot</mat-icon>
       </mat-list-item>
       <mat-divider *ngIf="!last"></mat-divider>
     </ng-container>
