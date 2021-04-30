@@ -1,19 +1,17 @@
 <div
-  id="worldMapContainer"
   echarts
   [options]="options"
   [merge]="mergeOptions"
   [initOpts]="initOpts"
   (chartInit)="onChartInit($event)"
   (chartClick)="showCountryData($event)"
+  class="overflow-hidden !h-full min-w-full"
 ></div>
-<ia-loading-spinner [show]="isLoading"></ia-loading-spinner>
+<schaeffler-loading-spinner *ngIf="isLoading"></schaeffler-loading-spinner>
 
 <div
-  class="continent-selection"
+  class="absolute right-10 top-40 flex flex-col"
   *transloco="let t; read: 'worldMap'"
-  fxLayout="column"
-  fxLayoutAlign="start"
 >
   <div
     *ngFor="let continent of continentButtons; trackBy: trackByFn"

@@ -1,26 +1,20 @@
-<div mat-dialog-title fxLayout="row" fxLayoutAlign="start center">
-  <h2 fxFlex>
+<div mat-dialog-title class="!flex flex-row">
+  <h2 class="flex-grow !text-dark !mt-0 !mr-0 !mb-4 !ml-1">
     {{ data?.title }}
   </h2>
-  <h2 fxFlexEnd>Total: {{ data?.total }}</h2>
+  <h2>Total: {{ data?.total }}</h2>
 </div>
 <!-- <h2 mat-dialog-title align="end">{{ data?.total }}</h2> -->
 <mat-dialog-content>
   <div
-    class="container"
-    fxLayout="column wrap"
-    fxLayoutAlign="space-evenly start"
+    class="flex flex-wrap flex-col content-start justify-evenly !max-h-[240px] overflow-x-auto overflow-y-hidden gap-2 py-2"
   >
     <div
-      class="employee"
-      fxFlex="50px"
-      fxLayout="row"
-      fxLayoutAlign="start center"
-      fxLayoutGap="16px"
+      class="w-[250px] flex flex-row gap-3 justify-start"
       *ngFor="let employee of data?.employees; trackBy: trackByFn"
     >
       <img src="assets/images/dummy.png" [alt]="employee" />
-      <div>{{ employee }}</div>
+      <div class="self-center">{{ employee }}</div>
     </div>
   </div>
 </mat-dialog-content>

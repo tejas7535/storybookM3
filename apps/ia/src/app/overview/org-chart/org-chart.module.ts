@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { TeamMemberDialogModule } from '../team-member-dialog/team-member-dialog.module';

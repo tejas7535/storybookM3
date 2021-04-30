@@ -5,11 +5,11 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
 import worldJson from '../../../assets/world.json';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { IdValue } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';

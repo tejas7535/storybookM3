@@ -4,9 +4,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { WorldMapComponent } from './world-map.component';

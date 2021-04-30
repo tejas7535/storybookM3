@@ -25,7 +25,6 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 @Component({
   selector: 'ia-filter-section',
   templateUrl: './filter-section.component.html',
-  styleUrls: ['./filter-section.component.scss'],
 })
 export class FilterSectionComponent implements OnInit {
   orgUnits$: Observable<Filter>;

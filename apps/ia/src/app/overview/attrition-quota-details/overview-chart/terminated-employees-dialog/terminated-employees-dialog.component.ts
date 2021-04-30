@@ -6,7 +6,6 @@ import { TerminatedEmployee } from '../../../../shared/models';
 @Component({
   selector: 'ia-terminated-employees-dialog',
   templateUrl: './terminated-employees-dialog.component.html',
-  styleUrls: ['./terminated-employees-dialog.component.scss'],
 })
 export class TerminatedEmployeesDialogComponent {
   constructor(

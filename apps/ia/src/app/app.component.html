@@ -1,6 +1,6 @@
 <schaeffler-header
   [platformTitle]="title"
-  class="full-height"
+  class="h-full overflow-hidden"
   *ngIf="getIsLoggedIn$ | ngrxPush; else loading"
 >
   <schaeffler-user-menu
@@ -10,13 +10,14 @@
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
 
-  <div class="site-content">
+  <div class="flex flex-col h-full">
     <ia-filter-section></ia-filter-section>
 
     <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t; read: 'tabs'">
       <a
         *ngFor="let tab of tabs; trackBy: trackByFn"
         mat-tab-link
+        class="!text-subtitle-2"
         routerLinkActive
         #rla="routerLinkActive"
         [routerLink]="tab.path"
@@ -25,21 +26,12 @@
         >{{ t(tab.label) | uppercase }}</a
       >
     </nav>
-    <div class="tab-content">
+    <div class="flex flex-col overflow-y-auto flex-grow p-4 bg-lightBg">
       <router-outlet></router-outlet>
     </div>
   </div>
 </schaeffler-header>
 
 <ng-template #loading>
-  <div class="progress-spinner-wrapper">
-    <mat-progress-spinner
-      color="primary"
-      mode="indeterminate"
-      diameter="40"
-      value="50"
-      class="progress-spinner"
-    >
-    </mat-progress-spinner>
-  </div>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

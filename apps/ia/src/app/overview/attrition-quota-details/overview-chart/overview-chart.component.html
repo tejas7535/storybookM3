@@ -1,14 +1,14 @@
-<div fxLayout="row" id="container">
-  <div id="chart-container" fxFlex>
-    <div
-      echarts
-      [options]="options"
-      (chartInit)="onChartInit($event)"
-      (chartClick)="onChartClick($event)"
-    ></div>
-  </div>
+<div class="bg-white w-full grid grid-cols-4 h-[400px]">
+  <div
+    class="col-span-3"
+    echarts
+    [options]="options"
+    (chartInit)="onChartInit($event)"
+    (chartClick)="onChartClick($event)"
+  ></div>
+
   <ia-overview-chart-legend
-    fxFlex="400px"
+    class="pt-10"
     [series]="chartSeries"
     (toggleSeries)="toggleChartSeries($event)"
   ></ia-overview-chart-legend>
