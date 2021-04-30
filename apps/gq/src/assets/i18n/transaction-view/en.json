@@ -1,5 +1,19 @@
 {
   "header": {
     "title": "GQ price"
+  },
+  "transactions": {
+    "title": "Comparable transactions",
+    "table": {
+      "customerName": "Customer",
+      "materialDescription": "Material Desc.",
+      "price": "Net Price",
+      "quantity": "Quantity",
+      "profitMargin": "GPI",
+      "salesIndication": "Data Source",
+      "year": "Year",
+      "country": "Country",
+      "customerId": "Customer Number"
+    }
   }
 }

@@ -1,1 +1,20 @@
-<schaeffler-under-construction></schaeffler-under-construction>
+<div class="container" *transloco="let t; read: 'transactionView.transactions'">
+  <div class="title">{{ t('title') }}</div>
+  <div class="table-container">
+    <ag-grid-angular
+      class="ag-theme-material"
+      [columnDefs]="columnDefs"
+      [defaultColDef]="defaultColumnDefs"
+      [rowData]="rowData"
+      [modules]="modules"
+      [context]="tableContext"
+      (columnMoved)="onColumnChange($event)"
+      (sortChanged)="onColumnChange($event)"
+      (gridReady)="onGridReady($event)"
+      (firstDataRendered)="onFirstDataRendered($event)"
+      skipHeaderOnAutoSizre="true"
+      valueCache
+      animateRows
+    ></ag-grid-angular>
+  </div>
+</div>

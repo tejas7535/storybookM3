@@ -10,6 +10,7 @@ import {
   AddQuotationDetailsRequest,
   UpdateQuotationDetail,
 } from '../../../../core/store/reducers/process-case/models';
+import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
 import { Quotation } from '../../../models';
 import { QuotationDetail } from '../../../models/quotation-detail';
 
@@ -18,6 +19,7 @@ import { QuotationDetail } from '../../../models/quotation-detail';
 })
 export class QuotationDetailsService {
   private readonly PATH_QUOTATION_DETAILS = 'quotation-details';
+  private readonly PATH_TRANSACTIONS = 'comparable-transactions';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -44,5 +46,11 @@ export class QuotationDetailsService {
     quotationDetails: UpdateQuotationDetail[]
   ): Observable<QuotationDetail[]> {
     return this.dataService.put(this.PATH_QUOTATION_DETAILS, quotationDetails);
+  }
+
+  public getTransactions(gqPositionId: string): Observable<Transaction[]> {
+    const path = `${this.PATH_QUOTATION_DETAILS}/${gqPositionId}/${this.PATH_TRANSACTIONS}`;
+
+    return this.dataService.getAll(path);
   }
 }

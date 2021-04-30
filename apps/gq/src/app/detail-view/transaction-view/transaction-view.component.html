@@ -1,6 +1,12 @@
-<div class="container" *ngIf="gqPrice$ | ngrxPush as price; else loading">
-  <mat-card class="p-t-0" *transloco="let t; read: 'transactionView.header'">
-    <gq-case-header showOfferSlider="false">
+<div class="container" *ngIf="!(quotationLoading$ | ngrxPush); else loading">
+  <mat-card
+    class="p-t-0 p-b-0"
+    *transloco="let t; read: 'transactionView.header'"
+  >
+    <gq-case-header
+      showOfferSlider="false"
+      *ngIf="gqPrice$ | ngrxPush as price"
+    >
       <span
         >{{ t('title') | uppercase }} {{ price }}
         {{ currency$ | ngrxPush }}</span
@@ -11,12 +17,21 @@
   <div class="content" fxLayout="row" fxLayoutAlign="space-between none">
     <div fxFlex="50%">
       <mat-card>
-        <gq-transparency-graph></gq-transparency-graph>
+        <gq-transparency-graph
+          *ngIf="!(transactionsLoading$ | ngrxPush); else loading"
+        ></gq-transparency-graph>
       </mat-card>
     </div>
     <div fxFlex="50%">
       <mat-card>
-        <gq-comparable-transactions></gq-comparable-transactions>
+        <gq-comparable-transactions
+          *ngIf="
+            (translationsLoaded$ | ngrxPush) &&
+              !(transactionsLoading$ | ngrxPush);
+            else loading
+          "
+          [rowData]="transactions$ | ngrxPush"
+        ></gq-comparable-transactions>
       </mat-card>
     </div>
   </div>
