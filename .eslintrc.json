@@ -27,7 +27,8 @@
         "airbnb-typescript/base",
         "plugin:@nrwl/nx/typescript",
         "plugin:jest/recommended",
-        "plugin:prettier/recommended"
+        "plugin:prettier/recommended",
+        "plugin:ngrx/recommended"
       ],
       "parserOptions": { "project": "./tsconfig.base.json" },
       "rules": {
