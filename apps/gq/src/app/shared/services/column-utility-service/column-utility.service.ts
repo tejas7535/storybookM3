@@ -6,6 +6,7 @@ import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { MaterialTransformPipe } from '../../pipes/material-transform/material-transform.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
 import { HelperService } from '../helper-service/helper-service.service';
+import { PriceService } from '../price-service/price.service';
 import { ColumnFields } from './column-fields.enum';
 
 @Injectable({
@@ -54,7 +55,9 @@ export class ColumnUtilityService {
   }
 
   static percentageFormatter(data: ValueFormatterParams): string {
-    return HelperService.transformPercentage(data.value);
+    return HelperService.transformPercentage(
+      PriceService.roundToTwoDecimals(data.value)
+    );
   }
 
   static infoComparator(info1: any, info2: any): number {

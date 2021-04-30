@@ -1,0 +1,33 @@
+.container {
+  display: flex;
+  flex: 1;
+  flex-flow: column;
+  height: 100%;
+
+  .title {
+    font-family: Roboto;
+    font-size: 20px;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+  .table-container {
+    flex: 1;
+    margin-top: 16px;
+    ag-grid-angular {
+      height: 100%;
+    }
+  }
+}
+::ng-deep ag-grid-angular {
+  .ag-root-wrapper-body {
+    border: #e2e2e2 1px solid;
+    border-radius: 5px;
+    box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2),
+      0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+  }
+
+  .ag-status-bar {
+    border: none !important;
+    padding-left: 0 !important;
+  }
+}

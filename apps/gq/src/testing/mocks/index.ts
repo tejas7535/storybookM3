@@ -7,5 +7,7 @@ export * from './quotation-state.mock';
 export * from './quotation-identifier.mock';
 export * from './margin-detail.mock';
 export * from './plant.mock';
+export * from './transaction.mock';
 export * from './view-cases-state.mock';
 export * from './view-quotation.mock';
+export * from './transactions-state.mock';

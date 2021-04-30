@@ -10,6 +10,7 @@ import {
 import { environment } from '../../../../environments/environment';
 import * as fromCase from './create-case/create-case.reducer';
 import * as fromProcessCase from './process-case/process-case.reducer';
+import * as fromTransactions from './transactions/transactions.reducer';
 import * as fromViewCases from './view-cases/view-cases.reducer';
 
 export interface RouterStateUrl {
@@ -23,6 +24,7 @@ export interface AppState {
   case: fromCase.CaseState;
   processCase: fromProcessCase.ProcessCaseState;
   viewCases: fromViewCases.ViewCasesState;
+  transactions: fromTransactions.TransactionsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -30,6 +32,7 @@ export const reducers: ActionReducerMap<AppState> = {
   case: fromCase.createCaseReducer,
   processCase: fromProcessCase.processCaseReducer,
   viewCases: fromViewCases.viewCasesReducer,
+  transactions: fromTransactions.transactionsReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production
@@ -48,6 +51,9 @@ export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 
 export const getViewCasesState = createFeatureSelector<fromViewCases.ViewCasesState>(
   'viewCases'
+);
+export const getTransactionsState = createFeatureSelector<fromTransactions.TransactionsState>(
+  'transactions'
 );
 
 export class CustomSerializer

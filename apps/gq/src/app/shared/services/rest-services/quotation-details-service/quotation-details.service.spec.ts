@@ -112,4 +112,18 @@ describe('QuotationDetailsService', (): void => {
       req.flush(quotationDetails);
     });
   });
+  describe('getTransactions', () => {
+    test('should call', () => {
+      const gqPositionId = '1234';
+      service
+        .getTransactions(gqPositionId)
+        .subscribe((res) => expect(res).toEqual([]));
+
+      const req = httpMock.expectOne(
+        `/${service['PATH_QUOTATION_DETAILS']}/${gqPositionId}/${service['PATH_TRANSACTIONS']}`
+      );
+      expect(req.request.method).toBe(HttpMethod.GET);
+      req.flush(gqPositionId);
+    });
+  });
 });
