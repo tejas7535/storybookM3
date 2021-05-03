@@ -1,11 +1,15 @@
 <div
-  class="container"
+  class="h-full"
   fxLayout="column"
   fxLayoutAlign="start center"
   fxLayoutGap="20px"
   *ngIf="quotation$ | ngrxPush as quotation"
 >
-  <gq-case-header showCustomerHeader="true" showOfferSlider="true">
+  <gq-case-header
+    showCustomerHeader="true"
+    showOfferSlider="true"
+    class="m-t-10"
+  >
     <mat-icon
       fontSet="schaeffler-icons"
       fontIcon="icon-cart"

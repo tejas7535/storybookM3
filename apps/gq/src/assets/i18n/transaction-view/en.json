@@ -1,6 +1,6 @@
 {
   "header": {
-    "title": "GQ price"
+    "title": "GQ Price"
   },
   "transactions": {
     "title": "Comparable transactions",
@@ -15,5 +15,21 @@
       "country": "Country",
       "customerId": "Customer Number"
     }
+  },
+  "graph": {
+    "title": "Margin Volume Graph",
+    "salesIndication": {
+      "invoice": "Invoice",
+      "lostQuote": "Lost Quote",
+      "order": "Order"
+    },
+    "tooltip": {
+      "quantity": "Quantity",
+      "profitMargin": "Profit Margin",
+      "price": "Price",
+      "year": "Year"
+    },
+    "x-axis": "Quantity",
+    "y-axis": "Profit Margin %"
   }
 }

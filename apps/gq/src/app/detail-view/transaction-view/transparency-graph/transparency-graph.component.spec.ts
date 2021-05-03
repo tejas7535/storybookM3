@@ -1,4 +1,5 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
@@ -14,6 +15,9 @@ describe('TransparencyGraphComponent', () => {
     imports: [
       UnderConstructionModule,
       provideTranslocoTestingModule({ en: {} }),
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
     ],
   });
 

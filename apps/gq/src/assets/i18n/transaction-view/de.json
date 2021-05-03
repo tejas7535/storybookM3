@@ -15,5 +15,21 @@
       "country": "Land",
       "customerId": "Kundennummer"
     }
+  },
+  "graph": {
+    "title": "Margen-Mengen Graph",
+    "salesIndication": {
+      "invoice": "Faktura",
+      "lostQuote": "Lost Quote",
+      "order": "Auftrag"
+    },
+    "tooltip": {
+      "quantity": "Menge",
+      "profitMargin": "Marge",
+      "price": "Nettopreis",
+      "year": "Jahr"
+    },
+    "x-axis": "Menge",
+    "y-axis": "Marge %"
   }
 }

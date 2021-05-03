@@ -1,0 +1,210 @@
+import { Injectable } from '@angular/core';
+
+import { translate } from '@ngneat/transloco';
+import {
+  SeriesOption,
+  TooltipComponentOption,
+  XAXisComponentOption,
+  YAXisComponentOption,
+} from 'echarts';
+
+import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { DataPoint } from '../models/data-point.model';
+import { ToolTipItems } from '../models/tooltip-items.enum';
+import { TOOLTIP_CONFIG } from './chart.config';
+import { DataPointColor } from './data-point-color.enum';
+
+@Injectable({
+  providedIn: 'root',
+})
+export class ChartConfigService {
+  INDEX_X_AXIS = 0;
+  INDEX_Y_AXIS = 1;
+
+  X_AXIS_CONFIG: XAXisComponentOption = {
+    type: 'value',
+    splitLine: {
+      lineStyle: {
+        type: 'dashed',
+      },
+    },
+    axisLabel: {
+      show: true,
+    },
+    name: translate(`transactionView.graph.x-axis`),
+    nameLocation: 'middle',
+    nameGap: 40,
+  };
+
+  Y_AXIS_CONFIG: YAXisComponentOption = {
+    splitLine: {
+      lineStyle: {
+        type: 'dashed',
+      },
+    },
+    name: translate(`transactionView.graph.y-axis`),
+    nameGap: 20,
+    max: 100,
+  };
+
+  getLineForToolTipFormatter = (
+    salesIndication: SalesIndication,
+    translateKey: string,
+    data: number | string
+  ): string => {
+    const item = `<span
+    style ="display: inline-block;
+    margin-right: 10px;
+    border-radius: 10px;
+    width: 10px;
+    height: 10px;
+    background-color: ${this.getDataPointStyle(salesIndication)};"
+    ></span><span style="font-size: 14px">${translate(
+      `transactionView.graph.tooltip.${translateKey}`
+    )}: </span><span style="font-weight: 600">${data}</span><br/>`;
+
+    return item;
+  };
+
+  getValueForToolTipItem = (
+    item: ToolTipItems,
+    data: DataPoint
+  ): string | number => {
+    switch (item) {
+      // EUR will be replaced by customer currency
+      case ToolTipItems.PRICE:
+        return `${data.price} EUR`;
+      case ToolTipItems.YEAR:
+        return data.year;
+      case ToolTipItems.QUANTITY:
+        return data.value[this.INDEX_X_AXIS];
+      case ToolTipItems.PROFIT_MARGIN:
+        return `${data.value[this.INDEX_Y_AXIS]}%`;
+      default:
+        return ``;
+    }
+  };
+
+  tooltipFormatter = (param: any): string => {
+    const data: DataPoint = param.data;
+    const listedItems = [
+      ToolTipItems.QUANTITY,
+      ToolTipItems.PROFIT_MARGIN,
+      ToolTipItems.PRICE,
+      ToolTipItems.YEAR,
+    ];
+    let items = `${data.customerName}<br>`;
+
+    listedItems.forEach((item) => {
+      const value = this.getValueForToolTipItem(item, data);
+      items += this.getLineForToolTipFormatter(
+        data.salesIndication,
+        item,
+        value
+      );
+    });
+
+    return items;
+  };
+
+  getToolTipConfig = (): TooltipComponentOption => ({
+    ...TOOLTIP_CONFIG,
+    formatter: this.tooltipFormatter,
+  });
+
+  calculateAxisMax = (datapoints: DataPoint[], index: number): number => {
+    // Get current max axis point
+    const maxPoint = Math.max.apply(
+      Math,
+      datapoints.map((o) => o.value[index])
+    );
+    // Get current steps (there are always six lines)
+    const step = Math.floor(maxPoint / 6);
+    // Add an additional step
+    const max = Math.floor(maxPoint + step);
+
+    return max;
+  };
+
+  getXAxisConfig = (datapoints: DataPoint[]): XAXisComponentOption => {
+    const max = this.calculateAxisMax(datapoints, this.INDEX_X_AXIS);
+
+    return { ...this.X_AXIS_CONFIG, max };
+  };
+
+  getSeriesConfig = (data: DataPoint[]): SeriesOption[] => {
+    const series: SeriesOption[] = [];
+    const type = 'scatter';
+
+    const options = [
+      SalesIndication.ORDER,
+      SalesIndication.INVOICE,
+      SalesIndication.LOST_QUOTE,
+    ];
+
+    options.forEach((option) => {
+      const optionData = data.filter((e) => e.salesIndication === option);
+      if (optionData.length > 0) {
+        series.push({
+          type,
+          data: optionData,
+          color: this.getDataPointStyle(option),
+          name: this.getDataPointName(option),
+        });
+      }
+    });
+
+    return series;
+  };
+
+  buildDataPoints = (transactions: Transaction[]): DataPoint[] => {
+    const dataPoints: DataPoint[] = [];
+
+    transactions.forEach((transaction) => {
+      dataPoints.push({
+        value: [
+          transaction.quantity,
+          PriceService.roundToTwoDecimals(transaction.profitMargin),
+        ],
+        salesIndication: transaction.salesIndication,
+        year: transaction.year,
+        price: PriceService.roundToTwoDecimals(transaction.price),
+        customerName: transaction.customerName,
+      });
+    });
+
+    return dataPoints;
+  };
+
+  getDataPointStyle = (salesIndication: SalesIndication): DataPointColor => {
+    if (salesIndication === SalesIndication.INVOICE) {
+      return DataPointColor.INVOICE;
+    }
+    if (salesIndication === SalesIndication.LOST_QUOTE) {
+      return DataPointColor.LOST_QUOTE;
+    }
+    if (salesIndication === SalesIndication.ORDER) {
+      return DataPointColor.ORDER;
+    }
+
+    // default
+    return undefined;
+  };
+
+  getDataPointName = (salesIndication: SalesIndication): string => {
+    let translateString = `transactionView.graph.salesIndication.`;
+    if (salesIndication === SalesIndication.INVOICE) {
+      translateString += 'invoice';
+    }
+    if (salesIndication === SalesIndication.ORDER) {
+      translateString += `order`;
+    }
+    if (salesIndication === SalesIndication.LOST_QUOTE) {
+      translateString += `lostQuote`;
+    }
+
+    return translate(translateString);
+  };
+}

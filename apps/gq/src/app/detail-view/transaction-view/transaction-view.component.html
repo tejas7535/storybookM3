@@ -1,16 +1,10 @@
 <div class="container" *ngIf="!(quotationLoading$ | ngrxPush); else loading">
-  <mat-card
-    class="p-t-0 p-b-0"
-    *transloco="let t; read: 'transactionView.header'"
-  >
+  <mat-card *transloco="let t; read: 'transactionView.header'">
     <gq-case-header
       showOfferSlider="false"
       *ngIf="gqPrice$ | ngrxPush as price"
     >
-      <span
-        >{{ t('title') | uppercase }} {{ price }}
-        {{ currency$ | ngrxPush }}</span
-      >
+      <span>{{ t('title') }} {{ price }} {{ currency$ | ngrxPush }}</span>
     </gq-case-header>
   </mat-card>
 
@@ -19,6 +13,7 @@
       <mat-card>
         <gq-transparency-graph
           *ngIf="!(transactionsLoading$ | ngrxPush); else loading"
+          [transactions]="graphTransactions$ | ngrxPush"
         ></gq-transparency-graph>
       </mat-card>
     </div>

@@ -1,1 +1,6 @@
-<schaeffler-under-construction></schaeffler-under-construction>
+<div *transloco="let t; read: 'transactionView.graph'" class="h-full">
+  <div class="text-[20px] font-semibold mb-[10px] opacity-60 font-body">
+    {{ t('title') }}
+  </div>
+  <div echarts class="h-full" [options]="options"></div>
+</div>

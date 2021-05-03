@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import {
   getCustomerCurrency,
   getGqPriceOfSelectedQuotationDetail,
+  getGraphTransactions,
   getTransactions,
   getTransactionsLoading,
   isQuotationLoading,
@@ -27,6 +28,7 @@ export class TransactionViewComponent implements OnInit {
   transactions$: Observable<Transaction[]>;
   transactionsLoading$: Observable<boolean>;
   translationsLoaded$: Observable<boolean>;
+  graphTransactions$: Observable<Transaction[]>;
 
   constructor(
     private readonly store: Store,
@@ -42,5 +44,6 @@ export class TransactionViewComponent implements OnInit {
       .pipe(map(() => true));
     this.transactions$ = this.store.select(getTransactions);
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
+    this.graphTransactions$ = this.store.select(getGraphTransactions);
   }
 }

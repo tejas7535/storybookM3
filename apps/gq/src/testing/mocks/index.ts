@@ -11,3 +11,4 @@ export * from './transaction.mock';
 export * from './view-cases-state.mock';
 export * from './view-quotation.mock';
 export * from './transactions-state.mock';
+export * from './data-point.mock';
