@@ -8,6 +8,7 @@ import {
 } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { text } from '@storybook/addon-knobs';
 import READMEMd from '../../../empty-states/src/lib/under-construction/README.md';
 
 const moduleMetadata = {
@@ -33,4 +34,12 @@ export default {
 
 export const primary = () => ({
   ...baseComponent,
+});
+
+export const withCustomText = () => ({
+  ...baseComponent,
+  props: {
+    title: text('title', 'Incoming feature!'),
+    message: text('message', 'This feature will come soon.'),
+  },
 });

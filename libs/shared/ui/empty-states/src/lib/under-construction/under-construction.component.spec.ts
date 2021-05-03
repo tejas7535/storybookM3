@@ -1,5 +1,8 @@
+// tslint:disable: no-default-import
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+import enJson from './i18n/en.json';
 import { UnderConstructionComponent } from './under-construction.component';
 
 describe('UnderConstructionComponent', () => {
@@ -8,14 +11,33 @@ describe('UnderConstructionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: UnderConstructionComponent,
-    imports: [],
+    imports: [
+      provideTranslocoTestingModule({ 'under-construction/en': enJson }),
+    ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
   });
-  it('should create', () => {
+
+  it('should create component with default title and message', () => {
     expect(component).toBeTruthy();
+    expect(spectator.query('.schaeffler-text')).toHaveTextContent(
+      'underConstructionMessage'
+    );
+    expect(spectator.query('h4')).toHaveTextContent('underConstruction');
+  });
+
+  it('should create component with custom title and message', () => {
+    component.title = 'Upcoming feature!';
+    component.message = 'This feature will come soon.';
+    spectator.detectChanges();
+
+    expect(component).toBeTruthy();
+    expect(spectator.query('.schaeffler-text')).toHaveTextContent(
+      'This feature will come soon.'
+    );
+    expect(spectator.query('h4')).toHaveTextContent('Upcoming feature!');
   });
 });
