@@ -18,4 +18,17 @@ describe('Transactions Selector', () => {
       ).toEqual(fakeState.transactionsLoading);
     });
   });
+  describe('getGraphTransactions', () => {
+    test('should return transactions for graph', () => {
+      const transaction1 = { profitMargin: 10 };
+      const transaction2 = { profitMargin: -10 };
+      const state = {
+        ...fakeState,
+        transactions: [transaction1, transaction2],
+      };
+      expect(
+        transactionsSelectors.getGraphTransactions.projector(state)
+      ).toEqual([transaction1]);
+    });
+  });
 });

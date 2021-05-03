@@ -1,3 +1,5 @@
+import { SalesIndication } from './sales-indication.enum';
+
 export interface Transaction {
   identifier: number;
   customerName: string;
@@ -7,6 +9,6 @@ export interface Transaction {
   price: number;
   quantity: number;
   profitMargin: number;
-  salesIndication: string;
+  salesIndication: SalesIndication;
   year: string;
 }

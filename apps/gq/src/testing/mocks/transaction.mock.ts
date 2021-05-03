@@ -1,3 +1,4 @@
+import { SalesIndication } from '../../app/core/store/reducers/transactions/models/sales-indication.enum';
 import { Transaction } from '../../app/core/store/reducers/transactions/models/transaction.model';
 
 export const TRANSACTION_MOCK: Transaction = {
@@ -9,6 +10,6 @@ export const TRANSACTION_MOCK: Transaction = {
   price: 10,
   profitMargin: 0.5,
   quantity: 100,
-  salesIndication: 'Invoice',
+  salesIndication: SalesIndication.INVOICE,
   year: '2020',
 };

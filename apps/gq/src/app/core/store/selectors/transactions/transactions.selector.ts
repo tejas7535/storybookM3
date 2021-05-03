@@ -13,3 +13,12 @@ export const getTransactionsLoading = createSelector(
   getTransactionsState,
   (state: TransactionsState): boolean => state.transactionsLoading
 );
+
+export const getGraphTransactions = createSelector(
+  getTransactionsState,
+  (state: TransactionsState): Transaction[] =>
+    state.transactions.filter(
+      (transaction) =>
+        transaction.profitMargin > 0 && transaction.profitMargin < 100
+    )
+);
