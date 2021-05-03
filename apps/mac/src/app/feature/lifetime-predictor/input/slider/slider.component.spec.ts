@@ -100,4 +100,25 @@ describe('SliderComponent', () => {
     expect(component.validate).toHaveBeenCalled();
     expect(component.control.formControl.value).toEqual(10);
   });
+
+  it('should patch form control value on slider position change', () => {
+    component.control.min = 1;
+    component['logScale'] = 1;
+    component.control.formControl.markAsDirty = jest.fn();
+    component.control.formControl.patchValue = jest.fn();
+
+    component.patchLogarithmicValue(1);
+    expect(component.control.formControl.markAsDirty).toHaveBeenCalled();
+    expect(component.control.formControl.patchValue).toHaveBeenCalledWith(3);
+  });
+
+  it('should patch slider control on manual input', () => {
+    component.control.min = 1;
+    component.logSliderControl.patchValue = jest.fn();
+
+    component.patchLogarithmicSlider(1);
+    expect(component.logSliderControl.patchValue).toHaveBeenCalledWith(0, {
+      emitEvent: false,
+    });
+  });
 });

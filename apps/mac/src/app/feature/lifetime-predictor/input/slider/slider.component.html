@@ -30,6 +30,7 @@
   </ng-template>
   <div fxLayout="row" fxLayoutAlign="space-between top">
     <mat-slider
+      *ngIf="!control.logarithmic; else logarithmicSlider"
       fxFlex="80"
       [formControl]="control.formControl"
       [max]="control.max"
@@ -39,8 +40,20 @@
         control.formControl.patchValue($event.value, { emitEvent: false })
       "
     ></mat-slider>
+    <ng-template #logarithmicSlider>
+      <mat-slider
+        fxFlex="80"
+        [formControl]="logSliderControl"
+        [max]="100"
+        [min]="0"
+        [step]="1"
+        (input)="patchLogarithmicValue($event.value)"
+      ></mat-slider>
+    </ng-template>
+
     <mat-form-field fxFlex="20">
       <input
+        #inputControl
         matInput
         type="number"
         [formControl]="control.formControl"

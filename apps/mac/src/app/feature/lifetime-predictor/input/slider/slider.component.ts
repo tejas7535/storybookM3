@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewEncapsulation } from '@angular/core';
-import { AbstractControl, ValidatorFn } from '@angular/forms';
+import { AbstractControl, FormControl, ValidatorFn } from '@angular/forms';
 
 import { SliderControl } from './slider.model';
 
@@ -15,7 +15,12 @@ export class SliderComponent implements OnInit {
 
   public formOptions = { onlySelf: true, emitEvent: false };
 
+  public logSliderControl = new FormControl();
+  private logScale: number;
+
   public ngOnInit(): void {
+    this.logScale =
+      (Math.log(this.control.max) - Math.log(this.control.min)) / 100;
     const validators = [this.isValid(this.control)];
     if (this.control.formControl.validator) {
       validators.push(this.control.formControl.validator);
@@ -30,6 +35,21 @@ export class SliderComponent implements OnInit {
     } else {
       this.control.disabled.subscribe((disabled) => this.setDisabled(disabled));
     }
+  }
+
+  public patchLogarithmicValue(position: number): void {
+    const value = Math.round(
+      Math.exp((position - 0) * this.logScale + Math.log(this.control.min))
+    );
+    this.control.formControl.markAsDirty();
+    this.control.formControl.patchValue(value);
+  }
+
+  public patchLogarithmicSlider(value: number): void {
+    const position = Math.round(
+      (Math.log(value) - Math.log(this.control.min)) / this.logScale
+    );
+    this.logSliderControl.patchValue(position, { emitEvent: false });
   }
 
   /**
@@ -60,6 +80,10 @@ export class SliderComponent implements OnInit {
       this.control.formControl.patchValue(
         value - this.moduloDecimals(value, this.control.step)
       );
+    }
+
+    if (this.control.logarithmic) {
+      this.patchLogarithmicSlider(this.control.formControl.value);
     }
   }
 
