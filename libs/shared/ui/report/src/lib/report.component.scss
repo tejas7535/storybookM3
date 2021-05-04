@@ -1,0 +1,72 @@
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+.material-icons {
+  font-family: 'Material Icons' !important;
+}
+
+mat-expansion-panel {
+  @apply border border-t-0;
+
+  &.mat-expansion-panel-spacing,
+  &.mat-expansion-panel:first-of-type {
+    @apply border-t;
+  }
+}
+
+.mat-expansion-panel-spacing
+  + mat-expansion-panel.mat-expansion-panel.mat-elevation-z0.border-veryLight {
+  @apply border-t rounded-t-[4px];
+}
+
+mat-card-content {
+  h2 {
+    @apply text-h6 font-medium mt-6;
+  }
+
+  h6 {
+    @apply text-caption;
+  }
+
+  .mat-expansion-indicator:after {
+    @apply text-light;
+  }
+}
+
+::ng-deep mat-card-header .mat-card-header-text {
+  @apply m-0;
+}
+
+table {
+  @apply text-caption text-dark table-auto;
+
+  @screen sm {
+    @apply mx-0 w-full table-fixed;
+  }
+
+  th {
+    @apply font-normal;
+  }
+
+  tr {
+    @apply border border-r-0 border-l-0 border-veryLight;
+  }
+
+  td {
+    @apply p-3;
+  }
+
+  tbody tr td:first-child {
+    @apply bg-primary bg-opacity-8 text-right;
+  }
+
+  colgroup col:first-child,
+  tbody tr td:first-child {
+    @screen sm {
+      @apply w-24;
+    }
+  }
+}

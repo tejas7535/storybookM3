@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Report, Result } from './result.model';
@@ -31,23 +31,7 @@ export class ResultPageService {
             .pop().href;
 
           return { htmlReportUrl, pdfReportUrl };
-        }),
-        mergeMap((reportUrls) => {
-          const { htmlReportUrl, pdfReportUrl } = reportUrls;
-
-          return this.getReport(htmlReportUrl).pipe(
-            map((htmlReport) => ({
-              pdfReportUrl,
-              htmlReport,
-            }))
-          );
         })
       );
-  }
-
-  getReport(htmlReportUrl: string): Observable<any> {
-    return this.http
-      .get<{ data: string; _links: Report[] }>(htmlReportUrl)
-      .pipe(map((response) => response.data));
   }
 }

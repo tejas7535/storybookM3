@@ -38,4 +38,8 @@ export class ResultPageComponent {
 
     this.result$ = this.resultPageService.getResult(formProperties);
   }
+
+  resetWizard(): void {
+    console.log('go to step first possible step');
+  }
 }

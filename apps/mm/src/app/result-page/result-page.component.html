@@ -1,15 +1,36 @@
 <ng-container *ngIf="active">
-  <h4>Result Page</h4>
+  <ng-container *transloco="let t; read: 'result'">
+    <h5>{{ t('title') }}</h5>
+    <span class="subtitle-1">Bearing ID (todo)</span>
 
-  <div *ngIf="result$ | ngrxPush as result">
-    <a
-      mat-raised-button
-      type="button"
-      target="_blank"
-      [href]="result.pdfReportUrl"
+    <schaeffler-report
+      *ngIf="result$ | ngrxPush as result; else loading"
+      [title]="'Bearing ID (todo)'"
+      [subtitle]="'Report ID (todo)'"
+      [displayReport]="result.htmlReportUrl"
+      [downloadReport]="result.pdfReportUrl"
     >
-      Download
-    </a>
-    <div [innerHtml]="result.htmlReport"></div>
-  </div>
+      <div class="flex flex-col md:flex-row">
+        <a
+          mat-raised-button
+          color="primary"
+          class="text-button uppercase flex-grow m-2"
+          [href]="result.pdfReportUrl"
+        >
+          {{ t('downloadReport') }}
+        </a>
+        <button
+          mat-button
+          class="text-button uppercase text-primary flex-grow m-2"
+          (click)="resetWiazrd()"
+        >
+          {{ t('startNewCalculation') }}
+        </button>
+      </div>
+    </schaeffler-report>
+
+    <ng-template #loading>
+      <div>loading... (todo)</div>
+    </ng-template>
+  </ng-container>
 </ng-container>

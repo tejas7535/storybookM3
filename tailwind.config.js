@@ -78,6 +78,12 @@ module.exports = {
   mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
+    borderColor: (theme) => ({
+      ...theme('colors'),
+      dark: 'rgba(0,0,0,0.87)',
+      light: 'rgba(0,0,0,0.60)',
+      veryLight: 'rgba(0,0,0,0.38)',
+    }),
     colors: {
       ...baseColors,
       ...greys,
@@ -168,7 +174,11 @@ module.exports = {
       lg: '1280px',
       xl: '1920px',
     },
-    extend: {},
+    extend: {
+      opacity: {
+        8: '0.08',
+      },
+    },
   },
   variants: {
     extend: {},

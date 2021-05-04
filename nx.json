@@ -173,6 +173,10 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
+    "shared-ui-report": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
     "shared-ui-dropdown-input": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]

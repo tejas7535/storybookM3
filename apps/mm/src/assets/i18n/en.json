@@ -5,5 +5,10 @@
     "decimalSeparatorComma": "Comma",
     "decimalSeparatorPoint": "Point"
   },
+  "result": {
+    "title": "Report",
+    "downloadReport": "Download Report",
+    "startNewCalculation": "Start new Calculation"
+  },
   "test": "test en"
 }
