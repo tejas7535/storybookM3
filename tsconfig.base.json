@@ -81,6 +81,9 @@
       ],
       "@schaeffler/loading-spinner": [
         "libs/shared/ui/loading-spinner/src/index.ts"
+      ],
+      "@schaeffler/search-autocomplete": [
+        "libs/shared/ui/search-autocomplete/src/index.ts"
       ]
     },
     "resolveJsonModule": true,

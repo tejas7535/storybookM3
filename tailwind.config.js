@@ -1,6 +1,11 @@
 // const defaultTheme = require('tailwindcss/defaultTheme'); // will be used as soon as the theme is extended
 const plugin = require('tailwindcss/plugin');
 
+const darkGrey = 'rgba(0,0,0,0.87)';
+const mediumGrey = 'rgba(0,0,0,.6)';
+const lightGrey = 'rgba(0,0,0,0.38)';
+const veryLightGrey = 'rgba(0,0,0,0.11)';
+
 const baseColors = {
   primary: '#00893D',
   secondary: '#005f14',
@@ -24,9 +29,9 @@ const greys = {
 };
 
 const emphasis = {
-  highEmphasis: 'rgba(0,0,0,0.87)',
-  mediumEmphasis: 'rgba(0,0,0,.6)',
-  disabled: 'rgba(0,0,0,0.11)',
+  highEmphasis: darkGrey,
+  mediumEmphasis: mediumGrey,
+  disabled: veryLightGrey,
 };
 
 const scrollSnapUtilities = {
@@ -150,11 +155,12 @@ module.exports = {
       body: ['Roboto', 'sans-serif'],
     },
     textColor: {
-      dark: 'rgba(0,0,0,0.87)',
-      light: 'rgba(0,0,0,0.60)',
+      dark: darkGrey,
+      light: mediumGrey,
       primary: '#00893D',
       white: '#fff',
-      disabled: 'rgba(0,0,0,.38)',
+      disabled: lightGrey,
+      error: baseColors.error,
     },
     screens: {
       sm: '600px',

@@ -3,14 +3,11 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import {
-  MatAutocompleteModule,
-  MatAutocompleteSelectedEvent,
-} from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { environment } from '../../environments/environment';
 import { BearingSearchComponent } from './bearing-search.component';
@@ -28,8 +25,7 @@ describe('BearingSearchComponent', () => {
 
       ReactiveComponentModule,
 
-      MatAutocompleteModule,
-      MatInputModule,
+      SearchAutocompleteModule,
     ],
     declarations: [BearingSearchComponent],
   });
@@ -72,27 +68,11 @@ describe('BearingSearchComponent', () => {
     req.flush(mock);
   });
 
-  test('displayValue should return the option title', () => {
-    const mockOption = {
-      id: 'mockId',
-      title: 'mockTitle',
-    };
-
-    expect(component.displayValue(mockOption)).toEqual('mockTitle');
-  });
-
-  test('selectBearing should emit the bearing', () => {
-    // tslint:disable-next-line: no-object-literal-type-assertion
-    const mockEvent = {
-      option: {
-        value: {
-          id: 'mockAutoCompleteId',
-        },
-      },
-    } as MatAutocompleteSelectedEvent;
+  test('handleSelection should emit the bearing', () => {
+    const mockSelectionId = 'mockAutoCompleteId';
     const spy = jest.spyOn(component.bearing, 'emit');
 
-    component.selectBearing(mockEvent);
+    component.handleSelection(mockSelectionId);
 
     expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
   });
