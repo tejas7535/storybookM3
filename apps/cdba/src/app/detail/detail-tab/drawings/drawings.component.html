@@ -1,9 +1,59 @@
-<div class="table-container">
-  <cdba-drawings-table
-    [rowData]="drawings$ | ngrxPush"
-    [selectedNodeId]="selectedNodeId$ | ngrxPush"
-    [isLoading]="loading$ | ngrxPush"
-    [errorMessage]="errorMessage$ | ngrxPush"
-    (selectionChange)="selectDrawing($event)"
-  ></cdba-drawings-table>
+<div
+  fxFill
+  fxLayout="column"
+  fxLayoutAlign="space-between start"
+  *transloco="let t; read: 'drawings'"
+>
+  <h6 *ngIf="materialDesignation$ | ngrxPush" fxFlex="20px">
+    {{ t('title', { material: materialDesignation$ | ngrxPush }) }}
+  </h6>
+  <div fxFlex class="widget-content">
+    <cdba-loading-spinner *ngIf="loading$ | ngrxPush" show="true">
+    </cdba-loading-spinner>
+
+    <div
+      fxFill
+      fxLayout="column"
+      fxLayoutAlign="space-between center"
+      fxLayoutGap="20px"
+      *ngIf="(drawings$ | ngrxPush)?.length > 0"
+    >
+      <schaeffler-under-construction
+        fxFlex
+        [title]="t('upcomingPreviewFeatureTeaser')"
+        [message]="t('upcomingPreviewFeatureTeaserMessage')"
+      >
+      </schaeffler-under-construction>
+
+      <cdba-drawings-table
+        fxFlex
+        [rowData]="drawings$ | ngrxPush"
+        (selectionChange)="selectDrawing($event)"
+      ></cdba-drawings-table>
+    </div>
+
+    <div
+      fxFill
+      fxLayout="column"
+      fxLayoutAlign="center center"
+      *ngIf="(drawings$ | ngrxPush)?.length == 0 && !(loading$ | ngrxPush)"
+    >
+      <div fxLayout="row">
+        <div fxFlex="70" fxFlexOffset="15">
+          <img
+            src="/assets/images/no_drawings_empty_state.svg"
+            alt="No drawings found"
+          />
+          <div *transloco="let t; read: 'drawings'">
+            <h4 class="m-b-10">
+              {{ t('notFoundErrorTitle') }}
+            </h4>
+            <p>
+              {{ t('notFoundErrorMessage') }}
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

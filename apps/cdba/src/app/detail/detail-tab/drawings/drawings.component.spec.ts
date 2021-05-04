@@ -7,6 +7,9 @@ import { SharedModule } from '@cdba/shared';
 import { Drawing } from '@cdba/shared/models';
 import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { DrawingsTableModule } from './drawings-table/drawings-table.module';
 import { DrawingsComponent } from './drawings.component';
 
@@ -18,7 +21,13 @@ describe('DrawingsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: DrawingsComponent,
-    imports: [SharedModule, MockModule(DrawingsTableModule)],
+    imports: [
+      SharedModule,
+      MockModule(DrawingsTableModule),
+      LoadingSpinnerModule,
+      provideTranslocoTestingModule({ en: {} }),
+      UnderConstructionModule,
+    ],
     providers: [
       provideMockStore({
         initialState: {

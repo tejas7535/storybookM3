@@ -8,6 +8,7 @@ import {
   getDrawings,
   getDrawingsErrorMessage,
   getDrawingsLoading,
+  getMaterialDesignation,
   getNodeIdOfSelectedDrawing,
   selectDrawing,
 } from '@cdba/core/store';
@@ -20,6 +21,7 @@ import { Drawing } from '@cdba/shared/models';
   styleUrls: ['./drawings.component.scss'],
 })
 export class DrawingsComponent implements OnInit {
+  materialDesignation$: Observable<string>;
   drawings$: Observable<Drawing[]>;
   selectedNodeId$: Observable<string>;
   loading$: Observable<boolean>;
@@ -28,6 +30,7 @@ export class DrawingsComponent implements OnInit {
   public constructor(private readonly store: Store<DetailState>) {}
 
   ngOnInit(): void {
+    this.materialDesignation$ = this.store.pipe(select(getMaterialDesignation));
     this.drawings$ = this.store.pipe(select(getDrawings));
     this.selectedNodeId$ = this.store.pipe(select(getNodeIdOfSelectedDrawing));
     this.loading$ = this.store.pipe(select(getDrawingsLoading));

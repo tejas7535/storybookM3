@@ -58,6 +58,23 @@
         "costingVersion": "Costing Version",
         "rfqNumber": "RFQ Nummer"
       }
+    },
+    "drawings": {
+      "title": "Technische Zeichnungen: {{material}}",
+      "notFoundErrorMessage": "Für dieses Produkt konnten wir keine technischen Zeichnungen finden. Alternativ können Sie innerhalb von SAP mit der Transaktion CDESK nach Dokumenten suchen.",
+      "notFoundErrorTitle": "Wir konnten keine Zeichnungen finden.",
+      "upcomingPreviewFeatureTeaser": "Vorschaubild folgt",
+      "upcomingPreviewFeatureTeaserMessage": "Wir arbeiten an einer neuen Funktionalität um ein Vorschaubild anzuzeigen. Für die Übergangszeit können Sie die Zeichnungen herunterladen.",
+      "headers": {
+        "version": "Version",
+        "status": "Status",
+        "part": "Teil",
+        "date": "Datum",
+        "type": "Typ",
+        "documentNumber": "Dokumentennummer",
+        "actions": "Aktionen",
+        "filetype": "Format"
+      }
     }
   }
 }
