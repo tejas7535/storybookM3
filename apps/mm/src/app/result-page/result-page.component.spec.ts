@@ -2,7 +2,10 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { FormGroup } from '@angular/forms';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
+
+import { ReportModule } from '@schaeffler/report';
 
 import { ResultPageComponent } from './result-page.component';
 import { ResultPageService } from './result-page.service';
@@ -14,7 +17,12 @@ describe('PictureCardListComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ResultPageComponent,
-    imports: [ReactiveComponentModule, HttpClientTestingModule],
+    imports: [
+      ReactiveComponentModule,
+      HttpClientTestingModule,
+      TranslocoTestingModule,
+      ReportModule,
+    ],
     declarations: [ResultPageComponent],
     providers: [
       {

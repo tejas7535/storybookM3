@@ -382,7 +382,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -409,7 +409,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -1603,7 +1603,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -1632,7 +1632,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -1660,7 +1660,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -1994,7 +1994,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2023,7 +2023,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2051,7 +2051,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2396,7 +2396,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2425,7 +2425,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2453,7 +2453,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "10kb"
+                  "maximumError": "15kb"
                 }
               ]
             },
@@ -2972,6 +2972,67 @@
             "commands": [
               {
                 "command": "npm publish dist/libs/shared/ui/picture-card --tag latest"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-report": {
+      "projectType": "library",
+      "root": "libs/shared/ui/report",
+      "sourceRoot": "libs/shared/ui/report/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/report/tsconfig.lib.json",
+            "project": "libs/shared/ui/report/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/report/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/report/src/**/*.ts",
+              "libs/shared/ui/report/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/pircture-card/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/report"],
+          "options": {
+            "jestConfig": "libs/shared/ui/report/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/report"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/report --tag latest"
               }
             ]
           }

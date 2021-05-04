@@ -69,6 +69,7 @@
         "libs/shared/ui/footer-tailwind/src/index.ts"
       ],
       "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
+      "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
       "@schaeffler/dropdown-input": [
         "libs/shared/ui/dropdown-input/src/index.ts"
       ],

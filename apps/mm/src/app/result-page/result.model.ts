@@ -7,7 +7,7 @@ export interface Report {
 
 export interface Result {
   pdfReportUrl: string;
-  htmlReport: string;
+  htmlReportUrl: string;
 }
 
 export interface RawValueContent {
