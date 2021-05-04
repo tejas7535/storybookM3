@@ -1,0 +1,72 @@
+@import '~tailwindcss/base';
+@import '~tailwindcss/components';
+@import '~tailwindcss/utilities';
+
+:host {
+  ::ng-deep {
+    .mat-form-field {
+      &-infix {
+        @apply box-border border-border border rounded-md w-96 p-2 h-14 flex items-center;
+        transition: 0.3s ease-in-out border;
+      }
+
+      &-underline {
+        @apply hidden;
+      }
+
+      &-label {
+        @apply left-2 text-disabled text-subtitle-1 leading-6 mt-2;
+      }
+    }
+
+    .mat-focused {
+      .mat-form-field-infix {
+        @apply border-primary;
+      }
+    }
+  }
+
+  .autocomplete-icon {
+    .search,
+    .clear {
+      transition: 0.3s ease-in-out transform, 0.3s ease-in-out opacity;
+    }
+
+    &.search-icon {
+      .search,
+      .clear {
+        transform: translateY(0);
+      }
+      .clear {
+        @apply pointer-events-none opacity-0;
+      }
+    }
+
+    &.clear-icon {
+      .search,
+      .clear {
+        transform: translateY(-24px);
+      }
+      .search {
+        @apply cursor-pointer opacity-0;
+      }
+    }
+  }
+}
+
+::ng-deep {
+  .loading-option {
+    .mat-option-text {
+      @apply flex items-center;
+    }
+  }
+
+  .mat-option {
+    height: 40px;
+    @apply text-caption text-dark;
+  }
+
+  .mat-icon {
+    @apply text-[24px];
+  }
+}

@@ -1,0 +1,63 @@
+<mat-form-field floatLabel="never">
+  <mat-label>{{ label }}</mat-label>
+  <input
+    type="text"
+    [matAutocomplete]="auto"
+    matInput
+    [formControl]="control"
+    class="autocomplete-input text-dark"
+    [class.text-dark]="(valueSelected$ | ngrxPush) === false"
+    [class.text-primary]="valueSelected$ | ngrxPush"
+    (blur)="onTouched()"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="optionTitle"
+    (optionSelected)="setValue($event)"
+  >
+    <div [hidden]="(showOptions$ | ngrxPush) === false">
+      <mat-option
+        *ngIf="loading"
+        class="h-20 flex items-center justify-center loading-option pointer-events-none"
+      >
+        <mat-spinner diameter="20"></mat-spinner>
+        <span class="ml-4">{{ loadingMessage }}</span>
+      </mat-option>
+      <mat-option
+        *ngIf="noResults(filteredOptions$ | async)"
+        class="h-20 flex items-center justify-center pointer-events-none"
+        >No results</mat-option
+      >
+      <mat-option
+        *ngIf="error"
+        class="h-20 flex items-center justify-center pointer-events-none"
+      >
+        <mat-icon
+          class="text-error icon"
+          fontIcon="icon-toast-error"
+        ></mat-icon>
+        <span>Error. Please try again</span>
+      </mat-option>
+      <div [hidden]="loading && !error">
+        <mat-option
+          *ngFor="let option of filteredOptions$ | ngrxPush; trackBy: trackByFn"
+          [value]="option"
+        >
+          {{ option.title }}
+        </mat-option>
+      </div>
+    </div>
+  </mat-autocomplete>
+  <div
+    class="autocomplete-icon h-full absolute right-1 top-4 flex items-center flex-col"
+    [class.clear-icon]="searchStringDeletable"
+    [class.search-icon]="!searchStringDeletable"
+  >
+    <mat-icon class="icon search" fontIcon="icon-search"></mat-icon>
+    <mat-icon
+      class="icon clear cursor-pointer"
+      fontIcon="icon-cross"
+      (click)="clearSearchString()"
+    ></mat-icon>
+  </div>
+</mat-form-field>

@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatInputModule } from '@angular/material/input';
 
 import { ReactiveComponentModule } from '@ngrx/component';
+
+import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
 import { BearingSearchComponent } from './bearing-search.component';
 
@@ -19,9 +19,7 @@ import { BearingSearchComponent } from './bearing-search.component';
     // Forms
     ReactiveFormsModule,
 
-    // Angular Material
-    MatAutocompleteModule,
-    MatInputModule,
+    SearchAutocompleteModule,
   ],
   exports: [BearingSearchComponent],
 })

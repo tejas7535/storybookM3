@@ -188,6 +188,7 @@
     },
     "shared-ui-loading-spinner": {
       "tags": ["scope:shared", "type:ui"]
-    }
+    },
+    "shared-ui-search-autocomplete": { "tags": ["scope:shared", "type:ui"] }
   }
 }

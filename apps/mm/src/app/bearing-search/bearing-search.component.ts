@@ -7,15 +7,15 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   debounceTime,
   filter,
   map,
   startWith,
   switchMap,
+  tap,
 } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
@@ -43,9 +43,11 @@ interface SearchResult {
 export class BearingSearchComponent implements OnInit {
   @Output() bearing = new EventEmitter<string | undefined>();
 
-  myControl = new FormControl();
+  myControl = new FormControl('');
 
   options$: Observable<BearingOption[]> = of([]);
+
+  loading$ = new BehaviorSubject<boolean>(false);
 
   constructor(private readonly http: HttpClient) {}
 
@@ -59,6 +61,7 @@ export class BearingSearchComponent implements OnInit {
   }
 
   getBearings(searchQuery: string): Observable<BearingOption[]> {
+    this.loading$.next(true);
     const requestUrl = `${environment.apiMMBaseUrl}/bearing/search/?pattern=${searchQuery}&page=1&size=1000`;
 
     return this.http.get<SearchResult>(requestUrl).pipe(
@@ -68,15 +71,12 @@ export class BearingSearchComponent implements OnInit {
 
           return { title, id };
         })
-      )
+      ),
+      tap(() => this.loading$.next(false))
     );
   }
 
-  displayValue(option: BearingOption): string {
-    return option && option.title ? option.title : '';
-  }
-
-  selectBearing(event: MatAutocompleteSelectedEvent): void {
-    this.bearing.emit(event.option.value.id);
+  handleSelection(selectionId: string): void {
+    this.bearing.emit(selectionId);
   }
 }
