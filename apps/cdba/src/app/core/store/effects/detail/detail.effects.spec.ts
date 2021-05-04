@@ -444,4 +444,4 @@ describe('Detail Effects', () => {
     });
   });
 });
-// tslint:disable-next-line: max-file-line-count
+// eslint-disable-next-line max-lines

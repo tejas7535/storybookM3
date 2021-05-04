@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-// tslint:disable-next-line: nx-enforce-module-boundaries
+// eslint-disable-next-line
 import { UnderConstructionModule } from '@schaeffler/empty-states';
 
 import { DetailsTabComponent } from './details-tab.component';

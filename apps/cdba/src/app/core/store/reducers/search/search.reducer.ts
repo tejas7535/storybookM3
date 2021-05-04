@@ -235,7 +235,7 @@ export const searchReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: SearchState, action: Action): SearchState {
   return searchReducer(state, action);
 }

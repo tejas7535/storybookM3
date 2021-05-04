@@ -73,7 +73,7 @@ describe('DetailViewButtonComponent', () => {
   describe('showDetailView', () => {
     test('should navigate', () => {
       component.selections = [{ materialNumber: '', plant: '' }];
-      spyOn(router, 'navigate');
+      jest.spyOn(router, 'navigate');
       component.showDetailView();
       expect(router.navigate).toHaveBeenCalled();
     });

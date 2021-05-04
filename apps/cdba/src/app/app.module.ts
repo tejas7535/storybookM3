@@ -12,7 +12,7 @@ import { SharedModule } from '@cdba/shared';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-// tslint:disable-next-line: no-implicit-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
 const azureConfig = new AzureConfig(
   environment.tenantId,
   environment.clientId,

@@ -87,7 +87,7 @@ describe('BomTableComponent', () => {
         showLoadingOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -101,7 +101,7 @@ describe('BomTableComponent', () => {
     it('should do nothing when gridApi is not loaded', () => {
       component['gridApi'] = undefined;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -117,7 +117,7 @@ describe('BomTableComponent', () => {
         showNoRowsOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: false,

@@ -83,7 +83,7 @@ describe('ReferenceTypesTableComponent', () => {
         setRowData: jest.fn(),
       } as unknown) as GridApi;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({});
 
       expect(component['gridApi'].setRowData).not.toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('ReferenceTypesTableComponent', () => {
         rowData,
       } as unknown) as SimpleChanges;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       // no expectation since grid api is not defined yet
@@ -111,7 +111,7 @@ describe('ReferenceTypesTableComponent', () => {
         rowData,
       } as unknown) as SimpleChanges;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component['gridApi'].setRowData).toHaveBeenCalledWith(

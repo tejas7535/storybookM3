@@ -16,7 +16,7 @@ class LocalStorageMock {
   }
 
   getItem(key: string): string {
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     return this.store[key] || null;
   }
 
@@ -25,7 +25,7 @@ class LocalStorageMock {
   }
 
   removeItem(key: string): void {
-    // tslint:disable-next-line: no-dynamic-delete
+    // eslint-disable-next-line
     delete this.store[key];
   }
 }

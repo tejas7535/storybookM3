@@ -132,7 +132,7 @@ export const compareReducer = createReducer(
     }
 
     const selectedNodeId: string =
-      // tslint:disable-next-line: strict-boolean-expressions
+      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       state[index].calculations?.selectedNodeId || '0';
 
     return {

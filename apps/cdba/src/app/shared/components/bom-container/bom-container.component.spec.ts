@@ -85,7 +85,7 @@ describe('BomContainerComponent', () => {
     test('should initialize with detail selectors if index is undefined', () => {
       spectator.setInput({ index: undefined });
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component['initializeWithDetailSelectors']).toHaveBeenCalled();
@@ -95,7 +95,7 @@ describe('BomContainerComponent', () => {
     });
 
     test('should initialize with compare selectors if index is defined', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component['initializeWithDetailSelectors']).not.toHaveBeenCalled();
