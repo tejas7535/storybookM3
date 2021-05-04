@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.7](///compare/mac-v0.0.7...mac-v0.0.6) (2021-05-04)
+
+
+### 🎸 Features
+
+* **mac:** add qa stage (UFTABI-4181) ([91d7b4f](///commit/91d7b4f418308082eeeece486ec3524a974747f5))
+* **mac:** adjust v90 slider (UFTABI-4347) ([67dfb40](///commit/67dfb405801c9c7c3bd153e6188990983f33f785))
+* **mac:** fix typo ([42f6a3c](///commit/42f6a3ce746aba2660905de4cf2ac9ae12c7c937))
+* **mac:** integrate LTP (UFTABI-3145) ([a365da4](///commit/a365da4da891ea741be5a9fc686434434e93502e))
+* **mac:** remove apply from styles ([01fa58c](///commit/01fa58c924eb4852c1de03b184854f21395954bd))
+* **workspace:** remove ltp and ng-bullet (UFTABI-4235) ([9b4f0f8](///commit/9b4f0f8d0bb1c50dc9e17bbe2b70a70f1b7d0abb))
+
+
+### 🐛 Bug Fixes
+
+* **mac:** adjust service urls ([e7ed394](///commit/e7ed394706c11094a9a2ab05ad139956d302b6c6))
+* **mac:** breadcrumbs styling ([3cab465](///commit/3cab465c96b14a5c3808d54973cf5bdb55b80251))
+* **mac:** change tooltip (UFTABI-4403) ([67ebfe2](///commit/67ebfe284ecd4b72fb51d8d5c9b1fb57de54957c))
+
 ### [0.0.6](///compare/mac-v0.0.6...mac-v0.0.5) (2021-04-06)
 
 
