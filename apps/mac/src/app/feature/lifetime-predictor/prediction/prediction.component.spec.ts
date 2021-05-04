@@ -275,16 +275,14 @@ describe('PredictionComponent', () => {
     expect(store.dispatch).toHaveBeenCalled();
   });
 
-  it('customize tooltip should add text if 10000 < x < 10000000', () => {
-    const testObj: any = component.customizeTooltip([
-      {
-        value: {
-          x: 10001,
-          y2: 1,
-        },
-        axisValue: 5,
+  it('customize tooltip should add text if 10000 <= x <= 10000000', () => {
+    const testObj: any = component.customizeTooltip({
+      value: {
+        x: 10001,
+        y2: 1,
       },
-    ]);
+      axisValue: 5,
+    });
     expect(testObj).toBeTruthy();
   });
 

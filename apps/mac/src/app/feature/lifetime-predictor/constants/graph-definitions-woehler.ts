@@ -56,7 +56,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     },
   },
   {
-    value: 'y3',
+    value: 'y6',
     name: 'Konfidenzintervall1',
     color: '#003A54',
     identifier: 'percentile1',
@@ -71,7 +71,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     },
   },
   {
-    value: 'y4',
+    value: 'y5',
     name: 'Konfidenzintervall2',
     color: '#003A54',
     identifier: 'percentile99',
@@ -79,7 +79,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     survivalProbability: 99,
   },
   {
-    value: 'y5',
+    value: 'y4',
     name: 'Konfidenzintervall3',
     color: '#777D7F',
     identifier: 'percentile10',
@@ -87,7 +87,7 @@ export const GRAPH_DEFINITIONS_WOEHLER: Series[] = [
     survivalProbability: 10,
   },
   {
-    value: 'y6',
+    value: 'y3',
     name: 'Konfidenzintervall4',
     color: '#777D7F',
     identifier: 'percentile90',

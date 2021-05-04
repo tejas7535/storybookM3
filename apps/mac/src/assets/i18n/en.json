@@ -13,7 +13,7 @@
         "legendMurakami": "Murakami-Model (P<sub>Ü</sub> 50)",
         "legendStatistical": "non-linear regression model (P<sub>Ü</sub> 50)",
         "tooltip": "Fatigue stength at <b>{{value}}</b> MPa",
-        "tooltipSurvivalProbability": "at {{survivalProbability}}% survival probability",
+        "tooltipSurvivalProbability": "at {{survivalProbability}}% survival probability and {{cycles}} cycles",
         "woehlerXLabel": "Num­ber of cy­cles to fai­lure",
         "woehlerYLabel": "Prin­cipal stress am­pli­tude in MPa"
       },

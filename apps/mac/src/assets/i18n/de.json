@@ -13,7 +13,7 @@
         "legendMurakami": "Murakami-Modell (P<sub>Ü</sub> 50)",
         "legendStatistical": "Nicht-lineares Regressionsmodell (P<sub>Ü</sub> 50)",
         "tooltip": "Schwingfestigkeit: <b>{{value}}</b> MPa",
-        "tooltipSurvivalProbability": "bei {{survivalProbability}}% Überlebenswahrscheinlichkeit",
+        "tooltipSurvivalProbability": "bei {{survivalProbability}}% Überlebenswahrscheinlichkeit und {{cycles}} Zyklen",
         "woehlerXLabel": "Bruch­last­spiel­zahl in Zy­klen",
         "woehlerYLabel": "Haupt­span­nungs­am­pli­tu­de in MPa"
       },
