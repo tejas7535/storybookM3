@@ -14,7 +14,8 @@
       "year": "Jahr",
       "country": "Land",
       "customerId": "Kundennummer"
-    }
+    },
+    "info-hover": "Vergleichbare Transaktionen mit negativem GPI (%) werden bei der Kalkulation der Guided Quoting Preisempfehlung nicht berücksichtigt. Deshalb werden diese Transaktionen nicht im Graph angezeigt, sind jedoch in der Tabelle verfügbar."
   },
   "graph": {
     "title": "Margen-Mengen Graph",

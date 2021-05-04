@@ -1,24 +1,14 @@
 <div fxLayout="row" *ngIf="quotation">
   <span>{{ quotation.gqId | gqQuotation }} </span>
-  <span *ngIf="quotation.sapId" class="additionalInfo">{{
+  <span *ngIf="quotation.sapId" class="ml-[16px] opacity-30">{{
     quotation.sapId | sapQuotation
   }}</span>
-  <span fxLayout="row" *transloco="let t; read: 'processCaseView.header'">
-    <mat-icon
-      [matMenuTriggerFor]="infoMenu"
-      #infoMenuTrigger="matMenuTrigger"
-      (mouseenter)="iconEnter(infoMenuTrigger)"
-      (mouseleave)="iconLeave(infoMenuTrigger)"
-      class="info-icon"
-    >
-      info
-    </mat-icon>
-    <mat-menu
-      #infoMenu="matMenu"
-      direction="down"
-      yPosition="below"
-      [hasBackdrop]="false"
-    >
+  <span
+    class="m-l-5"
+    fxLayout="row"
+    *transloco="let t; read: 'processCaseView.header'"
+  >
+    <gq-info-icon>
       <div fxLayout="column">
         <span
           >{{ t('gqCreatedByUser') }}:
@@ -49,6 +39,6 @@
           {{ quotation.sapLastUpdated | date: 'dd.MM.yyyy HH:mm' }}</span
         >
       </div>
-    </mat-menu>
+    </gq-info-icon>
   </span>
 </div>

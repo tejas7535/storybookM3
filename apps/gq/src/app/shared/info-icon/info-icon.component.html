@@ -1,0 +1,19 @@
+<span>
+  <mat-icon
+    [matMenuTriggerFor]="infoMenu"
+    #infoMenuTrigger="matMenuTrigger"
+    (mouseenter)="iconEnter(infoMenuTrigger)"
+    (mouseleave)="iconLeave(infoMenuTrigger)"
+    class="opacity-60"
+  >
+    info
+  </mat-icon>
+  <mat-menu
+    #infoMenu="matMenu"
+    direction="down"
+    yPosition="below"
+    [hasBackdrop]="false"
+  >
+    <ng-content></ng-content>
+  </mat-menu>
+</span>

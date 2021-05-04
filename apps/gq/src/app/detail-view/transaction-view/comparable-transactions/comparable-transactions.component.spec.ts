@@ -3,6 +3,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -17,7 +18,11 @@ describe('ComparableTransactionsComponent', () => {
 
   const createComponent = createComponentFactory({
     component: ComparableTransactionsComponent,
-    imports: [AgGridModule, provideTranslocoTestingModule({ en: {} })],
+    imports: [
+      AgGridModule,
+      InfoIconModule,
+      provideTranslocoTestingModule({ en: {} }),
+    ],
   });
 
   beforeEach(() => {
