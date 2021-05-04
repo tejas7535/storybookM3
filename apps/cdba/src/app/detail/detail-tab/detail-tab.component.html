@@ -43,22 +43,7 @@
     gdColumn.xs="auto / span 3"
     gdRow.xs="auto / span 14"
   >
-    <div>
-      <h6 class="m-b-10" *transloco="let t; read: 'detail.drawings'">
-        {{
-          t('title', {
-            material: (salesDetails$ | ngrxPush)?.materialDesignation
-          })
-        }}
-      </h6>
-      <div
-        class="widget-group"
-        fxLayout="row"
-        fxLayoutAlign="space-around center"
-      >
-        <cdba-drawings></cdba-drawings>
-      </div>
-    </div>
+    <cdba-drawings></cdba-drawings>
   </mat-card>
   <mat-card
     gdColumn="1 / span 3"

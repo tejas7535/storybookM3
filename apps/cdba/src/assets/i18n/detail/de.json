@@ -72,18 +72,5 @@
   "calculations": {
     "title": "Kalulationen"
   },
-  "drawings": {
-    "title": "Zeichnung: {{material}}",
-    "notFoundErrorMessage": "Entschuldigung, wir konnten keine Zeichnungen für das gewählte Produkt finden.",
-    "headers": {
-      "version": "Version",
-      "status": "Status",
-      "part": "Teil",
-      "date": "Datum",
-      "type": "Typ",
-      "documentNumber": "Dokumentennummer",
-      "actions": "Aktionen"
-    }
-  },
   "errorTitle": "??? | ???"
 }

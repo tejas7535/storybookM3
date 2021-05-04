@@ -59,5 +59,22 @@
         "rfqNumber": "RFQ Number"
       }
     }
+  },
+  "drawings": {
+    "title": "Technical Drawings: {{material}}",
+    "notFoundErrorMessage": "Unfortunately, we couldn't find a technical drawing for this product. As an alternative, you can find technical drawings inside SAP using the transaction CDESK.",
+    "notFoundErrorTitle": "We couldn't find any documents",
+    "upcomingPreviewFeatureTeaser": "Feature Teaser: Upcoming Preview Image",
+    "upcomingPreviewFeatureTeaserMessage": "We're working on a feature to display a preview of the technical drawing. Meanwhile you can download them.",
+    "headers": {
+      "version": "Version",
+      "status": "Status",
+      "part": "Part",
+      "date": "Date",
+      "type": "Type",
+      "documentNumber": "Document Number",
+      "actions": "Actions",
+      "filetype": "Format"
+    }
   }
 }
