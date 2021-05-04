@@ -57,6 +57,7 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
     nameLocation: CHART_SETTINGS_WOEHLER.valueAxis.nameLocation,
     nameGap: 50,
     axisPointer: {
+      triggerTooltip: false,
       show: true,
       type: 'line',
       label: {
@@ -103,7 +104,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y2',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#00893D',
+      },
     },
     {
       type: 'line',
@@ -116,7 +119,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y3',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#003A54',
+      },
     },
     {
       type: 'line',
@@ -129,7 +134,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y4',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#003A54',
+      },
     },
     {
       type: 'line',
@@ -142,7 +149,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y5',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#777D7F',
+      },
     },
     {
       type: 'line',
@@ -155,7 +164,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y6',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#777D7F',
+      },
     },
     {
       type: 'line',
@@ -167,7 +178,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y7',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#fccf46',
+      },
     },
     {
       type: 'line',
@@ -179,7 +192,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y8',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#1d9bb2',
+      },
     },
     {
       type: 'line',
@@ -191,7 +206,9 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
         x: 'x',
         y: 'y9',
       },
-      symbol: 'none',
+      itemStyle: {
+        color: '#9c27b0',
+      },
     },
   ],
   dataset: {

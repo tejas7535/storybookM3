@@ -86,6 +86,7 @@ export class PredictionComponent implements OnInit {
         this.chartOptions = {
           ...this.chartOptions,
           tooltip: {
+            trigger: 'item',
             show: true,
             formatter: this.customizeTooltip,
           },
@@ -139,11 +140,10 @@ export class PredictionComponent implements OnInit {
   /**
    * cusomizes the tooltip for a certain point on the graph. Is passed as Input to the chart component
    */
-  public customizeTooltip = (points: any): string => {
-    const point = points[0];
+  public customizeTooltip = (point: any): string => {
     if (
       point.value &&
-      !(point.value.x <= 10000 || point.value.x >= 10000000) &&
+      !(point.value.x < 10000 || point.value.x > 10000000) &&
       Object.keys(point.value).indexOf('y1') === -1
     ) {
       const series = GRAPH_DEFINITIONS_WOEHLER.find((s) => {
@@ -151,9 +151,10 @@ export class PredictionComponent implements OnInit {
       });
 
       const tooltip = `${translate('ltp.prediction.chart.tooltip', {
-        value: point.axisValue,
+        value: Math.round(point.value[series.value]),
       })}<br>${translate('ltp.prediction.chart.tooltipSurvivalProbability', {
         survivalProbability: series.survivalProbability,
+        cycles: Math.round(point.value['x']),
       })}`;
 
       return tooltip;
