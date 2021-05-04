@@ -50,7 +50,7 @@ describe('Root Effects', () => {
 
         actions$ = hot('-a', { a: action });
 
-        // tslint:disable-next-line: deprecation
+        // eslint-disable-next-line import/no-deprecated
         effects.initializeApplicationInsights$.subscribe(() => {
           expect(
             applicationInsightsService.addCustomPropertyToTelemetryData
@@ -71,7 +71,7 @@ describe('Root Effects', () => {
 
         actions$ = hot('-a', { a: action });
 
-        // tslint:disable-next-line: deprecation
+        // eslint-disable-next-line import/no-deprecated
         effects.initializeApplicationInsights$.subscribe(() => {
           expect(
             applicationInsightsService.addCustomPropertyToTelemetryData

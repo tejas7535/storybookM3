@@ -579,5 +579,5 @@ export class ColumnDefinitionService {
       suppressColumnsToolPanel: true,
     },
   ];
-  // tslint:disable-next-line: max-file-line-count
+  // eslint-disable-next-line max-lines
 }

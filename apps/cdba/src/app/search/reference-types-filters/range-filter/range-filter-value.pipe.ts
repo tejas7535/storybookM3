@@ -18,7 +18,7 @@ export class RangeFilterValuePipe implements PipeTransform {
 
     let value: string;
 
-    // tslint:disable-next-line: prefer-conditional-expression
+    // eslint-disable-next-line
     if (filter.minSelected && !filter.maxSelected) {
       value = `Min. ${filterTranslation}: ${filter.minSelected}${unit}`;
     } else if (!filter.minSelected && filter.maxSelected) {

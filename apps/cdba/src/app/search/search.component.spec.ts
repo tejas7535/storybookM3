@@ -62,7 +62,7 @@ describe('SearchComponent', () => {
 
   describe('ngOnInit', () => {
     test('should initialize observables', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.searchSuccessful$).toBeDefined();

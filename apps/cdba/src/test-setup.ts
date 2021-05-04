@@ -1,4 +1,4 @@
-/* tslint:disable:ordered-imports */
+/* eslint-disable import/order */
 import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 
 import '../../../global-mocks';

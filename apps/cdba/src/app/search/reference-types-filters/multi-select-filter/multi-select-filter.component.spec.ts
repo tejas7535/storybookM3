@@ -67,7 +67,7 @@ describe('MultiSelectFilterComponent', () => {
     it('should add valueChanges subscription directly', () => {
       component.searchFieldChange = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test';
@@ -82,7 +82,7 @@ describe('MultiSelectFilterComponent', () => {
       component.searchForm.setValue('test');
       const spy = jest.spyOn(rxjs, 'timer');
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test1';
@@ -103,7 +103,7 @@ describe('MultiSelectFilterComponent', () => {
       component.searchForm.setValue('t');
       const spy = jest.spyOn(rxjs, 'timer');
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test2';
@@ -135,7 +135,7 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should update filter and form on filter change with autocomplete correctly', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -157,7 +157,7 @@ describe('MultiSelectFilterComponent', () => {
     it('should update filter and form on filter change and consider local search on non autocomplete', () => {
       filter.autocomplete = false;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -178,7 +178,7 @@ describe('MultiSelectFilterComponent', () => {
     it('should merge old selections with changes on autocomplete filter', () => {
       component.form.setValue([new IdValue('003', 'selected 2', true)]);
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -197,7 +197,7 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should do nothing when something else than filter changes', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({});
 
       expect(component.form.value).toBeNull();
@@ -208,7 +208,7 @@ describe('MultiSelectFilterComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
@@ -712,5 +712,5 @@ describe('MultiSelectFilterComponent', () => {
       });
     });
   });
-  // tslint:disable-next-line: max-file-line-count
+  // eslint-disable-next-line max-lines
 });

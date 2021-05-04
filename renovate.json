@@ -152,7 +152,10 @@
         "eslint-plugin-import",
         "eslint-plugin-jest",
         "eslint-plugin-prettier",
-        "eslint-plugin-ngrx"
+        "eslint-plugin-ngrx",
+        "eslint-plugin-jsdoc",
+        "eslint-plugin-unicorn",
+        "eslint-plugin-prefer-arrow"
       ],
       "groupName": "eslint"
     },
