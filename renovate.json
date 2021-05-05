@@ -79,7 +79,8 @@
         "@nrwl/eslint-plugin-nx",
         "@nrwl/jest",
         "@nrwl/storybook",
-        "@nrwl/workspace"
+        "@nrwl/workspace",
+        "@nrwl/linter"
       ],
       "groupName": "@nrwl/nx",
       "major": {
