@@ -13,7 +13,7 @@
       "offerPrice": "Nettopreis",
       "percentDifference": "Preisunterschied %",
       "gqRating": "GQ Rating",
-      "per": "pro",
+      "priceUnit": "pro",
       "priceSource": "Preisherkunft",
       "productionCity": "Ort",
       "productionCountry": "Land",

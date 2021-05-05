@@ -43,10 +43,9 @@ export const COLUMN_DEFS: ColDef[] = [
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
   },
   {
-    headerName: translate('shared.quotationDetailsTable.per'),
-    // ToDo: Adjust when per column is defined in datasources
-    valueFormatter: ColumnUtilityService.transformPer,
-    field: 'per',
+    headerName: translate('shared.quotationDetailsTable.priceUnit'),
+    field: 'material.priceUnit',
+    valueFormatter: ColumnUtilityService.numberFormatter,
   },
   {
     headerName: translate('shared.quotationDetailsTable.uom'),
@@ -59,7 +58,6 @@ export const COLUMN_DEFS: ColDef[] = [
   },
   {
     headerName: translate('shared.quotationDetailsTable.priceSource'),
-    // currently missing in the database ?
     field: 'priceSource',
     valueFormatter: ColumnUtilityService.basicTransform,
   },

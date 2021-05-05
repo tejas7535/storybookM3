@@ -286,4 +286,29 @@ describe('Process Case Selector', () => {
       ).toEqual(false);
     });
   });
+  describe('getMaterialOfSelectedQuotationDetail', () => {
+    test('should return material', () => {
+      expect(
+        quotationSelectors.getMaterialOfSelectedQuotationDetail(fakeState)
+      ).toEqual({
+        materialNumber15: '016718798-0030',
+        materialDescription: '6052-M-C3',
+        priceUnit: 1,
+      });
+    });
+  });
+  describe('getGqPriceOfSelectedQuotationDetail', () => {
+    test('should return gq price', () => {
+      expect(
+        quotationSelectors.getGqPriceOfSelectedQuotationDetail(fakeState)
+      ).toEqual(QUOTATION_DETAIL_MOCK.recommendedPrice);
+    });
+  });
+  describe('getPriceUnitOfSelectedQuotationDetail', () => {
+    test('should return price unit', () => {
+      expect(
+        quotationSelectors.getPriceUnitOfSelectedQuotationDetail(fakeState)
+      ).toEqual(QUOTATION_DETAIL_MOCK.material.priceUnit);
+    });
+  });
 });
