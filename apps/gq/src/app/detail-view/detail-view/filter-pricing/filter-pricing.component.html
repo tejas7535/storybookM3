@@ -2,6 +2,7 @@
   <gq-manual-price
     [manualPricePermission]="manualPricePermission$ | ngrxPush"
     [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
+    [priceUnit]="(selectedQuotationDetail$ | ngrxPush)?.material.priceUnit"
     (selectManualPrice)="selectManualPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
   ></gq-manual-price>

@@ -1,7 +1,33 @@
-import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
+import {
+  QUOTATION_DETAIL_MOCK,
+  TRANSACTION_MOCK,
+} from '../../../../testing/mocks';
 import { PriceService } from './price.service';
 
 describe('PriceService', () => {
+  describe('addCalculationForDetail', () => {
+    test('should return detail', () => {
+      const detail = QUOTATION_DETAIL_MOCK;
+      detail.gpi = 0;
+      detail.percentDifference = 0;
+      detail.netValue = 0;
+      detail.strategicPrice = 10;
+
+      PriceService.addCalculationsForDetail(detail);
+
+      expect(detail).toEqual(QUOTATION_DETAIL_MOCK);
+    });
+  });
+  describe('multiplyAndRoundValues', () => {
+    test('should return multiplied rounded value', () => {
+      const result = PriceService.multiplyAndRoundValues(1.11111, 100);
+      expect(result).toEqual(111.11);
+    });
+    test('should return undefined ', () => {
+      const result = PriceService.multiplyAndRoundValues(undefined, 100);
+      expect(result).toEqual(undefined);
+    });
+  });
   describe('addCalculationForDetails', () => {
     test('should call addCalculationForDetail', () => {
       const details = [QUOTATION_DETAIL_MOCK];
@@ -12,19 +38,6 @@ describe('PriceService', () => {
     });
   });
 
-  describe('addCalculationForDetail', () => {
-    test('should return detail', () => {
-      const detail = QUOTATION_DETAIL_MOCK;
-      detail.gpi = 0;
-      detail.percentDifference = 0;
-      detail.netValue = 0;
-
-      PriceService.addCalculationsForDetail(detail);
-
-      expect(detail).toEqual(QUOTATION_DETAIL_MOCK);
-    });
-  });
-
   describe('calculatePercentDifference', () => {
     test('should Calculate % diff', () => {
       const detail = {
@@ -32,7 +45,7 @@ describe('PriceService', () => {
         price: 120,
       } as any;
 
-      const result = PriceService.calculatePercentDiffernce(detail);
+      const result = PriceService.calculatePercentDifference(detail);
 
       expect(result).toEqual(9.09);
     });
@@ -42,7 +55,7 @@ describe('PriceService', () => {
         price: 100,
       } as any;
 
-      const result = PriceService.calculatePercentDiffernce(detail);
+      const result = PriceService.calculatePercentDifference(detail);
 
       expect(result).toEqual(undefined);
     });
@@ -102,6 +115,17 @@ describe('PriceService', () => {
     test('should round to two decimals', () => {
       const result = PriceService.roundToTwoDecimals(1.2222);
       expect(result).toEqual(1.22);
+    });
+  });
+  describe('multiplyTransactionsWithPriceUnit', () => {
+    test('shouldreturn multipliedTransacitons', () => {
+      const transactions = [TRANSACTION_MOCK];
+      const result = PriceService.multiplyTransactionsWithPriceUnit(
+        transactions,
+        100
+      );
+
+      expect(result).toEqual([{ ...TRANSACTION_MOCK, price: 1000 }]);
     });
   });
 });

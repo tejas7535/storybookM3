@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 
+import { Transaction } from '../../../core/store/reducers/transactions/models/transaction.model';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { StatusBarCalculation } from './models/status-bar-calculation.model';
 
@@ -12,18 +13,47 @@ export class PriceService {
   }
 
   static addCalculationsForDetail(detail: QuotationDetail): void {
-    detail.gpi = PriceService.calculateGPI(detail.price, detail.gpc);
-    detail.percentDifference = PriceService.calculatePercentDiffernce(detail);
     detail.netValue = PriceService.calculateNetValue(
       detail.price,
       detail.orderQuantity
     );
+    detail.percentDifference = PriceService.calculatePercentDifference(detail);
+
+    // calculate priceUnit dependent values
+    PriceService.calculatePriceUnitValues(detail);
+
+    detail.gpi = PriceService.calculateGPI(detail.price, detail.gpc);
   }
 
-  static calculatePercentDiffernce(detail: QuotationDetail): number {
-    const lastPrice = detail.lastCustomerPrice;
-    const currentPrice = detail.price;
+  static calculatePriceUnitValues(detail: QuotationDetail): void {
+    const { priceUnit } = detail.material;
+    // calculate priceUnit dependent values
+    detail.gpc = PriceService.multiplyAndRoundValues(detail.gpc, priceUnit);
+    detail.sqv = PriceService.multiplyAndRoundValues(detail.sqv, priceUnit);
+    detail.lastCustomerPrice = PriceService.multiplyAndRoundValues(
+      detail.lastCustomerPrice,
+      priceUnit
+    );
+    detail.price = PriceService.multiplyAndRoundValues(detail.price, priceUnit);
+    detail.recommendedPrice = PriceService.multiplyAndRoundValues(
+      detail.recommendedPrice,
+      priceUnit
+    );
+    detail.strategicPrice = PriceService.multiplyAndRoundValues(
+      detail.strategicPrice,
+      priceUnit
+    );
+  }
 
+  static multiplyAndRoundValues(value1: number, value2: number): number {
+    return value1 && value2
+      ? PriceService.roundToTwoDecimals(value1 * value2)
+      : undefined;
+  }
+
+  static calculatePercentDifference(detail: QuotationDetail): number {
+    const lastPrice = PriceService.roundToTwoDecimals(detail.lastCustomerPrice);
+    const currentPrice = detail.price;
     if (currentPrice && lastPrice) {
       const priceDiff = (currentPrice - lastPrice) / lastPrice;
 
@@ -80,5 +110,15 @@ export class PriceService {
   }
   static roundToTwoDecimals(number: number): number {
     return Math.round(number * 100) / 100;
+  }
+
+  static multiplyTransactionsWithPriceUnit(
+    transactions: Transaction[],
+    priceUnit: number
+  ): Transaction[] {
+    return transactions.map((transaction) => ({
+      ...transaction,
+      price: PriceService.multiplyAndRoundValues(transaction.price, priceUnit),
+    }));
   }
 }

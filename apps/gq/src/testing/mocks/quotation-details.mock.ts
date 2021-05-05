@@ -19,6 +19,7 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   material: ({
     materialNumber15: '016718798-0030',
     materialDescription: '6052-M-C3',
+    priceUnit: 1,
   } as unknown) as MaterialDetails,
   orderQuantity: 10,
   plant: PLANT_MOCK,

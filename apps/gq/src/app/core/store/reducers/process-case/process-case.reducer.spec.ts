@@ -1,3 +1,5 @@
+import { Action } from '@ngrx/store';
+
 import {
   CUSTOMER_MOCK,
   QUOTATION_DETAIL_MOCK,
@@ -32,12 +34,15 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
+  uploadOfferToSap,
+  uploadOfferToSapFailure,
+  uploadOfferToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
 import { dummyRowData } from '../create-case/config/dummy-row-data';
 import { QuotationIdentifier } from './models';
-import { processCaseReducer } from './process-case.reducer';
+import { processCaseReducer, reducer } from './process-case.reducer';
 
 describe('Quotation Reducer', () => {
   const errorMessage = 'An error occured';
@@ -530,6 +535,39 @@ describe('Quotation Reducer', () => {
       const state = processCaseReducer(fakeState, action);
 
       expect(state.quotation.selectedQuotationDetail).toEqual(gqPositionId);
+    });
+  });
+  describe('sapUpload', () => {
+    describe('uploadOfferToSap', () => {
+      test('should set loading true', () => {
+        const action = uploadOfferToSap();
+        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        expect(state.quotation.updateLoading).toBeTruthy();
+      });
+    });
+    describe('uploadOfferToSapSuccess', () => {
+      test('should set loading false', () => {
+        const action = uploadOfferToSapSuccess();
+        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        expect(state.quotation.updateLoading).toBeFalsy();
+      });
+    });
+    describe('uploadOfferToSapFailure', () => {
+      test('should set loading false', () => {
+        const action = uploadOfferToSapFailure({ errorMessage });
+        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
+        expect(state.quotation.updateLoading).toBeFalsy();
+        expect(state.quotation.errorMessage).toEqual(errorMessage);
+      });
+    });
+  });
+  describe('Reducer function', () => {
+    test('should return searchReducer', () => {
+      // prepare any action
+      const action: Action = uploadOfferToSap();
+      expect(reducer(QUOTATION_STATE_MOCK, action)).toEqual(
+        processCaseReducer(QUOTATION_STATE_MOCK, action)
+      );
     });
   });
 });

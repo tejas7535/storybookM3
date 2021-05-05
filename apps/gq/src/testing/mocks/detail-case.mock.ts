@@ -23,4 +23,5 @@ export const DETAIL_CASE_MOCK: MaterialDetails = {
   series: '009',
   weightUnit: 'KG',
   width: '50',
+  priceUnit: 1,
 };

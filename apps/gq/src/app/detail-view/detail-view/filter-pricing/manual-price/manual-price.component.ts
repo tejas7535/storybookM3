@@ -10,6 +10,7 @@ import {
   PriceSource,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 
 @Component({
   selector: 'gq-manual-price',
@@ -24,6 +25,7 @@ export class ManualPriceComponent {
   title$: Observable<string>;
 
   @Input() currentPrice: number;
+  @Input() priceUnit: number;
 
   @Input() set manualPricePermission(value: boolean) {
     this.manualPriceFormControl = new FormControl({
@@ -83,10 +85,10 @@ export class ManualPriceComponent {
 
   selectPrice(): void {
     this._isLoading = true;
-    const updatePrice = new UpdatePrice(
-      this.manualPriceFormControl.value,
-      PriceSource.MANUAL
+    const price = PriceService.roundToTwoDecimals(
+      this.manualPriceFormControl.value / this.priceUnit
     );
+    const updatePrice = new UpdatePrice(price, PriceSource.MANUAL);
     this.selectManualPrice.emit(updatePrice);
   }
 }

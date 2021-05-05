@@ -13,7 +13,7 @@
       "offerPrice": "Net Price",
       "percentDifference": "Price Diff %",
       "gqRating": "GQ Rating",
-      "per": "per",
+      "priceUnit": "per",
       "priceSource": "Price Source",
       "productionCity": "City",
       "productionCountry": "Country",

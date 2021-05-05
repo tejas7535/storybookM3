@@ -53,11 +53,12 @@ describe('ManualPriceComponent', () => {
   describe('selectPrice', () => {
     test('should emit Output EventEmitter', () => {
       component.selectManualPrice.emit = jest.fn();
-      component.manualPriceFormControl = { value: 1 } as any;
+      component.priceUnit = 11;
+      component.manualPriceFormControl = { value: 100 } as any;
 
       component.selectPrice();
 
-      const expected = new UpdatePrice(1, PriceSource.MANUAL);
+      const expected = new UpdatePrice(9.09, PriceSource.MANUAL);
       expect(component.selectManualPrice.emit).toHaveBeenCalledWith(expected);
     });
   });

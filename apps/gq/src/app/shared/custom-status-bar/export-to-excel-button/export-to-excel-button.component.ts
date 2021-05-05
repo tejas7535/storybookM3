@@ -65,7 +65,7 @@ export class ExportToExcelButtonComponent {
     if (
       colDef.valueFormatter &&
       (colDef.field === ColumnFields.MATERIAL_NUMBER_15 ||
-        colDef.field === ColumnFields.PER)
+        colDef.field === ColumnFields.PRICE_UNIT)
     ) {
       return this.applyExcelCellValueFormatter(params);
     }

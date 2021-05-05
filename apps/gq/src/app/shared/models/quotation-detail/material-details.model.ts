@@ -14,6 +14,7 @@ export class MaterialDetails {
   materialStatus: string;
   materialType: string;
   outerDiameter: string;
+  priceUnit: number;
   productHierarchy: string;
   productHierarchyId: string;
   productLine: string;

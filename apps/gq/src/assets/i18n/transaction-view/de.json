@@ -21,11 +21,11 @@
     "salesIndication": {
       "invoice": "Faktura",
       "lostQuote": "Lost Quote",
-      "order": "Auftrag"
+      "order": "Auftragsbestand"
     },
     "tooltip": {
       "quantity": "Menge",
-      "profitMargin": "Marge",
+      "profitMargin": "GPI",
       "price": "Nettopreis",
       "year": "Jahr"
     },

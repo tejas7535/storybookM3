@@ -1,10 +1,18 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
+import { select, Store } from '@ngrx/store';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
@@ -15,7 +23,8 @@ import {
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { RouterStateUrl } from '../../reducers';
+import { AppState, RouterStateUrl } from '../../reducers';
+import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()
 export class TransactionsEffect {
@@ -48,6 +57,19 @@ export class TransactionsEffect {
       map((action: any) => action.gqPositionId),
       mergeMap((gqPositionId: string) =>
         this.quotationDetailsService.getTransactions(gqPositionId).pipe(
+          withLatestFrom(
+            this.store.pipe(select(getPriceUnitOfSelectedQuotationDetail))
+          ),
+          map(([transactions, priceUnit]: [Transaction[], number]) => ({
+            transactions,
+            priceUnit,
+          })),
+          map((object: { transactions: Transaction[]; priceUnit: number }) =>
+            PriceService.multiplyTransactionsWithPriceUnit(
+              object.transactions,
+              object.priceUnit
+            )
+          ),
           map((transactions: Transaction[]) =>
             loadComparableTransactionsSuccess({ transactions })
           ),
@@ -60,6 +82,7 @@ export class TransactionsEffect {
   );
 
   constructor(
+    private readonly store: Store<AppState>,
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}

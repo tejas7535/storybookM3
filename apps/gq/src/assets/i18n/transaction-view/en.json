@@ -17,19 +17,19 @@
     }
   },
   "graph": {
-    "title": "Margin Volume Graph",
+    "title": "Margin by Quantity Graph",
     "salesIndication": {
       "invoice": "Invoice",
       "lostQuote": "Lost Quote",
-      "order": "Order"
+      "order": "Orders on Hand (OoH)"
     },
     "tooltip": {
       "quantity": "Quantity",
-      "profitMargin": "Profit Margin",
+      "profitMargin": "GPI",
       "price": "Price",
       "year": "Year"
     },
     "x-axis": "Quantity",
-    "y-axis": "Profit Margin %"
+    "y-axis": "GPI %"
   }
 }
