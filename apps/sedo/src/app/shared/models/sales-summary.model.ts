@@ -20,8 +20,6 @@ export class SalesSummary {
     public socoArticleNumberGlobalKey: string,
     public productLineName: string,
     public productLineKey: string,
-    public productionPlantKey: string,
-    public productionPlantName: string,
     public salesorgName: string,
     public salesorgKey: string,
     public lastUpdated: string,
@@ -29,7 +27,6 @@ export class SalesSummary {
     public lastEopCalculated: string,
     public eopDateVerified: string,
     public edoDate: string,
-    public lastModifier: string,
-    public categoryNetSales: SalesCategory
+    public lastModifier: string
   ) {}
 }

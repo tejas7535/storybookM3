@@ -1,7 +1,4 @@
-import {
-  SalesCategory,
-  SalesSummary,
-} from '../../app/shared/models/sales-summary.model';
+import { SalesSummary } from '../../app/shared/models/sales-summary.model';
 
 export const salesSummaryMock = new SalesSummary(
   'combined key',
@@ -19,8 +16,6 @@ export const salesSummaryMock = new SalesSummary(
   'article number global name',
   'product line medium name',
   'product line key',
-  'key',
-  'name',
   '0205',
   'FAS',
   '2020-10-15T08:43:01.412Z',
@@ -28,6 +23,5 @@ export const salesSummaryMock = new SalesSummary(
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
   '2020-10-15T08:43:01.412Z',
-  'abc',
-  SalesCategory.A
+  'abc'
 );

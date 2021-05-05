@@ -83,21 +83,11 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     headerName: 'Material Name',
     filterParams: FILTER_PARAMS,
   },
-  {
-    field: 'productionPlantKey',
-    headerName: 'Production Plant Key',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'productionPlantName',
-    headerName: 'Production Plant Name',
-    filterParams: FILTER_PARAMS,
-  },
-  {
-    field: 'categoryNetSales',
-    headerName: 'Net Sales Category',
-    filterParams: FILTER_PARAMS,
-  },
+  // {
+  //   field: 'categoryNetSales',
+  //   headerName: 'Net Sales Category',
+  //   filterParams: FILTER_PARAMS,
+  // },
   {
     field: 'lastModifier',
     headerName: 'Last SOCO Planner',
