@@ -5,6 +5,8 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { BackButtonModule } from '@cdba/shared/directives';
+
 import { TabsHeaderComponent } from './tabs-header.component';
 
 describe('TabsHeaderComponent', () => {
@@ -18,6 +20,7 @@ describe('TabsHeaderComponent', () => {
       MatTabsModule,
       ReactiveComponentModule,
       RouterTestingModule,
+      BackButtonModule,
     ],
     declarations: [TabsHeaderComponent],
   });

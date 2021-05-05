@@ -7,6 +7,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { BackButtonModule } from '../../directives';
 import { SharedModule } from '../../shared.module';
 import { TabsHeaderComponent } from './tabs-header.component';
 
@@ -19,6 +20,7 @@ import { TabsHeaderComponent } from './tabs-header.component';
     SharedTranslocoModule,
     ReactiveComponentModule,
     RouterModule,
+    BackButtonModule,
   ],
   exports: [TabsHeaderComponent],
 })
