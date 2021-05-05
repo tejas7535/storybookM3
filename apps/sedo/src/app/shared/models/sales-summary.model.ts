@@ -6,6 +6,7 @@ export enum SalesCategory {
 export class SalesSummary {
   public constructor(
     public combinedKey: string,
+    public timeoutWarning: boolean,
     public category: string,
     public standardFtype: string,
     public businessUnitKey: string,
