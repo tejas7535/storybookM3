@@ -1,3 +1,4 @@
+import { INoRowsOverlayParams } from '@ag-grid-community/core';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import {
@@ -26,7 +27,9 @@ describe('CustomNoRowsOverlayComponent', () => {
         getMessage: () => 'no rows',
       };
 
-      component.agInit(params);
+      component.agInit(
+        (params as unknown) as INoRowsOverlayParams & NoRowsParams
+      );
 
       expect(component.params).toEqual(params);
     });

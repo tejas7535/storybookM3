@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 
 import { INoRowsOverlayAngularComp } from '@ag-grid-community/angular';
+import { INoRowsOverlayParams } from '@ag-grid-community/core';
 
 export interface NoRowsParams {
-  getMessage: Function;
+  getMessage: () => string;
 }
 
 @Component({
@@ -14,7 +15,7 @@ export interface NoRowsParams {
 export class CustomNoRowsOverlayComponent implements INoRowsOverlayAngularComp {
   params: NoRowsParams;
 
-  agInit(params: NoRowsParams): void {
+  agInit(params: INoRowsOverlayParams & NoRowsParams): void {
     this.params = params;
   }
 }

@@ -56,9 +56,9 @@
   },
   "private": true,
   "dependencies": {
-    "@ag-grid-community/all-modules": "25.1.0",
-    "@ag-grid-community/angular": "25.1.0",
-    "@ag-grid-enterprise/all-modules": "25.1.0",
+    "@ag-grid-community/all-modules": "25.2.0",
+    "@ag-grid-community/angular": "25.2.0",
+    "@ag-grid-enterprise/all-modules": "25.2.0",
     "@angular/animations": "11.2.12",
     "@angular/cdk": "11.2.11",
     "@angular/common": "11.2.12",

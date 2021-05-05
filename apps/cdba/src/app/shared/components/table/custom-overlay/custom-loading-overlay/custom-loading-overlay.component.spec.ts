@@ -23,7 +23,7 @@ describe('CustomLoadingOverlayComponent', () => {
 
   describe('agInit', () => {
     it('should do nothing for now - dummy test', () => {
-      component.agInit({});
+      component.agInit();
 
       expect(component).toBeTruthy();
     });
