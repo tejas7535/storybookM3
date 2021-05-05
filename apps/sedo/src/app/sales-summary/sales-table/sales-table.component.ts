@@ -20,6 +20,7 @@ import {
 
 import { DataService } from '../../shared/data.service';
 import { SalesRowDetailsComponent } from '../sales-row-details/sales-row-details.component';
+import { TimeoutWarningRendererComponent } from '../timeout-warning/timeout-warning-cellrenderer-component';
 import { COLUMN_DEFINITIONS } from './config/column-definitions';
 import { DEFAULT_COLUMN_DEFINITION } from './config/default-column-definitions';
 import { GRID_OPTIONS } from './config/grid-options';
@@ -57,7 +58,10 @@ export class SalesTableComponent implements OnInit {
     private readonly activatedRoute: ActivatedRoute
   ) {
     this.detailCellRenderer = 'rowDetails';
-    this.frameworkComponents = { rowDetails: SalesRowDetailsComponent };
+    this.frameworkComponents = {
+      rowDetails: SalesRowDetailsComponent,
+      warningsCellrenderer: TimeoutWarningRendererComponent,
+    };
   }
 
   public async ngOnInit(): Promise<void> {

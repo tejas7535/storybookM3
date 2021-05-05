@@ -14,6 +14,16 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     cellRenderer: 'agGroupCellRenderer',
   },
   {
+    field: 'timeoutWarning',
+    headerName: 'Warnings',
+    filterParams: FILTER_PARAMS,
+    cellRenderer: 'warningsCellrenderer',
+    cellStyle: {
+      display: 'flex ',
+      'justify-content': 'center',
+    },
+  },
+  {
     field: 'sectorKey',
     headerName: 'Sector Key',
     filterParams: FILTER_PARAMS,

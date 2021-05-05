@@ -2,6 +2,7 @@ import { SalesSummary } from '../../app/shared/models/sales-summary.model';
 
 export const salesSummaryMock = new SalesSummary(
   'combined key',
+  true,
   'category key',
   'standard f type key',
   'business unit key',
