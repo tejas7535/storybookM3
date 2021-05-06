@@ -8,7 +8,7 @@ import { select, Store } from '@ngrx/store';
 
 import { environment } from '../../../../../environments/environment';
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { getCustomerCurrency } from '../../../../core/store';
+import { getCustomerCurrency, userHasGPCRole } from '../../../../core/store';
 import { ProcessCaseState } from '../../../../core/store/reducers/process-case/process-case.reducer';
 import {
   PriceSource,
@@ -25,8 +25,8 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
 })
 export class GqPriceComponent implements OnInit {
   public customerCurrency$: Observable<string>;
+  public userHasGPCRole$: Observable<boolean>;
   public isProduction = environment.production;
-
   public gpi: number;
   _isLoading: boolean;
 
@@ -55,6 +55,7 @@ export class GqPriceComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
+    this.userHasGPCRole$ = this.store.pipe(select(userHasGPCRole));
     if (this.quotationDetail) {
       this.gpi = PriceService.calculateGPI(
         this.quotationDetail.recommendedPrice,

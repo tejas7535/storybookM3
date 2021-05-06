@@ -8,13 +8,14 @@ import { Store } from '@ngrx/store';
 
 import {
   getCustomerCurrency,
-  getGqPriceOfSelectedQuotationDetail,
   getGraphTransactions,
+  getSelectedQuotationDetail,
   getTransactions,
   getTransactionsLoading,
   isQuotationLoading,
 } from '../../core/store';
 import { Transaction } from '../../core/store/reducers/transactions/models/transaction.model';
+import { QuotationDetail } from '../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-transaction-view',
@@ -22,7 +23,7 @@ import { Transaction } from '../../core/store/reducers/transactions/models/trans
   styleUrls: ['./transaction-view.component.scss'],
 })
 export class TransactionViewComponent implements OnInit {
-  gqPrice$: Observable<number>;
+  quotationDetail$: Observable<QuotationDetail>;
   quotationLoading$: Observable<boolean>;
   currency$: Observable<string>;
   transactions$: Observable<Transaction[]>;
@@ -36,7 +37,7 @@ export class TransactionViewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.gqPrice$ = this.store.select(getGqPriceOfSelectedQuotationDetail);
+    this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
     this.quotationLoading$ = this.store.select(isQuotationLoading);
     this.currency$ = this.store.select(getCustomerCurrency);
     this.translationsLoaded$ = this.translocoService

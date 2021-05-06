@@ -32,3 +32,8 @@ export const getAllRoles = createSelector(
 
 export const filterRoles = (roles: string[], prefix: string): string[] =>
   roles.filter((role) => role.includes(prefix));
+
+export const userHasGPCRole = createSelector(
+  getRoles,
+  (roles: String[]): boolean => roles.includes(UserRoles.COST_GPC)
+);

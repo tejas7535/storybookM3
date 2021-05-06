@@ -297,13 +297,6 @@ describe('Process Case Selector', () => {
       });
     });
   });
-  describe('getGqPriceOfSelectedQuotationDetail', () => {
-    test('should return gq price', () => {
-      expect(
-        quotationSelectors.getGqPriceOfSelectedQuotationDetail(fakeState)
-      ).toEqual(QUOTATION_DETAIL_MOCK.recommendedPrice);
-    });
-  });
   describe('getPriceUnitOfSelectedQuotationDetail', () => {
     test('should return price unit', () => {
       expect(

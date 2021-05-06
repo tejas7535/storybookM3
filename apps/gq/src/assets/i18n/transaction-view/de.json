@@ -1,6 +1,10 @@
 {
   "header": {
-    "title": "GQ Preis"
+    "title": "GQ Preis",
+    "icon-hover": {
+      "quantity": "Menge",
+      "materialDescription": "Materialbezeichnung"
+    }
   },
   "transactions": {
     "title": "Vergleichbare Transaktionen",

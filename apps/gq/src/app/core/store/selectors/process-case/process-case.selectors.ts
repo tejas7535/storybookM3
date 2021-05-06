@@ -149,11 +149,6 @@ export const getMaterialOfSelectedQuotationDetail = createSelector(
   (detail: QuotationDetail): MaterialDetails => detail?.material
 );
 
-export const getGqPriceOfSelectedQuotationDetail = createSelector(
-  getSelectedQuotationDetail,
-  (detail: QuotationDetail): number => detail?.recommendedPrice
-);
-
 export const getPriceUnitOfSelectedQuotationDetail = createSelector(
   getSelectedQuotationDetail,
   (detail: QuotationDetail): number => detail?.material?.priceUnit
