@@ -1,4 +1,4 @@
-import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
+import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
 
 export interface ParentEmployeeResponse {
   employee: OrgChartEmployee;

@@ -1,31 +1,13 @@
 <div>
-  <div
-    class="relative flex flex-col min-h-[650px] bg-white"
-    *ngrxLet="selectedChartType$ as selectedChart"
-  >
-    <ia-toggle-charts
-      [chartType]="selectedChart"
-      (changed)="chartTypeChanged($event)"
-    ></ia-toggle-charts>
-    <ia-org-chart
-      class="flex-grow flex flex-col"
-      *ngIf="selectedChart === chartType.ORG_CHART"
-      [data]="orgChart$ | ngrxPush"
-      [isLoading]="isLoadingOrgChart$ | ngrxPush"
-      (showParent)="loadParent($event)"
-    ></ia-org-chart>
-    <ia-world-map
-      *ngIf="selectedChart === chartType.WORLD_MAP"
-      [data]="worldMap$ | ngrxPush"
-      [continents]="worldMapContinents$ | ngrxPush"
-      [isLoading]="isLoadingWorldMap$ | ngrxPush"
-    ></ia-world-map>
-  </div>
-
-  <div>
-    <h2 class="my-4" *transloco="let t; read: 'attritionQuotaDetails'">
-      {{ t('title') }}
-    </h2>
-    <ia-attrition-quota-details></ia-attrition-quota-details>
+  <h2 *transloco="let t; read: 'attritionQuotaDetails'">
+    {{ t('title') }}
+  </h2>
+  <div class="bg-white">
+    <ia-overview-chart
+      [loading]="attritionQuotaloading$ | ngrxPush"
+      [events]="events$ | ngrxPush"
+      [data]="attritionData$ | ngrxPush"
+    >
+    </ia-overview-chart>
   </div>
 </div>

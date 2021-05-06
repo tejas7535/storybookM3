@@ -1,0 +1,159 @@
+import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
+
+import { IdValue } from '../../shared/models';
+import { ChartType } from '../models/chart-type.enum';
+import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
+import { CountryData } from '../world-map/models/country-data.model';
+import {
+  chartTypeSelected,
+  loadOrgChart,
+  loadOrgChartFailure,
+  loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
+  loadWorldMap,
+  loadWorldMapFailure,
+  loadWorldMapSuccess,
+} from './actions/organizational-view.action';
+
+export const organizationalViewFeatureKey = 'organizationalView';
+
+export interface OrganizationalViewState {
+  orgChart: {
+    data: OrgChartEmployee[];
+    loading: boolean;
+    errorMessage: string;
+  };
+  worldMap: {
+    data: CountryData[];
+    continents: IdValue[];
+    loading: boolean;
+    errorMessage: string;
+  };
+  selectedChart: ChartType;
+}
+
+export const initialState: OrganizationalViewState = {
+  orgChart: {
+    data: [],
+    loading: false,
+    errorMessage: undefined,
+  },
+  worldMap: {
+    data: [],
+    // Hardcoded for PoC
+    continents: [
+      {
+        id: 'europe',
+        value: 'Europe',
+      },
+      {
+        id: 'asia',
+        value: 'Asia Pacific',
+      },
+      {
+        id: 'americas',
+        value: 'Americas',
+      },
+    ],
+    loading: false,
+    errorMessage: undefined,
+  },
+  selectedChart: ChartType.ORG_CHART,
+};
+
+export const organizationalViewReducer = createReducer(
+  initialState,
+  on(chartTypeSelected, (state: OrganizationalViewState, { chartType }) => ({
+    ...state,
+    selectedChart: chartType,
+  })),
+  on(loadOrgChart, (state: OrganizationalViewState) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
+      loading: true,
+    },
+  })),
+  on(loadOrgChartSuccess, (state: OrganizationalViewState, { employees }) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
+      data: employees,
+      loading: false,
+    },
+  })),
+  on(
+    loadOrgChartFailure,
+    (state: OrganizationalViewState, { errorMessage }) => ({
+      ...state,
+      errorMessage,
+      orgChart: {
+        ...state.orgChart,
+        errorMessage,
+        data: [],
+        loading: false,
+      },
+    })
+  ),
+  on(loadWorldMap, (state: OrganizationalViewState) => ({
+    ...state,
+    worldMap: {
+      ...state.worldMap,
+      loading: true,
+    },
+  })),
+  on(loadWorldMapSuccess, (state: OrganizationalViewState, { data }) => ({
+    ...state,
+    worldMap: {
+      ...state.worldMap,
+      data,
+      loading: false,
+    },
+  })),
+  on(
+    loadWorldMapFailure,
+    (state: OrganizationalViewState, { errorMessage }) => ({
+      ...state,
+      worldMap: {
+        ...state.worldMap,
+        errorMessage,
+        data: [],
+        loading: false,
+      },
+    })
+  ),
+  on(loadParent, (state: OrganizationalViewState) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
+      loading: true,
+    },
+  })),
+  // result is not saved in store -> loading should not stop as the process of loading the new org chart is still ongoing
+  on(loadParentSuccess, (state: OrganizationalViewState) => ({
+    ...state,
+  })),
+  on(loadParentFailure, (state: OrganizationalViewState, { errorMessage }) => ({
+    ...state,
+    orgChart: {
+      ...state.orgChart,
+      errorMessage,
+      data: [],
+      loading: false,
+    },
+  }))
+);
+
+// tslint:disable-next-line: only-arrow-functions
+export function reducer(
+  state: OrganizationalViewState,
+  action: Action
+): OrganizationalViewState {
+  return organizationalViewReducer(state, action);
+}
+
+export const selectOrganizationalViewState = createFeatureSelector<OrganizationalViewState>(
+  organizationalViewFeatureKey
+);

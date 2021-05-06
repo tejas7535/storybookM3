@@ -38,6 +38,11 @@ export class AppComponent implements OnInit {
       disabled: false,
     },
     {
+      label: 'organizationalView',
+      path: AppRoutePath.OrganizationalView,
+      disabled: false,
+    },
+    {
       label: 'lossOfSkill',
       path: AppRoutePath.LossOfSkillPath,
       disabled: true,
@@ -52,8 +57,6 @@ export class AppComponent implements OnInit {
       path: AppRoutePath.AnalyticsPath,
       disabled: true,
     },
-    { label: 'persona', path: AppRoutePath.PersonaPath, disabled: true },
-    { label: 'summary', path: AppRoutePath.SummaryPath, disabled: true },
   ];
 
   public constructor(private readonly store: Store<AppState>) {}

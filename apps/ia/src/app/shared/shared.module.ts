@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { FlexLayoutModule } from '@angular/flex-layout';
+
+import { ReactiveComponentModule } from '@ngrx/component';
 
 @NgModule({
-  imports: [CommonModule, FlexLayoutModule],
-  exports: [CommonModule, FlexLayoutModule],
+  imports: [CommonModule, ReactiveComponentModule],
+  exports: [CommonModule, ReactiveComponentModule],
 })
 export class SharedModule {}

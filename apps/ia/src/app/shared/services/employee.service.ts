@@ -6,8 +6,8 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
-import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
-import { CountryData } from '../../overview/world-map/models/country-data.model';
+import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
+import { CountryData } from '../../organizational-view/world-map/models/country-data.model';
 import {
   AttritionOverTime,
   EmployeesRequest,
