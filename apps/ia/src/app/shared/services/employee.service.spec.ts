@@ -7,7 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import { OrgChartEmployee } from '../../overview/org-chart/models/org-chart-employee.model';
+import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
 import {
   AttritionOverTime,
   EmployeesRequest,

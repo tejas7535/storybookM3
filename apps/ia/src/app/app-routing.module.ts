@@ -18,6 +18,13 @@ export const appRoutePaths: Routes = [
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
+        path: AppRoutePath.OrganizationalView,
+        loadChildren: () =>
+          import('./organizational-view/organizational-view.module').then(
+            (m) => m.OrganizationalViewModule
+          ),
+      },
+      {
         path: AppRoutePath.LossOfSkillPath,
         loadChildren: () =>
           import('./loss-of-skills/loss-of-skills.module').then(

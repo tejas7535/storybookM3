@@ -34,11 +34,10 @@
   },
   "tabs": {
     "overview": "Overview",
+    "organizationalView": "Organizational View",
     "lossOfSkill": "Loss Of Skill",
     "reasonsAndCounterMeasures": "Reasons & Counter Measures",
-    "attritionAnalytics": "Attrition Analytics",
-    "persona": "Persona",
-    "summary": "Summary"
+    "attritionAnalytics": "Attrition Analytics"
   },
   "orgChart": {
     "table": {

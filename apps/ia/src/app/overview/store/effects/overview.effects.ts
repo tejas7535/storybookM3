@@ -19,28 +19,12 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import {
-  AttritionOverTime,
-  EmployeesRequest,
-  FilterKey,
-  SelectedFilter,
-} from '../../../shared/models';
+import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
-import { CountryData } from '../../world-map/models/country-data.model';
 import {
   loadAttritionOverTime,
   loadAttritionOverTimeFailure,
   loadAttritionOverTimeSuccess,
-  loadOrgChart,
-  loadOrgChartFailure,
-  loadOrgChartSuccess,
-  loadParent,
-  loadParentFailure,
-  loadParentSuccess,
-  loadWorldMap,
-  loadWorldMapFailure,
-  loadWorldMapSuccess,
 } from '../actions/overview.action';
 
 @Injectable()
@@ -53,69 +37,7 @@ export class OverviewEffects implements OnInitEffects {
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
         loadAttritionOverTime({ request }),
-        loadOrgChart({ request }),
-        loadWorldMap({ request }),
       ])
-    )
-  );
-
-  loadOrgChart$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadOrgChart),
-      map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getOrgChart(request).pipe(
-          map((employees: OrgChartEmployee[]) =>
-            loadOrgChartSuccess({ employees })
-          ),
-          catchError((error) =>
-            of(loadOrgChartFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    )
-  );
-
-  loadWorldMap$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadWorldMap),
-      map((action) => action.request),
-      mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getWorldMap(request).pipe(
-          map((data: CountryData[]) => loadWorldMapSuccess({ data })),
-          catchError((error) =>
-            of(loadWorldMapFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    )
-  );
-
-  loadParent$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadParent),
-      map((action) => action.employee.employeeId),
-      mergeMap((childEmployeeId: string) =>
-        this.employeeService.getParentEmployee(childEmployeeId).pipe(
-          map((employee: OrgChartEmployee) => loadParentSuccess({ employee })),
-          catchError((error) =>
-            of(loadParentFailure({ errorMessage: error.message }))
-          )
-        )
-      )
-    )
-  );
-
-  loadParentSuccess$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadParentSuccess),
-      map((action) => ({
-        name: FilterKey.ORG_UNIT,
-        value: action.employee.orgUnit,
-      })),
-      map((selectedFilter: SelectedFilter) =>
-        filterSelected({ filter: selectedFilter })
-      )
     )
   );
 
