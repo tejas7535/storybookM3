@@ -17,7 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="box" fxFlex>
+    <div class="box" fxFlex *ngIf="userHasGPCRole$ | ngrxPush">
       <div class="label">{{ t('gpi') }}:</div>
       <div class="row" fxLayout="row" fxLayoutAlign="start center">
         <span>{{ gpi }} %</span>

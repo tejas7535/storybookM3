@@ -9,6 +9,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
 import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
+import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
 import { TransactionViewComponent } from './transaction-view.component';
 import { TransparencyGraphModule } from './transparency-graph/transparency-graph.module';
 
@@ -26,6 +27,7 @@ describe('TransactionViewComponent', () => {
       LoadingSpinnerModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
+      TransactionViewHeaderContentModule,
     ],
     providers: [provideMockStore({})],
   });
