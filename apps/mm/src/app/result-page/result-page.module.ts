@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { ReportModule } from '@schaeffler/report';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -20,6 +21,7 @@ import { ResultPageComponent } from './result-page.component';
     ReactiveComponentModule,
 
     ReportModule,
+    LoadingSpinnerModule,
   ],
   exports: [ResultPageComponent],
 })

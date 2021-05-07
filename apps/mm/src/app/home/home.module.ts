@@ -6,6 +6,7 @@ import { DynamicFormsModule } from '@caeonline/dynamic-forms';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingSearchModule } from '../bearing-search/bearing-search.module';
@@ -43,6 +44,7 @@ import { HomeComponent } from './home.component';
     BearingSearchModule,
     ResultPageModule,
     PictureCardListModule,
+    LoadingSpinnerModule,
 
     // Angular Material
     MatButtonModule,
