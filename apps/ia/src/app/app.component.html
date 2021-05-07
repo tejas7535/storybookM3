@@ -17,7 +17,6 @@
       <a
         *ngFor="let tab of tabs; trackBy: trackByFn"
         mat-tab-link
-        class="!text-subtitle-2"
         routerLinkActive
         #rla="routerLinkActive"
         [routerLink]="tab.path"
