@@ -3,8 +3,10 @@
     "manualPrice": {
       "hint": "Enter a manual price",
       "label": "Manual Price",
-      "noPermissionHint": "You do not have the permission to create a manual price",
-      "title": "Manual Pricing"
+      "title": "Manual Pricing",
+      "gpi": "GPI% (GPC)",
+      "quantity": "Quantity",
+      "priceUnit": "Price Unit"
     },
     "gqPrice": {
       "title": "GQ Pricing",

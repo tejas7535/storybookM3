@@ -141,7 +141,7 @@ export const getSelectedQuotationDetail = createSelector(
 
 export const getCustomerCurrency = createSelector(
   getProcessCaseState,
-  (state: ProcessCaseState): string => state.customer.item.currency
+  (state: ProcessCaseState): string => state.customer.item?.currency
 );
 
 export const getMaterialOfSelectedQuotationDetail = createSelector(

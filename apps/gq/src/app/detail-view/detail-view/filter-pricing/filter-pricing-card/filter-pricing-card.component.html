@@ -1,28 +1,37 @@
 <mat-card *transloco="let t; read: 'detailView.filterPricing'">
   <mat-card-title> {{ title }} </mat-card-title>
-  <div *ngIf="!isLoading; else loading" fxLayout="row">
-    <div fxFlex="70%" fxLayoutAlign="center start">
-      <ng-content select="[content]"></ng-content>
-    </div>
-    <div fxFlex *transloco="let t; read: 'detailView.filterPricing'">
-      <button mat-raised-button color="primary" *ngIf="isSelected; else select">
-        <mat-icon>check_circle</mat-icon>
-        {{ t('selected') | uppercase }}
-      </button>
-      <ng-template #select>
+  <div *ngIf="!isLoading; else loading">
+    <div class="flex flex-row">
+      <div class="flex-grow max-w-[70%] w-full">
+        <ng-content select="[content]"></ng-content>
+      </div>
+      <div
+        class="flex-auto"
+        *transloco="let t; read: 'detailView.filterPricing'"
+      >
         <button
-          mat-stroked-button
+          mat-raised-button
           color="primary"
-          (click)="selectPrice()"
-          [disabled]="isDisabled"
+          *ngIf="isSelected; else select"
         >
           <mat-icon>check_circle</mat-icon>
-          {{ t('select') | uppercase }}
+          {{ t('selected') | uppercase }}
         </button>
-      </ng-template>
+        <ng-template #select>
+          <button
+            mat-stroked-button
+            color="primary"
+            (click)="selectPrice()"
+            [disabled]="isDisabled"
+          >
+            <mat-icon>check_circle</mat-icon>
+            {{ t('select') | uppercase }}
+          </button>
+        </ng-template>
+      </div>
     </div>
+    <ng-content select="[link]"> </ng-content>
   </div>
-  <ng-content select="[link]"> </ng-content>
   <ng-template #loading>
     <gq-loading-spinner [show]="true"></gq-loading-spinner>
   </ng-template>

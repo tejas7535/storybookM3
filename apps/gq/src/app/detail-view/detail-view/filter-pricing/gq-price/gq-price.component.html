@@ -5,33 +5,33 @@
   (selectManualPrice)="selectPrice()"
   [isLoading]="isLoading"
 >
-  <div content fxLayout="row" fxLayoutAlign="start end" class="container">
-    <div class="box" fxFlex>
-      <div class="label">{{ t('priceLabel') }}:</div>
-      <div class="row" fxLayout="row" fxLayoutAlign="start center">
-        <div FxFlex>
-          <span>{{ quotationDetail.recommendedPrice }}</span
-          ><span *ngIf="customerCurrency$ | ngrxPush as currency">
-            {{ currency }}</span
-          >
+  <div content class="mt-[10px] w-full flex">
+    <div class="flex-grow max-w-[30%]">
+      <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
+      <div>
+        <div>
+          <span class="font-bold">{{ quotationDetail.recommendedPrice }}</span
+          ><span class="font-bold"> {{ currency }}</span>
         </div>
       </div>
     </div>
-    <div class="box" fxFlex *ngIf="userHasGPCRole$ | ngrxPush">
-      <div class="label">{{ t('gpi') }}:</div>
-      <div class="row" fxLayout="row" fxLayoutAlign="start center">
-        <span>{{ gpi }} %</span>
+    <div class="flex-1" *ngIf="userHasGPCRole">
+      <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
+      <div>
+        <span class="font-bold">{{ gpi }} %</span>
       </div>
     </div>
-    <div class="box" fxFlex>
-      <div class="label">{{ t('quantity') }}:</div>
-      <div class="row" fxLayout="row" fxLayoutAlign="start center">
-        <span>{{ quotationDetail.orderQuantity | number }}</span>
+    <div class="flex-1">
+      <div class="mb-1 text-body-1">{{ t('quantity') }}:</div>
+      <div>
+        <span class="font-bold">{{
+          quotationDetail.orderQuantity | number
+        }}</span>
       </div>
     </div>
-    <div class="box" fxFlex *ngIf="quotationDetail.gqRating">
-      <div class="label">{{ t('rating') }}:</div>
-      <div class="row" fxLayout="row" fxLayoutAlign="start center">
+    <div class="flex-1" *ngIf="quotationDetail.gqRating">
+      <div class="mb-1 text-body-1">{{ t('rating') }}:</div>
+      <div>
         <ng-container
           *ngFor="
             let i of [].constructor(quotationDetail.gqRating);
@@ -50,15 +50,13 @@
   <div
     *ngIf="!quotationDetail.strategicPrice"
     link
-    class="m-t-10 link"
-    fxLayout="row"
-    fxLayoutAlign="start center"
+    class="m-t-10 link flex flex-row"
     (click)="navigateClick()"
   >
     <mat-icon
       fontSet="schaeffler-icons"
       fontIcon="icon-arrow-east"
-      class="forward-arrow-icon"
+      class="mr-2 text-h5"
     ></mat-icon>
     {{ t('details') | uppercase }}
   </div>

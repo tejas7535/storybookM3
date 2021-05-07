@@ -1,29 +1,26 @@
 <div
-  class="container"
-  fxLayout="column"
-  fxLayoutAlign="start center"
-  fxLayoutGap="20px"
+  class="w-full flex flex-col flex-1 h-full"
   *transloco="let t; read: 'caseView'"
 >
-  <div fxLayout="row" fxFlexFill class="header">
-    <div fxFlex="100%" fxLayoutAlign="start start">
+  <div class="p-4 flex">
+    <div class="w-full">
       <h1>{{ t('title') }}</h1>
     </div>
-    <div fxFlex fxLayoutAlign="start start">
+    <div class="self-center">
       <button
         mat-stroked-button
         color="primary"
-        class="create-case-button"
         (click)="openCreateCaseDialog()"
       >
-        <div class="create-case">
-          <mat-icon>add</mat-icon>
+        <div class="font-bold pl-4 pr-4 flex items-center">
+          <mat-icon class="mr-4">add</mat-icon>
           {{ t('buttonCreateCase') | uppercase }}
         </div>
       </button>
     </div>
   </div>
   <gq-case-table
+    class="h-full"
     *ngIf="
       (quotationsLoading$ | ngrxPush) === false &&
         (deleteLoading$ | ngrxPush) === false;

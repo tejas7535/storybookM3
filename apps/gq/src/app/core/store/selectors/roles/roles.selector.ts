@@ -37,3 +37,7 @@ export const userHasGPCRole = createSelector(
   getRoles,
   (roles: String[]): boolean => roles.includes(UserRoles.COST_GPC)
 );
+export const userHasManualPriceRole = createSelector(
+  getRoles,
+  (roles: String[]): boolean => roles.includes(UserRoles.MANUAL_PRICE)
+);

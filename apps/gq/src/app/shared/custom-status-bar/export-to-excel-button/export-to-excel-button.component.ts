@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 
 import {
+  ExcelExportParams,
   IStatusPanelParams,
   ProcessCellForExportParams,
   ProcessHeaderForExportParams,
@@ -36,10 +37,11 @@ export class ExportToExcelButtonComponent {
       today.getMonth() + 1
     }-${today.getDate()}`;
     const time = `${today.getHours()}-${today.getMinutes()}`;
-    const excelParams = {
+    const excelParams: ExcelExportParams = {
       columnKeys,
       allColumns: false,
       fileName: `GQ_Case_${this.params.context?.gqId}_${date}_${time}`,
+      sheetName: `Guided Quoting`,
       skipHeader: false,
       processCellCallback: (params: ProcessCellForExportParams) =>
         this.processCellCallback(params),
