@@ -35,4 +35,8 @@
   ></mm-picture-card-list>
 </ng-template>
 
-<ng-template #loading> LOADING </ng-template>
+<ng-template #loading>
+  <div>
+    <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
+  </div>
+</ng-template>

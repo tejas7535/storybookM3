@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 @Component({
   selector: 'schaeffler-loading-spinner',
@@ -8,4 +8,5 @@ import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 })
 export class LoadingSpinnerComponent {
   @Input() backgroundColor?: string;
+  @Input() relative?: boolean;
 }
