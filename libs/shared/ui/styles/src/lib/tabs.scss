@@ -1,31 +1,15 @@
-@import './colors.scss';
-@import './fonts.scss';
-
-.mat-tab-links > .mat-tab-link {
-  color: $schaeffler-carbon-gray;
-  font-size: $schaeffler-h4;
-  font-weight: bold;
-  opacity: 1;
-}
-
-.mat-tab-links > .mat-tab-label-active {
-  color: $schaeffler-green-1;
-}
-
-.mat-tab-labels > .mat-tab-label {
-  opacity: 1;
-}
-
 .mat-tab-label-content {
-  color: $schaeffler-carbon-gray;
-  font-size: $schaeffler-h4;
-  font-weight: bold;
+  @apply text-button text-light opacity-100;
 }
 
 .mat-tab-label-active > .mat-tab-label-content {
-  color: $schaeffler-green-1;
+  @apply text-primary;
 }
 
-nav.mat-tab-nav-bar {
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14);
+.mat-tab-links > .mat-tab-link {
+  @apply text-button text-light opacity-100;
+}
+
+.mat-tab-links > .mat-tab-label-active {
+  @apply text-primary;
 }

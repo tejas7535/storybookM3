@@ -17,7 +17,7 @@
       #rla="routerLinkActive"
       [routerLink]="tab.link"
       [active]="rla.isActive"
-      >{{ tab.label$ | ngrxPush }}
+      >{{ tab.label$ | ngrxPush | uppercase }}
     </a>
   </nav>
   <div class="tab-content">
