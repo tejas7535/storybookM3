@@ -2,12 +2,16 @@
 @import 'libs/shared/ui/styles/src/lib/fonts';
 
 mat-form-field {
-  width: 100%;
+  width: 70%;
 }
-.input-field {
-  font-size: 14px;
+::ng-deep .small-input .mat-form-field-flex > .mat-form-field-infix {
+  border: 0 !important;
+  margin-top: 5px;
+  padding: 5px !important;
 }
-
-.noPermission {
-  color: $schaeffler-red;
+::ng-deep
+  .small-input
+  .mat-form-field-appearance-outline
+  .mat-form-field-subscript-wrapper {
+  padding: 0 !important;
 }

@@ -1,17 +1,20 @@
 <div>
   <gq-manual-price
-    [manualPricePermission]="manualPricePermission$ | ngrxPush"
-    [currentPrice]="(selectedQuotationDetail$ | ngrxPush)?.price"
-    [priceUnit]="(selectedQuotationDetail$ | ngrxPush)?.material.priceUnit"
+    [userHasManualPriceRole]="userHasManualPriceRole$ | ngrxPush"
+    [quotationDetail]="selectedQuotationDetail$ | ngrxPush"
+    [currency]="customerCurrency$ | ngrxPush"
     (selectManualPrice)="selectManualPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
+    [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
   ></gq-manual-price>
 
   <gq-price
     *ngIf="(selectedQuotationDetail$ | ngrxPush)?.recommendedPrice"
     [quotationDetail]="selectedQuotationDetail$ | ngrxPush"
+    [currency]="customerCurrency$ | ngrxPush"
     (selectManualPrice)="selectManualPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
+    [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
   >
   </gq-price>
 </div>

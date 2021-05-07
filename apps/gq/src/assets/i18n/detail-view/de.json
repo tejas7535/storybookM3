@@ -4,7 +4,9 @@
       "title": "Manueller Preis",
       "label": "Manueller Preis",
       "hint": "Geben Sie einen manuellen Preis ein",
-      "noPermissionHint": "Sie haben nicht die benötigte Rolle um einen manuellen Preis zu erstellen"
+      "gpi": "GPI% (KHK)",
+      "quantity": "Menge",
+      "priceUnit": "Preiseinheit"
     },
     "gqPrice": {
       "title": "GQ Preis",

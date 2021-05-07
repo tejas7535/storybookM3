@@ -4,12 +4,9 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
 
 import { environment } from '../../../../../environments/environment';
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import { getCustomerCurrency, userHasGPCRole } from '../../../../core/store';
-import { ProcessCaseState } from '../../../../core/store/reducers/process-case/process-case.reducer';
 import {
   PriceSource,
   QuotationDetail,
@@ -24,14 +21,14 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   styleUrls: ['./gq-price.component.scss'],
 })
 export class GqPriceComponent implements OnInit {
-  public customerCurrency$: Observable<string>;
-  public userHasGPCRole$: Observable<boolean>;
   public isProduction = environment.production;
   public gpi: number;
   _isLoading: boolean;
 
   title$: Observable<string>;
 
+  @Input() userHasGPCRole: boolean;
+  @Input() currency: string;
   @Input() quotationDetail: QuotationDetail;
   @Input() set isLoading(value: boolean) {
     this._isLoading = this.isLoading && value;
@@ -43,7 +40,6 @@ export class GqPriceComponent implements OnInit {
 
   constructor(
     private readonly router: Router,
-    private readonly store: Store<ProcessCaseState>,
     private readonly translocoService: TranslocoService
   ) {
     this.title$ = this.translocoService.selectTranslate(
@@ -54,8 +50,6 @@ export class GqPriceComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
-    this.userHasGPCRole$ = this.store.pipe(select(userHasGPCRole));
     if (this.quotationDetail) {
       this.gpi = PriceService.calculateGPI(
         this.quotationDetail.recommendedPrice,

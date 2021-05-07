@@ -77,7 +77,7 @@ describe('FilterPricingComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.manualPricePermission$).toBeDefined();
+      expect(component.userHasManualPriceRole$).toBeDefined();
       expect(component['subscription'].add).toHaveBeenCalledTimes(1);
     });
   });

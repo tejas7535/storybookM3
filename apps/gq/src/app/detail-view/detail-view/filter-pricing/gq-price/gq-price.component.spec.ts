@@ -5,7 +5,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -34,18 +33,6 @@ describe('GqPriceComponent', () => {
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          processCase: {
-            quotation: {},
-            customer: {
-              item: {},
-            },
-          },
-        },
-      }),
-    ],
     declarations: [GqPriceComponent, FilterPricingCardComponent],
   });
 
@@ -65,7 +52,6 @@ describe('GqPriceComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.customerCurrency$).toBeDefined();
       expect(component.gpi).toBeDefined();
     });
     test('should not set gpi', () => {
@@ -73,7 +59,6 @@ describe('GqPriceComponent', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.customerCurrency$).toBeDefined();
       expect(component.gpi).toBeUndefined();
     });
   });

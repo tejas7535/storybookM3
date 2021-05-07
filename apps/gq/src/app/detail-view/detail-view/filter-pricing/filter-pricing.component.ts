@@ -1,17 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
-import { getRoles } from '@schaeffler/azure-auth';
-
 import {
+  getCustomerCurrency,
   getSelectedQuotationDetail,
   getSelectedQuotationDetailId,
   getUpdateLoading,
   updateQuotationDetails,
+  userHasGPCRole,
+  userHasManualPriceRole,
 } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
@@ -19,7 +19,6 @@ import {
   QuotationDetail,
   UpdatePrice,
 } from '../../../shared/models/quotation-detail';
-import { UserRoles } from '../../../shared/roles/user-roles.enum';
 
 @Component({
   selector: 'gq-filter-pricing',
@@ -28,20 +27,23 @@ import { UserRoles } from '../../../shared/roles/user-roles.enum';
 export class FilterPricingComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
   public gqPositionId: string;
-  public manualPricePermission$: Observable<boolean>;
+  public customerCurrency$: Observable<string>;
+  public userHasManualPriceRole$: Observable<boolean>;
+  public userHasGPCRole$: Observable<boolean>;
   public selectedQuotationDetail$: Observable<QuotationDetail>;
   public updateIsLoading$: Observable<boolean>;
 
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
   public ngOnInit(): void {
+    this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
     this.selectedQuotationDetail$ = this.store.pipe(
       select(getSelectedQuotationDetail)
     );
-    this.manualPricePermission$ = this.store.pipe(
-      select(getRoles),
-      map((roles) => roles.includes(UserRoles.MANUAL_PRICE))
+    this.userHasManualPriceRole$ = this.store.pipe(
+      select(userHasManualPriceRole)
     );
+    this.userHasGPCRole$ = this.store.pipe(select(userHasGPCRole));
     this.updateIsLoading$ = this.store.pipe(select(getUpdateLoading));
     this.subscription.add(
       this.store

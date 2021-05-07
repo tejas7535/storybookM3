@@ -1,30 +1,74 @@
 <gq-filter-pricing-card
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
   [title]="title$ | ngrxPush"
-  [isDisabled]="disableInput || !manualPriceFormControl.value"
-  [isSelected]="manualPriceFormControl.value === currentPrice"
+  [isDisabled]="!userHasManualPriceRole || !manualPriceFormControl.value"
+  [isSelected]="manualPriceFormControl.value === quotationDetail.price"
   (selectManualPrice)="selectPrice()"
   [isLoading]="isLoading"
 >
-  <mat-form-field content appearance="outline">
-    <mat-label> {{ t('label') }} </mat-label>
-    <input
-      [formControl]="manualPriceFormControl"
-      [placeholder]="currentPrice"
-      (keydown)="onKeyPress($event, manualPrice)"
-      (paste)="onPaste($event)"
-      class="input-field"
-      type="number"
-      #manualPrice
-      matInput
-    />
-    <mat-hint
-      class="noPermission"
-      [ngClass]="{
-        noPermission: disableInput
-      }"
-    >
-      {{ t(disableInput ? 'noPermissionHint' : 'hint') }}
-    </mat-hint>
-  </mat-form-field>
+  <div class="w-full mt-[10px] flex" content>
+    <div class="flex-grow max-w-[30%]">
+      <div class="mb-1 text-body-1">
+        <span>{{ t('label') }}</span
+        ><span *ngIf="editMode"> ({{ currency }})</span>
+        <span>:</span>
+      </div>
+      <div>
+        <div class="flex-1" *ngIf="!editMode; else editing">
+          <span class="font-bold">{{ price || '-' }}</span
+          ><span class="font-bold"> {{ currency }}</span>
+          <span
+            *ngIf="userHasManualPriceRole"
+            class="ml-1 text-body-1 cursor-pointer"
+            (click)="openEditing()"
+          >
+            <mat-icon
+              fontSet="schaeffler-icons"
+              fontIcon="icon-draft"
+            ></mat-icon>
+          </span>
+        </div>
+        <ng-template #editing>
+          <div class="flex-1" class="small-input">
+            <mat-form-field content appearance="outline">
+              <input
+                [formControl]="manualPriceFormControl"
+                (keydown)="onKeyPress($event, manualPrice)"
+                (paste)="onPaste($event)"
+                class="text-overline"
+                matInput
+                type="number"
+                #manualPrice
+              />
+              <mat-hint>
+                {{ t('hint') }}
+              </mat-hint>
+            </mat-form-field>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+    <div class="flex-1" *ngIf="userHasGPCRole">
+      <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
+      <div>
+        <span class="font-bold">{{ gpi || '-' }} %</span>
+      </div>
+    </div>
+    <div class="flex-1">
+      <div class="mb-1 text-body-1">{{ t('quantity') }}:</div>
+      <div>
+        <span class="font-bold">{{ quotationDetail.orderQuantity }}</span>
+      </div>
+    </div>
+    <div class="flex-1">
+      <div class="mb-1 text-body-1">{{ t('priceUnit') }}:</div>
+      <div>
+        <div>
+          <span class="font-bold">{{
+            quotationDetail.material.priceUnit | number
+          }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </gq-filter-pricing-card>
