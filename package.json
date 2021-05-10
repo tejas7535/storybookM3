@@ -73,7 +73,7 @@
     "@azure/msal-angular": "2.0.0-beta.5",
     "@azure/msal-browser": "2.14.1",
     "@caeonline/dynamic-forms": "0.1.8",
-    "@fontsource/roboto": "4.2.3",
+    "@fontsource/roboto": "4.3.0",
     "@microsoft/applicationinsights-web": "2.6.2",
     "@ng-web-apis/common": "1.9.0",
     "@ngneat/cashew": "1.3.2",
