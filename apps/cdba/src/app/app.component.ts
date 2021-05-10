@@ -9,6 +9,10 @@ import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 
+import { MatDialog } from '@angular/material/dialog';
+import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
+import { BrowserDetectionService } from '@cdba/shared/services';
+import { tap } from 'rxjs/operators';
 import { version } from '../../package.json';
 import { AppState } from './core/store';
 
@@ -37,13 +41,26 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly breakpointService: BreakpointService,
-    private readonly store: Store<AppState>
+    private readonly browserDetectionService: BrowserDetectionService,
+    private readonly store: Store<AppState>,
+    private readonly dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
     this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
     this.username$ = this.store.pipe(select(getUsername));
-    this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+    this.isLoggedIn$ = this.store.pipe(
+      select(getIsLoggedIn),
+      tap((loggedIn) => {
+        if (loggedIn && this.browserDetectionService.isUnsupportedBrowser()) {
+          this.dialog.open(BrowserSupportDialogComponent, {
+            hasBackdrop: true,
+            disableClose: true,
+            maxWidth: 400,
+          });
+        }
+      })
+    );
 
     this.store.dispatch(startLoginFlow());
   }

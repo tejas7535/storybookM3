@@ -22,6 +22,7 @@ import { LoadingSpinnerModule } from '@cdba/shared/components';
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
+import { PlatformModule } from '@angular/cdk/platform';
 
 registerLocaleData(de, 'de-DE');
 
@@ -60,6 +61,9 @@ registerLocaleData(de, 'de-DE');
 
     // Notifications
     SnackBarModule,
+
+    // Platform required for detecting the browser engine
+    PlatformModule,
   ],
   providers: [
     {
