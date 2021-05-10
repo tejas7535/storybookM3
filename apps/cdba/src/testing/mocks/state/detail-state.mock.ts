@@ -24,10 +24,11 @@ export const DETAIL_STATE_MOCK: DetailState = {
     ...initialState.calculations,
     loading: true,
     items: CALCULATIONS_MOCK,
-    selected: {
+    selectedCalculation: {
       nodeId: '3',
       calculation: CALCULATIONS_MOCK[2],
     },
+    selectedNodeIds: ['3', '4'],
   },
   bom: {
     loading: true,

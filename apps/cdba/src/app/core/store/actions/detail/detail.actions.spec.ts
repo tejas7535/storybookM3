@@ -1,5 +1,9 @@
 import { BomItem, ReferenceTypeIdentifier } from '@cdba/shared/models';
-import { BOM_MOCK, CALCULATIONS_MOCK } from '@cdba/testing/mocks';
+import {
+  BOM_IDENTIFIER_MOCK,
+  BOM_MOCK,
+  CALCULATIONS_MOCK,
+} from '@cdba/testing/mocks';
 
 import {
   DetailActions,
@@ -79,9 +83,11 @@ describe('Detail Actions', () => {
 
   describe('Get BOM Actions', () => {
     test('loadBom', () => {
-      action = loadBom();
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
+      action = loadBom({ bomIdentifier });
 
       expect(action).toEqual({
+        bomIdentifier,
         type: '[Detail] Load BOM',
       });
     });

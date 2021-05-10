@@ -149,10 +149,14 @@ describe('BomContainerComponent', () => {
         cold('a', { a: DETAIL_STATE_MOCK.calculations.items })
       );
       expect(component.selectedCalculation$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.calculations.selected.calculation })
+        cold('a', {
+          a: DETAIL_STATE_MOCK.calculations.selectedCalculation.calculation,
+        })
       );
       expect(component.selectedCalculationNodeId$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.calculations.selected.nodeId })
+        cold('a', {
+          a: ['3'],
+        })
       );
       expect(component.calculationsLoading$).toBeObservable(
         cold('a', { a: DETAIL_STATE_MOCK.calculations.loading })
@@ -188,7 +192,7 @@ describe('BomContainerComponent', () => {
         cold('a', { a: COMPARE_STATE_MOCK[0].calculations.items })
       );
       expect(component.selectedCalculationNodeId$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].calculations.selectedNodeId })
+        cold('a', { a: [COMPARE_STATE_MOCK[0].calculations.selectedNodeId] })
       );
       expect(component.selectedCalculation$).toBeObservable(
         cold('a', { a: COMPARE_STATE_MOCK[0].calculations.selected })
@@ -226,7 +230,7 @@ describe('BomContainerComponent', () => {
     test('should dispatch fromDetail.selectCalculation Action when index is undefined', () => {
       spectator.setInput({ index: undefined });
 
-      component.selectCalculation({ nodeId, calculation });
+      component.selectCalculation([{ nodeId, calculation }]);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         detailActions.selectCalculation({ nodeId, calculation })
@@ -234,7 +238,7 @@ describe('BomContainerComponent', () => {
     });
 
     test('should dispatch fromCompare.selectCalculation Action when index is set', () => {
-      component.selectCalculation({ nodeId, calculation });
+      component.selectCalculation([{ nodeId, calculation }]);
 
       expect(store.dispatch).toHaveBeenCalledWith(
         compareActions.selectCalculation({ nodeId, calculation, index })

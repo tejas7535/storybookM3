@@ -12,7 +12,7 @@ import { CalculationsTableModule } from '@cdba/shared/components';
 import { Calculation } from '@cdba/shared/models';
 import { CALCULATIONS_MOCK } from '@cdba/testing/mocks';
 
-import { selectCalculation } from '../../core/store';
+import { selectCalculations } from '../../core/store';
 import {
   getCalculations,
   getCalculationsErrorMessage,
@@ -81,10 +81,10 @@ describe('CalculationsTabComponent', () => {
       const nodeId = '7';
       const calculation = ({} as unknown) as Calculation;
 
-      component.selectCalculation({ nodeId, calculation });
+      component.selectCalculations([{ nodeId, calculation }]);
 
       expect(store.dispatch).toHaveBeenCalledWith(
-        selectCalculation({ nodeId, calculation })
+        selectCalculations({ nodeIds: ['7'] })
       );
     });
   });

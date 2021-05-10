@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Action } from '@ngrx/store';
 
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
@@ -16,6 +17,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
+  selectReferenceTypes,
   shareSearchResult,
   updateFilter,
 } from '../../actions/search/search.actions';
@@ -397,6 +399,7 @@ describe('Search Reducer', () => {
     });
 
     test('should set dirty flag to false', () => {
+      // eslint-disable-next-line max-lines
       const fakeState = {
         ...initialState,
         filters: {
@@ -454,6 +457,15 @@ describe('Search Reducer', () => {
     });
   });
 
+  describe('selectReferenceTypes', () => {
+    test('should add/replace selected node ids', () => {
+      const action = selectReferenceTypes({ nodeIds: ['2', '3'] });
+      const state = searchReducer(initialState, action);
+
+      expect(state.referenceTypes.selectedNodeIds).toEqual(['2', '3']);
+    });
+  });
+
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
@@ -463,5 +475,4 @@ describe('Search Reducer', () => {
       );
     });
   });
-  // eslint-disable-next-line max-lines
 });

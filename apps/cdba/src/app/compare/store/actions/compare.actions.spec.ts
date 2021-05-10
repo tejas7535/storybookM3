@@ -1,5 +1,6 @@
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
@@ -112,11 +113,13 @@ describe('Compare Actions', () => {
 
   describe('Bom Actions', () => {
     test('loadBom', () => {
-      action = loadBom({ index });
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
+      action = loadBom({ index, bomIdentifier });
       expectedType = '[Compare] Load BOM';
 
       expect(action).toEqual({
         index,
+        bomIdentifier,
         type: expectedType,
       });
     });

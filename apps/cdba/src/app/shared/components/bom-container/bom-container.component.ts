@@ -27,7 +27,7 @@ export class BomContainerComponent implements OnInit {
 
   // Calculation Variables
   calculations$: Observable<Calculation[]>;
-  selectedCalculationNodeId$: Observable<string>;
+  selectedCalculationNodeId$: Observable<string[]>;
   selectedCalculation$: Observable<Calculation>;
   calculationsLoading$: Observable<boolean>;
   calculationsErrorMessage$: Observable<string>;
@@ -38,17 +38,37 @@ export class BomContainerComponent implements OnInit {
   childrenOfSelectedBomItem$: Observable<BomItem[]>;
   bomItems$: Observable<BomItem[]>;
 
-  public constructor(
-    private readonly store: Store<
-      fromDetail.DetailState | fromCompare.CompareState
-    >
-  ) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     if (this.index !== undefined) {
       this.initializeWithCompareSelectors();
     } else {
       this.initializeWithDetailSelectors();
+    }
+  }
+
+  public selectCalculation(
+    event: {
+      nodeId: string;
+      calculation: Calculation;
+    }[]
+  ): void {
+    if (this.index !== undefined) {
+      this.store.dispatch(
+        fromCompare.selectCalculation({ ...event[0], index: this.index })
+      );
+    } else {
+      this.store.dispatch(fromDetail.selectCalculation(event[0]));
+    }
+  }
+  public selectBomItem(item: BomItem): void {
+    if (this.index !== undefined) {
+      this.store.dispatch(
+        fromCompare.selectBomItem({ item, index: this.index })
+      );
+    } else {
+      this.store.dispatch(fromDetail.selectBomItem({ item }));
     }
   }
 
@@ -114,28 +134,5 @@ export class BomContainerComponent implements OnInit {
     this.childrenOfSelectedBomItem$ = this.store.pipe(
       select(fromDetail.getChildrenOfSelectedBomItem)
     );
-  }
-
-  public selectBomItem(item: BomItem): void {
-    if (this.index !== undefined) {
-      this.store.dispatch(
-        fromCompare.selectBomItem({ item, index: this.index })
-      );
-    } else {
-      this.store.dispatch(fromDetail.selectBomItem({ item }));
-    }
-  }
-
-  public selectCalculation(event: {
-    nodeId: string;
-    calculation: Calculation;
-  }): void {
-    if (this.index !== undefined) {
-      this.store.dispatch(
-        fromCompare.selectCalculation({ ...event, index: this.index })
-      );
-    } else {
-      this.store.dispatch(fromDetail.selectCalculation(event));
-    }
   }
 }

@@ -8,9 +8,9 @@ import { SharedModule } from '../../shared.module';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-rows-overlay/custom-no-rows-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
-import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
 import { CompareViewButtonComponent } from '../table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
+import { LoadBomButtonComponent } from '../table/custom-status-bar/load-bom-button/load-bom-button.component';
 import { CalculationsTableComponent } from './calculations-table.component';
 
 @NgModule({
@@ -20,7 +20,7 @@ import { CalculationsTableComponent } from './calculations-table.component';
     CustomStatusBarModule,
     SharedTranslocoModule,
     AgGridModule.withComponents([
-      BomViewButtonComponent,
+      LoadBomButtonComponent,
       CompareViewButtonComponent,
       CustomLoadingOverlayComponent,
       CustomNoRowsOverlayComponent,

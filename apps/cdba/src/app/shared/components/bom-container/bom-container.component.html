@@ -15,7 +15,7 @@
         <cdba-calculations-table
           minified="true"
           [rowData]="calculations$ | ngrxPush"
-          [selectedNodeId]="selectedCalculationNodeId$ | ngrxPush"
+          [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
           [isLoading]="calculationsLoading$ | ngrxPush"
           [errorMessage]="calculationsErrorMessage$ | ngrxPush"
           (selectionChange)="selectCalculation($event)"

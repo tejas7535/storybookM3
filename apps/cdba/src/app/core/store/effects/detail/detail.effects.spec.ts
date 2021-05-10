@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -10,13 +11,14 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+import { cold, hot } from 'jest-marbles';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { DetailService } from '@cdba/detail/service/detail.service';
-import { BomIdentifier, ReferenceTypeIdentifier } from '@cdba/shared/models';
+import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
@@ -104,8 +106,11 @@ describe('Detail Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadReferenceType$).toBeObservable(expected);
-      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
-      expect(snackbarService.showInfoMessage).not.toHaveBeenCalled();
+
+      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
+        expect(detailService.getDetails).toHaveBeenCalled();
+        expect(snackbarService.showInfoMessage).not.toHaveBeenCalled();
+      });
     });
 
     test('should call showInfoMessage', () => {
@@ -125,7 +130,9 @@ describe('Detail Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadReferenceType$).toBeObservable(expected);
-      expect(snackbarService.showInfoMessage).toHaveBeenCalled();
+      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
+        expect(snackbarService.showInfoMessage).toHaveBeenCalled();
+      });
     });
 
     test('should return Failure Action', () => {
@@ -139,7 +146,9 @@ describe('Detail Effects', () => {
       detailService.getDetails = jest.fn(() => response);
 
       expect(effects.loadReferenceType$).toBeObservable(expected);
-      expect(detailService.getDetails).toHaveBeenCalledTimes(1);
+      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
+        expect(detailService.getDetails).toHaveBeenCalled();
+      });
     });
   });
 
@@ -167,7 +176,9 @@ describe('Detail Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadCalculations$).toBeObservable(expected);
-      expect(detailService.calculations).toHaveBeenCalledTimes(1);
+      expect(effects.loadCalculations$).toSatisfyOnFlush(() => {
+        expect(detailService.calculations).toHaveBeenCalled();
+      });
     });
 
     test('should return Failure Action', () => {
@@ -181,7 +192,9 @@ describe('Detail Effects', () => {
       detailService.calculations = jest.fn(() => response);
 
       expect(effects.loadCalculations$).toBeObservable(expected);
-      expect(detailService.calculations).toHaveBeenCalledTimes(1);
+      expect(effects.loadCalculations$).toSatisfyOnFlush(() => {
+        expect(detailService.calculations).toHaveBeenCalled();
+      });
     });
   });
 
@@ -209,7 +222,9 @@ describe('Detail Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadDrawings$).toBeObservable(expected);
-      expect(detailService.getDrawings).toHaveBeenCalledTimes(1);
+      expect(effects.loadDrawings$).toSatisfyOnFlush(() => {
+        expect(detailService.getDrawings).toHaveBeenCalled();
+      });
     });
 
     test('should return Failure Action', () => {
@@ -223,28 +238,16 @@ describe('Detail Effects', () => {
       detailService.getDrawings = jest.fn(() => response);
 
       expect(effects.loadDrawings$).toBeObservable(expected);
-      expect(detailService.getDrawings).toHaveBeenCalledTimes(1);
+      expect(effects.loadDrawings$).toSatisfyOnFlush(() => {
+        expect(detailService.getDrawings).toHaveBeenCalled();
+      });
     });
   });
 
   describe('loadBom$', () => {
     beforeEach(() => {
-      action = loadBom();
-
-      const bomIdentifier = new BomIdentifier(
-        '20200604',
-        'number',
-        'type',
-        'version',
-        'yes',
-        'ref',
-        'var'
-      );
-
-      store.overrideSelector(
-        getBomIdentifierForSelectedCalculation,
-        bomIdentifier
-      );
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
+      action = loadBom({ bomIdentifier });
     });
 
     test('should return Success Action', () => {
@@ -261,7 +264,9 @@ describe('Detail Effects', () => {
       const expected = cold('--b', { b: result });
 
       expect(effects.loadBom$).toBeObservable(expected);
-      expect(detailService.getBom).toHaveBeenCalledTimes(1);
+      expect(effects.loadBom$).toSatisfyOnFlush(() => {
+        expect(detailService.getBom).toHaveBeenCalled();
+      });
     });
 
     test('should return Failure Action', () => {
@@ -275,12 +280,22 @@ describe('Detail Effects', () => {
       detailService.getBom = jest.fn(() => response);
 
       expect(effects.loadBom$).toBeObservable(expected);
-      expect(detailService.getBom).toHaveBeenCalledTimes(1);
+      expect(effects.loadBom$).toSatisfyOnFlush(() => {
+        expect(detailService.getBom).toHaveBeenCalled();
+      });
     });
   });
 
   describe('triggerBomLoad$', () => {
-    const result = loadBom();
+    const bomIdentifier = BOM_IDENTIFIER_MOCK;
+    const result = loadBom({ bomIdentifier });
+
+    beforeEach(() =>
+      store.overrideSelector(
+        getBomIdentifierForSelectedCalculation,
+        bomIdentifier
+      )
+    );
 
     test('should return loadBom Action when a new calculation was selected', () => {
       action = selectCalculation({
@@ -334,7 +349,7 @@ describe('Detail Effects', () => {
       );
     });
 
-    xtest('should return select referenceTypeAction', () => {
+    test('should return select referenceTypeAction', () => {
       action = {
         type: ROUTER_NAVIGATED,
         payload: {
@@ -381,7 +396,9 @@ describe('Detail Effects', () => {
       const expected = cold('---');
 
       expect(effects.selectReferenceType$).toBeObservable(expected);
-      expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+      expect(effects.selectReferenceType$).toSatisfyOnFlush(() => {
+        expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+      });
     });
   });
 
@@ -444,4 +461,3 @@ describe('Detail Effects', () => {
     });
   });
 });
-// eslint-disable-next-line max-lines

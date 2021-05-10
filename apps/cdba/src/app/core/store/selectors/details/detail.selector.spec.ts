@@ -213,7 +213,7 @@ describe('Detail Selector', () => {
     });
 
     test('should return string of the node id', () => {
-      expect(getSelectedCalculationNodeId(fakeState)).toEqual('3');
+      expect(getSelectedCalculationNodeId(fakeState)).toEqual(['3']);
     });
   });
 

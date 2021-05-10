@@ -1,6 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
+  BomIdentifier,
   BomItem,
   Calculation,
   Drawing,
@@ -26,7 +27,10 @@ export const loadReferenceTypeFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
-export const loadBom = createAction('[Detail] Load BOM');
+export const loadBom = createAction(
+  '[Detail] Load BOM',
+  props<{ bomIdentifier: BomIdentifier }>()
+);
 
 export const loadBomSuccess = createAction(
   '[Detail] Load BOM Success',
@@ -58,6 +62,11 @@ export const loadCalculationsFailure = createAction(
 export const selectCalculation = createAction(
   '[Detail] Select Calculation',
   props<{ nodeId: string; calculation: Calculation }>()
+);
+
+export const selectCalculations = createAction(
+  '[Detail] Select Calculations',
+  props<{ nodeIds: string[] }>()
 );
 
 export const selectDrawing = createAction(
@@ -109,6 +118,7 @@ const all = union({
   loadCalculationsSuccess,
   loadCalculationsFailure,
   selectCalculation,
+  selectCalculations,
   loadReferenceType,
   loadReferenceTypeSuccess,
   loadReferenceTypeFailure,

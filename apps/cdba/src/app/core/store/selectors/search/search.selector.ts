@@ -138,3 +138,8 @@ export const getIsDirty = createSelector(
   getSearchState,
   (state: SearchState) => state.filters.dirty
 );
+
+export const getSelectedRefTypeNodeIds = createSelector(
+  getSearchState,
+  (state: SearchState): string[] => state.referenceTypes.selectedNodeIds
+);

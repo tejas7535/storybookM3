@@ -21,6 +21,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
+  selectReferenceTypes,
   shareSearchResult,
   updateFilter,
 } from './search.actions';
@@ -210,6 +211,17 @@ describe('Search Actions', () => {
       expect(action).toEqual({
         type:
           '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure',
+      });
+    });
+  });
+
+  describe('Selection Actions', () => {
+    test('selectReferenceTypes', () => {
+      const action = selectReferenceTypes({ nodeIds: ['3', '4'] });
+
+      expect(action).toEqual({
+        type: '[Search] Select Reference Types',
+        nodeIds: ['3', '4'],
       });
     });
   });

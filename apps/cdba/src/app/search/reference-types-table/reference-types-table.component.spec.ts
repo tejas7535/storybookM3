@@ -11,7 +11,13 @@ import {
   IStatusPanelParams,
   RowSelectedEvent,
 } from '@ag-grid-enterprise/all-modules';
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import {
   provideTranslocoTestingModule,
@@ -19,10 +25,7 @@ import {
 } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
-import { BomViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/bom-view-button/bom-view-button.component';
-import { CompareViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '@cdba/shared/components/table/custom-status-bar/custom-status-bar.module';
-import { DetailViewButtonComponent } from '@cdba/shared/components/table/custom-status-bar/detail-view-button/detail-view-button.component';
 import { ReferenceType } from '@cdba/shared/models';
 import { AgGridStateService } from '@cdba/shared/services';
 
@@ -39,26 +42,17 @@ describe('ReferenceTypesTableComponent', () => {
     imports: [
       SharedTranslocoModule,
       SharedModule,
-      AgGridModule.withComponents([
-        DetailViewButtonComponent,
-        BomViewButtonComponent,
-        CompareViewButtonComponent,
-      ]),
+      AgGridModule.withComponents([]),
       MatIconModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      CustomStatusBarModule,
+      MockModule(CustomStatusBarModule),
     ],
     declarations: [ReferenceTypesTableComponent],
     providers: [
       ColumnDefinitionService,
-      {
-        provide: AgGridStateService,
-        useValue: {
-          getColumnState: jest.fn(),
-          setColumnState: jest.fn(),
-        },
-      },
+      mockProvider(AgGridStateService),
+      provideMockStore(),
     ],
   });
 
@@ -76,7 +70,9 @@ describe('ReferenceTypesTableComponent', () => {
   describe('ngOnChanges', () => {
     let rowData;
 
-    beforeEach(() => (rowData = undefined));
+    beforeEach(() => {
+      rowData = undefined;
+    });
 
     it('should do nothing if rowData is undefined', () => {
       component['gridApi'] = ({
@@ -98,7 +94,7 @@ describe('ReferenceTypesTableComponent', () => {
       // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
-      // no expectation since grid api is not defined yet
+      expect(component['gridApi']).toBeUndefined();
     });
 
     it('should set row data if api and data is defined', () => {
@@ -193,25 +189,26 @@ describe('ReferenceTypesTableComponent', () => {
   describe('onRowSelected', () => {
     const event = ({
       node: {
-        id: 2,
+        id: '2',
         isSelected: jest.fn(() => true),
       },
       api: {
-        deselectIndex: jest.fn(),
+        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
       },
     } as unknown) as RowSelectedEvent;
 
     it('should fill the selectedRows if the row is selected', () => {
-      component.selectedRows = [1];
+      component.selectedRows = ['1'];
 
       component.onRowSelected(event);
 
-      expect(component.selectedRows).toStrictEqual([1, 2]);
-      expect(component.selectedRows).toHaveLength(2);
+      expect(component.selectedRows).toStrictEqual(['1', '2']);
     });
 
     it('should remove the selectedRows if the row is deselected', () => {
-      component.selectedRows = [1, 2];
+      component.selectionChange.emit = jest.fn();
+
+      component.selectedRows = ['1', '2'];
 
       component.onRowSelected(({
         ...event,
@@ -221,19 +218,19 @@ describe('ReferenceTypesTableComponent', () => {
         },
       } as unknown) as RowSelectedEvent);
 
-      expect(component.selectedRows).toStrictEqual([1]);
-      expect(component.selectedRows).toHaveLength(1);
+      expect(component.selectedRows).toStrictEqual(['1']);
+
+      expect(component.selectionChange.emit).toHaveBeenCalled();
     });
 
     it('should remove from selectedRows if there are to many entries', () => {
-      component.selectedRows = [1, 3];
+      component.selectedRows = ['1', '3'];
 
       component.onRowSelected(event);
 
-      expect(component.selectedRows).toStrictEqual([3, 2]);
-      expect(component.selectedRows).toHaveLength(2);
+      expect(component.selectedRows).toStrictEqual(['3', '2']);
 
-      expect(event.api.deselectIndex).toHaveBeenCalledWith(1);
+      expect(event.api.getRowNode).toHaveBeenCalledWith('1');
     });
   });
 });

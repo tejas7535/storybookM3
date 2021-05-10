@@ -4,6 +4,7 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 import {
+  BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
@@ -62,9 +63,10 @@ describe('Compare Reducer', () => {
 
   describe('Bom Actions', () => {
     describe('loadBom', () => {
+      const bomIdentifier = BOM_IDENTIFIER_MOCK;
       it('should set loading to true', () => {
         const index = 2;
-        action = loadBom({ index });
+        action = loadBom({ index, bomIdentifier });
 
         state = compareReducer(mockState, action);
 
@@ -73,7 +75,7 @@ describe('Compare Reducer', () => {
 
       it('should return previous state for undefined index', () => {
         const index = 99;
-        action = loadBom({ index });
+        action = loadBom({ index, bomIdentifier });
 
         state = compareReducer(mockState, action);
 

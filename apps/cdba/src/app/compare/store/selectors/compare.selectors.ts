@@ -66,8 +66,10 @@ export const getCalculationsErrorMessage = createSelector(
 
 export const getSelectedCalculationNodeId = createSelector(
   getCompareState,
-  (state: CompareState, index: number): string =>
+  (state: CompareState, index: number): string[] =>
     state[index]?.calculations?.selectedNodeId
+      ? [state[index].calculations.selectedNodeId]
+      : undefined
 );
 
 export const getSelectedCalculation = createSelector(

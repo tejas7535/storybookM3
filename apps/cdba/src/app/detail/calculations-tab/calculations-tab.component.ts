@@ -6,13 +6,13 @@ import { select, Store } from '@ngrx/store';
 
 import { Calculation } from '@cdba/shared/models';
 
-import { selectCalculation } from '../../core/store';
+import { selectCalculations } from '../../core/store';
 import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import {
   getCalculations,
   getCalculationsErrorMessage,
   getCalculationsLoading,
-  getSelectedCalculationNodeId,
+  getSelectedCalculationNodeIds,
 } from '../../core/store/selectors';
 
 @Component({
@@ -22,7 +22,7 @@ import {
 })
 export class CalculationsTabComponent implements OnInit {
   calculations$: Observable<Calculation[]>;
-  selectedNodeId$: Observable<string>;
+  selectedNodeIds$: Observable<string[]>;
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
@@ -30,17 +30,20 @@ export class CalculationsTabComponent implements OnInit {
 
   ngOnInit(): void {
     this.calculations$ = this.store.pipe(select(getCalculations));
-    this.selectedNodeId$ = this.store.pipe(
-      select(getSelectedCalculationNodeId)
+    this.selectedNodeIds$ = this.store.pipe(
+      select(getSelectedCalculationNodeIds)
     );
     this.loading$ = this.store.pipe(select(getCalculationsLoading));
     this.errorMessage$ = this.store.pipe(select(getCalculationsErrorMessage));
   }
 
-  public selectCalculation(event: {
-    nodeId: string;
-    calculation: Calculation;
-  }): void {
-    this.store.dispatch(selectCalculation(event));
+  public selectCalculations(
+    event: {
+      nodeId: string;
+      calculation: Calculation;
+    }[]
+  ): void {
+    const nodeIds = event.map((entry) => entry.nodeId);
+    this.store.dispatch(selectCalculations({ nodeIds }));
   }
 }

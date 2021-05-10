@@ -1,5 +1,6 @@
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
   DRAWINGS_MOCK,
@@ -22,11 +23,12 @@ import {
   loadReferenceTypeSuccess,
   selectBomItem,
   selectCalculation,
+  selectCalculations,
   selectDrawing,
   selectReferenceType,
 } from '../../actions';
 import { detailReducer, initialState } from './detail.reducer';
-import { BomResult, CalculationsResult, ReferenceTypeResult } from './models';
+import { CalculationsResult, ReferenceTypeResult } from './models';
 
 describe('Detail Reducer', () => {
   const fakeState = {
@@ -123,7 +125,7 @@ describe('Detail Reducer', () => {
       const state = detailReducer(initialState, action);
 
       expect(state.calculations.items).toBeUndefined();
-      expect(state.calculations.selected).toBeUndefined();
+      expect(state.calculations.selectedCalculation).toBeUndefined();
       expect(state.calculations.errorMessage).toBeUndefined();
     });
   });
@@ -148,8 +150,8 @@ describe('Detail Reducer', () => {
 
       const state = detailReducer(fakeState, action);
 
-      expect(state.calculations.selected.nodeId).toEqual('0');
-      expect(state.calculations.selected.calculation).toEqual(
+      expect(state.calculations.selectedCalculation.nodeId).toEqual('0');
+      expect(state.calculations.selectedCalculation.calculation).toEqual(
         CALCULATIONS_MOCK[0]
       );
     });
@@ -174,8 +176,10 @@ describe('Detail Reducer', () => {
 
       const state = detailReducer(fakeState, action);
 
-      expect(state.calculations.selected.nodeId).toEqual(nodeId);
-      expect(state.calculations.selected.calculation).toEqual(calculation);
+      expect(state.calculations.selectedCalculation.nodeId).toEqual(nodeId);
+      expect(state.calculations.selectedCalculation.calculation).toEqual(
+        calculation
+      );
     });
   });
 
@@ -244,15 +248,16 @@ describe('Detail Reducer', () => {
   });
 
   describe('loadBom', () => {
+    const bomIdentifier = BOM_IDENTIFIER_MOCK;
     test('should set loading', () => {
-      const action = loadBom();
+      const action = loadBom({ bomIdentifier });
       const state = detailReducer(initialState, action);
 
       expect(state.bom.loading).toBeTruthy();
     });
 
     test('should reset bom state', () => {
-      const action = loadBom();
+      const action = loadBom({ bomIdentifier });
       const state = detailReducer(initialState, action);
 
       expect(state.bom.items).toBeUndefined();
@@ -262,7 +267,7 @@ describe('Detail Reducer', () => {
 
   describe('loadBomSuccess', () => {
     test('should unset loading and set bom items', () => {
-      const items = new BomResult(BOM_MOCK).items;
+      const items = BOM_MOCK;
 
       const action = loadBomSuccess({ items });
 
@@ -292,6 +297,17 @@ describe('Detail Reducer', () => {
       const state = detailReducer(fakeState, action);
 
       expect(state.bom.selectedItem).toEqual(BOM_MOCK[0]);
+    });
+  });
+
+  describe('selectCalculations', () => {
+    test('should set selected calculation node ids', () => {
+      const nodeIds = ['1', '6'];
+      const action = selectCalculations({ nodeIds });
+
+      const state = detailReducer(fakeState, action);
+
+      expect(state.calculations.selectedNodeIds).toEqual(nodeIds);
     });
   });
 });
