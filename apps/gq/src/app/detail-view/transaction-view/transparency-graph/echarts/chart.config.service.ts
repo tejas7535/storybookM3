@@ -22,6 +22,8 @@ import { DataPointColor } from './data-point-color.enum';
 export class ChartConfigService {
   INDEX_X_AXIS = 0;
   INDEX_Y_AXIS = 1;
+  regressionData: number[][];
+  tooltipLegendStyle = `display: inline-block; margin-right: 10px; border-radius: 10px; width: 10px; height: 10px;`;
 
   X_AXIS_CONFIG: XAXisComponentOption = {
     type: 'value',
@@ -50,22 +52,43 @@ export class ChartConfigService {
   };
 
   getLineForToolTipFormatter = (
-    salesIndication: SalesIndication,
+    color: string,
     translateKey: string,
     data: number | string
   ): string => {
-    const item = `<span
-    style ="display: inline-block;
-    margin-right: 10px;
-    border-radius: 10px;
-    width: 10px;
-    height: 10px;
-    background-color: ${this.getDataPointStyle(salesIndication)};"
-    ></span><span style="font-size: 14px">${translate(
+    const item = `
+    <span style="float:left; width: 100px ">
+    <span
+    style ="${this.tooltipLegendStyle}
+    background-color: ${color};"
+    ></span>
+    <span style="font-size: 14px">${translate(
       `transactionView.graph.tooltip.${translateKey}`
-    )}: </span><span style="font-weight: 600">${data}</span><br/>`;
+    )}: </span>
+    </span>
+    <span style="font-weight: 600">${data}</span><br/>`;
 
     return item;
+  };
+
+  getRegressionForToolTipFormatter = (data: DataPoint): string => {
+    const dataPoint = this.regressionData.find(
+      (d) => d[0] === data.value[this.INDEX_X_AXIS]
+    );
+
+    const gpi = `${PriceService.roundToTwoDecimals(
+      dataPoint[this.INDEX_Y_AXIS]
+    )}%`;
+
+    let items = `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.6">`;
+
+    items += this.getLineForToolTipFormatter(
+      DataPointColor.REGRESSION,
+      'regression',
+      gpi
+    );
+
+    return items;
   };
 
   getValueForToolTipItem = (
@@ -97,14 +120,18 @@ export class ChartConfigService {
     ];
     let items = `${data.customerName}<br>`;
 
+    // tooltip data for scatter
     listedItems.forEach((item) => {
       const value = this.getValueForToolTipItem(item, data);
       items += this.getLineForToolTipFormatter(
-        data.salesIndication,
+        this.getDataPointStyle(data.salesIndication),
         item,
         value
       );
     });
+
+    // tooltip data for regression
+    items += this.getRegressionForToolTipFormatter(data);
 
     return items;
   };
@@ -134,7 +161,11 @@ export class ChartConfigService {
     return { ...this.X_AXIS_CONFIG, max };
   };
 
-  getSeriesConfig = (data: DataPoint[]): SeriesOption[] => {
+  getSeriesConfig = (
+    scatterData: DataPoint[],
+    regressionData: number[][]
+  ): SeriesOption[] => {
+    this.regressionData = regressionData;
     const series: SeriesOption[] = [];
     const type = 'scatter';
 
@@ -144,8 +175,11 @@ export class ChartConfigService {
       SalesIndication.LOST_QUOTE,
     ];
 
+    // Add sales indiciation data
     options.forEach((option) => {
-      const optionData = data.filter((e) => e.salesIndication === option);
+      const optionData = scatterData.filter(
+        (e) => e.salesIndication === option
+      );
       if (optionData.length > 0) {
         series.push({
           type,
@@ -154,6 +188,15 @@ export class ChartConfigService {
           name: this.getDataPointName(option),
         });
       }
+    });
+
+    // Add regression line
+    series.push({
+      type: 'line',
+      data: regressionData,
+      name: translate(`transactionView.graph.regression`),
+      color: DataPointColor.REGRESSION,
+      symbol: 'none',
     });
 
     return series;

@@ -3,6 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import {
+  Coefficients,
   MaterialDetails,
   QuotationDetail,
 } from '../../../../shared/models/quotation-detail';
@@ -172,4 +173,12 @@ export const getGqId = createSelector(
 export const isManualCase = createSelector(
   getProcessCaseState,
   (state: ProcessCaseState): boolean => !state.quotation.item?.sapId
+);
+
+export const getCoefficients = createSelector(
+  getSelectedQuotationDetail,
+  (detail: QuotationDetail): Coefficients => ({
+    coefficient1: detail.coefficient1,
+    coefficient2: detail.coefficient2,
+  })
 );

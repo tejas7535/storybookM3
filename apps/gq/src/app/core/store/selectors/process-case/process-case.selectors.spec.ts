@@ -304,4 +304,12 @@ describe('Process Case Selector', () => {
       ).toEqual(QUOTATION_DETAIL_MOCK.material.priceUnit);
     });
   });
+  describe('getCoefficients', () => {
+    test('should return coefficients', () => {
+      expect(quotationSelectors.getCoefficients(fakeState)).toEqual({
+        coefficient1: QUOTATION_DETAIL_MOCK.coefficient1,
+        coefficient2: QUOTATION_DETAIL_MOCK.coefficient2,
+      });
+    });
+  });
 });
