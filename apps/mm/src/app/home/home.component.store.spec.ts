@@ -110,6 +110,38 @@ describe('HomeStore', () => {
     });
   });
 
+  describe('activePageName$ selector', () => {
+    it('should return the activePageName', () => {
+      const homeStore = new HomeStore();
+      homeStore.setState({
+        pagedMetas: [
+          {
+            page: {
+              visible: false,
+              page: {
+                text: 'inactivePageName',
+              },
+            },
+          },
+          {
+            page: {
+              visible: true,
+              page: {
+                text: 'activePageName',
+              },
+            },
+          },
+        ] as PagedMeta[],
+        activePageId: undefined,
+        inactivePageId: undefined,
+      });
+
+      homeStore.activePageName$.subscribe((activePageName) => {
+        expect(activePageName).toBe(activePageName);
+      });
+    });
+  });
+
   describe('inactivePageId$ selector', () => {
     it('should return undefined as initial activePageId', () => {
       const homeStore = new HomeStore();

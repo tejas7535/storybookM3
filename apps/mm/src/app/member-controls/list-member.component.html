@@ -1,17 +1,18 @@
-<input
-  *ngIf="isBoolean; else dropdown"
-  type="checkbox"
-  [formControl]="control"
-/>
+<ng-container *transloco="let t; read: 'form'">
+  <input
+    *ngIf="isBoolean; else dropdown"
+    type="checkbox"
+    [formControl]="control"
+  />
 
-<ng-template #dropdown>
-  <ng-container
-    *ngIf="
-      !meta.listValuesLoading$ || !(meta.listValuesLoading$ | async);
-      else loading
-    "
-  >
-    <!-- <select
+  <ng-template #dropdown>
+    <ng-container
+      *ngIf="
+        !meta.listValuesLoading$ || !(meta.listValuesLoading$ | async);
+        else loading
+      "
+    >
+      <!-- <select
       *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
       [formControl]="control"
     >
@@ -20,23 +21,27 @@
         {{ option.caption }}
       </option>
     </select> -->
-    <schaeffler-dropdown-input
-      *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
+      <schaeffler-dropdown-input
+        *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
+        [options]="options$ | ngrxPush"
+        [formControl]="control"
+        [placeholder]="t('select', { fieldname: meta.member.text })"
+      ></schaeffler-dropdown-input>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #pictureCardList>
+    <mm-picture-card-list
       [options]="options$ | ngrxPush"
       [formControl]="control"
-    ></schaeffler-dropdown-input>
-  </ng-container>
-</ng-template>
+    ></mm-picture-card-list>
+  </ng-template>
 
-<ng-template #pictureCardList>
-  <mm-picture-card-list
-    [options]="options$ | ngrxPush"
-    [formControl]="control"
-  ></mm-picture-card-list>
-</ng-template>
-
-<ng-template #loading>
-  <div>
-    <schaeffler-loading-spinner [relative]="true"></schaeffler-loading-spinner>
-  </div>
-</ng-template>
+  <ng-template #loading>
+    <div>
+      <schaeffler-loading-spinner
+        [relative]="true"
+      ></schaeffler-loading-spinner>
+    </div>
+  </ng-template>
+</ng-container>

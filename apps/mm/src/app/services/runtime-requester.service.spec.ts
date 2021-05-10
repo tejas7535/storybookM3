@@ -5,6 +5,7 @@ import {
 import { FormGroup } from '@angular/forms';
 
 import { ModelObject } from '@caeonline/dynamic-forms';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { environment } from '../../environments/environment';
@@ -23,7 +24,7 @@ describe('RuntimeRequesterService testing', () => {
 
   const createService = createServiceFactory({
     service: RuntimeRequesterService,
-    imports: [HttpClientTestingModule],
+    imports: [HttpClientTestingModule, HttpCacheInterceptorModule],
   });
 
   beforeEach(() => {
@@ -117,7 +118,7 @@ describe('RuntimeRequesterService testing', () => {
     service['loadShaftMaterials'](mockModelObject, mockControlMap).subscribe();
 
     const req = httpMock.expectOne(
-      `${environment.apiMMBaseUrl}${environment.materialsPath}${mockMaterial}`
+      `${environment.apiMMBaseUrl}${environment.materialsPath}${mockMaterial}?cache$=true`
     );
     expect(req.request.method).toBe('GET');
     req.flush(mock);

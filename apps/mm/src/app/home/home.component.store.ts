@@ -32,6 +32,12 @@ export class HomeStore extends ComponentStore<HomeState> {
     (state) => state.activePageId
   );
 
+  readonly activePageName$: Observable<string> = this.select(
+    (state) =>
+      state.pagedMetas.find((pagedMeta) => pagedMeta.page.visible)?.page.page
+        .text
+  );
+
   readonly inactivePageId$: Observable<string> = this.select(
     (state) => state.inactivePageId
   );

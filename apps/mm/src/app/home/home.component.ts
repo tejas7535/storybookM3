@@ -61,6 +61,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   readonly activePageId$ = this.homeStore.activePageId$;
 
+  readonly activePageName$ = this.homeStore.activePageName$;
+
   readonly maxPageId$ = this.homeStore.maxPageId$;
 
   readonly inactivePageId$ = this.homeStore.inactivePageId$;

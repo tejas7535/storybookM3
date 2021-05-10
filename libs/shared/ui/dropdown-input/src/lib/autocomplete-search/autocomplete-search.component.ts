@@ -30,6 +30,7 @@ export class AutocompleteSearchComponent implements OnInit {
   @Input() options: DropdownInputOption[] = [];
   @Input() hint!: string;
   @Input() attachToCustomElement = false;
+  @Input() selectedItem?: DropdownInputOption;
 
   @Output() optionSelected = new EventEmitter<DropdownInputOption>();
   @Output() updateSearch = new EventEmitter<string>();
@@ -40,7 +41,6 @@ export class AutocompleteSearchComponent implements OnInit {
 
   filteredOptions$!: Observable<DropdownInputOption[]>;
   searchControl = new FormControl('');
-  selectedItem!: DropdownInputOption;
 
   constructor(
     @Host()
@@ -56,6 +56,10 @@ export class AutocompleteSearchComponent implements OnInit {
         return this.filter(value);
       })
     );
+
+    if (this.selectedItem) {
+      this.optionSelected.emit(this.selectedItem);
+    }
   }
 
   public select(item: DropdownInputOption): void {

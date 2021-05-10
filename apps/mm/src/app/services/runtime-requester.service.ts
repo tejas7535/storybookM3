@@ -15,6 +15,7 @@ import {
   TableCellType,
   TableColumnType,
 } from '@caeonline/dynamic-forms';
+import { withCache } from '@ngneat/cashew';
 
 import { environment } from '../../environments/environment';
 import {
@@ -156,7 +157,8 @@ export class RuntimeRequesterService implements RuntimeRequester {
     }).pipe(
       switchMap((body) => {
         return this.http.get<MMBearingsMaterialResponse>(
-          `${environment.apiMMBaseUrl}${environment.materialsPath}${body.IDMM_SHAFT_MATERIAL}`
+          `${environment.apiMMBaseUrl}${environment.materialsPath}${body.IDMM_SHAFT_MATERIAL}`,
+          withCache()
         );
       }),
       map((input) => {

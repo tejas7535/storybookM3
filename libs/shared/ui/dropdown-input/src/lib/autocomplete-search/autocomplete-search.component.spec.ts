@@ -42,6 +42,7 @@ describe('AutocompleteSearchComponent', () => {
     it('should assign filteredOptions', () => {
       component.updateSearch.emit = jest.fn();
       component.filter = jest.fn();
+      component.selectedItem = { id: 'mockId', value: 'mockValue' };
 
       component.ngOnInit();
       spectator.detectChanges();

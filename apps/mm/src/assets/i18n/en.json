@@ -1,4 +1,8 @@
 {
+  "form": {
+    "select": "Select {{fieldname}}",
+    "calculateResults": "Calculate Results"
+  },
   "sidebar": {
     "languageSelectLabel": "Language",
     "decimalSeparatorSelectLabel": "Decimal separator",

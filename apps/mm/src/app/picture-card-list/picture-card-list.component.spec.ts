@@ -2,6 +2,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { PictureCardModule } from '@schaeffler/picture-card';
 
+import { MagneticSliderComponent } from '../shared/components/magnetic-slider/magnetic-slider.component';
 import { PictureCardListComponent } from './picture-card-list.component';
 
 describe('PictureCardListComponent', () => {
@@ -11,7 +12,7 @@ describe('PictureCardListComponent', () => {
   const createComponent = createComponentFactory({
     component: PictureCardListComponent,
     imports: [PictureCardModule],
-    declarations: [PictureCardListComponent],
+    declarations: [PictureCardListComponent, MagneticSliderComponent],
   });
 
   beforeEach(() => {

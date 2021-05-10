@@ -8,3 +8,7 @@
 .material-icons {
   font-family: 'Material Icons' !important;
 }
+
+::ng-deep schaeffler-picture-card-action button {
+  @apply text-button uppercase;
+}

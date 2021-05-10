@@ -1,15 +1,19 @@
-<div *ngFor="let option of options">
-  <schaeffler-picture-card
-    [title]="option.value"
-    [img]="option.imageUrl"
-    [toggleEnabled]="false"
-  >
-    <ng-container card-actions>
-      <schaeffler-picture-card-action
-        [text]="'select'"
-        [disabled]="disabled || option.id === value"
-        (click)="setValue(option.id)"
-      ></schaeffler-picture-card-action>
-    </ng-container>
-  </schaeffler-picture-card>
-</div>
+<mm-magnetic-slider>
+  <div *ngFor="let option of options" class="snap-center">
+    <div class="w-[calc(100vw-8rem)] m-4 sm:w-auto">
+      <schaeffler-picture-card
+        [title]="option.value"
+        [img]="option.imageUrl"
+        [toggleEnabled]="false"
+      >
+        <ng-container card-actions>
+          <schaeffler-picture-card-action
+            [text]="'select'"
+            [disabled]="disabled || option.id === value"
+            (click)="setValue(option.id)"
+          ></schaeffler-picture-card-action>
+        </ng-container>
+      </schaeffler-picture-card>
+    </div>
+  </div>
+</mm-magnetic-slider>
