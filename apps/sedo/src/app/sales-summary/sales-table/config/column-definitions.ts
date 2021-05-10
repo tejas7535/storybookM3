@@ -64,6 +64,16 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
     filterParams: FILTER_PARAMS,
   },
   {
+    field: 'plantKeysList',
+    headerName: 'Product Plant Key(s)',
+    filterParams: FILTER_PARAMS,
+  },
+  {
+    field: 'plantNamesList',
+    headerName: 'Product Plant Names(s)',
+    filterParams: FILTER_PARAMS,
+  },
+  {
     field: 'keyaccountKey',
     headerName: 'Key Account Key',
     filterParams: FILTER_PARAMS,
