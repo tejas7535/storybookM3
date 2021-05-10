@@ -58,6 +58,14 @@
         "costingVersion": "Costing Version",
         "rfqNumber": "RFQ Number"
       }
+    },
+    "browserSupport": {
+      "unsupportedBrowser": {
+        "title": "Unsupported browser",
+        "message": "CDBA doesn't support your browser. Most of the functionality won't work.",
+        "guidanceMessage": "Please use Google Chrome or the latest version of Microsoft Edge. Contact your IV coordinator if you need support with installing a new browser.",
+        "confirm": "Use CDBA anyways"
+      }
     }
   },
   "drawings": {

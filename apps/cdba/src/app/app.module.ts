@@ -1,8 +1,8 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
-
 import { AzureConfig, FlowType, SharedAuthModule } from '@schaeffler/auth';
 
 import { CoreModule } from '@cdba/core';
@@ -29,6 +29,7 @@ const azureConfig = new AzureConfig(
     CoreModule,
     SharedAuthModule.forRoot(azureConfig),
     SharedModule,
+    MatDialogModule,
   ],
   bootstrap: [AppComponent],
 })
