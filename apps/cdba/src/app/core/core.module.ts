@@ -1,3 +1,4 @@
+import { PlatformModule } from '@angular/cdk/platform';
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import de from '@angular/common/locales/de';
@@ -9,6 +10,14 @@ import { RouterModule } from '@angular/router';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
+import {
+  AzureConfig,
+  MsalGuardConfig,
+  MsalInstanceConfig,
+  MsalInterceptorConfig,
+  ProtectedResource,
+  SharedAzureAuthModule,
+} from '@schaeffler/azure-auth';
 import { FooterModule } from '@schaeffler/footer';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
@@ -16,15 +25,27 @@ import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { environment } from '@cdba/environments/environment';
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 
 import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
-import { PlatformModule } from '@angular/cdk/platform';
 
 registerLocaleData(de, 'de-DE');
+
+const azureConfig = new AzureConfig(
+  new MsalInstanceConfig(
+    environment.clientId,
+    environment.tenantId,
+    !environment.production
+  ),
+  new MsalInterceptorConfig([
+    new ProtectedResource('/api/*', [environment.appScope]),
+  ]),
+  new MsalGuardConfig(`${AppRoutePath.ForbiddenPath}`, [environment.appScope])
+);
 
 @NgModule({
   declarations: [AppComponent],
@@ -64,6 +85,9 @@ registerLocaleData(de, 'de-DE');
 
     // Platform required for detecting the browser engine
     PlatformModule,
+
+    // Auth
+    SharedAzureAuthModule.forRoot(azureConfig),
   ],
   providers: [
     {

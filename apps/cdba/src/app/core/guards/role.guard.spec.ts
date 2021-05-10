@@ -3,7 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { getRoles } from '@schaeffler/auth';
+import { getRoles } from '@schaeffler/azure-auth';
 
 import { RoleGuard } from './role.guard';
 
