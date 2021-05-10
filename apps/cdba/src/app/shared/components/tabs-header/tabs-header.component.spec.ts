@@ -3,7 +3,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BackButtonModule } from '@cdba/shared/directives';
 
@@ -18,9 +19,9 @@ describe('TabsHeaderComponent', () => {
     imports: [
       MatIconModule,
       MatTabsModule,
-      ReactiveComponentModule,
       RouterTestingModule,
       BackButtonModule,
+      provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [TabsHeaderComponent],
   });

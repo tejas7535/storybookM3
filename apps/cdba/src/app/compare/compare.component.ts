@@ -1,38 +1,36 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
-
-import { TranslocoService } from '@ngneat/transloco';
+import { select, Store } from '@ngrx/store';
 
 import { Tab } from '@cdba/shared/components';
 
 import { CompareRoutePath } from './compare-route-path.enum';
+import { getIsCompareDetailsDisabled } from './store';
 
 @Component({
   selector: 'cdba-compare',
   templateUrl: './compare.component.html',
   styleUrls: ['./compare.component.scss'],
 })
-export class CompareComponent {
-  public tabs: Tab[];
+export class CompareComponent implements OnInit {
+  public tabs: Tab[] = [
+    {
+      label$: 'compare.tabs.details',
+      link: CompareRoutePath.DetailsPath,
+    },
+    {
+      label$: 'compare.tabs.billOfMaterial',
+      link: CompareRoutePath.BomPath,
+    },
+  ];
 
-  constructor(private readonly translocoService: TranslocoService) {
-    this.tabs = [
-      {
-        label$: this.translateKey('tabs.details'),
-        link: CompareRoutePath.DetailsPath,
-      },
-      {
-        label$: this.translateKey('tabs.billOfMaterial'),
-        link: CompareRoutePath.BomPath,
-      },
-    ];
+  constructor(private readonly store: Store) {}
+
+  ngOnInit(): void {
+    this.tabs[0].disabled$ = this.store.pipe(
+      select(getIsCompareDetailsDisabled)
+    );
   }
-
-  translateKey(key: string): Observable<string> {
-    return this.translocoService.selectTranslate(key, {}, 'compare');
-  }
-
   /**
    * Improves performance of ngFor.
    */

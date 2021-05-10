@@ -3,8 +3,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterModule } from '@angular/router';
 
-import { ReactiveComponentModule } from '@ngrx/component';
-
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BackButtonModule } from '../../directives';
@@ -18,7 +16,6 @@ import { TabsHeaderComponent } from './tabs-header.component';
     MatIconModule,
     MatTabsModule,
     SharedTranslocoModule,
-    ReactiveComponentModule,
     RouterModule,
     BackButtonModule,
   ],

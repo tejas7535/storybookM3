@@ -1,10 +1,12 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { TabsHeaderModule } from '@cdba/shared/components';
+import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { CompareComponent } from './compare.component';
 
@@ -18,6 +20,9 @@ describe('CompareComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       TabsHeaderModule,
+    ],
+    providers: [
+      provideMockStore({ initialState: { compare: COMPARE_STATE_MOCK } }),
     ],
     declarations: [CompareComponent],
   });

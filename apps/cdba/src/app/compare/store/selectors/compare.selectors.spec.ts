@@ -15,6 +15,7 @@ import {
   getCalculationsErrorMessage,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
+  getIsCompareDetailsDisabled,
   getMaterialDesignation,
   getSelectedCalculation,
   getSelectedCalculationNodeId,
@@ -309,6 +310,32 @@ describe('Compare Selectors', () => {
       result = getMaterialDesignation(fakeState, 0);
 
       expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getIsCompareDetailsDisabled', () => {
+    it('should return false when compare items dont exist', () => {
+      result = getIsCompareDetailsDisabled(initialCompareState);
+
+      expect(result).toBeFalsy();
+    });
+    it('should return true if compare items have same material number', () => {
+      const patchedState = {
+        compare: {
+          ...COMPARE_STATE_MOCK,
+          0: { ...COMPARE_STATE_MOCK[0] },
+          1: { ...COMPARE_STATE_MOCK[0] },
+        },
+      };
+      result = getIsCompareDetailsDisabled(patchedState);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if compared items are different', () => {
+      result = getIsCompareDetailsDisabled(fakeState);
+
+      expect(result).toBeFalsy();
     });
   });
 });

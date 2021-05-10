@@ -1,6 +1,7 @@
 import { Observable } from 'rxjs';
 
 export interface Tab {
-  label$: Observable<string>;
+  label$: string;
   link: string;
+  disabled$?: Observable<boolean> | boolean;
 }
