@@ -2,6 +2,9 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
@@ -20,6 +23,7 @@ import { ResultPageModule } from '../result-page/result-page.module';
 import { LazyListLoaderService } from '../services/lazy-list-loader.service';
 import { RuntimeRequesterService } from '../services/runtime-requester.service';
 import { SharedModule } from '../shared/shared.module';
+import { SelectMemberComponent } from './../member-controls/select-member.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
@@ -28,6 +32,7 @@ import { HomeComponent } from './home.component';
     HomeComponent,
     ListMemberComponent,
     StringNumberMemberComponent,
+    SelectMemberComponent,
   ],
   imports: [
     CommonModule,
@@ -50,6 +55,9 @@ import { HomeComponent } from './home.component';
 
     // Angular Material
     MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatSelectModule,
 
     // Dynamic Forms
     DynamicFormsModule.forRoot({

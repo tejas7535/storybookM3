@@ -33,9 +33,14 @@
           >
             <ng-container *ngFor="let meta of pagedMeta.metas">
               <div *ngIf="meta.page.visible" class="control-container">
-                <h6 *ngIf="meta.member.text">
-                  {{ t('select', { fieldname: meta.member.text }) }}
-                </h6>
+                <label
+                  *ngIf="
+                    meta.member.text &&
+                    meta.page.id !== 'PROPERTY_PAGE_MOUNTING_SITUATION_SUB' &&
+                    meta.page.id !== 'PROPERTY_PAGE_MOUNTING'
+                  "
+                  >{{ meta.member.text }}</label
+                >
                 <cae-member-control
                   [class.wide]="!meta.member.text"
                   [meta]="meta"

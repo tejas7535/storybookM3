@@ -38,6 +38,8 @@ export class DropdownInputComponent implements ControlValueAccessor {
 
   @Input() hint = '';
 
+  @Input() label = '';
+
   value?: string | number;
 
   disabled = false;
