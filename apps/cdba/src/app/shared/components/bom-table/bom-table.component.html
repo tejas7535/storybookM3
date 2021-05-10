@@ -10,8 +10,6 @@
   [groupDefaultExpanded]="groupDefaultExpanded"
   [getDataPath]="getDataPath"
   [getRowClass]="getRowClass.bind(this)"
-  [rowSelection]="rowSelection"
-  [suppressCellSelection]="suppressCellSelection"
   [rowClassRules]="rowClassRules"
   [frameworkComponents]="frameworkComponents"
   [loadingOverlayComponent]="loadingOverlayComponent"
@@ -19,6 +17,8 @@
   [noRowsOverlayComponent]="noRowsOverlayComponent"
   [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
   rowHeight="30"
+  rowSelection="single"
+  suppressCellSelection
   suppressCsvExport
   suppressExcelExport
   (rowClicked)="onRowClicked($event)"

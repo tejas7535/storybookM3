@@ -35,9 +35,6 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BomTableComponent implements OnChanges {
-  private gridApi: GridApi;
-  private gridColumnApi: ColumnApi;
-
   @Input() rowData: BomItem[];
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
@@ -119,36 +116,17 @@ export class BomTableComponent implements OnChanges {
     },
   ];
 
-  rowSelection = 'single';
-  suppressCellSelection = true;
-
   modules = [ClientSideRowModelModule, RowGroupingModule];
 
   rowClassRules = {
-    'padding-left-40': (params: any) => {
-      return params.data.level === 2;
-    },
-    'padding-left-80': (params: any) => {
-      return params.data.level === 3;
-    },
-    'padding-left-120': (params: any) => {
-      return params.data.level === 4;
-    },
-    'padding-left-160': (params: any) => {
-      return params.data.level === 5;
-    },
-    'padding-left-200': (params: any) => {
-      return params.data.level === 6;
-    },
-    'padding-left-240': (params: any) => {
-      return params.data.level === 7;
-    },
-    'padding-left-280': (params: any) => {
-      return params.data.level === 8;
-    },
-    'padding-left-320': (params: any) => {
-      return params.data.level === 9;
-    },
+    'padding-left-40': (params: any) => params.data.level === 2,
+    'padding-left-80': (params: any) => params.data.level === 3,
+    'padding-left-120': (params: any) => params.data.level === 4,
+    'padding-left-160': (params: any) => params.data.level === 5,
+    'padding-left-200': (params: any) => params.data.level === 6,
+    'padding-left-240': (params: any) => params.data.level === 7,
+    'padding-left-280': (params: any) => params.data.level === 8,
+    'padding-left-320': (params: any) => params.data.level === 9,
   };
 
   frameworkComponents = {
@@ -161,6 +139,9 @@ export class BomTableComponent implements OnChanges {
   noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => this.errorMessage,
   };
+
+  private gridApi: GridApi;
+  private gridColumnApi: ColumnApi;
 
   ngOnChanges(changes: SimpleChanges): void {
     if (!this.gridApi) {
@@ -175,6 +156,10 @@ export class BomTableComponent implements OnChanges {
       setTimeout(() => this.gridApi.showLoadingOverlay(), 10);
     } else {
       this.gridApi.showNoRowsOverlay();
+    }
+
+    if (changes.rowData?.currentValue !== changes.rowData?.previousValue) {
+      this.resetTable();
     }
   }
 
@@ -251,5 +236,16 @@ export class BomTableComponent implements OnChanges {
     }
 
     return '';
+  }
+
+  private resetTable(): void {
+    // select first row initially for coloring
+    this.currentSelectedRow = {
+      node: {
+        id: '0',
+      },
+    };
+    this.nonLevel2Children = [];
+    this.gridApi.redrawRows();
   }
 }

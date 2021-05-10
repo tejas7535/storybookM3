@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { SimpleChange } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -381,6 +382,32 @@ describe('BomTableComponent', () => {
       const result = component.getRowClass(params);
 
       expect(result).toEqual('third-or-more-row-2');
+    });
+  });
+
+  describe('resetTable', () => {
+    beforeEach(() => {
+      component['gridApi'] = ({ redrawRows: jest.fn() } as unknown) as GridApi;
+    });
+    it('should reset currentSelectedRow and nonLevel2Children', () => {
+      component.currentSelectedRow = {
+        node: {
+          id: '1',
+        },
+      };
+
+      component.nonLevel2Children = ['foo', 'bar'];
+
+      component['resetTable']();
+
+      expect(component.currentSelectedRow.node.id).toEqual('0');
+      expect(component.nonLevel2Children).toEqual([]);
+    });
+
+    it('should readraw rows', () => {
+      component['resetTable']();
+
+      expect(component['gridApi'].redrawRows).toHaveBeenCalled();
     });
   });
 });
