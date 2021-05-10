@@ -98,7 +98,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   }
 
   setGpi(): void {
-    this.gpi = PriceService.calculateGPI(
+    this.gpi = PriceService.calculateMargin(
       this.manualPriceFormControl.value,
       this.quotationDetail.gpc
     );

@@ -1,41 +1,60 @@
 <div
-  fxLayout
-  fxFill
-  fxLayoutAlign="start center"
+  class="flex items-center h-full text-[black]"
   *transloco="let t; read: 'shared.customStatusBar.quotationDetailsStatus'"
 >
-  <div fxLayout class="count" *ngIf="selections.length && !isOfferTable">
-    <div>{{ t('selectedNetValue') }}:&nbsp;</div>
+  <div class="ml-6" *ngIf="selections.length && !isOfferTable">
+    <span class="opacity-60">{{ t('selectedNetValue') }}:&nbsp;</span>
     <span *ngIf="customerCurrency$ | ngrxPush as currency">
       {{ selectedNetValue | number: '.2' }} {{ currency }}
     </span>
   </div>
   <div
-    fxLayout
-    class="count"
-    *ngIf="selections.length && !isOfferTable && (showAverageGPI$ | ngrxPush)"
+    class="ml-6"
+    *ngIf="selections.length && !isOfferTable && (showGPI$ | ngrxPush)"
   >
-    <div>{{ t('selectedAverageGPI') }}:&nbsp;</div>
-    {{ selectedAverageGPI }} %
+    <span class="opacity-60">{{ t('selectedAverageGPI') }}:&nbsp;</span>
+    <span> {{ selectedAverageGPI }} % </span>
   </div>
-  <div fxLayout class="count">
-    <div *ngIf="!isOfferTable; else offerValue">
-      {{ t('totalNetValue') }}:&nbsp;
-    </div>
-    <ng-template #offerValue>
-      <div>{{ t('offerNetValue') }}:&nbsp;</div>
-    </ng-template>
+  <div
+    class="ml-6"
+    *ngIf="selections.length && !isOfferTable && (showGPM$ | ngrxPush)"
+  >
+    <span class="opacity-60">{{ t('selectedAverageGPM') }}:&nbsp;</span>
+    <span>{{ selectedAverageGPM }} %</span>
+  </div>
+  <div class="ml-6">
+    <span class="opacity-60">
+      <span *ngIf="!isOfferTable; else offerValue">
+        {{ t('totalNetValue') }}:&nbsp;
+      </span>
+      <ng-template #offerValue>
+        <span>{{ t('offerNetValue') }}:&nbsp;</span>
+      </ng-template>
+    </span>
     <span *ngIf="customerCurrency$ | ngrxPush as currency"
       >{{ totalNetValue | number: '.2' }} {{ currency }}</span
     >
   </div>
-  <div fxLayout class="count" *ngIf="showAverageGPI$ | ngrxPush">
-    <div *ngIf="!isOfferTable; else offerMargin">
-      {{ t('totalAverageGPI') }}:&nbsp;
-    </div>
-    <ng-template #offerMargin>
-      <div>{{ t('offerAverageGPI') }}:&nbsp;</div>
-    </ng-template>
-    {{ totalAverageGPI }} %
+  <div class="ml-6" *ngIf="showGPM$ | ngrxPush">
+    <span class="opacity-60">
+      <span *ngIf="!isOfferTable; else offerMargin">
+        {{ t('totalAverageGPM') }}:&nbsp;
+      </span>
+      <ng-template #offerMargin>
+        <span>{{ t('offerAverageGPM') }}:&nbsp;</span>
+      </ng-template>
+    </span>
+    <span> {{ totalAverageGPM }} % </span>
+  </div>
+  <div class="ml-6" *ngIf="showGPI$ | ngrxPush">
+    <span class="opacity-60">
+      <span *ngIf="!isOfferTable; else offerMargin">
+        {{ t('totalAverageGPI') }}:&nbsp;
+      </span>
+      <ng-template #offerMargin>
+        <span>{{ t('offerAverageGPI') }}:&nbsp;</span>
+      </ng-template>
+    </span>
+    <span> {{ totalAverageGPI }} % </span>
   </div>
 </div>

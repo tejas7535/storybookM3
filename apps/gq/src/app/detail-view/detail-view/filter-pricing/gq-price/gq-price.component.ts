@@ -51,7 +51,7 @@ export class GqPriceComponent implements OnInit {
 
   ngOnInit(): void {
     if (this.quotationDetail) {
-      this.gpi = PriceService.calculateGPI(
+      this.gpi = PriceService.calculateMargin(
         this.quotationDetail.recommendedPrice,
         this.quotationDetail.gpc
       );

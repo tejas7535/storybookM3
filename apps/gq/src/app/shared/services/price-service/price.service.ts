@@ -22,7 +22,8 @@ export class PriceService {
     // calculate priceUnit dependent values
     PriceService.calculatePriceUnitValues(detail);
 
-    detail.gpi = PriceService.calculateGPI(detail.price, detail.gpc);
+    detail.gpi = PriceService.calculateMargin(detail.price, detail.gpc);
+    detail.gpm = PriceService.calculateMargin(detail.price, detail.sqv);
   }
 
   static calculatePriceUnitValues(detail: QuotationDetail): void {
@@ -71,11 +72,11 @@ export class PriceService {
     return undefined;
   }
 
-  static calculateGPI(price: number, gpc: number): number {
-    if (price && gpc) {
-      const gpi = (price - gpc) / price;
+  static calculateMargin(price: number, costValue: number): number {
+    if (price && costValue) {
+      const margin = (price - costValue) / price;
 
-      return PriceService.roundPercentageToTwoDecimals(gpi);
+      return PriceService.roundPercentageToTwoDecimals(margin);
     }
 
     return undefined;
@@ -87,6 +88,7 @@ export class PriceService {
     let netValue = 0;
     // sum of (gpi% * netValue) of each line
     let sumGPINetValue = 0;
+    let sumGPMNetValue = 0;
 
     details.forEach((row: QuotationDetail) => {
       if (row.netValue) {
@@ -94,15 +96,20 @@ export class PriceService {
         if (row.gpi) {
           sumGPINetValue += row.gpi * row.netValue;
         }
+        if (row.gpm) {
+          sumGPMNetValue += row.gpm * row.netValue;
+        }
       }
     });
     let weightedGPI = 0;
+    let weightedGPM = 0;
     if (netValue !== 0) {
-      weightedGPI = Math.round((sumGPINetValue / netValue) * 100) / 100;
-      netValue = Math.round(netValue * 100) / 100;
+      weightedGPI = PriceService.roundToTwoDecimals(sumGPINetValue / netValue);
+      weightedGPM = PriceService.roundToTwoDecimals(sumGPMNetValue / netValue);
+      netValue = PriceService.roundToTwoDecimals(netValue);
     }
 
-    return { netValue, weightedGPI };
+    return { netValue, weightedGPI, weightedGPM };
   }
 
   static roundPercentageToTwoDecimals(number: number): number {

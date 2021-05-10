@@ -41,3 +41,7 @@ export const userHasManualPriceRole = createSelector(
   getRoles,
   (roles: String[]): boolean => roles.includes(UserRoles.MANUAL_PRICE)
 );
+export const userHasSQVRole = createSelector(
+  getRoles,
+  (roles: String[]): boolean => roles.includes(UserRoles.COST_SQV)
+);

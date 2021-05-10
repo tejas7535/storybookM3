@@ -4,6 +4,7 @@ import {
   getAllRoles,
   userHasGPCRole,
   userHasManualPriceRole,
+  userHasSQVRole,
 } from './roles.selector';
 
 describe('shared selector', () => {
@@ -51,6 +52,18 @@ describe('shared selector', () => {
       const roles = [UserRoles.BASIC, UserRoles.REGION_WORLD];
 
       expect(userHasGPCRole.projector(roles)).toBeFalsy();
+    });
+  });
+  describe('userHasSQVRole', () => {
+    test('should return true', () => {
+      const roles = [UserRoles.BASIC, UserRoles.COST_SQV];
+
+      expect(userHasSQVRole.projector(roles)).toBeTruthy();
+    });
+    test('should return false', () => {
+      const roles = [UserRoles.BASIC, UserRoles.REGION_WORLD];
+
+      expect(userHasSQVRole.projector(roles)).toBeFalsy();
     });
   });
   describe('userHasManualPriceRole', () => {

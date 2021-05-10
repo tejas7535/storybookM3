@@ -32,7 +32,7 @@ export class ColumnUtilityService {
   }
 
   static filterSqv(col: ColDef, roles: string[]): boolean {
-    return col.field === ColumnFields.SQV
+    return col.field === ColumnFields.SQV || col.field === ColumnFields.GPM
       ? roles.includes(UserRoles.COST_SQV)
       : true;
   }
