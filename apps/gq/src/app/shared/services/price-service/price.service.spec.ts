@@ -74,20 +74,20 @@ describe('PriceService', () => {
       expect(result).toBeUndefined();
     });
   });
-  describe('calculateGPI', () => {
-    test('should return gpi', () => {
+  describe('calculateMargin', () => {
+    test('should return margin', () => {
       const price = 25;
-      const gpc = 20;
+      const margin = 20;
 
-      const result = PriceService.calculateGPI(price, gpc);
+      const result = PriceService.calculateMargin(price, margin);
 
       expect(result).toEqual(20);
     });
     test('should return undefined', () => {
       const price = 25;
-      const gpc = undefined as any;
+      const margin = undefined as any;
 
-      const result = PriceService.calculateGPI(price, gpc);
+      const result = PriceService.calculateMargin(price, margin);
 
       expect(result).toEqual(undefined);
     });
@@ -101,6 +101,7 @@ describe('PriceService', () => {
       expect(result).toEqual({
         netValue: QUOTATION_DETAIL_MOCK.netValue,
         weightedGPI: QUOTATION_DETAIL_MOCK.gpi,
+        weightedGPM: QUOTATION_DETAIL_MOCK.gpm,
       });
     });
   });

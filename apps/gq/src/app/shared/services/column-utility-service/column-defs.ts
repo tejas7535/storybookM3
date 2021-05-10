@@ -82,6 +82,11 @@ export const COLUMN_DEFS: ColDef[] = [
     valueFormatter: ColumnUtilityService.percentageFormatter,
   },
   {
+    headerName: translate('shared.quotationDetailsTable.gpm'),
+    field: ColumnFields.GPM,
+    valueFormatter: ColumnUtilityService.percentageFormatter,
+  },
+  {
     headerName: translate('shared.quotationDetailsTable.lastCustomerPrice'),
     field: ColumnFields.LAST_CUSTOMER_PRICE,
     valueFormatter: ColumnUtilityService.numberCurrencyFormatter,

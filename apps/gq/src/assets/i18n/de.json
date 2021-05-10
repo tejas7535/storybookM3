@@ -2,6 +2,7 @@
   "shared": {
     "quotationDetailsTable": {
       "gpi": "GPI % (KHK)",
+      "gpm": "GPM % (SAW)",
       "gpsd": "GPSD",
       "gpc": "KHK",
       "info": "Info",
@@ -92,10 +93,13 @@
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Ausgewählter gew. ø GPI%",
+        "selectedAverageGPM": "Ausgewählter gew. ø GPM%",
         "selectedNetValue": "Ausgewählter Nettowert",
         "totalAverageGPI": "Gesamt gew. ø GPI%",
+        "totalAverageGPM": "Gesamt gew. ø GPM%",
         "totalNetValue": "Gesamt Nettowert",
         "offerAverageGPI": "Angebotener gew. ø GPI%",
+        "offerAverageGPM": "Angebotener gew. ø GPM%",
         "offerNetValue": "Angebotener Nettowert"
       },
       "uploadToSAPButton": {

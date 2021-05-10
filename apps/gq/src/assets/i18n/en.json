@@ -1,9 +1,10 @@
 {
   "shared": {
     "quotationDetailsTable": {
+      "gpi": "GPI % (GPC)",
+      "gpm": "GPM % (SQV)",
       "gpsd": "GPSD",
       "gpc": "GPC",
-      "gpi": "GPI % (GPC)",
       "info": "Info",
       "item": "Item",
       "lastCustomerPrice": "Last Customer Price",
@@ -92,10 +93,13 @@
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
+        "selectedAverageGPM": "Selected Weigh. Avg. GPM %",
         "selectedNetValue": "Selected Net Value",
         "totalAverageGPI": "Total Weigh. Avg. GPI %",
+        "totalAverageGPM": "Total Weigh. Avg. GPM %",
         "totalNetValue": "Total Net Value",
         "offerAverageGPI": "Offered Weigh. Avg. GPI %",
+        "offerAverageGPM": "Offered Weigh. Avg. GPM %",
         "offerNetValue": "Offered Net Value"
       },
       "uploadToSAPButton": {

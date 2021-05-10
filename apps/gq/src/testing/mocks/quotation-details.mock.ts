@@ -37,5 +37,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   netValue: 2000,
   priceSource: PriceSource.GQ,
   gpi: 90,
+  gpm: 80,
   customerMaterial: 'mockCustomerMaterial',
 };

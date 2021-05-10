@@ -32,4 +32,5 @@ export class QuotationDetail {
   // properties added in GQ application
   public netValue: number;
   public gpi: number;
+  public gpm: number;
 }
