@@ -331,4 +331,26 @@ describe('SalesRowDetailsComponent', () => {
       })
     );
   });
+
+  describe('iconEnter', () => {
+    it('should open the menu ', () => {
+      const menuTrigger: any = { openMenu: jest.fn() };
+      component.iconEnter(menuTrigger);
+      expect(menuTrigger.openMenu).toHaveBeenCalled();
+    });
+  });
+
+  describe('iconLeave', () => {
+    it('should close the mennu after the timeout', () => {
+      jest.useFakeTimers();
+      const menuTrigger: any = { closeMenu: jest.fn() };
+
+      component.iconLeave(menuTrigger);
+
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 1500);
+      jest.advanceTimersByTime(1501);
+      expect(menuTrigger.closeMenu).toHaveBeenCalled();
+    });
+  });
 });
