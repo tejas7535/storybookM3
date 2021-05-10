@@ -55,7 +55,7 @@ describe('SidebarService', () => {
           if (match.matchStr.length !== s.length) {
             isMatch = false;
           } else {
-            // tslint:disable-next-line: no-increment-decrement
+            // eslint-disable-next-line
             for (let i = 0; i < s.length; i++) {
               if (match.matchStr[i] !== s[i]) {
                 isMatch = false;
@@ -67,7 +67,7 @@ describe('SidebarService', () => {
         return isMatch;
       }),
       map(
-        // tslint:disable-next-line
+        // eslint-disable-next-line
         (match) => <BreakpointState>{ matches: match.result, breakpoints: {} }
       )
     );

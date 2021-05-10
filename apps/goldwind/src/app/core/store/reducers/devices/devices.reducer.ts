@@ -34,7 +34,7 @@ export const devicesReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: DevicesState, action: Action): DevicesState {
   return devicesReducer(state, action);
 }

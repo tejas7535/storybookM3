@@ -35,7 +35,7 @@ describe('Auth selectors', () => {
   });
 
   test('should return token', () => {
-    // tslint:disable-next-line: no-object-literal-type-assertion
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const token = { iss: 'test' } as AccessToken;
 
     expect(fromAuthSelectors.getToken.projector({ token })).toEqual(token);
@@ -48,14 +48,14 @@ describe('Auth selectors', () => {
   });
 
   test('should return given claim', () => {
-    // tslint:disable-next-line: no-object-literal-type-assertion
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const token = { iss: 'test' } as AccessToken;
 
     expect(fromAuthSelectors.getClaim('iss').projector(token)).toEqual('test');
   });
 
   test('should return undefined if claim does not exist in token', () => {
-    // tslint:disable-next-line: no-object-literal-type-assertion
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const token = { iss: 'test' } as AccessToken;
 
     expect(
@@ -93,7 +93,7 @@ describe('Auth selectors', () => {
   });
 
   test('should return accessToken', () => {
-    // tslint:disable-next-line: no-object-literal-type-assertion
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
     const accessToken = 'nothingToSeeJustAToken';
 
     expect(fromAuthSelectors.getAccessToken.projector({ accessToken })).toEqual(

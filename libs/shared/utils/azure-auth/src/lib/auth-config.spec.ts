@@ -34,7 +34,7 @@ describe('Azure Auth Config', () => {
     test('should do nothing when Pii', () => {
       loggerCallback(LogLevel.Info, 'msg', true);
 
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       expect(console.info).not.toHaveBeenCalled();
     });
 
@@ -48,14 +48,14 @@ describe('Azure Auth Config', () => {
       const message = 'message';
       loggerCallback(LogLevel.Info, message, false);
 
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       expect(console.info).toHaveBeenCalledWith(message);
     });
     test('should debug on loglevel verbose', () => {
       const message = 'message';
       loggerCallback(LogLevel.Verbose, message, false);
 
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       expect(console.debug).toHaveBeenCalledWith(message);
     });
     test('should warn on loglevel warning', () => {

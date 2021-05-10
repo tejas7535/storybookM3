@@ -56,7 +56,7 @@ export const overviewReducer = createReducer(
   )
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: OverviewState, action: Action): OverviewState {
   return overviewReducer(state, action);
 }

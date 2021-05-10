@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { TranslocoService } from '@ngneat/transloco';
 
 import { BannerModule } from './banner.module';
@@ -12,7 +12,7 @@ describe('BannerModule', () => {
         setTranslation: jest.fn(),
       } as unknown) as TranslocoService;
 
-      // tslint:disable-next-line: no-unused-expression
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new BannerModule(serviceMock);
 
       expect(serviceMock.setTranslation).toHaveBeenCalledTimes(2);

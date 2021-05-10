@@ -32,7 +32,7 @@ export const authReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: AuthState, action: Action): AuthState {
   return authReducer(state, action);
 }

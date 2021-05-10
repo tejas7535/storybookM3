@@ -571,4 +571,4 @@ describe('Quotation Reducer', () => {
     });
   });
 });
-// tslint:disable-next-line: max-file-line-count
+// eslint-disable-next-line max-lines

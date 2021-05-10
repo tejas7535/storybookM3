@@ -3,7 +3,7 @@
     "angular.json": "*",
     "package.json": "*",
     "package-lock.json": "*",
-    "tslint.json": "*",
+    ".eslintrc.json": "*",
     "nx.json": "*",
     "Jenkinsfile": "*",
     "deployments.json": "*",
@@ -193,6 +193,8 @@
     "shared-ui-loading-spinner": {
       "tags": ["scope:shared", "type:ui"]
     },
-    "shared-ui-search-autocomplete": { "tags": ["scope:shared", "type:ui"] }
+    "shared-ui-search-autocomplete": {
+      "tags": ["scope:shared", "type:ui"]
+    }
   }
 }

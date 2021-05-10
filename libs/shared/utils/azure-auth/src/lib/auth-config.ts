@@ -33,11 +33,11 @@ export const loggerCallback = (
       console.error(message);
       break;
     case LogLevel.Info:
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       console.info(message);
       break;
     case LogLevel.Verbose:
-      // tslint:disable-next-line: no-console
+      // eslint-disable-next-line no-console
       console.debug(message);
       break;
     case LogLevel.Warning:

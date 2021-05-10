@@ -19,7 +19,7 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 
-// tslint:disable-next-line: no-implicit-dependencies
+// eslint-disable-next-line import/no-extraneous-dependencies
 const azureConfig = new AzureConfig(
   new MsalInstanceConfig(
     environment.azureClientId,

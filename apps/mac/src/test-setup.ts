@@ -1,4 +1,4 @@
-/* tslint:disable: ordered-imports */
+/* eslint-disable import/order */
 import './mock-window';
 import '../../../global-mocks';
 import 'jest-canvas-mock';

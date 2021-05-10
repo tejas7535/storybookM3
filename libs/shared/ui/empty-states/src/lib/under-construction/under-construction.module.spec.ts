@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { TranslocoService } from '@ngneat/transloco';
 
 import deJson from './i18n/de.json';
@@ -12,7 +12,7 @@ describe('PageUnderConstructionModule', () => {
         setTranslation: jest.fn(),
       } as unknown) as TranslocoService;
 
-      // tslint:disable-next-line: no-unused-expression
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new UnderConstructionModule(serviceMock);
 
       expect(serviceMock.setTranslation).toHaveBeenCalledTimes(2);

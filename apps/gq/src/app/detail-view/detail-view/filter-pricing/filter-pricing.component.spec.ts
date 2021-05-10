@@ -74,7 +74,7 @@ describe('FilterPricingComponent', () => {
     test('should define observables', () => {
       component['subscription'].add = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.userHasManualPriceRole$).toBeDefined();
@@ -85,7 +85,7 @@ describe('FilterPricingComponent', () => {
     test('should unsubscribe', () => {
       component['subscription'].unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);

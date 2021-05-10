@@ -29,7 +29,7 @@ Check out our [README](readme.md).
 We recommend to work with [Visual Studio Code](https://code.visualstudio.com/).  
 You will be prompted to install the following extensions upon the first opening of this project in VSCode:
 
-- [TSLint](https://marketplace.visualstudio.com/items?itemName=ms-vscode.vscode-typescript-tslint-plugin)
+- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [Prettier - Code formatter](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
 - [HTMLHint - Static Code Analyzer](https://marketplace.visualstudio.com/items?itemName=mkaufman.HTMLHint)
 - [Stylelint - SCSS/CSS/Less Linter](https://marketplace.visualstudio.com/items?itemName=shinnn.stylelint)
@@ -88,6 +88,6 @@ In order to keep up a well formatted and consistent code all over the repository
 - stylelint
 - htmlhint
 - prettier
-- tslint
+- eslint
 
 Another aspect of code quality is strongly associated with code coverage. Please make sure to meet our threshold from at least **80 %** coverage for newly added or changed code.

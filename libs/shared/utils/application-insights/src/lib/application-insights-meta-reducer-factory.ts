@@ -5,7 +5,7 @@ import { ActionReducer, MetaReducer } from '@ngrx/store';
 import { ApplicationInsightsService } from './application-insights.service';
 import { NGRX_IGNORE_PATTERN } from './ngrx-ignore-pattern';
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function applicationInsightsMetaReducerFactory(
   applicationInsightsService: ApplicationInsightsService,
   injector: Injector

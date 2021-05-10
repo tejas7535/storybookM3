@@ -34,7 +34,7 @@ export const bearingReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: BearingState, action: Action): BearingState {
   return bearingReducer(state, action);
 }

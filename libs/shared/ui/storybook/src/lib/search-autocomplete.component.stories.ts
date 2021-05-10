@@ -50,7 +50,7 @@ const options: SearchAutocompleteOption[] = [
   { title: 'Bearing XX', id: 'XX' },
 ];
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Search Autocomplete',
   parameters: {

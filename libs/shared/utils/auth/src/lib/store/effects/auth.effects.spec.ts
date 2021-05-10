@@ -156,7 +156,7 @@ describe('Auth Effects', () => {
         a: loginSuccess({ user: undefined }),
       });
 
-      // tslint:disable-next-line: no-object-literal-type-assertion
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const expected = cold('-b', {
         b: setToken({ token: undefined, accessToken: undefined }),
       });

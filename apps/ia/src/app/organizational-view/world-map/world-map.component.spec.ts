@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -102,7 +102,7 @@ describe('WorldMapComponent', () => {
   });
   describe('ngOnInit', () => {
     test('should register map and set options', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(echarts.registerMap).toHaveBeenCalledWith('world', worldJson);

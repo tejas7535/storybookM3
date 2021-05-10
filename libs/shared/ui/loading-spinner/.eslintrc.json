@@ -14,18 +14,31 @@
       "rules": {
         "@angular-eslint/directive-selector": [
           "error",
-          { "type": "attribute", "prefix": "schaeffler", "style": "camelCase" }
+          {
+            "type": "attribute",
+            "prefix": "schaeffler",
+            "style": "camelCase"
+          }
         ],
         "@angular-eslint/component-selector": [
           "error",
-          { "type": "element", "prefix": "schaeffler", "style": "kebab-case" }
+          {
+            "type": "element",
+            "prefix": "schaeffler",
+            "style": "kebab-case"
+          }
         ]
-      }
+      },
+      "plugins": [
+        "@angular-eslint/eslint-plugin",
+        "eslint-plugin-import",
+        "@typescript-eslint"
+      ]
     },
     {
       "files": ["*.html"],
       "extends": ["plugin:@nrwl/nx/angular-template"],
-      "rules": {}
+      "plugins": ["@angular-eslint/eslint-plugin-template"]
     }
   ]
 }

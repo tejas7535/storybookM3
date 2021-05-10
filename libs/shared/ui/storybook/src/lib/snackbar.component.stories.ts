@@ -16,7 +16,7 @@ const baseComponent = {
   component: SnackbarLauncherComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Snackbar',
   parameters: {

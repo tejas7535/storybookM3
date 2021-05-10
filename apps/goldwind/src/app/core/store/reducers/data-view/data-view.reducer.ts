@@ -56,7 +56,7 @@ export const dataViewReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: DataViewState, action: Action): DataViewState {
   return dataViewReducer(state, action);
 }

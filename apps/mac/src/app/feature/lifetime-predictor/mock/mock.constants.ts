@@ -513,5 +513,5 @@ export const mockedPredictionResultGraphData: EChartsOption = {
     max: 812.0430679209095,
     min: 60.56999999999996,
   },
-  // tslint:disable-next-line: max-file-line-count
+  // eslint-disable-next-line max-lines
 };

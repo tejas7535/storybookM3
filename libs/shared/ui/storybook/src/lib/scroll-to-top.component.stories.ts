@@ -19,7 +19,7 @@ const baseComponent = {
   component: ScrollToTopComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'ScrollToTop',
   parameters: {

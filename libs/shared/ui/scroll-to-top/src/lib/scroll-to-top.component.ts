@@ -87,5 +87,5 @@ export class ScrollToTopComponent implements OnInit {
         window.scrollTo(0, currentScroll - currentScroll / 8);
       }
     }
-  }; // tslint:disable-line:semicolon
+  }; // eslint-disable-line @typescript-eslint/semi, @typescript-eslint/member-delimiter-style
 }

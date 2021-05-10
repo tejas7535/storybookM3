@@ -61,7 +61,7 @@ describe('FilterSectionComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set observables', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.orgUnits$).toBeDefined();

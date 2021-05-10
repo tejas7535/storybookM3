@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { TranslocoService } from '@ngneat/transloco';
 
 import { ForbiddenModule } from './forbidden.module';
@@ -12,7 +12,7 @@ describe('ForbiddenModule', () => {
         setTranslation: jest.fn(),
       } as unknown) as TranslocoService;
 
-      // tslint:disable-next-line: no-unused-expression
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new ForbiddenModule(serviceMock);
 
       expect(serviceMock.setTranslation).toHaveBeenCalledTimes(2);

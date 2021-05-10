@@ -87,7 +87,7 @@ describe('SalesTableComponent', () => {
     it('should load the data', async () => {
       dataService.getAllSales = jest.fn().mockResolvedValue([salesSummaryMock]);
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       await component.ngOnInit();
 
       expect(dataService.getAllSales).toHaveBeenCalledTimes(1);

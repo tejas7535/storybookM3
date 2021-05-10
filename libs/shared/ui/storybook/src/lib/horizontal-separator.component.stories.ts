@@ -18,7 +18,7 @@ const baseComponent = {
   component: HorizontalSeparatorComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Horizontal separator',
   parameters: {

@@ -67,7 +67,7 @@ describe('AddMaterialDialogComponent', () => {
     test('should add subscriptions', () => {
       component['subscription'].add = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.rowData$).toBeDefined();
@@ -79,7 +79,7 @@ describe('AddMaterialDialogComponent', () => {
     test('should unsubscribe', () => {
       component['subscription'].unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);

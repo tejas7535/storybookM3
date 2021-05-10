@@ -16,7 +16,7 @@ import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
 
 describe('PredictionEffects', () => {
-  // tslint:disable-next-line
+  // eslint-disable-next-line
   let actions: Observable<any>;
   let effects: PredictionEffects;
 

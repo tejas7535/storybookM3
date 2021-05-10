@@ -7,7 +7,7 @@ import { SliderControl } from './slider.model';
   selector: 'mac-ltp-slider',
   templateUrl: './slider.component.html',
   styleUrls: ['./slider.component.scss'],
-  // tslint:disable-next-line: use-component-view-encapsulation
+  // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
 export class SliderComponent implements OnInit {

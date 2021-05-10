@@ -1,4 +1,4 @@
-// tslint:disable: ordered-imports
+/* eslint-disable import/order */
 import '../../../global-mocks';
 import 'jest-preset-angular/setup-jest';
 
@@ -19,7 +19,7 @@ const orgChartMock: any = {
 };
 
 jest.mock('d3-org-chart', () => {
-  // tslint:disable-next-line: only-arrow-functions
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   return jest.fn().mockImplementation(() => {
     return orgChartMock;
   });
