@@ -3,6 +3,29 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.20.0](///compare/cdba-v1.20.0...cdba-v1.19.0) (2021-05-10)
+
+
+### 📈 Improvements
+
+* **cdba:** disable compare detail tab when same materials are compared (DSCDA-2387) ([c009894](///commit/c0098942101d8d008a1e66df05e28f88972c8559))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** decouple calculation selections (DSCDA-2384) ([3de9ca6](///commit/3de9ca6f5bf8cb188ab4b8f9eb05ee469a33854a))
+* **cdba:** fix behaviour of back button in tabs header (DSCDA-2386) ([ce7026c](///commit/ce7026c0a6784953a6eec039c00f361f34d71d4b))
+* **cdba:** properly reset bom table for new data ([3bfb28a](///commit/3bfb28aec36dd75eb3441d8c088b9c905991c6d5))
+
+
+### 🎸 Features
+
+* **cdba:** dialog for users using an unspported browser (DSCDA-2357) ([2e64f94](///commit/2e64f94d8cefa57d7d73c2583d322aa4c4e67c73))
+* **cdba:** migrate app to use azure-auth lib ([5bc2681](///commit/5bc2681b8535672b6e999f59353a32af25db0330))
+* **cdba:** multiple improvements for drawings table (DSCDA-2353) ([6c17d2a](///commit/6c17d2a139f0da13ea67eaf0292b7b6b2a9c9503))
+* **styles:** tab styles depend on tailwind ([06e54fb](///commit/06e54fb3154322e873f671af3f886a5e054d1a94))
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](///commit/47630c62ca451d70e613182684fc34506a34705a))
+
 ## [1.19.0](///compare/cdba-v1.19.0...cdba-v1.18.0) (2021-04-26)
 
 
