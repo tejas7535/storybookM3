@@ -7,7 +7,7 @@ import {
   getLoadAverageSuccess,
   getLoadId,
 } from '..';
-import { LoadSenseAvg } from '../../reducers/load-sense/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 
 describe('LoadSense Actions', () => {
   let deviceId: string;
@@ -52,25 +52,25 @@ describe('LoadSense Actions', () => {
     });
 
     test('getLoadAverageSuccess', () => {
-      const loadAverage: LoadSenseAvg = {
+      const loadAverage: LoadSense = {
         deviceId: 'test-load-average',
         id: '123-test',
-        lsp01StrainAvg: 1,
-        lsp02StrainAvg: 2,
-        lsp03StrainAvg: 3,
-        lsp04StrainAvg: 4,
-        lsp05StrainAvg: 5,
-        lsp06StrainAvg: 6,
-        lsp07StrainAvg: 7,
-        lsp08StrainAvg: 8,
-        lsp09StrainAvg: 9,
-        lsp10StrainAvg: 10,
-        lsp11StrainAvg: 11,
-        lsp12StrainAvg: 12,
-        lsp13StrainAvg: 13,
-        lsp14StrainAvg: 14,
-        lsp15StrainAvg: 15,
-        lsp16StrainAvg: 16,
+        lsp01Strain: 1,
+        lsp02Strain: 2,
+        lsp03Strain: 3,
+        lsp04Strain: 4,
+        lsp05Strain: 5,
+        lsp06Strain: 6,
+        lsp07Strain: 7,
+        lsp08Strain: 8,
+        lsp09Strain: 9,
+        lsp10Strain: 10,
+        lsp11Strain: 11,
+        lsp12Strain: 12,
+        lsp13Strain: 13,
+        lsp14Strain: 14,
+        lsp15Strain: 15,
+        lsp16Strain: 16,
         timestamp: '00:00:00',
       };
       const action = getLoadAverageSuccess({ loadAverage });

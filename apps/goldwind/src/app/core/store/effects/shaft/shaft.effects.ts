@@ -110,7 +110,7 @@ export class ShaftEffects {
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
         this.restService.getShaftLatest(deviceId).pipe(
-          map((shaft) => getShaftSuccess({ shaft })),
+          map(([shaft]) => getShaftSuccess({ shaft })),
           catchError((_e) => of(getShaftFailure()))
         )
       )

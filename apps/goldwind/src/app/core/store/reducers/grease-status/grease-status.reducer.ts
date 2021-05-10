@@ -40,7 +40,7 @@ export const initialState: GreaseStatusState = {
     deterioration_2: true,
     waterContent_2: true,
     temperatureOptics_2: true,
-    rsmShaftSpeed: true,
+    rsmShaftSpeed: false,
   },
   interval: {
     startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),

@@ -23,7 +23,7 @@ import {
   getLoadAverageSuccess,
 } from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
-import { LoadSenseAvg } from '../../reducers/load-sense/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
@@ -247,23 +247,23 @@ describe('Search Effects', () => {
     });
 
     test('should return getLoadAverage action when REST call is successful', () => {
-      const mockAverage: LoadSenseAvg = {
-        lsp01StrainAvg: 2666.925857162287,
-        lsp02StrainAvg: 2862.7850295843746,
-        lsp03StrainAvg: 1029.066039711919,
-        lsp04StrainAvg: 1197.0452518575266,
-        lsp05StrainAvg: 1764.0509199538271,
-        lsp06StrainAvg: 1908.1549786913706,
-        lsp07StrainAvg: 2768.88648856736,
-        lsp08StrainAvg: 1786.153885813422,
-        lsp09StrainAvg: 1454.445470021493,
-        lsp10StrainAvg: 1301.790787653976,
-        lsp11StrainAvg: 1769.612550842888,
-        lsp12StrainAvg: 1569.480195591359,
-        lsp13StrainAvg: 1096.408815157941,
-        lsp14StrainAvg: 1427.2028369240074,
-        lsp15StrainAvg: 1066.072787878487,
-        lsp16StrainAvg: 1392.7892699377624,
+      const mockAverage: LoadSense = {
+        lsp01Strain: 2666.925857162287,
+        lsp02Strain: 2862.7850295843746,
+        lsp03Strain: 1029.066039711919,
+        lsp04Strain: 1197.0452518575266,
+        lsp05Strain: 1764.0509199538271,
+        lsp06Strain: 1908.1549786913706,
+        lsp07Strain: 2768.88648856736,
+        lsp08Strain: 1786.153885813422,
+        lsp09Strain: 1454.445470021493,
+        lsp10Strain: 1301.790787653976,
+        lsp11Strain: 1769.612550842888,
+        lsp12Strain: 1569.480195591359,
+        lsp13Strain: 1096.408815157941,
+        lsp14Strain: 1427.2028369240074,
+        lsp15Strain: 1066.072787878487,
+        lsp16Strain: 1392.7892699377624,
         deviceId: 'edge-goldwind-qa-009',
         id: 'id-load-sense-average',
         timestamp: '2020-08-02T16:18:59Z',
@@ -276,7 +276,7 @@ describe('Search Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: mockAverage,
+        a: [mockAverage],
       });
       const expected = cold('--b', { b: result });
 
@@ -366,7 +366,7 @@ describe('Search Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: mockGreaseStatusLatest,
+        a: [mockGreaseStatusLatest],
       });
       const expected = cold('--b', { b: result });
 

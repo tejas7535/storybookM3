@@ -1,5 +1,5 @@
-import { DATE_FORMAT } from '../../../../../app/shared/constants';
 import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
+import { DATE_FORMAT } from '../../../../shared/constants';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
 import {
@@ -23,25 +23,17 @@ describe('Grease Status Selector', () => {
   const fakeState = {
     greaseStatus: {
       ...initialState,
-      result: {
-        GcmProcessed: [
-          {
-            timestamp: '2020-07-30T11:02:35',
-            gcm01TemperatureOptics: 99.991,
-            gcm01Deterioration: 12.121,
-            gcm01WaterContent: 69,
-            gcm02TemperatureOptics: 33.333,
-            gcm02Deterioration: 22,
-            gcm02WaterContent: 11.111,
-          },
-        ],
-        RsmShafts: [
-          {
-            timestamp: '2020-07-30T11:02:35',
-            rsm01ShaftSpeed: 15.12,
-          },
-        ],
-      },
+      result: [
+        {
+          timestamp: '2020-07-30T11:02:35',
+          gcm01TemperatureOptics: 99.991,
+          gcm01Deterioration: 12.121,
+          gcm01WaterContent: 69,
+          gcm02TemperatureOptics: 33.333,
+          gcm02Deterioration: 22,
+          gcm02WaterContent: 11.111,
+        },
+      ],
       loading: false,
       status: {
         result: {
@@ -189,11 +181,7 @@ describe('Grease Status Selector', () => {
           {
             name: 'rsmShaftSpeed',
             type: 'line',
-            data: [
-              {
-                value: [new Date('2020-07-30T11:02:35'), '15.12'],
-              },
-            ],
+            data: [], // TODO should countain data later
           },
         ],
       };

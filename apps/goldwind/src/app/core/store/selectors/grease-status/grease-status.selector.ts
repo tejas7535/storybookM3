@@ -12,7 +12,6 @@ import {
   GreaseDisplay,
   GreaseSensor,
 } from '../../reducers/grease-status/models';
-import { ShaftStatus } from '../../reducers/shaft/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
 
 type GreaseDisplayKeys = keyof GreaseDisplay;
@@ -59,8 +58,8 @@ export const getGreaseDisplay = createSelector(
 export const getAnalysisGraphData = createSelector(
   getGreaseStatusResult,
   getGreaseDisplay,
-  (gcmStatus: any, display: GreaseDisplay): GraphData =>
-    gcmStatus && {
+  (gcmStatus: any, display: GreaseDisplay): GraphData => {
+    const result = gcmStatus && {
       legend: {
         data: Object.entries(display)
           .map(([key, value]) => [key, value] as DisplayOption)
@@ -75,13 +74,14 @@ export const getAnalysisGraphData = createSelector(
           data:
             (value &&
               (key === 'rsmShaftSpeed'
-                ? gcmStatus.RsmShafts.map((measurement: ShaftStatus) => ({
-                    value: [
-                      new Date(measurement.timestamp),
-                      measurement.rsm01ShaftSpeed.toFixed(2),
-                    ],
-                  }))
-                : gcmStatus.GcmProcessed.map((measurement: GcmProcessed) => {
+                ? // gcmStatus.map((measurement: ShaftStatus) => ({
+                  //     value: [
+                  //       new Date(measurement.timestamp),
+                  //       measurement.rsm01ShaftSpeed.toFixed(2),
+                  //     ],
+                  //   }))
+                  []
+                : gcmStatus.map((measurement: GcmProcessed) => {
                     let measurementValue: number;
                     if (key.endsWith('_1')) {
                       measurementValue = (measurement as any)[
@@ -106,7 +106,10 @@ export const getAnalysisGraphData = createSelector(
                   }))) ||
             [],
         })),
-    }
+    };
+
+    return result;
+  }
 );
 
 export const getGreaseStatusLatestGraphData = createSelector(

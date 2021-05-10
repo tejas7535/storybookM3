@@ -27,7 +27,6 @@ import {
   stopGetLoad,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { LoadSense } from '../../reducers/load-sense/models';
 
 @Injectable()
 export class BearingLoadEffects {
@@ -110,7 +109,7 @@ export class BearingLoadEffects {
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
         this.restService.getBearingLoadLatest(deviceId).pipe(
-          map((bearingLoadLatest: LoadSense) =>
+          map(([bearingLoadLatest]) =>
             getBearingLoadSuccess({ bearingLoadLatest })
           ),
           catchError((_e) => of(getBearingLoadFailure()))

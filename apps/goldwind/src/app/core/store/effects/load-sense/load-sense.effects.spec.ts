@@ -191,7 +191,7 @@ describe('Search Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: mockLoadSense,
+        a: [mockLoadSense],
       });
       const expected = cold('--b', { b: result });
 

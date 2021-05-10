@@ -11,7 +11,7 @@ import {
   getLoadAverageSuccess,
 } from '../../actions';
 import { initialState, loadSenseReducer, reducer } from './load-sense.reducer';
-import { LoadSense, LoadSenseAvg } from './models';
+import { LoadSense } from './models';
 
 describe('Load Sense Reducer', () => {
   describe('getLoad', () => {
@@ -34,25 +34,25 @@ describe('Load Sense Reducer', () => {
 
   describe('getLoadAverageSuccess', () => {
     test('should unset loading and set state', () => {
-      const mockResult: LoadSenseAvg = {
+      const mockResult: LoadSense = {
         deviceId: 'string',
         id: 'string',
-        lsp02StrainAvg: 0,
-        lsp01StrainAvg: 0,
-        lsp03StrainAvg: 0,
-        lsp04StrainAvg: 0,
-        lsp05StrainAvg: 0,
-        lsp06StrainAvg: 0,
-        lsp07StrainAvg: 0,
-        lsp08StrainAvg: 0,
-        lsp09StrainAvg: 0,
-        lsp10StrainAvg: 0,
-        lsp11StrainAvg: 0,
-        lsp12StrainAvg: 0,
-        lsp13StrainAvg: 0,
-        lsp14StrainAvg: 0,
-        lsp15StrainAvg: 0,
-        lsp16StrainAvg: 0,
+        lsp02Strain: 0,
+        lsp01Strain: 0,
+        lsp03Strain: 0,
+        lsp04Strain: 0,
+        lsp05Strain: 0,
+        lsp06Strain: 0,
+        lsp07Strain: 0,
+        lsp08Strain: 0,
+        lsp09Strain: 0,
+        lsp10Strain: 0,
+        lsp11Strain: 0,
+        lsp12Strain: 0,
+        lsp13Strain: 0,
+        lsp14Strain: 0,
+        lsp15Strain: 0,
+        lsp16Strain: 0,
         timestamp: '2020-11-04T09:39:19.499Z',
       };
       const action = getLoadAverageSuccess({ loadAverage: mockResult });

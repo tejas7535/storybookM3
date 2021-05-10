@@ -5,7 +5,7 @@ import {
   initialState,
   LoadAverageState,
 } from '../../reducers/load-sense/load-sense.reducer';
-import { LoadSense, LoadSenseAvg } from '../../reducers/load-sense/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 import { GraphData } from '../../reducers/shared/models';
 import {
   getAverageLoadGraphData,
@@ -45,31 +45,9 @@ describe('Load Sense Selector', () => {
     timestamp: '2020-11-04T09:39:19.499Z',
   };
 
-  const mockLoadAverage: LoadSenseAvg = {
-    deviceId: 'string',
-    id: 'string',
-    lsp01StrainAvg: 1,
-    lsp02StrainAvg: 2,
-    lsp03StrainAvg: 3,
-    lsp04StrainAvg: 4,
-    lsp05StrainAvg: 5,
-    lsp06StrainAvg: 6,
-    lsp07StrainAvg: 7,
-    lsp08StrainAvg: 8,
-    lsp09StrainAvg: 9,
-    lsp10StrainAvg: 10,
-    lsp11StrainAvg: 11,
-    lsp12StrainAvg: 12,
-    lsp13StrainAvg: 13,
-    lsp14StrainAvg: 14,
-    lsp15StrainAvg: 15,
-    lsp16StrainAvg: 16,
-    timestamp: '2020-11-04T09:39:19.499Z',
-  };
-
   const mockLoadAverageState: LoadAverageState = {
     loading: false,
-    result: mockLoadAverage,
+    result: mockLoadSense,
   };
 
   const mockBearingLoadState: any = {
@@ -125,6 +103,12 @@ describe('Load Sense Selector', () => {
             type: 'line',
             coordinateSystem: 'polar',
             smooth: false,
+            areaStyle: {
+              opacity: 0.5,
+            },
+            itemStyle: {
+              color: GaugeColors.GREEN,
+            },
             data: [
               [2, 22.5],
               [4, 67.5],
@@ -136,13 +120,6 @@ describe('Load Sense Selector', () => {
               [16, 337.5],
               [2, 22.5],
             ],
-
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.GREEN,
-            },
           },
           {
             name: 'conditionMonitoring.centerLoad.rotor',
@@ -150,6 +127,12 @@ describe('Load Sense Selector', () => {
             type: 'line',
             coordinateSystem: 'polar',
             smooth: false,
+            areaStyle: {
+              opacity: 0.5,
+            },
+            itemStyle: {
+              color: GaugeColors.YELLOW,
+            },
             data: [
               [1, 0],
               [3, 45],
@@ -161,12 +144,6 @@ describe('Load Sense Selector', () => {
               [15, 315],
               [1, 0],
             ],
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.YELLOW,
-            },
           },
         ],
       };
@@ -193,6 +170,13 @@ describe('Load Sense Selector', () => {
             type: 'line',
             coordinateSystem: 'polar',
             smooth: false,
+
+            areaStyle: {
+              opacity: 0.5,
+            },
+            itemStyle: {
+              color: GaugeColors.GREEN,
+            },
             data: [
               [2, 22.5],
               [4, 67.5],
@@ -204,12 +188,6 @@ describe('Load Sense Selector', () => {
               [16, 337.5],
               [2, 22.5],
             ],
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.GREEN,
-            },
           },
           {
             name: 'conditionMonitoring.centerLoad.rotorAverage',
@@ -217,6 +195,13 @@ describe('Load Sense Selector', () => {
             type: 'line',
             coordinateSystem: 'polar',
             smooth: false,
+
+            areaStyle: {
+              opacity: 0.5,
+            },
+            itemStyle: {
+              color: GaugeColors.YELLOW,
+            },
             data: [
               [1, 0],
               [3, 45],
@@ -228,12 +213,6 @@ describe('Load Sense Selector', () => {
               [15, 315],
               [1, 0],
             ],
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.YELLOW,
-            },
           },
         ],
       };
@@ -285,14 +264,14 @@ describe('Load Sense Selector', () => {
       ];
 
       const loadSense = ({
-        lsp01StrainAvg: 1000,
-        lsp03StrainAvg: 3000,
-        lsp05StrainAvg: 5000,
-        lsp07StrainAvg: 7000,
-        lsp09StrainAvg: 9000,
-        lsp11StrainAvg: 11000.11,
-        lsp13StrainAvg: 13000.13,
-        lsp15StrainAvg: 15000.15,
+        lsp01Strain: 1000,
+        lsp03Strain: 3000,
+        lsp05Strain: 5000,
+        lsp07Strain: 7000,
+        lsp09Strain: 9000,
+        lsp11Strain: 11000.11,
+        lsp13Strain: 13000.13,
+        lsp15Strain: 15000.15,
       } as unknown) as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
@@ -351,14 +330,14 @@ describe('Load Sense Selector', () => {
       ];
 
       const loadSense = ({
-        lsp02StrainAvg: 2000,
-        lsp04StrainAvg: 4000,
-        lsp06StrainAvg: 6000,
-        lsp08StrainAvg: 8000,
-        lsp10StrainAvg: 10000,
-        lsp12StrainAvg: 12000.12,
-        lsp14StrainAvg: 14000.14,
-        lsp16StrainAvg: 16000.16,
+        lsp02Strain: 2000,
+        lsp04Strain: 4000,
+        lsp06Strain: 6000,
+        lsp08Strain: 8000,
+        lsp10Strain: 10000,
+        lsp12Strain: 12000.12,
+        lsp14Strain: 14000.14,
+        lsp16Strain: 16000.16,
       } as unknown) as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
