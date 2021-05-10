@@ -28,6 +28,8 @@ export class QuotationDetail {
   public strategicPrice: number;
   public priceSource: string;
   public customerMaterial: string;
+  public coefficient1: number;
+  public coefficient2: number;
 
   // properties added in GQ application
   public netValue: number;

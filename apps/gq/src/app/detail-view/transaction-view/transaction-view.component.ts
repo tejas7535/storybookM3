@@ -7,6 +7,7 @@ import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
+  getCoefficients,
   getCustomerCurrency,
   getGraphTransactions,
   getSelectedQuotationDetail,
@@ -15,7 +16,10 @@ import {
   isQuotationLoading,
 } from '../../core/store';
 import { Transaction } from '../../core/store/reducers/transactions/models/transaction.model';
-import { QuotationDetail } from '../../shared/models/quotation-detail';
+import {
+  Coefficients,
+  QuotationDetail,
+} from '../../shared/models/quotation-detail';
 
 @Component({
   selector: 'gq-transaction-view',
@@ -30,6 +34,7 @@ export class TransactionViewComponent implements OnInit {
   transactionsLoading$: Observable<boolean>;
   translationsLoaded$: Observable<boolean>;
   graphTransactions$: Observable<Transaction[]>;
+  coefficients$: Observable<Coefficients>;
 
   constructor(
     private readonly store: Store,
@@ -46,5 +51,6 @@ export class TransactionViewComponent implements OnInit {
     this.transactions$ = this.store.select(getTransactions);
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
     this.graphTransactions$ = this.store.select(getGraphTransactions);
+    this.coefficients$ = this.store.select(getCoefficients);
   }
 }

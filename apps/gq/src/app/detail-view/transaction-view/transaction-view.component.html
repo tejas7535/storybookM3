@@ -14,6 +14,7 @@
         <gq-transparency-graph
           *ngIf="!(transactionsLoading$ | ngrxPush); else loading"
           [transactions]="graphTransactions$ | ngrxPush"
+          [coefficients]="coefficients$ | ngrxPush"
         ></gq-transparency-graph>
       </mat-card>
     </div>

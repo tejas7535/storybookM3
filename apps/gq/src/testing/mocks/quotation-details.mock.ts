@@ -39,4 +39,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   gpi: 90,
   gpm: 80,
   customerMaterial: 'mockCustomerMaterial',
+  coefficient1: 0.88,
+  coefficient2: 2.5,
 };

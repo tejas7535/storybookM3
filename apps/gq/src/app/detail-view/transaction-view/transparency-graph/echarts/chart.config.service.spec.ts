@@ -45,10 +45,30 @@ describe('ChartConfigService', () => {
       expect(translate).toBeCalledWith(
         `transactionView.graph.tooltip.${translateKey}`
       );
-      expect(service.getDataPointStyle).toHaveBeenCalledTimes(1);
-      expect(service.getDataPointStyle).toHaveBeenCalledWith(salesIndication);
     });
   });
+  describe('getRegressionForToolTipFormatter', () => {
+    test('should return regression line', () => {
+      const data = { value: [0, 1] } as any;
+      service.regressionData = [[0, 100]];
+
+      service.getLineForToolTipFormatter = jest.fn(() => '');
+
+      const result = service.getRegressionForToolTipFormatter(data);
+
+      expect(
+        service.getLineForToolTipFormatter(
+          DataPointColor.REGRESSION,
+          'regression',
+          '100%'
+        )
+      );
+      expect(result).toEqual(
+        `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.6">`
+      );
+    });
+  });
+
   describe('getToolTipConfig', () => {
     test('should return tooltipconfig', () => {
       service.tooltipFormatter = jest.fn();
@@ -91,7 +111,7 @@ describe('ChartConfigService', () => {
   describe('tooltipFormatter', () => {
     test('should create tooltip', () => {
       const param = { data: DATA_POINT_MOCK };
-
+      service.getRegressionForToolTipFormatter = jest.fn(() => '');
       service.getValueForToolTipItem = jest.fn();
       service.getLineForToolTipFormatter = jest.fn(() => '');
 
@@ -100,6 +120,7 @@ describe('ChartConfigService', () => {
       expect(result).toEqual(`${param.data.customerName}<br>`);
       expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(4);
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(4);
+      expect(service.getRegressionForToolTipFormatter).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -127,13 +148,17 @@ describe('ChartConfigService', () => {
   describe('getSeriesConfig', () => {
     test('should return series config', () => {
       const data = [DATA_POINT_MOCK];
+      const regressionData = [
+        [0, 100],
+        [1, 50],
+      ];
       const color = DataPointColor.LOST_QUOTE;
       const name = 'dataPointName';
 
       service.getDataPointStyle = jest.fn(() => color);
       service.getDataPointName = jest.fn(() => name);
 
-      const result = service.getSeriesConfig(data);
+      const result = service.getSeriesConfig(data, regressionData);
 
       expect(result).toEqual([
         {
@@ -141,6 +166,13 @@ describe('ChartConfigService', () => {
           color,
           name,
           type: 'scatter',
+        },
+        {
+          type: 'line',
+          data: regressionData,
+          color: DataPointColor.REGRESSION,
+          symbol: 'none',
+          name: 'translate it',
         },
       ]);
     });

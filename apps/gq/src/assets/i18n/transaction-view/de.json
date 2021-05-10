@@ -28,11 +28,13 @@
       "lostQuote": "Lost Quote",
       "order": "Auftragsbestand"
     },
+    "regression": "GQ Nettopreis GPI%",
     "tooltip": {
       "quantity": "Menge",
       "profitMargin": "GPI",
       "price": "Nettopreis",
-      "year": "Jahr"
+      "year": "Jahr",
+      "regression": "GQ GPI"
     },
     "x-axis": "Menge",
     "y-axis": "Marge %"
