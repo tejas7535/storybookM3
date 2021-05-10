@@ -173,7 +173,7 @@ describe('Shaft Effects', () => {
       actions$ = hot('-a', { a: action });
 
       const response = cold('-a|', {
-        a: SHAFT_MOCK,
+        a: [SHAFT_MOCK],
       });
       const expected = cold('--b', { b: result });
 

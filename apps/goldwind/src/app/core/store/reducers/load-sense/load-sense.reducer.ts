@@ -8,7 +8,7 @@ import {
   getLoadAverageFailure,
   getLoadAverageSuccess,
 } from '../../actions';
-import { LoadSense, LoadSenseAvg } from './models';
+import { LoadSense } from './models';
 
 export interface BearingLoadLatestState {
   loading: boolean;
@@ -18,7 +18,7 @@ export interface BearingLoadLatestState {
 
 export interface LoadAverageState {
   loading: boolean;
-  result?: LoadSenseAvg;
+  result?: LoadSense;
 }
 
 export const initialState: BearingLoadLatestState = {

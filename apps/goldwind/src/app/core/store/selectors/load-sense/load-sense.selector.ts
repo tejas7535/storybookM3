@@ -5,7 +5,7 @@ import { GaugeColors } from '../../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { getBearingLoadState } from '../../reducers';
 import { BearingLoadLatestState } from '../../reducers/load-sense/load-sense.reducer';
-import { LoadSense, LoadSenseAvg } from '../../reducers/load-sense/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 import { GraphData } from '../../reducers/shared/models';
 
 // Will at some point only return true if last result is not too old
@@ -26,7 +26,7 @@ export const getBearingLoadLatestResult = createSelector(
 
 export const getLoadAverageResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadLatestState): LoadSenseAvg => state.averageResult.result
+  (state: BearingLoadLatestState): LoadSense => state.averageResult.result
 );
 
 export const getBearingLoadLatestTimeStamp = createSelector(
@@ -52,19 +52,6 @@ const rotorSideValues = (lsp: LoadSense): [number, number][] =>
     [lsp.lsp01Strain, 0], // to make the full circe
   ];
 
-const rotorSideAvgValues = (lsp: LoadSenseAvg): [number, number][] =>
-  lsp && [
-    [lsp.lsp01StrainAvg, 0],
-    [lsp.lsp03StrainAvg, 45],
-    [lsp.lsp05StrainAvg, 90],
-    [lsp.lsp07StrainAvg, 135],
-    [lsp.lsp09StrainAvg, 180],
-    [lsp.lsp11StrainAvg, 225],
-    [lsp.lsp13StrainAvg, 270],
-    [lsp.lsp15StrainAvg, 315],
-    [lsp.lsp01StrainAvg, 0], // to make the full circe
-  ];
-
 const generatorSideValues = (lsp: LoadSense): [number, number][] =>
   lsp && [
     [lsp.lsp02Strain, 22.5],
@@ -78,58 +65,52 @@ const generatorSideValues = (lsp: LoadSense): [number, number][] =>
     [lsp.lsp02Strain, 22.5], // to make the full circe
   ];
 
-const generatorSideAvgValues = (lsp: LoadSenseAvg): [number, number][] =>
-  lsp && [
-    [lsp.lsp02StrainAvg, 22.5],
-    [lsp.lsp04StrainAvg, 67.5],
-    [lsp.lsp06StrainAvg, 112.5],
-    [lsp.lsp08StrainAvg, 157.5],
-    [lsp.lsp10StrainAvg, 202.5],
-    [lsp.lsp12StrainAvg, 247.5],
-    [lsp.lsp14StrainAvg, 292.5],
-    [lsp.lsp16StrainAvg, 337.5],
-    [lsp.lsp02StrainAvg, 22.5], // to make the full circe
-  ];
-
 export const tooltipFormatter = (
   params: any,
-  loadSenseResult: LoadSense | LoadSenseAvg
+  loadSenseResult: LoadSense
 ): string => {
   let result;
   const { seriesName } = params.pop();
   const loadSense = loadSenseResult as any;
+  const digits = { maximumFractionDigits: 0 };
 
   if (
     seriesName === `${translate(`conditionMonitoring.centerLoad.rotor`)}` ||
     seriesName === `${translate(`conditionMonitoring.centerLoad.rotorAverage`)}`
   ) {
     result = `${seriesName}<br />
-      Lsp 1:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp01Strain || loadSense.lsp01StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 3:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp03Strain || loadSense.lsp03StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 5:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp05Strain || loadSense.lsp05StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 7:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp07Strain || loadSense.lsp07StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 9:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp09Strain || loadSense.lsp09StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 11:&nbsp;&nbsp;${(
-        loadSense.lsp11Strain || loadSense.lsp11StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 13:&nbsp;&nbsp;${(
-        loadSense.lsp13Strain || loadSense.lsp13StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 15:&nbsp;&nbsp;${(
-        loadSense.lsp15Strain || loadSense.lsp15StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, {
-        maximumFractionDigits: 0,
-      })} N<br />`;
+      Lsp 1:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp01Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 3:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp03Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 5:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp05Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 7:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp07Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 9:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp09Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 11:&nbsp;&nbsp;${loadSense.lsp11Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 13:&nbsp;&nbsp;${loadSense.lsp13Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 15:&nbsp;&nbsp;${loadSense.lsp15Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />`;
   }
   if (
     seriesName === `${translate(`conditionMonitoring.centerLoad.generator`)}` ||
@@ -137,35 +118,72 @@ export const tooltipFormatter = (
       `${translate(`conditionMonitoring.centerLoad.generatorAverage`)}`
   ) {
     result = `${seriesName}<br />
-      Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp02Strain || loadSense.lsp02StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 4:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp04Strain || loadSense.lsp04StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 6:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp06Strain || loadSense.lsp06StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 8:&nbsp;&nbsp;&nbsp;&nbsp;${(
-        loadSense.lsp08Strain || loadSense.lsp08StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 10:&nbsp;&nbsp;${(
-        loadSense.lsp10Strain || loadSense.lsp10StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 12:&nbsp;&nbsp;${(
-        loadSense.lsp12Strain || loadSense.lsp12StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 14:&nbsp;&nbsp;${(
-        loadSense.lsp14Strain || loadSense.lsp14StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, { maximumFractionDigits: 0 })} N<br />
-      Lsp 16:&nbsp;&nbsp;${(
-        loadSense.lsp16Strain || loadSense.lsp16StrainAvg
-      ).toLocaleString(DATE_FORMAT.local, {
-        maximumFractionDigits: 0,
-      })} N<br />`;
+      Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp02Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 4:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp04Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 6:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp06Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 8:&nbsp;&nbsp;&nbsp;&nbsp;${loadSense.lsp08Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 10:&nbsp;&nbsp;${loadSense.lsp10Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 12:&nbsp;&nbsp;${loadSense.lsp12Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 14:&nbsp;&nbsp;${loadSense.lsp14Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />
+      Lsp 16:&nbsp;&nbsp;${loadSense.lsp16Strain.toLocaleString(
+        DATE_FORMAT.local,
+        digits
+      )} N<br />`;
   }
+
   return result;
 };
+
+const polarSeries = (color: string, name: string) => ({
+  name: `${translate(name)}`,
+  symbol: 'none',
+  type: 'line',
+  coordinateSystem: 'polar',
+  smooth: false,
+  areaStyle: {
+    opacity: 0.5,
+  },
+  itemStyle: {
+    color,
+  },
+});
+
+export const generateRotorSeries = (
+  name: string,
+  loadSenseResult: LoadSense
+) => ({
+  ...polarSeries(GaugeColors.YELLOW, name),
+  data: rotorSideValues(loadSenseResult),
+});
+
+export const generateGeneratorSeries = (
+  name: string,
+  loadSenseResult: LoadSense
+) => ({
+  ...polarSeries(GaugeColors.GREEN, name),
+  data: generatorSideValues(loadSenseResult),
+});
 
 export const getLoadGraphData = createSelector(
   getBearingLoadLatestResult,
@@ -176,35 +194,14 @@ export const getLoadGraphData = createSelector(
           formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
         },
         series: [
-          {
-            name: `${translate(`conditionMonitoring.centerLoad.generator`)}`,
-            symbol: 'none',
-            type: 'line',
-            coordinateSystem: 'polar',
-            smooth: false,
-            data: generatorSideValues(loadSenseResult),
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.GREEN,
-            },
-          },
-          {
-            name: `${translate(`conditionMonitoring.centerLoad.rotor`)}`,
-            symbol: 'none',
-            type: 'line',
-            coordinateSystem: 'polar',
-
-            smooth: false,
-            data: rotorSideValues(loadSenseResult),
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.YELLOW,
-            },
-          },
+          generateGeneratorSeries(
+            `conditionMonitoring.centerLoad.generator`,
+            loadSenseResult
+          ),
+          generateRotorSeries(
+            `conditionMonitoring.centerLoad.rotor`,
+            loadSenseResult
+          ),
         ],
       }
     );
@@ -213,43 +210,21 @@ export const getLoadGraphData = createSelector(
 
 export const getAverageLoadGraphData = createSelector(
   getLoadAverageResult,
-  (loadAverage: LoadSenseAvg): GraphData => {
+  (loadSenseResult: LoadSense): GraphData => {
     return (
-      loadAverage && {
+      loadSenseResult && {
         tooltip: {
-          formatter: (params: any) => tooltipFormatter(params, loadAverage),
+          formatter: (params: any) => tooltipFormatter(params, loadSenseResult),
         },
         series: [
-          {
-            name: `${translate(
-              `conditionMonitoring.centerLoad.generatorAverage`
-            )}`,
-            symbol: 'none',
-            type: 'line',
-            coordinateSystem: 'polar',
-            smooth: false,
-            data: generatorSideAvgValues(loadAverage),
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.GREEN,
-            },
-          },
-          {
-            name: `${translate(`conditionMonitoring.centerLoad.rotorAverage`)}`,
-            symbol: 'none',
-            type: 'line',
-            coordinateSystem: 'polar',
-            smooth: false,
-            data: rotorSideAvgValues(loadAverage),
-            areaStyle: {
-              opacity: 0.5,
-            },
-            itemStyle: {
-              color: GaugeColors.YELLOW,
-            },
-          },
+          generateGeneratorSeries(
+            `conditionMonitoring.centerLoad.generatorAverage`,
+            loadSenseResult
+          ),
+          generateRotorSeries(
+            `conditionMonitoring.centerLoad.rotorAverage`,
+            loadSenseResult
+          ),
         ],
       }
     );

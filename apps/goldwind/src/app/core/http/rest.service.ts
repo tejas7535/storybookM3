@@ -12,7 +12,7 @@ import {
   GcmProcessed,
   GcmStatus,
 } from '../store/reducers/grease-status/models';
-import { LoadSense, LoadSenseAvg } from '../store/reducers/load-sense/models';
+import { LoadSense } from '../store/reducers/load-sense/models';
 import { ShaftStatus } from '../store/reducers/shaft/models';
 
 export interface IotParams {
@@ -31,16 +31,16 @@ export class RestService {
   public getIot(path: string): Observable<any> {
     return this.dataService.getAll<
       BearingMetadata | Edm[] | GcmProcessed[] | LoadSense[]
-    >(`iot/things/${path}`);
+    >(`things/${path}`);
   }
 
   public getBearing(id: string): Observable<BearingMetadata> {
-    return this.getIot(`${id}/`);
+    return this.getIot(`${id}`);
   }
 
   public getEdm({ id, startDate, endDate }: IotParams): Observable<Edm[]> {
     return this.getIot(
-      `${id}/telemetry/electric-discharge/${startDate}/${endDate}`
+      `${id}/sensors/electric-discharge/telemetry?start=${startDate}&end=${endDate}`
     );
   }
 
@@ -49,15 +49,17 @@ export class RestService {
     startDate,
     endDate,
   }: IotParams): Observable<GcmStatus> {
-    return this.getIot(`${id}/telemetry/grease-status/${startDate}/${endDate}`);
+    return this.getIot(
+      `${id}/sensors/grease-status/telemetry?start=${startDate}&end=${endDate}`
+    );
   }
 
-  public getGreaseStatusLatest(id: string): Observable<GcmProcessed> {
-    return this.getIot(`${id}/telemetry/grease-status/latest`);
+  public getGreaseStatusLatest(id: string): Observable<GcmProcessed[]> {
+    return this.getIot(`${id}/sensors/grease-status/telemetry`);
   }
 
-  public getShaftLatest(id: string): Observable<ShaftStatus> {
-    return this.getIot(`${id}/telemetry/rotation-speed/latest`);
+  public getShaftLatest(id: string): Observable<ShaftStatus[]> {
+    return this.getIot(`${id}/sensors/rotation-speed/telemetry`);
   }
 
   public getDevices(): Observable<Device[]> {
@@ -69,20 +71,22 @@ export class RestService {
     startDate,
     endDate,
   }: IotParams): Observable<LoadSense[]> {
-    return this.getIot(`${id}/telemetry/bearing-load/${startDate}/${endDate}`);
+    return this.getIot(
+      `${id}/sensors/bearing-load/telemetry?start=${startDate}&end=${endDate}`
+    );
   }
 
-  public getBearingLoadLatest(deviceId: string): Observable<LoadSense> {
-    return this.getIot(`${deviceId}/telemetry/bearing-load/latest`);
+  public getBearingLoadLatest(deviceId: string): Observable<LoadSense[]> {
+    return this.getIot(`${deviceId}/sensors/bearing-load/telemetry`);
   }
 
   public getBearingLoadAverage({
     id: deviceID,
     startDate,
     endDate,
-  }: IotParams): Observable<LoadSenseAvg> {
+  }: IotParams): Observable<LoadSense[]> {
     return this.getIot(
-      `${deviceID}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}`
+      `${deviceID}/sensors/bearing-load/telemetry?agg=avg&end=${endDate}&start=${startDate}&timebucketSeconds=-1`
     );
   }
 

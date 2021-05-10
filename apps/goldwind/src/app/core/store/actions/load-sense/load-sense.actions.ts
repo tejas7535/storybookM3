@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { LoadSense, LoadSenseAvg } from '../../reducers/load-sense/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 
 export const getLoadId = createAction('[Load Sense] Load Load Id');
 
@@ -16,7 +16,7 @@ export const getLoadAverage = createAction(
 
 export const getLoadAverageSuccess = createAction(
   '[Load Sense] Get Load Average Success',
-  props<{ loadAverage: LoadSenseAvg }>()
+  props<{ loadAverage: LoadSense }>()
 );
 
 export const getLoadAverageFailure = createAction(

@@ -137,7 +137,7 @@ export class GreaseStatusEffects {
       })),
       mergeMap((greaseParams) =>
         this.restService.getBearingLoadAverage(greaseParams).pipe(
-          map((loadAverage) => getLoadAverageSuccess({ loadAverage })),
+          map(([loadAverage]) => getLoadAverageSuccess({ loadAverage })),
           catchError((_e) => of(getLoadAverageFailure()))
         )
       )
@@ -182,7 +182,7 @@ export class GreaseStatusEffects {
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
         this.restService.getGreaseStatusLatest(deviceId).pipe(
-          map((greaseStatusLatest) =>
+          map(([greaseStatusLatest]) =>
             getGreaseStatusLatestSuccess({ greaseStatusLatest })
           ),
           catchError((_e) => of(getGreaseStatusLatestFailure()))
