@@ -21,12 +21,28 @@
         {{ option.caption }}
       </option>
     </select> -->
-      <schaeffler-dropdown-input
-        *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
-        [options]="options$ | ngrxPush"
-        [formControl]="control"
-        [placeholder]="t('select', { fieldname: meta.member.text })"
-      ></schaeffler-dropdown-input>
+      <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
+        <schaeffler-dropdown-input
+          *ngIf="
+            meta.member.type && meta.member.type === 'lazy-list';
+            else select
+          "
+          [label]="
+            meta.page.id === 'PROPERTY_PAGE_MOUNTING_SITUATION_SUB' ||
+            meta.page.id === 'PROPERTY_PAGE_MOUNTING'
+              ? meta.member.text
+              : undefined
+          "
+          [options]="options$ | ngrxPush"
+          [formControl]="control"
+        ></schaeffler-dropdown-input>
+        <ng-template #select>
+          <mm-select-member
+            [member]="meta.member"
+            [options]="options$ | ngrxPush"
+          ></mm-select-member>
+        </ng-template>
+      </ng-container>
     </ng-container>
   </ng-template>
 

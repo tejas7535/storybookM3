@@ -1,1 +1,11 @@
-<input type="text" [formControl]="control" />
+<mat-form-field appearance="outline">
+  <mat-label *ngIf="meta.member.text">{{ meta.member.text }}</mat-label>
+  <input
+    matInput
+    [type]="meta.member.type === 'number' ? 'number' : 'text'"
+    [formControl]="control"
+  />
+  <span matSuffix *ngIf="member.unit && member.unit !== ''">{{
+    member.unit
+  }}</span>
+</mat-form-field>

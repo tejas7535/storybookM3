@@ -1,24 +1,28 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Inject,
+  Input,
+} from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import {
-  BearinxPageNumberVariableMember,
+  BearinxListValue,
   CONTROL_META,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 
 @Component({
-  templateUrl: 'string-number-member.component.html',
+  selector: 'mm-select-member',
+  templateUrl: './select-member.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class StringNumberMemberComponent {
-  member: BearinxPageNumberVariableMember<any>;
+export class SelectMemberComponent {
+  @Input() options: (BearinxListValue & { value: string })[];
 
   constructor(
     @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
-  ) {
-    this.member = this.meta.member as BearinxPageNumberVariableMember<any>;
-  }
+  ) {}
 
   public get control(): FormControl {
     return (
