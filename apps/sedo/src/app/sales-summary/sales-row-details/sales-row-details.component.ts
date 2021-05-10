@@ -1,5 +1,6 @@
 import { Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Subscription } from 'rxjs';
 
@@ -29,6 +30,7 @@ export class SalesRowDetailsComponent
   public rowData: SalesSummary;
 
   private rowNode: RowNode;
+  private timedOutCloser: number;
 
   readonly subscription: Subscription = new Subscription();
 
@@ -130,5 +132,18 @@ export class SalesRowDetailsComponent
     ) {
       this.datesFormGroup.disable();
     }
+  }
+
+  public iconEnter(trigger: MatMenuTrigger): void {
+    if (this.timedOutCloser) {
+      clearTimeout(this.timedOutCloser);
+    }
+    trigger.openMenu();
+  }
+
+  public iconLeave(trigger: MatMenuTrigger): void {
+    this.timedOutCloser = setTimeout(() => {
+      trigger.closeMenu();
+    }, 1500);
   }
 }

@@ -7,6 +7,10 @@
 @include angular-material-theme($schaeffler-theme);
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
+body {
+  font-family: Roboto;
+}
+
 .material-icons {
   font-family: 'Material Icons' !important;
 }
@@ -23,4 +27,8 @@
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
   }
+}
+
+.mat-menu-width {
+  max-width: 600px !important;
 }
