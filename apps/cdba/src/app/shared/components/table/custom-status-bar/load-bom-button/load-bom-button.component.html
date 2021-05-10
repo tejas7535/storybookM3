@@ -1,0 +1,13 @@
+<ng-container *ngrxLet="selectedNodeIds$ as nodeIds">
+  <button
+    mat-raised-button
+    color="primary"
+    *transloco="let t; read: 'shared.statusBar'"
+    [disabled]="nodeIds?.length !== 1"
+    [routerLink]="['/detail', 'bom']"
+    queryParamsHandling="merge"
+    (click)="loadBom()"
+  >
+    {{ t('loadBom') | uppercase }}
+  </button>
+</ng-container>

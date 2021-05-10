@@ -2,10 +2,19 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { IStatusPanelParams, RowNode } from '@ag-grid-enterprise/all-modules';
+import {
+  GridApi,
+  IStatusPanelParams,
+  RowNode,
+} from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
+import { cold } from 'jest-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
+
+import { SharedModule } from '@cdba/shared';
+import { DETAIL_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { CompareViewButtonComponent } from './compare-view-button.component';
 
@@ -13,14 +22,32 @@ describe('CompareViewButtonComponent', () => {
   let spectator: Spectator<CompareViewButtonComponent>;
   let component: CompareViewButtonComponent;
   let router: Router;
-  let params: IStatusPanelParams;
+
+  const params: IStatusPanelParams = ({
+    api: {
+      getSelectedNodes: jest.fn(),
+    },
+  } as unknown) as IStatusPanelParams;
 
   const createComponent = createComponentFactory({
     component: CompareViewButtonComponent,
     imports: [
+      SharedModule,
       MatButtonModule,
       RouterTestingModule.withRoutes([]),
       provideTranslocoTestingModule({ en: {} }),
+    ],
+    providers: [
+      provideMockStore({
+        initialState: {
+          search: {
+            referenceTypes: {
+              selectedNodeIds: ['2', '4'],
+            },
+          },
+          detail: DETAIL_STATE_MOCK,
+        },
+      }),
     ],
   });
 
@@ -29,44 +56,43 @@ describe('CompareViewButtonComponent', () => {
     component = spectator.component;
 
     router = spectator.inject(Router);
-
-    params = ({
-      api: {
-        addEventListener: jest.fn(),
-        getSelectedNodes: jest.fn(),
-      },
-    } as unknown) as IStatusPanelParams;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('ngOnInit', () => {
+    it('should init with search selector', () => {
+      router.routerState.snapshot.url = '/search';
+
+      component.ngOnInit();
+
+      expect(component.selectedNodeIds$).toBeObservable(
+        cold('a', {
+          a: ['2', '4'],
+        })
+      );
+    });
+
+    it('should init with detail selector', () => {
+      router.routerState.snapshot.url = '/detail/detail';
+
+      component.ngOnInit();
+
+      expect(component.selectedNodeIds$).toBeObservable(
+        cold('a', {
+          a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
+        })
+      );
+    });
+  });
+
   describe('agInit', () => {
-    test('should set params and add listeners', () => {
+    test('should set grid api', () => {
       component.agInit((params as unknown) as IStatusPanelParams);
 
-      expect(component['params']).toEqual(params);
-
-      expect(params.api.addEventListener).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('onGridReady', () => {
-    test('should set selections', () => {
-      component['params'] = params;
-      component.onGridReady();
-
-      expect(params.api.getSelectedNodes).toHaveBeenCalled();
-    });
-  });
-
-  describe('onSelectionChange', () => {
-    test('should set selections', () => {
-      component['params'] = params;
-      component.onSelectionChange();
-
-      expect(params.api.getSelectedNodes).toHaveBeenCalled();
+      expect(component['gridApi']).toEqual(params.api);
     });
   });
 
@@ -82,9 +108,16 @@ describe('CompareViewButtonComponent', () => {
           data: { materialNumber: '5678', plant: '0076' },
         } as unknown) as RowNode,
       ];
-      component.selections = mockSelections;
+
       spyOn(router, 'navigate');
-      component.showCompareView();
+      component['gridApi'] = ({
+        getRowNode: jest.fn((id) =>
+          mockSelections.find((selection) => selection.id === id)
+        ),
+      } as unknown) as GridApi;
+
+      component.showCompareView(['0', '1']);
+
       expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
         queryParams: {
           material_number_item_1: '1234',
@@ -108,9 +141,13 @@ describe('CompareViewButtonComponent', () => {
           },
         } as unknown) as RowNode,
       ];
-      component.selections = mockSelections;
+      component['gridApi'] = ({
+        getRowNode: jest.fn((id) =>
+          mockSelections.find((selection) => selection.id === id)
+        ),
+      } as unknown) as GridApi;
       spyOn(router, 'navigate');
-      component.showCompareView();
+      component.showCompareView(['1']);
       expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
         queryParams: {
           material_number_item_1: '5678',

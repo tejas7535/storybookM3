@@ -185,7 +185,7 @@ describe('Compare Selectors', () => {
     });
 
     it('should return node id of selected calculation for provided index', () => {
-      expected = '3';
+      expected = ['3'];
       result = getSelectedCalculationNodeId(fakeState, 0);
 
       expect(result).toEqual(expected);

@@ -20,6 +20,8 @@ import {
   StatusPanelDef,
 } from '@ag-grid-enterprise/all-modules';
 
+import { arrayEquals } from '@cdba/shared/utils';
+
 import { Calculation } from '../../models';
 import { AgGridStateService } from '../../services';
 import { getMainMenuItems, SIDE_BAR_CONFIG } from '../table';
@@ -42,18 +44,18 @@ import {
 export class CalculationsTableComponent implements OnInit, OnChanges {
   private static readonly TABLE_KEY = 'calculations';
 
-  private gridApi: GridApi;
-
   @Input() minified = false;
   @Input() rowData: Calculation[];
-  @Input() selectedNodeId: string;
+  @Input() selectedNodeIds: string[];
   @Input() isLoading: boolean;
   @Input() errorMessage: string;
 
-  @Output() readonly selectionChange: EventEmitter<{
-    nodeId: string;
-    calculation: Calculation;
-  }> = new EventEmitter();
+  @Output() readonly selectionChange: EventEmitter<
+    {
+      nodeId: string;
+      calculation: Calculation;
+    }[]
+  > = new EventEmitter();
 
   public modules: any[];
 
@@ -79,9 +81,10 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
   public rowSelection: 'multiple' | 'single';
   public enableRangeSelection: boolean;
   public rowGroupPanelShow: string;
-  public selectedRows: number[] = [];
 
   public getMainMenuItems = getMainMenuItems;
+
+  private gridApi: GridApi;
 
   public constructor(
     private readonly agGridStateService: AgGridStateService,
@@ -108,36 +111,47 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
    * Limit selected rows to a maximum of two
    */
   public onRowSelected({ node, api }: RowSelectedEvent): void {
-    const id = +node.id;
-    const selected = node.isSelected();
+    setTimeout(() => {
+      const maxLength = this.minified ? 1 : 2;
 
-    this.selectedRows = selected
-      ? [...this.selectedRows, id]
-      : this.selectedRows.filter((entry: number) => entry !== id);
+      const previouslySelectedRows = this.selectedNodeIds
+        ? [...this.selectedNodeIds]
+        : [];
 
-    if (this.selectedRows.length === 1) {
-      const nodeId = `${this.selectedRows[0]}`;
-      const calculation = api.getSelectedRows()[0];
-      this.selectionChange.emit({ nodeId, calculation });
-    } else if (this.selectedRows.length > 2) {
-      api.deselectIndex(this.selectedRows.shift());
-    }
+      const { id } = node;
+      const selected = node.isSelected();
+
+      const newSelectedRows = selected
+        ? Array.from(new Set(this.selectedNodeIds).add(id))
+        : previouslySelectedRows.filter((entry: string) => entry !== id);
+
+      if (newSelectedRows.length > maxLength) {
+        api.getRowNode(newSelectedRows.shift()).setSelected(false, false, true);
+      }
+
+      if (!arrayEquals(newSelectedRows, previouslySelectedRows)) {
+        const selections: {
+          nodeId: string;
+          calculation: Calculation;
+        }[] = newSelectedRows.map((nodeId) => ({
+          nodeId,
+          calculation: api.getRowNode(nodeId).data,
+        }));
+
+        this.selectionChange.emit(selections);
+      }
+    }, 0);
   }
 
   public onFirstDataRendered(params: IStatusPanelParams): void {
-    if (this.selectedNodeId) {
-      this.gridApi
-        .getRowNode(this.selectedNodeId)
-        .setSelected(true, true, true);
-    }
-
-    this.gridApi.dispatchEvent(new Event('customSetSelection'));
     params.columnApi.autoSizeColumns(
       params.columnApi
         .getAllColumns()
         .filter((column: Column) => column.getId() !== 'checkbox'),
       this.minified
     );
+
+    this.selectNodes();
   }
 
   /**
@@ -152,22 +166,7 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
     );
   }
 
-  private setTableProperties(minified: boolean): void {
-    this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
-    this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
-    this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
-    this.frameworkComponents = minified
-      ? FRAMEWORK_COMPONENTS_MINIFIED
-      : FRAMEWORK_COMPONENTS;
-
-    this.modules = minified ? MODULES_MINIFIED : MODULES;
-
-    this.rowSelection = minified ? 'single' : 'multiple';
-    this.enableRangeSelection = minified ? false : true;
-    this.rowGroupPanelShow = minified ? 'never' : 'always';
-  }
-
-  onGridReady(params: GridReadyEvent): void {
+  public onGridReady(params: GridReadyEvent): void {
     this.gridApi = params.api;
 
     const state = this.agGridStateService.getColumnState(
@@ -181,6 +180,31 @@ export class CalculationsTableComponent implements OnInit, OnChanges {
 
     if (!this.isLoading) {
       this.gridApi.showNoRowsOverlay();
+    }
+  }
+
+  private setTableProperties(minified: boolean): void {
+    this.defaultColDef = { ...this.defaultColDef, floatingFilter: !minified };
+    this.sideBar = minified ? undefined : SIDE_BAR_CONFIG;
+    this.statusBar = minified ? undefined : STATUS_BAR_CONFIG;
+    this.frameworkComponents = minified
+      ? FRAMEWORK_COMPONENTS_MINIFIED
+      : FRAMEWORK_COMPONENTS;
+
+    this.modules = minified ? MODULES_MINIFIED : MODULES;
+
+    this.rowSelection = 'multiple';
+    this.enableRangeSelection = !minified;
+    this.rowGroupPanelShow = minified ? 'never' : 'always';
+  }
+
+  private selectNodes(): void {
+    if (this.selectedNodeIds) {
+      setTimeout(() => {
+        this.selectedNodeIds.forEach((id) =>
+          this.gridApi.getRowNode(id).setSelected(true, true, true)
+        );
+      }, 0);
     }
   }
 }

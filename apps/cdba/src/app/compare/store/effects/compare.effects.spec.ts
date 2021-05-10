@@ -15,6 +15,7 @@ import { cold, hot } from 'jest-marbles';
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
 import {
+  BOM_IDENTIFIER_MOCK,
   BOM_MOCK,
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
@@ -32,7 +33,10 @@ import {
   selectCalculation,
   selectCompareItems,
 } from '../actions/compare.actions';
-import { getSelectedReferenceTypeIdentifiers } from '../selectors/compare.selectors';
+import {
+  getBomIdentifierForSelectedCalculation,
+  getSelectedReferenceTypeIdentifiers,
+} from '../selectors/compare.selectors';
 import { CompareEffects } from './compare.effects';
 
 describe('CompareEffects', () => {
@@ -44,6 +48,8 @@ describe('CompareEffects', () => {
 
   let actions$: any;
   let action: any;
+
+  const bomIdentifier = BOM_IDENTIFIER_MOCK;
 
   const createService = createServiceFactory({
     service: CompareEffects,
@@ -219,7 +225,7 @@ describe('CompareEffects', () => {
     const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
-      action = loadBom({ index });
+      action = loadBom({ index, bomIdentifier });
     });
 
     test('should return Success Action', () => {
@@ -254,7 +260,14 @@ describe('CompareEffects', () => {
 
   describe('triggerBomLoad$', () => {
     const index = 1;
-    const result = loadBom({ index });
+    const result = loadBom({ index, bomIdentifier });
+
+    beforeEach(() =>
+      store.overrideSelector(
+        getBomIdentifierForSelectedCalculation,
+        bomIdentifier
+      )
+    );
 
     test('should return loadBom Action when a new calculation was selected', () => {
       action = selectCalculation({

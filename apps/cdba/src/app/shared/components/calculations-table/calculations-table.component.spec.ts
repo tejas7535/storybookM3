@@ -16,6 +16,8 @@ import {
   mockProvider,
   Spectator,
 } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import {
   provideTranslocoTestingModule,
@@ -24,10 +26,7 @@ import {
 
 import { AgGridStateService } from '../../services/ag-grid-state.service';
 import { SharedModule } from '../../shared.module';
-import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
-import { BomViewButtonComponent } from '../table/custom-status-bar/bom-view-button/bom-view-button.component';
-import { CompareViewButtonComponent } from '../table/custom-status-bar/compare-view-button/compare-view-button.component';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
 import { CalculationsTableComponent } from './calculations-table.component';
 import { ColumnDefinitionService } from './config';
@@ -42,19 +41,19 @@ describe('CalculationsTableComponent', () => {
     imports: [
       SharedTranslocoModule,
       SharedModule,
-      AgGridModule.withComponents([
-        BomViewButtonComponent,
-        CompareViewButtonComponent,
-        CustomLoadingOverlayComponent,
-      ]),
+      AgGridModule.withComponents([]),
       MatCardModule,
       MatIconModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
-      CustomStatusBarModule,
-      CustomOverlayModule,
+      MockModule(CustomOverlayModule),
+      MockModule(CustomStatusBarModule),
     ],
-    providers: [ColumnDefinitionService, mockProvider(AgGridStateService)],
+    providers: [
+      ColumnDefinitionService,
+      mockProvider(AgGridStateService),
+      provideMockStore(),
+    ],
   });
 
   beforeEach(() => {
@@ -127,28 +126,45 @@ describe('CalculationsTableComponent', () => {
   describe('onRowSelected', () => {
     const event = ({
       node: {
-        id: 2,
+        id: '2',
         isSelected: jest.fn(() => true),
       },
       api: {
-        deselectIndex: jest.fn(),
-        getSelectedRows: jest.fn(() => [{}]),
+        getRowNode: jest.fn(() => ({
+          setSelected: jest.fn(),
+          data: undefined,
+        })),
       },
     } as unknown) as RowSelectedEvent;
 
+    beforeEach(() => {
+      jest.useFakeTimers();
+      component.minified = false;
+
+      component.selectionChange.emit = jest.fn();
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
     it('should fill the selectedRows if the row is selected', () => {
-      component.selectedRows = [1];
+      component.selectedNodeIds = ['1'];
 
       component.onRowSelected(event);
 
-      expect(component.selectedRows).toStrictEqual([1, 2]);
-      expect(component.selectedRows).toHaveLength(2);
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
+      jest.advanceTimersByTime(10);
+
+      expect(component.selectionChange.emit).toHaveBeenCalledWith([
+        { nodeId: '1', calculation: undefined },
+        { nodeId: '2', calculation: undefined },
+      ]);
     });
 
     it('should remove the selectedRows if the row is deselected', () => {
-      component.selectionChange.emit = jest.fn();
-
-      component.selectedRows = [1, 2];
+      component.selectedNodeIds = ['1', '2'];
 
       component.onRowSelected(({
         ...event,
@@ -158,20 +174,31 @@ describe('CalculationsTableComponent', () => {
         },
       } as unknown) as RowSelectedEvent);
 
-      expect(component.selectedRows).toStrictEqual([1]);
-      expect(component.selectedRows).toHaveLength(1);
-      expect(component.selectionChange.emit).toHaveBeenCalled();
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
+
+      jest.advanceTimersByTime(10);
+
+      expect(component.selectionChange.emit).toHaveBeenCalledWith([
+        { nodeId: '1', calculation: undefined },
+      ]);
     });
 
     it('should remove from selectedRows if there are to many entries', () => {
-      component.selectedRows = [1, 3];
+      component.selectedNodeIds = ['1', '3'];
 
       component.onRowSelected(event);
 
-      expect(component.selectedRows).toStrictEqual([3, 2]);
-      expect(component.selectedRows).toHaveLength(2);
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
 
-      expect(event.api.deselectIndex).toHaveBeenCalledWith(1);
+      jest.advanceTimersByTime(10);
+
+      expect(component.selectionChange.emit).toHaveBeenCalledWith([
+        { nodeId: '3', calculation: undefined },
+        { nodeId: '2', calculation: undefined },
+      ]);
+      expect(event.api.getRowNode).toHaveBeenCalledWith('1');
     });
   });
 
@@ -179,38 +206,66 @@ describe('CalculationsTableComponent', () => {
     let params: IStatusPanelParams;
 
     beforeEach(() => {
-      component['gridApi'] = ({
-        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
-        dispatchEvent: jest.fn(),
-      } as unknown) as GridApi;
-
       params = ({
         columnApi: {
-          getAllColumns: jest.fn(() => []),
+          getAllColumns: jest.fn(() => [
+            { getId: () => 'checkbox' },
+            { getId: () => 'calculationDate' },
+          ]),
           autoSizeColumns: jest.fn(),
         },
       } as unknown) as IStatusPanelParams;
+
+      component['selectNodes'] = jest.fn();
+    });
+
+    it('should autosize the columns', () => {
+      component.onFirstDataRendered(params);
+
+      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
+      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
+    });
+
+    it('should call selectNodes', () => {
+      component.onFirstDataRendered(params);
+
+      expect(component['selectNodes']).toHaveBeenCalled();
+    });
+  });
+
+  describe('selectNodes', () => {
+    beforeEach(() => {
+      component['gridApi'] = ({
+        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+      } as unknown) as GridApi;
+
+      jest.useFakeTimers();
+    });
+
+    afterEach(() => {
+      // this is a workaround:
+      // only using useFakeTimers will affect all following specs, which leads to failures
+      jest.useRealTimers();
     });
 
     it('should set node selected if nodeId is set', () => {
-      component.selectedNodeId = '7';
+      component.selectedNodeIds = ['7'];
 
-      component.onFirstDataRendered(params);
+      component['selectNodes']();
 
+      expect(setTimeout).toHaveBeenCalledTimes(1);
+      expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
+      jest.advanceTimersByTime(10);
       expect(component['gridApi'].getRowNode).toHaveBeenCalled();
-      expect(component['gridApi'].dispatchEvent).toHaveBeenCalled();
-      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
-      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
     });
 
     it('should do nothing, if nodeId is not present', () => {
-      component.selectedNodeId = undefined;
+      component.selectedNodeIds = undefined;
 
-      component.onFirstDataRendered(params);
+      component['selectNodes']();
 
+      expect(setTimeout).not.toHaveBeenCalled();
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
-      expect(params.columnApi.getAllColumns).toHaveBeenCalled();
-      expect(params.columnApi.autoSizeColumns).toHaveBeenCalled();
     });
   });
 

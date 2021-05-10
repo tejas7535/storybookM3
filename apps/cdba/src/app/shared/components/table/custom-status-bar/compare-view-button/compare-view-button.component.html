@@ -1,9 +1,11 @@
-<button
-  mat-flat-button
-  color="primary"
-  *transloco="let t; read: 'shared.statusBar'"
-  [disabled]="selections.length !== 2"
-  (click)="showCompareView()"
->
-  {{ t('compare') | uppercase }}
-</button>
+<ng-container *ngrxLet="selectedNodeIds$ as nodeIds">
+  <button
+    mat-flat-button
+    color="primary"
+    *transloco="let t; read: 'shared.statusBar'"
+    [disabled]="nodeIds?.length !== 2"
+    (click)="showCompareView(nodeIds)"
+  >
+    {{ t('compare') | uppercase }}
+  </button>
+</ng-container>

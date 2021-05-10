@@ -14,6 +14,7 @@ import {
   search,
   searchFailure,
   searchSuccess,
+  selectReferenceTypes,
   shareSearchResult,
   updateFilter,
 } from '../../actions/search/search.actions';
@@ -39,6 +40,7 @@ export interface SearchState {
   referenceTypes: {
     loading: boolean;
     items: any[];
+    selectedNodeIds: string[];
     tooManyResults: boolean;
     resultCount: number;
     errorMessage: string;
@@ -60,6 +62,7 @@ export const initialState: SearchState = {
   referenceTypes: {
     loading: false,
     items: undefined,
+    selectedNodeIds: undefined,
     tooManyResults: false,
     resultCount: 0,
     errorMessage: undefined,
@@ -232,6 +235,10 @@ export const searchReducer = createReducer(
   on(autocompleteFailure, (state: SearchState) => ({
     ...state,
     filters: { ...state.filters, autocompleteLoading: false },
+  })),
+  on(selectReferenceTypes, (state, { nodeIds }) => ({
+    ...state,
+    referenceTypes: { ...state.referenceTypes, selectedNodeIds: nodeIds },
   }))
 );
 

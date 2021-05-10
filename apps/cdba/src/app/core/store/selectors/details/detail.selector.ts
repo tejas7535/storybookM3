@@ -150,12 +150,20 @@ export const getCalculationsErrorMessage = createSelector(
 
 export const getSelectedCalculation = createSelector(
   getDetailState,
-  (state: DetailState) => state.calculations.selected?.calculation
+  (state: DetailState) => state.calculations.selectedCalculation?.calculation
 );
 
 export const getSelectedCalculationNodeId = createSelector(
   getDetailState,
-  (state: DetailState): string => state.calculations.selected?.nodeId
+  (state: DetailState): string[] =>
+    state.calculations.selectedCalculation?.nodeId
+      ? [state.calculations.selectedCalculation.nodeId]
+      : undefined
+);
+
+export const getSelectedCalculationNodeIds = createSelector(
+  getDetailState,
+  (state: DetailState): string[] => state.calculations.selectedNodeIds
 );
 
 export const getBomItems = createSelector(
@@ -188,7 +196,7 @@ export const getChildrenOfSelectedBomItem = createSelector(
 export const getBomIdentifierForSelectedCalculation = createSelector(
   getDetailState,
   (state: DetailState): BomIdentifier => {
-    const calculation = state.calculations.selected?.calculation;
+    const calculation = state.calculations.selectedCalculation?.calculation;
 
     if (calculation) {
       const {

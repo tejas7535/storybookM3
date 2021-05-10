@@ -1,3 +1,4 @@
+/* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
 import { Injectable } from '@angular/core';
 import { Params, Router } from '@angular/router';
 
@@ -11,6 +12,7 @@ import { select, Store } from '@ngrx/store';
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
 import {
+  BomIdentifier,
   BomItem,
   Calculation,
   ReferenceTypeIdentifier,
@@ -112,12 +114,12 @@ export class CompareEffects {
 
   loadBillOfMaterial$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadBom.type),
-      map((action: any) => action.index),
-      concatLatestFrom((index) =>
-        this.store.pipe(select(getBomIdentifierForSelectedCalculation, index))
+      ofType(loadBom),
+      map(
+        (action) =>
+          [action.index, action.bomIdentifier] as [number, BomIdentifier]
       ),
-      mergeMap(([index, identifier]) =>
+      mergeMap(([index, identifier]: [number, BomIdentifier]) =>
         this.detailService.getBom(identifier).pipe(
           map((items: BomItem[]) => loadBomSuccess({ items, index })),
           catchError((errorMessage) =>
@@ -130,9 +132,18 @@ export class CompareEffects {
 
   triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(selectCalculation.type, loadCalculationHistorySuccess.type),
-      map((action: any) => action.index),
-      map((index: number) => loadBom({ index }))
+      ofType(selectCalculation, loadCalculationHistorySuccess),
+      map((action) => action.index),
+      concatLatestFrom((index) =>
+        this.store.pipe(select(getBomIdentifierForSelectedCalculation, index))
+      ),
+      filter(
+        ([_index, bomIdentifier]: [number, BomIdentifier]) =>
+          bomIdentifier !== undefined
+      ),
+      map(([index, bomIdentifier]: [number, BomIdentifier]) =>
+        loadBom({ index, bomIdentifier })
+      )
     )
   );
 
@@ -146,7 +157,7 @@ export class CompareEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
-    private readonly store: Store<{}>,
+    private readonly store: Store,
     private readonly router: Router
   ) {}
 

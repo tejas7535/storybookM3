@@ -23,6 +23,7 @@ import {
   loadReferenceTypeSuccess,
   selectBomItem,
   selectCalculation,
+  selectCalculations,
   selectDrawing,
   selectReferenceType,
 } from '../../actions';
@@ -37,7 +38,8 @@ export interface DetailState {
   calculations: {
     loading: boolean;
     items: Calculation[];
-    selected: { nodeId: string; calculation: Calculation };
+    selectedNodeIds: string[];
+    selectedCalculation: { nodeId: string; calculation: Calculation };
     errorMessage: string;
   };
   bom: {
@@ -64,7 +66,8 @@ export const initialState: DetailState = {
   calculations: {
     loading: false,
     items: undefined,
-    selected: undefined,
+    selectedNodeIds: undefined,
+    selectedCalculation: undefined,
     errorMessage: undefined,
   },
   bom: {
@@ -128,7 +131,8 @@ export const detailReducer = createReducer(
     calculations: {
       ...state.calculations,
       items,
-      selected: {
+      selectedNodeIds: ['0'],
+      selectedCalculation: {
         nodeId: '0',
         calculation: items[0],
       },
@@ -152,7 +156,17 @@ export const detailReducer = createReducer(
   })),
   on(selectCalculation, (state: DetailState, { nodeId, calculation }) => ({
     ...state,
-    calculations: { ...state.calculations, selected: { nodeId, calculation } },
+    calculations: {
+      ...state.calculations,
+      selectedCalculation: { nodeId, calculation },
+    },
+  })),
+  on(selectCalculations, (state: DetailState, { nodeIds }) => ({
+    ...state,
+    calculations: {
+      ...state.calculations,
+      selectedNodeIds: nodeIds,
+    },
   })),
   on(loadDrawings, (state: DetailState) => ({
     ...state,

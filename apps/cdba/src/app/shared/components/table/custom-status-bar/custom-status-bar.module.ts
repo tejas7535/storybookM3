@@ -1,24 +1,25 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterModule } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BomViewButtonComponent } from './bom-view-button/bom-view-button.component';
+import { SharedModule } from '@cdba/shared/shared.module';
+
 import { CompareViewButtonComponent } from './compare-view-button/compare-view-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
+import { LoadBomButtonComponent } from './load-bom-button/load-bom-button.component';
 
 @NgModule({
   declarations: [
     DetailViewButtonComponent,
-    BomViewButtonComponent,
+    LoadBomButtonComponent,
     CompareViewButtonComponent,
   ],
-  imports: [CommonModule, SharedTranslocoModule, MatButtonModule, RouterModule],
+  imports: [SharedModule, SharedTranslocoModule, MatButtonModule, RouterModule],
   exports: [
     DetailViewButtonComponent,
-    BomViewButtonComponent,
+    LoadBomButtonComponent,
     CompareViewButtonComponent,
   ],
 })

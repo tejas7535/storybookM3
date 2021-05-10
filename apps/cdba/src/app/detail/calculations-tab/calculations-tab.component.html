@@ -10,10 +10,10 @@
       <div class="table-container">
         <cdba-calculations-table
           [rowData]="calculations$ | ngrxPush"
-          [selectedNodeId]="selectedNodeId$ | ngrxPush"
+          [selectedNodeIds]="selectedNodeIds$ | ngrxPush"
           [isLoading]="loading$ | ngrxPush"
           [errorMessage]="errorMessage$ | ngrxPush"
-          (selectionChange)="selectCalculation($event)"
+          (selectionChange)="selectCalculations($event)"
         ></cdba-calculations-table>
       </div>
     </div>

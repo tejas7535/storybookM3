@@ -1,5 +1,7 @@
+/* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
+/* eslint-disable no-invalid-this */
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
+import { Params, Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import {
@@ -7,6 +9,7 @@ import {
   filter,
   map,
   mergeMap,
+  switchMap,
   tap,
   withLatestFrom,
 } from 'rxjs/operators';
@@ -44,7 +47,6 @@ import {
   selectCalculation,
   selectReferenceType,
 } from '../../actions';
-import * as fromRouter from '../../reducers';
 import { ReferenceTypeResult } from '../../reducers/detail/models';
 import {
   getBomIdentifierForSelectedCalculation,
@@ -127,18 +129,20 @@ export class DetailEffects {
   triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationsSuccess),
-      map(loadBom)
+      withLatestFrom(
+        this.store.pipe(select(getBomIdentifierForSelectedCalculation))
+      ),
+      map(([_action, bomIdentifier]) => bomIdentifier),
+      filter((bomIdentifier) => bomIdentifier !== undefined),
+      map((bomIdentifier) => loadBom({ bomIdentifier }))
     )
   );
 
   loadBom$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBom),
-      withLatestFrom(
-        this.store.pipe(select(getBomIdentifierForSelectedCalculation))
-      ),
-      map(([_action, bomIdentifier]) => bomIdentifier),
-      mergeMap((bomIdentifier: BomIdentifier) =>
+      map((action) => action.bomIdentifier),
+      switchMap((bomIdentifier: BomIdentifier) =>
         this.detailService.getBom(bomIdentifier).pipe(
           map((items: BomItem[]) => loadBomSuccess({ items })),
           catchError((errorMessage) => of(loadBomFailure({ errorMessage })))
@@ -150,9 +154,7 @@ export class DetailEffects {
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectReferenceType),
-      mergeMap(() => {
-        return [loadReferenceType(), loadCalculations(), loadDrawings()];
-      })
+      mergeMap(() => [loadReferenceType(), loadCalculations(), loadDrawings()])
     )
   );
 
@@ -193,13 +195,13 @@ export class DetailEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
-    private readonly store: Store<fromRouter.AppState>,
+    private readonly store: Store,
     private readonly router: Router,
     private readonly snackbarService: SnackBarService
   ) {}
 
   private static mapQueryParamsToIdentifier(
-    queryParams: any
+    queryParams: Params
   ): ReferenceTypeIdentifier {
     const materialNumber = queryParams['material_number'];
     const identificationHash = queryParams['identification_hash'];

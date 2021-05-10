@@ -19,6 +19,7 @@ import {
   getSearchText,
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
+  getSelectedRefTypeNodeIds,
   getTooManyResults,
 } from './search.selector';
 
@@ -38,6 +39,7 @@ describe('Search Selector', () => {
       referenceTypes: {
         ...initialState.referenceTypes,
         items: [REFERENCE_TYPE_MOCK],
+        selectedNodeIds: ['2', '3'],
       },
     },
   };
@@ -183,6 +185,12 @@ describe('Search Selector', () => {
   describe('getIsDirty', () => {
     test('should return true after updateFilter', () => {
       expect(getIsDirty(fakeState)).toBeTruthy();
+    });
+  });
+
+  describe('getSelectedRefTypeNodeIds', () => {
+    test('should return string array', () => {
+      expect(getSelectedRefTypeNodeIds(fakeState)).toEqual(['2', '3']);
     });
   });
 });

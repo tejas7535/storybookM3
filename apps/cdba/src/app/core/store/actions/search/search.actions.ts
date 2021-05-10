@@ -67,6 +67,11 @@ export const autocompleteFailure = createAction(
   '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure'
 );
 
+export const selectReferenceTypes = createAction(
+  '[Search] Select Reference Types',
+  props<{ nodeIds: string[] }>()
+);
+
 const all = union({
   loadInitialFilters,
   loadInitialFiltersSuccess,
@@ -83,6 +88,7 @@ const all = union({
   autocomplete,
   autocompleteSuccess,
   autocompleteFailure,
+  selectReferenceTypes,
 });
 
 export type SearchActions = typeof all;

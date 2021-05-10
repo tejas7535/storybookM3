@@ -12,8 +12,8 @@ import {
   getResultCount,
   getSearchSuccessful,
   getTooManyResults,
+  selectReferenceTypes,
 } from '../core/store';
-import { SearchState } from '../core/store/reducers/search/search.reducer';
 
 @Component({
   selector: 'cdba-search',
@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit {
   resultCount$: Observable<number>;
   loading$: Observable<boolean>;
 
-  public constructor(private readonly store: Store<SearchState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.searchSuccessful$ = this.store.pipe(select(getSearchSuccessful));
@@ -35,5 +35,9 @@ export class SearchComponent implements OnInit {
     this.referenceTypesData$ = this.store.pipe(select(getReferenceTypes));
     this.resultCount$ = this.store.pipe(select(getResultCount));
     this.loading$ = this.store.pipe(select(getReferenceTypesLoading));
+  }
+
+  selectReferenceTypes(nodeIds: string[]): void {
+    this.store.dispatch(selectReferenceTypes({ nodeIds }));
   }
 }

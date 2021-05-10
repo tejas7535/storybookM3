@@ -1,6 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import {
+  BomIdentifier,
   BomItem,
   Calculation,
   ReferenceTypeIdentifier,
@@ -37,7 +38,7 @@ export const selectCalculation = createAction(
 
 export const loadBom = createAction(
   '[Compare] Load BOM',
-  props<{ index: number }>()
+  props<{ index: number; bomIdentifier: BomIdentifier }>()
 );
 
 export const loadBomSuccess = createAction(

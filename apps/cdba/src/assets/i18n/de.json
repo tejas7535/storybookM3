@@ -6,7 +6,7 @@
     "statusBar": {
       "detail": "Details anzeigen",
       "compare": "Details vergleichen",
-      "bom": "Materialliste anzeigen"
+      "loadBom": "Materialliste laden"
     },
     "table": {
       "columnMenu": {
