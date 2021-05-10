@@ -8,7 +8,7 @@
     ></mat-icon>
     <ng-content></ng-content>
   </div>
-  <nav mat-tab-nav-bar mat-stretch-tabs>
+  <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t">
     <a
       *ngFor="let tab of tabs; trackBy: trackByFn"
       mat-tab-link
@@ -17,7 +17,8 @@
       #rla="routerLinkActive"
       [routerLink]="tab.link"
       [active]="rla.isActive"
-      >{{ tab.label$ | ngrxPush | uppercase }}
+      [disabled]="tab.disabled$ | ngrxPush"
+      >{{ t(tab.label$) | uppercase }}
     </a>
   </nav>
   <div class="tab-content">

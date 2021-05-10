@@ -117,3 +117,12 @@ export const getMaterialDesignation = createSelector(
     return undefined;
   }
 );
+
+export const getIsCompareDetailsDisabled = createSelector(
+  getCompareState,
+  (state: CompareState) =>
+    state[0] &&
+    state[1] &&
+    state[0].referenceType.materialNumber ===
+      state[1].referenceType.materialNumber
+);
