@@ -113,6 +113,11 @@ describe('DropdownInputComponent', () => {
   });
 
   test('writeValue set value', () => {
+    component.options = [
+      { id: 'mockId1', value: 'mockValue1' },
+      { id: 'mockValueString', value: 'mockValue2' },
+    ];
+
     const mockValue = 'mockValueString';
     const spy = jest.spyOn(component['cdRef'], 'markForCheck');
 
@@ -148,7 +153,7 @@ describe('DropdownInputComponent', () => {
     // @ts-ignore
     const touchSpy = jest.spyOn(component, 'onTouched');
 
-    const mockValue = { id: 'mockString' };
+    const mockValue = { id: 'mockString', value: 'mockValue' };
     component.setValue(mockValue);
     expect(component.value).toEqual(mockValue.id);
     expect(changeSpy).toHaveBeenCalledWith(mockValue.id);

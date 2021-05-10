@@ -1,8 +1,10 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
@@ -62,6 +64,9 @@ import { HomeComponent } from './home.component';
       lazyListLoader: LazyListLoaderService,
       runtimeRequester: RuntimeRequesterService,
     }),
+
+    HttpClientModule,
+    HttpCacheInterceptorModule.forRoot(),
   ],
 })
 export class HomeModule {}

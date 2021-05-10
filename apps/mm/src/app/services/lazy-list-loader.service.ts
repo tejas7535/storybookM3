@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
+import { withCache } from '@ngneat/cashew';
 
 import { environment } from '../../environments/environment';
 import {
@@ -88,7 +89,7 @@ export class LazyListLoaderService implements LazyListLoader {
       url
     );
 
-    return this.http.get<MMResponseVariants>(requestUrl).pipe(
+    return this.http.get<MMResponseVariants>(requestUrl, withCache()).pipe(
       map((response) => {
         if (isComplex(response)) {
           return response.data.bearingSeats.map(

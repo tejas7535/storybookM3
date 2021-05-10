@@ -1,68 +1,83 @@
-<h3>Choose a bearing</h3>
+<!-- <pre>{{ dialog | json }}</pre> -->
 
-<cae-dynamic-form
-  [description]="dialog"
-  [model]="model"
-  [object]="object"
-  (loaded)="dynamicFormLoaded($event)"
->
-  <div
-    *caeLayout="let metaArray; let pages = pages; let form = form"
-    class="content"
+<ng-container *transloco="let t; read: 'form'">
+  <cae-dynamic-form
+    [description]="dialog"
+    [model]="model"
+    [object]="object"
+    (loaded)="dynamicFormLoaded($event)"
   >
-    <mm-pages-stepper
-      #stepper
-      [pages]="pages"
-      [maxPageId]="maxPageId$ | ngrxPush"
-      [activePageId]="activePageId$ | ngrxPush"
-      [inactivePageId]="inactivePageId$ | ngrxPush"
-      (activePageIdChange)="homeStore.setActivePageId($event)"
+    <div
+      *caeLayout="let metaArray; let pages = pages; let form = form"
+      class="content"
     >
-    </mm-pages-stepper>
+      <mm-pages-stepper
+        #stepper
+        [pages]="pages"
+        [maxPageId]="maxPageId$ | ngrxPush"
+        [activePageId]="activePageId$ | ngrxPush"
+        [inactivePageId]="inactivePageId$ | ngrxPush"
+        (activePageIdChange)="homeStore.setActivePageId($event)"
+      >
+      </mm-pages-stepper>
 
-    <div class="w-full">
-      <mm-bearing-search
-        *ngIf="(activePageId$ | ngrxPush) === 'RSY_PAGE_BEARING_TYPE'"
-        (bearing)="selectBearing($event)"
-      ></mm-bearing-search>
+      <div class="w-full">
+        <mm-bearing-search
+          *ngIf="(activePageId$ | ngrxPush) === 'RSY_PAGE_BEARING_TYPE'"
+          (bearing)="selectBearing($event)"
+        ></mm-bearing-search>
 
-      <ng-container *ngFor="let pagedMeta of pagedMetas$ | ngrxPush">
-        <ng-container *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)">
-          <ng-container *ngFor="let meta of pagedMeta.metas">
-            <div *ngIf="meta.page.visible" class="control-container">
-              <label *ngIf="meta.member.text">{{ meta.member.text }}</label>
-              <cae-member-control
-                [class.wide]="!meta.member.text"
-                [meta]="meta"
-              ></cae-member-control>
-            </div>
-          </ng-container>
-
-          <button
-            *ngIf="stepper.hasPrev"
-            mat-raised-button
-            (click)="stepper.prev()"
+        <ng-container *ngFor="let pagedMeta of pagedMetas$ | ngrxPush">
+          <ng-container
+            *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)"
           >
-            prev
-          </button>
+            <ng-container *ngFor="let meta of pagedMeta.metas">
+              <div *ngIf="meta.page.visible" class="control-container">
+                <h6 *ngIf="meta.member.text">
+                  {{ t('select', { fieldname: meta.member.text }) }}
+                </h6>
+                <cae-member-control
+                  [class.wide]="!meta.member.text"
+                  [meta]="meta"
+                ></cae-member-control>
+              </div>
+            </ng-container>
 
-          <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
+            <!-- TODO: Remove Prev Button and related code -->
             <button
+              *ngIf="stepper.hasPrev"
               mat-raised-button
-              *ngIf="stepper.hasNext"
-              [disabled]="!(pagedMeta.valid$ | async)"
-              (click)="
-                next(pagedMeta.page.id, pagedMetas, stepper);
-                stepper.hasResultNext && resultPage.send(form)
-              "
+              (click)="stepper.prev()"
             >
-              {{ stepper.hasResultNext ? 'submit' : 'next' }}
+              prev
             </button>
+
+            <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
+              <button
+                mat-raised-button
+                *ngIf="stepper.hasNext"
+                [disabled]="!(pagedMeta.valid$ | async)"
+                (click)="
+                  next(pagedMeta.page.id, pagedMetas, stepper);
+                  stepper.hasResultNext && resultPage.send(form)
+                "
+                class="text-button uppercase w-full md:w-auto"
+              >
+                {{
+                  stepper.hasResultNext
+                    ? t('calculateResults')
+                    : t('select', { fieldname: activePageName$ | ngrxPush })
+                }}
+              </button>
+            </ng-container>
           </ng-container>
         </ng-container>
-      </ng-container>
 
-      <mm-result-page [active]="!stepper.hasNext" #resultPage></mm-result-page>
+        <mm-result-page
+          [active]="!stepper.hasNext"
+          #resultPage
+        ></mm-result-page>
+      </div>
     </div>
-  </div>
-</cae-dynamic-form>
+  </cae-dynamic-form>
+</ng-container>

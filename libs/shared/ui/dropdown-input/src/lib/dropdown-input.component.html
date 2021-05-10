@@ -20,6 +20,7 @@
         [options]="options"
         [hint]="hint"
         [attachToCustomElement]="true"
+        [selectedItem]="selectedItem"
         #autocomplete
         (optionSelected)="
           dummyOption.value = $event?.value;

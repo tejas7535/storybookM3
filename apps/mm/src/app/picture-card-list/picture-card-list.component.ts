@@ -18,8 +18,8 @@ interface PictureCardListOption {
 @Component({
   selector: 'mm-picture-card-list',
   templateUrl: './picture-card-list.component.html',
-  styleUrls: ['./picture-card-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
+  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

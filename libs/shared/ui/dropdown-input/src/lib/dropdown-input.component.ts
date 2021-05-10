@@ -38,13 +38,15 @@ export class DropdownInputComponent implements ControlValueAccessor {
 
   @Input() hint = '';
 
-  value = '';
+  value?: string | number;
 
   disabled = false;
 
   selectionControl = new FormControl();
 
-  private onChange: (value: string) => void = () => {};
+  selectedItem?: DropdownInputOption;
+
+  private onChange: (value: string | number) => void = () => {};
 
   private onTouched: () => void = () => {};
 
@@ -68,11 +70,13 @@ export class DropdownInputComponent implements ControlValueAccessor {
   }
 
   writeValue(value: string): void {
+    const controlValue = this.options.find(({ id }) => id === value);
+    this.selectedItem = controlValue as DropdownInputOption;
     this.value = value;
     this.cdRef.markForCheck();
   }
 
-  registerOnChange(fn: (value: string) => void): void {
+  registerOnChange(fn: (value: string | number) => void): void {
     this.onChange = fn;
   }
 
@@ -84,10 +88,12 @@ export class DropdownInputComponent implements ControlValueAccessor {
     this.disabled = isDisabled;
   }
 
-  setValue(event: any): void {
-    this.selectionControl.patchValue(event.value);
-    this.value = event.id;
-    this.onChange(event.id);
-    this.onTouched();
+  setValue({ value, id }: DropdownInputOption): void {
+    this.selectionControl.patchValue(value);
+    if (this.value !== id) {
+      this.value = id;
+      this.onChange(id);
+      this.onTouched();
+    }
   }
 }
