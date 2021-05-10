@@ -52,7 +52,7 @@ describe('HomeComponent', () => {
       service.greetDotNetPublic = jest.fn();
       service.greetAzFunctions = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(service.greetPublic).toHaveBeenCalled();

@@ -19,7 +19,7 @@ export const sidebarReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: SidebarState, action: Action): SidebarState {
   return sidebarReducer(state, action);
 }

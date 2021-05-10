@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 @Component({
-  // tslint:disable-next-line: component-max-inline-declarations
+  // eslint-disable-next-line
   template: `<button
       (click)="showInformationToast()"
       data-cy="showInformationToast"

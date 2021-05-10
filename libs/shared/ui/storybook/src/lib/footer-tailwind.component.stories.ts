@@ -26,7 +26,7 @@ const baseComponent = {
   component: FooterTailwindComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Footer (using Tailwind)',
   parameters: {

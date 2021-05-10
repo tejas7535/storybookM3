@@ -56,7 +56,7 @@ export const viewCasesReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: ViewCasesState, action: Action): ViewCasesState {
   return viewCasesReducer(state, action);
 }

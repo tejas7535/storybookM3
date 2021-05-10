@@ -89,7 +89,7 @@ describe('AqmCalculatorComponent', () => {
       component['createForm'] = jest.fn();
       component.materialInput.setValue = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.materials).toBeDefined();
@@ -99,12 +99,12 @@ describe('AqmCalculatorComponent', () => {
     });
 
     it('should patch composition form on select change', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
       component.compositionForm.patchValue = jest.fn();
       component.compositionForm.markAsDirty = jest.fn();
 
-      // tslint:disable-next-line: no-object-literal-type-assertion
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       const testMaterial: AQMMaterial = { name: 'test' } as AQMMaterial;
 
       component.materialInput.setValue(testMaterial);
@@ -265,7 +265,7 @@ describe('AqmCalculatorComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();

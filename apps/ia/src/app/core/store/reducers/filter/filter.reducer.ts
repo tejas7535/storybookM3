@@ -91,7 +91,7 @@ const { selectAll } = filterAdapter.getSelectors();
 
 export const selectAllSelectedFilters = selectAll;
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: FilterState, action: Action): FilterState {
   return filterReducer(state, action);
 }

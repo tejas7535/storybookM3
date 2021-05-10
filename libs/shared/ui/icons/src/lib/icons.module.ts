@@ -3,9 +3,9 @@ import { APP_INITIALIZER, NgModule } from '@angular/core';
 
 import { IconsService } from './icons.service';
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function iconsFactory(iconsService: IconsService): Function {
-  // tslint:disable-next-line: only-arrow-functions
+  // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
   const func = function (): void {
     iconsService.registerFontClassAlias();
   };

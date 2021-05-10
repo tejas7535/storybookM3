@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 

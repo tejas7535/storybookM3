@@ -26,7 +26,7 @@ describe('FileDropComponent', () => {
     it('should join accepted file types', () => {
       component.accept = ['.pdf', '.txt'];
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges();
 
       expect(component.acceptAsArray).toEqual('.pdf,.txt');
@@ -36,7 +36,7 @@ describe('FileDropComponent', () => {
       component.acceptAsArray = 'lalala';
       component.accept = undefined;
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges();
 
       expect(component.acceptAsArray).toEqual('');

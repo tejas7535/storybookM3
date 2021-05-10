@@ -20,7 +20,7 @@ import { AzureConfig, FlowType } from './models';
 import { StoreModule } from './store/store.module';
 import { TokenInterceptor } from './token.interceptor';
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function storageFactory(): OAuthStorage {
   return localStorage;
 }

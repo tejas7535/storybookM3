@@ -85,7 +85,7 @@ describe('SalesRowDetailsComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
@@ -127,7 +127,7 @@ describe('SalesRowDetailsComponent', () => {
 
     it('should set formcontrol values with eopDateVerified', () => {
       component.rowData = ({
-        // tslint:disable-next-line: no-null-keyword
+        // eslint-disable-next-line no-null/no-null
         eopDateTemp: null,
         eopDateVerified: salesSummaryMock.eopDateVerified,
         edoDate: salesSummaryMock.edoDate,
@@ -148,7 +148,7 @@ describe('SalesRowDetailsComponent', () => {
     it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
-        // tslint:disable-next-line: no-null-keyword
+        // eslint-disable-next-line no-null/no-null
         lastModifier: null,
       } as unknown) as SalesSummary;
       component['handleUserAccess']('');
@@ -169,7 +169,7 @@ describe('SalesRowDetailsComponent', () => {
     it('should not disable the form group', () => {
       component.datesFormGroup.disable = jest.fn();
       component.rowData = ({
-        // tslint:disable-next-line: no-null-keyword
+        // eslint-disable-next-line no-null/no-null
         lastModifier: 'USER',
       } as unknown) as SalesSummary;
       component['handleUserAccess']('user');

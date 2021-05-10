@@ -28,7 +28,7 @@ const baseComponent = {
   component: SidebarComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Sidebar',
   parameters: {

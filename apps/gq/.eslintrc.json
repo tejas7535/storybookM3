@@ -1,0 +1,45 @@
+{
+  "extends": ["../../.eslintrc.json"],
+  "ignorePatterns": ["!**/*", "src/polyfills.ts"],
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "extends": [
+        "plugin:@nrwl/nx/angular",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "parserOptions": {
+        "project": ["apps/gq/tsconfig.*?.json"]
+      },
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "gq",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "gq",
+            "style": "kebab-case"
+          }
+        ],
+        "import/no-extraneous-dependencies": "off"
+      },
+      "plugins": [
+        "@angular-eslint/eslint-plugin",
+        "eslint-plugin-import",
+        "@typescript-eslint"
+      ]
+    },
+    {
+      "files": ["*.html"],
+      "extends": ["plugin:@nrwl/nx/angular-template"],
+      "plugins": ["@angular-eslint/eslint-plugin-template"]
+    }
+  ]
+}

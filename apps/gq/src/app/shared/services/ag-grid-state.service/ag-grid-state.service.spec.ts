@@ -16,7 +16,7 @@ class LocalStorageMock {
   }
 
   getItem(key: string): string {
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     return this.store[key] || null;
   }
 

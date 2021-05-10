@@ -49,14 +49,14 @@ describe('GqPriceComponent', () => {
 
   describe('ngOnInit', () => {
     test('should define observables', () => {
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.gpi).toBeDefined();
     });
     test('should not set gpi', () => {
       component.quotationDetail = undefined;
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.gpi).toBeUndefined();

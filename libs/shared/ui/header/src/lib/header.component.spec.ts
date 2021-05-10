@@ -53,7 +53,7 @@ describe('HeaderComponent', () => {
     it('should unsubscribe fromSubscription', () => {
       const spy = spyOn<any>(component['subscription'], 'unsubscribe');
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(spy).toHaveBeenCalled();

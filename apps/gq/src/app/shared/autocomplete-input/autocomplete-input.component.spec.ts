@@ -50,7 +50,7 @@ describe('AutocompleteInputComponent', () => {
     test('should add valueChanges subscription directly', () => {
       component['autocomplete'].emit = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test';
@@ -63,7 +63,7 @@ describe('AutocompleteInputComponent', () => {
 
       component['autocomplete'].emit = jest.fn();
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       component.searchFormControl.setValue('');
@@ -77,7 +77,7 @@ describe('AutocompleteInputComponent', () => {
 
       const spy = jest.spyOn(rxjs, 'timer');
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test1';

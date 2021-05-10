@@ -47,7 +47,7 @@ describe('ScrollToTopComponent', () => {
         'subscribe'
       );
 
-      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+      component.ngOnInit(); // eslint-disable-line @angular-eslint/no-lifecycle-call
 
       expect(spy).toHaveBeenCalled();
     });
@@ -57,7 +57,7 @@ describe('ScrollToTopComponent', () => {
       container.scrollTop = 200;
       expect(component.containerScrolled).toEqual(undefined);
 
-      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+      component.ngOnInit(); // eslint-disable-line @angular-eslint/no-lifecycle-call
 
       component['scrollToTopContainer'].scrollEvent$.next(container);
 
@@ -69,7 +69,7 @@ describe('ScrollToTopComponent', () => {
       container.scrollTop = 1;
       expect(component.containerScrolled).toEqual(undefined);
 
-      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+      component.ngOnInit(); // eslint-disable-line @angular-eslint/no-lifecycle-call
 
       component['scrollToTopContainer'].scrollEvent$.next(container);
 
@@ -81,7 +81,7 @@ describe('ScrollToTopComponent', () => {
       container.scrollTop = 50;
       expect(component.containerScrolled).toEqual(undefined);
 
-      component.ngOnInit(); // tslint:disable-line:no-lifecycle-call
+      component.ngOnInit(); // eslint-disable-line @angular-eslint/no-lifecycle-call
 
       component['scrollToTopContainer'].scrollEvent$.next(container);
 

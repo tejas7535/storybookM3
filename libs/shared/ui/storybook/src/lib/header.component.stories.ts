@@ -27,7 +27,7 @@ const baseComponent = {
   component: HeaderComponent,
 };
 
-// tslint:disable-next-line: no-default-export
+// eslint-disable-next-line
 export default {
   title: 'Header',
   parameters: {

@@ -146,7 +146,7 @@ export const organizationalViewReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(
   state: OrganizationalViewState,
   action: Action

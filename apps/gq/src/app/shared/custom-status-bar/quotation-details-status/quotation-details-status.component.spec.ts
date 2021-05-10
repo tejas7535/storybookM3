@@ -66,7 +66,7 @@ describe('QuotationDetailsStatusComponent', () => {
     test('should set showMargins to true', () => {
       store.overrideSelector(getRoles, [UserRoles.COST_GPC]);
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.showAverageGPI$).toBeTruthy();

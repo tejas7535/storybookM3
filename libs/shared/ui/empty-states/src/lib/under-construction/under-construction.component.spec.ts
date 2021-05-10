@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';

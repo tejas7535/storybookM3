@@ -14,7 +14,7 @@ import { HvLimits } from '../../models';
 @Component({
   selector: 'mac-ltp-limits',
   templateUrl: './limits.component.html',
-  // tslint:disable-next-line: use-component-view-encapsulation
+  // eslint-disable-next-line @angular-eslint/use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
 export class LimitsComponent implements OnChanges {

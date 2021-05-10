@@ -1,7 +1,7 @@
 import { AQMCalculationResponse } from './../../app/feature/aqm-calculator/services/aqm-calulator-response.model';
 
 export const AQM_CALCULATION_CALCULATION_MOCK: AQMCalculationResponse = {
-  // tslint:disable-next-line: no-null-keyword
+  // eslint-disable-next-line no-null/no-null
   aqm: { error: null, result: 19.7 },
   limits: {
     '100Cr6': false,
@@ -14,7 +14,7 @@ export const AQM_CALCULATION_CALCULATION_MOCK: AQMCalculationResponse = {
 };
 
 export const AQM_CALCULATION_ERROR_MOCK: AQMCalculationResponse = {
-  // tslint:disable-next-line: no-null-keyword
+  // eslint-disable-next-line no-null/no-null
   aqm: { error: 'the magic error message', result: null },
   limits: {
     '100Cr6': false,

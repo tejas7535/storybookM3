@@ -376,11 +376,11 @@ export const processCaseReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(
   state: ProcessCaseState,
   action: Action
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
-// tslint:disable-next-line: max-file-line-count
+// eslint-disable-next-line max-lines

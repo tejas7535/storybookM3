@@ -1,4 +1,4 @@
-// tslint:disable: no-default-import
+/* eslint-disable */
 import {
   ChangeDetectionStrategy,
   Component,

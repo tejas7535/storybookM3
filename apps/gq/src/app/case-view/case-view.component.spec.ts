@@ -80,7 +80,7 @@ describe('CaseViewComponent', () => {
     test('should unsubscribe fromSubscription', () => {
       const spy = spyOn<any>(component['dialog'], 'closeAll');
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(spy).toHaveBeenCalled();

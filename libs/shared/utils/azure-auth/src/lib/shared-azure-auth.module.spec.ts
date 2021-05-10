@@ -29,7 +29,7 @@ describe('SharedAzureAuth', () => {
       );
       const module = SharedAzureAuthModule.forRoot(azureConf);
 
-      // tslint:disable-next-line: no-unused-expression
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new SharedAzureAuthModule(module);
     } catch (e) {
       throwError = true;

@@ -1,4 +1,4 @@
-/* tslint:disable */
+/* eslint-disable */
 /* istanbul ignore file */
 
 const mock = () => {

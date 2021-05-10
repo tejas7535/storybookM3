@@ -561,5 +561,5 @@ export class HelpersService {
   public increase10Percent(value: number): number {
     return value + value / 10;
   }
-  // tslint:disable-next-line: max-file-line-count
+  // eslint-disable-next-line max-lines
 }

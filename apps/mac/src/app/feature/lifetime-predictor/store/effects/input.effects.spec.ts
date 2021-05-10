@@ -15,7 +15,7 @@ import { MockService } from '../../mock/mock.service';
 import { RestService } from '../../services/rest.service';
 
 describe('InputEffects', () => {
-  // tslint:disable-next-line
+  // eslint-disable-next-line
   let actions: Observable<any>;
   let effects: InputEffects;
 

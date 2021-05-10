@@ -67,7 +67,7 @@ describe('SpeedDialFabComponent', () => {
       ];
       expect(component.fabButtons.length).toBe(0);
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         open: new SimpleChange(false, openState, false),
       });
@@ -88,7 +88,7 @@ describe('SpeedDialFabComponent', () => {
       ];
       expect(component.fabButtons.length).toBe(0);
 
-      // tslint:disable-next-line: no-lifecycle-call
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         open: new SimpleChange(false, openState, false),
       });
@@ -110,7 +110,7 @@ describe('SpeedDialFabComponent', () => {
     ]);
     spectator.setInput('open', openState);
 
-    // tslint:disable-next-line: no-lifecycle-call
+    // eslint-disable-next-line @angular-eslint/no-lifecycle-call
     component.ngOnChanges({
       open: new SimpleChange(false, openState, false),
     });

@@ -18,7 +18,7 @@ import {
 } from './injection-tokens';
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function preloadLanguage(
   transloco: TranslocoService,
   language: string,

@@ -75,7 +75,7 @@ export const inputReducer = createReducer(
   }))
 );
 
-// tslint:disable-next-line: only-arrow-functions
+// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: InputState, action: Action): InputState {
   return inputReducer(state, action);
 }

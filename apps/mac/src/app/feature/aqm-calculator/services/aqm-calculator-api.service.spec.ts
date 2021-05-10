@@ -55,7 +55,7 @@ describe('AqmCalculatorApiService', () => {
 
   it('should return a aqm calculation', () => {
     service
-      // tslint:disable-next-line: no-object-literal-type-assertion
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       .getCalculationResult({} as AQMCalculationRequest)
       .subscribe((result) => {
         expect(result).toEqual(AQM_CALCULATION_CALCULATION_MOCK);

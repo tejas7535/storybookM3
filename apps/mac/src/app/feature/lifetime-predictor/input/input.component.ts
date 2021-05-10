@@ -363,9 +363,9 @@ export class InputComponent implements OnInit {
         disabled: false,
         flexibleLabel(label: string): string {
           const addedString =
-            // tslint:disable-next-line: no-invalid-this
+            // eslint-disable-next-line no-invalid-this
             this.formControl.value > 15
-              ? // tslint:disable-next-line: no-invalid-this
+              ? // eslint-disable-next-line no-invalid-this
                 this.formControl.value > 60
                 ? '(Low-Budget)'
                 : '(Standard)'
@@ -465,5 +465,5 @@ export class InputComponent implements OnInit {
       }),
     ];
   }
-  // tslint:disable-next-line: max-file-line-count
+  // eslint-disable-next-line max-lines
 }
