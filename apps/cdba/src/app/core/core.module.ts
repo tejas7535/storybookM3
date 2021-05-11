@@ -1,4 +1,3 @@
-import { PlatformModule } from '@angular/cdk/platform';
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import de from '@angular/common/locales/de';
@@ -6,26 +5,18 @@ import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { PlatformModule } from '@angular/cdk/platform';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
-import {
-  AzureConfig,
-  MsalGuardConfig,
-  MsalInstanceConfig,
-  MsalInterceptorConfig,
-  ProtectedResource,
-  SharedAzureAuthModule,
-} from '@schaeffler/azure-auth';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 
-import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { environment } from '@cdba/environments/environment';
 import { LoadingSpinnerModule } from '@cdba/shared/components';
 
@@ -34,18 +25,6 @@ import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
 
 registerLocaleData(de, 'de-DE');
-
-const azureConfig = new AzureConfig(
-  new MsalInstanceConfig(
-    environment.clientId,
-    environment.tenantId,
-    !environment.production
-  ),
-  new MsalInterceptorConfig([
-    new ProtectedResource('/api/*', [environment.appScope]),
-  ]),
-  new MsalGuardConfig(`${AppRoutePath.ForbiddenPath}`, [environment.appScope])
-);
 
 @NgModule({
   declarations: [AppComponent],
@@ -85,9 +64,6 @@ const azureConfig = new AzureConfig(
 
     // Platform required for detecting the browser engine
     PlatformModule,
-
-    // Auth
-    SharedAzureAuthModule.forRoot(azureConfig),
   ],
   providers: [
     {
