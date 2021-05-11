@@ -63,6 +63,7 @@ describe('OrgChartComponent', () => {
     test('should open dialog with attrition data when attrition icon is clicked', () => {
       const mock = ({} as unknown) as EmployeeAttritionMeta;
       component['dialog'].open = jest.fn();
+      component.selectedTimeRange = '01.01.2020 - 03.05.2020';
       component.data = [
         ({
           employeeId: '123',
@@ -79,9 +80,15 @@ describe('OrgChartComponent', () => {
         },
       });
 
-      expect(
-        component['dialog'].open
-      ).toHaveBeenCalledWith(AttritionDialogComponent, { data: mock });
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        AttritionDialogComponent,
+        {
+          data: {
+            selectedTimeRange: component.selectedTimeRange,
+            data: mock,
+          },
+        }
+      );
     });
   });
 

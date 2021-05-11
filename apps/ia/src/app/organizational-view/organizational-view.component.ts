@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { select, Store } from '@ngrx/store';
 
+import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
 import { IdValue } from '../shared/models';
 import { ChartType } from './models/chart-type.enum';
 import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
@@ -33,6 +34,7 @@ export class OrganizationalViewComponent implements OnInit {
   selectedChartType$: Observable<ChartType>;
   worldMap$: Observable<CountryData[]>;
   worldMapContinents$: Observable<IdValue[]>;
+  selectedTimeRange$: Observable<string>;
 
   chartType = ChartType;
 
@@ -45,6 +47,9 @@ export class OrganizationalViewComponent implements OnInit {
     this.selectedChartType$ = this.store.pipe(select(getSelectedChartType));
     this.worldMap$ = this.store.pipe(select(getWorldMap));
     this.worldMapContinents$ = this.store.pipe(select(getWorldMapContinents));
+    this.selectedTimeRange$ = this.store.pipe(
+      select(getBeautifiedSelectedTimeRange)
+    );
   }
 
   public chartTypeChanged(chartType: ChartType): void {

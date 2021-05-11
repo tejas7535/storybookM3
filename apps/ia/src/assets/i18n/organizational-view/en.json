@@ -1,0 +1,34 @@
+{
+  "orgChart": {
+    "table": {
+      "columnDirect": "Direct",
+      "columnOverall": "Overall",
+      "rowEmployees": "Employees",
+      "rowAttrition": "Attrition"
+    },
+    "noData": "No Data Available."
+  },
+  "worldMap": {
+    "europe": "Europe",
+    "asia": "Asia",
+    "americas": "Americas",
+    "continentNotFound": "No data for {{value}} found. Please update filters."
+  },
+  "overviewChartToggleButtons": {
+    "orgChart": "Organizational chart",
+    "worldMap": "World map"
+  },
+  "attritionDialog": {
+    "close": "Close",
+    "metaTitle": "Attrition",
+    "chartTitle": "Current Attrition Rates",
+    "attritionRate": "Attrition rate",
+    "employeesLost": "Employees lost",
+    "naturalTurnover": "Natural turnover",
+    "forcedLeavers": "Forced leavers",
+    "unforcedLeavers": "Unforced leavers",
+    "terminationReceived": "Termination received",
+    "employeesAdded": "Employees added",
+    "openPositions": "Open positions"
+  }
+}

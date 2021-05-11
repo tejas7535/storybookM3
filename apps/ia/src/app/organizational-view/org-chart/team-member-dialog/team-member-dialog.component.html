@@ -1,7 +1,9 @@
 <h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
   {{ data.employeeName }} ({{ data.orgUnit }})
 </h2>
-<mat-dialog-content *transloco="let t; read: 'teamMemberDialog'">
+<mat-dialog-content
+  *transloco="let t; read: 'organizationalView.teamMemberDialog'"
+>
   <h6 class="text-overline font-medium leading-3 uppercase mt-0 mr-0 mb-2 ml-1">
     {{ t('metaTitle') }}
   </h6>
@@ -26,6 +28,9 @@
     </ng-container>
   </mat-list>
 </mat-dialog-content>
-<mat-dialog-actions align="end" *transloco="let t; read: 'teamMemberDialog'">
+<mat-dialog-actions
+  align="end"
+  *transloco="let t; read: 'organizationalView.teamMemberDialog'"
+>
   <button mat-button mat-dialog-close color="primary">{{ t('close') }}</button>
 </mat-dialog-actions>

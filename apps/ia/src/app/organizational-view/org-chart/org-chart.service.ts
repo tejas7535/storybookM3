@@ -21,10 +21,18 @@ export class OrgChartService {
       const totalSubordinates = elem.totalSubordinates;
       const directAttrition = elem.directAttrition;
       const totalAttrition = elem.totalAttrition;
-      const columnDirect = translate('orgChart.table.columnDirect');
-      const columnOverall = translate('orgChart.table.columnOverall');
-      const rowEmployees = translate('orgChart.table.rowEmployees');
-      const rowAttrition = translate('orgChart.table.rowAttrition');
+      const columnDirect = translate(
+        'organizationalView.orgChart.table.columnDirect'
+      );
+      const columnOverall = translate(
+        'organizationalView.orgChart.table.columnOverall'
+      );
+      const rowEmployees = translate(
+        'organizationalView.orgChart.table.rowEmployees'
+      );
+      const rowAttrition = translate(
+        'organizationalView.orgChart.table.rowAttrition'
+      );
 
       const heatMapClass =
         elem.attritionMeta?.heatType === HeatType.GREEN_HEAT

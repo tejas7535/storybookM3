@@ -39,71 +39,8 @@
     "reasonsAndCounterMeasures": "Reasons & Counter Measures",
     "attritionAnalytics": "Attrition Analytics"
   },
-  "orgChart": {
-    "table": {
-      "columnDirect": "Direct",
-      "columnOverall": "Overall",
-      "rowEmployees": "Employees",
-      "rowAttrition": "Attrition"
-    },
-    "noData": "No Data Available."
-  },
-  "worldMap": {
-    "europe": "Europe",
-    "asia": "Asia",
-    "americas": "Americas",
-    "continentNotFound": "No data for {{value}} found. Please update filters."
-  },
-  "overviewChartToggleButtons": {
-    "orgChart": "Organizational chart",
-    "worldMap": "World map"
-  },
-  "attritionQuotaDetails": {
-    "title": "Attrition Quota - Details",
-    "chart": {
-      "legend": {
-        "charts": "Chart"
-      },
-      "dialog": {
-        "close": "Close",
-        "orgUnit": "Organizational Unit",
-        "position": "Position"
-      }
-    }
-  },
-  "attritionDialog": {
-    "close": "Close",
-    "metaTitle": "Attrition",
-    "chartTitle": "Attrition rate",
-    "attritionRate": "Attrition rate",
-    "employeesLost": "Employees lost",
-    "naturalTurnover": "Natural turnover",
-    "forcedLeavers": "Forced leavers",
-    "unforcedLeavers": "Unforced leavers",
-    "terminationReceived": "Termination received",
-    "employeesAdded": "Employees added",
-    "openPositions": "Open positions"
-  },
   "teamMemberDialog": {
     "close": "Close",
     "metaTitle": "Staff"
-  },
-  "lossOfSkills": {
-    "lostJobProfiles": {
-      "title": "Lost job profiles",
-      "table": {
-        "job": "Job",
-        "workforce": "Workforce",
-        "leavers": "Leavers",
-        "openPositions": "Open Positions"
-      },
-      "popup": {
-        "titleWorkforce": "Current Workforce:",
-        "titleLeavers": "Leavers:"
-      }
-    },
-    "riskOfLeaving": {
-      "title": "Top performer @ risk of leaving"
-    }
   }
 }

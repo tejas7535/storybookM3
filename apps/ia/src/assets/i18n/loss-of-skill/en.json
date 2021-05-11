@@ -1,0 +1,18 @@
+{
+  "lostJobProfiles": {
+    "title": "Lost job profiles",
+    "table": {
+      "job": "Job",
+      "workforce": "Workforce",
+      "leavers": "Leavers",
+      "openPositions": "Open Positions"
+    },
+    "popup": {
+      "titleWorkforce": "Current Workforce:",
+      "titleLeavers": "Leavers:"
+    }
+  },
+  "riskOfLeaving": {
+    "title": "Top performer @ risk of leaving"
+  }
+}
