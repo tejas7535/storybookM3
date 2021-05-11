@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.21.0](///compare/cdba-v1.21.0...cdba-v1.20.0) (2021-05-11)
+
+
+### 🎸 Features
+
+* **cdba:** use tailwind footer (DSCDA-2406) ([ad327fc](///commit/ad327fc6785364b95070c44c6c5cb54faeaa1c2f))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** revert migrate app to use azure-auth lib (DSCDA-2407) ([b22a94a](///commit/b22a94ad490c0f2517150cf2372e2b50ab1566c9))
+
 ## [1.20.0](///compare/cdba-v1.20.0...cdba-v1.19.0) (2021-05-10)
 
 
