@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
@@ -31,5 +32,6 @@ import { LossOfSkillsEffects } from './store/effects/loss-of-skills.effects';
     MatCardModule,
     ReactiveComponentModule,
   ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'loss-of-skills' }],
 })
 export class LossOfSkillsModule {}

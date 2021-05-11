@@ -10,6 +10,7 @@
     class="flex-grow flex flex-col"
     *ngIf="selectedChart === chartType.ORG_CHART"
     [data]="orgChart$ | ngrxPush"
+    [selectedTimeRange]="selectedTimeRange$ | ngrxPush"
     [isLoading]="isLoadingOrgChart$ | ngrxPush"
     (showParent)="loadParent($event)"
   ></ia-org-chart>

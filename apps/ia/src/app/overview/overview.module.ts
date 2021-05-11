@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -25,5 +26,6 @@ import { OverviewEffects } from './store/effects/overview.effects';
     SharedTranslocoModule,
     OverviewChartModule,
   ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'overview' }],
 })
 export class OverviewModule {}

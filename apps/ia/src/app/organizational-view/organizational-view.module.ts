@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
@@ -26,5 +27,6 @@ import { WorldMapModule } from './world-map/world-map.module';
     ),
     EffectsModule.forFeature([OrganizationalViewEffects]),
   ],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'organizational-view' }],
 })
 export class OrganizationalViewModule {}

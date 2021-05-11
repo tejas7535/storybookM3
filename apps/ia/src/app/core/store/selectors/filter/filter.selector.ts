@@ -74,6 +74,17 @@ export const getSelectedTimeRange = createSelector(
   (state: FilterState) => state.selectedTimeRange
 );
 
+export const getBeautifiedSelectedTimeRange = createSelector(
+  getSelectedTimeRange,
+  (timeRange: string) => {
+    const dates = timeRange.split('|');
+
+    return `${new Date(+dates[0]).toLocaleDateString()} - ${new Date(
+      +dates[1]
+    ).toLocaleDateString()}`;
+  }
+);
+
 export const getSelectedFilters = createSelector(
   selectFilterState,
   (state: FilterState) => state.selectedFilters

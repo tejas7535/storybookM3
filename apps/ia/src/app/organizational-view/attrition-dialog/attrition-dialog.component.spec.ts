@@ -27,6 +27,7 @@ describe('AttritionDialogComponent', () => {
       UnderConstructionModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
+    detectChanges: false,
     providers: [
       {
         provide: MAT_DIALOG_DATA,

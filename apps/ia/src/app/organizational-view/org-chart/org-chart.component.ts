@@ -14,6 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import d3OrgChart from 'd3-org-chart';
 
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartService } from './org-chart.service';
 import { TeamMemberDialogComponent } from './team-member-dialog/team-member-dialog.component';
@@ -34,6 +35,8 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   @Input() isLoading = false;
+
+  @Input() selectedTimeRange = '';
 
   get data(): OrgChartEmployee[] {
     return this._data;
@@ -62,7 +65,11 @@ export class OrgChartComponent implements AfterViewInit {
         data: employee,
       });
     } else if (node.classList.contains('employee-node-attrition')) {
-      const data = employee?.attritionMeta;
+      const attritionMeta = employee?.attritionMeta;
+      const data = new AttritionDialogMeta(
+        attritionMeta,
+        this.selectedTimeRange
+      );
       this.dialog.open(AttritionDialogComponent, {
         data,
       });

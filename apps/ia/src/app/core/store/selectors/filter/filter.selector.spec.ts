@@ -105,6 +105,14 @@ describe('Filter Selector', () => {
     });
   });
 
+  describe('getBeautifiedSelectedTimeRange', () => {
+    test('should return beautified time range', () => {
+      const result = getSelectedTimeRange(fakeState);
+
+      expect(result.match(/\d+\|\d+/).length === 1).toBeTruthy();
+    });
+  });
+
   describe('getSelectedFilters', () => {
     test('should return selected Filters', () => {
       expect(getSelectedFilters(fakeState)).toEqual(

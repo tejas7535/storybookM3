@@ -3,6 +3,7 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { OverviewChartModule } from './overview-chart/overview-chart.module';
 import { OverviewComponent } from './overview.component';
 
 describe('OverviewComponent', () => {
@@ -12,7 +13,11 @@ describe('OverviewComponent', () => {
   const createComponent = createComponentFactory({
     component: OverviewComponent,
     detectChanges: false,
-    imports: [ReactiveComponentModule, TranslocoTestingModule],
+    imports: [
+      ReactiveComponentModule,
+      TranslocoTestingModule,
+      OverviewChartModule,
+    ],
     providers: [provideMockStore({})],
     declarations: [OverviewComponent],
   });
