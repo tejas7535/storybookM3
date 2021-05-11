@@ -7,8 +7,8 @@ export const environment = {
 
   // AAD auth
   tenantId: '67416604-6509-4014-9859-45e709f53d3f',
-  clientId: '1345d78e-c59f-4cf3-9086-69953e8dc995',
-  appScope: 'api://54579610-09f1-48ab-83d7-ecfca5ab7436/iaapi',
+  clientId: 'ec90df0f-30ee-4e9a-9819-3b417a33fb0b',
+  appScope: 'api://66242454-50b0-4f97-b6de-7e8859b07f72/iaapi',
 
   // Application Insights
   applicationInsights: {
