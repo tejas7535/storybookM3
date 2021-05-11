@@ -1,21 +1,21 @@
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 
-import { getIsLoggedIn } from '@schaeffler/azure-auth';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { getIsLoggedIn, startLoginFlow } from '@schaeffler/auth';
 import { HeaderModule } from '@schaeffler/header';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 
+import { MatDialog } from '@angular/material/dialog';
 import { LoadingSpinnerModule } from '@cdba/shared/components';
-import { BrowserDetectionService } from '@cdba/shared/services';
+import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 
+import { BrowserDetectionService } from '@cdba/shared/services';
+import { cold } from 'jest-marbles';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -75,9 +75,17 @@ describe('AppComponent', () => {
       // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
-      expect(component.isLoggedIn$).toBeDefined();
+      expect(component.isLessThanMediumViewport$).toBeDefined();
       expect(component.username$).toBeDefined();
-      expect(component.profileImage$).toBeDefined();
+    });
+
+    test('dispatch login on application load', () => {
+      browserDetectionService.isUnsupportedBrowser.andReturn(true);
+
+      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
     });
 
     test('should display browser support dialog for authenticated users using an unsupported browser', () => {
