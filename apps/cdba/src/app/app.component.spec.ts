@@ -10,7 +10,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { cold } from 'jest-marbles';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 
 import { LoadingSpinnerModule } from '@cdba/shared/components';
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
     imports: [
       NoopAnimationsModule,
       HeaderModule,
-      FooterModule,
+      FooterTailwindModule,
       MatButtonModule,
       LoadingSpinnerModule,
       RouterTestingModule,
