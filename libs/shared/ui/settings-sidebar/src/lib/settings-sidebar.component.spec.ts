@@ -54,7 +54,6 @@ describe('SettingsSidebarComponent', () => {
     test('should call isMobileViewPort of breakpointService', () => {
       const spy = jest.spyOn(breakpointService, 'isMobileViewPort');
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();
@@ -62,7 +61,6 @@ describe('SettingsSidebarComponent', () => {
     test('should call isLessThanMedium of breakpointService', () => {
       const spy = jest.spyOn(breakpointService, 'isLessThanMedium');
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(spy).toHaveBeenCalled();

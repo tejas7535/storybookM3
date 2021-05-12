@@ -1,18 +1,19 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
 import { FooterLink } from '@schaeffler/footer-tailwind';
 import { UserMenuEntry } from '@schaeffler/header';
 import { BreakpointService } from '@schaeffler/responsive';
 
-import { MatDialog } from '@angular/material/dialog';
 import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
 import { BrowserDetectionService } from '@cdba/shared/services';
-import { tap } from 'rxjs/operators';
+
 import { version } from '../../package.json';
 import { AppState } from './core/store';
 
@@ -48,9 +49,8 @@ export class AppComponent implements OnInit {
 
   public ngOnInit(): void {
     this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
-    this.username$ = this.store.pipe(select(getUsername));
-    this.isLoggedIn$ = this.store.pipe(
-      select(getIsLoggedIn),
+    this.username$ = this.store.select(getUsername);
+    this.isLoggedIn$ = this.store.select(getIsLoggedIn).pipe(
       tap((loggedIn) => {
         if (loggedIn && this.browserDetectionService.isUnsupportedBrowser()) {
           this.dialog.open(BrowserSupportDialogComponent, {

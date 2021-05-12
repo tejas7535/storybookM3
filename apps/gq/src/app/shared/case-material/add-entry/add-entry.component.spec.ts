@@ -72,7 +72,6 @@ describe('InputbarComponent', () => {
     test('should set quantityvalid if when quantityFormControl valuechanges', () => {
       component.rowInputValid = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
       const testValue = '10';
       component.quantityFormControl.setValue(testValue);

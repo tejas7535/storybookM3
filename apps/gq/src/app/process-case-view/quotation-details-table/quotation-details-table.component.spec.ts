@@ -69,7 +69,6 @@ describe('QuotationDetailsTableComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set columnDefs', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.columnDefs$).toBeDefined();

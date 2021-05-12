@@ -72,7 +72,6 @@ describe('AppComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set observables', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLessThanMediumViewport$).toBeDefined();
@@ -92,7 +91,6 @@ describe('AppComponent', () => {
       store.overrideSelector(getIsLoggedIn, true);
       browserDetectionService.isUnsupportedBrowser.andReturn(true);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLoggedIn$).toBeObservable(cold('a', { a: true }));
@@ -106,7 +104,6 @@ describe('AppComponent', () => {
       store.overrideSelector(getIsLoggedIn, false);
       browserDetectionService.isUnsupportedBrowser.andReturn(true);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLoggedIn$).toBeObservable(cold('a', { a: false }));
@@ -120,7 +117,6 @@ describe('AppComponent', () => {
       store.overrideSelector(getIsLoggedIn, true);
       browserDetectionService.isUnsupportedBrowser.andReturn(false);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.isLoggedIn$).toBeObservable(cold('a', { a: true }));

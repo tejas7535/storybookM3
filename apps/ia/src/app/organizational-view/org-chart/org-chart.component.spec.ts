@@ -97,7 +97,6 @@ describe('OrgChartComponent', () => {
       component.updateChart = jest.fn();
       expect(component.chart).toBeUndefined();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngAfterViewInit();
 
       expect(component.chart).toBeDefined();
@@ -108,7 +107,6 @@ describe('OrgChartComponent', () => {
       const chart = { test: '123' };
       component.chart = chart;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngAfterViewInit();
 
       expect(component.chart).toEqual(chart);

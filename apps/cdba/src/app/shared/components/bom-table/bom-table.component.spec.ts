@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { SimpleChange } from '@angular/core';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -18,6 +17,7 @@ import { CustomNoRowsOverlayComponent } from '../table/custom-overlay/custom-no-
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { BomTableComponent } from './bom-table.component';
 
+/* eslint-disable max-lines */
 describe('BomTableComponent', () => {
   let component: BomTableComponent;
   let spectator: Spectator<BomTableComponent>;
@@ -88,7 +88,6 @@ describe('BomTableComponent', () => {
         showLoadingOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -102,7 +101,6 @@ describe('BomTableComponent', () => {
     it('should do nothing when gridApi is not loaded', () => {
       component['gridApi'] = undefined;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -118,7 +116,6 @@ describe('BomTableComponent', () => {
         showNoRowsOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: false,

@@ -75,7 +75,6 @@ describe('BomChartComponent', () => {
     it('should set chart options properly', () => {
       const xAxisConfig = getXAxisConfig(false);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges();
 
       expect(component.options.tooltip).toEqual(TOOLTIP_CONFIG);

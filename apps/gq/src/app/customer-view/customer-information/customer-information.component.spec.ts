@@ -35,7 +35,6 @@ describe('CustomerDetailsComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set current and last year', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.currentYear).toBeDefined();

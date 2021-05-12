@@ -130,7 +130,6 @@ describe('PredictionComponent', () => {
 
   describe('#ngOnInit', () => {
     it('should dispatch action postPrediction', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(store.dispatch).toHaveBeenCalledWith(postPrediction());
