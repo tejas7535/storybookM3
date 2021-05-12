@@ -59,9 +59,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
 
   @Input() rowData: ReferenceType[];
-  @Output() readonly selectionChange: EventEmitter<
-    string[]
-  > = new EventEmitter();
+  @Output() readonly selectionChange: EventEmitter<string[]> =
+    new EventEmitter();
 
   public modules = [
     ClientSideRowModelModule,

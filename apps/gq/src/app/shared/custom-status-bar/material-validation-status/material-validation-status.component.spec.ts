@@ -28,11 +28,11 @@ describe('MaterialValidationStatusComponent', () => {
 
   describe('agInit', () => {
     test('should set params and add event listener', () => {
-      const params = ({
+      const params = {
         api: {
           addEventListener: jest.fn(),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
 
       component.agInit(params);
 
@@ -47,8 +47,8 @@ describe('MaterialValidationStatusComponent', () => {
   describe('rowValueChanges', () => {
     test('should count invalid and total combinations correctly', () => {
       const nodes: RowNode[] = [
-        ({ data: dummyRowData } as unknown) as RowNode,
-        ({
+        { data: dummyRowData } as unknown as RowNode,
+        {
           data: {
             materialNumber: '123',
             quantity: 5,
@@ -56,8 +56,8 @@ describe('MaterialValidationStatusComponent', () => {
               valid: true,
             },
           },
-        } as unknown) as RowNode,
-        ({
+        } as unknown as RowNode,
+        {
           data: {
             materialNumber: '1234',
             quantity: 55,
@@ -65,8 +65,8 @@ describe('MaterialValidationStatusComponent', () => {
               valid: true,
             },
           },
-        } as unknown) as RowNode,
-        ({
+        } as unknown as RowNode,
+        {
           data: {
             materialNumber: '12356',
             quantity: 2,
@@ -74,8 +74,8 @@ describe('MaterialValidationStatusComponent', () => {
               valid: true,
             },
           },
-        } as unknown) as RowNode,
-        ({
+        } as unknown as RowNode,
+        {
           data: {
             materialNumber: '777',
             quantity: 12,
@@ -83,15 +83,15 @@ describe('MaterialValidationStatusComponent', () => {
               valid: false,
             },
           },
-        } as unknown) as RowNode,
+        } as unknown as RowNode,
       ];
 
-      const params = ({
+      const params = {
         api: {
           forEachNode: (callback: (row: RowNode) => void) =>
             nodes.forEach(callback),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
 
       component['params'] = params;
 

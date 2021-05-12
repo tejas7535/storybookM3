@@ -33,24 +33,23 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('router');
+export const getRouterState =
+  createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
+    'router'
+  );
 
-export const getSearchState = createFeatureSelector<fromSearch.SearchState>(
-  'search'
-);
+export const getSearchState =
+  createFeatureSelector<fromSearch.SearchState>('search');
 
-export const getDetailState = createFeatureSelector<fromDetail.DetailState>(
-  'detail'
-);
+export const getDetailState =
+  createFeatureSelector<fromDetail.DetailState>('detail');
 
-export const getCompareState = createFeatureSelector<fromCompare.CompareState>(
-  'compare'
-);
+export const getCompareState =
+  createFeatureSelector<fromCompare.CompareState>('compare');
 
 export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
+  implements fromRouter.RouterStateSerializer<RouterStateUrl>
+{
   /**
    * Serialize the router state
    */

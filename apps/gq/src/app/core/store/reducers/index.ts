@@ -39,25 +39,24 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('router');
+export const getRouterState =
+  createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
+    'router'
+  );
 
-export const getProcessCaseState = createFeatureSelector<fromProcessCase.ProcessCaseState>(
-  'processCase'
-);
+export const getProcessCaseState =
+  createFeatureSelector<fromProcessCase.ProcessCaseState>('processCase');
 
 export const getCaseState = createFeatureSelector<fromCase.CaseState>('case');
 
-export const getViewCasesState = createFeatureSelector<fromViewCases.ViewCasesState>(
-  'viewCases'
-);
-export const getTransactionsState = createFeatureSelector<fromTransactions.TransactionsState>(
-  'transactions'
-);
+export const getViewCasesState =
+  createFeatureSelector<fromViewCases.ViewCasesState>('viewCases');
+export const getTransactionsState =
+  createFeatureSelector<fromTransactions.TransactionsState>('transactions');
 
 export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
+  implements fromRouter.RouterStateSerializer<RouterStateUrl>
+{
   /**
    * Serialize the router state
    */

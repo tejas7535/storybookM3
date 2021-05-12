@@ -60,7 +60,7 @@ describe('Overview Effects', () => {
   describe('filterChange$', () => {
     test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const filter = new SelectedFilter('orgUnit', 'best');
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultAttrition = loadAttritionOverTime({ request });
@@ -75,7 +75,7 @@ describe('Overview Effects', () => {
 
     test('timeRangeSelected - should trigger loadAtrritionOverTime if orgUnit is set', () => {
       const timeRange = '123|456';
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
 
@@ -115,7 +115,7 @@ describe('Overview Effects', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = ({} as unknown) as EmployeesRequest;
+      request = {} as unknown as EmployeesRequest;
       action = loadAttritionOverTime({ request });
     });
 

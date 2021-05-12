@@ -83,8 +83,10 @@ export class ExportToExcelButtonComponent {
       colDef: params.column.getColDef(),
     };
 
-    return (params.column.getColDef().valueFormatter as (
-      params: ValueFormatterParams
-    ) => string)(valueFormatterParams);
+    return (
+      params.column.getColDef().valueFormatter as (
+        params: ValueFormatterParams
+      ) => string
+    )(valueFormatterParams);
   }
 }

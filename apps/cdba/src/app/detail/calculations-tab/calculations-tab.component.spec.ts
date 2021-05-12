@@ -79,7 +79,7 @@ describe('CalculationsTabComponent', () => {
       store.dispatch = jest.fn();
 
       const nodeId = '7';
-      const calculation = ({} as unknown) as Calculation;
+      const calculation = {} as unknown as Calculation;
 
       component.selectCalculations([{ nodeId, calculation }]);
 

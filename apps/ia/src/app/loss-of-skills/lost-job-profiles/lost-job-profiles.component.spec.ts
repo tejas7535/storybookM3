@@ -53,18 +53,22 @@ describe('LostJobProfilesComponent', () => {
       component['handleCellClick'](params, 'workforce');
 
       expect(translate).toHaveBeenCalled();
-      expect(
-        component['openEmployeeListDialog']
-      ).toHaveBeenCalledWith('translate it', 5, ['Foo', 'Bar']);
+      expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
+        'translate it',
+        5,
+        ['Foo', 'Bar']
+      );
     });
 
     it('should collect correct data for celltype leavers', () => {
       component['handleCellClick'](params, 'leavers');
 
       expect(translate).toHaveBeenCalled();
-      expect(
-        component['openEmployeeListDialog']
-      ).toHaveBeenCalledWith('translate it', 5, ['Donald']);
+      expect(component['openEmployeeListDialog']).toHaveBeenCalledWith(
+        'translate it',
+        5,
+        ['Donald']
+      );
     });
   });
 

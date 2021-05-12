@@ -78,14 +78,14 @@ describe('CalculationsTableComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should showLoadingOverlay when grid loaded and isLoading active', () => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: true,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       expect(component['gridApi'].showLoadingOverlay).toHaveBeenCalled();
@@ -95,24 +95,24 @@ describe('CalculationsTableComponent', () => {
       component['gridApi'] = undefined;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: true,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       // should just succeed - otherwise this test should throw an error
     });
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
         showNoRowsOverlay: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: false,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
@@ -121,7 +121,7 @@ describe('CalculationsTableComponent', () => {
   });
 
   describe('onRowSelected', () => {
-    const event = ({
+    const event = {
       node: {
         id: '2',
         isSelected: jest.fn(() => true),
@@ -132,7 +132,7 @@ describe('CalculationsTableComponent', () => {
           data: undefined,
         })),
       },
-    } as unknown) as RowSelectedEvent;
+    } as unknown as RowSelectedEvent;
 
     beforeEach(() => {
       jest.useFakeTimers();
@@ -163,13 +163,13 @@ describe('CalculationsTableComponent', () => {
     it('should remove the selectedRows if the row is deselected', () => {
       component.selectedNodeIds = ['1', '2'];
 
-      component.onRowSelected(({
+      component.onRowSelected({
         ...event,
         node: {
           ...event.node,
           isSelected: jest.fn(() => false),
         },
-      } as unknown) as RowSelectedEvent);
+      } as unknown as RowSelectedEvent);
 
       expect(setTimeout).toHaveBeenCalledTimes(1);
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 0);
@@ -203,7 +203,7 @@ describe('CalculationsTableComponent', () => {
     let params: IStatusPanelParams;
 
     beforeEach(() => {
-      params = ({
+      params = {
         columnApi: {
           getAllColumns: jest.fn(() => [
             { getId: () => 'checkbox' },
@@ -211,7 +211,7 @@ describe('CalculationsTableComponent', () => {
           ]),
           autoSizeColumns: jest.fn(),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
 
       component['selectNodes'] = jest.fn();
     });
@@ -232,9 +232,9 @@ describe('CalculationsTableComponent', () => {
 
   describe('selectNodes', () => {
     beforeEach(() => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       jest.useFakeTimers();
     });
@@ -268,9 +268,9 @@ describe('CalculationsTableComponent', () => {
 
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
-      const mockEvent = ({
+      const mockEvent = {
         columnApi: { getColumnState: jest.fn(() => []) },
-      } as unknown) as ColumnEvent;
+      } as unknown as ColumnEvent;
 
       component.columnChange(mockEvent);
 
@@ -283,7 +283,7 @@ describe('CalculationsTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    const params = ({
+    const params = {
       api: {
         showLoadingOverlay: jest.fn(),
         showNoRowsOverlay: jest.fn(),
@@ -291,7 +291,7 @@ describe('CalculationsTableComponent', () => {
       columnApi: {
         applyColumnState: jest.fn(),
       },
-    } as unknown) as GridReadyEvent;
+    } as unknown as GridReadyEvent;
 
     it('should set grid api', () => {
       component.isLoading = true;

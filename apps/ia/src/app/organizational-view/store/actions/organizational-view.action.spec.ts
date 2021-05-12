@@ -28,7 +28,7 @@ describe('Organizational View Actions', () => {
     });
   });
   test('loadOrgChart', () => {
-    const request = ({} as unknown) as EmployeesRequest;
+    const request = {} as unknown as EmployeesRequest;
     const action = loadOrgChart({ request });
 
     expect(action).toEqual({
@@ -58,7 +58,7 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadWorldMap', () => {
-    const request = ({} as unknown) as EmployeesRequest;
+    const request = {} as unknown as EmployeesRequest;
     const action = loadWorldMap({ request });
 
     expect(action).toEqual({
@@ -88,10 +88,10 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadParent', () => {
-    const employee = ({
+    const employee = {
       orgUnit: 'Schaeffler_IT',
       employeeId: '123',
-    } as unknown) as OrgChartEmployee;
+    } as unknown as OrgChartEmployee;
 
     const action = loadParent({ employee });
 
@@ -102,10 +102,10 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadParentSuccess', () => {
-    const employee = ({
+    const employee = {
       orgUnit: 'Schaeffler_IT',
       employeeId: '123',
-    } as unknown) as OrgChartEmployee;
+    } as unknown as OrgChartEmployee;
 
     const action = loadParentSuccess({ employee });
 

@@ -31,7 +31,7 @@ describe('Organization View Reducer', () => {
   describe('loadOrgChart', () => {
     test('should set loading', () => {
       const action = loadOrgChart({
-        request: ({} as unknown) as EmployeesRequest,
+        request: {} as unknown as EmployeesRequest,
       });
       const state = organizationalViewReducer(initialState, action);
 
@@ -41,9 +41,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgChartSuccess', () => {
     test('should unset loading and set employees', () => {
-      const employees: OrgChartEmployee[] = [
-        ({} as unknown) as OrgChartEmployee,
-      ];
+      const employees: OrgChartEmployee[] = [{} as unknown as OrgChartEmployee];
 
       const action = loadOrgChartSuccess({ employees });
 
@@ -72,7 +70,7 @@ describe('Organization View Reducer', () => {
   describe('loadWorldMap', () => {
     test('should set loading', () => {
       const action = loadWorldMap({
-        request: ({} as unknown) as EmployeesRequest,
+        request: {} as unknown as EmployeesRequest,
       });
       const state = organizationalViewReducer(initialState, action);
 
@@ -82,7 +80,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadWorldMapSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: CountryData[] = [({} as unknown) as CountryData];
+      const data: CountryData[] = [{} as unknown as CountryData];
 
       const action = loadWorldMapSuccess({ data });
 

@@ -93,7 +93,7 @@ describe('CreateColumnService', () => {
         value: 1234,
       };
       const result = ColumnUtilityService.numberFormatter(
-        (params as unknown) as ValueFormatterParams
+        params as unknown as ValueFormatterParams
       );
 
       expect(result).toEqual('1,234');
@@ -112,7 +112,7 @@ describe('CreateColumnService', () => {
         },
       };
       const result = ColumnUtilityService.numberCurrencyFormatter(
-        (params as unknown) as ValueFormatterParams
+        params as unknown as ValueFormatterParams
       );
 
       expect(result).toEqual('1,234.00 USD');
@@ -121,9 +121,9 @@ describe('CreateColumnService', () => {
 
   describe('percentageFormatter', () => {
     test('should add %', () => {
-      const result = ColumnUtilityService.percentageFormatter(({
+      const result = ColumnUtilityService.percentageFormatter({
         value: 10,
-      } as unknown) as ValueFormatterParams);
+      } as unknown as ValueFormatterParams);
 
       expect(result).toEqual('10 %');
     });
@@ -161,7 +161,7 @@ describe('CreateColumnService', () => {
   });
   describe('transformMaterial', () => {
     test('should call pipe transform', () => {
-      const data = ({ value: 'any' } as any) as ValueFormatterParams;
+      const data = { value: 'any' } as any as ValueFormatterParams;
       const result = ColumnUtilityService.transformMaterial(data);
       expect(result).toEqual(data.value);
     });

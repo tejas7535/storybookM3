@@ -24,9 +24,9 @@ describe('Overview Selector', () => {
         errorMessage: undefined,
       },
     },
-    filter: ({
+    filter: {
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
-    } as unknown) as FilterState,
+    } as unknown as FilterState,
   };
 
   describe('getIsLoadingAttritionOverTime', () => {

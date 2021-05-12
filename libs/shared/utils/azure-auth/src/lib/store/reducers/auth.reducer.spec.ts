@@ -36,9 +36,9 @@ describe('Azure Auth Reducer', () => {
   });
 
   test('should set accountInfo on loginSuccess', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: 'Joe',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
 
     const result = reducer(state, loginSuccess({ accountInfo }));
 
@@ -46,9 +46,9 @@ describe('Azure Auth Reducer', () => {
   });
 
   test('should reset user on logout', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: 'Joe',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
     const newState = reducer(state, loginSuccess({ accountInfo }));
 
     const result = reducer(newState, logout());

@@ -200,8 +200,7 @@ describe('Search Actions', () => {
 
       expect(action).toEqual({
         item,
-        type:
-          '[Search] Get Autocomplete Suggestions For Provided Filter Type Success',
+        type: '[Search] Get Autocomplete Suggestions For Provided Filter Type Success',
       });
     });
 
@@ -209,8 +208,7 @@ describe('Search Actions', () => {
       const action = autocompleteFailure();
 
       expect(action).toEqual({
-        type:
-          '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure',
+        type: '[Search] Get Autocomplete Suggestions For Provided Filter Type Failure',
       });
     });
   });

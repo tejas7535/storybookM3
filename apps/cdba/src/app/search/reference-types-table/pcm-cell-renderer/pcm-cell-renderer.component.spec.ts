@@ -34,7 +34,7 @@ describe('PcmCellRendererComponent', () => {
 
   describe('agInit', () => {
     it('should set isPcmRow flag', () => {
-      const params = ({ value: true } as unknown) as ICellRendererParams;
+      const params = { value: true } as unknown as ICellRendererParams;
 
       component.agInit(params);
 

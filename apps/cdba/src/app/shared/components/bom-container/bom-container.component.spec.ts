@@ -219,7 +219,7 @@ describe('BomContainerComponent', () => {
 
   describe('selectCalculation', () => {
     const nodeId = '7';
-    const calculation = ({} as unknown) as Calculation;
+    const calculation = {} as unknown as Calculation;
 
     beforeEach(() => {
       store.dispatch = jest.fn();

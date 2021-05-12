@@ -9,7 +9,7 @@ describe('Overview Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadAttritionOverTime', () => {
-    const request = ({} as unknown) as EmployeesRequest;
+    const request = {} as unknown as EmployeesRequest;
     const action = loadAttritionOverTime({ request });
 
     expect(action).toEqual({
@@ -19,7 +19,7 @@ describe('Overview Actions', () => {
   });
 
   test('loadAttritionOverTimeSuccess', () => {
-    const data: AttritionOverTime = ({} as unknown) as AttritionOverTime;
+    const data: AttritionOverTime = {} as unknown as AttritionOverTime;
 
     const action = loadAttritionOverTimeSuccess({
       data,

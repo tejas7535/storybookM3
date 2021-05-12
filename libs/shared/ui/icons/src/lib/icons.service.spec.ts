@@ -5,9 +5,9 @@ import { IconsService } from './icons.service';
 describe('IconsService', () => {
   describe('registerFontClassAlias', () => {
     test('should register fontClassAlias', () => {
-      const matIconRegistryMock = ({
+      const matIconRegistryMock = {
         registerFontClassAlias: jest.fn(),
-      } as unknown) as MatIconRegistry;
+      } as unknown as MatIconRegistry;
 
       const service = new IconsService(matIconRegistryMock);
       service.registerFontClassAlias();

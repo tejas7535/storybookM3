@@ -58,7 +58,7 @@ describe('OrganizationalViewComponent', () => {
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
-      const employee = ({ employeeId: '123' } as unknown) as OrgChartEmployee;
+      const employee = { employeeId: '123' } as unknown as OrgChartEmployee;
 
       component.loadParent(employee);
 

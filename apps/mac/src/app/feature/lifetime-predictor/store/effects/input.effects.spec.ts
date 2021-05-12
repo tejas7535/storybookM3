@@ -54,8 +54,7 @@ describe('InputEffects', () => {
 
     effects.getBurdeningTypes$.subscribe((action) => {
       expect(action).toEqual({
-        type:
-          '[Predict Lifetime Container Component] Set BurdeningType Options',
+        type: '[Predict Lifetime Container Component] Set BurdeningType Options',
         burdeningTypes: mockedBurdeningTypes,
       });
     });

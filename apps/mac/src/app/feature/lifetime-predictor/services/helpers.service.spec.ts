@@ -22,7 +22,7 @@ import { HelpersService } from './helpers.service';
 
 // Constants
 const getDefaultConstants = {
-  defaultPredictionRequest: ({
+  defaultPredictionRequest: {
     prediction: 0,
     mpa: 400,
     v90: 0,
@@ -40,12 +40,12 @@ const getDefaultConstants = {
     a90: 100,
     gradient: 1,
     multiaxiality: 0,
-  } as unknown) as PredictionRequest,
+  } as unknown as PredictionRequest,
   loads: [
     { x: 1, y: 2 },
     { x: 3, y: 4 },
   ],
-  defaultPredictionResult: ({
+  defaultPredictionResult: {
     woehler: {
       snCurve: {
         '0': {
@@ -75,10 +75,10 @@ const getDefaultConstants = {
           y: 400,
         },
       },
-      percentile1: ({} as unknown) as Graph,
-      percentile10: ({} as unknown) as Graph,
-      percentile90: ({} as unknown) as Graph,
-      percentile99: ({} as unknown) as Graph,
+      percentile1: {} as unknown as Graph,
+      percentile10: {} as unknown as Graph,
+      percentile90: {} as unknown as Graph,
+      percentile99: {} as unknown as Graph,
     },
     haigh: {
       snCurve: {
@@ -109,9 +109,9 @@ const getDefaultConstants = {
       },
       slope: 5.635329994802062,
     },
-  } as unknown) as PredictionResult,
+  } as unknown as PredictionResult,
 
-  defaultPredictionResultParsedWoehler: ({
+  defaultPredictionResultParsedWoehler: {
     data: [
       { x: 10000, y7: 671.4272431425106 },
       { x: 1000000, y7: 267.29999999999995 },
@@ -284,9 +284,9 @@ const getDefaultConstants = {
         value: 900,
       },
     ],
-  } as unknown) as PredictionResultParsed,
+  } as unknown as PredictionResultParsed,
 
-  defaultPredictionResultParsedHaigh: ({
+  defaultPredictionResultParsedHaigh: {
     data: [
       { x: 0, y3: 267.29999999999995 },
       { x: 241.26726238830219, y3: 241.26726238830219 },
@@ -305,7 +305,7 @@ const getDefaultConstants = {
       y_min: 0,
     },
     lines: [],
-  } as unknown) as PredictionResultParsed,
+  } as unknown as PredictionResultParsed,
 
   defaultStatisticalResult: mockedStatisticalResult,
 };
@@ -553,14 +553,14 @@ describe('HelpersService', () => {
       },
     };
 
-    let request = ({
+    let request = {
       rrelation: 0,
       mpa: 400,
-    } as unknown) as PredictionRequest;
+    } as unknown as PredictionRequest;
 
-    const display = ({
+    const display = {
       chartType: ChartType.Woehler,
-    } as unknown) as Display;
+    } as unknown as Display;
 
     let expectedKpis: KpiParsedWoehler = {
       fatigue: 127.48671337634478,
@@ -629,9 +629,9 @@ describe('HelpersService', () => {
       },
     };
 
-    const display = ({
+    const display = {
       chartType: ChartType.Haigh,
-    } as unknown) as Display;
+    } as unknown as Display;
 
     const expectedKpis: KpiParsedHaigh = {
       fatigue: 127.48671337634478,
@@ -736,7 +736,7 @@ describe('HelpersService', () => {
     };
 
     const calculatedGraph = helpersService.calculateStartPoint(graph, 5, -1);
-    expect(calculatedGraph).toEqual(({} as unknown) as Graph);
+    expect(calculatedGraph).toEqual({} as unknown as Graph);
   });
 
   it('should calculate correct graph for applied stress shape', () => {

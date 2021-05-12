@@ -37,18 +37,18 @@ describe('GreetingService', () => {
 
   describe('handleError', () => {
     test('should return default message', (done) => {
-      GreetingService['handleError'](({
+      GreetingService['handleError']({
         status: 200,
-      } as unknown) as HttpErrorResponse).subscribe((message) => {
+      } as unknown as HttpErrorResponse).subscribe((message) => {
         expect(message).toEqual('Server is currently unavailable! 🤬');
         done();
       });
     });
 
     test('should return forbidden message for 403', (done) => {
-      GreetingService['handleError'](({
+      GreetingService['handleError']({
         status: 403,
-      } as unknown) as HttpErrorResponse).subscribe((message) => {
+      } as unknown as HttpErrorResponse).subscribe((message) => {
         expect(message).toEqual(
           'Unfortunately, you are not allowed to listen! 😔'
         );

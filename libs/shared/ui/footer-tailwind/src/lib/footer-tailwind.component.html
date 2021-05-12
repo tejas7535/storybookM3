@@ -1,5 +1,15 @@
 <footer
-  class="flex flex-col items-center my-4 lg:ml-5 lg:mr-3 lg:my-0 lg:flex-row lg:justify-end lg:h-12"
+  class="
+    flex flex-col
+    items-center
+    my-4
+    lg:ml-5
+    lg:mr-3
+    lg:my-0
+    lg:flex-row
+    lg:justify-end
+    lg:h-12
+  "
 >
   <div class="flex flex-row">
     <ng-container
@@ -21,7 +31,14 @@
       <div
         *ngIf="!footerLink.external"
         [routerLink]="footerLink.link"
-        class="footer-link-internal cursor-pointer inline-block text-light text-caption outline-none leading-4"
+        class="
+          footer-link-internal
+          cursor-pointer
+          inline-block
+          text-light text-caption
+          outline-none
+          leading-4
+        "
       >
         {{ footerLink.title }}
       </div>

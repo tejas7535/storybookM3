@@ -53,9 +53,9 @@ describe('SelectInputComponent', () => {
     test('should call emitChange', () => {
       component.emitChange = jest.fn();
 
-      component.selectionChange(({
+      component.selectionChange({
         value: '1',
-      } as unknown) as MatSelectChange);
+      } as unknown as MatSelectChange);
 
       expect(component.emitChange).toHaveBeenCalledWith(options[0]);
     });

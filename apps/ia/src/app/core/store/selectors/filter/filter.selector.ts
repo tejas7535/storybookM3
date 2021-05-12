@@ -105,9 +105,9 @@ export const getCurrentFiltersAndTime = createSelector(
 
         return map;
       },
-      ({
+      {
         [FilterKey.TIME_RANGE]: timeRange,
-      } as unknown) as EmployeesRequest
+      } as unknown as EmployeesRequest
     )
 );
 

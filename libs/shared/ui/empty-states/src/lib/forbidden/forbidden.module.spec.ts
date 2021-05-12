@@ -8,9 +8,9 @@ import enJson from './i18n/en.json';
 describe('ForbiddenModule', () => {
   describe('setLanguageFiles', () => {
     test('should set the german language file for "de"', () => {
-      const serviceMock = ({
+      const serviceMock = {
         setTranslation: jest.fn(),
-      } as unknown) as TranslocoService;
+      } as unknown as TranslocoService;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new ForbiddenModule(serviceMock);

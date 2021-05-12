@@ -97,9 +97,9 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('2', 'test2', false),
       ];
       component.setFormControlValue = jest.fn();
-      component.valueInput = ({
+      component.valueInput = {
         nativeElement: { value: 'test' },
-      } as unknown) as any;
+      } as unknown as any;
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
@@ -114,9 +114,9 @@ describe('AutocompleteInputComponent', () => {
       ];
       component.filterName = FilterNames.CUSTOMER;
       component.setFormControlValue = jest.fn();
-      component.valueInput = ({
+      component.valueInput = {
         nativeElement: { value: 'test | 1' },
-      } as unknown) as any;
+      } as unknown as any;
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
@@ -130,9 +130,9 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('2', 'test2', false),
       ];
       component.setFormControlValue = jest.fn();
-      component.valueInput = ({
+      component.valueInput = {
         nativeElement: { value: 'customerName | 1' },
-      } as unknown) as any;
+      } as unknown as any;
       component.options = options;
 
       expect(component.selectedIdValue).toEqual(options[0]);
@@ -158,9 +158,10 @@ describe('AutocompleteInputComponent', () => {
       component.setFormControlValue();
 
       expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
-      expect(
-        component.searchFormControl.setValue
-      ).toHaveBeenCalledWith(transformresult, { emitEvent: false });
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        transformresult,
+        { emitEvent: false }
+      );
       expect(component.isValid.emit).toHaveBeenCalledTimes(1);
       expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
     });
@@ -237,21 +238,21 @@ describe('AutocompleteInputComponent', () => {
     test('should emit event', () => {
       component.added.emit = jest.fn();
 
-      component.selected(({
+      component.selected({
         option: { value: 'value' },
-      } as unknown) as MatAutocompleteSelectedEvent);
+      } as unknown as MatAutocompleteSelectedEvent);
       expect(component.added.emit).toHaveBeenCalledTimes(1);
     });
   });
   describe('clearInput', () => {
     test('should call unselect', () => {
       component.unselect = jest.fn();
-      component.valueInput = ({
+      component.valueInput = {
         nativeElement: { value: 'test' },
-      } as unknown) as any;
-      component.searchFormControl = ({
+      } as unknown as any;
+      component.searchFormControl = {
         setValue: jest.fn(),
-      } as unknown) as any;
+      } as unknown as any;
       component.clearInput();
       expect(component.unselect).toHaveBeenCalledTimes(1);
       expect(component.valueInput.nativeElement.value).toEqual('');

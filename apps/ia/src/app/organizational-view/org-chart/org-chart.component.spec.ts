@@ -46,9 +46,7 @@ describe('OrgChartComponent', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
       component['orgChartService'].mapEmployeesToNodes = jest.fn();
-      const employees = [
-        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
-      ];
+      const employees = [{ employeeId: '123' } as unknown as OrgChartEmployee];
 
       component.data = employees;
 
@@ -61,14 +59,14 @@ describe('OrgChartComponent', () => {
 
   describe('clickout', () => {
     test('should open dialog with attrition data when attrition icon is clicked', () => {
-      const mock = ({} as unknown) as EmployeeAttritionMeta;
+      const mock = {} as unknown as EmployeeAttritionMeta;
       component['dialog'].open = jest.fn();
       component.selectedTimeRange = '01.01.2020 - 03.05.2020';
       component.data = [
-        ({
+        {
           employeeId: '123',
           attritionMeta: mock,
-        } as unknown) as OrgChartEmployee,
+        } as unknown as OrgChartEmployee,
       ];
 
       component.clickout({

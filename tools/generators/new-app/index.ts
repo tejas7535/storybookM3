@@ -165,14 +165,12 @@ function updateWorkspaceFile(options: NormalizedSchema): Rule {
       };
 
       // adjust build configurations
-      appConfiguration.targets.get(
-        'build'
-      ).configurations = getBuildConfigurations(`${options.projectRoot}`);
+      appConfiguration.targets.get('build').configurations =
+        getBuildConfigurations(`${options.projectRoot}`);
 
       // adjust serve configurations
-      appConfiguration.targets.get(
-        'serve'
-      ).configurations = getServeConfigurations(options.projectName);
+      appConfiguration.targets.get('serve').configurations =
+        getServeConfigurations(options.projectName);
 
       // adjust e2e configurations
       const e2eConfiguration = workspace.projects.get(

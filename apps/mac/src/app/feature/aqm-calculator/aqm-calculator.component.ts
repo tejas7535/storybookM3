@@ -100,9 +100,8 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
           : this.patchSelect(undefined);
 
         if (this.compositionForm.valid) {
-          this.aqmCalculationResult = this.aqmCalculationService.getCalculationResult(
-            value
-          );
+          this.aqmCalculationResult =
+            this.aqmCalculationService.getCalculationResult(value);
         }
       })
     );

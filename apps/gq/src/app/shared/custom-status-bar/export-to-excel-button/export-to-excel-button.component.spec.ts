@@ -31,14 +31,14 @@ describe('ExportToExcelButtonComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     const mockIds = [{ getColId: () => '0' }, { getColId: () => '1' }];
-    mockParams = ({
+    mockParams = {
       api: {
         exportDataAsExcel: jest.fn(),
       },
       columnApi: {
         getAllColumns: jest.fn(() => mockIds),
       },
-    } as unknown) as IStatusPanelParams;
+    } as unknown as IStatusPanelParams;
   });
 
   test('should create', () => {

@@ -114,13 +114,13 @@ describe('AqmCalculatorComponent', () => {
 
   describe('patchSelect', () => {
     it('should do nothing if material is already selected', () => {
-      const mockMaterial = ({ name: 'test' } as unknown) as AQMMaterial;
+      const mockMaterial = { name: 'test' } as unknown as AQMMaterial;
       const mockPatch = jest.fn();
 
-      component.materialInput = ({
+      component.materialInput = {
         patchValue: mockPatch,
         value: mockMaterial,
-      } as unknown) as FormControl;
+      } as unknown as FormControl;
 
       component['patchSelect'](mockMaterial);
 
@@ -128,17 +128,17 @@ describe('AqmCalculatorComponent', () => {
     });
 
     it('should patch input if material is not already selected', () => {
-      const mockMaterial = ({ name: 'test' } as unknown) as AQMMaterial;
-      const otherMockMaterial = ({
+      const mockMaterial = { name: 'test' } as unknown as AQMMaterial;
+      const otherMockMaterial = {
         name: 'test',
         c: 1,
-      } as unknown) as AQMMaterial;
+      } as unknown as AQMMaterial;
       const mockPatch = jest.fn();
 
-      component.materialInput = ({
+      component.materialInput = {
         patchValue: mockPatch,
         value: mockMaterial,
-      } as unknown) as FormControl;
+      } as unknown as FormControl;
 
       component['patchSelect'](otherMockMaterial);
 

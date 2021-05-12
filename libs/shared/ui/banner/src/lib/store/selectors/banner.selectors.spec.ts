@@ -36,9 +36,8 @@ describe('BannerSelector', () => {
 
   describe('#getBannerTruncateSize', () => {
     it('should return false when state is not defined', () => {
-      const result = fromSelectors.getBannerTruncateSize.projector(
-        initialState
-      );
+      const result =
+        fromSelectors.getBannerTruncateSize.projector(initialState);
       expect(result).toEqual(initialState.truncateSize);
       expect(typeof result).toEqual(typeof initialState.truncateSize);
     });
@@ -46,9 +45,8 @@ describe('BannerSelector', () => {
 
   describe('#getBannerIsFullTextShown', () => {
     it('should return false when state is not defined', () => {
-      const result = fromSelectors.getBannerIsFullTextShown.projector(
-        initialState
-      );
+      const result =
+        fromSelectors.getBannerIsFullTextShown.projector(initialState);
       expect(result).toEqual(initialState.showFullText);
       expect(typeof result).toEqual(typeof initialState.showFullText);
     });

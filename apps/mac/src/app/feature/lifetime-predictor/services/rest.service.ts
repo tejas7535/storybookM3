@@ -63,7 +63,7 @@ export class RestService {
           map((res) => {
             const result = res.prediction;
 
-            return ({
+            return {
               woehler: {
                 snCurve: result.woehler.sn_curve,
                 snCurveLow: result.woehler.sn_curve_low
@@ -83,7 +83,7 @@ export class RestService {
                 appliedStress: result.haigh.applied_stress,
               },
               kpi: result.kpi,
-            } as unknown) as PredictionResult;
+            } as unknown as PredictionResult;
           })
         );
     }

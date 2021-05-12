@@ -52,7 +52,7 @@ describe('EmployeesService', () => {
 
   describe('fixIncomingEmployeeProps', () => {
     test('should fix props', () => {
-      const elem = ({
+      const elem = {
         employeeId: '13',
         parentEmployeeId: '123',
         exitDate: '2015-10-10',
@@ -62,11 +62,11 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: '2010-10-10',
         terminationDate: '2015-08-10',
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
 
-      expect(result).toEqual(({
+      expect(result).toEqual({
         employeeId: '13',
         parentEmployeeId: '123',
         exitDate: new Date('2015-10-10').toJSON(),
@@ -76,11 +76,11 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: new Date('2010-10-10').toJSON(),
         terminationDate: new Date('2015-08-10').toJSON(),
-      } as unknown) as OrgChartEmployee);
+      } as unknown as OrgChartEmployee);
     });
 
     test('should ignore undefined values', () => {
-      const elem = ({
+      const elem = {
         employeeId: '13',
         parentEmployeeId: '123',
         exitDate: undefined,
@@ -90,11 +90,11 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: undefined,
         terminationDate: undefined,
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
 
-      expect(result).toEqual(({
+      expect(result).toEqual({
         employeeId: '13',
         parentEmployeeId: '123',
         exitDate: undefined,
@@ -104,7 +104,7 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: undefined,
         terminationDate: undefined,
-      } as unknown) as OrgChartEmployee);
+      } as unknown as OrgChartEmployee);
     });
   });
 
@@ -113,9 +113,9 @@ describe('EmployeesService', () => {
       const date = new Date();
       const range = `0|${date.getTime() + 1}`;
 
-      const employee = ({
+      const employee = {
         exitDate: date.toJSON(),
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
 
       const result = EmployeeService.employeeLeftInTimeRange(employee, range);
 
@@ -126,7 +126,7 @@ describe('EmployeesService', () => {
       const date = new Date();
       const range = `0|${date.getTime() + 1}`;
 
-      const employee = ({ exitDate: undefined } as unknown) as OrgChartEmployee;
+      const employee = { exitDate: undefined } as unknown as OrgChartEmployee;
 
       const result = EmployeeService.employeeLeftInTimeRange(employee, range);
 
@@ -136,7 +136,8 @@ describe('EmployeesService', () => {
 
   describe('getInitialFilters', () => {
     test('should get initial filters', () => {
-      const mock: InitialFiltersResponse = ({} as unknown) as InitialFiltersResponse;
+      const mock: InitialFiltersResponse =
+        {} as unknown as InitialFiltersResponse;
 
       service.getInitialFilters().subscribe((response) => {
         expect(response).toEqual(mock);
@@ -151,7 +152,7 @@ describe('EmployeesService', () => {
   describe('getOrgChart', () => {
     test('should get employees for org chart', () => {
       const mock: OrgChartResponse = { employees: [] };
-      const request = ({} as unknown) as EmployeesRequest;
+      const request = {} as unknown as EmployeesRequest;
       EmployeeService.fixIncomingEmployeeProps = jest.fn();
 
       service.getOrgChart(request).subscribe((response) => {
@@ -170,7 +171,7 @@ describe('EmployeesService', () => {
   describe('getParentEmployee', () => {
     test('should get parent for provided employee id', () => {
       const mock: ParentEmployeeResponse = {
-        employee: ({} as unknown) as OrgChartEmployee,
+        employee: {} as unknown as OrgChartEmployee,
       };
       const request = '123';
 
@@ -186,7 +187,7 @@ describe('EmployeesService', () => {
   describe('getWorldMap', () => {
     test('should get country data for world map', () => {
       const mock: WorldMapResponse = { data: [] };
-      const request = ({} as unknown) as EmployeesRequest;
+      const request = {} as unknown as EmployeesRequest;
 
       service.getWorldMap(request).subscribe((response) => {
         expect(response).toEqual(mock);
@@ -200,7 +201,7 @@ describe('EmployeesService', () => {
 
   describe('getAttritionOverTime', () => {
     test('should get attrition data for last years', () => {
-      const request = ({} as unknown) as EmployeesRequest;
+      const request = {} as unknown as EmployeesRequest;
       const mock: AttritionOverTime = {
         events: [],
         data: {

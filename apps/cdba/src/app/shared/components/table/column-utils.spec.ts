@@ -29,7 +29,7 @@ describe('ColumnUtils', () => {
   });
 
   describe('formatNumber', () => {
-    const params = ({ value: undefined } as unknown) as ValueFormatterParams;
+    const params = { value: undefined } as unknown as ValueFormatterParams;
     let result: string;
 
     it('should cut decimals, if number does not have decimals', () => {
@@ -51,9 +51,9 @@ describe('ColumnUtils', () => {
 
   describe('formatDate', () => {
     it('should transform to medium output format', () => {
-      const params = ({
+      const params = {
         value: new Date(1591354306000),
-      } as unknown) as ValueFormatterParams;
+      } as unknown as ValueFormatterParams;
 
       const result = formatDate(params);
 
@@ -63,9 +63,9 @@ describe('ColumnUtils', () => {
 
   describe('formatMaterialNumber', () => {
     it('should transform to a material number format', () => {
-      const params = ({
+      const params = {
         value: '1111111112222',
-      } as unknown) as ValueFormatterParams;
+      } as unknown as ValueFormatterParams;
 
       const result = formatMaterialNumber(params);
 
@@ -75,10 +75,10 @@ describe('ColumnUtils', () => {
 
   describe('formatLongValue', () => {
     it('should transform a string that has a value that is too long', () => {
-      const params = ({
+      const params = {
         value:
           'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam volu',
-      } as unknown) as ValueFormatterParams;
+      } as unknown as ValueFormatterParams;
 
       const result = formatLongValue(params);
 
@@ -90,7 +90,7 @@ describe('ColumnUtils', () => {
 
   describe('valueGetterDate', () => {
     it('should return undefined if data is not defined yet', () => {
-      const params = ({} as unknown) as ValueGetterParams;
+      const params = {} as unknown as ValueGetterParams;
 
       const result = valueGetterDate(params, 'gpcDate');
 
@@ -98,9 +98,9 @@ describe('ColumnUtils', () => {
     });
 
     it('should transform timestamp into Date', () => {
-      const params = ({
+      const params = {
         data: { gpcDate: 1591354306000 },
-      } as unknown) as ValueGetterParams;
+      } as unknown as ValueGetterParams;
 
       const result = valueGetterDate(params, 'gpcDate');
 
@@ -109,16 +109,16 @@ describe('ColumnUtils', () => {
   });
 
   describe('valueGetterArray', () => {
-    const params = ({
+    const params = {
       data: { actualQuantities: [10, 20, 30, 40] },
-    } as unknown) as ValueGetterParams;
+    } as unknown as ValueGetterParams;
 
     let key: string;
     let result: number;
 
     it('should return undefined if data is not defined', () => {
       result = valueGetterArray(
-        ({} as unknown) as ValueGetterParams,
+        {} as unknown as ValueGetterParams,
         undefined,
         0
       );
@@ -145,9 +145,9 @@ describe('ColumnUtils', () => {
 
   describe('getMainMenuItems', () => {
     it('should add custom reset menu items', () => {
-      const mockParams = ({
+      const mockParams = {
         defaultItems: ['foo', 'bar', 'resetColumns'],
-      } as unknown) as GetMainMenuItemsParams;
+      } as unknown as GetMainMenuItemsParams;
 
       const result = getMainMenuItems(mockParams);
 
@@ -169,10 +169,10 @@ describe('ColumnUtils', () => {
     });
 
     it('should call api to reset filter state when calling the menu item reset filter', () => {
-      const mockParams = ({
+      const mockParams = {
         defaultItems: ['foo', 'bar', 'resetColumns'],
         api: { setFilterModel: jest.fn() },
-      } as unknown) as GetMainMenuItemsParams;
+      } as unknown as GetMainMenuItemsParams;
 
       const result = getMainMenuItems(mockParams);
 
@@ -188,7 +188,7 @@ describe('ColumnUtils', () => {
     });
 
     it('should reset entire table when calling the menu item reset table', () => {
-      const mockParams = ({
+      const mockParams = {
         defaultItems: ['foo', 'bar', 'resetColumns'],
         api: {
           setFilterModel: jest.fn(),
@@ -197,7 +197,7 @@ describe('ColumnUtils', () => {
           resetColumnGroupState: jest.fn(),
           resetColumnState: jest.fn(),
         },
-      } as unknown) as GetMainMenuItemsParams;
+      } as unknown as GetMainMenuItemsParams;
 
       const result = getMainMenuItems(mockParams);
 

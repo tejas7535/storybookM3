@@ -36,16 +36,18 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : [];
 
-export const selectRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('router');
+export const selectRouterState =
+  createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
+    'router'
+  );
 
 export const selectFilterState = createFeatureSelector<fromFilter.FilterState>(
   fromFilter.filterKey
 );
 
 export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
+  implements fromRouter.RouterStateSerializer<RouterStateUrl>
+{
   /**
    * Serialize the router state
    */

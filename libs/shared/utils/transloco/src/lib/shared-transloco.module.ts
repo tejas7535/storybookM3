@@ -18,13 +18,12 @@ import {
 } from './injection-tokens';
 import { sharedTranslocoLoader } from './shared-transloco.loader';
 
-// eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function preloadLanguage(
   transloco: TranslocoService,
   language: string,
   fallback: string
 ): any {
-  const lang = language ? language : getBrowserLang() || fallback;
+  const lang = language || getBrowserLang() || fallback;
 
   transloco.setActiveLang(lang);
   const loader = () => transloco.load(lang).toPromise();
@@ -73,7 +72,7 @@ export class SharedTranslocoModule {
           : []),
         {
           provide: TRANSLOCO_CONFIG,
-          useValue: ({
+          useValue: {
             prodMode,
             availableLangs,
             defaultLang,
@@ -82,7 +81,7 @@ export class SharedTranslocoModule {
             flatten: {
               aot: prodMode,
             },
-          } as unknown) as TranslocoConfig,
+          } as unknown as TranslocoConfig,
         },
         {
           provide: I18N_CACHE_CHECKSUM,

@@ -53,30 +53,30 @@ describe('WorldMapComponent', () => {
   describe('set data', () => {
     test('should merge new options with incoming data', () => {
       const data = [
-        ({
+        {
           name: 'Germany',
           attritionMeta: {
             heatType: HeatType.GREEN_HEAT,
           },
-        } as unknown) as CountryData,
-        ({
+        } as unknown as CountryData,
+        {
           name: 'Poland',
           attritionMeta: {
             heatType: HeatType.ORANGE_HEAT,
           },
-        } as unknown) as CountryData,
-        ({
+        } as unknown as CountryData,
+        {
           name: 'Switzerland',
           attritionMeta: {
             heatType: HeatType.RED_HEAT,
           },
-        } as unknown) as CountryData,
-        ({
+        } as unknown as CountryData,
+        {
           name: 'Austria',
           attritionMeta: {
             heatType: HeatType.NONE,
           },
-        } as unknown) as CountryData,
+        } as unknown as CountryData,
       ];
 
       component.data = data;
@@ -162,9 +162,9 @@ describe('WorldMapComponent', () => {
       ];
 
       component.data = [
-        ({
+        {
           name: 'Europe',
-        } as unknown) as CountryData,
+        } as unknown as CountryData,
       ];
 
       component.updateContinents();
@@ -176,10 +176,10 @@ describe('WorldMapComponent', () => {
 
   describe('openDialog', () => {
     test('should open dialog with provided data', () => {
-      const elem = ({
+      const elem = {
         name: 'Switzerland',
         attritionMeta: {},
-      } as unknown) as CountryData;
+      } as unknown as CountryData;
 
       component.data = [elem];
       component['dialog'].open = jest.fn();

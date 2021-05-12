@@ -87,12 +87,8 @@ describe('PredictionSelectors', () => {
   });
 
   it('should getLoadsRequest', () => {
-    const {
-      data,
-      conversionFactor,
-      repetitionFactor,
-      method,
-    } = mockedPredictionRequestWithKpi.loadsRequest;
+    const { data, conversionFactor, repetitionFactor, method } =
+      mockedPredictionRequestWithKpi.loadsRequest;
     const { kpi } = mockedPredictionRequestWithKpi.predictionResult;
     const expected = {
       conversionFactor,

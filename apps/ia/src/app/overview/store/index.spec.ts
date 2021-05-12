@@ -14,7 +14,7 @@ describe('Overview Reducer', () => {
   describe('loadAttritionOverTime', () => {
     test('should set loading', () => {
       const action = loadAttritionOverTime({
-        request: ({} as unknown) as EmployeesRequest,
+        request: {} as unknown as EmployeesRequest,
       });
       const state = overviewReducer(initialState, action);
 
@@ -24,7 +24,7 @@ describe('Overview Reducer', () => {
 
   describe('loadAttritionOverTimeSuccess', () => {
     test('should unset loading and set country data', () => {
-      const data: AttritionOverTime = ({} as unknown) as AttritionOverTime;
+      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
 
       const action = loadAttritionOverTimeSuccess({ data });
 

@@ -65,8 +65,8 @@ export class ScrollToTopComponent implements OnInit {
    */
   public scrollToTop = (): void => {
     if (this.scrollToTopContainer) {
-      const currentScroll = this.scrollToTopContainer.element.nativeElement
-        .scrollTop;
+      const currentScroll =
+        this.scrollToTopContainer.element.nativeElement.scrollTop;
       if (currentScroll > 0) {
         this.scrollToTopContainer.element.nativeElement.animate(
           this.scrollToTopContainer.element.nativeElement.scrollTo({

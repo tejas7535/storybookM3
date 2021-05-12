@@ -49,11 +49,11 @@ describe('FlatButtonsComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    params = ({
+    params = {
       api: {
         getSelectedRows: jest.fn(),
       },
-    } as unknown) as IStatusPanelParams;
+    } as unknown as IStatusPanelParams;
     store = spectator.inject(MockStore);
   });
 

@@ -158,12 +158,10 @@ describe('ScrollToTopComponent', () => {
         ),
       });
 
-      component[
-        'scrollToTopContainer'
-      ].element.nativeElement.animate = () => {};
-      component[
-        'scrollToTopContainer'
-      ].element.nativeElement.scrollTo = () => {};
+      component['scrollToTopContainer'].element.nativeElement.animate =
+        () => {};
+      component['scrollToTopContainer'].element.nativeElement.scrollTo =
+        () => {};
 
       const spyAnimateContainer = jest.spyOn(
         component['scrollToTopContainer'].element.nativeElement,
@@ -195,12 +193,10 @@ describe('ScrollToTopComponent', () => {
         ),
       });
 
-      component[
-        'scrollToTopContainer'
-      ].element.nativeElement.animate = () => {};
-      component[
-        'scrollToTopContainer'
-      ].element.nativeElement.scrollTo = () => {};
+      component['scrollToTopContainer'].element.nativeElement.animate =
+        () => {};
+      component['scrollToTopContainer'].element.nativeElement.scrollTo =
+        () => {};
 
       const spyAnimateContainer = jest.spyOn(
         component['scrollToTopContainer'].element.nativeElement,

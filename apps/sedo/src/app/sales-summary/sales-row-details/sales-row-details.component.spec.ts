@@ -109,10 +109,10 @@ describe('SalesRowDetailsComponent', () => {
 
   describe('setInitialFormValues', () => {
     it('should set formcontrol values with eopDateTemp', () => {
-      component.rowData = ({
+      component.rowData = {
         eopDateTemp: salesSummaryMock.eopDateTemp,
         edoDate: salesSummaryMock.edoDate,
-      } as unknown) as SalesSummary;
+      } as unknown as SalesSummary;
 
       component['setInitialFormValues']();
 
@@ -125,12 +125,12 @@ describe('SalesRowDetailsComponent', () => {
     });
 
     it('should set formcontrol values with eopDateVerified', () => {
-      component.rowData = ({
+      component.rowData = {
         // eslint-disable-next-line no-null/no-null
         eopDateTemp: null,
         eopDateVerified: salesSummaryMock.eopDateVerified,
         edoDate: salesSummaryMock.edoDate,
-      } as unknown) as SalesSummary;
+      } as unknown as SalesSummary;
 
       component['setInitialFormValues']();
 
@@ -146,10 +146,10 @@ describe('SalesRowDetailsComponent', () => {
   describe('handleUserAccess', () => {
     it('should disable the form group because missing rowData.lastModifier', () => {
       component.datesFormGroup.disable = jest.fn();
-      component.rowData = ({
+      component.rowData = {
         // eslint-disable-next-line no-null/no-null
         lastModifier: null,
-      } as unknown) as SalesSummary;
+      } as unknown as SalesSummary;
       component['handleUserAccess']('');
 
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
@@ -157,9 +157,9 @@ describe('SalesRowDetailsComponent', () => {
 
     it('should disable the datesFormGroup because of wrong user', () => {
       component.datesFormGroup.disable = jest.fn();
-      component.rowData = ({
+      component.rowData = {
         lastModifier: 'wrong user',
-      } as unknown) as SalesSummary;
+      } as unknown as SalesSummary;
       component['handleUserAccess']('user');
 
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(1);
@@ -167,10 +167,10 @@ describe('SalesRowDetailsComponent', () => {
 
     it('should not disable the form group', () => {
       component.datesFormGroup.disable = jest.fn();
-      component.rowData = ({
+      component.rowData = {
         // eslint-disable-next-line no-null/no-null
         lastModifier: 'USER',
-      } as unknown) as SalesSummary;
+      } as unknown as SalesSummary;
       component['handleUserAccess']('user');
 
       expect(component.datesFormGroup.disable).toHaveBeenCalledTimes(0);
@@ -200,23 +200,23 @@ describe('SalesRowDetailsComponent', () => {
     it(
       'should send update, reload grid and show success message',
       waitForAsync(() => {
-        component['rowNode'] = ({
+        component['rowNode'] = {
           setDataValue: jest.fn(),
-        } as unknown) as RowNode;
+        } as unknown as RowNode;
 
         dataService.updateDates = jest.fn().mockResolvedValue({});
         snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
         snackBarService.showErrorMessage = jest.fn();
 
-        component.rowData = ({
+        component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
-        } as unknown) as SalesSummary;
+        } as unknown as SalesSummary;
 
         const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
 
-        SalesRowDetailsComponent[
-          'convertToIsoDateString'
-        ] = jest.fn().mockReturnValue(dateString);
+        SalesRowDetailsComponent['convertToIsoDateString'] = jest
+          .fn()
+          .mockReturnValue(dateString);
 
         component.datesFormGroup.setValue({
           eopDateControl: dateString,
@@ -268,15 +268,15 @@ describe('SalesRowDetailsComponent', () => {
         snackBarService.showSuccessMessage = jest.fn();
         snackBarService.showErrorMessage = jest.fn().mockReturnValue(of());
 
-        component.rowData = ({
+        component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
-        } as unknown) as SalesSummary;
+        } as unknown as SalesSummary;
 
         const dateString = new Date(Date.UTC(2020, 0, 1, 10, 0)).toISOString();
 
-        SalesRowDetailsComponent[
-          'convertToIsoDateString'
-        ] = jest.fn().mockReturnValue(dateString);
+        SalesRowDetailsComponent['convertToIsoDateString'] = jest
+          .fn()
+          .mockReturnValue(dateString);
 
         component.datesFormGroup.setValue({
           eopDateControl: dateString,

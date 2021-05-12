@@ -46,7 +46,7 @@ describe('SpeedDialFabComponent', () => {
         preventDefault: jest.fn(),
       };
 
-      component.clickItem('test', (evt as unknown) as MouseEvent);
+      component.clickItem('test', evt as unknown as MouseEvent);
 
       expect(evt.preventDefault).toHaveBeenCalledTimes(1);
     });

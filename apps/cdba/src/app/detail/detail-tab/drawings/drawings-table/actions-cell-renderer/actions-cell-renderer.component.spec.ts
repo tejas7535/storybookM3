@@ -35,7 +35,7 @@ describe('ActionsCellRendererComponent', () => {
 
   describe('agInit', () => {
     it('should define downloadUrl', () => {
-      const params = ({ value: 'foo/bar' } as unknown) as ICellRendererParams;
+      const params = { value: 'foo/bar' } as unknown as ICellRendererParams;
 
       component.agInit(params);
 

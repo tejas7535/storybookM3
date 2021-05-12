@@ -60,7 +60,7 @@ describe('LossOfSkills Effects', () => {
   describe('filterChange$', () => {
     test('filterSelected - should trigger loadLostJobProfiles if orgUnit is set', () => {
       const filter = new SelectedFilter('orgUnit', 'best');
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultJobProfiles = loadLostJobProfiles({ request });
@@ -73,7 +73,7 @@ describe('LossOfSkills Effects', () => {
 
     test('timeRangeSelected - should trigger loadLostJobProfiles if timerange is set', () => {
       const timeRange = '123|456';
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultJobProfiles = loadLostJobProfiles({ request });
@@ -111,7 +111,7 @@ describe('LossOfSkills Effects', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = ({} as unknown) as EmployeesRequest;
+      request = {} as unknown as EmployeesRequest;
       action = loadLostJobProfiles({ request });
     });
 

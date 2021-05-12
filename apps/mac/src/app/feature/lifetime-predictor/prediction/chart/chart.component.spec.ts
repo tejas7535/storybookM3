@@ -40,7 +40,7 @@ describe('ChartComponent', () => {
   });
 
   it('should init chart object', () => {
-    const ec = ({} as unknown) as ECharts;
+    const ec = {} as unknown as ECharts;
 
     component.initChart(ec);
 
@@ -49,13 +49,14 @@ describe('ChartComponent', () => {
 
   it('should generate current timestamp', () => {
     const timestamp = component.generateDatetime();
-    const regexMatcher = /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/;
+    const regexMatcher =
+      /^[0-9]{4}-[0-9]{1,2}-[0-9]{1,2} [0-9]{1,2}:[0-9]{1,2}:[0-9]{1,2}/;
     expect(regexMatcher.test(timestamp)).toEqual(true);
   });
 
   it('should set export properties', () => {
     component.generateDatetime = jest.fn(() => 'theTime');
-    component.chart = ({} as unknown) as ECharts;
+    component.chart = {} as unknown as ECharts;
     component.chart.getDataURL = jest.fn(() => 'theImgUrl');
 
     component.exportChart();

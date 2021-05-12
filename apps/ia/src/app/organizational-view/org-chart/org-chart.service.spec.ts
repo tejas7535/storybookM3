@@ -22,11 +22,11 @@ describe('OrgChartService', () => {
   describe('mapEmployeesToNodes', () => {
     test('should mapped employee data', () => {
       const data: OrgChartEmployee[] = [
-        ({
+        {
           employeeId: '123',
           employeeName: 'Hans',
           attritionMeta: {},
-        } as unknown) as OrgChartEmployee,
+        } as unknown as OrgChartEmployee,
       ];
 
       const result = service.mapEmployeesToNodes(data);
@@ -37,15 +37,15 @@ describe('OrgChartService', () => {
 
     test('should include heat map info', () => {
       const data: OrgChartEmployee[] = [
-        ({
+        {
           employeeId: '123',
           parentEmployeeId: undefined,
           employeeName: 'Hans',
           attritionMeta: {
             attritionRate: 0.1,
           },
-        } as unknown) as OrgChartEmployee,
-        ({
+        } as unknown as OrgChartEmployee,
+        {
           employeeId: '456',
           parentEmployeeId: '123',
           employeeName: 'Hans2',
@@ -53,8 +53,8 @@ describe('OrgChartService', () => {
             attritionRate: 0.09,
             heatType: HeatType.GREEN_HEAT,
           },
-        } as unknown) as OrgChartEmployee,
-        ({
+        } as unknown as OrgChartEmployee,
+        {
           employeeId: '789',
           parentEmployeeId: '123',
           employeeName: 'Hans3',
@@ -62,8 +62,8 @@ describe('OrgChartService', () => {
             attritionRate: 0.12,
             heatType: HeatType.ORANGE_HEAT,
           },
-        } as unknown) as OrgChartEmployee,
-        ({
+        } as unknown as OrgChartEmployee,
+        {
           employeeId: '999',
           parentEmployeeId: '123',
           employeeName: 'Hans4',
@@ -71,7 +71,7 @@ describe('OrgChartService', () => {
             attritionRate: 0.5,
             heatType: HeatType.RED_HEAT,
           },
-        } as unknown) as OrgChartEmployee,
+        } as unknown as OrgChartEmployee,
       ];
 
       const result = service.mapEmployeesToNodes(data);

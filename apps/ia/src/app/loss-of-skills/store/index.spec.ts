@@ -14,7 +14,7 @@ describe('LossOfSkills Reducer', () => {
   describe('loadLostJobProfiles', () => {
     test('should set loading', () => {
       const action = loadLostJobProfiles({
-        request: ({} as unknown) as EmployeesRequest,
+        request: {} as unknown as EmployeesRequest,
       });
       const state = lossOfSkillsReducer(initialState, action);
 

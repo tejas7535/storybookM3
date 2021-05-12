@@ -54,20 +54,19 @@ describe('ApplicationInsightService', () => {
   describe('getActivatedComponent', () => {
     let snapshot: ActivatedRouteSnapshot;
     it('should return the snapshots component', () => {
-      snapshot = ({
+      snapshot = {
         component: { foo: 'bar' },
         firstChild: undefined,
-      } as unknown) as ActivatedRouteSnapshot;
+      } as unknown as ActivatedRouteSnapshot;
 
-      const result = ApplicationInsightsService['getActivatedComponent'](
-        snapshot
-      );
+      const result =
+        ApplicationInsightsService['getActivatedComponent'](snapshot);
 
       expect(result.foo).toEqual('bar');
     });
 
     it('should return the component of snapshots first child', () => {
-      snapshot = ({
+      snapshot = {
         component: { foo: 'bar' },
         firstChild: {
           component: 'lala',
@@ -78,11 +77,10 @@ describe('ApplicationInsightService', () => {
             },
           },
         },
-      } as unknown) as ActivatedRouteSnapshot;
+      } as unknown as ActivatedRouteSnapshot;
 
-      const result = ApplicationInsightsService['getActivatedComponent'](
-        snapshot
-      );
+      const result =
+        ApplicationInsightsService['getActivatedComponent'](snapshot);
 
       expect(result.king).toEqual('im ring');
     });
@@ -106,7 +104,7 @@ describe('ApplicationInsightService', () => {
     it('should register telemetry initializer with correct data properties ', () => {
       service.addCustomPropertyToTelemetryData('foo', 'bar');
 
-      const telemetryItem: ITelemetryItem = ({} as unknown) as ITelemetryItem;
+      const telemetryItem: ITelemetryItem = {} as unknown as ITelemetryItem;
       spy.calls.allArgs()[0][0](telemetryItem);
 
       const expected = { foo: 'bar' };
@@ -209,12 +207,12 @@ describe('ApplicationInsightService', () => {
     it(
       'should call logPageView',
       waitForAsync(() => {
-        const snapshot: RouterStateSnapshot = ({
+        const snapshot: RouterStateSnapshot = {
           root: {
             component: { name: 'MonkeyComponent' },
             firstChild: undefined,
           },
-        } as unknown) as RouterStateSnapshot;
+        } as unknown as RouterStateSnapshot;
         const resolveEndEvent = new ResolveEnd(
           1,
           '/foo/bar',
@@ -236,11 +234,11 @@ describe('ApplicationInsightService', () => {
     it(
       'should NOT call logPageView',
       waitForAsync(() => {
-        const snapshot: RouterStateSnapshot = ({
+        const snapshot: RouterStateSnapshot = {
           root: {
             component: undefined,
           },
-        } as unknown) as RouterStateSnapshot;
+        } as unknown as RouterStateSnapshot;
         const resolveEndEvent = new ResolveEnd(
           1,
           '/foo/bar',

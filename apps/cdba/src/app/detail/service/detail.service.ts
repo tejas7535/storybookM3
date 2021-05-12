@@ -146,19 +146,15 @@ export class DetailService {
       .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant)
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
-    return this.dataService
-      .getAll<BomResult>(this.BOM_PATH, { params })
-      .pipe(
-        map((response: BomResult) =>
-          response.items.map((item) => ({
-            ...item,
-            predecessorsInTree: [],
-          }))
-        ),
-        map((items: BomItem[]) =>
-          DetailService.defineBomTreeForAgGrid(items, 0)
-        )
-      );
+    return this.dataService.getAll<BomResult>(this.BOM_PATH, { params }).pipe(
+      map((response: BomResult) =>
+        response.items.map((item) => ({
+          ...item,
+          predecessorsInTree: [],
+        }))
+      ),
+      map((items: BomItem[]) => DetailService.defineBomTreeForAgGrid(items, 0))
+    );
   }
 
   public getDrawings(materialNumber: string): Observable<Drawing[]> {

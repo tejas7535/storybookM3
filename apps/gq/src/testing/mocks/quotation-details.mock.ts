@@ -16,11 +16,11 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   addedToOffer: false,
   gqPositionId: '5694232',
   sapQuotationItemId: 1234,
-  material: ({
+  material: {
     materialNumber15: '016718798-0030',
     materialDescription: '6052-M-C3',
     priceUnit: 1,
-  } as unknown) as MaterialDetails,
+  } as unknown as MaterialDetails,
   orderQuantity: 10,
   plant: PLANT_MOCK,
   productionPlant: PLANT_MOCK,

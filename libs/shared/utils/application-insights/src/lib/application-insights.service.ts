@@ -75,9 +75,8 @@ export class ApplicationInsightsService {
         filter((event) => event instanceof ResolveEnd),
         map((event) => event as ResolveEnd),
         tap((event: ResolveEnd) => {
-          const activatedComponent = ApplicationInsightsService.getActivatedComponent(
-            event.state.root
-          );
+          const activatedComponent =
+            ApplicationInsightsService.getActivatedComponent(event.state.root);
           if (activatedComponent) {
             this.logPageView(activatedComponent.name, event.urlAfterRedirects);
           }

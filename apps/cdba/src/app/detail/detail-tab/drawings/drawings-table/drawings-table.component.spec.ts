@@ -37,14 +37,14 @@ describe('DrawingsTableComponent', () => {
   });
 
   describe('onRowSelected', () => {
-    const event = ({
+    const event = {
       node: {
         id: 2,
       },
       api: {
         getSelectedRows: jest.fn(() => [{}]),
       },
-    } as unknown) as RowSelectedEvent;
+    } as unknown as RowSelectedEvent;
 
     it('should emit selectionChange event', () => {
       component.selectionChange.emit = jest.fn();

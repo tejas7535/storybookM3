@@ -26,9 +26,9 @@ describe('Azure Auth Actions', () => {
   });
 
   test('loginSuccess should create action', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: 'Gerd',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
 
     const action = loginSuccess({ accountInfo });
 

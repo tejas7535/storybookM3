@@ -34,9 +34,8 @@ describe('ApplicationInsightsErrorHandlerService', () => {
 
   describe('handleError', () => {
     it('should log exception to application insight', () => {
-      const applicationInsightsService = injector.get<ApplicationInsightsService>(
-        ApplicationInsightsService
-      );
+      const applicationInsightsService =
+        injector.get<ApplicationInsightsService>(ApplicationInsightsService);
       const error = new Error('Oops, an error occured');
 
       service.handleError(error);

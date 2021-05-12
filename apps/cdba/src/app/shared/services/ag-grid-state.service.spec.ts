@@ -43,9 +43,9 @@ describe('AgGridStateService', () => {
   beforeEach(() => {
     spectator = createService();
     service = spectator.inject(AgGridStateService);
-    localStorage = (spectator.inject(
+    localStorage = spectator.inject(
       LOCAL_STORAGE
-    ) as unknown) as LocalStorageMock;
+    ) as unknown as LocalStorageMock;
 
     localStorage.clear();
   });

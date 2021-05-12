@@ -61,6 +61,5 @@ export function reducer(state: OverviewState, action: Action): OverviewState {
   return overviewReducer(state, action);
 }
 
-export const selectOverviewState = createFeatureSelector<OverviewState>(
-  overviewFeatureKey
-);
+export const selectOverviewState =
+  createFeatureSelector<OverviewState>(overviewFeatureKey);

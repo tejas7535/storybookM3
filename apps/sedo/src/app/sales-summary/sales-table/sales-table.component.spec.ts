@@ -199,12 +199,12 @@ describe('SalesTableComponent', () => {
 
   describe('onRowClicked', () => {
     it('should set node expanded to true', () => {
-      const fakeEvent = ({
+      const fakeEvent = {
         node: {
           setExpanded: jest.fn(),
           expanded: false,
         },
-      } as unknown) as RowClickedEvent;
+      } as unknown as RowClickedEvent;
 
       component.onRowClicked(fakeEvent);
       expect(fakeEvent.node.setExpanded).toHaveBeenCalledTimes(1);
@@ -212,12 +212,12 @@ describe('SalesTableComponent', () => {
     });
 
     it('should set node expanded to false', () => {
-      const fakeEvent = ({
+      const fakeEvent = {
         node: {
           setExpanded: jest.fn(),
           expanded: true,
         },
-      } as unknown) as RowClickedEvent;
+      } as unknown as RowClickedEvent;
 
       component.onRowClicked(fakeEvent);
       expect(fakeEvent.node.setExpanded).toHaveBeenCalledTimes(1);
