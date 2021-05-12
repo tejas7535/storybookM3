@@ -62,10 +62,10 @@ describe('Azure Auth Service', () => {
     test('should return promise with image url', (done) => {
       const url = 'test';
 
-      const dummyReader = ({
+      const dummyReader = {
         readAsDataURL: jest.fn(),
         result: url,
-      } as unknown) as FileReader;
+      } as unknown as FileReader;
 
       const spy = jest
         .spyOn(global, 'FileReader')
@@ -96,13 +96,12 @@ describe('Azure Auth Service', () => {
 
     test('should return undefined for undefined name', () => {
       // provide accountInfo w/o name property as it is optional
-      accountInfo = ({
+      accountInfo = {
         homeAccountId: 'foo bar',
-      } as unknown) as AzureAccountInfo;
+      } as unknown as AzureAccountInfo;
 
-      result = AzureAuthService.extractDepartmentFromAzureAccountInfo(
-        accountInfo
-      );
+      result =
+        AzureAuthService.extractDepartmentFromAzureAccountInfo(accountInfo);
 
       expect(result).toBeUndefined();
     });
@@ -110,37 +109,34 @@ describe('Azure Auth Service', () => {
     test('should return undefined for guest accounts', () => {
       // Guest Accounts have the format "given_name family_name"
       // instead of "family_name, given_name department"
-      accountInfo = ({ name: 'Hans Wurst' } as unknown) as AzureAccountInfo;
+      accountInfo = { name: 'Hans Wurst' } as unknown as AzureAccountInfo;
 
-      result = AzureAuthService.extractDepartmentFromAzureAccountInfo(
-        accountInfo
-      );
+      result =
+        AzureAuthService.extractDepartmentFromAzureAccountInfo(accountInfo);
 
       expect(result).toBeUndefined();
     });
 
     test('should return correct department for external employee accounts', () => {
-      accountInfo = ({
+      accountInfo = {
         name: 'Probst, Lars Helmuth (ext.) SF/HZA-DSS',
-      } as unknown) as AzureAccountInfo;
+      } as unknown as AzureAccountInfo;
       expected = 'SF/HZA-DSS';
 
-      result = AzureAuthService.extractDepartmentFromAzureAccountInfo(
-        accountInfo
-      );
+      result =
+        AzureAuthService.extractDepartmentFromAzureAccountInfo(accountInfo);
 
       expect(result).toEqual(expected);
     });
 
     test('should return correct department for internal employee accounts', () => {
-      accountInfo = ({
+      accountInfo = {
         name: 'Machado de Menezes, Alisson  SF/HZA-ZC2P',
-      } as unknown) as AzureAccountInfo;
+      } as unknown as AzureAccountInfo;
       expected = 'SF/HZA-ZC2P';
 
-      result = AzureAuthService.extractDepartmentFromAzureAccountInfo(
-        accountInfo
-      );
+      result =
+        AzureAuthService.extractDepartmentFromAzureAccountInfo(accountInfo);
 
       expect(result).toEqual(expected);
     });
@@ -241,7 +237,7 @@ describe('Azure Auth Service', () => {
 
   describe('setActiveAccount', () => {
     test('should set active acc', () => {
-      const account: AzureAccountInfo = ({} as unknown) as AzureAccountInfo;
+      const account: AzureAccountInfo = {} as unknown as AzureAccountInfo;
 
       service.setActiveAccount(account);
 
@@ -255,19 +251,19 @@ describe('Azure Auth Service', () => {
     let accInfos: AzureAccountInfo[];
 
     beforeEach(() => {
-      const accInfo = ({ username: 'Hans' } as unknown) as AzureAccountInfo;
-      const accInfo2 = ({ username: 'Dieter' } as unknown) as AzureAccountInfo;
-      const accInfo3 = ({ username: 'Werner' } as unknown) as AzureAccountInfo;
+      const accInfo = { username: 'Hans' } as unknown as AzureAccountInfo;
+      const accInfo2 = { username: 'Dieter' } as unknown as AzureAccountInfo;
+      const accInfo3 = { username: 'Werner' } as unknown as AzureAccountInfo;
       accInfos = [accInfo, accInfo2, accInfo3];
       msalService.instance.getAllAccounts = jest.fn(() => accInfos);
 
       msalService.instance.setActiveAccount = jest.fn();
     });
     test('should return active acc if possible', () => {
-      const activeAcc = ({
+      const activeAcc = {
         username: 'Chung',
         name: 'Cho, Chung SF/HZA',
-      } as unknown) as AzureAccountInfo;
+      } as unknown as AzureAccountInfo;
       msalService.instance.getActiveAccount = jest.fn(() => activeAcc);
 
       const expected = { ...activeAcc, department: 'SF/HZA' };

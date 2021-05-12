@@ -9,13 +9,11 @@ import { Breadcrumb } from '../../components/breadcrumbs/breadcrumb.model';
   providedIn: 'root',
 })
 export class BreadcrumbsService {
-  private readonly breadcrumbs: BehaviorSubject<
-    Breadcrumb[]
-  > = new BehaviorSubject([]);
+  private readonly breadcrumbs: BehaviorSubject<Breadcrumb[]> =
+    new BehaviorSubject([]);
 
-  public currentBreadcrumbs: Observable<
-    Breadcrumb[]
-  > = this.breadcrumbs.asObservable();
+  public currentBreadcrumbs: Observable<Breadcrumb[]> =
+    this.breadcrumbs.asObservable();
 
   updateBreadcrumb(label: string): void {
     this.breadcrumbs.next([

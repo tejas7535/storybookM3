@@ -8,7 +8,7 @@ describe('IconsModule', () => {
         registerFontClassAlias: jest.fn(),
       };
 
-      const func = iconsFactory((iconsService as unknown) as IconsService);
+      const func = iconsFactory(iconsService as unknown as IconsService);
       func();
       expect(iconsService.registerFontClassAlias).toHaveBeenCalledTimes(1);
     });

@@ -230,7 +230,7 @@ describe('Load Sense Selector', () => {
         },
       ];
 
-      const loadSense = ({
+      const loadSense = {
         lsp01Strain: 1000,
         lsp03Strain: 3000,
         lsp05Strain: 5000,
@@ -239,7 +239,7 @@ describe('Load Sense Selector', () => {
         lsp11Strain: 11000.11,
         lsp13Strain: 13000.13,
         lsp15Strain: 15000.15,
-      } as unknown) as LoadSense;
+      } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
       Lsp 1:&nbsp;&nbsp;&nbsp;&nbsp;1,000 N<br />
@@ -263,7 +263,7 @@ describe('Load Sense Selector', () => {
         },
       ];
 
-      const loadSense = ({
+      const loadSense = {
         lsp01Strain: 1000,
         lsp03Strain: 3000,
         lsp05Strain: 5000,
@@ -272,7 +272,7 @@ describe('Load Sense Selector', () => {
         lsp11Strain: 11000.11,
         lsp13Strain: 13000.13,
         lsp15Strain: 15000.15,
-      } as unknown) as LoadSense;
+      } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
       Lsp 1:&nbsp;&nbsp;&nbsp;&nbsp;1,000 N<br />
@@ -296,7 +296,7 @@ describe('Load Sense Selector', () => {
         },
       ];
 
-      const loadSense = ({
+      const loadSense = {
         lsp02Strain: 2000,
         lsp04Strain: 4000,
         lsp06Strain: 6000,
@@ -305,7 +305,7 @@ describe('Load Sense Selector', () => {
         lsp12Strain: 12000.12,
         lsp14Strain: 14000.14,
         lsp16Strain: 16000.16,
-      } as unknown) as LoadSense;
+      } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
       Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;2,000 N<br />
@@ -329,7 +329,7 @@ describe('Load Sense Selector', () => {
         },
       ];
 
-      const loadSense = ({
+      const loadSense = {
         lsp02Strain: 2000,
         lsp04Strain: 4000,
         lsp06Strain: 6000,
@@ -338,7 +338,7 @@ describe('Load Sense Selector', () => {
         lsp12Strain: 12000.12,
         lsp14Strain: 14000.14,
         lsp16Strain: 16000.16,
-      } as unknown) as LoadSense;
+      } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
       Lsp 2:&nbsp;&nbsp;&nbsp;&nbsp;2,000 N<br />

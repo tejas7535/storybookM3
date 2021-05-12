@@ -139,12 +139,8 @@ export class InputComponent implements OnInit {
     predictionRequestControls: PredictionRequest & Display,
     previousPredicionRequestControls: PredictionRequest & Display
   ): void {
-    const {
-      showMurakami,
-      showFKM,
-      showStatistical,
-      ...rest
-    } = predictionRequestControls;
+    const { showMurakami, showFKM, showStatistical, ...rest } =
+      predictionRequestControls;
     let predictionRequest: PredictionRequest = rest;
 
     if (previousPredicionRequestControls.hv !== predictionRequestControls.hv) {

@@ -75,9 +75,9 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should do nothing if rowData is undefined', () => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         setRowData: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.ngOnChanges({});
 
@@ -86,9 +86,9 @@ describe('ReferenceTypesTableComponent', () => {
 
     it('should do nothing if grid api is undefined', () => {
       rowData = { currentValue: { foo: 'bar' } };
-      const changes: SimpleChanges = ({
+      const changes: SimpleChanges = {
         rowData,
-      } as unknown) as SimpleChanges;
+      } as unknown as SimpleChanges;
 
       component.ngOnChanges(changes);
 
@@ -96,14 +96,14 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should set row data if api and data is defined', () => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         setRowData: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       rowData = { currentValue: { foo: 'bar' } };
-      const changes: SimpleChanges = ({
+      const changes: SimpleChanges = {
         rowData,
-      } as unknown) as SimpleChanges;
+      } as unknown as SimpleChanges;
 
       component.ngOnChanges(changes);
 
@@ -115,9 +115,9 @@ describe('ReferenceTypesTableComponent', () => {
 
   describe('columnChange', () => {
     it('should receive current column state and set it via state service', () => {
-      const mockEvent = ({
+      const mockEvent = {
         columnApi: { getColumnState: jest.fn(() => []) },
-      } as unknown) as ColumnEvent;
+      } as unknown as ColumnEvent;
 
       component.columnChange(mockEvent);
 
@@ -130,14 +130,14 @@ describe('ReferenceTypesTableComponent', () => {
   });
 
   describe('onGridReady', () => {
-    const event: GridReadyEvent = ({
-      api: ({
+    const event: GridReadyEvent = {
+      api: {
         setRowData: jest.fn(),
-      } as unknown) as GridApi,
-      columnApi: ({
+      } as unknown as GridApi,
+      columnApi: {
         applyColumnState: jest.fn(),
-      } as unknown) as ColumnApi,
-    } as unknown) as GridReadyEvent;
+      } as unknown as ColumnApi,
+    } as unknown as GridReadyEvent;
 
     it('should set gridApi', () => {
       component.onGridReady(event);
@@ -158,7 +158,7 @@ describe('ReferenceTypesTableComponent', () => {
     });
 
     it('should set row data', () => {
-      const rowData = [({ foo: 'bar' } as unknown) as ReferenceType];
+      const rowData = [{ foo: 'bar' } as unknown as ReferenceType];
 
       component.rowData = rowData;
 
@@ -170,12 +170,12 @@ describe('ReferenceTypesTableComponent', () => {
 
   describe('onFirstDataRendered', () => {
     it('should call autoSizeAllColumns', () => {
-      const params = ({
+      const params = {
         columnApi: {
           autoSizeAllColumns: jest.fn(),
           setColumnVisible: jest.fn(),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
 
       component.onFirstDataRendered(params);
 
@@ -184,7 +184,7 @@ describe('ReferenceTypesTableComponent', () => {
   });
 
   describe('onRowSelected', () => {
-    const event = ({
+    const event = {
       node: {
         id: '2',
         isSelected: jest.fn(() => true),
@@ -192,7 +192,7 @@ describe('ReferenceTypesTableComponent', () => {
       api: {
         getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
       },
-    } as unknown) as RowSelectedEvent;
+    } as unknown as RowSelectedEvent;
 
     it('should fill the selectedRows if the row is selected', () => {
       component.selectedRows = ['1'];
@@ -207,13 +207,13 @@ describe('ReferenceTypesTableComponent', () => {
 
       component.selectedRows = ['1', '2'];
 
-      component.onRowSelected(({
+      component.onRowSelected({
         ...event,
         node: {
           ...event.node,
           isSelected: jest.fn(() => false),
         },
-      } as unknown) as RowSelectedEvent);
+      } as unknown as RowSelectedEvent);
 
       expect(component.selectedRows).toStrictEqual(['1']);
 

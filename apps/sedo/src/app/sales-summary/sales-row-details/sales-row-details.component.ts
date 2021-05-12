@@ -22,7 +22,8 @@ import { SalesSummary } from '../../shared/models/sales-summary.model';
   styleUrls: ['./sales-row-details.component.scss'],
 })
 export class SalesRowDetailsComponent
-  implements ICellRendererAngularComp, OnDestroy {
+  implements ICellRendererAngularComp, OnDestroy
+{
   public datesFormGroup = new FormGroup({
     eopDateControl: new FormControl('', Validators.required),
     edoDateControl: new FormControl('', Validators.required),

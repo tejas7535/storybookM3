@@ -61,9 +61,9 @@ export class AzureAuthService {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
       if (this.msalGuardConfig.authRequest) {
         this.authService
-          .loginPopup(({
+          .loginPopup({
             ...this.msalGuardConfig.authRequest,
-          } as unknown) as PopupRequest)
+          } as unknown as PopupRequest)
           .subscribe((response: AuthenticationResult) => {
             this.authService.instance.setActiveAccount(response.account);
           });
@@ -76,9 +76,9 @@ export class AzureAuthService {
       }
     } else {
       if (this.msalGuardConfig.authRequest) {
-        this.authService.loginRedirect(({
+        this.authService.loginRedirect({
           ...this.msalGuardConfig.authRequest,
-        } as unknown) as RedirectRequest);
+        } as unknown as RedirectRequest);
       } else {
         this.authService.loginRedirect();
       }
@@ -116,9 +116,8 @@ export class AzureAuthService {
       activeAccount = accounts[0];
     }
 
-    const department = AzureAuthService.extractDepartmentFromAzureAccountInfo(
-      activeAccount
-    );
+    const department =
+      AzureAuthService.extractDepartmentFromAzureAccountInfo(activeAccount);
 
     return { ...activeAccount, department };
   }

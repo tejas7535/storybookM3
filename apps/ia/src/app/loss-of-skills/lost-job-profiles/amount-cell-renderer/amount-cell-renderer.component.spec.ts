@@ -27,7 +27,7 @@ describe('AmountCellRendererComponent', () => {
 
   describe('agInit', () => {
     it('should set amount', () => {
-      const params = ({ value: 100 } as unknown) as ICellRendererParams;
+      const params = { value: 100 } as unknown as ICellRendererParams;
 
       component.agInit(params);
 

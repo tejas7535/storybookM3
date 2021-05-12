@@ -84,14 +84,14 @@ describe('BomTableComponent', () => {
   describe('ngOnChanges', () => {
     it('should showLoadingOverlay if grid loaded and isLoading active', () => {
       spyOn(window, 'setTimeout');
-      component['gridApi'] = ({
+      component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: true,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       expect(setTimeout).toHaveBeenCalled();
@@ -102,24 +102,24 @@ describe('BomTableComponent', () => {
       component['gridApi'] = undefined;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: true,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       // should just succeed - otherwise this test should throw an error
     });
 
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
-      component['gridApi'] = ({
+      component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
         showNoRowsOverlay: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.ngOnChanges({
-        isLoading: ({
+        isLoading: {
           currentValue: false,
-        } as unknown) as SimpleChange,
+        } as unknown as SimpleChange,
       });
 
       expect(component['gridApi'].showLoadingOverlay).not.toHaveBeenCalled();
@@ -130,11 +130,11 @@ describe('BomTableComponent', () => {
   describe('onGridReady', () => {
     it('should set api and event listener', () => {
       const params: IStatusPanelParams = {
-        api: ({
+        api: {
           addEventListener: jest.fn(),
           showLoadingOverlay: jest.fn(),
-        } as unknown) as GridApi,
-        columnApi: ({} as unknown) as ColumnApi,
+        } as unknown as GridApi,
+        columnApi: {} as unknown as ColumnApi,
         context: {},
       };
       component.isLoading = true;
@@ -147,12 +147,12 @@ describe('BomTableComponent', () => {
     });
 
     it('should hide loading spinner when data is not loading', () => {
-      const params = ({
+      const params = {
         api: {
           addEventListener: jest.fn(),
           showNoRowsOverlay: jest.fn(),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
       component.isLoading = false;
 
       component.onGridReady(params);
@@ -163,11 +163,11 @@ describe('BomTableComponent', () => {
 
   describe('onFirstDataRendered', () => {
     it('should call autoSizeAllColumns', () => {
-      const params = ({
+      const params = {
         columnApi: {
           autoSizeAllColumns: jest.fn(),
         },
-      } as unknown) as IStatusPanelParams;
+      } as unknown as IStatusPanelParams;
 
       component.onFirstDataRendered(params);
 
@@ -217,13 +217,13 @@ describe('BomTableComponent', () => {
 
   describe('onRowGroupOpened', () => {
     it('should call autosize and redraw', () => {
-      component['gridColumnApi'] = ({
+      component['gridColumnApi'] = {
         autoSizeColumn: jest.fn(),
-      } as unknown) as ColumnApi;
+      } as unknown as ColumnApi;
 
-      component['gridApi'] = ({
+      component['gridApi'] = {
         redrawRows: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.onRowGroupOpened();
 
@@ -235,21 +235,21 @@ describe('BomTableComponent', () => {
   });
 
   describe('onRowClicked', () => {
-    const evt = ({
+    const evt = {
       node: {
         id: '2',
       },
       data: {
         id: 1,
       },
-    } as unknown) as RowClickedEvent;
+    } as unknown as RowClickedEvent;
 
     beforeEach(() => {
       component.rowSelected.emit = jest.fn();
       component.updateNonLevel2Children = jest.fn();
-      component['gridApi'] = ({
+      component['gridApi'] = {
         redrawRows: jest.fn(),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
     });
 
     it('should emit rowSelected event', () => {
@@ -269,7 +269,7 @@ describe('BomTableComponent', () => {
 
   describe('updateNonLevel2Children', () => {
     it('should recursively iterate through all children and add them to array', () => {
-      const node = ({
+      const node = {
         id: '0',
         parent: {
           id: '-1',
@@ -298,7 +298,7 @@ describe('BomTableComponent', () => {
             ],
           },
         ],
-      } as unknown) as RowNode;
+      } as unknown as RowNode;
 
       component.updateNonLevel2Children(node);
 
@@ -384,7 +384,7 @@ describe('BomTableComponent', () => {
 
   describe('resetTable', () => {
     beforeEach(() => {
-      component['gridApi'] = ({ redrawRows: jest.fn() } as unknown) as GridApi;
+      component['gridApi'] = { redrawRows: jest.fn() } as unknown as GridApi;
     });
     it('should reset currentSelectedRow and nonLevel2Children', () => {
       component.currentSelectedRow = {

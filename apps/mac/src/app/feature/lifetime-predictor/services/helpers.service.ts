@@ -400,7 +400,7 @@ export class HelpersService {
     if (graph[0] && !this.isSNShape(graph) && graph[2]) {
       // if becomes unnecessary as soon as graphs which are out of range are projected correctly by the backend
       if (graph[2].x === 10000) {
-        return ({} as unknown) as Graph;
+        return {} as unknown as Graph;
       }
 
       return {

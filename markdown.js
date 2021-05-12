@@ -32,8 +32,10 @@ module.exports = {
     markdownInclude.compileFiles('./docs/markdown.json').then(() => {
       console.log('README created!');
       console.log('Removing comments...');
-      const removeStartComments = / *?\n?\<\!-- (AUTO-GENERATED-CONTENT:START)([\s\S]*?) ?--\>\n/g;
-      const removeEndComments = /\n\n\<\!--.*(AUTO-GENERATED-CONTENT:END).*--\>/g;
+      const removeStartComments =
+        / *?\n?\<\!-- (AUTO-GENERATED-CONTENT:START)([\s\S]*?) ?--\>\n/g;
+      const removeEndComments =
+        /\n\n\<\!--.*(AUTO-GENERATED-CONTENT:END).*--\>/g;
       const readmePath = path.resolve('./README.md');
       const file = fs.readFileSync(readmePath, 'utf-8');
       let updatedReadme = file.replace(removeStartComments, '');

@@ -21,16 +21,16 @@ describe('Organizational View Selector', () => {
       ...initialState,
       orgChart: {
         data: [
-          ({ employeeId: '123' } as unknown) as OrgChartEmployee,
-          ({ employeeId: '456' } as unknown) as OrgChartEmployee,
+          { employeeId: '123' } as unknown as OrgChartEmployee,
+          { employeeId: '456' } as unknown as OrgChartEmployee,
         ],
         loading: true,
         errorMessage: undefined,
       },
       worldMap: {
         data: [
-          ({ name: 'Germany' } as unknown) as CountryData,
-          ({ name: 'Poland' } as unknown) as CountryData,
+          { name: 'Germany' } as unknown as CountryData,
+          { name: 'Poland' } as unknown as CountryData,
         ],
         continents: [
           {
@@ -46,9 +46,9 @@ describe('Organizational View Selector', () => {
         errorMessage: undefined,
       },
     },
-    filter: ({
+    filter: {
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
-    } as unknown) as FilterState,
+    } as unknown as FilterState,
   };
 
   describe('getOrgChart', () => {

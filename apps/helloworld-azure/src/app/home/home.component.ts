@@ -27,7 +27,8 @@ export class HomeComponent implements OnInit {
     this.responseUsers$ = this.greetingsService.greetUsers();
     this.responseAdmins$ = this.greetingsService.greetAdmins();
     this.responseDotNetPublic$ = this.greetingsService.greetDotNetPublic();
-    this.responseDotNetAuthorized$ = this.greetingsService.greetDotNetAuthorized();
+    this.responseDotNetAuthorized$ =
+      this.greetingsService.greetDotNetAuthorized();
     this.responseDotNetUsers$ = this.greetingsService.greetDotNetUsers();
     this.responseDotNetAdmins$ = this.greetingsService.greetDotNetAdmins();
     this.responseAzFunctions$ = this.greetingsService.greetAzFunctions();

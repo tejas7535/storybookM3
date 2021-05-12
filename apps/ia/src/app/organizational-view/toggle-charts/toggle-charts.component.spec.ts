@@ -42,9 +42,9 @@ describe('ToggleChartsComponent', () => {
   describe('valueChanged', () => {
     test('should emit value', () => {
       component.changed.emit = jest.fn();
-      const event: MatButtonToggleChange = ({
+      const event: MatButtonToggleChange = {
         value: 'test',
-      } as unknown) as MatButtonToggleChange;
+      } as unknown as MatButtonToggleChange;
 
       component.valueChanged(event);
 

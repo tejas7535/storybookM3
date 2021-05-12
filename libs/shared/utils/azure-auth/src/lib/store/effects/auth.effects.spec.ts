@@ -113,9 +113,9 @@ describe('Azure Auth Effects', () => {
     });
 
     test('should return loadProfileImageFailure if REST call fails', () => {
-      const errorMessage = ({
+      const errorMessage = {
         message: 'err',
-      } as unknown) as LoadProfileImageError;
+      } as unknown as LoadProfileImageError;
       const result = loadProfileImageFailure({
         errorMessage: errorMessage.message,
       });
@@ -136,12 +136,12 @@ describe('Azure Auth Effects', () => {
     let accountInfo: AccountInfo;
 
     beforeEach(() => {
-      accountInfo = ({
+      accountInfo = {
         name: 'test',
         idTokenClaims: {
           nonce: '123',
         },
-      } as unknown) as AccountInfo;
+      } as unknown as AccountInfo;
       authService.handleAccount = jest.fn(() => accountInfo);
     });
     test('should do nothing when event not NONE', () => {

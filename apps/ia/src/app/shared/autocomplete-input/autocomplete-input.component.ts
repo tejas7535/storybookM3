@@ -27,7 +27,8 @@ import { InputErrorStateMatcher } from './validation/input-error-state-matcher';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AutocompleteInputComponent
-  implements OnInit, AfterViewInit, OnDestroy {
+  implements OnInit, AfterViewInit, OnDestroy
+{
   private _filter: Filter;
   @Input() label: string;
   @Input() hint: string;

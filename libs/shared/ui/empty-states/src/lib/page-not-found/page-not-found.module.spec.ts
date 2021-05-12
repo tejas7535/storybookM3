@@ -8,9 +8,9 @@ import { PageNotFoundModule } from './page-not-found.module';
 describe('PageNotFoundModule', () => {
   describe('setLanguageFiles', () => {
     test('should set the german language file for "de"', () => {
-      const serviceMock = ({
+      const serviceMock = {
         setTranslation: jest.fn(),
-      } as unknown) as TranslocoService;
+      } as unknown as TranslocoService;
 
       // eslint-disable-next-line @typescript-eslint/no-unused-expressions
       new PageNotFoundModule(serviceMock);

@@ -33,7 +33,8 @@ import { SearchAutocompleteOption } from './search-autocomple-option.model';
   ],
 })
 export class SearchAutocompleteComponent
-  implements ControlValueAccessor, OnInit, OnChanges {
+  implements ControlValueAccessor, OnInit, OnChanges
+{
   baseOptions$ = new BehaviorSubject<SearchAutocompleteOption[]>([]);
   filteredOptions$!: Observable<SearchAutocompleteOption[]>;
   showOptions$!: Observable<boolean>;

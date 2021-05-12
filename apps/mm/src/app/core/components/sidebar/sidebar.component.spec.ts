@@ -20,9 +20,8 @@ const availableLangs: AvailableLangs = [
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let spectator: Spectator<SidebarComponent>;
-  let separatorObservable: BehaviorSubject<MMSeparator> = new BehaviorSubject<MMSeparator>(
-    MMSeparator.Comma
-  );
+  let separatorObservable: BehaviorSubject<MMSeparator> =
+    new BehaviorSubject<MMSeparator>(MMSeparator.Comma);
   let localeService: LocaleService;
 
   const createComponent = createComponentFactory({

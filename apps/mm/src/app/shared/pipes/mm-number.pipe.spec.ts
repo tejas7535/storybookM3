@@ -12,9 +12,8 @@ import { MmNumberPipe } from './mm-number.pipe';
 
 describe('MmNumberPipe', () => {
   let spectator: SpectatorPipe<MmNumberPipe>;
-  let separatorObservable: BehaviorSubject<MMSeparator> = new BehaviorSubject<MMSeparator>(
-    MMSeparator.Comma
-  );
+  let separatorObservable: BehaviorSubject<MMSeparator> =
+    new BehaviorSubject<MMSeparator>(MMSeparator.Comma);
   let decimalPipe: DecimalPipe;
 
   const createPipe = createPipeFactory({

@@ -7,10 +7,10 @@ describe('MaterialInfoPipe', () => {
     expect(pipe).toBeTruthy();
   });
   test('should transform material', () => {
-    const materialNumberAndDescription = ({
+    const materialNumberAndDescription = {
       materialNumber15: '1',
       materialDescription: 'test',
-    } as unknown) as MaterialDetails;
+    } as unknown as MaterialDetails;
     const pipe = new MaterialInfoPipe();
     const result = pipe.transform(materialNumberAndDescription);
 

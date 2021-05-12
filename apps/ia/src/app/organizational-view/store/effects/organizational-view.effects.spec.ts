@@ -68,7 +68,7 @@ describe('Organizational View Effects', () => {
   describe('filterChange$', () => {
     test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const filter = new SelectedFilter('orgUnit', 'best');
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultOrg = loadOrgChart({ request });
@@ -85,7 +85,7 @@ describe('Organizational View Effects', () => {
 
     test('timeRangeSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
       const timeRange = '123|456';
-      const request = ({ orgUnit: {} } as unknown) as EmployeesRequest;
+      const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
 
@@ -127,14 +127,14 @@ describe('Organizational View Effects', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = ({} as unknown) as EmployeesRequest;
+      request = {} as unknown as EmployeesRequest;
       action = loadOrgChart({ request });
     });
 
     test('should return loadOrgChartSuccess action when REST call is successful', () => {
       const employees = [
-        ({ employeeId: '123' } as unknown) as OrgChartEmployee,
-        ({ employeeId: '456' } as unknown) as OrgChartEmployee,
+        { employeeId: '123' } as unknown as OrgChartEmployee,
+        { employeeId: '456' } as unknown as OrgChartEmployee,
       ];
       const result = loadOrgChartSuccess({
         employees,
@@ -173,14 +173,14 @@ describe('Organizational View Effects', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
-      request = ({} as unknown) as EmployeesRequest;
+      request = {} as unknown as EmployeesRequest;
       action = loadWorldMap({ request });
     });
 
     test('should return loadWorldMapSuccess action when REST call is successful', () => {
       const data = [
-        ({ name: 'Germany' } as unknown) as CountryData,
-        ({ name: 'Poland' } as unknown) as CountryData,
+        { name: 'Germany' } as unknown as CountryData,
+        { name: 'Poland' } as unknown as CountryData,
       ];
       const result = loadWorldMapSuccess({
         data,
@@ -220,16 +220,16 @@ describe('Organizational View Effects', () => {
 
     beforeEach(() => {
       childEmployeeId = '123';
-      const employee = ({
+      const employee = {
         employeeId: childEmployeeId,
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
 
       action = loadParent({ employee });
     });
     test('should return loadParentSuccess action', () => {
-      const resultEmployee = ({
+      const resultEmployee = {
         employeeId: '12',
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
       const response = cold('-a|', {
         a: resultEmployee,
       });
@@ -266,9 +266,9 @@ describe('Organizational View Effects', () => {
 
   describe('loadParentSuccess$', () => {
     test('should return filterSelected action', () => {
-      const employee = ({
+      const employee = {
         orgUnit: 'Schaeffler_IT',
-      } as unknown) as OrgChartEmployee;
+      } as unknown as OrgChartEmployee;
 
       action = loadParentSuccess({ employee });
 

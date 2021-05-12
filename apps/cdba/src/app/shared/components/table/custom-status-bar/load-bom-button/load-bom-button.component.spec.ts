@@ -19,11 +19,11 @@ describe('LoadBomButtonComponent', () => {
   let component: LoadBomButtonComponent;
   let store: MockStore;
 
-  const params: IStatusPanelParams = ({
+  const params: IStatusPanelParams = {
     api: {
       getSelectedNodes: jest.fn(() => [{ id: '1', data: { foo: 'bar' } }]),
     },
-  } as unknown) as IStatusPanelParams;
+  } as unknown as IStatusPanelParams;
 
   const createComponent = createComponentFactory({
     component: LoadBomButtonComponent,
@@ -51,7 +51,7 @@ describe('LoadBomButtonComponent', () => {
 
   describe('agInit', () => {
     test('should set params and add listeners', () => {
-      component.agInit((params as unknown) as IStatusPanelParams);
+      component.agInit(params as unknown as IStatusPanelParams);
 
       expect(component['gridApi']).toEqual(params.api);
     });
@@ -67,7 +67,7 @@ describe('LoadBomButtonComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(
         selectCalculation({
           nodeId: '1',
-          calculation: ({ foo: 'bar' } as unknown) as Calculation,
+          calculation: { foo: 'bar' } as unknown as Calculation,
         })
       );
     });

@@ -30,7 +30,8 @@ import { Filter } from '../filter';
   styleUrls: ['./multi-select-filter.component.scss'],
 })
 export class MultiSelectFilterComponent
-  implements OnChanges, OnDestroy, OnInit, Filter {
+  implements OnChanges, OnDestroy, OnInit, Filter
+{
   @Input() filter: FilterItemIdValue;
 
   @Input() autocompleteLoading = false;
@@ -89,10 +90,11 @@ export class MultiSelectFilterComponent
 
       // prevent overriding existing selections due to new autocomplete suggestions
       if (filterUpdate.autocomplete) {
-        this.filterOptions = this.searchUtilities.mergeOptionsWithSelectedOptions(
-          filterUpdate.items,
-          this.form.value || []
-        );
+        this.filterOptions =
+          this.searchUtilities.mergeOptionsWithSelectedOptions(
+            filterUpdate.items,
+            this.form.value || []
+          );
       } else {
         this.filterOptions = filterUpdate.items;
       }

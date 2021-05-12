@@ -145,7 +145,7 @@ describe('InputbarComponent', () => {
   });
   describe('quantityValidator', () => {
     test('should return undefined', () => {
-      const control = ({ value: '10' } as unknown) as any;
+      const control = { value: '10' } as unknown as any;
       component.rowInputValid = jest.fn();
       const response = component.quantityValidator(control);
 

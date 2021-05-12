@@ -23,11 +23,11 @@ describe('CompareViewButtonComponent', () => {
   let component: CompareViewButtonComponent;
   let router: Router;
 
-  const params: IStatusPanelParams = ({
+  const params: IStatusPanelParams = {
     api: {
       getSelectedNodes: jest.fn(),
     },
-  } as unknown) as IStatusPanelParams;
+  } as unknown as IStatusPanelParams;
 
   const createComponent = createComponentFactory({
     component: CompareViewButtonComponent,
@@ -90,7 +90,7 @@ describe('CompareViewButtonComponent', () => {
 
   describe('agInit', () => {
     test('should set grid api', () => {
-      component.agInit((params as unknown) as IStatusPanelParams);
+      component.agInit(params as unknown as IStatusPanelParams);
 
       expect(component['gridApi']).toEqual(params.api);
     });
@@ -99,22 +99,22 @@ describe('CompareViewButtonComponent', () => {
   describe('showCompareView', () => {
     test('should navigate with correct query params', () => {
       const mockSelections: RowNode[] = [
-        ({
+        {
           id: '0',
           data: { materialNumber: '1234', plant: '0060' },
-        } as unknown) as RowNode,
-        ({
+        } as unknown as RowNode,
+        {
           id: '1',
           data: { materialNumber: '5678', plant: '0076' },
-        } as unknown) as RowNode,
+        } as unknown as RowNode,
       ];
 
       spyOn(router, 'navigate');
-      component['gridApi'] = ({
+      component['gridApi'] = {
         getRowNode: jest.fn((id) =>
           mockSelections.find((selection) => selection.id === id)
         ),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
 
       component.showCompareView(['0', '1']);
 
@@ -132,20 +132,20 @@ describe('CompareViewButtonComponent', () => {
 
     test('should not add identification hash and node id to query params', () => {
       const mockSelections: RowNode[] = [
-        ({
+        {
           id: '1',
           data: {
             materialNumber: '5678',
             plant: '0076',
             identificationHash: 'servus',
           },
-        } as unknown) as RowNode,
+        } as unknown as RowNode,
       ];
-      component['gridApi'] = ({
+      component['gridApi'] = {
         getRowNode: jest.fn((id) =>
           mockSelections.find((selection) => selection.id === id)
         ),
-      } as unknown) as GridApi;
+      } as unknown as GridApi;
       spyOn(router, 'navigate');
       component.showCompareView(['1']);
       expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {

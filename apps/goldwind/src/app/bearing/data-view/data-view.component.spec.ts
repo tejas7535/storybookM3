@@ -98,9 +98,9 @@ describe('DataViewComponent', () => {
   describe('onGridReady', () => {
     it('should set api', () => {
       const params = {
-        api: ({
+        api: {
           getSelectedRows: jest.fn(),
-        } as unknown) as GridApi,
+        } as unknown as GridApi,
       };
 
       component.onGridReady(params);
@@ -125,9 +125,9 @@ describe('DataViewComponent', () => {
       ];
 
       const params = {
-        api: ({
+        api: {
           getSelectedRows: jest.fn(() => mockedSelectedRows),
-        } as unknown) as GridApi,
+        } as unknown as GridApi,
       };
 
       component['gridApi'] = params.api;

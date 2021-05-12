@@ -46,7 +46,7 @@ describe('SelectSalesOrgComponent', () => {
   describe('selectionChange', () => {
     test('should dispatch action', () => {
       mockStore.dispatch = jest.fn();
-      const event = ({ value: '1234' } as unknown) as any;
+      const event = { value: '1234' } as unknown as any;
 
       component.selectionChange(event);
 

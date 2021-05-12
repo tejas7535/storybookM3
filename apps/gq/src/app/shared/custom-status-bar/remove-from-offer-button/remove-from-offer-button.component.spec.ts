@@ -48,12 +48,12 @@ describe('RemoveFromOfferComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    params = ({
+    params = {
       api: {
         addEventListener: jest.fn(),
         getSelectedRows: jest.fn(),
       },
-    } as unknown) as IStatusPanelParams;
+    } as unknown as IStatusPanelParams;
     store = spectator.inject(MockStore);
   });
 
@@ -63,7 +63,7 @@ describe('RemoveFromOfferComponent', () => {
 
   describe('agInit', () => {
     test('should set params and add listeners', () => {
-      component.agInit((params as unknown) as IStatusPanelParams);
+      component.agInit(params as unknown as IStatusPanelParams);
 
       expect(component['params']).toEqual(params);
 

@@ -80,10 +80,8 @@ export class SnackBarService {
    * opens the snackbar with the given config
    */
   private showMessage(snackBarConfig: MatSnackBarConfig): Observable<string> {
-    const snackBarRef: MatSnackBarRef<SnackBarComponent> = this.snackBar.openFromComponent(
-      SnackBarComponent,
-      snackBarConfig
-    );
+    const snackBarRef: MatSnackBarRef<SnackBarComponent> =
+      this.snackBar.openFromComponent(SnackBarComponent, snackBarConfig);
 
     const action$ = snackBarRef.instance.action.pipe(
       tap(() => snackBarRef.dismiss()),

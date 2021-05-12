@@ -31,8 +31,7 @@ describe('TransactionsActions', () => {
       action = loadComparableTransactionsSuccess({ transactions });
       expect(action).toEqual({
         transactions,
-        type:
-          '[Process Case] Load Comparable Transactions for QuotationDetail Success',
+        type: '[Process Case] Load Comparable Transactions for QuotationDetail Success',
       });
     });
   });
@@ -41,8 +40,7 @@ describe('TransactionsActions', () => {
       action = loadComparableTransactionsFailure({ errorMessage });
       expect(action).toEqual({
         errorMessage,
-        type:
-          '[Process Case] Load Comparable Transactions for QuotationDetail Failure',
+        type: '[Process Case] Load Comparable Transactions for QuotationDetail Failure',
       });
     });
   });

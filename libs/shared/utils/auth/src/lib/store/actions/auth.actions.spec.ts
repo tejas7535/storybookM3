@@ -46,7 +46,7 @@ describe('Auth Actions', () => {
   });
 
   test('setToken should create action', () => {
-    const token = ({} as unknown) as AccessToken;
+    const token = {} as unknown as AccessToken;
     const accessToken = 'crypticTestToken';
 
     const action = setToken({ token, accessToken });

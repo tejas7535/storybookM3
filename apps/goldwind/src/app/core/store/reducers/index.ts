@@ -34,40 +34,35 @@ export const metaReducers: MetaReducer<AppState>[] = !environment.production
   ? []
   : /* istanbul ignore next: very difficult */ [];
 
-export const getRouterState = createFeatureSelector<
-  fromRouter.RouterReducerState<RouterStateUrl>
->('router');
+export const getRouterState =
+  createFeatureSelector<fromRouter.RouterReducerState<RouterStateUrl>>(
+    'router'
+  );
 
-export const getBearingState = createFeatureSelector<fromBearing.BearingState>(
-  'bearing'
-);
+export const getBearingState =
+  createFeatureSelector<fromBearing.BearingState>('bearing');
 
-export const getBearingLoadState = createFeatureSelector<fromLoadSense.BearingLoadLatestState>(
-  'loadSense'
-);
+export const getBearingLoadState =
+  createFeatureSelector<fromLoadSense.BearingLoadLatestState>('loadSense');
 
-export const getDataViewState = createFeatureSelector<fromDataView.DataViewState>(
-  'dataView'
-);
+export const getDataViewState =
+  createFeatureSelector<fromDataView.DataViewState>('dataView');
 
-export const getDevicesState = createFeatureSelector<fromDevices.DevicesState>(
-  'devices'
-);
+export const getDevicesState =
+  createFeatureSelector<fromDevices.DevicesState>('devices');
 
-export const getEdmMonitorState = createFeatureSelector<fromEdmMonitor.EdmMonitorState>(
-  'edmMonitor'
-);
+export const getEdmMonitorState =
+  createFeatureSelector<fromEdmMonitor.EdmMonitorState>('edmMonitor');
 
-export const getGreaseStatusState = createFeatureSelector<fromGreaseStatus.GreaseStatusState>(
-  'greaseStatus'
-);
+export const getGreaseStatusState =
+  createFeatureSelector<fromGreaseStatus.GreaseStatusState>('greaseStatus');
 
-export const getShaftState = createFeatureSelector<fromShaft.ShaftState>(
-  'shaft'
-);
+export const getShaftState =
+  createFeatureSelector<fromShaft.ShaftState>('shaft');
 
 export class CustomSerializer
-  implements fromRouter.RouterStateSerializer<RouterStateUrl> {
+  implements fromRouter.RouterStateSerializer<RouterStateUrl>
+{
   /**
    * Serialize the router state
    */

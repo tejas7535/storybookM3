@@ -28,7 +28,7 @@ describe('CustomNoRowsOverlayComponent', () => {
       };
 
       component.agInit(
-        (params as unknown) as INoRowsOverlayParams & NoRowsParams
+        params as unknown as INoRowsOverlayParams & NoRowsParams
       );
 
       expect(component.params).toEqual(params);

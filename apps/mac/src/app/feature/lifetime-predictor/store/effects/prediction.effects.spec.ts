@@ -93,8 +93,7 @@ describe('PredictionEffects', () => {
           predictionRequest: mockedPredictionRequest,
         },
         {
-          type:
-            '[Predict Lifetime Container Component] Set Statistical Request',
+          type: '[Predict Lifetime Container Component] Set Statistical Request',
           statisticalRequest: mockedStatisticalRequest,
         },
       ]);

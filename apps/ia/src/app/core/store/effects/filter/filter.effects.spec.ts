@@ -100,7 +100,7 @@ describe('Filter Effects', () => {
 
   describe('loginSuccessful$', () => {
     test('should return loadInitialFilters for the first login success event', () => {
-      action = loginSuccess({ accountInfo: ({} as unknown) as AccountInfo });
+      action = loginSuccess({ accountInfo: {} as unknown as AccountInfo });
       actions$ = hot('-a', { a: action });
       const result = loadInitialFilters();
 

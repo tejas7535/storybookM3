@@ -355,9 +355,11 @@ export class ProcessCaseEffect {
     private readonly snackBarService: SnackBarService
   ) {}
 
-  private static mapQueryParamsToIdentifier(
-    queryParams: any
-  ): { gqId: number; customerNumber: string; salesOrg: string } {
+  private static mapQueryParamsToIdentifier(queryParams: any): {
+    gqId: number;
+    customerNumber: string;
+    salesOrg: string;
+  } {
     const gqId: number = queryParams['quotation_number'];
     const customerNumber: string = queryParams['customer_number'];
     const salesOrg: string = queryParams['sales_org'];

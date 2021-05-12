@@ -123,7 +123,7 @@ describe('AutocompleteSearchComponent', () => {
       };
 
       component.onOptionSelect(
-        (mockEvent as unknown) as MatOptionSelectionChange
+        mockEvent as unknown as MatOptionSelectionChange
       );
 
       expect(clickMock).toHaveBeenCalled();

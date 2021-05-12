@@ -57,7 +57,7 @@ describe('DropdownInputComponent', () => {
 
       component.onOpenedChange(
         true,
-        (mockAutocomplete as unknown) as AutocompleteSearchComponent,
+        mockAutocomplete as unknown as AutocompleteSearchComponent,
         mockSelectPanel
       );
 
@@ -88,7 +88,7 @@ describe('DropdownInputComponent', () => {
 
       component.onOpenedChange(
         false,
-        (mockAutocomplete as unknown) as AutocompleteSearchComponent,
+        mockAutocomplete as unknown as AutocompleteSearchComponent,
         mockSelectPanel
       );
 

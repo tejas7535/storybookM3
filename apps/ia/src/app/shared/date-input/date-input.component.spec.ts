@@ -160,9 +160,9 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates = jest.fn();
       component.timePeriod = TimePeriod.YEAR;
       const date = new Date();
-      const datepicker = ({
+      const datepicker = {
         close: jest.fn(),
-      } as unknown) as MatDatepicker<Date>;
+      } as unknown as MatDatepicker<Date>;
 
       component.chosenYearHandler(date, datepicker);
 
@@ -174,9 +174,9 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates = jest.fn();
       component.timePeriod = TimePeriod.CUSTOM;
       const date = new Date();
-      const datepicker = ({
+      const datepicker = {
         close: jest.fn(),
-      } as unknown) as MatDatepicker<Date>;
+      } as unknown as MatDatepicker<Date>;
 
       component.chosenYearHandler(date, datepicker);
 
@@ -189,9 +189,9 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates = jest.fn();
       component.timePeriod = TimePeriod.MONTH;
       const date = new Date();
-      const datepicker = ({
+      const datepicker = {
         close: jest.fn(),
-      } as unknown) as MatDatepicker<Date>;
+      } as unknown as MatDatepicker<Date>;
 
       component.chosenMonthHandler(date, datepicker);
 
@@ -203,9 +203,9 @@ describe('DateInputComponent', () => {
       component.updateStartEndDates = jest.fn();
       component.timePeriod = TimePeriod.CUSTOM;
       const date = new Date();
-      const datepicker = ({
+      const datepicker = {
         close: jest.fn(),
-      } as unknown) as MatDatepicker<Date>;
+      } as unknown as MatDatepicker<Date>;
 
       component.chosenMonthHandler(date, datepicker);
 
@@ -220,15 +220,15 @@ describe('DateInputComponent', () => {
 
     beforeEach(() => {
       component.updateStartEndDates = jest.fn();
-      datepicker = ({
+      datepicker = {
         close: jest.fn(),
-      } as unknown) as MatDatepicker<Date>;
-      endDateInput = ({
+      } as unknown as MatDatepicker<Date>;
+      endDateInput = {
         focus: jest.fn(),
-      } as unknown) as MatInput;
-      evt = ({
+      } as unknown as MatInput;
+      evt = {
         value: new Date(),
-      } as unknown) as MatDatepickerInputEvent<any>;
+      } as unknown as MatDatepickerInputEvent<any>;
     });
 
     test('should update dates on YEAR', () => {
@@ -274,7 +274,7 @@ describe('DateInputComponent', () => {
       component.timePeriod = TimePeriod.YEAR;
       component.emitChange = jest.fn();
 
-      component.endDateChanged(({} as unknown) as MatDatepickerInputEvent<any>);
+      component.endDateChanged({} as unknown as MatDatepickerInputEvent<any>);
 
       expect(component.emitChange).not.toHaveBeenCalled();
     });
@@ -283,9 +283,9 @@ describe('DateInputComponent', () => {
       component.timePeriod = TimePeriod.CUSTOM;
       component.emitChange = jest.fn();
 
-      component.endDateChanged(({
+      component.endDateChanged({
         value: 'xx',
-      } as unknown) as MatDatepickerInputEvent<any>);
+      } as unknown as MatDatepickerInputEvent<any>);
 
       expect(component.emitChange).toHaveBeenCalled();
     });

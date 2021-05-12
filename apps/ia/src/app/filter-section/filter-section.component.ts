@@ -79,7 +79,7 @@ export class FilterSectionComponent implements OnInit {
 
   public timePeriodSelected(idValue: IdValue): void {
     this.store.dispatch(
-      timePeriodSelected({ timePeriod: (idValue.id as unknown) as TimePeriod })
+      timePeriodSelected({ timePeriod: idValue.id as unknown as TimePeriod })
     );
   }
 

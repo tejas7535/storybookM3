@@ -44,7 +44,8 @@ describe('Detail Reducer', () => {
   };
   const errorMessage = 'An error occured';
 
-  const referenceTypeIdentifier: ReferenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
+  const referenceTypeIdentifier: ReferenceTypeIdentifier =
+    REFERENCE_TYPE_IDENTIFIER_MOCK;
 
   describe('selectReferenceType', () => {
     test('should set selectedReferenceType', () => {

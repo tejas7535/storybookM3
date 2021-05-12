@@ -39,9 +39,11 @@ export class RemoveFromOfferButtonComponent {
   }
 
   removeFromOffer(): void {
-    const updateQuotationDetailList: UpdateQuotationDetail[] = this.selections.map(
-      (value) => ({ gqPositionId: value.gqPositionId, addedToOffer: false })
-    );
+    const updateQuotationDetailList: UpdateQuotationDetail[] =
+      this.selections.map((value) => ({
+        gqPositionId: value.gqPositionId,
+        addedToOffer: false,
+      }));
     this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
   }
 }

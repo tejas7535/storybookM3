@@ -136,12 +136,12 @@ describe(`HttpErrorInterceptor`, () => {
 
         expect(httpRequest.request.method).toEqual('GET');
 
-        httpRequest.error(({
+        httpRequest.error({
           status: 0,
           message: 'error',
           title: 'Service Unavailable',
           detail: 'Damn monkey',
-        } as unknown) as ErrorEvent);
+        } as unknown as ErrorEvent);
       })
     );
 
@@ -159,14 +159,14 @@ describe(`HttpErrorInterceptor`, () => {
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error(({
+      httpRequest.error({
         status: 403,
         error: {
           message: 'error',
           title: 'Service Unavailable',
           detail: 'Damn monkey',
         },
-      } as unknown) as ErrorEvent);
+      } as unknown as ErrorEvent);
     });
 
     test('should not show toast error message in login case', () => {
@@ -183,7 +183,7 @@ describe(`HttpErrorInterceptor`, () => {
 
       expect(httpRequest.request.method).toEqual('GET');
 
-      httpRequest.error(({
+      httpRequest.error({
         status: 400,
         error: {
           url: 'https://login.microsoftonline',
@@ -191,7 +191,7 @@ describe(`HttpErrorInterceptor`, () => {
           title: 'Service Unavailable',
           detail: 'Damn monkey',
         },
-      } as unknown) as ErrorEvent);
+      } as unknown as ErrorEvent);
     });
   });
 });

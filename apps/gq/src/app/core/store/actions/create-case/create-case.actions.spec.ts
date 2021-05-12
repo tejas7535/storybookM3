@@ -38,8 +38,7 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         autocompleteSearch,
-        type:
-          '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',
+        type: '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',
       });
     });
 
@@ -47,8 +46,7 @@ describe('Create Actions', () => {
       const action = autocompleteFailure();
 
       expect(action).toEqual({
-        type:
-          '[Create Case] Get Autocomplete Suggestions For Autocomplete Option Failure',
+        type: '[Create Case] Get Autocomplete Suggestions For Autocomplete Option Failure',
       });
     });
 
@@ -60,8 +58,7 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         options,
         filter,
-        type:
-          '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
+        type: '[Create Case] Get Autocomplete Suggestions For selected Autocomplete Option',
       });
     });
 
@@ -167,8 +164,7 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         createdCase,
-        type:
-          '[Create Case] CreateCase from table and selected customer Success',
+        type: '[Create Case] CreateCase from table and selected customer Success',
       });
     });
 
@@ -178,8 +174,7 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         errorMessage,
-        type:
-          '[Create Case] CreateCase from table and selected customer Failure',
+        type: '[Create Case] CreateCase from table and selected customer Failure',
       });
     });
   });

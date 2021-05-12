@@ -3,14 +3,14 @@ import * as fromAuthSelectors from './auth.selectors';
 
 describe('Azure Auth selectors', () => {
   test('should return accountInfo', () => {
-    const accountInfo = ({ name: 'Test' } as unknown) as AccountInfo;
+    const accountInfo = { name: 'Test' } as unknown as AccountInfo;
     expect(fromAuthSelectors.getAccountInfo.projector({ accountInfo })).toEqual(
       accountInfo
     );
   });
 
   test('should return username', () => {
-    const accountInfo = ({ name: 'Test' } as unknown) as AccountInfo;
+    const accountInfo = { name: 'Test' } as unknown as AccountInfo;
     expect(fromAuthSelectors.getUsername.projector({ accountInfo })).toEqual(
       accountInfo.name
     );
@@ -27,9 +27,9 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return user unique identifier', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: 'Test@schaeffler.com',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
     const expectedUserId = 'Test';
     expect(
       fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
@@ -37,18 +37,18 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return undefined on undefined username', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: undefined,
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
     expect(
       fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
     ).toBeUndefined();
   });
 
   test('should return empty string with empty string as username', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: '',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
     const expected = '';
     expect(
       fromAuthSelectors.getUserUniqueIdentifier.projector({ accountInfo })
@@ -56,10 +56,10 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return users department', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: '',
       department: 'C-IT',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
 
     expect(
       fromAuthSelectors.getUserDepartment.projector({ accountInfo })
@@ -67,9 +67,9 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return undefined as department', () => {
-    const accountInfo = ({
+    const accountInfo = {
       username: '',
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
 
     expect(
       fromAuthSelectors.getUserDepartment.projector({ accountInfo })
@@ -77,7 +77,7 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return login true for authenticated user', () => {
-    const accountInfo = ({ name: 'Test' } as unknown) as AccountInfo;
+    const accountInfo = { name: 'Test' } as unknown as AccountInfo;
     expect(
       fromAuthSelectors.getIsLoggedIn.projector({ accountInfo })
     ).toBeTruthy();
@@ -91,12 +91,12 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return roles', () => {
-    const accountInfo = ({
+    const accountInfo = {
       name: 'Test',
       idTokenClaims: {
         roles: ['User'],
       },
-    } as unknown) as AccountInfo;
+    } as unknown as AccountInfo;
 
     expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([
       'User',
@@ -104,7 +104,7 @@ describe('Azure Auth selectors', () => {
   });
 
   test('should return empty array if no roles are present', () => {
-    const accountInfo = ({ name: 'Test' } as unknown) as AccountInfo;
+    const accountInfo = { name: 'Test' } as unknown as AccountInfo;
 
     expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([]);
   });

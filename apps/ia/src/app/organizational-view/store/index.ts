@@ -154,6 +154,5 @@ export function reducer(
   return organizationalViewReducer(state, action);
 }
 
-export const selectOrganizationalViewState = createFeatureSelector<OrganizationalViewState>(
-  organizationalViewFeatureKey
-);
+export const selectOrganizationalViewState =
+  createFeatureSelector<OrganizationalViewState>(organizationalViewFeatureKey);

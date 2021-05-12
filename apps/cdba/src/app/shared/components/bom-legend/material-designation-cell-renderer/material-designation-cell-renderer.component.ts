@@ -10,7 +10,8 @@ import { COLOR_PLATTE } from '../../bom-chart/bom-chart.config';
   styleUrls: ['./material-designation-cell-renderer.component.scss'],
 })
 export class MaterialDesignationCellRendererComponent
-  implements ICellRendererAngularComp {
+  implements ICellRendererAngularComp
+{
   public materialDesignation: string;
   public color: string;
 

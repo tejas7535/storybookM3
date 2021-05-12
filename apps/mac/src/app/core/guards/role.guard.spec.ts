@@ -14,16 +14,16 @@ describe('RoleGuard', () => {
   let guard: RoleGuard;
   let store: MockStore<AppState>;
 
-  const mockBaseRoute: ActivatedRouteSnapshot = ({
+  const mockBaseRoute: ActivatedRouteSnapshot = {
     path: RoutePath.LifetimePredictorPath,
-  } as unknown) as ActivatedRouteSnapshot;
+  } as unknown as ActivatedRouteSnapshot;
 
-  const mockProtectedRoute: ActivatedRouteSnapshot = ({
+  const mockProtectedRoute: ActivatedRouteSnapshot = {
     ...mockBaseRoute,
     data: {
       requiredRoles: ['lifetime-predictor-user'],
     },
-  } as unknown) as ActivatedRouteSnapshot;
+  } as unknown as ActivatedRouteSnapshot;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

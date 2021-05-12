@@ -187,23 +187,20 @@ export class CompareEffects {
       };
     }
 
-    const identifiersComplete = CompareEffects.checkValidityOfIdentifiers(
-      compareItems
-    );
+    const identifiersComplete =
+      CompareEffects.checkValidityOfIdentifiers(compareItems);
 
     return identifiersComplete
-      ? Object.values(
-          compareItems
-        ).map(({ nodeId, ...referenceTypeIdentifier }) => [
-          nodeId,
-          referenceTypeIdentifier,
-        ])
+      ? Object.values(compareItems).map(
+          ({ nodeId, ...referenceTypeIdentifier }) => [
+            nodeId,
+            referenceTypeIdentifier,
+          ]
+        )
       : undefined;
   }
 
-  private static splitQueryKey(
-    queryKey: string
-  ): {
+  private static splitQueryKey(queryKey: string): {
     index: string;
     queryKey: string;
   } {
@@ -215,9 +212,8 @@ export class CompareEffects {
   private static checkValidityOfIdentifiers(identifiersMap: {
     [index: string]: ReferenceTypeIdentifier;
   }): boolean {
-    const referenceTypeIdentifiers: ReferenceTypeIdentifier[] = Object.values(
-      identifiersMap
-    );
+    const referenceTypeIdentifiers: ReferenceTypeIdentifier[] =
+      Object.values(identifiersMap);
 
     if (referenceTypeIdentifiers.length !== 2) {
       return false;

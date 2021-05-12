@@ -9,7 +9,7 @@ describe('LossOfSkills Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadLostJobProfiles', () => {
-    const request = ({} as unknown) as EmployeesRequest;
+    const request = {} as unknown as EmployeesRequest;
     const action = loadLostJobProfiles({ request });
 
     expect(action).toEqual({

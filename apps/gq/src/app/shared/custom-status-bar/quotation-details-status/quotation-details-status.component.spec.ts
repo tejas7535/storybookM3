@@ -49,13 +49,13 @@ describe('QuotationDetailsStatusComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     store = spectator.inject(MockStore);
-    params = ({
+    params = {
       api: {
         addEventListener: jest.fn(),
         getSelectedRows: jest.fn().mockReturnValue([QUOTATION_DETAIL_MOCK]),
         forEachNode: jest.fn(),
       },
-    } as unknown) as IStatusPanelParams;
+    } as unknown as IStatusPanelParams;
   });
 
   test('should create', () => {

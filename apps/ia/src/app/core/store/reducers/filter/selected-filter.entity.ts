@@ -9,8 +9,7 @@ export const selectFilterId = (f: SelectedFilter): string => {
   return f.name;
 };
 
-export const filterAdapter: EntityAdapter<SelectedFilter> = createEntityAdapter<SelectedFilter>(
-  {
+export const filterAdapter: EntityAdapter<SelectedFilter> =
+  createEntityAdapter<SelectedFilter>({
     selectId: selectFilterId,
-  }
-);
+  });

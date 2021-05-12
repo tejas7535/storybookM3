@@ -47,11 +47,9 @@ describe('Data Service', () => {
       const mock = 'mockData';
       const params = new HttpParams().set('test', '123');
 
-      service
-        .getAll<string>(serviceName, { params })
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
+      service.getAll<string>(serviceName, { params }).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
 
       const req = httpMock.expectOne(`${BASE_URL}/${serviceName}?test=123`);
       expect(req.request.method).toBe('GET');
@@ -112,11 +110,9 @@ describe('Data Service', () => {
       const mock = 'mockData';
       const params = new HttpParams().set('test', '123');
 
-      service
-        .delete<string>(serviceName, { params })
-        .subscribe((response) => {
-          expect(response).toEqual(mock);
-        });
+      service.delete<string>(serviceName, { params }).subscribe((response) => {
+        expect(response).toEqual(mock);
+      });
 
       const req = httpMock.expectOne(`${BASE_URL}/${serviceName}?test=123`);
       expect(req.request.method).toBe('DELETE');

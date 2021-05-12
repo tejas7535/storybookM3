@@ -39,9 +39,11 @@ export class AddToOfferButtonComponent {
   }
 
   addToOffer(): void {
-    const updateQuotationDetailList: UpdateQuotationDetail[] = this.selections.map(
-      (value) => ({ gqPositionId: value.gqPositionId, addedToOffer: true })
-    );
+    const updateQuotationDetailList: UpdateQuotationDetail[] =
+      this.selections.map((value) => ({
+        gqPositionId: value.gqPositionId,
+        addedToOffer: true,
+      }));
     this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
   }
 }

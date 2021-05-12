@@ -106,9 +106,9 @@ describe('QuotationDetailsTableComponent', () => {
         },
       } as any;
 
-      component[
-        'agGridStateService'
-      ].getColumnState = jest.fn().mockReturnValue('state');
+      component['agGridStateService'].getColumnState = jest
+        .fn()
+        .mockReturnValue('state');
       component.onGridReady(event);
       expect(
         component['agGridStateService'].getColumnState

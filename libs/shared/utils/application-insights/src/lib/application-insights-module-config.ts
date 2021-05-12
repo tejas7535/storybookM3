@@ -9,6 +9,7 @@ export interface ApplicationInsightsModuleConfig {
   ngrxIgnorePattern?: string[];
 }
 
-export const APPLICATION_INSIGHTS_CONFIG = new InjectionToken<ApplicationInsightsModuleConfig>(
-  'ApplicationInsightsConfig'
-);
+export const APPLICATION_INSIGHTS_CONFIG =
+  new InjectionToken<ApplicationInsightsModuleConfig>(
+    'ApplicationInsightsConfig'
+  );

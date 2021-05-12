@@ -22,13 +22,13 @@ jest.mock('@azure/msal-browser', () => ({
 describe('Azure Auth Config', () => {
   describe('loggerCallback', () => {
     beforeEach(() => {
-      global.console = ({
+      global.console = {
         warn: jest.fn(),
         debug: jest.fn(),
         info: jest.fn(),
         error: jest.fn(),
         log: jest.fn(),
-      } as unknown) as Console;
+      } as unknown as Console;
     });
 
     test('should do nothing when Pii', () => {
@@ -67,7 +67,7 @@ describe('Azure Auth Config', () => {
 
     test('should log on default', () => {
       const message = 'message';
-      loggerCallback(('any' as unknown) as LogLevel, message, false);
+      loggerCallback('any' as unknown as LogLevel, message, false);
 
       expect(console.log).toHaveBeenCalledWith(message);
     });

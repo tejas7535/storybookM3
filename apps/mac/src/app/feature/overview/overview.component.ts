@@ -34,8 +34,7 @@ export class OverviewComponent implements OnInit {
     },
     {
       title: 'Lifetime Visualizer',
-      url:
-        'https://tableau.schaeffler.com/#/site/Technology/views/LifetimeVisualizer/LifetimeVisualizer',
+      url: 'https://tableau.schaeffler.com/#/site/Technology/views/LifetimeVisualizer/LifetimeVisualizer',
       className: 'ltv-icon',
       externalLink: true,
     },
@@ -53,8 +52,7 @@ export class OverviewComponent implements OnInit {
     },
     {
       title: 'Carbonitriding Prediction',
-      url:
-        'https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/materials-technology/materials-development/blog/2021/03/10/simulation-tool-for-carbonitriding-heat-treatment',
+      url: 'https://sconnect.schaeffler.com/community/global-technology/rd-competence-services/corporate-materials/materials-technology/materials-development/blog/2021/03/10/simulation-tool-for-carbonitriding-heat-treatment',
       className: 'carbonitriding-icon',
       externalLink: true,
     },
