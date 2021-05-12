@@ -1,4 +1,3 @@
-/* eslint-disable */
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -17,6 +16,7 @@ import { HeatType } from '../models/heat-type.enum';
 import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
 
+/* eslint-disable */
 jest.mock('echarts', () => ({
   registerMap: jest.fn(),
 }));
@@ -102,7 +102,6 @@ describe('WorldMapComponent', () => {
   });
   describe('ngOnInit', () => {
     test('should register map and set options', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(echarts.registerMap).toHaveBeenCalledWith('world', worldJson);

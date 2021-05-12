@@ -59,7 +59,6 @@ describe('RangeFilterComponent', () => {
       changes = { filter: new SimpleChange(undefined, filter, true) };
       component.form.reset = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component.form.reset).toHaveBeenCalled();
@@ -70,7 +69,6 @@ describe('RangeFilterComponent', () => {
       changes = { filter: new SimpleChange(undefined, filter, true) };
       component.form.reset = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component.form.value).toEqual('selected');
@@ -81,7 +79,6 @@ describe('RangeFilterComponent', () => {
       changes = { filter: new SimpleChange(undefined, filter, true) };
       component.form.reset = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component.form.value).toEqual('selected');

@@ -85,7 +85,6 @@ describe('SalesRowDetailsComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();

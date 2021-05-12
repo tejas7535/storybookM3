@@ -54,7 +54,6 @@ describe('AppComponent', () => {
     test('should set observables and dispatch login', () => {
       store.dispatch = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();

@@ -53,7 +53,6 @@ describe('DetailComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set referenceType$ observable', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.referenceType$).toBeDefined();

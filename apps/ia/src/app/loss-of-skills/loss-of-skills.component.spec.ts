@@ -41,7 +41,6 @@ describe('LossOfSkillsComponent', () => {
       expect(component.lostJobProfilesData$).toBeUndefined();
       expect(component.lostJobProfilesLoading$).toBeUndefined();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.lostJobProfilesData$).toBeDefined();

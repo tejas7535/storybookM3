@@ -70,7 +70,6 @@ describe('AppComponent', () => {
     it('should be initialize', () => {
       store.dispatch = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();

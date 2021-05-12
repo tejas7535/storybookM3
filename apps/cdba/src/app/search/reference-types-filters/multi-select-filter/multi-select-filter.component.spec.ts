@@ -67,7 +67,6 @@ describe('MultiSelectFilterComponent', () => {
     it('should add valueChanges subscription directly', () => {
       component.searchFieldChange = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test';
@@ -82,7 +81,6 @@ describe('MultiSelectFilterComponent', () => {
       component.searchForm.setValue('test');
       const spy = jest.spyOn(rxjs, 'timer');
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test1';
@@ -103,7 +101,6 @@ describe('MultiSelectFilterComponent', () => {
       component.searchForm.setValue('t');
       const spy = jest.spyOn(rxjs, 'timer');
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       const testVal = 'test2';
@@ -135,7 +132,6 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should update filter and form on filter change with autocomplete correctly', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -157,7 +153,6 @@ describe('MultiSelectFilterComponent', () => {
     it('should update filter and form on filter change and consider local search on non autocomplete', () => {
       filter.autocomplete = false;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -178,7 +173,6 @@ describe('MultiSelectFilterComponent', () => {
     it('should merge old selections with changes on autocomplete filter', () => {
       component.form.setValue([new IdValue('003', 'selected 2', true)]);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         filter: {
           currentValue: filter,
@@ -197,7 +191,6 @@ describe('MultiSelectFilterComponent', () => {
     });
 
     it('should do nothing when something else than filter changes', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({});
 
       expect(component.form.value).toBeNull();
@@ -208,7 +201,6 @@ describe('MultiSelectFilterComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();

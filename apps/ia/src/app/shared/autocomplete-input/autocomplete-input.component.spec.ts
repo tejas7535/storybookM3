@@ -61,7 +61,6 @@ describe('AutocompleteInputComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set error state matcher', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.errorStateMatcher).toBeDefined();
@@ -69,7 +68,7 @@ describe('AutocompleteInputComponent', () => {
 
     test('should listen to input changes', () => {
       component['filterOptions'] = jest.fn();
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
+
       component.ngOnInit();
 
       component.filteredOptions.subscribe();
@@ -125,7 +124,6 @@ describe('AutocompleteInputComponent', () => {
     test('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();
@@ -136,7 +134,6 @@ describe('AutocompleteInputComponent', () => {
     test('should add blur subscription and set error when option is not valid', fakeAsync(() => {
       component.inputControl.setErrors = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngAfterViewInit();
       component.inputControl.setValue('test');
       spectator.blur(component['matInput']);
@@ -151,7 +148,6 @@ describe('AutocompleteInputComponent', () => {
       component['lastEmittedValue'] = '3';
       component.selected.emit = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngAfterViewInit();
       component.inputControl.setValue('3');
       spectator.blur(component['matInput']);
@@ -167,7 +163,6 @@ describe('AutocompleteInputComponent', () => {
       component.selected.emit = jest.fn();
       component.inputControl.setErrors = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngAfterViewInit();
       component.inputControl.setValue('3');
       spectator.blur(component['matInput']);

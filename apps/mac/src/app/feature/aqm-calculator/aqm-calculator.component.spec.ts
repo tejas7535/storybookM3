@@ -89,7 +89,6 @@ describe('AqmCalculatorComponent', () => {
       component['createForm'] = jest.fn();
       component.materialInput.setValue = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.materials).toBeDefined();
@@ -99,7 +98,6 @@ describe('AqmCalculatorComponent', () => {
     });
 
     it('should patch composition form on select change', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
       component.compositionForm.patchValue = jest.fn();
       component.compositionForm.markAsDirty = jest.fn();
@@ -265,7 +263,6 @@ describe('AqmCalculatorComponent', () => {
     it('should unsubscribe', () => {
       component.subscription.unsubscribe = jest.fn();
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnDestroy();
 
       expect(component.subscription.unsubscribe).toHaveBeenCalled();

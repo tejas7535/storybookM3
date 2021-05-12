@@ -48,7 +48,6 @@ describe('CustomerViewComponent', () => {
   });
   describe('ngOnInit', () => {
     test('should define observables', () => {
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.customer$).toBeDefined();

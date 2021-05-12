@@ -149,6 +149,7 @@
         "@typescript-eslint/type-annotation-spacing": "off",
         "@typescript-eslint/unbound-method": "error",
         "@typescript-eslint/unified-signatures": "error",
+        "@typescript-eslint/no-explicit-any": "off",
         "arrow-body-style": "error",
         "arrow-parens": ["off", "always"],
         "brace-style": ["off", "off"],
@@ -218,7 +219,8 @@
         "no-extra-bind": "error",
         "no-extra-semi": "off",
         "no-fallthrough": "error",
-        "no-invalid-this": "error",
+        "no-invalid-this": "off",
+        "@typescript-eslint/no-invalid-this": ["error"],
         "no-irregular-whitespace": "off",
         "no-multiple-empty-lines": "warn",
         "no-new-func": "error",
@@ -275,7 +277,8 @@
       "extends": ["plugin:jest/recommended"],
       "rules": {
         "@typescript-eslint/unbound-method": "off",
-        "jest/unbound-method": "error"
+        "jest/unbound-method": "error",
+        "@angular-eslint/no-lifecycle-calls": "off"
       }
     }
   ]

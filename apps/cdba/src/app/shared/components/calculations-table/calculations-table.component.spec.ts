@@ -82,7 +82,6 @@ describe('CalculationsTableComponent', () => {
         showLoadingOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -95,7 +94,6 @@ describe('CalculationsTableComponent', () => {
     it('should do nothing with the overlays when gridApi is not loaded', () => {
       component['gridApi'] = undefined;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: true,
@@ -111,7 +109,6 @@ describe('CalculationsTableComponent', () => {
         showNoRowsOverlay: jest.fn(),
       } as unknown) as GridApi;
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges({
         isLoading: ({
           currentValue: false,

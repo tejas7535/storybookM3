@@ -56,7 +56,6 @@ describe('LimitsComponent', () => {
         },
       };
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component.adjustSliders).toHaveBeenCalled();
@@ -72,7 +71,6 @@ describe('LimitsComponent', () => {
         },
       };
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnChanges(changes);
 
       expect(component.adjustSliders).not.toHaveBeenCalled();

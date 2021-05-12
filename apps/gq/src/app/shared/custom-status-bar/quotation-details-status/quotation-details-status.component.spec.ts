@@ -66,7 +66,6 @@ describe('QuotationDetailsStatusComponent', () => {
     test('should set showMargins to true', () => {
       store.overrideSelector(getRoles, [UserRoles.COST_GPC]);
 
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
       component.ngOnInit();
 
       expect(component.showGPI$).toBeTruthy();

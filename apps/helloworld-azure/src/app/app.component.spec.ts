@@ -57,7 +57,7 @@ describe('AppComponent', () => {
   describe('ngOnInit', () => {
     test('should call getUserName', () => {
       store.dispatch = jest.fn();
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
+
       component.ngOnInit();
 
       expect(component.username$).toBeDefined();
