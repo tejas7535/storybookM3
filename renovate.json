@@ -158,7 +158,8 @@
         "eslint-plugin-unicorn",
         "eslint-plugin-prefer-arrow"
       ],
-      "groupName": "eslint"
+      "groupName": "eslint",
+      "schedule": ["every weekend"]
     },
     {
       "packageNames": ["@azure/msal-browser", "@azure/msal-angular"],
