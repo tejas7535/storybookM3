@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   ChangeDetectionStrategy,
   Component,
@@ -24,6 +23,11 @@ import { CountryData } from './models/country-data.model';
 export class WorldMapComponent implements OnInit {
   private _data: CountryData[];
 
+  private readonly schaefflerGreen1 = '#00893d';
+  private readonly schaefflerYellow = '#fccf46';
+  private readonly schaefflerRed = '#e62c27';
+  private readonly schaefflerGrey2 = '#ebeef0';
+
   @Input() isLoading: boolean;
 
   @Input() set data(countryData: CountryData[]) {
@@ -38,12 +42,12 @@ export class WorldMapComponent implements OnInit {
       if (geoJsonData) {
         const areayColor =
           data.attritionMeta.heatType === HeatType.GREEN_HEAT
-            ? '#00893d' // $schaeffler-green-1
+            ? this.schaefflerGreen1
             : data.attritionMeta.heatType === HeatType.ORANGE_HEAT
-            ? '#fccf46' // $schaeffler-yellow
+            ? this.schaefflerYellow
             : data.attritionMeta.heatType === HeatType.RED_HEAT
-            ? '#e62c27' // $schaeffler-red
-            : '#ebeef0'; // schaeffler-grey-2
+            ? this.schaefflerRed
+            : this.schaefflerGrey2;
 
         selectedAreas.push({
           name: geoJsonData.properties.name,
@@ -116,11 +120,11 @@ export class WorldMapComponent implements OnInit {
           mapType: 'world',
           roam: true,
           itemStyle: {
-            areaColor: '#ebeef0', // schaeffler-grey-2
+            areaColor: this.schaefflerGrey2,
           },
           emphasis: {
             itemStyle: {
-              areaColor: '#ebeef0', // schaeffler-grey-2
+              areaColor: this.schaefflerGrey2,
             },
             label: {
               show: false,

@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { ChartLegendModule } from '../../shared/chart-legend/chart-legend.module';
 import { SharedModule } from '../../shared/shared.module';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { WorldMapComponent } from './world-map.component';
@@ -21,8 +21,8 @@ import { WorldMapComponent } from './world-map.component';
     LoadingSpinnerModule,
     MatButtonModule,
     SharedTranslocoModule,
-    MatTooltipModule,
     AttritionDialogModule,
+    ChartLegendModule,
   ],
   exports: [WorldMapComponent],
 })

@@ -12,7 +12,22 @@
     "europe": "Europe",
     "asia": "Asia",
     "americas": "Americas",
-    "continentNotFound": "No data for {{value}} found. Please update filters."
+    "continentNotFound": "No data for {{value}} found. Please update filters.",
+    "chartLegend": {
+      "title": "Fluctuation:",
+      "danger": {
+        "title": "High",
+        "tooltip": "Voluntary fluctuation quota >150% of the L1 average and number of people left in HCO >2."
+      },
+      "warning": {
+        "title": "Medium",
+        "tooltip": "Voluntary fluctuation quota between 100 and 150% of the average on L1 level."
+      },
+      "ok": {
+        "title": "Low",
+        "tooltip": "Voluntray fluctuation quota between 0% and the average on L1 level."
+      }
+    }
   },
   "overviewChartToggleButtons": {
     "orgChart": "Organizational chart",
