@@ -1,3 +1,4 @@
+import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
 
 import {
@@ -130,6 +131,49 @@ describe('HelperServiceService', () => {
       ];
 
       expect(result).toEqual(expected);
+    });
+  });
+  describe('validateNumberInputKeyPress', () => {
+    test('should prevent Default', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20.022 };
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should prevent Default', () => {
+      const event = { key: 0, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20 };
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+
+    test('should not prevent Default', () => {
+      const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
+      const manualPriceInput = { value: 20.022 };
+
+      HelperService.validateNumberInputKeyPress(event, manualPriceInput);
+
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+  });
+  describe('onPaste', () => {
+    test('should set price', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => 20.022),
+        },
+        preventDefault: jest.fn(),
+      } as any;
+      const manualPriceFormControl = { setValue: jest.fn() } as any;
+
+      HelperService.validateNumberInputPaste(event, manualPriceFormControl);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+      expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(20.02);
     });
   });
 });

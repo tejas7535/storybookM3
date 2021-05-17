@@ -5,10 +5,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { KeyName } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { HelperService } from 'apps/gq/src/app/shared/services/helper-service/helper-service.service';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -154,51 +154,23 @@ describe('ManualPriceComponent', () => {
   });
 
   describe('onKeyPress', () => {
-    test('should prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
+    test('should call HelperService', () => {
+      HelperService.validateNumberInputKeyPress = jest.fn();
 
-      component.onKeyPress(event, manualPriceInput);
+      component.onKeyPress({} as any, undefined);
 
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-    });
-    test('should prevent Default', () => {
-      const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20 };
-
-      component.onKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
-    });
-
-    test('should not prevent Default', () => {
-      const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
-
-      component.onKeyPress(event, manualPriceInput);
-
-      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+      expect(HelperService.validateNumberInputKeyPress).toHaveBeenCalledTimes(
+        1
+      );
     });
   });
 
   describe('onPaste', () => {
     test('should set price', () => {
-      const event = {
-        clipboardData: {
-          getData: jest.fn(() => 20.022),
-        },
-        preventDefault: jest.fn(),
-      } as any;
-      component.manualPriceFormControl = { setValue: jest.fn() } as any;
+      HelperService.validateNumberInputPaste = jest.fn();
 
-      component.onPaste(event);
-      expect(event.preventDefault).toHaveBeenCalledTimes(1);
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
-        1
-      );
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledWith(
-        20.02
-      );
+      component.onPaste({} as any);
+      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
     });
   });
 

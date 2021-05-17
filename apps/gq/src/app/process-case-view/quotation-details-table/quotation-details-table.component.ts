@@ -20,7 +20,7 @@ import { AppState } from '../../core/store';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
-import { COLUMN_DEFS } from '../../shared/services/column-utility-service/column-defs';
+import { ColumnDefService } from '../../shared/services/column-utility-service/column-def.service';
 import { ColumnUtilityService } from '../../shared/services/column-utility-service/column-utility.service';
 import {
   DEFAULT_COLUMN_DEFS,
@@ -61,14 +61,19 @@ export class QuotationDetailsTableComponent implements OnInit {
 
   constructor(
     private readonly store: Store<AppState>,
-    private readonly agGridStateService: AgGridStateService
+    private readonly agGridStateService: AgGridStateService,
+    private readonly columnDefinitionService: ColumnDefService
   ) {}
 
   ngOnInit(): void {
     this.columnDefs$ = this.store.pipe(
       select(getRoles),
       map((roles) =>
-        ColumnUtilityService.createColumnDefs(roles, true, COLUMN_DEFS)
+        ColumnUtilityService.createColumnDefs(
+          roles,
+          true,
+          this.columnDefinitionService.COLUMN_DEFS
+        )
       )
     );
   }
