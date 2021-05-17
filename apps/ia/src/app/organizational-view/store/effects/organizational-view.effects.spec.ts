@@ -11,14 +11,19 @@ import {
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
+  AttritionOverTime,
   EmployeesRequest,
   FilterKey,
   SelectedFilter,
+  TimePeriod,
 } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
+  loadAttritionOverTimeOrgChart,
+  loadAttritionOverTimeOrgChartFailure,
+  loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -73,11 +78,13 @@ describe('Organizational View Effects', () => {
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultOrg = loadOrgChart({ request });
       const resultWorld = loadWorldMap({ request });
+      const resultAttrition = loadAttritionOverTimeOrgChart({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(cd)', {
-        c: resultOrg,
-        d: resultWorld,
+      const expected = cold('-(bcd)', {
+        b: resultOrg,
+        c: resultWorld,
+        d: resultAttrition,
       });
 
       expect(effects.filterChange$).toBeObservable(expected);
@@ -91,11 +98,13 @@ describe('Organizational View Effects', () => {
 
       const resultOrg = loadOrgChart({ request });
       const resultWorld = loadWorldMap({ request });
+      const resultAttrition = loadAttritionOverTimeOrgChart({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(cd)', {
-        c: resultOrg,
-        d: resultWorld,
+      const expected = cold('-(bcd)', {
+        b: resultOrg,
+        c: resultWorld,
+        d: resultAttrition,
       });
       expect(effects.filterChange$).toBeObservable(expected);
     });
@@ -283,6 +292,55 @@ describe('Organizational View Effects', () => {
       const expected = cold('-b', { b: result });
 
       expect(effects.loadParentSuccess$).toBeObservable(expected);
+    });
+  });
+
+  describe('loadAttritionOverTimeOrgChart$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadAttritionOverTimeOrgChart({ request });
+    });
+
+    test('should return loadAttritionOverTimeOrgChartSuccess action when REST call is successful', () => {
+      const data: AttritionOverTime = { events: [], data: {} };
+      const result = loadAttritionOverTimeOrgChartSuccess({
+        data,
+      });
+
+      actions$ = hot('-a', { a: action });
+
+      const response = cold('-a|', {
+        a: data,
+      });
+      const expected = cold('--b', { b: result });
+
+      employeesService.getAttritionOverTime = jest.fn(() => response);
+
+      expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(expected);
+      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+        request,
+        TimePeriod.PLUS_MINUS_THREE_MONTHS
+      );
+    });
+
+    test('should return loadAttritionOverTimeOrgChartFailure on REST error', () => {
+      const result = loadAttritionOverTimeOrgChartFailure({
+        errorMessage: error.message,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-#|', undefined, error);
+      const expected = cold('--b', { b: result });
+
+      employeesService.getAttritionOverTime = jest.fn(() => response);
+
+      expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(expected);
+      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+        request,
+        TimePeriod.PLUS_MINUS_THREE_MONTHS
+      );
     });
   });
 

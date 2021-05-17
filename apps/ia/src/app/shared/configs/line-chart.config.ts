@@ -1,22 +1,9 @@
 import { EChartsOption } from 'echarts';
 
-export const CHART_BASE_OPTIONS: EChartsOption = {
+export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
   xAxis: {
     type: 'category',
-    data: [
-      'JAN',
-      'FEB',
-      'MAR',
-      'APR',
-      'MAY',
-      'JUN',
-      'JUL',
-      'AUG',
-      'SEP',
-      'OCT',
-      'NOV',
-      'DEC',
-    ],
+    data: [],
   },
   yAxis: {
     type: 'value',
@@ -37,7 +24,7 @@ export const CHART_BASE_OPTIONS: EChartsOption = {
   },
 };
 
-export const SERIES_BASE_OPTIONS = {
+export const LINE_SERIES_BASE_OPTIONS = {
   showSymbol: false,
   lineStyle: {
     width: 4,

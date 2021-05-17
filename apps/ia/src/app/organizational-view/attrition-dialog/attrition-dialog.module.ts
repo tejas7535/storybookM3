@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { IconsModule } from '@schaeffler/icons';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
@@ -32,6 +33,7 @@ import { AttritionDialogComponent } from './attrition-dialog.component';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    LoadingSpinnerModule,
   ],
   exports: [AttritionDialogComponent],
 })

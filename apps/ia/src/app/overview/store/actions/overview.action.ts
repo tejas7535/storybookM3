@@ -2,25 +2,25 @@ import { createAction, props, union } from '@ngrx/store';
 
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 
-export const loadAttritionOverTime = createAction(
-  '[Overview] Load AttritionOverTime',
+export const loadAttritionOverTimeOverview = createAction(
+  '[Overview] Load AttritionOverTime for last three years',
   props<{ request: EmployeesRequest }>()
 );
 
-export const loadAttritionOverTimeSuccess = createAction(
-  '[Overview] Load AttritionOverTime Success',
+export const loadAttritionOverTimeOverviewSuccess = createAction(
+  '[Overview] Load AttritionOverTime for last three years Success',
   props<{ data: AttritionOverTime }>()
 );
 
-export const loadAttritionOverTimeFailure = createAction(
-  '[Overview] Load AttritionOverTime Failure',
+export const loadAttritionOverTimeOverviewFailure = createAction(
+  '[Overview] Load AttritionOverTime for last three years Failure',
   props<{ errorMessage: string }>()
 );
 
 const all = union({
-  loadAttritionOverTimeData: loadAttritionOverTime,
-  loadAttritionOverTimeDataSuccess: loadAttritionOverTimeSuccess,
-  loadAttritionOverTimeDataFailure: loadAttritionOverTimeFailure,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewSuccess,
+  loadAttritionOverTimeOverviewFailure,
 });
 
 export type OverviewActions = typeof all;

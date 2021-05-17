@@ -85,6 +85,8 @@ describe('OrgChartComponent', () => {
             selectedTimeRange: component.selectedTimeRange,
             data: mock,
           },
+          width: '90%',
+          maxWidth: '750px',
         }
       );
     });

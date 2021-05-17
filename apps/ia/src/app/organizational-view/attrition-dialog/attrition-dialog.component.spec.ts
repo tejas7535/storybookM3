@@ -5,7 +5,6 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -24,7 +23,6 @@ describe('AttritionDialogComponent', () => {
       IconsModule,
       MatIconModule,
       MatDividerModule,
-      UnderConstructionModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     detectChanges: false,

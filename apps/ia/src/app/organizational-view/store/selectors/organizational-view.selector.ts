@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
+import { AttritionOverTime } from '../../../shared/models';
 
 export const getSelectedChartType = createSelector(
   selectOrganizationalViewState,
@@ -30,4 +31,19 @@ export const getWorldMap = createSelector(
 export const getWorldMapContinents = createSelector(
   selectOrganizationalViewState,
   (state: OrganizationalViewState) => state.worldMap.continents
+);
+
+const getAttritionOverTime = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.attritionOverTime?.data
+);
+
+export const getAttritionOverTimeOrgChartData = createSelector(
+  getAttritionOverTime,
+  (attritionOverTime: AttritionOverTime) => attritionOverTime?.data
+);
+
+export const getIsLoadingAttritionOverTimeOrgChart = createSelector(
+  selectOrganizationalViewState,
+  (state: OrganizationalViewState) => state.attritionOverTime.loading
 );

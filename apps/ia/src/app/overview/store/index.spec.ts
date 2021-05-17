@@ -3,17 +3,17 @@ import { Action } from '@ngrx/store';
 import { initialState, overviewReducer, reducer } from '.';
 import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import {
-  loadAttritionOverTime,
-  loadAttritionOverTimeFailure,
-  loadAttritionOverTimeSuccess,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewFailure,
+  loadAttritionOverTimeOverviewSuccess,
 } from './actions/overview.action';
 
 describe('Overview Reducer', () => {
   const errorMessage = 'An error occured';
 
-  describe('loadAttritionOverTime', () => {
+  describe('loadAttritionOverTimeOverview', () => {
     test('should set loading', () => {
-      const action = loadAttritionOverTime({
+      const action = loadAttritionOverTimeOverview({
         request: {} as unknown as EmployeesRequest,
       });
       const state = overviewReducer(initialState, action);
@@ -22,11 +22,11 @@ describe('Overview Reducer', () => {
     });
   });
 
-  describe('loadAttritionOverTimeSuccess', () => {
+  describe('loadAttritionOverTimeOverviewSuccess', () => {
     test('should unset loading and set country data', () => {
       const data: AttritionOverTime = {} as unknown as AttritionOverTime;
 
-      const action = loadAttritionOverTimeSuccess({ data });
+      const action = loadAttritionOverTimeOverviewSuccess({ data });
 
       const state = overviewReducer(initialState, action);
 
@@ -35,9 +35,9 @@ describe('Overview Reducer', () => {
     });
   });
 
-  describe('loadAttritionOverTimeFailure', () => {
+  describe('loadAttritionOverTimeOverviewFailure', () => {
     test('should unset loading / set error message', () => {
-      const action = loadAttritionOverTimeFailure({ errorMessage });
+      const action = loadAttritionOverTimeOverviewFailure({ errorMessage });
       const fakeState = {
         ...initialState,
         attritionOverTime: {

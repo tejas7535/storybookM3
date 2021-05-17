@@ -14,12 +14,13 @@ import {
   AttritionOverTime,
   EmployeesRequest,
   SelectedFilter,
+  TimePeriod,
 } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import {
-  loadAttritionOverTime,
-  loadAttritionOverTimeFailure,
-  loadAttritionOverTimeSuccess,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewFailure,
+  loadAttritionOverTimeOverviewSuccess,
 } from '../actions/overview.action';
 import { OverviewEffects } from './overview.effects';
 
@@ -63,7 +64,7 @@ describe('Overview Effects', () => {
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
-      const resultAttrition = loadAttritionOverTime({ request });
+      const resultAttrition = loadAttritionOverTimeOverview({ request });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(b)', {
@@ -79,7 +80,7 @@ describe('Overview Effects', () => {
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
 
-      const resultAttrition = loadAttritionOverTime({ request });
+      const resultAttrition = loadAttritionOverTimeOverview({ request });
 
       actions$ = hot('-a', { a: action });
       const expected = cold('-(b)', {
@@ -111,17 +112,17 @@ describe('Overview Effects', () => {
     });
   });
 
-  describe('loadAttritionOverTime$', () => {
+  describe('loadAttritionOverTimeOverview$', () => {
     let request: EmployeesRequest;
 
     beforeEach(() => {
       request = {} as unknown as EmployeesRequest;
-      action = loadAttritionOverTime({ request });
+      action = loadAttritionOverTimeOverview({ request });
     });
 
-    test('should return loadAttritionOverTimeSuccess action when REST call is successful', () => {
+    test('should return loadAttritionOverTimeOverviewSuccess action when REST call is successful', () => {
       const data: AttritionOverTime = { events: [], data: {} };
-      const result = loadAttritionOverTimeSuccess({
+      const result = loadAttritionOverTimeOverviewSuccess({
         data,
       });
 
@@ -134,14 +135,15 @@ describe('Overview Effects', () => {
 
       employeesService.getAttritionOverTime = jest.fn(() => response);
 
-      expect(effects.loadAttritionOverTime$).toBeObservable(expected);
+      expect(effects.loadAttritionOverTimeOverview$).toBeObservable(expected);
       expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request
+        request,
+        TimePeriod.LAST_THREE_YEARS
       );
     });
 
-    test('should return loadAttritionOverTimeFailure on REST error', () => {
-      const result = loadAttritionOverTimeFailure({
+    test('should return loadAttritionOverTimeOverviewFailure on REST error', () => {
+      const result = loadAttritionOverTimeOverviewFailure({
         errorMessage: error.message,
       });
 
@@ -151,9 +153,10 @@ describe('Overview Effects', () => {
 
       employeesService.getAttritionOverTime = jest.fn(() => response);
 
-      expect(effects.loadAttritionOverTime$).toBeObservable(expected);
+      expect(effects.loadAttritionOverTimeOverview$).toBeObservable(expected);
       expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request
+        request,
+        TimePeriod.LAST_THREE_YEARS
       );
     });
   });

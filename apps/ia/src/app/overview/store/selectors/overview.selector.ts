@@ -3,7 +3,7 @@ import { createSelector } from '@ngrx/store';
 import { OverviewState, selectOverviewState } from '..';
 import { AttritionOverTime } from '../../../shared/models';
 
-export const getIsLoadingAttritionOverTime = createSelector(
+export const getIsLoadingAttritionOverTimeOverview = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.attritionOverTime.loading
 );
@@ -18,7 +18,7 @@ export const getAttritionOverTimeEvents = createSelector(
   (attritionOverTime: AttritionOverTime) => attritionOverTime?.events
 );
 
-export const getAttritionOverTimeData = createSelector(
+export const getAttritionOverTimeOverviewData = createSelector(
   getAttritionOverTime,
   (attritionOverTime: AttritionOverTime) => attritionOverTime?.data
 );

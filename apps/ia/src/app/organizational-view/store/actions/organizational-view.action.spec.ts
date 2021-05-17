@@ -1,9 +1,12 @@
-import { EmployeesRequest } from '../../../shared/models';
+import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
+  loadAttritionOverTimeOrgChart,
+  loadAttritionOverTimeOrgChartFailure,
+  loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -121,6 +124,37 @@ describe('Organizational View Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Organizational View] Load Parent Failure',
+    });
+  });
+
+  test('loadAttritionOverTimeOrgChart', () => {
+    const request = {} as unknown as EmployeesRequest;
+
+    const action = loadAttritionOverTimeOrgChart({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Organizational View] Load AttritionOverTime for plus minus three months',
+    });
+  });
+
+  test('loadAttritionOverTimeOrgChartSuccess', () => {
+    const data = {} as unknown as AttritionOverTime;
+
+    const action = loadAttritionOverTimeOrgChartSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Organizational View] Load AttritionOverTime for plus minus three months Success',
+    });
+  });
+
+  test('loadAttritionOverTimeOrgChartFailure', () => {
+    const action = loadAttritionOverTimeOrgChartFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Organizational View] Load AttritionOverTime for plus minus three months Failure',
     });
   });
 });

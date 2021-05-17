@@ -14,6 +14,7 @@ import {
   InitialFiltersResponse,
   OrgChartResponse,
   ParentEmployeeResponse,
+  TimePeriod,
   WorldMapResponse,
 } from '../models';
 import { EmployeeService } from './employee.service';
@@ -212,11 +213,15 @@ describe('EmployeesService', () => {
         },
       };
 
-      service.getAttritionOverTime(request).subscribe((response) => {
-        expect(response).toEqual(mock);
-      });
+      service
+        .getAttritionOverTime(request, TimePeriod.LAST_THREE_YEARS)
+        .subscribe((response) => {
+          expect(response).toEqual(mock);
+        });
 
-      const req = httpMock.expectOne('/attrition-over-time');
+      const req = httpMock.expectOne(
+        '/attrition-over-time?time_period=LAST_THREE_YEARS'
+      );
       expect(req.request.method).toBe('POST');
       req.flush(mock);
     });

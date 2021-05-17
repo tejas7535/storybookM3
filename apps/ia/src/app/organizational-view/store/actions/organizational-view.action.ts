@@ -1,6 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { EmployeesRequest } from '../../../shared/models';
+import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
@@ -55,6 +55,21 @@ export const loadParentFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadAttritionOverTimeOrgChart = createAction(
+  '[Organizational View] Load AttritionOverTime for plus minus three months',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadAttritionOverTimeOrgChartSuccess = createAction(
+  '[Organizational View] Load AttritionOverTime for plus minus three months Success',
+  props<{ data: AttritionOverTime }>()
+);
+
+export const loadAttritionOverTimeOrgChartFailure = createAction(
+  '[Organizational View] Load AttritionOverTime for plus minus three months Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   chartTypeSelected,
   loadOrgChart,
@@ -63,6 +78,9 @@ const all = union({
   loadWorldMap,
   loadWorldMapSuccess,
   loadWorldMapFailure,
+  loadAttritionOverTimeOrgChart,
+  loadAttritionOverTimeOrgChartSuccess,
+  loadAttritionOverTimeOrgChartFailure,
 });
 
 export type OrganizationalViewActions = typeof all;
