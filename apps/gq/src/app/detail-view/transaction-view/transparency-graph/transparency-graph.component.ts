@@ -15,16 +15,20 @@ import { RegressionService } from './echarts/regression.service';
 export class TransparencyGraphComponent implements OnInit {
   options: EChartsOption;
 
-  @Input() transactions: Transaction[];
-  @Input() coefficients: Coefficients;
   constructor(
     private readonly chartConfigService: ChartConfigService,
     private readonly regressionService: RegressionService
   ) {}
+
+  @Input() transactions: Transaction[];
+  @Input() coefficients: Coefficients;
+  @Input() currency: string;
+
   ngOnInit(): void {
-    if (this.transactions && this.coefficients) {
+    if (this.transactions && this.coefficients && this.currency) {
       const dataPoints = this.chartConfigService.buildDataPoints(
-        this.transactions
+        this.transactions,
+        this.currency
       );
       const regressionData = this.regressionService.buildRegressionPoints(
         this.coefficients,
