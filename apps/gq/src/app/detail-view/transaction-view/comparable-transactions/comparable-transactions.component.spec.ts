@@ -33,6 +33,14 @@ describe('ComparableTransactionsComponent', () => {
   test('should create', () => {
     expect(component).toBeTruthy();
   });
+  describe('currency input', () => {
+    test('should set tableContext', () => {
+      const currency = 'USD';
+      component.currency = currency;
+
+      expect(component.tableContext.currency).toEqual(currency);
+    });
+  });
   describe('columnChange', () => {
     test('should set column state', () => {
       const event = {

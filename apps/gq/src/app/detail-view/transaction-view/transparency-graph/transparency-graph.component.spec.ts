@@ -32,6 +32,7 @@ describe('TransparencyGraphComponent', () => {
 
   describe('ngOnInit', () => {
     test('should set options', () => {
+      component.currency = 'EUR';
       component['chartConfigService'].buildDataPoints = jest.fn();
       component['chartConfigService'].getToolTipConfig = jest.fn();
       component['chartConfigService'].getXAxisConfig = jest.fn();

@@ -1,4 +1,7 @@
-<div class="container" *ngIf="!(quotationLoading$ | ngrxPush); else loading">
+<div
+  class="flex flex-1 flex-col h-full bg-lightBg"
+  *ngIf="!(quotationLoading$ | ngrxPush); else loading"
+>
   <mat-card>
     <gq-case-header showOfferSlider="false">
       <gq-transaction-view-header-content
@@ -8,18 +11,19 @@
       </gq-transaction-view-header-content>
     </gq-case-header>
   </mat-card>
-  <div class="content" fxLayout="row" fxLayoutAlign="space-between none">
-    <div fxFlex="50%">
-      <mat-card>
+  <div class="flex flex-1 mt-4 mb-4 flex-row">
+    <div class="flex ml-4 mr-2 w-1/2">
+      <mat-card class="flex-1">
         <gq-transparency-graph
           *ngIf="!(transactionsLoading$ | ngrxPush); else loading"
           [transactions]="graphTransactions$ | ngrxPush"
           [coefficients]="coefficients$ | ngrxPush"
+          [currency]="currency$ | ngrxPush"
         ></gq-transparency-graph>
       </mat-card>
     </div>
-    <div fxFlex="50%">
-      <mat-card>
+    <div class="flex mr-4 ml-2 w-1/2">
+      <mat-card class="flex-1">
         <gq-comparable-transactions
           *ngIf="
             (translationsLoaded$ | ngrxPush) &&
@@ -27,6 +31,7 @@
             else loading
           "
           [rowData]="transactions$ | ngrxPush"
+          [currency]="currency$ | ngrxPush"
         ></gq-comparable-transactions>
       </mat-card>
     </div>

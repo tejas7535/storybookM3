@@ -56,15 +56,13 @@ describe('ChartConfigService', () => {
 
       const result = service.getRegressionForToolTipFormatter(data);
 
-      expect(
-        service.getLineForToolTipFormatter(
-          DataPointColor.REGRESSION,
-          'regression',
-          '100%'
-        )
+      expect(service.getLineForToolTipFormatter).toHaveBeenCalledWith(
+        DataPointColor.REGRESSION,
+        'regression',
+        '100%'
       );
       expect(result).toEqual(
-        `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.6">`
+        `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`
       );
     });
   });
@@ -83,7 +81,7 @@ describe('ChartConfigService', () => {
     test('should return price', () => {
       const result = service.getValueForToolTipItem(ToolTipItems.PRICE, data);
 
-      expect(result).toEqual(`${data.price} EUR`);
+      expect(result).toEqual(`${data.price} ${data.currency}`);
     });
     test('should return year', () => {
       const result = service.getValueForToolTipItem(ToolTipItems.YEAR, data);
@@ -117,7 +115,9 @@ describe('ChartConfigService', () => {
 
       const result = service.tooltipFormatter(param);
 
-      expect(result).toEqual(`${param.data.customerName}<br>`);
+      expect(result).toEqual(
+        `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${param.data.customerName}</span><br>`
+      );
       expect(service.getValueForToolTipItem).toHaveBeenCalledTimes(4);
       expect(service.getLineForToolTipFormatter).toHaveBeenCalledTimes(4);
       expect(service.getRegressionForToolTipFormatter).toHaveBeenCalledTimes(1);
@@ -181,9 +181,11 @@ describe('ChartConfigService', () => {
   describe('buildDataPoints', () => {
     test('should build dataPoints from transactions', () => {
       const transactions = [TRANSACTION_MOCK];
-      const result = service.buildDataPoints(transactions);
+      const currency = 'EUR';
+      const result = service.buildDataPoints(transactions, currency);
 
       const expected: DataPoint = {
+        currency,
         salesIndication: TRANSACTION_MOCK.salesIndication,
         customerName: TRANSACTION_MOCK.customerName,
         price: TRANSACTION_MOCK.price,
@@ -209,7 +211,7 @@ describe('ChartConfigService', () => {
 
       expect(color).toEqual(DataPointColor.LOST_QUOTE);
     });
-    test('should get color for INVOICE', () => {
+    test('should get color for ORDER', () => {
       const color = service.getDataPointStyle(SalesIndication.ORDER);
 
       expect(color).toEqual(DataPointColor.ORDER);

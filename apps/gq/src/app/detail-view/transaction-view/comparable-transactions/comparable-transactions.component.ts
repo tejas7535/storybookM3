@@ -19,15 +19,17 @@ import { ColumnDefService } from './config/column-def.service';
 })
 export class ComparableTransactionsComponent {
   @Input() rowData: Transaction[];
+  @Input() set currency(currency: string) {
+    this.tableContext.currency = currency;
+  }
 
   private readonly TABLE_KEY = 'transactions';
   public modules = MODULES;
   public defaultColumnDefs = DEFAULT_COLUMN_DEFS;
   public columnDefs = this.columnDefService.COLUMN_DEFS;
 
-  // will be adjusted with GQUOTE-626
-  tableContext: any = {
-    currency: 'EUR',
+  tableContext: { currency: string } = {
+    currency: undefined,
   };
 
   constructor(

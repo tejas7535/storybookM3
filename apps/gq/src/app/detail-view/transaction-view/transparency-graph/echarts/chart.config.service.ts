@@ -23,7 +23,7 @@ export class ChartConfigService {
   INDEX_X_AXIS = 0;
   INDEX_Y_AXIS = 1;
   regressionData: number[][];
-  tooltipLegendStyle = `display: inline-block; margin-right: 10px; border-radius: 10px; width: 10px; height: 10px;`;
+  tooltipLegendStyle = `display: inline-block; margin-right: 4px; border-radius: 10px; width: 10px; height: 10px;`;
 
   X_AXIS_CONFIG: XAXisComponentOption = {
     type: 'value',
@@ -62,11 +62,11 @@ export class ChartConfigService {
     style ="${this.tooltipLegendStyle}
     background-color: ${color};"
     ></span>
-    <span style="font-size: 14px">${translate(
+    <span style="font-size: 12px; color: #646464; font-family: 'Roboto'">${translate(
       `transactionView.graph.tooltip.${translateKey}`
     )}: </span>
     </span>
-    <span style="font-weight: 600">${data}</span><br/>`;
+    <span style="font-size: 12px; font-weight: bold; font-family: 'Roboto'; color: #000000">${data}</span><br/>`;
 
     return item;
   };
@@ -80,7 +80,7 @@ export class ChartConfigService {
       dataPoint[this.INDEX_Y_AXIS]
     )}%`;
 
-    let items = `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.6">`;
+    let items = `<hr style="margin-top: 5px; margin-bottom:5px; opacity: 0.2">`;
 
     items += this.getLineForToolTipFormatter(
       DataPointColor.REGRESSION,
@@ -96,9 +96,8 @@ export class ChartConfigService {
     data: DataPoint
   ): string | number => {
     switch (item) {
-      // EUR will be replaced by customer currency
       case ToolTipItems.PRICE:
-        return `${data.price} EUR`;
+        return `${data.price} ${data.currency}`;
       case ToolTipItems.YEAR:
         return data.year;
       case ToolTipItems.QUANTITY:
@@ -118,7 +117,7 @@ export class ChartConfigService {
       ToolTipItems.PRICE,
       ToolTipItems.YEAR,
     ];
-    let items = `${data.customerName}<br>`;
+    let items = `<span style="font-family: 'Roboto';color: rgba(0,0,0,0.38); font-weight:bold">${data.customerName}</span><br>`;
 
     // tooltip data for scatter
     listedItems.forEach((item) => {
@@ -202,11 +201,15 @@ export class ChartConfigService {
     return series;
   };
 
-  buildDataPoints = (transactions: Transaction[]): DataPoint[] => {
+  buildDataPoints = (
+    transactions: Transaction[],
+    currency: string
+  ): DataPoint[] => {
     const dataPoints: DataPoint[] = [];
 
     transactions.forEach((transaction) => {
       dataPoints.push({
+        currency,
         value: [
           transaction.quantity,
           PriceService.roundToTwoDecimals(transaction.profitMargin),

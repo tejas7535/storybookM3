@@ -3,10 +3,12 @@
   *transloco="let t; read: 'transactionView.transactions'"
 >
   <div class="opacity-60 text-[20px] font-semibold">
+    <span class="font-body">{{ t('title') }}</span>
     <span>
-      {{ t('title') }}
       <gq-info-icon>
-        <div class="w-[400px] text-[12px]">{{ t('info-hover') }}</div>
+        <div class="w-[400px] text-[12px] font-body">
+          {{ t('info-hover') }}
+        </div>
       </gq-info-icon>
     </span>
   </div>
