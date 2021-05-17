@@ -13,7 +13,7 @@ import {
 } from '../../../core/store';
 import { QuotationDetail } from '../../models/quotation-detail';
 import { COLUMN_DEFS_SHORT } from '../../offer-table/config/column-defs';
-import { COLUMN_DEFS } from '../../services/column-utility-service/column-defs';
+import { ColumnDefService } from '../../services/column-utility-service/column-def.service';
 import { PriceService } from '../../services/price-service/price.service';
 
 @Component({
@@ -34,7 +34,10 @@ export class QuotationDetailsStatusComponent implements OnInit {
   selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly columnDefinitionService: ColumnDefService
+  ) {}
 
   ngOnInit(): void {
     this.showGPI$ = this.store.pipe(select(userHasGPCRole));
@@ -60,9 +63,7 @@ export class QuotationDetailsStatusComponent implements OnInit {
     const colDefs = this.params.api.getColumnDefs();
     this.isOfferTable =
       colDefs.length === COLUMN_DEFS_SHORT.length ||
-      colDefs.length === COLUMN_DEFS.length - 1
-        ? true
-        : false;
+      colDefs.length === this.columnDefinitionService.COLUMN_DEFS.length - 1;
   }
 
   rowValueChanges(): void {

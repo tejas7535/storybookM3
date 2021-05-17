@@ -1,4 +1,5 @@
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -40,6 +41,7 @@ describe('QuotationDetailsTableComponent', () => {
       MatDialogModule,
       ReactiveComponentModule,
       RouterTestingModule,
+      MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [

@@ -10,7 +10,7 @@ import { getRoles } from '@schaeffler/azure-auth';
 import { AppState } from '../../core/store';
 import { Quotation } from '../models';
 import { QuotationDetail } from '../models/quotation-detail';
-import { COLUMN_DEFS } from '../services/column-utility-service/column-defs';
+import { ColumnDefService } from '../services/column-utility-service/column-def.service';
 import { ColumnUtilityService } from '../services/column-utility-service/column-utility.service';
 import {
   COLUMN_DEFS_SHORT,
@@ -59,7 +59,10 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
   public roles: string[] = [];
   readonly subscription: Subscription = new Subscription();
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(
+    private readonly store: Store<AppState>,
+    private readonly columnDefinitionService: ColumnDefService
+  ) {}
 
   ngOnInit(): void {
     this.subscription.add(
@@ -67,7 +70,11 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
         this.roles = roles;
         this.columnDefs = this.drawerTable
           ? COLUMN_DEFS_SHORT
-          : ColumnUtilityService.createColumnDefs(roles, false, COLUMN_DEFS);
+          : ColumnUtilityService.createColumnDefs(
+              roles,
+              false,
+              this.columnDefinitionService.COLUMN_DEFS
+            );
       })
     );
   }
@@ -85,7 +92,11 @@ export class OfferTableComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(): void {
     this.columnDefs = this.drawerTable
       ? COLUMN_DEFS_SHORT
-      : ColumnUtilityService.createColumnDefs(this.roles, false, COLUMN_DEFS);
+      : ColumnUtilityService.createColumnDefs(
+          this.roles,
+          false,
+          this.columnDefinitionService.COLUMN_DEFS
+        );
     this.frameworkComponents = this.drawerTable
       ? FRAMEWORK_COMPONENTS
       : FRAMEWORK_COMPONENTS_FINISH_OFFER;

@@ -3,7 +3,6 @@ import { ValueFormatterParams } from '@ag-grid-community/all-modules';
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
 import { UserRoles } from '../../roles/user-roles.enum';
-import { COLUMN_DEFS } from './column-defs';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
@@ -76,14 +75,20 @@ describe('CreateColumnService', () => {
         UserRoles.COST_GPC,
         UserRoles.COST_SQV,
       ];
+      const ColumnDefs = [
+        { field: ColumnFields.GPC },
+        { field: ColumnFields.SQV },
+        { field: ColumnFields.GPI },
+        { field: ColumnFields.GPM },
+      ];
 
       const columns = ColumnUtilityService.createColumnDefs(
         allRoles,
         true,
-        COLUMN_DEFS
+        ColumnDefs
       );
 
-      expect(columns).toEqual(COLUMN_DEFS);
+      expect(columns).toEqual(ColumnDefs);
     });
   });
 

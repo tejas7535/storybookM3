@@ -139,7 +139,8 @@
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedOffers": "Offer selection was saved",
       "updateSelectedPrice": "Price selection was saved",
-      "uploadOfferSuccess": "The offer selection was saved in SAP"
+      "uploadOfferSuccess": "The offer selection was saved in SAP",
+      "wrongPriceEditInput": "Please enter a numeric price value"
     }
   }
 }

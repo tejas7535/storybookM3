@@ -11,8 +11,8 @@ import { FormControl } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { KeyName } from '@ag-grid-community/all-modules';
 import { TranslocoService } from '@ngneat/transloco';
+import { HelperService } from 'apps/gq/src/app/shared/services/helper-service/helper-service.service';
 
 import {
   PriceSource,
@@ -108,34 +108,12 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     this.editMode = true;
   }
 
-  onKeyPress(event: KeyboardEvent, manualPriceInput: any): void {
-    const parsedInput = parseInt(event.key, 10);
-    const isValidNumber = parsedInput === 0 || !isNaN(parsedInput);
-
-    if (
-      isValidNumber &&
-      event.key !== KeyName.BACKSPACE &&
-      event.key !== KeyName.DELETE
-    ) {
-      const value: number = manualPriceInput.value;
-      // get all decimal digits for the input value
-      const decimalDigits = value ? value.toString().split('.') : [];
-
-      // prevent user from entering a third decimal place
-      if (decimalDigits[1]?.length > 1) {
-        event.preventDefault();
-      }
-    }
+  onKeyPress(event: KeyboardEvent, manualPriceInput: { value: number }): void {
+    HelperService.validateNumberInputKeyPress(event, manualPriceInput);
   }
 
   onPaste(event: ClipboardEvent): void {
-    event.preventDefault();
-    const price =
-      Math.round(parseFloat(event.clipboardData.getData('text')) * 100) / 100;
-
-    if (price) {
-      this.manualPriceFormControl.setValue(price);
-    }
+    HelperService.validateNumberInputPaste(event, this.manualPriceFormControl);
   }
 
   selectPrice(): void {

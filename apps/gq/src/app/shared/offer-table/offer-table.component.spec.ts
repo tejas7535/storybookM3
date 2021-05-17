@@ -1,3 +1,4 @@
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { AgGridModule } from '@ag-grid-community/angular';
@@ -32,6 +33,7 @@ describe('OfferTableComponent', () => {
         ExportToExcelButtonComponent,
         QuotationDetailsStatusComponent,
       ]),
+      MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
       CustomStatusBarModule,
       RouterTestingModule,

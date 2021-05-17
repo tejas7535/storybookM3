@@ -1,4 +1,5 @@
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -39,6 +40,7 @@ describe('OfferViewComponent', () => {
       RouterTestingModule,
       SharedModule,
       LoadingSpinnerModule,
+      MatSnackBarModule,
     ],
     providers: [
       provideMockStore({

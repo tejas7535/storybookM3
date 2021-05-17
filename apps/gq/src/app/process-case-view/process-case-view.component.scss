@@ -4,17 +4,3 @@
 :host {
   width: 100%;
 }
-
-.container {
-  background-color: $schaeffler-gray-0;
-  height: 100%;
-
-  mat-drawer {
-    margin-bottom: 0 !important;
-    width: 50%;
-  }
-}
-
-::ng-deep .mat-drawer-backdrop {
-  margin-bottom: 0 !important;
-}

@@ -2,6 +2,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -63,6 +64,7 @@ describe('ProcessCaseViewComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       LoadingSpinnerModule,
       ReactiveComponentModule,
+      MatSnackBarModule,
     ],
     providers: [
       provideMockStore({

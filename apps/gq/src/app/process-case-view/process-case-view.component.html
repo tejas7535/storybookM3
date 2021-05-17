@@ -1,8 +1,5 @@
 <mat-drawer-container
-  class="container"
-  fxLayout="column"
-  fxLayoutAlign="start center"
-  fxLayoutGap="20px"
+  class="h-full !bg-white"
   *ngIf="
     !(isCustomerLoading$ | ngrxPush) && !(isQuotationLoading$ | ngrxPush);
     else loading
@@ -10,9 +7,7 @@
 >
   <mat-drawer-content
     *ngIf="quotation$ | ngrxPush as quotation"
-    fxLayout="column"
-    fxLayoutAlign="start center"
-    fxFlexFill
+    class="!flex flex-col"
   >
     <gq-case-header
       showCustomerHeader="true"
@@ -30,10 +25,9 @@
       <gq-loading-spinner [show]="true"></gq-loading-spinner>
     </ng-template>
   </mat-drawer-content>
-  <mat-drawer #drawer position="end" (opened)="getOffer()">
+  <mat-drawer class="w-1/2" #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
-      fxLayout="column"
-      fxFlexFill
+      class="flex flex-col"
       *ngIf="offer$ | ngrxPush"
       [quotation]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"

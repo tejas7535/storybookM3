@@ -1,6 +1,8 @@
 import { DecimalPipe } from '@angular/common';
 import { Injectable } from '@angular/core';
+import { FormControl } from '@angular/forms';
 
+import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
 import { StatusBarConfig } from '../../models/table';
@@ -66,5 +68,43 @@ export class HelperService {
     };
 
     return [...colDef, actionCell];
+  }
+  static validateNumberInputKeyPress(
+    event: KeyboardEvent,
+    manualPriceInput: { value: number }
+  ): void {
+    const parsedInput = parseInt(event.key, 10);
+    const isValidNumber = parsedInput === 0 || !isNaN(parsedInput);
+    const inputIsAllowedSpecialKey = [
+      KeyName.BACKSPACE,
+      KeyName.DELETE,
+      '.',
+    ].includes(event.key);
+
+    if (event.key === ',' || (!isValidNumber && !inputIsAllowedSpecialKey)) {
+      event.preventDefault();
+    } else {
+      const { value } = manualPriceInput;
+      // get all decimal digits for the input value
+      const decimalDigits = value ? value.toString().split('.') : [];
+
+      // prevent user from entering a third decimal place
+      if (decimalDigits[1]?.length > 1 && !inputIsAllowedSpecialKey) {
+        event.preventDefault();
+      }
+    }
+  }
+
+  static validateNumberInputPaste(
+    event: ClipboardEvent,
+    formControl: FormControl
+  ) {
+    event.preventDefault();
+    const price =
+      Math.round(parseFloat(event.clipboardData.getData('text')) * 100) / 100;
+
+    if (price) {
+      formControl.setValue(price);
+    }
   }
 }

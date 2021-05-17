@@ -1,5 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -31,6 +32,7 @@ describe('QuotationDetailsStatusComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
+      MatSnackBarModule,
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
     ],
