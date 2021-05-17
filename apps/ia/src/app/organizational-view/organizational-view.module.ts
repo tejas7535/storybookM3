@@ -4,6 +4,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { ChartLegendModule } from '../shared/chart-legend/chart-legend.module';
 import { SharedModule } from '../shared/shared.module';
 import { OrgChartModule } from './org-chart/org-chart.module';
 import { OrganizationalViewRoutingModule } from './organizational-view-routing.module';
@@ -21,6 +22,7 @@ import { WorldMapModule } from './world-map/world-map.module';
     OrgChartModule,
     ToggleChartsModule,
     WorldMapModule,
+    ChartLegendModule,
     StoreModule.forFeature(
       fromOrganizationalView.organizationalViewFeatureKey,
       fromOrganizationalView.reducer

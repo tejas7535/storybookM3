@@ -20,4 +20,10 @@
     [continents]="worldMapContinents$ | ngrxPush"
     [isLoading]="isLoadingWorldMap$ | ngrxPush"
   ></ia-world-map>
+  <div class="absolute right-1 bottom-1 flex flex-col">
+    <ia-chart-legend
+      [items]="chartLegendItems"
+      [title]="'organizationalView.worldMap.chartLegend.title'"
+    ></ia-chart-legend>
+  </div>
 </div>

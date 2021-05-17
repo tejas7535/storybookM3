@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
+import { ChartLegendItem } from '../shared/chart-legend/models/chart-legend-item.model';
 import { IdValue } from '../shared/models';
+import { TailwindColor } from '../shared/models/taliwind-color.enum';
 import { ChartType } from './models/chart-type.enum';
 import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
-import { OrganizationalViewState } from './store';
 import {
   chartTypeSelected,
   loadParent,
@@ -36,20 +37,36 @@ export class OrganizationalViewComponent implements OnInit {
   worldMapContinents$: Observable<IdValue[]>;
   selectedTimeRange$: Observable<string>;
 
+  chartLegendItems = [
+    new ChartLegendItem(
+      'organizationalView.worldMap.chartLegend.danger.title',
+      TailwindColor.ERROR,
+      'organizationalView.worldMap.chartLegend.danger.tooltip'
+    ),
+    new ChartLegendItem(
+      'organizationalView.worldMap.chartLegend.warning.title',
+      TailwindColor.WARNING,
+      'organizationalView.worldMap.chartLegend.warning.tooltip'
+    ),
+    new ChartLegendItem(
+      'organizationalView.worldMap.chartLegend.ok.title',
+      TailwindColor.PRIMARY,
+      'organizationalView.worldMap.chartLegend.ok.tooltip'
+    ),
+  ];
+
   chartType = ChartType;
 
-  constructor(private readonly store: Store<OrganizationalViewState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.orgChart$ = this.store.pipe(select(getOrgChart));
-    this.isLoadingOrgChart$ = this.store.pipe(select(getIsLoadingOrgChart));
-    this.isLoadingWorldMap$ = this.store.pipe(select(getIsLoadingWorldMap));
-    this.selectedChartType$ = this.store.pipe(select(getSelectedChartType));
-    this.worldMap$ = this.store.pipe(select(getWorldMap));
-    this.worldMapContinents$ = this.store.pipe(select(getWorldMapContinents));
-    this.selectedTimeRange$ = this.store.pipe(
-      select(getBeautifiedSelectedTimeRange)
-    );
+    this.orgChart$ = this.store.select(getOrgChart);
+    this.isLoadingOrgChart$ = this.store.select(getIsLoadingOrgChart);
+    this.isLoadingWorldMap$ = this.store.select(getIsLoadingWorldMap);
+    this.selectedChartType$ = this.store.select(getSelectedChartType);
+    this.worldMap$ = this.store.select(getWorldMap);
+    this.worldMapContinents$ = this.store.select(getWorldMapContinents);
+    this.selectedTimeRange$ = this.store.select(getBeautifiedSelectedTimeRange);
   }
 
   public chartTypeChanged(chartType: ChartType): void {
