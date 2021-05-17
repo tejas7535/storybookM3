@@ -1,11 +1,14 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { IdValue } from '../../shared/models';
+import { AttritionOverTime, IdValue } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
+  loadAttritionOverTimeOrgChart,
+  loadAttritionOverTimeOrgChartFailure,
+  loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
@@ -32,6 +35,11 @@ export interface OrganizationalViewState {
     errorMessage: string;
   };
   selectedChart: ChartType;
+  attritionOverTime: {
+    data: AttritionOverTime;
+    loading: boolean;
+    errorMessage: string;
+  };
 }
 
 export const initialState: OrganizationalViewState = {
@@ -61,6 +69,11 @@ export const initialState: OrganizationalViewState = {
     errorMessage: undefined,
   },
   selectedChart: ChartType.ORG_CHART,
+  attritionOverTime: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
 };
 
 export const organizationalViewReducer = createReducer(
@@ -143,7 +156,37 @@ export const organizationalViewReducer = createReducer(
       data: [],
       loading: false,
     },
-  }))
+  })),
+  on(loadAttritionOverTimeOrgChart, (state: OrganizationalViewState) => ({
+    ...state,
+    attritionOverTime: {
+      ...state.attritionOverTime,
+      loading: true,
+    },
+  })),
+  on(
+    loadAttritionOverTimeOrgChartSuccess,
+    (state: OrganizationalViewState, { data }) => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeOrgChartFailure,
+    (state: OrganizationalViewState, { errorMessage }) => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        errorMessage,
+        data: undefined,
+        loading: false,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

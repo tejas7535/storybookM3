@@ -167,6 +167,8 @@ export class WorldMapComponent implements OnInit {
 
     this.dialog.open(AttritionDialogComponent, {
       data: attritionMeta,
+      width: '90%',
+      maxWidth: '750px',
     });
   }
 

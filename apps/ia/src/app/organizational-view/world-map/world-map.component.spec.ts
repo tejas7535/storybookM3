@@ -190,6 +190,8 @@ describe('WorldMapComponent', () => {
         AttritionDialogComponent,
         {
           data: elem.attritionMeta,
+          maxWidth: '750px',
+          width: '90%',
         }
       );
     });

@@ -5,14 +5,14 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import {
+  LINE_CHART_BASE_OPTIONS,
+  LINE_SERIES_BASE_OPTIONS,
+} from '../../shared/configs/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
 import { SharedModule } from '../../shared/shared.module';
 import { OverviewChartLegendComponent } from './overview-chart-legend/overview-chart-legend.component';
 import { OverviewChartComponent } from './overview-chart.component';
-import {
-  CHART_BASE_OPTIONS,
-  SERIES_BASE_OPTIONS,
-} from './overview-chart.config';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 import { TerminatedEmployeesDialogModule } from './terminated-employees-dialog/terminated-employees-dialog.module';
 
@@ -55,8 +55,27 @@ describe('OverviewChartComponent', () => {
       };
 
       const expectedChartOptions = {
-        ...CHART_BASE_OPTIONS,
-        series: [{ ...SERIES_BASE_OPTIONS, name: '2020', data: [10, 20, 10] }],
+        ...LINE_CHART_BASE_OPTIONS,
+        xAxis: {
+          ...LINE_CHART_BASE_OPTIONS.xAxis,
+          data: [
+            'JAN',
+            'FEB',
+            'MAR',
+            'APR',
+            'MAY',
+            'JUN',
+            'JUL',
+            'AUG',
+            'SEP',
+            'OCT',
+            'NOV',
+            'DEC',
+          ],
+        },
+        series: [
+          { ...LINE_SERIES_BASE_OPTIONS, name: '2020', data: [10, 20, 10] },
+        ],
       };
 
       const exptectedChartSeries = [

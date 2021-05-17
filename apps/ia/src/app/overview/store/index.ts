@@ -2,9 +2,9 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime } from '../../shared/models';
 import {
-  loadAttritionOverTime,
-  loadAttritionOverTimeFailure,
-  loadAttritionOverTimeSuccess,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewFailure,
+  loadAttritionOverTimeOverviewSuccess,
 } from './actions/overview.action';
 
 export const overviewFeatureKey = 'overview';
@@ -27,23 +27,26 @@ export const initialState: OverviewState = {
 
 export const overviewReducer = createReducer(
   initialState,
-  on(loadAttritionOverTime, (state: OverviewState) => ({
+  on(loadAttritionOverTimeOverview, (state: OverviewState) => ({
     ...state,
     attritionOverTime: {
       ...state.attritionOverTime,
       loading: true,
     },
   })),
-  on(loadAttritionOverTimeSuccess, (state: OverviewState, { data }) => ({
-    ...state,
-    attritionOverTime: {
-      ...state.attritionOverTime,
-      data,
-      loading: false,
-    },
-  })),
   on(
-    loadAttritionOverTimeFailure,
+    loadAttritionOverTimeOverviewSuccess,
+    (state: OverviewState, { data }) => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeOverviewFailure,
     (state: OverviewState, { errorMessage }) => ({
       ...state,
       attritionOverTime: {

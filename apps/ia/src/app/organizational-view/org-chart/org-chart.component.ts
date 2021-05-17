@@ -72,6 +72,8 @@ export class OrgChartComponent implements AfterViewInit {
       );
       this.dialog.open(AttritionDialogComponent, {
         data,
+        width: '90%',
+        maxWidth: '750px',
       });
     } else if (node.classList.contains('show-parent')) {
       this.showParent.emit(employee);

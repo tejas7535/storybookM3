@@ -3,12 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { EChartsOption } from 'echarts';
 
+import {
+  LINE_CHART_BASE_OPTIONS,
+  LINE_SERIES_BASE_OPTIONS,
+} from '../../shared/configs/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
 import { ChartSeries } from '../models/chart-series';
-import {
-  CHART_BASE_OPTIONS,
-  SERIES_BASE_OPTIONS,
-} from './overview-chart.config';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 
 @Component({
@@ -37,14 +37,31 @@ export class OverviewChartComponent {
 
     const series: any = data
       ? Object.keys(data).map((name) => ({
-          ...SERIES_BASE_OPTIONS,
+          ...LINE_SERIES_BASE_OPTIONS,
           name,
           data: data[name].attrition,
         }))
       : [];
 
     this.options = {
-      ...CHART_BASE_OPTIONS,
+      ...LINE_CHART_BASE_OPTIONS,
+      xAxis: {
+        ...LINE_CHART_BASE_OPTIONS.xAxis,
+        data: [
+          'JAN',
+          'FEB',
+          'MAR',
+          'APR',
+          'MAY',
+          'JUN',
+          'JUL',
+          'AUG',
+          'SEP',
+          'OCT',
+          'NOV',
+          'DEC',
+        ],
+      },
       series,
     };
 

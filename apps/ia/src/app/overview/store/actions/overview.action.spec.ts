@@ -1,42 +1,42 @@
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
 import {
-  loadAttritionOverTime,
-  loadAttritionOverTimeFailure,
-  loadAttritionOverTimeSuccess,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewFailure,
+  loadAttritionOverTimeOverviewSuccess,
 } from './overview.action';
 
 describe('Overview Actions', () => {
   const errorMessage = 'An error occured';
 
-  test('loadAttritionOverTime', () => {
+  test('loadAttritionOverTimeOverview', () => {
     const request = {} as unknown as EmployeesRequest;
-    const action = loadAttritionOverTime({ request });
+    const action = loadAttritionOverTimeOverview({ request });
 
     expect(action).toEqual({
       request,
-      type: '[Overview] Load AttritionOverTime',
+      type: '[Overview] Load AttritionOverTime for last three years',
     });
   });
 
-  test('loadAttritionOverTimeSuccess', () => {
+  test('loadAttritionOverTimeOverviewSuccess', () => {
     const data: AttritionOverTime = {} as unknown as AttritionOverTime;
 
-    const action = loadAttritionOverTimeSuccess({
+    const action = loadAttritionOverTimeOverviewSuccess({
       data,
     });
 
     expect(action).toEqual({
       data,
-      type: '[Overview] Load AttritionOverTime Success',
+      type: '[Overview] Load AttritionOverTime for last three years Success',
     });
   });
 
-  test('loadAttritionOverTimeFailure', () => {
-    const action = loadAttritionOverTimeFailure({ errorMessage });
+  test('loadAttritionOverTimeOverviewFailure', () => {
+    const action = loadAttritionOverTimeOverviewFailure({ errorMessage });
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Overview] Load AttritionOverTime Failure',
+      type: '[Overview] Load AttritionOverTime for last three years Failure',
     });
   });
 });

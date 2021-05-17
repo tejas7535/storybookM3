@@ -1,9 +1,9 @@
 import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import {
-  getAttritionOverTimeData,
   getAttritionOverTimeEvents,
-  getIsLoadingAttritionOverTime,
+  getAttritionOverTimeOverviewData,
+  getIsLoadingAttritionOverTimeOverview,
 } from './overview.selector';
 
 describe('Overview Selector', () => {
@@ -29,9 +29,9 @@ describe('Overview Selector', () => {
     } as unknown as FilterState,
   };
 
-  describe('getIsLoadingAttritionOverTime', () => {
+  describe('getIsLoadingAttritionOverTimeOverview', () => {
     it('should return loading status', () => {
-      expect(getIsLoadingAttritionOverTime(fakeState)).toBeTruthy();
+      expect(getIsLoadingAttritionOverTimeOverview(fakeState)).toBeTruthy();
     });
   });
 
@@ -43,9 +43,9 @@ describe('Overview Selector', () => {
     });
   });
 
-  describe('getAttritionOverTimeData', () => {
+  describe('getAttritionOverTimeOverviewData', () => {
     it('should return actual attrition data', () => {
-      expect(getAttritionOverTimeData(fakeState)).toEqual({
+      expect(getAttritionOverTimeOverviewData(fakeState)).toEqual({
         2019: {
           employees: [],
           attrition: [10, 20, 10, 20, 10],

@@ -15,6 +15,7 @@ import {
   LostJobProfile,
   OrgChartResponse,
   ParentEmployeeResponse,
+  TimePeriod,
   WorldMapResponse,
 } from '../models';
 
@@ -106,10 +107,11 @@ export class EmployeeService {
   }
 
   public getAttritionOverTime(
-    employeesRequest: EmployeesRequest
+    employeesRequest: EmployeesRequest,
+    timePeriod: TimePeriod
   ): Observable<AttritionOverTime> {
     return this.dataService.post<AttritionOverTime>(
-      this.ATTRITION_OVER_TIME,
+      `${this.ATTRITION_OVER_TIME}?time_period=${timePeriod}`,
       employeesRequest
     );
   }

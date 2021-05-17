@@ -7,9 +7,9 @@ import { select, Store } from '@ngrx/store';
 import { Event, TerminatedEmployee } from '../shared/models';
 import { OverviewState } from './store';
 import {
-  getAttritionOverTimeData,
   getAttritionOverTimeEvents,
-  getIsLoadingAttritionOverTime,
+  getAttritionOverTimeOverviewData,
+  getIsLoadingAttritionOverTimeOverview,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -30,9 +30,11 @@ export class OverviewComponent implements OnInit {
 
   public ngOnInit(): void {
     this.attritionQuotaloading$ = this.store.pipe(
-      select(getIsLoadingAttritionOverTime)
+      select(getIsLoadingAttritionOverTimeOverview)
     );
     this.events$ = this.store.pipe(select(getAttritionOverTimeEvents));
-    this.attritionData$ = this.store.pipe(select(getAttritionOverTimeData));
+    this.attritionData$ = this.store.pipe(
+      select(getAttritionOverTimeOverviewData)
+    );
   }
 }

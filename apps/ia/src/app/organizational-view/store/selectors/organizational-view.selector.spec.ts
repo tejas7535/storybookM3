@@ -1,9 +1,12 @@
 import { initialState, OrganizationalViewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
+import { AttritionOverTime } from '../../../shared/models';
 import { ChartType } from '../../models/chart-type.enum';
 import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
+  getAttritionOverTimeOrgChartData,
+  getIsLoadingAttritionOverTimeOrgChart,
   getIsLoadingOrgChart,
   getIsLoadingWorldMap,
   getOrgChart,
@@ -44,6 +47,10 @@ describe('Organizational View Selector', () => {
         ],
         loading: true,
         errorMessage: undefined,
+      },
+      attritionOverTime: {
+        ...initialState.attritionOverTime,
+        loading: true,
       },
     },
     filter: {
@@ -90,6 +97,26 @@ describe('Organizational View Selector', () => {
   describe('getSelectedChartType', () => {
     test('should return currently selected chart type', () => {
       expect(getSelectedChartType(fakeState)).toEqual(ChartType.ORG_CHART);
+    });
+  });
+
+  describe('getAttritionOverTimeOrgChartData', () => {
+    test('should return data', () => {
+      const data = { data: {} } as unknown as AttritionOverTime;
+
+      expect(getAttritionOverTimeOrgChartData.projector(data)).toEqual(
+        data.data
+      );
+    });
+  });
+
+  describe('getIsLoadingAttritionOverTimeOrgChart', () => {
+    test('should return loading State', () => {
+      expect(
+        getIsLoadingAttritionOverTimeOrgChart.projector(
+          fakeState.organizationalView
+        )
+      ).toBeTruthy();
     });
   });
 });

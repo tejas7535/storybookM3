@@ -19,12 +19,16 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  TimePeriod,
+} from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import {
-  loadAttritionOverTime,
-  loadAttritionOverTimeFailure,
-  loadAttritionOverTimeSuccess,
+  loadAttritionOverTimeOverview,
+  loadAttritionOverTimeOverviewFailure,
+  loadAttritionOverTimeOverviewSuccess,
 } from '../actions/overview.action';
 
 @Injectable()
@@ -36,24 +40,30 @@ export class OverviewEffects implements OnInitEffects {
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
-        loadAttritionOverTime({ request }),
+        loadAttritionOverTimeOverview({ request }),
       ])
     )
   );
 
-  loadAttritionOverTime$ = createEffect(() =>
+  loadAttritionOverTimeOverview$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(loadAttritionOverTime),
+      ofType(loadAttritionOverTimeOverview),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getAttritionOverTime(request).pipe(
-          map((data: AttritionOverTime) =>
-            loadAttritionOverTimeSuccess({ data })
-          ),
-          catchError((error) =>
-            of(loadAttritionOverTimeFailure({ errorMessage: error.message }))
+        this.employeeService
+          .getAttritionOverTime(request, TimePeriod.LAST_THREE_YEARS)
+          .pipe(
+            map((data: AttritionOverTime) =>
+              loadAttritionOverTimeOverviewSuccess({ data })
+            ),
+            catchError((error) =>
+              of(
+                loadAttritionOverTimeOverviewFailure({
+                  errorMessage: error.message,
+                })
+              )
+            )
           )
-        )
       )
     )
   );

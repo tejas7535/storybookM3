@@ -1,15 +1,21 @@
 import { Action } from '@ngrx/store';
 
 import { initialState, organizationalViewReducer, reducer } from '.';
-import { EmployeesRequest } from '../../shared/models';
+import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
 import { ChartType } from '../models/chart-type.enum';
 import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
+  loadAttritionOverTimeOrgChart,
+  loadAttritionOverTimeOrgChartFailure,
+  loadAttritionOverTimeOrgChartSuccess,
   loadOrgChart,
   loadOrgChartFailure,
   loadOrgChartSuccess,
+  loadParent,
+  loadParentFailure,
+  loadParentSuccess,
   loadWorldMap,
   loadWorldMapFailure,
   loadWorldMapSuccess,
@@ -103,6 +109,87 @@ describe('Organization View Reducer', () => {
 
       expect(state.worldMap.loading).toBeFalsy();
       expect(state.worldMap.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadAttritionOverTimeOrgChart', () => {
+    test('should set loading', () => {
+      const action = loadAttritionOverTimeOrgChart({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.attritionOverTime.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadAttritionOverTimeOrgChartSuccess', () => {
+    test('should unset loading and set country data', () => {
+      const data: AttritionOverTime = {} as unknown as AttritionOverTime;
+
+      const action = loadAttritionOverTimeOrgChartSuccess({ data });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.attritionOverTime.loading).toBeFalsy();
+      expect(state.attritionOverTime.data).toEqual(data);
+    });
+  });
+
+  describe('loadAttritionOverTimeOrgChartFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadAttritionOverTimeOrgChartFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        attritionOverTime: {
+          ...initialState.attritionOverTime,
+          loading: true,
+        },
+      };
+
+      const state = organizationalViewReducer(fakeState, action);
+
+      expect(state.attritionOverTime.loading).toBeFalsy();
+      expect(state.attritionOverTime.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadParent', () => {
+    test('should set loading', () => {
+      const employee = {} as unknown as OrgChartEmployee;
+      const action = loadParent({ employee });
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state.orgChart.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadParentSuccess', () => {
+    test('should do nothing', () => {
+      const employee = {} as unknown as OrgChartEmployee;
+      const action = loadParentSuccess({ employee });
+
+      const state = organizationalViewReducer(initialState, action);
+
+      expect(state).toEqual(initialState);
+    });
+  });
+
+  describe('loadParentFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadParentFailure({ errorMessage });
+      const fakeState = {
+        ...initialState,
+        orgChart: {
+          ...initialState.orgChart,
+          loading: true,
+        },
+      };
+
+      const state = organizationalViewReducer(fakeState, action);
+
+      expect(state.orgChart.loading).toBeFalsy();
+      expect(state.orgChart.errorMessage).toEqual(errorMessage);
     });
   });
 
