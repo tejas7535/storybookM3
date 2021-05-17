@@ -3,5 +3,6 @@
   "dest": "../../../../dist/libs/shared/ui/stepper",
   "lib": {
     "entryFile": "src/index.ts"
-  }
+  },
+  "assets": ["index.scss"]
 }

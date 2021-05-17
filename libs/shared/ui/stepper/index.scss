@@ -1,9 +1,6 @@
-@import '~tailwindcss/base';
-@import '~tailwindcss/components';
-@import '~tailwindcss/utilities';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
-.schaeffler-stepper {
+:host {
   ::ng-deep {
     .mat-step {
       &-icon {
@@ -32,7 +29,7 @@
       }
 
       &-header {
-        @apply rounded-lg text-body-2;
+        @apply rounded-none text-body-2;
       }
 
       &-header-container {
@@ -40,19 +37,20 @@
       }
     }
 
-    .mat-step-header {
-      @apply rounded-none;
+    .mat-stepper-horizontal-line {
+      min-width: initial;
+      @apply max-w-[1rem];
+
+      &.active {
+        max-width: initial;
+        @apply block;
+      }
     }
 
-    @screen sm {
+    @screen md {
       .mat-stepper-horizontal-line {
-        max-width: 1rem;
-        min-width: initial;
-
-        &.active {
-          @apply block;
-          max-width: initial;
-        }
+        max-width: initial;
+        @apply min-w-[2rem];
       }
     }
   }
