@@ -29,6 +29,7 @@ describe('Compare Actions', () => {
     referenceTypeIdentifier: ReferenceTypeIdentifier
   ][] = [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]];
   const materialNumber = 'Material-12345';
+  const plant = '0061';
   const index = 1;
   const errorMessage = 'Please Help';
   const calculationItems = CALCULATIONS_MOCK;
@@ -63,11 +64,12 @@ describe('Compare Actions', () => {
     });
 
     test('loadCalculationHistory', () => {
-      action = loadCalculationHistory({ materialNumber, index });
+      action = loadCalculationHistory({ materialNumber, plant, index });
       expectedType = '[Compare] Load Calculation History';
 
       expect(action).toEqual({
         materialNumber,
+        plant,
         index,
         type: expectedType,
       });

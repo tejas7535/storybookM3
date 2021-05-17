@@ -166,10 +166,12 @@ describe('CompareEffects', () => {
       const expectedAction1 = loadCalculationHistory({
         index: 0,
         materialNumber: '456789',
+        plant: '0060',
       });
       const expectedAction2 = loadCalculationHistory({
         index: 1,
         materialNumber: '4123789',
+        plant: '0076',
       });
       const expected = cold('-(bc)', {
         b: expectedAction1,
@@ -184,10 +186,11 @@ describe('CompareEffects', () => {
   describe('loadCalculationHistory$', () => {
     const index = 0;
     const materialNumber = '12434';
+    const plant = '0061';
     const errorMessage = 'Bad stuff going on';
 
     beforeEach(() => {
-      action = loadCalculationHistory({ index, materialNumber });
+      action = loadCalculationHistory({ index, materialNumber, plant });
     });
 
     test('should return Success Action', () => {

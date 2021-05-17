@@ -81,12 +81,12 @@ describe('DetailService', () => {
     test('should get calculations result', () => {
       const mock = new CalculationsResult(CALCULATIONS_MOCK);
 
-      service.calculations('2345').subscribe((response) => {
+      service.calculations('2345', '0060').subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        '/calculations?material_number=2345&cache$=true'
+        '/calculations?material_number=2345&plant=0060&cache$=true'
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);
@@ -122,12 +122,12 @@ describe('DetailService', () => {
     test('should get drawings', () => {
       const mock = DRAWINGS_MOCK;
 
-      service.getDrawings('2345').subscribe((response) => {
+      service.getDrawings('2345', '0061').subscribe((response) => {
         expect(response).toEqual(mock);
       });
 
       const req = httpMock.expectOne(
-        '/products/drawings?material_number=2345&cache$=true'
+        '/products/drawings?material_number=2345&plant=0061&cache$=true'
       );
       expect(req.request.method).toBe('GET');
       req.flush(mock);

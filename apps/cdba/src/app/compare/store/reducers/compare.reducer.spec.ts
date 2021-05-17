@@ -165,9 +165,10 @@ describe('Compare Reducer', () => {
 
     describe('loadCalculationHistory', () => {
       const materialNumber = 'foo';
+      const plant = '0061';
       it('should set loading for calculations and bom to true', () => {
         const index = 3;
-        action = loadCalculationHistory({ materialNumber, index });
+        action = loadCalculationHistory({ materialNumber, plant, index });
 
         state = compareReducer(mockState, action);
 
@@ -177,7 +178,7 @@ describe('Compare Reducer', () => {
 
       it('should reset previous results', () => {
         const index = 0;
-        action = loadCalculationHistory({ materialNumber, index });
+        action = loadCalculationHistory({ materialNumber, plant, index });
 
         state = compareReducer(mockState, action);
 
@@ -189,7 +190,7 @@ describe('Compare Reducer', () => {
 
       it('should return previous state for undefined index', () => {
         const index = 99;
-        action = loadCalculationHistory({ materialNumber, index });
+        action = loadCalculationHistory({ materialNumber, plant, index });
 
         state = compareReducer(mockState, action);
 
