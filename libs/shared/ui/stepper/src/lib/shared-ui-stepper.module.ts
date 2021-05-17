@@ -1,23 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 import { MatStepperModule } from '@angular/material/stepper';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { StepperComponent } from './stepper/stepper.component';
+import { SeparatedStepsDirective } from './separatedSteps/separated-steps.directive';
 
 @NgModule({
-  imports: [
-    BrowserAnimationsModule,
-    CommonModule,
-    ReactiveFormsModule,
-    MatIconModule,
-    MatStepperModule,
-    MatButtonModule,
-  ],
-  declarations: [StepperComponent],
-  exports: [StepperComponent],
+  imports: [CommonModule, MatStepperModule],
+  declarations: [SeparatedStepsDirective],
+  exports: [SeparatedStepsDirective],
 })
 export class StepperModule {}
