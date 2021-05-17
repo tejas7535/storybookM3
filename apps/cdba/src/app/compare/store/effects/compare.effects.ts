@@ -85,6 +85,7 @@ export class CompareEffects {
           loadCalculationHistory({
             index,
             materialNumber: identifier.materialNumber,
+            plant: identifier.plant,
           })
         )
       )
@@ -95,19 +96,21 @@ export class CompareEffects {
     this.actions$.pipe(
       ofType(loadCalculationHistory),
       mergeMap((action: any) =>
-        this.detailService.calculations(action.materialNumber).pipe(
-          map((items: Calculation[]) =>
-            loadCalculationHistorySuccess({ items, index: action.index })
-          ),
-          catchError((errorMessage) =>
-            of(
-              loadCalculationHistoryFailure({
-                errorMessage,
-                index: action.index,
-              })
+        this.detailService
+          .calculations(action.materialNumber, action.plant)
+          .pipe(
+            map((items: Calculation[]) =>
+              loadCalculationHistorySuccess({ items, index: action.index })
+            ),
+            catchError((errorMessage) =>
+              of(
+                loadCalculationHistoryFailure({
+                  errorMessage,
+                  index: action.index,
+                })
+              )
             )
           )
-        )
       )
     )
   );
@@ -150,6 +153,7 @@ export class CompareEffects {
   triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCompareItems),
+      // eslint-disable-next-line ngrx/no-multiple-actions-in-effects
       mergeMap(() => [loadCalculations()])
     )
   );

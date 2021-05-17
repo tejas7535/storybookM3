@@ -15,7 +15,7 @@ import {
 } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { select, Store } from '@ngrx/store';
 
@@ -85,16 +85,12 @@ export class DetailEffects {
   loadCalculations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCalculations),
-      withLatestFrom(
+      concatLatestFrom(() =>
         this.store.pipe(select(getSelectedReferenceTypeIdentifier))
       ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
-      map(
-        (refTypeIdentifier: ReferenceTypeIdentifier) =>
-          refTypeIdentifier.materialNumber
-      ),
-      mergeMap((materialNumber: string) =>
-        this.detailService.calculations(materialNumber).pipe(
+      mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
+        this.detailService.calculations(materialNumber, plant).pipe(
           map((items: Calculation[]) => loadCalculationsSuccess({ items })),
           catchError((errorMessage) =>
             of(loadCalculationsFailure({ errorMessage }))
@@ -107,16 +103,12 @@ export class DetailEffects {
   loadDrawings$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadDrawings),
-      withLatestFrom(
+      concatLatestFrom(() =>
         this.store.pipe(select(getSelectedReferenceTypeIdentifier))
       ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
-      map(
-        (refTypeIdentifier: ReferenceTypeIdentifier) =>
-          refTypeIdentifier.materialNumber
-      ),
-      mergeMap((materialNumber: string) =>
-        this.detailService.getDrawings(materialNumber).pipe(
+      mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
+        this.detailService.getDrawings(materialNumber, plant).pipe(
           map((items: Drawing[]) => loadDrawingsSuccess({ items })),
           catchError((errorMessage) =>
             of(loadDrawingsFailure({ errorMessage }))

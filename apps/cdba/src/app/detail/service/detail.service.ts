@@ -43,6 +43,8 @@ export class DetailService {
 
   private readonly PARAM_ENABLE_CACHE = 'cache$';
 
+  public constructor(private readonly dataService: DataService) {}
+
   private static defineBomTreeForAgGrid(
     items: BomItem[],
     idx: number
@@ -109,8 +111,6 @@ export class DetailService {
     return DetailService.defineBomTreeForAgGrid(items, nextIdx);
   }
 
-  public constructor(private readonly dataService: DataService) {}
-
   public getDetails(
     item: ReferenceTypeIdentifier
   ): Observable<ReferenceTypeResult> {
@@ -125,9 +125,13 @@ export class DetailService {
     });
   }
 
-  public calculations(materialNumber: string): Observable<Calculation[]> {
+  public calculations(
+    materialNumber: string,
+    plant: string
+  ): Observable<Calculation[]> {
     const params = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
+      .set(this.PARAM_PLANT, plant)
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService
@@ -157,9 +161,13 @@ export class DetailService {
     );
   }
 
-  public getDrawings(materialNumber: string): Observable<Drawing[]> {
+  public getDrawings(
+    materialNumber: string,
+    plant: string
+  ): Observable<Drawing[]> {
     const params = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
+      .set(this.PARAM_PLANT, plant)
       .set(this.PARAM_ENABLE_CACHE, 'true');
 
     return this.dataService.getAll<Drawing[]>(this.DRAWINGS_PATH, { params });
