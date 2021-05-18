@@ -8,7 +8,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
-import { HelperService } from 'apps/gq/src/app/shared/services/helper-service/helper-service.service';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -17,6 +16,7 @@ import {
   PriceSource,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
 import { ManualPriceComponent } from './manual-price.component';
 
@@ -117,7 +117,7 @@ describe('ManualPriceComponent', () => {
         1
       );
       expect(component.manualPriceFormControl.setValue).toHaveBeenCalledWith(
-        10
+        '10'
       );
     });
   });
@@ -125,12 +125,11 @@ describe('ManualPriceComponent', () => {
     test('should emit Output EventEmitter', () => {
       component.editMode = true;
       component.selectManualPrice.emit = jest.fn();
-      component.quotationDetail = { material: { priceUnit: 11 } } as any;
       component.manualPriceFormControl = { value: 100 } as any;
 
       component.selectPrice();
 
-      const expected = new UpdatePrice(9.09, PriceSource.MANUAL);
+      const expected = new UpdatePrice(100, PriceSource.MANUAL);
       expect(component.editMode).toBeFalsy();
       expect(component.selectManualPrice.emit).toHaveBeenCalledWith(expected);
     });

@@ -12,13 +12,13 @@ import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { HelperService } from 'apps/gq/src/app/shared/services/helper-service/helper-service.service';
 
 import {
   PriceSource,
   QuotationDetail,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { PriceService } from '../../../../shared/services/price-service/price.service';
 
 @Component({
@@ -63,7 +63,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     // check if price set equals GQ price
     this.setPrice();
     // init form control
-    this.manualPriceFormControl = new FormControl(this.price);
+    this.manualPriceFormControl = new FormControl(this.price?.toString());
     // set gpi
     this.setGpi();
 
@@ -73,7 +73,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   ngOnChanges(): void {
     this.setPrice();
     if (this.manualPriceFormControl) {
-      this.manualPriceFormControl.setValue(this.price);
+      this.manualPriceFormControl.setValue(this.price?.toString());
       this.setGpi();
     }
   }
@@ -119,11 +119,10 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   selectPrice(): void {
     this._isLoading = true;
     this.editMode = false;
-    const price = PriceService.roundToTwoDecimals(
-      this.manualPriceFormControl.value /
-        this.quotationDetail.material.priceUnit
+    const updatePrice = new UpdatePrice(
+      this.manualPriceFormControl.value,
+      PriceSource.MANUAL
     );
-    const updatePrice = new UpdatePrice(price, PriceSource.MANUAL);
     this.selectManualPrice.emit(updatePrice);
   }
 }

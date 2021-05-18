@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { updateQuotationDetails } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { PriceSource } from '../../models/quotation-detail';
-import { PriceService } from '../price-service/price.service';
 import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
@@ -168,7 +167,7 @@ export class ColumnDefService {
     gqPositionId: string,
     priceUnit: number
   ): void {
-    const price = PriceService.roundToTwoDecimals(newPrice / priceUnit);
+    const price = newPrice / priceUnit;
 
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {

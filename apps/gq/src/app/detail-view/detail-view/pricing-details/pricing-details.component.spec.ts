@@ -4,7 +4,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -27,11 +26,10 @@ describe('PricingDetailsComponent', () => {
       MaterialDetailsModule,
       MatExpansionModule,
       provideTranslocoTestingModule({ en: {} }),
-      ReactiveComponentModule,
       SharedPipesModule,
+      ReactiveComponentModule,
     ],
-    providers: [provideMockStore({})],
-    declarations: [ProductionCostDetailsComponent, SupplyChainDetailsComponent],
+    declarations: [SupplyChainDetailsComponent, ProductionCostDetailsComponent],
   });
 
   beforeEach(() => {
@@ -41,12 +39,5 @@ describe('PricingDetailsComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('ngOnInit', () => {
-    test('should set observable', () => {
-      component.ngOnInit();
-      expect(component.quotationDetail$).toBeDefined();
-    });
   });
 });
