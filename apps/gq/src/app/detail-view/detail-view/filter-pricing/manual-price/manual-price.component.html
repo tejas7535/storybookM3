@@ -1,8 +1,15 @@
 <gq-filter-pricing-card
   *transloco="let t; read: 'detailView.filterPricing.manualPrice'"
   [title]="title$ | ngrxPush"
-  [isDisabled]="!userHasManualPriceRole || !manualPriceFormControl.value"
-  [isSelected]="manualPriceFormControl.value === quotationDetail.price"
+  [isDisabled]="
+    !userHasManualPriceRole ||
+    !manualPriceFormControl?.value ||
+    manualPriceFormControl?.value ===
+      quotationDetail.recommendedPrice?.toString()
+  "
+  [isSelected]="
+    manualPriceFormControl?.value === quotationDetail.price?.toString()
+  "
   (selectManualPrice)="selectPrice()"
   [isLoading]="isLoading"
 >

@@ -11,6 +11,7 @@ import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { updateQuotationDetails } from '../../../core/store';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
@@ -72,37 +73,28 @@ describe('FilterPricingComponent', () => {
 
   describe('ngOnInit', () => {
     test('should define observables', () => {
-      component['subscription'].add = jest.fn();
-
       component.ngOnInit();
 
       expect(component.userHasManualPriceRole$).toBeDefined();
-      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('ngOnDestroy', () => {
-    test('should unsubscribe', () => {
-      component['subscription'].unsubscribe = jest.fn();
-
-      component.ngOnDestroy();
-
-      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('selectManualPrice', () => {
     test('should dispatch action', () => {
-      component.gqPositionId = '1234';
+      component.quotationDetail = QUOTATION_DETAIL_MOCK;
       mockStore.dispatch = jest.fn();
-      const updatePrice = new UpdatePrice(10, PriceSource.GQ);
+      const updatePrice = new UpdatePrice(
+        QUOTATION_DETAIL_MOCK.recommendedPrice,
+        PriceSource.GQ
+      );
       component.selectManualPrice(updatePrice);
 
       expect(mockStore.dispatch).toHaveBeenLastCalledWith(
         updateQuotationDetails({
           updateQuotationDetailList: [
             {
-              gqPositionId: '1234',
-              price: 10,
+              gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
+              price: QUOTATION_DETAIL_MOCK.recommendedPrice,
               priceSource: PriceSource.GQ,
             },
           ],

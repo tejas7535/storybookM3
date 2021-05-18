@@ -3,7 +3,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 @Component({
   selector: 'gq-filter-pricing-card',
   templateUrl: './filter-pricing-card.component.html',
-  styleUrls: ['./filter-pricing-card.component.scss'],
 })
 export class FilterPricingCardComponent {
   @Input() title: string;

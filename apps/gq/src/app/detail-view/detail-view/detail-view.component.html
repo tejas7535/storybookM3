@@ -1,42 +1,37 @@
 <mat-drawer-container
-  class="container"
-  fxFlex
-  fxLayout="column"
-  fxLayoutAlign="start center"
-  fxLayoutGap="20px"
+  class="h-full"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
   <mat-drawer-content
     *ngIf="quotation$ | ngrxPush as quotation"
-    fxLayout="column"
-    fxLayoutAlign="start center"
-    fxFlexFill
+    class="!flex flex-col"
   >
-    <mat-card>
+    <mat-card class="w-full !pt-0">
       <gq-case-header
         showCustomerHeader="true"
         (toggleOfferDrawer)="drawer.toggle()"
       >
         <span>{{ quotation.gqId | gqQuotation }} </span>
-        <span *ngIf="material$ | ngrxPush as material"
+        <span *ngIf="(quotationDetail$ | ngrxPush)?.material as material"
           >{{ material | materialInfo }}
         </span>
       </gq-case-header>
     </mat-card>
 
-    <div class="container" fxLayout="row" fxLayoutAlign="space-between none">
-      <div fxFlex="50%">
-        <gq-filter-pricing> </gq-filter-pricing>
+    <div class="flex flex-row">
+      <div class="w-1/2">
+        <gq-filter-pricing [quotationDetail]="quotationDetail$ | ngrxPush">
+        </gq-filter-pricing>
       </div>
-      <div fxFlex="50%">
-        <gq-pricing-details> </gq-pricing-details>
+      <div class="w-1/2">
+        <gq-pricing-details [quotationDetail]="quotationDetail$ | ngrxPush">
+        </gq-pricing-details>
       </div>
     </div>
   </mat-drawer-content>
-  <mat-drawer #drawer position="end" (opened)="getOffer()">
+  <mat-drawer class="w-1/2" #drawer position="end" (opened)="getOffer()">
     <gq-offer-drawer
-      fxLayout="column"
-      fxFlexFill
+      class="flex flex-col"
       *ngIf="offer$ | ngrxPush"
       [quotation]="offer$ | ngrxPush"
       (toggleOfferDrawer)="drawer.toggle()"

@@ -15,7 +15,11 @@
     <div class="flex ml-4 mr-2 w-1/2">
       <mat-card class="flex-1">
         <gq-transparency-graph
-          *ngIf="!(transactionsLoading$ | ngrxPush); else loading"
+          *ngIf="
+            (translationsLoaded$ | ngrxPush) &&
+              !(transactionsLoading$ | ngrxPush);
+            else loading
+          "
           [transactions]="graphTransactions$ | ngrxPush"
           [coefficients]="coefficients$ | ngrxPush"
           [currency]="currency$ | ngrxPush"

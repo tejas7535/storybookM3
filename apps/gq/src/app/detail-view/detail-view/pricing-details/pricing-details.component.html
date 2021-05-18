@@ -1,37 +1,39 @@
 <div *transloco="let t; read: 'detailView.pricingDetails'">
-  <mat-card>
-    <mat-card-title> {{ t('label') }} </mat-card-title>
+  <mat-card *ngIf="quotationDetail" class="!m-4 !ml-2">
+    <mat-card-title class="!text-h6 !font-bold opacity-60">
+      {{ t('label') }}
+    </mat-card-title>
     <mat-card-content>
       <mat-accordion multi="true">
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel class="border border-lightBg" expanded="true">
           <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="font-bold opacity-60">
               {{ t('materialDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <gq-material-details
-            [materialDetails]="(quotationDetail$ | ngrxPush)?.material"
-            [customerMaterial]="(quotationDetail$ | ngrxPush)?.customerMaterial"
+            [materialDetails]="quotationDetail?.material"
+            [customerMaterial]="quotationDetail?.customerMaterial"
           ></gq-material-details>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel class="border border-lightBg" expanded="true">
           <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="font-bold opacity-60">
               {{ t('supplyChainDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <gq-supply-chain-details
-            [quotationDetail]="quotationDetail$ | ngrxPush"
+            [quotationDetail]="quotationDetail"
           ></gq-supply-chain-details>
         </mat-expansion-panel>
-        <mat-expansion-panel expanded="true">
+        <mat-expansion-panel class="border border-lightBg" expanded="true">
           <mat-expansion-panel-header>
-            <mat-panel-title>
+            <mat-panel-title class="font-bold opacity-60">
               {{ t('productionCostDetails.label') }}
             </mat-panel-title>
           </mat-expansion-panel-header>
           <gq-production-cost-details
-            [quotationDetail]="quotationDetail$ | ngrxPush"
+            [quotationDetail]="quotationDetail"
           ></gq-production-cost-details>
         </mat-expansion-panel>
       </mat-accordion>
