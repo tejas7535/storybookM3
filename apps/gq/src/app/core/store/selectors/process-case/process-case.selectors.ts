@@ -11,6 +11,7 @@ import {
   MaterialQuantities,
   MaterialTableItem,
 } from '../../../../shared/models/table';
+import { TableService } from '../../../../shared/services/table-service/table.service';
 import { getProcessCaseState } from '../../reducers';
 import {
   AddQuotationDetailsRequest,
@@ -75,17 +76,19 @@ export const getAddQuotationDetailsRequest = createSelector(
       ? state.quotationIdentifier.gqId
       : undefined;
 
-    const items: MaterialQuantities[] = [];
+    // get the current biggest quotationItemId
+    const quotationItemIds =
+      state.quotation.item?.quotationDetails.map(
+        (detail) => detail.quotationItemId
+      ) || [];
+    const max = Math.max(...quotationItemIds);
+    const itemId = max || 0;
 
-    state.addMaterials.addMaterialRowData.forEach((el) => {
-      items.push({
-        materialId: el.materialNumber,
-        quantity:
-          typeof el.quantity === 'string'
-            ? parseInt(el.quantity, 10)
-            : el.quantity,
-      });
-    });
+    const items: MaterialQuantities[] =
+      TableService.createMaterialQuantitiesFromTableItems(
+        state.addMaterials.addMaterialRowData,
+        itemId
+      );
 
     return {
       gqId,

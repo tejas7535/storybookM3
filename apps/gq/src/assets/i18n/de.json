@@ -40,6 +40,24 @@
           "label": "Menge",
           "hint": "Geben Sie die Menge ein"
         },
+        "customer": {
+          "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
+          "label": "Kunde",
+          "nothingFound": "Keine Ergebnisse",
+          "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
+        },
+        "materialNumber": {
+          "hint": "Geben Sie eine 15-stellige Materialnummer ein",
+          "label": "Material Nummer",
+          "nothingFound": "Keine Ergebnisse",
+          "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
+        },
+        "sap-quotation": {
+          "hint": "Geben Sie eine SAP-Angebotsnummer ein",
+          "label": "Angebotsnummer",
+          "nothingFound": "Keine Ergebnisse",
+          "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+        },
         "button": "Position hinzufügen"
       },
       "table": {

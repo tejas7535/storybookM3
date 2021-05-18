@@ -4,7 +4,11 @@ import {
   dummyRowData,
   isDummyData,
 } from '../../../core/store/reducers/create-case/config/dummy-row-data';
-import { MaterialValidation, ValidationDescription } from '../../models/table';
+import {
+  MaterialQuantities,
+  MaterialValidation,
+  ValidationDescription,
+} from '../../models/table';
 import { MaterialTableItem } from '../../models/table/material-table-item-model';
 
 @Injectable({
@@ -150,5 +154,25 @@ export class TableService {
       ...it,
       materialNumber: TableService.removeDashes(it.materialNumber),
     }));
+  }
+
+  static createMaterialQuantitiesFromTableItems(
+    rowData: MaterialTableItem[],
+    itemId: number
+  ): MaterialQuantities[] {
+    let startItemId = itemId;
+
+    return rowData.map((el) => {
+      startItemId += 10;
+
+      return {
+        quotationItemId: startItemId,
+        materialId: el.materialNumber,
+        quantity:
+          typeof el.quantity === 'string'
+            ? parseInt(el.quantity, 10)
+            : el.quantity,
+      };
+    });
   }
 }

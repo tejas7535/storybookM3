@@ -225,6 +225,7 @@ describe('Create Case Effects', () => {
         {
           materialId: '333',
           quantity: 10,
+          quotationItemId: 10,
         },
       ],
     };

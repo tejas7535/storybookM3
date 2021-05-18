@@ -31,7 +31,7 @@ export class ColumnDefService {
     },
     {
       headerName: translate('shared.quotationDetailsTable.item'),
-      field: 'sapQuotationItemId',
+      field: 'quotationItemId',
       sort: 'asc',
     },
     {

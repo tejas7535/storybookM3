@@ -40,6 +40,24 @@
           "hint": "Enter a quantity",
           "label": "Quantity"
         },
+        "customer": {
+          "hint": "Enter a Customer Number or a Customer Name",
+          "label": "Customer",
+          "nothingFound": "Nothing found",
+          "wrongInput": "Please enter a valid customer name or customer number"
+        },
+        "materialNumber": {
+          "hint": "Enter a 15-digit Material Number",
+          "label": "Material Number",
+          "nothingFound": "Nothing found",
+          "wrongInput": "Please enter a valid material number"
+        },
+        "sap-quotation": {
+          "hint": "Enter a SAP Quotation Number",
+          "label": "Quotation Number",
+          "nothingFound": "Nothing found",
+          "wrongInput": "Please enter a valid quotation number"
+        },
         "button": "Add position"
       },
       "table": {

@@ -55,13 +55,14 @@ describe('QuotationDetailsService', (): void => {
   });
 
   describe('addMaterial', () => {
-    test('should call ', () => {
+    test('should call', () => {
       const tableData: AddQuotationDetailsRequest = {
         gqId: 12345,
         items: [
           {
             materialId: '123456',
             quantity: 100,
+            quotationItemId: 10,
           },
         ],
       };

@@ -18,25 +18,11 @@
       },
       "salesOrg": "Sales Org",
       "button": "Create Case",
-      "hint": "Enter a Customer Number or a Customer Name",
-      "label": "Customer",
-      "nothingFound": "Nothing found",
-      "title": "Create Case manually",
-      "wrongInput": "Please enter a valid customer name or customer number"
-    },
-    "materialNumber": {
-      "hint": "Enter a 15-digit Material Number",
-      "label": "Material Number",
-      "nothingFound": "Nothing found",
-      "wrongInput": "Please enter a valid material number"
+      "title": "Create Case manually"
     },
     "sap-quotation": {
       "button": "Import",
-      "hint": "Enter a SAP Quotation Number",
-      "label": "Quotation Number",
-      "nothingFound": "Nothing found",
-      "title": "SAP Quotation Import",
-      "wrongInput": "Please enter a valid quotation number"
+      "title": "SAP Quotation Import"
     }
   },
   "deleteAccept": {

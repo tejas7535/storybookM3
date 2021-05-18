@@ -18,25 +18,11 @@
       },
       "salesOrg": "VkOrg",
       "button": "Case erstellen",
-      "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
-      "label": "Kunde",
-      "nothingFound": "Keine Ergebnisse",
-      "title": "Neuen Case erstellen",
-      "wrongInput": "Bitte geben sie einen validen Kundennamen oder Kundenummer ein"
-    },
-    "materialNumber": {
-      "hint": "Geben Sie eine 15-stellige Materialnummer ein",
-      "label": "Material Nummer",
-      "nothingFound": "Keine Ergebnisse",
-      "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
+      "title": "Neuen Case erstellen"
     },
     "sap-quotation": {
       "button": "Importieren",
-      "hint": "Geben Sie eine SAP-Angebotsnummer ein",
-      "label": "Angebotsnummer",
-      "nothingFound": "Keine Ergebnisse",
-      "title": "SAP Angebot importieren",
-      "wrongInput": "Bitte geben Sie eine valide Angebotsnummer ein"
+      "title": "SAP Angebot importieren"
     }
   },
   "deleteAccept": {

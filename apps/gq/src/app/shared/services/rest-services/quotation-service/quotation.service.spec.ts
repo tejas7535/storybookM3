@@ -102,7 +102,9 @@ describe('QuotationService', () => {
           customerId: '1234',
           salesOrg: '0267',
         },
-        materialQuantities: [{ materialId: '123', quantity: 10 }],
+        materialQuantities: [
+          { materialId: '123', quantity: 10, quotationItemId: 10 },
+        ],
       };
       service.createCase(mockBody).subscribe((response) => {
         expect(response).toEqual([]);
