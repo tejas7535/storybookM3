@@ -1,5 +1,6 @@
 import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import {
+  MaterialQuantities,
   MaterialTableItem,
   MaterialValidation,
   ValidationDescription,
@@ -38,7 +39,7 @@ describe('TableService', () => {
       ]);
     });
 
-    test('should do nothing ', () => {
+    test('should do nothing', () => {
       const items: MaterialTableItem[] = [
         { quantity: 10, materialNumber: '1234' },
       ];
@@ -61,7 +62,7 @@ describe('TableService', () => {
   });
 
   describe('deleteItem', () => {
-    describe('should delete an Item', () => {
+    test('should delete an Item', () => {
       const materialNumber = '1234';
       const quantity = 10;
       const rowData: MaterialTableItem[] = [
@@ -90,7 +91,7 @@ describe('TableService', () => {
   });
 
   describe('validateData', () => {
-    describe('should return valid information', () => {
+    test('should return valid information', () => {
       const materialNumber = {
         quantity: 100,
         materialNumber: '23457',
@@ -111,7 +112,7 @@ describe('TableService', () => {
       });
     });
 
-    describe('should return invalid information', () => {
+    test('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
         quantity: 100,
         materialNumber: '23457',
@@ -135,7 +136,7 @@ describe('TableService', () => {
       });
     });
 
-    describe('should not change the validation', () => {
+    test('should not change the validation', () => {
       const materialNumber: MaterialTableItem = {
         quantity: 100,
         materialNumber: '23457',
@@ -158,7 +159,7 @@ describe('TableService', () => {
         quantity: 100,
       });
     });
-    describe('should return invalid information', () => {
+    test('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
         quantity: 100,
         materialNumber: '2345713',
@@ -182,7 +183,7 @@ describe('TableService', () => {
       });
     });
 
-    describe('should return invalid information', () => {
+    test('should return invalid information', () => {
       const materialNumber: MaterialTableItem = {
         quantity: -10,
         materialNumber: '23457',
@@ -206,7 +207,7 @@ describe('TableService', () => {
       });
     });
 
-    describe('should return quantity as number', () => {
+    test('should return quantity as number', () => {
       const materialNumber: MaterialTableItem = {
         quantity: 10,
         materialNumber: '23457',
@@ -227,7 +228,7 @@ describe('TableService', () => {
       });
     });
 
-    describe('should return invalid quantity', () => {
+    test('should return invalid quantity', () => {
       const materialNumber: MaterialTableItem = {
         quantity: undefined,
         materialNumber: '23457',
@@ -286,6 +287,31 @@ describe('TableService', () => {
 
       expect(result).toEqual(expectedResult);
       expect(TableService.removeDashes).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('createMaterialQuantitiesFromTableItems', () => {
+    test('should return MaterialQuantities', () => {
+      const rowData: MaterialTableItem[] = [
+        {
+          materialNumber: '123',
+          quantity: 10,
+          info: {
+            description: [ValidationDescription.Valid],
+            valid: true,
+          },
+        },
+      ];
+      const itemId = 0;
+      const result = TableService.createMaterialQuantitiesFromTableItems(
+        rowData,
+        itemId
+      );
+
+      const expected: MaterialQuantities[] = [
+        { materialId: '123', quantity: 10, quotationItemId: 10 },
+      ];
+      expect(result).toEqual(expected);
     });
   });
 });

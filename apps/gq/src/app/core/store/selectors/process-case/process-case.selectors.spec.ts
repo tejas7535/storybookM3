@@ -124,7 +124,7 @@ describe('Process Case Selector', () => {
       ).toEqual(fakeState.processCase.addMaterials.addMaterialRowData);
     });
   });
-  describe(' getAddQuotationDetailsRequest', () => {
+  describe('getAddQuotationDetailsRequest', () => {
     test('should return a AddQuotationDetailsRequest', () => {
       expect(
         quotationSelectors.getAddQuotationDetailsRequest.projector(
@@ -132,11 +132,17 @@ describe('Process Case Selector', () => {
         )
       ).toEqual({
         gqId: fakeState.processCase.quotationIdentifier.gqId,
-        items: [{ materialId: '0167187...', quantity: 123 }],
+        items: [
+          {
+            materialId: '0167187...',
+            quantity: 123,
+            quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId + 10,
+          },
+        ],
       });
     });
 
-    test('should return a AddQuotationDetailsRequest', () => {
+    test('should return a AddQuotationDetailsRequest for string quantity', () => {
       const mockState = {
         processCase: {
           ...initialState,
@@ -169,7 +175,13 @@ describe('Process Case Selector', () => {
         )
       ).toEqual({
         gqId: 123,
-        items: [{ materialId: '123456', quantity: 200 }],
+        items: [
+          {
+            materialId: '123456',
+            quantity: 200,
+            quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId + 10,
+          },
+        ],
       });
     });
   });

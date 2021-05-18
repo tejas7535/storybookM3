@@ -1,19 +1,20 @@
 import { createSelector } from '@ngrx/store';
 
-import {
-  CaseFilterItem,
-  CreateCase,
-  CreateCaseResponse,
-  SalesOrg,
-} from '../../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import {
   MaterialQuantities,
   MaterialTableItem,
 } from '../../../../shared/models/table';
+import { TableService } from '../../../../shared/services/table-service/table.service';
 import { getCaseState } from '../../reducers';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
+import {
+  CaseFilterItem,
+  CreateCase,
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../reducers/create-case/models';
 
 export const getCaseQuotation = createSelector(
   getCaseState,
@@ -92,19 +93,11 @@ export const getCustomerConditionsValid = createSelector(
 export const getCreateCaseData = createSelector(
   getCaseState,
   (state: CaseState): CreateCase => {
-    const customerId = state.customer.customerId;
+    const { customerId } = state.customer;
     const salesOrg = state.customer.salesOrgs.find((org) => org.selected)?.id;
 
-    const materialQuantities: MaterialQuantities[] = [];
-    state.rowData.forEach((el) => {
-      materialQuantities.push({
-        materialId: el.materialNumber,
-        quantity:
-          typeof el.quantity === 'string'
-            ? parseInt(el.quantity, 10)
-            : el.quantity,
-      });
-    });
+    const materialQuantities: MaterialQuantities[] =
+      TableService.createMaterialQuantitiesFromTableItems(state.rowData, 0);
 
     return {
       materialQuantities,
