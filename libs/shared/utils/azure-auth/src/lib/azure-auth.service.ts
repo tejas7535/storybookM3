@@ -93,9 +93,7 @@ export class AzureAuthService {
     return this.http
       .get(GRAPH_PROFILE_IMAGE_ENDPOINT, { responseType: 'blob' })
       .pipe(
-        mergeMap((photoBlob) => {
-          return AzureAuthService.createImageFromBlob(photoBlob);
-        })
+        mergeMap((photoBlob) => AzureAuthService.createImageFromBlob(photoBlob))
       );
   }
 
@@ -116,9 +114,13 @@ export class AzureAuthService {
       activeAccount = accounts[0];
     }
 
-    const department =
-      AzureAuthService.extractDepartmentFromAzureAccountInfo(activeAccount);
+    if (activeAccount) {
+      const department =
+        AzureAuthService.extractDepartmentFromAzureAccountInfo(activeAccount);
 
-    return { ...activeAccount, department };
+      return { ...activeAccount, department };
+    }
+
+    return undefined;
   }
 }

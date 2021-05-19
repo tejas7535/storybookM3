@@ -1,9 +1,12 @@
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
-import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
+import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
+
+import { getIsLoggedIn } from '@schaeffler/azure-auth';
 
 import { REFERENCE_TYPE_MOCK } from '@cdba/testing/mocks';
 
@@ -41,7 +44,6 @@ describe('Search Effects', () => {
   let action: any;
   let actions$: any;
   let store: any;
-  let metadata: EffectsMetadata<SearchEffects>;
   let effects: SearchEffects;
   let searchService: SearchService;
 
@@ -69,7 +71,6 @@ describe('Search Effects', () => {
     actions$ = spectator.inject(Actions);
     store = spectator.inject(Store);
     effects = spectator.inject(SearchEffects);
-    metadata = getEffectsMetadata(effects);
     searchService = spectator.inject(SearchService);
 
     store.overrideSelector(getSelectedFilters, []);
@@ -81,43 +82,51 @@ describe('Search Effects', () => {
       action = loadInitialFilters();
     });
 
-    test('should return loadInitialFiltersSuccess action when REST call is successful', () => {
-      const items = [
-        new FilterItemIdValue(
-          'customer',
-          [new IdValue('audi', 'Audi', false)],
-          true
-        ),
-      ];
-      const result = loadInitialFiltersSuccess({
-        items,
-      });
+    test(
+      'should return loadInitialFiltersSuccess action when REST call is successful',
+      marbles((m) => {
+        const items = [
+          new FilterItemIdValue(
+            'customer',
+            [new IdValue('audi', 'Audi', false)],
+            true
+          ),
+        ];
+        const result = loadInitialFiltersSuccess({
+          items,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      searchService.getInitialFilters = jest.fn(() => response);
+        searchService.getInitialFilters = jest.fn(() => response);
 
-      expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(searchService.getInitialFilters).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getInitialFilters).toHaveBeenCalled();
+      })
+    );
 
-    test('should return loadInitialFiltersFailure on REST error', () => {
-      const result = loadInitialFiltersFailure({ errorMessage });
+    test(
+      'should return loadInitialFiltersFailure on REST error',
+      marbles((m) => {
+        const result = loadInitialFiltersFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      searchService.getInitialFilters = jest.fn(() => response);
+        searchService.getInitialFilters = jest.fn(() => response);
 
-      expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(searchService.getInitialFilters).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getInitialFilters).toHaveBeenCalled();
+      })
+    );
   });
 
   describe('search$', () => {
@@ -125,58 +134,66 @@ describe('Search Effects', () => {
       action = search();
     });
 
-    test('should return searchSuccess action when REST call is successful', () => {
-      const filterItemIdVal = new FilterItemIdValue(
-        'plant',
-        [new IdValue('23', 'Best plant', false)],
-        false
-      );
-      const filterItemRange = new FilterItemRange(
-        'length',
-        0,
-        200,
-        0,
-        200,
-        'kg'
-      );
+    test(
+      'should return searchSuccess action when REST call is successful',
+      marbles((m) => {
+        const filterItemIdVal = new FilterItemIdValue(
+          'plant',
+          [new IdValue('23', 'Best plant', false)],
+          false
+        );
+        const filterItemRange = new FilterItemRange(
+          'length',
+          0,
+          200,
+          0,
+          200,
+          'kg'
+        );
 
-      const ref = REFERENCE_TYPE_MOCK;
-      const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
-        [ref],
-        2
-      );
-      const result = searchSuccess({
-        searchResult,
-      });
+        const ref = REFERENCE_TYPE_MOCK;
+        const searchResult = new SearchResult(
+          [filterItemIdVal, filterItemRange],
+          [ref],
+          2
+        );
+        const result = searchSuccess({
+          searchResult,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: searchResult,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: searchResult,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      searchService.search = jest.fn(() => response);
+        searchService.search = jest.fn(() => response);
 
-      expect(effects.search$).toBeObservable(expected);
-      expect(searchService.search).toHaveBeenCalledTimes(1);
-      expect(searchService.search).toHaveBeenCalledWith([]);
-    });
+        m.expect(effects.search$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.search).toHaveBeenCalled();
+        expect(searchService.search).toHaveBeenCalledWith([]);
+      })
+    );
 
-    test('should return searchFailure on REST error', () => {
-      const result = searchFailure({ errorMessage });
+    test(
+      'should return searchFailure on REST error',
+      marbles((m) => {
+        const result = searchFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      searchService.search = jest.fn(() => response);
+        searchService.search = jest.fn(() => response);
 
-      expect(effects.search$).toBeObservable(expected);
-      expect(searchService.search).toHaveBeenCalledTimes(1);
-      expect(searchService.search).toHaveBeenCalledWith([]);
-    });
+        m.expect(effects.search$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.search).toHaveBeenCalled();
+        expect(searchService.search).toHaveBeenCalledWith([]);
+      })
+    );
   });
 
   describe('applyTextSearch$', () => {
@@ -187,84 +204,80 @@ describe('Search Effects', () => {
       action = applyTextSearch({ textSearch });
     });
 
-    test('should return applyTextSearchSuccess action when REST call is successful', () => {
-      const filterItemIdVal = new FilterItemIdValue(
-        'plant',
-        [new IdValue('23', 'Best plant', false)],
-        false
-      );
-      const filterItemRange = new FilterItemRange(
-        'length',
-        0,
-        200,
-        0,
-        200,
-        'kg'
-      );
+    test(
+      'should return applyTextSearchSuccess action when REST call is successful',
+      marbles((m) => {
+        const filterItemIdVal = new FilterItemIdValue(
+          'plant',
+          [new IdValue('23', 'Best plant', false)],
+          false
+        );
+        const filterItemRange = new FilterItemRange(
+          'length',
+          0,
+          200,
+          0,
+          200,
+          'kg'
+        );
 
-      const ref = REFERENCE_TYPE_MOCK;
-      const searchResult = new SearchResult(
-        [filterItemIdVal, filterItemRange],
-        [ref],
-        2
-      );
-      const result = applyTextSearchSuccess({
-        searchResult,
-      });
+        const ref = REFERENCE_TYPE_MOCK;
+        const searchResult = new SearchResult(
+          [filterItemIdVal, filterItemRange],
+          [ref],
+          2
+        );
+        const result = applyTextSearchSuccess({
+          searchResult,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: searchResult,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: searchResult,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      searchService.textSearch = jest.fn(() => response);
+        searchService.textSearch = jest.fn(() => response);
 
-      expect(effects.applyTextSearch$).toBeObservable(expected);
-      expect(searchService.textSearch).toHaveBeenCalledTimes(1);
-      expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
-    });
+        m.expect(effects.applyTextSearch$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.textSearch).toHaveBeenCalled();
+        expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
+      })
+    );
 
-    test('should return applyTextSearchFailure on REST error', () => {
-      const result = applyTextSearchFailure({ errorMessage });
+    test(
+      'should return applyTextSearchFailure on REST error',
+      marbles((m) => {
+        const result = applyTextSearchFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      searchService.textSearch = jest.fn(() => response);
+        searchService.textSearch = jest.fn(() => response);
 
-      expect(effects.applyTextSearch$).toBeObservable(expected);
-      expect(searchService.textSearch).toHaveBeenCalledTimes(1);
-      expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
-    });
+        m.expect(effects.applyTextSearch$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.textSearch).toHaveBeenCalled();
+        expect(searchService.textSearch).toHaveBeenCalledWith(textSearch);
+      })
+    );
   });
 
   describe('resetFilters$', () => {
-    test('should not return an action', () => {
-      expect(metadata.resetFilters$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
+    // eslint-disable-next-line jest/expect-expect
+    test(
+      'should dispatch loadInitialFilters',
+      marbles((m) => {
+        actions$ = m.cold('-a', { a: resetFilters() });
 
-    test('should dispatch loadInitialFilters', () => {
-      store.dispatch = jest.fn();
-      actions$ = cold('-a', { a: resetFilters() });
+        const expected = m.cold('-b', { b: loadInitialFilters() });
 
-      expect(effects.resetFilters$).toBeObservable(actions$);
-      expect(store.dispatch).toHaveBeenCalledWith(loadInitialFilters());
-    });
-  });
-
-  describe('shareSearchResult', () => {
-    test('should not return an action', () => {
-      expect(metadata.shareSearchResult$).toEqual({
-        dispatch: false,
-        useEffectsErrorHandler: true,
-      });
-    });
+        m.expect(effects.resetFilters$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('autocomplete$', () => {
@@ -275,50 +288,80 @@ describe('Search Effects', () => {
       action = autocomplete({ textSearch });
     });
 
-    test('should return autocompleteSuccess action when REST call is successful', () => {
-      const item = new FilterItemIdValue(
-        'customer',
-        [new IdValue('audi', 'Audi', false)],
-        true
-      );
-      const result = autocompleteSuccess({
-        item,
-      });
+    test(
+      'should return autocompleteSuccess action when REST call is successful',
+      marbles((m) => {
+        const item = new FilterItemIdValue(
+          'customer',
+          [new IdValue('audi', 'Audi', false)],
+          true
+        );
+        const result = autocompleteSuccess({
+          item,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: item,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      searchService.autocomplete = jest.fn(() => response);
+        searchService.autocomplete = jest.fn(() => response);
 
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
-    });
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.autocomplete).toHaveBeenCalled();
+        expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
+      })
+    );
 
-    test('should return autocompleteFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = autocompleteFailure();
+    test(
+      'should return autocompleteFailure on REST error',
+      marbles((m) => {
+        const error = new Error('damn');
+        const result = autocompleteFailure();
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      searchService.autocomplete = jest.fn(() => response);
+        searchService.autocomplete = jest.fn(() => response);
 
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.autocomplete).toHaveBeenCalled();
+        expect(searchService.autocomplete).toHaveBeenCalledWith(textSearch, []);
+      })
+    );
   });
 
   describe('ngrxOnInitEffects', () => {
-    test('should return loadInitialFilters', () => {
-      const result = effects.ngrxOnInitEffects();
+    beforeEach(() => {
+      store.dispatch = jest.fn();
+    });
 
-      expect(result).toEqual(loadInitialFilters());
+    test('should return NO_ACTION', () => {
+      const result = effects.ngrxOnInitEffects();
+      const expected = { type: 'NO_ACTION' };
+
+      expect(result).toEqual(expected);
+    });
+
+    test('should dispatch loadInitialFilters when logged in', () => {
+      store.overrideSelector(getIsLoggedIn, true);
+
+      effects.ngrxOnInitEffects();
+
+      expect(store.dispatch).toHaveBeenCalledWith(loadInitialFilters());
+    });
+
+    test('should not dispatch loadInitialFilters when not logged in', () => {
+      store.overrideSelector(getIsLoggedIn, false);
+
+      effects.ngrxOnInitEffects();
+
+      expect(store.dispatch).not.toHaveBeenCalled();
     });
   });
 });
