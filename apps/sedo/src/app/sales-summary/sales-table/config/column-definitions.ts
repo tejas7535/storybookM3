@@ -70,7 +70,7 @@ export const COLUMN_DEFINITIONS: ColDef[] = [
   },
   {
     field: 'plantNamesList',
-    headerName: 'Product Plant Names(s)',
+    headerName: 'Product Plant Name(s)',
     filterParams: FILTER_PARAMS,
   },
   {
