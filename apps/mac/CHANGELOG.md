@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [0.1.0](///compare/mac-v0.1.0...mac-v0.0.7) (2021-05-19)
+
+
+### 🐛 Bug Fixes
+
+* **mac:** fixed naming (UFTABI-4475) ([eaceb43](///commit/eaceb432b19d29eb68ae61e2da119c1dc0190838))
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](///commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
 ### [0.0.7](///compare/mac-v0.0.7...mac-v0.0.6) (2021-05-04)
 
 
