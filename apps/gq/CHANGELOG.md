@@ -3,6 +3,42 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.15.0](///compare/gq-v1.15.0...gq-v1.14.1) (2021-05-19)
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](///commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
+
+### 🎸 Features
+
+* **gq:** added customer currency to transaction view (GQUOTE-662) ([63ef01b](///commit/63ef01bde7158023129cd5e771b25d24c00b3c1c))
+* **gq:** added customerMaterial ([39f870d](///commit/39f870d1c0965f76b1f1308177abf74ab0198bba))
+* **gq:** added info icon to table ([c7679b9](///commit/c7679b9ab6f183f5752bf921d2b1e06057e22ff7))
+* **gq:** added info icon to transaction-view header (GQUOTE-642) ([91caba7](///commit/91caba7e7e5e6d3f625765f5bb8e9f977f154837))
+* **gq:** added marginXprofitMargin graph to transactions view(GQUOTE-360) ([3b70bfa](///commit/3b70bfa1186f94ca93663e4f806cf5e6fa452c31))
+* **gq:** added quotation_item_id to manual cases (GQUOTE-570) ([0c2a836](///commit/0c2a836fac907a1d60be6a24ad91bdaa31755ff5))
+* **gq:** added regression line to marginXquantity graph(GQUOTE-638) ([ed62036](///commit/ed6203692abee9dfd12532bc049b7a726244ed2c))
+* **gq:** added routing and blank page for transactions (GQUOTE-619) ([8030b21](///commit/8030b21426438ff627ee3c5a14a13ccb67466a86))
+* **gq:** added transactions table (GQUOTE-606) ([42b9ec4](///commit/42b9ec4aba5026eb585eec4f6435a6c85c3f5b93))
+* **gq:** calculated and displayed gpm (GQUOTE-365) ([b03ccfb](///commit/b03ccfb9d0d71dae36f29ed392c162b638fc6e83))
+* **gq:** changed customer identifier naming ([7175637](///commit/7175637bc799ae10edc5772a25c4dcb120793dd4))
+* **gq:** created basic layout for transaction page (GQUOTE-618) ([f71f072](///commit/f71f0729988ce35e15e36c11d6106908a1fb344a))
+* **gq:** display manual price details (GQUOTE-510) ([e0d60a0](///commit/e0d60a07a5db5ea2e5bd67d847c37e281f5bf4ff))
+* **gq:** display priceUnit column (GQUOTE-604) ([613cb77](///commit/613cb776c02c9f357febfb33cc6fc07c0fecc9d9))
+* **gq:** edit manual price directly in table (GQUOTE-509) ([5bcde2d](///commit/5bcde2d40a2fa6dc7e737034df1fcb3c62face91))
+* **gq:** saved user column settings (GQUOTE-586) ([d547f39](///commit/d547f39dcaf92acf06b3fef9efa1d7836a497f3d))
+* **transloco:** update transloco testing module (UFTABI-4323) ([47630c6](///commit/47630c62ca451d70e613182684fc34506a34705a))
+
+
+### 🐛 Bug Fixes
+
+* **gq:** disabled upload-offer for manual cases (GQUOTE-595) ([11041a7](///commit/11041a7f1d96b991c0264df23b6d2d6178604421))
+* **gq:** fixed priceUnit bug (GQUOTE-673) ([9aee6c9](///commit/9aee6c9827b2b0f6bb720c47a4c2b0af58d14191))
+* **gq:** fixed quantity and adding items ([3f3bea5](///commit/3f3bea5372b400abde07fb30e9d0740c51f314a6))
+* **gq:** removed automotive roles ([f18de57](///commit/f18de574d2c830b9e75a354ccd95d7f52f20cd04))
+
 ### [1.14.1](///compare/gq-v1.14.1...gq-v1.14.0) (2021-04-13)
 
 
