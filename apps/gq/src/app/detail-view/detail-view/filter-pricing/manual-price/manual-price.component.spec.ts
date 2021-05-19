@@ -76,11 +76,13 @@ describe('ManualPriceComponent', () => {
     test('should trigger subscription', () => {
       component.manualPriceFormControl = new FormControl(10);
       component.setGpi = jest.fn();
+      component.setGpm = jest.fn();
       component.addSubscriptions();
 
       component.manualPriceFormControl.setValue(1);
 
       expect(component.setGpi).toHaveBeenCalledTimes(1);
+      expect(component.setGpm).toHaveBeenCalledTimes(1);
     });
   });
 
@@ -96,14 +98,16 @@ describe('ManualPriceComponent', () => {
   describe('ngOnChanges', () => {
     beforeEach(() => {
       component.setGpi = jest.fn();
+      component.setGpm = jest.fn();
       component.setPrice = jest.fn();
     });
-    test('should not set gpi', () => {
+    test('should not set margins', () => {
       // tslint:disable-next-line: no-lifecycle-call
       component.ngOnChanges();
 
       expect(component.setPrice).toHaveBeenCalledTimes(1);
       expect(component.setGpi).toHaveBeenCalledTimes(0);
+      expect(component.setGpm).toHaveBeenCalledTimes(0);
     });
     test('should  set gpi', () => {
       component.manualPriceFormControl = { setValue: jest.fn() } as any;
@@ -113,6 +117,7 @@ describe('ManualPriceComponent', () => {
 
       expect(component.setPrice).toHaveBeenCalledTimes(1);
       expect(component.setGpi).toHaveBeenCalledTimes(1);
+      expect(component.setGpm).toHaveBeenCalledTimes(1);
       expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
         1
       );
@@ -136,14 +141,14 @@ describe('ManualPriceComponent', () => {
   });
 
   describe('set isLoading', () => {
-    test('should set isLoading', () => {
+    test('should set isLoading false', () => {
       component._isLoading = false;
 
       component.isLoading = true;
 
       expect(component.isLoading).toEqual(false);
     });
-    test('should set isLoading', () => {
+    test('should set isLoading true', () => {
       component._isLoading = true;
 
       component.isLoading = true;
@@ -182,6 +187,17 @@ describe('ManualPriceComponent', () => {
       component.setGpi();
 
       expect(component.gpi).toBeDefined();
+    });
+  });
+  describe('setGpm', () => {
+    test('should set gpm', () => {
+      component.gpm = undefined;
+      component.manualPriceFormControl = { value: 10 } as any;
+      component.quotationDetail = { sqv: 10 } as any;
+
+      component.setGpm();
+
+      expect(component.gpm).toBeDefined();
     });
   });
   describe('setPrice', () => {

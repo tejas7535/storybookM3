@@ -14,7 +14,7 @@
   [isLoading]="isLoading"
 >
   <div class="w-full mt-[10px] flex" content>
-    <div class="flex-grow max-w-[30%]">
+    <div class="flex-grow max-w-[25%]">
       <div class="mb-1 text-body-1">
         <span>{{ t('label') }}</span
         ><span *ngIf="editMode"> ({{ currency }})</span>
@@ -59,6 +59,12 @@
       <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
       <div>
         <span class="font-bold">{{ gpi || '-' }} %</span>
+      </div>
+    </div>
+    <div class="flex-1" *ngIf="userHasSQVRole">
+      <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
+      <div>
+        <span class="font-bold">{{ gpm || '-' }} %</span>
       </div>
     </div>
     <div class="flex-1">

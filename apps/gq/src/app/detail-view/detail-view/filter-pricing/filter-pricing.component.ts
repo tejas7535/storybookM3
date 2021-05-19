@@ -10,6 +10,7 @@ import {
   updateQuotationDetails,
   userHasGPCRole,
   userHasManualPriceRole,
+  userHasSQVRole,
 } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
@@ -26,6 +27,7 @@ export class FilterPricingComponent implements OnInit {
   public customerCurrency$: Observable<string>;
   public userHasManualPriceRole$: Observable<boolean>;
   public userHasGPCRole$: Observable<boolean>;
+  public userHasSQVRole$: Observable<boolean>;
   public updateIsLoading$: Observable<boolean>;
 
   @Input() quotationDetail: QuotationDetail;
@@ -36,6 +38,7 @@ export class FilterPricingComponent implements OnInit {
     this.customerCurrency$ = this.store.select(getCustomerCurrency);
     this.userHasManualPriceRole$ = this.store.select(userHasManualPriceRole);
     this.userHasGPCRole$ = this.store.select(userHasGPCRole);
+    this.userHasSQVRole$ = this.store.select(userHasSQVRole);
     this.updateIsLoading$ = this.store.select(getUpdateLoading);
   }
 

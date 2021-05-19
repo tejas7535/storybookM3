@@ -30,6 +30,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   manualPriceFormControl: FormControl;
   editMode = false;
   gpi: number;
+  gpm: number;
   price: number;
   _isLoading: boolean;
 
@@ -37,6 +38,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
 
   @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
   @Input() quotationDetail: QuotationDetail;
   @Input() currency: string;
   @Input() userHasManualPriceRole: boolean;
@@ -66,6 +68,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     this.manualPriceFormControl = new FormControl(this.price?.toString());
     // set gpi
     this.setGpi();
+    this.setGpm();
 
     this.addSubscriptions();
   }
@@ -75,6 +78,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     if (this.manualPriceFormControl) {
       this.manualPriceFormControl.setValue(this.price?.toString());
       this.setGpi();
+      this.setGpm();
     }
   }
 
@@ -87,6 +91,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     this.subscription.add(
       this.manualPriceFormControl.valueChanges.subscribe(() => {
         this.setGpi();
+        this.setGpm();
       })
     );
   }
@@ -101,6 +106,12 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     this.gpi = PriceService.calculateMargin(
       this.manualPriceFormControl.value,
       this.quotationDetail.gpc
+    );
+  }
+  setGpm(): void {
+    this.gpm = PriceService.calculateMargin(
+      this.manualPriceFormControl.value,
+      this.quotationDetail.sqv
     );
   }
 

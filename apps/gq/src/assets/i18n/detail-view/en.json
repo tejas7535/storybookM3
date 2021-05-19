@@ -5,6 +5,7 @@
       "label": "Manual Price",
       "title": "Manual Pricing",
       "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)",
       "quantity": "Quantity",
       "priceUnit": "Price Unit"
     },
@@ -13,6 +14,7 @@
       "priceLabel": "Netprice",
       "rating": "GQ-Rating",
       "gpi": "GPI% (GPC)",
+      "gpm": "GPM% (SQV)",
       "quantity": "Quantity",
       "details": "Details"
     },

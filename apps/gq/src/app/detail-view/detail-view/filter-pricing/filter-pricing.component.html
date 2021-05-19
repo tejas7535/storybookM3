@@ -6,6 +6,7 @@
     (selectManualPrice)="selectManualPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+    [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
   ></gq-manual-price>
 
   <gq-price
@@ -15,6 +16,7 @@
     (selectManualPrice)="selectManualPrice($event)"
     [isLoading]="updateIsLoading$ | ngrxPush"
     [userHasGPCRole]="userHasGPCRole$ | ngrxPush"
+    [userHasSQVRole]="userHasSQVRole$ | ngrxPush"
   >
   </gq-price>
 </div>

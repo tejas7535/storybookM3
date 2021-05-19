@@ -52,6 +52,7 @@ describe('GqPriceComponent', () => {
       component.ngOnInit();
 
       expect(component.gpi).toBeDefined();
+      expect(component.gpm).toBeDefined();
     });
     test('should not set gpi', () => {
       component.quotationDetail = undefined;
@@ -59,18 +60,19 @@ describe('GqPriceComponent', () => {
       component.ngOnInit();
 
       expect(component.gpi).toBeUndefined();
+      expect(component.gpm).toBeUndefined();
     });
   });
 
   describe('set isLoading', () => {
-    test('should set isLoading', () => {
+    test('should set isLoading false', () => {
       component._isLoading = false;
 
       component.isLoading = true;
 
       expect(component.isLoading).toEqual(false);
     });
-    test('should set isLoading', () => {
+    test('should set isLoading true', () => {
       component._isLoading = true;
 
       component.isLoading = true;
@@ -103,7 +105,7 @@ describe('GqPriceComponent', () => {
 
   describe('navigateClick', () => {
     test('should navigate to TransactionViewPath', () => {
-      spyOn(router, 'navigate');
+      router.navigate = jest.fn();
 
       component.navigateClick();
 
