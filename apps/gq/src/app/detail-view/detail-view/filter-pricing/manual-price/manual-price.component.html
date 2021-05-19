@@ -64,7 +64,9 @@
     <div class="flex-1">
       <div class="mb-1 text-body-1">{{ t('quantity') }}:</div>
       <div>
-        <span class="font-bold">{{ quotationDetail.orderQuantity }}</span>
+        <span class="font-bold">{{
+          quotationDetail.orderQuantity | number
+        }}</span>
       </div>
     </div>
     <div class="flex-1">

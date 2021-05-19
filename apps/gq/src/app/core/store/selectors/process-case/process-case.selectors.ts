@@ -81,13 +81,15 @@ export const getAddQuotationDetailsRequest = createSelector(
       state.quotation.item?.quotationDetails.map(
         (detail) => detail.quotationItemId
       ) || [];
+    if (quotationItemIds && quotationItemIds.length === 0) {
+      quotationItemIds.push(0);
+    }
     const max = Math.max(...quotationItemIds);
-    const itemId = max || 0;
 
     const items: MaterialQuantities[] =
       TableService.createMaterialQuantitiesFromTableItems(
         state.addMaterials.addMaterialRowData,
-        itemId
+        max
       );
 
     return {
