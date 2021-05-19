@@ -6,7 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { hot } from 'jasmine-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
-import { loginSuccess, User } from '@schaeffler/auth';
+import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
 
 import { RootEffects } from './root.effects';
 
@@ -41,12 +41,13 @@ describe('Root Effects', () => {
     test(
       'should call addTelemetryData of AI Service',
       waitForAsync(() => {
-        const user: User = {
-          username: 'Bob',
+        const accountInfo: AccountInfo = {
+          username: 'bob@schaeffler.com',
+          name: 'Bob',
           department: 'C-IT',
-        };
+        } as AccountInfo;
 
-        action = loginSuccess({ user });
+        action = loginSuccess({ accountInfo });
 
         actions$ = hot('-a', { a: action });
 
@@ -62,12 +63,13 @@ describe('Root Effects', () => {
     test(
       'should call addTelemetryData of AI Service with department unavailable',
       waitForAsync(() => {
-        const user: User = {
-          username: 'Bob',
+        const accountInfo: AccountInfo = {
+          username: 'bob@schaeffler.com',
+          name: 'Bob',
           department: undefined,
-        };
+        } as AccountInfo;
 
-        action = loginSuccess({ user });
+        action = loginSuccess({ accountInfo });
 
         actions$ = hot('-a', { a: action });
 

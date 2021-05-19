@@ -6,16 +6,18 @@ import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
-import { getIsLoggedIn, getUsername, startLoginFlow } from '@schaeffler/auth';
+import {
+  getIsLoggedIn,
+  getProfileImage,
+  getUsername,
+} from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer-tailwind';
 import { UserMenuEntry } from '@schaeffler/header';
-import { BreakpointService } from '@schaeffler/responsive';
 
 import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
 import { BrowserDetectionService } from '@cdba/shared/services';
 
 import { version } from '../../package.json';
-import { AppState } from './core/store';
 
 @Component({
   selector: 'cdba-root',
@@ -35,21 +37,19 @@ export class AppComponent implements OnInit {
   ];
 
   username$: Observable<string>;
+  profileImage$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];
   isLoggedIn$: Observable<boolean>;
 
-  isLessThanMediumViewport$: Observable<boolean>;
-
   public constructor(
-    private readonly breakpointService: BreakpointService,
     private readonly browserDetectionService: BrowserDetectionService,
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly dialog: MatDialog
   ) {}
 
   public ngOnInit(): void {
-    this.isLessThanMediumViewport$ = this.breakpointService.isLessThanMedium();
     this.username$ = this.store.select(getUsername);
+    this.profileImage$ = this.store.select(getProfileImage);
     this.isLoggedIn$ = this.store.select(getIsLoggedIn).pipe(
       tap((loggedIn) => {
         if (loggedIn && this.browserDetectionService.isUnsupportedBrowser()) {
@@ -61,7 +61,5 @@ export class AppComponent implements OnInit {
         }
       })
     );
-
-    this.store.dispatch(startLoginFlow());
   }
 }

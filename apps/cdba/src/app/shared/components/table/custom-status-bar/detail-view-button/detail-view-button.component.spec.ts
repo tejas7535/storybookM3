@@ -4,6 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -19,9 +20,10 @@ describe('DetailViewButtonComponent', () => {
     component: DetailViewButtonComponent,
     imports: [
       MatButtonModule,
-      RouterTestingModule.withRoutes([]),
+      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
+    providers: [provideMockStore()],
   });
 
   beforeEach(() => {
@@ -73,7 +75,7 @@ describe('DetailViewButtonComponent', () => {
   describe('showDetailView', () => {
     test('should navigate', () => {
       component.selections = [{ materialNumber: '', plant: '' }];
-      jest.spyOn(router, 'navigate');
+      router.navigate = jest.fn();
       component.showDetailView();
       expect(router.navigate).toHaveBeenCalled();
     });

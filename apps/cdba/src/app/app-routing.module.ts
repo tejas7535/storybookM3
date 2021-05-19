@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { MsalGuard } from '@azure/msal-angular';
+
 import { RoleGuard } from '@cdba/core';
 
 import { AppRoutePath } from './app-route-path.enum';
@@ -13,21 +15,24 @@ export const appRoutes: Routes = [
     pathMatch: 'full',
   },
   {
-    path: AppRoutePath.DetailPath,
-    loadChildren: () =>
-      import('./detail/detail.module').then((m) => m.DetailModule),
-    canActivateChild: [RoleGuard],
-  },
-  {
     path: AppRoutePath.SearchPath,
     loadChildren: () =>
       import('./search/search.module').then((m) => m.SearchModule),
+    canActivate: [MsalGuard],
+    canActivateChild: [RoleGuard],
+  },
+  {
+    path: AppRoutePath.DetailPath,
+    loadChildren: () =>
+      import('./detail/detail.module').then((m) => m.DetailModule),
+    canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.ComparePath,
     loadChildren: () =>
       import('./compare/compare.module').then((m) => m.CompareModule),
+    canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
   },
   {
@@ -37,6 +42,7 @@ export const appRoutes: Routes = [
     data: {
       action: encodeURI(FORBIDDEN_ACTION),
     },
+    canActivate: [MsalGuard],
   },
   {
     path: '**',
@@ -46,13 +52,7 @@ export const appRoutes: Routes = [
 ];
 
 @NgModule({
-  imports: [
-    RouterModule.forRoot(appRoutes, {
-      useHash: false,
-      initialNavigation: 'disabled',
-      relativeLinkResolution: 'legacy',
-    }),
-  ],
+  imports: [RouterModule.forRoot(appRoutes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}

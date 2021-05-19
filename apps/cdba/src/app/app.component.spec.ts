@@ -1,21 +1,21 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-
-import { getIsLoggedIn, startLoginFlow } from '@schaeffler/auth';
-import { HeaderModule } from '@schaeffler/header';
-import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
-
-import { MatDialog } from '@angular/material/dialog';
-import { LoadingSpinnerModule } from '@cdba/shared/components';
-import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
-
-import { BrowserDetectionService } from '@cdba/shared/services';
 import { cold } from 'jest-marbles';
+
+import { getIsLoggedIn } from '@schaeffler/azure-auth';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
+import { HeaderModule } from '@schaeffler/header';
+
+import { LoadingSpinnerModule } from '@cdba/shared/components';
+import { BrowserDetectionService } from '@cdba/shared/services';
+
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -74,17 +74,9 @@ describe('AppComponent', () => {
     test('should set observables', () => {
       component.ngOnInit();
 
-      expect(component.isLessThanMediumViewport$).toBeDefined();
+      expect(component.isLoggedIn$).toBeDefined();
       expect(component.username$).toBeDefined();
-    });
-
-    test('dispatch login on application load', () => {
-      browserDetectionService.isUnsupportedBrowser.andReturn(true);
-
-      // eslint-disable-next-line @angular-eslint/no-lifecycle-call
-      component.ngOnInit();
-
-      expect(store.dispatch).toHaveBeenCalledWith(startLoginFlow());
+      expect(component.profileImage$).toBeDefined();
     });
 
     test('should display browser support dialog for authenticated users using an unsupported browser', () => {

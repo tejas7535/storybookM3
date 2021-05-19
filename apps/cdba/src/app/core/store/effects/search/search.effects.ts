@@ -1,10 +1,27 @@
+/* eslint-disable arrow-body-style */
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  catchError,
+  filter,
+  map,
+  mergeMap,
+  take,
+  tap,
+  withLatestFrom,
+} from 'rxjs/operators';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import {
+  Actions,
+  concatLatestFrom,
+  createEffect,
+  ofType,
+  OnInitEffects,
+} from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
+
+import { getIsLoggedIn } from '@schaeffler/azure-auth';
 
 import { SearchService } from '../../../../search/services/search.service';
 import {
@@ -21,10 +38,8 @@ import {
   search,
   searchFailure,
   searchSuccess,
-  shareSearchResult,
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
-import { SearchState } from '../../reducers/search/search.reducer';
 import {
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
@@ -38,9 +53,9 @@ export class SearchEffects implements OnInitEffects {
   /**
    * Receive initial filters
    */
-  loadInitialFilters$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(loadInitialFilters.type),
+  loadInitialFilters$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(loadInitialFilters),
       mergeMap(() =>
         this.searchService.getInitialFilters().pipe(
           map((items: FilterItem[]) => loadInitialFiltersSuccess({ items })),
@@ -49,15 +64,15 @@ export class SearchEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Search
    */
-  search$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(search.type),
+  search$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(search),
       withLatestFrom(this.store.pipe(select(getSelectedFilters))),
       map(([_action, items]) => items),
       mergeMap((items) =>
@@ -66,16 +81,16 @@ export class SearchEffects implements OnInitEffects {
           catchError((errorMessage) => of(searchFailure({ errorMessage })))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Text Search
    */
-  applyTextSearch$ = createEffect(() =>
-    this.actions$.pipe(
+  applyTextSearch$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(applyTextSearch),
-      map((action: any) => action.textSearch),
+      map((action) => action.textSearch),
       mergeMap((textSearch) =>
         this.searchService.textSearch(textSearch).pipe(
           map((searchResult) => applyTextSearchSuccess({ searchResult })),
@@ -84,74 +99,61 @@ export class SearchEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Load initial filters due to reset
    *
    */
-  resetFilters$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(resetFilters.type),
-        tap(() => this.store.dispatch(loadInitialFilters()))
-      ),
-    { dispatch: false }
-  );
-
-  /**
-   * Share current search result
-   *
-   */
-  shareSearchResult$ = createEffect(
-    () =>
-      this.actions$.pipe(
-        ofType(shareSearchResult.type),
-        tap(() => console.log('TODO: Share Search Result'))
-      ),
-    { dispatch: false }
-  );
+  resetFilters$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(resetFilters),
+      map(() => loadInitialFilters())
+    );
+  });
 
   /**
    * Get possible values for a form field
    *
    */
-  autocomplete$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(autocomplete.type),
-      mergeMap((action: any) =>
-        of(action).pipe(
-          withLatestFrom(
-            this.store.pipe(
-              select(getSelectedFilterIdValueOptionsByFilterName, {
-                name: action.textSearch.field,
-              })
-            )
-          )
-        )
+  autocomplete$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(autocomplete),
+      map((action) => action.textSearch),
+      concatLatestFrom((textSearch) =>
+        this.store.select(getSelectedFilterIdValueOptionsByFilterName, {
+          name: textSearch.field,
+        })
       ),
-      mergeMap(([action, selectedOptions]) =>
-        this.searchService
-          .autocomplete(action.textSearch, selectedOptions)
-          .pipe(
-            map((item) => autocompleteSuccess({ item })),
-            catchError((_e) => of(autocompleteFailure()))
-          )
+      mergeMap(([textSearch, selectedOptions]) =>
+        this.searchService.autocomplete(textSearch, selectedOptions).pipe(
+          map((item) => autocompleteSuccess({ item })),
+          catchError(() => of(autocompleteFailure()))
+        )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
-    private readonly store: Store<SearchState>
+    private readonly store: Store
   ) {}
 
   /**
    * Load initial filters initially
    */
   ngrxOnInitEffects(): Action {
-    return loadInitialFilters();
+    this.store
+      .select(getIsLoggedIn)
+      .pipe(
+        filter((isLoggedIn) => isLoggedIn),
+        take(1),
+        tap(() => this.store.dispatch(loadInitialFilters()))
+      )
+      .subscribe();
+
+    return { type: 'NO_ACTION' };
   }
 }
