@@ -240,6 +240,7 @@
         "no-underscore-dangle": "off",
         "no-unsafe-finally": "error",
         "no-useless-constructor": "off",
+        "@typescript-eslint/no-useless-constructor": "error",
         "no-var": "error",
         "no-void": "error",
         "object-shorthand": "error",
