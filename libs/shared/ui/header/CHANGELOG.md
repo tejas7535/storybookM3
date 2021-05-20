@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.4.1](///compare/header-v2.4.1...header-v2.4.0) (2021-05-20)
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](///commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
 ## [2.4.0](///compare/header-v2.4.0...header-v2.3.0) (2021-04-29)
 
 
