@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/sidebar",
-  "version": "1.8.1",
+  "version": "1.8.2",
   "dependencies": {
     "tslib": "^2.1.0"
   },
