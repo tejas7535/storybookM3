@@ -1,6 +1,6 @@
 {
   "name": "@schaeffler/footer",
-  "version": "1.7.1",
+  "version": "1.7.2",
   "dependencies": {
     "tslib": "^2.1.0"
   },
