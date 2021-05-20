@@ -12,14 +12,10 @@ interface PictureCardListOption {
   caption: string;
   imageUrl: string;
 }
-
-// TODO enable eslint again
-/* eslint-disable */
 @Component({
   selector: 'mm-picture-card-list',
   templateUrl: './picture-card-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  // eslint-disable-next-line @angular-eslint/no-host-metadata-property
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

@@ -34,8 +34,9 @@ export class HomeStore extends ComponentStore<HomeState> {
 
   readonly activePageName$: Observable<string> = this.select(
     (state) =>
-      state.pagedMetas.find((pagedMeta) => pagedMeta.page.visible)?.page.page
-        .text
+      state.pagedMetas.find(
+        (pagedMeta) => pagedMeta.page.id === state.activePageId
+      )?.page.page.text
   );
 
   readonly inactivePageId$: Observable<string> = this.select(
@@ -61,9 +62,7 @@ export class HomeStore extends ComponentStore<HomeState> {
 
             return { maxPageId, source: pagedMeta.page.id };
           }),
-          filter(({ source }) => {
-            return source === state.activePageId;
-          }),
+          filter(({ source }) => source === state.activePageId),
           map(({ maxPageId }) => {
             result = maxPageId;
           })

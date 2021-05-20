@@ -22,10 +22,16 @@
       </mm-pages-stepper>
 
       <div class="w-full">
-        <mm-bearing-search
+        <ng-container
           *ngIf="(activePageId$ | ngrxPush) === 'RSY_PAGE_BEARING_TYPE'"
-          (bearing)="selectBearing($event)"
-        ></mm-bearing-search>
+        >
+          <mm-bearing-search
+            (bearing)="selectBearing($event)"
+          ></mm-bearing-search>
+          <schaeffler-horizontal-separator
+            [text]="t('searchManually')"
+          ></schaeffler-horizontal-separator>
+        </ng-container>
 
         <ng-container *ngFor="let pagedMeta of pagedMetas$ | ngrxPush">
           <ng-container
@@ -33,29 +39,21 @@
           >
             <ng-container *ngFor="let meta of pagedMeta.metas">
               <div *ngIf="meta.page.visible" class="control-container">
-                <label
+                <h6
                   *ngIf="
                     meta.member.text &&
                     meta.page.id !== 'PROPERTY_PAGE_MOUNTING_SITUATION_SUB' &&
                     meta.page.id !== 'PROPERTY_PAGE_MOUNTING'
                   "
-                  >{{ meta.member.text }}</label
                 >
+                  {{ meta.member.text }}
+                </h6>
                 <cae-member-control
                   [class.wide]="!meta.member.text"
                   [meta]="meta"
                 ></cae-member-control>
               </div>
             </ng-container>
-
-            <!-- TODO: Remove Prev Button and related code -->
-            <button
-              *ngIf="stepper.hasPrev"
-              mat-raised-button
-              (click)="stepper.prev()"
-            >
-              prev
-            </button>
 
             <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
               <button

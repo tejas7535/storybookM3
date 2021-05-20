@@ -117,7 +117,7 @@ describe('HomeStore', () => {
         pagedMetas: [
           {
             page: {
-              visible: false,
+              id: 'randomPageID',
               page: {
                 text: 'inactivePageName',
               },
@@ -125,15 +125,16 @@ describe('HomeStore', () => {
           },
           {
             page: {
-              visible: true,
+              id: 'activeRandomPageID',
               page: {
                 text: 'activePageName',
               },
             },
           },
         ] as PagedMeta[],
-        activePageId: undefined,
-        inactivePageId: undefined,
+
+        activePageId: 'activeRandomPageID',
+        inactivePageId: 'undefined',
       });
 
       homeStore.activePageName$.subscribe((activePageName) => {
