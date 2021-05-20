@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   AppState,
@@ -40,10 +40,10 @@ export class QuotationDetailsStatusComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.showGPI$ = this.store.pipe(select(userHasGPCRole));
-    this.showGPM$ = this.store.pipe(select(userHasSQVRole));
+    this.showGPI$ = this.store.select(userHasGPCRole);
+    this.showGPM$ = this.store.select(userHasSQVRole);
 
-    this.customerCurrency$ = this.store.pipe(select(getCustomerCurrency));
+    this.customerCurrency$ = this.store.select(getCustomerCurrency);
   }
 
   agInit(params: IStatusPanelParams): void {

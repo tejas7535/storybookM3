@@ -1,7 +1,8 @@
 <button
   mat-stroked-button
+  class="!font-bold !m-4 !ml-0 w-[200px]"
   color="primary"
-  *transloco="let t; read: 'shared.customStatusBar.deleteCaseButton'"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
   [disabled]="selections.length === 0"
   (click)="deleteCase()"
 >

@@ -57,7 +57,7 @@ describe('AddToOfferButtonComponent', () => {
     store = spectator.inject(MockStore);
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 

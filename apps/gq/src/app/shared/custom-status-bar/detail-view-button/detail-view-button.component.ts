@@ -9,7 +9,6 @@ import { QuotationDetail } from '../../models/quotation-detail';
 @Component({
   selector: 'gq-detail-view-button',
   templateUrl: './detail-view-button.component.html',
-  styleUrls: ['./detail-view-button.component.scss'],
 })
 export class DetailViewButtonComponent {
   selections: QuotationDetail[] = [];

@@ -9,7 +9,6 @@ import { ViewQuotation } from '../../../case-view/models/view-quotation.model';
 @Component({
   selector: 'gq-open-case-button',
   templateUrl: './open-case-button.component.html',
-  styleUrls: ['./open-case-button.component.scss'],
 })
 export class OpenCaseButtonComponent {
   selections: ViewQuotation[] = [];

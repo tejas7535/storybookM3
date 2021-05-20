@@ -79,35 +79,21 @@
       }
     },
     "customStatusBar": {
-      "addToMaterialButton": {
-        "addMaterial": "hinzufügen"
-      },
-      "addToOfferButton": {
-        "addToOffer": "Zur Auswahl hinzufügen"
-      },
-      "exportToExcelButton": {
-        "exportToExcel": "als Excel Datei exportieren"
-      },
-      "finishOfferButton": {
-        "finishOffer": "Auswahl abschließen"
-      },
-      "flatButtons": {
-        "addNewItem": "Neues Item hinzufügen"
-      },
-      "deleteCaseButton": {
-        "deleteCase": "case löschen"
-      },
-      "detailViewButton": {
-        "openDetail": "Details öffnen"
-      },
-      "openCaseButton": {
-        "openCase": "case öffnen"
-      },
-      "removeFromOfferButton": {
-        "removeFromOffer": "von Auswahl entfernen"
-      },
-      "resetAllButton": {
-        "resetAll": "Zurücksetzen"
+      "buttons": {
+        "importCase": "Import from sap",
+        "createManualCase": "Create manual case",
+        "createCustomerCase": "New case from customer",
+        "addMaterial": "hinzufügen",
+        "addToOffer": "Zur Auswahl hinzufügen",
+        "exportToExcel": "als Excel Datei exportieren",
+        "finishOffer": "Auswahl abschließen",
+        "addNewItem": "Neues Item hinzufügen",
+        "deleteCase": "case löschen",
+        "openDetail": "Details öffnen",
+        "openCase": "case öffnen",
+        "removeFromOffer": "von Auswahl entfernen",
+        "resetAll": "Zurücksetzen",
+        "uploadToSAP": "Update prices in SAP Quotation"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Ausgewählter gew. ø GPI%",

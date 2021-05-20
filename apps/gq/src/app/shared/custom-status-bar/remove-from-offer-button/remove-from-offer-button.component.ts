@@ -11,7 +11,6 @@ import { QuotationDetail } from '../../models/quotation-detail';
 @Component({
   selector: 'gq-remove-from-offer',
   templateUrl: './remove-from-offer-button.component.html',
-  styleUrls: ['./remove-from-offer-button.component.scss'],
 })
 export class RemoveFromOfferButtonComponent {
   selections: QuotationDetail[] = [];

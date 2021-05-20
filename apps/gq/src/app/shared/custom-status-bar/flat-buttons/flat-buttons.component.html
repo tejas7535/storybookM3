@@ -1,9 +1,9 @@
 <div
-  class="flat-buttons"
+  class="bottom-40 fixed right-8"
   fxLayout="column"
   fxLayoutAlign="end end"
   fxLayoutGap="20px"
-  *transloco="let t; read: 'shared.customStatusBar.flatButtons'"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
 >
   <button
     *ngIf="selections.length && !sap"
@@ -15,14 +15,12 @@
   </button>
   <button
     *ngIf="!selections.length && !sap"
-    class="extended-fab-button"
+    class="!rounded-[32px] !pr-6 !pl-6 !w-[200px]"
     mat-fab
     color="primary"
     (click)="showAddDialog()"
   >
-    <mat-icon>add</mat-icon
-    ><span class="extended-fab-button_text">{{
-      t('addNewItem') | uppercase
-    }}</span>
+    <mat-icon class="mr-3">add</mat-icon
+    ><span>{{ t('addNewItem') | uppercase }}</span>
   </button>
 </div>

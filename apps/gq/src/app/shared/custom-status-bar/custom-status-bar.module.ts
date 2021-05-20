@@ -14,6 +14,9 @@ import { AddMaterialButtonComponent } from './case-material-table/add-material-b
 import { CreateCaseButtonComponent } from './case-material-table/create-case-button/create-case-button.component';
 import { CreateCaseResetAllButtonComponent } from './case-material-table/create-case-reset-all-button/create-case-reset-all-button.component';
 import { ProcessCaseResetAllButtonComponent } from './case-material-table/process-case-reset-all-button/process-case-reset-all-button.component';
+import { CreateCustomerCaseButtonComponent } from './case-view/create-customer-case-button/create-customer-case-button.component';
+import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-button/create-manual-case-button.component';
+import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
 import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
@@ -42,6 +45,9 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     MaterialValidationStatusComponent,
     CreateCaseResetAllButtonComponent,
     ProcessCaseResetAllButtonComponent,
+    ImportCaseButtonComponent,
+    CreateManualCaseButtonComponent,
+    CreateCustomerCaseButtonComponent,
   ],
   imports: [
     CommonModule,
@@ -68,6 +74,9 @@ import { UploadToSapButtonComponent } from './upload-to-sap-button/upload-to-sap
     MaterialValidationStatusComponent,
     CreateCaseResetAllButtonComponent,
     ProcessCaseResetAllButtonComponent,
+    ImportCaseButtonComponent,
+    CreateManualCaseButtonComponent,
+    CreateCustomerCaseButtonComponent,
   ],
 })
 export class CustomStatusBarModule {}

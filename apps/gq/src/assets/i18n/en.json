@@ -79,35 +79,21 @@
       }
     },
     "customStatusBar": {
-      "addToMaterialButton": {
-        "addMaterial": "add"
-      },
-      "addToOfferButton": {
-        "addToOffer": "add to offer"
-      },
-      "exportToExcelButton": {
-        "exportToExcel": "Export to Excel File"
-      },
-      "finishOfferButton": {
-        "finishOffer": "finish Offer"
-      },
-      "flatButtons": {
-        "addNewItem": "add new item"
-      },
-      "deleteCaseButton": {
-        "deleteCase": "delete case"
-      },
-      "detailViewButton": {
-        "openDetail": "open details"
-      },
-      "openCaseButton": {
-        "openCase": "open case"
-      },
-      "removeFromOfferButton": {
-        "removeFromOffer": "delete from offer"
-      },
-      "resetAllButton": {
-        "resetAll": "Reset All"
+      "buttons": {
+        "importCase": "Import from sap",
+        "createManualCase": "Create manual case",
+        "createCustomerCase": "New case from customer",
+        "addMaterial": "add",
+        "addToOffer": "add to offer",
+        "exportToExcel": "Export to Excel File",
+        "finishOffer": "finish Offer",
+        "addNewItem": "add new item",
+        "deleteCase": "delete case",
+        "openDetail": "open details",
+        "openCase": "open case",
+        "removeFromOffer": "delete from offer",
+        "resetAll": "Reset All",
+        "uploadToSAP": "Update prices in SAP Quotation"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
@@ -119,9 +105,6 @@
         "offerAverageGPI": "Offered Weigh. Avg. GPI %",
         "offerAverageGPM": "Offered Weigh. Avg. GPM %",
         "offerNetValue": "Offered Net Value"
-      },
-      "uploadToSAPButton": {
-        "uploadToSAP": "Update prices in SAP Quotation"
       },
       "materialValidationStatus": {
         "invalid": "Invalid",

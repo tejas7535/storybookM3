@@ -11,7 +11,6 @@ import { QuotationDetail } from '../../models/quotation-detail';
 @Component({
   selector: 'gq-add-to-offer-button',
   templateUrl: './add-to-offer-button.component.html',
-  styleUrls: ['./add-to-offer-button.component.scss'],
 })
 export class AddToOfferButtonComponent {
   selections: QuotationDetail[] = [];

@@ -6,7 +6,6 @@ import { AppRoutePath } from '../../../app-route-path.enum';
 @Component({
   selector: 'gq-finish-offer',
   templateUrl: './finish-offer-button.component.html',
-  styleUrls: ['./finish-offer-button.component.scss'],
 })
 export class FinishOfferButtonComponent {
   public quotationNumber: string;
