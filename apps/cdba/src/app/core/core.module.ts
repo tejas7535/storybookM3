@@ -2,7 +2,7 @@ import { PlatformModule } from '@angular/cdk/platform';
 import { registerLocaleData } from '@angular/common';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import de from '@angular/common/locales/de';
-import { NgModule } from '@angular/core';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -33,7 +33,8 @@ import i18nChecksumsJson from '../../i18n-checksums.json';
 import { AppComponent } from '../app.component';
 import { StoreModule } from './store/store.module';
 
-registerLocaleData(de, 'de-DE');
+const locale = 'de-DE';
+registerLocaleData(de, locale);
 
 const azureConfig = new AzureConfig(
   new MsalInstanceConfig(
@@ -95,6 +96,7 @@ const azureConfig = new AzureConfig(
       useClass: HttpErrorInterceptor,
       multi: true,
     },
+    { provide: LOCALE_ID, useValue: locale },
   ],
   exports: [AppComponent],
 })

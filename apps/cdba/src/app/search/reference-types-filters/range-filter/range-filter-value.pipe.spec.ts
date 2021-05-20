@@ -1,8 +1,14 @@
 import { createPipeFactory, SpectatorPipe } from '@ngneat/spectator/jest';
-import { TranslocoService } from '@ngneat/transloco';
+import { LOCALE_ID } from '@angular/core';
+import { registerLocaleData } from '@angular/common';
 
+import de from '@angular/common/locales/de';
+
+import { TranslocoService } from '@ngneat/transloco';
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
 import { RangeFilterValuePipe } from './range-filter-value.pipe';
+
+registerLocaleData(de, 'de-DE');
 
 describe('RangeFilterValuePipe', () => {
   let spectator: SpectatorPipe<RangeFilterValuePipe>;
@@ -14,6 +20,10 @@ describe('RangeFilterValuePipe', () => {
         provide: TranslocoService,
         useValue: { translate: jest.fn(() => 'Length') },
       },
+      {
+        provide: LOCALE_ID,
+        useValue: 'de-DE',
+      },
     ],
     template: `{{ input | rangeFilterValue }}`,
   });
@@ -22,7 +32,7 @@ describe('RangeFilterValuePipe', () => {
     spectator = undefined;
   });
 
-  describe('transform', () => {
+  describe('transform for de-DE', () => {
     let filter: FilterItemRange;
     let expected: string;
 
@@ -38,19 +48,19 @@ describe('RangeFilterValuePipe', () => {
     });
 
     test('should transform correct for minSelected', () => {
-      filter.minSelected = 10;
+      filter.minSelected = 10.2252;
       spectator = createPipe({ hostProps: { input: filter } });
 
-      expected = 'Min. Length: 10xy';
+      expected = 'Min. Length: 10,23xy';
 
       expect(spectator.element).toHaveText(expected);
     });
 
     test('should transform correct for maxSelected', () => {
-      filter.maxSelected = 90;
+      filter.maxSelected = 90.054;
       spectator = createPipe({ hostProps: { input: filter } });
 
-      expected = 'Max. Length: 90xy';
+      expected = 'Max. Length: 90,05xy';
 
       expect(spectator.element).toHaveText(expected);
     });
@@ -61,7 +71,20 @@ describe('RangeFilterValuePipe', () => {
       filter.unit = 'mm';
       spectator = createPipe({ hostProps: { input: filter } });
 
-      expected = '10mm - 90mm';
+      expected = '10,00mm - 90,00mm';
+
+      expect(spectator.element).toHaveText(expected);
+    });
+
+    test('should transform budget_quantity without decimal places as it is a sum', () => {
+      filter.minSelected = 1230;
+      filter.maxSelected = 2000;
+      filter.unit = 'pc';
+      filter.name = 'budget_quantity';
+
+      spectator = createPipe({ hostProps: { input: filter } });
+
+      expected = '1.230pc - 2.000pc';
 
       expect(spectator.element).toHaveText(expected);
     });

@@ -20,6 +20,31 @@ mat-form-field {
   }
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+.mat-input-element {
+  text-align: right;
+}
+
+::ng-deep .mat-slider-wrapper {
+  .mat-slider-thumb-container {
+    .mat-slider-thumb-label {
+      height: 40px;
+      right: -22px;
+      top: -52px;
+      width: 40px;
+    }
+  }
+}
+
 mat-option {
   height: 0 !important;
 }
