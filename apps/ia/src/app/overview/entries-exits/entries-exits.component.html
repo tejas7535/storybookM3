@@ -1,0 +1,15 @@
+<div *transloco="let t; read: 'overview'">
+  <h5>{{ t('entriesExits') }}</h5>
+  <div class="flex flex-row">
+    <div class="flex flex-col flex-grow">
+      <div class="flex flex-row">Entries</div>
+      <div>
+        <ia-doughnut-chart [data]="entriesDoughnutConfig"></ia-doughnut-chart>
+      </div>
+    </div>
+    <div class="flex flex-col flex-grow">
+      <div class="flex flex-row">Exits</div>
+      <ia-doughnut-chart [data]="exitsDoughnutConfig"></ia-doughnut-chart>
+    </div>
+  </div>
+</div>

@@ -2,8 +2,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { TranslocoTestingModule } from '@ngneat/transloco';
 import { NgxEchartsModule } from 'ngx-echarts';
+
+import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   LINE_CHART_BASE_OPTIONS,
@@ -29,11 +30,11 @@ describe('OverviewChartComponent', () => {
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),
-      TranslocoTestingModule,
+      provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
       TerminatedEmployeesDialogModule,
     ],
-    declarations: [OverviewChartComponent, OverviewChartLegendComponent],
+    declarations: [OverviewChartLegendComponent],
   });
 
   beforeEach(() => {

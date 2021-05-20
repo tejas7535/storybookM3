@@ -11,5 +11,17 @@
         "position": "Position"
       }
     }
-  }
+  },
+  "fluctuationRate": "Fluctuation Rate",
+  "companyName": "SCHAEFFLER",
+  "unforcedFluctuationRate": "Unforced Fluctuation Rate",
+  "entriesExits": "Entries & Exits",
+  "entries": "Entries",
+  "exits": "Exits",
+  "openPositions": "Open positions",
+  "openForApplications": "Open for applications",
+  "internalMatches": "Internal matches",
+  "resignationsReceived": "Resignations received",
+  "totalResignations": "Total resignations",
+  "regrettedLoss": "Regretted loss"
 }

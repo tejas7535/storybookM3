@@ -7,6 +7,7 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared/shared.module';
+import { EntriesExitsModule } from './entries-exits/entries-exits.module';
 import { OverviewChartModule } from './overview-chart/overview-chart.module';
 import { OverviewRoutingModule } from './overview-routing.module';
 import { OverviewComponent } from './overview.component';
@@ -25,6 +26,7 @@ import { OverviewEffects } from './store/effects/overview.effects';
     EffectsModule.forFeature([OverviewEffects]),
     SharedTranslocoModule,
     OverviewChartModule,
+    EntriesExitsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'overview' }],
 })
