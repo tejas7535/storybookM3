@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.2.0](///compare/styles-v1.2.0...styles-v1.1.1) (2021-05-20)
+
+
+### 🎸 Features
+
+* **styles:** tab styles depend on tailwind ([06e54fb](///commit/06e54fb3154322e873f671af3f886a5e054d1a94))
+
 ### [1.1.1](///compare/styles-v1.1.1...styles-v1.1.0) (2021-04-29)
 
 ## 1.1.0 (2021-03-24)
