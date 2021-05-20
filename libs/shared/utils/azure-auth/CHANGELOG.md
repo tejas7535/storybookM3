@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.5](///compare/azure-auth-v0.0.5...azure-auth-v0.0.4) (2021-05-20)
+
+
+### 🎸 Features
+
+* **cdba:** use azure-auth lib (DSCDA-2407) ([1dc33b0](///commit/1dc33b0e9f519661f81fc7e6d7570eed05c1f2a5))
+
 ### [0.0.4](///compare/azure-auth-v0.0.4...azure-auth-v0.0.3) (2021-04-29)
 
 
