@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.10.0](///compare/empty-states-v1.10.0...empty-states-v1.9.0) (2021-05-20)
+
+
+### 🎸 Features
+
+* **empty-states:** parametrize under construction component (DSCDA-2382) ([9d407f3](///commit/9d407f3f637824a5f9d30310a088115238376624))
+
 ## [1.9.0](///compare/empty-states-v1.9.0...empty-states-v1.8.0) (2021-04-29)
 
 
