@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { TestBed } from '@angular/core/testing';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -106,6 +107,7 @@ describe('PredictionComponent', () => {
           updateBreadcrumb: jest.fn(() => {}),
         },
       },
+      DecimalPipe,
     ],
     overrideModules: [
       [

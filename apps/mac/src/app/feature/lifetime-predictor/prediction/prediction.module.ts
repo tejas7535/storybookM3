@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -60,6 +60,7 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
       provide: MAT_RADIO_DEFAULT_OPTIONS,
       useValue: { color: 'primary' },
     },
+    DecimalPipe,
   ],
   exports: [PredictionComponent],
 })

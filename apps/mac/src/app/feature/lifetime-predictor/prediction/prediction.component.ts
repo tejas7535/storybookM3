@@ -1,10 +1,12 @@
+import { DecimalPipe, registerLocaleData } from '@angular/common';
+import localeDe from '@angular/common/locales/de';
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoService } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 import { Papa } from 'ngx-papaparse';
@@ -56,7 +58,9 @@ export class PredictionComponent implements OnInit {
     private readonly dialog: MatDialog,
     private readonly papa: Papa,
     private readonly store: Store<AppState>,
-    private readonly breadcrumbsService: BreadcrumbsService
+    private readonly breadcrumbsService: BreadcrumbsService,
+    private readonly decimalPipe: DecimalPipe,
+    private readonly transloco: TranslocoService
   ) {}
 
   public ngOnInit(): void {
@@ -126,6 +130,8 @@ export class PredictionComponent implements OnInit {
       })
     );
 
+    registerLocaleData(localeDe, 'de');
+
     this.store.dispatch(fromStore.postPrediction());
     this.openBanner();
   }
@@ -154,7 +160,11 @@ export class PredictionComponent implements OnInit {
         value: Math.round(point.value[series.value]),
       })}<br>${translate('ltp.prediction.chart.tooltipSurvivalProbability', {
         survivalProbability: series.survivalProbability,
-        cycles: Math.round(point.value['x']),
+        cycles: this.decimalPipe.transform(
+          point.value['x'],
+          '1.0-0',
+          this.transloco.getActiveLang()
+        ),
       })}`;
 
       return tooltip;
