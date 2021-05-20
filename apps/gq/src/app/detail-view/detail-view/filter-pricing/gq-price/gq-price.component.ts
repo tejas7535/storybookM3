@@ -23,11 +23,13 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
 export class GqPriceComponent implements OnInit {
   public isProduction = environment.production;
   public gpi: number;
+  public gpm: number;
   _isLoading: boolean;
 
   title$: Observable<string>;
 
   @Input() userHasGPCRole: boolean;
+  @Input() userHasSQVRole: boolean;
   @Input() currency: string;
   @Input() quotationDetail: QuotationDetail;
   @Input() set isLoading(value: boolean) {
@@ -54,6 +56,10 @@ export class GqPriceComponent implements OnInit {
       this.gpi = PriceService.calculateMargin(
         this.quotationDetail.recommendedPrice,
         this.quotationDetail.gpc
+      );
+      this.gpm = PriceService.calculateMargin(
+        this.quotationDetail.recommendedPrice,
+        this.quotationDetail.sqv
       );
     }
   }

@@ -6,7 +6,7 @@
   [isLoading]="isLoading"
 >
   <div content class="mt-[10px] w-full flex">
-    <div class="flex-grow max-w-[30%]">
+    <div class="flex-grow max-w-[25%]">
       <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
       <div>
         <div>
@@ -18,7 +18,13 @@
     <div class="flex-1" *ngIf="userHasGPCRole">
       <div class="mb-1 text-body-1">{{ t('gpi') }}:</div>
       <div>
-        <span class="font-bold">{{ gpi }} %</span>
+        <span class="font-bold">{{ gpi || '-' }} %</span>
+      </div>
+    </div>
+    <div class="flex-1" *ngIf="userHasSQVRole">
+      <div class="mb-1 text-body-1">{{ t('gpm') }}:</div>
+      <div>
+        <span class="font-bold">{{ gpm || '-' }} %</span>
       </div>
     </div>
     <div class="flex-1">

@@ -5,6 +5,7 @@
       "label": "Manueller Preis",
       "hint": "Geben Sie einen manuellen Preis ein",
       "gpi": "GPI% (KHK)",
+      "gpm": "GPM% (SAW)",
       "quantity": "Menge",
       "priceUnit": "Preiseinheit"
     },
@@ -13,6 +14,7 @@
       "priceLabel": "Nettopreis",
       "rating": "GQ-Rating",
       "gpi": "GPI% (KHK)",
+      "gpm": "GPM% (SAW)",
       "quantity": "Menge",
       "details": "Details"
     },
