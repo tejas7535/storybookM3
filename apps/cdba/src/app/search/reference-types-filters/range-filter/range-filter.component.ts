@@ -22,7 +22,7 @@ import { InputType } from './input-type.enum';
 export class RangeFilterComponent implements OnChanges, Filter {
   public form = new FormControl();
   public inputType = InputType;
-
+  public decimals = '1.2-2';
   @Input() public filter: FilterItemRange;
 
   @Output()
@@ -30,8 +30,8 @@ export class RangeFilterComponent implements OnChanges, Filter {
 
   public ngOnChanges(changes: SimpleChanges): void {
     const selected = !!(
-      changes.filter.currentValue.minSelected ||
-      changes.filter.currentValue.maxSelected
+      changes.filter?.currentValue.minSelected ||
+      changes.filter?.currentValue.maxSelected
     );
 
     if (selected) {
@@ -39,6 +39,8 @@ export class RangeFilterComponent implements OnChanges, Filter {
     } else {
       this.form.reset();
     }
+
+    this.decimals = this.filter?.name === 'budget_quantity' ? '1.0-0' : '1.2-2';
   }
 
   /**
@@ -53,9 +55,8 @@ export class RangeFilterComponent implements OnChanges, Filter {
    */
   public resetInput(input: InputType): void {
     const toUpdate = `${input}Selected`;
-    const newValue: number = undefined;
 
-    const updatedFilter = { ...this.filter, [toUpdate]: newValue };
+    const updatedFilter = { ...this.filter, [toUpdate]: this.filter[input] };
 
     this.updateFilter.emit(updatedFilter);
   }
@@ -132,5 +133,17 @@ export class RangeFilterComponent implements OnChanges, Filter {
     }
 
     this.updateFilter.emit({ ...this.filter, minSelected, maxSelected: value });
+  }
+
+  public formatSliderThumbLabel(value: number): string {
+    if (value > 999 && value < 1000000) {
+      return `${Math.round(value / 1000)}K`;
+    }
+
+    if (value > 1000000) {
+      return `${(value / 1000000).toFixed(1)}M`;
+    }
+
+    return String(value);
   }
 }

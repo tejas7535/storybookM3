@@ -26,7 +26,7 @@
               [min]="filter.min"
               (change)="update(inputType.Min, $event.target.value)"
             />
-            <div *ngIf="filter.unit" matSuffix>{{ filter.unit }}</div>
+            <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
           </mat-form-field>
         </div>
       </div>
@@ -39,10 +39,13 @@
           [value]="filter.minSelected ? filter.minSelected : filter.min"
           [max]="filter.max"
           [min]="filter.min"
+          [displayWith]="formatSliderThumbLabel"
           (change)="update(inputType.Min, $event.value)"
         >
         </mat-slider>
-        <mat-icon fxFlex="10" (click)="reset(inputType.Min)">restore</mat-icon>
+        <mat-icon fxFlex="10" (click)="resetInput(inputType.Min)"
+          >restore</mat-icon
+        >
       </div>
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
         <div #label fxFlex="50">Max. {{ t('names.' + filter?.name) }}</div>
@@ -52,14 +55,14 @@
               matInput
               type="number"
               autocomplete="off"
+              [value]="filter.maxSelected ? filter.maxSelected : filter.max"
               [max]="filter.max"
               [min]="filter.min"
-              [value]="filter.maxSelected ? filter.maxSelected : filter.max"
               (change)="update(inputType.Max, $event.target.value)"
             />
+            <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
           </mat-form-field>
         </div>
-        <div *ngIf="filter.unit" fxFlex="10">{{ filter.unit }}</div>
       </div>
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
         <mat-slider
@@ -70,10 +73,13 @@
           [value]="filter.maxSelected ? filter.maxSelected : filter.max"
           [max]="filter.max"
           [min]="filter.min"
+          [displayWith]="formatSliderThumbLabel"
           (change)="update(inputType.Max, $event.value)"
         >
         </mat-slider>
-        <mat-icon fxFlex="10" (click)="reset(inputType.Max)">restore</mat-icon>
+        <mat-icon fxFlex="10" (click)="resetInput(inputType.Max)"
+          >restore</mat-icon
+        >
       </div>
     </div>
   </mat-select>

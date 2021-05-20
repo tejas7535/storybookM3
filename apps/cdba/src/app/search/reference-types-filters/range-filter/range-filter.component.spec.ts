@@ -108,7 +108,7 @@ describe('RangeFilterComponent', () => {
 
       expect(component['updateFilter'].emit).toHaveBeenCalledWith({
         ...filter,
-        maxSelected: undefined,
+        maxSelected: 100,
       });
     });
   });
@@ -270,6 +270,27 @@ describe('RangeFilterComponent', () => {
         minSelected: 0,
         maxSelected: 1,
       });
+    });
+  });
+
+  describe('formatSliderThumbLabel', () => {
+    it('should return values below 1000 unformatted as string', () => {
+      expect(component.formatSliderThumbLabel(992.39)).toBe('992.39');
+      expect(component.formatSliderThumbLabel(0.82)).toBe('0.82');
+      expect(component.formatSliderThumbLabel(5.82)).toBe('5.82');
+      expect(component.formatSliderThumbLabel(900)).toBe('900');
+    });
+
+    it('should abbreviate thousands with K and no digits', () => {
+      expect(component.formatSliderThumbLabel(123456)).toBe('123K');
+      expect(component.formatSliderThumbLabel(123556)).toBe('124K');
+      expect(component.formatSliderThumbLabel(900001)).toBe('900K');
+    });
+
+    it('should abbreviate millions to M with one digit', () => {
+      expect(component.formatSliderThumbLabel(1234569)).toBe('1.2M');
+      expect(component.formatSliderThumbLabel(1254569)).toBe('1.3M');
+      expect(component.formatSliderThumbLabel(9000001)).toBe('9.0M');
     });
   });
 });
