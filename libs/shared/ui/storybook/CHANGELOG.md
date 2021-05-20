@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.13.0](///compare/storybook-v1.13.0...storybook-v1.12.0) (2021-05-20)
+
+
+### 🎸 Features
+
+* **autocomplete:** add a search-autocomplete lib (UFTABI-3723) ([d979837](///commit/d979837a0e3390ae8cd43ad64b1713d40f7b69bd))
+* **empty-states:** parametrize under construction component (DSCDA-2382) ([9d407f3](///commit/9d407f3f637824a5f9d30310a088115238376624))
+* **report:** add shared ui report component (UFTABI-4104) ([4418486](///commit/4418486859c3ea2045e4c7698131e33fb49e68b8))
+* **stepper:** adjust stepper to be compatible with MM (UFTABI-4470) ([80792a6](///commit/80792a6b7378d4ad34992e8ad26367015eadb48f))
+
 ## [1.12.0](///compare/storybook-v1.12.0...storybook-v1.11.0) (2021-04-29)
 
 
