@@ -1,4 +1,6 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { MatButtonModule } from '@angular/material/button';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -12,8 +14,9 @@ describe('PagesStepperComponent', () => {
 
   const createComponent = createComponentFactory({
     component: PagesStepperComponent,
-    imports: [MatButtonModule],
+    imports: [MatButtonModule, MatStepperModule],
     declarations: [PagesStepperComponent, PageBeforePipe],
+    detectChanges: false,
   });
 
   beforeEach(() => {
@@ -102,7 +105,9 @@ describe('PagesStepperComponent', () => {
 
   test('activate should emit a activePageChange', () => {
     const spy = jest.spyOn(component.activePageIdChange, 'emit');
-    const mockPage = {} as PageMetaStatus;
+    const mockPage = {
+      selectedStep: { label: 'MOCK_PAGE_ID' },
+    } as StepperSelectionEvent;
 
     component.activate(mockPage);
     expect(spy).toBeCalledTimes(1);

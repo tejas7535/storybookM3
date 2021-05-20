@@ -1,10 +1,13 @@
+import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import {
   Component,
   EventEmitter,
   Input,
   OnChanges,
   Output,
+  ViewChild,
 } from '@angular/core';
+import { MatStepper } from '@angular/material/stepper';
 
 import { PageMetaStatus } from '@caeonline/dynamic-forms';
 
@@ -25,6 +28,8 @@ export class PagesStepperComponent implements OnChanges {
   @Input() inactivePageId?: string;
 
   @Output() activePageIdChange = new EventEmitter<string>();
+
+  @ViewChild('stepper') private readonly stepper: MatStepper;
 
   get hasNext(): boolean {
     const lastPage = this.getVisiblePages().slice(-1).pop();
@@ -50,10 +55,16 @@ export class PagesStepperComponent implements OnChanges {
 
   ngOnChanges(): void {
     this.pages = this.pages.filter((page) => page.isParent);
+
+    if (this.stepper) {
+      this.stepper.selectedIndex = this.stepper.steps['_results']
+        .map((step: any, index: number) => ({ ...step, index }))
+        .find((step: any) => step.label === this.activePageId).index;
+    }
   }
 
-  activate(page: PageMetaStatus): void {
-    this.activePageIdChange.emit(page.id);
+  activate(event: StepperSelectionEvent): void {
+    this.activePageIdChange.emit(event.selectedStep.label);
   }
 
   prev(): void {
@@ -70,14 +81,13 @@ export class PagesStepperComponent implements OnChanges {
       (visiblePage) => visiblePage.id === this.activePageId
     );
     const targetPageIndex = currentPageIndex + direction;
+
     if (
       currentPageIndex >= 0 &&
       targetPageIndex >= 0 &&
       targetPageIndex < visiblePages.length
     ) {
-      this.activePageIdChange.emit(
-        visiblePages[currentPageIndex + direction].id
-      );
+      this.activePageIdChange.emit(visiblePages[targetPageIndex].id);
     }
   }
 
