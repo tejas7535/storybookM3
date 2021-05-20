@@ -51,7 +51,6 @@
       "@schaeffler/shared/ui/storybook": [
         "libs/shared/ui/storybook/src/index.ts"
       ],
-      "@schaeffler/auth": ["libs/shared/utils/auth/src/index.ts"],
       "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
       "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],

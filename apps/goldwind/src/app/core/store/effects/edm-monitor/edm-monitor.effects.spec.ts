@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { getAccessToken } from '@schaeffler/auth';
-
 import { RestService } from '../../../http/rest.service';
 import {
   getEdm,
@@ -62,7 +60,6 @@ describe('Search Effects', () => {
       state: { params: { id: deviceId } },
     });
 
-    store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getEdmInterval, {
       startDate: 1599651508,
       endDate: 1599651509,
