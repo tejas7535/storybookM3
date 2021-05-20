@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [2.4.1](///compare/transloco-v2.4.1...transloco-v2.4.0) (2021-05-20)
+
 ## [2.4.0](///compare/transloco-v2.4.0...transloco-v2.3.0) (2021-04-29)
 
 
