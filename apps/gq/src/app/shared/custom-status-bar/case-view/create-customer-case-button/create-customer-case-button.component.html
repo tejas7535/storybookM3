@@ -1,0 +1,11 @@
+<button
+  mat-stroked-button
+  class="!m-4 !ml-0 !text-button !font-bold"
+  color="primary"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
+  (click)="createCustomerCase()"
+>
+  <mat-icon class="mr-3">add</mat-icon>
+
+  {{ t('createCustomerCase') | uppercase }}
+</button>

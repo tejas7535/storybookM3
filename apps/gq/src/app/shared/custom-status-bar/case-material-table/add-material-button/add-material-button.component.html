@@ -1,12 +1,10 @@
-<div *transloco="let t; read: 'shared.customStatusBar.addToMaterialButton'">
-  <div>
-    <button
-      mat-raised-button
-      color="primary"
-      (click)="addMaterial()"
-      [disabled]="!(createCaseEnabled$ | ngrxPush)"
-    >
-      {{ t('addMaterial') | uppercase }}
-    </button>
-  </div>
-</div>
+<button
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
+  class="!font-bold w-[200px] !mt-4"
+  mat-raised-button
+  color="primary"
+  (click)="addMaterial()"
+  [disabled]="!(createCaseEnabled$ | ngrxPush)"
+>
+  {{ t('addMaterial') | uppercase }}
+</button>

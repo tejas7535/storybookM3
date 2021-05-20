@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   addMaterials,
@@ -13,7 +13,6 @@ import { ProcessCaseState } from '../../../../core/store/reducers/process-case/p
 @Component({
   selector: 'gq-create-case-button',
   templateUrl: './add-material-button.component.html',
-  styleUrls: ['./add-material-button.component.scss'],
 })
 export class AddMaterialButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;
@@ -21,9 +20,7 @@ export class AddMaterialButtonComponent implements OnInit {
   constructor(private readonly store: Store<ProcessCaseState>) {}
 
   ngOnInit(): void {
-    this.createCaseEnabled$ = this.store.pipe(
-      select(getAddMaterialRowDataValid)
-    );
+    this.createCaseEnabled$ = this.store.select(getAddMaterialRowDataValid);
   }
 
   addMaterial(): void {

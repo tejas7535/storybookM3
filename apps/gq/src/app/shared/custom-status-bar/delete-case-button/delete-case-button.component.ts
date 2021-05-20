@@ -11,7 +11,6 @@ import { ViewCasesState } from '../../../core/store/reducers/view-cases/view-cas
 @Component({
   selector: 'gq-delete-case-button',
   templateUrl: './delete-case-button.component.html',
-  styleUrls: ['./delete-case-button.component.scss'],
 })
 export class DeleteCaseButtonComponent {
   selections: any[] = [];

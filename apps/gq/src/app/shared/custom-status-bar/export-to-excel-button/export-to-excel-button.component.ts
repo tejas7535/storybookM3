@@ -16,7 +16,6 @@ import {
 @Component({
   selector: 'gq-remove-from-offer',
   templateUrl: './export-to-excel-button.component.html',
-  styleUrls: ['./export-to-excel-button.component.scss'],
 })
 export class ExportToExcelButtonComponent {
   private params: IStatusPanelParams;

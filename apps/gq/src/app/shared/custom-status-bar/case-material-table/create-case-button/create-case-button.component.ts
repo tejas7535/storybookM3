@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { createCase, getCustomerConditionsValid } from '../../../../core/store';
 import { CaseState } from '../../../../core/store/reducers/create-case/create-case.reducer';
@@ -10,15 +10,12 @@ import { CaseState } from '../../../../core/store/reducers/create-case/create-ca
 @Component({
   selector: 'gq-create-case-button',
   templateUrl: './create-case-button.component.html',
-  styleUrls: ['./create-case-button.component.scss'],
 })
 export class CreateCaseButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;
   constructor(private readonly store: Store<CaseState>) {}
   ngOnInit(): void {
-    this.createCaseEnabled$ = this.store.pipe(
-      select(getCustomerConditionsValid)
-    );
+    this.createCaseEnabled$ = this.store.select(getCustomerConditionsValid);
   }
 
   createCase(): void {

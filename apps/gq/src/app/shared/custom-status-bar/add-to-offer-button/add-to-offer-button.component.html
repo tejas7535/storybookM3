@@ -1,10 +1,15 @@
 <button
+  class="!m-4 !ml-0"
   mat-raised-button
   color="primary"
-  *transloco="let t; read: 'shared.customStatusBar.addToOfferButton'"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
   [disabled]="selections.length === 0"
   (click)="addToOffer()"
 >
-  <mat-icon fontSet="schaeffler-icons" fontIcon="icon-cart"></mat-icon>
+  <mat-icon
+    class="!align-baseline"
+    fontSet="schaeffler-icons"
+    fontIcon="icon-cart"
+  ></mat-icon>
   {{ t('addToOffer') | uppercase }}
 </button>

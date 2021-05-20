@@ -10,7 +10,6 @@ import { ProcessCaseState } from '../../../core/store/reducers/process-case/proc
 @Component({
   selector: 'gq-upload-offer',
   templateUrl: './upload-to-sap-button.component.html',
-  styleUrls: ['./upload-to-sap-button.component.scss'],
 })
 export class UploadToSapButtonComponent {
   isManualCase$: Observable<boolean>;

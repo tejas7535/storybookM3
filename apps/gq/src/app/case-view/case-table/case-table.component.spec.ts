@@ -7,6 +7,9 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { CreateCustomerCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-customer-case-button/create-customer-case-button.component';
+import { CreateManualCaseButtonComponent } from '../../shared/custom-status-bar/case-view/create-manual-case-button/create-manual-case-button.component';
+import { ImportCaseButtonComponent } from '../../shared/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
 import { OpenCaseButtonComponent } from '../../shared/custom-status-bar/open-case-button/open-case-button.component';
@@ -27,6 +30,9 @@ describe('CaseTableComponent', () => {
       AgGridModule.withComponents({
         OpenCaseButtonComponent,
         DeleteCaseButtonComponent,
+        ImportCaseButtonComponent,
+        CreateManualCaseButtonComponent,
+        CreateCustomerCaseButtonComponent,
       }),
       CustomStatusBarModule,
       RouterTestingModule.withRoutes([]),
@@ -42,7 +48,7 @@ describe('CaseTableComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  it('should create', () => {
+  test('should create', () => {
     expect(component).toBeTruthy();
   });
 });

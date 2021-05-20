@@ -8,7 +8,6 @@ import { CaseState } from '../../../../core/store/reducers/create-case/create-ca
 @Component({
   selector: 'gq-process-case-reset-all-button',
   templateUrl: './process-case-reset-all-button.component.html',
-  styleUrls: ['./process-case-reset-all-button.component.scss'],
 })
 export class ProcessCaseResetAllButtonComponent {
   constructor(private readonly store: Store<CaseState>) {}

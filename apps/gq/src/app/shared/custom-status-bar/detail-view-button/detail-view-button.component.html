@@ -1,10 +1,15 @@
 <button
+  class="!m-4 !ml-0"
   mat-stroked-button
   color="primary"
-  *transloco="let t; read: 'shared.customStatusBar.detailViewButton'"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
   [disabled]="selections.length !== 1"
   (click)="showDetailView()"
 >
-  <mat-icon fontSet="schaeffler-icons" fontIcon="icon-document"></mat-icon>
+  <mat-icon
+    class="!align-baseline"
+    fontSet="schaeffler-icons"
+    fontIcon="icon-document"
+  ></mat-icon>
   {{ t('openDetail') | uppercase }}
 </button>

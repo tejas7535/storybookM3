@@ -1,11 +1,12 @@
 <button
+  class="!font-bold !m-4 !ml-0 w-[200px]"
   mat-raised-button
   color="primary"
-  *transloco="let t; read: 'shared.customStatusBar.openCaseButton'"
+  *transloco="let t; read: 'shared.customStatusBar.buttons'"
   [disabled]="selections.length !== 1"
   (click)="openCase()"
 >
-  <mat-icon>add_shopping_cart</mat-icon>
+  <mat-icon class="!mr-4">add_shopping_cart</mat-icon>
 
   {{ t('openCase') | uppercase }}
 </button>

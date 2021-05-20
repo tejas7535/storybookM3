@@ -3,16 +3,17 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { uploadOfferToSap } from '../../../core/store';
 import { UploadToSapButtonComponent } from './upload-to-sap-button.component';
 
 describe('UploadToSapButtonComponent', () => {
   let component: UploadToSapButtonComponent;
-
   let spectator: Spectator<UploadToSapButtonComponent>;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: UploadToSapButtonComponent,
@@ -29,6 +30,7 @@ describe('UploadToSapButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -37,9 +39,12 @@ describe('UploadToSapButtonComponent', () => {
 
   describe('uploadToSAP', () => {
     test('should upload to SAP', () => {
-      jest.spyOn(window, 'alert').mockImplementation(() => {});
+      store.dispatch = jest.fn();
 
       component.uploadToSAP();
+
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenLastCalledWith(uploadOfferToSap());
     });
   });
 });

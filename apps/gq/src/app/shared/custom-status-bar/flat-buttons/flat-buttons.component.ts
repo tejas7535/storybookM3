@@ -16,7 +16,6 @@ import { QuotationDetail } from '../../models/quotation-detail';
 @Component({
   selector: 'gq-flat-buttons',
   templateUrl: './flat-buttons.component.html',
-  styleUrls: ['./flat-buttons.component.scss'],
 })
 export class FlatButtonsComponent implements OnInit {
   selections: any[] = [];
