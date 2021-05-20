@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.11.4](///compare/assets-v1.11.4...assets-v1.11.3) (2021-05-20)
+
 ### [1.11.3](///compare/assets-v1.11.3...assets-v1.11.2) (2021-04-29)
 
 ### [1.11.2](///compare/assets-v1.11.2...assets-v1.11.1) (2021-03-24)
