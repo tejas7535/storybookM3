@@ -7,7 +7,7 @@
       <cdba-multi-select-filter
         fxFlex="233px"
         *ngSwitchCase="filterType.ID_VALUE"
-        [filter]="filter"
+        [filter]="$any(filter)"
         [autocompleteLoading]="autocompleteLoading$ | ngrxPush"
         (autocomplete)="autocomplete($event)"
         (updateFilter)="updateFilter($event)"
@@ -16,7 +16,7 @@
       <cdba-range-filter
         fxFlex="233px"
         *ngSwitchCase="filterType.RANGE"
-        [filter]="filter"
+        [filter]="$any(filter)"
         (updateFilter)="updateFilter($event)"
       ></cdba-range-filter>
     </ng-container>

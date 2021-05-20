@@ -13,7 +13,7 @@
     <cdba-bom-overlay (closeOverlay)="additionalInformation.close()">
       <ng-container calculations>
         <cdba-calculations-table
-          minified="true"
+          [minified]="true"
           [rowData]="calculations$ | ngrxPush"
           [selectedNodeIds]="selectedCalculationNodeId$ | ngrxPush"
           [isLoading]="calculationsLoading$ | ngrxPush"
@@ -32,7 +32,7 @@
         >
         <cdba-loading-spinner
           *ngIf="bomLoading$ | ngrxPush"
-          show="true"
+          [show]="true"
         ></cdba-loading-spinner>
       </div>
     </cdba-bom-overlay>
@@ -67,7 +67,6 @@
                     | undefinedAttributeFallback
                 }}
               </div>
-              <div>{{ bomDetails$ | ngrxPush | json }}</div>
             </div>
           </div>
           <div class="bom-overlay">

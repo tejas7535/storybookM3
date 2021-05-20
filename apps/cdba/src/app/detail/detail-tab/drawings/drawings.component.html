@@ -8,7 +8,7 @@
     {{ t('title', { material: materialDesignation$ | ngrxPush }) }}
   </h6>
   <div fxFlex class="widget-content">
-    <cdba-loading-spinner *ngIf="loading$ | ngrxPush" show="true">
+    <cdba-loading-spinner *ngIf="loading$ | ngrxPush" [fxShow]="true">
     </cdba-loading-spinner>
 
     <div

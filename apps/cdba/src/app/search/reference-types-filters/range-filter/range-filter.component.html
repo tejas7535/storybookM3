@@ -15,16 +15,17 @@
     <div class="drop-down" fxLayout="column">
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
         <div #label fxFlex="50">Min. {{ t('names.' + filter?.name) }}</div>
-        <div #input fxFlex="40">
+        <div #input fxFlex="50">
           <mat-form-field>
             <input
+              #minInput
               matInput
               type="number"
               autocomplete="off"
               [value]="filter.minSelected ? filter.minSelected : filter.min"
               [max]="filter.max"
               [min]="filter.min"
-              (change)="update(inputType.Min, $event.target.value)"
+              (change)="update(inputType.Min, minInput.value)"
             />
             <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
           </mat-form-field>
@@ -49,16 +50,17 @@
       </div>
       <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="5px">
         <div #label fxFlex="50">Max. {{ t('names.' + filter?.name) }}</div>
-        <div #input fxFlex="40">
+        <div #input fxFlex="50">
           <mat-form-field>
             <input
+              #maxInput
               matInput
               type="number"
               autocomplete="off"
               [value]="filter.maxSelected ? filter.maxSelected : filter.max"
               [max]="filter.max"
               [min]="filter.min"
-              (change)="update(inputType.Max, $event.target.value)"
+              (change)="update(inputType.Max, maxInput.value)"
             />
             <div *ngIf="filter.unit" matSuffix>&nbsp;{{ filter.unit }}</div>
           </mat-form-field>
