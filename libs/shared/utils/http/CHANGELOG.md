@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.0.8](///compare/http-v0.0.8...http-v0.0.7) (2021-05-20)
+
 ### [0.0.7](///compare/http-v0.0.7...http-v0.0.6) (2021-04-29)
 
 
