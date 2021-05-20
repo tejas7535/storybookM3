@@ -1,3 +1,5 @@
-button {
-  width: 100%;
+@import 'libs/shared/ui/stepper';
+
+::ng-deep .mat-step-header[aria-labelledby='disabled'] {
+  @apply cursor-not-allowed pointer-events-none opacity-60;
 }

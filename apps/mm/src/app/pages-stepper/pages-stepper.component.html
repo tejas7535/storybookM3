@@ -1,15 +1,15 @@
-<div *ngFor="let page of pages; let i = index">
-  <button
-    mat-raised-button
-    [color]="page.id === activePageId ? 'primary' : 'secondary'"
-    [disabled]="
-      page.id === inactivePageId ||
-      !page.visible ||
-      !(page.id | mmPageBefore: maxPageId:pages)
+<mat-horizontal-stepper (selectionChange)="activate($event)" #stepper>
+  <mat-step
+    *ngFor="let page of pages; let i = index"
+    [label]="page.id"
+    [aria-labelledby]="
+      (page.id === inactivePageId ||
+        !page.visible ||
+        !(page.id | mmPageBefore: maxPageId:pages)) &&
+      'disabled'
     "
-    class="block"
-    (click)="activate(page)"
   >
-    {{ page.page.text }}
-  </button>
-</div>
+    <ng-template matStepLabel>{{ page.page.text }}</ng-template>
+    <h5>{{ page.page.text }}</h5>
+  </mat-step>
+</mat-horizontal-stepper>
