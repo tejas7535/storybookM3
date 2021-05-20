@@ -35,6 +35,7 @@
           "
           [options]="options$ | ngrxPush"
           [formControl]="control"
+          [placeholder]="t('select', { fieldname: meta.member.text })"
         ></schaeffler-dropdown-input>
         <ng-template #select>
           <mm-select-member

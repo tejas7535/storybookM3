@@ -11,11 +11,13 @@ import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
+import { HorizontalSeparatorModule } from '@schaeffler/horizontal-separator';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingSearchModule } from '../bearing-search/bearing-search.module';
 import { ListMemberComponent } from '../member-controls/list-member.component';
+import { SelectMemberComponent } from '../member-controls/select-member.component';
 import { StringNumberMemberComponent } from '../member-controls/string-number-member.component';
 import { PagesStepperModule } from '../pages-stepper/pages-stepper.module';
 import { PictureCardListModule } from '../picture-card-list/picture-card-list.module';
@@ -23,7 +25,6 @@ import { ResultPageModule } from '../result-page/result-page.module';
 import { LazyListLoaderService } from '../services/lazy-list-loader.service';
 import { RuntimeRequesterService } from '../services/runtime-requester.service';
 import { SharedModule } from '../shared/shared.module';
-import { SelectMemberComponent } from './../member-controls/select-member.component';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
@@ -52,6 +53,7 @@ import { HomeComponent } from './home.component';
     ResultPageModule,
     PictureCardListModule,
     LoadingSpinnerModule,
+    HorizontalSeparatorModule,
 
     // Angular Material
     MatButtonModule,

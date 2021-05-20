@@ -106,6 +106,6 @@ export class ListMemberComponent implements OnInit, OnDestroy {
           this.control.setValue(defaultValue);
           this.meta.control?.get('initialValue')?.setValue(defaultValue);
         }
-      }); // TODO fix lint warning
+      });
   }
 }
