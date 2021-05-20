@@ -3,6 +3,8 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.7.2](///compare/snackbar-v1.7.2...snackbar-v1.7.1) (2021-05-20)
+
 ### [1.7.1](///compare/snackbar-v1.7.1...snackbar-v1.7.0) (2021-04-29)
 
 ## [1.7.0](///compare/snackbar-v1.7.0...snackbar-v1.6.0) (2021-03-24)
