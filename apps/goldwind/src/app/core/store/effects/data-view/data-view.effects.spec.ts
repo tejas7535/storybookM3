@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, hot } from 'jasmine-marbles';
 
-import { getAccessToken } from '@schaeffler/auth';
-
 import { RestService } from '../../../http/rest.service';
 import {
   getData,
@@ -58,7 +56,6 @@ describe('Search Effects', () => {
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
-    store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(getDataInterval, {
       startDate: 1599651508,
       endDate: 1599651509,

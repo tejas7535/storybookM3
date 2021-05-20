@@ -118,9 +118,6 @@
       "tags": [],
       "implicitDependencies": ["sedo"]
     },
-    "shared-utils-auth": {
-      "tags": ["scope:shared", "type:utils"]
-    },
     "shared-ui-empty-states": {
       "tags": ["scope:shared", "type:ui"]
     },

@@ -6,8 +6,6 @@ import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
-import { getAccessToken } from '@schaeffler/auth';
-
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
@@ -61,7 +59,6 @@ describe('Search Effects', () => {
     metadata = getEffectsMetadata(effects);
     restService = spectator.inject(RestService);
 
-    store.overrideSelector(getAccessToken, 'mockedAccessToken');
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
     });
