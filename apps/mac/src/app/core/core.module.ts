@@ -4,6 +4,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
+import { EffectsModule } from '@ngrx/effects';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
@@ -12,6 +13,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { RootEffects } from './effects/root/root.effects';
 import { StoreModule } from './store/store.module';
 
 @NgModule({
@@ -42,6 +44,9 @@ import { StoreModule } from './store/store.module';
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
+
+    // Add department to app insights
+    EffectsModule.forRoot([RootEffects]),
   ],
   exports: [AppComponent],
 })
