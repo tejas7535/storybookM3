@@ -8,7 +8,7 @@ import {
   IStatusPanelParams,
   RowNode,
 } from '@ag-grid-enterprise/all-modules';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { CompareRoutePath } from '@cdba/compare/compare-route-path.enum';
@@ -33,13 +33,9 @@ export class CompareViewButtonComponent implements OnInit {
     if (
       this.router.routerState.snapshot.url.includes(AppRoutePath.SearchPath)
     ) {
-      this.selectedNodeIds$ = this.store.pipe(
-        select(getSelectedRefTypeNodeIds)
-      );
+      this.selectedNodeIds$ = this.store.select(getSelectedRefTypeNodeIds);
     } else {
-      this.selectedNodeIds$ = this.store.pipe(
-        select(getSelectedCalculationNodeIds)
-      );
+      this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
     }
   }
 

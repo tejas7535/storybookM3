@@ -19,7 +19,7 @@ import {
   ofType,
   OnInitEffects,
 } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
 
@@ -73,7 +73,7 @@ export class SearchEffects implements OnInitEffects {
   search$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(search),
-      withLatestFrom(this.store.pipe(select(getSelectedFilters))),
+      withLatestFrom(this.store.select(getSelectedFilters)),
       map(([_action, items]) => items),
       mergeMap((items) =>
         this.searchService.search(items).pipe(

@@ -53,86 +53,98 @@ export const compareReducer = createReducer(
 
     return state;
   }),
-  on(loadBom, (state, { index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            billOfMaterial: {
-              loading: true,
+  on(
+    loadBom,
+    (state, { index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              billOfMaterial: {
+                loading: true,
+              },
             },
-          },
-        }
-      : state
+          }
+        : state
   ),
-  on(loadBomSuccess, (state, { items, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            billOfMaterial: {
-              ...state[index].billOfMaterial,
-              items,
-              selected: items[0],
-              loading: false,
+  on(
+    loadBomSuccess,
+    (state, { items, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              billOfMaterial: {
+                ...state[index].billOfMaterial,
+                items,
+                selected: items[0],
+                loading: false,
+              },
             },
-          },
-        }
-      : state
+          }
+        : state
   ),
-  on(loadBomFailure, (state, { errorMessage, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            billOfMaterial: { errorMessage, items: [], loading: false },
-          },
-        }
-      : state
-  ),
-  on(selectBomItem, (state, { item, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            billOfMaterial: { ...state[index].billOfMaterial, selected: item },
-          },
-        }
-      : state
-  ),
-  on(loadCalculationHistory, (state, { index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            calculations: {
-              ...state[index].calculations,
-              items: undefined,
-              selected: undefined,
-              loading: true,
+  on(
+    loadBomFailure,
+    (state, { errorMessage, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              billOfMaterial: { errorMessage, items: [], loading: false },
             },
-            billOfMaterial: {
-              ...state[index].billOfMaterial,
-              selected: undefined,
-              items: undefined,
-              loading: true,
-            },
-          },
-        }
-      : state
+          }
+        : state
   ),
-  on(loadCalculationHistorySuccess, (state, { items, index }) => {
+  on(
+    selectBomItem,
+    (state, { item, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              billOfMaterial: {
+                ...state[index].billOfMaterial,
+                selected: item,
+              },
+            },
+          }
+        : state
+  ),
+  on(
+    loadCalculationHistory,
+    (state, { index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              calculations: {
+                ...state[index].calculations,
+                items: undefined,
+                selected: undefined,
+                loading: true,
+              },
+              billOfMaterial: {
+                ...state[index].billOfMaterial,
+                selected: undefined,
+                items: undefined,
+                loading: true,
+              },
+            },
+          }
+        : state
+  ),
+  on(loadCalculationHistorySuccess, (state, { items, index }): CompareState => {
     if (!state[index]) {
       return state;
     }
 
     const selectedNodeId: string =
-      // eslint-disable-next-line @typescript-eslint/strict-boolean-expressions
       state[index].calculations?.selectedNodeId || '0';
 
     return {
@@ -149,41 +161,45 @@ export const compareReducer = createReducer(
       },
     };
   }),
-  on(loadCalculationHistoryFailure, (state, { errorMessage, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            calculations: {
-              ...state[index].calculations,
-              errorMessage,
-              items: [],
-              loading: false,
+  on(
+    loadCalculationHistoryFailure,
+    (state, { errorMessage, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              calculations: {
+                ...state[index].calculations,
+                errorMessage,
+                items: [],
+                loading: false,
+              },
+              billOfMaterial: {
+                ...state[index].billOfMaterial,
+                errorMessage,
+                items: [],
+                loading: false,
+              },
             },
-            billOfMaterial: {
-              ...state[index].billOfMaterial,
-              errorMessage,
-              items: [],
-              loading: false,
-            },
-          },
-        }
-      : state
+          }
+        : state
   ),
-  on(selectCalculation, (state, { nodeId, calculation, index }) =>
-    state[index]
-      ? {
-          ...state,
-          [index]: {
-            ...state[index],
-            calculations: {
-              ...state[index].calculations,
-              selectedNodeId: nodeId,
-              selected: calculation,
+  on(
+    selectCalculation,
+    (state, { nodeId, calculation, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              calculations: {
+                ...state[index].calculations,
+                selectedNodeId: nodeId,
+                selected: calculation,
+              },
             },
-          },
-        }
-      : state
+          }
+        : state
   )
 );

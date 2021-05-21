@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getSelectedCalculationNodeIds,
@@ -25,9 +25,7 @@ export class LoadBomButtonComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.selectedNodeIds$ = this.store.pipe(
-      select(getSelectedCalculationNodeIds)
-    );
+    this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
   }
 
   agInit(params: IStatusPanelParams): void {

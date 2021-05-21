@@ -7,7 +7,7 @@ import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
@@ -77,7 +77,7 @@ export class CompareEffects {
     this.actions$.pipe(
       ofType(loadCalculations),
       concatLatestFrom((_action) =>
-        this.store.pipe(select(getSelectedReferenceTypeIdentifiers))
+        this.store.select(getSelectedReferenceTypeIdentifiers)
       ),
       map(([_action, identifiers]) => identifiers),
       mergeMap((identifiers) =>
@@ -138,7 +138,7 @@ export class CompareEffects {
       ofType(selectCalculation, loadCalculationHistorySuccess),
       map((action) => action.index),
       concatLatestFrom((index) =>
-        this.store.pipe(select(getBomIdentifierForSelectedCalculation, index))
+        this.store.select(getBomIdentifierForSelectedCalculation, index)
       ),
       filter(
         ([_index, bomIdentifier]: [number, BomIdentifier]) =>

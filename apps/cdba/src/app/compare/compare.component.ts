@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Tab } from '@cdba/shared/components';
 
@@ -27,9 +27,7 @@ export class CompareComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.tabs[0].disabled$ = this.store.pipe(
-      select(getIsCompareDetailsDisabled)
-    );
+    this.tabs[0].disabled$ = this.store.select(getIsCompareDetailsDisabled);
   }
   /**
    * Improves performance of ngFor.

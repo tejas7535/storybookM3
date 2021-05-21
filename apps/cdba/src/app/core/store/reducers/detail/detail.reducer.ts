@@ -88,145 +88,193 @@ export const detailReducer = createReducer(
   initialState,
   on(
     selectReferenceType,
-    (state: DetailState, { referenceTypeIdentifier }) => ({
+    (state: DetailState, { referenceTypeIdentifier }): DetailState => ({
       ...state,
       selectedReferenceType: referenceTypeIdentifier,
     })
   ),
-  on(loadReferenceType, (state: DetailState) => ({
-    ...state,
-    detail: {
-      ...initialState.detail,
-      loading: true,
-    },
-  })),
-  on(loadReferenceTypeSuccess, (state: DetailState, { item }) => ({
-    ...state,
-    detail: {
-      ...initialState.detail,
-      referenceType: item.referenceTypeDto,
-    },
-  })),
-  on(loadReferenceTypeFailure, (state: DetailState, { errorMessage }) => ({
-    ...state,
-    detail: {
-      ...state.detail,
-      errorMessage,
-      loading: false,
-    },
-  })),
-  on(loadCalculations, (state: DetailState) => ({
-    ...state,
-    calculations: {
-      ...initialState.calculations,
-      loading: true,
-    },
-    bom: {
-      ...initialState.bom,
-      loading: true,
-    },
-  })),
-  on(loadCalculationsSuccess, (state: DetailState, { items }) => ({
-    ...state,
-    calculations: {
-      ...state.calculations,
-      items,
-      selectedNodeIds: ['0'],
-      selectedCalculation: {
-        nodeId: '0',
-        calculation: items[0],
+  on(
+    loadReferenceType,
+    (state: DetailState): DetailState => ({
+      ...state,
+      detail: {
+        ...initialState.detail,
+        loading: true,
       },
-      loading: false,
-    },
-  })),
-  on(loadCalculationsFailure, (state: DetailState, { errorMessage }) => ({
-    ...state,
-    calculations: {
-      ...state.calculations,
-      errorMessage,
-      items: [],
-      loading: false,
-    },
-    bom: {
-      ...state.bom,
-      errorMessage,
-      items: [],
-      loading: false,
-    },
-  })),
-  on(selectCalculation, (state: DetailState, { nodeId, calculation }) => ({
-    ...state,
-    calculations: {
-      ...state.calculations,
-      selectedCalculation: { nodeId, calculation },
-    },
-  })),
-  on(selectCalculations, (state: DetailState, { nodeIds }) => ({
-    ...state,
-    calculations: {
-      ...state.calculations,
-      selectedNodeIds: nodeIds,
-    },
-  })),
-  on(loadDrawings, (state: DetailState) => ({
-    ...state,
-    drawings: {
-      ...initialState.drawings,
-      loading: true,
-    },
-  })),
-  on(loadDrawingsSuccess, (state: DetailState, { items }) => ({
-    ...state,
-    drawings: {
-      ...state.drawings,
-      items,
-      selected: {
-        nodeId: '0',
-        drawing: items[0],
+    })
+  ),
+  on(
+    loadReferenceTypeSuccess,
+    (state: DetailState, { item }): DetailState => ({
+      ...state,
+      detail: {
+        ...initialState.detail,
+        referenceType: item.referenceTypeDto,
       },
-      loading: false,
-    },
-  })),
-  on(loadDrawingsFailure, (state: DetailState, { errorMessage }) => ({
-    ...state,
-    drawings: {
-      ...state.drawings,
-      errorMessage,
-      items: [],
-      loading: false,
-    },
-  })),
-  on(selectDrawing, (state: DetailState, { nodeId, drawing }) => ({
-    ...state,
-    drawings: { ...state.drawings, selected: { nodeId, drawing } },
-  })),
-  on(loadBom, (state: DetailState) => ({
-    ...state,
-    bom: {
-      ...initialState.bom,
-      loading: true,
-    },
-  })),
-  on(loadBomSuccess, (state: DetailState, { items }) => ({
-    ...state,
-    bom: {
-      ...state.bom,
-      items,
-      selectedItem: items[0],
-      loading: false,
-    },
-  })),
-  on(loadBomFailure, (state: DetailState, { errorMessage }) => ({
-    ...state,
-    bom: {
-      ...state.bom,
-      errorMessage,
-      items: [],
-      loading: false,
-    },
-  })),
-  on(selectBomItem, (state: DetailState, { item }) => ({
-    ...state,
-    bom: { ...state.bom, selectedItem: item },
-  }))
+    })
+  ),
+  on(
+    loadReferenceTypeFailure,
+    (state: DetailState, { errorMessage }): DetailState => ({
+      ...state,
+      detail: {
+        ...state.detail,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadCalculations,
+    (state: DetailState): DetailState => ({
+      ...state,
+      calculations: {
+        ...initialState.calculations,
+        loading: true,
+      },
+      bom: {
+        ...initialState.bom,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadCalculationsSuccess,
+    (state: DetailState, { items }): DetailState => ({
+      ...state,
+      calculations: {
+        ...state.calculations,
+        items,
+        selectedNodeIds: ['0'],
+        selectedCalculation: {
+          nodeId: '0',
+          calculation: items[0],
+        },
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadCalculationsFailure,
+    (state: DetailState, { errorMessage }): DetailState => ({
+      ...state,
+      calculations: {
+        ...state.calculations,
+        errorMessage,
+        items: [],
+        loading: false,
+      },
+      bom: {
+        ...state.bom,
+        errorMessage,
+        items: [],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    selectCalculation,
+    (state: DetailState, { nodeId, calculation }): DetailState => ({
+      ...state,
+      calculations: {
+        ...state.calculations,
+        selectedCalculation: { nodeId, calculation },
+      },
+    })
+  ),
+  on(
+    selectCalculations,
+    (state: DetailState, { nodeIds }): DetailState => ({
+      ...state,
+      calculations: {
+        ...state.calculations,
+        selectedNodeIds: nodeIds,
+      },
+    })
+  ),
+  on(
+    loadDrawings,
+    (state: DetailState): DetailState => ({
+      ...state,
+      drawings: {
+        ...initialState.drawings,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadDrawingsSuccess,
+    (state: DetailState, { items }): DetailState => ({
+      ...state,
+      drawings: {
+        ...state.drawings,
+        items,
+        selected: {
+          nodeId: '0',
+          drawing: items[0],
+        },
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadDrawingsFailure,
+    (state: DetailState, { errorMessage }): DetailState => ({
+      ...state,
+      drawings: {
+        ...state.drawings,
+        errorMessage,
+        items: [],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    selectDrawing,
+    (state: DetailState, { nodeId, drawing }): DetailState => ({
+      ...state,
+      drawings: { ...state.drawings, selected: { nodeId, drawing } },
+    })
+  ),
+  on(
+    loadBom,
+    (state: DetailState): DetailState => ({
+      ...state,
+      bom: {
+        ...initialState.bom,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadBomSuccess,
+    (state: DetailState, { items }): DetailState => ({
+      ...state,
+      bom: {
+        ...state.bom,
+        items,
+        selectedItem: items[0],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadBomFailure,
+    (state: DetailState, { errorMessage }): DetailState => ({
+      ...state,
+      bom: {
+        ...state.bom,
+        errorMessage,
+        items: [],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    selectBomItem,
+    (state: DetailState, { item }): DetailState => ({
+      ...state,
+      bom: { ...state.bom, selectedItem: item },
+    })
+  )
 );

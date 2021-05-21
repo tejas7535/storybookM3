@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Tab } from '@cdba/shared/components';
 import { ReferenceType } from '@cdba/shared/models';
@@ -36,7 +36,7 @@ export class DetailComponent implements OnInit {
   public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.referenceType$ = this.store.pipe(select(getReferenceType));
+    this.referenceType$ = this.store.select(getReferenceType);
   }
 
   /**

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getCustomerDetails,
@@ -14,7 +14,6 @@ import {
   getReferenceTypeLoading,
   getSalesDetails,
 } from '../../core/store';
-import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import { CustomerDetails } from './customer/model/customer.details.model';
 import { DimensionAndWeightDetails } from './dimension-and-weight/model/dimension-and-weight-details.model';
 import { PriceDetails } from './pricing/model/price.details.model';
@@ -38,21 +37,17 @@ export class DetailTabComponent implements OnInit {
   quantitiesDetails$: Observable<QuantitiesDetails>;
   salesDetails$: Observable<SalesDetails>;
 
-  public constructor(private readonly store: Store<DetailState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.isLoading$ = this.store.pipe(select(getReferenceTypeLoading));
-    this.errorMessageDetails$ = this.store.pipe(
-      select(getReferenceTypeErrorMessage)
-    );
+    this.isLoading$ = this.store.select(getReferenceTypeLoading);
+    this.errorMessageDetails$ = this.store.select(getReferenceTypeErrorMessage);
 
-    this.customerDetails$ = this.store.pipe(select(getCustomerDetails));
-    this.dimensionAndWeight$ = this.store.pipe(
-      select(getDimensionAndWeightDetails)
-    );
-    this.salesPrice$ = this.store.pipe(select(getPriceDetails));
-    this.productionDetails$ = this.store.pipe(select(getProductionDetails));
-    this.quantitiesDetails$ = this.store.pipe(select(getQuantitiesDetails));
-    this.salesDetails$ = this.store.pipe(select(getSalesDetails));
+    this.customerDetails$ = this.store.select(getCustomerDetails);
+    this.dimensionAndWeight$ = this.store.select(getDimensionAndWeightDetails);
+    this.salesPrice$ = this.store.select(getPriceDetails);
+    this.productionDetails$ = this.store.select(getProductionDetails);
+    this.quantitiesDetails$ = this.store.select(getQuantitiesDetails);
+    this.salesDetails$ = this.store.select(getSalesDetails);
   }
 }
