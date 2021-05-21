@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { ReferenceType } from '@cdba/shared/models';
 
@@ -30,11 +30,11 @@ export class SearchComponent implements OnInit {
   public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.searchSuccessful$ = this.store.pipe(select(getSearchSuccessful));
-    this.tooManyResults$ = this.store.pipe(select(getTooManyResults));
-    this.referenceTypesData$ = this.store.pipe(select(getReferenceTypes));
-    this.resultCount$ = this.store.pipe(select(getResultCount));
-    this.loading$ = this.store.pipe(select(getReferenceTypesLoading));
+    this.searchSuccessful$ = this.store.select(getSearchSuccessful);
+    this.tooManyResults$ = this.store.select(getTooManyResults);
+    this.referenceTypesData$ = this.store.select(getReferenceTypes);
+    this.resultCount$ = this.store.select(getResultCount);
+    this.loading$ = this.store.select(getReferenceTypesLoading);
   }
 
   selectReferenceTypes(nodeIds: string[]): void {

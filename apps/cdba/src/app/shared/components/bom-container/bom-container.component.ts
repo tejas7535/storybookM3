@@ -7,7 +7,7 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
@@ -73,66 +73,68 @@ export class BomContainerComponent implements OnInit {
   }
 
   private initializeWithCompareSelectors(): void {
-    this.materialDesignation$ = this.store.pipe(
-      select(fromCompare.getMaterialDesignation, this.index)
+    this.materialDesignation$ = this.store.select(
+      fromCompare.getMaterialDesignation,
+      this.index
     );
 
-    this.calculations$ = this.store.pipe(
-      select(fromCompare.getCalculations, this.index)
+    this.calculations$ = this.store.select(
+      fromCompare.getCalculations,
+      this.index
     );
-    this.selectedCalculationNodeId$ = this.store.pipe(
-      select(fromCompare.getSelectedCalculationNodeId, this.index)
+    this.selectedCalculationNodeId$ = this.store.select(
+      fromCompare.getSelectedCalculationNodeId,
+      this.index
     );
-    this.selectedCalculation$ = this.store.pipe(
-      select(fromCompare.getSelectedCalculation, this.index)
+    this.selectedCalculation$ = this.store.select(
+      fromCompare.getSelectedCalculation,
+      this.index
     );
-    this.calculationsLoading$ = this.store.pipe(
-      select(fromCompare.getCalculationsLoading, this.index)
+    this.calculationsLoading$ = this.store.select(
+      fromCompare.getCalculationsLoading,
+      this.index
     );
-    this.calculationsErrorMessage$ = this.store.pipe(
-      select(fromCompare.getCalculationsErrorMessage, this.index)
+    this.calculationsErrorMessage$ = this.store.select(
+      fromCompare.getCalculationsErrorMessage,
+      this.index
     );
 
-    this.bomItems$ = this.store.pipe(
-      select(fromCompare.getBomItems, this.index)
+    this.bomItems$ = this.store.select(fromCompare.getBomItems, this.index);
+    this.bomLoading$ = this.store.select(fromCompare.getBomLoading, this.index);
+    this.bomErrorMessage$ = this.store.select(
+      fromCompare.getBomErrorMessage,
+      this.index
     );
-    this.bomLoading$ = this.store.pipe(
-      select(fromCompare.getBomLoading, this.index)
-    );
-    this.bomErrorMessage$ = this.store.pipe(
-      select(fromCompare.getBomErrorMessage, this.index)
-    );
-    this.childrenOfSelectedBomItem$ = this.store.pipe(
-      select(fromCompare.getChildrenOfSelectedBomItem, this.index)
+    this.childrenOfSelectedBomItem$ = this.store.select(
+      fromCompare.getChildrenOfSelectedBomItem,
+      this.index
     );
   }
 
   private initializeWithDetailSelectors(): void {
-    this.materialDesignation$ = this.store.pipe(
-      select(fromDetail.getMaterialDesignation)
+    this.materialDesignation$ = this.store.select(
+      fromDetail.getMaterialDesignation
     );
 
-    this.calculations$ = this.store.pipe(select(fromDetail.getCalculations));
-    this.selectedCalculationNodeId$ = this.store.pipe(
-      select(fromDetail.getSelectedCalculationNodeId)
+    this.calculations$ = this.store.select(fromDetail.getCalculations);
+    this.selectedCalculationNodeId$ = this.store.select(
+      fromDetail.getSelectedCalculationNodeId
     );
-    this.selectedCalculation$ = this.store.pipe(
-      select(fromDetail.getSelectedCalculation)
+    this.selectedCalculation$ = this.store.select(
+      fromDetail.getSelectedCalculation
     );
-    this.calculationsLoading$ = this.store.pipe(
-      select(fromDetail.getCalculationsLoading)
+    this.calculationsLoading$ = this.store.select(
+      fromDetail.getCalculationsLoading
     );
-    this.calculationsErrorMessage$ = this.store.pipe(
-      select(fromDetail.getCalculationsErrorMessage)
+    this.calculationsErrorMessage$ = this.store.select(
+      fromDetail.getCalculationsErrorMessage
     );
 
-    this.bomItems$ = this.store.pipe(select(fromDetail.getBomItems));
-    this.bomLoading$ = this.store.pipe(select(fromDetail.getBomLoading));
-    this.bomErrorMessage$ = this.store.pipe(
-      select(fromDetail.getBomErrorMessage)
-    );
-    this.childrenOfSelectedBomItem$ = this.store.pipe(
-      select(fromDetail.getChildrenOfSelectedBomItem)
+    this.bomItems$ = this.store.select(fromDetail.getBomItems);
+    this.bomLoading$ = this.store.select(fromDetail.getBomLoading);
+    this.bomErrorMessage$ = this.store.select(fromDetail.getBomErrorMessage);
+    this.childrenOfSelectedBomItem$ = this.store.select(
+      fromDetail.getChildrenOfSelectedBomItem
     );
   }
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
@@ -17,7 +17,6 @@ import {
   FilterItemType,
   TextSearch,
 } from '../../core/store/reducers/search/models';
-import { SearchState } from '../../core/store/reducers/search/search.reducer';
 import {
   getAutocompleteLoading,
   getFilters,
@@ -46,14 +45,14 @@ export class ReferenceTypesFiltersComponent implements OnInit {
 
   filterType = FilterItemType;
 
-  public constructor(private readonly store: Store<SearchState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.filters$ = this.store.pipe(select(getFilters));
-    this.autocompleteLoading$ = this.store.pipe(select(getAutocompleteLoading));
-    this.searchSuccessful$ = this.store.pipe(select(getSearchSuccessful));
-    this.tooManyResults$ = this.store.pipe(select(getTooManyResults));
-    this.showResetButton$ = this.store.pipe(select(getIsDirty));
+    this.filters$ = this.store.select(getFilters);
+    this.autocompleteLoading$ = this.store.select(getAutocompleteLoading);
+    this.searchSuccessful$ = this.store.select(getSearchSuccessful);
+    this.tooManyResults$ = this.store.select(getTooManyResults);
+    this.showResetButton$ = this.store.select(getIsDirty);
   }
 
   /**

@@ -17,7 +17,7 @@ import {
 import { translate } from '@ngneat/transloco';
 import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
@@ -58,9 +58,7 @@ export class DetailEffects {
   loadReferenceType$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadReferenceType),
-      withLatestFrom(
-        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
-      ),
+      withLatestFrom(this.store.select(getSelectedReferenceTypeIdentifier)),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
         this.detailService.getDetails(refTypeIdentifier).pipe(
@@ -86,7 +84,7 @@ export class DetailEffects {
     this.actions$.pipe(
       ofType(loadCalculations),
       concatLatestFrom(() =>
-        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
+        this.store.select(getSelectedReferenceTypeIdentifier)
       ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
@@ -104,7 +102,7 @@ export class DetailEffects {
     this.actions$.pipe(
       ofType(loadDrawings),
       concatLatestFrom(() =>
-        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
+        this.store.select(getSelectedReferenceTypeIdentifier)
       ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap(({ materialNumber, plant }: ReferenceTypeIdentifier) =>
@@ -121,9 +119,7 @@ export class DetailEffects {
   triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationsSuccess),
-      withLatestFrom(
-        this.store.pipe(select(getBomIdentifierForSelectedCalculation))
-      ),
+      withLatestFrom(this.store.select(getBomIdentifierForSelectedCalculation)),
       map(([_action, bomIdentifier]) => bomIdentifier),
       filter((bomIdentifier) => bomIdentifier !== undefined),
       map((bomIdentifier) => loadBom({ bomIdentifier }))
@@ -167,9 +163,7 @@ export class DetailEffects {
 
         return referenceTypeIdentifier !== undefined;
       }),
-      withLatestFrom(
-        this.store.pipe(select(getSelectedReferenceTypeIdentifier))
-      ),
+      withLatestFrom(this.store.select(getSelectedReferenceTypeIdentifier)),
       filter(
         ([identifierFromRoute, identifierCurrent]) =>
           !DetailEffects.checkEqualityOfIdentifier(

@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Calculation } from '@cdba/shared/models';
 
 import { selectCalculations } from '../../core/store';
-import { DetailState } from '../../core/store/reducers/detail/detail.reducer';
 import {
   getCalculations,
   getCalculationsErrorMessage,
@@ -26,15 +25,13 @@ export class CalculationsTabComponent implements OnInit {
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
-  public constructor(private readonly store: Store<DetailState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.calculations$ = this.store.pipe(select(getCalculations));
-    this.selectedNodeIds$ = this.store.pipe(
-      select(getSelectedCalculationNodeIds)
-    );
-    this.loading$ = this.store.pipe(select(getCalculationsLoading));
-    this.errorMessage$ = this.store.pipe(select(getCalculationsErrorMessage));
+    this.calculations$ = this.store.select(getCalculations);
+    this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
+    this.loading$ = this.store.select(getCalculationsLoading);
+    this.errorMessage$ = this.store.select(getCalculationsErrorMessage);
   }
 
   public selectCalculations(

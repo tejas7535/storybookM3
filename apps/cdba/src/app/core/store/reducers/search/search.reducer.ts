@@ -94,152 +94,197 @@ const sortFilterItems = (items: FilterItem[]) => {
 export const searchReducer = createReducer(
   initialState,
   // initial filters
-  on(loadInitialFilters, (state: SearchState) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      loading: true,
-      errorMessage: initialState.filters.errorMessage,
-    },
-  })),
-  on(loadInitialFiltersSuccess, (state: SearchState, { items }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      loading: false,
-      items: filterItemAdapter.setAll(
-        sortFilterItems(items),
-        state.filters.items
-      ),
-    },
-  })),
-  on(loadInitialFiltersFailure, (state: SearchState, { errorMessage }) => ({
-    ...state,
-    filters: { ...state.filters, errorMessage, loading: false },
-  })),
+  on(
+    loadInitialFilters,
+    (state: SearchState): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        loading: true,
+        errorMessage: initialState.filters.errorMessage,
+      },
+    })
+  ),
+  on(
+    loadInitialFiltersSuccess,
+    (state: SearchState, { items }): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        loading: false,
+        items: filterItemAdapter.setAll(
+          sortFilterItems(items),
+          state.filters.items
+        ),
+      },
+    })
+  ),
+  on(
+    loadInitialFiltersFailure,
+    (state: SearchState, { errorMessage }): SearchState => ({
+      ...state,
+      filters: { ...state.filters, errorMessage, loading: false },
+    })
+  ),
 
   // search
-  on(search, (state: SearchState) => ({
-    ...state,
-    referenceTypes: {
-      ...initialState.referenceTypes,
-      loading: true,
-    },
-  })),
-  on(searchSuccess, (state: SearchState, { searchResult }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      items:
-        +searchResult.resultCount === 0
-          ? state.filters.items
-          : filterItemAdapter.upsertMany(
-              sortFilterItems(searchResult.filters),
-              state.filters.items
-            ),
-    },
-    referenceTypes: {
-      ...state.referenceTypes,
-      items: searchResult.result,
-      loading: false,
-      tooManyResults: searchResult.resultCount > 500,
-      resultCount: searchResult.resultCount,
-    },
-  })),
-  on(searchFailure, (state: SearchState, { errorMessage }) => ({
-    ...state,
-    referenceTypes: {
-      ...state.referenceTypes,
-      errorMessage,
-      loading: false,
-    },
-  })),
+  on(
+    search,
+    (state: SearchState): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...initialState.referenceTypes,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    searchSuccess,
+    (state: SearchState, { searchResult }): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        items:
+          +searchResult.resultCount === 0
+            ? state.filters.items
+            : filterItemAdapter.upsertMany(
+                sortFilterItems(searchResult.filters),
+                state.filters.items
+              ),
+      },
+      referenceTypes: {
+        ...state.referenceTypes,
+        items: searchResult.result,
+        loading: false,
+        tooManyResults: searchResult.resultCount > 500,
+        resultCount: searchResult.resultCount,
+      },
+    })
+  ),
+  on(
+    searchFailure,
+    (state: SearchState, { errorMessage }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
 
   // apply textSearch
-  on(applyTextSearch, (state: SearchState) => ({
-    ...state,
-    referenceTypes: {
-      ...state.referenceTypes,
-      loading: true,
-      errorMessage: initialState.referenceTypes.errorMessage,
-    },
-  })),
-  on(applyTextSearchSuccess, (state: SearchState, { searchResult }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      items: filterItemAdapter.setAll(
-        sortFilterItems(searchResult.filters),
-        state.filters.items
-      ),
-    },
-    referenceTypes: {
-      ...state.referenceTypes,
-      items: searchResult.result,
-      loading: false,
-      tooManyResults: !searchResult.result,
-    },
-  })),
-  on(applyTextSearchFailure, (state: SearchState, { errorMessage }) => ({
-    ...state,
-    referenceTypes: {
-      ...state.referenceTypes,
-      errorMessage,
-      loading: false,
-    },
-  })),
+  on(
+    applyTextSearch,
+    (state: SearchState): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        loading: true,
+        errorMessage: initialState.referenceTypes.errorMessage,
+      },
+    })
+  ),
+  on(
+    applyTextSearchSuccess,
+    (state: SearchState, { searchResult }): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        items: filterItemAdapter.setAll(
+          sortFilterItems(searchResult.filters),
+          state.filters.items
+        ),
+      },
+      referenceTypes: {
+        ...state.referenceTypes,
+        items: searchResult.result,
+        loading: false,
+        tooManyResults: !searchResult.result,
+      },
+    })
+  ),
+  on(
+    applyTextSearchFailure,
+    (state: SearchState, { errorMessage }): SearchState => ({
+      ...state,
+      referenceTypes: {
+        ...state.referenceTypes,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
 
   // entity changes
-  on(updateFilter, (state: SearchState, { item }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      dirty: true,
-      items: filterItemAdapter.upsertOne(
-        sortFilterItem(item),
-        state.filters.items
-      ),
-    },
-  })),
-  on(resetFilters, (state: SearchState) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      dirty: false,
-      items: filterItemAdapter.map(resetFilterItems, state.filters.items),
-    },
-    referenceTypes: {
-      ...state.referenceTypes,
-      items: initialState.referenceTypes.items,
-      loading: false,
-    },
-  })),
+  on(
+    updateFilter,
+    (state: SearchState, { item }): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        dirty: true,
+        items: filterItemAdapter.upsertOne(
+          sortFilterItem(item),
+          state.filters.items
+        ),
+      },
+    })
+  ),
+  on(
+    resetFilters,
+    (state: SearchState): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        dirty: false,
+        items: filterItemAdapter.map(resetFilterItems, state.filters.items),
+      },
+      referenceTypes: {
+        ...state.referenceTypes,
+        items: initialState.referenceTypes.items,
+        loading: false,
+      },
+    })
+  ),
 
   // additional functionality
-  on(shareSearchResult, (state: SearchState) => state),
-  on(autocomplete, (state: SearchState) => ({
-    ...state,
-    filters: { ...state.filters, autocompleteLoading: true },
-  })),
-  on(autocompleteSuccess, (state: SearchState, { item }) => ({
-    ...state,
-    filters: {
-      ...state.filters,
-      autocompleteLoading: false,
-      items: filterItemAdapter.upsertOne(
-        sortFilterItem(item),
-        state.filters.items
-      ),
-    },
-  })),
-  on(autocompleteFailure, (state: SearchState) => ({
-    ...state,
-    filters: { ...state.filters, autocompleteLoading: false },
-  })),
-  on(selectReferenceTypes, (state, { nodeIds }) => ({
-    ...state,
-    referenceTypes: { ...state.referenceTypes, selectedNodeIds: nodeIds },
-  }))
+  on(shareSearchResult, (state: SearchState): SearchState => state),
+  on(
+    autocomplete,
+    (state: SearchState): SearchState => ({
+      ...state,
+      filters: { ...state.filters, autocompleteLoading: true },
+    })
+  ),
+  on(
+    autocompleteSuccess,
+    (state: SearchState, { item }): SearchState => ({
+      ...state,
+      filters: {
+        ...state.filters,
+        autocompleteLoading: false,
+        items: filterItemAdapter.upsertOne(
+          sortFilterItem(item),
+          state.filters.items
+        ),
+      },
+    })
+  ),
+  on(
+    autocompleteFailure,
+    (state: SearchState): SearchState => ({
+      ...state,
+      filters: { ...state.filters, autocompleteLoading: false },
+    })
+  ),
+  on(
+    selectReferenceTypes,
+    (state, { nodeIds }): SearchState => ({
+      ...state,
+      referenceTypes: { ...state.referenceTypes, selectedNodeIds: nodeIds },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

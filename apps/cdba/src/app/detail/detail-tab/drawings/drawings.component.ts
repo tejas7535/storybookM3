@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getDrawings,
@@ -12,7 +12,6 @@ import {
   getNodeIdOfSelectedDrawing,
   selectDrawing,
 } from '@cdba/core/store';
-import { DetailState } from '@cdba/core/store/reducers/detail/detail.reducer';
 import { Drawing } from '@cdba/shared/models';
 
 @Component({
@@ -27,14 +26,14 @@ export class DrawingsComponent implements OnInit {
   loading$: Observable<boolean>;
   errorMessage$: Observable<string>;
 
-  public constructor(private readonly store: Store<DetailState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.materialDesignation$ = this.store.pipe(select(getMaterialDesignation));
-    this.drawings$ = this.store.pipe(select(getDrawings));
-    this.selectedNodeId$ = this.store.pipe(select(getNodeIdOfSelectedDrawing));
-    this.loading$ = this.store.pipe(select(getDrawingsLoading));
-    this.errorMessage$ = this.store.pipe(select(getDrawingsErrorMessage));
+    this.materialDesignation$ = this.store.select(getMaterialDesignation);
+    this.drawings$ = this.store.select(getDrawings);
+    this.selectedNodeId$ = this.store.select(getNodeIdOfSelectedDrawing);
+    this.loading$ = this.store.select(getDrawingsLoading);
+    this.errorMessage$ = this.store.select(getDrawingsErrorMessage);
   }
 
   public selectDrawing(event: { nodeId: string; drawing: Drawing }): void {
