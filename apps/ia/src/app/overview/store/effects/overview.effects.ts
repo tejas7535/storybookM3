@@ -24,11 +24,15 @@ import {
   EmployeesRequest,
   TimePeriod,
 } from '../../../shared/models';
+import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesOverview,
+  loadFluctuationRatesOverviewFailure,
+  loadFluctuationRatesOverviewSuccess,
 } from '../actions/overview.action';
 
 @Injectable()
@@ -41,6 +45,7 @@ export class OverviewEffects implements OnInitEffects {
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
         loadAttritionOverTimeOverview({ request }),
+        loadFluctuationRatesOverview({ request }),
       ])
     )
   );
@@ -64,6 +69,27 @@ export class OverviewEffects implements OnInitEffects {
               )
             )
           )
+      )
+    )
+  );
+
+  loadOverviewFluctuationRates$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadFluctuationRatesOverview),
+      map((action) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getOverviewFluctuationRates(request).pipe(
+          map((data: OverviewFluctuationRates) =>
+            loadFluctuationRatesOverviewSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadFluctuationRatesOverviewFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
       )
     )
   );

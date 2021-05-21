@@ -6,7 +6,6 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
-import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../organizational-view/world-map/models/country-data.model';
 import {
   AttritionOverTime,
@@ -18,12 +17,15 @@ import {
   TimePeriod,
   WorldMapResponse,
 } from '../models';
+import { Employee } from '../models/employee.model';
+import { OverviewFluctuationRates } from '../models/overview-fluctuation-rates';
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeeService {
   private readonly INITIAL_FILTERS = 'initial-filters';
+  private readonly OVERVIEW_FLUCTUATION_RATES = 'overview-fluctuation-rates';
   private readonly ORG_CHART = 'org-chart';
   private readonly WORLD_MAP = 'world-map';
   private readonly EMPLOYEE = 'parent-employee';
@@ -33,7 +35,7 @@ export class EmployeeService {
   private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
   public static employeeLeftInTimeRange(
-    employee: OrgChartEmployee,
+    employee: Employee,
     timeRange: string
   ): boolean {
     const date = new Date(employee.exitDate);
@@ -45,9 +47,7 @@ export class EmployeeService {
     );
   }
 
-  public static fixIncomingEmployeeProps(
-    employee: OrgChartEmployee
-  ): OrgChartEmployee {
+  public static fixIncomingEmployeeProps(employee: Employee): Employee {
     employee.exitDate = employee.exitDate
       ? new Date(employee.exitDate).toJSON()
       : undefined;
@@ -69,9 +69,18 @@ export class EmployeeService {
     );
   }
 
+  public getOverviewFluctuationRates(
+    employeesRequest: EmployeesRequest
+  ): Observable<OverviewFluctuationRates> {
+    return this.dataService.post<OverviewFluctuationRates>(
+      this.OVERVIEW_FLUCTUATION_RATES,
+      employeesRequest
+    );
+  }
+
   public getOrgChart(
     employeesRequest: EmployeesRequest
-  ): Observable<OrgChartEmployee[]> {
+  ): Observable<Employee[]> {
     return this.dataService
       .post<OrgChartResponse>(this.ORG_CHART, employeesRequest)
       .pipe(
@@ -89,9 +98,7 @@ export class EmployeeService {
       .pipe(map((response) => response.data));
   }
 
-  public getParentEmployee(
-    childEmployeeId: string
-  ): Observable<OrgChartEmployee> {
+  public getParentEmployee(childEmployeeId: string): Observable<Employee> {
     const params = new HttpParams().set(
       this.PARAM_CHILD_EMPLOYEE_ID,
       childEmployeeId

@@ -1,6 +1,6 @@
-import { EmployeeAttritionMeta } from '../../../shared/models';
+import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
 
-export class OrgChartEmployee {
+export class Employee {
   public constructor(
     public employeeId: string,
     public employeeName: string,
@@ -34,6 +34,6 @@ export class OrgChartEmployee {
     public directAttrition: number,
     public totalAttrition: number,
     public attritionMeta: EmployeeAttritionMeta,
-    public directLeafChildren: OrgChartEmployee[]
+    public directLeafChildren: Employee[]
   ) {}
 }

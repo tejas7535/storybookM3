@@ -2,16 +2,16 @@ import { Injectable } from '@angular/core';
 
 import { translate } from '@ngneat/transloco';
 
+import { Employee } from '../../shared/models/employee.model';
 import { HeatType } from '../models/heat-type.enum';
-import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OrgChartService {
-  public mapEmployeesToNodes(data: OrgChartEmployee[]): OrgChartNode[] {
-    return data.map((elem: OrgChartEmployee) => {
+  public mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
+    return data.map((elem: Employee) => {
       const nodeId = elem.employeeId;
       const parentNodeId = elem.parentEmployeeId;
       const name = elem.employeeName;
@@ -99,7 +99,7 @@ export class OrgChartService {
               <tbody>
                 <tr>
                   <td class="row-title">
-                    <span class="icon icon-user green"></span> 
+                    <span class="icon icon-user green"></span>
                     <span>${rowEmployees}</span>
                   </td>
                   <td>${directSubordinates}</td>

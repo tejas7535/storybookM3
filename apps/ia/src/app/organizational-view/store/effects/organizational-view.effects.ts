@@ -26,8 +26,8 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { Employee } from '../../../shared/models/employee.model';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   loadAttritionOverTimeOrgChart,
@@ -66,9 +66,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
         this.employeeService.getOrgChart(request).pipe(
-          map((employees: OrgChartEmployee[]) =>
-            loadOrgChartSuccess({ employees })
-          ),
+          map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
           )
@@ -98,7 +96,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((action) => action.employee.employeeId),
       mergeMap((childEmployeeId: string) =>
         this.employeeService.getParentEmployee(childEmployeeId).pipe(
-          map((employee: OrgChartEmployee) => loadParentSuccess({ employee })),
+          map((employee: Employee) => loadParentSuccess({ employee })),
           catchError((error) =>
             of(loadParentFailure({ errorMessage: error.message }))
           )

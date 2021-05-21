@@ -7,7 +7,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
-import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
 import {
   AttritionOverTime,
   EmployeesRequest,
@@ -17,6 +16,7 @@ import {
   TimePeriod,
   WorldMapResponse,
 } from '../models';
+import { Employee } from '../models/employee.model';
 import { EmployeeService } from './employee.service';
 
 describe('EmployeesService', () => {
@@ -63,7 +63,7 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: '2010-10-10',
         terminationDate: '2015-08-10',
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
 
@@ -77,7 +77,7 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: new Date('2010-10-10').toJSON(),
         terminationDate: new Date('2015-08-10').toJSON(),
-      } as unknown as OrgChartEmployee);
+      } as unknown as Employee);
     });
 
     test('should ignore undefined values', () => {
@@ -91,7 +91,7 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: undefined,
         terminationDate: undefined,
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
 
@@ -105,7 +105,7 @@ describe('EmployeesService', () => {
         totalAttrition: 0,
         entryDate: undefined,
         terminationDate: undefined,
-      } as unknown as OrgChartEmployee);
+      } as unknown as Employee);
     });
   });
 
@@ -116,7 +116,7 @@ describe('EmployeesService', () => {
 
       const employee = {
         exitDate: date.toJSON(),
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
 
       const result = EmployeeService.employeeLeftInTimeRange(employee, range);
 
@@ -127,7 +127,7 @@ describe('EmployeesService', () => {
       const date = new Date();
       const range = `0|${date.getTime() + 1}`;
 
-      const employee = { exitDate: undefined } as unknown as OrgChartEmployee;
+      const employee = { exitDate: undefined } as unknown as Employee;
 
       const result = EmployeeService.employeeLeftInTimeRange(employee, range);
 
@@ -172,7 +172,7 @@ describe('EmployeesService', () => {
   describe('getParentEmployee', () => {
     test('should get parent for provided employee id', () => {
       const mock: ParentEmployeeResponse = {
-        employee: {} as unknown as OrgChartEmployee,
+        employee: {} as unknown as Employee,
       };
       const request = '123';
 

@@ -17,8 +17,8 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { Employee } from '../../../shared/models/employee.model';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   loadAttritionOverTimeOrgChart,
@@ -142,8 +142,8 @@ describe('Organizational View Effects', () => {
 
     test('should return loadOrgChartSuccess action when REST call is successful', () => {
       const employees = [
-        { employeeId: '123' } as unknown as OrgChartEmployee,
-        { employeeId: '456' } as unknown as OrgChartEmployee,
+        { employeeId: '123' } as unknown as Employee,
+        { employeeId: '456' } as unknown as Employee,
       ];
       const result = loadOrgChartSuccess({
         employees,
@@ -231,14 +231,14 @@ describe('Organizational View Effects', () => {
       childEmployeeId = '123';
       const employee = {
         employeeId: childEmployeeId,
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
 
       action = loadParent({ employee });
     });
     test('should return loadParentSuccess action', () => {
       const resultEmployee = {
         employeeId: '12',
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
       const response = cold('-a|', {
         a: resultEmployee,
       });
@@ -277,7 +277,7 @@ describe('Organizational View Effects', () => {
     test('should return filterSelected action', () => {
       const employee = {
         orgUnit: 'Schaeffler_IT',
-      } as unknown as OrgChartEmployee;
+      } as unknown as Employee;
 
       action = loadParentSuccess({ employee });
 

@@ -13,9 +13,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import d3OrgChart from 'd3-org-chart';
 
+import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
-import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartService } from './org-chart.service';
 import { TeamMemberDialogComponent } from './team-member-dialog/team-member-dialog.component';
 
@@ -26,9 +26,9 @@ import { TeamMemberDialogComponent } from './team-member-dialog/team-member-dial
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OrgChartComponent implements AfterViewInit {
-  private _data: OrgChartEmployee[] = [];
+  private _data: Employee[] = [];
 
-  @Input() set data(data: OrgChartEmployee[]) {
+  @Input() set data(data: Employee[]) {
     this._data = data;
     this.chartData = this.orgChartService.mapEmployeesToNodes(data);
     this.updateChart();
@@ -38,12 +38,12 @@ export class OrgChartComponent implements AfterViewInit {
 
   @Input() selectedTimeRange = '';
 
-  get data(): OrgChartEmployee[] {
+  get data(): Employee[] {
     return this._data;
   }
 
   @Output()
-  readonly showParent: EventEmitter<OrgChartEmployee> = new EventEmitter();
+  readonly showParent: EventEmitter<Employee> = new EventEmitter();
 
   @ViewChild('chartContainer') chartContainer: ElementRef;
 
