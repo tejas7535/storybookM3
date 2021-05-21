@@ -16,11 +16,14 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
+import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesOverview,
+  loadFluctuationRatesOverviewSuccess,
 } from '../actions/overview.action';
 import { OverviewEffects } from './overview.effects';
 
@@ -59,32 +62,38 @@ describe('Overview Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
+    test(`filterSelected - should trigger loadAtrritionOverTime + loadOverviewFluctuationRates
+          + loadOrgChart + loadWorldMap if orgUnit is set`, () => {
       const filter = new SelectedFilter('orgUnit', 'best');
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);
       const resultAttrition = loadAttritionOverTimeOverview({ request });
+      const resultFluctuationsRates = loadFluctuationRatesOverview({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', {
+      const expected = cold('-(bc)', {
         b: resultAttrition,
+        c: resultFluctuationsRates,
       });
 
       expect(effects.filterChange$).toBeObservable(expected);
     });
 
-    test('timeRangeSelected - should trigger loadAtrritionOverTime if orgUnit is set', () => {
+    test(`timeRangeSelected - should trigger loadAtrritionOverTime
+          and loadOverviewFluctuationRates if orgUnit is set`, () => {
       const timeRange = '123|456';
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = timeRangeSelected({ timeRange });
       store.overrideSelector(getCurrentFiltersAndTime, request);
 
       const resultAttrition = loadAttritionOverTimeOverview({ request });
+      const resultFluctuationsRates = loadFluctuationRatesOverview({ request });
 
       actions$ = hot('-a', { a: action });
-      const expected = cold('-(b)', {
+      const expected = cold('-(bc)', {
         b: resultAttrition,
+        c: resultFluctuationsRates,
       });
       expect(effects.filterChange$).toBeObservable(expected);
     });
@@ -157,6 +166,41 @@ describe('Overview Effects', () => {
       expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
         request,
         TimePeriod.LAST_THREE_YEARS
+      );
+    });
+  });
+
+  describe('loadOverviewFluctuationRates$', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadFluctuationRatesOverview({ request });
+    });
+
+    test('should return loadOverviewFluctuationRatesSuccess action when REST call is successful', () => {
+      const data: OverviewFluctuationRates = {
+        employees: [],
+        fluctuationRate: { company: 0, orgUnit: 0 },
+        unforcedFluctuationRate: { company: 0, orgUnit: 0 },
+        entries: 0,
+        exits: 0,
+      };
+      const result = loadFluctuationRatesOverviewSuccess({
+        data,
+      });
+
+      actions$ = hot('-a', { a: action });
+      const response = cold('-a|', {
+        a: data,
+      });
+      const expected = cold('--b', { b: result });
+
+      employeesService.getOverviewFluctuationRates = jest.fn(() => response);
+
+      expect(effects.loadOverviewFluctuationRates$).toBeObservable(expected);
+      expect(employeesService.getOverviewFluctuationRates).toHaveBeenCalledWith(
+        request
       );
     });
   });

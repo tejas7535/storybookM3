@@ -1,9 +1,9 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { Employee } from '../shared/models/employee.model';
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
-import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import { OrgChartModule } from './org-chart/org-chart.module';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
@@ -58,7 +58,7 @@ describe('OrganizationalViewComponent', () => {
   describe('loadParent', () => {
     test('should dispatch loadParent', () => {
       component['store'].dispatch = jest.fn();
-      const employee = { employeeId: '123' } as unknown as OrgChartEmployee;
+      const employee = { employeeId: '123' } as unknown as Employee;
 
       component.loadParent(employee);
 

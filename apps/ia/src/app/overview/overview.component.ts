@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { Event, TerminatedEmployee } from '../shared/models';
+import { OverviewFluctuationRates } from '../shared/models/overview-fluctuation-rates';
 import { OverviewState } from './store';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getIsLoadingAttritionOverTimeOverview,
+  getOverviewFluctuationRatesData,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -25,16 +27,18 @@ export class OverviewComponent implements OnInit {
       attrition: number[];
     };
   }>;
+  public fluctuationRatesData$: Observable<OverviewFluctuationRates>;
 
   constructor(private readonly store: Store<OverviewState>) {}
 
   public ngOnInit(): void {
-    this.attritionQuotaloading$ = this.store.pipe(
-      select(getIsLoadingAttritionOverTimeOverview)
+    this.attritionQuotaloading$ = this.store.select(
+      getIsLoadingAttritionOverTimeOverview
     );
-    this.events$ = this.store.pipe(select(getAttritionOverTimeEvents));
-    this.attritionData$ = this.store.pipe(
-      select(getAttritionOverTimeOverviewData)
+    this.events$ = this.store.select(getAttritionOverTimeEvents);
+    this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
+    this.fluctuationRatesData$ = this.store.select(
+      getOverviewFluctuationRatesData
     );
   }
 }

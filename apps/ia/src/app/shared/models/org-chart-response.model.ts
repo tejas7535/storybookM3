@@ -1,5 +1,5 @@
-import { OrgChartEmployee } from '../../organizational-view/org-chart/models/org-chart-employee.model';
+import { Employee } from './employee.model';
 
 export interface OrgChartResponse {
-  employees: OrgChartEmployee[];
+  employees: Employee[];
 }

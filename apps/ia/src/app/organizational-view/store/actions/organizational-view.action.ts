@@ -1,8 +1,8 @@
 import { createAction, props, union } from '@ngrx/store';
 
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import { Employee } from '../../../shared/models/employee.model';
 import { ChartType } from '../../models/chart-type.enum';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 
 export const chartTypeSelected = createAction(
@@ -17,7 +17,7 @@ export const loadOrgChart = createAction(
 
 export const loadOrgChartSuccess = createAction(
   '[Organizational View] Load Org Chart Success',
-  props<{ employees: OrgChartEmployee[] }>()
+  props<{ employees: Employee[] }>()
 );
 
 export const loadOrgChartFailure = createAction(
@@ -42,12 +42,12 @@ export const loadWorldMapFailure = createAction(
 
 export const loadParent = createAction(
   '[Organizational View] Load Parent',
-  props<{ employee: OrgChartEmployee }>()
+  props<{ employee: Employee }>()
 );
 
 export const loadParentSuccess = createAction(
   '[Organizational View] Load Parent Success',
-  props<{ employee: OrgChartEmployee }>()
+  props<{ employee: Employee }>()
 );
 
 export const loadParentFailure = createAction(

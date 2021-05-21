@@ -7,9 +7,9 @@ import { Store } from '@ngrx/store';
 import { getBeautifiedSelectedTimeRange } from '../core/store/selectors';
 import { ChartLegendItem } from '../shared/chart-legend/models/chart-legend-item.model';
 import { IdValue } from '../shared/models';
+import { Employee } from '../shared/models/employee.model';
 import { TailwindColor } from '../shared/models/taliwind-color.enum';
 import { ChartType } from './models/chart-type.enum';
-import { OrgChartEmployee } from './org-chart/models/org-chart-employee.model';
 import {
   chartTypeSelected,
   loadParent,
@@ -29,7 +29,7 @@ import { CountryData } from './world-map/models/country-data.model';
   templateUrl: './organizational-view.component.html',
 })
 export class OrganizationalViewComponent implements OnInit {
-  orgChart$: Observable<OrgChartEmployee[]>;
+  orgChart$: Observable<Employee[]>;
   isLoadingOrgChart$: Observable<boolean>;
   isLoadingWorldMap$: Observable<boolean>;
   selectedChartType$: Observable<ChartType>;
@@ -73,7 +73,7 @@ export class OrganizationalViewComponent implements OnInit {
     this.store.dispatch(chartTypeSelected({ chartType }));
   }
 
-  public loadParent(employee: OrgChartEmployee): void {
+  public loadParent(employee: Employee): void {
     this.store.dispatch(loadParent({ employee }));
   }
 }

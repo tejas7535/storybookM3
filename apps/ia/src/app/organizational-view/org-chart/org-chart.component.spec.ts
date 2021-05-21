@@ -9,9 +9,9 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
 import { EmployeeAttritionMeta } from '../../shared/models';
+import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
-import { OrgChartEmployee } from './models/org-chart-employee.model';
 import { OrgChartComponent } from './org-chart.component';
 import { TeamMemberDialogModule } from './team-member-dialog/team-member-dialog.module';
 
@@ -46,7 +46,7 @@ describe('OrgChartComponent', () => {
     test('should set chart data and update chart', () => {
       component.updateChart = jest.fn();
       component['orgChartService'].mapEmployeesToNodes = jest.fn();
-      const employees = [{ employeeId: '123' } as unknown as OrgChartEmployee];
+      const employees = [{ employeeId: '123' } as unknown as Employee];
 
       component.data = employees;
 
@@ -66,7 +66,7 @@ describe('OrgChartComponent', () => {
         {
           employeeId: '123',
           attritionMeta: mock,
-        } as unknown as OrgChartEmployee,
+        } as unknown as Employee,
       ];
 
       component.clickout({

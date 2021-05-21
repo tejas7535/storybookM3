@@ -1,6 +1,6 @@
 import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import { Employee } from '../../../shared/models/employee.model';
 import { ChartType } from '../../models/chart-type.enum';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -41,7 +41,7 @@ describe('Organizational View Actions', () => {
   });
 
   test('loadOrgChartSuccess', () => {
-    const employees: OrgChartEmployee[] = [];
+    const employees: Employee[] = [];
 
     const action = loadOrgChartSuccess({ employees });
 
@@ -94,7 +94,7 @@ describe('Organizational View Actions', () => {
     const employee = {
       orgUnit: 'Schaeffler_IT',
       employeeId: '123',
-    } as unknown as OrgChartEmployee;
+    } as unknown as Employee;
 
     const action = loadParent({ employee });
 
@@ -108,7 +108,7 @@ describe('Organizational View Actions', () => {
     const employee = {
       orgUnit: 'Schaeffler_IT',
       employeeId: '123',
-    } as unknown as OrgChartEmployee;
+    } as unknown as Employee;
 
     const action = loadParentSuccess({ employee });
 

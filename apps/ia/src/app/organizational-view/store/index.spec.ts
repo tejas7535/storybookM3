@@ -2,8 +2,8 @@ import { Action } from '@ngrx/store';
 
 import { initialState, organizationalViewReducer, reducer } from '.';
 import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
+import { Employee } from '../../shared/models/employee.model';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -47,7 +47,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadOrgChartSuccess', () => {
     test('should unset loading and set employees', () => {
-      const employees: OrgChartEmployee[] = [{} as unknown as OrgChartEmployee];
+      const employees: Employee[] = [{} as unknown as Employee];
 
       const action = loadOrgChartSuccess({ employees });
 
@@ -156,7 +156,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadParent', () => {
     test('should set loading', () => {
-      const employee = {} as unknown as OrgChartEmployee;
+      const employee = {} as unknown as Employee;
       const action = loadParent({ employee });
       const state = organizationalViewReducer(initialState, action);
 
@@ -166,7 +166,7 @@ describe('Organization View Reducer', () => {
 
   describe('loadParentSuccess', () => {
     test('should do nothing', () => {
-      const employee = {} as unknown as OrgChartEmployee;
+      const employee = {} as unknown as Employee;
       const action = loadParentSuccess({ employee });
 
       const state = organizationalViewReducer(initialState, action);

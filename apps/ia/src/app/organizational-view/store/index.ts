@@ -1,8 +1,8 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
 import { AttritionOverTime, IdValue } from '../../shared/models';
+import { Employee } from '../../shared/models/employee.model';
 import { ChartType } from '../models/chart-type.enum';
-import { OrgChartEmployee } from '../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../world-map/models/country-data.model';
 import {
   chartTypeSelected,
@@ -24,7 +24,7 @@ export const organizationalViewFeatureKey = 'organizationalView';
 
 export interface OrganizationalViewState {
   orgChart: {
-    data: OrgChartEmployee[];
+    data: Employee[];
     loading: boolean;
     errorMessage: string;
   };

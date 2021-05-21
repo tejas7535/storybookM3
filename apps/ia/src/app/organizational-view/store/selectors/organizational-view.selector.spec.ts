@@ -1,8 +1,8 @@
 import { initialState, OrganizationalViewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { AttritionOverTime } from '../../../shared/models';
+import { Employee } from '../../../shared/models/employee.model';
 import { ChartType } from '../../models/chart-type.enum';
-import { OrgChartEmployee } from '../../org-chart/models/org-chart-employee.model';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   getAttritionOverTimeOrgChartData,
@@ -24,8 +24,8 @@ describe('Organizational View Selector', () => {
       ...initialState,
       orgChart: {
         data: [
-          { employeeId: '123' } as unknown as OrgChartEmployee,
-          { employeeId: '456' } as unknown as OrgChartEmployee,
+          { employeeId: '123' } as unknown as Employee,
+          { employeeId: '456' } as unknown as Employee,
         ],
         loading: true,
         errorMessage: undefined,
