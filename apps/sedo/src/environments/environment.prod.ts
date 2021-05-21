@@ -5,4 +5,14 @@ export const environment = {
   clientId: 'c2fbf9c3-e2f9-48a3-8483-57d946908949',
   appScope: 'api://c2fbf9c3-e2f9-48a3-8483-57d946908949/seliapi',
   apiBaseUrl: '/api/v1',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: '5f7b3faf-e565-4872-ba33-5e43b14f2f40',
+      disableCookiesUsage: true,
+      autoTrackPageVisitTime: true,
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*'],
+  },
 };
