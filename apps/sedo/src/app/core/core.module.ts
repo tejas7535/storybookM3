@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import {
   AzureConfig,
   MsalGuardConfig,
@@ -56,6 +57,9 @@ const azureConfig = new AzureConfig(
       'en',
       true
     ),
+
+    // Monitoring
+    ApplicationInsightsModule.forRoot(environment.applicationInsights),
 
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
