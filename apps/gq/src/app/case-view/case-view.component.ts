@@ -1,9 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getQuotations,
@@ -11,7 +10,6 @@ import {
   isQuotationsLoading,
 } from '../core/store';
 import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducer';
-import { CreateCaseDialogComponent } from './create-case-dialog/create-case-dialog.component';
 import { ViewQuotation } from './models/view-quotation.model';
 
 @Component({
@@ -19,29 +17,16 @@ import { ViewQuotation } from './models/view-quotation.model';
   templateUrl: './case-view.component.html',
   styleUrls: ['./case-view.component.scss'],
 })
-export class CaseViewComponent implements OnDestroy, OnInit {
+export class CaseViewComponent implements OnInit {
   public quotations$: Observable<ViewQuotation[]>;
   public quotationsLoading$: Observable<boolean>;
   public deleteLoading$: Observable<boolean>;
 
-  constructor(
-    public dialog: MatDialog,
-    private readonly store: Store<ViewCasesState>
-  ) {}
+  constructor(private readonly store: Store<ViewCasesState>) {}
 
   ngOnInit(): void {
-    this.quotations$ = this.store.pipe(select(getQuotations));
-    this.quotationsLoading$ = this.store.pipe(select(isQuotationsLoading));
-    this.deleteLoading$ = this.store.pipe(select(isDeleteLoading));
-  }
-
-  ngOnDestroy(): void {
-    this.dialog.closeAll();
-  }
-  openCreateCaseDialog(): void {
-    this.dialog.open(CreateCaseDialogComponent, {
-      width: '70%',
-      height: '95%',
-    });
+    this.quotations$ = this.store.select(getQuotations);
+    this.quotationsLoading$ = this.store.select(isQuotationsLoading);
+    this.deleteLoading$ = this.store.select(isDeleteLoading);
   }
 }

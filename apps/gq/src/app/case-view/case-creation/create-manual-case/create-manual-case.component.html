@@ -1,0 +1,50 @@
+<div
+  class="flex flex-col h-full"
+  *transloco="let t; read: 'caseView.caseCreation.createManualCase'"
+>
+  <span class="font-body text-h5 text-dark">
+    {{ t('title') }}
+
+    <mat-icon class="cursor-pointer float-right" (click)="closeDialog()">
+      close
+    </mat-icon>
+  </span>
+  <div
+    class="mt-8 flex flex-col h-full"
+    *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
+  >
+    <div class="flex">
+      <div class="w-full" *ngIf="customer$ | ngrxPush as customer">
+        <gq-autocomplete-input
+          [filterName]="customer.filter"
+          [options]="customer.options"
+          [isDisabled]="customerDisabled"
+          (unselected)="unselectOptions(customer.filter)"
+          (added)="selectOption($event, customer.filter)"
+          [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
+          (autocomplete)="autocomplete($event)"
+        ></gq-autocomplete-input>
+      </div>
+      <div class="ml-3 mt-3">
+        <gq-select-sales-org></gq-select-sales-org>
+      </div>
+    </div>
+    <div>
+      <gq-add-entry
+        [isDisabled]="customerDisabled"
+        (inputContent)="customerHasInput($event)"
+        isCaseView="true"
+      >
+      </gq-add-entry>
+    </div>
+    <div class="h-full" *ngIf="rowData$ | ngrxPush as rowData">
+      <gq-material-input-table
+        [rowData]="rowData"
+        isCaseView="true"
+      ></gq-material-input-table>
+    </div>
+  </div>
+  <ng-template #loading>
+    <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  </ng-template>
+</div>

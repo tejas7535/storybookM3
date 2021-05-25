@@ -1,0 +1,44 @@
+<div
+  *transloco="let t; read: 'caseView.caseCreation.importCase'"
+  class="flex flex-col h-full"
+>
+  <span class="font-body text-h5 text-dark">
+    {{ t('title') }}
+
+    <mat-icon class="cursor-pointer float-right" (click)="closeDialog()">
+      close
+    </mat-icon>
+  </span>
+  <div
+    class="mt-8 flex flex-col h-full"
+    *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
+  >
+    <div class="h-full" *ngIf="quotation$ | ngrxPush as quotation">
+      <gq-autocomplete-input
+        fxFill
+        [filterName]="quotation.filter"
+        [options]="quotation.options"
+        [isDisabled]="quotationDisabled"
+        (unselected)="unselectOptions(quotation.filter)"
+        (added)="selectOption($event, quotation.filter)"
+        (isValid)="quotationValid($event)"
+        [autocompleteLoading]="quotationAutocompleteLoading$ | ngrxPush"
+        (autocomplete)="autocomplete($event)"
+      ></gq-autocomplete-input>
+    </div>
+    <div>
+      <button
+        class="text-button !pl-8 !pr-8"
+        color="primary"
+        mat-raised-button
+        [disabled]="!quotationIsValid"
+        (click)="importQuotation()"
+      >
+        {{ t('importButton') | uppercase }}
+      </button>
+    </div>
+  </div>
+  <ng-template #loading>
+    <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  </ng-template>
+</div>

@@ -6,18 +6,6 @@
     <div class="w-full">
       <h1>{{ t('title') }}</h1>
     </div>
-    <div class="self-center">
-      <button
-        mat-stroked-button
-        color="primary"
-        (click)="openCreateCaseDialog()"
-      >
-        <div class="font-bold pl-4 pr-4 flex items-center">
-          <mat-icon class="mr-4">add</mat-icon>
-          {{ t('buttonCreateCase') | uppercase }}
-        </div>
-      </button>
-    </div>
   </div>
   <gq-case-table
     class="h-full"

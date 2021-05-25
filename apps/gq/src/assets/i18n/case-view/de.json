@@ -9,20 +9,14 @@
     "gqId": "GQ Case",
     "sapId": "SAP Angebotsnummer"
   },
-  "createCaseDialog": {
-    "title": "Neuen Case erstellen",
-    "customer": {
-      "addEntry": {
-        "button": "Position hinzufügen",
-        "title": "Neue Position hinzufügen"
-      },
-      "salesOrg": "VkOrg",
-      "button": "Case erstellen",
-      "title": "Neuen Case erstellen"
+  "caseCreation": {
+    "importCase": {
+      "title": "SAP Angebot importieren",
+      "importButton": "Importieren"
     },
-    "sap-quotation": {
-      "button": "Importieren",
-      "title": "SAP Angebot importieren"
+    "createManualCase": {
+      "title": "Neuen Case erstellen",
+      "createButton": "Case erstellen"
     }
   },
   "deleteAccept": {

@@ -9,20 +9,14 @@
     "gqId": "GQ Case",
     "sapId": "SAP Quotation"
   },
-  "createCaseDialog": {
-    "title": "Create New Case",
-    "customer": {
-      "addEntry": {
-        "button": "Add position",
-        "title": "Add position"
-      },
-      "salesOrg": "Sales Org",
-      "button": "Create Case",
-      "title": "Create Case manually"
+  "caseCreation": {
+    "importCase": {
+      "title": "Import new Case",
+      "importButton": "Import"
     },
-    "sap-quotation": {
-      "button": "Import",
-      "title": "SAP Quotation Import"
+    "createManualCase": {
+      "title": "Create New Case",
+      "createButton": "Create Case"
     }
   },
   "deleteAccept": {

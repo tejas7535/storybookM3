@@ -17,7 +17,6 @@ import { MaterialTableItem } from '../../shared/models/table';
 @Component({
   selector: 'gq-add-material-dialog',
   templateUrl: './add-material-dialog.component.html',
-  styleUrls: ['./add-material-dialog.component.scss'],
 })
 export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   private readonly subscription: Subscription = new Subscription();
@@ -30,10 +29,10 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit(): void {
-    this.rowData$ = this.store.pipe(select(getAddMaterialRowData));
-    this.updateLoading$ = this.store.pipe(select(getUpdateLoading));
+    this.rowData$ = this.store.select(getAddMaterialRowData);
+    this.updateLoading$ = this.store.select(getUpdateLoading);
 
-    const isErrorMessage$ = this.store.pipe(select(getQuotationErrorMessage));
+    const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 
     const loadingStopped$ = this.store.pipe(
       select(getUpdateLoading),

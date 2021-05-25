@@ -30,6 +30,7 @@
       "seeOffer": "see offer"
     },
     "caseMaterial": {
+      "salesOrg": "Sales Org",
       "addEntry": {
         "processCase": {
           "dialogTitle": "Add Material",
@@ -53,7 +54,7 @@
           "wrongInput": "Please enter a valid material number"
         },
         "sap-quotation": {
-          "hint": "Enter a SAP Quotation Number",
+          "hint": "Please enter the SAP Number of the quote you want to add",
           "label": "Quotation Number",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid quotation number"

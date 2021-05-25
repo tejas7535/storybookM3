@@ -3,15 +3,15 @@ import { MatSelectChange } from '@angular/material/select';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getSalesOrgs,
   getSelectedSalesOrg,
   selectSalesOrg,
-} from '../../../core/store';
-import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
-import { SalesOrg } from '../../../core/store/reducers/create-case/models';
+} from '../../core/store';
+import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
+import { SalesOrg } from '../../core/store/reducers/create-case/models';
 
 @Component({
   selector: 'gq-select-sales-org',
@@ -24,8 +24,8 @@ export class SelectSalesOrgComponent implements OnInit {
   constructor(private readonly store: Store<CaseState>) {}
 
   ngOnInit(): void {
-    this.salesOrgs$ = this.store.pipe(select(getSalesOrgs));
-    this.selectedSalesOrg$ = this.store.pipe(select(getSelectedSalesOrg));
+    this.salesOrgs$ = this.store.select(getSalesOrgs);
+    this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
   }
 
   selectionChange(event: MatSelectChange): void {
