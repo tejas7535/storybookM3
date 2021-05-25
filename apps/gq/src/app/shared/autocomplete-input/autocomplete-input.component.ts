@@ -20,7 +20,6 @@ import { FilterNames } from './filter-names.enum';
 @Component({
   selector: 'gq-autocomplete-input',
   templateUrl: './autocomplete-input.component.html',
-  styleUrls: ['./autocomplete-input.component.scss'],
 })
 export class AutocompleteInputComponent implements OnDestroy, OnInit {
   @Input() autocompleteLoading = false;

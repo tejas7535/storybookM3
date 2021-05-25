@@ -1,10 +1,10 @@
 <button
-  *transloco="let t; read: 'caseView.createCaseDialog.customer'"
+  *transloco="let t; read: 'caseView.caseCreation.createManualCase'"
   class="!font-bold w-[200px] !mt-4"
   mat-raised-button
   color="primary"
   [disabled]="!(createCaseEnabled$ | ngrxPush)"
   (click)="createCase()"
 >
-  {{ t('button') | uppercase }}
+  {{ t('createButton') | uppercase }}
 </button>

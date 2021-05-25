@@ -41,6 +41,7 @@
           "hint": "Geben Sie die Menge ein"
         },
         "customer": {
+          "salesOrg": "VkOrg",
           "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
           "label": "Kunde",
           "nothingFound": "Keine Ergebnisse",

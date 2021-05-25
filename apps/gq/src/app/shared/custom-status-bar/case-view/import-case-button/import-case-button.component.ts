@@ -1,10 +1,19 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+
+import { ImportCaseComponent } from '../../../../case-view/case-creation/import-case/import-case.component';
 
 @Component({
   selector: 'gq-import-case',
   templateUrl: './import-case-button.component.html',
 })
 export class ImportCaseButtonComponent {
+  constructor(private readonly dialog: MatDialog) {}
   agInit() {}
-  importCase(): void {}
+  importCase(): void {
+    this.dialog.open(ImportCaseComponent, {
+      width: '60%',
+      height: '324px',
+    });
+  }
 }

@@ -1,6 +1,6 @@
 <div *ngIf="salesOrgs$ | ngrxPush as salesOrgs">
   <mat-form-field *ngrxLet="selectedSalesOrg$ as selectedSalesOrg">
-    <mat-label *transloco="let t; read: 'caseView.createCaseDialog.customer'">{{
+    <mat-label *transloco="let t; read: 'shared.caseMaterial'">{{
       t('salesOrg')
     }}</mat-label>
     <mat-select
