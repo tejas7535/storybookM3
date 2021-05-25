@@ -4,56 +4,58 @@ import { ChartType } from '../../enums';
 import { BurdeningType, Display, Material, Prediction } from '../../models';
 
 export const getFormOptions = createAction(
-  '[Input Component] Get Form Options'
+  '[LTP - Input Component] Get Form Options [ai_ignore]'
 );
 
 export const setPredictionOptions = createAction(
-  '[Predict Lifetime Container Component] Set Prediction Options',
+  '[LTP - Predict Lifetime Container Component] Set Prediction Options [ai_ignore]',
   props<{ predictions: Prediction[] }>()
 );
 
 export const getPredictionsFailure = createAction(
-  '[Predict Lifetime Container Component] Get Predictions Failure'
+  '[LTP - Predict Lifetime Container Component] Get Predictions Failure'
 );
 
 export const setBurdeningTypeOptions = createAction(
-  '[Predict Lifetime Container Component] Set BurdeningType Options',
+  '[LTP - Predict Lifetime Container Component] Set BurdeningType Options [ai_ignore]',
   props<{ burdeningTypes: BurdeningType[] }>()
 );
 
 export const getBurdeningTypesFailure = createAction(
-  '[Predict Lifetime Container Component] Get Burdening Types Failure'
+  '[LTP - Predict Lifetime Container Component] Get Burdening Types Failure'
 );
 
 export const setMaterialOptions = createAction(
-  '[Material Component] Set Material Options',
+  '[LTP - Material Component] Set Material Options [ai_ignore]',
   props<{ materials: Material[] }>()
 );
 
 export const getMaterialsFailure = createAction(
-  '[Predict Lifetime Container Component] Get Materials Failure'
+  '[LTP - Predict Lifetime Container Component] Get Materials Failure'
 );
 
 export const setChartType = createAction(
-  '[Prediction Component] Set Chart Type',
+  '[LTP - Prediction Component] Set Chart Type',
   props<{ chartType: ChartType }>()
 );
 
 export const setMaterial = createAction(
-  '[Material Component] Set Material',
+  '[LTP - Material Component] Set Material',
   props<{ selectedMaterial: string }>()
 );
 export const unsetMaterial = createAction(
-  '[Material Component] Unset Material'
+  '[LTP - Material Component] Unset Material'
 );
 
 export const setDisplay = createAction(
-  '[Input Component] Set Display',
+  '[LTP - Input Component] Set Display',
   props<{ display: Display }>()
 );
-export const unsetDisplay = createAction('[Home Component] Unset Display');
+export const unsetDisplay = createAction(
+  '[LTP - Home Component] Unset Display'
+);
 
 export const setBannerVisible = createAction(
-  '[Home Component] Set Banner Visible',
+  '[LTP - Home Component] Set Banner Visible',
   props<{ bannerOpen: boolean }>()
 );

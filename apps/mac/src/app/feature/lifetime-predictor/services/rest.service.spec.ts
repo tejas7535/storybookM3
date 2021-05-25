@@ -5,6 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ENV_CONFIG } from '@schaeffler/http';
 
 import { PredictionRequest, StatisticalRequest } from '../models';
@@ -15,6 +16,7 @@ describe('RestService', () => {
   let spectator: SpectatorService<RestService>;
   let myProvider: RestService;
   let httpMock: HttpTestingController;
+  let applicationInsightsService: ApplicationInsightsService;
 
   const createService = createServiceFactory({
     service: RestService,
@@ -29,6 +31,12 @@ describe('RestService', () => {
           },
         },
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -36,6 +44,7 @@ describe('RestService', () => {
     spectator = createService();
     myProvider = spectator.inject(RestService);
     httpMock = spectator.inject(HttpTestingController);
+    applicationInsightsService = spectator.inject(ApplicationInsightsService);
   });
 
   afterEach(() => {
@@ -90,6 +99,7 @@ describe('RestService', () => {
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
+      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -104,6 +114,7 @@ describe('RestService', () => {
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
+      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -129,6 +140,7 @@ describe('RestService', () => {
       });
 
       const req = httpMock.expectOne(`/${myProvider.SERVER_URL_LOADS}/score`);
+      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
     });
@@ -157,6 +169,7 @@ describe('RestService', () => {
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_STATISTICAL}/score`
       );
+      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(statisticalResult);
     });

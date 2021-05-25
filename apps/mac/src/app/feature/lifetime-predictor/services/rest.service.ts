@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { DataService } from '@schaeffler/http';
 
 import {
@@ -22,7 +23,16 @@ export class RestService {
   public SERVER_URL_STATISTICAL = 'lifetime-predictor/statistical/api';
   public SERVER_URL_LOADS = 'lifetime-predictor/loads/api';
 
-  constructor(private readonly dataService: DataService) {}
+  private readonly APPLICATION_INSIGHTS_ML_REQUEST = '[LTP - REQUEST - ML]';
+  private readonly APPLICATION_INSIGHTS_STATISTICAL_REQUEST =
+    '[LTP - REQUEST - STATISTICAL]';
+  private readonly APPLICATION_INSIGHTS_LOADS_REQUEST =
+    '[LTP - REQUEST - LOADS]';
+
+  constructor(
+    private readonly dataService: DataService,
+    private readonly applicationInsightsService: ApplicationInsightsService
+  ) {}
 
   /**
    * posts prediction request and returns result of prediction
@@ -56,11 +66,16 @@ export class RestService {
       streubreite: spreading,
     };
 
+    this.applicationInsightsService.logEvent(
+      this.APPLICATION_INSIGHTS_ML_REQUEST,
+      { payload: predictionRequest }
+    );
+
     if (mode === 2) {
       return this.dataService
         .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
         .pipe(
-          map((res) => {
+          map((res: any) => {
             const result = res.prediction;
 
             return {
@@ -121,6 +136,11 @@ export class RestService {
       new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
     );
 
+    this.applicationInsightsService.logEvent(
+      this.APPLICATION_INSIGHTS_LOADS_REQUEST,
+      { payload: loadsRequest }
+    );
+
     return this.dataService.post<any>(
       `${this.SERVER_URL_LOADS}/score`,
       formData
@@ -130,6 +150,11 @@ export class RestService {
   public postStatisticalService(
     statisticalRequest: StatisticalRequest
   ): Observable<StatisticalPrediction> {
+    this.applicationInsightsService.logEvent(
+      this.APPLICATION_INSIGHTS_STATISTICAL_REQUEST,
+      { payload: statisticalRequest }
+    );
+
     return this.dataService.post<any>(
       `${this.SERVER_URL_STATISTICAL}/score`,
       statisticalRequest
