@@ -3,6 +3,20 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.22.0](///compare/cdba-v1.22.0...cdba-v1.21.0) (2021-05-25)
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](///commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
+
+### 🎸 Features
+
+* **cdba:** add plant as query param to calculations and drawings call (DSCDA-2397) ([6d1163f](///commit/6d1163f3c4c1bd33d1133fdda396fc4d48f66406))
+* **cdba:** localize delimiter improve UX for range filters (DSCDA-2034) ([a410f59](///commit/a410f591b1db33fad502b86b21ea98cb9e081654))
+* **cdba:** use azure-auth lib (DSCDA-2407) ([1dc33b0](///commit/1dc33b0e9f519661f81fc7e6d7570eed05c1f2a5))
+
 ## [1.21.0](///compare/cdba-v1.21.0...cdba-v1.20.0) (2021-05-11)
 
 
