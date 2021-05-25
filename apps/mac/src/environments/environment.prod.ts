@@ -14,6 +14,6 @@ export const environment = {
     },
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
-    ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*'],
+    ngrxIgnorePattern: ['@ngrx/*', 'Auth\b*', '.*\\[ai_ignore\\].*'],
   },
 };
