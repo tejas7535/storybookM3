@@ -111,7 +111,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ],
               "statsJson": true,
@@ -154,7 +154,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -369,7 +369,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1361,7 +1361,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1390,7 +1390,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1656,7 +1656,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1685,7 +1685,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2006,7 +2006,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2035,7 +2035,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2220,7 +2220,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2249,7 +2249,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2429,7 +2429,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2458,7 +2458,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2769,7 +2769,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2798,7 +2798,7 @@
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb",
-                  "maximumError": "15kb"
+                  "maximumError": "20kb"
                 }
               ]
             },
