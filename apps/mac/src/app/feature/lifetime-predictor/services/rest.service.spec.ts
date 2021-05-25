@@ -93,13 +93,13 @@ describe('RestService', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 1)
         .subscribe((haighResult) => {
+          expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(haighResult).toEqual(mockedHaighPrediction);
         });
 
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
-      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -108,13 +108,13 @@ describe('RestService', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 2)
         .subscribe((woehlerResult) => {
+          expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(woehlerResult).toEqual(undefined);
         });
 
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_PREDICTION}/score`
       );
-      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedHaighPrediction);
     });
@@ -136,11 +136,11 @@ describe('RestService', () => {
       };
 
       myProvider.postLoadsData(mockedLoadsRequest).subscribe((loadsResult) => {
+        expect(applicationInsightsService.logEvent).toHaveBeenCalled();
         expect(loadsResult).toEqual(mockedLoadsPrediction);
       });
 
       const req = httpMock.expectOne(`/${myProvider.SERVER_URL_LOADS}/score`);
-      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(mockedLoadsPrediction);
     });
@@ -163,13 +163,13 @@ describe('RestService', () => {
       myProvider
         .postStatisticalService(mockedStatisticalRequest)
         .subscribe((loadsResult) => {
+          expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(loadsResult).toEqual(statisticalResult);
         });
 
       const req = httpMock.expectOne(
         `/${myProvider.SERVER_URL_STATISTICAL}/score`
       );
-      expect(applicationInsightsService.logEvent).toHaveBeenCalled();
       expect(req.request.method).toBe('POST');
       req.flush(statisticalResult);
     });

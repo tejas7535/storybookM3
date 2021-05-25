@@ -66,15 +66,18 @@ export class RestService {
       streubreite: spreading,
     };
 
-    this.applicationInsightsService.logEvent(
-      this.APPLICATION_INSIGHTS_ML_REQUEST,
-      { payload: predictionRequest }
-    );
-
     if (mode === 2) {
       return this.dataService
         .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
         .pipe(
+          map((res: any) => {
+            this.applicationInsightsService.logEvent(
+              this.APPLICATION_INSIGHTS_ML_REQUEST,
+              { request: prediction, response: res }
+            );
+
+            return res;
+          }),
           map((res: any) => {
             const result = res.prediction;
 
@@ -103,10 +106,18 @@ export class RestService {
         );
     }
 
-    return this.dataService.post<any>(
-      `${this.SERVER_URL_PREDICTION}/score`,
-      prediction
-    );
+    return this.dataService
+      .post<any>(`${this.SERVER_URL_PREDICTION}/score`, prediction)
+      .pipe(
+        map((res: any) => {
+          this.applicationInsightsService.logEvent(
+            this.APPLICATION_INSIGHTS_ML_REQUEST,
+            { payload: prediction, response: res }
+          );
+
+          return res;
+        })
+      );
   }
 
   /**
@@ -136,28 +147,34 @@ export class RestService {
       new File([JSON.stringify(loadsRequest.loads)], 'loadsCollective.json')
     );
 
-    this.applicationInsightsService.logEvent(
-      this.APPLICATION_INSIGHTS_LOADS_REQUEST,
-      { payload: loadsRequest }
-    );
+    return this.dataService
+      .post<any>(`${this.SERVER_URL_LOADS}/score`, formData)
+      .pipe(
+        map((res: any) => {
+          this.applicationInsightsService.logEvent(
+            this.APPLICATION_INSIGHTS_LOADS_REQUEST,
+            { request: loadsRequest, response: res }
+          );
 
-    return this.dataService.post<any>(
-      `${this.SERVER_URL_LOADS}/score`,
-      formData
-    );
+          return res;
+        })
+      );
   }
 
   public postStatisticalService(
     statisticalRequest: StatisticalRequest
   ): Observable<StatisticalPrediction> {
-    this.applicationInsightsService.logEvent(
-      this.APPLICATION_INSIGHTS_STATISTICAL_REQUEST,
-      { payload: statisticalRequest }
-    );
+    return this.dataService
+      .post<any>(`${this.SERVER_URL_STATISTICAL}/score`, statisticalRequest)
+      .pipe(
+        map((res: any) => {
+          this.applicationInsightsService.logEvent(
+            this.APPLICATION_INSIGHTS_STATISTICAL_REQUEST,
+            { request: statisticalRequest, response: res }
+          );
 
-    return this.dataService.post<any>(
-      `${this.SERVER_URL_STATISTICAL}/score`,
-      statisticalRequest
-    );
+          return res;
+        })
+      );
   }
 }
