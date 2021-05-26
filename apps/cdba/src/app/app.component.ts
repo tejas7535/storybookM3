@@ -30,8 +30,13 @@ export class AppComponent implements OnInit {
   public appVersion = version;
   public footerLinks: FooterLink[] = [
     {
+      link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics/pages/faq',
+      title: 'FAQs',
+      external: true,
+    },
+    {
       link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics',
-      title: 'CDBA @ sConnect',
+      title: 'CDBA@SConnect',
       external: true,
     },
   ];
