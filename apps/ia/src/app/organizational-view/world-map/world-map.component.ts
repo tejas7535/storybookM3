@@ -11,6 +11,7 @@ import * as echarts from 'echarts';
 import worldJson from '../../../assets/world.json';
 import { IdValue } from '../../shared/models';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
+import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { HeatType } from '../models/heat-type.enum';
 import { ContinentButton } from './models/continent-button.model';
 import { CountryData } from './models/country-data.model';
@@ -30,47 +31,30 @@ export class WorldMapComponent implements OnInit {
 
   @Input() isLoading: boolean;
 
+  @Input() selectedTimeRange = '';
+
   @Input() set data(countryData: CountryData[]) {
     const selectedAreas = [];
     this._data = countryData;
 
     for (const data of countryData) {
+      // find data in world map geo data
       const geoJsonData = (worldJson as any).features.find(
         (elem: any) => elem.properties.name === data.name
       );
 
       if (geoJsonData) {
-        const areayColor =
-          data.attritionMeta.heatType === HeatType.GREEN_HEAT
-            ? this.schaefflerGreen1
-            : data.attritionMeta.heatType === HeatType.ORANGE_HEAT
-            ? this.schaefflerYellow
-            : data.attritionMeta.heatType === HeatType.RED_HEAT
-            ? this.schaefflerRed
-            : this.schaefflerGrey2;
+        const areaColor = this.getAreaColorFromHeatType(
+          data.attritionMeta.heatType
+        );
 
-        selectedAreas.push({
-          name: geoJsonData.properties.name,
-          value: 20,
-          selected: true,
-          tooltip: {
-            formatter: '{b}',
-            extraCssText: 'opacity: 1',
-          },
-          emphasis: {
-            itemStyle: {
-              areaColor: areayColor,
-              shadowColor: 'rgba(0, 0, 0, 0.2)',
-              shadowBlur: 2,
-            },
-            label: {
-              show: false,
-            },
-          },
-        });
+        selectedAreas.push(
+          this.createAreaDataObj(geoJsonData.properties.name, areaColor)
+        );
       }
     }
 
+    // update world map
     this.mergeOptions = {
       series: {
         data: selectedAreas,
@@ -78,6 +62,10 @@ export class WorldMapComponent implements OnInit {
     };
 
     this.updateContinents();
+  }
+
+  get data(): CountryData[] {
+    return this._data;
   }
 
   @Input() set continents(continents: IdValue[]) {
@@ -90,19 +78,15 @@ export class WorldMapComponent implements OnInit {
     this.updateContinents();
   }
 
-  get data(): CountryData[] {
-    return this._data;
-  }
-
   mergeOptions: any;
   options: any;
   initOpts: any;
   echartsInstance: any;
   continentButtons: ContinentButton[] = [];
 
-  public constructor(private readonly dialog: MatDialog) {}
+  constructor(private readonly dialog: MatDialog) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     echarts.registerMap('world', worldJson as any);
     this.initOpts = {
       height: 970,
@@ -139,7 +123,7 @@ export class WorldMapComponent implements OnInit {
     };
   }
 
-  public onChartInit(ec: any): void {
+  onChartInit(ec: any): void {
     this.echartsInstance = ec;
     this.echartsInstance.on('mousemove', (params: any) => {
       this.echartsInstance.getZr().setCursorStyle('default');
@@ -149,7 +133,7 @@ export class WorldMapComponent implements OnInit {
     });
   }
 
-  public showCountryData(event: any): void {
+  showCountryData(event: any): void {
     if (event.data !== undefined) {
       const country = event.data.name;
 
@@ -157,26 +141,79 @@ export class WorldMapComponent implements OnInit {
     }
   }
 
-  public updateContinents(): void {
+  updateContinents(): void {
     // set enabled property according to provided countryData
-    this.continentButtons.forEach((button) => {
-      button.enabled = this.data
+    this.continentButtons = this.continentButtons.map((button) => ({
+      ...button,
+      enabled: this.data
         .map((elem: CountryData) => elem.name)
-        .includes(button.value);
-    });
+        .includes(button.value),
+    }));
   }
 
-  public openDialog(name: string): void {
+  openDialog(name: string): void {
     const { attritionMeta } = this.data.find((elem) => elem.name === name);
+    const data = new AttritionDialogMeta(attritionMeta, this.selectedTimeRange);
 
     this.dialog.open(AttritionDialogComponent, {
-      data: attritionMeta,
+      data,
       width: '90%',
       maxWidth: '750px',
     });
   }
 
-  public trackByFn(index: number): number {
+  getAreaColorFromHeatType(heatType: HeatType): string {
+    switch (heatType) {
+      case HeatType.GREEN_HEAT:
+        return this.schaefflerGreen1;
+      case HeatType.ORANGE_HEAT:
+        return this.schaefflerYellow;
+      case HeatType.RED_HEAT:
+        return this.schaefflerRed;
+      default:
+        return this.schaefflerGrey2;
+    }
+  }
+
+  createAreaDataObj(name: string, areaColor: string): any {
+    return {
+      name,
+      value: 20,
+      tooltip: {
+        formatter: '{b}',
+        extraCssText: 'opacity: 1',
+      },
+      select: {
+        itemStyle: this.createAreaItemStyle(areaColor),
+        label: {
+          show: false,
+        },
+      },
+      itemStyle: this.createAreaItemStyle(areaColor),
+      label: {
+        show: false,
+      },
+      emphasis: {
+        itemStyle: this.createAreaItemStyle(areaColor),
+        labelLine: {
+          show: false,
+        },
+        label: {
+          show: false,
+        },
+      },
+    };
+  }
+
+  createAreaItemStyle(areaColor: string): any {
+    return {
+      areaColor,
+      shadowColor: 'rgba(0, 0, 0, 0.2)',
+      shadowBlur: 2,
+    };
+  }
+
+  trackByFn(index: number): number {
     return index;
   }
 }
