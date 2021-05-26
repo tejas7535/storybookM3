@@ -1,5 +1,9 @@
+.mat-tab-labels > .mat-tab-label {
+  @apply opacity-100;
+}
+
 .mat-tab-label-content {
-  @apply text-button text-light opacity-100;
+  @apply text-button text-light;
 }
 
 .mat-tab-label-active > .mat-tab-label-content {
