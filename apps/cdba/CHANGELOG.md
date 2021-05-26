@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.23.0](///compare/cdba-v1.23.0...cdba-v1.22.0) (2021-05-26)
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** show loading spinner for drawings correctly ([435b5c9](///commit/435b5c91cb92d1b4d63887053e53850fb986ca0b))
+
+
+### 🎸 Features
+
+* **cdba:** add faqs to footer ([9362f32](///commit/9362f321acb3f627afd95bdc5c92a0d0a4acb5d9))
+
 ## [1.22.0](///compare/cdba-v1.22.0...cdba-v1.21.0) (2021-05-25)
 
 
