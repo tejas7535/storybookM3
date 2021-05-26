@@ -135,6 +135,7 @@
         "@typescript-eslint/no-unnecessary-type-arguments": "error",
         "@typescript-eslint/no-unnecessary-type-assertion": "error",
         "@typescript-eslint/no-unused-expressions": "error",
+        "@typescript-eslint/no-unused-var": "off",
         "@typescript-eslint/prefer-for-of": "error",
         "@typescript-eslint/prefer-function-type": "error",
         "@typescript-eslint/prefer-namespace-keyword": "error",
@@ -147,7 +148,10 @@
         "@typescript-eslint/strict-boolean-expressions": "off",
         "@typescript-eslint/triple-slash-reference": "error",
         "@typescript-eslint/type-annotation-spacing": "off",
-        "@typescript-eslint/unbound-method": "error",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          { "ignoreStatic": true }
+        ],
         "@typescript-eslint/unified-signatures": "error",
         "@typescript-eslint/no-explicit-any": "off",
         "arrow-body-style": "error",
@@ -269,7 +273,8 @@
         ],
         "unicorn/filename-case": "error",
         "use-isnan": "error",
-        "yoda": "error"
+        "yoda": "error",
+        "unicorn/no-abusive-eslint-disable": "error"
       }
     },
     {
@@ -279,7 +284,15 @@
       "rules": {
         "@typescript-eslint/unbound-method": "off",
         "jest/unbound-method": "error",
-        "@angular-eslint/no-lifecycle-calls": "off"
+        "jest/no-disabled-tests": "off",
+        "jest/expect-expect": [
+          "error",
+          {
+            "assertFunctionNames": ["expect", "m.expect"]
+          }
+        ],
+        "@angular-eslint/no-lifecycle-calls": "off",
+        "max-lines": "off"
       }
     }
   ]
