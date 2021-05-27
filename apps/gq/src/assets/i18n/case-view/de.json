@@ -17,6 +17,23 @@
     "createManualCase": {
       "title": "Neuen Case erstellen",
       "createButton": "Case erstellen"
+    },
+    "createCustomerCase": {
+      "title": "Neuen Case vom Kunden erstellen",
+      "includeMaterials": {
+        "title": "Selektion Material-Positionen",
+        "materialSelection": "Materialauswahl",
+        "salesHistory": "Verkaufte Materialien (letzte 2 Jahre)",
+        "ordersOnHand": "Materialien aus dem aktuellen Auftragsbestand",
+        "openQuotes": "Materialien aus den aktuell offenen Angeboten",
+        "lostQuotes": "Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (letzte 2 Jahre)"
+      },
+      "additionalMaterials": "Zusätzliche Filteroptionen",
+      "statusBar": {
+        "createCase": "Case erstellen",
+        "resetAll": "Zurücksetzen",
+        "total": "Gesamt"
+      }
     }
   },
   "deleteAccept": {

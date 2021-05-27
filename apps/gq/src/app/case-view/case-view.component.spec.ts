@@ -10,11 +10,6 @@ import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('CaseViewComponent', () => {
   let component: CaseViewComponent;
   let spectator: Spectator<CaseViewComponent>;

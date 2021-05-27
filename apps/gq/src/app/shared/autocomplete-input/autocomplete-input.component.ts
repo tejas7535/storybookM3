@@ -211,4 +211,8 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   public trackByFn(index: number): number {
     return index;
   }
+
+  resetInputField(): void {
+    this.searchFormControl.setValue('');
+  }
 }

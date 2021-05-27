@@ -1,5 +1,4 @@
 import { MatDialogRef } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
@@ -16,15 +15,12 @@ import { AutocompleteInputModule } from '../../../shared/autocomplete-input/auto
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { AddEntryModule } from '../../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../../shared/case-material/input-table/input-table.module';
+import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
 import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
 import { CreateManualCaseComponent } from './create-manual-case.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 describe('CreateManualCaseComponent', () => {
   let component: CreateManualCaseComponent;
   let spectator: Spectator<CreateManualCaseComponent>;
@@ -37,10 +33,10 @@ describe('CreateManualCaseComponent', () => {
       SelectSalesOrgModule,
       InputTableModule,
       AutocompleteInputModule,
-      MatIconModule,
       AddEntryModule,
       LoadingSpinnerModule,
       ReactiveComponentModule,
+      DialogHeaderModule,
     ],
     providers: [
       provideMockStore({

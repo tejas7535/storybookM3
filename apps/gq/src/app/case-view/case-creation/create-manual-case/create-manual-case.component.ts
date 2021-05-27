@@ -3,6 +3,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
+import { TranslocoService } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import {
@@ -28,11 +29,19 @@ export class CreateManualCaseComponent implements OnInit {
   customer$: Observable<CaseFilterItem>;
   customerAutocompleteLoading$: Observable<boolean>;
   rowData$: Observable<MaterialTableItem[]>;
+  title$: Observable<string>;
 
   constructor(
     private readonly store: Store,
-    private readonly dialogRef: MatDialogRef<CreateManualCaseComponent>
-  ) {}
+    private readonly dialogRef: MatDialogRef<CreateManualCaseComponent>,
+    private readonly translocoService: TranslocoService
+  ) {
+    this.title$ = this.translocoService.selectTranslate(
+      'caseCreation.createManualCase.title',
+      {},
+      'case-view'
+    );
+  }
 
   ngOnInit(): void {
     this.createCaseLoading$ = this.store.select(getCreateCaseLoading);

@@ -162,6 +162,7 @@ export const createCaseReducer = createReducer(
     }),
     customer: {
       ...state.customer,
+      customerId: undefined,
       salesOrgs:
         filter === FilterNames.CUSTOMER ? [] : state.customer.salesOrgs,
     },

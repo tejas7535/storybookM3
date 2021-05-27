@@ -266,4 +266,12 @@ describe('AutocompleteInputComponent', () => {
       expect(retId).toEqual(indexNum);
     });
   });
+  describe('resetInputField', () => {
+    test('should reset inputField content', () => {
+      component.searchFormControl.setValue = jest.fn();
+      component.resetInputField();
+
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+    });
+  });
 });

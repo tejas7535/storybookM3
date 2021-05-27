@@ -22,6 +22,7 @@ import {
 @Component({
   selector: 'gq-material-input-table',
   templateUrl: './input-table.component.html',
+  styleUrls: ['./input-table.component.scss'],
 })
 export class InputTableComponent implements OnInit {
   public modules = MODULES;

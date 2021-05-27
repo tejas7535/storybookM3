@@ -1,4 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -16,6 +17,7 @@ describe('CreateCustomerCaseButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
+      MatDialogModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
   });

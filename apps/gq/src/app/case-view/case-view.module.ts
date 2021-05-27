@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import {
   MAT_DIALOG_DEFAULT_OPTIONS,
   MatDialogModule,
@@ -11,6 +12,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
 import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
+import { CreateCustomerCaseModule } from './case-creation/create-customer-case/create-customer-case.module';
 import { CreateManualCaseModule } from './case-creation/create-manual-case/create-manual-case.module';
 import { ImportCaseModule } from './case-creation/import-case/import-case.module';
 import { CaseTableModule } from './case-table/case-table.module';
@@ -25,7 +27,9 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     CaseViewRoutingModule,
     MatDialogModule,
     SharedModule,
+    MatButtonModule,
     SharedTranslocoModule,
+    CreateCustomerCaseModule,
     LoadingSpinnerModule,
     ReactiveComponentModule,
     ImportCaseModule,
