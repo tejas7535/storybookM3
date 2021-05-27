@@ -79,9 +79,29 @@ describe('WorldMapComponent', () => {
         } as unknown as CountryData,
       ];
 
+      component.getAreaColorFromHeatType = jest.fn();
+      component.createAreaDataObj = jest.fn();
+
       component.data = data;
 
       expect(component.mergeOptions.series.data.length).toEqual(data.length);
+      expect(component.getAreaColorFromHeatType).toHaveBeenCalledTimes(
+        data.length
+      );
+      expect(component.createAreaDataObj).toHaveBeenCalledTimes(data.length);
+    });
+
+    test('should set empty array if geo json data not found', () => {
+      const data: CountryData[] = [];
+
+      component.getAreaColorFromHeatType = jest.fn();
+      component.createAreaDataObj = jest.fn();
+
+      component.data = data;
+
+      expect(component.mergeOptions.series.data.length).toEqual(0);
+      expect(component.getAreaColorFromHeatType).not.toHaveBeenCalled();
+      expect(component.createAreaDataObj).not.toHaveBeenCalled();
     });
   });
 
@@ -189,13 +209,67 @@ describe('WorldMapComponent', () => {
       expect(component['dialog'].open).toHaveBeenCalledWith(
         AttritionDialogComponent,
         {
-          data: elem.attritionMeta,
+          data: {
+            data: elem.attritionMeta,
+            selectedTimeRange: '',
+          },
           maxWidth: '750px',
           width: '90%',
         }
       );
     });
   });
+
+  describe('getAreaColorFromHeatType', () => {
+    test('should return green for green heat', () => {
+      expect(component.getAreaColorFromHeatType(HeatType.GREEN_HEAT)).toEqual(
+        component['schaefflerGreen1']
+      );
+    });
+    test('should return yellow for orange heat', () => {
+      expect(component.getAreaColorFromHeatType(HeatType.ORANGE_HEAT)).toEqual(
+        component['schaefflerYellow']
+      );
+    });
+    test('should return red for red heat', () => {
+      expect(component.getAreaColorFromHeatType(HeatType.RED_HEAT)).toEqual(
+        component['schaefflerRed']
+      );
+    });
+    test('should return gray on default', () => {
+      expect(
+        component.getAreaColorFromHeatType('test' as unknown as HeatType)
+      ).toEqual(component['schaefflerGrey2']);
+    });
+  });
+
+  describe('createAreaDataObj', () => {
+    test('should return data obj', () => {
+      const name = 'Uganda';
+      const areaColor = '#f0f';
+
+      component.createAreaItemStyle = jest.fn();
+
+      const result = component.createAreaDataObj(name, areaColor);
+
+      expect(result.value).toEqual(20);
+      expect(component.createAreaItemStyle).toHaveBeenCalledTimes(3);
+    });
+  });
+
+  describe('createAreaItemStyle', () => {
+    test('should return area item style', () => {
+      const areaColor = '#fff';
+      const result = component.createAreaItemStyle(areaColor);
+
+      expect(result).toEqual({
+        areaColor,
+        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowBlur: 2,
+      });
+    });
+  });
+
   describe('trackByFn', () => {
     it('should return index', () => {
       const result = component.trackByFn(3);

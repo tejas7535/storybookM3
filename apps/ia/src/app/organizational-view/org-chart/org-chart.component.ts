@@ -34,13 +34,13 @@ export class OrgChartComponent implements AfterViewInit {
     this.updateChart();
   }
 
-  @Input() isLoading = false;
-
-  @Input() selectedTimeRange = '';
-
   get data(): Employee[] {
     return this._data;
   }
+
+  @Input() isLoading = false;
+
+  @Input() selectedTimeRange = '';
 
   @Output()
   readonly showParent: EventEmitter<Employee> = new EventEmitter();
@@ -82,6 +82,7 @@ export class OrgChartComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     if (!this.chart) {
+      // eslint-disable-next-line new-cap
       this.chart = new d3OrgChart();
     }
     this.updateChart();
