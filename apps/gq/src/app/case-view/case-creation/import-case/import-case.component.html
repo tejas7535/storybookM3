@@ -2,13 +2,10 @@
   *transloco="let t; read: 'caseView.caseCreation.importCase'"
   class="flex flex-col h-full"
 >
-  <span class="font-body text-h5 text-dark">
-    {{ t('title') }}
-
-    <mat-icon class="cursor-pointer float-right" (click)="closeDialog()">
-      close
-    </mat-icon>
-  </span>
+  <gq-dialog-header
+    [title]="title$ | ngrxPush"
+    (closeDialog)="closeDialog()"
+  ></gq-dialog-header>
   <div
     class="mt-8 flex flex-col h-full"
     *ngIf="!(createCaseLoading$ | ngrxPush); else loading"

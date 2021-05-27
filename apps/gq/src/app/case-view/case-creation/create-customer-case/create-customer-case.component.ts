@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
@@ -9,50 +9,51 @@ import { Store } from '@ngrx/store';
 import {
   autocomplete,
   getCaseAutocompleteLoading,
-  getCaseQuotation,
-  getCreateCaseLoading,
-  importCase,
+  getCaseCustomer,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
 import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
+import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
+import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 
 @Component({
-  selector: 'gq-import-case',
-  templateUrl: './import-case.component.html',
+  selector: 'gq-create-customer-case',
+  templateUrl: './create-customer-case.component.html',
 })
-export class ImportCaseComponent implements OnInit {
-  quotation$: Observable<CaseFilterItem>;
-  createCaseLoading$: Observable<boolean>;
-  quotationAutocompleteLoading$: Observable<boolean>;
+export class CreateCustomerCaseComponent implements OnInit {
   title$: Observable<string>;
-  quotationIsValid = false;
+  customer$: Observable<CaseFilterItem>;
+  customerAutocompleteLoading$: Observable<boolean>;
+  createCaseDisabled: boolean;
+
+  @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
+  @ViewChild('autocompleteComponent')
+  autocompleteComponent: AutocompleteInputComponent;
 
   constructor(
     private readonly store: Store,
-    private readonly dialogRef: MatDialogRef<ImportCaseComponent>,
+    private readonly dialogRef: MatDialogRef<CreateCustomerCaseComponent>,
     private readonly translocoService: TranslocoService
   ) {
     this.title$ = this.translocoService.selectTranslate(
-      'caseCreation.importCase.title',
+      'caseCreation.createCustomerCase.title',
       {},
       'case-view'
     );
   }
 
+  ngOnInit(): void {
+    this.customer$ = this.store.select(getCaseCustomer);
+    this.customerAutocompleteLoading$ = this.store.select(
+      getCaseAutocompleteLoading,
+      FilterNames.CUSTOMER
+    );
+  }
   closeDialog(): void {
     this.dialogRef.close();
-  }
-
-  ngOnInit(): void {
-    this.quotation$ = this.store.select(getCaseQuotation);
-    this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
-    this.quotationAutocompleteLoading$ = this.store.select(
-      getCaseAutocompleteLoading,
-      FilterNames.SAP_QUOTATION
-    );
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
@@ -71,11 +72,10 @@ export class ImportCaseComponent implements OnInit {
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 
-  quotationValid(isValid: boolean): void {
-    this.quotationIsValid = isValid;
-  }
-
-  importQuotation(): void {
-    this.store.dispatch(importCase());
+  createCase(): void {}
+  resetAll(): void {
+    this.materialSelection.resetAll();
+    this.unselectOptions(FilterNames.CUSTOMER);
+    this.autocompleteComponent.resetInputField();
   }
 }

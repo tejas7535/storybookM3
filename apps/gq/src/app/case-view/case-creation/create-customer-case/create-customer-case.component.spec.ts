@@ -1,39 +1,45 @@
-import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
-  importCase,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
 import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
-import { ImportCaseComponent } from './import-case.component';
+import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
+import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
+import { CreateCustomerCaseComponent } from './create-customer-case.component';
+import { MaterialSelectionComponent } from './material-selection/material-selection.component';
+import { StatusBarComponent } from './status-bar/status-bar.component';
 
-describe('ImportCaseComponent', () => {
-  let component: ImportCaseComponent;
-  let spectator: Spectator<ImportCaseComponent>;
+describe('CreateCustomerCaseComponent', () => {
+  let component: CreateCustomerCaseComponent;
+  let spectator: Spectator<CreateCustomerCaseComponent>;
   let mockStore: MockStore;
 
   const createComponent = createComponentFactory({
-    component: ImportCaseComponent,
+    component: CreateCustomerCaseComponent,
     imports: [
-      AutocompleteInputModule,
       ReactiveComponentModule,
-      MatButtonModule,
-      LoadingSpinnerModule,
       DialogHeaderModule,
-      provideTranslocoTestingModule({ en: {} }),
+      MatIconModule,
+      MatCheckboxModule,
+      UnderConstructionModule,
+      SelectSalesOrgModule,
+      AutocompleteInputModule,
+      provideTranslocoTestingModule({}),
     ],
     providers: [
       provideMockStore({}),
@@ -41,6 +47,11 @@ describe('ImportCaseComponent', () => {
         provide: MatDialogRef,
         useValue: {},
       },
+    ],
+    declarations: [
+      StatusBarComponent,
+      MaterialSelectionComponent,
+      AdditionalFiltersComponent,
     ],
   });
 
@@ -62,17 +73,6 @@ describe('ImportCaseComponent', () => {
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
     });
   });
-
-  describe('ngOnInit', () => {
-    test('should set observables', () => {
-      // tslint:disable-next-line: no-lifecycle-call
-      component.ngOnInit();
-
-      expect(component.quotation$).toBeDefined();
-      expect(component.createCaseLoading$).toBeDefined();
-    });
-  });
-
   describe('autocomplete', () => {
     test('should dispatch autocomplete action', () => {
       mockStore.dispatch = jest.fn();
@@ -110,20 +110,16 @@ describe('ImportCaseComponent', () => {
     });
   });
 
-  describe('quotationValid', () => {
-    test('should set quotationValid', () => {
-      component.quotationIsValid = false;
-      component.quotationValid(true);
-      expect(component.quotationIsValid).toBeTruthy();
-    });
-  });
+  describe('resetAll', () => {
+    test('should reset all', () => {
+      component.materialSelection = { resetAll: jest.fn() } as any;
+      component.unselectOptions = jest.fn();
+      component.autocompleteComponent = { resetInputField: jest.fn() } as any;
+      component.resetAll();
 
-  describe('importQuotation', () => {
-    test('should set quotationValid', () => {
-      mockStore.dispatch = jest.fn();
-
-      component.importQuotation();
-      expect(mockStore.dispatch).toHaveBeenCalledWith(importCase());
+      expect(component.materialSelection.resetAll).toHaveBeenCalledTimes(1);
+      expect(component.unselectOptions).toHaveBeenCalledTimes(1);
+      component.autocompleteComponent.resetInputField();
     });
   });
 });
