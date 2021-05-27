@@ -242,6 +242,14 @@ def getFilteredBranchName() {
     return "${BRANCH_NAME}".replaceAll('@', '')
 }
 
+def getNxRunnerConfig() {
+    if (env.NODE_NAME == 'mono-repo-build-agent') {
+        return '--runner=ci'
+    } else {
+        return ''
+    }
+}
+
 // define builds (stages), which are reported back to GitLab
 builds = featureBuilds
 
@@ -573,7 +581,7 @@ pipeline {
                                 if (isAppRelease() || isLibsRelease()) {
                                     sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')} --configuration=ci"
                                 } else {
-                                    sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci"
+                                    sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
                                 }
                             }
                         }
@@ -636,7 +644,7 @@ pipeline {
                                 if (isAppRelease() || isLibsRelease()) {
                                     sh "npm run affected:test -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
                                 } else {
-                                    sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2"
+                                    sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
                                 }
                             }
                         }
@@ -661,7 +669,7 @@ pipeline {
                                     if (isAppRelease() || isLibsRelease()) {
                                         sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=\"${excludedProjects.join(',')}\""
                                     } else {
-                                        sh "npm run affected:e2e:headless -- --base=${buildBase}"
+                                        sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
                                     }
                                 }
                             }
@@ -776,9 +784,9 @@ pipeline {
                                         sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps --prod"
                                     } else {
                                         if (isMaster()) {
-                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa ${getNxRunnerConfig()} --parallel"
                                         } else {
-                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev ${getNxRunnerConfig()} --parallel"
                                         }
 
                                         for (app in affectedApps) {
@@ -798,7 +806,7 @@ pipeline {
                             echo 'Build Storybooks for Shared Libraries'
 
                             script {
-                                sh "npx nx affected --base=${buildBase} --target=build-storybook"
+                                sh "npx nx affected --base=${buildBase} --target=build-storybook ${getNxRunnerConfig()}"
 
                                 publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: 'dist/storybook/shared-ui-storybook', reportFiles: 'index.html', reportName: 'Storybook Components', reportTitles: ''])
                             }
