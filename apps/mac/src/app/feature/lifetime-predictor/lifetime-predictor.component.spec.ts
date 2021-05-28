@@ -6,6 +6,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { StoreModule } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { SettingsSidebarModule } from '@schaeffler/settings-sidebar';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -44,7 +45,15 @@ describe('LifetimePredictorComponent', () => {
       ReactiveComponentModule,
       NoopAnimationsModule,
     ],
-    providers: [provideMockStore({ initialState })],
+    providers: [
+      provideMockStore({ initialState }),
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {

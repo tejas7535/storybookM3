@@ -11,13 +11,6 @@ import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumb
   styleUrls: ['./overview.component.scss'],
 })
 export class OverviewComponent implements OnInit {
-  constructor(
-    private readonly appInsightsService: ApplicationInsightsService,
-    private readonly breadcrumbsService: BreadcrumbsService
-  ) {}
-
-  $breadcrumbs = this.breadcrumbsService.currentBreadcrumbs;
-
   public elements = [
     {
       title: 'Hardness Converter',
@@ -70,7 +63,16 @@ export class OverviewComponent implements OnInit {
     },
   ];
 
-  ngOnInit(): void {
+  public $breadcrumbs = this.breadcrumbsService.currentBreadcrumbs;
+
+  public constructor(
+    private readonly appInsightsService: ApplicationInsightsService,
+    private readonly breadcrumbsService: BreadcrumbsService,
+    private readonly applicationInsightService: ApplicationInsightsService
+  ) {}
+
+  public ngOnInit(): void {
+    this.applicationInsightService.logEvent('[MAC - Overview] opened');
     changeFavicon('assets/favicons/overview.ico');
     this.breadcrumbsService.updateBreadcrumb('');
   }

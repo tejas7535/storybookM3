@@ -5,6 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ENV_CONFIG } from '@schaeffler/http';
 
 import { AQM_CALCULATION_CALCULATION_MOCK } from './../../../../testing/mocks/aqm-calculation-calculation.mock';
@@ -30,6 +31,12 @@ describe('AqmCalculatorApiService', () => {
           },
         },
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -44,7 +51,7 @@ describe('AqmCalculatorApiService', () => {
   });
 
   it('should return the materials data', () => {
-    service.getMaterialsData().subscribe((result) => {
+    service.getMaterialsData().subscribe((result: any) => {
       expect(result).toEqual(AQM_CALCULATION_MATERIALS_MOCK);
     });
 
@@ -57,7 +64,7 @@ describe('AqmCalculatorApiService', () => {
     service
       // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       .getCalculationResult({} as AQMCalculationRequest)
-      .subscribe((result) => {
+      .subscribe((result: any) => {
         expect(result).toEqual(AQM_CALCULATION_CALCULATION_MOCK);
       });
 

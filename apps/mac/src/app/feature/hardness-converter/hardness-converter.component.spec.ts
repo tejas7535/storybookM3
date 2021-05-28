@@ -12,6 +12,8 @@ import { of } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../testing/mocks/hardness-conversion-units.mock';
 import {
   HARDNESS_CONVERSION_ERROR_MOCK,
@@ -49,17 +51,23 @@ describe('HardnessConverterComponent', () => {
         provide: HardnessConverterApiService,
         useValue: {
           getUnits: jest.fn(() => of(HARDNESS_CONVERSION_UNITS_MOCK.units)),
-          getConversionResult: jest.fn((a) => {
-            return Number.isInteger(parseInt(a, 10))
+          getConversionResult: jest.fn((a) =>
+            Number.isInteger(Number.parseInt(a, 10))
               ? of(HARDNESS_CONVERSION_MOCK)
-              : of(HARDNESS_CONVERSION_ERROR_MOCK);
-          }),
+              : of(HARDNESS_CONVERSION_ERROR_MOCK)
+          ),
         },
       },
       {
         provide: BreadcrumbsService,
         useValue: {
           updateBreadcrumb: jest.fn(() => {}),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
         },
       },
     ],
@@ -132,7 +140,7 @@ describe('HardnessConverterComponent', () => {
   it(
     'should receive conversion results after a new input',
     waitForAsync(() => {
-      component.results$.subscribe((result) => {
+      component.results$.subscribe((result: any) => {
         expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
       });
       component.hardness.get('value').setValue(42);

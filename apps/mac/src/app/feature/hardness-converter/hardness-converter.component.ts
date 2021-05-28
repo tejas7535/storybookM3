@@ -1,8 +1,12 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
+
 import { BehaviorSubject, Subject } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { RouteNames } from '../../app-routing.enum';
 import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
@@ -30,11 +34,6 @@ import {
   ],
 })
 export class HardnessConverterComponent implements OnInit {
-  public constructor(
-    private readonly hardnessService: HardnessConverterApiService,
-    private readonly breadcrumbsService: BreadcrumbsService
-  ) {}
-
   valueChange$ = new Subject();
   results$ = new Subject<HardnessConversionSingleUnit[]>();
   resultsUpToDate$ = new BehaviorSubject<boolean>(true);
@@ -46,7 +45,14 @@ export class HardnessConverterComponent implements OnInit {
     value: new FormControl(0),
   });
 
-  ngOnInit(): void {
+  public constructor(
+    private readonly hardnessService: HardnessConverterApiService,
+    private readonly breadcrumbsService: BreadcrumbsService,
+    private readonly applicationInsightService: ApplicationInsightsService
+  ) {}
+
+  public ngOnInit(): void {
+    this.applicationInsightService.logEvent('[MAC - HC] opened');
     changeFavicon('assets/favicons/hardness-converter.ico');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.HardnessConverter);
     this.setupUnitList();
@@ -54,7 +60,7 @@ export class HardnessConverterComponent implements OnInit {
   }
 
   private setupUnitList(): void {
-    this.hardnessService.getUnits().subscribe((units) => {
+    this.hardnessService.getUnits().subscribe((units: any) => {
       this.unitList = units;
       this.hardness.patchValue({
         unit: units[0],

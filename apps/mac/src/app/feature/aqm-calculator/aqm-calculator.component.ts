@@ -2,10 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { RouteNames } from '../../app-routing.enum';
 import { changeFavicon } from '../../shared/change-favicon';
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
-
 import { AqmCalculatorApiService } from './services/aqm-calculator-api.service';
 import {
   AQMCalculationRequest,
@@ -37,16 +39,18 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
 
   subscription = new Subscription();
 
-  constructor(
+  public constructor(
     private readonly aqmCalculationService: AqmCalculatorApiService,
-    private readonly breadcrumbsService: BreadcrumbsService
+    private readonly breadcrumbsService: BreadcrumbsService,
+    private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.applicationInsightService.logEvent('[MAC - AQM] opened');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.AQMCalculator);
     changeFavicon('assets/favicons/aqm.ico');
     this.subscription.add(
-      this.aqmCalculationService.getMaterialsData().subscribe((result) => {
+      this.aqmCalculationService.getMaterialsData().subscribe((result: any) => {
         this.materials = result.materials;
         this.sumLimits = result.sumLimits;
         this.createForm(result.compositionLimits);
@@ -64,7 +68,7 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
