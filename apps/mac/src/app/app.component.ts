@@ -6,6 +6,7 @@ import { filter } from 'rxjs/operators';
 
 import { select, Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
 
@@ -28,20 +29,25 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly store: Store<AppState>,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.username$ = this.store.pipe(select(getUsername));
     this.profileImage$ = this.store.pipe(select(getProfileImage));
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
-      .subscribe((event) => {
+      .subscribe((event: any) => {
+        this.applicationInsightService.logEvent('[MAC - NAVIGATION]', {
+          url: (event as NavigationEnd).url,
+          urlAfterRedirects: (event as NavigationEnd).urlAfterRedirects,
+        });
         this.url = (event as NavigationEnd).url;
       });
   }
 
-  get link(): string | boolean {
+  public get link(): string | boolean {
     return this.url && this.url !== `/${RoutePath.OverviewPath}`
       ? `/${RoutePath.OverviewPath}`
       : false;

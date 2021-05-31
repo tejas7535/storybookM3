@@ -14,6 +14,8 @@ import { of } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
+
 import { BreadcrumbsService } from '../../shared/services/breadcrumbs/breadcrumbs.service';
 import { SharedModule } from '../../shared/shared.module';
 import {
@@ -59,17 +61,23 @@ describe('AqmCalculatorComponent', () => {
         provide: AqmCalculatorApiService,
         useValue: {
           getMaterialsData: jest.fn(() => of(AQM_CALCULATION_MATERIALS_MOCK)),
-          getCalculationResult: jest.fn((request) => {
-            return request === 'invalid request'
+          getCalculationResult: jest.fn((request) =>
+            request === 'invalid request'
               ? of(AQM_CALCULATION_CALCULATION_MOCK)
-              : of(AQM_CALCULATION_ERROR_MOCK);
-          }),
+              : of(AQM_CALCULATION_ERROR_MOCK)
+          ),
         },
       },
       {
         provide: BreadcrumbsService,
         useValue: {
           updateBreadcrumb: jest.fn(() => {}),
+        },
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
         },
       },
     ],

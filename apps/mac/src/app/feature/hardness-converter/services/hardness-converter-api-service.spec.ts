@@ -5,6 +5,7 @@ import {
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ENV_CONFIG } from '@schaeffler/http';
 
 import { HARDNESS_CONVERSION_UNITS_MOCK } from '../../../../testing/mocks/hardness-conversion-units.mock';
@@ -29,6 +30,12 @@ describe('HardnessConverterApiService', () => {
           },
         },
       },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -43,7 +50,7 @@ describe('HardnessConverterApiService', () => {
   });
 
   it('should return a unit list', () => {
-    service.getUnits().subscribe((result) => {
+    service.getUnits().subscribe((result: any) => {
       expect(result).toEqual(HARDNESS_CONVERSION_UNITS_MOCK);
     });
 
@@ -53,7 +60,7 @@ describe('HardnessConverterApiService', () => {
   });
 
   it('should return a converted value', () => {
-    service.getConversionResult('mPa', 1234).subscribe((result) => {
+    service.getConversionResult('mPa', 1234).subscribe((result: any) => {
       expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
     });
 

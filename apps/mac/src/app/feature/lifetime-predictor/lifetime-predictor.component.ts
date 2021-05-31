@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreakpointService } from '@schaeffler/responsive';
 
 import { AppState } from '../../core/store/reducers';
@@ -17,12 +18,14 @@ import * as fromStore from './store';
 export class LifetimePredictorComponent implements OnInit {
   public isLessThanMediumViewPort$: Observable<boolean>;
 
-  constructor(
+  public constructor(
     private readonly store: Store<AppState>,
-    private readonly breakpointService: BreakpointService
+    private readonly breakpointService: BreakpointService,
+    private readonly applicationInsightService: ApplicationInsightsService
   ) {}
 
   public ngOnInit(): void {
+    this.applicationInsightService.logEvent('[MAC - LTP] opened');
     this.isLessThanMediumViewPort$ = this.breakpointService.isLessThanMedium();
   }
 

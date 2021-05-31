@@ -112,7 +112,7 @@ export class RestService {
         map((res: any) => {
           this.applicationInsightsService.logEvent(
             this.APPLICATION_INSIGHTS_ML_REQUEST,
-            { payload: prediction, response: res }
+            { request: prediction, response: res }
           );
 
           return res;

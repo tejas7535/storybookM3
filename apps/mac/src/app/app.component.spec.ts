@@ -9,6 +9,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { HeaderModule } from '@schaeffler/header';
 
 import { RoutePath } from './app-routing.enum';
@@ -51,6 +52,12 @@ describe('AppComponent', () => {
       {
         provide: Router,
         useValue: routerMock,
+      },
+      {
+        provide: ApplicationInsightsService,
+        useValue: {
+          logEvent: jest.fn(),
+        },
       },
     ],
     declarations: [AppComponent],
