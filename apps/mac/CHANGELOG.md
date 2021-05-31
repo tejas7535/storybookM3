@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [0.1.1](///compare/mac-v0.1.1...mac-v0.1.0) (2021-05-31)
+
+
+### 🎸 Features
+
+* **mac:** add decimal pipe for ltp tooltips ([052e452](///commit/052e452476c73c83ba3da8ccf54fcc36ae4477a0))
+* **mac:** add deparment to app insights logging (UFTABI-4500 ) ([1bac62e](///commit/1bac62e3832efa977ceadaaeabdfe934387dd0bf))
+* **mac:** cleanup ltp logging for app insights (UFTABI-4499) ([33b9b90](///commit/33b9b9091d143d507d6b8ebe19df4769822d5abd))
+* **mac:** include response in ltp app insights ([8db53eb](///commit/8db53eb58bd38dca5df665e9298bef190020daeb))
+* **mac:** log more events ([fc122e3](///commit/fc122e36265984a7d56f13618d5b1e1d335ae90e))
+
 ## [0.1.0](///compare/mac-v0.1.0...mac-v0.0.7) (2021-05-19)
 
 
