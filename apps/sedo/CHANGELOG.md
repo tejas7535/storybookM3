@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.11.0](///compare/sedo-v1.11.0...sedo-v1.10.0) (2021-06-01)
+
+
+### 🏭 Automation
+
+* **workspace:** adjust lint rules (UFTABI-4456) ([bcd52ff](///commit/bcd52ffddcf2011986085d510bc54488903a90dc))
+
+
+### 🎸 Features
+
+* **sedo:** adapt column filters (UFTABI-4278) ([55ddb2d](///commit/55ddb2d4e5e761ede2b4b410e26a779fe8f37d60))
+* **sedo:** add application insight (UFTABI-4598) ([1c89f87](///commit/1c89f872365678955ba290879ece3b89439d4a8e))
+* **sedo:** add info icon ([1a0594d](///commit/1a0594d6fd37532bf4d9435213796d2c8c11f2b9))
+* **sedo:** add net sales category column (UFTABI-4429) ([00d0182](///commit/00d018264d5d69f2622b8096d706222f2d920d0d))
+* **sedo:** display plant names and keys (UFTABI-4428) ([4d33150](///commit/4d3315075e2028f5938f3606a3be11a661ae03f4))
+* **sedo:** remove hash routing ([058585a](///commit/058585a8132a1649eee6e2f23d1c6874964b7c75))
+* **sedo:** show timout warning icon (UFTABI-3033) ([087b6fc](///commit/087b6fc5d1629ed8432f7dd276bd7824bf76b30d))
+
 ## [1.10.0](///compare/sedo-v1.10.0...sedo-v1.9.0) (2020-12-14)
 
 
