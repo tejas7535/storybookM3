@@ -23,27 +23,28 @@ import {
   styleUrls: ['./compare-view-button.component.scss'],
 })
 export class CompareViewButtonComponent implements OnInit {
-  selectedNodeIds$: Observable<string[]>;
+  public selectedNodeIds$: Observable<string[]>;
 
   private gridApi: GridApi;
 
-  constructor(private readonly router: Router, private readonly store: Store) {}
+  public constructor(
+    private readonly router: Router,
+    private readonly store: Store
+  ) {}
 
-  ngOnInit(): void {
-    if (
-      this.router.routerState.snapshot.url.includes(AppRoutePath.SearchPath)
-    ) {
-      this.selectedNodeIds$ = this.store.select(getSelectedRefTypeNodeIds);
-    } else {
-      this.selectedNodeIds$ = this.store.select(getSelectedCalculationNodeIds);
-    }
+  public ngOnInit(): void {
+    this.selectedNodeIds$ = this.router.routerState.snapshot.url.includes(
+      AppRoutePath.SearchPath
+    )
+      ? this.store.select(getSelectedRefTypeNodeIds)
+      : this.store.select(getSelectedCalculationNodeIds);
   }
 
-  agInit(params: IStatusPanelParams): void {
+  public agInit(params: IStatusPanelParams): void {
     this.gridApi = params.api;
   }
 
-  showCompareView(nodeIds: string[]): void {
+  public showCompareView(nodeIds: string[]): void {
     const queryParams: Params = {};
 
     nodeIds
@@ -52,6 +53,8 @@ export class CompareViewButtonComponent implements OnInit {
         queryParams[`material_number_item_${index + 1}`] =
           selection.data.materialNumber;
         queryParams[`plant_item_${index + 1}`] = selection.data.plant;
+        queryParams[`identification_hash_item_${index + 1}`] =
+          selection.data.identificationHash;
         queryParams[`node_id_item_${index + 1}`] = !selection.data
           .identificationHash
           ? selection.id

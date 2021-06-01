@@ -47,8 +47,8 @@
       >
         <div fxLayout="row" fxLayoutAlign="center">
           <div fxLayout="column">
-            <h3>
-              {{ materialDesignation$ | ngrxPush | undefinedAttributeFallback }}
+            <h3 class="h-6">
+              {{ materialDesignation$ | ngrxPush }}
             </h3>
             <div
               class="subcaption"
@@ -56,15 +56,16 @@
               *ngrxLet="selectedCalculation$ as calculation"
             >
               <label>{{ t('costType') }}:&nbsp;</label>
-              <div>
-                {{ calculation?.costType | undefinedAttributeFallback }}
+              <div class="w-10" [class.ghost-line]="!calculation?.costType">
+                {{ calculation?.costType }}
               </div>
               <label>{{ t('calculationDate') }}:&nbsp;</label>
-              <div>
+              <div
+                [class.ghost-line]="!calculation?.calculationDate"
+                [class.w-20]="!calculation?.calculationDate"
+              >
                 {{
-                  calculation?.calculationDate
-                    | date: 'shortDate':'':'de-DE'
-                    | undefinedAttributeFallback
+                  calculation?.calculationDate | date: 'shortDate':'':'de-DE'
                 }}
               </div>
             </div>

@@ -1,5 +1,6 @@
 @import 'libs/shared/ui/styles/src/lib/colors';
 @import 'libs/shared/ui/styles/src/lib/fonts';
+@import 'libs/shared/ui/styles/src/lib/ghost-animation.scss';
 
 :host {
   height: 100%;
@@ -9,8 +10,8 @@
     height: 100%;
 
     mat-card {
-      height: calc(100% - 32px);
-      width: calc(100% - 32px);
+      height: 100%;
+      width: 100%;
 
       .mat-card-inner {
         height: 100%;
@@ -58,4 +59,9 @@ h3 {
 
 .table-container {
   height: 100%;
+}
+
+.ghost-line {
+  height: 20px;
+  @include animate-ghost-line;
 }

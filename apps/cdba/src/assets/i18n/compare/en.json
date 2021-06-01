@@ -3,5 +3,23 @@
   "tabs": {
     "details": "DETAILS",
     "billOfMaterial": "BILL OF MATERIALS"
+  },
+  "details": {
+    "dimensions": {
+      "title": "Dimensions & Weight",
+      "height": "Height",
+      "width": "Width",
+      "length": "Length",
+      "weight": "Weight",
+      "volume": "Volume"
+    },
+    "additionalInformation": {
+      "title": "Additional Information",
+      "plant": "Plant",
+      "procurementType": "Procurement Type",
+      "salesOrganization": "Sales Organization",
+      "plannedQuantity": "Planned Quantity {{year}}",
+      "actualQuantity": "Quantity {{year}}"
+    }
   }
 }

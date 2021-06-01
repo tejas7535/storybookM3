@@ -3,5 +3,23 @@
   "tabs": {
     "details": "DETAILS",
     "billOfMaterial": "STÜCKLISTE"
+  },
+  "details": {
+    "dimensions": {
+      "title": "Dimensionen & Gewicht",
+      "height": "Höhe",
+      "width": "Breite",
+      "length": "Länge",
+      "weight": "Gewicht",
+      "volume": "Volumen"
+    },
+    "additionalInformation": {
+      "title": "Weitere Informationen",
+      "plant": "Werk",
+      "procurementType": "Procurement Type",
+      "salesOrganization": "Vertriebsorganisation",
+      "plannedQuantity": "Geplante Stückzahl {{year}}",
+      "actualQuantity": "Stückzahl {{year}}"
+    }
   }
 }

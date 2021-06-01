@@ -1,10 +1,10 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { MockModule } from 'ng-mocks';
 
-// eslint-disable-next-line
-import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { DetailsTabComponent } from './details-tab.component';
+import { MaterialCardModule } from './material-card/material-card.module';
 
 describe('DetailsTabComponent', () => {
   let component: DetailsTabComponent;
@@ -14,7 +14,7 @@ describe('DetailsTabComponent', () => {
     component: DetailsTabComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
-      UnderConstructionModule,
+      MockModule(MaterialCardModule),
     ],
     declarations: [DetailsTabComponent],
   });

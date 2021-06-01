@@ -1,14 +1,14 @@
-import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 
-// eslint-disable-next-line
-import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { SharedModule } from '@cdba/shared';
 
 import { DetailsTabComponent } from './details-tab.component';
+import { DetailsTabRoutingModule } from './details-tab.routing.module';
+import { MaterialCardModule } from './material-card/material-card.module';
 
 @NgModule({
   declarations: [DetailsTabComponent],
-  imports: [CommonModule, UnderConstructionModule],
+  imports: [SharedModule, DetailsTabRoutingModule, MaterialCardModule],
   exports: [DetailsTabComponent],
 })
 export class DetailsTabModule {}

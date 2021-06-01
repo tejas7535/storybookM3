@@ -9,6 +9,7 @@ import {
   CALCULATIONS_MOCK,
   COMPARE_STATE_MOCK,
   REFERENCE_TYPE_IDENTIFIER_MOCK,
+  REFERENCE_TYPE_MOCK,
 } from '@cdba/testing/mocks';
 
 import {
@@ -20,6 +21,9 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadProductDetails,
+  loadProductDetailsFailure,
+  loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
   selectCompareItems,
@@ -58,6 +62,78 @@ describe('Compare Reducer', () => {
 
       expect(state[0].calculations.selectedNodeId).toEqual('0');
       expect(state[1].calculations.selectedNodeId).toEqual('7');
+    });
+  });
+
+  describe('Product Details Actions', () => {
+    describe('loadProductDetails', () => {
+      const referenceTypeIdentifier = REFERENCE_TYPE_IDENTIFIER_MOCK;
+
+      it('should reset item & errorMessage and set loading true', () => {
+        const index = 2;
+        action = loadProductDetails({ index, referenceTypeIdentifier });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].details.loading).toBeTruthy();
+        expect(state[index].details.item).toBeUndefined();
+        expect(state[index].details.errorMessage).toBeUndefined();
+      });
+
+      it('should return previous state for undefined index', () => {
+        const index = 99;
+        action = loadProductDetails({ index, referenceTypeIdentifier });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
+
+    describe('loadProductDetailsSuccess', () => {
+      const item = REFERENCE_TYPE_MOCK;
+
+      it('should set item and set loading false', () => {
+        const index = 2;
+        action = loadProductDetailsSuccess({ index, item });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].details.loading).toBeFalsy();
+        expect(state[index].details.item).toEqual(item);
+      });
+
+      it('should return previous state for undefined index', () => {
+        const index = 99;
+        action = loadProductDetailsSuccess({ index, item });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
+    });
+
+    describe('loadProductDetailsFailure', () => {
+      const errorMessage = 'Oops';
+
+      it('should set error and set loading false', () => {
+        const index = 2;
+        action = loadProductDetailsFailure({ index, errorMessage });
+
+        state = compareReducer(mockState, action);
+
+        expect(state[index].details.loading).toBeFalsy();
+        expect(state[index].details.errorMessage).toEqual(errorMessage);
+      });
+
+      it('should return previous state for undefined index', () => {
+        const index = 99;
+        action = loadProductDetailsFailure({ index, errorMessage });
+
+        state = compareReducer(mockState, action);
+
+        expect(state).toEqual(mockState);
+      });
     });
   });
 
