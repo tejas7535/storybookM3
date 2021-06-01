@@ -21,12 +21,12 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StoreModule } from './store/store.module';
 
 export class DynamicLocaleId extends String {
-  constructor(protected service: TranslocoService) {
+  constructor(protected translocoService: TranslocoService) {
     super('');
   }
 
   toString() {
-    return this.service.getActiveLang();
+    return this.translocoService.getActiveLang();
   }
 }
 

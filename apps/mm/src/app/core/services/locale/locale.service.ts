@@ -1,7 +1,7 @@
 import { registerLocaleData } from '@angular/common';
 import { Injectable } from '@angular/core';
 
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
@@ -12,18 +12,23 @@ import { MMSeparator } from './separator.enum';
   providedIn: 'root',
 })
 export class LocaleService {
-  private separator: BehaviorSubject<MMSeparator>;
+  private readonly separator = new BehaviorSubject<MMSeparator>(null);
+  private readonly language = new BehaviorSubject<MMLocales>(null);
+
+  separator$ = this.separator.asObservable();
+  language$ = this.language.asObservable();
+
   private manualSeparator = false;
 
   constructor(private readonly translocoService: TranslocoService) {
     this.registerLocales();
-    this.separator = new BehaviorSubject<MMSeparator>(undefined);
+
     const lang = this.translocoService.getActiveLang();
     this.setLocale(lang as MMLocales);
   }
 
   private registerLocales(): void {
-    for (let l of Object.keys(locales)) {
+    for (const l of Object.keys(locales)) {
       const locale = l as MMLocales;
       registerLocaleData(locales[locale].locale, locale);
     }
@@ -34,12 +39,8 @@ export class LocaleService {
     this.manualSeparator = true;
   }
 
-  public getSeparator(): Observable<MMSeparator> {
-    return this.separator;
-  }
-
   public setLocale(locale: MMLocales): void {
-    registerLocaleData(locales[locale].locale, locale);
+    this.language.next(locale);
     this.translocoService.setActiveLang(locale);
     if (!this.manualSeparator) {
       this.separator.next(locales[locale].defaultSeparator);
@@ -48,9 +49,5 @@ export class LocaleService {
 
   public getAvailableLangs(): AvailableLangs {
     return this.translocoService.getAvailableLangs();
-  }
-
-  public getActiveLang(): string {
-    return this.translocoService.getActiveLang();
   }
 }

@@ -20,8 +20,12 @@ const availableLangs: AvailableLangs = [
 describe('SidebarComponent', () => {
   let component: SidebarComponent;
   let spectator: Spectator<SidebarComponent>;
-  let separatorObservable: BehaviorSubject<MMSeparator> =
+  const language: BehaviorSubject<MMLocales> = new BehaviorSubject<MMLocales>(
+    MMLocales.de
+  );
+  const separator: BehaviorSubject<MMSeparator> =
     new BehaviorSubject<MMSeparator>(MMSeparator.Comma);
+
   let localeService: LocaleService;
 
   const createComponent = createComponentFactory({
@@ -38,8 +42,8 @@ describe('SidebarComponent', () => {
         provide: LocaleService,
         useValue: {
           getAvailableLangs: jest.fn(() => availableLangs),
-          getActiveLang: jest.fn(() => 'de'),
-          getSeparator: jest.fn(() => separatorObservable),
+          language$: language.asObservable(),
+          separator$: separator.asObservable(),
           setSeparator: jest.fn(),
           setLocale: jest.fn(),
         },

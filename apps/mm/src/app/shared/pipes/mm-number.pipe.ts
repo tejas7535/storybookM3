@@ -11,7 +11,7 @@ import { MMSeparator } from '../../core/services/locale/separator.enum';
   pure: false,
 })
 export class MmNumberPipe implements PipeTransform, OnDestroy {
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
   private separator: MMSeparator;
   private previousParams: {
     value: string | number;
@@ -22,11 +22,11 @@ export class MmNumberPipe implements PipeTransform, OnDestroy {
   private cache: string;
 
   constructor(
-    private decimalPipe: DecimalPipe,
+    private readonly decimalPipe: DecimalPipe,
     private readonly localeService: LocaleService
   ) {
     this.subscription.add(
-      this.localeService.getSeparator().subscribe((separator) => {
+      this.localeService.separator$.subscribe((separator) => {
         this.separator = separator;
       })
     );

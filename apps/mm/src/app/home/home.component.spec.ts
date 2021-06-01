@@ -1,8 +1,8 @@
 import { DecimalPipe } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { of } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 import {
   DynamicFormsModule,
@@ -15,6 +15,7 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { BearingSearchModule } from '../bearing-search/bearing-search.module';
+import { LocaleService } from '../core/services/locale/locale.service';
 import { PagesStepperComponent } from '../pages-stepper/pages-stepper.component';
 import { PagesStepperModule } from '../pages-stepper/pages-stepper.module';
 import { ResultPageModule } from '../result-page/result-page.module';
@@ -23,9 +24,17 @@ import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 
 // import { HttpTestingController } from '@angular/common/http/testing';
+
 describe('HomeComponent', () => {
   let component: HomeComponent;
   let spectator: Spectator<HomeComponent>;
+  let localeService: LocaleService;
+  const params = new BehaviorSubject<Params>({
+    id: 123,
+    separator: 'point',
+    language: 'de',
+  });
+
   // let httpMock: HttpTestingController;
 
   const createComponent = createComponentFactory({
@@ -51,7 +60,14 @@ describe('HomeComponent', () => {
       {
         provide: ActivatedRoute,
         useValue: {
-          params: of({ id: 123 }),
+          params,
+        },
+      },
+      {
+        provide: LocaleService,
+        useValue: {
+          setSeparator: jest.fn(),
+          setLocale: jest.fn(),
         },
       },
     ],
@@ -61,6 +77,7 @@ describe('HomeComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    localeService = spectator.inject(LocaleService);
     // httpMock = spectator.inject(HttpTestingController);
   });
 
@@ -68,6 +85,14 @@ describe('HomeComponent', () => {
     console.warn = jest.fn();
     console.log = jest.fn();
     expect(component).toBeTruthy();
+  });
+
+  test('a change of a startparam should call the localService', () => {
+    const newParams = { id: 456, separator: 'comma', language: 'en' };
+    params.next(newParams);
+
+    expect(localeService.setSeparator).toHaveBeenCalledWith(',');
+    expect(localeService.setLocale).toHaveBeenCalledWith('en');
   });
 
   test('handleRouteParams should trigger multiple methods', () => {
@@ -102,7 +127,7 @@ describe('HomeComponent', () => {
   // });
 
   // TODO actually write this test
-  test('dynamicFormLoaded should consturct pagedMetas and call store', () => {});
+  // test('dynamicFormLoaded should construct pagedMetas and call store', () => {});
 
   test('next should call stepper next method', () => {
     const mockStepper = { next: () => {} } as PagesStepperComponent;

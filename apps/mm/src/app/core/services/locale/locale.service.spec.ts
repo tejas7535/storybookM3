@@ -1,5 +1,3 @@
-import { BehaviorSubject } from 'rxjs';
-
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
@@ -35,7 +33,6 @@ describe('LocaleService', () => {
 
   it('should be created', () => {
     expect(service).toBeTruthy();
-    expect(translocoService.getActiveLang).toHaveBeenCalled();
     expect(translocoService.setActiveLang).toHaveBeenCalledWith('de');
   });
 
@@ -46,12 +43,6 @@ describe('LocaleService', () => {
 
     expect(service['separator'].next).toHaveBeenCalledWith(MMSeparator.Point);
     expect(service['manualSeparator']).toBe(true);
-  });
-
-  it('should return separator', () => {
-    const result = service.getSeparator();
-
-    expect(result).toEqual(new BehaviorSubject<MMSeparator>(MMSeparator.Comma));
   });
 
   it('should set locale and switch separator', () => {
@@ -78,12 +69,5 @@ describe('LocaleService', () => {
 
     expect(result).toEqual(availableLangs);
     expect(translocoService.getAvailableLangs).toHaveBeenCalled();
-  });
-
-  it('should return active lang', () => {
-    const result = service.getActiveLang();
-
-    expect(result).toEqual('de');
-    expect(translocoService.getActiveLang).toHaveBeenCalled();
   });
 });
