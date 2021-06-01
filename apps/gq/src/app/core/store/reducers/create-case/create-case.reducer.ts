@@ -22,20 +22,27 @@ import {
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  getPLsAndSeries,
+  getPLsAndSeriesFailure,
+  getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
+  setSelectedProductLines,
+  setSelectedSeries,
   unselectAutocompleteOptions,
   validateFailure,
   validateSuccess,
 } from '../../actions';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
 import { CaseFilterItem } from './models';
+import { PLsAndSeries } from './models/pls-and-series.model';
 
 export interface CaseState {
   autocompleteLoading: string;
@@ -45,6 +52,11 @@ export interface CaseState {
     salesOrgsLoading: boolean;
     salesOrgs: SalesOrg[];
     errorMessage: string;
+  };
+  plSeries: {
+    loading: boolean;
+    errorMessage: string;
+    plsAndSeries: PLsAndSeries;
   };
   createdCase: CreateCaseResponse;
   createCaseLoading: boolean;
@@ -73,6 +85,11 @@ export const initialState: CaseState = {
     salesOrgsLoading: false,
     salesOrgs: [],
     errorMessage: undefined,
+  },
+  plSeries: {
+    loading: false,
+    errorMessage: undefined,
+    plsAndSeries: undefined,
   },
   createdCase: undefined,
   createCaseLoading: false,
@@ -272,6 +289,60 @@ export const createCaseReducer = createReducer(
         selected: el.id === salesOrgId ? true : false,
       })),
     },
+  })),
+  on(getPLsAndSeries, (state: CaseState) => ({
+    ...state,
+    plSeries: {
+      errorMessage: initialState.plSeries.errorMessage,
+      plsAndSeries: initialState.plSeries.plsAndSeries,
+      loading: true,
+    },
+  })),
+  on(getPLsAndSeriesSuccess, (state: CaseState, { plsAndSeries }) => ({
+    ...state,
+    plSeries: {
+      ...state.plSeries,
+      plsAndSeries,
+      loading: false,
+    },
+  })),
+  on(getPLsAndSeriesFailure, (state: CaseState, { errorMessage }) => ({
+    ...state,
+    plSeries: {
+      ...state.plSeries,
+      errorMessage,
+      loading: false,
+    },
+  })),
+  on(setSelectedProductLines, (state: CaseState, { selectedProductLines }) => ({
+    ...state,
+    plSeries: {
+      ...state.plSeries,
+      plsAndSeries: {
+        ...state.plSeries.plsAndSeries,
+        pls: state.plSeries.plsAndSeries.pls.map((pl) => ({
+          ...pl,
+          selected: selectedProductLines.includes(pl.value),
+        })),
+      },
+    },
+  })),
+  on(setSelectedSeries, (state: CaseState, { selectedSeries }) => ({
+    ...state,
+    plSeries: {
+      ...state.plSeries,
+      plsAndSeries: {
+        ...state.plSeries.plsAndSeries,
+        series: state.plSeries.plsAndSeries.series.map((series) => ({
+          ...series,
+          selected: selectedSeries.includes(series.value),
+        })),
+      },
+    },
+  })),
+  on(resetProductLineAndSeries, (state: CaseState) => ({
+    ...state,
+    plSeries: initialState.plSeries,
   }))
 );
 

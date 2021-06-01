@@ -1,23 +1,29 @@
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { getPLsAndSeries } from '../../../../core/store';
+import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import { MaterialSelectionComponent } from './material-selection.component';
 
 describe('MaterialSelectionComponent', () => {
   let component: MaterialSelectionComponent;
   let spectator: Spectator<MaterialSelectionComponent>;
-
+  let mockStore: MockStore;
   const createComponent = createComponentFactory({
     component: MaterialSelectionComponent,
     imports: [MatCheckboxModule, provideTranslocoTestingModule({ en: {} })],
+    providers: [provideMockStore({})],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    mockStore = spectator.inject(MockStore);
   });
 
   test('should create', () => {
@@ -66,6 +72,32 @@ describe('MaterialSelectionComponent', () => {
       expect(component.allComplete).toBeFalsy();
       expect(component.someComplete).toBeTruthy();
       expect(component.selectionItems).toEqual(component.defaultSelection);
+    });
+  });
+
+  describe('triggerPLsAndSeriesRequest', () => {
+    test('should dispatch action', () => {
+      component.customerId = '1235321';
+      component.salesOrg = '0615';
+      mockStore.dispatch = jest.fn();
+      component.selectionItems = [
+        { value: true, checked: true },
+        { value: SalesIndication.INVOICE, checked: true },
+      ] as any;
+
+      component.triggerPLsAndSeriesRequest();
+      const customerFilters: PLsSeriesRequest = {
+        customer: {
+          customerId: component.customerId,
+          salesOrg: component.salesOrg,
+        },
+        includeQuotationHistory: true,
+        salesIndications: [SalesIndication.INVOICE],
+      };
+
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        getPLsAndSeries({ customerFilters })
+      );
     });
   });
 });

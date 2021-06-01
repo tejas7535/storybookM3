@@ -9,6 +9,8 @@ import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
+import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 
 export const autocomplete = createAction(
   '[Create Case] Get Autocomplete Suggestions For Autocomplete Option',
@@ -101,6 +103,34 @@ export const getSalesOrgsFailure = createAction(
 export const selectSalesOrg = createAction(
   '[Create Case] Select Sales Organisation For Customer',
   props<{ salesOrgId: string }>()
+);
+
+export const getPLsAndSeries = createAction(
+  '[Create Case] Get Product lines and Series',
+  props<{ customerFilters: PLsSeriesRequest }>()
+);
+export const getPLsAndSeriesSuccess = createAction(
+  '[Create Case] Get Product lines and Series Success',
+  props<{ plsAndSeries: PLsAndSeries }>()
+);
+
+export const getPLsAndSeriesFailure = createAction(
+  '[Create Case] Get Product lines and Series Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const setSelectedProductLines = createAction(
+  '[Create Case] Set Selected Product Lines',
+  props<{ selectedProductLines: string[] }>()
+);
+
+export const setSelectedSeries = createAction(
+  '[Create Case] Set Selected Series',
+  props<{ selectedSeries: string[] }>()
+);
+
+export const resetProductLineAndSeries = createAction(
+  '[Create Case] Reset ProductLineAndSeries'
 );
 
 const all = union({

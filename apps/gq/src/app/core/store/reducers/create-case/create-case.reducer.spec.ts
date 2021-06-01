@@ -18,13 +18,19 @@ import {
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  getPLsAndSeries,
+  getPLsAndSeriesFailure,
+  getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetProductLineAndSeries,
   selectAutocompleteOption,
+  setSelectedProductLines,
+  setSelectedSeries,
   unselectAutocompleteOptions,
   validateFailure,
   validateSuccess,
@@ -502,6 +508,73 @@ describe('Create Case Reducer', () => {
         const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
         expect(state.customer.errorMessage).toEqual(errorMessage);
+      });
+    });
+  });
+
+  describe('PLsAndSeries Actions', () => {
+    describe('getPLsAndSeries', () => {
+      test('should set loading', () => {
+        const action = getPLsAndSeries({ customerFilters: {} as any });
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(state.plSeries.loading).toBeTruthy();
+      });
+    });
+    describe('getPLsAndSeriesSuccess', () => {
+      test('should set loading false', () => {
+        const plsAndSeries = {} as any;
+        const action = getPLsAndSeriesSuccess({ plsAndSeries });
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(state.plSeries.loading).toBeFalsy();
+        expect(state.plSeries.plsAndSeries).toEqual(plsAndSeries);
+      });
+    });
+    describe('getPLsAndSeriesFailure', () => {
+      test('should set loading false', () => {
+        const errorMessage = 'error';
+        const action = getPLsAndSeriesFailure({ errorMessage });
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(state.plSeries.loading).toBeFalsy();
+        expect(state.plSeries.errorMessage).toEqual(errorMessage);
+      });
+    });
+    describe('setSelectedProductLines', () => {
+      test('should set selected product lines', () => {
+        const selectedProductLines = [] as any;
+        const action = setSelectedProductLines({ selectedProductLines });
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(
+          state.plSeries.plsAndSeries.pls.every((i) => !i.selected)
+        ).toBeTruthy();
+      });
+    });
+    describe('setSelectedSeries', () => {
+      test('should set selected series', () => {
+        const selectedSeries = [] as any;
+        const action = setSelectedSeries({ selectedSeries });
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(
+          state.plSeries.plsAndSeries.series.every((i) => !i.selected)
+        ).toBeTruthy();
+      });
+    });
+    describe('resetProductLineAndSeries', () => {
+      test('should reset productLine and series', () => {
+        const action = resetProductLineAndSeries();
+
+        const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+        expect(state.plSeries).toEqual(initialState.plSeries);
       });
     });
   });

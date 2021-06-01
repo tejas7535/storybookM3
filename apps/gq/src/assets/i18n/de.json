@@ -30,6 +30,7 @@
       "seeOffer": "Auswahl anzeigen"
     },
     "caseMaterial": {
+      "salesOrg": "VkOrg",
       "addEntry": {
         "processCase": {
           "dialogTitle": "Neuen Position hinzufügen",
@@ -41,7 +42,6 @@
           "hint": "Geben Sie die Menge ein"
         },
         "customer": {
-          "salesOrg": "VkOrg",
           "hint": "Geben Sie eine Kundennummer oder einen Kundennamen ein",
           "label": "Kunde",
           "nothingFound": "Keine Ergebnisse",
@@ -81,9 +81,9 @@
     },
     "customStatusBar": {
       "buttons": {
-        "importCase": "Import from sap",
-        "createManualCase": "Create manual case",
-        "createCustomerCase": "New case from customer",
+        "importCase": "SAP Angebot importieren",
+        "createManualCase": "Manuellen Case erstellen",
+        "createCustomerCase": "Case auf Kundenbasis erstellen",
         "addMaterial": "hinzufügen",
         "addToOffer": "Zur Auswahl hinzufügen",
         "exportToExcel": "als Excel Datei exportieren",
