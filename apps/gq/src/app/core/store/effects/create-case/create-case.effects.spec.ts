@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
@@ -11,7 +13,7 @@ import { cold, hot } from 'jasmine-marbles';
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
 
-import { QUOTATION_MOCK } from '../../../../../testing/mocks';
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../../../testing/mocks';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
@@ -19,9 +21,12 @@ import {
   MaterialValidation,
   ValidationDescription,
 } from '../../../../shared/models/table';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
-import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import { PLsSeriesResponse } from '../../../../shared/services/rest-services/search-service/models/pls-series-response.model';
+import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
   autocomplete,
   autocompleteFailure,
@@ -29,6 +34,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  getPLsAndSeries,
+  getPLsAndSeriesFailure,
+  getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
   importCase,
@@ -45,6 +53,8 @@ import {
   CreateCaseResponse,
   SalesOrg,
 } from '../../reducers/create-case/models';
+import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
+import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import {
   getCaseRowData,
   getCreateCaseData,
@@ -352,6 +362,59 @@ describe('Create Case Effects', () => {
 
       expect(effects.getSalesOrgs$).toBeObservable(expected);
       expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('getPLsAndSeries', () => {
+    test('should return getPLsAndSeriesSuccess when REST call is successful', () => {
+      marbles((m) => {
+        const customerFilters: PLsSeriesRequest = {
+          customer: CUSTOMER_MOCK.identifier,
+          includeQuotationHistory: true,
+          salesIndications: [SalesIndication.INVOICE],
+        };
+        const plsSeriesResponse: PLsSeriesResponse[] = [
+          { series: '1', productLine: 'one', productLineId: '1' },
+        ];
+        const plsAndSeries: PLsAndSeries = {
+          pls: [{ name: 'one', series: ['1'], value: '1', selected: true }],
+          series: [{ selected: true, value: '1' }],
+        };
+        HelperService.transformPLsAndSeriesResponse = jest.fn(
+          () => plsAndSeries
+        );
+
+        action = getPLsAndSeries({ customerFilters });
+        const result = getPLsAndSeriesSuccess({ plsAndSeries });
+        searchService.getPlsAndSeries = jest.fn(() => response);
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: plsSeriesResponse,
+        });
+
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.getPLsAndSeries$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getPlsAndSeries).toHaveBeenCalledTimes(1);
+        expect(searchService.getPlsAndSeries).toHaveBeenCalledWith(
+          customerFilters
+        );
+      });
+    });
+    test('should return getPLsAndSeriesFailure on REST error', () => {
+      marbles((m) => {
+        const errorMessage = `Hello, i'm an error`;
+        const result = getPLsAndSeriesFailure({ errorMessage });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        searchService.getPlsAndSeries = jest.fn(() => response);
+        m.expect(effects.getPLsAndSeries$).toBeObservable(expected);
+        expect(searchService.getPlsAndSeries).toHaveBeenCalledTimes(1);
+      });
     });
   });
 });

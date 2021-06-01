@@ -1,11 +1,13 @@
 import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
 
+import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import {
   BASE_COLUMN_DEFS,
   BASE_STATUS_BAR_CONFIG,
 } from '../../case-material/input-table/config';
 import { StatusBarConfig } from '../../models/table';
+import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 import { HelperService } from './helper-service.service';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -174,6 +176,26 @@ describe('HelperServiceService', () => {
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
       expect(manualPriceFormControl.setValue).toHaveBeenCalledTimes(1);
       expect(manualPriceFormControl.setValue).toHaveBeenCalledWith(20.02);
+    });
+  });
+  describe('transformPLsAndSeriesResponse', () => {
+    test('should transform reponse', () => {
+      const response: PLsSeriesResponse[] = [
+        { productLine: '10', productLineId: '10', series: '20' },
+        { productLine: '10', productLineId: '10', series: '30' },
+      ];
+      const result = HelperService.transformPLsAndSeriesResponse(response);
+
+      const expected: PLsAndSeries = {
+        pls: [
+          { name: '10', selected: true, series: ['20', '30'], value: '10' },
+        ],
+        series: [
+          { value: '20', selected: true },
+          { value: '30', selected: true },
+        ],
+      };
+      expect(result).toEqual(expected);
     });
   });
 });

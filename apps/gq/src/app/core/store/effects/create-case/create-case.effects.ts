@@ -30,6 +30,7 @@ import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
+import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
 import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
 import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
@@ -40,6 +41,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  getPLsAndSeries,
+  getPLsAndSeriesFailure,
+  getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
   importCase,
@@ -177,6 +181,26 @@ export class CreateCaseEffects {
           map((salesOrgs: SalesOrg[]) => getSalesOrgsSuccess({ salesOrgs })),
           catchError((errorMessage) =>
             of(getSalesOrgsFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
+  /*
+   * Get Product lines and Series
+   */
+  getPLsAndSeries$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getPLsAndSeries),
+      mergeMap((action) =>
+        this.searchService.getPlsAndSeries(action.customerFilters).pipe(
+          map((response) =>
+            HelperService.transformPLsAndSeriesResponse(response)
+          ),
+          map((plsAndSeries) => getPLsAndSeriesSuccess({ plsAndSeries })),
+          catchError((errorMessage) =>
+            of(getPLsAndSeriesFailure({ errorMessage }))
           )
         )
       )

@@ -136,4 +136,20 @@ describe('Create Case Selector', () => {
       ).toBeFalsy();
     });
   });
+  describe('getProductLinesAndSeries', () => {
+    test('should return getProductLinesAndSeries', () => {
+      expect(
+        createSelectors.getProductLinesAndSeries.projector(fakeState.case)
+      ).toEqual(fakeState.case.plSeries.plsAndSeries);
+    });
+  });
+  describe('getProductLinesAndSeriesLoading', () => {
+    test('should return getProductLinesAndSeriesLoading', () => {
+      expect(
+        createSelectors.getProductLinesAndSeriesLoading.projector(
+          fakeState.case
+        )
+      ).toEqual(fakeState.case.plSeries.loading);
+    });
+  });
 });

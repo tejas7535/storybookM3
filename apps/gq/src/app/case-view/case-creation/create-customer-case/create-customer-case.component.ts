@@ -10,10 +10,19 @@ import {
   autocomplete,
   getCaseAutocompleteLoading,
   getCaseCustomer,
+  getProductLinesAndSeries,
+  getProductLinesAndSeriesLoading,
+  getSelectedCustomerId,
+  getSelectedSalesOrg,
+  resetProductLineAndSeries,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
+import {
+  CaseFilterItem,
+  SalesOrg,
+} from '../../../core/store/reducers/create-case/models';
+import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { AutocompleteInputComponent } from '../../../shared/autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
@@ -26,7 +35,11 @@ import { MaterialSelectionComponent } from './material-selection/material-select
 export class CreateCustomerCaseComponent implements OnInit {
   title$: Observable<string>;
   customer$: Observable<CaseFilterItem>;
+  selectedSalesOrg$: Observable<SalesOrg>;
+  selectedCustomerId$: Observable<string>;
   customerAutocompleteLoading$: Observable<boolean>;
+  plsAndSeries$: Observable<PLsAndSeries>;
+  plsAndSeriesLoading$: Observable<boolean>;
   createCaseDisabled: boolean;
 
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
@@ -50,6 +63,12 @@ export class CreateCustomerCaseComponent implements OnInit {
     this.customerAutocompleteLoading$ = this.store.select(
       getCaseAutocompleteLoading,
       FilterNames.CUSTOMER
+    );
+    this.selectedSalesOrg$ = this.store.select(getSelectedSalesOrg);
+    this.selectedCustomerId$ = this.store.select(getSelectedCustomerId);
+    this.plsAndSeries$ = this.store.select(getProductLinesAndSeries);
+    this.plsAndSeriesLoading$ = this.store.select(
+      getProductLinesAndSeriesLoading
     );
   }
   closeDialog(): void {
@@ -77,5 +96,6 @@ export class CreateCustomerCaseComponent implements OnInit {
     this.materialSelection.resetAll();
     this.unselectOptions(FilterNames.CUSTOMER);
     this.autocompleteComponent.resetInputField();
+    this.store.dispatch(resetProductLineAndSeries());
   }
 }

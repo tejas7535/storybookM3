@@ -15,6 +15,7 @@ import {
   CreateCaseResponse,
   SalesOrg,
 } from '../../reducers/create-case/models';
+import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 
 export const getCaseQuotation = createSelector(
   getCaseState,
@@ -128,4 +129,19 @@ export const getSelectedSalesOrg = createSelector(
 export const getCreateCaseLoading = createSelector(
   getCaseState,
   (state: CaseState): boolean => state.createCaseLoading
+);
+
+export const getSelectedCustomerId = createSelector(
+  getCaseState,
+  (state: CaseState): string => state.customer.customerId
+);
+
+export const getProductLinesAndSeries = createSelector(
+  getCaseState,
+  (state: CaseState): PLsAndSeries => state.plSeries.plsAndSeries
+);
+
+export const getProductLinesAndSeriesLoading = createSelector(
+  getCaseState,
+  (state: CaseState): boolean => state.plSeries.loading
 );

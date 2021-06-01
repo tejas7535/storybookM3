@@ -1,16 +1,20 @@
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogRef } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSelectModule } from '@angular/material/select';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
+  resetProductLineAndSeries,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
@@ -18,8 +22,10 @@ import { AutocompleteInputModule } from '../../../shared/autocomplete-input/auto
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { SelectSalesOrgModule } from '../../../shared/select-sales-org/select-sales-org.module';
 import { AdditionalFiltersComponent } from './additional-filters/additional-filters.component';
+import { FilterSelectionComponent } from './additional-filters/filter-selection/filter-selection.component';
 import { CreateCustomerCaseComponent } from './create-customer-case.component';
 import { MaterialSelectionComponent } from './material-selection/material-selection.component';
 import { StatusBarComponent } from './status-bar/status-bar.component';
@@ -36,9 +42,13 @@ describe('CreateCustomerCaseComponent', () => {
       DialogHeaderModule,
       MatIconModule,
       MatCheckboxModule,
-      UnderConstructionModule,
       SelectSalesOrgModule,
       AutocompleteInputModule,
+      MatFormFieldModule,
+      MatSelectModule,
+      ReactiveFormsModule,
+      LoadingSpinnerModule,
+      SharedPipesModule,
       provideTranslocoTestingModule({}),
     ],
     providers: [
@@ -52,6 +62,7 @@ describe('CreateCustomerCaseComponent', () => {
       StatusBarComponent,
       MaterialSelectionComponent,
       AdditionalFiltersComponent,
+      FilterSelectionComponent,
     ],
   });
 
@@ -112,6 +123,7 @@ describe('CreateCustomerCaseComponent', () => {
 
   describe('resetAll', () => {
     test('should reset all', () => {
+      mockStore.dispatch = jest.fn();
       component.materialSelection = { resetAll: jest.fn() } as any;
       component.unselectOptions = jest.fn();
       component.autocompleteComponent = { resetInputField: jest.fn() } as any;
@@ -120,6 +132,9 @@ describe('CreateCustomerCaseComponent', () => {
       expect(component.materialSelection.resetAll).toHaveBeenCalledTimes(1);
       expect(component.unselectOptions).toHaveBeenCalledTimes(1);
       component.autocompleteComponent.resetInputField();
+      expect(mockStore.dispatch).toHaveBeenCalledWith(
+        resetProductLineAndSeries()
+      );
     });
   });
 });

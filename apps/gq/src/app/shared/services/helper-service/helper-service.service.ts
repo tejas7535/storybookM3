@@ -5,7 +5,9 @@ import { FormControl } from '@angular/forms';
 import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef, StatusPanelDef } from '@ag-grid-community/core';
 
+import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import { StatusBarConfig } from '../../models/table';
+import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-series-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -106,5 +108,35 @@ export class HelperService {
     if (price) {
       formControl.setValue(price);
     }
+  }
+
+  static transformPLsAndSeriesResponse(
+    response: PLsSeriesResponse[]
+  ): PLsAndSeries {
+    const series = [...new Set(response.map((item) => item.series))].map(
+      (el) => ({ value: el, selected: true })
+    );
+    const plsAndSeries: PLsAndSeries = {
+      series,
+      pls: [],
+    };
+
+    response.forEach((element) => {
+      const index = plsAndSeries.pls.findIndex(
+        (item) => item.value === element.productLineId
+      );
+      if (index < 0) {
+        plsAndSeries.pls.push({
+          value: element.productLineId,
+          name: element.productLine,
+          selected: true,
+          series: [element.series],
+        });
+      } else if (!plsAndSeries.pls[index].series.includes(element.series)) {
+        plsAndSeries.pls[index].series.push(element.series);
+      }
+    });
+
+    return plsAndSeries;
   }
 }

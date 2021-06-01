@@ -19,7 +19,7 @@
       "createButton": "Case erstellen"
     },
     "createCustomerCase": {
-      "title": "Neuen Case vom Kunden erstellen",
+      "title": "Neuen Case auf Kundenbasis erstellen",
       "includeMaterials": {
         "title": "Selektion Material-Positionen",
         "materialSelection": "Materialauswahl",
@@ -28,7 +28,13 @@
         "openQuotes": "Materialien aus den aktuell offenen Angeboten",
         "lostQuotes": "Materialien aus der Angebotsverfolgung mit Absagegrund 'Preis zu hoch' (letzte 2 Jahre)"
       },
-      "additionalMaterials": "Zusätzliche Filteroptionen",
+      "additionalMaterials": {
+        "title": "Zusätzliche Filteroptionen",
+        "productLines": "Produktlinien",
+        "series": "Serien",
+        "others": "weitere",
+        "nothingFound": "Es konnten keine Produktlinen oder Serien gefunden werden."
+      },
       "statusBar": {
         "createCase": "Case erstellen",
         "resetAll": "Zurücksetzen",

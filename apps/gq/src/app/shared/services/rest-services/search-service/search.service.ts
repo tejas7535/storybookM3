@@ -12,6 +12,8 @@ import { Customer } from '../../../models/customer';
 import { AutocompleteSearch, IdValue } from '../../../models/search';
 import { PriceService } from '../../price-service/price.service';
 import { AutocompleteResponse } from './models/autocomplete-response.model';
+import { PLsSeriesRequest } from './models/pls-series-request.model';
+import { PLsSeriesResponse } from './models/pls-series-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -23,6 +25,7 @@ export class SearchService {
   private readonly PATH_AUTO_COMPLETE = 'auto-complete';
   private readonly PATH_GET_SALES_ORGS = 'sales-orgs';
   private readonly PATH_CUSTOMERS = 'customers';
+  private readonly PATH_PLS_AND_SERIES = 'materials/product-lines/customer';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -93,5 +96,11 @@ export class SearchService {
           },
         }))
       );
+  }
+
+  public getPlsAndSeries(
+    requestPayload: PLsSeriesRequest
+  ): Observable<PLsSeriesResponse[]> {
+    return this.dataService.post(`${this.PATH_PLS_AND_SERIES}`, requestPayload);
   }
 }

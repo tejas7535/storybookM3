@@ -14,8 +14,10 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CaseFilterItem } from '../../../../core/store/reducers/create-case/models';
 import { QuotationIdentifier } from '../../../../core/store/reducers/process-case/models';
+import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
 import { FilterNames } from '../../../autocomplete-input/filter-names.enum';
 import { AutocompleteSearch } from '../../../models/search';
+import { PLsSeriesRequest } from './models/pls-series-request.model';
 import { SearchService } from './search.service';
 
 describe('SearchService', () => {
@@ -107,7 +109,7 @@ describe('SearchService', () => {
     });
   });
   describe('getCustomer', () => {
-    test('should call ', () => {
+    test('should call', () => {
       const quotationIdentifier: QuotationIdentifier = {
         customerNumber: '1234',
         gqId: 1147852,
@@ -123,6 +125,22 @@ describe('SearchService', () => {
       const req = httpMock.expectOne(`/${service['PATH_CUSTOMERS']}/1234/0267`);
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
+    });
+  });
+
+  describe('getPlsAndSeries', () => {
+    test('should call', () => {
+      const requestPayload: PLsSeriesRequest = {
+        customer: CUSTOMER_MOCK.identifier,
+        includeQuotationHistory: true,
+        salesIndications: [SalesIndication.INVOICE],
+      };
+      service.getPlsAndSeries(requestPayload).subscribe((response) => {
+        expect(response).toEqual({});
+      });
+
+      const req = httpMock.expectOne(`/${service['PATH_PLS_AND_SERIES']}`);
+      expect(req.request.method).toBe(HttpMethod.POST);
     });
   });
 });

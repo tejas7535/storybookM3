@@ -1,1 +1,37 @@
-<schaeffler-under-construction></schaeffler-under-construction>
+<div
+  class="h-5/6"
+  *transloco="
+    let t;
+    read: 'caseView.caseCreation.createCustomerCase.additionalMaterials'
+  "
+>
+  <div *ngIf="plsAndSeriesLoading === false; else loading">
+    <gq-filter-selection
+      [title]="productLineTitle$ | ngrxPush"
+      [items]="plsAndSeries?.pls || []"
+      (selection)="selectProductLines($event)"
+    >
+    </gq-filter-selection>
+    <div class="mt-11"></div>
+    <gq-filter-selection
+      [title]="seriesTitle$ | ngrxPush"
+      [items]="plsAndSeries?.series || []"
+      (selection)="selectSeries($event)"
+    >
+    </gq-filter-selection>
+    <div
+      class="mt-6"
+      *ngIf="
+        plsAndSeries?.series.length === 0 && plsAndSeries?.pls.length === 0
+      "
+    >
+      <span class="text-error text-button">{{ t('nothingFound') }}</span>
+    </div>
+  </div>
+  <ng-template #loading>
+    <schaeffler-loading-spinner
+      backgroundColor="rgba(255,255,255, 0.1)"
+      relative="true"
+    ></schaeffler-loading-spinner>
+  </ng-template>
+</div>

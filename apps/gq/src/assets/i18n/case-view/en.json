@@ -28,7 +28,13 @@
         "openQuotes": "Materials from Open Quotes (Current Open Quotes)",
         "lostQuotes": "Materials from Lost Quotes (Last 2 Years)"
       },
-      "additionalMaterials": "Additional filters",
+      "additionalMaterials": {
+        "title": "Additional filters",
+        "productLines": "Product Lines",
+        "series": "Series",
+        "others": "others",
+        "nothingFound": "No product lines or series could be found."
+      },
       "statusBar": {
         "createCase": "Create Case",
         "resetAll": "Reset All",

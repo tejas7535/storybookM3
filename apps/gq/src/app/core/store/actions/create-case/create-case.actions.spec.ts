@@ -4,10 +4,13 @@ import {
   MaterialTableItem,
   ValidationDescription,
 } from '../../../../shared/models/table';
+import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import {
   CreateCaseResponse,
   SalesOrg,
 } from '../../reducers/create-case/models';
+import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
+import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import {
   addRowDataItem,
   autocomplete,
@@ -18,14 +21,20 @@ import {
   createCaseFailure,
   createCaseSuccess,
   deleteRowDataItem,
+  getPLsAndSeries,
+  getPLsAndSeriesFailure,
+  getPLsAndSeriesSuccess,
   getSalesOrgsFailure,
   getSalesOrgsSuccess,
   importCase,
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
+  setSelectedProductLines,
+  setSelectedSeries,
   unselectAutocompleteOptions,
 } from './create-case.actions';
 
@@ -237,6 +246,89 @@ describe('Create Actions', () => {
       expect(action).toEqual({
         salesOrgId,
         type: '[Create Case] Select Sales Organisation For Customer',
+      });
+    });
+  });
+  describe('getPLsAndSeries', () => {
+    test('getPLsAndSeries', () => {
+      const customerFilters: PLsSeriesRequest = {
+        customer: {
+          customerId: '1234',
+          salesOrg: '256',
+        },
+        includeQuotationHistory: true,
+        salesIndications: [SalesIndication.INVOICE],
+      };
+      const action = getPLsAndSeries({ customerFilters });
+
+      expect(action).toEqual({
+        customerFilters,
+        type: '[Create Case] Get Product lines and Series',
+      });
+    });
+  });
+  describe('getPLsAndSeriesSuccess', () => {
+    test('getPLsAndSeriesSuccess', () => {
+      const plsAndSeries: PLsAndSeries = {
+        pls: [
+          { value: '10', name: 'name', selected: false, series: ['NU', 'NJ'] },
+        ],
+        series: [
+          {
+            selected: false,
+            value: 'NU',
+          },
+        ],
+      };
+
+      const action = getPLsAndSeriesSuccess({ plsAndSeries });
+
+      expect(action).toEqual({
+        plsAndSeries,
+        type: '[Create Case] Get Product lines and Series Success',
+      });
+    });
+  });
+  describe('getPLsAndSeriesFailure', () => {
+    test('getPLsAndSeriesFailure', () => {
+      const errorMessage = 'This is an error';
+
+      const action = getPLsAndSeriesFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Create Case] Get Product lines and Series Failure',
+      });
+    });
+  });
+  describe('setSelectedProductLines', () => {
+    test('setSelectedProductLines', () => {
+      const selectedProductLines = ['1'];
+      const action = setSelectedProductLines({ selectedProductLines });
+
+      expect(action).toEqual({
+        selectedProductLines,
+        type: '[Create Case] Set Selected Product Lines',
+      });
+    });
+  });
+  describe('setSelectedSeries', () => {
+    test('setSelectedSeries', () => {
+      const selectedSeries = ['1'];
+      const action = setSelectedSeries({ selectedSeries });
+
+      expect(action).toEqual({
+        selectedSeries,
+        type: '[Create Case] Set Selected Series',
+      });
+    });
+  });
+  describe('resetProductLineAndSeries', () => {
+    test('resetProductLineAndSeries', () => {
+      const action = resetProductLineAndSeries();
+
+      expect(action).toEqual({
+        type: '[Create Case] Reset ProductLineAndSeries',
       });
     });
   });
