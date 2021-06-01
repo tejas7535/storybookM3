@@ -1,8 +1,8 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 
-import { Observable, Subscription } from 'rxjs';
+import { Subscription } from 'rxjs';
 
 import { AvailableLangs } from '@ngneat/transloco';
 
@@ -10,36 +10,45 @@ import { locales, MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
 
+interface AvailableSeparators {
+  id: string;
+  label: string;
+}
+
 @Component({
   selector: 'mm-sidebar',
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.scss'],
 })
-export class SidebarComponent implements OnInit {
+export class SidebarComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') private readonly sidenav: MatSidenav;
 
-  private subscription = new Subscription();
+  private readonly subscription = new Subscription();
 
-  availableLangs: AvailableLangs;
-  currentSeparator: Observable<MMSeparator>;
+  private readonly languageSelectControl: FormControl = new FormControl('');
+  private readonly separatorSelectControl: FormControl = new FormControl('');
 
-  languageSelectControl: FormControl;
-  separatorSelectControl: FormControl;
+  public availableSeparators: AvailableSeparators[] = [
+    { id: ',', label: 'decimalSeparatorComma' },
+    { id: '.', label: 'decimalSeparatorPoint' },
+  ];
 
-  constructor(
-    // @Inject(LOCALE_ID) public locale: string,
-    private localeService: LocaleService
-  ) {}
+  public availableLangs: AvailableLangs;
+
+  constructor(private readonly localeService: LocaleService) {}
 
   ngOnInit(): void {
     this.availableLangs = this.localeService.getAvailableLangs();
-    const activeLocale = this.localeService.getActiveLang() as MMLocales;
-    this.languageSelectControl = new FormControl(activeLocale);
-    this.separatorSelectControl = new FormControl(
-      locales[activeLocale].defaultSeparator
+    this.subscription.add(
+      this.localeService.language$.subscribe((language: MMLocales) => {
+        this.languageSelectControl.setValue(language);
+        this.separatorSelectControl.setValue(
+          locales[language].defaultSeparator
+        );
+      })
     );
     this.subscription.add(
-      this.localeService.getSeparator().subscribe((separator: MMSeparator) => {
+      this.localeService.separator$.subscribe((separator: MMSeparator) => {
         this.separatorSelectControl.setValue(separator);
       })
     );

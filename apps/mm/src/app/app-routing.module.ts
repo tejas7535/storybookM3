@@ -8,7 +8,7 @@ export enum RoutePath {
 
 export const appRoutePaths: Routes = [
   {
-    path: `${RoutePath.HomePath}/:step/:id/:language/:seperator/:head/:iframe`,
+    path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
   {

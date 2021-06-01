@@ -87,4 +87,12 @@ describe('PictureCardListComponent', () => {
       );
     });
   });
+
+  test('reset wizard should console log for now', () => {
+    const consoleSpy = jest.spyOn(console, 'log');
+
+    component.resetWizard();
+
+    expect(consoleSpy).toHaveBeenCalledTimes(1);
+  });
 });

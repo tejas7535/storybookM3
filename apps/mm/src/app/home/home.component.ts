@@ -21,6 +21,9 @@ import {
 
 import { environment } from '../../environments/environment';
 import { DIALOG } from '../../mock';
+import { MMLocales } from '../core/services/locale/locale.enum';
+import { LocaleService } from '../core/services/locale/locale.service';
+import { MMSeparator } from '../core/services/locale/separator.enum';
 import { PagesStepperComponent } from '../pages-stepper/pages-stepper.component';
 import { ModelTransformer } from '../services/model-transformer.service';
 import {
@@ -42,7 +45,7 @@ import { PagedMeta } from './home.model';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   dialog = DIALOG;
 
@@ -71,7 +74,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly http: HttpClient,
     private readonly cdRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
-    private readonly homeStore: HomeStore
+    private readonly homeStore: HomeStore,
+    private readonly localService: LocaleService
   ) {}
 
   ngOnInit(): void {
@@ -86,13 +90,21 @@ export class HomeComponent implements OnInit, OnDestroy {
   handleRouteParams(): void {
     this.route.params
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params): void => {
-        if (params && params.id) {
+      .subscribe(({ id, language, separator }: Params): void => {
+        if (id) {
           // Todo handling of wrong IDs and inital 404 call
           // could be done by httpInterceptor
-          this.selectBearing(params.id);
+          this.selectBearing(id);
           this.homeStore.setActivePageId(PAGE_MOUNTING_MANAGER_SEAT);
           this.homeStore.setInactivePageId(RSY_PAGE_BEARING_TYPE);
+        }
+        if (language) {
+          this.localService.setLocale(language as MMLocales);
+        }
+        if (separator) {
+          this.localService.setSeparator(
+            separator === 'comma' ? MMSeparator.Comma : MMSeparator.Point
+          );
         }
       });
   }
