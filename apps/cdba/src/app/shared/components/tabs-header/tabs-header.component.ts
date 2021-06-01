@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { Tab } from './tab.model';
 
@@ -6,6 +6,7 @@ import { Tab } from './tab.model';
   selector: 'cdba-tabs-header',
   templateUrl: './tabs-header.component.html',
   styleUrls: ['./tabs-header.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsHeaderComponent {
   @Input() tabs: Tab[];

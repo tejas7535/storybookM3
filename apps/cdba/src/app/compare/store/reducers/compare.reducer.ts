@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   BomItem,
   Calculation,
+  ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
@@ -13,6 +14,9 @@ import {
   loadCalculationHistory,
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
+  loadProductDetails,
+  loadProductDetailsFailure,
+  loadProductDetailsSuccess,
   selectBomItem,
   selectCalculation,
   selectCompareItems,
@@ -21,6 +25,11 @@ import {
 export interface CompareState {
   [index: number]: {
     referenceType?: ReferenceTypeIdentifier;
+    details?: {
+      item: ReferenceType;
+      loading: boolean;
+      errorMessage: string;
+    };
     calculations?: {
       items?: Calculation[];
       selected?: Calculation;
@@ -53,6 +62,59 @@ export const compareReducer = createReducer(
 
     return state;
   }),
+  on(
+    loadProductDetails,
+    (state, { index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              details: {
+                ...state[index].details,
+                item: undefined,
+                errorMessage: undefined,
+                loading: true,
+              },
+            },
+          }
+        : state
+  ),
+  on(
+    loadProductDetailsSuccess,
+    (state, { item, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              details: {
+                ...state[index].details,
+                item,
+                loading: false,
+              },
+            },
+          }
+        : state
+  ),
+  on(
+    loadProductDetailsFailure,
+    (state, { errorMessage, index }): CompareState =>
+      state[index]
+        ? {
+            ...state,
+            [index]: {
+              ...state[index],
+              details: {
+                ...state[index].details,
+                errorMessage,
+                item: undefined,
+                loading: false,
+              },
+            },
+          }
+        : state
+  ),
   on(
     loadBom,
     (state, { index }): CompareState =>

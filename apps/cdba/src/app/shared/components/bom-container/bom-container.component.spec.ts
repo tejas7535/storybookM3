@@ -13,7 +13,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as compareActions from '@cdba/compare/store/actions/compare.actions';
 import * as detailActions from '@cdba/core/store/actions/detail/detail.actions';
-import { UndefinedAttributeFallbackModule } from '@cdba/shared/pipes';
 import {
   BOM_MOCK,
   COMPARE_STATE_MOCK,
@@ -53,7 +52,6 @@ describe('BomContainerComponent', () => {
       MockModule(BomChartModule),
       MockModule(BomLegendModule),
       MockModule(LoadingSpinnerModule),
-      UndefinedAttributeFallbackModule,
     ],
     providers: [
       provideMockStore({
@@ -184,7 +182,7 @@ describe('BomContainerComponent', () => {
       component['initializeWithCompareSelectors']();
 
       expect(component.materialDesignation$).toBeObservable(
-        cold('a', { a: 'FE-2313' })
+        cold('a', { a: 'F-446509.SLH' })
       );
       expect(component.calculations$).toBeObservable(
         cold('a', { a: COMPARE_STATE_MOCK[0].calculations.items })

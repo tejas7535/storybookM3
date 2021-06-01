@@ -1,6 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { getCompareState } from '@cdba/core/store/reducers';
+import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 import {
   BomIdentifier,
   BomItem,
@@ -8,12 +9,60 @@ import {
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
+import { AdditionalInformation } from '../../details-tab/additional-information-widget/additional-information.model';
 import { CompareState } from '../reducers/compare.reducer';
 
 export const getSelectedReferenceTypeIdentifiers = createSelector(
   getCompareState,
   (state: CompareState): ReferenceTypeIdentifier[] =>
     Object.keys(state).map((index: string) => state[+index].referenceType)
+);
+
+export const getDimensionAndWeightDetails = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): DimensionAndWeightDetails => {
+    const referenceType = state[index]?.details?.item;
+
+    return referenceType
+      ? new DimensionAndWeightDetails(
+          referenceType.height,
+          referenceType.width,
+          referenceType.length,
+          referenceType.unitOfDimension,
+          referenceType.volumeCubic,
+          referenceType.volumeUnit,
+          referenceType.weight,
+          referenceType.weightUnit
+        )
+      : undefined;
+  }
+);
+
+export const getAdditionalInformation = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): AdditionalInformation => {
+    const referenceType = state[index]?.details?.item;
+
+    if (referenceType) {
+      const {
+        plant,
+        procurementType,
+        salesOrganization,
+        plannedQuantities,
+        actualQuantities,
+      } = referenceType;
+
+      return {
+        plant,
+        procurementType,
+        salesOrganization,
+        plannedQuantities,
+        actualQuantities,
+      };
+    }
+
+    return undefined;
+  }
 );
 
 export const getBomIdentifierForSelectedCalculation = createSelector(
@@ -106,18 +155,10 @@ export const getChildrenOfSelectedBomItem = createSelector(
       : undefined
 );
 
-// TODO: refactor to use materialDesignation from details (earlier available)
 export const getMaterialDesignation = createSelector(
   getCompareState,
-  (state: CompareState, index: number) => {
-    const bomItems = state[index]?.billOfMaterial?.items;
-
-    if (bomItems && bomItems[0]) {
-      return bomItems[0].materialDesignation;
-    }
-
-    return undefined;
-  }
+  (state: CompareState, index: number) =>
+    state[index]?.details?.item?.materialDesignation
 );
 
 export const getIsCompareDetailsDisabled = createSelector(

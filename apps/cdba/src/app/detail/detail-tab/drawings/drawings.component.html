@@ -4,7 +4,7 @@
   fxLayoutAlign="space-between start"
   *transloco="let t; read: 'drawings'"
 >
-  <h6 *ngIf="materialDesignation$ | ngrxPush" fxFlex="20px">
+  <h6 class="mb-5" *ngIf="materialDesignation$ | ngrxPush" fxFlex="40px">
     {{ t('title', { material: materialDesignation$ | ngrxPush }) }}
   </h6>
   <div fxFlex class="widget-content">

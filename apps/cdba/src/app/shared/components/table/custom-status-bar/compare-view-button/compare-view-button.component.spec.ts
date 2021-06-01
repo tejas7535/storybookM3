@@ -129,31 +129,5 @@ describe('CompareViewButtonComponent', () => {
         },
       });
     });
-
-    test('should not add identification hash and node id to query params', () => {
-      const mockSelections: RowNode[] = [
-        {
-          id: '1',
-          data: {
-            materialNumber: '5678',
-            plant: '0076',
-            identificationHash: 'servus',
-          },
-        } as unknown as RowNode,
-      ];
-      component['gridApi'] = {
-        getRowNode: jest.fn((id) =>
-          mockSelections.find((selection) => selection.id === id)
-        ),
-      } as unknown as GridApi;
-      spyOn(router, 'navigate');
-      component.showCompareView(['1']);
-      expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
-        queryParams: {
-          material_number_item_1: '5678',
-          plant_item_1: '0076',
-        },
-      });
-    });
   });
 });

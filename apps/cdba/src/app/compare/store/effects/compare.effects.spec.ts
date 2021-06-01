@@ -23,6 +23,7 @@ import {
 } from '@cdba/testing/mocks';
 
 import {
+  loadAllProductDetails,
   loadBom,
   loadBomFailure,
   loadBomSuccess,
@@ -301,15 +302,16 @@ describe('CompareEffects', () => {
   });
 
   describe('triggerDataLoad$', () => {
-    test('should return loadCalculations action', () => {
+    test('should return loadCalculations and loadAllProductDetails action', () => {
       action = selectCompareItems({
         items: [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]],
       });
 
       actions$ = hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
+      const expected = cold('-(bc)', {
         b: loadCalculations(),
+        c: loadAllProductDetails(),
       });
 
       expect(effects.triggerDataLoad$).toBeObservable(expected);

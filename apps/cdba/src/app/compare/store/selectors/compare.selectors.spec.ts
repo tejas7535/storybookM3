@@ -7,6 +7,7 @@ import {
 
 import { CompareState, initialState } from '../reducers/compare.reducer';
 import {
+  getAdditionalInformation,
   getBomErrorMessage,
   getBomIdentifierForSelectedCalculation,
   getBomItems,
@@ -15,6 +16,7 @@ import {
   getCalculationsErrorMessage,
   getCalculationsLoading,
   getChildrenOfSelectedBomItem,
+  getDimensionAndWeightDetails,
   getIsCompareDetailsDisabled,
   getMaterialDesignation,
   getSelectedCalculation,
@@ -73,6 +75,51 @@ describe('Compare Selectors', () => {
         },
       ];
       result = getSelectedReferenceTypeIdentifiers(fakeState);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getDimensionAndWeightDetails', () => {
+    it('should return undefined for non existing index', () => {
+      result = getDimensionAndWeightDetails(fakeState, 99);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return dimension data for provided index', () => {
+      result = getDimensionAndWeightDetails(fakeState, 0);
+      expected = {
+        height: 7,
+        length: 10,
+        unitOfDimension: 'mm',
+        volumeCubic: 200,
+        volumeUnit: 'mm^3',
+        weight: 10,
+        weightUnit: 'gramm',
+        width: 10,
+      };
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getAdditionalInformation', () => {
+    it('should return undefined for non existing index', () => {
+      result = getAdditionalInformation(fakeState, 99);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return dimension data for provided index', () => {
+      result = getAdditionalInformation(fakeState, 0);
+      expected = {
+        actualQuantities: [250_000, 200_000, 44_444, 2_345_345],
+        plannedQuantities: [30_000, 350_000, 400_000, 500_000],
+        plant: 'IWS',
+        procurementType: 'in-house',
+        salesOrganization: '0060',
+      };
 
       expect(result).toEqual(expected);
     });
@@ -305,7 +352,7 @@ describe('Compare Selectors', () => {
     });
 
     it('should return material designation of first bom item', () => {
-      expected = 'FE-2313';
+      expected = 'F-446509.SLH';
 
       result = getMaterialDesignation(fakeState, 0);
 

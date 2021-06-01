@@ -11,6 +11,7 @@ import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import { RouterStateUrl } from '@cdba/core/store';
+import { ReferenceTypeResult } from '@cdba/core/store/reducers/detail/models';
 import {
   BomIdentifier,
   BomItem,
@@ -20,6 +21,7 @@ import {
 
 import { DetailService } from '../../../detail/service/detail.service';
 import {
+  loadAllProductDetails,
   loadBom,
   loadBomFailure,
   loadBomSuccess,
@@ -27,6 +29,9 @@ import {
   loadCalculationHistoryFailure,
   loadCalculationHistorySuccess,
   loadCalculations,
+  loadProductDetails,
+  loadProductDetailsFailure,
+  loadProductDetailsSuccess,
   selectCalculation,
   selectCompareItems,
 } from '../actions/compare.actions';
@@ -37,7 +42,7 @@ import {
 
 @Injectable()
 export class CompareEffects {
-  selectCompareItems$ = createEffect(() =>
+  public selectCompareItems$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
@@ -73,10 +78,52 @@ export class CompareEffects {
     )
   );
 
-  loadCalculations$ = createEffect(() =>
+  public loadAllProductDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadAllProductDetails),
+      concatLatestFrom((_action) =>
+        this.store.select(getSelectedReferenceTypeIdentifiers)
+      ),
+      map(([_action, identifiers]) => identifiers),
+      mergeMap((identifiers) =>
+        identifiers.map((referenceTypeIdentifier, index) =>
+          loadProductDetails({
+            referenceTypeIdentifier,
+            index,
+          })
+        )
+      )
+    )
+  );
+
+  public loadProductDetails$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadProductDetails),
+      mergeMap((action) =>
+        this.detailService.getDetails(action.referenceTypeIdentifier).pipe(
+          map((item: ReferenceTypeResult) =>
+            loadProductDetailsSuccess({
+              item: item.referenceTypeDto,
+              index: action.index,
+            })
+          ),
+          catchError((errorMessage) =>
+            of(
+              loadProductDetailsFailure({
+                errorMessage,
+                index: action.index,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  public loadCalculations$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCalculations),
-      concatLatestFrom((_action) =>
+      concatLatestFrom(() =>
         this.store.select(getSelectedReferenceTypeIdentifiers)
       ),
       map(([_action, identifiers]) => identifiers),
@@ -92,7 +139,7 @@ export class CompareEffects {
     )
   );
 
-  loadCalculationHistory$ = createEffect(() =>
+  public loadCalculationHistory$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadCalculationHistory),
       mergeMap((action: any) =>
@@ -115,7 +162,7 @@ export class CompareEffects {
     )
   );
 
-  loadBillOfMaterial$ = createEffect(() =>
+  public loadBillOfMaterial$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadBom),
       map(
@@ -133,7 +180,7 @@ export class CompareEffects {
     )
   );
 
-  triggerBomLoad$ = createEffect(() =>
+  public triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationHistorySuccess),
       map((action) => action.index),
@@ -150,15 +197,15 @@ export class CompareEffects {
     )
   );
 
-  triggerDataLoad$ = createEffect(() =>
+  public triggerDataLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCompareItems),
       // eslint-disable-next-line ngrx/no-multiple-actions-in-effects
-      mergeMap(() => [loadCalculations()])
+      mergeMap(() => [loadCalculations(), loadAllProductDetails()])
     )
   );
 
-  constructor(
+  public constructor(
     private readonly actions$: Actions,
     private readonly detailService: DetailService,
     private readonly store: Store,

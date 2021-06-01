@@ -4,6 +4,14 @@
 @import 'libs/shared/ui/styles/src/lib/tabs';
 @import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+button {
+  outline: none !important;
+}
+
 @import 'libs/shared/ui/styles/src/lib/material-theme';
 @include mat-core();
 @include angular-material-theme($schaeffler-theme);
@@ -20,6 +28,10 @@
     border-left: 1px solid ag-param(border-color);
     border-right: 1px solid ag-param(border-color);
   }
+}
+
+.mat-expansion-panel-body {
+  padding: 0 24px 0 !important;
 }
 
 .material-icons {

@@ -4,6 +4,7 @@ import {
   BomIdentifier,
   BomItem,
   Calculation,
+  ReferenceType,
   ReferenceTypeIdentifier,
 } from '@cdba/shared/models';
 
@@ -12,6 +13,25 @@ export const selectCompareItems = createAction(
   props<{
     items: [nodeId: string, referenceTypeIdentifier: ReferenceTypeIdentifier][];
   }>()
+);
+
+export const loadAllProductDetails = createAction(
+  '[Compare] Load All Product Details'
+);
+
+export const loadProductDetails = createAction(
+  '[Compare] Load Product Details',
+  props<{ referenceTypeIdentifier: ReferenceTypeIdentifier; index: number }>()
+);
+
+export const loadProductDetailsSuccess = createAction(
+  '[Compare] Load Product Details Success',
+  props<{ item: ReferenceType; index: number }>()
+);
+
+export const loadProductDetailsFailure = createAction(
+  '[Compare] Load Product Details Failure',
+  props<{ errorMessage: string; index: number }>()
 );
 
 export const loadCalculations = createAction('[Compare] Load Calculations');
@@ -61,6 +81,10 @@ export const selectBomItem = createAction(
 
 const all = union({
   selectCompareItems,
+  loadAllProductDetails,
+  loadProductDetails,
+  loadProductDetailsSuccess,
+  loadProductDetailsFailure,
   loadCalculations,
   loadCalculationHistory,
   loadCalculationHistorySuccess,

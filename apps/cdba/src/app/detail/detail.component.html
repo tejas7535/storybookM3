@@ -1,12 +1,12 @@
 <cdba-tabs-header [tabs]="tabs">
-  <h1 *ngIf="referenceType$ | ngrxPush as referenceType; else error">
+  <h4 *ngIf="referenceType$ | ngrxPush as referenceType; else error">
     {{ referenceType?.materialDesignation }} |
     {{ referenceType?.materialNumber | materialNumber }}
-  </h1>
+  </h4>
 </cdba-tabs-header>
 
 <ng-template #error>
-  <h1 *transloco="let t; read: 'detail'">
+  <h4 *transloco="let t; read: 'detail'">
     {{ t('errorTitle') }}
-  </h1>
+  </h4>
 </ng-template>

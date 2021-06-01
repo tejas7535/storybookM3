@@ -1,0 +1,38 @@
+<mat-card class="w-full h-full">
+  <h6 class="text-color-light h-7 m-4">
+    {{ materialDesignation$ | ngrxPush }}
+  </h6>
+
+  <mat-accordion
+    displayMode="flat"
+    togglePosition="before"
+    multi
+    *transloco="let t; read: 'compare.details'"
+  >
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="text-body-1">
+          {{ t('dimensions.title') }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="content">
+        <cdba-dimensions-widget [data]="dimensionAndWeightDetails$ | ngrxPush">
+        </cdba-dimensions-widget>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title class="text-body-1">
+          {{ t('additionalInformation.title') }}
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <div class="content">
+        <cdba-additional-information-widget
+          [data]="additionalInformation$ | ngrxPush"
+        ></cdba-additional-information-widget>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>
