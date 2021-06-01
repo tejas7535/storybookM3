@@ -37,6 +37,11 @@ describe('OverviewComponent', () => {
       expect(component.attritionData$).toBeDefined();
       expect(component.events$).toBeDefined();
       expect(component.attritionQuotaloading$).toBeDefined();
+      expect(component.entriesDoughnutConfig$).toBeDefined();
+      expect(component.exitsDoughnutConfig$).toBeDefined();
+      expect(component.entriesCount$).toBeDefined();
+      expect(component.exitsCount$).toBeDefined();
+      expect(component.exitEmployees$).toBeDefined();
     });
   });
 });

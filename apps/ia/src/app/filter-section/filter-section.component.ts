@@ -3,14 +3,13 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   filterSelected,
   timePeriodSelected,
   timeRangeSelected,
 } from '../core/store/actions';
-import { FilterState } from '../core/store/reducers/filter/filter.reducer';
 import {
   getCountries,
   getHrLocations,
@@ -41,29 +40,25 @@ export class FilterSectionComponent implements OnInit {
   timeRangeHintValue = 'time range';
   disabledTimeRangeFilter = true;
 
-  public constructor(private readonly store: Store<FilterState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.orgUnits$ = this.store.pipe(select(getOrgUnits));
-    this.regionsAndSubRegions$ = this.store.pipe(
-      select(getRegionsAndSubRegions)
-    );
-    this.countries$ = this.store.pipe(select(getCountries));
-    this.hrLocations$ = this.store.pipe(select(getHrLocations));
-    this.timePeriods$ = this.store.pipe(select(getTimePeriods));
-    this.selectedTimePeriod$ = this.store.pipe(
-      select(getSelectedTimePeriod),
-      tap((timePeriod) => this.setTimeRangeHint(timePeriod))
-    );
-    this.selectedOrgUnit$ = this.store.pipe(
-      select(getSelectedOrgUnit),
-      map((value: string | number) => value?.toLocaleString())
+    this.orgUnits$ = this.store.select(getOrgUnits);
+    this.regionsAndSubRegions$ = this.store.select(getRegionsAndSubRegions);
+    this.countries$ = this.store.select(getCountries);
+    this.hrLocations$ = this.store.select(getHrLocations);
+    this.timePeriods$ = this.store.select(getTimePeriods);
+    this.selectedTimePeriod$ = this.store
+      .select(getSelectedTimePeriod)
+      .pipe(tap((timePeriod) => this.setTimeRangeHint(timePeriod)));
+    this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit).pipe(
+      map((value: string | number) => value?.toLocaleString()),
+      tap((value) => (this.disabledTimeRangeFilter = !value))
     );
   }
 
   public optionSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
-    this.disabledTimeRangeFilter = false;
   }
 
   public setTimeRangeHint(timePeriod: TimePeriod): void {

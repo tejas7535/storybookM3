@@ -5,13 +5,18 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Event, TerminatedEmployee } from '../shared/models';
-import { OverviewFluctuationRates } from '../shared/models/overview-fluctuation-rates';
+import { Employee } from '../shared/models/employee.model';
+import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
 import { OverviewState } from './store';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getIsLoadingAttritionOverTimeOverview,
-  getOverviewFluctuationRatesData,
+  getLeaversDataForSelectedOrgUnit,
+  getOverviewFluctuationEntriesCount,
+  getOverviewFluctuationEntriesDoughnutConfig,
+  getOverviewFluctuationExitsCount,
+  getOverviewFluctuationExitsDoughnutConfig,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -27,7 +32,12 @@ export class OverviewComponent implements OnInit {
       attrition: number[];
     };
   }>;
-  public fluctuationRatesData$: Observable<OverviewFluctuationRates>;
+  public entriesDoughnutConfig: DoughnutConfig;
+  public exitsDoughnutConfig$: Observable<DoughnutConfig>;
+  public entriesDoughnutConfig$: Observable<DoughnutConfig>;
+  public entriesCount$: Observable<number>;
+  public exitsCount$: Observable<number>;
+  public exitEmployees$: Observable<Employee[]>;
 
   constructor(private readonly store: Store<OverviewState>) {}
 
@@ -37,8 +47,17 @@ export class OverviewComponent implements OnInit {
     );
     this.events$ = this.store.select(getAttritionOverTimeEvents);
     this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
-    this.fluctuationRatesData$ = this.store.select(
-      getOverviewFluctuationRatesData
+
+    this.entriesDoughnutConfig$ = this.store.select(
+      getOverviewFluctuationEntriesDoughnutConfig
     );
+
+    this.exitsDoughnutConfig$ = this.store.select(
+      getOverviewFluctuationExitsDoughnutConfig
+    );
+
+    this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
+    this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
+    this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
   }
 }

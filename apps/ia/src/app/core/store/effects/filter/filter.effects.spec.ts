@@ -6,9 +6,10 @@ import { cold, hot } from 'jasmine-marbles';
 
 import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
 
-import { IdValue } from '../../../../shared/models';
+import { FilterKey, IdValue } from '../../../../shared/models';
 import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
+  filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -21,6 +22,16 @@ describe('Filter Effects', () => {
   let employeesService: EmployeeService;
   let action: any;
   let effects: FilterEffects;
+
+  const filters = {
+    orgUnits: [new IdValue('Department1', 'Department1')],
+    regionsAndSubRegions: [
+      new IdValue('Europe', 'Europe'),
+      new IdValue('Americas', 'Americas'),
+    ],
+    countries: [new IdValue('germany', 'Germany'), new IdValue('usa', 'USA')],
+    hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
+  };
 
   const error = {
     message: 'An error message occured',
@@ -53,18 +64,6 @@ describe('Filter Effects', () => {
     });
 
     test('should return loadInitialFiltersSuccess action when REST call is successful', () => {
-      const filters = {
-        orgUnits: [new IdValue('Department1', 'Department1')],
-        regionsAndSubRegions: [
-          new IdValue('Europe', 'Europe'),
-          new IdValue('Americas', 'Americas'),
-        ],
-        countries: [
-          new IdValue('germany', 'Germany'),
-          new IdValue('usa', 'USA'),
-        ],
-        hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
-      };
       const result = loadInitialFiltersSuccess({
         filters,
       });
@@ -95,6 +94,24 @@ describe('Filter Effects', () => {
 
       expect(effects.loadInitialFilters$).toBeObservable(expected);
       expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('setInitialFilters$', () => {
+    test('should set initial org unit filter', () => {
+      const result = filterSelected({
+        filter: { name: FilterKey.ORG_UNIT, value: 'Department1' },
+      });
+      actions$ = hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
+
+      const response = cold('-a|', {
+        a: filters,
+      });
+      const expected = cold('--b', { b: result });
+
+      employeesService.getInitialFilters = jest.fn(() => response);
+
+      expect(effects.setInitialFilters$).toBeObservable(expected);
     });
   });
 

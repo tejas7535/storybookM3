@@ -77,7 +77,6 @@ describe('FilterSectionComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(filterSelected({ filter }));
 
       expect(component.orgUnits$).toBeDefined();
-      expect(component.disabledTimeRangeFilter).toBeFalsy();
     });
   });
 

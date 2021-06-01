@@ -13,6 +13,7 @@ import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FilterKey,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
@@ -64,7 +65,7 @@ describe('Overview Effects', () => {
   describe('filterChange$', () => {
     test(`filterSelected - should trigger loadAtrritionOverTime + loadOverviewFluctuationRates
           + loadOrgChart + loadWorldMap if orgUnit is set`, () => {
-      const filter = new SelectedFilter('orgUnit', 'best');
+      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);

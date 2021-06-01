@@ -2,13 +2,34 @@
   <h5>{{ t('entriesExits') }}</h5>
   <div class="flex flex-row">
     <div class="flex flex-col flex-grow">
-      <div class="flex flex-row">Entries</div>
-      <div>
-        <ia-doughnut-chart [data]="entriesDoughnutConfig"></ia-doughnut-chart>
+      <div class="pl-4">
+        <span class="flex flex-row text-body-2 mt-4">Entries</span>
+        <h4 class="flex flex-row mb-4">{{ entriesCount }}</h4>
+        <button
+          mat-fab
+          color="primary"
+          class="flex mt-2"
+          (click)="openTeamMemberDialog()"
+        >
+          <mat-icon class="pl-2">people</mat-icon>
+        </button>
       </div>
+      <ia-doughnut-chart [data]="entriesDoughnutConfig"></ia-doughnut-chart>
     </div>
+
     <div class="flex flex-col flex-grow">
-      <div class="flex flex-row">Exits</div>
+      <div class="pl-4">
+        <span class="flex flex-row text-body-2 mt-4">Exits</span>
+        <h4 class="flex flex-row mb-4">{{ exitsCount }}</h4>
+        <button
+          mat-fab
+          color="primary"
+          class="flex mt-2"
+          (click)="openTeamMemberDialogForExits()"
+        >
+          <mat-icon class="pl-2">people</mat-icon>
+        </button>
+      </div>
       <ia-doughnut-chart [data]="exitsDoughnutConfig"></ia-doughnut-chart>
     </div>
   </div>
