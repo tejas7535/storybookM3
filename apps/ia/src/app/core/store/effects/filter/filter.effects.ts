@@ -7,9 +7,10 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { loginSuccess } from '@schaeffler/azure-auth';
 
-import { InitialFiltersResponse } from '../../../../shared/models';
+import { FilterKey, InitialFiltersResponse } from '../../../../shared/models';
 import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
+  filterSelected,
   loadInitialFilters,
   loadInitialFiltersFailure,
   loadInitialFiltersSuccess,
@@ -27,6 +28,24 @@ export class FilterEffects {
           ),
           catchError((error) =>
             of(loadInitialFiltersFailure({ errorMessage: error.message }))
+          )
+        )
+      )
+    )
+  );
+
+  setInitialFilters$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadInitialFiltersSuccess),
+      mergeMap(() =>
+        this.employeeService.getInitialFilters().pipe(
+          map((filters) =>
+            filterSelected({
+              filter: {
+                name: FilterKey.ORG_UNIT,
+                value: filters?.orgUnits[0]?.value,
+              },
+            })
           )
         )
       )

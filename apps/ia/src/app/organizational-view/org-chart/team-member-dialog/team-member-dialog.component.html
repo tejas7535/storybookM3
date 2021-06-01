@@ -1,4 +1,8 @@
-<h2 mat-dialog-title class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1">
+<h2
+  *ngIf="data.employeeName || data.orgUnit"
+  mat-dialog-title
+  class="!text-dark !mt-0 !mr-0 !mb-4 !ml-1"
+>
   {{ data.employeeName }} ({{ data.orgUnit }})
 </h2>
 <mat-dialog-content *transloco="let t; read: 'teamMemberDialog'">

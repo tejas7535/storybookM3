@@ -12,6 +12,7 @@ import {
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   EmployeesRequest,
+  FilterKey,
   LostJobProfile,
   SelectedFilter,
 } from '../../../shared/models';
@@ -59,7 +60,7 @@ describe('LossOfSkills Effects', () => {
 
   describe('filterChange$', () => {
     test('filterSelected - should trigger loadLostJobProfiles if orgUnit is set', () => {
-      const filter = new SelectedFilter('orgUnit', 'best');
+      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);

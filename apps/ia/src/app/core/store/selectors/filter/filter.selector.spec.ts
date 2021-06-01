@@ -1,4 +1,4 @@
-import { IdValue, TimePeriod } from '../../../../shared/models';
+import { FilterKey, IdValue, TimePeriod } from '../../../../shared/models';
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
@@ -29,10 +29,10 @@ describe('Filter Selector', () => {
       hrLocations: [new IdValue('hero', 'Herzogenaurach')],
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
-        ids: ['orgUnit'],
+        ids: [FilterKey.ORG_UNIT],
         entities: {
           orgUnit: {
-            name: 'orgUnit',
+            name: FilterKey.ORG_UNIT,
             value: 'Schaeffler_IT_1',
           },
         },
@@ -125,7 +125,7 @@ describe('Filter Selector', () => {
     test('should return all selected filters', () => {
       expect(getAllSelectedFilters(fakeState)).toEqual([
         {
-          name: 'orgUnit',
+          name: FilterKey.ORG_UNIT,
           value: 'Schaeffler_IT_1',
         },
       ]);

@@ -72,7 +72,7 @@ describe('Organizational View Effects', () => {
 
   describe('filterChange$', () => {
     test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
-      const filter = new SelectedFilter('orgUnit', 'best');
+      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
       const request = { orgUnit: {} } as unknown as EmployeesRequest;
       action = filterSelected({ filter });
       store.overrideSelector(getCurrentFiltersAndTime, request);

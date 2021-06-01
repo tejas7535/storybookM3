@@ -7,7 +7,13 @@
       <h5>{{ t('unforcedFluctuationRate') }}</h5>
     </div>
     <div class="shadow p-4 w-full lg:flex-grow lg:max-w-[30%]">
-      <ia-entries-exits></ia-entries-exits>
+      <ia-entries-exits
+        [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
+        [exitsDoughnutConfig]="exitsDoughnutConfig$ | ngrxPush"
+        [entriesCount]="entriesCount$ | ngrxPush"
+        [exitsCount]="exitsCount$ | ngrxPush"
+        [exitEmployees]="exitEmployees$ | ngrxPush"
+      ></ia-entries-exits>
     </div>
 
     <div class="flex flex-col gap-4 w-full lg:w-[20%]">
