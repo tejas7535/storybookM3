@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
@@ -28,6 +29,7 @@ import { HardnessConverterComponent } from './hardness-converter.component';
     HardnessConverterRoutingModule,
     SharedModule,
     ReactiveComponentModule,
+    MatTooltipModule,
   ],
 })
 export class HardnessConverterModule {}
