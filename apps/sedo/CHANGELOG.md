@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+### [1.11.1](///compare/sedo-v1.11.1...sedo-v1.11.0) (2021-06-02)
+
+
+### 🐛 Bug Fixes
+
+* **sedo:** adjust prod appId ([3c1f8a7](///commit/3c1f8a72a6ea816531c0639e345a585394d691bb))
+
 ## [1.11.0](///compare/sedo-v1.11.0...sedo-v1.10.0) (2021-06-01)
 
 
