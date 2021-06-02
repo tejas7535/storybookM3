@@ -10,18 +10,15 @@ import { loginSuccess } from '@schaeffler/azure-auth';
 
 @Injectable()
 export class RootEffects {
-  initializeApplicationInsights$ = createEffect(
+  public initializeApplicationInsights$ = createEffect(
     () => {
       return this.actions$.pipe(
         ofType(loginSuccess),
-        map((action) => action.accountInfo.department),
-        map((department) => department || 'Department unavailable'),
-        tap((department) =>
-          this.applicationInsightsService.addCustomPropertyToTelemetryData(
-            this.APPLICATION_INSIGHTS_DEPARTMENT,
-            department
-          )
-        )
+        map((action) => action.accountInfo),
+        tap((accountInfo) => {
+          this.trackDepartment(accountInfo.department);
+          this.trackFunctionalRole(accountInfo.idTokenClaims);
+        })
       );
     },
     {
@@ -30,8 +27,32 @@ export class RootEffects {
   );
 
   private readonly APPLICATION_INSIGHTS_DEPARTMENT = 'department';
+  private readonly APPLICATION_INSIGHTS_FUNCTIONAL_ROLE = 'functional_role';
 
-  constructor(
+  private trackFunctionalRole(idTokenClaims: any) {
+    const rolesClaim: string[] = idTokenClaims?.roles || [];
+
+    const extractedFunctionalRole = rolesClaim.find((role) =>
+      role.startsWith('CDBA_FUNC')
+    );
+
+    const functionalRoleTelemetryData =
+      extractedFunctionalRole || 'Functional role unavailable';
+
+    this.applicationInsightsService.addCustomPropertyToTelemetryData(
+      this.APPLICATION_INSIGHTS_FUNCTIONAL_ROLE,
+      functionalRoleTelemetryData
+    );
+  }
+
+  private trackDepartment(department: string) {
+    this.applicationInsightsService.addCustomPropertyToTelemetryData(
+      this.APPLICATION_INSIGHTS_DEPARTMENT,
+      department || 'Department unavailable'
+    );
+  }
+
+  public constructor(
     private readonly actions$: Actions,
     private readonly applicationInsightsService: ApplicationInsightsService
   ) {}

@@ -1,9 +1,8 @@
-import { waitForAsync } from '@angular/core/testing';
+import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
-import { hot } from 'jasmine-marbles';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
@@ -39,46 +38,117 @@ describe('Root Effects', () => {
 
   describe('initializeApplicationInsights$', () => {
     test(
-      'should call addTelemetryData of AI Service',
-      waitForAsync(() => {
+      'should add the department of the user as Telemetry data',
+      marbles((m) => {
         const accountInfo: AccountInfo = {
-          username: 'bob@schaeffler.com',
-          name: 'Bob',
+          username: 'Bob',
           department: 'C-IT',
+          idTokenClaims: {},
         } as AccountInfo;
 
         action = loginSuccess({ accountInfo });
 
-        actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-a', { a: accountInfo });
 
-        // eslint-disable-next-line import/no-deprecated
-        effects.initializeApplicationInsights$.subscribe(() => {
-          expect(
-            applicationInsightsService.addCustomPropertyToTelemetryData
-          ).toHaveBeenCalledWith('department', 'C-IT');
-        });
+        m.expect(effects.initializeApplicationInsights$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          applicationInsightsService.addCustomPropertyToTelemetryData
+        ).toHaveBeenCalledWith('department', 'C-IT');
+      })
+    );
+
+    test(
+      'should add department unavailable as Telemetry data if we cannot determine the department',
+      marbles((m) => {
+        const accountInfo: AccountInfo = {
+          username: 'Bob',
+          department: undefined,
+          idTokenClaims: {},
+        } as AccountInfo;
+
+        action = loginSuccess({ accountInfo });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-a', { a: accountInfo });
+
+        m.expect(effects.initializeApplicationInsights$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          applicationInsightsService.addCustomPropertyToTelemetryData
+        ).toHaveBeenCalledWith('department', 'Department unavailable');
+      })
+    );
+
+    test(
+      'should include functional role as Telemetry data',
+      marbles((m) => {
+        const accountInfo: AccountInfo = {
+          username: 'Bob',
+          department: 'C-IT',
+          idTokenClaims: {
+            roles: [
+              'CDBA_BASIC',
+              'CDBA_PL_42',
+              'CDBA_FUNC_APPLICATION_ENGINEERING',
+              'CDBA_REGION_GREATER_CHINA',
+            ],
+          },
+        } as AccountInfo;
+
+        action = loginSuccess({ accountInfo });
+
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-a', { a: accountInfo });
+
+        m.expect(effects.initializeApplicationInsights$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          applicationInsightsService.addCustomPropertyToTelemetryData
+        ).toHaveBeenCalledWith(
+          'functional_role',
+          'CDBA_FUNC_APPLICATION_ENGINEERING'
+        );
       })
     );
 
     test(
       'should call addTelemetryData of AI Service with department unavailable',
-      waitForAsync(() => {
+      marbles((m) => {
         const accountInfo: AccountInfo = {
-          username: 'bob@schaeffler.com',
-          name: 'Bob',
+          username: 'Bob',
           department: undefined,
+          idTokenClaims: {
+            roles: ['CDBA_BASIC', 'CDBA_PL_42', 'CDBA_REGION_GREATER_CHINA'],
+          },
         } as AccountInfo;
 
         action = loginSuccess({ accountInfo });
 
-        actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-a', { a: accountInfo });
 
-        // eslint-disable-next-line import/no-deprecated
-        effects.initializeApplicationInsights$.subscribe(() => {
-          expect(
-            applicationInsightsService.addCustomPropertyToTelemetryData
-          ).toHaveBeenCalledWith('department', 'Department unavailable');
-        });
+        m.expect(effects.initializeApplicationInsights$).toBeObservable(
+          expected
+        );
+        m.flush();
+
+        expect(
+          applicationInsightsService.addCustomPropertyToTelemetryData
+        ).toHaveBeenCalledWith(
+          'functional_role',
+          'Functional role unavailable'
+        );
       })
     );
   });
