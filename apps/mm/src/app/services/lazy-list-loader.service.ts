@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
-import { withCache } from '@ngneat/cashew';
+import { CacheBucket, withCache } from '@ngneat/cashew';
 
 import { environment } from '../../environments/environment';
 import {
@@ -73,6 +73,8 @@ const isSimple = (response: MMResponseVariants): response is MMSimpleResponse =>
 
 @Injectable()
 export class LazyListLoaderService implements LazyListLoader {
+  public todosBucket = new CacheBucket();
+
   constructor(private readonly http: HttpClient) {}
 
   public loadOptions(
@@ -131,24 +133,26 @@ export class LazyListLoaderService implements LazyListLoader {
       {}
     );
 
-    return this.http.post<MMBearingPreflightResponse>(url, postData).pipe(
-      map(({ data: { input } }) => {
-        // TODO reduce code reuse between this and runtime requester
-        const allFields: MMBearingPreflightField[] = input.reduce(
-          (inputs, { fields }) => [...inputs, ...fields],
-          []
-        );
+    return this.http
+      .post<MMBearingPreflightResponse>(url, postData, withCache())
+      .pipe(
+        map(({ data: { input } }) => {
+          // TODO reduce code reuse between this and runtime requester
+          const allFields: MMBearingPreflightField[] = input.reduce(
+            (inputs, { fields }) => [...inputs, ...fields],
+            []
+          );
 
-        const nutField = allFields.find(
-          ({ id }) => id === IDMM_HYDRAULIC_NUT_TYPE
-        );
+          const nutField = allFields.find(
+            ({ id }) => id === IDMM_HYDRAULIC_NUT_TYPE
+          );
 
-        if (!nutField || !nutField.range) {
-          throw new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`);
-        }
+          if (!nutField || !nutField.range) {
+            throw new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`);
+          }
 
-        return nutField.range.map(({ id, title: text }) => ({ id, text }));
-      })
-    );
+          return nutField.range.map(({ id, title: text }) => ({ id, text }));
+        })
+      );
   }
 }

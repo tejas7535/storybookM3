@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { withCache } from '@ngneat/cashew';
+
 import { environment } from '../../environments/environment';
 import { Report, Result } from './result.model';
 
@@ -17,7 +19,8 @@ export class ResultPageService {
     return this.http
       .post<{ data: any; state: boolean; _links: Report[] }>(
         requestUrl,
-        formProperties
+        formProperties,
+        withCache()
       )
       .pipe(
         map((response) => response._links), // eslint-disable-line no-underscore-dangle

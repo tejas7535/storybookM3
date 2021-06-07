@@ -56,7 +56,7 @@ describe('ResultPageService testing', () => {
     });
 
     const req = spectator.expectOne(
-      `${environment.apiMMBaseUrl}/bearing-calculation`,
+      `${environment.apiMMBaseUrl}/bearing-calculation?cache$=true`,
       HttpMethod.POST
     );
     expect(req.request.body).toEqual(mockFormProperties);
