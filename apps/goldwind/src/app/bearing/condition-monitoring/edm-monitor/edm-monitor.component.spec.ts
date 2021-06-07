@@ -36,21 +36,9 @@ describe('EdmMonitorComponent', () => {
         echarts: () => import('echarts'),
       }),
     ],
-    providers: [
-      provideMockStore({
-        initialState: {
-          edmMonitor: {
-            loading: false,
-            measurements: undefined,
-            interval: {
-              startDate: 123456789,
-              endDate: 987654321,
-            },
-          },
-        },
-      }),
-    ],
+    providers: [provideMockStore({})],
     declarations: [EdmMonitorComponent],
+    detectChanges: false,
   });
 
   beforeEach(() => {

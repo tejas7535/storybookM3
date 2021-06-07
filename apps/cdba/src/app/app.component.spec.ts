@@ -3,11 +3,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { SpyObject } from '@ngneat/spectator/jest/lib/mock';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
@@ -79,43 +80,54 @@ describe('AppComponent', () => {
       expect(component.profileImage$).toBeDefined();
     });
 
-    test('should display browser support dialog for authenticated users using an unsupported browser', () => {
-      store.overrideSelector(getIsLoggedIn, true);
-      browserDetectionService.isUnsupportedBrowser.andReturn(true);
+    test(
+      'should display browser support dialog for authenticated users using an unsupported browser',
+      marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
+        browserDetectionService.isUnsupportedBrowser.andReturn(true);
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.isLoggedIn$).toBeObservable(cold('a', { a: true }));
+        m.expect(component.isLoggedIn$).toBeObservable(
+          m.cold('a', { a: true })
+        );
+        m.flush();
 
-      expect(component.isLoggedIn$).toSatisfyOnFlush(() => {
         expect(browserSupportDialog.open).toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should not display browser support dialog for unauthenticated users using an unsupported browser', () => {
-      store.overrideSelector(getIsLoggedIn, false);
-      browserDetectionService.isUnsupportedBrowser.andReturn(true);
+    test(
+      'should not display browser support dialog for unauthenticated users using an unsupported browser',
+      marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, false);
+        browserDetectionService.isUnsupportedBrowser.andReturn(true);
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.isLoggedIn$).toBeObservable(cold('a', { a: false }));
+        m.expect(component.isLoggedIn$).toBeObservable(
+          m.cold('a', { a: false })
+        );
 
-      expect(component.isLoggedIn$).toSatisfyOnFlush(() => {
         expect(browserSupportDialog.open).not.toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should not display browser support dialog for authenticated users using a supported browser', () => {
-      store.overrideSelector(getIsLoggedIn, true);
-      browserDetectionService.isUnsupportedBrowser.andReturn(false);
+    test(
+      'should not display browser support dialog for authenticated users using a supported browser',
+      marbles((m) => {
+        store.overrideSelector(getIsLoggedIn, true);
+        browserDetectionService.isUnsupportedBrowser.andReturn(false);
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.isLoggedIn$).toBeObservable(cold('a', { a: true }));
+        m.expect(component.isLoggedIn$).toBeObservable(
+          m.cold('a', { a: true })
+        );
 
-      expect(component.isLoggedIn$).toSatisfyOnFlush(() => {
+        m.flush();
         expect(browserSupportDialog.open).not.toHaveBeenCalled();
-      });
-    });
+      })
+    );
   });
 });

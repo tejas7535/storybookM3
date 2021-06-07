@@ -1,6 +1,8 @@
 import { ChangeDetectorRef, ElementRef } from '@angular/core';
 import { MatStepper, MatStepperModule } from '@angular/material/stepper';
+
 import { createDirectiveFactory, SpectatorDirective } from '@ngneat/spectator';
+
 import { SeparatedStepsDirective } from './separated-steps.directive';
 
 // eslint-disable-next-line @typescript-eslint/no-extraneous-class
@@ -27,7 +29,6 @@ describe('Separated steps Directive', () => {
       <mat-step></mat-step>
       <mat-step></mat-step>
     </mat-horizontal-stepper>`);
-    spectator.inject(MatStepper);
   });
 
   it('should get the instance', () => {

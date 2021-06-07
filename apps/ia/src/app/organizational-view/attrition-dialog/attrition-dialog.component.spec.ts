@@ -4,10 +4,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { AttritionDialogLineChartComponent } from './attrition-dialog-line-chart/attrition-dialog-line-chart.component';
+import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
 import { AttritionDialogComponent } from './attrition-dialog.component';
 
 describe('AttritionDialogComponent', () => {
@@ -16,7 +19,10 @@ describe('AttritionDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AttritionDialogComponent,
-    declarations: [AttritionDialogComponent],
+    declarations: [
+      AttritionDialogMetaComponent,
+      AttritionDialogLineChartComponent,
+    ],
     imports: [
       MatDialogModule,
       MatButtonModule,
@@ -31,6 +37,7 @@ describe('AttritionDialogComponent', () => {
         provide: MAT_DIALOG_DATA,
         useValue: {},
       },
+      provideMockStore({}),
     ],
   });
 

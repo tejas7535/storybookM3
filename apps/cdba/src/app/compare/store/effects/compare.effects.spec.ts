@@ -1,6 +1,8 @@
 import { Params, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import {
   createServiceFactory,
   mockProvider,
@@ -10,7 +12,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jest-marbles';
 
 import { DetailService } from '@cdba/detail/service/detail.service';
 import { ReferenceTypeIdentifier } from '@cdba/shared/models';
@@ -73,115 +74,123 @@ describe('CompareEffects', () => {
   });
 
   describe('selectCompareItems$', () => {
-    test('should return selectCompareItems Action', () => {
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/compare/bom',
-            queryParams: {
-              material_number_item_1: '456789',
-              plant_item_1: '0060',
-              identification_hash_item_1: 'identifier',
-              material_number_item_2: '4123789',
-              plant_item_2: '0076',
-              identification_hash_item_2: 'identifier 2',
+    test(
+      'should return selectCompareItems Action',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/compare/bom',
+              queryParams: {
+                material_number_item_1: '456789',
+                plant_item_1: '0060',
+                identification_hash_item_1: 'identifier',
+                material_number_item_2: '4123789',
+                plant_item_2: '0076',
+                identification_hash_item_2: 'identifier 2',
+              },
+            },
+            event: {
+              id: 2,
+              url: '/',
+              urlAfterRedirects: '/search',
             },
           },
-          event: {
-            id: 2,
-            url: '/',
-            urlAfterRedirects: '/search',
-          },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const items: [
-        nodeId: string,
-        referenceTypeIdentifier: ReferenceTypeIdentifier
-      ][] = [
-        [
-          undefined,
-          new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-        ],
-        [
-          undefined,
-          new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
-        ],
-      ];
+        const items: [
+          nodeId: string,
+          referenceTypeIdentifier: ReferenceTypeIdentifier
+        ][] = [
+          [
+            undefined,
+            new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
+          ],
+          [
+            undefined,
+            new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+          ],
+        ];
 
-      const result = selectCompareItems({ items });
-      const expected = cold('-b', { b: result });
+        const result = selectCompareItems({ items });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.selectCompareItems$).toBeObservable(expected);
-    });
+        m.expect(effects.selectCompareItems$).toBeObservable(expected);
+      })
+    );
 
-    test('should abort effect', () => {
-      router.navigate = jest.fn();
+    test(
+      'should abort effect',
+      marbles((m) => {
+        router.navigate = jest.fn();
 
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/compare/bom',
-            queryParams: {
-              plant_item_1: '0060',
-              material_number_item_2: '4123789',
-              plant_item_2: '0076',
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/compare/bom',
+              queryParams: {
+                plant_item_1: '0060',
+                material_number_item_2: '4123789',
+                plant_item_2: '0076',
+              },
+            },
+            event: {
+              id: 2,
+              url: '/',
+              urlAfterRedirects: '/search',
             },
           },
-          event: {
-            id: 2,
-            url: '/',
-            urlAfterRedirects: '/search',
-          },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('---');
+        const expected = m.cold('---');
 
-      expect(effects.selectCompareItems$).toBeObservable(expected);
-      expect(effects.selectCompareItems$).toSatisfyOnFlush(() => {
+        m.expect(effects.selectCompareItems$).toBeObservable(expected);
+        m.flush();
         expect(router.navigate).toHaveBeenCalledWith(['not-found']);
-      });
-    });
+      })
+    );
   });
 
   describe('loadCalculations', () => {
-    test('should map to loadCalculationHistory Actions', () => {
-      action = loadCalculations();
+    test(
+      'should map to loadCalculationHistory Actions',
+      marbles((m) => {
+        action = loadCalculations();
 
-      const referenceTypeIdentifiers = [
-        new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
-        new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
-      ];
-      store.overrideSelector(
-        getSelectedReferenceTypeIdentifiers,
-        referenceTypeIdentifiers
-      );
+        const referenceTypeIdentifiers = [
+          new ReferenceTypeIdentifier('456789', '0060', 'identifier'),
+          new ReferenceTypeIdentifier('4123789', '0076', 'identifier 2'),
+        ];
+        store.overrideSelector(
+          getSelectedReferenceTypeIdentifiers,
+          referenceTypeIdentifiers
+        );
 
-      const expectedAction1 = loadCalculationHistory({
-        index: 0,
-        materialNumber: '456789',
-        plant: '0060',
-      });
-      const expectedAction2 = loadCalculationHistory({
-        index: 1,
-        materialNumber: '4123789',
-        plant: '0076',
-      });
-      const expected = cold('-(bc)', {
-        b: expectedAction1,
-        c: expectedAction2,
-      });
+        const expectedAction1 = loadCalculationHistory({
+          index: 0,
+          materialNumber: '456789',
+          plant: '0060',
+        });
+        const expectedAction2 = loadCalculationHistory({
+          index: 1,
+          materialNumber: '4123789',
+          plant: '0076',
+        });
+        const expected = m.cold('-(bc)', {
+          b: expectedAction1,
+          c: expectedAction2,
+        });
 
-      actions$ = hot('-a', { a: action });
-      expect(effects.loadCalculations$).toBeObservable(expected);
-    });
+        actions$ = m.hot('-a', { a: action });
+        m.expect(effects.loadCalculations$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadCalculationHistory$', () => {
@@ -194,34 +203,40 @@ describe('CompareEffects', () => {
       action = loadCalculationHistory({ index, materialNumber, plant });
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const items = CALCULATIONS_MOCK;
+        const items = CALCULATIONS_MOCK;
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      detailService.calculations = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.calculations = jest.fn(() => response);
 
-      const result = loadCalculationHistorySuccess({ index, items });
-      const expected = cold('--b', { b: result });
+        const result = loadCalculationHistorySuccess({ index, items });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadCalculationHistory$).toBeObservable(expected);
-    });
+        m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadCalculationHistoryFailure({ index, errorMessage });
+        const result = loadCalculationHistoryFailure({ index, errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.calculations = jest.fn(() => response);
+        detailService.calculations = jest.fn(() => response);
 
-      expect(effects.loadCalculationHistory$).toBeObservable(expected);
-    });
+        m.expect(effects.loadCalculationHistory$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadBillOfMaterial$', () => {
@@ -232,34 +247,40 @@ describe('CompareEffects', () => {
       action = loadBom({ index, bomIdentifier });
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const items = BOM_MOCK;
+        const items = BOM_MOCK;
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      detailService.getBom = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.getBom = jest.fn(() => response);
 
-      const result = loadBomSuccess({ index, items });
-      const expected = cold('--b', { b: result });
+        const result = loadBomSuccess({ index, items });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadBillOfMaterial$).toBeObservable(expected);
-    });
+        m.expect(effects.loadBillOfMaterial$).toBeObservable(expected);
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadBomFailure({ index, errorMessage });
+        const result = loadBomFailure({ index, errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.getBom = jest.fn(() => response);
+        detailService.getBom = jest.fn(() => response);
 
-      expect(effects.loadBillOfMaterial$).toBeObservable(expected);
-    });
+        m.expect(effects.loadBillOfMaterial$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('triggerBomLoad$', () => {
@@ -273,49 +294,58 @@ describe('CompareEffects', () => {
       )
     );
 
-    test('should return loadBom Action when a new calculation was selected', () => {
-      action = selectCalculation({
-        index,
-        nodeId: '5',
-        calculation: CALCULATIONS_MOCK[0],
-      });
+    test(
+      'should return loadBom Action when a new calculation was selected',
+      marbles((m) => {
+        action = selectCalculation({
+          index,
+          nodeId: '5',
+          calculation: CALCULATIONS_MOCK[0],
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.triggerBomLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerBomLoad$).toBeObservable(expected);
+      })
+    );
 
-    test('should return loadBom Action when calculation were loaded successfully', () => {
-      action = loadCalculationHistorySuccess({
-        index,
-        items: CALCULATIONS_MOCK,
-      });
+    test(
+      'should return loadBom Action when calculation were loaded successfully',
+      marbles((m) => {
+        action = loadCalculationHistorySuccess({
+          index,
+          items: CALCULATIONS_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.triggerBomLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerBomLoad$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('triggerDataLoad$', () => {
-    test('should return loadCalculations and loadAllProductDetails action', () => {
-      action = selectCompareItems({
-        items: [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]],
-      });
+    test(
+      'should return loadCalculations and loadAllProductDetails action',
+      marbles((m) => {
+        action = selectCompareItems({
+          items: [['1', REFERENCE_TYPE_IDENTIFIER_MOCK]],
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(bc)', {
-        b: loadCalculations(),
-        c: loadAllProductDetails(),
-      });
+        const expected = m.cold('-(bc)', {
+          b: loadCalculations(),
+          c: loadAllProductDetails(),
+        });
 
-      expect(effects.triggerDataLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerDataLoad$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('mapQueryParams', () => {

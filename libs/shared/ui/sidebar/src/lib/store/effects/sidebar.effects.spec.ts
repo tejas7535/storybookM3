@@ -1,13 +1,13 @@
 import { ActivationEnd, Router } from '@angular/router';
 
 import { of } from 'rxjs';
+import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Action } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jest-marbles';
 
 import { SidebarMode, Viewport } from '../../models';
 import { SidebarService } from '../../sidebar.service';
@@ -27,7 +27,6 @@ describe('SidebarEffects', () => {
   let store: MockStore<State>;
   let sidebarEffects: SidebarEffects;
   let sidebarService: SidebarService;
-  let router: Router;
 
   const createService = createServiceFactory({
     service: SidebarEffects,
@@ -55,7 +54,6 @@ describe('SidebarEffects', () => {
     actions$ = spectator.inject(Actions);
     sidebarEffects = spectator.inject(SidebarEffects);
     sidebarService = spectator.inject(SidebarService);
-    router = spectator.inject(Router);
     store = spectator.inject(MockStore);
   });
 
@@ -75,44 +73,34 @@ describe('SidebarEffects', () => {
       action = toggleSidebar();
     });
 
-    it('should return setSidebarMode Action', () => {
-      actions$ = hot('-a', { a: action });
+    it(
+      'should return setSidebarMode Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      store.overrideSelector(getSidebarMode, SidebarMode.Open);
+        store.overrideSelector(getSidebarMode, SidebarMode.Open);
 
-      const result = setSidebarMode({
-        sidebarMode: SidebarMode.Minified,
-      });
+        const result = setSidebarMode({
+          sidebarMode: SidebarMode.Minified,
+        });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(sidebarEffects.toggleSidebar$).toBeObservable(expected);
-    });
+        m.expect(sidebarEffects.toggleSidebar$).toBeObservable(expected);
+        m.flush();
+        expect(sidebarService.getViewport).toHaveBeenCalled();
+      })
+    );
   });
 
   describe('closeSidebar$', () => {
-    beforeEach(() => {
-      spyOn(router, 'events').and.returnValue(of(new ActivationEnd(undefined)));
-    });
-
-    it('should return action of type no_action', (done) => {
-      sidebarEffects.closeSidebar$.subscribe((result) => {
-        expect(result).toEqual({ type: 'NO_ACTION' });
-        done();
-      });
-    });
-
-    xit('should return setSidebarMode action with param closed', (done) => {
-      // overriding the mock does not work
-      sidebarService.getViewport = jest.fn(() => of(Viewport.Small));
-
-      sidebarEffects.closeSidebar$.subscribe((result) => {
-        expect(result).toEqual(
-          setSidebarMode({ sidebarMode: SidebarMode.Closed })
-        );
-        done();
-      });
-    });
+    it('should return action of type no_action', async () =>
+      new Promise((done) => {
+        sidebarEffects.closeSidebar$.subscribe((result) => {
+          expect(result).toEqual({ type: 'NO_ACTION' });
+          done(true);
+        });
+      }));
   });
 
   describe('defineSidebarMode', () => {

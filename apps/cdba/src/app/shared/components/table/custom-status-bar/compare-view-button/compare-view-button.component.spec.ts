@@ -2,6 +2,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import {
   GridApi,
   IStatusPanelParams,
@@ -9,7 +11,6 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -63,29 +64,35 @@ describe('CompareViewButtonComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should init with search selector', () => {
-      router.routerState.snapshot.url = '/search';
+    it(
+      'should init with search selector',
+      marbles((m) => {
+        router.routerState.snapshot.url = '/search';
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.selectedNodeIds$).toBeObservable(
-        cold('a', {
-          a: ['2', '4'],
-        })
-      );
-    });
+        m.expect(component.selectedNodeIds$).toBeObservable(
+          m.cold('a', {
+            a: ['2', '4'],
+          })
+        );
+      })
+    );
 
-    it('should init with detail selector', () => {
-      router.routerState.snapshot.url = '/detail/detail';
+    it(
+      'should init with detail selector',
+      marbles((m) => {
+        router.routerState.snapshot.url = '/detail/detail';
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.selectedNodeIds$).toBeObservable(
-        cold('a', {
-          a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
-        })
-      );
-    });
+        m.expect(component.selectedNodeIds$).toBeObservable(
+          m.cold('a', {
+            a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
+          })
+        );
+      })
+    );
   });
 
   describe('agInit', () => {

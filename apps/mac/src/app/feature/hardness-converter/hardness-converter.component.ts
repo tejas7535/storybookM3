@@ -107,7 +107,7 @@ export class HardnessConverterComponent implements OnInit {
   convertValue(val: string): void {
     if (val !== '') {
       this.error = undefined;
-      this.valueChange$.next();
+      this.valueChange$.next(val);
     }
   }
 

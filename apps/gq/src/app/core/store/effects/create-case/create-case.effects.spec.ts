@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,7 +9,6 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
@@ -114,69 +114,88 @@ describe('Create Case Effects', () => {
   describe('autocomplete$', () => {
     let autocompleteSearch: AutocompleteSearch;
 
-    test('should return autocompleteCustomerSuccess action when REST call is successful', () => {
-      autocompleteSearch = new AutocompleteSearch(FilterNames.CUSTOMER, 'Aud');
-      action = autocomplete({ autocompleteSearch });
-      searchService.autocomplete = jest.fn(() => response);
-      const options: IdValue[] = [];
-      const result = autocompleteSuccess({
-        options,
-        filter: FilterNames.CUSTOMER,
-      });
+    test(
+      'should return autocompleteCustomerSuccess action when REST call is successful',
+      marbles((m) => {
+        autocompleteSearch = new AutocompleteSearch(
+          FilterNames.CUSTOMER,
+          'Aud'
+        );
+        action = autocomplete({ autocompleteSearch });
+        const options: IdValue[] = [];
+        const result = autocompleteSuccess({
+          options,
+          filter: FilterNames.CUSTOMER,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: options,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: options,
+        });
+        searchService.autocomplete = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(searchService.autocomplete).toHaveBeenCalledWith(
-        autocompleteSearch
-      );
-    });
-    test('should return autocompleteQuotationSuccess action when REST call is successful', () => {
-      autocompleteSearch = new AutocompleteSearch(
-        FilterNames.SAP_QUOTATION,
-        '12345'
-      );
-      action = autocomplete({ autocompleteSearch });
-      searchService.autocomplete = jest.fn(() => response);
-      const options: IdValue[] = [];
-      const result = autocompleteSuccess({
-        options,
-        filter: FilterNames.SAP_QUOTATION,
-      });
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
 
-      actions$ = hot('-a', { a: action });
+        expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+        expect(searchService.autocomplete).toHaveBeenCalledWith(
+          autocompleteSearch
+        );
+      })
+    );
 
-      const response = cold('-a|', {
-        a: options,
-      });
-      const expected = cold('--b', { b: result });
+    test(
+      'should return autocompleteQuotationSuccess action when REST call is successful',
+      marbles((m) => {
+        autocompleteSearch = new AutocompleteSearch(
+          FilterNames.SAP_QUOTATION,
+          '12345'
+        );
+        action = autocomplete({ autocompleteSearch });
+        const options: IdValue[] = [];
+        const result = autocompleteSuccess({
+          options,
+          filter: FilterNames.SAP_QUOTATION,
+        });
 
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-      expect(searchService.autocomplete).toHaveBeenCalledWith(
-        autocompleteSearch
-      );
-    });
+        actions$ = m.hot('-a', { a: action });
 
-    test('should return autocompleteFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = autocompleteFailure();
+        const response = m.cold('-a|', {
+          a: options,
+        });
+        searchService.autocomplete = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
 
-      searchService.autocomplete = jest.fn(() => response);
+        expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+        expect(searchService.autocomplete).toHaveBeenCalledWith(
+          autocompleteSearch
+        );
+      })
+    );
 
-      expect(effects.autocomplete$).toBeObservable(expected);
-      expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
-    });
+    test(
+      'should return autocompleteFailure on REST error',
+      marbles((m) => {
+        const error = new Error('damn');
+        const result = autocompleteFailure();
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        searchService.autocomplete = jest.fn(() => response);
+
+        m.expect(effects.autocomplete$).toBeObservable(expected);
+        m.flush();
+
+        expect(searchService.autocomplete).toHaveBeenCalledTimes(1);
+      })
+    );
   });
   describe('validate', () => {
     const tableData: MaterialTableItem[] = [
@@ -193,37 +212,49 @@ describe('Create Case Effects', () => {
       store.overrideSelector(getCaseRowData, tableData);
     });
 
-    test('should return validateSuccess when REST call is successful', () => {
-      action = pasteRowDataItems({ items: [], pasteDestination: {} });
+    test(
+      'should return validateSuccess when REST call is successful',
+      marbles((m) => {
+        action = pasteRowDataItems({ items: [], pasteDestination: {} });
 
-      validationService.validateMaterials = jest.fn(() => response);
-      const materialValidations: MaterialValidation[] = [];
-      const result = validateSuccess({ materialValidations });
+        const materialValidations: MaterialValidation[] = [];
+        const result = validateSuccess({ materialValidations });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: materialValidations,
-      });
-      const expected = cold('--b', { b: result });
-      expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
-      expect(validationService.validateMaterials).toHaveBeenCalledWith(
-        tableData
-      );
-    });
-    test('should return validateFailure on REST error', () => {
-      const error = new Error('damn');
-      const result = validateFailure();
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: materialValidations,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        validationService.validateMaterials = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.validate$).toBeObservable(expected);
+        m.flush();
 
-      validationService.validateMaterials = jest.fn(() => response);
+        expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
+        expect(validationService.validateMaterials).toHaveBeenCalledWith(
+          tableData
+        );
+      })
+    );
 
-      expect(effects.validate$).toBeObservable(expected);
-      expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
-    });
+    test(
+      'should return validateFailure on REST error',
+      marbles((m) => {
+        const error = new Error('damn');
+        const result = validateFailure();
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        validationService.validateMaterials = jest.fn(() => response);
+
+        m.expect(effects.validate$).toBeObservable(expected);
+        m.flush();
+
+        expect(validationService.validateMaterials).toHaveBeenCalledTimes(1);
+      })
+    );
   });
   describe('createCase', () => {
     const createCaseData: CreateCase = {
@@ -243,44 +274,58 @@ describe('Create Case Effects', () => {
       store.overrideSelector(getCreateCaseData, createCaseData);
     });
 
-    test('should return validateSuccess when REST call is successful', () => {
-      router.navigate = jest.fn();
-      snackBarService.showSuccessMessage = jest.fn();
-      action = createCase();
+    test(
+      'should return validateSuccess when REST call is successful',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        snackBarService.showSuccessMessage = jest.fn();
+        action = createCase();
 
-      quotationService.createCase = jest.fn(() => response);
-      const createdCase: CreateCaseResponse = {
-        customerId: '',
-        gqId: '',
-        salesOrg: '',
-      };
-      const result = createCaseSuccess({ createdCase });
+        const createdCase: CreateCaseResponse = {
+          customerId: '',
+          gqId: '',
+          salesOrg: '',
+        };
+        const result = createCaseSuccess({ createdCase });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: createdCase,
-      });
-      const expected = cold('--b', { b: result });
-      expect(effects.createCase$).toBeObservable(expected);
-      expect(quotationService.createCase).toHaveBeenCalledTimes(1);
-      expect(quotationService.createCase).toHaveBeenCalledWith(createCaseData);
-      expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
-    test('should return validateFailure on REST error', () => {
-      const errorMessage = 'errorMessage';
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: createdCase,
+        });
+        quotationService.createCase = jest.fn(() => response);
 
-      const result = createCaseFailure({ errorMessage });
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.createCase$).toBeObservable(expected);
+        m.flush();
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCase).toHaveBeenCalledWith(
+          createCaseData
+        );
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      quotationService.createCase = jest.fn(() => response);
+    test(
+      'should return validateFailure on REST error',
+      marbles((m) => {
+        const errorMessage = 'errorMessage';
 
-      expect(effects.createCase$).toBeObservable(expected);
-      expect(quotationService.createCase).toHaveBeenCalledTimes(1);
-    });
+        const result = createCaseFailure({ errorMessage });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.createCase = jest.fn(() => response);
+
+        m.expect(effects.createCase$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.createCase).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('importQuotation', () => {
@@ -293,76 +338,96 @@ describe('Create Case Effects', () => {
       store.overrideSelector(getSelectedQuotation, importCaseData);
     });
 
-    test('should return importCaseSuccess when REST call is successful', () => {
-      router.navigate = jest.fn();
-      snackBarService.showSuccessMessage = jest.fn();
-      action = importCase();
+    test(
+      'should return importCaseSuccess when REST call is successful',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        snackBarService.showSuccessMessage = jest.fn();
+        action = importCase();
 
-      quotationService.importCase = jest.fn(() => response);
-      const result = importCaseSuccess({ gqId: QUOTATION_MOCK.gqId });
+        const result = importCaseSuccess({ gqId: QUOTATION_MOCK.gqId });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: QUOTATION_MOCK,
-      });
-      const expected = cold('--b', { b: result });
-      expect(effects.importCase$).toBeObservable(expected);
-      expect(quotationService.importCase).toHaveBeenCalledTimes(1);
-      expect(quotationService.importCase).toHaveBeenCalledWith(
-        `${QUOTATION_MOCK.gqId}`
-      );
-      expect(router.navigate).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: QUOTATION_MOCK,
+        });
+        quotationService.importCase = jest.fn(() => response);
 
-    test('should return importCaseFailure on REST error', () => {
-      const errorMessage = 'errorMessage';
-      const result = importCaseFailure({ errorMessage });
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.importCase$).toBeObservable(expected);
+        m.flush();
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        expect(quotationService.importCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.importCase).toHaveBeenCalledWith(
+          `${QUOTATION_MOCK.gqId}`
+        );
+        expect(router.navigate).toHaveBeenCalledTimes(1);
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      quotationService.importCase = jest.fn(() => response);
+    test(
+      'should return importCaseFailure on REST error',
+      marbles((m) => {
+        const errorMessage = 'errorMessage';
+        const result = importCaseFailure({ errorMessage });
 
-      expect(effects.importCase$).toBeObservable(expected);
-      expect(quotationService.importCase).toHaveBeenCalledTimes(1);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.importCase = jest.fn(() => response);
+
+        m.expect(effects.importCase$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.importCase).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('getSalesOrgs', () => {
-    test('should return getSalesOrgsSuccess when REST call is successful', () => {
-      const option = new IdValue('id', 'value', true);
-      const filter = FilterNames.CUSTOMER;
-      action = selectAutocompleteOption({ option, filter });
-      searchService.getSalesOrgs = jest.fn(() => response);
-      const salesOrgs = [new SalesOrg('id', true)];
-      const result = getSalesOrgsSuccess({ salesOrgs });
+    test(
+      'should return getSalesOrgsSuccess when REST call is successful',
+      marbles((m) => {
+        const option = new IdValue('id', 'value', true);
+        const filter = FilterNames.CUSTOMER;
+        action = selectAutocompleteOption({ option, filter });
+        const salesOrgs = [new SalesOrg('id', true)];
+        const result = getSalesOrgsSuccess({ salesOrgs });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: salesOrgs,
-      });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: salesOrgs,
+        });
+        searchService.getSalesOrgs = jest.fn(() => response);
 
-      const expected = cold('--b', { b: result });
-      expect(effects.getSalesOrgs$).toBeObservable(expected);
-      expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
-      expect(searchService.getSalesOrgs).toHaveBeenCalledWith(option.id);
-    });
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.getSalesOrgs$).toBeObservable(expected);
+        m.flush();
 
-    test('should return getSalesOrgsFailure on REST error', () => {
-      const errorMessage = `Hello, i'm an error`;
-      const result = getSalesOrgsFailure({ errorMessage });
+        expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
+        expect(searchService.getSalesOrgs).toHaveBeenCalledWith(option.id);
+      })
+    );
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+    test(
+      'should return getSalesOrgsFailure on REST error',
+      marbles((m) => {
+        const errorMessage = `Hello, i'm an error`;
+        const result = getSalesOrgsFailure({ errorMessage });
 
-      searchService.getSalesOrgs = jest.fn(() => response);
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.getSalesOrgs$).toBeObservable(expected);
-      expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
-    });
+        searchService.getSalesOrgs = jest.fn(() => response);
+
+        m.expect(effects.getSalesOrgs$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getSalesOrgs).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('getPLsAndSeries', () => {

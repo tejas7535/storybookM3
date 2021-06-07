@@ -17,7 +17,7 @@ import { UserMenuEntry } from '@schaeffler/header';
 import { BrowserSupportDialogComponent } from '@cdba/shared/components/browser-support-dialog/browser-support-dialog.component';
 import { BrowserDetectionService } from '@cdba/shared/services';
 
-import { version } from '../../package.json';
+import packageJson from '../../package.json';
 
 @Component({
   selector: 'cdba-root',
@@ -27,7 +27,7 @@ import { version } from '../../package.json';
 export class AppComponent implements OnInit {
   title = 'Cost Database Analytics';
 
-  public appVersion = version;
+  public appVersion = packageJson.version;
   public footerLinks: FooterLink[] = [
     {
       link: 'https://sconnect.schaeffler.com/groups/cost-database-analytics/pages/faq',

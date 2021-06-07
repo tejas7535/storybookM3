@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -64,17 +65,6 @@ describe('MultiSelectFilterComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should add valueChanges subscription directly', () => {
-      component.searchFieldChange = jest.fn();
-
-      component.ngOnInit();
-
-      const testVal = 'test';
-      component.searchForm.setValue(testVal);
-
-      expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
-    });
-
     it('should add valueChanges subscription after DEBOUNCE_TIME_DEFAULT on searchRemote with > 1 chars', (done) => {
       component.searchFieldChange = jest.fn();
       component.filter.autocomplete = true;

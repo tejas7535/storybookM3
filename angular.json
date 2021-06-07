@@ -91,7 +91,7 @@
             "main": "apps/helloworld-azure/src/main.ts",
             "polyfills": "apps/helloworld-azure/src/polyfills.ts",
             "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/helloworld-azure/src/favicon.ico",
               "apps/helloworld-azure/src/assets"
@@ -103,25 +103,34 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
-              ],
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/helloworld-azure/src/environments/environment.ts",
@@ -130,31 +139,11 @@
               ]
             },
             "qa": {
+              "statsJson": true,
               "fileReplacements": [
                 {
                   "replace": "apps/helloworld-azure/src/environments/environment.ts",
                   "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
-                }
-              ],
-              "statsJson": true,
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -164,37 +153,10 @@
                   "replace": "apps/helloworld-azure/src/environments/environment.ts",
                   "with": "apps/helloworld-azure/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -202,19 +164,16 @@
             "browserTarget": "helloworld-azure:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "helloworld-azure:build:e2e"
+            "local": {
+              "browserTarget": "helloworld-azure:build:local"
             },
+            "dev": { "browserTarget": "helloworld-azure:build:dev" },
+            "qa": { "browserTarget": "helloworld-azure:build:qa" },
             "production": {
               "browserTarget": "helloworld-azure:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "helloworld-azure:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -262,8 +221,8 @@
             "devServerTarget": "helloworld-azure:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "helloworld-azure:serve:e2e"
+            "local": {
+              "devServerTarget": "helloworld-azure:serve:local"
             },
             "production": {
               "devServerTarget": "helloworld-azure:serve:production"
@@ -304,7 +263,7 @@
             "main": "apps/cdba/src/main.ts",
             "polyfills": "apps/cdba/src/polyfills.ts",
             "tsConfig": "apps/cdba/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/cdba/src/favicon.ico", "apps/cdba/src/assets"],
             "styles": [
               "apps/cdba/src/styles.scss",
@@ -317,26 +276,36 @@
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
             },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ],
             "customWebpackConfig": {
               "path": "apps/cdba/webpack.config.js"
             }
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
-                }
-              ],
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/cdba/src/environments/environment.ts",
@@ -345,31 +314,11 @@
               ]
             },
             "qa": {
+              "statsJson": true,
               "fileReplacements": [
                 {
                   "replace": "apps/cdba/src/environments/environment.ts",
                   "with": "apps/cdba/src/environments/environment.qa.ts"
-                }
-              ],
-              "statsJson": true,
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -379,37 +328,10 @@
                   "replace": "apps/cdba/src/environments/environment.ts",
                   "with": "apps/cdba/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
@@ -417,19 +339,16 @@
             "browserTarget": "cdba:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "cdba:build:e2e"
+            "local": {
+              "browserTarget": "cdba:build:local"
             },
+            "dev": { "browserTarget": "cdba:build:dev" },
+            "qa": { "browserTarget": "cdba:build:qa" },
             "production": {
               "browserTarget": "cdba:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "cdba:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -477,8 +396,8 @@
             "devServerTarget": "cdba:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "cdba:serve:e2e"
+            "local": {
+              "devServerTarget": "cdba:serve:local"
             },
             "production": {
               "devServerTarget": "cdba:serve:production"
@@ -1323,7 +1242,7 @@
             "main": "apps/goldwind/src/main.ts",
             "polyfills": "apps/goldwind/src/polyfills.ts",
             "tsConfig": "apps/goldwind/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": [
               "apps/goldwind/src/favicon.ico",
               "apps/goldwind/src/assets"
@@ -1338,59 +1257,47 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/goldwind/src/environments/environment.ts",
                   "with": "apps/goldwind/src/environments/environment.dev.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/goldwind/src/environments/environment.ts",
                   "with": "apps/goldwind/src/environments/environment.dev.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1400,38 +1307,10 @@
                   "replace": "apps/goldwind/src/environments/environment.ts",
                   "with": "apps/goldwind/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1439,19 +1318,20 @@
             "browserTarget": "goldwind:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "goldwind:build:e2e"
+            "local": {
+              "browserTarget": "goldwind:build:local"
+            },
+            "dev": {
+              "browserTarget": "goldwind:build:dev"
+            },
+            "´qa": {
+              "browserTarget": "goldwind:build:qa"
             },
             "production": {
               "browserTarget": "goldwind:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "goldwind:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -1499,8 +1379,8 @@
             "devServerTarget": "goldwind:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "goldwind:serve:e2e"
+            "local": {
+              "devServerTarget": "goldwind:serve:local"
             },
             "production": {
               "devServerTarget": "goldwind:serve:production"
@@ -1624,7 +1504,7 @@
             "main": "apps/sedo/src/main.ts",
             "polyfills": "apps/sedo/src/polyfills.ts",
             "tsConfig": "apps/sedo/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/sedo/src/favicon.ico", "apps/sedo/src/assets"],
             "styles": [
               "apps/sedo/src/styles.scss",
@@ -1633,59 +1513,47 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/sedo/src/environments/environment.ts",
                   "with": "apps/sedo/src/environments/environment.dev.ts"
                 }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/sedo/src/environments/environment.ts",
                   "with": "apps/sedo/src/environments/environment.qa.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -1695,38 +1563,10 @@
                   "replace": "apps/sedo/src/environments/environment.ts",
                   "with": "apps/sedo/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -1734,19 +1574,20 @@
             "browserTarget": "sedo:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "sedo:build:e2e"
+            "local": {
+              "browserTarget": "sedo:build:local"
+            },
+            "dev": {
+              "browserTarget": "sedo:build:dev"
+            },
+            "qa": {
+              "browserTarget": "sedo:build:qa"
             },
             "production": {
               "browserTarget": "sedo:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "sedo:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -1794,8 +1635,8 @@
             "devServerTarget": "sedo:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "sedo:serve:e2e"
+            "local": {
+              "devServerTarget": "sedo:serve:local"
             },
             "production": {
               "devServerTarget": "sedo:serve:production"
@@ -1856,7 +1697,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/ui/empty-states/jest.config.js",
-            "tsConfig": "libs/shared/ui/empty-states/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/ui/empty-states/src/test-setup.ts"
           },
@@ -1922,7 +1762,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/ui/styles/jest.config.js",
-            "tsConfig": "libs/shared/ui/styles/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
           },
@@ -1971,7 +1810,7 @@
             "main": "apps/gq/src/main.ts",
             "polyfills": "apps/gq/src/polyfills.ts",
             "tsConfig": "apps/gq/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/gq/src/favicon.ico", "apps/gq/src/assets"],
             "styles": [
               "apps/gq/src/styles.scss",
@@ -1984,61 +1823,49 @@
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
             },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ],
             "customWebpackConfig": {
               "path": "apps/gq/webpack.config.js"
             }
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/gq/src/environments/environment.ts",
                   "with": "apps/gq/src/environments/environment.dev.ts"
                 }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/gq/src/environments/environment.ts",
                   "with": "apps/gq/src/environments/environment.qa.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2048,38 +1875,10 @@
                   "replace": "apps/gq/src/environments/environment.ts",
                   "with": "apps/gq/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
@@ -2087,19 +1886,20 @@
             "browserTarget": "gq:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "gq:build:e2e"
+            "local": {
+              "browserTarget": "gq:build:local"
+            },
+            "dev": {
+              "browserTarget": "gq:build:dev"
+            },
+            "qa": {
+              "browserTarget": "gq:build:qa"
             },
             "production": {
               "browserTarget": "gq:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "gq:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -2118,7 +1918,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "apps/gq/jest.config.js",
-            "tsConfig": "apps/gq/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "apps/gq/src/test-setup.ts"
           },
@@ -2146,8 +1945,8 @@
             "devServerTarget": "gq:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "gq:serve:e2e"
+            "local": {
+              "devServerTarget": "gq:serve:local"
             },
             "production": {
               "devServerTarget": "gq:serve:production"
@@ -2188,7 +1987,7 @@
             "main": "apps/ia/src/main.ts",
             "polyfills": "apps/ia/src/polyfills.ts",
             "tsConfig": "apps/ia/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/ia/src/favicon.ico", "apps/ia/src/assets"],
             "styles": [
               "apps/ia/src/styles.scss",
@@ -2198,61 +1997,49 @@
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
             },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ],
             "customWebpackConfig": {
               "path": "apps/ia/webpack.config.js"
             }
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/ia/src/environments/environment.ts",
                   "with": "apps/ia/src/environments/environment.dev.ts"
                 }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/ia/src/environments/environment.ts",
                   "with": "apps/ia/src/environments/environment.qa.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2262,38 +2049,10 @@
                   "replace": "apps/ia/src/environments/environment.ts",
                   "with": "apps/ia/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-builders/custom-webpack:dev-server",
@@ -2301,19 +2060,20 @@
             "browserTarget": "ia:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "ia:build:e2e"
+            "local": {
+              "browserTarget": "ia:build:local"
+            },
+            "dev": {
+              "browserTarget": "ia:build:dev"
+            },
+            "qa": {
+              "browserTarget": "ia:build:qa"
             },
             "production": {
               "browserTarget": "ia:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "ia:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -2358,8 +2118,8 @@
             "devServerTarget": "ia:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "ia:serve:e2e"
+            "local": {
+              "devServerTarget": "ia:serve:local"
             },
             "production": {
               "devServerTarget": "ia:serve:production"
@@ -2400,7 +2160,7 @@
             "main": "apps/mac/src/main.ts",
             "polyfills": "apps/mac/src/polyfills.ts",
             "tsConfig": "apps/mac/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/mac/src/favicon.ico", "apps/mac/src/assets"],
             "styles": [
               "apps/mac/src/styles.scss",
@@ -2409,59 +2169,47 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": ["libs/shared/ui/styles/src"]
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/mac/src/environments/environment.ts",
                   "with": "apps/mac/src/environments/environment.dev.ts"
                 }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/mac/src/environments/environment.ts",
                   "with": "apps/mac/src/environments/environment.qa.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2471,38 +2219,10 @@
                   "replace": "apps/mac/src/environments/environment.ts",
                   "with": "apps/mac/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
           },
-          "outputs": ["{options.outputPath}"]
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2510,19 +2230,20 @@
             "browserTarget": "mac:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "mac:build:e2e"
+            "local": {
+              "browserTarget": "mac:build:local"
+            },
+            "dev": {
+              "browserTarget": "mac:build:dev"
+            },
+            "qa": {
+              "browserTarget": "mac:build:qa"
             },
             "production": {
               "browserTarget": "mac:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "mac:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -2570,8 +2291,8 @@
             "devServerTarget": "mac:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "mac:serve:e2e"
+            "local": {
+              "devServerTarget": "mac:serve:local"
             },
             "production": {
               "devServerTarget": "mac:serve:production"
@@ -2737,7 +2458,7 @@
             "main": "apps/mm/src/main.ts",
             "polyfills": "apps/mm/src/polyfills.ts",
             "tsConfig": "apps/mm/tsconfig.app.json",
-            "aot": true,
+            "inlineStyleLanguage": "scss",
             "assets": ["apps/mm/src/favicon.ico", "apps/mm/src/assets"],
             "styles": [
               "apps/mm/src/styles.scss",
@@ -2749,59 +2470,47 @@
             "scripts": [],
             "stylePreprocessorOptions": {
               "includePaths": []
-            }
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
           },
           "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
             "dev": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
+              "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/mm/src/environments/environment.ts",
                   "with": "apps/mm/src/environments/environment.dev.ts"
                 }
-              ],
-              "budgets": [
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
-                }
               ]
             },
             "qa": {
               "statsJson": true,
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": true,
-              "namedChunks": true,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": true,
-              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "apps/mm/src/environments/environment.ts",
                   "with": "apps/mm/src/environments/environment.qa.ts"
-                }
-              ],
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "20kb"
                 }
               ]
             },
@@ -2811,37 +2520,10 @@
                   "replace": "apps/mm/src/environments/environment.ts",
                   "with": "apps/mm/src/environments/environment.prod.ts"
                 }
-              ],
-              "optimization": true,
-              "outputHashing": "all",
-              "sourceMap": false,
-              "namedChunks": false,
-              "aot": true,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                },
-                {
-                  "type": "anyComponentStyle",
-                  "maximumWarning": "6kb",
-                  "maximumError": "15kb"
-                }
               ]
-            },
-            "e2e": {
-              "optimization": true,
-              "outputHashing": "none",
-              "sourceMap": false,
-              "namedChunks": true,
-              "vendorChunk": false,
-              "buildOptimizer": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -2849,19 +2531,20 @@
             "browserTarget": "mm:build"
           },
           "configurations": {
-            "e2e": {
-              "browserTarget": "mm:build:e2e"
+            "local": {
+              "browserTarget": "mm:build:local"
+            },
+            "dev": {
+              "browserTarget": "mm:build:dev"
+            },
+            "qa": {
+              "browserTarget": "mm:build:qa"
             },
             "production": {
               "browserTarget": "mm:build:production"
             }
-          }
-        },
-        "extract-i18n": {
-          "builder": "@angular-devkit/build-angular:extract-i18n",
-          "options": {
-            "browserTarget": "mm:build"
-          }
+          },
+          "defaultConfiguration": "local"
         },
         "lint": {
           "builder": "@nrwl/linter:eslint",
@@ -2906,8 +2589,8 @@
             "devServerTarget": "mm:serve"
           },
           "configurations": {
-            "e2e": {
-              "devServerTarget": "mm:serve:e2e"
+            "local": {
+              "devServerTarget": "mm:serve:local"
             },
             "production": {
               "devServerTarget": "mm:serve:production"
@@ -3194,7 +2877,6 @@
           "builder": "@nrwl/jest:jest",
           "options": {
             "jestConfig": "libs/shared/utils/azure-auth/jest.config.js",
-            "tsConfig": "libs/shared/utils/azure-auth/tsconfig.spec.json",
             "passWithNoTests": true,
             "setupFile": "libs/shared/utils/azure-auth/src/test-setup.ts"
           },

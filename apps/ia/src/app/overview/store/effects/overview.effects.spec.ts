@@ -1,8 +1,9 @@
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import {
   filterSelected,
@@ -13,7 +14,6 @@ import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
-  FilterKey,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
@@ -63,63 +63,73 @@ describe('Overview Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test(`filterSelected - should trigger loadAtrritionOverTime + loadOverviewFluctuationRates
-          + loadOrgChart + loadWorldMap if orgUnit is set`, () => {
-      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
-      const resultAttrition = loadAttritionOverTimeOverview({ request });
-      const resultFluctuationsRates = loadFluctuationRatesOverview({ request });
+    test(
+      'filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
+      marbles((m) => {
+        const filter = new SelectedFilter('orgUnit', 'best');
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
+        const resultAttrition = loadAttritionOverTimeOverview({ request });
+        const resultFluctuation = loadFluctuationRatesOverview({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: resultAttrition,
-        c: resultFluctuationsRates,
-      });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bc)', {
+          b: resultAttrition,
+          c: resultFluctuation,
+        });
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test(`timeRangeSelected - should trigger loadAtrritionOverTime
-          and loadOverviewFluctuationRates if orgUnit is set`, () => {
-      const timeRange = '123|456';
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
+    test(
+      'timeRangeSelected - should trigger loadAtrritionOverTime if orgUnit is set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
 
-      const resultAttrition = loadAttritionOverTimeOverview({ request });
-      const resultFluctuationsRates = loadFluctuationRatesOverview({ request });
+        const resultAttrition = loadAttritionOverTimeOverview({ request });
+        const resultFluctuation = loadFluctuationRatesOverview({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bc)', {
-        b: resultAttrition,
-        c: resultFluctuationsRates,
-      });
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bc)', {
+          b: resultAttrition,
+          c: resultFluctuation,
+        });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('filterSelected - should do nothing when organization is not set', () => {
-      const filter = new SelectedFilter('nice', 'best');
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'filterSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const filter = new SelectedFilter('nice', 'best');
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('timeRangeSelected - should do nothing when organization is not set', () => {
-      const timeRange = '123|456';
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'timeRangeSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadAttritionOverTimeOverview$', () => {
@@ -130,45 +140,61 @@ describe('Overview Effects', () => {
       action = loadAttritionOverTimeOverview({ request });
     });
 
-    test('should return loadAttritionOverTimeOverviewSuccess action when REST call is successful', () => {
-      const data: AttritionOverTime = { events: [], data: {} };
-      const result = loadAttritionOverTimeOverviewSuccess({
-        data,
-      });
+    test(
+      'should return loadAttritionOverTimeOverviewSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: AttritionOverTime = { events: [], data: {} };
+        const result = loadAttritionOverTimeOverviewSuccess({
+          data,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: data,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getAttritionOverTime = jest.fn(() => response);
+        employeesService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadAttritionOverTimeOverview$).toBeObservable(expected);
-      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request,
-        TimePeriod.LAST_THREE_YEARS
-      );
-    });
+        m.expect(effects.loadAttritionOverTimeOverview$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+          request,
+          TimePeriod.LAST_THREE_YEARS
+        );
+      })
+    );
 
-    test('should return loadAttritionOverTimeOverviewFailure on REST error', () => {
-      const result = loadAttritionOverTimeOverviewFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadAttritionOverTimeOverviewFailure on REST error',
+      marbles((m) => {
+        const result = loadAttritionOverTimeOverviewFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getAttritionOverTime = jest.fn(() => response);
+        employeesService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadAttritionOverTimeOverview$).toBeObservable(expected);
-      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request,
-        TimePeriod.LAST_THREE_YEARS
-      );
-    });
+        m.expect(effects.loadAttritionOverTimeOverview$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+          request,
+          TimePeriod.LAST_THREE_YEARS
+        );
+      })
+    );
   });
 
   describe('loadOverviewFluctuationRates$', () => {
@@ -179,31 +205,37 @@ describe('Overview Effects', () => {
       action = loadFluctuationRatesOverview({ request });
     });
 
-    test('should return loadOverviewFluctuationRatesSuccess action when REST call is successful', () => {
-      const data: OverviewFluctuationRates = {
-        employees: [],
-        fluctuationRate: { company: 0, orgUnit: 0 },
-        unforcedFluctuationRate: { company: 0, orgUnit: 0 },
-        entries: 0,
-        exits: 0,
-      };
-      const result = loadFluctuationRatesOverviewSuccess({
-        data,
-      });
+    test(
+      'should return loadOverviewFluctuationRatesSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: OverviewFluctuationRates = {
+          employees: [],
+          fluctuationRate: { company: 0, orgUnit: 0 },
+          unforcedFluctuationRate: { company: 0, orgUnit: 0 },
+          entries: 0,
+          exits: 0,
+        };
+        const result = loadFluctuationRatesOverviewSuccess({
+          data,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: data,
-      });
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getOverviewFluctuationRates = jest.fn(() => response);
+        employeesService.getOverviewFluctuationRates = jest.fn(() => response);
 
-      expect(effects.loadOverviewFluctuationRates$).toBeObservable(expected);
-      expect(employeesService.getOverviewFluctuationRates).toHaveBeenCalledWith(
-        request
-      );
-    });
+        m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          employeesService.getOverviewFluctuationRates
+        ).toHaveBeenCalledWith(request);
+      })
+    );
   });
 
   describe('ngrxOnInitEffects', () => {

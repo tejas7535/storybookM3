@@ -274,7 +274,7 @@ export class MultiSelectFilterComponent
         const tmp = { ...it };
         const item = values.find((i: IdValue) => i.id && i.id === it.id);
 
-        tmp.selected = item !== undefined ? true : false;
+        tmp.selected = item !== undefined;
 
         return tmp;
       }),
