@@ -90,6 +90,7 @@
     {
       "packageNames": [
         "@ngrx/component",
+        "@ngrx/component-store",
         "@ngrx/effects",
         "@ngrx/entity",
         "@ngrx/router-store",

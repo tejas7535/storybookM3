@@ -144,7 +144,7 @@ describe('HardnessConverterComponent', () => {
         expect(result).toEqual(HARDNESS_CONVERSION_MOCK);
       });
       component.hardness.get('value').setValue(42);
-      component.valueChange$.next();
+      component.valueChange$.next(undefined);
     })
   );
 
@@ -154,7 +154,7 @@ describe('HardnessConverterComponent', () => {
       component.hardness
         .get('value')
         .setValue('totally wrong and unacceptable');
-      component.valueChange$.next();
+      component.valueChange$.next(undefined);
       expect(component.error).toEqual(HARDNESS_CONVERSION_ERROR_MOCK.error);
     })
   );

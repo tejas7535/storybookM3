@@ -9,7 +9,7 @@ import { getIsLoggedIn, getUsername } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer-tailwind';
 import { UserMenuEntry } from '@schaeffler/header';
 
-import { version } from '../../package.json';
+import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
 import { AppState } from './core/store';
 import { LegalPath } from './legal/legal-route-path.enum';
@@ -40,7 +40,7 @@ export class AppComponent implements OnInit {
     },
   ];
 
-  public appVersion = version;
+  public appVersion = packageJson.version;
 
   username$: Observable<string>;
   userMenuEntries: UserMenuEntry[] = [];

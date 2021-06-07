@@ -8,9 +8,9 @@ import java.text.SimpleDateFormat
 
 // Variables
 def builds
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Test:E2E', 'Build', 'Build:Projects', 'Build:Storybook', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
@@ -659,6 +659,11 @@ pipeline {
                 }
 
                 stage('Test:E2E') {
+                    when {
+                        expression {
+                            return false
+                        }
+                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             // quantity 1 means that only one pipeline can execute cypress tests on an agent, other pipelines have to wait until the lock is released
@@ -774,7 +779,7 @@ pipeline {
                             script {
                                 lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
                                     if (isAppRelease()) {
-                                        sh "npx nx run ${env.RELEASE_SCOPE}:build --with-deps --prod"
+                                        sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production --with-deps"
                                         try {
                                             sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                                         } catch (error) {
@@ -801,6 +806,11 @@ pipeline {
                 }
 
                 stage('Build:Storybook') {
+                    when {
+                        expression {
+                            return false
+                        }
+                    }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
                             echo 'Build Storybooks for Shared Libraries'

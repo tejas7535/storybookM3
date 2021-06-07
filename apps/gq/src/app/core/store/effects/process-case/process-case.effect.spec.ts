@@ -1,13 +1,15 @@
+/* eslint-disable max-lines */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+
+import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
@@ -130,38 +132,46 @@ describe('ProcessCaseEffect', () => {
       );
     });
 
-    test('should return customerDetailsSuccess action when REST call is successful', () => {
-      searchService.getCustomer = jest.fn(() => response);
-      const item = CUSTOMER_MOCK;
-      const result = loadCustomerSuccess({ item });
+    test(
+      'should return customerDetailsSuccess action when REST call is successful',
+      marbles((m) => {
+        searchService.getCustomer = jest.fn(() => response);
+        const item = CUSTOMER_MOCK;
+        const result = loadCustomerSuccess({ item });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: item,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.customerDetails$).toBeObservable(expected);
-      expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
-      expect(searchService.getCustomer).toHaveBeenCalledWith(
-        QUOTATION_IDENTIFIER_MOCK
-      );
-    });
+        m.expect(effects.customerDetails$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
+        expect(searchService.getCustomer).toHaveBeenCalledWith(
+          QUOTATION_IDENTIFIER_MOCK
+        );
+      })
+    );
 
-    test('should return customerDetailsFailure on REST error', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return customerDetailsFailure on REST error',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadCustomerFailure({ errorMessage });
+        const result = loadCustomerFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      searchService.getCustomer = jest.fn(() => response);
+        searchService.getCustomer = jest.fn(() => response);
 
-      expect(effects.customerDetails$).toBeObservable(expected);
-      expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.customerDetails$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.getCustomer).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe(' quotationDetails$', () => {
@@ -183,213 +193,256 @@ describe('ProcessCaseEffect', () => {
       );
     });
 
-    test('should return quotationDetailsSuccess action when REST call is successful', () => {
-      quotationService.getQuotation = jest.fn(() => response);
-      const item = QUOTATION_MOCK;
-      const result = loadQuotationSuccess({ item });
+    test(
+      'should return quotationDetailsSuccess action when REST call is successful',
+      marbles((m) => {
+        quotationService.getQuotation = jest.fn(() => response);
+        const item = QUOTATION_MOCK;
+        const result = loadQuotationSuccess({ item });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: item,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.quotationDetails$).toBeObservable(expected);
-      expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
-      expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
-    });
+        m.expect(effects.quotationDetails$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+        expect(quotationService.getQuotation).toHaveBeenCalledWith(gqId);
+      })
+    );
 
-    test('should return quotationDetailsFailure on REST error', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return quotationDetailsFailure on REST error',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadQuotationFailure({ errorMessage });
+        const result = loadQuotationFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      quotationService.getQuotation = jest.fn(() => response);
+        quotationService.getQuotation = jest.fn(() => response);
 
-      expect(effects.quotationDetails$).toBeObservable(expected);
-      expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.quotationDetails$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.getQuotation).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('triggerDataLoad$', () => {
-    test('should return loadQuotation Action', () => {
-      action = selectQuotation({
-        quotationIdentifier: QUOTATION_IDENTIFIER_MOCK,
-      });
+    test(
+      'should return loadQuotation Action',
+      marbles((m) => {
+        action = selectQuotation({
+          quotationIdentifier: QUOTATION_IDENTIFIER_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(bc)', {
-        b: loadQuotation(),
-        c: loadCustomer(),
-      });
+        const expected = m.cold('-(bc)', {
+          b: loadQuotation(),
+          c: loadCustomer(),
+        });
 
-      expect(effects.triggerDataLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerDataLoad$).toBeObservable(expected);
+        m.flush();
+      })
+    );
   });
 
   describe('loadFromUrl$', () => {
-    test('should return loadQuotationFromUrl', () => {
-      const queryParams = {
-        gqId: 12334,
-        customerNumber: '3456',
-        salesOrg: '0267',
-        gqPositionId: '5678',
-      };
+    test(
+      'should return loadQuotationFromUrl',
+      marbles((m) => {
+        const queryParams = {
+          gqId: 12334,
+          customerNumber: '3456',
+          salesOrg: '0267',
+          gqPositionId: '5678',
+        };
 
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            queryParams,
-            url: `/${AppRoutePath.ProcessCaseViewPath}`,
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              queryParams,
+              url: `/${AppRoutePath.ProcessCaseViewPath}`,
+            },
           },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadQuotationFromUrl({
-        queryParams,
-      });
-      const expected = cold('-b', { b: result });
+        const result = loadQuotationFromUrl({
+          queryParams,
+        });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.loadFromUrl$).toBeObservable(expected);
-    });
-    test('should return loadQuotationFromUrl', () => {
-      const queryParams = {
-        gqId: 12334,
-        customerNumber: '3456',
-        salesOrg: '0267',
-        gqPositionId: '5678',
-      };
+        m.expect(effects.loadFromUrl$).toBeObservable(expected);
+        m.flush();
+      })
+    );
 
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            queryParams,
-            url: `/${AppRoutePath.OfferViewPath}`,
+    test(
+      'should return loadQuotationFromUrl',
+      marbles((m) => {
+        const queryParams = {
+          gqId: 12334,
+          customerNumber: '3456',
+          salesOrg: '0267',
+          gqPositionId: '5678',
+        };
+
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              queryParams,
+              url: `/${AppRoutePath.OfferViewPath}`,
+            },
           },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadQuotationFromUrl({
-        queryParams,
-      });
-      const expected = cold('-b', { b: result });
+        const result = loadQuotationFromUrl({
+          queryParams,
+        });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.loadFromUrl$).toBeObservable(expected);
-    });
-    test('should return loadQuotationFromUrl and loadSelectedQuotationDetailFromUrl', () => {
-      const queryParams = {
-        gqId: 12334,
-        customerNumber: '3456',
-        salesOrg: '0267',
-        gqPositionId: '5678',
-      };
+        m.expect(effects.loadFromUrl$).toBeObservable(expected);
+        m.flush();
+      })
+    );
 
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            queryParams,
-            url: `/${AppRoutePath.DetailViewPath}`,
+    test(
+      'should return loadQuotationFromUrl and loadSelectedQuotationDetailFromUrl',
+      marbles((m) => {
+        const queryParams = {
+          gqId: 12334,
+          customerNumber: '3456',
+          salesOrg: '0267',
+          gqPositionId: '5678',
+        };
+
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              queryParams,
+              url: `/${AppRoutePath.DetailViewPath}`,
+            },
           },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const resultB = loadQuotationFromUrl({
-        queryParams,
-      });
+        const resultB = loadQuotationFromUrl({
+          queryParams,
+        });
 
-      const resultC = loadSelectedQuotationDetailFromUrl({
-        gqPositionId: queryParams.gqPositionId,
-      });
-      const expected = cold('-(cb)', { b: resultB, c: resultC });
+        const resultC = loadSelectedQuotationDetailFromUrl({
+          gqPositionId: queryParams.gqPositionId,
+        });
+        const expected = m.cold('-(cb)', { b: resultB, c: resultC });
 
-      expect(effects.loadFromUrl$).toBeObservable(expected);
-    });
+        m.expect(effects.loadFromUrl$).toBeObservable(expected);
+        m.flush();
+      })
+    );
   });
+
   describe('loadSelectedQuotationDetailFromUrl$', () => {
-    test('should return setSelectedQuotationDetail', () => {
-      action = loadSelectedQuotationDetailFromUrl({ gqPositionId: '1234' });
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return setSelectedQuotationDetail',
+      marbles((m) => {
+        action = loadSelectedQuotationDetailFromUrl({ gqPositionId: '1234' });
+        actions$ = m.hot('-a', { a: action });
 
-      const result = setSelectedQuotationDetail({ gqPositionId: '1234' });
-      const expected = cold('-b', { b: result });
+        const result = setSelectedQuotationDetail({ gqPositionId: '1234' });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
-        expected
-      );
-    });
+        m.expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
+          expected
+        );
+        m.flush();
+      })
+    );
 
-    test('should navigate to not-found if URL is not valid', () => {
-      router.navigate = jest.fn();
-      action = loadSelectedQuotationDetailFromUrl({ gqPositionId: undefined });
+    test(
+      'should navigate to not-found if URL is not valid',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        action = loadSelectedQuotationDetailFromUrl({
+          gqPositionId: undefined,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('---');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
 
-      expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
-        expected
-      );
-      expect(router.navigate).toHaveBeenCalledWith(['not-found']);
-    });
+        m.expect(effects.loadSelectedQuotationDetailFromUrl$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+      })
+    );
   });
 
   describe('loadQuotationFromUrl$', () => {
-    test('should return selectQuotation', () => {
-      const queryParams = {
-        quotation_number: 123,
-        customer_number: '124',
-        sales_org: '456',
-      };
-      const identifier = {
-        gqId: 123,
-        customerNumber: '1246',
-        salesOrg: '4567',
-      };
-      store.overrideSelector(getSelectedQuotationIdentifier, identifier);
-      action = loadQuotationFromUrl({ queryParams });
-      actions$ = hot('-a', { a: action });
-
-      const result = selectQuotation({
-        quotationIdentifier: {
+    test(
+      'should return selectQuotation',
+      marbles((m) => {
+        const queryParams = {
+          quotation_number: 123,
+          customer_number: '124',
+          sales_org: '456',
+        };
+        const identifier = {
           gqId: 123,
-          customerNumber: '124',
-          salesOrg: '456',
-        },
-      });
-      const expected = cold('-b', { b: result });
+          customerNumber: '1246',
+          salesOrg: '4567',
+        };
+        store.overrideSelector(getSelectedQuotationIdentifier, identifier);
+        action = loadQuotationFromUrl({ queryParams });
+        actions$ = m.hot('-a', { a: action });
+        const result = selectQuotation({
+          quotationIdentifier: {
+            gqId: 123,
+            customerNumber: '124',
+            salesOrg: '456',
+          },
+        });
+        const expected = m.cold('-b', { b: result });
+        m.expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
+        m.flush();
+      })
+    );
 
-      expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
-    });
+    test(
+      'should navigate to not-found if URL is not valid',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        const identifier = {
+          gqId: 123,
+          customerNumber: '1246',
+          salesOrg: '4567',
+        };
+        store.overrideSelector(getSelectedQuotationIdentifier, identifier);
+        action = loadQuotationFromUrl({ queryParams: {} });
 
-    test('should navigate to not-found if URL is not valid', () => {
-      router.navigate = jest.fn();
-      const identifier = {
-        gqId: 123,
-        customerNumber: '1246',
-        salesOrg: '4567',
-      };
-      store.overrideSelector(getSelectedQuotationIdentifier, identifier);
-      action = loadQuotationFromUrl({ queryParams: {} });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('---');
-
-      expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
-      expect(router.navigate).toHaveBeenCalledWith(['not-found']);
-    });
+        m.expect(effects.loadQuotationFromUrl$).toBeObservable(expected);
+        m.flush();
+        expect(router.navigate).toHaveBeenCalledWith(['not-found']);
+      })
+    );
   });
 
   describe('validate$', () => {
@@ -407,37 +460,48 @@ describe('ProcessCaseEffect', () => {
       store.overrideSelector(getAddMaterialRowData, tableData);
     });
 
-    test('should return validateSuccess when REST call is successful', () => {
-      action = pasteRowDataItemsToAddMaterial({
-        items: [],
-        pasteDestination: {},
-      });
+    test(
+      'should return validateSuccess when REST call is successful',
+      marbles((m) => {
+        action = pasteRowDataItemsToAddMaterial({
+          items: [],
+          pasteDestination: {},
+        });
 
-      materialService.validateMaterials = jest.fn(() => response);
-      const materialValidations: MaterialValidation[] = [];
-      const result = validateAddMaterialsSuccess({ materialValidations });
+        materialService.validateMaterials = jest.fn(() => response);
+        const materialValidations: MaterialValidation[] = [];
+        const result = validateAddMaterialsSuccess({ materialValidations });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: materialValidations,
-      });
-      const expected = cold('--b', { b: result });
-      expect(effects.validate$).toBeObservable(expected);
-      expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
-      expect(materialService.validateMaterials).toHaveBeenCalledWith(tableData);
-    });
-    test('should return validateFailure on REST error', () => {
-      const result = validateAddMaterialsFailure({ errorMessage });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: materialValidations,
+        });
+        const expected = m.cold('--b', { b: result });
+        m.expect(effects.validate$).toBeObservable(expected);
+        m.flush();
+        expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
+        expect(materialService.validateMaterials).toHaveBeenCalledWith(
+          tableData
+        );
+      })
+    );
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+    test(
+      'should return validateFailure on REST error',
+      marbles((m) => {
+        const result = validateAddMaterialsFailure({ errorMessage });
 
-      materialService.validateMaterials = jest.fn(() => response);
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.validate$).toBeObservable(expected);
-      expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
-    });
+        materialService.validateMaterials = jest.fn(() => response);
+
+        m.expect(effects.validate$).toBeObservable(expected);
+        m.flush();
+        expect(materialService.validateMaterials).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('addMaterials$', () => {
@@ -458,39 +522,47 @@ describe('ProcessCaseEffect', () => {
       );
     });
 
-    test('should return addMaterialsSuccess when REST call is successful', () => {
-      snackBarService.showSuccessMessage = jest.fn();
-      action = addMaterials();
+    test(
+      'should return addMaterialsSuccess when REST call is successful',
+      marbles((m) => {
+        snackBarService.showSuccessMessage = jest.fn();
+        action = addMaterials();
 
-      quotationDetailsService.addMaterial = jest.fn(() => response);
-      const item = QUOTATION_MOCK;
-      const result = addMaterialsSuccess({ item });
+        quotationDetailsService.addMaterial = jest.fn(() => response);
+        const item = QUOTATION_MOCK;
+        const result = addMaterialsSuccess({ item });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: item,
-      });
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.addMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.addMaterial).toHaveBeenCalledWith(
-        addQuotationDetailsRequest
-      );
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.addMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
+        expect(quotationDetailsService.addMaterial).toHaveBeenCalledWith(
+          addQuotationDetailsRequest
+        );
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-    test('should return addMaterialsFailure on REST error', () => {
-      quotationDetailsService.addMaterial = jest.fn(() => response);
-      const result = addMaterialsFailure({ errorMessage });
+    test(
+      'should return addMaterialsFailure on REST error',
+      marbles((m) => {
+        quotationDetailsService.addMaterial = jest.fn(() => response);
+        const result = addMaterialsFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.addMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.addMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.addMaterial).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('removeMaterials$', () => {
@@ -500,39 +572,47 @@ describe('ProcessCaseEffect', () => {
       store.overrideSelector(getRemoveQuotationDetailsRequest, qgPositionIds);
     });
 
-    test('should return removeMaterialsSuccess when REST call is successful', () => {
-      snackBarService.showSuccessMessage = jest.fn();
-      action = removeMaterials();
+    test(
+      'should return removeMaterialsSuccess when REST call is successful',
+      marbles((m) => {
+        snackBarService.showSuccessMessage = jest.fn();
+        action = removeMaterials();
 
-      quotationDetailsService.removeMaterial = jest.fn(() => response);
-      const item = QUOTATION_MOCK;
-      const result = removeMaterialsSuccess({ item });
+        quotationDetailsService.removeMaterial = jest.fn(() => response);
+        const item = QUOTATION_MOCK;
+        const result = removeMaterialsSuccess({ item });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', {
-        a: item,
-      });
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.removeMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
-        qgPositionIds
-      );
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.removeMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
+        expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
+          qgPositionIds
+        );
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-    test('should return removeMaterialsFailure on REST error', () => {
-      quotationDetailsService.removeMaterial = jest.fn(() => response);
-      const result = removeMaterialsFailure({ errorMessage });
+    test(
+      'should return removeMaterialsFailure on REST error',
+      marbles((m) => {
+        quotationDetailsService.removeMaterial = jest.fn(() => response);
+        const result = removeMaterialsFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.removeMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.removeMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('updateMaterials$', () => {
@@ -544,60 +624,73 @@ describe('ProcessCaseEffect', () => {
     ];
     const quotationDetails = QUOTATION_MOCK.quotationDetails;
 
-    test('should return removeMaterialsSuccess when REST call is successful', () => {
-      action = updateQuotationDetails({ updateQuotationDetailList });
-      snackBarService.showSuccessMessage = jest.fn();
-      quotationDetailsService.updateMaterial = jest.fn(() => response);
-      const result = updateQuotationDetailsSuccess({ quotationDetails });
+    test(
+      'should return removeMaterialsSuccess when REST call is successful',
+      marbles((m) => {
+        action = updateQuotationDetails({ updateQuotationDetailList });
+        snackBarService.showSuccessMessage = jest.fn();
+        quotationDetailsService.updateMaterial = jest.fn(() => response);
+        const result = updateQuotationDetailsSuccess({ quotationDetails });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', { a: quotationDetails });
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: quotationDetails });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.updateMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        updateQuotationDetailList
-      );
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
-    test('should return removeMaterialsSuccess when REST call is successful', () => {
-      action = updateQuotationDetails({ updateQuotationDetailList });
-      snackBarService.showSuccessMessage = jest.fn();
+        m.expect(effects.updateMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+          updateQuotationDetailList
+        );
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      quotationDetailsService.updateMaterial = jest.fn(() => response);
-      updateQuotationDetailList[0].price = 10;
-      const result = updateQuotationDetailsSuccess({ quotationDetails });
+    test(
+      'should return removeMaterialsSuccess when REST call is successful',
+      marbles((m) => {
+        action = updateQuotationDetails({ updateQuotationDetailList });
+        snackBarService.showSuccessMessage = jest.fn();
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', { a: quotationDetails });
-      const expected = cold('--b', { b: result });
+        quotationDetailsService.updateMaterial = jest.fn(() => response);
+        updateQuotationDetailList[0].price = 10;
+        const result = updateQuotationDetailsSuccess({ quotationDetails });
 
-      expect(effects.updateMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        updateQuotationDetailList
-      );
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: quotationDetails });
+        const expected = m.cold('--b', { b: result });
 
-    test('should return updateQuotationDetailsFailure on REST error', () => {
-      quotationDetailsService.updateMaterial = jest.fn(() => response);
+        m.expect(effects.updateMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+          updateQuotationDetailList
+        );
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      const result = updateQuotationDetailsFailure({ errorMessage });
+    test(
+      'should return updateQuotationDetailsFailure on REST error',
+      marbles((m) => {
+        quotationDetailsService.updateMaterial = jest.fn(() => response);
 
-      action = updateQuotationDetails({ updateQuotationDetailList });
+        const result = updateQuotationDetailsFailure({ errorMessage });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        action = updateQuotationDetails({ updateQuotationDetailList });
 
-      expect(effects.updateMaterials$).toBeObservable(expected);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-        updateQuotationDetailList
-      );
-    });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.updateMaterials$).toBeObservable(expected);
+        m.flush();
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
+        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
+          updateQuotationDetailList
+        );
+      })
+    );
   });
 
   describe('uploadToSap$', () => {
@@ -606,33 +699,43 @@ describe('ProcessCaseEffect', () => {
       store.overrideSelector(getGqId, gqId);
     });
 
-    test('should return uploadOfferToSapSuccess when REST call is successful', () => {
-      snackBarService.showSuccessMessage = jest.fn();
+    test(
+      'should return uploadOfferToSapSuccess when REST call is successful',
+      marbles((m) => {
+        snackBarService.showSuccessMessage = jest.fn();
 
-      action = uploadOfferToSap();
-      const result = uploadOfferToSapSuccess();
-      quotationService.uploadOfferToSap = jest.fn(() => response);
+        action = uploadOfferToSap();
+        const result = uploadOfferToSapSuccess();
+        quotationService.uploadOfferToSap = jest.fn(() => response);
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|');
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|');
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.uploadToSap$).toBeObservable(expected);
-      expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
-    test('should return uploadOfferToSapSuccess on REST error', () => {
-      quotationService.uploadOfferToSap = jest.fn(() => response);
-      const result = uploadOfferToSapFailure({ errorMessage });
+        m.expect(effects.uploadToSap$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+    test(
+      'should return uploadOfferToSapSuccess on REST error',
+      marbles((m) => {
+        quotationService.uploadOfferToSap = jest.fn(() => response);
+        const result = uploadOfferToSapFailure({ errorMessage });
 
-      expect(effects.uploadToSap$).toBeObservable(expected);
-      expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.uploadToSap$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+      })
+    );
   });
+
   describe('mapQueryParamsToIdentifier', () => {
     let queryParams;
 

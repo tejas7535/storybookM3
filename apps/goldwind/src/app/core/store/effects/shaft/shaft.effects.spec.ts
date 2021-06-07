@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
@@ -67,69 +68,87 @@ describe('Shaft Effects', () => {
       });
     });
 
-    test('should dispatch getShaftId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getShaftId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'condition-monitoring' });
+        const expected = m.cold('-b', {
+          b: 'condition-monitoring' as any,
+        });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getShaftId());
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
 
-    test('should dispatch stopGetShaft when leaving the bearing route', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockLeaveUrl } },
-        },
-      });
+        expect(store.dispatch).toHaveBeenCalledWith(getShaftId());
+      })
+    );
 
-      const expected = cold('-b', { b: 'overview' });
+    test(
+      'should dispatch stopGetShaft when leaving the bearing route',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockLeaveUrl } },
+          },
+        });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(stopGetShaft());
-    });
+        const expected = m.cold('-b', {
+          b: 'overview' as any,
+        });
+
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(stopGetShaft());
+      })
+    );
   });
 
   describe('shaftId$', () => {
-    test('should return getShaft', () => {
-      action = getShaftId();
+    test(
+      'should return getShaft',
+      marbles((m) => {
+        action = getShaftId();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getShaft({ deviceId }),
-      });
+        const expected = m.cold('-(b)', {
+          b: getShaft({ deviceId }),
+        });
 
-      expect(effects.shaftId$).toBeObservable(expected);
-    });
+        m.expect(effects.shaftId$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('continueShaftId$', () => {
-    test('should return getShaft', () => {
-      const scheduler = getTestScheduler();
-      scheduler.run((helpers) => {
+    test(
+      'should return getShaft',
+      marbles((m) => {
         effects['isPollingActive'] = true;
         action = getShaftFailure();
 
-        actions$ = helpers.hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
         const expected = {
           b: getShaft({ deviceId }),
         };
 
-        helpers
-          .expectObservable(effects.continueShaftId$)
-          .toBe(`- ${UPDATE_SETTINGS.shaft.refresh}s b`, expected);
-      });
-    });
+        m.expect(effects.continueShaftId$).toBeObservable(
+          `- ${UPDATE_SETTINGS.shaft.refresh}s b`,
+          expected
+        );
+      })
+    );
   });
 
   describe('stopShaft$', () => {
@@ -139,15 +158,20 @@ describe('Shaft Effects', () => {
         useEffectsErrorHandler: true,
       });
     });
-    test('should set isPollingActive to false', () => {
-      effects['isPollingActive'] = true;
-      action = stopGetShaft();
+    test(
+      'should set isPollingActive to false',
+      marbles((m) => {
+        effects['isPollingActive'] = true;
+        action = stopGetShaft();
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: undefined });
-      expect(effects.stopShaft$).toBeObservable(expected);
-      expect(effects['isPollingActive']).toBe(false);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
+        m.expect(effects.stopShaft$).toBeObservable(expected);
+        m.flush();
+
+        expect(effects['isPollingActive']).toBe(false);
+      })
+    );
   });
 
   describe('shaft$', () => {
@@ -155,30 +179,35 @@ describe('Shaft Effects', () => {
       action = getShaft({ deviceId });
     });
 
-    test('should return getShaftSuccess action when REST call is successful', () => {
-      const SHAFT_MOCK: ShaftStatus = {
-        deviceId: 'fakedeviceid',
-        timestamp: '2020-11-12T18:31:56.954003Z',
-        rsm01ShaftSpeed: 3,
-        rsm01Shaftcountervalue: 666,
-      };
+    test(
+      'should return getShaftSuccess action when REST call is successful',
+      marbles((m) => {
+        const SHAFT_MOCK: ShaftStatus = {
+          deviceId: 'fakedeviceid',
+          timestamp: '2020-11-12T18:31:56.954003Z',
+          rsm01ShaftSpeed: 3,
+          rsm01Shaftcountervalue: 666,
+        };
 
-      const result = getShaftSuccess({
-        shaft: SHAFT_MOCK,
-      });
+        const result = getShaftSuccess({
+          shaft: SHAFT_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: [SHAFT_MOCK],
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: [SHAFT_MOCK],
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getShaftLatest = jest.fn(() => response);
+        restService.getShaftLatest = jest.fn(() => response);
 
-      expect(effects.shaft$).toBeObservable(expected);
-      expect(restService.getShaftLatest).toHaveBeenCalledTimes(1);
-      expect(restService.getShaftLatest).toHaveBeenCalledWith(deviceId);
-    });
+        m.expect(effects.shaft$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getShaftLatest).toHaveBeenCalledTimes(1);
+        expect(restService.getShaftLatest).toHaveBeenCalledWith(deviceId);
+      })
+    );
   });
 });

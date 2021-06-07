@@ -9,6 +9,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { HeaderModule } from '@schaeffler/header';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { AppComponent } from './app.component';
@@ -31,6 +32,7 @@ describe('AppComponent', () => {
       FilterSectionModule,
       MatTabsModule,
       provideTranslocoTestingModule({ en: {} }),
+      LoadingSpinnerModule,
     ],
     providers: [
       provideMockStore({

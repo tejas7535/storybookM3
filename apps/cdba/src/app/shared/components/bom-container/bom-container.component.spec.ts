@@ -3,9 +3,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
 
+import { marbles } from 'rxjs-marbles';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 import { MockModule } from 'ng-mocks';
 
 import { IconsModule } from '@schaeffler/icons';
@@ -100,119 +101,128 @@ describe('BomContainerComponent', () => {
   });
 
   describe('initializeWithDetailSelectors', () => {
-    test('should use detail selectors to init observables', () => {
-      const expectedChildrenOfSelectedBomItem = [
-        {
-          activityType: 'activity',
-          bomCostingDate: '20200707',
-          bomCostingNumber: '1234',
-          bomCostingType: 'exp',
-          bomCostingVersion: 'new',
-          bomEnteredManually: 'yes',
-          bomReferenceObject: 'ref',
-          bomValuationVariant: 'var',
-          cavity: 2,
-          costCenter: 'cost',
-          currency: 'EUR',
-          currencyForeign: 'EUR',
-          cycleTime: 4,
-          level: 2,
-          lotsize: 2.3,
-          materialDesignation: 'FE-2315',
-          materialNumber: '1234',
-          parentLotsize: 23,
-          parentMaterialNumber: '6789',
-          parentPlant: '0007',
-          plant: '0003',
-          predecessorsInTree: ['FE-2313', 'FE-2315'],
-          procurementType: 'type',
-          quantityPerParent: 4,
-          rowId: 2,
-          setupTime: 2,
-          toolingFactor: 2,
-          totalPricePerPc: 13,
-          unitOfMeasure: 'pc',
-        },
-      ];
+    test(
+      'should use detail selectors to init observables',
+      marbles((m) => {
+        const expectedChildrenOfSelectedBomItem = [
+          {
+            activityType: 'activity',
+            bomCostingDate: '20200707',
+            bomCostingNumber: '1234',
+            bomCostingType: 'exp',
+            bomCostingVersion: 'new',
+            bomEnteredManually: 'yes',
+            bomReferenceObject: 'ref',
+            bomValuationVariant: 'var',
+            cavity: 2,
+            costCenter: 'cost',
+            currency: 'EUR',
+            currencyForeign: 'EUR',
+            cycleTime: 4,
+            level: 2,
+            lotsize: 2.3,
+            materialDesignation: 'FE-2315',
+            materialNumber: '1234',
+            parentLotsize: 23,
+            parentMaterialNumber: '6789',
+            parentPlant: '0007',
+            plant: '0003',
+            predecessorsInTree: ['FE-2313', 'FE-2315'],
+            procurementType: 'type',
+            quantityPerParent: 4,
+            rowId: 2,
+            setupTime: 2,
+            toolingFactor: 2,
+            totalPricePerPc: 13,
+            unitOfMeasure: 'pc',
+          },
+        ];
 
-      component['initializeWithDetailSelectors']();
+        component['initializeWithDetailSelectors']();
 
-      expect(component.materialDesignation$).toBeObservable(
-        cold('a', { a: 'F-446509.SLH' })
-      );
+        m.expect(component.materialDesignation$).toBeObservable(
+          m.cold('a', { a: 'F-446509.SLH' })
+        );
 
-      expect(component.calculations$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.calculations.items })
-      );
-      expect(component.selectedCalculation$).toBeObservable(
-        cold('a', {
-          a: DETAIL_STATE_MOCK.calculations.selectedCalculation.calculation,
-        })
-      );
-      expect(component.selectedCalculationNodeId$).toBeObservable(
-        cold('a', {
-          a: ['3'],
-        })
-      );
-      expect(component.calculationsLoading$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.calculations.loading })
-      );
-      expect(component.calculationsErrorMessage$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.calculations.errorMessage })
-      );
+        m.expect(component.calculations$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.calculations.items })
+        );
+        m.expect(component.selectedCalculation$).toBeObservable(
+          m.cold('a', {
+            a: DETAIL_STATE_MOCK.calculations.selectedCalculation.calculation,
+          })
+        );
+        m.expect(component.selectedCalculationNodeId$).toBeObservable(
+          m.cold('a', {
+            a: ['3'],
+          })
+        );
+        m.expect(component.calculationsLoading$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.calculations.loading })
+        );
+        m.expect(component.calculationsErrorMessage$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.calculations.errorMessage })
+        );
 
-      expect(component.bomItems$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.bom.items })
-      );
-      expect(component.bomLoading$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.bom.loading })
-      );
-      expect(component.bomErrorMessage$).toBeObservable(
-        cold('a', { a: DETAIL_STATE_MOCK.bom.errorMessage })
-      );
-      expect(component.childrenOfSelectedBomItem$).toBeObservable(
-        cold('a', { a: expectedChildrenOfSelectedBomItem })
-      );
-    });
+        m.expect(component.bomItems$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.bom.items })
+        );
+        m.expect(component.bomLoading$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.bom.loading })
+        );
+        m.expect(component.bomErrorMessage$).toBeObservable(
+          m.cold('a', { a: DETAIL_STATE_MOCK.bom.errorMessage })
+        );
+        m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
+          m.cold('a', { a: expectedChildrenOfSelectedBomItem })
+        );
+      })
+    );
   });
+
   describe('initializeWithCompareSelectors', () => {
-    test('should use compare selectors to init observables', () => {
-      const expectedChildrenOfSelectedBomItem: BomItem[] = [];
+    test(
+      'should use compare selectors to init observables',
+      marbles((m) => {
+        const expectedChildrenOfSelectedBomItem: BomItem[] = [];
 
-      component['initializeWithCompareSelectors']();
+        component['initializeWithCompareSelectors']();
 
-      expect(component.materialDesignation$).toBeObservable(
-        cold('a', { a: 'F-446509.SLH' })
-      );
-      expect(component.calculations$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].calculations.items })
-      );
-      expect(component.selectedCalculationNodeId$).toBeObservable(
-        cold('a', { a: [COMPARE_STATE_MOCK[0].calculations.selectedNodeId] })
-      );
-      expect(component.selectedCalculation$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].calculations.selected })
-      );
-      expect(component.calculationsLoading$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].calculations.loading })
-      );
-      expect(component.calculationsErrorMessage$).toBeObservable(
-        cold('a', { a: undefined })
-      );
+        m.expect(component.materialDesignation$).toBeObservable(
+          m.cold('a', { a: 'F-446509.SLH' })
+        );
+        m.expect(component.calculations$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].calculations.items })
+        );
+        m.expect(component.selectedCalculationNodeId$).toBeObservable(
+          m.cold('a', {
+            a: [COMPARE_STATE_MOCK[0].calculations.selectedNodeId],
+          })
+        );
+        m.expect(component.selectedCalculation$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].calculations.selected })
+        );
+        m.expect(component.calculationsLoading$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].calculations.loading })
+        );
+        m.expect(component.calculationsErrorMessage$).toBeObservable(
+          m.cold('a', { a: undefined })
+        );
 
-      expect(component.bomItems$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].billOfMaterial.items })
-      );
-      expect(component.bomLoading$).toBeObservable(
-        cold('a', { a: COMPARE_STATE_MOCK[0].billOfMaterial.loading })
-      );
-      expect(component.bomErrorMessage$).toBeObservable(
-        cold('a', { a: undefined })
-      );
-      expect(component.childrenOfSelectedBomItem$).toBeObservable(
-        cold('a', { a: expectedChildrenOfSelectedBomItem })
-      );
-    });
+        m.expect(component.bomItems$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].billOfMaterial.items })
+        );
+        m.expect(component.bomLoading$).toBeObservable(
+          m.cold('a', { a: COMPARE_STATE_MOCK[0].billOfMaterial.loading })
+        );
+        m.expect(component.bomErrorMessage$).toBeObservable(
+          m.cold('a', { a: undefined })
+        );
+        m.expect(component.childrenOfSelectedBomItem$).toBeObservable(
+          m.cold('a', { a: expectedChildrenOfSelectedBomItem })
+        );
+      })
+    );
   });
 
   describe('selectCalculation', () => {
