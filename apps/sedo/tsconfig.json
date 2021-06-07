@@ -3,6 +3,9 @@
   "compilerOptions": {
     "types": ["node", "jest"]
   },
+  "angularCompilerOptions": {
+    "strictTemplates": true
+  },
   "files": [],
   "include": [],
   "references": [
