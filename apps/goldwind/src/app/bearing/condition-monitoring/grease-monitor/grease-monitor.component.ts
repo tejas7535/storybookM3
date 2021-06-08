@@ -13,7 +13,7 @@ import {
   getGreaseStatusLatestGraphData,
   getGreaseStatusLatestLoading,
   getGreaseTimeStamp,
-} from '../../../core/store/selectors/';
+} from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { Sensor } from '../../../shared/sensor/sensor.enum';
 

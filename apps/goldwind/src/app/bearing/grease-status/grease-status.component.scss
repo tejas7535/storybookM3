@@ -23,3 +23,16 @@ ul {
   grid-template-columns: 3fr 1fr;
   height: 100%;
 }
+
+.sensor-tree .mat-tree-node {
+  min-height: 30px;
+}
+
+// TODO replace with tailwind
+.card-title {
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 20px;
+  font-weight: 500;
+  margin-block-end: 8px;
+  margin-block-start: 16px;
+}

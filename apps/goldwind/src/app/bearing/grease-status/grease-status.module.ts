@@ -1,8 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
@@ -37,6 +40,9 @@ import { GreaseStatusComponent } from './grease-status.component';
     // UI Modules
     MatCardModule,
     MatCheckboxModule,
+    MatTreeModule,
+    MatButtonModule,
+    MatIconModule,
 
     // Translation
     SharedTranslocoModule,

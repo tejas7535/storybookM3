@@ -61,6 +61,27 @@ describe('Grease Status Selector', () => {
         endDate: 987654321,
       },
     },
+    shaft: {
+      ...initialState,
+      result: [
+        {
+          deviceId: 'fakedeviceid',
+          timestamp: '2020-11-12T18:31:56.954003Z',
+          rsm01ShaftSpeed: 3,
+          rsm01Shaftcountervalue: 666,
+        },
+      ],
+      loading: false,
+      status: {
+        result: {
+          deviceId: 'fakedeviceid',
+          timestamp: '2020-11-12T18:31:56.954003Z',
+          rsm01ShaftSpeed: 3,
+          rsm01Shaftcountervalue: 666,
+        },
+        loading: false,
+      },
+    },
   };
 
   describe('getGreaseStatusLoading', () => {
@@ -181,7 +202,11 @@ describe('Grease Status Selector', () => {
           {
             name: 'rsmShaftSpeed',
             type: 'line',
-            data: [], // TODO should countain data later
+            data: [
+              {
+                value: [new Date('2020-11-12T18:31:56.954Z'), '3.00'],
+              },
+            ],
           },
         ],
       };

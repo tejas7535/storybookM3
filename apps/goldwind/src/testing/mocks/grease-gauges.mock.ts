@@ -48,7 +48,7 @@ export const GREASE_STATUS_MOCK = {
       },
     },
     {
-      name: 'deteroration',
+      name: 'deterioration',
       center: ['80%', '50%'],
       type: 'gauge',
       data: [

@@ -3,18 +3,29 @@ import { Action, createReducer, on } from '@ngrx/store';
 import {
   getShaft,
   getShaftFailure,
+  getShaftLatest,
+  getShaftLatestFailure,
+  getShaftLatestSuccess,
   getShaftSuccess,
 } from '../../actions/shaft/shaft.actions';
 import { ShaftStatus } from './models';
 
 export interface ShaftState {
   loading: boolean;
-  result: ShaftStatus;
+  result: ShaftStatus[];
+  status: {
+    loading: boolean;
+    result: ShaftStatus;
+  };
 }
 
 export const initialState: ShaftState = {
   loading: false,
   result: undefined,
+  status: {
+    loading: false,
+    result: undefined,
+  },
 };
 
 export const shaftReducer = createReducer(
@@ -31,6 +42,27 @@ export const shaftReducer = createReducer(
   on(getShaftFailure, (state: ShaftState) => ({
     ...state,
     loading: false,
+  })),
+  on(getShaftLatest, (state: ShaftState) => ({
+    ...state,
+    status: {
+      ...state.status,
+      loading: true,
+    },
+  })),
+  on(getShaftLatestSuccess, (state: ShaftState, { shaft }) => ({
+    ...state,
+    status: {
+      result: shaft,
+      loading: false,
+    },
+  })),
+  on(getShaftLatestFailure, (state: ShaftState) => ({
+    ...state,
+    status: {
+      ...state.status,
+      loading: false,
+    },
   }))
 );
 

@@ -7,10 +7,10 @@
   >
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <mat-card-header>
-        <mat-card-title fxLayout="row" layout-align="center center"
-          ><mat-icon>opacity</mat-icon
-          ><span>{{ t('title') }}</span></mat-card-title
-        >
+        <mat-card-title fxLayout="row" layout-align="center center">
+          <mat-icon>opacity</mat-icon>
+          <span>{{ t('title') }}</span>
+        </mat-card-title>
         <mat-card-subtitle *transloco="let t; read: 'bearing'">
           {{ greaseTimeStamp$ | ngrxPush }} | {{ t('mainBearing') }}
         </mat-card-subtitle>

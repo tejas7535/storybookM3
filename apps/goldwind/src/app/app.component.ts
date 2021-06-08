@@ -20,7 +20,7 @@ import { LegalPath } from './legal/legal-route-path.enum';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  title = 'Goldwind';
+  title = 'Smart Wind Solutions';
 
   public footerLinks: FooterLink[] = [
     {

@@ -1,6 +1,8 @@
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTreeModule } from '@angular/material/tree';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -62,8 +64,14 @@ describe('GreaseStatusComponent', () => {
       DateRangeModule,
       EmptyGraphModule,
       CenterLoadModule,
+
+      // Material Modules
       MatCardModule,
       MatCheckboxModule,
+      MatTreeModule,
+      MatIconModule,
+
+      // ECharts
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),
       }),
@@ -88,6 +96,14 @@ describe('GreaseStatusComponent', () => {
               endDate: 987654321,
             },
           },
+          shaft: {
+            loading: false,
+            result: undefined,
+            status: {
+              result: undefined,
+              loading: false,
+            },
+          },
           bearing: {
             loading: false,
             result: bearingMetaData,
@@ -106,16 +122,6 @@ describe('GreaseStatusComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  describe('trackByFn', () => {
-    test('should return index', () => {
-      const idx = 5;
-
-      const result = component.trackByFn(idx, {});
-
-      expect(result).toEqual(idx);
-    });
   });
 
   describe('Display Form', () => {
@@ -191,7 +197,7 @@ describe('GreaseStatusComponent', () => {
   });
 
   describe('formatLegend', () => {
-    it('should return a translated text with physical symbol ', () => {
+    it('should return a translated text with physical symbol', () => {
       const mockLabelName = 'waterContent_1';
       const formattedMockLabel = 'translate it (%)';
 
@@ -217,6 +223,32 @@ describe('GreaseStatusComponent', () => {
       )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
+    });
+  });
+
+  describe('checkChanels', () => {
+    it('should do sth with the cahnnels', () => {
+      const mockGreaseDisplay = {
+        waterContent_1: true,
+        deterioration_1: true,
+        temperatureOptics_1: true,
+        waterContent_2: true,
+        deterioration_2: true,
+        temperatureOptics_2: true,
+        rsmShaftSpeed: true,
+      };
+
+      component.displayForm.setValue(mockGreaseDisplay);
+
+      component.checkChannels();
+
+      component.dataSource.data[1].formControl.markAsDirty();
+      component.dataSource.data[1].formControl.patchValue(false);
+
+      expect(component.displayForm.value).toEqual({
+        ...mockGreaseDisplay,
+        rsmShaftSpeed: false,
+      });
     });
   });
 });
