@@ -81,6 +81,10 @@ describe('MaterialCardComponent', () => {
         m.expect(component.dimensionAndWeightDetails$).toBeObservable(
           m.cold('a', { a: expectedDimensions })
         );
+
+        m.expect(component.errorMessage$).toBeObservable(
+          m.cold('a', { a: undefined })
+        );
       })
     );
   });
