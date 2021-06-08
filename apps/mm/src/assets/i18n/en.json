@@ -15,5 +15,6 @@
     "downloadReport": "Download Report",
     "startNewCalculation": "Start new Calculation"
   },
-  "test": "test en"
+  "test": "test en",
+  "settings": "Settings"
 }

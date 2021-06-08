@@ -4,20 +4,19 @@ import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import {
-  HttpCacheInterceptor,
-  HttpCacheInterceptorModule,
-} from '@ngneat/cashew';
+import { HttpCacheInterceptor, HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
+import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -46,14 +45,19 @@ export class DynamicLocaleId extends String {
     StoreModule,
     RouterModule,
 
-    // UI Modules
-    HeaderModule,
+    ReactiveFormsModule,
+
+    // Angular Material
     MatButtonModule,
     MatSidenavModule,
     MatFormFieldModule,
     MatSelectModule,
-    ReactiveFormsModule,
+    MatIconModule,
+
+    // Schaeffler Modules
+    HeaderModule,
     FooterTailwindModule,
+    IconsModule,
 
     SharedModule,
 

@@ -1,18 +1,47 @@
-<schaeffler-header
-  [platformTitle]="title"
-  class="h-full"
-  toggleEnabled="true"
-  (toggle)="sidebar.toggle()"
->
-  <mm-sidebar #sidebar>
-    <div class="h-full flex flex-col bg-background">
+<ng-container *transloco="let t; read: ''">
+  <schaeffler-header
+    *ngIf="!embedded"
+    [platformTitle]="title"
+    class="h-full"
+    toggleEnabled="true"
+    (toggle)="sidebar.toggle()"
+  >
+    <mm-sidebar #sidebar>
+      <ng-container *ngTemplateOutlet="sidebar_content"></ng-container>
+    </mm-sidebar>
+  </schaeffler-header>
+
+  <div *ngIf="embedded" class="h-full fixed">
+    <button
+      (click)="sidebar.toggle()"
+      mat-icon-button
+      [attr.aria-label]="t('settings')"
+    >
+      <mat-icon
+        fontSet="schaeffler-icons"
+        fontIcon="icon-menu"
+        class="text-dark"
+      ></mat-icon>
+    </button>
+
+    <mm-sidebar #sidebar>
+      <ng-container *ngTemplateOutlet="sidebar_content"></ng-container>
+    </mm-sidebar>
+  </div>
+
+  <ng-template #sidebar_content>
+    <div
+      [ngClass]="embedded ? 'bg-white' : 'bg-background'"
+      class="h-full flex flex-col"
+    >
       <div class="flex-auto md:m-4 p-4 bg-white">
         <router-outlet></router-outlet>
       </div>
       <schaeffler-footer-tailwind
+        *ngIf="!embedded"
         class="flex-shrink-0 bg-white md:bg-background"
         [footerLinks]="footerLinks"
       ></schaeffler-footer-tailwind>
     </div>
-  </mm-sidebar>
-</schaeffler-header>
+  </ng-template>
+</ng-container>
