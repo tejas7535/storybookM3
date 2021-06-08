@@ -4,8 +4,16 @@ export enum Unit {
   rotationSpeed = 'rpm',
 }
 
+export enum Type {
+  grease,
+  load,
+  edm,
+  rsm,
+}
+
 export interface GreaseControl {
   label: string;
   formControl: string;
   unit: Unit;
+  type?: Type;
 }

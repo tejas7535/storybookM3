@@ -23,10 +23,15 @@ import {
   getShaft,
   getShaftFailure,
   getShaftId,
+  getShaftLatest,
+  getShaftLatestFailure,
+  getShaftLatestSuccess,
   getShaftSuccess,
-  stopGetShaft,
+  stopGetShaftLatest,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
+import { Interval } from '../../reducers/shared/models';
+import { getGreaseInterval } from '../../selectors';
 
 @Injectable()
 export class ShaftEffects {
@@ -44,13 +49,15 @@ export class ShaftEffects {
               .shift() // only passes routes that are part of the route enums
         ),
         tap((currentRoute) => {
+          if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
+            this.store.dispatch(stopGetShaftLatest());
+          }
+
           if (
-            currentRoute &&
+            currentRoute === BearingRoutePath.GreaseStatusPath ||
             currentRoute === BearingRoutePath.ConditionMonitoringPath
           ) {
-            this.store.dispatch(getShaftId());
-          } else {
-            this.store.dispatch(stopGetShaft());
+            this.store.dispatch(getShaftId({ source: currentRoute }));
           }
         })
       ),
@@ -60,16 +67,26 @@ export class ShaftEffects {
   /**
    * Load Shaft Device ID
    */
-  shaftId$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(getShaftId),
-      filter((_) => !this.isPollingActive),
-      map(() => (this.isPollingActive = true)),
-      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
-      map(([_action, routerState]) =>
-        getShaft({ deviceId: routerState.state.params.id })
-      )
-    )
+  shaftId$ = createEffect(
+    () =>
+      this.actions$.pipe(
+        ofType(getShaftId),
+        filter((_) => !this.isPollingActive),
+        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+        map(([action, routerState]) => ({
+          deviceId: routerState.state.params.id,
+          source: action.source,
+        })),
+        tap(({ deviceId, source }) => {
+          if (source === BearingRoutePath.ConditionMonitoringPath) {
+            this.isPollingActive = true;
+            this.store.dispatch(getShaftLatest({ deviceId }));
+          } else {
+            this.store.dispatch(getShaft({ deviceId }));
+          }
+        })
+      ),
+    { dispatch: false }
   );
 
   /**
@@ -77,23 +94,23 @@ export class ShaftEffects {
    */
   continueShaftId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getShaftSuccess, getShaftFailure),
+      ofType(getShaftLatestSuccess, getShaftLatestFailure),
       delay(UPDATE_SETTINGS.shaft.refresh * 1000),
       filter(() => this.isPollingActive),
       withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
       map(([_action, routerState]) =>
-        getShaft({ deviceId: routerState.state.params.id })
+        getShaftLatest({ deviceId: routerState.state.params.id })
       )
     )
   );
 
   /**
-   * Stop Load Shaft
+   * Stop Load Shaft Latest
    */
-  stopShaft$ = createEffect(
+  stopGetShaftLatest$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(stopGetShaft),
+        ofType(stopGetShaftLatest),
         map(() => {
           this.isPollingActive = false;
         })
@@ -102,15 +119,35 @@ export class ShaftEffects {
   );
 
   /**
+   * Load Shaft Latest
+   */
+  shaftLatest$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getShaftLatest),
+      map((action: any) => action.deviceId),
+      mergeMap((deviceId) =>
+        this.restService.getShaftLatest(deviceId).pipe(
+          map(([shaft]) => getShaftLatestSuccess({ shaft })),
+          catchError((_e) => of(getShaftLatestFailure()))
+        )
+      )
+    )
+  );
+
+  /**
    * Load Shaft
    */
   shaft$ = createEffect(() =>
     this.actions$.pipe(
       ofType(getShaft),
-      map((action: any) => action.deviceId),
+      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.deviceId,
+        ...interval,
+      })),
       mergeMap((deviceId) =>
-        this.restService.getShaftLatest(deviceId).pipe(
-          map(([shaft]) => getShaftSuccess({ shaft })),
+        this.restService.getShaft(deviceId).pipe(
+          map((shaft) => getShaftSuccess({ shaft })),
           catchError((_e) => of(getShaftFailure()))
         )
       )

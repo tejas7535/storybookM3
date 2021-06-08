@@ -1,11 +1,6 @@
 <div class="grid-container">
   <mat-card *transloco="let t; read: 'greaseStatus'">
-    <mat-card-header>
-      <mat-card-title>{{ t('title') }}</mat-card-title>
-      <mat-card-subtitle *transloco="let t; read: 'bearing'">
-        {{ t('mainBearing') }}
-      </mat-card-subtitle>
-    </mat-card-header>
+    <h5 class="card-title">{{ t('datePicker') }}</h5>
     <mat-card-content fxLayout="column" fxLayoutAlign="space-between start">
       <goldwind-date-range
         [interval]="interval$ | ngrxPush"
@@ -22,17 +17,48 @@
         fxLayoutGap="30px"
       >
         <div fxFlex="20">
-          <label>{{ t('pleaseSelectTrendsToShow') }}</label>
-          <ul [formGroup]="displayForm">
-            <li *ngFor="let checkBox of checkBoxes; trackBy: trackByFn">
+          <h5 class="card-title">{{ t('pleaseSelectTrendsToShow') }}</h5>
+          <mat-tree
+            #tree
+            [dataSource]="dataSource"
+            [treeControl]="treeControl"
+            class="sensor-tree"
+            [formGroup]="displayForm"
+          >
+            <mat-tree-node *matTreeNodeDef="let node" matTreeNodePadding>
               <mat-checkbox
-                [formControlName]="checkBox.formControl"
+                [formControlName]="node.formControl"
                 [color]="'primary'"
               >
-                {{ t(checkBox.label) }}
+                {{ t(node.label) }}
               </mat-checkbox>
-            </li>
-          </ul>
+            </mat-tree-node>
+            <mat-tree-node
+              *matTreeNodeDef="let node; when: hasChild"
+              matTreeNodePadding
+            >
+              <mat-checkbox
+                [color]="'primary'"
+                [formControl]="node.formControl"
+                [indeterminate]="getIndeterminate(node.name)"
+              >
+                <button
+                  mat-icon-button
+                  matTreeNodeToggle
+                  [attr.aria-label]="'Toggle ' + node.name"
+                >
+                  <mat-icon class="mat-icon-rtl-mirror">
+                    {{
+                      treeControl.isExpanded(node)
+                        ? 'expand_more'
+                        : 'chevron_right'
+                    }}
+                  </mat-icon>
+                </button>
+                {{ t(node.name) }}
+              </mat-checkbox>
+            </mat-tree-node>
+          </mat-tree>
         </div>
 
         <ng-container *ngIf="!(loading$ | ngrxPush); else loading">

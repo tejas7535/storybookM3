@@ -75,18 +75,22 @@
   },
   "greaseStatus": {
     "title": "Grease Status",
-    "grease": "Grease",
+    "datePicker": "DatePicker",
     "temperatureOptics": "Grease Temperatur",
     "waterContent": "Water Content",
-    "deteroration": "Deterioration",
+    "deterioration": "Deterioration",
     "temperatureOptics_1": "Grease Temperatur 1",
     "waterContent_1": "Water Content 1",
-    "deteroration_1": "Deterioration 1",
+    "deterioration_1": "Deterioration 1",
     "temperatureOptics_2": "Grease Temperatur 2",
     "waterContent_2": "Water Content 2",
-    "deteroration_2": "Deterioration 2",
+    "deterioration_2": "Deterioration 2",
     "rsmShaftSpeed": "Rotor Rotation Speed",
-    "pleaseSelectTrendsToShow": "Please select trends to show"
+    "pleaseSelectTrendsToShow": "Sensor Channels",
+    "greaseMonitor": "Grease Monitor",
+    "loadMonitor": "Load Monitor",
+    "edmMonitor": "Electric Discharge Monitor",
+    "rotorRotationSpeedMonitor": "Rotor Rotation Speed"
   },
   "dataView": {
     "title": "Data View",

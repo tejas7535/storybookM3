@@ -62,6 +62,16 @@ export class RestService {
     return this.getIot(`${id}/sensors/rotation-speed/telemetry`);
   }
 
+  public getShaft({
+    id,
+    startDate,
+    endDate,
+  }: IotParams): Observable<ShaftStatus[]> {
+    return this.getIot(
+      `${id}/sensors/rotation-speed/telemetry?start=${startDate}&end=${endDate}&timebucketSeconds=3600&aggregation=AVG`
+    );
+  }
+
   public getDevices(): Observable<Device[]> {
     return this.dataService.getAll<Device[]>(`device/listedgedevices`);
   }
