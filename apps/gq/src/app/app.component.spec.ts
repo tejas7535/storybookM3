@@ -8,7 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -34,7 +34,7 @@ describe('AppComponent', () => {
       HeaderModule,
       MatIconModule,
       RoleDescModule,
-      FooterModule,
+      FooterTailwindModule,
       MatButtonModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
