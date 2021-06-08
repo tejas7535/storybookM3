@@ -123,7 +123,7 @@ describe('LazyListLoaderService testing', () => {
       expect(response).toEqual(mock)
     );
 
-    const req = httpMock.expectOne(mockUrl);
+    const req = httpMock.expectOne(`${mockUrl}?cache$=true`);
     expect(req.request.method).toBe('POST');
     req.flush(mock);
   });

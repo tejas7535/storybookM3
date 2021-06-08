@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
@@ -65,6 +66,8 @@ export class DynamicLocaleId extends String {
       'en',
       true
     ),
+
+    HttpCacheInterceptorModule.forRoot(),
   ],
   exports: [AppComponent, SidebarComponent],
   providers: [
