@@ -19,42 +19,6 @@
     ></cdba-label-value>
     <cdba-label-value
       class="content"
-      [label]="t('plannedQuantity', { year: currentYear })"
-      [value]="
-        data.plannedQuantities[0]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
-      "
-    ></cdba-label-value>
-    <cdba-label-value
-      class="content"
-      [label]="t('plannedQuantity', { year: currentYear + 1 })"
-      [value]="
-        data.plannedQuantities[1]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
-      "
-    ></cdba-label-value>
-    <cdba-label-value
-      class="content"
-      [label]="t('plannedQuantity', { year: currentYear + 2 })"
-      [value]="
-        data.plannedQuantities[2]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
-      "
-    ></cdba-label-value>
-    <cdba-label-value
-      class="content"
-      [label]="t('plannedQuantity', { year: currentYear + 3 })"
-      [value]="
-        data.plannedQuantities[3]
-          | number: '':'de-DE'
-          | undefinedAttributeFallback
-      "
-    ></cdba-label-value>
-    <cdba-label-value
-      class="content"
       [label]="t('actualQuantity', { year: currentYear - 4 })"
       [value]="
         data.actualQuantities[3]
@@ -85,6 +49,42 @@
       [label]="t('actualQuantity', { year: currentYear - 1 })"
       [value]="
         data.actualQuantities[0]
+          | number: '':'de-DE'
+          | undefinedAttributeFallback
+      "
+    ></cdba-label-value>
+    <cdba-label-value
+      class="content"
+      [label]="t('plannedQuantity', { year: currentYear })"
+      [value]="
+        data.plannedQuantities[0]
+          | number: '':'de-DE'
+          | undefinedAttributeFallback
+      "
+    ></cdba-label-value>
+    <cdba-label-value
+      class="content"
+      [label]="t('plannedQuantity', { year: currentYear + 1 })"
+      [value]="
+        data.plannedQuantities[1]
+          | number: '':'de-DE'
+          | undefinedAttributeFallback
+      "
+    ></cdba-label-value>
+    <cdba-label-value
+      class="content"
+      [label]="t('plannedQuantity', { year: currentYear + 2 })"
+      [value]="
+        data.plannedQuantities[2]
+          | number: '':'de-DE'
+          | undefinedAttributeFallback
+      "
+    ></cdba-label-value>
+    <cdba-label-value
+      class="content"
+      [label]="t('plannedQuantity', { year: currentYear + 3 })"
+      [value]="
+        data.plannedQuantities[3]
           | number: '':'de-DE'
           | undefinedAttributeFallback
       "

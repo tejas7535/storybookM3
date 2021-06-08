@@ -18,6 +18,12 @@ export const getSelectedReferenceTypeIdentifiers = createSelector(
     Object.keys(state).map((index: string) => state[+index].referenceType)
 );
 
+export const getProductErrorMessage = createSelector(
+  getCompareState,
+  (state: CompareState, index: number): string =>
+    state[index]?.details?.errorMessage
+);
+
 export const getDimensionAndWeightDetails = createSelector(
   getCompareState,
   (state: CompareState, index: number): DimensionAndWeightDetails => {

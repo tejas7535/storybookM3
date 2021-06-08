@@ -19,6 +19,7 @@ import {
   getDimensionAndWeightDetails,
   getIsCompareDetailsDisabled,
   getMaterialDesignation,
+  getProductErrorMessage,
   getSelectedCalculation,
   getSelectedCalculationNodeId,
   getSelectedReferenceTypeIdentifiers,
@@ -75,6 +76,26 @@ describe('Compare Selectors', () => {
         },
       ];
       result = getSelectedReferenceTypeIdentifiers(fakeState);
+
+      expect(result).toEqual(expected);
+    });
+  });
+
+  describe('getProductErrorMessage', () => {
+    it('should return undefined for non existing index', () => {
+      result = getProductErrorMessage(fakeState, 99);
+
+      expect(result).toBeUndefined();
+    });
+    it('should return undefined for non existing product for provided index', () => {
+      result = getProductErrorMessage(fakeState, 3);
+
+      expect(result).toBeUndefined();
+    });
+
+    it('should return error message for provided index', () => {
+      expected = '404 - Not Found';
+      result = getProductErrorMessage(fakeState, 2);
 
       expect(result).toEqual(expected);
     });
