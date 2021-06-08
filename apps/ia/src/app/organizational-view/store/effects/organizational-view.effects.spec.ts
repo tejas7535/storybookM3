@@ -1,8 +1,10 @@
+/* eslint-disable max-lines */
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import {
   filterSelected,
@@ -71,65 +73,77 @@ describe('Organizational View Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test('filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
-      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
-      const resultOrg = loadOrgChart({ request });
-      const resultWorld = loadWorldMap({ request });
-      const resultAttrition = loadAttritionOverTimeOrgChart({ request });
+    test(
+      'filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
+      marbles((m) => {
+        const filter = new SelectedFilter('orgUnit', 'best');
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
+        const resultOrg = loadOrgChart({ request });
+        const resultWorld = loadWorldMap({ request });
+        const resultAttrition = loadAttritionOverTimeOrgChart({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: resultOrg,
-        c: resultWorld,
-        d: resultAttrition,
-      });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bcd)', {
+          b: resultOrg,
+          c: resultWorld,
+          d: resultAttrition,
+        });
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('timeRangeSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set', () => {
-      const timeRange = '123|456';
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
+    test(
+      'timeRangeSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
 
-      const resultOrg = loadOrgChart({ request });
-      const resultWorld = loadWorldMap({ request });
-      const resultAttrition = loadAttritionOverTimeOrgChart({ request });
+        const resultOrg = loadOrgChart({ request });
+        const resultWorld = loadWorldMap({ request });
+        const resultAttrition = loadAttritionOverTimeOrgChart({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-(bcd)', {
-        b: resultOrg,
-        c: resultWorld,
-        d: resultAttrition,
-      });
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-(bcd)', {
+          b: resultOrg,
+          c: resultWorld,
+          d: resultAttrition,
+        });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('filterSelected - should do nothing when organization is not set', () => {
-      const filter = new SelectedFilter('nice', 'best');
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'filterSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const filter = new SelectedFilter('nice', 'best');
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('timeRangeSelected - should do nothing when organization is not set', () => {
-      const timeRange = '123|456';
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'timeRangeSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadOrgChart$', () => {
@@ -140,42 +154,54 @@ describe('Organizational View Effects', () => {
       action = loadOrgChart({ request });
     });
 
-    test('should return loadOrgChartSuccess action when REST call is successful', () => {
-      const employees = [
-        { employeeId: '123' } as unknown as Employee,
-        { employeeId: '456' } as unknown as Employee,
-      ];
-      const result = loadOrgChartSuccess({
-        employees,
-      });
+    test(
+      'should return loadOrgChartSuccess action when REST call is successful',
+      marbles((m) => {
+        const employees = [
+          { employeeId: '123' } as unknown as Employee,
+          { employeeId: '456' } as unknown as Employee,
+        ];
+        const result = loadOrgChartSuccess({
+          employees,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: employees,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: employees,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getOrgChart = jest.fn(() => response);
+        employeesService.getOrgChart = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadOrgChart$).toBeObservable(expected);
-      expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadOrgChart$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
+      })
+    );
 
-    test('should return loadOrgChartFailure on REST error', () => {
-      const result = loadOrgChartFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadOrgChartFailure on REST error',
+      marbles((m) => {
+        const result = loadOrgChartFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getOrgChart = jest.fn(() => response);
+        employeesService.getOrgChart = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadOrgChart$).toBeObservable(expected);
-      expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadOrgChart$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
+      })
+    );
   });
 
   describe('loadWorldMap$', () => {
@@ -186,42 +212,54 @@ describe('Organizational View Effects', () => {
       action = loadWorldMap({ request });
     });
 
-    test('should return loadWorldMapSuccess action when REST call is successful', () => {
-      const data = [
-        { name: 'Germany' } as unknown as CountryData,
-        { name: 'Poland' } as unknown as CountryData,
-      ];
-      const result = loadWorldMapSuccess({
-        data,
-      });
+    test(
+      'should return loadWorldMapSuccess action when REST call is successful',
+      marbles((m) => {
+        const data = [
+          { name: 'Germany' } as unknown as CountryData,
+          { name: 'Poland' } as unknown as CountryData,
+        ];
+        const result = loadWorldMapSuccess({
+          data,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: data,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getWorldMap = jest.fn(() => response);
+        employeesService.getWorldMap = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadWorldMap$).toBeObservable(expected);
-      expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadWorldMap$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+      })
+    );
 
-    test('should return loadWorldMapFailure on REST error', () => {
-      const result = loadWorldMapFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadWorldMapFailure on REST error',
+      marbles((m) => {
+        const result = loadWorldMapFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getWorldMap = jest.fn(() => response);
+        employeesService.getWorldMap = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadWorldMap$).toBeObservable(expected);
-      expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadWorldMap$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+      })
+    );
   });
 
   describe('loadParent$', () => {
@@ -235,64 +273,79 @@ describe('Organizational View Effects', () => {
 
       action = loadParent({ employee });
     });
-    test('should return loadParentSuccess action', () => {
-      const resultEmployee = {
-        employeeId: '12',
-      } as unknown as Employee;
-      const response = cold('-a|', {
-        a: resultEmployee,
-      });
-      employeesService.getParentEmployee = jest.fn(() => response);
+    test(
+      'should return loadParentSuccess action',
+      marbles((m) => {
+        const resultEmployee = {
+          employeeId: '12',
+        } as unknown as Employee;
+        const response = m.cold('-a|', {
+          a: resultEmployee,
+        });
+        employeesService.getParentEmployee = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      actions$ = hot('-a', { a: action });
-      const result = loadParentSuccess({ employee: resultEmployee });
+        actions$ = m.hot('-a', { a: action });
+        const result = loadParentSuccess({ employee: resultEmployee });
 
-      const expected = cold('--b', { b: result });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadParent$).toBeObservable(expected);
-      expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
-        childEmployeeId
-      );
-    });
+        m.expect(effects.loadParent$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
+          childEmployeeId
+        );
+      })
+    );
 
-    test('should return loadParentFailure on REST error', () => {
-      const result = loadParentFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadParentFailure on REST error',
+      marbles((m) => {
+        const result = loadParentFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getParentEmployee = jest.fn(() => response);
+        employeesService.getParentEmployee = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadParent$).toBeObservable(expected);
-      expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
-        childEmployeeId
-      );
-    });
+        m.expect(effects.loadParent$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
+          childEmployeeId
+        );
+      })
+    );
   });
 
   describe('loadParentSuccess$', () => {
-    test('should return filterSelected action', () => {
-      const employee = {
-        orgUnit: 'Schaeffler_IT',
-      } as unknown as Employee;
+    test(
+      'should return filterSelected action',
+      marbles((m) => {
+        const employee = {
+          orgUnit: 'Schaeffler_IT',
+        } as unknown as Employee;
 
-      action = loadParentSuccess({ employee });
+        action = loadParentSuccess({ employee });
 
-      const filter = {
-        name: FilterKey.ORG_UNIT,
-        value: employee.orgUnit,
-      };
+        const filter = {
+          name: FilterKey.ORG_UNIT,
+          value: employee.orgUnit,
+        };
 
-      actions$ = hot('-a', { a: action });
-      const result = filterSelected({ filter });
+        actions$ = m.hot('-a', { a: action });
+        const result = filterSelected({ filter });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.loadParentSuccess$).toBeObservable(expected);
-    });
+        m.expect(effects.loadParentSuccess$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadAttritionOverTimeOrgChart$', () => {
@@ -303,45 +356,61 @@ describe('Organizational View Effects', () => {
       action = loadAttritionOverTimeOrgChart({ request });
     });
 
-    test('should return loadAttritionOverTimeOrgChartSuccess action when REST call is successful', () => {
-      const data: AttritionOverTime = { events: [], data: {} };
-      const result = loadAttritionOverTimeOrgChartSuccess({
-        data,
-      });
+    test(
+      'should return loadAttritionOverTimeOrgChartSuccess action when REST call is successful',
+      marbles((m) => {
+        const data: AttritionOverTime = { events: [], data: {} };
+        const result = loadAttritionOverTimeOrgChartSuccess({
+          data,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: data,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getAttritionOverTime = jest.fn(() => response);
+        employeesService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(expected);
-      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request,
-        TimePeriod.PLUS_MINUS_THREE_MONTHS
-      );
-    });
+        m.expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+          request,
+          TimePeriod.PLUS_MINUS_THREE_MONTHS
+        );
+      })
+    );
 
-    test('should return loadAttritionOverTimeOrgChartFailure on REST error', () => {
-      const result = loadAttritionOverTimeOrgChartFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadAttritionOverTimeOrgChartFailure on REST error',
+      marbles((m) => {
+        const result = loadAttritionOverTimeOrgChartFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getAttritionOverTime = jest.fn(() => response);
+        employeesService.getAttritionOverTime = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(expected);
-      expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-        request,
-        TimePeriod.PLUS_MINUS_THREE_MONTHS
-      );
-    });
+        m.expect(effects.loadAttritionOverTimeOrgChart$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
+          request,
+          TimePeriod.PLUS_MINUS_THREE_MONTHS
+        );
+      })
+    );
   });
 
   describe('ngrxOnInitEffects', () => {

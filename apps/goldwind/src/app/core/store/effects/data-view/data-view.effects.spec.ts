@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { RestService } from '../../../http/rest.service';
 import {
@@ -73,53 +74,64 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getDataId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getDataId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'data-view' });
+        const expected = m.cold('-b', { b: 'data-view' });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getDataId()); // will also be moved
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(getDataId()); // will also be moved
+      })
+    );
   });
 
   describe('interval$', () => {
-    test('should return getDataId', () => {
-      const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
-      };
+    test(
+      'should return getDataId',
+      marbles((m) => {
+        const mockInterval = {
+          startDate: 1599651508,
+          endDate: 1599651509,
+        };
 
-      action = setDataInterval({ interval: mockInterval });
+        action = setDataInterval({ interval: mockInterval });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getDataId(),
-      });
+        const expected = m.cold('-(b)', {
+          b: getDataId(),
+        });
 
-      expect(effects.interval$).toBeObservable(expected);
-    });
+        m.expect(effects.interval$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('edmId$', () => {
-    test('should return getData', () => {
-      action = getDataId();
+    test(
+      'should return getData',
+      marbles((m) => {
+        action = getDataId();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getData({ deviceId: '123-456-789' }),
-      });
+        const expected = m.cold('-(b)', {
+          b: getData({ deviceId: '123-456-789' }),
+        });
 
-      expect(effects.dataId$).toBeObservable(expected);
-    });
+        m.expect(effects.dataId$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('data$', () => {
@@ -129,38 +141,43 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should return getDataSuccess action when REST call is successful', () => {
-      const mockResult = [
-        {
-          type: 'Load',
-          description: 'Radial Load y',
-          abreviation: 'F_y',
-          actualValue: 1635.0,
-          minValue: 1700.0,
-          maxValue: 1900.0,
-        },
-      ];
+    test(
+      'should return getDataSuccess action when REST call is successful',
+      marbles((m) => {
+        const mockResult = [
+          {
+            type: 'Load',
+            description: 'Radial Load y',
+            abreviation: 'F_y',
+            actualValue: 1635.0,
+            minValue: 1700.0,
+            maxValue: 1900.0,
+          },
+        ];
 
-      const result = getDataSuccess({
-        result: mockResult,
-      });
+        const result = getDataSuccess({
+          result: mockResult,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: mockResult,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: mockResult,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getData = jest.fn(() => response);
+        restService.getData = jest.fn(() => response);
 
-      expect(effects.data$).toBeObservable(expected);
-      expect(restService.getData).toHaveBeenCalledTimes(1);
-      expect(restService.getData).toHaveBeenCalledWith({
-        id: deviceId,
-        startDate: 1599651508,
-        endDate: 1599651509,
-      });
-    });
+        m.expect(effects.data$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getData).toHaveBeenCalledTimes(1);
+        expect(restService.getData).toHaveBeenCalledWith({
+          id: deviceId,
+          startDate: 1599651508,
+          endDate: 1599651509,
+        });
+      })
+    );
   });
 });

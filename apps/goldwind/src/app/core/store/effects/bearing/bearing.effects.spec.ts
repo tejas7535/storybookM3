@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { BEARING_MOCK } from '../../../../../testing/mocks';
 import { RestService } from '../../../http/rest.service';
@@ -62,34 +63,42 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getBearingId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getBearingId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'bearing' });
+        const expected = m.cold('-b', { b: 'bearing' });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getBearingId());
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(getBearingId());
+      })
+    );
   });
 
   describe('bearingId$', () => {
-    test('should return getBearing', () => {
-      action = getBearingId();
+    test(
+      'should return getBearing',
+      marbles((m) => {
+        action = getBearingId();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getBearing({ bearingId: '666' }),
-      });
+        const expected = m.cold('-(b)', {
+          b: getBearing({ bearingId: '666' }),
+        });
 
-      expect(effects.bearingId$).toBeObservable(expected);
-    });
+        m.expect(effects.bearingId$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('bearing$', () => {
@@ -97,23 +106,28 @@ describe('Search Effects', () => {
       action = getBearing({ bearingId: '123' });
     });
 
-    test('should return getBearingSuccess action when REST call is successful', () => {
-      const result = getBearingSuccess({
-        bearing: BEARING_MOCK,
-      });
+    test(
+      'should return getBearingSuccess action when REST call is successful',
+      marbles((m) => {
+        const result = getBearingSuccess({
+          bearing: BEARING_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: BEARING_MOCK,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: BEARING_MOCK,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getBearing = jest.fn(() => response);
+        restService.getBearing = jest.fn(() => response);
 
-      expect(effects.bearing$).toBeObservable(expected);
-      expect(restService.getBearing).toHaveBeenCalledTimes(1);
-      expect(restService.getBearing).toHaveBeenCalledWith('123');
-    });
+        m.expect(effects.bearing$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getBearing).toHaveBeenCalledTimes(1);
+        expect(restService.getBearing).toHaveBeenCalledWith('123');
+      })
+    );
   });
 });

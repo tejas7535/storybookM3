@@ -1,17 +1,18 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 
-import { cold, hot } from 'jasmine-marbles';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import {
   loadComparableTransactions,
@@ -57,27 +58,30 @@ describe('TransactionsEffect', () => {
   });
 
   describe('triggerLoadTransactions$', () => {
-    test('should return loadComparableTransactions', () => {
-      const queryParams = {
-        gqPositionId: '5678',
-      };
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            queryParams,
-            url: `/${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`,
+    test(
+      'should return loadComparableTransactions',
+      marbles((m) => {
+        const queryParams = {
+          gqPositionId: '5678',
+        };
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              queryParams,
+              url: `/${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`,
+            },
           },
-        },
-      };
-      const gqPositionId = queryParams.gqPositionId;
-      const result = loadComparableTransactions({ gqPositionId });
+        };
+        const gqPositionId = queryParams.gqPositionId;
+        const result = loadComparableTransactions({ gqPositionId });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected$ = cold('-b', { b: result });
-      expect(effects.triggerLoadTransactions$).toBeObservable(expected$);
-    });
+        const expected$ = m.cold('-b', { b: result });
+        m.expect(effects.triggerLoadTransactions$).toBeObservable(expected$);
+      })
+    );
   });
 
   describe('transactions$', () => {
@@ -92,42 +96,57 @@ describe('TransactionsEffect', () => {
       action = loadComparableTransactions({ gqPositionId });
     });
 
-    test('should return loadComparableTransactionsSuccess', () => {
-      action = loadComparableTransactions({ gqPositionId });
+    test(
+      'should return loadComparableTransactionsSuccess',
+      marbles((m) => {
+        action = loadComparableTransactions({ gqPositionId });
 
-      quotationDetailsService.getTransactions = jest.fn(() => response);
+        const result = loadComparableTransactionsSuccess({ transactions });
 
-      const result = loadComparableTransactionsSuccess({ transactions });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', { a: transactions });
+        quotationDetailsService.getTransactions = jest.fn(() => response);
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-a|', { a: transactions });
+        const expected$ = m.cold('--b', { b: result });
 
-      const expected$ = cold('--b', { b: result });
+        m.expect(effects.loadTransactions$).toBeObservable(expected$);
 
-      expect(effects.loadTransactions$).toBeObservable(expected$);
-      expect(
-        PriceService.multiplyTransactionsWithPriceUnit
-      ).toHaveBeenCalledTimes(1);
-      expect(
-        PriceService.multiplyTransactionsWithPriceUnit
-      ).toHaveBeenCalledWith(transactions, 1);
-      expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(1);
-      expect(quotationDetailsService.getTransactions).toHaveBeenCalledWith(
-        gqPositionId
-      );
-    });
-    test('should return loadComparableTransactionsFailure', () => {
-      action = loadComparableTransactions({ gqPositionId });
+        m.flush();
 
-      const result = loadComparableTransactionsFailure({ errorMessage });
+        expect(
+          PriceService.multiplyTransactionsWithPriceUnit
+        ).toHaveBeenCalledTimes(1);
+        expect(
+          PriceService.multiplyTransactionsWithPriceUnit
+        ).toHaveBeenCalledWith(transactions, 1);
+        expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(
+          1
+        );
+        expect(quotationDetailsService.getTransactions).toHaveBeenCalledWith(
+          gqPositionId
+        );
+      })
+    );
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
-      quotationDetailsService.getTransactions = jest.fn(() => response);
+    test(
+      'should return loadComparableTransactionsFailure',
+      marbles((m) => {
+        action = loadComparableTransactions({ gqPositionId });
 
-      expect(effects.loadTransactions$).toBeObservable(expected);
-      expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(1);
-    });
+        const result = loadComparableTransactionsFailure({ errorMessage });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+        quotationDetailsService.getTransactions = jest.fn(() => response);
+
+        m.expect(effects.loadTransactions$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationDetailsService.getTransactions).toHaveBeenCalledTimes(
+          1
+        );
+      })
+    );
   });
 });

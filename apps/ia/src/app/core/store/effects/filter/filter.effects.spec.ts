@@ -1,8 +1,9 @@
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
 
@@ -63,67 +64,84 @@ describe('Filter Effects', () => {
       action = loadInitialFilters();
     });
 
-    test('should return loadInitialFiltersSuccess action when REST call is successful', () => {
-      const result = loadInitialFiltersSuccess({
-        filters,
-      });
+    test(
+      'should return loadInitialFiltersSuccess action when REST call is successful',
+      marbles((m) => {
+        const result = loadInitialFiltersSuccess({
+          filters,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: filters,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-c', { c: filters });
 
-      employeesService.getInitialFilters = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
-    });
+        employeesService.getInitialFilters = jest
+          .fn()
+          .mockImplementation(() => response);
 
-    test('should return loadInitialFiltersFailure on REST error', () => {
-      const result = loadInitialFiltersFailure({
-        errorMessage: error.message,
-      });
+        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+    test(
+      'should return loadInitialFiltersFailure on REST error',
+      marbles((m) => {
+        const result = loadInitialFiltersFailure({
+          errorMessage: error.message,
+        });
 
-      employeesService.getInitialFilters = jest.fn(() => response);
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadInitialFilters$).toBeObservable(expected);
-      expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
-    });
+        employeesService.getInitialFilters = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadInitialFilters$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 
   describe('setInitialFilters$', () => {
-    test('should set initial org unit filter', () => {
-      const result = filterSelected({
-        filter: { name: FilterKey.ORG_UNIT, value: 'Department1' },
-      });
-      actions$ = hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
+    test(
+      'should set initial org unit filter',
+      marbles((m) => {
+        const result = filterSelected({
+          filter: { name: FilterKey.ORG_UNIT, value: 'Department1' },
+        });
+        actions$ = m.hot('-a', { a: loadInitialFiltersSuccess({ filters }) });
 
-      const response = cold('-a|', {
-        a: filters,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: filters,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getInitialFilters = jest.fn(() => response);
+        employeesService.getInitialFilters = jest.fn(() => response);
 
-      expect(effects.setInitialFilters$).toBeObservable(expected);
-    });
+        m.expect(effects.setInitialFilters$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loginSuccessful$', () => {
-    test('should return loadInitialFilters for the first login success event', () => {
-      action = loginSuccess({ accountInfo: {} as unknown as AccountInfo });
-      actions$ = hot('-a', { a: action });
-      const result = loadInitialFilters();
+    test(
+      'should return loadInitialFilters for the first login success event',
+      marbles((m) => {
+        action = loginSuccess({ accountInfo: {} as unknown as AccountInfo });
+        actions$ = m.hot('-a', { a: action });
+        const result = loadInitialFilters();
 
-      const expected = cold('-(b|)', { b: result });
+        const expected = m.cold('-(b|)', { b: result });
 
-      expect(effects.loginSuccessful$).toBeObservable(expected);
-    });
+        m.expect(effects.loginSuccessful$).toBeObservable(expected);
+      })
+    );
   });
 });

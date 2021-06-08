@@ -46,6 +46,7 @@ export class CompareViewButtonComponent implements OnInit {
 
   public showCompareView(nodeIds: string[]): void {
     const queryParams: Params = {};
+    const route: string[] = [AppRoutePath.ComparePath];
 
     nodeIds
       .map((id) => this.gridApi.getRowNode(id))
@@ -61,11 +62,14 @@ export class CompareViewButtonComponent implements OnInit {
           : undefined;
       });
 
-    this.router.navigate(
-      [`${AppRoutePath.ComparePath}/${CompareRoutePath.BomPath}`],
-      {
-        queryParams,
-      }
-    );
+    if (queryParams.identification_hash_item_1) {
+      route.push(CompareRoutePath.DetailsPath);
+    } else {
+      route.push(CompareRoutePath.BomPath);
+    }
+
+    this.router.navigate(route, {
+      queryParams,
+    });
   }
 }

@@ -2,6 +2,8 @@
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import {
   createServiceFactory,
   mockProvider,
@@ -11,7 +13,6 @@ import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jest-marbles';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
@@ -92,64 +93,70 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
+        const item = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
 
-      const response = cold('-a|', {
-        a: item,
-      });
-      detailService.getDetails = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        detailService.getDetails = jest.fn(() => response);
 
-      const result = loadReferenceTypeSuccess({ item });
-      const expected = cold('--b', { b: result });
+        const result = loadReferenceTypeSuccess({ item });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadReferenceType$).toBeObservable(expected);
+        m.expect(effects.loadReferenceType$).toBeObservable(expected);
+        m.flush();
 
-      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
         expect(detailService.getDetails).toHaveBeenCalled();
         expect(snackbarService.showInfoMessage).not.toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should call showInfoMessage', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should call showInfoMessage',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const item = new ReferenceTypeResult({
-        ...REFERENCE_TYPE_MOCK,
-        isPcmRow: true,
-      });
+        const item = new ReferenceTypeResult({
+          ...REFERENCE_TYPE_MOCK,
+          isPcmRow: true,
+        });
 
-      const response = cold('-a|', {
-        a: item,
-      });
-      detailService.getDetails = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: item,
+        });
+        detailService.getDetails = jest.fn(() => response);
 
-      const result = loadReferenceTypeSuccess({ item });
-      const expected = cold('--b', { b: result });
+        const result = loadReferenceTypeSuccess({ item });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadReferenceType$).toBeObservable(expected);
-      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadReferenceType$).toBeObservable(expected);
+        m.flush();
         expect(snackbarService.showInfoMessage).toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadReferenceTypeFailure({ errorMessage });
+        const result = loadReferenceTypeFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.getDetails = jest.fn(() => response);
+        detailService.getDetails = jest.fn(() => response);
 
-      expect(effects.loadReferenceType$).toBeObservable(expected);
-      expect(effects.loadReferenceType$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadReferenceType$).toBeObservable(expected);
+        m.flush();
         expect(detailService.getDetails).toHaveBeenCalled();
-      });
-    });
+      })
+    );
   });
 
   describe('loadCalculations$', () => {
@@ -162,40 +169,44 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const items = CALCULATIONS_MOCK;
+        const items = CALCULATIONS_MOCK;
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      detailService.calculations = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.calculations = jest.fn(() => response);
 
-      const result = loadCalculationsSuccess({ items });
-      const expected = cold('--b', { b: result });
+        const result = loadCalculationsSuccess({ items });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadCalculations$).toBeObservable(expected);
-      expect(effects.loadCalculations$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadCalculations$).toBeObservable(expected);
+        m.flush();
         expect(detailService.calculations).toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadCalculationsFailure({ errorMessage });
+        const result = loadCalculationsFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.calculations = jest.fn(() => response);
+        detailService.calculations = jest.fn(() => response);
 
-      expect(effects.loadCalculations$).toBeObservable(expected);
-      expect(effects.loadCalculations$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadCalculations$).toBeObservable(expected);
+        m.flush();
         expect(detailService.calculations).toHaveBeenCalled();
-      });
-    });
+      })
+    );
   });
 
   describe('loadDrawings$', () => {
@@ -208,40 +219,44 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const items = DRAWINGS_MOCK;
+        const items = DRAWINGS_MOCK;
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      detailService.getDrawings = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.getDrawings = jest.fn(() => response);
 
-      const result = loadDrawingsSuccess({ items });
-      const expected = cold('--b', { b: result });
+        const result = loadDrawingsSuccess({ items });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadDrawings$).toBeObservable(expected);
-      expect(effects.loadDrawings$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadDrawings$).toBeObservable(expected);
+        m.flush();
         expect(detailService.getDrawings).toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadDrawingsFailure({ errorMessage });
+        const result = loadDrawingsFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.getDrawings = jest.fn(() => response);
+        detailService.getDrawings = jest.fn(() => response);
 
-      expect(effects.loadDrawings$).toBeObservable(expected);
-      expect(effects.loadDrawings$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadDrawings$).toBeObservable(expected);
+        m.flush();
         expect(detailService.getDrawings).toHaveBeenCalled();
-      });
-    });
+      })
+    );
   });
 
   describe('loadBom$', () => {
@@ -250,40 +265,44 @@ describe('Detail Effects', () => {
       action = loadBom({ bomIdentifier });
     });
 
-    test('should return Success Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Success Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const items = BOM_MOCK;
+        const items = BOM_MOCK;
 
-      const response = cold('-a|', {
-        a: items,
-      });
-      detailService.getBom = jest.fn(() => response);
+        const response = m.cold('-a|', {
+          a: items,
+        });
+        detailService.getBom = jest.fn(() => response);
 
-      const result = loadBomSuccess({ items });
-      const expected = cold('--b', { b: result });
+        const result = loadBomSuccess({ items });
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadBom$).toBeObservable(expected);
-      expect(effects.loadBom$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadBom$).toBeObservable(expected);
+        m.flush();
         expect(detailService.getBom).toHaveBeenCalled();
-      });
-    });
+      })
+    );
 
-    test('should return Failure Action', () => {
-      actions$ = hot('-a', { a: action });
+    test(
+      'should return Failure Action',
+      marbles((m) => {
+        actions$ = m.hot('-a', { a: action });
 
-      const result = loadBomFailure({ errorMessage });
+        const result = loadBomFailure({ errorMessage });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      detailService.getBom = jest.fn(() => response);
+        detailService.getBom = jest.fn(() => response);
 
-      expect(effects.loadBom$).toBeObservable(expected);
-      expect(effects.loadBom$).toSatisfyOnFlush(() => {
+        m.expect(effects.loadBom$).toBeObservable(expected);
+        m.flush();
         expect(detailService.getBom).toHaveBeenCalled();
-      });
-    });
+      })
+    );
   });
 
   describe('triggerBomLoad$', () => {
@@ -297,48 +316,57 @@ describe('Detail Effects', () => {
       )
     );
 
-    test('should return loadBom Action when a new calculation was selected', () => {
-      action = selectCalculation({
-        nodeId: '5',
-        calculation: CALCULATIONS_MOCK[0],
-      });
+    test(
+      'should return loadBom Action when a new calculation was selected',
+      marbles((m) => {
+        action = selectCalculation({
+          nodeId: '5',
+          calculation: CALCULATIONS_MOCK[0],
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.triggerBomLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerBomLoad$).toBeObservable(expected);
+      })
+    );
 
-    test('should return loadBom Action when calculation were loaded successfully', () => {
-      action = loadCalculationsSuccess({
-        items: CALCULATIONS_MOCK,
-      });
+    test(
+      'should return loadBom Action when calculation were loaded successfully',
+      marbles((m) => {
+        action = loadCalculationsSuccess({
+          items: CALCULATIONS_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.triggerBomLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerBomLoad$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('triggerDataLoad$', () => {
-    test('should return loadRefType, loadCalculations and loadDrawings Action', () => {
-      action = selectReferenceType({
-        referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
-      });
+    test(
+      'should return loadRefType, loadCalculations and loadDrawings Action',
+      marbles((m) => {
+        action = selectReferenceType({
+          referenceTypeIdentifier: REFERENCE_TYPE_IDENTIFIER_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(bcd)', {
-        b: loadReferenceType(),
-        c: loadCalculations(),
-        d: loadDrawings(),
-      });
+        const expected = m.cold('-(bcd)', {
+          b: loadReferenceType(),
+          c: loadCalculations(),
+          d: loadDrawings(),
+        });
 
-      expect(effects.triggerDataLoad$).toBeObservable(expected);
-    });
+        m.expect(effects.triggerDataLoad$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('selectReferenceType$', () => {
@@ -349,57 +377,62 @@ describe('Detail Effects', () => {
       );
     });
 
-    test('should return select referenceTypeAction', () => {
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/detail/details',
-            queryParams: {
-              material_number: '456789',
-              plant: '0060',
-              identification_hash: 'identifier',
+    test(
+      'should return select referenceTypeAction',
+      marbles((m) => {
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/detail/details',
+              queryParams: {
+                material_number: '456789',
+                plant: '0060',
+                identification_hash: 'identifier',
+              },
             },
           },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const referenceTypeIdentifier = new ReferenceTypeIdentifier(
-        '456789',
-        '0060',
-        'identifier'
-      );
+        const referenceTypeIdentifier = new ReferenceTypeIdentifier(
+          '456789',
+          '0060',
+          'identifier'
+        );
 
-      const result = selectReferenceType({ referenceTypeIdentifier });
-      const expected = cold('-b', { b: result });
+        const result = selectReferenceType({ referenceTypeIdentifier });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.selectReferenceType$).toBeObservable(expected);
-    });
+        m.expect(effects.selectReferenceType$).toBeObservable(expected);
+      })
+    );
 
-    test('should navigate to not-found if URL is not valid', () => {
-      router.navigate = jest.fn();
-      action = {
-        type: ROUTER_NAVIGATED,
-        payload: {
-          routerState: {
-            url: '/detail/details',
-            queryParams: {
-              material_number: '456789',
+    test(
+      'should navigate to not-found if URL is not valid',
+      marbles((m) => {
+        router.navigate = jest.fn();
+        action = {
+          type: ROUTER_NAVIGATED,
+          payload: {
+            routerState: {
+              url: '/detail/details',
+              queryParams: {
+                material_number: '456789',
+              },
             },
           },
-        },
-      };
+        };
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('---');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('---');
 
-      expect(effects.selectReferenceType$).toBeObservable(expected);
-      expect(effects.selectReferenceType$).toSatisfyOnFlush(() => {
+        m.expect(effects.selectReferenceType$).toBeObservable(expected);
+        m.flush();
         expect(router.navigate).toHaveBeenCalledWith(['not-found']);
-      });
-    });
+      })
+    );
   });
 
   describe('DetailsEffects.mapQueryParamsToIdentifier', () => {

@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, getTestScheduler, hot } from 'jasmine-marbles';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
@@ -72,35 +73,47 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getLoadId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getLoadId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'condition-monitoring' });
+        const expected = m.cold('-b', {
+          b: 'condition-monitoring' as any,
+        });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
 
-    test('should dispatch stopGetLoad when leaving the bearing route', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockLeaveUrl } },
-        },
-      });
+        expect(store.dispatch).toHaveBeenCalledWith(getLoadId());
+      })
+    );
 
-      const expected = cold('-b', { b: 'overview' });
+    test(
+      'should dispatch stopGetLoad when leaving the bearing route',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockLeaveUrl } },
+          },
+        });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(stopGetLoad());
-    });
+        const expected = m.cold('-b', { b: 'overview' as any });
+
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(stopGetLoad());
+      })
+    );
   });
 
   describe('stopLoad$', () => {
@@ -110,93 +123,107 @@ describe('Search Effects', () => {
         useEffectsErrorHandler: true,
       });
     });
-    test('should set isPollingActive to false', () => {
-      effects['isPollingActive'] = true;
-      action = stopGetLoad();
+    test(
+      'should set isPollingActive to false',
+      marbles((m) => {
+        effects['isPollingActive'] = true;
+        action = stopGetLoad();
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: undefined });
-      expect(effects.stopLoad$).toBeObservable(expected);
-      expect(effects['isPollingActive']).toBe(false);
-    });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: undefined });
+        m.expect(effects.stopLoad$).toBeObservable(expected);
+        m.flush();
+
+        expect(effects['isPollingActive']).toBe(false);
+      })
+    );
   });
 
   describe('loadId$', () => {
-    test('should return getLoad', () => {
-      action = getLoadId();
+    test(
+      'should return getLoad',
+      marbles((m) => {
+        action = getLoadId();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getBearingLoadLatest({ deviceId }),
-      });
+        const expected = m.cold('-(b)', {
+          b: getBearingLoadLatest({ deviceId }),
+        });
 
-      expect(effects.loadId$).toBeObservable(expected);
-    });
+        m.expect(effects.loadId$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('continueLoadId$', () => {
-    test('should return getBearingLoadLatest', () => {
-      const scheduler = getTestScheduler();
-      scheduler.run((helpers) => {
+    test(
+      'should return getBearingLoadLatest',
+      marbles((m) => {
         effects['isPollingActive'] = true;
         action = getBearingLoadFailure();
 
-        actions$ = helpers.hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
         const expected = {
           b: getBearingLoadLatest({ deviceId }),
         };
 
-        helpers
-          .expectObservable(effects.continueLoadId$)
-          .toBe(`- ${UPDATE_SETTINGS.shaft.refresh}s b`, expected);
-      });
-    });
+        m.expect(effects.continueLoadId$).toBeObservable(
+          `- ${UPDATE_SETTINGS.shaft.refresh}s b`,
+          expected
+        );
+      })
+    );
   });
   describe('bearingLoadLatest$', () => {
     beforeEach(() => {
       action = getBearingLoadLatest({ deviceId });
     });
 
-    test('should return getBearingLoadSuccess action when REST call is successful', () => {
-      const mockLoadSense: LoadSense = {
-        deviceId: 'string',
-        id: 'string',
-        lsp01Strain: 0,
-        lsp02Strain: 0,
-        lsp03Strain: 0,
-        lsp04Strain: 0,
-        lsp05Strain: 0,
-        lsp06Strain: 0,
-        lsp07Strain: 0,
-        lsp08Strain: 0,
-        lsp09Strain: 0,
-        lsp10Strain: 0,
-        lsp11Strain: 0,
-        lsp12Strain: 0,
-        lsp13Strain: 0,
-        lsp14Strain: 0,
-        lsp15Strain: 0,
-        lsp16Strain: 0,
-        timestamp: '2020-11-04T09:39:19.499Z',
-      };
-      const result = getBearingLoadSuccess({
-        bearingLoadLatest: mockLoadSense,
-      });
+    test(
+      'should return getBearingLoadSuccess action when REST call is successful',
+      marbles((m) => {
+        const mockLoadSense: LoadSense = {
+          deviceId: 'string',
+          id: 'string',
+          lsp01Strain: 0,
+          lsp02Strain: 0,
+          lsp03Strain: 0,
+          lsp04Strain: 0,
+          lsp05Strain: 0,
+          lsp06Strain: 0,
+          lsp07Strain: 0,
+          lsp08Strain: 0,
+          lsp09Strain: 0,
+          lsp10Strain: 0,
+          lsp11Strain: 0,
+          lsp12Strain: 0,
+          lsp13Strain: 0,
+          lsp14Strain: 0,
+          lsp15Strain: 0,
+          lsp16Strain: 0,
+          timestamp: '2020-11-04T09:39:19.499Z',
+        };
+        const result = getBearingLoadSuccess({
+          bearingLoadLatest: mockLoadSense,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: [mockLoadSense],
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: [mockLoadSense],
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getBearingLoadLatest = jest.fn(() => response);
+        restService.getBearingLoadLatest = jest.fn(() => response);
 
-      expect(effects.bearingLoadLatest$).toBeObservable(expected);
-      expect(restService.getBearingLoadLatest).toHaveBeenCalledTimes(1);
-      expect(restService.getBearingLoadLatest).toHaveBeenCalledWith(deviceId);
-    });
+        m.expect(effects.bearingLoadLatest$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getBearingLoadLatest).toHaveBeenCalledTimes(1);
+        expect(restService.getBearingLoadLatest).toHaveBeenCalledWith(deviceId);
+      })
+    );
   });
 });

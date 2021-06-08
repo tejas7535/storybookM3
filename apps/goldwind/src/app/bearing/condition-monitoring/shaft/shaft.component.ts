@@ -10,8 +10,8 @@ import { ShaftState } from '../../../core/store/reducers/shaft/shaft.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getShaftLatestGraphData,
-  getShaftLoading,
-  getShaftTimeStamp,
+  getShaftLatestLoading,
+  getShaftLatestTimeStamp,
 } from '../../../core/store/selectors';
 import { chartOptions } from '../../../shared/chart/chart';
 import { UPDATE_SETTINGS } from '../../../shared/constants';
@@ -42,7 +42,7 @@ export class ShaftComponent implements OnInit {
       select(getShaftLatestGraphData)
     );
 
-    this.shaftTimeStamp$ = this.store.pipe(select(getShaftTimeStamp));
-    this.loading$ = this.store.pipe(select(getShaftLoading), take(2));
+    this.shaftTimeStamp$ = this.store.pipe(select(getShaftLatestTimeStamp));
+    this.loading$ = this.store.pipe(select(getShaftLatestLoading), take(2));
   }
 }

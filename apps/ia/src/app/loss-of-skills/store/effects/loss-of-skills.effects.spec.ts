@@ -1,8 +1,9 @@
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import {
   filterSelected,
@@ -12,7 +13,6 @@ import {
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   EmployeesRequest,
-  FilterKey,
   LostJobProfile,
   SelectedFilter,
 } from '../../../shared/models';
@@ -59,53 +59,65 @@ describe('LossOfSkills Effects', () => {
   });
 
   describe('filterChange$', () => {
-    test('filterSelected - should trigger loadLostJobProfiles if orgUnit is set', () => {
-      const filter = new SelectedFilter(FilterKey.ORG_UNIT, 'best');
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
-      const resultJobProfiles = loadLostJobProfiles({ request });
+    test(
+      'filterSelected - should trigger loadLostJobProfiles if orgUnit is set',
+      marbles((m) => {
+        const filter = new SelectedFilter('orgUnit', 'best');
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
+        const resultJobProfiles = loadLostJobProfiles({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: resultJobProfiles });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: resultJobProfiles });
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('timeRangeSelected - should trigger loadLostJobProfiles if timerange is set', () => {
-      const timeRange = '123|456';
-      const request = { orgUnit: {} } as unknown as EmployeesRequest;
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, request);
-      const resultJobProfiles = loadLostJobProfiles({ request });
+    test(
+      'timeRangeSelected - should trigger loadLostJobProfiles if timerange is set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, request);
+        const resultJobProfiles = loadLostJobProfiles({ request });
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('-b', { b: resultJobProfiles });
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('-b', { b: resultJobProfiles });
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('filterSelected - should do nothing when organization is not set', () => {
-      const filter = new SelectedFilter('nice', 'best');
-      action = filterSelected({ filter });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'filterSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const filter = new SelectedFilter('nice', 'best');
+        action = filterSelected({ filter });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
 
-    test('timeRangeSelected - should do nothing when organization is not set', () => {
-      const timeRange = '123|456';
-      action = timeRangeSelected({ timeRange });
-      store.overrideSelector(getCurrentFiltersAndTime, {});
+    test(
+      'timeRangeSelected - should do nothing when organization is not set',
+      marbles((m) => {
+        const timeRange = '123|456';
+        action = timeRangeSelected({ timeRange });
+        store.overrideSelector(getCurrentFiltersAndTime, {});
 
-      actions$ = hot('-a', { a: action });
-      const expected = cold('--');
+        actions$ = m.hot('-a', { a: action });
+        const expected = m.cold('--');
 
-      expect(effects.filterChange$).toBeObservable(expected);
-    });
+        m.expect(effects.filterChange$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('loadLostJobProfiles$', () => {
@@ -116,56 +128,72 @@ describe('LossOfSkills Effects', () => {
       action = loadLostJobProfiles({ request });
     });
 
-    test('should return loadLostJobProfilesSuccess action when REST call is successful', () => {
-      const lostJobProfiles: LostJobProfile[] = [
-        {
-          amountOfEmployees: 10,
-          amountOfLeavers: 3,
-          job: 'Data Scientist',
-          employees: [],
-          leavers: [],
-          openPositions: 1,
-        },
-        {
-          amountOfEmployees: 10,
-          amountOfLeavers: 3,
-          job: 'Software Engineer',
-          employees: [],
-          leavers: [],
-          openPositions: 1,
-        },
-      ];
-      const result = loadLostJobProfilesSuccess({
-        lostJobProfiles,
-      });
+    test(
+      'should return loadLostJobProfilesSuccess action when REST call is successful',
+      marbles((m) => {
+        const lostJobProfiles: LostJobProfile[] = [
+          {
+            amountOfEmployees: 10,
+            amountOfLeavers: 3,
+            job: 'Data Scientist',
+            employees: [],
+            leavers: [],
+            openPositions: 1,
+          },
+          {
+            amountOfEmployees: 10,
+            amountOfLeavers: 3,
+            job: 'Software Engineer',
+            employees: [],
+            leavers: [],
+            openPositions: 1,
+          },
+        ];
+        const result = loadLostJobProfilesSuccess({
+          lostJobProfiles,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: lostJobProfiles,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: lostJobProfiles,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getLostJobProfiles = jest.fn(() => response);
+        employeesService.getLostJobProfiles = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadLostJobProfiles$).toBeObservable(expected);
-      expect(employeesService.getLostJobProfiles).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getLostJobProfiles).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
 
-    test('should return loadLostJobProfilesFailure on REST error', () => {
-      const result = loadLostJobProfilesFailure({
-        errorMessage: error.message,
-      });
+    test(
+      'should return loadLostJobProfilesFailure on REST error',
+      marbles((m) => {
+        const result = loadLostJobProfilesFailure({
+          errorMessage: error.message,
+        });
 
-      actions$ = hot('-a', { a: action });
-      const response = cold('-#|', undefined, error);
-      const expected = cold('--b', { b: result });
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
 
-      employeesService.getLostJobProfiles = jest.fn(() => response);
+        employeesService.getLostJobProfiles = jest
+          .fn()
+          .mockImplementation(() => response);
 
-      expect(effects.loadLostJobProfiles$).toBeObservable(expected);
-      expect(employeesService.getLostJobProfiles).toHaveBeenCalledWith(request);
-    });
+        m.expect(effects.loadLostJobProfiles$).toBeObservable(expected);
+        m.flush();
+        expect(employeesService.getLostJobProfiles).toHaveBeenCalledWith(
+          request
+        );
+      })
+    );
   });
 
   describe('ngrxOnInitEffects', () => {

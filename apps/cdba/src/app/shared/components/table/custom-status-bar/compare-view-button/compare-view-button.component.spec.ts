@@ -2,6 +2,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import {
   GridApi,
   IStatusPanelParams,
@@ -9,7 +11,6 @@ import {
 } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold } from 'jest-marbles';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -63,29 +64,35 @@ describe('CompareViewButtonComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    it('should init with search selector', () => {
-      router.routerState.snapshot.url = '/search';
+    it(
+      'should init with search selector',
+      marbles((m) => {
+        router.routerState.snapshot.url = '/search';
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.selectedNodeIds$).toBeObservable(
-        cold('a', {
-          a: ['2', '4'],
-        })
-      );
-    });
+        m.expect(component.selectedNodeIds$).toBeObservable(
+          m.cold('a', {
+            a: ['2', '4'],
+          })
+        );
+      })
+    );
 
-    it('should init with detail selector', () => {
-      router.routerState.snapshot.url = '/detail/detail';
+    it(
+      'should init with detail selector',
+      marbles((m) => {
+        router.routerState.snapshot.url = '/detail/detail';
 
-      component.ngOnInit();
+        component.ngOnInit();
 
-      expect(component.selectedNodeIds$).toBeObservable(
-        cold('a', {
-          a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
-        })
-      );
-    });
+        m.expect(component.selectedNodeIds$).toBeObservable(
+          m.cold('a', {
+            a: DETAIL_STATE_MOCK.calculations.selectedNodeIds,
+          })
+        );
+      })
+    );
   });
 
   describe('agInit', () => {
@@ -97,8 +104,19 @@ describe('CompareViewButtonComponent', () => {
   });
 
   describe('showCompareView', () => {
-    test('should navigate with correct query params', () => {
-      const mockSelections: RowNode[] = [
+    let mockSelections: RowNode[];
+
+    beforeEach(() => {
+      mockSelections = undefined;
+      jest.spyOn(router, 'navigate');
+      component['gridApi'] = {
+        getRowNode: jest.fn((id) =>
+          mockSelections.find((selection) => selection.id === id)
+        ),
+      } as unknown as GridApi;
+    });
+    test('should add node id and should route to compare/bom for calc table', () => {
+      mockSelections = [
         {
           id: '0',
           data: { materialNumber: '1234', plant: '0060' },
@@ -109,16 +127,9 @@ describe('CompareViewButtonComponent', () => {
         } as unknown as RowNode,
       ];
 
-      spyOn(router, 'navigate');
-      component['gridApi'] = {
-        getRowNode: jest.fn((id) =>
-          mockSelections.find((selection) => selection.id === id)
-        ),
-      } as unknown as GridApi;
-
       component.showCompareView(['0', '1']);
 
-      expect(router.navigate).toHaveBeenCalledWith(['compare/bom'], {
+      expect(router.navigate).toHaveBeenCalledWith(['compare', 'bom'], {
         queryParams: {
           material_number_item_1: '1234',
           plant_item_1: '0060',
@@ -126,6 +137,40 @@ describe('CompareViewButtonComponent', () => {
           material_number_item_2: '5678',
           plant_item_2: '0076',
           node_id_item_2: '1',
+        },
+      });
+    });
+
+    test('should add id hash and should route to compare/detail for reftypes table', () => {
+      mockSelections = [
+        {
+          id: '0',
+          data: {
+            materialNumber: '1234',
+            plant: '0060',
+            identificationHash: 'foo',
+          },
+        } as unknown as RowNode,
+        {
+          id: '1',
+          data: {
+            materialNumber: '5678',
+            plant: '0076',
+            identificationHash: 'bar',
+          },
+        } as unknown as RowNode,
+      ];
+
+      component.showCompareView(['0', '1']);
+
+      expect(router.navigate).toHaveBeenCalledWith(['compare', 'details'], {
+        queryParams: {
+          material_number_item_1: '1234',
+          plant_item_1: '0060',
+          identification_hash_item_1: 'foo',
+          material_number_item_2: '5678',
+          plant_item_2: '0076',
+          identification_hash_item_2: 'bar',
         },
       });
     });

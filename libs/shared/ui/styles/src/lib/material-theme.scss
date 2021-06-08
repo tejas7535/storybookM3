@@ -1,20 +1,25 @@
 // https://material.angular.io/guide/theming
 // https://glitch.com/~material-theme-builder
+@use '~@angular/material' as mat;
 @import './colors.scss';
-@import '~@angular/material/theming';
 // Plus imports for other components in your app.
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$schaeffler-primary: mat-palette($mat-schaeffler-primary);
-$schaeffler-accent: mat-palette($mat-schaeffler-accent, A200, A100, A400);
+$schaeffler-primary: mat.define-palette($mat-schaeffler-primary);
+$schaeffler-accent: mat.define-palette(
+  $mat-schaeffler-accent,
+  A200,
+  A100,
+  A400
+);
 
 // The warn palette is optional (defaults to red).
-$schaeffler-warn: mat-palette($mat-schaeffler-warn);
+$schaeffler-warn: mat.define-palette($mat-schaeffler-warn);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$schaeffler-theme: mat-light-theme(
+$schaeffler-theme: mat.define-light-theme(
   $schaeffler-primary,
   $schaeffler-accent,
   $schaeffler-warn

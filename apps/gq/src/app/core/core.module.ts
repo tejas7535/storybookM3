@@ -5,7 +5,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import { ApplicationInsightsModule } from '@schaeffler/application-insights';
-import { FooterModule } from '@schaeffler/footer';
+import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpErrorInterceptor, HttpModule } from '@schaeffler/http';
 import { IconsModule } from '@schaeffler/icons';
@@ -28,11 +28,11 @@ import { StoreModule } from './store';
     RouterModule,
 
     // UI Modules
-    FooterModule,
     HeaderModule,
     IconsModule,
     MatButtonModule,
     LoadingSpinnerModule,
+    FooterTailwindModule,
 
     // Translation
     SharedTranslocoModule.forRoot(

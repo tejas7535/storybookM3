@@ -1,11 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { cold, hot } from 'jasmine-marbles';
 
 import { ENV_CONFIG } from '@schaeffler/http';
 import { SnackBarModule, SnackBarService } from '@schaeffler/snackbar';
@@ -71,85 +72,108 @@ describe('View Cases Effects', () => {
         },
       };
     });
-    test('should dispatch loadCases', () => {
-      const result = loadCases();
+    test(
+      'should dispatch loadCases',
+      marbles((m) => {
+        const result = loadCases();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-b', { b: result });
+        const expected = m.cold('-b', { b: result });
 
-      expect(effects.getCases$).toBeObservable(expected);
-    });
+        m.expect(effects.getCases$).toBeObservable(expected);
+      })
+    );
   });
   describe('loadCases', () => {
     beforeEach(() => {
       action = loadCases();
     });
 
-    test('should return loadCases Success', () => {
-      quotationService.getCases = jest.fn(() => response);
-      const quotations: any = [];
+    test(
+      'should return loadCases Success',
+      marbles((m) => {
+        const quotations: any = [];
 
-      const result = loadCasesSuccess({ quotations });
-      actions$ = hot('-a', { a: action });
+        const result = loadCasesSuccess({ quotations });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: quotations,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: quotations,
+        });
+        quotationService.getCases = jest.fn(() => response);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadCases$).toBeObservable(expected);
-      expect(quotationService.getCases).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.loadCases$).toBeObservable(expected);
+        m.flush();
 
-    test('should return loadCasesFailure', () => {
-      const errorMessage = 'new Error';
-      actions$ = hot('-a', { a: action });
+        expect(quotationService.getCases).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      const result = loadCasesFailure({ errorMessage });
+    test(
+      'should return loadCasesFailure',
+      marbles((m) => {
+        const errorMessage = 'new Error';
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const result = loadCasesFailure({ errorMessage });
 
-      quotationService.getCases = jest.fn(() => response);
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.loadCases$).toBeObservable(expected);
-      expect(quotationService.getCases).toHaveBeenCalledTimes(1);
-    });
+        quotationService.getCases = jest.fn(() => response);
+
+        m.expect(effects.loadCases$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.getCases).toHaveBeenCalledTimes(1);
+      })
+    );
   });
   describe('deleteCase$', () => {
     beforeEach(() => {
       const gqIds = ['1'];
       action = deleteCase({ gqIds });
     });
-    test('should return deleteCaseSuccess', () => {
-      snackBarService.showSuccessMessage = jest.fn();
-      quotationService.deleteCases = jest.fn(() => response);
+    test(
+      'should return deleteCaseSuccess',
+      marbles((m) => {
+        snackBarService.showSuccessMessage = jest.fn();
+        quotationService.deleteCases = jest.fn(() => response);
 
-      const result = deleteCasesSuccess();
-      actions$ = hot('-a', { a: action });
+        const result = deleteCasesSuccess();
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|');
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|');
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.deleteCase$).toBeObservable(expected);
-      expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
-      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.deleteCase$).toBeObservable(expected);
+        m.flush();
 
-    test('should return deleteCaseFailure', () => {
-      const errorMessage = 'new Error';
-      actions$ = hot('-a', { a: action });
+        expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
+        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
+      })
+    );
 
-      const result = deleteCasesFailure({ errorMessage });
+    test(
+      'should return deleteCaseFailure',
+      marbles((m) => {
+        const errorMessage = 'new Error';
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-#|', undefined, errorMessage);
-      const expected = cold('--b', { b: result });
+        const result = deleteCasesFailure({ errorMessage });
 
-      quotationService.deleteCases = jest.fn(() => response);
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
 
-      expect(effects.deleteCase$).toBeObservable(expected);
-      expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
-    });
+        quotationService.deleteCases = jest.fn(() => response);
+
+        m.expect(effects.deleteCase$).toBeObservable(expected);
+        m.flush();
+
+        expect(quotationService.deleteCases).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 });

@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import { Injectable } from '@angular/core';
 import { ActivationEnd, Router } from '@angular/router';
 
@@ -17,15 +18,15 @@ import { getSidebarMode } from '../selectors/sidebar.selectors';
  */
 @Injectable()
 export class SidebarEffects {
-  setSidebarState$ = createEffect(() =>
-    this.sidebarService
+  setSidebarState$ = createEffect(() => {
+    return this.sidebarService
       .getSidebarMode()
-      .pipe(map((mode: SidebarMode) => setSidebarMode({ sidebarMode: mode })))
-  );
+      .pipe(map((mode: SidebarMode) => setSidebarMode({ sidebarMode: mode })));
+  });
 
-  toggleSidebar$ = createEffect(() =>
-    this.actions$.pipe(
-      ofType(toggleSidebar.type),
+  toggleSidebar$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType(toggleSidebar),
       withLatestFrom(
         this.store.pipe(select(getSidebarMode)),
         this.sidebarService.getViewport()
@@ -33,11 +34,11 @@ export class SidebarEffects {
       map(([_action, mode, viewport]) =>
         setSidebarMode({ sidebarMode: this.defineSidebarMode(mode, viewport) })
       )
-    )
-  );
+    );
+  });
 
-  closeSidebar$ = createEffect(() =>
-    this.router.events.pipe(
+  closeSidebar$ = createEffect(() => {
+    return this.router.events.pipe(
       filter((event) => event instanceof ActivationEnd),
       withLatestFrom(this.sidebarService.getViewport()),
       map(([_action, viewport]) =>
@@ -45,8 +46,8 @@ export class SidebarEffects {
           ? setSidebarMode({ sidebarMode: SidebarMode.Closed })
           : { type: 'NO_ACTION' }
       )
-    )
-  );
+    );
+  });
 
   defineSidebarMode = (
     currentMode: SidebarMode,

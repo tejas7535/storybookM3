@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { RestService } from '../../../http/rest.service';
 import {
@@ -74,53 +75,64 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getEdmId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getEdmId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'condition-monitoring' });
+        const expected = m.cold('-b', { b: 'condition-monitoring' });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(getEdmId()); // will also be moved
+      })
+    );
   });
 
   describe('interval$', () => {
-    test('should return getEdmId', () => {
-      const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
-      };
+    test(
+      'should return getEdmId',
+      marbles((m) => {
+        const mockInterval = {
+          startDate: 1599651508,
+          endDate: 1599651509,
+        };
 
-      action = setEdmInterval({ interval: mockInterval });
+        action = setEdmInterval({ interval: mockInterval });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getEdmId(),
-      });
+        const expected = m.cold('-(b)', {
+          b: getEdmId(),
+        });
 
-      expect(effects.interval$).toBeObservable(expected);
-    });
+        m.expect(effects.interval$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('edmId$', () => {
-    test('should return getEdm', () => {
-      action = getEdmId();
+    test(
+      'should return getEdm',
+      marbles((m) => {
+        action = getEdmId();
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const expected = cold('-(b)', {
-        b: getEdm({ deviceId }),
-      });
+        const expected = m.cold('-(b)', {
+          b: getEdm({ deviceId }),
+        });
 
-      expect(effects.edmId$).toBeObservable(expected);
-    });
+        m.expect(effects.edmId$).toBeObservable(expected);
+      })
+    );
   });
 
   describe('edm$', () => {
@@ -130,37 +142,42 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should return getEdmSuccess action when REST call is successful', () => {
-      const mockMeasurements = [
-        {
-          startDate: '2020-07-30T11:02:25',
-          edmValue1Counter: 100,
-          edmValue2Counter: 200,
-          edmValue1CounterMax: 300,
-          edmValue2CounterMax: 400,
-        },
-      ];
+    test(
+      'should return getEdmSuccess action when REST call is successful',
+      marbles((m) => {
+        const mockMeasurements = [
+          {
+            startDate: '2020-07-30T11:02:25',
+            edmValue1Counter: 100,
+            edmValue2Counter: 200,
+            edmValue1CounterMax: 300,
+            edmValue2CounterMax: 400,
+          },
+        ];
 
-      const result = getEdmSuccess({
-        measurements: mockMeasurements,
-      });
+        const result = getEdmSuccess({
+          measurements: mockMeasurements,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: mockMeasurements,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: mockMeasurements,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getEdm = jest.fn(() => response);
+        restService.getEdm = jest.fn(() => response);
 
-      expect(effects.edm$).toBeObservable(expected);
-      expect(restService.getEdm).toHaveBeenCalledTimes(1);
-      expect(restService.getEdm).toHaveBeenCalledWith({
-        id: deviceId,
-        startDate: 1599651508,
-        endDate: 1599651509,
-      });
-    });
+        m.expect(effects.edm$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getEdm).toHaveBeenCalledTimes(1);
+        expect(restService.getEdm).toHaveBeenCalledWith({
+          id: deviceId,
+          startDate: 1599651508,
+          endDate: 1599651509,
+        });
+      })
+    );
   });
 });

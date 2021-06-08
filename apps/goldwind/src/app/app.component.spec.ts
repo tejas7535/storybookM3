@@ -48,8 +48,8 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  test(`should have as title 'GOLDWIND'`, () => {
-    expect(component.title).toEqual('Goldwind');
+  test(`should have as title 'Smart Wind Solutions'`, () => {
+    expect(component.title).toEqual('Smart Wind Solutions');
   });
 
   describe('ngOnInit', () => {

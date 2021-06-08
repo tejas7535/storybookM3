@@ -1,11 +1,12 @@
+@use '~@angular/material' as mat;
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
 /* required imports for tailwind project to use material theme */
 @import 'libs/shared/ui/styles/src/lib/material-theme';
-@include mat-core();
-@include angular-material-theme($schaeffler-theme);
+@include mat.core();
+@include mat.all-component-themes($schaeffler-theme);
 button {
   outline: none !important;
 }

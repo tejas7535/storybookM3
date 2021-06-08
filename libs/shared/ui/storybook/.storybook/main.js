@@ -10,3 +10,5 @@ module.exports = {
     '@storybook/addon-backgrounds',
   ],
 };
+
+module.exports.core = { ...module.exports.core, builder: 'webpack5' };

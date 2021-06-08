@@ -10,18 +10,18 @@ import { getShaftState } from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { ShaftState } from '../../reducers/shaft/shaft.reducer';
 
-export const getShaftResult = createSelector(
+export const getShaftLatestResult = createSelector(
   getShaftState,
-  (state: ShaftState) => state?.result
+  (state: ShaftState) => state?.status.result
 );
 
-export const getShaftLoading = createSelector(
+export const getShaftLatestLoading = createSelector(
   getShaftState,
-  (state: ShaftState) => state?.loading
+  (state: ShaftState) => state?.status.loading
 );
 
-export const getShaftTimeStamp = createSelector(
-  getShaftResult,
+export const getShaftLatestTimeStamp = createSelector(
+  getShaftLatestResult,
   (state: ShaftStatus) =>
     state &&
     new Date(state.timestamp).toLocaleTimeString(
@@ -31,7 +31,7 @@ export const getShaftTimeStamp = createSelector(
 );
 
 export const getShaftLatestGraphData = createSelector(
-  getShaftResult,
+  getShaftLatestResult,
   (state: ShaftStatus) =>
     state && {
       series: {
@@ -58,4 +58,14 @@ export const getShaftLatestGraphData = createSelector(
         },
       },
     }
+);
+
+export const getShaftResult = createSelector(
+  getShaftState,
+  (state: ShaftState) => state?.result
+);
+
+export const getShaftLoading = createSelector(
+  getShaftState,
+  (state: ShaftState) => state?.loading
 );

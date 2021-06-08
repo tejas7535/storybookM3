@@ -1,10 +1,11 @@
+import { marbles } from 'rxjs-marbles';
+
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { Actions, EffectsMetadata, getEffectsMetadata } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
-import { cold, hot } from 'jasmine-marbles';
 
 import { DEVICES_MOCK } from '../../../../../testing/mocks';
 import { RestService } from '../../../http/rest.service';
@@ -56,20 +57,25 @@ describe('Search Effects', () => {
       });
     });
 
-    test('should dispatch getDevicesId', () => {
-      store.dispatch = jest.fn();
-      actions$ = hot('-a', {
-        a: {
-          type: ROUTER_NAVIGATED,
-          payload: { routerState: { url: mockUrl } },
-        },
-      });
+    test(
+      'should dispatch getDevicesId',
+      marbles((m) => {
+        store.dispatch = jest.fn();
+        actions$ = m.hot('-a', {
+          a: {
+            type: ROUTER_NAVIGATED,
+            payload: { routerState: { url: mockUrl } },
+          },
+        });
 
-      const expected = cold('-b', { b: 'overview' });
+        const expected = m.cold('-b', { b: 'overview' });
 
-      expect(effects.router$).toBeObservable(expected);
-      expect(store.dispatch).toHaveBeenCalledWith(getDevices());
-    });
+        m.expect(effects.router$).toBeObservable(expected);
+        m.flush();
+
+        expect(store.dispatch).toHaveBeenCalledWith(getDevices());
+      })
+    );
   });
 
   describe('devices$', () => {
@@ -77,22 +83,26 @@ describe('Search Effects', () => {
       action = getDevices();
     });
 
-    test('should return getDevicesSuccess action when REST call is successful', () => {
-      const result = getDevicesSuccess({
-        devices: DEVICES_MOCK,
-      });
+    test(
+      'should return getDevicesSuccess action when REST call is successful',
+      marbles((m) => {
+        const result = getDevicesSuccess({
+          devices: DEVICES_MOCK,
+        });
 
-      actions$ = hot('-a', { a: action });
+        actions$ = m.hot('-a', { a: action });
 
-      const response = cold('-a|', {
-        a: DEVICES_MOCK,
-      });
-      const expected = cold('--b', { b: result });
+        const response = m.cold('-a|', {
+          a: DEVICES_MOCK,
+        });
+        const expected = m.cold('--b', { b: result });
 
-      restService.getDevices = jest.fn(() => response);
+        restService.getDevices = jest.fn(() => response);
 
-      expect(effects.devices$).toBeObservable(expected);
-      expect(restService.getDevices).toHaveBeenCalledTimes(1);
-    });
+        m.expect(effects.devices$).toBeObservable(expected);
+        m.flush();
+        expect(restService.getDevices).toHaveBeenCalledTimes(1);
+      })
+    );
   });
 });

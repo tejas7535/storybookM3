@@ -13,6 +13,7 @@ import {
   getAdditionalInformation,
   getDimensionAndWeightDetails,
   getMaterialDesignation,
+  getProductErrorMessage,
 } from '@cdba/compare/store';
 import { DimensionAndWeightDetails } from '@cdba/detail/detail-tab/dimension-and-weight/model/dimension-and-weight-details.model';
 
@@ -30,6 +31,7 @@ export class MaterialCardComponent implements OnInit {
   public materialDesignation$: Observable<string>;
   public dimensionAndWeightDetails$: Observable<DimensionAndWeightDetails>;
   public additionalInformation$: Observable<AdditionalInformation>;
+  public errorMessage$: Observable<string>;
 
   public constructor(private readonly store: Store) {}
 
@@ -48,5 +50,7 @@ export class MaterialCardComponent implements OnInit {
       getAdditionalInformation,
       this.index
     );
+
+    this.errorMessage$ = this.store.select(getProductErrorMessage, this.index);
   }
 }

@@ -1,6 +1,7 @@
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
+import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -15,6 +16,9 @@ describe('AttritionDialogLineChartComponent', () => {
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
+      NgxEchartsModule.forRoot({
+        echarts: () => import('echarts'),
+      }),
     ],
     providers: [provideMockStore({})],
   });

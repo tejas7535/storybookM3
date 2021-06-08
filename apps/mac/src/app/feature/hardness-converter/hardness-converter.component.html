@@ -28,11 +28,17 @@
               formControlName="unit"
               (selectionChange)="convertValue($event.value)"
             >
+              <mat-select-trigger
+                >{{ hardness.controls.unit.value
+                }}<ng-container *ngIf="hardness.controls.unit.value === 'MPa'">
+                  <span matTooltip="Ultimate Tensile Strength"> (UTS) </span>
+                </ng-container></mat-select-trigger
+              >
               <mat-option
                 *ngFor="let unit of unitList; trackBy: trackByFn"
                 [value]="unit"
-                >{{ unit }}</mat-option
-              >
+                >{{ unit }}
+              </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
