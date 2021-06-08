@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
-import { CacheBucket, withCache } from '@ngneat/cashew';
+import { withCache } from '@ngneat/cashew';
 
 import { environment } from '../../environments/environment';
 import {
@@ -73,8 +73,6 @@ const isSimple = (response: MMResponseVariants): response is MMSimpleResponse =>
 
 @Injectable()
 export class LazyListLoaderService implements LazyListLoader {
-  public todosBucket = new CacheBucket();
-
   constructor(private readonly http: HttpClient) {}
 
   public loadOptions(
