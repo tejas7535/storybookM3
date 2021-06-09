@@ -32,7 +32,7 @@ export class EditingPriceComponent implements AfterViewChecked {
     return this.manualPriceFormControl.value;
   }
 
-  onKeyPress(event: KeyboardEvent, manualPriceInput: { value: number }): void {
+  onKeyPress(event: KeyboardEvent, manualPriceInput: HTMLInputElement): void {
     HelperService.validateNumberInputKeyPress(event, manualPriceInput);
   }
 

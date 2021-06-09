@@ -8,7 +8,7 @@
   >
     <mat-card class="w-full !pt-0">
       <gq-case-header
-        showCustomerHeader="true"
+        [showCustomerHeader]="true"
         (toggleOfferDrawer)="drawer.toggle()"
       >
         <span>{{ quotation.gqId | gqQuotation }} </span>

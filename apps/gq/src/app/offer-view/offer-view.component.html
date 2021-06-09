@@ -6,8 +6,8 @@
   *ngIf="quotation$ | ngrxPush as quotation"
 >
   <gq-case-header
-    showCustomerHeader="true"
-    showOfferSlider="true"
+    [showCustomerHeader]="true"
+    [showOfferSlider]="true"
     class="m-t-10"
   >
     <mat-icon

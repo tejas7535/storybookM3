@@ -16,7 +16,6 @@
           #autocompleteComponent
           [filterName]="customer.filter"
           [options]="customer.options"
-          [isDisabled]="customerDisabled"
           (unselected)="unselectOptions(customer.filter)"
           (added)="selectOption($event, customer.filter)"
           [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"

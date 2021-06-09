@@ -6,7 +6,7 @@ export const DETAIL_CASE_MOCK: MaterialDetails = {
   ean11: '12321',
   followingType: 'F',
   fzNumber: 'L',
-  gspdGroup: 'X',
+  gpsdGroup: 'X',
   gpsdGroupId: 'X99',
   grossWeight: '10',
   innerDiameter: '20',

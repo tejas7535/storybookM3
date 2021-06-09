@@ -15,7 +15,6 @@
         fxFill
         [filterName]="quotation.filter"
         [options]="quotation.options"
-        [isDisabled]="quotationDisabled"
         (unselected)="unselectOptions(quotation.filter)"
         (added)="selectOption($event, quotation.filter)"
         (isValid)="quotationValid($event)"

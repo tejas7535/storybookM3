@@ -3,7 +3,7 @@
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
   <mat-card>
-    <gq-case-header showOfferSlider="false">
+    <gq-case-header [showOfferSlider]="false">
       <gq-transaction-view-header-content
         [quotationDetail]="quotationDetail$ | ngrxPush"
         [currency]="currency$ | ngrxPush"

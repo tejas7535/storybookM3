@@ -33,12 +33,12 @@ describe('HelperServiceService', () => {
 
   describe('transformNumber', () => {
     test('should transform Number with digits', () => {
-      const result = HelperService.transformNumber(10000, true);
+      const result = HelperService.transformNumber(10_000, true);
 
       expect(result).toEqual('10,000.00');
     });
     test('should transform Number without digits', () => {
-      const result = HelperService.transformNumber(10000, false);
+      const result = HelperService.transformNumber(10_000, false);
 
       expect(result).toEqual('10,000');
     });
@@ -138,24 +138,24 @@ describe('HelperServiceService', () => {
   describe('validateNumberInputKeyPress', () => {
     test('should prevent Default', () => {
       const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
+      const manualPriceInput = { value: 20.022 } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
       expect(event.preventDefault).toHaveBeenCalledTimes(1);
     });
-    test('should prevent Default', () => {
+    test('should not prevent Default', () => {
       const event = { key: 0, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20 };
+      const manualPriceInput = { value: 20 } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
       expect(event.preventDefault).toHaveBeenCalledTimes(0);
     });
 
-    test('should not prevent Default', () => {
+    test('should not prevent Default when delete key is pressed', () => {
       const event = { key: KeyName.DELETE, preventDefault: jest.fn() } as any;
-      const manualPriceInput = { value: 20.022 };
+      const manualPriceInput = { value: 20.022 } as any;
 
       HelperService.validateNumberInputKeyPress(event, manualPriceInput);
 
