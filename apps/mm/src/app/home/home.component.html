@@ -23,7 +23,7 @@
 
       <div class="w-full">
         <ng-container
-          *ngIf="(activePageId$ | ngrxPush) === 'RSY_PAGE_BEARING_TYPE'"
+          *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"
         >
           <mm-bearing-search
             (bearing)="selectBearing($event)"
@@ -33,17 +33,23 @@
           ></schaeffler-horizontal-separator>
         </ng-container>
 
-        <ng-container *ngFor="let pagedMeta of pagedMetas$ | ngrxPush">
+        <ng-container
+          *ngFor="let pagedMeta of pagedMetas$ | ngrxPush; index as pageIndex"
+        >
           <ng-container
             *ngIf="pagedMeta.page.id === (activePageId$ | ngrxPush)"
           >
             <ng-container *ngFor="let meta of pagedMeta.metas">
-              <div *ngIf="meta.page.visible" class="control-container">
+              <div
+                *ngIf="
+                  meta.page.visible && !isCalculationOptions(pagedMeta.page.id)
+                "
+              >
                 <h6
                   *ngIf="
                     meta.member.text &&
-                    meta.page.id !== 'PROPERTY_PAGE_MOUNTING_SITUATION_SUB' &&
-                    meta.page.id !== 'PROPERTY_PAGE_MOUNTING'
+                    meta.page.id !== PROPERTY_PAGE_MOUNTING_SITUATION_SUB &&
+                    meta.page.id !== PROPERTY_PAGE_MOUNTING
                   "
                 >
                   {{ meta.member.text }}
@@ -54,6 +60,11 @@
                 ></cae-member-control>
               </div>
             </ng-container>
+
+            <mm-calculation-options
+              *ngIf="isCalculationOptions(pagedMeta.page.id)"
+              [pageMeta]="pagedMeta"
+            ></mm-calculation-options>
 
             <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
               <button

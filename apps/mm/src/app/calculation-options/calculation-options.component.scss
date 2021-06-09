@@ -1,0 +1,35 @@
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+
+.control-wrapper {
+  &:nth-child(odd) {
+    @apply md:pr-2;
+  }
+
+  &:nth-child(even) {
+    @apply md:pl-2;
+  }
+}
+
+::ng-deep {
+  .mat-expansion-panel {
+    box-shadow: none !important;
+    @apply border-border border-[1px];
+
+    &:nth-child(1) {
+      @apply md:mr-4;
+    }
+
+    &:nth-child(2) {
+      @apply md:ml-4;
+    }
+  }
+
+  .mat-expansion-panel-body {
+    padding-top: 1.5rem !important;
+    @apply border-border border-t-[1px];
+  }
+
+  .mat-form-field {
+    @apply w-full;
+  }
+}

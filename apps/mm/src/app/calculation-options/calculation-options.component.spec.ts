@@ -1,0 +1,38 @@
+import { ReactiveFormsModule } from '@angular/forms';
+import { Spectator } from '@ngneat/spectator';
+import { createComponentFactory } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+import { Observable } from 'rxjs';
+import { PagedMeta } from '../home/home.model';
+
+import { CalculationOptionsComponent } from './calculation-options.component';
+
+describe('CalculationOptionsComponent', () => {
+  let component: CalculationOptionsComponent;
+  let spectator: Spectator<CalculationOptionsComponent>;
+
+  const pageMeta = {
+    metas: {},
+    children: [],
+    valid$: new Observable<boolean>(),
+  } as PagedMeta;
+
+  const createComponent = createComponentFactory({
+    component: CalculationOptionsComponent,
+    imports: [ReactiveFormsModule, ReactiveComponentModule],
+    declarations: [CalculationOptionsComponent],
+  });
+
+  beforeEach(() => {
+    spectator = createComponent({
+      props: {
+        pageMeta,
+      },
+    });
+    component = spectator.debugElement.componentInstance;
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

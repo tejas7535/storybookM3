@@ -1,0 +1,23 @@
+<div class="md:flex min-w-[calc(100vw - 4rem)] md:items-start mb-4">
+  <div
+    *ngFor="let metaGroup of pageMeta.children; trackBy: trackByFn"
+    class="md:w-[50%] mb-4"
+  >
+    <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel-header>{{
+        metaGroup.page.page.text
+      }}</mat-expansion-panel-header>
+      <div class="flex flex-wrap">
+        <div
+          *ngFor="let meta of metaGroup.metas"
+          class="w-full md:w-[50%] control-wrapper"
+        >
+          <cae-member-control
+            [class.wide]="true"
+            [meta]="meta"
+          ></cae-member-control>
+        </div>
+      </div>
+    </mat-expansion-panel>
+  </div>
+</div>

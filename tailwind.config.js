@@ -178,6 +178,12 @@ module.exports = {
       opacity: {
         8: '0.08',
       },
+      transitionProperty: {
+        maxHeight: 'max-height',
+      },
+      transitionTimingFunction: {
+        default: 'cubic-bezier(0.87, 0, 0.13, 1)',
+      },
     },
   },
   variants: {
