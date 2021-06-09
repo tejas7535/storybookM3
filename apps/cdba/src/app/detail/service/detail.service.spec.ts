@@ -55,7 +55,6 @@ describe('DetailService', () => {
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
         .set('plant', mock.referenceTypeDto.plant)
-        .set('identification_hash', mock.referenceTypeDto.identificationHash)
         .set('cache$', 'true');
 
       service
@@ -63,16 +62,17 @@ describe('DetailService', () => {
           new ReferenceTypeIdentifier(
             mock.referenceTypeDto.materialNumber,
             mock.referenceTypeDto.plant,
-            mock.referenceTypeDto.identificationHash
+            '+42'
           )
         )
         .subscribe((response) => {
           expect(response).toEqual(mock);
         });
 
-      const req = httpMock.expectOne(`/detail?${expectedParams.toString()}`);
+      const req = httpMock.expectOne(
+        `/detail?${expectedParams.toString()}&identification_hash=%2B42`
+      );
       expect(req.request.method).toBe('GET');
-      expect(req.request.params).toEqual(expectedParams);
       req.flush(mock);
     });
   });
