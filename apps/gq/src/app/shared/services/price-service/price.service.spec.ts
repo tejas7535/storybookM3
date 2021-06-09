@@ -23,7 +23,7 @@ describe('PriceService', () => {
       const result = PriceService.multiplyAndRoundValues(1.11111, 100);
       expect(result).toEqual(111.11);
     });
-    test('should return undefined ', () => {
+    test('should return undefined', () => {
       const result = PriceService.multiplyAndRoundValues(undefined, 100);
       expect(result).toEqual(undefined);
     });

@@ -86,6 +86,7 @@ export class PriceService {
     details: QuotationDetail[]
   ): StatusBarCalculation {
     let netValue = 0;
+    let netValueGPM = 0;
     // sum of (gpi% * netValue) of each line
     let sumGPINetValue = 0;
     let sumGPMNetValue = 0;
@@ -97,15 +98,20 @@ export class PriceService {
           sumGPINetValue += row.gpi * row.netValue;
         }
         if (row.gpm) {
+          netValueGPM += row.netValue;
           sumGPMNetValue += row.gpm * row.netValue;
         }
       }
     });
     let weightedGPI = 0;
     let weightedGPM = 0;
+    if (netValueGPM !== 0) {
+      weightedGPM = PriceService.roundToTwoDecimals(
+        sumGPMNetValue / netValueGPM
+      );
+    }
     if (netValue !== 0) {
       weightedGPI = PriceService.roundToTwoDecimals(sumGPINetValue / netValue);
-      weightedGPM = PriceService.roundToTwoDecimals(sumGPMNetValue / netValue);
       netValue = PriceService.roundToTwoDecimals(netValue);
     }
 
