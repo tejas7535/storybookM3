@@ -1,4 +1,5 @@
 import { DecimalPipe } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -8,25 +9,30 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { HttpCacheInterceptorModule } from '@ngneat/cashew';
+import {
+  HttpCacheInterceptor,
+  HttpCacheInterceptorModule,
+} from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
+import { HttpModule } from '@schaeffler/http';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
+import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { StoreModule } from './store/store.module';
 
 export class DynamicLocaleId extends String {
-  constructor(protected translocoService: TranslocoService) {
+  public constructor(protected translocoService: TranslocoService) {
     super('');
   }
 
-  toString() {
+  public toString() {
     return this.translocoService.getActiveLang();
   }
 }
@@ -67,7 +73,10 @@ export class DynamicLocaleId extends String {
       true
     ),
 
+    // HTTP
+    HttpClientModule,
     HttpCacheInterceptorModule.forRoot(),
+    HttpModule.forRoot({ environment }),
   ],
   exports: [AppComponent, SidebarComponent],
   providers: [
@@ -75,6 +84,16 @@ export class DynamicLocaleId extends String {
       provide: LOCALE_ID,
       useClass: DynamicLocaleId,
       deps: [TranslocoService],
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpLocaleInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpCacheInterceptor,
+      multi: true,
     },
     DecimalPipe,
   ],

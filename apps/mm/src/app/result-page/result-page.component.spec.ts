@@ -5,12 +5,13 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { ENV_CONFIG } from '@schaeffler/http';
 import { ReportModule } from '@schaeffler/report';
 
 import { ResultPageComponent } from './result-page.component';
 import { ResultPageService } from './result-page.service';
 
-describe('PictureCardListComponent', () => {
+describe('ResultPageComponent', () => {
   let component: ResultPageComponent;
   let spectator: Spectator<ResultPageComponent>;
   let resultPageService: ResultPageService;
@@ -28,7 +29,15 @@ describe('PictureCardListComponent', () => {
       {
         provide: ResultPageService,
         useValue: {
-          getResult: jest.fn(),
+          getResult: jest.fn(() => {}),
+        },
+      },
+      {
+        provide: ENV_CONFIG,
+        useValue: {
+          environment: {
+            baseUrl: '',
+          },
         },
       },
     ],
@@ -44,55 +53,44 @@ describe('PictureCardListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  test('send should call getResult fn of restPageService', () => {
-    const mockForm = {
-      getRawValue() {
-        return {
-          objects: [
-            {
-              properties: [
-                {
-                  name: 'mockName',
-                  value: 'mockvalue',
-                },
-              ],
-            },
-          ],
-        };
-      },
-    };
-
-    const mockFormProperties = {
-      data: {},
-      state: false,
-      _links: [
-        {
-          rel: 'body',
-          href: 'bodyLink',
+  describe('#send', () => {
+    it('should call getResult fn of restPageService', () => {
+      const mockForm = {
+        getRawValue() {
+          return {
+            objects: [
+              {
+                properties: [
+                  {
+                    name: 'mockName',
+                    value: 'mockValue',
+                  },
+                ],
+              },
+            ],
+          };
         },
-        {
-          rel: 'pdf',
-          href: 'pdfLink',
-        },
-      ],
-    };
+      };
 
-    component.send(mockForm as FormGroup);
-    component.result$.subscribe();
+      component.send(mockForm as FormGroup);
+      component.result$.subscribe();
 
-    component.result$.subscribe(() => {
-      expect(resultPageService.getResult).toHaveBeenCalledTimes(1);
-      expect(resultPageService.getResult).toHaveBeenCalledWith(
-        mockFormProperties
-      );
+      component.result$.subscribe(() => {
+        expect(resultPageService.getResult).toHaveBeenCalledTimes(1);
+        expect(resultPageService.getResult).toHaveBeenCalledWith({
+          mockName: 'mockValue',
+        });
+      });
     });
   });
 
-  test('reset wizard should console log for now', () => {
-    const consoleSpy = jest.spyOn(console, 'log');
+  describe('#resetWizard', () => {
+    it('should console log for now', () => {
+      const consoleSpy = jest.spyOn(console, 'log');
 
-    component.resetWizard();
+      component.resetWizard();
 
-    expect(consoleSpy).toHaveBeenCalledTimes(1);
+      expect(consoleSpy).toHaveBeenCalledTimes(1);
+    });
   });
 });

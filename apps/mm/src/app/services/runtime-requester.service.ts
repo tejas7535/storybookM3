@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
@@ -15,9 +14,7 @@ import {
   TableCellType,
   TableColumnType,
 } from '@caeonline/dynamic-forms';
-import { withCache } from '@ngneat/cashew';
 
-import { environment } from '../../environments/environment';
 import {
   IDMM_BEARING_SEAT,
   IDMM_HYDRAULIC_NUT_TYPE,
@@ -32,17 +29,14 @@ import {
   TBL_BEARING_PREFLIGHT,
   TBL_SHAFT_MATERIAL,
 } from '../shared/constants/dialog-constant';
-import {
-  MMBearingPreflightField,
-  MMBearingPreflightResponse,
-  MMBearingsMaterialResponse,
-} from './lazy-list-loader.service';
+import { MMBearingPreflightField } from '../shared/models';
+import { RestService } from './../core/services/rest/rest.service';
 
 @Injectable()
 export class RuntimeRequesterService implements RuntimeRequester {
-  constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly restService: RestService) {}
 
-  getDataTable(
+  public getDataTable(
     _tableId: string,
     _model: Model,
     object: ModelObject,
@@ -63,8 +57,8 @@ export class RuntimeRequesterService implements RuntimeRequester {
     object: ModelObject,
     controlMap: Map<string, Map<string, FormGroup>>
   ): Observable<BearinxDataTableDescription> {
-    return defer(() => {
-      return of({
+    return defer(() =>
+      of({
         IDCO_DESIGNATION: controlMap.get(object.id)?.get(RSY_BEARING)?.value
           .value,
         IDMM_BEARING_SEAT: controlMap.get(object.id)?.get(IDMM_BEARING_SEAT)
@@ -73,15 +67,12 @@ export class RuntimeRequesterService implements RuntimeRequester {
           ?.value.value,
         RSY_BEARING_TYPE: controlMap.get(object.id)?.get(RSY_BEARING_TYPE)
           ?.value.value,
-      });
-    }).pipe(
-      switchMap((body) =>
-        this.http.post<MMBearingPreflightResponse>(
-          `${environment.apiMMBaseUrl}${environment.preflightPath}`,
-          body
-        )
-      ),
+      })
+    ).pipe(
+      switchMap((body) => this.restService.getBearingPreflightResponse(body)),
       map(({ data: { input } }) => {
+        // TODO: check lint rules
+        // eslint-disable-next-line unicorn/no-array-reduce
         const allFields: MMBearingPreflightField[] = input.reduce(
           (inputs, { fields }) => [...inputs, ...fields],
           []
@@ -149,18 +140,17 @@ export class RuntimeRequesterService implements RuntimeRequester {
     object: ModelObject,
     controlMap: Map<string, Map<string, FormGroup>>
   ): Observable<BearinxDataTableDescription> {
-    return defer(() => {
-      return of({
+    return defer(() =>
+      of({
         IDMM_SHAFT_MATERIAL: controlMap.get(object.id)?.get(IDMM_SHAFT_MATERIAL)
           ?.value.value,
-      });
-    }).pipe(
-      switchMap((body) => {
-        return this.http.get<MMBearingsMaterialResponse>(
-          `${environment.apiMMBaseUrl}${environment.materialsPath}${body.IDMM_SHAFT_MATERIAL}`,
-          withCache()
-        );
-      }),
+      })
+    ).pipe(
+      switchMap((body) =>
+        this.restService.getBearingsMaterialResponse(body.IDMM_SHAFT_MATERIAL)
+      ),
+      // TODO: dont get why I cannot get rid of the return here...
+      // eslint-disable-next-line arrow-body-style
       map((input) => {
         return {
           modulusOfElasticy: input.IDMM_MODULUS_OF_ELASTICITY,

@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -18,22 +17,8 @@ import {
   tap,
 } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
-
-interface BearingOption {
-  id: string;
-  title: string;
-}
-
-interface SearchEntry {
-  data: BearingOption;
-  links: [];
-  _media?: any;
-}
-
-interface SearchResult {
-  data: SearchEntry[];
-}
+import { BearingOption, SearchEntry } from '../shared/models';
+import { RestService } from './../core/services/rest/rest.service';
 
 @Component({
   selector: 'mm-bearing-search',
@@ -41,17 +26,17 @@ interface SearchResult {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class BearingSearchComponent implements OnInit {
-  @Output() bearing = new EventEmitter<string | undefined>();
+  @Output() public bearing = new EventEmitter<string | undefined>();
 
-  myControl = new FormControl('');
+  public myControl = new FormControl('');
 
-  options$: Observable<BearingOption[]> = of([]);
+  public options$: Observable<BearingOption[]> = of([]);
 
-  loading$ = new BehaviorSubject<boolean>(false);
+  public loading$ = new BehaviorSubject<boolean>(false);
 
-  constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly restService: RestService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.options$ = this.myControl.valueChanges.pipe(
       startWith(''),
       debounceTime(300),
@@ -60,11 +45,10 @@ export class BearingSearchComponent implements OnInit {
     );
   }
 
-  getBearings(searchQuery: string): Observable<BearingOption[]> {
+  public getBearings(searchQuery: string): Observable<BearingOption[]> {
     this.loading$.next(true);
-    const requestUrl = `${environment.apiMMBaseUrl}/bearing/search/?pattern=${searchQuery}&page=1&size=1000`;
 
-    return this.http.get<SearchResult>(requestUrl).pipe(
+    return this.restService.getBearingSearch(searchQuery).pipe(
       map((response) =>
         response.data.map((entry: SearchEntry) => {
           const { title, id } = entry.data;
@@ -76,7 +60,7 @@ export class BearingSearchComponent implements OnInit {
     );
   }
 
-  handleSelection(selectionId: string): void {
+  public handleSelection(selectionId: string): void {
     this.bearing.emit(selectionId);
   }
 }
