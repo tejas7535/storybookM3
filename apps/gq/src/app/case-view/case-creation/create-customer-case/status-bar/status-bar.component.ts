@@ -5,7 +5,6 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   templateUrl: './status-bar.component.html',
 })
 export class StatusBarComponent {
-  @Input() total: string;
   @Input() createCaseDisabled: boolean;
 
   @Output() createCase = new EventEmitter();

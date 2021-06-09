@@ -80,7 +80,7 @@ export class MaterialSelectionComponent implements OnInit, OnChanges {
     this.someComplete = true;
   }
   triggerPLsAndSeriesRequest(): void {
-    if (this.customerId && this.salesOrg) {
+    if (this.customerId && this.salesOrg && this.selectionItems.length > 0) {
       const includeQuotationHistory = this.selectionItems.find(
         (item) => typeof item.value === 'boolean'
       ).checked;

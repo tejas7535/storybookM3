@@ -13,6 +13,8 @@ import { ENV_CONFIG } from '@schaeffler/http';
 
 import { CUSTOMER_MOCK } from '../../../../../testing/mocks';
 import { CreateCase } from '../../../../core/store/reducers/create-case/models';
+import { SalesIndication } from '../../../../core/store/reducers/transactions/models/sales-indication.enum';
+import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 import { QuotationService } from './quotation.service';
 
 describe('QuotationService', () => {
@@ -70,8 +72,8 @@ describe('QuotationService', () => {
   });
 
   describe('quotationDetails', () => {
-    test('should call ', () => {
-      const gqId = 123456;
+    test('should call', () => {
+      const gqId = 1000;
 
       const mock = {
         quotationDetails: [CUSTOMER_MOCK],
@@ -80,7 +82,7 @@ describe('QuotationService', () => {
         expect(response).toEqual(mock.quotationDetails);
       });
 
-      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}/123456`);
+      const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}/${gqId}`);
       expect(req.request.method).toBe(HttpMethod.GET);
       req.flush(mock);
     });
@@ -124,6 +126,27 @@ describe('QuotationService', () => {
       const req = httpMock.expectOne(`/${service['PATH_QUOTATIONS']}`);
       expect(req.request.method).toBe(HttpMethod.PUT);
       req.flush(importCase);
+    });
+  });
+
+  describe('createCustomerCase', () => {
+    test('should call', () => {
+      const mockBody: CreateCustomerCase = {
+        customer: {
+          customerId: '1234',
+          salesOrg: '0267',
+        },
+        includeQuotationHistory: true,
+        productLines: ['1'],
+        series: ['2'],
+        salesIndications: [SalesIndication.INVOICE],
+      };
+      service.createCustomerCase(mockBody).subscribe((response) => {
+        expect(response).toEqual([]);
+      });
+      const req = httpMock.expectOne(`/${service['PATH_CUSTOMER_QUOTATION']}`);
+      expect(req.request.method).toBe(HttpMethod.POST);
+      req.flush(mockBody);
     });
   });
 });

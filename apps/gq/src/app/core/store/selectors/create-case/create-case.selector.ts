@@ -1,4 +1,5 @@
 import { createSelector } from '@ngrx/store';
+import { CreateCustomerCase } from 'apps/gq/src/app/shared/services/rest-services/search-service/models/create-customer-case.model';
 
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
@@ -144,4 +145,44 @@ export const getProductLinesAndSeries = createSelector(
 export const getProductLinesAndSeriesLoading = createSelector(
   getCaseState,
   (state: CaseState): boolean => state.plSeries.loading
+);
+
+export const getCreateCustomerCaseDisabled = createSelector(
+  getCaseState,
+  (state: CaseState): boolean => {
+    const customer =
+      state.customer.customerId &&
+      state.customer.salesOrgs.find((salesOrg) => salesOrg.selected) !== null;
+
+    const materialSelection =
+      state.plSeries.materialSelection.salesIndications.length !== 0 ||
+      state.plSeries.materialSelection.includeQuotationHistory;
+
+    const plAndSeries =
+      state.plSeries.plsAndSeries?.pls.filter((el) => el.selected).length > 0 &&
+      state.plSeries.plsAndSeries?.series.filter((el) => el.selected).length >
+        0;
+
+    return !(customer && materialSelection && plAndSeries);
+  }
+);
+
+export const getCreateCustomerCasePayload = createSelector(
+  getCaseState,
+  (state: CaseState): CreateCustomerCase => ({
+    customer: {
+      customerId: state.customer.customerId,
+      salesOrg: state.customer.salesOrgs.find((salesOrg) => salesOrg.selected)
+        ?.id,
+    },
+    includeQuotationHistory:
+      state.plSeries.materialSelection.includeQuotationHistory,
+    salesIndications: state.plSeries.materialSelection.salesIndications,
+    series: state.plSeries.plsAndSeries?.series
+      .filter((el) => el.selected)
+      .map((el) => el.value),
+    productLines: state.plSeries.plsAndSeries?.pls
+      .filter((el) => el.selected)
+      .map((el) => el.value),
+  })
 );

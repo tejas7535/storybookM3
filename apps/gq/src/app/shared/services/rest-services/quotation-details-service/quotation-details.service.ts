@@ -2,7 +2,6 @@ import { HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
@@ -26,9 +25,7 @@ export class QuotationDetailsService {
   public addMaterial(
     tableData: AddQuotationDetailsRequest
   ): Observable<Quotation> {
-    return this.dataService
-      .post(this.PATH_QUOTATION_DETAILS, tableData)
-      .pipe(map((res: any) => res));
+    return this.dataService.post(this.PATH_QUOTATION_DETAILS, tableData);
   }
 
   public removeMaterial(qgPositionIds: string[]): Observable<Quotation> {

@@ -1,15 +1,15 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import {
-  CreateCaseResponse,
-  SalesOrg,
-} from '../../../../core/store/reducers/create-case/models';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
 import {
   MaterialTableItem,
   MaterialValidation,
 } from '../../../../shared/models/table';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
+import {
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../reducers/create-case/models';
 import { PLsAndSeries } from '../../reducers/create-case/models/pls-and-series.model';
 
 export const autocomplete = createAction(
@@ -131,6 +131,26 @@ export const setSelectedSeries = createAction(
 
 export const resetProductLineAndSeries = createAction(
   '[Create Case] Reset ProductLineAndSeries'
+);
+
+export const createCustomerCase = createAction(
+  '[Create Case] Create Customer Case'
+);
+
+export const createCustomerCaseSuccess = createAction(
+  '[Create Case] Create Customer Case Success'
+);
+
+export const createCustomerCaseFailure = createAction(
+  '[Create Case] Create Customer Case Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const resetCustomerFilter = createAction(
+  '[Create Case] Reset Autocomplete Customer'
+);
+export const resetPLsAndSeries = createAction(
+  '[Create Case] Reset PLs and Series'
 );
 
 const all = union({

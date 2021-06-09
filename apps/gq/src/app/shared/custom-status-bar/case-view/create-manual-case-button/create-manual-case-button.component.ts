@@ -1,13 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
-import { CreateManualCaseComponent } from 'apps/gq/src/app/case-view/case-creation/create-manual-case/create-manual-case.component';
+import { CreateManualCaseComponent } from '../../../../case-view/case-creation/create-manual-case/create-manual-case.component';
 
 @Component({
   selector: 'gq-create-manual-case',
   templateUrl: './create-manual-case-button.component.html',
 })
-export class CreateManualCaseButtonComponent {
+export class CreateManualCaseButtonComponent implements OnDestroy {
   constructor(private readonly dialog: MatDialog) {}
 
   agInit(): void {}
@@ -16,5 +16,8 @@ export class CreateManualCaseButtonComponent {
       width: '70%',
       height: '95%',
     });
+  }
+  ngOnDestroy(): void {
+    this.dialog.closeAll();
   }
 }

@@ -13,6 +13,7 @@ export const CREATE_CASE_STORE_STATE_MOCK: CaseState = {
     errorMessage: undefined,
     loading: false,
     plsAndSeries: { series: [], pls: [] },
+    materialSelection: { includeQuotationHistory: false, salesIndications: [] },
   },
   createdCase: undefined,
   createCaseLoading: false,

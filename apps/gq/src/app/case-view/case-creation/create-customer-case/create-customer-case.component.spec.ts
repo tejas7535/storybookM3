@@ -14,6 +14,8 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
+  resetCustomerFilter,
+  resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -77,11 +79,14 @@ describe('CreateCustomerCaseComponent', () => {
   });
   describe('closeDialog', () => {
     test('should close matDialog', () => {
+      mockStore.dispatch = jest.fn();
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(resetCustomerFilter());
+      expect(mockStore.dispatch).toHaveBeenCalledWith(resetPLsAndSeries());
     });
   });
   describe('autocomplete', () => {
@@ -121,6 +126,15 @@ describe('CreateCustomerCaseComponent', () => {
     });
   });
 
+  describe('createCase', () => {
+    test('should dispatch store', () => {
+      mockStore.dispatch = jest.fn();
+
+      component.createCase();
+
+      expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
+    });
+  });
   describe('resetAll', () => {
     test('should reset all', () => {
       mockStore.dispatch = jest.fn();

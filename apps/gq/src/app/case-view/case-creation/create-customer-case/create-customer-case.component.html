@@ -6,60 +6,66 @@
     [title]="title$ | ngrxPush"
     (closeDialog)="closeDialog()"
   ></gq-dialog-header>
-
-  <div class="flex mt-8">
-    <div class="w-full" *ngIf="customer$ | ngrxPush as customer">
-      <gq-autocomplete-input
-        #autocompleteComponent
-        [filterName]="customer.filter"
-        [options]="customer.options"
-        [isDisabled]="customerDisabled"
-        (unselected)="unselectOptions(customer.filter)"
-        (added)="selectOption($event, customer.filter)"
-        [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
-        (autocomplete)="autocomplete($event)"
-      ></gq-autocomplete-input>
+  <div
+    class="flex flex-col h-full"
+    *ngIf="(createCaseLoading$ | ngrxPush) === false; else loading"
+  >
+    <div class="flex mt-8">
+      <div class="w-full" *ngIf="customer$ | ngrxPush as customer">
+        <gq-autocomplete-input
+          #autocompleteComponent
+          [filterName]="customer.filter"
+          [options]="customer.options"
+          [isDisabled]="customerDisabled"
+          (unselected)="unselectOptions(customer.filter)"
+          (added)="selectOption($event, customer.filter)"
+          [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
+          (autocomplete)="autocomplete($event)"
+        ></gq-autocomplete-input>
+      </div>
+      <div class="ml-3 mt-3">
+        <gq-select-sales-org></gq-select-sales-org>
+      </div>
     </div>
-    <div class="ml-3 mt-3">
-      <gq-select-sales-org></gq-select-sales-org>
+    <div class="mt-8 flex h-full w-full flex-col">
+      <div class="flex flex-row">
+        <div class="w-1/2">
+          <span class="text-h6 text-light font-body font-medium">
+            {{ t('includeMaterials.title') }}
+          </span>
+        </div>
+        <div class="w-1/2">
+          <span class="text-h6 text-light font-body font-medium">
+            {{ t('additionalMaterials.title') }}
+          </span>
+        </div>
+      </div>
+      <hr class="opacity-[12%]" />
+      <div class="flex flex-row mt-5 h-full">
+        <div class="w-1/2">
+          <gq-material-selection
+            [customerId]="selectedCustomerId$ | ngrxPush"
+            [salesOrg]="(selectedSalesOrg$ | ngrxPush)?.id"
+            #materialSelection
+          ></gq-material-selection>
+        </div>
+        <div class="w-1/2">
+          <gq-additional-filters
+            [plsAndSeries]="plsAndSeries$ | ngrxPush"
+            [plsAndSeriesLoading]="plsAndSeriesLoading$ | ngrxPush"
+          ></gq-additional-filters>
+        </div>
+      </div>
+      <gq-status-bar
+        [createCaseDisabled]="createCaseDisabled$ | ngrxPush"
+        (resetAll)="resetAll()"
+        (createCase)="createCase()"
+      ></gq-status-bar>
     </div>
   </div>
-  <div class="mt-8 flex h-full w-full flex-col">
-    <div class="flex flex-row">
-      <div class="w-1/2">
-        <span
-          class="text-h5 tracking-[0.25px] text-light font-body font-medium"
-        >
-          {{ t('includeMaterials.title') }}
-        </span>
-      </div>
-      <div class="w-1/2">
-        <span
-          class="text-h5 tracking-[0.25px] text-light font-body font-medium"
-        >
-          {{ t('additionalMaterials.title') }}
-        </span>
-      </div>
-    </div>
-    <hr class="opacity-[12%]" />
-    <div class="flex flex-row mt-5 h-full">
-      <div class="w-1/2">
-        <gq-material-selection
-          [customerId]="selectedCustomerId$ | ngrxPush"
-          [salesOrg]="(selectedSalesOrg$ | ngrxPush)?.id"
-          #materialSelection
-        ></gq-material-selection>
-      </div>
-      <div class="w-1/2">
-        <gq-additional-filters
-          [plsAndSeries]="plsAndSeries$ | ngrxPush"
-          [plsAndSeriesLoading]="plsAndSeriesLoading$ | ngrxPush"
-        ></gq-additional-filters>
-      </div>
-    </div>
-    <gq-status-bar
-      (resetAll)="resetAll()"
-      (createCase)="createCase()"
-    ></gq-status-bar>
-  </div>
+  <ng-template #loading>
+    <schaeffler-loading-spinner
+      backgroundColor="rgba(255,255,255, 0.1)"
+    ></schaeffler-loading-spinner>
+  </ng-template>
 </div>

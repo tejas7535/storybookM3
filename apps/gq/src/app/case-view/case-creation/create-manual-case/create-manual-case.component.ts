@@ -12,6 +12,7 @@ import {
   getCaseCustomer,
   getCaseRowData,
   getCreateCaseLoading,
+  resetCustomerFilter,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
@@ -69,5 +70,6 @@ export class CreateManualCaseComponent implements OnInit {
   }
   closeDialog(): void {
     this.dialogRef.close();
+    this.store.dispatch(resetCustomerFilter());
   }
 }
