@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.24.0](///compare/cdba-v1.24.0...cdba-v1.23.0) (2021-06-09)
+
+
+### 🎸 Features
+
+* **cdba:** add compare detail page (DSCDA-2185) ([c17290a](///commit/c17290a03fc808d19980cdfe9927bb13d1a53217))
+* **cdba:** track functional role of the user (DSCDA-2402) ([665d008](///commit/665d008bf6577b94a003a1517daba0b71011890b))
+
+
+### 📈 Improvements
+
+* **cdba:** add multiple improvements for compare details page (DSCDA-2324) ([be0f0f1](///commit/be0f0f1bb1158e48548c0262398365ba98966f04))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** send identification hash correctly encoded (DSCDA-2350) ([a1dd602](///commit/a1dd602fe049f392aaecc07713aa67077137a0d1))
+
 ## [1.23.0](///compare/cdba-v1.23.0...cdba-v1.22.0) (2021-05-26)
 
 
