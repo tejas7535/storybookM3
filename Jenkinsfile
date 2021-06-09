@@ -422,7 +422,7 @@ pipeline {
 
                             script {
                                 try {
-                                    sh 'npm audit'
+                                    sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html" --fatal-exit-code'
                                 } catch (error) {
                                     // Get jq binary --> temporary workaround until we have an image with jq preinstalled
                                     sh 'mkdir ~/jq-bin'
@@ -491,8 +491,6 @@ pipeline {
                                             -o merge_request.label='hotfix' \
                                             -o merge_request.remove_source_branch=true""".stripIndent()
                                     }
-                                } finally {
-                                    sh 'npm audit --json | npx npm-audit-html'
                                 }
                             }
                         }
@@ -500,7 +498,7 @@ pipeline {
 
                     post {
                         always {
-                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, includes: 'npm-audit.html', keepAll: true, reportDir: '', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
+                            publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: './reports', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
                         }
                     }
                 }
