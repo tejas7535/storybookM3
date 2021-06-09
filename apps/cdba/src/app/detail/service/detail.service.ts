@@ -117,12 +117,13 @@ export class DetailService {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
       .set(this.PARAM_PLANT, item.plant)
-      .set(this.PARAM_IDENTIFICATION_HASH, item.identificationHash)
-      .set(this.PARAM_ENABLE_CACHE, 'true');
+      .set(this.PARAM_ENABLE_CACHE, true);
 
-    return this.dataService.getAll<ReferenceTypeResult>(this.DETAIL_PATH, {
-      params,
-    });
+    const path = `${this.DETAIL_PATH}?${params.toString()}&${
+      this.PARAM_IDENTIFICATION_HASH
+    }=${encodeURIComponent(item.identificationHash)}`;
+
+    return this.dataService.getAll<ReferenceTypeResult>(path);
   }
 
   public calculations(
