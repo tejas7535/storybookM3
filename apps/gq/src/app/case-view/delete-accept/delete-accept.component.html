@@ -7,7 +7,7 @@
   <div fxFlex="100%">
     <p>{{ t('text') }}</p>
     <ul>
-      <li *ngFor="let quotation of data.selectedInfo; trackBy: trackByFn()">
+      <li *ngFor="let quotation of data.selectedInfo; trackBy: trackByFn">
         {{ quotation.gqId }} | {{ quotation.customer }}
       </li>
     </ul>

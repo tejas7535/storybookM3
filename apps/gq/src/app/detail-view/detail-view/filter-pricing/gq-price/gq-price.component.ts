@@ -84,4 +84,11 @@ export class GqPriceComponent implements OnInit {
       }
     );
   }
+
+  /**
+   * Improves performance of ngFor.
+   */
+  public trackByFn(index: number): number {
+    return index;
+  }
 }

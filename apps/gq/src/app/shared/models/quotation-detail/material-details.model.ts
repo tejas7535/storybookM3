@@ -4,7 +4,7 @@ export class MaterialDetails {
   ean11: string;
   followingType: string;
   fzNumber: string;
-  gspdGroup: string;
+  gpsdGroup: string;
   gpsdGroupId: string;
   grossWeight: string;
   innerDiameter: string;

@@ -15,7 +15,6 @@
         <gq-autocomplete-input
           [filterName]="customer.filter"
           [options]="customer.options"
-          [isDisabled]="customerDisabled"
           (unselected)="unselectOptions(customer.filter)"
           (added)="selectOption($event, customer.filter)"
           [autocompleteLoading]="customerAutocompleteLoading$ | ngrxPush"
@@ -27,17 +26,12 @@
       </div>
     </div>
     <div>
-      <gq-add-entry
-        [isDisabled]="customerDisabled"
-        (inputContent)="customerHasInput($event)"
-        isCaseView="true"
-      >
-      </gq-add-entry>
+      <gq-add-entry [isCaseView]="true"> </gq-add-entry>
     </div>
     <div class="h-full" *ngIf="rowData$ | ngrxPush as rowData">
       <gq-material-input-table
         [rowData]="rowData"
-        isCaseView="true"
+        [isCaseView]="true"
       ></gq-material-input-table>
     </div>
   </div>

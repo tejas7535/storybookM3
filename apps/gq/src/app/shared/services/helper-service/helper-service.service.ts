@@ -73,7 +73,7 @@ export class HelperService {
   }
   static validateNumberInputKeyPress(
     event: KeyboardEvent,
-    manualPriceInput: { value: number }
+    manualPriceInput: HTMLInputElement
   ): void {
     const parsedInput = parseInt(event.key, 10);
     const isValidNumber = parsedInput === 0 || !isNaN(parsedInput);

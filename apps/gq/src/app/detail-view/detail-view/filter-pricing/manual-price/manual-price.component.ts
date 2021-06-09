@@ -119,7 +119,7 @@ export class ManualPriceComponent implements OnChanges, OnInit, OnDestroy {
     this.editMode = true;
   }
 
-  onKeyPress(event: KeyboardEvent, manualPriceInput: { value: number }): void {
+  onKeyPress(event: KeyboardEvent, manualPriceInput: HTMLInputElement): void {
     HelperService.validateNumberInputKeyPress(event, manualPriceInput);
   }
 

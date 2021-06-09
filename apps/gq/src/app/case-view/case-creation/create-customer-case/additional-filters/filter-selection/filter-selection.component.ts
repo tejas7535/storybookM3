@@ -17,7 +17,7 @@ import { MatSelectChange } from '@angular/material/select';
 })
 export class FilterSelectionComponent implements OnInit, OnChanges {
   @Input() title: string;
-  @Input() items: { value: string; selected: boolean }[];
+  @Input() items: { value: string; selected: boolean; name?: string }[];
   form: FormGroup;
 
   @Output() selection = new EventEmitter<string[]>();
