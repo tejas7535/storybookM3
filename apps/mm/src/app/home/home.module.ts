@@ -16,6 +16,7 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BearingSearchModule } from '../bearing-search/bearing-search.module';
+import { CalculationOptionsModule } from '../calculation-options/calculations-options.module';
 import { ListMemberComponent } from '../member-controls/list-member.component';
 import { SelectMemberComponent } from '../member-controls/select-member.component';
 import { StringNumberMemberComponent } from '../member-controls/string-number-member.component';
@@ -55,6 +56,7 @@ import { HomeComponent } from './home.component';
     PictureCardListModule,
     LoadingSpinnerModule,
     HorizontalSeparatorModule,
+    CalculationOptionsModule,
 
     // Angular Material
     MatButtonModule,
