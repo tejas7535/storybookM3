@@ -1,5 +1,5 @@
 export interface CreateCaseResponse {
-  gqId: string;
+  gqId: number;
   customerId: string;
   salesOrg: string;
 }

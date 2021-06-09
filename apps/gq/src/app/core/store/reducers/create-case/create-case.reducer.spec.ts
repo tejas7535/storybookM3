@@ -17,6 +17,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   deleteRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
@@ -27,6 +30,8 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetCustomerFilter,
+  resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
   setSelectedProductLines,
@@ -35,6 +40,7 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
+import { SalesIndication } from '../transactions/models/sales-indication.enum';
 import { dummyRowData } from './config/dummy-row-data';
 import {
   CaseState,
@@ -446,7 +452,7 @@ describe('Create Case Reducer', () => {
         const createdCase: CreateCaseResponse = {
           salesOrg: '0267',
           customerId: '123',
-          gqId: '1010',
+          gqId: 1010,
         };
         const action = createCaseSuccess({ createdCase });
         const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
@@ -515,11 +521,22 @@ describe('Create Case Reducer', () => {
   describe('PLsAndSeries Actions', () => {
     describe('getPLsAndSeries', () => {
       test('should set loading', () => {
-        const action = getPLsAndSeries({ customerFilters: {} as any });
+        const action = getPLsAndSeries({
+          customerFilters: {
+            includeQuotationHistory: true,
+            salesIndications: [SalesIndication.INVOICE],
+          } as any,
+        });
 
         const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
 
         expect(state.plSeries.loading).toBeTruthy();
+        expect(
+          state.plSeries.materialSelection.includeQuotationHistory
+        ).toBeTruthy();
+        expect(state.plSeries.materialSelection.salesIndications).toEqual([
+          SalesIndication.INVOICE,
+        ]);
       });
     });
     describe('getPLsAndSeriesSuccess', () => {
@@ -577,8 +594,56 @@ describe('Create Case Reducer', () => {
         expect(state.plSeries).toEqual(initialState.plSeries);
       });
     });
-  });
 
+    describe('createCustomerCase Actions', () => {
+      describe('createCustomerCase', () => {
+        test('should set loading true', () => {
+          const action = createCustomerCase();
+
+          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+          expect(state.createCaseLoading).toBeTruthy();
+        });
+      });
+
+      describe('createCustomerCaseSuccess', () => {
+        test('should set loading to false', () => {
+          const action = createCustomerCaseSuccess();
+
+          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+          expect(state.createCaseLoading).toBeFalsy();
+        });
+      });
+
+      describe('createCustomerCaseFailure', () => {
+        test('should save error message', () => {
+          const errorMessage = 'errorMessage';
+          const action = createCustomerCaseFailure({ errorMessage });
+
+          const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+
+          expect(state.errorMessage).toEqual(errorMessage);
+        });
+      });
+    });
+  });
+  describe('resetCustomerFilter', () => {
+    test('should reset customer to initalState', () => {
+      const action = resetCustomerFilter();
+
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.customer).toEqual(initialState.customer);
+      expect(state.autocompleteItems).toEqual(initialState.autocompleteItems);
+    });
+  });
+  describe('resetPLsAndSeries', () => {
+    test('should reset plSeries to initalState', () => {
+      const action = resetPLsAndSeries();
+
+      const state = createCaseReducer(CREATE_CASE_STORE_STATE_MOCK, action);
+      expect(state.plSeries).toEqual(initialState.plSeries);
+    });
+  });
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action

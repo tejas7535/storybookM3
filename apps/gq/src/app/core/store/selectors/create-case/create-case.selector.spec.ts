@@ -1,7 +1,10 @@
+import { CreateCustomerCase } from 'apps/gq/src/app/shared/services/rest-services/search-service/models/create-customer-case.model';
+
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import { ValidationDescription } from '../../../../shared/models/table';
 import { initialState } from '../../reducers/create-case/create-case.reducer';
+import { SalesIndication } from '../../reducers/transactions/models/sales-indication.enum';
 import * as createSelectors from './create-case.selector';
 
 describe('Create Case Selector', () => {
@@ -150,6 +153,70 @@ describe('Create Case Selector', () => {
           fakeState.case
         )
       ).toEqual(fakeState.case.plSeries.loading);
+    });
+  });
+  describe('getCreateCustomerCaseDisabled', () => {
+    test('should return true', () => {
+      expect(
+        createSelectors.getCreateCustomerCaseDisabled.projector(fakeState.case)
+      ).toBeTruthy();
+    });
+    test('should return false', () => {
+      const mockState = {
+        ...fakeState.case,
+        customer: {
+          customerId: '1234',
+          salesOrgs: [{ id: '1', selected: true }],
+        },
+        plSeries: {
+          ...fakeState.case.plSeries,
+          plsAndSeries: {
+            pls: [{ value: '1', name: '1', series: ['1'], selected: true }],
+            series: [{ value: '1', selected: true }],
+          },
+        },
+      };
+
+      expect(
+        createSelectors.getCreateCustomerCaseDisabled.projector(mockState)
+      ).toBeTruthy();
+    });
+  });
+
+  describe('getCreateCustomerCasePayload', () => {
+    test('should return create customer case payload', () => {
+      const mockState = {
+        ...fakeState.case,
+        customer: {
+          customerId: '1234',
+          salesOrgs: [{ id: '1', selected: true }],
+        },
+        plSeries: {
+          ...fakeState.case.plSeries,
+          plsAndSeries: {
+            pls: [{ value: '1', name: '1', series: ['1'], selected: true }],
+            series: [{ value: '1', selected: true }],
+          },
+          materialSelection: {
+            includeQuotationHistory: true,
+            salesIndications: [SalesIndication.INVOICE],
+          },
+        },
+      };
+
+      const expected: CreateCustomerCase = {
+        customer: {
+          customerId: '1234',
+          salesOrg: '1',
+        },
+        includeQuotationHistory: true,
+        productLines: ['1'],
+        series: ['1'],
+        salesIndications: [SalesIndication.INVOICE],
+      };
+      expect(
+        createSelectors.getCreateCustomerCasePayload.projector(mockState)
+      ).toEqual(expected);
     });
   });
 });

@@ -8,12 +8,17 @@ import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
+  createCustomerCase,
   getCaseAutocompleteLoading,
   getCaseCustomer,
+  getCreateCaseLoading,
+  getCreateCustomerCaseDisabled,
   getProductLinesAndSeries,
   getProductLinesAndSeriesLoading,
   getSelectedCustomerId,
   getSelectedSalesOrg,
+  resetCustomerFilter,
+  resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
@@ -40,7 +45,8 @@ export class CreateCustomerCaseComponent implements OnInit {
   customerAutocompleteLoading$: Observable<boolean>;
   plsAndSeries$: Observable<PLsAndSeries>;
   plsAndSeriesLoading$: Observable<boolean>;
-  createCaseDisabled: boolean;
+  createCaseDisabled$: Observable<boolean>;
+  createCaseLoading$: Observable<boolean>;
 
   @ViewChild('materialSelection') materialSelection: MaterialSelectionComponent;
   @ViewChild('autocompleteComponent')
@@ -70,9 +76,13 @@ export class CreateCustomerCaseComponent implements OnInit {
     this.plsAndSeriesLoading$ = this.store.select(
       getProductLinesAndSeriesLoading
     );
+    this.createCaseDisabled$ = this.store.select(getCreateCustomerCaseDisabled);
+    this.createCaseLoading$ = this.store.select(getCreateCaseLoading);
   }
   closeDialog(): void {
     this.dialogRef.close();
+    this.store.dispatch(resetCustomerFilter());
+    this.store.dispatch(resetPLsAndSeries());
   }
 
   autocomplete(autocompleteSearch: AutocompleteSearch): void {
@@ -91,7 +101,9 @@ export class CreateCustomerCaseComponent implements OnInit {
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
 
-  createCase(): void {}
+  createCase(): void {
+    this.store.dispatch(createCustomerCase());
+  }
   resetAll(): void {
     this.materialSelection.resetAll();
     this.unselectOptions(FilterNames.CUSTOMER);

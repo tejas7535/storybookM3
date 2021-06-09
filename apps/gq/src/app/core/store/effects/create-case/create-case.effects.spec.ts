@@ -34,6 +34,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -58,6 +61,7 @@ import { SalesIndication } from '../../reducers/transactions/models/sales-indica
 import {
   getCaseRowData,
   getCreateCaseData,
+  getCreateCustomerCasePayload,
   getSelectedQuotation,
 } from '../../selectors';
 import { CreateCaseEffects } from './create-case.effects';
@@ -283,7 +287,7 @@ describe('Create Case Effects', () => {
 
         const createdCase: CreateCaseResponse = {
           customerId: '',
-          gqId: '',
+          gqId: 0,
           salesOrg: '',
         };
         const result = createCaseSuccess({ createdCase });
@@ -480,6 +484,63 @@ describe('Create Case Effects', () => {
         m.expect(effects.getPLsAndSeries$).toBeObservable(expected);
         expect(searchService.getPlsAndSeries).toHaveBeenCalledTimes(1);
       });
+    });
+  });
+
+  describe('createCustomerCase', () => {
+    beforeEach(() => {
+      store.overrideSelector(getCreateCustomerCasePayload, {} as any);
+    });
+    test('should return createCustomerCaseSuccess', () => {
+      marbles((m) => {
+        const responseObject: CreateCaseResponse = {
+          customerId: '1',
+          salesOrg: '2',
+          gqId: 3,
+        };
+
+        action = createCustomerCase();
+        quotationService.createCustomerCase = jest.fn(() => response);
+        const result = createCustomerCaseSuccess();
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: responseObject,
+        });
+
+        const expected = m.cold('--b', { b: result });
+
+        m.expect(effects.createCustomerCase$).toBeObservable(expected);
+        m.flush();
+        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
+        expect(quotationService.createCustomerCase).toHaveBeenCalledWith({});
+      });
+    });
+
+    test('should return getPLsAndSeriesFailure on REST error', () => {
+      marbles((m) => {
+        const errorMessage = `Hello, i'm an error`;
+        const result = createCustomerCaseFailure({ errorMessage });
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-#|', undefined, errorMessage);
+        const expected = m.cold('--b', { b: result });
+
+        quotationService.createCustomerCase = jest.fn(() => response);
+        m.expect(effects.createCustomerCase$).toBeObservable(expected);
+        expect(quotationService.createCustomerCase).toHaveBeenCalledTimes(1);
+      });
+    });
+  });
+  describe('navigateAfterCaseCreate', () => {
+    test('should navigate and display snackbar', () => {
+      router.navigate = jest.fn();
+      snackBarService.showSuccessMessage = jest.fn();
+
+      effects.navigateAfterCaseCreate('1', '2', 3);
+
+      expect(router.navigate).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
     });
   });
 });

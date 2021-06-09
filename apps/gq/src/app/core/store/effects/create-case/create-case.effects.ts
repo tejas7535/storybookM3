@@ -18,11 +18,6 @@ import { select, Store } from '@ngrx/store';
 import { SnackBarService } from '@schaeffler/snackbar';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
-import {
-  CreateCase,
-  CreateCaseResponse,
-  SalesOrg,
-} from '../../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { Quotation } from '../../../../shared/models';
 import { IdValue } from '../../../../shared/models/search';
@@ -32,8 +27,8 @@ import {
 } from '../../../../shared/models/table';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { MaterialService } from '../../../../shared/services/rest-services/material-service/material.service';
-import { QuotationService } from '../../.././../shared/services/rest-services/quotation-service/quotation.service';
-import { SearchService } from '../../.././../shared/services/rest-services/search-service/search.service';
+import { QuotationService } from '../../../../shared/services/rest-services/quotation-service/quotation.service';
+import { SearchService } from '../../../../shared/services/rest-services/search-service/search.service';
 import {
   autocomplete,
   autocompleteFailure,
@@ -41,6 +36,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
   getPLsAndSeriesSuccess,
@@ -56,8 +54,14 @@ import {
 } from '../../actions';
 import { CaseState } from '../../reducers/create-case/create-case.reducer';
 import {
+  CreateCase,
+  CreateCaseResponse,
+  SalesOrg,
+} from '../../reducers/create-case/models';
+import {
   getCaseRowData,
   getCreateCaseData,
+  getCreateCustomerCasePayload,
   getSelectedQuotation,
 } from '../../selectors';
 
@@ -116,17 +120,11 @@ export class CreateCaseEffects {
       mergeMap((createCaseData: CreateCase) =>
         this.quotationService.createCase(createCaseData).pipe(
           tap((createdCase: CreateCaseResponse) => {
-            this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
-              queryParams: {
-                quotation_number: createdCase.gqId,
-                customer_number: createdCase.customerId,
-                sales_org: createdCase.salesOrg,
-              },
-            });
-            const successMessage = translate(
-              'caseView.snackBarMessages.createSuccess'
+            this.navigateAfterCaseCreate(
+              createdCase.customerId,
+              createdCase.salesOrg,
+              createdCase.gqId
             );
-            this.snackBarService.showSuccessMessage(successMessage);
           }),
           map((createdCase: CreateCaseResponse) =>
             createCaseSuccess({ createdCase })
@@ -148,17 +146,11 @@ export class CreateCaseEffects {
       mergeMap((importedCase: IdValue) =>
         this.quotationService.importCase(importedCase.id).pipe(
           tap((quotation: Quotation) => {
-            this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
-              queryParams: {
-                quotation_number: quotation.gqId,
-                customer_number: quotation.customer.identifier.customerId,
-                sales_org: quotation.customer.identifier.salesOrg,
-              },
-            });
-            const successMessage = translate(
-              'caseView.snackBarMessages.importSuccess'
+            this.navigateAfterCaseCreate(
+              quotation.customer.identifier.customerId,
+              quotation.customer.identifier.salesOrg,
+              quotation.gqId
             );
-            this.snackBarService.showSuccessMessage(successMessage);
           }),
           map((quotation: Quotation) =>
             importCaseSuccess({ gqId: quotation.gqId })
@@ -207,6 +199,32 @@ export class CreateCaseEffects {
     )
   );
 
+  /*
+   * Create Customer Case
+   */
+  createCustomerCase$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createCustomerCase),
+      withLatestFrom(this.store.select(getCreateCustomerCasePayload)),
+      map(([_action, requestPayload]) => requestPayload),
+      mergeMap((requestPayload) =>
+        this.quotationService.createCustomerCase(requestPayload).pipe(
+          tap((response) =>
+            this.navigateAfterCaseCreate(
+              response.customerId,
+              response.salesOrg,
+              response.gqId
+            )
+          ),
+          map(() => createCustomerCaseSuccess()),
+          catchError((errorMessage) =>
+            of(createCustomerCaseFailure({ errorMessage }))
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
@@ -216,4 +234,20 @@ export class CreateCaseEffects {
     private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService
   ) {}
+
+  navigateAfterCaseCreate(
+    customerId: string,
+    salesOrg: string,
+    gqId: number
+  ): void {
+    this.router.navigate([AppRoutePath.ProcessCaseViewPath], {
+      queryParams: {
+        quotation_number: gqId,
+        customer_number: customerId,
+        sales_org: salesOrg,
+      },
+    });
+    const successMessage = translate('caseView.snackBarMessages.importSuccess');
+    this.snackBarService.showSuccessMessage(successMessage);
+  }
 }

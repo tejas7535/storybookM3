@@ -20,6 +20,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   deleteRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
@@ -30,6 +33,8 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetCustomerFilter,
+  resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
@@ -166,7 +171,7 @@ describe('Create Actions', () => {
     test('createCaseSuccess', () => {
       const createdCase: CreateCaseResponse = {
         customerId: '1',
-        gqId: '2',
+        gqId: 2,
         salesOrg: '3',
       };
       const action = createCaseSuccess({ createdCase });
@@ -197,7 +202,7 @@ describe('Create Actions', () => {
     });
 
     test('importCaseSuccess', () => {
-      const gqId = 1234547;
+      const gqId = 1_234_547;
 
       const action = importCaseSuccess({ gqId });
 
@@ -329,6 +334,53 @@ describe('Create Actions', () => {
 
       expect(action).toEqual({
         type: '[Create Case] Reset ProductLineAndSeries',
+      });
+    });
+  });
+  describe('createCustomerCase', () => {
+    test('createCustomerCase', () => {
+      const action = createCustomerCase();
+
+      expect(action).toEqual({
+        type: '[Create Case] Create Customer Case',
+      });
+    });
+  });
+  describe('createCustomerCaseSuccess', () => {
+    test('createCustomerCaseSuccess', () => {
+      const action = createCustomerCaseSuccess();
+
+      expect(action).toEqual({
+        type: '[Create Case] Create Customer Case Success',
+      });
+    });
+  });
+  describe('createCustomerCaseFailure', () => {
+    test('createCustomerCaseFailure', () => {
+      const errorMessage = 'errorMessage';
+      const action = createCustomerCaseFailure({ errorMessage });
+
+      expect(action).toEqual({
+        errorMessage,
+        type: '[Create Case] Create Customer Case Failure',
+      });
+    });
+  });
+  describe('resetCustomerFilter', () => {
+    test('resetCustomerFilter', () => {
+      const action = resetCustomerFilter();
+
+      expect(action).toEqual({
+        type: '[Create Case] Reset Autocomplete Customer',
+      });
+    });
+  });
+  describe('resetPLsAndSeries', () => {
+    test('resetPLsAndSeries', () => {
+      const action = resetPLsAndSeries();
+
+      expect(action).toEqual({
+        type: '[Create Case] Reset PLs and Series',
       });
     });
   });

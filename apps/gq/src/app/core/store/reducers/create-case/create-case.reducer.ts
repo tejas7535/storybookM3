@@ -1,9 +1,6 @@
+/* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
-import {
-  CreateCaseResponse,
-  SalesOrg,
-} from '../../../../core/store/reducers/create-case/models';
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { IdValue } from '../../../../shared/models/search';
 import {
@@ -21,6 +18,9 @@ import {
   createCase,
   createCaseFailure,
   createCaseSuccess,
+  createCustomerCase,
+  createCustomerCaseFailure,
+  createCustomerCaseSuccess,
   deleteRowDataItem,
   getPLsAndSeries,
   getPLsAndSeriesFailure,
@@ -31,6 +31,8 @@ import {
   importCaseFailure,
   importCaseSuccess,
   pasteRowDataItems,
+  resetCustomerFilter,
+  resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
@@ -40,8 +42,10 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
+import { SalesIndication } from '../transactions/models/sales-indication.enum';
 import { dummyRowData, isDummyData } from './config/dummy-row-data';
-import { CaseFilterItem } from './models';
+import { CreateCaseResponse, SalesOrg } from './models';
+import { CaseFilterItem } from './models/case-filter-item.model';
 import { PLsAndSeries } from './models/pls-and-series.model';
 
 export interface CaseState {
@@ -57,6 +61,10 @@ export interface CaseState {
     loading: boolean;
     errorMessage: string;
     plsAndSeries: PLsAndSeries;
+    materialSelection: {
+      includeQuotationHistory: boolean;
+      salesIndications: SalesIndication[];
+    };
   };
   createdCase: CreateCaseResponse;
   createCaseLoading: boolean;
@@ -90,6 +98,10 @@ export const initialState: CaseState = {
     loading: false,
     errorMessage: undefined,
     plsAndSeries: undefined,
+    materialSelection: {
+      includeQuotationHistory: undefined,
+      salesIndications: [],
+    },
   },
   createdCase: undefined,
   createCaseLoading: false,
@@ -210,9 +222,9 @@ export const createCaseReducer = createReducer(
   })),
   on(validateSuccess, (state: CaseState, { materialValidations }) => ({
     ...state,
-    rowData: [...state.rowData].map((el) => {
-      return TableService.validateData({ ...el }, materialValidations);
-    }),
+    rowData: [...state.rowData].map((el) =>
+      TableService.validateData({ ...el }, materialValidations)
+    ),
     validationLoading: false,
   })),
   on(validateFailure, (state: CaseState) => ({
@@ -286,16 +298,20 @@ export const createCaseReducer = createReducer(
       ...state.customer,
       salesOrgs: [...state.customer.salesOrgs].map((el) => ({
         ...el,
-        selected: el.id === salesOrgId ? true : false,
+        selected: el.id === salesOrgId,
       })),
     },
   })),
-  on(getPLsAndSeries, (state: CaseState) => ({
+  on(getPLsAndSeries, (state: CaseState, { customerFilters }) => ({
     ...state,
     plSeries: {
       errorMessage: initialState.plSeries.errorMessage,
       plsAndSeries: initialState.plSeries.plsAndSeries,
       loading: true,
+      materialSelection: {
+        includeQuotationHistory: customerFilters.includeQuotationHistory,
+        salesIndications: customerFilters.salesIndications,
+      },
     },
   })),
   on(getPLsAndSeriesSuccess, (state: CaseState, { plsAndSeries }) => ({
@@ -343,7 +359,47 @@ export const createCaseReducer = createReducer(
   on(resetProductLineAndSeries, (state: CaseState) => ({
     ...state,
     plSeries: initialState.plSeries,
-  }))
+  })),
+  on(
+    createCustomerCase,
+    (state: CaseState): CaseState => ({
+      ...state,
+      createCaseLoading: true,
+    })
+  ),
+  on(
+    createCustomerCaseSuccess,
+    (state: CaseState): CaseState => ({
+      ...state,
+      createCaseLoading: false,
+      autocompleteItems: initialState.autocompleteItems,
+      plSeries: initialState.plSeries,
+      customer: initialState.customer,
+    })
+  ),
+  on(
+    createCustomerCaseFailure,
+    (state: CaseState, { errorMessage }): CaseState => ({
+      ...state,
+      createCaseLoading: false,
+      errorMessage,
+    })
+  ),
+  on(
+    resetCustomerFilter,
+    (state: CaseState): CaseState => ({
+      ...state,
+      customer: initialState.customer,
+      autocompleteItems: initialState.autocompleteItems,
+    })
+  ),
+  on(
+    resetPLsAndSeries,
+    (state: CaseState): CaseState => ({
+      ...state,
+      plSeries: initialState.plSeries,
+    })
+  )
 );
 
 const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
@@ -361,7 +417,6 @@ const selectOption = (options: IdValue[], option: IdValue): IdValue[] => {
 
   return itemOptions;
 };
-
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(state: CaseState, action: Action): CaseState {
   return createCaseReducer(state, action);

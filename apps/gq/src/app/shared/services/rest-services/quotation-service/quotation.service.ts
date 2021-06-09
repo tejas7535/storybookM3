@@ -11,6 +11,7 @@ import {
   CreateCaseResponse,
 } from '../../../../core/store/reducers/create-case/models';
 import { Quotation } from '../../../models';
+import { CreateCustomerCase } from '../search-service/models/create-customer-case.model';
 
 @Injectable({
   providedIn: 'root',
@@ -18,6 +19,7 @@ import { Quotation } from '../../../models';
 export class QuotationService {
   private readonly PATH_UPLOAD_OFFER = 'upload-offer';
   private readonly PATH_QUOTATIONS = 'quotations';
+  private readonly PATH_CUSTOMER_QUOTATION = 'customers/quotations';
 
   constructor(private readonly dataService: DataService) {}
 
@@ -50,8 +52,8 @@ export class QuotationService {
       map((res: any) => {
         const response: CreateCaseResponse = {
           gqId: res.gqId,
-          customerId: createCaseData.customer.customerId,
-          salesOrg: createCaseData.customer.salesOrg,
+          customerId: res.customer.identifier.customerId,
+          salesOrg: res.customer.identifier.salesOrg,
         };
 
         return response;
@@ -61,5 +63,23 @@ export class QuotationService {
 
   public importCase(importCase: string): Observable<Quotation> {
     return this.dataService.put(this.PATH_QUOTATIONS, importCase);
+  }
+
+  public createCustomerCase(
+    requestPayload: CreateCustomerCase
+  ): Observable<CreateCaseResponse> {
+    return this.dataService
+      .post(this.PATH_CUSTOMER_QUOTATION, requestPayload)
+      .pipe(
+        map((res: any) => {
+          const response: CreateCaseResponse = {
+            gqId: res.gqId,
+            customerId: res.customer.identifier.customerId,
+            salesOrg: res.customer.identifier.salesOrg,
+          };
+
+          return response;
+        })
+      );
   }
 }

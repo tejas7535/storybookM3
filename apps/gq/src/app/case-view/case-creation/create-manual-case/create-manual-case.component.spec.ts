@@ -8,6 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
   autocomplete,
+  resetCustomerFilter,
   selectAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
@@ -76,11 +77,13 @@ describe('CreateManualCaseComponent', () => {
   });
   describe('closeDialog', () => {
     test('should close matDialog', () => {
+      mockStore.dispatch = jest.fn();
       component['dialogRef'].close = jest.fn();
 
       component.closeDialog();
 
       expect(component['dialogRef'].close).toHaveBeenCalledTimes(1);
+      expect(mockStore.dispatch).toHaveBeenCalledWith(resetCustomerFilter());
     });
   });
 
