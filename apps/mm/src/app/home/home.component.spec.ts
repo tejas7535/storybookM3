@@ -2,7 +2,7 @@ import { DecimalPipe } from '@angular/common';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, of } from 'rxjs';
 
 import {
   DynamicFormsModule,
@@ -20,6 +20,7 @@ import { PagesStepperComponent } from '../pages-stepper/pages-stepper.component'
 import { PagesStepperModule } from '../pages-stepper/pages-stepper.module';
 import { ResultPageModule } from '../result-page/result-page.module';
 import { SharedModule } from '../shared/shared.module';
+import { RestService } from './../core/services/rest/rest.service';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
 
@@ -35,7 +36,25 @@ describe('HomeComponent', () => {
     language: 'de',
   });
 
-  // let httpMock: HttpTestingController;
+  const mockBearingRelationsResponse: any = {
+    data: {
+      type: {
+        data: {
+          id: '123',
+        },
+      },
+      series: {
+        data: {
+          id: 'the series id',
+        },
+      },
+      bearing: {
+        data: {
+          id: 'the bearing id',
+        },
+      },
+    },
+  };
 
   const createComponent = createComponentFactory({
     component: HomeComponent,
@@ -70,6 +89,12 @@ describe('HomeComponent', () => {
           setLocale: jest.fn(),
         },
       },
+      {
+        provide: RestService,
+        useValue: {
+          getBearingRelations: jest.fn(() => of(mockBearingRelationsResponse)),
+        },
+      },
     ],
     declarations: [HomeComponent],
   });
@@ -78,86 +103,92 @@ describe('HomeComponent', () => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
     localeService = spectator.inject(LocaleService);
-    // httpMock = spectator.inject(HttpTestingController);
   });
 
-  test('should create', () => {
+  it('should create', () => {
     console.warn = jest.fn();
+    // eslint-disable-next-line no-console
     console.log = jest.fn();
     expect(component).toBeTruthy();
   });
 
-  test('a change of a startparam should call the localService', () => {
-    const newParams = { id: 456, separator: 'comma', language: 'en' };
-    params.next(newParams);
+  describe('#routeParams', () => {
+    it('should call the localService at change of a startparam', () => {
+      const newParams = { id: 456, separator: 'comma', language: 'en' };
+      params.next(newParams);
 
-    expect(localeService.setSeparator).toHaveBeenCalledWith(',');
-    expect(localeService.setLocale).toHaveBeenCalledWith('en');
+      expect(localeService.setSeparator).toHaveBeenCalledWith(',');
+      expect(localeService.setLocale).toHaveBeenCalledWith('en');
+    });
+
+    it('should trigger multiple methods at handleRouteParams', () => {
+      const selectBearingSpy = jest.spyOn(component, 'selectBearing');
+      component['handleRouteParams']();
+
+      expect(selectBearingSpy).toHaveBeenCalledTimes(1);
+    });
   });
 
-  test('handleRouteParams should trigger multiple methods', () => {
-    const selectBearingSpy = jest.spyOn(component, 'selectBearing');
-    component.handleRouteParams();
+  describe('#selectBearing', () => {
+    it('should call getBearingRelations at selectBearing', () => {
+      component['getBearingRelations'] = jest.fn(() => {});
+      const mockId = 'mockId';
 
-    expect(selectBearingSpy).toHaveBeenCalledTimes(1);
+      component.selectBearing(mockId);
+
+      expect(component['getBearingRelations']).toHaveBeenCalledTimes(1);
+      expect(component['getBearingRelations']).toHaveBeenCalledWith(mockId);
+    });
   });
 
-  test('selectBearing should call getBearingRelations', () => {
-    const spy = jest.spyOn(component, 'getBearingRelations');
-    const mockId = 'mockId';
+  describe('#getBearingRelations', () => {
+    it('should call restService at getBearingRelations', () => {
+      const mockId = 'mockBearingId';
 
-    component.selectBearing(mockId);
+      component['getBearingRelations'](mockId);
 
-    expect(spy).toHaveBeenCalledTimes(1);
-    expect(spy).toHaveBeenCalledWith(mockId);
+      expect(component['restService'].getBearingRelations).toHaveBeenCalledWith(
+        mockId
+      );
+    });
   });
 
   // TODO actually write this test
-  // test('getBearingRelations should trigger a http GET method', () => {
-  //   // const mock = {};
-  //   const mockId = 'mockBearingId';
+  // it('dynamicFormLoaded should construct pagedMetas and call store', () => {});
 
-  //   component.getBearingRelations(mockId);
-
-  //   const req = httpMock.expectOne(
-  //     `${environment.apiMMBaseUrl}${environment.bearingRelationsPath}${mockId}`
-  //   );
-  //   expect(req.request.method).toBe('GET');
-  //   // req.flush(mock);
-  // });
-
-  // TODO actually write this test
-  // test('dynamicFormLoaded should construct pagedMetas and call store', () => {});
-
-  test('next should call stepper next method', () => {
-    const mockStepper = { next: () => {} } as PagesStepperComponent;
-    const mockPagedMeta = [
-      {
-        page: {
-          id: 'mockId1',
+  describe('#next', () => {
+    it('should call stepper next method', () => {
+      const mockStepper = { next: () => {} } as PagesStepperComponent;
+      const mockPagedMeta = [
+        {
+          page: {
+            id: 'mockId1',
+          },
         },
-      },
-      {
-        page: {
-          id: 'mockId2',
+        {
+          page: {
+            id: 'mockId2',
+          },
         },
-      },
-    ] as PagedMeta[];
-    const spy = jest.spyOn(mockStepper, 'next');
+      ] as PagedMeta[];
+      const spy = jest.spyOn(mockStepper, 'next');
 
-    component.next('mockId1', mockPagedMeta, mockStepper);
+      component.next('mockId1', mockPagedMeta, mockStepper);
 
-    expect(spy).toHaveBeenCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
+    });
   });
 
-  test('extractMembers should return parent and child Metas', () => {
-    // TODO add meaningfull mockdata
-    const mockNestedMeta = {
-      metas: [],
-      children: [],
-    } as NestedPropertyMeta;
-    const result = component['extractMembers'](mockNestedMeta);
+  describe('#extractMembers', () => {
+    it('should return parent and child Metas at extractMembers', () => {
+      // TODO add meaningfull mockdata
+      const mockNestedMeta = {
+        metas: [],
+        children: [],
+      } as NestedPropertyMeta;
+      const result = component['extractMembers'](mockNestedMeta);
 
-    expect(result).toEqual([]);
+      expect(result).toEqual([]);
+    });
   });
 });

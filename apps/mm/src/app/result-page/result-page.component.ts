@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
+import { RawValue, RawValueContent, Result } from '../shared/models';
 import { ResultPageService } from './result-page.service';
-import { RawValue, RawValueContent, Result } from './result.model';
 
 @Component({
   selector: 'mm-result-page',
@@ -12,15 +12,17 @@ import { RawValue, RawValueContent, Result } from './result.model';
   providers: [ResultPageService],
 })
 export class ResultPageComponent {
-  @Input() active?: false;
+  @Input() public active?: false;
 
-  result$: Observable<Result>;
+  public result$: Observable<Result>;
 
-  constructor(private readonly resultPageService: ResultPageService) {}
+  public constructor(private readonly resultPageService: ResultPageService) {}
 
   public send(form: FormGroup): void {
+    // TODO: check lint rules
     const formProperties = form
       .getRawValue()
+      // eslint-disable-next-line unicorn/no-array-reduce
       .objects[0].properties.reduce(
         (
           { dimension1, initialValue, ...prevEntry }: RawValue,
@@ -39,7 +41,8 @@ export class ResultPageComponent {
     this.result$ = this.resultPageService.getResult(formProperties);
   }
 
-  resetWizard(): void {
+  public resetWizard(): void {
+    // eslint-disable-next-line no-console
     console.log('go to step first possible step');
   }
 }

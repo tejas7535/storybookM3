@@ -1,4 +1,3 @@
-import { HttpClient } from '@angular/common/http';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -19,7 +18,6 @@ import {
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 
-import { environment } from '../../environments/environment';
 import { DIALOG } from '../../mock';
 import { MMLocales } from '../core/services/locale/locale.enum';
 import { LocaleService } from '../core/services/locale/locale.service';
@@ -36,6 +34,7 @@ import {
   RSY_BEARING_TYPE,
   RSY_PAGE_BEARING_TYPE,
 } from '../shared/constants/dialog-constant';
+import { RestService } from './../core/services/rest/rest.service';
 import { HomeStore } from './home.component.store';
 import { PagedMeta } from './home.model';
 
@@ -81,11 +80,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   private readonly destroy$ = new Subject<void>();
 
   public constructor(
-    private readonly http: HttpClient,
     private readonly cdRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
     private readonly homeStore: HomeStore,
-    private readonly localService: LocaleService
+    private readonly localService: LocaleService,
+    private readonly restService: RestService
   ) {}
 
   public ngOnInit(): void {
@@ -192,10 +191,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private getBearingRelations(id: string): void {
-    const requestUrl = `${environment.apiMMBaseUrl}${environment.bearingRelationsPath}${id}`;
-
-    this.http
-      .get<any>(requestUrl)
+    this.restService
+      .getBearingRelations(id)
       .pipe(
         map((response) => response.data),
         tap((data: any) => {
@@ -233,6 +230,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     nestedMeta: NestedPropertyMeta
   ): VariablePropertyMeta[] {
     const parentMetas = nestedMeta.metas as VariablePropertyMeta[];
+    // TODO: check lint rules
     // eslint-disable-next-line unicorn/prefer-array-flat
     const childMetas = nestedMeta.children
       .map((child) => this.extractMembers(child))

@@ -1,130 +1,137 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
+import { of } from 'rxjs';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '../../environments/environment';
+import {
+  BEARING_PREFLIGHT_RESPONSE_MOCK,
+  LOAD_OPTIONS_RESPONSE_MOCK,
+} from '../../testing/mocks/rest.service.mock';
 import { RSY_BEARING } from '../shared/constants/dialog-constant';
+import {
+  LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX,
+  LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE,
+} from './../../testing/mocks/rest.service.mock';
+import { RestService } from './../core/services/rest/rest.service';
 import { LazyListLoaderService } from './lazy-list-loader.service';
 
 describe('LazyListLoaderService testing', () => {
   let service: LazyListLoaderService;
   let spectator: SpectatorService<LazyListLoaderService>;
-  let httpMock: HttpTestingController;
 
   const createService = createServiceFactory({
     service: LazyListLoaderService,
-    imports: [HttpClientTestingModule],
+    providers: [
+      {
+        provide: RestService,
+        useValue: {
+          getLoadOptions: jest.fn((requestUrl) => {
+            // for testing purposes url == complex returns complex response
+            // url == simple returns simple response
+            // other cases return base response
+            if (requestUrl === 'complex') {
+              return of(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX);
+            } else if (requestUrl === 'simple') {
+              return of(LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE);
+            }
+
+            return of(LOAD_OPTIONS_RESPONSE_MOCK);
+          }),
+          getBearingPreflightResponse: jest.fn(() =>
+            of(BEARING_PREFLIGHT_RESPONSE_MOCK)
+          ),
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createService();
     service = spectator.service;
-    httpMock = spectator.inject(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  test('loadOptions should call preflight if url ends with preflight', () => {
-    const mockUrl = `mockUrl${environment.preflightPath}`;
-    const mockValues = [
-      {
-        name: 'mockName',
-        value: 'mockValue',
-      },
-    ];
-
-    service['preflight'] = jest.fn();
-
-    service.loadOptions(mockUrl, mockValues);
-
-    expect(service['preflight']).toHaveBeenCalledTimes(1);
-  });
-
-  test('loadOptions trigger a MM response varints http GET call if no preflight url (complex data)', () => {
-    const mock = {
-      data: {
-        bearingSeats: [
-          {
-            data: {
-              id: 'mockId',
-              title: 'mockTitle',
-            },
-            _media: [{ href: 'mockHref' }],
-          },
-        ],
-      },
-    } as any;
-    const mockUrl = `mockUrlAnyEnding`;
-    const mockValues = [
-      {
-        name: 'mockName',
-        value: 'mockValue',
-      },
-    ];
-
-    service
-      .loadOptions(mockUrl, mockValues)
-      .subscribe((response) => expect(response).toEqual(mock));
-
-    const req = httpMock.expectOne(`${mockUrl}?cache$=true`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mock);
-  });
-
-  test('loadOptions trigger a MM response varints http GET call if no preflight url (simple data)', () => {
-    const mock = {
-      data: [
+  describe('#loadOptions', () => {
+    it('should call preflight if url ends with preflight', () => {
+      const mockUrl = `mockUrl${environment.preflightPath}`;
+      const mockValues = [
         {
-          data: {
-            id: 'mocId',
-            title: 'mockTitle',
-          },
-          media: [{ href: 'testHref' }],
+          name: 'mockName',
+          value: 'mockValue',
         },
-      ],
-    } as any;
-    const mockUrl = `mockUrlAnyEnding`;
-    const mockValues = [
-      {
-        name: 'mockName',
-        value: 'mockValue',
-      },
-    ];
+      ];
 
-    service
-      .loadOptions(mockUrl, mockValues)
-      .subscribe((response) => expect(response).toEqual(mock));
+      service['preflight'] = jest.fn();
 
-    const req = httpMock.expectOne(`${mockUrl}?cache$=true`);
-    expect(req.request.method).toBe('GET');
-    req.flush(mock);
+      service.loadOptions(mockUrl, mockValues);
+
+      expect(service['preflight']).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call getLoadOptions if no preflight url (complex request)', () => {
+      const mockUrl = `complex`;
+      const mockValues = [
+        {
+          name: 'mockName',
+          value: 'mockValue',
+        },
+      ];
+
+      service
+        .loadOptions(mockUrl, mockValues)
+        .subscribe((response) =>
+          expect(response).toEqual(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX)
+        );
+
+      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
+        mockUrl
+      );
+    });
+
+    it('should call getLoadOptions if no preflight url (simple request)', () => {
+      const mockUrl = `simple`;
+      const mockValues = [
+        {
+          name: 'mockName',
+          value: 'mockValue',
+        },
+      ];
+
+      service
+        .loadOptions(mockUrl, mockValues)
+        .subscribe((response) =>
+          expect(response).toEqual(LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE)
+        );
+
+      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
+        mockUrl
+      );
+    });
   });
 
-  test('preflight should trigger a bearing preflight http GET request', () => {
-    const mock = { data: { input: [] } } as any;
-    const mockUrl = `mockUrl`;
-    const mockValues = [
-      {
-        name: 'mockName',
-        value: 'mockValue',
-      },
-      {
-        name: RSY_BEARING,
-        value: 'mockValue',
-      },
-    ];
+  describe('#preflight', () => {
+    it('should call getPreflight response', () => {
+      const mock = { data: { input: [] } } as any;
+      const mockValues = [
+        {
+          name: 'mockName',
+          value: 'mockValue',
+        },
+        {
+          name: RSY_BEARING,
+          value: 'mockValue',
+        },
+      ];
 
-    service['preflight'](mockUrl, mockValues).subscribe((response) =>
-      expect(response).toEqual(mock)
-    );
+      service['preflight'](mockValues).subscribe((response) =>
+        expect(response).toEqual(mock)
+      );
 
-    const req = httpMock.expectOne(`${mockUrl}?cache$=true`);
-    expect(req.request.method).toBe('POST');
-    req.flush(mock);
+      expect(
+        service['restService'].getBearingPreflightResponse
+      ).toHaveBeenCalledWith({
+        IDCO_DESIGNATION: 'mockValue',
+        mockName: 'mockValue',
+      });
+    });
   });
 });

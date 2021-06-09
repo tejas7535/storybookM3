@@ -1,11 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { BearinxListValue, LazyListLoader } from '@caeonline/dynamic-forms';
-import { withCache } from '@ngneat/cashew';
 
 import { environment } from '../../environments/environment';
 import {
@@ -13,56 +11,14 @@ import {
   IDMM_HYDRAULIC_NUT_TYPE,
   RSY_BEARING,
 } from '../shared/constants/dialog-constant';
-
-interface MMResponse {
-  id: string;
-  title: string;
-  image?: string | null;
-}
-
-interface MMBaseResponse {
-  data: MMResponse[];
-}
-
-interface MMSimpleResponse {
-  data: { data: MMResponse; _media?: [{ href: string }] }[];
-}
-
-interface MMComplexResponse {
-  data: {
-    bearingSeats: {
-      data: {
-        id: string;
-        title: string;
-      };
-      _media: [{ href: string }];
-    }[];
-  };
-}
-
-type MMResponseVariants = MMBaseResponse | MMSimpleResponse | MMComplexResponse;
-
-export interface MMBearingPreflightField {
-  id: string;
-  range: { id: string; title: string }[] | null;
-  defaultValue: string;
-}
-
-export interface MMBearingPreflightResponse {
-  data: {
-    input: {
-      id: string;
-      title: string;
-      fields: MMBearingPreflightField[];
-    }[];
-  };
-}
-
-export interface MMBearingsMaterialResponse {
-  id: string;
-  IDMM_MODULUS_OF_ELASTICITY: string;
-  IDMM_POISSON_RATIO: string;
-}
+import {
+  MMBearingPreflightField,
+  MMComplexResponse,
+  MMResponseVariants,
+  MMSimpleResponse,
+  PreflightRequestBody,
+} from '../shared/models';
+import { RestService } from './../core/services/rest/rest.service';
 
 const isComplex = (
   response: MMResponseVariants
@@ -73,23 +29,25 @@ const isSimple = (response: MMResponseVariants): response is MMSimpleResponse =>
 
 @Injectable()
 export class LazyListLoaderService implements LazyListLoader {
-  constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly restService: RestService) {}
 
   public loadOptions(
     url: string,
     values: { name: string; value: string | number }[]
   ): Observable<BearinxListValue[]> {
     if (url.endsWith(environment.preflightPath)) {
-      return this.preflight(url, values);
+      return this.preflight(values);
     }
 
+    // TODO: check lint rules
+    // eslint-disable-next-line unicorn/no-array-reduce
     const requestUrl = values.reduce(
       (filledUrl, { name, value }) =>
         filledUrl.replace(`<${name}>`, `${value}`),
       url
     );
 
-    return this.http.get<MMResponseVariants>(requestUrl, withCache()).pipe(
+    return this.restService.getLoadOptions(requestUrl).pipe(
       map((response) => {
         if (isComplex(response)) {
           return response.data.bearingSeats.map(
@@ -120,9 +78,10 @@ export class LazyListLoaderService implements LazyListLoader {
   }
 
   private preflight(
-    url: string,
     values: { name: string; value: string | number }[]
   ): Observable<BearinxListValue[]> {
+    // TODO: check lint rules
+    // eslint-disable-next-line unicorn/no-array-reduce
     const postData = values.reduce(
       (data, { name, value }) => ({
         ...data,
@@ -131,11 +90,13 @@ export class LazyListLoaderService implements LazyListLoader {
       {}
     );
 
-    return this.http
-      .post<MMBearingPreflightResponse>(url, postData, withCache())
+    return this.restService
+      .getBearingPreflightResponse(postData as PreflightRequestBody)
       .pipe(
         map(({ data: { input } }) => {
           // TODO reduce code reuse between this and runtime requester
+          // TODO: check lint rules
+          // eslint-disable-next-line unicorn/no-array-reduce
           const allFields: MMBearingPreflightField[] = input.reduce(
             (inputs, { fields }) => [...inputs, ...fields],
             []

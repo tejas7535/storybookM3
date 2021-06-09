@@ -1,5 +1,4 @@
 import { CommonModule } from '@angular/common';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -7,7 +6,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
 import { DynamicFormsModule } from '@caeonline/dynamic-forms';
-import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
@@ -25,7 +23,6 @@ import { PictureCardListModule } from '../picture-card-list/picture-card-list.mo
 import { ResultPageModule } from '../result-page/result-page.module';
 import { LazyListLoaderService } from '../services/lazy-list-loader.service';
 import { RuntimeRequesterService } from '../services/runtime-requester.service';
-import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -77,16 +74,6 @@ import { HomeComponent } from './home.component';
       lazyListLoader: LazyListLoaderService,
       runtimeRequester: RuntimeRequesterService,
     }),
-
-    HttpClientModule,
-    HttpCacheInterceptorModule.forRoot(),
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpLocaleInterceptor,
-      multi: true,
-    },
   ],
 })
 export class HomeModule {}

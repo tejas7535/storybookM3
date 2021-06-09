@@ -1,31 +1,36 @@
-import {
-  HttpClientTestingModule,
-  HttpTestingController,
-} from '@angular/common/http/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { of } from 'rxjs';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { SearchAutocompleteModule } from '@schaeffler/search-autocomplete';
 
-import { environment } from '../../environments/environment';
+import { BEARING_SEARCH_RESULT_MOCK } from './../../testing/mocks/rest.service.mock';
+import { RestService } from './../core/services/rest/rest.service';
 import { BearingSearchComponent } from './bearing-search.component';
 
 describe('BearingSearchComponent', () => {
   let component: BearingSearchComponent;
   let spectator: Spectator<BearingSearchComponent>;
-  let httpMock: HttpTestingController;
 
   const createComponent = createComponentFactory({
     component: BearingSearchComponent,
     imports: [
-      HttpClientTestingModule,
       ReactiveFormsModule,
 
       ReactiveComponentModule,
 
       SearchAutocompleteModule,
+    ],
+    providers: [
+      {
+        provide: RestService,
+        useValue: {
+          getBearingSearch: jest.fn(() => of(BEARING_SEARCH_RESULT_MOCK)),
+        },
+      },
     ],
     declarations: [BearingSearchComponent],
   });
@@ -33,47 +38,33 @@ describe('BearingSearchComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
-    httpMock = spectator.inject(HttpTestingController);
   });
 
-  afterEach(() => {
-    httpMock.verify();
-  });
-
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  test('getBearings should trigger a search result http GET request', () => {
-    const mock = {
-      data: [
-        {
-          data: {
-            title: 'mockTitle',
-            id: 'mockId',
-          },
-        },
-      ],
-    };
-    const mockSearchQuery = 'irgendNQuatsch';
+  describe('#getBearings', () => {
+    it('should call getBearings at restService', () => {
+      const mockSearchQuery = 'irgendNQuatsch';
 
-    component.getBearings(mockSearchQuery).subscribe((response) => {
-      expect(response).toEqual([{ title: 'mockTitle', id: 'mockId' }]);
+      component.getBearings(mockSearchQuery).subscribe((response) => {
+        expect(response).toEqual([{ title: 'entryTitle', id: 'entryId' }]);
+        expect(component['restService'].getBearingSearch).toHaveBeenCalledWith(
+          mockSearchQuery
+        );
+      });
     });
-
-    const req = httpMock.expectOne(
-      `${environment.apiMMBaseUrl}/bearing/search/?pattern=${mockSearchQuery}&page=1&size=1000`
-    );
-    expect(req.request.method).toBe('GET');
-    req.flush(mock);
   });
 
-  test('handleSelection should emit the bearing', () => {
-    const mockSelectionId = 'mockAutoCompleteId';
-    const spy = jest.spyOn(component.bearing, 'emit');
+  describe('#handleSelection', () => {
+    it('should emit the bearing', () => {
+      const mockSelectionId = 'mockAutoCompleteId';
+      const spy = jest.spyOn(component.bearing, 'emit');
 
-    component.handleSelection(mockSelectionId);
+      component.handleSelection(mockSelectionId);
 
-    expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
+      expect(spy).toHaveBeenCalledWith('mockAutoCompleteId');
+    });
   });
 });
