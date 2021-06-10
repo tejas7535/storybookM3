@@ -48,19 +48,19 @@ describe('Bearing Selector', () => {
   };
 
   describe('getBearingLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getBearingLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getBearingResult', () => {
-    test('should return a bearing', () => {
+    it('should return a bearing', () => {
       expect(getBearingResult(fakeState)).toEqual(fakeState.bearing.result);
     });
   });
 
   describe('getDeviceId', () => {
-    test('should return a device id', () => {
+    it('should return a device id', () => {
       expect(getDeviceId(fakeState)).toEqual(
         fakeState.bearing.result.edgeDevice.name
       );

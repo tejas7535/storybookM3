@@ -11,7 +11,7 @@ import { dataViewReducer, initialState, reducer } from './data-view.reducer';
 
 describe('Condition Monitoring Reducer', () => {
   describe('getData', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getData({ deviceId: 'fantasyId' });
       const state = dataViewReducer(initialState, action);
 
@@ -20,7 +20,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('getDataSuccess', () => {
-    test('should unset loading and set result', () => {
+    it('should unset loading and set result', () => {
       const mockResult = [
         {
           type: 'Load',
@@ -46,7 +46,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('getDataFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getDataFailure();
       const fakeState = {
         ...initialState,
@@ -60,7 +60,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('setDataInterval', () => {
-    test('should set interval', () => {
+    it('should set interval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
@@ -79,7 +79,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('setFrequency', () => {
-    test('should set frequency', () => {
+    it('should set frequency', () => {
       const mockFrequency = 1000;
       const action = setFrequency({ frequency: mockFrequency });
 
@@ -95,7 +95,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return dataViewReducer', () => {
+    it('should return dataViewReducer', () => {
       // prepare any action
       const action: Action = getDataFailure();
       expect(reducer(initialState, action)).toEqual(

@@ -46,10 +46,7 @@
                 >{{ t(bearingProperty.name) }}:
               </label>
               <span class="meta-info-item">
-                {{
-                  (mainBearing && mainBearing[bearingProperty.property]) ||
-                    'n/a'
-                }}
+                {{ getBearingMeta(bearingProperty.property) }}
                 {{ bearingProperty.unit && ' ' + bearingProperty.unit }}
               </span>
             </div>

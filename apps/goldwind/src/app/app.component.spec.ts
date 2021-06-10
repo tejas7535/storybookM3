@@ -44,16 +44,16 @@ describe('AppComponent', () => {
     store = spectator.inject(MockStore);
   });
 
-  test('should create the app', () => {
+  it('should create the app', () => {
     expect(component).toBeTruthy();
   });
 
-  test(`should have as title 'Smart Wind Solutions'`, () => {
+  it(`should have as title 'Smart Wind Solutions'`, () => {
     expect(component.title).toEqual('Smart Wind Solutions');
   });
 
   describe('ngOnInit', () => {
-    test('should set observables and dispatch login', () => {
+    it('should set observables and dispatch login', () => {
       store.dispatch = jest.fn();
 
       component.ngOnInit();

@@ -28,7 +28,7 @@ describe('EdmMonitor Selector', () => {
   };
 
   describe('getEdmResult', () => {
-    test('should return EDM measurements', () => {
+    it('should return EDM measurements', () => {
       expect(getEdmResult(fakeState)).toEqual(
         fakeState.edmMonitor.measurements
       );
@@ -36,7 +36,7 @@ describe('EdmMonitor Selector', () => {
   });
 
   describe('getEdmGraphData', () => {
-    test('should return graph series data value tupels', () => {
+    it('should return graph series data value tupels', () => {
       const expectedResult = {
         legend: { data: ['edmValue1Counter', 'edmValue1CounterMax'] },
         series: [
@@ -60,7 +60,7 @@ describe('EdmMonitor Selector', () => {
   });
 
   describe('getEdmInterval', () => {
-    test('should return a time interval with two timestamps', () => {
+    it('should return a time interval with two timestamps', () => {
       expect(getEdmInterval(fakeState)).toEqual(fakeState.edmMonitor.interval);
     });
   });

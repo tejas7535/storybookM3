@@ -25,7 +25,7 @@ describe('StatusIndicatorComponent', () => {
   });
 
   describe('isConnected', () => {
-    test('should return correct value', () => {
+    it('should return correct value', () => {
       expect(component.isConnected()).toBe(false);
 
       component.connectionState = ConnectionState.connected;

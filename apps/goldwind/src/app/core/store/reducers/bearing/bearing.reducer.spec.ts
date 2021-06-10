@@ -10,7 +10,7 @@ import { bearingReducer, initialState, reducer } from './bearing.reducer';
 
 describe('Bearing Reducer', () => {
   describe('getBearing', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getBearing({ bearingId: '123' });
       const state = bearingReducer(initialState, action);
 
@@ -19,7 +19,7 @@ describe('Bearing Reducer', () => {
   });
 
   describe('getBearingSuccess', () => {
-    test('should unset loading and set bearing', () => {
+    it('should unset loading and set bearing', () => {
       const action = getBearingSuccess({ bearing: BEARING_MOCK });
 
       const fakeState = {
@@ -35,7 +35,7 @@ describe('Bearing Reducer', () => {
   });
 
   describe('getBearingFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getBearingFailure();
       const fakeState = {
         ...initialState,
@@ -49,7 +49,7 @@ describe('Bearing Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return bearingReducer', () => {
+    it('should return bearingReducer', () => {
       // prepare any action
       const action: Action = getBearingFailure();
       expect(reducer(initialState, action)).toEqual(

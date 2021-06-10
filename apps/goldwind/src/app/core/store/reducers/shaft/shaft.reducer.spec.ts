@@ -18,7 +18,7 @@ import {
 
 describe('Shaft Reducer', () => {
   describe('getShaft', () => {
-    test('should set shaft loading', () => {
+    it('should set shaft loading', () => {
       const action = getShaft({ deviceId: '123' });
       const state = shaftReducer(initialState, action);
 
@@ -27,7 +27,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('getShaftSuccess', () => {
-    test('should unset shaft loading and set shaft result', () => {
+    it('should unset shaft loading and set shaft result', () => {
       const SHAFT_MOCK: ShaftStatus[] = [
         {
           deviceId: 'fakedeviceid',
@@ -51,7 +51,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('getShaftFailure', () => {
-    test('should unset shaft loading', () => {
+    it('should unset shaft loading', () => {
       const action = getShaftFailure();
       const fakeState = {
         ...initialState,
@@ -65,7 +65,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('getShaftLatest', () => {
-    test('should set shaft latest loading', () => {
+    it('should set shaft latest loading', () => {
       const action = getShaftLatest({ deviceId: '123' });
       const state = shaftReducer(initialState, action);
 
@@ -74,7 +74,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('getShaftLatestSuccess', () => {
-    test('should unset shaft latest loading and set shaft latest result', () => {
+    it('should unset shaft latest loading and set shaft latest result', () => {
       const SHAFT_MOCK: ShaftStatus = {
         deviceId: 'fakedeviceid',
         timestamp: '2020-11-12T18:31:56.954003Z',
@@ -99,7 +99,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('getShaftLatestFailure', () => {
-    test('should unset shaft latest loading', () => {
+    it('should unset shaft latest loading', () => {
       const action = getShaftLatestFailure();
       const fakeState = {
         ...initialState,
@@ -116,7 +116,7 @@ describe('Shaft Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return shaftReducer', () => {
+    it('should return shaftReducer', () => {
       // prepare any action
       const action: Action = getShaftFailure();
       expect(reducer(initialState, action)).toEqual(

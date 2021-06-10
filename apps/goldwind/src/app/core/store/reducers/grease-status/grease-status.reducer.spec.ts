@@ -19,7 +19,7 @@ import {
 
 describe('Grease Status Reducer', () => {
   describe('getGreaseStatus', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getGreaseStatus({ deviceId: 'deviceId' });
       const state = greaseStatusReducer(initialState, action);
 
@@ -28,7 +28,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('getGreaseStatusLatest', () => {
-    test('should set latest status loading', () => {
+    it('should set latest status loading', () => {
       const action = getGreaseStatusLatest({ deviceId: 'deviceId' });
       const state = greaseStatusReducer(initialState, action);
 
@@ -73,7 +73,7 @@ describe('Grease Status Reducer', () => {
     RsmShafts: mockShaftStatus,
   };
   describe('getGreaseStatusSuccess', () => {
-    test('should unset loading and set grease status', () => {
+    it('should unset loading and set grease status', () => {
       const action = getGreaseStatusSuccess({ gcmStatus: mockGcmStatus });
 
       const fakeState = {
@@ -89,7 +89,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('getGreaseStatusLatestSuccess', () => {
-    test('should unset status loading and set latest grease status', () => {
+    it('should unset status loading and set latest grease status', () => {
       const action = getGreaseStatusLatestSuccess({
         greaseStatusLatest: mockGcmProcessed,
       });
@@ -110,7 +110,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('getGreaseStatusFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getGreaseStatusFailure();
       const fakeState = {
         ...initialState,
@@ -124,7 +124,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('getGreaseStatusLatestFailure', () => {
-    test('should unset latest status loading', () => {
+    it('should unset latest status loading', () => {
       const action = getGreaseStatusLatestFailure();
       const fakeState = {
         ...initialState,
@@ -141,7 +141,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('setGreaseDisplay', () => {
-    test('should set grease display', () => {
+    it('should set grease display', () => {
       const mockGreaseDisplay = {
         deterioration_1: false,
         waterContent_1: false,
@@ -163,7 +163,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('setEdmInterval', () => {
-    test('should set interval', () => {
+    it('should set interval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
@@ -182,7 +182,7 @@ describe('Grease Status Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return greaseStatusReducer', () => {
+    it('should return greaseStatusReducer', () => {
       // prepare any action
       const action: Action = getGreaseStatusFailure();
       expect(reducer(initialState, action)).toEqual(

@@ -20,7 +20,7 @@ describe('GreaseStatus Actions', () => {
   });
 
   describe('Get GreaseStatus Actions', () => {
-    test('getGreaseStatusId', () => {
+    it('getGreaseStatusId', () => {
       const source = 'fantasy-route';
       const action = getGreaseStatusId({ source });
 
@@ -30,7 +30,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatus', () => {
+    it('getGreaseStatus', () => {
       const action = getGreaseStatus({ deviceId });
 
       expect(action).toEqual({
@@ -39,7 +39,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatusSuccess', () => {
+    it('getGreaseStatusSuccess', () => {
       const gcmStatus: GcmStatus = {
         GcmProcessed: [],
         RsmShafts: [],
@@ -52,7 +52,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatusFailure', () => {
+    it('getGreaseStatusFailure', () => {
       const action = getGreaseStatusFailure();
 
       expect(action).toEqual({
@@ -60,7 +60,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatusLatest', () => {
+    it('getGreaseStatusLatest', () => {
       const action = getGreaseStatusLatest({ deviceId });
 
       expect(action).toEqual({
@@ -69,7 +69,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('stopGetGreaseStatusLatest', () => {
+    it('stopGetGreaseStatusLatest', () => {
       const action = stopGetGreaseStatusLatest();
 
       expect(action).toEqual({
@@ -77,7 +77,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatusLatestSuccess', () => {
+    it('getGreaseStatusLatestSuccess', () => {
       const greaseStatusLatest: any = {};
       const action = getGreaseStatusLatestSuccess({ greaseStatusLatest });
 
@@ -87,7 +87,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('getGreaseStatusLatestFailure', () => {
+    it('getGreaseStatusLatestFailure', () => {
       const action = getGreaseStatusLatestFailure();
 
       expect(action).toEqual({
@@ -95,7 +95,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('setGreaseDisplay', () => {
+    it('setGreaseDisplay', () => {
       const greaseDisplay: any = {};
       const action = setGreaseDisplay({ greaseDisplay });
 
@@ -105,7 +105,7 @@ describe('GreaseStatus Actions', () => {
       });
     });
 
-    test('setGreaseInterval', () => {
+    it('setGreaseInterval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,

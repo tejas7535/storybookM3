@@ -2,7 +2,7 @@ import { getDevices, getDevicesFailure, getDevicesSuccess } from '..';
 
 describe('Devices Actions', () => {
   describe('Get Devices Actions', () => {
-    test('getDevices', () => {
+    it('getDevices', () => {
       const action = getDevices();
 
       expect(action).toEqual({
@@ -10,7 +10,7 @@ describe('Devices Actions', () => {
       });
     });
 
-    test('getDevicesSuccess', () => {
+    it('getDevicesSuccess', () => {
       const devices: any = {};
       const action = getDevicesSuccess({ devices });
 
@@ -20,7 +20,7 @@ describe('Devices Actions', () => {
       });
     });
 
-    test('getDevicesFailure', () => {
+    it('getDevicesFailure', () => {
       const action = getDevicesFailure();
 
       expect(action).toEqual({

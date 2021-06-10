@@ -38,12 +38,12 @@ describe('OverviewComponent', () => {
     component = spectator.debugElement.componentInstance;
   });
 
-  test('should create', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
 
   describe('trackByFn', () => {
-    test('should return index', () => {
+    it('should return index', () => {
       const idx = 5;
 
       const result = component.trackByFn(idx, {});

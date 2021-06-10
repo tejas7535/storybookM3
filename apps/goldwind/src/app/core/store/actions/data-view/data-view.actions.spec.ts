@@ -16,7 +16,7 @@ describe('DataMonitor Actions', () => {
   });
 
   describe('Get Data View Actions', () => {
-    test('getDataId', () => {
+    it('getDataId', () => {
       const action = getDataId();
 
       expect(action).toEqual({
@@ -24,7 +24,7 @@ describe('DataMonitor Actions', () => {
       });
     });
 
-    test('getData', () => {
+    it('getData', () => {
       const action = getData({ deviceId });
 
       expect(action).toEqual({
@@ -33,7 +33,7 @@ describe('DataMonitor Actions', () => {
       });
     });
 
-    test('getDataSuccess', () => {
+    it('getDataSuccess', () => {
       const result: SensorData[] = [
         {
           type: 'Load',
@@ -52,7 +52,7 @@ describe('DataMonitor Actions', () => {
       });
     });
 
-    test('getDataFailure', () => {
+    it('getDataFailure', () => {
       const action = getDataFailure();
 
       expect(action).toEqual({
@@ -60,7 +60,7 @@ describe('DataMonitor Actions', () => {
       });
     });
 
-    test('setDataInterval', () => {
+    it('setDataInterval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
@@ -73,7 +73,7 @@ describe('DataMonitor Actions', () => {
       });
     });
 
-    test('setFrequency', () => {
+    it('setFrequency', () => {
       const mockFrequency = 100;
 
       const action = setFrequency({ frequency: mockFrequency });

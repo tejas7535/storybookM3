@@ -52,7 +52,7 @@ describe('EdmMonitorComponent', () => {
   });
 
   describe('setEdmInterval', () => {
-    test('should dispatch the setEdmInterval action', () => {
+    it('should dispatch the setEdmInterval action', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {

@@ -50,14 +50,14 @@ describe('Search Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getDevicesId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -83,7 +83,7 @@ describe('Search Effects', () => {
       action = getDevices();
     });
 
-    test(
+    it(
       'should return getDevicesSuccess action when REST call is successful',
       marbles((m) => {
         const result = getDevicesSuccess({

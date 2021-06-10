@@ -60,19 +60,19 @@ describe('Load Sense Selector', () => {
   };
 
   describe('getLoadSenseLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getLoadSenseLoading(mockBearingLoadState)).toBeFalsy();
     });
   });
 
   describe('getLoadAverageLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getLoadAverageLoading(mockBearingLoadState)).toBeFalsy();
     });
   });
 
   describe('getLoadSenseResult', () => {
-    test('should return the load sense result', () => {
+    it('should return the load sense result', () => {
       expect(getBearingLoadLatestResult(mockBearingLoadState)).toEqual(
         mockLoadSense
       );
@@ -80,14 +80,14 @@ describe('Load Sense Selector', () => {
   });
 
   describe('getLoadAverageResult', () => {
-    test('should return the load average result', () => {
+    it('should return the load average result', () => {
       expect(getLoadAverageResult(mockBearingLoadState)).toEqual(
         mockLoadAverageState.result
       );
     });
   });
   describe('getLoadGraphData', () => {
-    test('should return graph data', () => {
+    it('should return graph data', () => {
       const mockTooltipFormatter = jest.fn((_a, _b) => 'formattedTooltip');
       const mockLoadSenseResult = {};
 
@@ -154,7 +154,7 @@ describe('Load Sense Selector', () => {
   });
 
   describe('getLoadAverageGraphData', () => {
-    test('should return graph data', () => {
+    it('should return graph data', () => {
       const mockTooltipFormatter = jest.fn((_a, _b) => 'formattedTooltip');
       const mockLoadSenseAvgResult = {};
 

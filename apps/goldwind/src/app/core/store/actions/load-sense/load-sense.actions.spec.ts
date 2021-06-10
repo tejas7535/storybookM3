@@ -16,14 +16,14 @@ describe('LoadSense Actions', () => {
     deviceId = '123';
   });
   describe('Get LoadSense Actions', () => {
-    test('getLoadId', () => {
+    it('getLoadId', () => {
       const action = getLoadId();
 
       expect(action).toEqual({
         type: '[Load Sense] Load Load Id',
       });
     });
-    test('getBearingLoadLatest', () => {
+    it('getBearingLoadLatest', () => {
       const action = getBearingLoadLatest({ deviceId });
 
       expect(action).toEqual({
@@ -32,7 +32,7 @@ describe('LoadSense Actions', () => {
       });
     });
 
-    test('getLoadAverage', () => {
+    it('getLoadAverage', () => {
       const action = getLoadAverage({ deviceId });
 
       expect(action).toEqual({
@@ -41,7 +41,7 @@ describe('LoadSense Actions', () => {
       });
     });
 
-    test('getBearingLoadSuccess', () => {
+    it('getBearingLoadSuccess', () => {
       const bearingLoadLatest: any = {};
       const action = getBearingLoadSuccess({ bearingLoadLatest });
 
@@ -51,7 +51,7 @@ describe('LoadSense Actions', () => {
       });
     });
 
-    test('getLoadAverageSuccess', () => {
+    it('getLoadAverageSuccess', () => {
       const loadAverage: LoadSense = {
         deviceId: 'test-load-average',
         id: '123-test',
@@ -81,7 +81,7 @@ describe('LoadSense Actions', () => {
       });
     });
 
-    test('getLoadAverageFailure', () => {
+    it('getLoadAverageFailure', () => {
       const action = getLoadAverageFailure();
 
       expect(action).toEqual({
@@ -89,7 +89,7 @@ describe('LoadSense Actions', () => {
       });
     });
 
-    test('getBearingLoadFailure', () => {
+    it('getBearingLoadFailure', () => {
       const action = getBearingLoadFailure();
 
       expect(action).toEqual({

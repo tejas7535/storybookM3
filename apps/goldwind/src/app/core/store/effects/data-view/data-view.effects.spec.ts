@@ -67,14 +67,14 @@ describe('Search Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getDataId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -96,7 +96,7 @@ describe('Search Effects', () => {
   });
 
   describe('interval$', () => {
-    test(
+    it(
       'should return getDataId',
       marbles((m) => {
         const mockInterval = {
@@ -118,7 +118,7 @@ describe('Search Effects', () => {
   });
 
   describe('edmId$', () => {
-    test(
+    it(
       'should return getData',
       marbles((m) => {
         action = getDataId();
@@ -141,7 +141,7 @@ describe('Search Effects', () => {
       });
     });
 
-    test(
+    it(
       'should return getDataSuccess action when REST call is successful',
       marbles((m) => {
         const mockResult = [

@@ -25,13 +25,13 @@ describe('Devices Selector', () => {
   };
 
   describe('getDevicesLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getDevicesLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getDevicesResult', () => {
-    test('should return a devices', () => {
+    it('should return a devices', () => {
       expect(getDevicesResult(fakeState)).toEqual(fakeState.devices.result);
     });
   });

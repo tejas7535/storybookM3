@@ -15,7 +15,7 @@ import { Edm } from './models';
 
 describe('Condition Monitoring Reducer', () => {
   describe('getEdm', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getEdm({ deviceId: 'fantasyId' });
       const state = edmMonitorReducer(initialState, action);
 
@@ -24,7 +24,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('getEdmSuccess', () => {
-    test('should unset loading and set measurements', () => {
+    it('should unset loading and set measurements', () => {
       const mockMeasurements: Edm[] = [
         {
           startDate: '2020-07-30T11:02:25',
@@ -49,7 +49,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('getEdmFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getEdmFailure();
       const fakeState = {
         ...initialState,
@@ -63,7 +63,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('setEdmInterval', () => {
-    test('should set interval', () => {
+    it('should set interval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,
@@ -82,7 +82,7 @@ describe('Condition Monitoring Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return edmMonitorReducer', () => {
+    it('should return edmMonitorReducer', () => {
       // prepare any action
       const action: Action = getEdmFailure();
       expect(reducer(initialState, action)).toEqual(

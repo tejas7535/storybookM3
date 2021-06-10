@@ -10,7 +10,7 @@ import { devicesReducer, initialState, reducer } from './devices.reducer';
 
 describe('Devices Reducer', () => {
   describe('getDevices', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getDevices();
       const state = devicesReducer(initialState, action);
 
@@ -19,7 +19,7 @@ describe('Devices Reducer', () => {
   });
 
   describe('getDevicesSuccess', () => {
-    test('should unset loading and set devices', () => {
+    it('should unset loading and set devices', () => {
       const action = getDevicesSuccess({ devices: DEVICES_MOCK });
 
       const fakeState = {
@@ -35,7 +35,7 @@ describe('Devices Reducer', () => {
   });
 
   describe('getDevicesFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getDevicesFailure();
       const fakeState = {
         ...initialState,
@@ -49,7 +49,7 @@ describe('Devices Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return devicesReducer', () => {
+    it('should return devicesReducer', () => {
       // prepare any action
       const action: Action = getDevicesFailure();
       expect(reducer(initialState, action)).toEqual(

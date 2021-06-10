@@ -29,19 +29,19 @@ describe('EdmMonitor Selector', () => {
   };
 
   describe('getDataResult', () => {
-    test('should return the Data View result', () => {
+    it('should return the Data View result', () => {
       expect(getDataResult(fakeState)).toEqual(fakeState.dataView.result);
     });
   });
 
   describe('getDataInterval', () => {
-    test('should return a time interval with two timestamps', () => {
+    it('should return a time interval with two timestamps', () => {
       expect(getDataInterval(fakeState)).toEqual(fakeState.dataView.interval);
     });
   });
 
   describe('getFrequency', () => {
-    test('should the frequency number', () => {
+    it('should the frequency number', () => {
       expect(getFrequency(fakeState)).toEqual(fakeState.dataView.frequency);
     });
   });

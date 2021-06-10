@@ -33,7 +33,7 @@ describe('DateRangeComponent', () => {
   });
 
   describe('Range Form', () => {
-    test('should emit rangeChange eventemitter on valueChanges', fakeAsync(() => {
+    it('should emit rangeChange eventemitter on valueChanges', fakeAsync(() => {
       component['rangeChange'].emit = jest.fn();
 
       const mockInterval = {
