@@ -59,6 +59,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
 
   @Input() rowData: ReferenceType[];
+  @Input() selectedNodeIds: string[];
   @Output() readonly selectionChange: EventEmitter<string[]> =
     new EventEmitter();
 
@@ -89,8 +90,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
     pcmCellRenderer: PcmCellRendererComponent,
   };
 
-  noRowsOverlayComponent = 'customNoRowsOverlay';
-  noRowsOverlayComponentParams: NoRowsParams = {
+  public noRowsOverlayComponent = 'customNoRowsOverlay';
+  public noRowsOverlayComponentParams: NoRowsParams = {
     getMessage: () => translate('search.referenceTypesTable.noRowsMessage'),
   };
 
@@ -111,7 +112,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
     private readonly columnDefinitionService: ColumnDefinitionService
   ) {}
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData && this.gridApi) {
       this.gridApi.setRowData(changes.rowData.currentValue);
     }
@@ -150,6 +151,8 @@ export class ReferenceTypesTableComponent implements OnChanges {
   public onFirstDataRendered(params: IStatusPanelParams): void {
     params.columnApi.autoSizeAllColumns(false);
     params.columnApi.setColumnVisible('identificationHash', false);
+
+    this.selectNodes();
   }
 
   /**
@@ -173,6 +176,14 @@ export class ReferenceTypesTableComponent implements OnChanges {
 
     if (!arrayEquals(this.selectedRows, previouslySelectedRows)) {
       this.selectionChange.emit(this.selectedRows);
+    }
+  }
+
+  private selectNodes(): void {
+    if (this.selectedNodeIds) {
+      this.selectedNodeIds.forEach((id) =>
+        this.gridApi.getRowNode(id).setSelected(true, true, true)
+      );
     }
   }
 }

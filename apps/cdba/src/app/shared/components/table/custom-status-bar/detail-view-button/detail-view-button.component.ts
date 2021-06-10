@@ -1,9 +1,13 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { Observable } from 'rxjs';
+
+import { GridApi, IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '@cdba/app-route-path.enum';
+import { getSelectedRefTypeNodeIds } from '@cdba/core/store';
 import { DetailRoutePath } from '@cdba/detail/detail-route-path.enum';
 import { ReferenceType } from '@cdba/shared/models';
 
@@ -12,33 +16,26 @@ import { ReferenceType } from '@cdba/shared/models';
   templateUrl: './detail-view-button.component.html',
   styleUrls: ['./detail-view-button.component.scss'],
 })
-export class DetailViewButtonComponent {
-  selections: any[] = [];
+export class DetailViewButtonComponent implements OnInit {
+  public selectedNodeIds$: Observable<string[]>;
 
-  private params: IStatusPanelParams;
+  private gridApi: GridApi;
 
-  constructor(private readonly router: Router) {}
+  public constructor(
+    private readonly router: Router,
+    private readonly store: Store
+  ) {}
 
-  agInit(params: IStatusPanelParams): void {
-    this.params = params;
-
-    this.params.api.addEventListener('gridReady', this.onGridReady.bind(this));
-    this.params.api.addEventListener(
-      'selectionChanged',
-      this.onSelectionChange.bind(this)
-    );
+  public ngOnInit(): void {
+    this.selectedNodeIds$ = this.store.select(getSelectedRefTypeNodeIds);
   }
 
-  onGridReady(): void {
-    this.selections = this.params.api.getSelectedRows();
+  public agInit(params: IStatusPanelParams): void {
+    this.gridApi = params.api;
   }
 
-  onSelectionChange(): void {
-    this.selections = this.params.api.getSelectedRows();
-  }
-
-  showDetailView(): void {
-    const selection: ReferenceType = this.selections[0];
+  public showDetailView(nodeId: string): void {
+    const selection: ReferenceType = this.gridApi.getRowNode(nodeId).data;
 
     this.router.navigate(
       [`${AppRoutePath.DetailPath}/${DetailRoutePath.DetailsPath}`],
