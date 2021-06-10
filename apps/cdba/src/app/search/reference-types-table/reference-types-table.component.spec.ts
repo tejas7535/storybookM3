@@ -169,17 +169,26 @@ describe('ReferenceTypesTableComponent', () => {
   });
 
   describe('onFirstDataRendered', () => {
-    it('should call autoSizeAllColumns', () => {
-      const params = {
-        columnApi: {
-          autoSizeAllColumns: jest.fn(),
-          setColumnVisible: jest.fn(),
-        },
-      } as unknown as IStatusPanelParams;
+    const params = {
+      columnApi: {
+        autoSizeAllColumns: jest.fn(),
+        setColumnVisible: jest.fn(),
+      },
+    } as unknown as IStatusPanelParams;
 
+    beforeEach(() => {
+      jest.spyOn(component as any, 'selectNodes');
+    });
+    it('should call autoSizeAllColumns', () => {
       component.onFirstDataRendered(params);
 
       expect(params.columnApi.autoSizeAllColumns).toHaveBeenCalledWith(false);
+    });
+
+    it('should call selectNodes', () => {
+      component.onFirstDataRendered(params);
+
+      expect(component['selectNodes']).toHaveBeenCalled();
     });
   });
 
@@ -228,6 +237,30 @@ describe('ReferenceTypesTableComponent', () => {
       expect(component.selectedRows).toStrictEqual(['3', '2']);
 
       expect(event.api.getRowNode).toHaveBeenCalledWith('1');
+    });
+  });
+
+  describe('selectNodes', () => {
+    beforeEach(() => {
+      component['gridApi'] = {
+        getRowNode: jest.fn(() => ({ setSelected: jest.fn() })),
+      } as unknown as GridApi;
+    });
+
+    it('should set node selected if nodeId is set', () => {
+      component.selectedNodeIds = ['7'];
+
+      component['selectNodes']();
+
+      expect(component['gridApi'].getRowNode).toHaveBeenCalled();
+    });
+
+    it('should do nothing, if nodeId is not present', () => {
+      component.selectedNodeIds = undefined;
+
+      component['selectNodes']();
+
+      expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
     });
   });
 });

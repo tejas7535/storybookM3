@@ -12,6 +12,7 @@
     </cdba-filter-panel>
     <cdba-reference-types-table
       [rowData]="referenceTypesData$ | ngrxPush"
+      [selectedNodeIds]="selectedReferenceTypeIds$ | ngrxPush"
       (selectionChange)="selectReferenceTypes($event)"
     ></cdba-reference-types-table>
   </div>

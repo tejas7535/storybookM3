@@ -11,6 +11,7 @@ import {
   getReferenceTypesLoading,
   getResultCount,
   getSearchSuccessful,
+  getSelectedRefTypeNodeIds,
   getTooManyResults,
   selectReferenceTypes,
 } from '../core/store';
@@ -24,6 +25,7 @@ export class SearchComponent implements OnInit {
   searchSuccessful$: Observable<boolean>;
   tooManyResults$: Observable<boolean>;
   referenceTypesData$: Observable<ReferenceType[]>;
+  selectedReferenceTypeIds$: Observable<string[]>;
   resultCount$: Observable<number>;
   loading$: Observable<boolean>;
 
@@ -33,6 +35,9 @@ export class SearchComponent implements OnInit {
     this.searchSuccessful$ = this.store.select(getSearchSuccessful);
     this.tooManyResults$ = this.store.select(getTooManyResults);
     this.referenceTypesData$ = this.store.select(getReferenceTypes);
+    this.selectedReferenceTypeIds$ = this.store.select(
+      getSelectedRefTypeNodeIds
+    );
     this.resultCount$ = this.store.select(getResultCount);
     this.loading$ = this.store.select(getReferenceTypesLoading);
   }

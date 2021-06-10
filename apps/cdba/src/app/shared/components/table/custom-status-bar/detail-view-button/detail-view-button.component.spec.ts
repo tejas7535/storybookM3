@@ -8,22 +8,46 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { SharedModule } from '@cdba/shared';
+
 import { DetailViewButtonComponent } from './detail-view-button.component';
 
 describe('DetailViewButtonComponent', () => {
   let spectator: Spectator<DetailViewButtonComponent>;
   let component: DetailViewButtonComponent;
   let router: Router;
-  let params: IStatusPanelParams;
+
+  const params = {
+    api: {
+      getRowNode: jest.fn(() => ({
+        data: {
+          materialNumber: '12345',
+          plant: '0060',
+          identificationHash: 'foo',
+        },
+      })),
+    },
+  } as unknown as IStatusPanelParams;
 
   const createComponent = createComponentFactory({
     component: DetailViewButtonComponent,
     imports: [
+      SharedModule,
       MatButtonModule,
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
-    providers: [provideMockStore()],
+    providers: [
+      provideMockStore({
+        initialState: {
+          search: {
+            referenceTypes: {
+              selectedNodeIds: ['2', '4'],
+            },
+          },
+        },
+      }),
+    ],
   });
 
   beforeEach(() => {
@@ -31,13 +55,6 @@ describe('DetailViewButtonComponent', () => {
     component = spectator.component;
 
     router = spectator.inject(Router);
-
-    params = {
-      api: {
-        addEventListener: jest.fn(),
-        getSelectedRows: jest.fn(),
-      },
-    } as unknown as IStatusPanelParams;
   });
 
   it('should create', () => {
@@ -45,39 +62,28 @@ describe('DetailViewButtonComponent', () => {
   });
 
   describe('agInit', () => {
-    test('should set params and add listeners', () => {
+    test('should set grid api', () => {
       component.agInit(params as unknown as IStatusPanelParams);
 
-      expect(component['params']).toEqual(params);
-
-      expect(params.api.addEventListener).toHaveBeenCalledTimes(2);
-    });
-  });
-
-  describe('onGridReady', () => {
-    test('should set selections', () => {
-      component['params'] = params;
-      component.onGridReady();
-
-      expect(params.api.getSelectedRows).toHaveBeenCalled();
-    });
-  });
-
-  describe('onSelectionChange', () => {
-    test('should set selections', () => {
-      component['params'] = params;
-      component.onSelectionChange();
-
-      expect(params.api.getSelectedRows).toHaveBeenCalled();
+      expect(component['gridApi']).toEqual(params.api);
     });
   });
 
   describe('showDetailView', () => {
-    test('should navigate', () => {
-      component.selections = [{ materialNumber: '', plant: '' }];
+    test('should navigate to correct detail page', () => {
       router.navigate = jest.fn();
-      component.showDetailView();
-      expect(router.navigate).toHaveBeenCalled();
+      component['gridApi'] = params.api;
+      component.showDetailView('2');
+
+      const expectedQueryParams = {
+        material_number: '12345',
+        plant: '0060',
+        identification_hash: 'foo',
+      };
+
+      expect(router.navigate).toHaveBeenCalledWith(['detail/detail'], {
+        queryParams: expectedQueryParams,
+      });
     });
   });
 });
