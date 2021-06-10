@@ -31,6 +31,7 @@ import { AgGridStateService } from '@cdba/shared/services';
 
 import { ColumnDefinitionService } from './config';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
+import { TableStore } from './table.store';
 
 describe('ReferenceTypesTableComponent', () => {
   let component: ReferenceTypesTableComponent;
@@ -52,6 +53,7 @@ describe('ReferenceTypesTableComponent', () => {
     providers: [
       ColumnDefinitionService,
       mockProvider(AgGridStateService),
+      TableStore,
       provideMockStore(),
     ],
   });
@@ -174,6 +176,9 @@ describe('ReferenceTypesTableComponent', () => {
         autoSizeAllColumns: jest.fn(),
         setColumnVisible: jest.fn(),
       },
+      api: {
+        setFilterModel: jest.fn(),
+      },
     } as unknown as IStatusPanelParams;
 
     beforeEach(() => {
@@ -261,6 +266,22 @@ describe('ReferenceTypesTableComponent', () => {
       component['selectNodes']();
 
       expect(component['gridApi'].getRowNode).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('filterChange', () => {
+    it('should set filters of tables store', () => {
+      const mockFilters = { sqv: { type: 'number', value: 10 } };
+      component['gridApi'] = {
+        getFilterModel: jest.fn(() => mockFilters),
+      } as unknown as GridApi;
+      jest.spyOn(component['tableStore'] as any, 'setFilters');
+
+      component.filterChange();
+
+      expect(component['tableStore'].setFilters).toHaveBeenCalledWith(
+        mockFilters
+      );
     });
   });
 });

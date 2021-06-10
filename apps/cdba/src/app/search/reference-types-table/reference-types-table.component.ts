@@ -3,6 +3,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -49,17 +50,18 @@ import {
   STATUS_BAR_CONFIG,
 } from './config';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
+import { TableStore } from './table.store';
 
 @Component({
   selector: 'cdba-reference-types-table',
   templateUrl: './reference-types-table.component.html',
   styleUrls: ['./reference-types-table.component.scss'],
 })
-export class ReferenceTypesTableComponent implements OnChanges {
+export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
 
-  @Input() rowData: ReferenceType[];
-  @Input() selectedNodeIds: string[];
+  @Input() public rowData: ReferenceType[];
+  @Input() public selectedNodeIds: string[];
   @Output() readonly selectionChange: EventEmitter<string[]> =
     new EventEmitter();
 
@@ -107,10 +109,19 @@ export class ReferenceTypesTableComponent implements OnChanges {
 
   private gridApi: GridApi;
 
+  private tableFilters: any;
+
   public constructor(
     private readonly agGridStateService: AgGridStateService,
-    private readonly columnDefinitionService: ColumnDefinitionService
+    private readonly columnDefinitionService: ColumnDefinitionService,
+    private readonly tableStore: TableStore
   ) {}
+
+  public ngOnInit(): void {
+    this.tableStore.filters$.subscribe(
+      (filters) => (this.tableFilters = filters)
+    );
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     if (changes.rowData && this.gridApi) {
@@ -152,6 +163,7 @@ export class ReferenceTypesTableComponent implements OnChanges {
     params.columnApi.autoSizeAllColumns(false);
     params.columnApi.setColumnVisible('identificationHash', false);
 
+    params.api.setFilterModel(this.tableFilters);
     this.selectNodes();
   }
 
@@ -185,5 +197,11 @@ export class ReferenceTypesTableComponent implements OnChanges {
         this.gridApi.getRowNode(id).setSelected(true, true, true)
       );
     }
+  }
+
+  public filterChange(): void {
+    const filters = this.gridApi.getFilterModel();
+
+    this.tableStore.setFilters(filters);
   }
 }
