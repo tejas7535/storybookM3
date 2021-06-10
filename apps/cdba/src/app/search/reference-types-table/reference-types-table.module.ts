@@ -15,6 +15,7 @@ import { DetailViewButtonComponent } from '../../shared/components/table/custom-
 import { SharedModule } from '../../shared/shared.module';
 import { PcmCellRendererComponent } from './pcm-cell-renderer/pcm-cell-renderer.component';
 import { ReferenceTypesTableComponent } from './reference-types-table.component';
+import { TableStore } from './table.store';
 
 @NgModule({
   declarations: [ReferenceTypesTableComponent, PcmCellRendererComponent],
@@ -32,6 +33,7 @@ import { ReferenceTypesTableComponent } from './reference-types-table.component'
     CustomStatusBarModule,
     SharedTranslocoModule,
   ],
+  providers: [TableStore],
   exports: [ReferenceTypesTableComponent],
 })
 export class ReferenceTypesTableModule {}
