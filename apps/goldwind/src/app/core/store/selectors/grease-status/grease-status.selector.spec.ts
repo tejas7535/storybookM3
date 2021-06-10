@@ -85,19 +85,19 @@ describe('Grease Status Selector', () => {
   };
 
   describe('getGreaseStatusLoading', () => {
-    test('should return loading status', () => {
+    it('should return loading status', () => {
       expect(getGreaseStatusLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getGreaseStatusLatestLoading', () => {
-    test('should return latest loading status', () => {
+    it('should return latest loading status', () => {
       expect(getGreaseStatusLatestLoading(fakeState)).toBeFalsy();
     });
   });
 
   describe('getGreaseTimeStamp', () => {
-    test('should return the formatted time stamp', () => {
+    it('should return the formatted time stamp', () => {
       expect(getGreaseTimeStamp(fakeState)).toEqual(
         new Date(
           fakeState.greaseStatus.status.result.timestamp
@@ -107,7 +107,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseStatusResult', () => {
-    test('should return the grease status', () => {
+    it('should return the grease status', () => {
       expect(getGreaseStatusResult(fakeState)).toEqual(
         fakeState.greaseStatus.result
       );
@@ -115,7 +115,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseStatusLatestResult', () => {
-    test('should return latest grease status', () => {
+    it('should return latest grease status', () => {
       expect(getGreaseStatusLatestResult(fakeState)).toEqual(
         fakeState.greaseStatus.status.result
       );
@@ -123,7 +123,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseDisplay', () => {
-    test('should return the grease display options', () => {
+    it('should return the grease display options', () => {
       expect(getGreaseDisplay(fakeState)).toEqual(
         fakeState.greaseStatus.display
       );
@@ -131,7 +131,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseStatusGraphData', () => {
-    test('should return grease status series data value tupels', () => {
+    it('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
           data: [
@@ -216,7 +216,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseStatusLatestGraphData', () => {
-    test('should return latest grease status series data', () => {
+    it('should return latest grease status series data', () => {
       const expectedResult = GREASE_STATUS_MOCK;
       const result = getGreaseStatusLatestGraphData(fakeState, {
         sensorName: GreaseSensorName.GCM01,
@@ -226,7 +226,7 @@ describe('Grease Status Selector', () => {
   });
 
   describe('getGreaseInterval', () => {
-    test('should return a time interval with two timestamps', () => {
+    it('should return a time interval with two timestamps', () => {
       expect(getGreaseInterval(fakeState)).toEqual(
         fakeState.greaseStatus.interval
       );

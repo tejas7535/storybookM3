@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { marbles } from 'rxjs-marbles';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -30,6 +29,7 @@ import { ShaftStatus } from '../../reducers/shaft/models';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
+/* eslint-disable max-lines */
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
@@ -82,14 +82,14 @@ describe('Search Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getGreaseStatusId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -118,7 +118,7 @@ describe('Search Effects', () => {
   });
 
   describe('setGreaseInterval$', () => {
-    test(
+    it(
       'should return return getGreaseStatusId',
       marbles((m) => {
         action = setGreaseInterval({
@@ -140,14 +140,14 @@ describe('Search Effects', () => {
   });
 
   describe('greaseStatusId$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.greaseStatusId$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should return getGreaseStatus',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -175,7 +175,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should return getGreaseStatusLatest',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -206,7 +206,7 @@ describe('Search Effects', () => {
       action = getGreaseStatus({ deviceId });
     });
 
-    test(
+    it(
       'should return getGreaseStatusSuccess action when REST call is successful',
       marbles((m) => {
         const mockGcmProcessed = {
@@ -277,7 +277,7 @@ describe('Search Effects', () => {
       action = getLoadAverage({ deviceId });
     });
 
-    test(
+    it(
       'should return getLoadAverage action when REST call is successful',
       marbles((m) => {
         const mockAverage: LoadSense = {
@@ -329,7 +329,7 @@ describe('Search Effects', () => {
   });
 
   describe('continueGraseId$', () => {
-    test(
+    it(
       'should return getShaft',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -350,13 +350,13 @@ describe('Search Effects', () => {
   });
 
   describe('stopGrease$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.stopGrease$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
-    test(
+    it(
       'should set isPollingActive to false',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -377,7 +377,7 @@ describe('Search Effects', () => {
       action = getGreaseStatusLatest({ deviceId });
     });
 
-    test(
+    it(
       'should return getGreaseStatusLatest action when REST call is successful',
       marbles((m) => {
         const mockGreaseStatusLatest = {

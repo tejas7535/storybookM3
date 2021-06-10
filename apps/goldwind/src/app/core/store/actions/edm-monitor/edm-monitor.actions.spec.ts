@@ -15,7 +15,7 @@ describe('EdmMonitor Actions', () => {
   });
 
   describe('Get EDM Monitor Actions', () => {
-    test('getEdmId', () => {
+    it('getEdmId', () => {
       const action = getEdmId();
 
       expect(action).toEqual({
@@ -23,7 +23,7 @@ describe('EdmMonitor Actions', () => {
       });
     });
 
-    test('getEdm', () => {
+    it('getEdm', () => {
       const action = getEdm({ deviceId });
 
       expect(action).toEqual({
@@ -32,7 +32,7 @@ describe('EdmMonitor Actions', () => {
       });
     });
 
-    test('getEdmSuccess', () => {
+    it('getEdmSuccess', () => {
       const measurements: Edm[] = [
         {
           startDate: '2020-07-30T11:02:25',
@@ -50,7 +50,7 @@ describe('EdmMonitor Actions', () => {
       });
     });
 
-    test('getEdmFailure', () => {
+    it('getEdmFailure', () => {
       const action = getEdmFailure();
 
       expect(action).toEqual({
@@ -58,7 +58,7 @@ describe('EdmMonitor Actions', () => {
       });
     });
 
-    test('setEdmInterval', () => {
+    it('setEdmInterval', () => {
       const mockInterval = {
         startDate: 1599651508,
         endDate: 1599651509,

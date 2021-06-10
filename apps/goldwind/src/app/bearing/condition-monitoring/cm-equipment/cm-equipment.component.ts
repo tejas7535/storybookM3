@@ -1,4 +1,10 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -18,6 +24,7 @@ interface BearingProperties {
   selector: 'goldwind-cm-equipment',
   templateUrl: './cm-equipment.component.html',
   styleUrls: ['./cm-equipment.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CmEquipmentComponent implements OnInit {
   @Input() mainBearing: BearingMetadata;
@@ -47,6 +54,10 @@ export class CmEquipmentComponent implements OnInit {
   handleSelectedTabChange(event: number): void {
     this.selectedTab = event;
     this.change.markForCheck();
+  }
+
+  getBearingMeta(property: string): string {
+    return (this.mainBearing && (this.mainBearing as any)[property]) || 'n/a';
   }
 
   public trackByFn(index: number, _item: any): number {

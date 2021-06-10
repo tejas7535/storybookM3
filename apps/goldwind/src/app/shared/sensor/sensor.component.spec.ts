@@ -24,7 +24,7 @@ describe('DateRangeComponent', () => {
   });
 
   describe('toggleSensor', () => {
-    test('should toggle the sensor and call event emit', () => {
+    it('should toggle the sensor and call event emit', () => {
       component['sensorToggle'].emit = jest.fn();
 
       component.sensor = true;

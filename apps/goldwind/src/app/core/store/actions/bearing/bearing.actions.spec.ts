@@ -13,7 +13,7 @@ describe('Bearing Actions', () => {
   });
 
   describe('Get Bearing Actions', () => {
-    test('getBearingId', () => {
+    it('getBearingId', () => {
       const action = getBearingId();
 
       expect(action).toEqual({
@@ -21,7 +21,7 @@ describe('Bearing Actions', () => {
       });
     });
 
-    test('getBearing', () => {
+    it('getBearing', () => {
       const action = getBearing({ bearingId });
 
       expect(action).toEqual({
@@ -30,7 +30,7 @@ describe('Bearing Actions', () => {
       });
     });
 
-    test('getBearingSuccess', () => {
+    it('getBearingSuccess', () => {
       const bearing: any = {};
       const action = getBearingSuccess({ bearing });
 
@@ -40,7 +40,7 @@ describe('Bearing Actions', () => {
       });
     });
 
-    test('getBearingFailure', () => {
+    it('getBearingFailure', () => {
       const action = getBearingFailure();
 
       expect(action).toEqual({

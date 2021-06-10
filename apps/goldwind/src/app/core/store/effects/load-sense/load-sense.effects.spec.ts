@@ -66,14 +66,14 @@ describe('Search Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getLoadId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -95,7 +95,7 @@ describe('Search Effects', () => {
       })
     );
 
-    test(
+    it(
       'should dispatch stopGetLoad when leaving the bearing route',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -117,13 +117,13 @@ describe('Search Effects', () => {
   });
 
   describe('stopLoad$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.stopLoad$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
-    test(
+    it(
       'should set isPollingActive to false',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -140,7 +140,7 @@ describe('Search Effects', () => {
   });
 
   describe('loadId$', () => {
-    test(
+    it(
       'should return getLoad',
       marbles((m) => {
         action = getLoadId();
@@ -157,7 +157,7 @@ describe('Search Effects', () => {
   });
 
   describe('continueLoadId$', () => {
-    test(
+    it(
       'should return getBearingLoadLatest',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -181,7 +181,7 @@ describe('Search Effects', () => {
       action = getBearingLoadLatest({ deviceId });
     });
 
-    test(
+    it(
       'should return getBearingLoadSuccess action when REST call is successful',
       marbles((m) => {
         const mockLoadSense: LoadSense = {

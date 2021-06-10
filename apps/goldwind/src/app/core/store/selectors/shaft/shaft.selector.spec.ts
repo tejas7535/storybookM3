@@ -42,7 +42,7 @@ describe('Shaft Selector', () => {
   };
 
   describe('getShaftLatestResult', () => {
-    test('should return the latest shaft result', () => {
+    it('should return the latest shaft result', () => {
       expect(getShaftLatestResult(fakeState)).toEqual(
         fakeState.shaft.status.result
       );
@@ -50,7 +50,7 @@ describe('Shaft Selector', () => {
   });
 
   describe('getShaftLatestLoading', () => {
-    test('should return the shaft result', () => {
+    it('should return the shaft result', () => {
       expect(getShaftLatestLoading(fakeState)).toEqual(
         fakeState.shaft.status.loading
       );
@@ -58,7 +58,7 @@ describe('Shaft Selector', () => {
   });
 
   describe('getShaftLatestTimeStamp', () => {
-    test('should return the latest shaft result time stamp', () => {
+    it('should return the latest shaft result time stamp', () => {
       expect(getShaftLatestTimeStamp(fakeState)).toEqual(
         new Date(fakeShaftState.status.result.timestamp).toLocaleTimeString(
           DATE_FORMAT.local,
@@ -69,7 +69,7 @@ describe('Shaft Selector', () => {
   });
 
   describe('getShaftLatestGraphData', () => {
-    test('should return the latest shaft latest graph data', () => {
+    it('should return the latest shaft latest graph data', () => {
       expect(getShaftLatestGraphData(fakeState)).toEqual(
         SHAFT_LATEST_GRAPH_DATA
       );
@@ -77,13 +77,13 @@ describe('Shaft Selector', () => {
   });
 
   describe('getShaftResult', () => {
-    test('should return the shaft result', () => {
+    it('should return the shaft result', () => {
       expect(getShaftResult(fakeState)).toEqual(fakeState.shaft.result);
     });
   });
 
   describe('getShaftLoading', () => {
-    test('should return the shaft result', () => {
+    it('should return the shaft result', () => {
       expect(getShaftLoading(fakeState)).toEqual(fakeState.shaft.loading);
     });
   });

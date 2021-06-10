@@ -65,7 +65,7 @@ describe('DataViewComponent', () => {
   });
 
   describe('setDataInterval', () => {
-    test('should dispatch the setDataInterval action', () => {
+    it('should dispatch the setDataInterval action', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {
@@ -82,7 +82,7 @@ describe('DataViewComponent', () => {
   });
 
   describe('setFrequency', () => {
-    test('should dispatch the setFrequency action', () => {
+    it('should dispatch the setFrequency action', () => {
       mockStore.dispatch = jest.fn();
 
       const mockFrequency = 6969;
@@ -142,7 +142,7 @@ describe('DataViewComponent', () => {
   });
 
   describe('trackByFn', () => {
-    test('should return index', () => {
+    it('should return index', () => {
       const idx = 5;
 
       const result = component.trackByFn(idx, {});

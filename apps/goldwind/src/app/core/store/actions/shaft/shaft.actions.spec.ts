@@ -17,7 +17,7 @@ describe('Shaft Actions', () => {
   });
 
   describe('Get Shaft Actions', () => {
-    test('getShaftId', () => {
+    it('getShaftId', () => {
       const source = 'fantasy-route';
       const action = getShaftId({ source });
 
@@ -27,7 +27,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('getShaftLatest', () => {
+    it('getShaftLatest', () => {
       const action = getShaftLatest({ deviceId });
 
       expect(action).toEqual({
@@ -36,7 +36,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('geShaftLatestFailure', () => {
+    it('geShaftLatestFailure', () => {
       const action = getShaftLatestFailure();
 
       expect(action).toEqual({
@@ -44,7 +44,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('getShaftLatestSuccess', () => {
+    it('getShaftLatestSuccess', () => {
       const shaft: any = {};
       const action = getShaftLatestSuccess({ shaft });
 
@@ -54,7 +54,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('getShaft', () => {
+    it('getShaft', () => {
       const action = getShaft({ deviceId });
 
       expect(action).toEqual({
@@ -63,7 +63,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('stopGetShaft', () => {
+    it('stopGetShaft', () => {
       const action = stopGetShaftLatest();
 
       expect(action).toEqual({
@@ -71,7 +71,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('geShaftFailure', () => {
+    it('geShaftFailure', () => {
       const action = getShaftFailure();
 
       expect(action).toEqual({
@@ -79,7 +79,7 @@ describe('Shaft Actions', () => {
       });
     });
 
-    test('getShaftSuccess', () => {
+    it('getShaftSuccess', () => {
       const shaft: any = [{}];
       const action = getShaftSuccess({ shaft });
 

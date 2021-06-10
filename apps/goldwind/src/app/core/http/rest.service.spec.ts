@@ -32,7 +32,7 @@ describe('Rest Service', () => {
   });
 
   describe('getIot', () => {
-    test('should call DataService getAll method for given path', () => {
+    it('should call DataService getAll method for given path', () => {
       const mockPath = 'many/paths/should/be/handled';
 
       service.getIot(mockPath);
@@ -41,7 +41,7 @@ describe('Rest Service', () => {
   });
 
   describe('getBearing', () => {
-    test('should call DataService getAll with bearingId and metadata route', () => {
+    it('should call DataService getAll with bearingId and metadata route', () => {
       const mockBearingId = '123';
 
       service.getBearing(mockBearingId);
@@ -52,7 +52,7 @@ describe('Rest Service', () => {
   });
 
   describe('getEdm', () => {
-    test('should call DataService getAll with all edm params', () => {
+    it('should call DataService getAll with all edm params', () => {
       const mockEdmDevice = {
         id: 'ich1-bin2-top3',
         startDate: 1599651508,
@@ -67,7 +67,7 @@ describe('Rest Service', () => {
   });
 
   describe('getGreaseStatus', () => {
-    test('should call dataService getAll with all grease params', () => {
+    it('should call dataService getAll with all grease params', () => {
       const mockGreaseDevice = {
         id: 'du1-bist2-flop3',
         startDate: 1599651508,
@@ -82,7 +82,7 @@ describe('Rest Service', () => {
   });
 
   describe('getGreaseStatusLatest', () => {
-    test('should call dataService getShaftLatest', () => {
+    it('should call dataService getShaftLatest', () => {
       const mockShaftDeviceID = '123';
 
       service.getShaftLatest(mockShaftDeviceID);
@@ -93,7 +93,7 @@ describe('Rest Service', () => {
   });
 
   describe('getShaftLatest', () => {
-    test('should call dataService getAll with all grease params', () => {
+    it('should call dataService getAll with all grease params', () => {
       const mockBearingId = '123';
 
       service.getGreaseStatusLatest(mockBearingId);
@@ -104,14 +104,14 @@ describe('Rest Service', () => {
   });
 
   describe('getDevices', () => {
-    test('should call GET for given path', () => {
+    it('should call GET for given path', () => {
       service.getDevices();
       expect(dataService.getAll).toHaveBeenCalledWith(`device/listedgedevices`);
     });
   });
 
   describe('getBearingLoad', () => {
-    test('should call dataService getLoad', () => {
+    it('should call dataService getLoad', () => {
       const mockLoadSenseParams = {
         id: 'du1-bist2-flop3',
         startDate: 1599651508,
@@ -126,7 +126,7 @@ describe('Rest Service', () => {
   });
 
   describe('getBearingLoadLatest', () => {
-    test('should call dataService', () => {
+    it('should call dataService', () => {
       const deviceId = 'du1-bist2-flop3';
 
       service.getBearingLoadLatest(deviceId);
@@ -137,7 +137,7 @@ describe('Rest Service', () => {
   });
 
   describe('getBearingLoadAverage', () => {
-    test('should call dataService', () => {
+    it('should call dataService', () => {
       const deviceId = 'du1-bist2-flop3';
       const startDate = 123;
       const endDate = 456;
@@ -156,7 +156,7 @@ describe('Rest Service', () => {
   });
 
   describe('getData', () => {
-    test('should call GET for given path', () => {
+    it('should call GET for given path', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
         startDate: 1599651508,

@@ -56,14 +56,14 @@ describe('Search Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getBearingId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -85,7 +85,7 @@ describe('Search Effects', () => {
   });
 
   describe('bearingId$', () => {
-    test(
+    it(
       'should return getBearing',
       marbles((m) => {
         action = getBearingId();
@@ -106,7 +106,7 @@ describe('Search Effects', () => {
       action = getBearing({ bearingId: '123' });
     });
 
-    test(
+    it(
       'should return getBearingSuccess action when REST call is successful',
       marbles((m) => {
         const result = getBearingSuccess({

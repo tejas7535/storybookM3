@@ -5,6 +5,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
 import { CmEquipmentComponent } from './cm-equipment.component';
 
 describe('ConditionMeasuringEquipmentComponent', () => {
@@ -37,12 +38,24 @@ describe('ConditionMeasuringEquipmentComponent', () => {
   });
 
   describe('trackByFn', () => {
-    test('should return index', () => {
+    it('should return index', () => {
       const idx = 5;
 
       const result = component.trackByFn(idx, {});
 
       expect(result).toEqual(idx);
+    });
+  });
+
+  describe('getBearingMeta', () => {
+    it('should return the meta', () => {
+      component.mainBearing = {
+        description: 'Test Description',
+      } as BearingMetadata;
+
+      expect(component.getBearingMeta('description')).toEqual(
+        'Test Description'
+      );
     });
   });
 });

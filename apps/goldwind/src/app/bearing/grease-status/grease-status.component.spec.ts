@@ -125,7 +125,7 @@ describe('GreaseStatusComponent', () => {
   });
 
   describe('Display Form', () => {
-    test('should dispatch setGreaseAction on valueChanges', () => {
+    it('should dispatch setGreaseAction on valueChanges', () => {
       const mockGreaseDisplay = {
         waterContent_1: true,
         deterioration_1: true,
@@ -149,7 +149,7 @@ describe('GreaseStatusComponent', () => {
   });
 
   describe('setGreaseInterval', () => {
-    test('should dispatch the setEdmInterval action', () => {
+    it('should dispatch the setEdmInterval action', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {

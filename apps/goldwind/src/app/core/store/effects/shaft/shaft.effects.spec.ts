@@ -70,14 +70,14 @@ describe('Shaft Effects', () => {
   });
 
   describe('router$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.router$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should dispatch getShaftId',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -101,7 +101,7 @@ describe('Shaft Effects', () => {
       })
     );
 
-    test(
+    it(
       'should dispatch stopGetShaft when leaving the bearing route',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -125,14 +125,14 @@ describe('Shaft Effects', () => {
   });
 
   describe('shaftId$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.shaftId$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
 
-    test(
+    it(
       'should return getShaft',
       marbles((m) => {
         store.dispatch = jest.fn();
@@ -159,7 +159,7 @@ describe('Shaft Effects', () => {
   });
 
   describe('continueShaftId$', () => {
-    test(
+    it(
       'should return getShaft',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -180,13 +180,13 @@ describe('Shaft Effects', () => {
   });
 
   describe('stopGetShaftLatest$', () => {
-    test('should not return an action', () => {
+    it('should not return an action', () => {
       expect(metadata.stopGetShaftLatest$).toEqual({
         dispatch: false,
         useEffectsErrorHandler: true,
       });
     });
-    test(
+    it(
       'should set isPollingActive to false',
       marbles((m) => {
         effects['isPollingActive'] = true;
@@ -207,7 +207,7 @@ describe('Shaft Effects', () => {
       action = getShaftLatest({ deviceId });
     });
 
-    test(
+    it(
       'should return getShaftLatestSuccess action when REST call is successful',
       marbles((m) => {
         const SHAFT_MOCK: ShaftStatus = {
@@ -243,7 +243,7 @@ describe('Shaft Effects', () => {
       action = getShaft({ deviceId });
     });
 
-    test(
+    it(
       'should return getShaftSuccess action when REST call is successful',
       marbles((m) => {
         const SHAFT_MOCK: ShaftStatus[] = [

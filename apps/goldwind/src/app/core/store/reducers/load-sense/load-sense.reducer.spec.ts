@@ -15,7 +15,7 @@ import { LoadSense } from './models';
 
 describe('Load Sense Reducer', () => {
   describe('getLoad', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getBearingLoadLatest({ deviceId: '123' });
       const state = loadSenseReducer(initialState, action);
 
@@ -24,7 +24,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('getLoadAverage', () => {
-    test('should set loading', () => {
+    it('should set loading', () => {
       const action = getLoadAverage({ deviceId: '123' });
       const state = loadSenseReducer(initialState, action);
 
@@ -33,7 +33,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('getLoadAverageSuccess', () => {
-    test('should unset loading and set state', () => {
+    it('should unset loading and set state', () => {
       const mockResult: LoadSense = {
         deviceId: 'string',
         id: 'string',
@@ -73,7 +73,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('getLoadSuccess', () => {
-    test('should unset loading and set bearing', () => {
+    it('should unset loading and set bearing', () => {
       const mockResult: LoadSense = {
         deviceId: 'string',
         id: 'string',
@@ -111,7 +111,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('getLoadFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getBearingLoadFailure();
       const fakeState = {
         ...initialState,
@@ -125,7 +125,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('getLoadAverageFailure', () => {
-    test('should unset loading', () => {
+    it('should unset loading', () => {
       const action = getLoadAverageFailure();
       const fakeState = {
         ...initialState,
@@ -141,7 +141,7 @@ describe('Load Sense Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return loadSenseReducer', () => {
+    it('should return loadSenseReducer', () => {
       // prepare any action
       const action: Action = getBearingLoadFailure();
       expect(reducer(initialState, action)).toEqual(
