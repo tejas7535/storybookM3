@@ -5,7 +5,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BehaviorSubject } from 'rxjs';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
 
 import { MMLocales } from '../../services/locale/locale.enum';
@@ -68,7 +68,7 @@ describe('SidebarComponent', () => {
     expect(localeService.setSeparator).toHaveBeenCalledWith(MMSeparator.Point);
   });
 
-  it('it should set the language', () => {
+  it('should set the language', () => {
     component.setLanguage('en');
 
     expect(localeService.setLocale).toHaveBeenCalledWith('en' as MMLocales);

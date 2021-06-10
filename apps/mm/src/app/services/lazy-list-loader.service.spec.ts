@@ -4,10 +4,14 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { environment } from '../../environments/environment';
 import {
+  BEARING_PREFLIGHT_EMPTY_MOCK,
   BEARING_PREFLIGHT_RESPONSE_MOCK,
   LOAD_OPTIONS_RESPONSE_MOCK,
 } from '../../testing/mocks/rest.service.mock';
-import { RSY_BEARING } from '../shared/constants/dialog-constant';
+import {
+  IDMM_HYDRAULIC_NUT_TYPE,
+  RSY_BEARING,
+} from '../shared/constants/dialog-constant';
 import {
   LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX,
   LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE,
@@ -67,7 +71,7 @@ describe('LazyListLoaderService testing', () => {
       expect(service['preflight']).toHaveBeenCalledTimes(1);
     });
 
-    it('should call getLoadOptions if no preflight url (complex request)', () => {
+    it('should call getLoadOptions if no preflight url (complex request)', (done) => {
       const mockUrl = `complex`;
       const mockValues = [
         {
@@ -76,18 +80,19 @@ describe('LazyListLoaderService testing', () => {
         },
       ];
 
-      service
-        .loadOptions(mockUrl, mockValues)
-        .subscribe((response) =>
-          expect(response).toEqual(LOAD_OPTIONS_RESPONSE_MOCK_COMPLEX)
-        );
+      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
+        expect(response).toEqual([
+          { id: 'mockId', imageUrl: 'mockHref', text: 'mockTitle' },
+        ]);
+        done();
+      });
 
       expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
         mockUrl
       );
     });
 
-    it('should call getLoadOptions if no preflight url (simple request)', () => {
+    it('should call getLoadOptions if no preflight url (simple request)', (done) => {
       const mockUrl = `simple`;
       const mockValues = [
         {
@@ -96,11 +101,38 @@ describe('LazyListLoaderService testing', () => {
         },
       ];
 
-      service
-        .loadOptions(mockUrl, mockValues)
-        .subscribe((response) =>
-          expect(response).toEqual(LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE)
-        );
+      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
+        expect(response).toEqual([
+          { id: 'mockId', imageUrl: 'testHref', text: 'mockTitle' },
+          { id: 'mockId2', imageUrl: undefined, text: 'mockTitle2' },
+        ]);
+        done();
+      });
+
+      expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
+        mockUrl
+      );
+    });
+
+    it('should not break if neither simple nor complex response is returned', (done) => {
+      const mockUrl = `base`;
+      const mockValues = [
+        {
+          name: 'mockName',
+          value: 'mockValue',
+        },
+      ];
+
+      service.loadOptions(mockUrl, mockValues).subscribe((response) => {
+        expect(response).toEqual([
+          {
+            id: 'some id',
+            text: 'some title',
+            imageUrl: undefined,
+          },
+        ]);
+        done();
+      });
 
       expect(service['restService'].getLoadOptions).toHaveBeenCalledWith(
         mockUrl
@@ -109,8 +141,7 @@ describe('LazyListLoaderService testing', () => {
   });
 
   describe('#preflight', () => {
-    it('should call getPreflight response', () => {
-      const mock = { data: { input: [] } } as any;
+    it('should call getPreflight response', (done) => {
       const mockValues = [
         {
           name: 'mockName',
@@ -122,8 +153,38 @@ describe('LazyListLoaderService testing', () => {
         },
       ];
 
-      service['preflight'](mockValues).subscribe((response) =>
-        expect(response).toEqual(mock)
+      service['preflight'](mockValues).subscribe((response) => {
+        expect(response).toEqual([{ id: 'some id', text: 'some text' }]);
+        done();
+      });
+
+      expect(
+        service['restService'].getBearingPreflightResponse
+      ).toHaveBeenCalledWith({
+        IDCO_DESIGNATION: 'mockValue',
+        mockName: 'mockValue',
+      });
+    });
+
+    it('should throw an error on empty nutfield', async () => {
+      service['restService'].getBearingPreflightResponse = jest.fn(() =>
+        of(BEARING_PREFLIGHT_EMPTY_MOCK)
+      );
+      const mockValues = [
+        {
+          name: 'mockName',
+          value: 'mockValue',
+        },
+        {
+          name: RSY_BEARING,
+          value: 'mockValue',
+        },
+      ];
+
+      await expect(
+        service['preflight'](mockValues).toPromise()
+      ).rejects.toThrowError(
+        new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`)
       );
 
       expect(

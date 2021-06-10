@@ -60,9 +60,10 @@ describe('RestService', () => {
   });
 
   describe('#getBearingSearch', () => {
-    it('should send a bearing search request with given query', () => {
+    it('should send a bearing search request with given query', (done) => {
       service.getBearingSearch('theQuery').subscribe((result: SearchResult) => {
         expect(result).toEqual(BEARING_SEARCH_RESULT_MOCK);
+        done();
       });
 
       const req = httpMock.expectOne(
@@ -74,9 +75,10 @@ describe('RestService', () => {
   });
 
   describe('#getBearingRelations', () => {
-    it('should send a bearing relation request with given id', () => {
+    it('should send a bearing relation request with given id', (done) => {
       service.getBearingRelations('theId').subscribe((result: SearchResult) => {
         expect(result).toEqual({});
+        done();
       });
 
       const req = httpMock.expectOne(
@@ -88,11 +90,12 @@ describe('RestService', () => {
   });
 
   describe('#getBearingCalculationResult', () => {
-    it('should send a bearing calculation request with given form properties', () => {
+    it('should send a bearing calculation request with given form properties', (done) => {
       service
         .getBearingCalculationResult('some form properties i guess')
         .subscribe((result: SearchResult) => {
           expect(result).toEqual(BEARING_CALCULATION_RESULT_MOCK);
+          done();
         });
 
       const req = httpMock.expectOne(`/${environment.bearingCalculationPath}`);
@@ -102,11 +105,12 @@ describe('RestService', () => {
   });
 
   describe('#getBearingPreflightResponse', () => {
-    it('should send a bearing preflight request with given body', () => {
+    it('should send a bearing preflight request with given body', (done) => {
       service
         .getBearingPreflightResponse({} as PreflightRequestBody)
         .subscribe((result: MMBearingPreflightResponse) => {
           expect(result).toEqual(BEARING_PREFLIGHT_RESPONSE_MOCK);
+          done();
         });
 
       const req = httpMock.expectOne(`/${environment.preflightPath}`);
@@ -116,12 +120,13 @@ describe('RestService', () => {
   });
 
   describe('#getBearingMaterialResponse', () => {
-    it('should send a bearing material request with given material', () => {
+    it('should send a bearing material request with given material', (done) => {
       const mockShaftMaterial = 'material1';
       service
         .getBearingsMaterialResponse(mockShaftMaterial)
         .subscribe((result: MMBearingsMaterialResponse) => {
           expect(result).toEqual(BEARING_MATERIAL_RESPONSE_MOCK);
+          done();
         });
 
       const req = httpMock.expectOne(
@@ -133,9 +138,10 @@ describe('RestService', () => {
   });
 
   describe('#getLoadOptions', () => {
-    it('should send a load option request with given url', () => {
+    it('should send a load option request with given url', (done) => {
       service.getLoadOptions('aUrl').subscribe((result: MMResponseVariants) => {
         expect(result).toEqual(LOAD_OPTIONS_RESPONSE_MOCK);
+        done();
       });
 
       const req = httpMock.expectOne('/aUrl?cache$=true');

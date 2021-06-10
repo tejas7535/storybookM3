@@ -48,7 +48,7 @@ describe('ResultPageService testing', () => {
   });
 
   describe('#getResult', () => {
-    it('should getBearingCalculation from restService', () => {
+    it('should getBearingCalculation from restService', (done) => {
       const mockFormProperties = {
         data: {},
         state: false,
@@ -65,10 +65,14 @@ describe('ResultPageService testing', () => {
       };
 
       spectator.service.getResult(mockFormProperties).subscribe((response) => {
-        expect(response).toEqual(mockResponse);
+        expect(response).toEqual({
+          htmlReportUrl: 'mockRefBody',
+          pdfReportUrl: 'mockRefPdf',
+        });
         expect(
           service['restService'].getBearingCalculationResult
         ).toHaveBeenCalledWith(mockFormProperties);
+        done();
       });
     });
   });

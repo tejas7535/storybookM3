@@ -1,18 +1,6 @@
-import { Model, ModelObject, ObjectProperty } from '@caeonline/dynamic-forms';
+import { Model, ModelObject } from '@caeonline/dynamic-forms';
 
-export interface BxApiObjectModel {
-  type: string;
-  properties: ObjectProperty[];
-
-  children: BxApiObjectModel[];
-
-  subTypes?: string[];
-  childList?: string;
-}
-
-export interface BxApiModel {
-  rootObject: BxApiObjectModel;
-}
+import { BxApiModel, BxApiObjectModel } from '../shared/models';
 
 export class ModelTransformer {
   public api2local(apiModel: BxApiModel): Model {

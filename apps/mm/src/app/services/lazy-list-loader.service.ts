@@ -106,6 +106,10 @@ export class LazyListLoaderService implements LazyListLoader {
             ({ id }) => id === IDMM_HYDRAULIC_NUT_TYPE
           );
 
+          console.warn('===============================================');
+          console.warn(nutField);
+          console.warn('===============================================');
+
           if (!nutField || !nutField.range) {
             throw new Error(`Cannot find ${IDMM_HYDRAULIC_NUT_TYPE} field`);
           }

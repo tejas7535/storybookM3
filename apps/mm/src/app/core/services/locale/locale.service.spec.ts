@@ -1,4 +1,4 @@
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoService } from '@ngneat/transloco';
 
 import { MMLocales } from './locale.enum';
