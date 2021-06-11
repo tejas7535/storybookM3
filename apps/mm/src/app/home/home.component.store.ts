@@ -7,6 +7,8 @@ import { ComponentStore } from '@ngrx/component-store';
 
 import { RSY_PAGE_BEARING_TYPE } from '../shared/constants/dialog-constant';
 import { PagedMeta } from './home.model';
+import { NestedPropertyMeta } from '@caeonline/dynamic-forms';
+import { HomeService } from './home.service';
 
 export interface HomeState {
   pagedMetas: PagedMeta[];
@@ -16,7 +18,7 @@ export interface HomeState {
 
 @Injectable()
 export class HomeStore extends ComponentStore<HomeState> {
-  constructor() {
+  public constructor(private readonly homeService: HomeService) {
     super({
       pagedMetas: [],
       activePageId: RSY_PAGE_BEARING_TYPE,
@@ -24,26 +26,26 @@ export class HomeStore extends ComponentStore<HomeState> {
     });
   }
 
-  readonly pagedMetas$: Observable<PagedMeta[]> = this.select(
+  public readonly pagedMetas$: Observable<PagedMeta[]> = this.select(
     (state) => state.pagedMetas
   );
 
-  readonly activePageId$: Observable<string> = this.select(
+  public readonly activePageId$: Observable<string> = this.select(
     (state) => state.activePageId
   );
 
-  readonly activePageName$: Observable<string> = this.select(
+  public readonly activePageName$: Observable<string> = this.select(
     (state) =>
       state.pagedMetas.find(
         (pagedMeta) => pagedMeta.page.id === state.activePageId
       )?.page.page.text
   );
 
-  readonly inactivePageId$: Observable<string> = this.select(
+  public readonly inactivePageId$: Observable<string> = this.select(
     (state) => state.inactivePageId
   );
 
-  readonly maxPageId$: Observable<string> = this.select((state) => {
+  public readonly maxPageId$: Observable<string> = this.select((state) => {
     let result: string;
 
     state.pagedMetas.map((pagedMeta) =>
@@ -73,17 +75,21 @@ export class HomeStore extends ComponentStore<HomeState> {
     return result;
   });
 
-  readonly setPageMetas = this.updater((state, pagedMetas: PagedMeta[]) => ({
-    ...state,
-    pagedMetas,
-  }));
+  public readonly setPageMetas = this.updater(
+    (state, nestedMetas: NestedPropertyMeta[]) => ({
+      ...state,
+      pagedMetas: this.homeService.constructPagedMetas(nestedMetas),
+    })
+  );
 
-  readonly setActivePageId = this.updater((state, activePageId: string) => ({
-    ...state,
-    activePageId,
-  }));
+  public readonly setActivePageId = this.updater(
+    (state, activePageId: string) => ({
+      ...state,
+      activePageId,
+    })
+  );
 
-  readonly setInactivePageId = this.updater(
+  public readonly setInactivePageId = this.updater(
     (state, inactivePageId: string) => ({
       ...state,
       inactivePageId,
