@@ -1,22 +1,24 @@
 import {
-  EventEmitter,
-  Output,
-  Component,
   ChangeDetectionStrategy,
-  Input,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
   ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  TrackByFunction,
 } from '@angular/core';
-
 import {
   ControlValueAccessor,
   FormControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+
 import { BehaviorSubject, combineLatest, Observable, Subscription } from 'rxjs';
 import { debounceTime, filter, map } from 'rxjs/operators';
+
 import { SearchAutocompleteOption } from './search-autocomple-option.model';
 
 @Component({
@@ -63,6 +65,13 @@ export class SearchAutocompleteComponent
   private onChange: (value: string) => void = () => {};
 
   onTouched: () => void = () => {};
+
+  trackByFn: TrackByFunction<SearchAutocompleteOption> = (
+    _index: number,
+    val: SearchAutocompleteOption
+  ): string => {
+    return val.id;
+  };
 
   constructor(private readonly cdRef: ChangeDetectorRef) {}
 
@@ -174,9 +183,5 @@ export class SearchAutocompleteComponent
 
   optionTitle(option: SearchAutocompleteOption): string {
     return option && option.title ? option.title : '';
-  }
-
-  trackByFn(_index: number, val: SearchAutocompleteOption): string {
-    return val.id;
   }
 }
