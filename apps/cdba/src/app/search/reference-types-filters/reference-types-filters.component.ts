@@ -1,4 +1,10 @@
-import { Component, OnInit, QueryList, ViewChildren } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  QueryList,
+  TrackByFunction,
+  ViewChildren,
+} from '@angular/core';
 
 import { Observable } from 'rxjs';
 
@@ -45,6 +51,11 @@ export class ReferenceTypesFiltersComponent implements OnInit {
 
   filterType = FilterItemType;
 
+  trackByFn: TrackByFunction<FilterItem> = (
+    _index: number,
+    item: FilterItem
+  ): string => item.name;
+
   public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
@@ -74,13 +85,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
    */
   public search(): void {
     this.store.dispatch(search());
-  }
-
-  /**
-   * Improves performance of ngFor.
-   */
-  public trackByFn(_index: number, item: FilterItem): string {
-    return item.name;
   }
 
   /**
