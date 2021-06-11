@@ -5,18 +5,12 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
-import { combineLatest, defer, merge, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { map, takeUntil, tap } from 'rxjs/operators';
 
-import {
-  DynamicFormTemplateContext,
-  Model,
-  NestedPropertyMeta,
-  VariablePropertyMeta,
-} from '@caeonline/dynamic-forms';
+import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
 
 import { DIALOG } from '../../mock';
 import { MMLocales } from '../core/services/locale/locale.enum';
@@ -42,7 +36,6 @@ import { PagedMeta } from './home.model';
 @Component({
   selector: 'mm-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
   providers: [ModelTransformer, HomeStore],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -100,49 +93,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getBearingRelations(id);
   }
 
-  // Todo move to effect
   public dynamicFormLoaded({ nestedMetas }: DynamicFormTemplateContext) {
-    const pagedMetas = nestedMetas
-      .map((nestedMeta) => ({
-        parent: nestedMeta,
-        metas: this.extractMembers(nestedMeta),
-      }))
-      .map(({ parent, metas }) => {
-        const controls = metas.map(
-          (meta) =>
-            (meta.control.get('value') as FormControl) || new FormControl({})
-        );
-
-        controls.forEach((control) => {
-          // WARNING this removes all validators already set by dynamic forms (e.g. min/max)
-          // if you need min/max validators, implement valid$ here to react to value changes
-          // and check if all controls have a proper value (not null or '' ...)
-          control.setValidators(Validators.required);
-          control.updateValueAndValidity();
-        });
-
-        const valid$ =
-          controls.length > 0
-            ? combineLatest(
-                controls.map((control) =>
-                  merge(
-                    defer(() => of(control.status)),
-                    control.statusChanges
-                  )
-                )
-              ).pipe(
-                map((isValids) =>
-                  isValids.every((isValid) =>
-                    ['VALID', 'DISABLED'].includes(isValid)
-                  )
-                )
-              )
-            : of(true); // return true if there are no controls like for result page
-
-        return { ...parent, metas, controls, valid$ };
-      });
-
-    this.homeStore.setPageMetas(pagedMetas);
+    this.homeStore.setPageMetas(nestedMetas);
   }
 
   public next(
@@ -224,19 +176,5 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
-  }
-
-  private extractMembers(
-    nestedMeta: NestedPropertyMeta
-  ): VariablePropertyMeta[] {
-    const parentMetas = nestedMeta.metas as VariablePropertyMeta[];
-    // TODO: check lint rules
-    // eslint-disable-next-line unicorn/prefer-array-flat
-    const childMetas = nestedMeta.children
-      .map((child) => this.extractMembers(child))
-      // eslint-disable-next-line unicorn/no-array-reduce
-      .reduce((flat, curr) => [...flat, ...curr], []);
-
-    return [...parentMetas, ...childMetas];
   }
 }

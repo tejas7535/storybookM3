@@ -6,6 +6,7 @@ import { BehaviorSubject, of } from 'rxjs';
 
 import {
   DynamicFormsModule,
+  DynamicFormTemplateContext,
   LazyListLoaderService,
   NestedPropertyMeta,
   RuntimeRequestService,
@@ -153,8 +154,25 @@ describe('HomeComponent', () => {
     });
   });
 
-  // TODO actually write this test
-  // it('dynamicFormLoaded should construct pagedMetas and call store', () => {});
+  it('dynamicFormLoaded should call store', () => {
+    Object.defineProperty(component['homeStore'], 'setPageMetas', {
+      value: jest.fn(),
+    });
+    const mockNestedMeta = [
+      {
+        metas: [],
+        children: [],
+      },
+    ] as NestedPropertyMeta[];
+    const mockedDynamicTemplate = {
+      nestedMetas: mockNestedMeta,
+    } as DynamicFormTemplateContext;
+    component.dynamicFormLoaded(mockedDynamicTemplate);
+
+    expect(component['homeStore'].setPageMetas).toHaveBeenCalledWith(
+      mockNestedMeta
+    );
+  });
 
   describe('#next', () => {
     it('should call stepper next method', () => {
@@ -176,19 +194,6 @@ describe('HomeComponent', () => {
       component.next('mockId1', mockPagedMeta, mockStepper);
 
       expect(spy).toHaveBeenCalledTimes(1);
-    });
-  });
-
-  describe('#extractMembers', () => {
-    it('should return parent and child Metas at extractMembers', () => {
-      // TODO add meaningfull mockdata
-      const mockNestedMeta = {
-        metas: [],
-        children: [],
-      } as NestedPropertyMeta;
-      const result = component['extractMembers'](mockNestedMeta);
-
-      expect(result).toEqual([]);
     });
   });
 });
