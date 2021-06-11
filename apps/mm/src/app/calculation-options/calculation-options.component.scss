@@ -14,14 +14,6 @@
   .mat-expansion-panel {
     box-shadow: none !important;
     @apply border-border border-[1px];
-
-    &:nth-child(1) {
-      @apply md:mr-4;
-    }
-
-    &:nth-child(2) {
-      @apply md:ml-4;
-    }
   }
 
   .mat-expansion-panel-body {
