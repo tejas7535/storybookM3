@@ -24,12 +24,12 @@
       <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
         <schaeffler-dropdown-input
           *ngIf="
-            meta.member.type && meta.member.type === 'lazy-list';
+            isDropdownInput(meta.member?.type, meta.member?.id);
             else select
           "
           [label]="
-            meta.page.id === 'PROPERTY_PAGE_MOUNTING_SITUATION_SUB' ||
-            meta.page.id === 'PROPERTY_PAGE_MOUNTING'
+            meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
+            meta.page.id === PROPERTY_PAGE_MOUNTING
               ? meta.member.text
               : undefined
           "

@@ -10,6 +10,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { ListMemberComponent } from '../member-controls/list-member.component';
 import { StringNumberMemberComponent } from '../member-controls/string-number-member.component';
 import { RuntimeRequesterService } from '../services/runtime-requester.service';
+import { MemberTypes } from '../shared/constants/dialog-constant';
 
 import { CalculationOptionsComponent } from './calculation-options.component';
 
@@ -24,11 +25,11 @@ import { CalculationOptionsComponent } from './calculation-options.component';
     // Dynamic Forms
     DynamicFormsModule.forRoot({
       mapping: {
-        boolean: ListMemberComponent,
-        list: ListMemberComponent,
-        'ref-list': ListMemberComponent,
-        'lazy-list': ListMemberComponent,
-        number: StringNumberMemberComponent,
+        [MemberTypes.Boolean]: ListMemberComponent,
+        [MemberTypes.List]: ListMemberComponent,
+        [MemberTypes.RefList]: ListMemberComponent,
+        [MemberTypes.LazyList]: ListMemberComponent,
+        [MemberTypes.Number]: StringNumberMemberComponent,
         // string: StringNumberMemberComponent,
       },
       lazyListLoader: LazyListLoaderService,

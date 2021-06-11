@@ -23,6 +23,7 @@ import { PictureCardListModule } from '../picture-card-list/picture-card-list.mo
 import { ResultPageModule } from '../result-page/result-page.module';
 import { LazyListLoaderService } from '../services/lazy-list-loader.service';
 import { RuntimeRequesterService } from '../services/runtime-requester.service';
+import { MemberTypes } from '../shared/constants/dialog-constant';
 import { SharedModule } from '../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
@@ -64,11 +65,11 @@ import { HomeComponent } from './home.component';
     // Dynamic Forms
     DynamicFormsModule.forRoot({
       mapping: {
-        boolean: ListMemberComponent,
-        list: ListMemberComponent,
-        'ref-list': ListMemberComponent,
-        'lazy-list': ListMemberComponent,
-        number: StringNumberMemberComponent,
+        [MemberTypes.Boolean]: ListMemberComponent,
+        [MemberTypes.List]: ListMemberComponent,
+        [MemberTypes.RefList]: ListMemberComponent,
+        [MemberTypes.LazyList]: ListMemberComponent,
+        [MemberTypes.Number]: StringNumberMemberComponent,
         // string: StringNumberMemberComponent,
       },
       lazyListLoader: LazyListLoaderService,
