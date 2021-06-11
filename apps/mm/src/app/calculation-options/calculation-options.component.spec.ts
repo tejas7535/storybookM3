@@ -1,10 +1,11 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { Spectator } from '@ngneat/spectator';
-import { createComponentFactory } from '@ngneat/spectator/jest';
-import { ReactiveComponentModule } from '@ngrx/component';
-import { Observable } from 'rxjs';
-import { PagedMeta } from '../home/home.model';
 
+import { Observable } from 'rxjs';
+
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { PagedMeta } from '../home/home.model';
 import { CalculationOptionsComponent } from './calculation-options.component';
 
 describe('CalculationOptionsComponent', () => {
@@ -34,5 +35,12 @@ describe('CalculationOptionsComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('#trackBy', () => {
+    it('should return the id', () => {
+      const id = 100;
+      expect(component.trackByFn(id)).toEqual(id);
+    });
   });
 });

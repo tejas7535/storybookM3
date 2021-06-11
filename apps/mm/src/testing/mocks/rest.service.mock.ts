@@ -36,6 +36,12 @@ export const BEARING_CALCULATION_RESULT_MOCK: {
   _links: [],
 };
 
+export const BEARING_PREFLIGHT_EMPTY_MOCK: MMBearingPreflightResponse = {
+  data: {
+    input: [],
+  },
+};
+
 export const BEARING_PREFLIGHT_RESPONSE_MOCK: MMBearingPreflightResponse = {
   data: {
     input: [
@@ -46,7 +52,12 @@ export const BEARING_PREFLIGHT_RESPONSE_MOCK: MMBearingPreflightResponse = {
           {
             id: IDMM_HYDRAULIC_NUT_TYPE,
             defaultValue: 'default',
-            range: [],
+            range: [
+              {
+                id: 'some id',
+                title: 'some text',
+              },
+            ],
           },
           {
             id: IDMM_INNER_RING_EXPANSION,
@@ -71,17 +82,28 @@ export const BEARING_MATERIAL_RESPONSE_MOCK: MMBearingsMaterialResponse = {
 };
 
 export const LOAD_OPTIONS_RESPONSE_MOCK: MMBaseResponse = {
-  data: [],
+  data: [
+    {
+      id: 'some id',
+      title: 'some title',
+    },
+  ],
 };
 
 export const LOAD_OPTIONS_RESPONSE_MOCK_SIMPLE: MMSimpleResponse = {
   data: [
     {
       data: {
-        id: 'mocId',
+        id: 'mockId',
         title: 'mockTitle',
       },
       _media: [{ href: 'testHref' }],
+    },
+    {
+      data: {
+        id: 'mockId2',
+        title: 'mockTitle2',
+      },
     },
   ],
 };

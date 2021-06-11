@@ -31,6 +31,12 @@
       }
     },
     {
+      "files": ["*.spec.ts"],
+      "rules": {
+        "jest/no-done-callback": "off"
+      }
+    },
+    {
       "files": ["*.html"],
       "extends": ["plugin:@nrwl/nx/angular-template"],
       "rules": {}
