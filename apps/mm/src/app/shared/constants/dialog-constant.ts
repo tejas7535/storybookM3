@@ -20,6 +20,16 @@ export const IDMM_RADIAL_CLEARANCE_REDUCTION =
   'IDMM_RADIAL_CLEARANCE_REDUCTION';
 export const IDMM_MODULUS_OF_ELASTICITY = 'IDMM_MODULUS_OF_ELASTICITY';
 export const IDMM_POISSON_RATIO = 'IDMM_POISSON_RATIO';
+export const IDMM_MEASSURING_METHOD = 'IDMM_MEASSURING_METHOD';
+
+/* member types */
+export enum MemberTypes {
+  LazyList = 'lazy-list',
+  Boolean = 'boolean',
+  List = 'list',
+  RefList = 'ref-list',
+  Number = 'number',
+}
 
 /* runtime tables */
 export const TBL_BEARING_PREFLIGHT = 'TBL_BEARING_PREFLIGHT';

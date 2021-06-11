@@ -21,15 +21,25 @@ import {
   CONTROL_META,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
+import {
+  MemberTypes,
+  PROPERTY_PAGE_MOUNTING,
+  PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
+} from '../shared/constants/dialog-constant';
+import { forcedSelectsList } from '../shared/constants/forced-selects-list';
 
 @Component({
   templateUrl: 'list-member.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListMemberComponent implements OnInit, OnDestroy {
-  constructor(
+  public constructor(
     @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
   ) {}
+
+  public PROPERTY_PAGE_MOUNTING = PROPERTY_PAGE_MOUNTING;
+  public PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
+    PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
 
   public isBoolean = false;
 
@@ -39,10 +49,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   public isPictureList$: Observable<boolean>;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
 
   public ngOnInit(): void {
-    if (this.meta.member.type === 'boolean') {
+    if (this.meta.member.type === MemberTypes.Boolean) {
       this.isBoolean = true;
 
       return;
@@ -61,6 +71,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  public isDropdownInput(type: string, id: string): boolean {
+    return type === MemberTypes.LazyList && !forcedSelectsList.includes(id);
   }
 
   public get control(): FormControl {
