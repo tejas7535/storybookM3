@@ -28,7 +28,22 @@
             "style": "kebab-case"
           }
         ],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "@nrwl/nx/enforce-module-boundaries": [
+          "error",
+          {
+            "allow": [],
+            "depConstraints": [
+              {
+                "sourceTag": "*",
+                "onlyDependOnLibsWithTags": ["*"]
+              }
+            ],
+            "enforceBuildableLibDependency": true,
+            "allowCircularSelfDependency": true
+          }
+        ],
+        "@typescript-eslint/explicit-member-accessibility": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

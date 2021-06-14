@@ -282,15 +282,15 @@ describe('RangeFilterComponent', () => {
     });
 
     it('should abbreviate thousands with K and no digits', () => {
-      expect(component.formatSliderThumbLabel(123456)).toBe('123K');
-      expect(component.formatSliderThumbLabel(123556)).toBe('124K');
-      expect(component.formatSliderThumbLabel(900001)).toBe('900K');
+      expect(component.formatSliderThumbLabel(123_456)).toBe('123K');
+      expect(component.formatSliderThumbLabel(123_556)).toBe('124K');
+      expect(component.formatSliderThumbLabel(900_001)).toBe('900K');
     });
 
     it('should abbreviate millions to M with one digit', () => {
-      expect(component.formatSliderThumbLabel(1234569)).toBe('1.2M');
-      expect(component.formatSliderThumbLabel(1254569)).toBe('1.3M');
-      expect(component.formatSliderThumbLabel(9000001)).toBe('9.0M');
+      expect(component.formatSliderThumbLabel(1_234_569)).toBe('1.2M');
+      expect(component.formatSliderThumbLabel(1_254_569)).toBe('1.3M');
+      expect(component.formatSliderThumbLabel(9_000_001)).toBe('9.0M');
     });
   });
 });

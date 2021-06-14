@@ -3,7 +3,7 @@ import { Calculation } from '@cdba/shared/models';
 export const CALCULATIONS_MOCK = [
   new Calculation(
     '0060',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'SQVB',
     0.2365,
@@ -23,7 +23,7 @@ export const CALCULATIONS_MOCK = [
   ),
   new Calculation(
     '0060',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'SQVB',
     0.2365,
@@ -43,7 +43,7 @@ export const CALCULATIONS_MOCK = [
   ),
   new Calculation(
     '0060',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'SQVB',
     0.2365,
@@ -63,7 +63,7 @@ export const CALCULATIONS_MOCK = [
   ),
   new Calculation(
     '0060',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'SQVB',
     0.2365,
@@ -83,7 +83,7 @@ export const CALCULATIONS_MOCK = [
   ),
   new Calculation(
     '0060',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'SQVB',
     0.2261,
@@ -104,7 +104,7 @@ export const CALCULATIONS_MOCK = [
 
   new Calculation(
     '0005',
-    100000,
+    100_000,
     '2017-11-01T00:00:00',
     'GPCB',
     0.2465,

@@ -45,7 +45,7 @@ describe('BOM Chart Config', () => {
 
   describe('barchartTooltipFormatter', () => {
     it('should format the tooltip correctly', () => {
-      const params = { name: 'F-1308', value: 0.349494323 };
+      const params = { name: 'F-1308', value: 0.349_494_323 };
 
       const result = barchartTooltipFormatter(params);
 
@@ -55,7 +55,7 @@ describe('BOM Chart Config', () => {
 
   describe('linechartTooltipFormatter', () => {
     it('should format the tooltip correctly', () => {
-      const params = { value: 84.349494323 };
+      const params = { value: 84.349_494_323 };
 
       const result = linechartTooltipFormatter(params);
 

@@ -33,7 +33,7 @@ describe('ColumnUtils', () => {
     let result: string;
 
     it('should cut decimals, if number does not have decimals', () => {
-      params.value = 10000;
+      params.value = 10_000;
 
       result = formatNumber(params);
 
@@ -52,7 +52,7 @@ describe('ColumnUtils', () => {
   describe('formatDate', () => {
     it('should transform to medium output format', () => {
       const params = {
-        value: new Date(1591354306000),
+        value: new Date(1_591_354_306_000),
       } as unknown as ValueFormatterParams;
 
       const result = formatDate(params);
@@ -99,7 +99,7 @@ describe('ColumnUtils', () => {
 
     it('should transform timestamp into Date', () => {
       const params = {
-        data: { gpcDate: 1591354306000 },
+        data: { gpcDate: 1_591_354_306_000 },
       } as unknown as ValueGetterParams;
 
       const result = valueGetterDate(params, 'gpcDate');
