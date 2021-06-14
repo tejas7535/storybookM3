@@ -5,4 +5,5 @@ export class UpdateQuotationDetail {
   addedToOffer?: boolean;
   price?: number;
   priceSource?: PriceSource;
+  orderQuantity?: number;
 }

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 
 import { TranslocoService } from '@ngneat/transloco';
 
-import { environment } from '../../../../../environments/environment';
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import {
   PriceSource,
@@ -21,7 +20,6 @@ import { DetailRoutePath } from '../../../detail-route-path.enum';
   styleUrls: ['./gq-price.component.scss'],
 })
 export class GqPriceComponent implements OnInit {
-  public isProduction = environment.production;
   public gpi: number;
   public gpm: number;
   _isLoading: boolean;

@@ -18,6 +18,11 @@
       "quantity": "Menge",
       "details": "Details"
     },
+    "changeQuantity": {
+      "title": "Menge ändern",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen"
+    },
     "select": "auswählen",
     "selected": "ausgewählt"
   },

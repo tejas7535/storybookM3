@@ -9,20 +9,22 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { QUOTATION_DETAIL_MOCK } from '../../../../testing/mocks';
 import { updateQuotationDetails } from '../../../core/store';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import {
   PriceSource,
   UpdatePrice,
 } from '../../../shared/models/quotation-detail';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
+import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
 
 describe('FilterPricingComponent', () => {
   let component: FilterPricingComponent;
@@ -41,6 +43,7 @@ describe('FilterPricingComponent', () => {
       MatInputModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
+      SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -57,6 +60,7 @@ describe('FilterPricingComponent', () => {
       FilterPricingCardComponent,
       ManualPriceComponent,
       GqPriceComponent,
+      QuantityDisplayComponent,
     ],
   });
 

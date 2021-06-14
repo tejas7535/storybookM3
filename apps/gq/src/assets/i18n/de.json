@@ -144,6 +144,7 @@
       "materialDeleted": "Material wurde entfernt",
       "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
       "updateSelectedPrice": "Der Preis wurde gespeichert",
+      "updateQuantity": "Die Mengenänderung wurde gespeichert",
       "uploadOfferSuccess": "Die Angebotsauwahl wurde in SAP gespeichert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein"
     }

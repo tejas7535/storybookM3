@@ -5,14 +5,14 @@ import { MatInputModule } from '@angular/material/input';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 
 import { HelperService } from '../../services/helper-service/helper-service.service';
-import { EditingPriceComponent } from './editing-price.component';
+import { EditingQuantityComponent } from './editing-quantity.component';
 
-describe('EditingPriceComponent', () => {
-  let component: EditingPriceComponent;
-  let spectator: Spectator<EditingPriceComponent>;
+describe('EditingQuantityComponent', () => {
+  let component: EditingQuantityComponent;
+  let spectator: Spectator<EditingQuantityComponent>;
 
   const createComponent = createComponentFactory({
-    component: EditingPriceComponent,
+    component: EditingQuantityComponent,
     imports: [MatIconModule, MatInputModule, ReactiveFormsModule],
   });
 
@@ -26,13 +26,11 @@ describe('EditingPriceComponent', () => {
   });
   describe('agInit', () => {
     test('should set params', () => {
-      component.manualPriceFormControl = { setValue: jest.fn() } as any;
+      component.quantityFormControl = { setValue: jest.fn() } as any;
       component.agInit({} as any);
 
       expect(component.params).toBeDefined();
-      expect(component.manualPriceFormControl.setValue).toHaveBeenCalledTimes(
-        1
-      );
+      expect(component.quantityFormControl.setValue).toHaveBeenCalledTimes(1);
     });
   });
   describe('ngAfterViewChecked', () => {
@@ -50,7 +48,7 @@ describe('EditingPriceComponent', () => {
       );
     });
   });
-  describe('closeEditing', () => {
+  describe('stopEditing', () => {
     test('should stopEditing', () => {
       component.params = {
         api: {
@@ -66,7 +64,7 @@ describe('EditingPriceComponent', () => {
   });
   describe('getValue', () => {
     test('should return value', () => {
-      component.manualPriceFormControl = { value: 1 } as any;
+      component.quantityFormControl = { value: 1 } as any;
       const result = component.getValue();
       expect(result).toEqual(1);
     });
@@ -74,11 +72,11 @@ describe('EditingPriceComponent', () => {
 
   describe('onKeyPress', () => {
     test('should call HelperService', () => {
-      HelperService.validateNumberInputKeyPress = jest.fn();
+      HelperService.validateQuantityInputKeyPress = jest.fn();
 
-      component.onKeyPress({} as any, undefined);
+      component.onKeyPress({} as any);
 
-      expect(HelperService.validateNumberInputKeyPress).toHaveBeenCalledTimes(
+      expect(HelperService.validateQuantityInputKeyPress).toHaveBeenCalledTimes(
         1
       );
     });
@@ -86,10 +84,10 @@ describe('EditingPriceComponent', () => {
 
   describe('onPaste', () => {
     test('should set price', () => {
-      HelperService.validateNumberInputPaste = jest.fn();
+      HelperService.validateQuantityInputPaste = jest.fn();
 
       component.onPaste({} as any);
-      expect(HelperService.validateNumberInputPaste).toHaveBeenCalledTimes(1);
+      expect(HelperService.validateQuantityInputPaste).toHaveBeenCalledTimes(1);
     });
   });
 });

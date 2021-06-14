@@ -1,0 +1,51 @@
+<div
+  class="flex flex-col h-full"
+  *transloco="let t; read: 'detailView.filterPricing.changeQuantity'"
+>
+  <gq-dialog-header [title]="title$ | ngrxPush" (closeDialog)="closeDialog()">
+  </gq-dialog-header>
+  <div
+    class="mt-6 flex flex-col h-full"
+    *ngIf="(updateLoading$ | ngrxPush) === false; else loading"
+  >
+    <div class="h-full">
+      <mat-form-field content appearance="outline" class="w-full">
+        <input
+          [formControl]="quantityFormControl"
+          (keydown)="onKeyPress($event)"
+          (paste)="onPaste($event)"
+          class="text-overline"
+          matInput
+          type="number"
+          #quantity
+        />
+      </mat-form-field>
+    </div>
+    <div>
+      <button
+        class="text-button !pl-8 !pr-8"
+        color="primary"
+        mat-raised-button
+        [disabled]="confirmDisabled"
+        (click)="selectNewQuantity()"
+      >
+        <span class="font-body"> {{ t('confirm') | uppercase }} </span>
+      </button>
+      <button
+        class="text-button !pl-8 !pr-8 !ml-6"
+        color="primary"
+        mat-stroked-button
+        (click)="closeDialog()"
+      >
+        <span class="font-body"> {{ t('cancel') | uppercase }} </span>
+      </button>
+    </div>
+  </div>
+  <ng-template #loading>
+    <schaeffler-loading-spinner
+      class="h-full"
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
+  </ng-template>
+</div>

@@ -198,4 +198,55 @@ describe('HelperServiceService', () => {
       expect(result).toEqual(expected);
     });
   });
+  describe('validateQuantityInputKeyPress', () => {
+    test('should prevent default on invalid input', () => {
+      const event = { key: 'a', preventDefault: jest.fn() } as any;
+      HelperService.validateQuantityInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+    test('should not prevent default when input is a number', () => {
+      const event = { key: '1', preventDefault: jest.fn() } as any;
+      HelperService.validateQuantityInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+    test('should not prevent default when input is paste event', () => {
+      const event = {
+        key: 'v',
+        preventDefault: jest.fn(),
+        ctrlKey: true,
+      } as any;
+      HelperService.validateQuantityInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+    test('should not prevent default when input is delete key', () => {
+      const event = {
+        key: KeyName.BACKSPACE,
+        preventDefault: jest.fn(),
+      } as any;
+      HelperService.validateQuantityInputKeyPress(event);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+  });
+  describe('validateQuantityInputPaste', () => {
+    test('should not prevent default on valid input', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => '1000'),
+        },
+        preventDefault: jest.fn(),
+      };
+      HelperService.validateQuantityInputPaste(event as any);
+      expect(event.preventDefault).toHaveBeenCalledTimes(0);
+    });
+    test('should prevent default on invalid input', () => {
+      const event = {
+        clipboardData: {
+          getData: jest.fn(() => 'aaa'),
+        },
+        preventDefault: jest.fn(),
+      };
+      HelperService.validateQuantityInputPaste(event as any);
+      expect(event.preventDefault).toHaveBeenCalledTimes(1);
+    });
+  });
 });
