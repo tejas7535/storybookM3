@@ -58,8 +58,8 @@ const mapSelectedFilters = (
         (filter.type === FilterItemType.ID_VALUE &&
           (filter as FilterItemIdValueUpdate).ids.length > 0) ||
         (filter.type === FilterItemType.RANGE &&
-          (filter as FilterItemRangeUpdate).minSelected !== undefined &&
-          (filter as FilterItemRangeUpdate).maxSelected !== undefined)
+          (filter as FilterItemRangeUpdate).minSelected !== null &&
+          (filter as FilterItemRangeUpdate).maxSelected !== null)
     );
 
   return mapped;

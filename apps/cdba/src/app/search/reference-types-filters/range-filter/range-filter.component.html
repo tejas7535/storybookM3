@@ -5,6 +5,7 @@
   <mat-label>{{ t('names.' + filter?.name) }}</mat-label>
   <mat-select
     [formControl]="form"
+    [disabled]="filter?.disabled"
     panelClass="range-menu"
     disableOptionCentering
   >

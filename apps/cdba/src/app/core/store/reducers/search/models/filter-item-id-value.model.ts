@@ -7,7 +7,7 @@ export class FilterItemIdValue extends FilterItem {
     public name: string,
     public items: IdValue[],
     public autocomplete: boolean,
-    public hidden: boolean = false
+    public disabled: boolean = false
   ) {
     super(name, FilterItemType.ID_VALUE);
   }
