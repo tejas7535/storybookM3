@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
   ];
 
   public ngOnInit(): void {
+    this.checkIframe();
+  }
+
+  public checkIframe(): void {
     if (window.self !== window.top) {
       this.embedded = true;
     }

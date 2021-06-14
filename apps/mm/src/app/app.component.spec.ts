@@ -46,4 +46,16 @@ describe('AppComponent', () => {
   test('should create the app', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set embedded to true if in iframe', () => {
+    Object.defineProperty(global, 'window', {
+      value: {
+        self: 'mockValue',
+        top: 'otherMockValue',
+      },
+    });
+
+    component.checkIframe();
+    expect(component.embedded).toBe(true);
+  });
 });
