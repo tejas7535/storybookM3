@@ -10,7 +10,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
-import { HttpCacheInterceptor, HttpCacheInterceptorModule } from '@ngneat/cashew';
+import {
+  HttpCacheInterceptor,
+  HttpCacheInterceptorModule,
+} from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
