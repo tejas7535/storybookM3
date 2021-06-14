@@ -9,7 +9,7 @@ export class FilterItemRange extends FilterItem {
     public minSelected: number,
     public maxSelected: number,
     public unit: string,
-    public hidden: boolean = false
+    public disabled: boolean = false
   ) {
     super(name, FilterItemType.RANGE);
   }
