@@ -49,6 +49,9 @@ export class DoughnutChartComponent {
         const pieChartSeries = createPieChartSeries(
           radius,
           seriesObj.value,
+          data.series
+            .map((element) => element.value)
+            .reduce((value1, value2) => value1 + value2),
           this.seriesColors[idx] ?? '#000',
           data.name,
           seriesObj.name

@@ -70,6 +70,7 @@ describe('DoughnutChartComponent', () => {
       expect(doughnutChartConfig.createPieChartSeries).toHaveBeenCalledWith(
         ['60%', '70%'],
         data.series[0].value,
+        data.series[0].value,
         component['seriesColors'][0],
         data.name,
         data.series[0].name

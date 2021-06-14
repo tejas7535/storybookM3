@@ -7,6 +7,7 @@ import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
+  getEntryEmployees,
   getIsLoadingAttritionOverTimeOverview,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
@@ -18,9 +19,52 @@ import {
 
 describe('Overview Selector', () => {
   const selectedOrgUnit = 'Schaeffler_IT';
-  const leaverIT1 = createEmployee('123', selectedOrgUnit);
-  const leaverIT2 = createEmployee('321', `${selectedOrgUnit}_1`);
-  const leaverHR = createEmployee('321', 'Schaeffler_HR');
+  const leaverIT1 = createExternalLeaver(
+    '1',
+    selectedOrgUnit,
+    new Date(2020, 3, 15)
+  );
+  const leaverIT2 = createExternalLeaver(
+    '2',
+    `${selectedOrgUnit}_1`,
+    new Date(2020, 3, 15)
+  );
+  const leaverHR = createExternalLeaver(
+    '3',
+    'Schaeffler_HR',
+    new Date(2020, 3, 15)
+  );
+  const internalLeaver1 = createInternalLeaver(
+    '4',
+    selectedOrgUnit,
+    new Date(2020, 4, 30)
+  );
+
+  const entryEmployee1 = createExternalEntryEmployee(
+    '5',
+    new Date(2020, 3, 14)
+  );
+  const entryEmployee2 = createExternalEntryEmployee(
+    '6',
+    new Date(2020, 8, 19)
+  );
+  const internalEntryEmployee1 = createInternalEntryEmployee(
+    '7',
+    new Date(2020, 8, 19)
+  );
+  const internalEntryEmployeeBeforeTimeRange = createInternalEntryEmployee(
+    '8',
+    new Date(2018, 9, 19)
+  );
+  const entryEmployeeBeforeTimeRange = createExternalEntryEmployee(
+    '9',
+    new Date(2018, 2, 1)
+  );
+  const entryEmployeeAfterTimeRange = createExternalEntryEmployee(
+    '10',
+    new Date(2021, 2, 1)
+  );
+
   const fakeState: { overview: OverviewState; filter: FilterState } = {
     overview: {
       ...initialState,
@@ -39,7 +83,19 @@ describe('Overview Selector', () => {
       },
       fluctuationRates: {
         data: {
-          employees: [leaverIT1, leaverIT2, leaverHR],
+          allEmployees: [
+            leaverIT1,
+            entryEmployee2,
+            entryEmployeeAfterTimeRange,
+            leaverIT2,
+            internalEntryEmployeeBeforeTimeRange,
+            internalEntryEmployee1,
+            entryEmployeeBeforeTimeRange,
+            entryEmployee1,
+            internalLeaver1,
+            leaverHR,
+          ],
+          exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
           entries: 23,
           exits: 34,
           fluctuationRate: {
@@ -94,7 +150,19 @@ describe('Overview Selector', () => {
   describe('getOverviewFluctuationRates', () => {
     it('should return actual fluctuation data', () => {
       expect(getOverviewFluctuationRates(fakeState)).toEqual({
-        employees: [leaverIT1, leaverIT2, leaverHR],
+        allEmployees: [
+          leaverIT1,
+          entryEmployee2,
+          entryEmployeeAfterTimeRange,
+          leaverIT2,
+          internalEntryEmployeeBeforeTimeRange,
+          internalEntryEmployee1,
+          entryEmployeeBeforeTimeRange,
+          entryEmployee1,
+          internalLeaver1,
+          leaverHR,
+        ],
+        exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
         entries: 23,
         exits: 34,
         fluctuationRate: {
@@ -115,8 +183,8 @@ describe('Overview Selector', () => {
         new DoughnutConfig(
           'Entries',
           [
-            new DoughnutSeriesConfig(23, 'internal'),
-            new DoughnutSeriesConfig(23, 'external'),
+            new DoughnutSeriesConfig(1, 'internal'),
+            new DoughnutSeriesConfig(2, 'external'),
           ],
           ['internal', 'external']
         )
@@ -130,8 +198,8 @@ describe('Overview Selector', () => {
         new DoughnutConfig(
           'Exits',
           [
-            new DoughnutSeriesConfig(34, 'internal'),
-            new DoughnutSeriesConfig(34, 'external'),
+            new DoughnutSeriesConfig(1, 'internal'),
+            new DoughnutSeriesConfig(2, 'external'),
           ],
           ['internal', 'external']
         )
@@ -154,15 +222,73 @@ describe('Overview Selector', () => {
     it('should return leavers for selected org unit only', () => {
       const leavers = getLeaversDataForSelectedOrgUnit(fakeState);
 
-      expect(leavers.length).toEqual(2);
+      expect(leavers.length).toEqual(3);
       expect(leavers).toContain(leaverIT1);
       expect(leavers).toContain(leaverIT2);
-      expect(leavers).not.toContain(leaverHR);
+      expect(leavers).toContain(internalLeaver1);
+    });
+  });
+
+  describe('getEntryEmployees', () => {
+    it('should return entry employees only in selected time range', () => {
+      const entryEmployees = getEntryEmployees(fakeState);
+
+      expect(entryEmployees.length).toEqual(3);
+      expect(entryEmployees).toContain(entryEmployee1);
+      expect(entryEmployees).toContain(entryEmployee2);
+      expect(entryEmployees).toContain(internalEntryEmployee1);
     });
   });
 });
 
-function createEmployee(id: string, orgUnit: string) {
+function createExternalEntryEmployee(id: string, entryDate: Date): Employee {
+  return createEmployee(id, 'Schaeffler_IT', entryDate);
+}
+
+function createInternalEntryEmployee(
+  id: string,
+  internalEntryDate: Date
+): Employee {
+  return createEmployee(
+    id,
+    'Schaeffler_IT',
+    undefined,
+    undefined,
+    internalEntryDate
+  );
+}
+
+function createExternalLeaver(
+  id: string,
+  orgUnit: string,
+  exitDate: Date
+): Employee {
+  return createEmployee(id, orgUnit, undefined, exitDate);
+}
+
+function createInternalLeaver(
+  id: string,
+  orgUnit: string,
+  internalExitDate: Date
+) {
+  return createEmployee(
+    id,
+    orgUnit,
+    undefined,
+    undefined,
+    undefined,
+    internalExitDate
+  );
+}
+
+function createEmployee(
+  id: string,
+  orgUnit: string,
+  entryDate?: Date,
+  exitDate?: Date,
+  internalEntryDate?: Date,
+  internalExitDate?: Date
+): Employee {
   return new Employee(
     id,
     'John Walker',
@@ -185,8 +311,10 @@ function createEmployee(id: string, orgUnit: string) {
     20,
     1,
     'FT',
-    '2021-05-01',
-    '2021-05-01',
+    exitDate ? exitDate.toJSON() : undefined,
+    entryDate ? entryDate.toJSON() : '2021-05-01',
+    internalEntryDate ? internalEntryDate.toJSON() : undefined,
+    internalExitDate ? internalExitDate.toJSON() : undefined,
     '2019-04-01',
     'unforced',
     'big regret',

@@ -25,6 +25,8 @@ export class Employee {
     public fulltimeParttime: string,
     public exitDate: string,
     public entryDate: string,
+    public internalEntryDate: string,
+    public internalExitDate: string,
     public terminationDate: string,
     public reasonForLeaving: string,
     public regrettedLoss: string,

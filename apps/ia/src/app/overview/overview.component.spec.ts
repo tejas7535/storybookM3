@@ -1,13 +1,28 @@
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
 import { OverviewChartModule } from './overview-chart/overview-chart.module';
 import { OverviewComponent } from './overview.component';
+import {
+  getAttritionOverTimeEvents,
+  getAttritionOverTimeOverviewData,
+  getEntryEmployees,
+  getIsLoadingAttritionOverTimeOverview,
+  getLeaversDataForSelectedOrgUnit,
+  getOverviewFluctuationEntriesCount,
+  getOverviewFluctuationEntriesDoughnutConfig,
+  getOverviewFluctuationExitsCount,
+  getOverviewFluctuationExitsDoughnutConfig,
+} from './store/selectors/overview.selector';
 
 describe('OverviewComponent', () => {
   let component: OverviewComponent;
+  let store: MockStore;
   let spectator: Spectator<OverviewComponent>;
 
   const createComponent = createComponentFactory({
@@ -25,6 +40,9 @@ describe('OverviewComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+
+    store = spectator.inject(MockStore);
+    store.dispatch = jest.fn();
   });
 
   it('should create', () => {
@@ -32,16 +50,141 @@ describe('OverviewComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should set observables', () => {
-      component.ngOnInit();
-      expect(component.attritionData$).toBeDefined();
-      expect(component.events$).toBeDefined();
-      expect(component.attritionQuotaloading$).toBeDefined();
-      expect(component.entriesDoughnutConfig$).toBeDefined();
-      expect(component.exitsDoughnutConfig$).toBeDefined();
-      expect(component.entriesCount$).toBeDefined();
-      expect(component.exitsCount$).toBeDefined();
-      expect(component.exitEmployees$).toBeDefined();
-    });
+    test(
+      'should set attritionData$',
+      marbles((m) => {
+        const result = 'a' as any;
+        store.overrideSelector(getAttritionOverTimeOverviewData, result);
+        component.ngOnInit();
+        m.expect(component.attritionData$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set attritionQuotaloading$',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getIsLoadingAttritionOverTimeOverview, result);
+        component.ngOnInit();
+        m.expect(component.attritionQuotaloading$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set events$',
+      marbles((m) => {
+        const result = [
+          {
+            date: new Date(2020, 1, 1),
+            name: 'blur',
+          },
+        ];
+        store.overrideSelector(getAttritionOverTimeEvents, result);
+        component.ngOnInit();
+        m.expect(component.events$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set entriesDoughnutConfig$',
+      marbles((m) => {
+        const result = new DoughnutConfig('donnut', []);
+        store.overrideSelector(
+          getOverviewFluctuationEntriesDoughnutConfig,
+          result
+        );
+        component.ngOnInit();
+        m.expect(component.entriesDoughnutConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set exitsDoughnutConfig$',
+      marbles((m) => {
+        const result = new DoughnutConfig('donnut', []);
+        store.overrideSelector(
+          getOverviewFluctuationExitsDoughnutConfig,
+          result
+        );
+        component.ngOnInit();
+        m.expect(component.exitsDoughnutConfig$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set entriesCount$',
+      marbles((m) => {
+        const result = 34;
+        store.overrideSelector(getOverviewFluctuationEntriesCount, result);
+        component.ngOnInit();
+        m.expect(component.entriesCount$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set exitsCount$',
+      marbles((m) => {
+        const result = 41;
+        store.overrideSelector(getOverviewFluctuationExitsCount, result);
+        component.ngOnInit();
+        m.expect(component.exitsCount$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set exitEmployees$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(getLeaversDataForSelectedOrgUnit, result);
+        component.ngOnInit();
+        m.expect(component.exitEmployees$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set entryEmployees$',
+      marbles((m) => {
+        const result = [] as any;
+        store.overrideSelector(getEntryEmployees, result);
+        component.ngOnInit();
+        m.expect(component.entryEmployees$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
   });
 });
