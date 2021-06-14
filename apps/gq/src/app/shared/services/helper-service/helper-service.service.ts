@@ -139,4 +139,26 @@ export class HelperService {
 
     return plsAndSeries;
   }
+
+  static validateQuantityInputKeyPress(event: KeyboardEvent): void {
+    const inputIsAllowedSpecialKey = [
+      KeyName.BACKSPACE,
+      KeyName.DELETE,
+    ].includes(event.key);
+    const isPaste = event.ctrlKey && event.key === 'v';
+
+    if (
+      Number.isNaN(Number.parseInt(event.key, 10)) &&
+      !inputIsAllowedSpecialKey &&
+      !isPaste
+    ) {
+      event.preventDefault();
+    }
+  }
+  static validateQuantityInputPaste(event: ClipboardEvent): void {
+    const quantity = Number.parseInt(event.clipboardData.getData('text'), 10);
+    if (Number.isNaN(quantity)) {
+      event.preventDefault();
+    }
+  }
 }

@@ -21,6 +21,7 @@ export class EditingPriceComponent implements AfterViewChecked {
 
   agInit(params: ICellEditorParams): void {
     this.params = params;
+    this.manualPriceFormControl.setValue(params.value);
   }
   ngAfterViewChecked(): void {
     this.inputElement.nativeElement.focus();

@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { translate } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -628,7 +629,7 @@ describe('ProcessCaseEffect', () => {
       'should return removeMaterialsSuccess when REST call is successful',
       marbles((m) => {
         action = updateQuotationDetails({ updateQuotationDetailList });
-        snackBarService.showSuccessMessage = jest.fn();
+        effects['showUpdateQuotationDetailToast'] = jest.fn();
         quotationDetailsService.updateMaterial = jest.fn(() => response);
         const result = updateQuotationDetailsSuccess({ quotationDetails });
 
@@ -642,31 +643,9 @@ describe('ProcessCaseEffect', () => {
         expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
           updateQuotationDetailList
         );
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
-      })
-    );
-
-    test(
-      'should return removeMaterialsSuccess when REST call is successful',
-      marbles((m) => {
-        action = updateQuotationDetails({ updateQuotationDetailList });
-        snackBarService.showSuccessMessage = jest.fn();
-
-        quotationDetailsService.updateMaterial = jest.fn(() => response);
-        updateQuotationDetailList[0].price = 10;
-        const result = updateQuotationDetailsSuccess({ quotationDetails });
-
-        actions$ = m.hot('-a', { a: action });
-        const response = m.cold('-a|', { a: quotationDetails });
-        const expected = m.cold('--b', { b: result });
-
-        m.expect(effects.updateMaterials$).toBeObservable(expected);
-        m.flush();
-        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledTimes(1);
-        expect(quotationDetailsService.updateMaterial).toHaveBeenCalledWith(
-          updateQuotationDetailList
+        expect(effects['showUpdateQuotationDetailToast']).toHaveBeenCalledTimes(
+          1
         );
-        expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -807,6 +786,39 @@ describe('ProcessCaseEffect', () => {
       );
 
       expect(result).toBeTruthy();
+    });
+  });
+
+  describe('showUpdateQuotationDetailToast', () => {
+    test('should display updateSelectedPrice', () => {
+      effects['snackBarService'].showSuccessMessage = jest.fn();
+
+      effects['showUpdateQuotationDetailToast']({ price: 20 } as any);
+      expect(
+        effects['snackBarService'].showSuccessMessage
+      ).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateSelectedPrice`)
+      );
+    });
+    test('should display updateQuantity', () => {
+      effects['snackBarService'].showSuccessMessage = jest.fn();
+
+      effects['showUpdateQuotationDetailToast']({ orderQuantity: 20 } as any);
+      expect(
+        effects['snackBarService'].showSuccessMessage
+      ).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateQuantity`)
+      );
+    });
+    test('should display updateSelectedOffers', () => {
+      effects['snackBarService'].showSuccessMessage = jest.fn();
+
+      effects['showUpdateQuotationDetailToast']({ addedToOffer: true } as any);
+      expect(
+        effects['snackBarService'].showSuccessMessage
+      ).toHaveBeenCalledWith(
+        translate(`shared.snackBarMessages.updateQuantity`)
+      );
     });
   });
   // eslint-disable-next-line max-lines

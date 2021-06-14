@@ -46,6 +46,15 @@ export class ColumnDefService {
       headerName: translate('shared.quotationDetailsTable.orderQuantity'),
       field: ColumnFields.ORDER_QUANTITY,
       valueFormatter: ColumnUtilityService.numberFormatter,
+      cellRenderer: 'editQuantityComponent',
+      editable: true,
+      cellEditor: 'editingQuantityComponent',
+      valueSetter: (params: ValueSetterParams) => {
+        if (params.newValue) {
+          this.selectNewQuantity(params.newValue, params.data.gqPositionId);
+        }
+        return true;
+      },
     },
     {
       headerName: translate('shared.quotationDetailsTable.offerPrice'),
@@ -174,6 +183,15 @@ export class ColumnDefService {
         price,
         gqPositionId,
         priceSource: PriceSource.MANUAL,
+      },
+    ];
+    this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));
+  }
+  public selectNewQuantity(orderQuantity: number, gqPositionId: string): void {
+    const updateQuotationDetailList: UpdateQuotationDetail[] = [
+      {
+        orderQuantity,
+        gqPositionId,
       },
     ];
     this.store.dispatch(updateQuotationDetails({ updateQuotationDetailList }));

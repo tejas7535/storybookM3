@@ -5,10 +5,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { CreateCaseActionCellComponent } from './action-cells/create-case-action-cell/create-case-action-cell.component';
 import { ProcessCaseActionCellComponent } from './action-cells/process-case-action-cell/process-case-action-cell.component';
 import { EditPriceComponent } from './edit-price/edit-price.component';
+import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
 import { EditingPriceComponent } from './editing-price/editing-price.component';
+import { EditingQuantityComponent } from './editing-quantity/editing-quantity.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
 import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.component';
@@ -22,6 +26,8 @@ import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.compon
     OfferCartCellComponent,
     EditPriceComponent,
     EditingPriceComponent,
+    EditQuantityComponent,
+    EditingQuantityComponent,
   ],
   imports: [
     CommonModule,
@@ -29,6 +35,7 @@ import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.compon
     MatTooltipModule,
     MatInputModule,
     ReactiveFormsModule,
+    ReactiveComponentModule,
   ],
   exports: [
     ProcessCaseActionCellComponent,
@@ -38,6 +45,8 @@ import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.compon
     OfferCartCellComponent,
     EditPriceComponent,
     EditingPriceComponent,
+    EditQuantityComponent,
+    EditingQuantityComponent,
   ],
 })
 export class CellRendererModule {}

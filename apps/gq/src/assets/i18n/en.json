@@ -141,6 +141,7 @@
       "materialDeleted": "Material(s) deleted from the case",
       "updateSelectedOffers": "Offer selection was saved",
       "updateSelectedPrice": "Price selection was saved",
+      "updateQuantity": "Quantity change was saved",
       "uploadOfferSuccess": "The offer selection was saved in SAP",
       "wrongPriceEditInput": "Please enter a numeric price value"
     }

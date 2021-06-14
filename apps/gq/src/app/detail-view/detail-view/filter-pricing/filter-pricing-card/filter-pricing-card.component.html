@@ -40,6 +40,9 @@
     <ng-content select="[link]"> </ng-content>
   </div>
   <ng-template #loading>
-    <gq-loading-spinner [show]="true"></gq-loading-spinner>
+    <schaeffler-loading-spinner
+      backgroundColor="rgba(255,255,255, 0.1)"
+      [relative]="true"
+    ></schaeffler-loading-spinner>
   </ng-template>
 </mat-card>

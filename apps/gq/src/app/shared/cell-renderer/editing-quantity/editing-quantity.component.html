@@ -1,0 +1,28 @@
+<div class="flex flex-row">
+  <input
+    [formControl]="quantityFormControl"
+    class="w-2/3 pl-2"
+    (keydown)="onKeyPress($event)"
+    (paste)="onPaste($event)"
+    matInput
+    type="number"
+    min="1"
+    #quantity
+  />
+  <div>
+    <mat-icon
+      class="ml-2 text-h6 align-middle cursor-pointer text-primary"
+      fontSet="schaeffler-icons"
+      fontIcon="icon-checkmark"
+      (click)="stopEditing(false)"
+    ></mat-icon>
+  </div>
+  <div>
+    <mat-icon
+      class="ml-2 text-h6 align-middle cursor-pointer text-error"
+      fontSet="schaeffler-icons"
+      fontIcon="icon-cross"
+      (click)="stopEditing(true)"
+    ></mat-icon>
+  </div>
+</div>

@@ -10,8 +10,9 @@
       <div class="mb-1 text-body-1">{{ t('priceLabel') }}:</div>
       <div>
         <div>
-          <span class="font-bold">{{ quotationDetail.recommendedPrice }}</span
-          ><span class="font-bold"> {{ currency }}</span>
+          <span class="font-bold">{{
+            quotationDetail.recommendedPrice | numberCurrency: currency
+          }}</span>
         </div>
       </div>
     </div>
@@ -29,11 +30,9 @@
     </div>
     <div class="flex-1">
       <div class="mb-1 text-body-1">{{ t('quantity') }}:</div>
-      <div>
-        <span class="font-bold">{{
-          quotationDetail.orderQuantity | number
-        }}</span>
-      </div>
+      <gq-quantity-display
+        [quantity]="quotationDetail.orderQuantity"
+      ></gq-quantity-display>
     </div>
     <div class="flex-1" *ngIf="quotationDetail.gqRating">
       <div class="mb-1 text-body-1">{{ t('rating') }}:</div>

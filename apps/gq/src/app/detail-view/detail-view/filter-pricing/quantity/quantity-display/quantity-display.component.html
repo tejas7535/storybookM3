@@ -1,0 +1,10 @@
+<div>
+  <span class="font-bold">{{ quantity }}</span>
+  <span
+    class="ml-1 text-body-1 cursor-pointer"
+    (click)="openEditing()"
+    *ngIf="isManualCase$ | ngrxPush"
+  >
+    <mat-icon fontSet="schaeffler-icons" fontIcon="icon-draft"></mat-icon>
+  </span>
+</div>

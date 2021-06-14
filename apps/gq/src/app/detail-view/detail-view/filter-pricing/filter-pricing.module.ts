@@ -9,14 +9,18 @@ import { MatInputModule } from '@angular/material/input';
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
+import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
+import { SharedPipesModule } from '../../../shared/pipes/shared-pipes.module';
 import { FilterPricingCardComponent } from './filter-pricing-card/filter-pricing-card.component';
 import { FilterPricingComponent } from './filter-pricing.component';
 import { GqPriceComponent } from './gq-price/gq-price.component';
 import { ManualPriceComponent } from './manual-price/manual-price.component';
+import { QuantityDisplayComponent } from './quantity/quantity-display/quantity-display.component';
+import { QuantityModalComponent } from './quantity/quantity-modal/quantity-modal.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +28,8 @@ import { ManualPriceComponent } from './manual-price/manual-price.component';
     FilterPricingCardComponent,
     ManualPriceComponent,
     GqPriceComponent,
+    QuantityModalComponent,
+    QuantityDisplayComponent,
   ],
   imports: [
     MatButtonModule,
@@ -34,7 +40,10 @@ import { ManualPriceComponent } from './manual-price/manual-price.component';
     LoadingSpinnerModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
+    SharedPipesModule,
     SharedModule,
+    DialogHeaderModule,
+    LoadingSpinnerModule,
     SharedTranslocoModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail-view' }],

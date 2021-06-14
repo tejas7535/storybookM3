@@ -9,15 +9,17 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { LoadingSpinnerModule } from '../../../../shared/loading-spinner/loading-spinner.module';
 import {
   PriceSource,
   UpdatePrice,
 } from '../../../../shared/models/quotation-detail';
+import { SharedPipesModule } from '../../../../shared/pipes/shared-pipes.module';
 import { HelperService } from '../../../../shared/services/helper-service/helper-service.service';
 import { FilterPricingCardComponent } from '../filter-pricing-card/filter-pricing-card.component';
+import { QuantityDisplayComponent } from '../quantity/quantity-display/quantity-display.component';
 import { ManualPriceComponent } from './manual-price.component';
 
 describe('ManualPriceComponent', () => {
@@ -36,10 +38,11 @@ describe('ManualPriceComponent', () => {
       MatInputModule,
       ReactiveComponentModule,
       ReactiveFormsModule,
+      SharedPipesModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [provideMockStore({})],
-    declarations: [ManualPriceComponent, FilterPricingCardComponent],
+    declarations: [QuantityDisplayComponent, FilterPricingCardComponent],
   });
 
   beforeEach(() => {

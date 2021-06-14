@@ -294,17 +294,9 @@ export class ProcessCaseEffect {
         this.quotationDetailsService
           .updateMaterial(updateQuotationDetailList)
           .pipe(
-            tap(() => {
-              // .price determines which property was updated
-              const successMessage = translate(
-                `shared.snackBarMessages.${
-                  updateQuotationDetailList[0].price
-                    ? 'updateSelectedPrice'
-                    : 'updateSelectedOffers'
-                }`
-              );
-              this.snackBarService.showSuccessMessage(successMessage);
-            }),
+            tap(() =>
+              this.showUpdateQuotationDetailToast(updateQuotationDetailList[0])
+            ),
             tap((quotationDetails) => {
               PriceService.addCalculationsForDetails(quotationDetails);
             }),
@@ -354,7 +346,6 @@ export class ProcessCaseEffect {
     private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService
   ) {}
-
   private static mapQueryParamsToIdentifier(queryParams: any): {
     gqId: number;
     customerNumber: string;
@@ -378,5 +369,18 @@ export class ProcessCaseEffect {
       fromRoute.gqId === current?.gqId &&
       fromRoute.salesOrg === current?.salesOrg
     );
+  }
+
+  private showUpdateQuotationDetailToast(update: UpdateQuotationDetail): void {
+    let translateString = `shared.snackBarMessages.`;
+
+    if (update.price) {
+      translateString += 'updateSelectedPrice';
+    } else if (update.orderQuantity) {
+      translateString += 'updateQuantity';
+    } else {
+      translateString += 'updateSelectedOffers';
+    }
+    this.snackBarService.showSuccessMessage(translate(translateString));
   }
 }
