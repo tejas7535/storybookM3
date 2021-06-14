@@ -1,6 +1,14 @@
 <mat-horizontal-stepper (selectionChange)="activate($event)" #stepper>
   <mat-step
     *ngFor="let page of pages; let i = index"
+    [editable]="
+      page.id !== inactivePageId &&
+      page.visible &&
+      (page.id | mmPageBefore: maxPageId:pages)
+    "
+    [completed]="
+      page.id === inactivePageId || (page.id | mmPageBefore: maxPageId:pages)
+    "
     [label]="page.id"
     [aria-labelledby]="
       (page.id === inactivePageId ||
@@ -13,3 +21,7 @@
     <h5>{{ page.page.text }}</h5>
   </mat-step>
 </mat-horizontal-stepper>
+
+<ng-template matStepperIcon="done">
+  <mat-icon>done</mat-icon>
+</ng-template>
