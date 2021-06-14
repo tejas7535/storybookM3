@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { FooterLink } from '@schaeffler/footer-tailwind';
 
@@ -6,8 +6,9 @@ import { FooterLink } from '@schaeffler/footer-tailwind';
   selector: 'mm-root',
   templateUrl: './app.component.html',
 })
-export class AppComponent {
-  title = 'Mounting Manager';
+export class AppComponent implements OnInit {
+  public title = 'Mounting Manager';
+  public embedded = false;
 
   public footerLinks: FooterLink[] = [
     {
@@ -21,4 +22,14 @@ export class AppComponent {
       external: true,
     },
   ];
+
+  public ngOnInit(): void {
+    this.checkIframe();
+  }
+
+  public checkIframe(): void {
+    if (window.self !== window.top) {
+      this.embedded = true;
+    }
+  }
 }
