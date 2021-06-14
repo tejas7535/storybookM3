@@ -19,25 +19,25 @@ import { PageMetaStatus } from '@caeonline/dynamic-forms';
   // changeDetection: ChangeDetectionStrategy.OnPush, // TODO Enable when pageVisibility is async
 })
 export class PagesStepperComponent implements OnChanges {
-  @Input() pages: PageMetaStatus[] = [];
+  @Input() public pages: PageMetaStatus[] = [];
 
-  @Input() activePageId?: string;
+  @Input() public activePageId?: string;
 
-  @Input() maxPageId?: string;
+  @Input() public maxPageId?: string;
 
-  @Input() inactivePageId?: string;
+  @Input() public inactivePageId?: string;
 
-  @Output() activePageIdChange = new EventEmitter<string>();
+  @Output() public activePageIdChange = new EventEmitter<string>();
 
   @ViewChild('stepper') private readonly stepper: MatStepper;
 
-  get hasNext(): boolean {
+  public get hasNext(): boolean {
     const lastPage = this.getVisiblePages().slice(-1).pop();
 
     return lastPage && lastPage.id !== this.activePageId;
   }
 
-  get hasResultNext(): boolean {
+  public get hasResultNext(): boolean {
     const visiblePages = this.getVisiblePages();
     const currentPageIndex = visiblePages.findIndex(
       (visiblePage) => visiblePage.id === this.activePageId
@@ -47,13 +47,13 @@ export class PagesStepperComponent implements OnChanges {
     return visiblePages[targetPageIndex].id === 'PAGE_RESULT';
   }
 
-  get hasPrev(): boolean {
+  public get hasPrev(): boolean {
     const firstPage = this.getVisiblePages().slice(0, 1).pop();
 
     return firstPage && firstPage.id !== this.activePageId;
   }
 
-  ngOnChanges(): void {
+  public ngOnChanges(): void {
     this.pages = this.pages.filter((page) => page.isParent);
 
     if (this.stepper) {
@@ -63,18 +63,17 @@ export class PagesStepperComponent implements OnChanges {
     }
   }
 
-  activate(event: StepperSelectionEvent): void {
+  public activate(event: StepperSelectionEvent): void {
     this.activePageIdChange.emit(event.selectedStep.label);
   }
 
-  prev(): void {
+  public prev(): void {
     this.navigatePage(-1);
   }
 
-  next(): void {
+  public next(): void {
     this.navigatePage(1);
   }
-
   private navigatePage(direction: -1 | 1): void {
     const visiblePages = this.getVisiblePages();
     const currentPageIndex = visiblePages.findIndex(
