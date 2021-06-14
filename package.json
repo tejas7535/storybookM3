@@ -72,7 +72,7 @@
     "@angular/router": "12.0.4",
     "@azure/msal-angular": "2.0.0",
     "@azure/msal-browser": "2.14.2",
-    "@caeonline/dynamic-forms": "0.1.8",
+    "@caeonline/dynamic-forms": "0.3.1",
     "@fontsource/roboto": "4.4.5",
     "@microsoft/applicationinsights-web": "2.6.3",
     "@ng-web-apis/common": "1.9.0",
