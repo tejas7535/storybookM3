@@ -114,5 +114,7 @@ export const getCurrentFiltersAndTime = createSelector(
 export const getSelectedOrgUnit = createSelector(
   getAllSelectedFilters,
   (filters: SelectedFilter[]) =>
-    filters.find((filter) => filter.name === FilterKey.ORG_UNIT)?.value
+    filters
+      .find((filter) => filter.name === FilterKey.ORG_UNIT)
+      ?.value?.toString()
 );

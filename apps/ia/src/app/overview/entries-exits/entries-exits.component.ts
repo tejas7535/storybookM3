@@ -16,11 +16,16 @@ export class EntriesExitsComponent {
   @Input() entriesCount: number;
   @Input() exitsCount: number;
   @Input() exitEmployees: Employee[] = [];
+  @Input() entryEmployees: Employee[] = [];
 
   constructor(private readonly dialog: MatDialog) {}
 
   openTeamMemberDialogForExits(): void {
     this.openTeamMemberDialog(this.exitEmployees);
+  }
+
+  openTeamMemberDialogForEntries(): void {
+    this.openTeamMemberDialog(this.entryEmployees);
   }
 
   openTeamMemberDialog(employees: Employee[]): void {

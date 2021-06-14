@@ -112,4 +112,17 @@ describe('EntriesExitsComponent', () => {
       );
     });
   });
+  describe('openTeamMemberDialogForEntries', () => {
+    test('should open dialog with leavers data', () => {
+      component['dialog'].open = jest.fn();
+      const employee = { name: 'jason' } as any;
+      component.entryEmployees = [employee];
+
+      component.openTeamMemberDialogForEntries();
+      expect(component['dialog'].open).toHaveBeenCalledWith(
+        TeamMemberDialogComponent,
+        { data: { directLeafChildren: [employee] } }
+      );
+    });
+  });
 });

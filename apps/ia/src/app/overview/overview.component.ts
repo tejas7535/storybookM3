@@ -11,6 +11,7 @@ import { OverviewState } from './store';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
+  getEntryEmployees,
   getIsLoadingAttritionOverTimeOverview,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
@@ -38,6 +39,7 @@ export class OverviewComponent implements OnInit {
   public entriesCount$: Observable<number>;
   public exitsCount$: Observable<number>;
   public exitEmployees$: Observable<Employee[]>;
+  public entryEmployees$: Observable<Employee[]>;
 
   constructor(private readonly store: Store<OverviewState>) {}
 
@@ -59,5 +61,6 @@ export class OverviewComponent implements OnInit {
     this.entriesCount$ = this.store.select(getOverviewFluctuationEntriesCount);
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
     this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
+    this.entryEmployees$ = this.store.select(getEntryEmployees);
   }
 }

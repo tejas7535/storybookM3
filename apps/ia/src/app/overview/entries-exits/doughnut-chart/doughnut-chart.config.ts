@@ -37,11 +37,12 @@ export const createPieChartBaseOptions = (
 export const createPieChartSeries = (
   radius: string[],
   value: number,
+  totalValue: number,
   color: string,
   seriesName: string,
   dataName: string
 ) => {
-  const counterValue = 100 - value;
+  const counterValue = totalValue ? totalValue - value : 100;
 
   return {
     name: seriesName,

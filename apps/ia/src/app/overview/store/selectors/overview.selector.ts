@@ -1,7 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
 import { OverviewState, selectOverviewState } from '..';
-import { getSelectedOrgUnit } from '../../../core/store/selectors';
+import {
+  getSelectedOrgUnit,
+  getSelectedTimeRange,
+} from '../../../core/store/selectors';
 import { AttritionOverTime } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
@@ -44,37 +47,90 @@ export const getOverviewFluctuationExitsCount = createSelector(
     overviewFluctuationRates?.exits
 );
 
-export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
-  getOverviewFluctuationRates,
-  (overviewFluctuationRates: OverviewFluctuationRates) =>
-    createDoughnutConfig(
-      overviewFluctuationRates?.entries,
-      overviewFluctuationRates?.entries,
-      'Entries'
-    )
-);
-
-export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
-  getOverviewFluctuationRates,
-  (overviewFluctuationRates: OverviewFluctuationRates) =>
-    createDoughnutConfig(
-      overviewFluctuationRates?.exits,
-      overviewFluctuationRates?.exits,
-      'Exits'
-    )
-);
-
 export const getLeaversDataForSelectedOrgUnit = createSelector(
   getOverviewFluctuationRates,
   getSelectedOrgUnit,
   (
     overviewFluctuationRates: OverviewFluctuationRates,
-    selectedOrgUnit: string | number
+    selectedOrgUnit: string
   ) =>
-    overviewFluctuationRates?.employees.filter(
+    overviewFluctuationRates?.exitEmployees.filter(
       (employee) => employee.orgUnit?.indexOf(selectedOrgUnit.toString()) === 0
     )
 );
+
+export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
+  getOverviewFluctuationRates,
+  getSelectedTimeRange,
+  (
+    overviewFluctuationRates: OverviewFluctuationRates,
+    selectedTimeRange: string
+  ) => {
+    const internal = overviewFluctuationRates?.allEmployees?.filter(
+      (employee) =>
+        isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)
+    );
+    const external = overviewFluctuationRates?.allEmployees?.filter(
+      (employee) => isDateInTimeRange(selectedTimeRange, employee.entryDate)
+    );
+
+    return internal && external
+      ? createDoughnutConfig(internal.length, external.length, 'Entries')
+      : createDoughnutConfig(0, 0, 'Entries');
+  }
+);
+
+export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
+  getOverviewFluctuationRates,
+  getSelectedTimeRange,
+  getSelectedOrgUnit,
+  (
+    overviewFluctuationRates: OverviewFluctuationRates,
+    selectedTimeRange: string,
+    selectedOrgUnit: string
+  ) => {
+    const internal = overviewFluctuationRates?.exitEmployees?.filter(
+      (employee) =>
+        employee.orgUnit.indexOf(selectedOrgUnit.toString()) === 0 &&
+        isDateInTimeRange(selectedTimeRange, employee.internalExitDate)
+    );
+    const external = overviewFluctuationRates?.exitEmployees?.filter(
+      (employee) =>
+        employee.orgUnit.indexOf(selectedOrgUnit.toString()) === 0 &&
+        isDateInTimeRange(selectedTimeRange, employee.exitDate)
+    );
+
+    return internal && external
+      ? createDoughnutConfig(internal.length, external.length, 'Exits')
+      : createDoughnutConfig(0, 0, 'Exits');
+  }
+);
+
+export const getEntryEmployees = createSelector(
+  getOverviewFluctuationRates,
+  getSelectedTimeRange,
+  (
+    overviewFluctuationRates: OverviewFluctuationRates,
+    selectedTimeRange: string
+  ) =>
+    overviewFluctuationRates?.allEmployees.filter(
+      (employee) =>
+        isDateInTimeRange(selectedTimeRange, employee.entryDate) ||
+        isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)
+    )
+);
+
+function isDateInTimeRange(timeRange: string, dateToTest: string): boolean {
+  if (!dateToTest || !timeRange) {
+    return false;
+  }
+  const dateToTestP = new Date(dateToTest);
+  const timeRangeArr = timeRange.split('|');
+  const timeRangeStart = new Date(Number(timeRangeArr[0]));
+  const timeRangeEnd = new Date(Number(timeRangeArr[1]));
+
+  return timeRangeStart <= dateToTestP && dateToTestP <= timeRangeEnd;
+}
 
 function createDoughnutConfig(
   internalValue: number,
