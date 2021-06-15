@@ -107,7 +107,7 @@
     "@angular/cli": "12.0.4",
     "@angular/compiler-cli": "12.0.4",
     "@angular/language-service": "12.0.4",
-    "@babel/core": "7.14.3",
+    "@babel/core": "7.14.6",
     "@commitlint/cli": "12.1.1",
     "@commitlint/config-conventional": "12.1.4",
     "@juggle/resize-observer": "3.3.1",
