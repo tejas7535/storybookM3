@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
+import { ApplicationInsightsModule } from '@schaeffler/application-insights';
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
@@ -27,6 +28,14 @@ export class DynamicLocaleId extends String {
   public toString() {
     return this.translocoService.getActiveLang();
   }
+}
+
+let Tracking = [
+  ApplicationInsightsModule.forRoot(environment.applicationInsights),
+];
+
+if (window.self !== window.top) {
+  Tracking = [];
 }
 
 @NgModule({
@@ -59,6 +68,8 @@ export class DynamicLocaleId extends String {
       'en',
       true
     ),
+    // Monitoring
+    ...Tracking,
 
     // HTTP
     HttpClientModule,

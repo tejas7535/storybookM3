@@ -2,6 +2,7 @@
   <schaeffler-header
     *ngIf="!embedded"
     [platformTitle]="title"
+    [link]="'/'"
     class="h-full"
     toggleEnabled="true"
     (toggle)="sidebar.toggle()"
@@ -20,7 +21,7 @@
       <mat-icon
         fontSet="schaeffler-icons"
         fontIcon="icon-menu"
-        class="text-dark"
+        class="text-icon"
       ></mat-icon>
     </button>
 
@@ -36,6 +37,19 @@
     >
       <div class="flex-auto md:m-4 p-4 bg-white">
         <router-outlet></router-outlet>
+        <div
+          class="mx-auto max-w-screen-md w-full"
+          [ngClass]="{ hidden: !isCookiePage }"
+        >
+          <div class="py-3">
+            <button id="ot-sdk-btn" class="ot-sdk-show-settings">
+              {{ cookieSettings }}
+            </button>
+          </div>
+          <div class="py-3">
+            <div id="ot-sdk-cookie-policy"></div>
+          </div>
+        </div>
       </div>
       <schaeffler-footer-tailwind
         *ngIf="!embedded"
