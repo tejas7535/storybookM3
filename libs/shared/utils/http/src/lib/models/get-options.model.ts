@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface GetOptions {
   headers?:
@@ -12,6 +12,7 @@ export interface GetOptions {
     | {
         [param: string]: string | string[];
       };
+  context?: HttpContext;
   reportProgress?: boolean;
   responseType?: 'json' | 'text';
   withCredentials?: boolean;

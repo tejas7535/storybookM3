@@ -4,6 +4,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
@@ -54,8 +55,7 @@ describe('DetailService', () => {
       const mock = new ReferenceTypeResult(REFERENCE_TYPE_MOCK);
       const expectedParams = new HttpParams()
         .set('material_number', mock.referenceTypeDto.materialNumber)
-        .set('plant', mock.referenceTypeDto.plant)
-        .set('cache$', 'true');
+        .set('plant', mock.referenceTypeDto.plant);
 
       service
         .getDetails(
@@ -73,6 +73,7 @@ describe('DetailService', () => {
         `/detail?${expectedParams.toString()}&identification_hash=%2B42`
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });
@@ -86,9 +87,10 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        '/calculations?material_number=2345&plant=0060&cache$=true'
+        '/calculations?material_number=2345&plant=0060'
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });
@@ -111,9 +113,10 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}&cache$=true`
+        `/bom?bom_costing_date=${bomIdentifier.bomCostingDate}&bom_costing_number=${bomIdentifier.bomCostingNumber}&bom_costing_type=${bomIdentifier.bomCostingType}&bom_costing_version=${bomIdentifier.bomCostingVersion}&bom_entered_manually=${bomIdentifier.bomEnteredManually}&bom_reference_object=${bomIdentifier.bomReferenceObject}&bom_valuation_variant=${bomIdentifier.bomValuationVariant}`
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });
@@ -127,9 +130,10 @@ describe('DetailService', () => {
       });
 
       const req = httpMock.expectOne(
-        '/products/drawings?material_number=2345&plant=0061&cache$=true'
+        '/products/drawings?material_number=2345&plant=0061'
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });

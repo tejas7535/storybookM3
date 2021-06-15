@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
@@ -130,9 +131,10 @@ describe('RestService', () => {
         });
 
       const req = httpMock.expectOne(
-        `/${environment.materialsPath}${mockShaftMaterial}?cache$=true`
+        `/${environment.materialsPath}${mockShaftMaterial}`
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(BEARING_MATERIAL_RESPONSE_MOCK);
     });
   });
@@ -144,8 +146,9 @@ describe('RestService', () => {
         done();
       });
 
-      const req = httpMock.expectOne('/aUrl?cache$=true');
+      const req = httpMock.expectOne('/aUrl');
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(LOAD_OPTIONS_RESPONSE_MOCK);
     });
   });

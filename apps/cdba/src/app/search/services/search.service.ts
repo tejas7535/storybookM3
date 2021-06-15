@@ -30,7 +30,6 @@ export class SearchService {
 
   private readonly POSSIBLE_FILTER = 'possible-filter';
   private readonly PARAM_SEARCH_FOR = 'search_for';
-  private readonly PARAM_ENABLE_CACHE = 'cache$';
 
   public constructor(
     private readonly dataService: DataService,
@@ -39,7 +38,9 @@ export class SearchService {
 
   public getInitialFilters(): Observable<FilterItem[]> {
     return this.dataService
-      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER, withCache())
+      .getAll<InitialFiltersResponse>(this.INITIAL_FILTER, {
+        context: withCache(),
+      })
       .pipe(map((response) => response.items));
   }
 
@@ -53,14 +54,15 @@ export class SearchService {
     textSearch: TextSearch,
     selectedOptions: IdValue[]
   ): Observable<FilterItemIdValue> {
-    const params = new HttpParams()
-      .set(this.PARAM_SEARCH_FOR, textSearch.value)
-      .set(this.PARAM_ENABLE_CACHE, 'true');
+    const params = new HttpParams().set(
+      this.PARAM_SEARCH_FOR,
+      textSearch.value
+    );
 
     return this.dataService
       .getAll<FilterItemIdValue>(
         `${this.POSSIBLE_FILTER}/${textSearch.field}`,
-        { params }
+        { params, context: withCache() }
       )
       .pipe(
         map((item: FilterItemIdValue) => ({

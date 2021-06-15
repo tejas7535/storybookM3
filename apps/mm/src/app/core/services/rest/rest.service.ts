@@ -60,7 +60,7 @@ export class RestService {
   ): Observable<MMBearingsMaterialResponse> {
     return this.dataService.getAll<MMBearingsMaterialResponse>(
       `${environment.materialsPath}${idmmShaftMaterial}`,
-      withCache()
+      { context: withCache() }
     );
   }
 
@@ -68,6 +68,8 @@ export class RestService {
     const replaceValue = `${environment.baseUrl}/`;
     const path = requestUrl.replace(replaceValue, '');
 
-    return this.dataService.getAll<MMResponseVariants>(path, withCache());
+    return this.dataService.getAll<MMResponseVariants>(path, {
+      context: withCache(),
+    });
   }
 }
