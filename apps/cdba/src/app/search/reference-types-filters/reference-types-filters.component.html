@@ -1,5 +1,5 @@
 <div *transloco="let t; read: 'search.referenceTypesFilters'">
-  <div fxLayout="row wrap" fxLayoutAlign="start center" fxLayoutGap="20px">
+  <div fxLayout="row wrap" fxLayoutAlign="center center" fxLayoutGap="20px">
     <ng-container
       *ngFor="let filter of filters$ | ngrxPush; trackBy: trackByFn"
       [ngSwitch]="filter.type"
@@ -22,13 +22,20 @@
     </ng-container>
   </div>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="20px">
-    <button fxFlex="nogrow" mat-flat-button color="primary" (click)="search()">
-      <mat-icon>poll</mat-icon>
+    <button
+      fxFlex="nogrow"
+      mat-flat-button
+      color="primary"
+      class="text-button"
+      (click)="search()"
+    >
+      <mat-icon>filter_list</mat-icon>
       {{ t('search') }}
     </button>
     <button
       fxFlex="nogrow"
       mat-stroked-button
+      class="text-button"
       [disabled]="!(showResetButton$ | ngrxPush)"
       (click)="resetFilters()"
     >

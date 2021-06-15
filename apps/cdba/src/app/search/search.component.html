@@ -1,6 +1,6 @@
 <ng-container *ngIf="searchSuccessful$ | ngrxPush; else showStartPage">
   <div
-    class="container"
+    class="search-container"
     fxLayout="column"
     fxLayoutAlign="start center"
     fxLayoutGap="20px"
@@ -20,7 +20,7 @@
 
 <ng-template #showStartPage>
   <div
-    class="container"
+    class="search-container"
     fxLayout="column"
     fxLayoutAlign="center center"
     fxLayoutGap="20px"
