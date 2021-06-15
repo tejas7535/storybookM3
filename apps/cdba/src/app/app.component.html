@@ -9,11 +9,12 @@
     [profileImage]="profileImage$ | ngrxPush"
     [entries]="userMenuEntries"
   ></schaeffler-user-menu>
-  <div class="site-content">
-    <div class="router-content">
+  <div class="flex flex-col h-full">
+    <div class="flex-grow overflow-y-auto">
       <router-outlet></router-outlet>
     </div>
     <schaeffler-footer-tailwind
+      class="flex-none"
       [appVersion]="appVersion"
       [footerLinks]="footerLinks"
     ></schaeffler-footer-tailwind>
