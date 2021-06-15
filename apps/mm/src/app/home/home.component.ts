@@ -13,11 +13,14 @@ import { map, takeUntil, tap } from 'rxjs/operators';
 import { DynamicFormTemplateContext, Model } from '@caeonline/dynamic-forms';
 
 import { DIALOG } from '../../mock';
-import { MMLocales } from '../core/services/locale/locale.enum';
-import { LocaleService } from '../core/services/locale/locale.service';
-import { MMSeparator } from '../core/services/locale/separator.enum';
-import { PagesStepperComponent } from '../pages-stepper/pages-stepper.component';
-import { ModelTransformer } from '../services/model-transformer.service';
+import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
+import {
+  LocaleService,
+  MMLocales,
+  MMSeparator,
+  ModelTransformer,
+  RestService,
+} from '../core/services';
 import {
   PAGE_MOUNTING_MANAGER_SEAT,
   PROPERTY_PAGE_MOUNTING,
@@ -28,7 +31,6 @@ import {
   RSY_BEARING_TYPE,
   RSY_PAGE_BEARING_TYPE,
 } from '../shared/constants/dialog-constant';
-import { RestService } from './../core/services/rest/rest.service';
 import { HomeStore } from './home.component.store';
 import { PagedMeta } from './home.model';
 

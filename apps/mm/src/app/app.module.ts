@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
-
-import { SharedTranslocoModule } from '@schaeffler/transloco';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
+import { StoreModule } from './core/store/store.module';
 
 @NgModule({
-  imports: [
-    AppRoutingModule,
-    CoreModule,
-
-    // Schaeffler Libs
-    SharedTranslocoModule,
-  ],
+  imports: [BrowserAnimationsModule, AppRoutingModule, CoreModule, StoreModule],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

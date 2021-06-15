@@ -15,15 +15,15 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
-import { BearingSearchModule } from '../bearing-search/bearing-search.module';
+import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
+import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
+import { RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
-import { PagesStepperComponent } from '../pages-stepper/pages-stepper.component';
-import { PagesStepperModule } from '../pages-stepper/pages-stepper.module';
-import { ResultPageModule } from '../result-page/result-page.module';
 import { SharedModule } from '../shared/shared.module';
-import { RestService } from './../core/services/rest/rest.service';
+import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
 import { PagedMeta } from './home.model';
+import { ResultPageModule } from './result-page/result-page.module';
 
 // import { HttpTestingController } from '@angular/common/http/testing';
 
