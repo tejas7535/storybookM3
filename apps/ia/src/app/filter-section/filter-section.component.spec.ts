@@ -1,3 +1,5 @@
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -21,7 +23,6 @@ describe('FilterSectionComponent', () => {
 
   const createComponent = createComponentFactory({
     component: FilterSectionComponent,
-    declarations: [FilterSectionComponent],
     imports: [
       NoopAnimationsModule,
       AutocompleteInputModule,
@@ -29,6 +30,8 @@ describe('FilterSectionComponent', () => {
       ReactiveComponentModule,
       SelectInputModule,
       DateInputModule,
+      MatIconModule,
+      MatTooltipModule,
     ],
     providers: [
       provideMockStore({

@@ -1,5 +1,6 @@
 import { ComponentFixture } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -58,6 +59,7 @@ describe('EntriesExitsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
       TeamMemberDialogModule,
+      MatIconModule,
     ],
   });
 
