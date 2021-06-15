@@ -156,6 +156,7 @@ module.exports = {
           letterSpacing: '2px',
         },
       ],
+      icon: ['24px'],
     },
     fontFamily: {
       body: ['Roboto', 'sans-serif'],
@@ -240,6 +241,9 @@ module.exports = {
         },
         '.text-overline': {
           color: theme('textColor.light'),
+        },
+        '.text-icon': {
+          color: theme('textColor.dark'),
         },
       });
     }),

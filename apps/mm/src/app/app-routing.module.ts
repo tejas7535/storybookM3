@@ -4,9 +4,15 @@ import { RouterModule, Routes } from '@angular/router';
 export enum RoutePath {
   BasePath = '',
   HomePath = 'app',
+  LegalPath = 'legal',
 }
 
 export const appRoutePaths: Routes = [
+  {
+    path: RoutePath.LegalPath,
+    loadChildren: () =>
+      import('./legal/legal.module').then((m) => m.LegalModule),
+  },
   {
     path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
@@ -17,9 +23,10 @@ export const appRoutePaths: Routes = [
     pathMatch: 'prefix',
   },
   {
-    path: `${RoutePath.HomePath}`,
+    path: RoutePath.HomePath,
     loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
   },
+
   {
     path: '**',
     loadChildren: () =>

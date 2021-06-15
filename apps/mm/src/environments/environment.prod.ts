@@ -6,4 +6,14 @@ export const environment = {
   materialsPath: 'materialdata/id/',
   bearingRelationsPath: 'bearing-relations/',
   bearingCalculationPath: 'bearing-calculation',
+  applicationInsights: {
+    applicationInsightsConfig: {
+      instrumentationKey: 'cfecb843-072b-4edf-9c7d-2b52d7309d6d', // same as dev
+      disableCookiesUsage: false,
+      autoTrackPageVisitTime: true,
+    },
+    enableGlobalErrorHandler: true,
+    enableNgrxMetaReducer: true,
+    ngrxIgnorePattern: ['@ngrx/*'],
+  },
 };
