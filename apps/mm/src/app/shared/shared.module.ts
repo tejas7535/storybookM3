@@ -1,12 +1,60 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-import { MatCardModule } from '@angular/material/card';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { ReactiveComponentModule } from '@ngrx/component';
+
+import { DropdownInputModule } from '@schaeffler/dropdown-input';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+import { PictureCardModule } from '@schaeffler/picture-card';
+import { SharedTranslocoModule } from '@schaeffler/transloco';
+
+import { MagneticSliderComponent } from './components/magnetic-slider/magnetic-slider.component';
+import {
+  ListMemberComponent,
+  PictureCardListComponent,
+  SelectMemberComponent,
+  StringNumberMemberComponent,
+} from './components/member-controls';
+import { MaterialModule } from './material.module';
 import { MmNumberPipe } from './pipes/mm-number.pipe';
 
 @NgModule({
-  imports: [CommonModule, MatCardModule],
-  exports: [CommonModule, MmNumberPipe],
-  declarations: [MmNumberPipe],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedTranslocoModule,
+    ReactiveComponentModule,
+    PictureCardModule,
+    DropdownInputModule,
+    LoadingSpinnerModule,
+    MaterialModule,
+  ],
+  exports: [
+    CommonModule,
+    MmNumberPipe,
+    FormsModule,
+    ReactiveFormsModule,
+    PictureCardModule,
+    PictureCardListComponent,
+    ListMemberComponent,
+    SelectMemberComponent,
+    StringNumberMemberComponent,
+    ReactiveComponentModule,
+    MagneticSliderComponent,
+    DropdownInputModule,
+    LoadingSpinnerModule,
+    MaterialModule,
+    SharedTranslocoModule,
+  ],
+  declarations: [
+    MmNumberPipe,
+    ListMemberComponent,
+    SelectMemberComponent,
+    StringNumberMemberComponent,
+    MagneticSliderComponent,
+    PictureCardListComponent,
+  ],
 })
 export class SharedModule {}

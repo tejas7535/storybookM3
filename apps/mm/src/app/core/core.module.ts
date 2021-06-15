@@ -1,13 +1,6 @@
-import { DecimalPipe } from '@angular/common';
+import { CommonModule, DecimalPipe } from '@angular/common';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 
 import {
@@ -26,8 +19,8 @@ import { environment } from '../../environments/environment';
 import { AppComponent } from '../app.component';
 import { HttpLocaleInterceptor } from '../shared/interceptors/http-locale.interceptor';
 import { SharedModule } from '../shared/shared.module';
+import { PagesStepperModule } from './components/pages-stepper/pages-stepper.module';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
-import { StoreModule } from './store/store.module';
 
 export class DynamicLocaleId extends String {
   public constructor(protected translocoService: TranslocoService) {
@@ -42,25 +35,15 @@ export class DynamicLocaleId extends String {
 @NgModule({
   declarations: [AppComponent, SidebarComponent],
   imports: [
-    BrowserAnimationsModule,
-
-    // NgRx Setup
-    StoreModule,
+    CommonModule,
     RouterModule,
 
-    ReactiveFormsModule,
-
-    // Angular Material
-    MatButtonModule,
-    MatSidenavModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatIconModule,
-
-    // Schaeffler Modules
+    // UI Modules
     HeaderModule,
     FooterTailwindModule,
     IconsModule,
+
+    PagesStepperModule,
 
     SharedModule,
 
@@ -85,7 +68,7 @@ export class DynamicLocaleId extends String {
     HttpCacheInterceptorModule.forRoot(),
     HttpModule.forRoot({ environment }),
   ],
-  exports: [AppComponent, SidebarComponent],
+  exports: [AppComponent, SidebarComponent, PagesStepperModule],
   providers: [
     {
       provide: LOCALE_ID,
