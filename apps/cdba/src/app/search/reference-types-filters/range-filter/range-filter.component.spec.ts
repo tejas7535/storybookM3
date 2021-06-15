@@ -15,6 +15,9 @@ import { SharedModule } from '../../../shared/shared.module';
 import { InputType } from './input-type.enum';
 import { RangeFilterValuePipe } from './range-filter-value.pipe';
 import { RangeFilterComponent } from './range-filter.component';
+import { TranslocoService } from '@ngneat/transloco';
+
+const mockedTranslate = jest.fn();
 
 describe('RangeFilterComponent', () => {
   let component: RangeFilterComponent;
@@ -36,15 +39,61 @@ describe('RangeFilterComponent', () => {
     declarations: [RangeFilterValuePipe],
     disableAnimations: true,
     detectChanges: false,
+    providers: [
+      {
+        provide: TranslocoService,
+        useValue: {
+          translate: mockedTranslate,
+        },
+      },
+    ],
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
+
+    mockedTranslate.mockClear();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit', () => {
+    it('should select the tooltip translation for the disabled budget_quantity range filter', () => {
+      component.filter = new FilterItemRange(
+        'budget_quantity',
+        0,
+        100,
+        undefined,
+        undefined,
+        'pc'
+      );
+
+      component.ngOnInit();
+
+      expect(mockedTranslate).toHaveBeenCalledWith(
+        'search.referenceTypesFilters.tooltips.disabledBudgetQuantity'
+      );
+    });
+
+    it('should select the tooltip  translation for the disabled dimension range filters', () => {
+      component.filter = new FilterItemRange(
+        'width',
+        0,
+        100,
+        undefined,
+        undefined,
+        'mm'
+      );
+
+      component.ngOnInit();
+
+      expect(mockedTranslate).toHaveBeenCalledWith(
+        'search.referenceTypesFilters.tooltips.disabledDimensionFilter'
+      );
+    });
   });
 
   describe('ngOnChanges', () => {

@@ -34,7 +34,11 @@
     "searchPlaceholder": "Search...",
     "selectAll": "Select all",
     "noResultsFound": "No results found.",
-    "resetFilter": "Reset Filters"
+    "resetFilter": "Reset Filters",
+    "tooltips": {
+      "disabledBudgetQuantity": "To activate the budget quantity filter, please first use another filter and click on the search button.",
+      "disabledDimensionFilter": "To activate the length, width, and height filters, please use the material short description filter and click on the search button."
+    }
   },
   "referenceTypesTable": {
     "headers": {
