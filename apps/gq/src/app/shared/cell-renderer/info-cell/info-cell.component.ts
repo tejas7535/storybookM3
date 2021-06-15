@@ -3,22 +3,18 @@ import { Component } from '@angular/core';
 import { CellClassParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
-import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import { ValidationDescription } from '../../models/table';
 
 @Component({
   selector: 'gq-info-cell',
   templateUrl: './info-cell.component.html',
-  styleUrls: ['./info-cell.component.scss'],
 })
 export class InfoCellComponent {
   public valid: string;
-  public isDummy: boolean;
   public toolTipText: string;
 
   agInit(params: CellClassParams): void {
     this.valid = params.value.valid;
-    this.isDummy = isDummyData(params.data);
     this.toolTipText = this.setToolTipText(params.data.info.description);
   }
   setToolTipText(description: ValidationDescription[]): string {

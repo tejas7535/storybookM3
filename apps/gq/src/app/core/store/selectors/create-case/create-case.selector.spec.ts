@@ -19,6 +19,10 @@ describe('Create Case Selector', () => {
           options: [new IdValue('1', '1', true)],
         },
         {
+          filter: FilterNames.MATERIAL_DESCRIPTION,
+          options: [new IdValue('1', '1', true)],
+        },
+        {
           filter: FilterNames.SAP_QUOTATION,
           options: [new IdValue('1', '1', true)],
         },
@@ -47,6 +51,17 @@ describe('Create Case Selector', () => {
       ).toEqual(
         fakeState.case.autocompleteItems.find(
           (elm) => elm.filter === FilterNames.SAP_QUOTATION
+        )
+      );
+    });
+  });
+  describe('getCaseMaterialDesc', () => {
+    test('should return materialdescription', () => {
+      expect(
+        createSelectors.getCaseMaterialDesc.projector(fakeState.case)
+      ).toEqual(
+        fakeState.case.autocompleteItems.find(
+          (elm) => elm.filter === FilterNames.MATERIAL_DESCRIPTION
         )
       );
     });

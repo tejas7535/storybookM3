@@ -97,6 +97,7 @@ describe('AutocompleteInputComponent', () => {
         new IdValue('2', 'test2', false),
       ];
       component.setFormControlValue = jest.fn();
+      component.debounceIsActive = false;
       component.valueInput = {
         nativeElement: { value: 'test' },
       } as unknown as any;
@@ -105,6 +106,7 @@ describe('AutocompleteInputComponent', () => {
       expect(component.selectedIdValue).toEqual(options[0]);
       expect(component.unselectedOptions).toEqual([options[1]]);
       expect(component.setFormControlValue).toHaveBeenCalledTimes(1);
+      expect(component.debounceIsActive).toBeTruthy();
     });
 
     test('should set test options when filter name is customer', () => {
@@ -141,13 +143,37 @@ describe('AutocompleteInputComponent', () => {
     });
   });
   describe('setFormControlValue', () => {
-    test('should set value', () => {
+    test('should set value for Customer', () => {
       component.selectedIdValue = {
         id: '1',
         value: '2',
       } as any;
       component.filterName = FilterNames.CUSTOMER;
       const transformresult = `1 | 2`;
+      component.transformFormValue = jest.fn(() => transformresult);
+      component.searchFormControl = {
+        setValue: jest.fn(),
+        hasError: jest.fn(),
+      } as any;
+      component.isValid.emit = jest.fn();
+      component.inputContent.emit = jest.fn();
+      component.setFormControlValue();
+
+      expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(component.searchFormControl.setValue).toHaveBeenCalledWith(
+        transformresult,
+        { emitEvent: false }
+      );
+      expect(component.isValid.emit).toHaveBeenCalledTimes(1);
+      expect(component.inputContent.emit).toHaveBeenCalledTimes(1);
+    });
+    test('should set value for material', () => {
+      component.selectedIdValue = {
+        id: 'f-a123',
+        value: '2123',
+      } as any;
+      const transformresult = `f-a123`;
+      component.filterName = FilterNames.MATERIAL;
       component.transformFormValue = jest.fn(() => transformresult);
       component.searchFormControl = {
         setValue: jest.fn(),
@@ -174,6 +200,10 @@ describe('AutocompleteInputComponent', () => {
       const result = component.transformFormValue(id, value);
 
       expect(result).toEqual(`${id} | ${value}`);
+    });
+    test('should return only id', () => {
+      const result = component.transformFormValue('1', undefined);
+      expect(result).toEqual('1');
     });
   });
   describe('sliceMaterialString', () => {
@@ -272,6 +302,14 @@ describe('AutocompleteInputComponent', () => {
       component.resetInputField();
 
       expect(component.searchFormControl.setValue).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('isInputValid', () => {
+    test('should return valid', () => {
+      component.selectedIdValue = { id: '1' } as any;
+      const result = component.isInputValid({ value: '1 | 2' } as any);
+
+      expect(result).toEqual({ invalidInput: true });
     });
   });
 });

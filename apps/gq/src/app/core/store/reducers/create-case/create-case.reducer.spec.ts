@@ -34,6 +34,7 @@ import {
   resetPLsAndSeries,
   resetProductLineAndSeries,
   selectAutocompleteOption,
+  setSelectedAutocompleteOption,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -41,7 +42,6 @@ import {
   validateSuccess,
 } from '../../actions';
 import { SalesIndication } from '../transactions/models/sales-indication.enum';
-import { dummyRowData } from './config/dummy-row-data';
 import {
   CaseState,
   createCaseReducer,
@@ -175,6 +175,34 @@ describe('Create Case Reducer', () => {
         );
       });
     });
+    describe('setSelectedAutocompleteOption', () => {
+      test('should set option', () => {
+        const fakeState: CaseState = {
+          ...CREATE_CASE_STORE_STATE_MOCK,
+          autocompleteItems: [
+            { filter: FilterNames.MATERIAL, options: [] },
+            { filter: FilterNames.MATERIAL_DESCRIPTION, options: [] },
+          ],
+        };
+
+        const option = new IdValue('mcd', 'mercedes', true);
+        const action = setSelectedAutocompleteOption({
+          filter: FilterNames.MATERIAL,
+          option,
+        });
+        const state = createCaseReducer(fakeState, action);
+
+        expect(
+          state.autocompleteItems.find((i) => i.filter === FilterNames.MATERIAL)
+            .options
+        ).toEqual([option]);
+        expect(
+          state.autocompleteItems.find(
+            (i) => i.filter === FilterNames.MATERIAL_DESCRIPTION
+          ).options
+        ).toEqual([{ selected: true, id: option.value, value: option.id }]);
+      });
+    });
     describe('unselectAutocompleteOptions', () => {
       const fakeOptions = [
         new IdValue('mcd', 'mercedes', true),
@@ -222,7 +250,6 @@ describe('Create Case Reducer', () => {
     describe('addRowDataItem', () => {
       test('should addItem to Row Data', () => {
         const fakeData = [
-          dummyRowData,
           {
             materialNumber: '123',
             quantity: 10,
@@ -245,7 +272,7 @@ describe('Create Case Reducer', () => {
 
         const state = createCaseReducer(fakeState, action);
 
-        expect(state.rowData).toEqual([...items, fakeData[1]]);
+        expect(state.rowData).toEqual([fakeData[0], ...items]);
       });
     });
     describe('pasteRowDataItems', () => {
@@ -278,20 +305,12 @@ describe('Create Case Reducer', () => {
             },
           },
         ];
-        const pasteDestination: MaterialTableItem = {
-          materialNumber: '123',
-          quantity: 10,
-          info: {
-            valid: false,
-            description: [ValidationDescription.MaterialNumberInValid],
-          },
-        };
         const fakeState: CaseState = {
           ...CREATE_CASE_STORE_STATE_MOCK,
           rowData: fakeData,
         };
 
-        const action = pasteRowDataItems({ items, pasteDestination });
+        const action = pasteRowDataItems({ items });
 
         const state = createCaseReducer(fakeState, action);
         expect(state.rowData).toEqual([...fakeData, ...items]);
@@ -316,7 +335,7 @@ describe('Create Case Reducer', () => {
 
         const state = createCaseReducer(fakeState, action);
 
-        expect(state.rowData).toEqual([dummyRowData]);
+        expect(state.rowData).toEqual([]);
       });
     });
     describe('deleteRowDataItem', () => {

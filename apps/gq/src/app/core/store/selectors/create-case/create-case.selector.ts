@@ -53,6 +53,14 @@ export const getCaseMaterialNumber = createSelector(
     state.autocompleteItems.find((it) => it.filter === FilterNames.MATERIAL)
 );
 
+export const getCaseMaterialDesc = createSelector(
+  getCaseState,
+  (state: CaseState): CaseFilterItem =>
+    state.autocompleteItems.find(
+      (it) => it.filter === FilterNames.MATERIAL_DESCRIPTION
+    )
+);
+
 export const getCaseAutocompleteLoading = createSelector(
   getCaseState,
   (state: CaseState, autocompleteItem: string): boolean =>

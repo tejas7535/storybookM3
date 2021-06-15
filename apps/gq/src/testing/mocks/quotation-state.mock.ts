@@ -1,4 +1,3 @@
-import { dummyRowData } from '../../app/core/store/reducers/create-case/config/dummy-row-data';
 import { ProcessCaseState } from '../../app/core/store/reducers/process-case/process-case.reducer';
 
 export const QUOTATION_STATE_MOCK: ProcessCaseState = {
@@ -16,7 +15,7 @@ export const QUOTATION_STATE_MOCK: ProcessCaseState = {
     updateLoading: false,
   },
   addMaterials: {
-    addMaterialRowData: [dummyRowData],
+    addMaterialRowData: [],
     validationLoading: false,
     removeQuotationDetailsIds: [],
     errorMessage: undefined,

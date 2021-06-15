@@ -88,7 +88,7 @@ export const deleteAddMaterialRowDataItem = createAction(
 
 export const pasteRowDataItemsToAddMaterial = createAction(
   '[Process Case] Paste new Items to Material Table',
-  props<{ items: MaterialTableItem[]; pasteDestination: MaterialTableItem }>()
+  props<{ items: MaterialTableItem[] }>()
 );
 
 export const validateAddMaterialsFailure = createAction(

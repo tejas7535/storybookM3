@@ -1,5 +1,8 @@
 <div *ngIf="salesOrgs$ | ngrxPush as salesOrgs">
-  <mat-form-field *ngrxLet="selectedSalesOrg$ as selectedSalesOrg">
+  <mat-form-field
+    class="w-full"
+    *ngrxLet="selectedSalesOrg$ as selectedSalesOrg"
+  >
     <mat-label *transloco="let t; read: 'shared.caseMaterial'">{{
       t('salesOrg')
     }}</mat-label>

@@ -33,9 +33,10 @@
       "salesOrg": "Sales Org",
       "addEntry": {
         "processCase": {
-          "dialogTitle": "Add Material",
-          "addEntryTitle": "Add new position"
+          "dialogTitle": "Add Material"
         },
+        "addItems": "Add Items",
+        "pasteFromClipboard": "Paste from clipboard",
         "quantity": {
           "error": "Invalid quantity",
           "hint": "Enter a quantity",
@@ -53,20 +54,25 @@
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid material number"
         },
+        "materialdescription": {
+          "hint": "Enter a material description",
+          "label": "Material Description",
+          "nothingFound": "Nothing found",
+          "wrongInput": "Please enter a valid material description"
+        },
         "sap-quotation": {
           "hint": "Please enter the SAP Number of the quote you want to add",
           "label": "Quotation Number",
           "nothingFound": "Nothing found",
           "wrongInput": "Please enter a valid quotation number"
         },
-        "button": "Add position"
+        "button": "Add entry"
       },
       "table": {
         "info": {
           "title": "Status",
           "status": {
             "duplicate": "The item already exists in the table",
-            "isDummy": "This is a dummy item",
             "materialNumberInValid": "The material number is invalid",
             "not_validated": "Item not validated yet",
             "quantityInValid": "The quantity is invalid",

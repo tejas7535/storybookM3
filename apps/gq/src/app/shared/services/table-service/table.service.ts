@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 
 import {
-  dummyRowData,
-  isDummyData,
-} from '../../../core/store/reducers/create-case/config/dummy-row-data';
-import {
   MaterialQuantities,
   MaterialValidation,
   ValidationDescription,
@@ -20,7 +16,6 @@ import { MaterialTableItem } from '../../models/table/material-table-item-model'
 export class TableService {
   static pasteItems(
     items: MaterialTableItem[],
-    pasteDestination: MaterialTableItem,
     currentRowData: MaterialTableItem[]
   ): MaterialTableItem[] {
     let updatedRowData = [];
@@ -31,30 +26,14 @@ export class TableService {
       materialNumber: item.materialNumber.replace(/-/g, ''),
     }));
 
-    // remove the dummy item if exists
-    const currentRowDataFiltered = currentRowData.filter(
-      (el) => !isDummyData(el)
-    );
-
     //
-    const index = currentRowData.findIndex(
-      (value) =>
-        pasteDestination &&
-        value.materialNumber === pasteDestination.materialNumber &&
-        value.quantity === pasteDestination.quantity
-    );
+    const index = currentRowData.length - 1;
 
     updatedRowData =
-      index >= 0
-        ? [
-            ...currentRowDataFiltered.slice(0, index + 1),
-            ...transformedItems,
-            ...currentRowDataFiltered.slice(index + 1),
-          ]
-        : currentRowData;
+      index >= 0 ? [...currentRowData, ...transformedItems] : transformedItems;
 
     // Remove duplicates
-    return updatedRowData.filter(
+    const res = updatedRowData.filter(
       (item, pos, self) =>
         self.findIndex(
           (of) =>
@@ -62,6 +41,8 @@ export class TableService {
             of.quantity === item.quantity
         ) === pos
     );
+
+    return res;
   }
 
   static deleteItem(
@@ -74,7 +55,7 @@ export class TableService {
         !(it.materialNumber === materialNumber && it.quantity === quantity)
     );
 
-    return filteredRowData.length > 0 ? filteredRowData : [dummyRowData];
+    return filteredRowData.length > 0 ? filteredRowData : [];
   }
 
   static validateData(

@@ -1,4 +1,3 @@
-import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import {
   MaterialQuantities,
   MaterialTableItem,
@@ -15,10 +14,6 @@ describe('TableService', () => {
         { quantity: 10, materialNumber: '1234' },
         { quantity: 120, materialNumber: '76543' },
       ];
-      const pasteDestination: MaterialTableItem = {
-        quantity: 10,
-        materialNumber: '1234',
-      };
       const currentRowData: MaterialTableItem[] = [
         { quantity: 100, materialNumber: '23457' },
         { quantity: 10, materialNumber: '1234' },
@@ -26,11 +21,7 @@ describe('TableService', () => {
         { quantity: 120, materialNumber: '76543' },
       ];
 
-      const result = TableService.pasteItems(
-        items,
-        pasteDestination,
-        currentRowData
-      );
+      const result = TableService.pasteItems(items, currentRowData);
 
       expect(result).toEqual([
         { quantity: 100, materialNumber: '23457' },
@@ -41,21 +32,13 @@ describe('TableService', () => {
 
     test('should do nothing', () => {
       const items: MaterialTableItem[] = [
-        { quantity: 10, materialNumber: '1234' },
+        { quantity: 100, materialNumber: '1234' },
       ];
-      const pasteDestination: MaterialTableItem = {
-        quantity: 10,
-        materialNumber: '1234',
-      };
       const currentRowData: MaterialTableItem[] = [
         { quantity: 100, materialNumber: '1234' },
       ];
 
-      const result = TableService.pasteItems(
-        items,
-        pasteDestination,
-        currentRowData
-      );
+      const result = TableService.pasteItems(items, currentRowData);
 
       expect(result).toEqual([{ quantity: 100, materialNumber: '1234' }]);
     });
@@ -78,7 +61,7 @@ describe('TableService', () => {
       ]);
     });
 
-    describe('should delete an Item and return the dummyRowData', () => {
+    test('should delete an Item', () => {
       const materialNumber = '1234';
       const quantity = 10;
       const rowData: MaterialTableItem[] = [
@@ -86,7 +69,7 @@ describe('TableService', () => {
       ];
 
       const result = TableService.deleteItem(materialNumber, quantity, rowData);
-      expect(result).toEqual([dummyRowData]);
+      expect(result).toEqual([]);
     });
   });
 
@@ -159,7 +142,7 @@ describe('TableService', () => {
         quantity: 100,
       });
     });
-    test('should return invalid information', () => {
+    test('should return invalid information for invalid data', () => {
       const materialNumber: MaterialTableItem = {
         quantity: 100,
         materialNumber: '2345713',
@@ -183,7 +166,7 @@ describe('TableService', () => {
       });
     });
 
-    test('should return invalid information', () => {
+    test('should return invalid information for negative quantity', () => {
       const materialNumber: MaterialTableItem = {
         quantity: -10,
         materialNumber: '23457',

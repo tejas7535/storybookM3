@@ -1,59 +1,92 @@
 <div
+  class="flex h-full flex-col w-full mb-6"
   *transloco="let t; read: 'shared.caseMaterial.addEntry'"
-  class="addRowContainer"
-  fxLayout="row"
-  fxLayout.sm="column"
-  fxLayout.xs="column"
-  fxFlexFill
 >
-  <div
-    fxFlex="40%"
-    fxLayoutAlign="start start"
-    *ngIf="materialNumber$ | ngrxPush as materialNumber"
-    class="rowInput"
-  >
-    <gq-autocomplete-input
-      fxFill
-      #materialNumberInput
-      [filterName]="materialNumber.filter"
-      [options]="materialNumber.options"
-      [isDisabled]="_isDisabled"
-      (inputContent)="materialHasInput($event)"
-      (unselected)="unselectOptions(materialNumber.filter)"
-      (added)="selectOption($event, materialNumber.filter)"
-      (isValid)="materialNumberValid($event)"
-      [autocompleteLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
-      (autocomplete)="autocomplete($event)"
-    ></gq-autocomplete-input>
+  <div>
+    <div class="mt-6">
+      <span class="text-h6 text-light font-body font-medium">
+        {{ t('addItems') }}
+      </span>
+      <span class="float-right">
+        <button
+          class="!pl-4 !pr-4"
+          mat-stroked-button
+          color="primary"
+          (click)="pasteFromClipboard()"
+        >
+          <mat-icon>content_paste</mat-icon>
+          <span class="!font-body text-button font-medium ml-4">
+            {{ t('pasteFromClipboard') | uppercase }}
+          </span>
+        </button>
+      </span>
+    </div>
+    <hr class="opacity-[12%] mt-4" />
   </div>
-  <div fxFlex="40%" fxLayoutAlign="center start" class="rowInputContainer">
-    <mat-form-field appearance="outline" class="rowInputField">
-      <mat-label class="error-quotation-label">
-        {{ t('quantity.label') }}
-      </mat-label>
-      <input
-        class="input-field"
-        matInput
-        #valueInput
-        (keypress)="numberOnly($event)"
-        [formControl]="quantityFormControl"
-      />
-      <mat-hint>{{ t('quantity.hint') }}</mat-hint>
-      <mat-error *ngIf="quantityFormControl.hasError('invalidInput')">{{
-        t('quantity.error')
-      }}</mat-error>
-    </mat-form-field>
-  </div>
-  <div fxFlex fxLayoutAlign="center start">
-    <button
-      mat-raised-button
-      color="primary"
-      [disabled]="!addRowEnabled"
-      (click)="addRow()"
-      class="add-entry"
+
+  <div class="mt-6 flex flex-row w-full">
+    <div class="w-1/4" *ngIf="materialDesc$ | ngrxPush as materialDesc">
+      <gq-autocomplete-input
+        #materialDescInput
+        [filterName]="materialDesc.filter"
+        [options]="materialDesc.options"
+        (inputContent)="materialHasInput($event)"
+        (unselected)="unselectOptions(materialDesc.filter)"
+        (added)="selectOption($event, materialDesc.filter)"
+        (isValid)="materialInputValid($event)"
+        [autocompleteLoading]="materialDescAutocompleteLoading$ | ngrxPush"
+        (autocomplete)="autocomplete($event)"
+      ></gq-autocomplete-input>
+    </div>
+    <div
+      class="w-1/4 ml-6"
+      *ngIf="materialNumber$ | ngrxPush as materialNumber"
     >
-      <mat-icon>add</mat-icon>
-      {{ t('button') | uppercase }}
-    </button>
+      <gq-autocomplete-input
+        #materialNumberInput
+        [filterName]="materialNumber.filter"
+        [options]="materialNumber.options"
+        (inputContent)="materialHasInput($event)"
+        (unselected)="unselectOptions(materialNumber.filter)"
+        (added)="selectOption($event, materialNumber.filter)"
+        (isValid)="materialInputValid($event)"
+        [autocompleteLoading]="materialNumberAutocompleteLoading$ | ngrxPush"
+        (autocomplete)="autocomplete($event)"
+      ></gq-autocomplete-input>
+    </div>
+    <div class="w-1/4 ml-6">
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label>
+          {{ t('quantity.label') }}
+        </mat-label>
+        <input
+          (keydown)="onQuantityKeyPress($event)"
+          (paste)="onQuantityPaste($event)"
+          class="text-overline"
+          autocomplete="off"
+          matInput
+          #valueInput
+          min="1"
+          type="number"
+          [formControl]="quantityFormControl"
+        />
+        <mat-hint>{{ t('quantity.hint') }}</mat-hint>
+        <mat-error *ngIf="quantityFormControl.hasError('invalidInput')">{{
+          t('quantity.error')
+        }}</mat-error>
+      </mat-form-field>
+    </div>
+    <div class="w-1/4 ml-6">
+      <button
+        class="!mt-6"
+        mat-raised-button
+        color="primary"
+        [disabled]="!addRowEnabled"
+        (click)="addRow()"
+      >
+        <mat-icon>add</mat-icon>
+        {{ t('button') | uppercase }}
+      </button>
+    </div>
   </div>
 </div>
