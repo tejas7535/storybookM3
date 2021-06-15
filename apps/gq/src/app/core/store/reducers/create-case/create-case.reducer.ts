@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
@@ -36,6 +35,7 @@ import {
   resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
+  setSelectedAutocompleteOption,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -43,11 +43,11 @@ import {
   validateSuccess,
 } from '../../actions';
 import { SalesIndication } from '../transactions/models/sales-indication.enum';
-import { dummyRowData, isDummyData } from './config/dummy-row-data';
 import { CreateCaseResponse, SalesOrg } from './models';
 import { CaseFilterItem } from './models/case-filter-item.model';
 import { PLsAndSeries } from './models/pls-and-series.model';
 
+/* eslint-disable max-lines */
 export interface CaseState {
   autocompleteLoading: string;
   autocompleteItems: CaseFilterItem[];
@@ -87,6 +87,10 @@ export const initialState: CaseState = {
       filter: FilterNames.MATERIAL,
       options: [],
     },
+    {
+      filter: FilterNames.MATERIAL_DESCRIPTION,
+      options: [],
+    },
   ],
   customer: {
     customerId: undefined,
@@ -106,7 +110,7 @@ export const initialState: CaseState = {
   createdCase: undefined,
   createCaseLoading: false,
   errorMessage: undefined,
-  rowData: [dummyRowData],
+  rowData: [],
   validationLoading: false,
 };
 
@@ -128,11 +132,17 @@ export const createCaseReducer = createReducer(
       let itemOptions = [...options];
       if (tmp.filter === filter) {
         const mergedOptions: IdValue[] = [];
+
+        const materialPipe = new MaterialTransformPipe();
         if (tmp.filter === FilterNames.MATERIAL) {
-          const materialPipe = new MaterialTransformPipe();
           itemOptions = itemOptions.map((opt) => ({
             ...opt,
             id: materialPipe.transform(opt.id),
+          }));
+        } else if (tmp.filter === FilterNames.MATERIAL_DESCRIPTION) {
+          itemOptions = itemOptions.map((opt) => ({
+            ...opt,
+            value: materialPipe.transform(opt.value),
           }));
         }
 
@@ -176,6 +186,34 @@ export const createCaseReducer = createReducer(
         filter === FilterNames.CUSTOMER ? option.id : state.customer.customerId,
     },
   })),
+  on(
+    setSelectedAutocompleteOption,
+    (state: CaseState, { filter, option }): CaseState => ({
+      ...state,
+      autocompleteItems: [...state.autocompleteItems].map((it) => {
+        const temp = { ...it };
+        const setFor =
+          filter === FilterNames.MATERIAL
+            ? FilterNames.MATERIAL_DESCRIPTION
+            : FilterNames.MATERIAL;
+
+        if (temp.filter === filter) {
+          return { ...temp, options: selectOption(temp.options, option) };
+        } else if (temp.filter === setFor) {
+          return {
+            ...temp,
+            options: selectOption(temp.options, {
+              selected: true,
+              id: option.value,
+              value: option.id,
+            }),
+          };
+        }
+
+        return temp;
+      }),
+    })
+  ),
   on(unselectAutocompleteOptions, (state: CaseState, { filter }) => ({
     ...state,
     autocompleteItems: [...state.autocompleteItems].map((it) => {
@@ -199,20 +237,18 @@ export const createCaseReducer = createReducer(
   on(addRowDataItem, (state: CaseState, { items }) => ({
     ...state,
     rowData: [
+      ...state.rowData,
       ...TableService.removeDashesFromTableItems(items),
-      ...state.rowData.filter((val) => !isDummyData(val)),
     ],
   })),
-  on(pasteRowDataItems, (state: CaseState, { items, pasteDestination }) => ({
+  on(pasteRowDataItems, (state: CaseState, { items }) => ({
     ...state,
-    rowData: TableService.pasteItems(items, pasteDestination, [
-      ...state.rowData,
-    ]),
+    rowData: TableService.pasteItems(items, [...state.rowData]),
     validationLoading: true,
   })),
   on(clearCreateCaseRowData, (state: CaseState) => ({
     ...state,
-    rowData: [dummyRowData],
+    rowData: initialState.rowData,
   })),
   on(deleteRowDataItem, (state: CaseState, { materialNumber, quantity }) => ({
     ...state,

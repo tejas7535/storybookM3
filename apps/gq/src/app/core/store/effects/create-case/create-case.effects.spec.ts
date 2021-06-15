@@ -219,7 +219,7 @@ describe('Create Case Effects', () => {
     test(
       'should return validateSuccess when REST call is successful',
       marbles((m) => {
-        action = pasteRowDataItems({ items: [], pasteDestination: {} });
+        action = pasteRowDataItems({ items: [] });
 
         const materialValidations: MaterialValidation[] = [];
         const result = validateSuccess({ materialValidations });

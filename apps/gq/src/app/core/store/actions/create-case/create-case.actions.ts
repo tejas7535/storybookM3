@@ -30,6 +30,10 @@ export const selectAutocompleteOption = createAction(
   '[Create Case] Select Option for selected Autocomplete Option',
   props<{ option: IdValue; filter: string }>()
 );
+export const setSelectedAutocompleteOption = createAction(
+  '[Create Case] Set selected option for Autocomplete Filter',
+  props<{ option: IdValue; filter: string }>()
+);
 
 export const unselectAutocompleteOptions = createAction(
   '[Create Case] Unselect Options for selected Autocomplete Option',
@@ -43,7 +47,7 @@ export const addRowDataItem = createAction(
 
 export const pasteRowDataItems = createAction(
   '[Create Case] Paste new Items to Customer Table',
-  props<{ items: MaterialTableItem[]; pasteDestination: MaterialTableItem }>()
+  props<{ items: MaterialTableItem[] }>()
 );
 
 export const clearCreateCaseRowData = createAction(

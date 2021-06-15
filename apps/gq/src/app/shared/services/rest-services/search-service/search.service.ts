@@ -47,12 +47,12 @@ export class SearchService {
         options
       )
       .pipe(
-        map((res: AutocompleteResponse) => {
-          return res.items.map((opt: IdValue) => ({
+        map((res: AutocompleteResponse) =>
+          res.items.map((opt: IdValue) => ({
             ...opt,
             selected: false,
-          }));
-        })
+          }))
+        )
       );
   }
   public getSalesOrgs(customerId: string): Observable<SalesOrg[]> {

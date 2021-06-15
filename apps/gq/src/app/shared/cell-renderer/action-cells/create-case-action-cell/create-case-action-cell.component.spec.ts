@@ -4,7 +4,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { deleteRowDataItem } from '../../../../core/store/actions';
-import { dummyRowData } from '../../../../core/store/reducers/create-case/config/dummy-row-data';
 import { CreateCaseActionCellComponent } from './create-case-action-cell.component';
 
 describe('ActionCellComponent', () => {
@@ -33,12 +32,12 @@ describe('ActionCellComponent', () => {
     test('should set params', () => {
       const params: any = {
         test: '123',
-        data: dummyRowData,
+        data: [],
       };
       component.agInit(params);
 
       expect(component.params).toEqual(params);
-      expect(component.isDummy).toBeTruthy();
+      expect(component).toBeTruthy();
     });
   });
 

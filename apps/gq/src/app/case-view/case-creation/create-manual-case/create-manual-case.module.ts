@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
@@ -20,6 +22,8 @@ import { CreateManualCaseComponent } from './create-manual-case.component';
     CommonModule,
     SharedTranslocoModule,
     LoadingSpinnerModule,
+    MatIconModule,
+    MatButtonModule,
     ReactiveComponentModule,
     AutocompleteInputModule,
     InputTableModule,

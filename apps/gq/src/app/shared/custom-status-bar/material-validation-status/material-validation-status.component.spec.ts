@@ -3,7 +3,6 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import { MaterialValidationStatusComponent } from './material-validation-status.component';
 
 describe('MaterialValidationStatusComponent', () => {
@@ -47,7 +46,6 @@ describe('MaterialValidationStatusComponent', () => {
   describe('rowValueChanges', () => {
     test('should count invalid and total combinations correctly', () => {
       const nodes: RowNode[] = [
-        { data: dummyRowData } as unknown as RowNode,
         {
           data: {
             materialNumber: '123',
@@ -98,7 +96,7 @@ describe('MaterialValidationStatusComponent', () => {
       component.rowValueChanges();
 
       expect(component.invalid).toEqual(1);
-      expect(component.combinations).toEqual(nodes.length - 1);
+      expect(component.combinations).toEqual(nodes.length);
     });
   });
 });

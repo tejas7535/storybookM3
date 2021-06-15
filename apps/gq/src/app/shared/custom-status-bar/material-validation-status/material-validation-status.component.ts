@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 
 import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 
-import { isDummyData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
 import { MaterialTableItem } from '../../models/table';
 
 @Component({
@@ -34,11 +33,8 @@ export class MaterialValidationStatusComponent {
     this.params.api.forEachNode((row: RowNode) => {
       const tmpDetail: MaterialTableItem = row.data;
 
-      // skip dummy row data that is initially provided
-      if (!isDummyData(tmpDetail)) {
-        this.invalid += tmpDetail.info?.valid ? 0 : 1;
-        this.combinations += 1;
-      }
+      this.invalid += tmpDetail.info?.valid ? 0 : 1;
+      this.combinations += 1;
     });
   }
 }

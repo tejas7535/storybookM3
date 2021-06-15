@@ -1,9 +1,6 @@
 import { FilterNames } from '../../../../shared/autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../../../shared/models/search';
-import {
-  MaterialTableItem,
-  ValidationDescription,
-} from '../../../../shared/models/table';
+import { ValidationDescription } from '../../../../shared/models/table';
 import { PLsSeriesRequest } from '../../../../shared/services/rest-services/search-service/models/pls-series-request.model';
 import {
   CreateCaseResponse,
@@ -38,6 +35,7 @@ import {
   resetProductLineAndSeries,
   selectAutocompleteOption,
   selectSalesOrg,
+  setSelectedAutocompleteOption,
   setSelectedProductLines,
   setSelectedSeries,
   unselectAutocompleteOptions,
@@ -87,7 +85,17 @@ describe('Create Actions', () => {
         type: '[Create Case] Select Option for selected Autocomplete Option',
       });
     });
+    test('setSelectedAutocompleteOption', () => {
+      const option = new IdValue('23', 'Test Customer', true);
+      const filter = FilterNames.CUSTOMER;
+      const action = setSelectedAutocompleteOption({ option, filter });
 
+      expect(action).toEqual({
+        option,
+        filter,
+        type: '[Create Case] Set selected option for Autocomplete Filter',
+      });
+    });
     test('unselectAutocompleteOption', () => {
       const filter = FilterNames.CUSTOMER;
       const action = unselectAutocompleteOptions({ filter });
@@ -124,16 +132,10 @@ describe('Create Actions', () => {
           info: { valid: true, description: [ValidationDescription.Valid] },
         },
       ];
-      const pasteDestination: MaterialTableItem = {
-        materialNumber: '12321',
-        quantity: 123,
-        info: { valid: true, description: [ValidationDescription.Valid] },
-      };
-      const action = pasteRowDataItems({ items, pasteDestination });
+      const action = pasteRowDataItems({ items });
 
       expect(action).toEqual({
         items,
-        pasteDestination,
         type: '[Create Case] Paste new Items to Customer Table',
       });
     });

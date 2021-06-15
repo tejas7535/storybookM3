@@ -11,7 +11,7 @@
     *ngIf="!(createCaseLoading$ | ngrxPush); else loading"
   >
     <div class="flex">
-      <div class="w-full" *ngIf="customer$ | ngrxPush as customer">
+      <div class="w-4/5" *ngIf="customer$ | ngrxPush as customer">
         <gq-autocomplete-input
           [filterName]="customer.filter"
           [options]="customer.options"
@@ -21,7 +21,7 @@
           (autocomplete)="autocomplete($event)"
         ></gq-autocomplete-input>
       </div>
-      <div class="ml-3 mt-3">
+      <div class="ml-3 mt-3 w-1/5">
         <gq-select-sales-org></gq-select-sales-org>
       </div>
     </div>

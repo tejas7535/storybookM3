@@ -40,7 +40,6 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import { dummyRowData } from '../create-case/config/dummy-row-data';
 import { QuotationIdentifier } from './models';
 import { processCaseReducer, reducer } from './process-case.reducer';
 
@@ -306,13 +305,8 @@ describe('Quotation Reducer', () => {
     describe('pasteRowDataItemsToAddMaterial', () => {
       test('should paste RowDataItems to AddMaterial', () => {
         const items: MaterialTableItem[] = [];
-        const pasteDestination: MaterialTableItem = {
-          materialNumber: '123465',
-          quantity: 100,
-        };
         const action = pasteRowDataItemsToAddMaterial({
           items,
-          pasteDestination,
         });
 
         const fakeState = {
@@ -430,15 +424,7 @@ describe('Quotation Reducer', () => {
           addMaterials: {
             ...QUOTATION_STATE_MOCK.addMaterials,
             errorMessage,
-            addMaterialRowData: [
-              {
-                ...dummyRowData,
-                info: {
-                  description: ['validationFailure'],
-                  valid: false,
-                },
-              },
-            ],
+            addMaterialRowData: [],
             validationLoading: false,
           },
         });
@@ -522,7 +508,7 @@ describe('Quotation Reducer', () => {
 
       const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
 
-      expect(state.addMaterials.addMaterialRowData).toEqual([dummyRowData]);
+      expect(state.addMaterials.addMaterialRowData).toEqual([]);
     });
   });
   describe('setSelectedQuotationDetail', () => {

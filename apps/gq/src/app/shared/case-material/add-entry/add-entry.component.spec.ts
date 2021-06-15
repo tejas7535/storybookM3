@@ -1,4 +1,3 @@
-import { BACKSLASH, FIVE, PAGE_UP } from '@angular/cdk/keycodes';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,7 +13,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import {
   addMaterialRowDataItem,
   autocomplete,
-  selectAutocompleteOption,
+  setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
 import { SharedModule } from '../../../shared';
@@ -73,7 +72,7 @@ describe('InputbarComponent', () => {
       component.rowInputValid = jest.fn();
 
       component.ngOnInit();
-      const testValue = '10';
+      const testValue = 10;
       component.quantityFormControl.setValue(testValue);
 
       expect(component.quantityValid).toBeTruthy();
@@ -112,40 +111,40 @@ describe('InputbarComponent', () => {
       component.selectOption(option, filter);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        selectAutocompleteOption({ option, filter })
+        setSelectedAutocompleteOption({ option, filter })
       );
     });
   });
   describe('materialNumberValid', () => {
     test('should set materialNumberisValid', () => {
       component.rowInputValid = jest.fn();
-      component.materialNumberValid(true);
+      component.materialInputValid(true);
 
-      expect(component.materialNumberIsValid).toBeTruthy();
+      expect(component.materialInputIsValid).toBeTruthy();
       expect(component.rowInputValid).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('rowInputValid', () => {
     beforeEach(() => {
-      component.rowData = [];
       component.materialNumberInput = true;
     });
     test('should set addRowEnabled to true', () => {
-      component.materialNumberIsValid = true;
+      component.materialInputIsValid = true;
       component.quantityValid = true;
+      component.quantity = 10;
       component.rowInputValid();
       expect(component.addRowEnabled).toBeTruthy();
     });
     test('should set addRowEnabled to false', () => {
-      component.materialNumberIsValid = false;
+      component.materialInputIsValid = false;
       component.rowInputValid();
       expect(component.addRowEnabled).toBeFalsy();
     });
   });
   describe('quantityValidator', () => {
     test('should return undefined', () => {
-      const control = { value: '10' } as unknown as any;
+      const control = { value: 10 } as unknown as any;
       component.rowInputValid = jest.fn();
       const response = component.quantityValidator(control);
 
@@ -172,9 +171,12 @@ describe('InputbarComponent', () => {
       component.matNumberInput = {
         clearInput: jest.fn(),
       } as any;
+      component.matDescInput = {
+        clearInput: jest.fn(),
+      } as any;
 
       component.quantityFormControl = {
-        setValue: jest.fn(),
+        reset: jest.fn(),
       } as any;
 
       component.addRow();
@@ -182,35 +184,15 @@ describe('InputbarComponent', () => {
         addMaterialRowDataItem({ items: [item] })
       );
       expect(component.matNumberInput.clearInput).toHaveBeenCalledTimes(1);
-      expect(component.quantityFormControl.setValue).toHaveBeenCalledTimes(1);
+      expect(component.matDescInput.clearInput).toHaveBeenCalledTimes(1);
+      expect(component.quantityFormControl.reset).toHaveBeenCalledTimes(1);
     });
   });
   describe('materialHasInput', () => {
     test('should set materialNumberInput and emitHasInput', () => {
-      component.emitHasInput = jest.fn();
       component.materialNumberInput = false;
       component.materialHasInput(true);
       expect(component.materialNumberInput).toBeTruthy();
-    });
-  });
-  describe('numberOnly', () => {
-    test('should return false if not number', () => {
-      const eventMock = {
-        keyCode: PAGE_UP,
-      };
-      expect(component.numberOnly(eventMock)).toBeFalsy();
-    });
-    test('should return false if not number', () => {
-      const eventMock = {
-        which: BACKSLASH,
-      };
-      expect(component.numberOnly(eventMock)).toBeFalsy();
-    });
-    test('should return true if number', () => {
-      const eventMock = {
-        keyCode: FIVE,
-      };
-      expect(component.numberOnly(eventMock)).toBeTruthy();
     });
   });
 });

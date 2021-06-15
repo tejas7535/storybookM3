@@ -3,7 +3,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
-import { dummyRowData } from '../../../core/store/reducers/create-case/config/dummy-row-data';
+import { ValidationDescription } from '../../models/table';
 import { InfoCellComponent } from './info-cell.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -34,12 +34,15 @@ describe('InfoCellComponent', () => {
     test('should set params', () => {
       const params: any = {
         value: { valid: true },
-        data: dummyRowData,
+        data: {
+          info: {
+            description: [ValidationDescription.MaterialNumberInValid],
+          },
+        },
       };
       component.agInit(params);
 
       expect(component.valid).toBeTruthy();
-      expect(component.isDummy).toBeTruthy();
     });
   });
 });

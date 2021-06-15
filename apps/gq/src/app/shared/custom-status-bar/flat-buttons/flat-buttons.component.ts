@@ -55,7 +55,7 @@ export class FlatButtonsComponent implements OnInit {
   showAddDialog(): void {
     this.dialog.open(AddMaterialDialogComponent, {
       width: '70%',
-      height: '75%',
+      height: '90%',
     });
   }
 

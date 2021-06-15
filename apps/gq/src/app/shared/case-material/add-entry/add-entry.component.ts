@@ -1,81 +1,77 @@
-import { NINE, SPACE, ZERO } from '@angular/cdk/keycodes';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   addMaterialRowDataItem,
   addRowDataItem,
   autocomplete,
   getCaseAutocompleteLoading,
+  getCaseMaterialDesc,
   getCaseMaterialNumber,
-  getCaseRowData,
-  selectAutocompleteOption,
+  setSelectedAutocompleteOption,
   unselectAutocompleteOptions,
 } from '../../../core/store';
-import { CaseState } from '../../../core/store/reducers/create-case/create-case.reducer';
 import { CaseFilterItem } from '../../../core/store/reducers/create-case/models';
 import { AutocompleteInputComponent } from '../../autocomplete-input/autocomplete-input.component';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
 import { AutocompleteSearch, IdValue } from '../../models/search';
 import { MaterialTableItem } from '../../models/table/material-table-item-model';
 import { ValidationDescription } from '../../models/table/validation-description.enum';
+import { HelperService } from '../../services/helper-service/helper-service.service';
+import { PasteMaterialsService } from '../../services/paste-materials-service/paste-materials.service';
 
 @Component({
   selector: 'gq-add-entry',
   templateUrl: './add-entry.component.html',
-  styleUrls: ['./add-entry.component.scss'],
 })
 export class AddEntryComponent implements OnInit, OnDestroy {
-  materialNumber$: Observable<CaseFilterItem>;
-  materialNumberAutocompleteLoading$: Observable<boolean>;
+  public materialNumber$: Observable<CaseFilterItem>;
+  public materialDesc$: Observable<CaseFilterItem>;
+  public materialNumberAutocompleteLoading$: Observable<boolean>;
+  public materialDescAutocompleteLoading$: Observable<boolean>;
 
-  _isDisabled: boolean;
-  materialNumber: string;
-  rowData: MaterialTableItem[];
-  materialNumberInput: boolean;
-  quantity: number;
-  materialNumberIsValid = false;
-  quantityValid = false;
-  addRowEnabled = false;
-  quantityFormControl: FormControl = new FormControl();
+  public materialNumber: string;
+  public materialNumberInput: boolean;
+  public quantity: number;
+  public materialInputIsValid = false;
+  public quantityValid = false;
+  public addRowEnabled = false;
+  public quantityFormControl: FormControl = new FormControl();
   private readonly subscription: Subscription = new Subscription();
 
-  @Input() readonly isCaseView: boolean;
-  @Input() set isDisabled(isDisabled: boolean) {
-    this._isDisabled = isDisabled;
-    isDisabled
-      ? this.quantityFormControl.disable()
-      : this.quantityFormControl.enable();
-  }
-  @Output() readonly inputContent: EventEmitter<boolean> = new EventEmitter(
-    true
-  );
-  @ViewChild('materialNumberInput') matNumberInput: AutocompleteInputComponent;
+  @Input() public readonly isCaseView: boolean;
 
-  constructor(private readonly store: Store<CaseState>) {}
+  @ViewChild('materialNumberInput')
+  public matNumberInput: AutocompleteInputComponent;
+  @ViewChild('materialDescInput')
+  public matDescInput: AutocompleteInputComponent;
+
+  constructor(
+    private readonly store: Store,
+    private readonly pasteMaterialsService: PasteMaterialsService
+  ) {}
+
   public ngOnInit(): void {
-    this.materialNumber$ = this.store.pipe(select(getCaseMaterialNumber));
-    this.materialNumberAutocompleteLoading$ = this.store.pipe(
-      select(getCaseAutocompleteLoading, FilterNames.MATERIAL)
+    this.materialNumber$ = this.store.select(getCaseMaterialNumber);
+    this.materialDesc$ = this.store.select(getCaseMaterialDesc);
+    this.materialNumberAutocompleteLoading$ = this.store.select(
+      getCaseAutocompleteLoading,
+      FilterNames.MATERIAL
+    );
+    this.materialNumberAutocompleteLoading$ = this.store.select(
+      getCaseAutocompleteLoading,
+      FilterNames.MATERIAL_DESCRIPTION
     );
     this.addSubscriptions();
   }
   addSubscriptions(): void {
     this.subscription.add(
       this.store
-        .pipe(select(getCaseMaterialNumber))
+        .select(getCaseMaterialNumber)
         .subscribe((res: CaseFilterItem) => {
           if (res?.options.length > 0) {
             const idValueItem = res.options.find(
@@ -85,27 +81,20 @@ export class AddEntryComponent implements OnInit, OnDestroy {
           }
         })
     );
-    this.subscription.add(
-      this.store
-        .pipe(select(getCaseRowData))
-        .subscribe((data: MaterialTableItem[]) => {
-          this.rowData = data;
-        })
-    );
 
     this.quantityFormControl.setValidators([this.quantityValidator.bind(this)]);
   }
 
   quantityValidator(control: AbstractControl): ValidationErrors {
     const { value } = control;
-    const valid =
-      !value || (value && value.length > 0 && parseInt(value, 10) > 0);
     // input field should stay green when empty
-    this.quantityValid = value && valid;
-    this.quantity = parseInt(value, 10);
+    this.quantityValid = !value || value > 0;
+    this.quantity = value;
     this.rowInputValid();
 
-    return !valid ? { invalidInput: !valid } : undefined;
+    return !this.quantityValid
+      ? { invalidInput: !this.quantityValid }
+      : undefined;
   }
 
   ngOnDestroy(): void {
@@ -115,17 +104,24 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.store.dispatch(autocomplete({ autocompleteSearch }));
   }
   selectOption(option: IdValue, filter: string): void {
-    this.store.dispatch(selectAutocompleteOption({ option, filter }));
+    this.store.dispatch(
+      setSelectedAutocompleteOption({
+        filter,
+        option,
+      })
+    );
   }
   unselectOptions(filter: string): void {
+    const filterName =
+      filter === FilterNames.MATERIAL
+        ? FilterNames.MATERIAL_DESCRIPTION
+        : FilterNames.MATERIAL;
+    this.store.dispatch(unselectAutocompleteOptions({ filter: filterName }));
     this.store.dispatch(unselectAutocompleteOptions({ filter }));
   }
-  materialNumberValid(isValid: boolean): void {
-    this.materialNumberIsValid = isValid;
+  materialInputValid(isValid: boolean): void {
+    this.materialInputIsValid = isValid;
     this.rowInputValid();
-  }
-  emitHasInput(): void {
-    this.inputContent.emit(this.materialNumberInput || this.quantityValid);
   }
   materialHasInput(hasInput: boolean): void {
     this.materialNumberInput = hasInput;
@@ -134,9 +130,10 @@ export class AddEntryComponent implements OnInit, OnDestroy {
 
   rowInputValid(): void {
     this.addRowEnabled =
-      this.materialNumberIsValid &&
+      this.materialInputIsValid &&
       this.materialNumberInput &&
-      this.quantityValid;
+      this.quantityValid &&
+      this.quantity > 0;
   }
 
   addRow(): void {
@@ -151,13 +148,22 @@ export class AddEntryComponent implements OnInit, OnDestroy {
     this.isCaseView
       ? this.store.dispatch(addRowDataItem({ items }))
       : this.store.dispatch(addMaterialRowDataItem({ items }));
-    this.matNumberInput.clearInput();
-    this.quantityFormControl.setValue('');
-    this.materialNumberIsValid = false;
-  }
-  numberOnly(event: any): boolean {
-    const charCode = event.which ? event.which : event.keyCode;
 
-    return !(charCode >= SPACE && (charCode < ZERO || charCode > NINE));
+    // clear fields after dispatching action
+    this.matNumberInput.clearInput();
+    this.matDescInput.clearInput();
+    this.quantityFormControl.reset();
+    this.materialInputIsValid = false;
+  }
+  onQuantityKeyPress(event: KeyboardEvent): void {
+    HelperService.validateQuantityInputKeyPress(event);
+  }
+
+  onQuantityPaste(event: ClipboardEvent): void {
+    HelperService.validateQuantityInputPaste(event);
+  }
+
+  pasteFromClipboard() {
+    this.pasteMaterialsService.onPasteStart(this.isCaseView);
   }
 }

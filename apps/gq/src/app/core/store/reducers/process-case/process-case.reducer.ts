@@ -36,10 +36,6 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import {
-  dummyRowData,
-  isDummyData,
-} from '../create-case/config/dummy-row-data';
 import { QuotationIdentifier } from './models';
 
 export interface ProcessCaseState {
@@ -79,7 +75,7 @@ export const initialState: ProcessCaseState = {
     updateLoading: false,
   },
   addMaterials: {
-    addMaterialRowData: [dummyRowData],
+    addMaterialRowData: [],
     validationLoading: false,
     removeQuotationDetailsIds: [],
     errorMessage: undefined,
@@ -189,7 +185,7 @@ export const processCaseReducer = createReducer(
     ...state,
     addMaterials: {
       ...state.addMaterials,
-      addMaterialRowData: [dummyRowData],
+      addMaterialRowData: initialState.addMaterials.addMaterialRowData,
     },
   })),
   on(addMaterials, (state: ProcessCaseState) => ({
@@ -213,7 +209,7 @@ export const processCaseReducer = createReducer(
     },
     addMaterials: {
       ...state.addMaterials,
-      addMaterialRowData: [dummyRowData],
+      addMaterialRowData: initialState.addMaterials.addMaterialRowData,
     },
   })),
   on(addMaterialsFailure, (state: ProcessCaseState, { errorMessage }) => ({
@@ -229,26 +225,21 @@ export const processCaseReducer = createReducer(
     addMaterials: {
       ...state.addMaterials,
       addMaterialRowData: [
+        ...state.addMaterials.addMaterialRowData,
         ...TableService.removeDashesFromTableItems(items),
-        ...state.addMaterials.addMaterialRowData.filter(
-          (val) => !isDummyData(val)
-        ),
       ],
     },
   })),
-  on(
-    pasteRowDataItemsToAddMaterial,
-    (state: ProcessCaseState, { items, pasteDestination }) => ({
-      ...state,
-      addMaterials: {
-        ...state.addMaterials,
-        addMaterialRowData: TableService.pasteItems(items, pasteDestination, [
-          ...state.addMaterials.addMaterialRowData,
-        ]),
-        validationLoading: true,
-      },
-    })
-  ),
+  on(pasteRowDataItemsToAddMaterial, (state: ProcessCaseState, { items }) => ({
+    ...state,
+    addMaterials: {
+      ...state.addMaterials,
+      addMaterialRowData: TableService.pasteItems(items, [
+        ...state.addMaterials.addMaterialRowData,
+      ]),
+      validationLoading: true,
+    },
+  })),
   on(
     deleteAddMaterialRowDataItem,
     (state: ProcessCaseState, { materialNumber, quantity }) => ({
@@ -269,9 +260,7 @@ export const processCaseReducer = createReducer(
         ...state.addMaterials,
         errorMessage: undefined,
         addMaterialRowData: [...state.addMaterials.addMaterialRowData].map(
-          (el) => {
-            return TableService.validateData({ ...el }, materialValidations);
-          }
+          (el) => TableService.validateData({ ...el }, materialValidations)
         ),
         validationLoading: false,
       },

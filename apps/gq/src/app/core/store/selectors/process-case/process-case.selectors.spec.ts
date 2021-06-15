@@ -3,7 +3,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../../testing/mocks';
-import { dummyRowData } from '../../reducers/create-case/config/dummy-row-data';
 import { initialState } from '../../reducers/process-case/process-case.reducer';
 import * as quotationSelectors from './process-case.selectors';
 
@@ -24,7 +23,7 @@ describe('Process Case Selector', () => {
       },
       addMaterials: {
         ...initialState.addMaterials,
-        addMaterialRowData: [dummyRowData],
+        addMaterialRowData: initialState.addMaterials.addMaterialRowData,
         validationLoading: false,
       },
       quotationIdentifier: {
@@ -132,13 +131,7 @@ describe('Process Case Selector', () => {
         )
       ).toEqual({
         gqId: fakeState.processCase.quotationIdentifier.gqId,
-        items: [
-          {
-            materialId: '0167187...',
-            quantity: 123,
-            quotationItemId: QUOTATION_DETAIL_MOCK.quotationItemId + 10,
-          },
-        ],
+        items: [],
       });
     });
 

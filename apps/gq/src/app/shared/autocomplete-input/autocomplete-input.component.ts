@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 import {
   Component,
   ElementRef,
@@ -34,6 +35,7 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
     this.selectedIdValue = itemOptions.find((it) => it.selected);
     this.unselectedOptions = itemOptions.filter((it) => !it.selected);
     if (this.selectedIdValue) {
+      this.debounceIsActive = true;
       this.setFormControlValue();
     }
   }
@@ -105,29 +107,25 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
   }
 
   setFormControlValue(): void {
-    let id = this.selectedIdValue.id;
-    let value = id;
+    let id = this.selectedIdValue.value;
+    let value = this.selectedIdValue.id;
 
     if (
-      this.filterName === FilterNames.CUSTOMER ||
-      this.filterName === FilterNames.SAP_QUOTATION
+      this.filterName === FilterNames.MATERIAL ||
+      this.filterName === FilterNames.MATERIAL_DESCRIPTION
     ) {
-      // display customer as CustomerName | CustomerNumber
-      id = this.selectedIdValue.value;
-    } else if (this.filterName === FilterNames.MATERIAL) {
-      // display material as MaterialNumber | MaterialDescription
-      value = this.selectedIdValue.value;
+      id = this.selectedIdValue.id;
+      value = undefined;
     }
 
     const formValue = this.transformFormValue(id, value);
-
     this.searchFormControl.setValue(formValue, { emitEvent: false });
     this.isValid.emit(!this.searchFormControl.hasError('invalidInput'));
     this.inputContent.emit(true);
   }
 
   transformFormValue(id: string, value: string): string {
-    return `${id} | ${value}`;
+    return `${id}${value ? ` | ${value}` : ''}`;
   }
 
   sliceMaterialString(text: string): string {
@@ -172,16 +170,12 @@ export class AutocompleteInputComponent implements OnDestroy, OnInit {
       control.value &&
       typeof control.value === 'string' &&
       control.value.includes('|')
-        ? control.value.split(' | ')[
-            // only compare the id of the selected id
-            this.filterName === FilterNames.MATERIAL ? 0 : 1
-          ]
+        ? control.value.split(' | ')[1]
         : control.value;
-
     const isValid =
       !formValue ||
       (formValue &&
-        formValue.length !== 0 &&
+        formValue.length > 0 &&
         this.selectedIdValue &&
         this.selectedIdValue.id === formValue);
 

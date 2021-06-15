@@ -33,9 +33,10 @@
       "salesOrg": "VkOrg",
       "addEntry": {
         "processCase": {
-          "dialogTitle": "Neuen Position hinzufügen",
-          "addEntryTitle": "Material hinzufügen"
+          "dialogTitle": "Neue Position hinzufügen"
         },
+        "addItems": "Positionen hinzufügen",
+        "pasteFromClipboard": "Aus der Zwischenablage einfügen",
         "quantity": {
           "error": "Invalide Menge",
           "label": "Menge",
@@ -53,6 +54,12 @@
           "nothingFound": "Keine Ergebnisse",
           "wrongInput": "Bitte geben Sie eine valide Materialnummer ein"
         },
+        "materialdescription": {
+          "hint": "Geben Sie eine Materialbeschreibung ein",
+          "label": "Materialbeschreibung",
+          "nothingFound": "Nichts gefunden",
+          "wrongInput": "Bitte geben sie eine valida Materialbeschreibung ein"
+        },
         "sap-quotation": {
           "hint": "Geben Sie eine SAP-Angebotsnummer ein",
           "label": "Angebotsnummer",
@@ -66,7 +73,6 @@
           "title": "Status",
           "status": {
             "duplicate": "Das Item exisitiert bereits in der Tabelle",
-            "isDummy": "Dies ist ein Beispieldatensatz",
             "materialNumberInValid": "Die Materialnummer ist invalide",
             "not_validated": "Item noch nicht validiert",
             "quantityInValid": "Die Menge ist invalide",

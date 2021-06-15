@@ -466,7 +466,6 @@ describe('ProcessCaseEffect', () => {
       marbles((m) => {
         action = pasteRowDataItemsToAddMaterial({
           items: [],
-          pasteDestination: {},
         });
 
         materialService.validateMaterials = jest.fn(() => response);
