@@ -3,10 +3,7 @@ import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
-import {
-  HttpCacheInterceptor,
-  HttpCacheInterceptorModule,
-} from '@ngneat/cashew';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 import { TranslocoService } from '@ngneat/transloco';
 
 import { FooterTailwindModule } from '@schaeffler/footer-tailwind';
@@ -78,11 +75,6 @@ export class DynamicLocaleId extends String {
     {
       provide: HTTP_INTERCEPTORS,
       useClass: HttpLocaleInterceptor,
-      multi: true,
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: HttpCacheInterceptor,
       multi: true,
     },
     DecimalPipe,

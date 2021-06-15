@@ -3,6 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
+import { withCache } from '@ngneat/cashew';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ENV_CONFIG } from '@schaeffler/http';
@@ -53,8 +54,9 @@ describe('SearchService', () => {
         expect(response).toEqual(mock);
       });
 
-      const req = httpMock.expectOne('/initial-filter?cache$=true');
+      const req = httpMock.expectOne('/initial-filter');
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });
@@ -87,9 +89,10 @@ describe('SearchService', () => {
       });
 
       const req = httpMock.expectOne(
-        `/possible-filter/${textSearch.field}?search_for=${textSearch.value}&cache$=true`
+        `/possible-filter/${textSearch.field}?search_for=${textSearch.value}`
       );
       expect(req.request.method).toBe('GET');
+      expect(req.request.context).toEqual(withCache());
       req.flush(mock);
     });
   });

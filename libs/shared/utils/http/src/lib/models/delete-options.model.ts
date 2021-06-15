@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface DeleteOptions {
   body?: any;
@@ -13,6 +13,7 @@ export interface DeleteOptions {
     | {
         [param: string]: string | string[];
       };
+  context?: HttpContext;
   reportProgress?: boolean;
   responseType?: 'json';
   withCredentials?: boolean;

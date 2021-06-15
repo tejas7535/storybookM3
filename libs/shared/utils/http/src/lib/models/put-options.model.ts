@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface PutOptions {
   headers?:
@@ -13,6 +13,7 @@ export interface PutOptions {
         [param: string]: string | string[];
       };
   reportProgress?: boolean;
+  context?: HttpContext;
   responseType?: 'json';
   withCredentials?: boolean;
 }

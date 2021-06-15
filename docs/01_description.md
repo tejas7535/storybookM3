@@ -14,7 +14,7 @@
 ![@ngrx/store: 12.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-12.1.0-brightgreen)
 ![jest: 26.6.3](https://img.shields.io/badge/jest-26.6.3-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
-![prettier: 2.3.0](https://img.shields.io/badge/prettier-2.3.0-brightgreen)
+![prettier: 2.3.1](https://img.shields.io/badge/prettier-2.3.1-brightgreen)
 ![tailwindcss: 2.1.4](https://img.shields.io/badge/tailwindcss-2.1.4-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->

@@ -1,4 +1,4 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
+import { HttpContext, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface PostOptions {
   headers?:
@@ -14,5 +14,6 @@ export interface PostOptions {
       };
   reportProgress?: boolean;
   responseType?: 'json';
+  context?: HttpContext;
   withCredentials?: boolean;
 }

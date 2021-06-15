@@ -4,6 +4,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
+import { withCache } from '@ngneat/cashew';
+
 import { DataService } from '@schaeffler/http';
 
 import {
@@ -40,8 +42,6 @@ export class DetailService {
   private readonly PARAM_BOM_ENTERED_MANUALLY = 'bom_entered_manually';
   private readonly PARAM_BOM_REFERENCE_OBJECT = 'bom_reference_object';
   private readonly PARAM_BOM_VALUATION_VARIANT = 'bom_valuation_variant';
-
-  private readonly PARAM_ENABLE_CACHE = 'cache$';
 
   public constructor(private readonly dataService: DataService) {}
 
@@ -116,14 +116,15 @@ export class DetailService {
   ): Observable<ReferenceTypeResult> {
     const params: HttpParams = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, item.materialNumber)
-      .set(this.PARAM_PLANT, item.plant)
-      .set(this.PARAM_ENABLE_CACHE, true);
+      .set(this.PARAM_PLANT, item.plant);
 
     const path = `${this.DETAIL_PATH}?${params.toString()}&${
       this.PARAM_IDENTIFICATION_HASH
     }=${encodeURIComponent(item.identificationHash)}`;
 
-    return this.dataService.getAll<ReferenceTypeResult>(path);
+    return this.dataService.getAll<ReferenceTypeResult>(path, {
+      context: withCache(),
+    });
   }
 
   public calculations(
@@ -132,11 +133,13 @@ export class DetailService {
   ): Observable<Calculation[]> {
     const params = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
-      .set(this.PARAM_PLANT, plant)
-      .set(this.PARAM_ENABLE_CACHE, 'true');
+      .set(this.PARAM_PLANT, plant);
 
     return this.dataService
-      .getAll<CalculationsResult>(this.CALCULATIONS_PATH, { params })
+      .getAll<CalculationsResult>(this.CALCULATIONS_PATH, {
+        params,
+        context: withCache(),
+      })
       .pipe(map((response: CalculationsResult) => response.items));
   }
 
@@ -148,18 +151,21 @@ export class DetailService {
       .set(this.PARAM_BOM_COSTING_VERSION, bomIdentifier.bomCostingVersion)
       .set(this.PARAM_BOM_ENTERED_MANUALLY, bomIdentifier.bomEnteredManually)
       .set(this.PARAM_BOM_REFERENCE_OBJECT, bomIdentifier.bomReferenceObject)
-      .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant)
-      .set(this.PARAM_ENABLE_CACHE, 'true');
+      .set(this.PARAM_BOM_VALUATION_VARIANT, bomIdentifier.bomValuationVariant);
 
-    return this.dataService.getAll<BomResult>(this.BOM_PATH, { params }).pipe(
-      map((response: BomResult) =>
-        response.items.map((item) => ({
-          ...item,
-          predecessorsInTree: [],
-        }))
-      ),
-      map((items: BomItem[]) => DetailService.defineBomTreeForAgGrid(items, 0))
-    );
+    return this.dataService
+      .getAll<BomResult>(this.BOM_PATH, { params, context: withCache() })
+      .pipe(
+        map((response: BomResult) =>
+          response.items.map((item) => ({
+            ...item,
+            predecessorsInTree: [],
+          }))
+        ),
+        map((items: BomItem[]) =>
+          DetailService.defineBomTreeForAgGrid(items, 0)
+        )
+      );
   }
 
   public getDrawings(
@@ -168,9 +174,11 @@ export class DetailService {
   ): Observable<Drawing[]> {
     const params = new HttpParams()
       .set(this.PARAM_MATERIAL_NUMBER, materialNumber)
-      .set(this.PARAM_PLANT, plant)
-      .set(this.PARAM_ENABLE_CACHE, 'true');
+      .set(this.PARAM_PLANT, plant);
 
-    return this.dataService.getAll<Drawing[]>(this.DRAWINGS_PATH, { params });
+    return this.dataService.getAll<Drawing[]>(this.DRAWINGS_PATH, {
+      params,
+      context: withCache(),
+    });
   }
 }
