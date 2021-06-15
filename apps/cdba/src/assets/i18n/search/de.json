@@ -34,7 +34,11 @@
     "searchPlaceholder": "Suche...",
     "selectAll": "Alle auswählen",
     "noResultsFound": "Keine Ergebnisse gefunden.",
-    "resetFilter": "Filter zurücksetzen"
+    "resetFilter": "Filter zurücksetzen",
+    "tooltips": {
+      "disabledBudgetQuantity": "Um den Filter für die Budgetierte Menge zu aktivieren, verwenden Sie bitte zunächst einen anderen Filter und klicken Sie anschließend auf 'Suchen'.",
+      "disabledDimensionFilter": "Um die Längen-, Breiten- und Höhenfilter zu aktivieren, verwenden Sie bitte zunächst den Material Kurzbeschreibungsfilter und klicken Sie anschließend auf 'Suchen'."
+    }
   },
   "referenceTypesTable": {
     "headers": {

@@ -4,6 +4,7 @@ import {
   EventEmitter,
   Input,
   OnChanges,
+  OnInit,
   Output,
   SimpleChanges,
 } from '@angular/core';
@@ -12,6 +13,7 @@ import { FormControl } from '@angular/forms';
 import { FilterItemRange } from '../../../core/store/reducers/search/models';
 import { Filter } from '../filter';
 import { InputType } from './input-type.enum';
+import { TranslocoService } from '@ngneat/transloco';
 
 @Component({
   selector: 'cdba-range-filter',
@@ -19,14 +21,29 @@ import { InputType } from './input-type.enum';
   styleUrls: ['./range-filter.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RangeFilterComponent implements OnChanges, Filter {
+export class RangeFilterComponent implements OnChanges, OnInit, Filter {
   public form = new FormControl();
   public inputType = InputType;
   public decimals = '1.2-2';
+  public disabledFilterHint: string;
+
   @Input() public filter: FilterItemRange;
 
   @Output()
   private readonly updateFilter: EventEmitter<FilterItemRange> = new EventEmitter();
+
+  public constructor(private readonly translocoService: TranslocoService) {}
+
+  public ngOnInit(): void {
+    this.disabledFilterHint =
+      this.filter.name === 'budget_quantity'
+        ? this.translocoService.translate(
+            'search.referenceTypesFilters.tooltips.disabledBudgetQuantity'
+          )
+        : this.translocoService.translate(
+            'search.referenceTypesFilters.tooltips.disabledDimensionFilter'
+          );
+  }
 
   public ngOnChanges(changes: SimpleChanges): void {
     const selected = !!(
