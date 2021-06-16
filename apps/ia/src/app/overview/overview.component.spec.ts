@@ -12,12 +12,16 @@ import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
+  getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingFluctuationRatesForChart,
+  getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
+  getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
 describe('OverviewComponent', () => {
@@ -187,4 +191,63 @@ describe('OverviewComponent', () => {
       })
     );
   });
+
+  test(
+    'should set fluctuationChartData$',
+    marbles((m) => {
+      const result = [] as any;
+      store.overrideSelector(getFluctuationRatesForChart, result);
+      component.ngOnInit();
+      m.expect(component.fluctuationChartData$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+    })
+  );
+
+  test(
+    'should set unforcedFluctuationChartData$',
+    marbles((m) => {
+      const result = [] as any;
+      store.overrideSelector(getUnforcedFluctuationRatesForChart, result);
+      component.ngOnInit();
+      m.expect(component.unforcedFluctuationChartData$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+    })
+  );
+
+  test(
+    'should set isFluctuationChartLoading$',
+    marbles((m) => {
+      const result = false as any;
+      store.overrideSelector(getIsLoadingFluctuationRatesForChart, result);
+      component.ngOnInit();
+      m.expect(component.isFluctuationChartLoading$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+    })
+  );
+
+  test(
+    'should set isUnforcedFluctuationChartLoading$',
+    marbles((m) => {
+      const result = false as any;
+      store.overrideSelector(
+        getIsLoadingUnforcedFluctuationRatesForChart,
+        result
+      );
+      component.ngOnInit();
+      m.expect(component.isUnforcedFluctuationChartLoading$).toBeObservable(
+        m.cold('a', {
+          a: result,
+        })
+      );
+    })
+  );
 });

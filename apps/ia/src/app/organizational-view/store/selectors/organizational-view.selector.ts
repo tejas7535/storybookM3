@@ -1,7 +1,8 @@
 import { createSelector } from '@ngrx/store';
 
 import { OrganizationalViewState, selectOrganizationalViewState } from '..';
-import { AttritionOverTime } from '../../../shared/models';
+import { LINE_SERIES_BASE_OPTIONS } from '../../../shared/configs/line-chart.config';
+import { AttritionOverTime, AttritionSeries } from '../../../shared/models';
 
 export const getSelectedChartType = createSelector(
   selectOrganizationalViewState,
@@ -40,10 +41,23 @@ const getAttritionOverTime = createSelector(
 
 export const getAttritionOverTimeOrgChartData = createSelector(
   getAttritionOverTime,
-  (attritionOverTime: AttritionOverTime) => attritionOverTime?.data
+  (attritionOverTime: AttritionOverTime) =>
+    mapDataToChartOption(attritionOverTime?.data)
 );
 
 export const getIsLoadingAttritionOverTimeOrgChart = createSelector(
   selectOrganizationalViewState,
-  (state: OrganizationalViewState) => state.attritionOverTime.loading
+  (state: OrganizationalViewState) => state.attritionOverTime?.loading
 );
+
+export function mapDataToChartOption(data: AttritionSeries) {
+  return data
+    ? {
+        series: Object.keys(data).map((name) => ({
+          ...LINE_SERIES_BASE_OPTIONS,
+          name,
+          data: data[name].attrition,
+        })),
+      }
+    : undefined;
+}

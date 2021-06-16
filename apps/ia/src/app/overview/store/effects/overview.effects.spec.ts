@@ -14,6 +14,7 @@ import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FluctuationRatesChartData,
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
@@ -23,8 +24,14 @@ import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesChartData,
+  loadFluctuationRatesChartDataFailure,
+  loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewSuccess,
+  loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataFailure,
+  loadUnforcedFluctuationRatesChartDataSuccess,
 } from '../actions/overview.action';
 import { OverviewEffects } from './overview.effects';
 
@@ -72,11 +79,18 @@ describe('Overview Effects', () => {
         store.overrideSelector(getCurrentFiltersAndTime, request);
         const resultAttrition = loadAttritionOverTimeOverview({ request });
         const resultFluctuation = loadFluctuationRatesOverview({ request });
+        const resultFluctuationChartData = loadFluctuationRatesChartData({
+          request,
+        });
+        const resultUnforcedFluctuationChartData =
+          loadUnforcedFluctuationRatesChartData({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bc)', {
+        const expected = m.cold('-(bcde)', {
           b: resultAttrition,
           c: resultFluctuation,
+          d: resultFluctuationChartData,
+          e: resultUnforcedFluctuationChartData,
         });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
@@ -93,11 +107,18 @@ describe('Overview Effects', () => {
 
         const resultAttrition = loadAttritionOverTimeOverview({ request });
         const resultFluctuation = loadFluctuationRatesOverview({ request });
+        const resultFluctuationChartData = loadFluctuationRatesChartData({
+          request,
+        });
+        const resultUnforcedFluctuationChartData =
+          loadUnforcedFluctuationRatesChartData({ request });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bc)', {
+        const expected = m.cold('-(bcde)', {
           b: resultAttrition,
           c: resultFluctuation,
+          d: resultFluctuationChartData,
+          e: resultUnforcedFluctuationChartData,
         });
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -234,6 +255,126 @@ describe('Overview Effects', () => {
         m.flush();
         expect(
           employeesService.getOverviewFluctuationRates
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadFluctuationRatesChartData', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadFluctuationRatesChartData({ request });
+    });
+    it(
+      'should load data',
+      marbles((m) => {
+        const data = {} as FluctuationRatesChartData;
+        const result = loadFluctuationRatesChartDataSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        employeesService.getFluctuationRateChartData = jest.fn(() => response);
+
+        m.expect(effects.loadFluctuationRatesChartData$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          employeesService.getFluctuationRateChartData
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadFluctuationRatesChartDataFailure on REST error',
+      marbles((m) => {
+        const result = loadFluctuationRatesChartDataFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        employeesService.getFluctuationRateChartData = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadFluctuationRatesChartData$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          employeesService.getFluctuationRateChartData
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadUnforcedFluctuationRatesChartData', () => {
+    let request: EmployeesRequest;
+
+    beforeEach(() => {
+      request = {} as unknown as EmployeesRequest;
+      action = loadUnforcedFluctuationRatesChartData({ request });
+    });
+    it(
+      'should load data',
+      marbles((m) => {
+        const data = {} as FluctuationRatesChartData;
+        const result = loadUnforcedFluctuationRatesChartDataSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        employeesService.getUnforcedFluctuationRateChartData = jest.fn(
+          () => response
+        );
+
+        m.expect(effects.loadUnforcedFluctuationRatesChartData$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          employeesService.getUnforcedFluctuationRateChartData
+        ).toHaveBeenCalledWith(request);
+      })
+    );
+
+    test(
+      'should return loadUnforcedFluctuationRatesChartDataFailure on REST error',
+      marbles((m) => {
+        const result = loadUnforcedFluctuationRatesChartDataFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        employeesService.getUnforcedFluctuationRateChartData = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadUnforcedFluctuationRatesChartData$).toBeObservable(
+          expected
+        );
+        m.flush();
+        expect(
+          employeesService.getUnforcedFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );

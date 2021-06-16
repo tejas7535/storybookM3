@@ -1,12 +1,22 @@
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  FluctuationRatesChartData,
+} from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesChartData,
+  loadFluctuationRatesChartDataFailure,
+  loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataFailure,
+  loadUnforcedFluctuationRatesChartDataSuccess,
 } from './overview.action';
 
 describe('Overview Actions', () => {
@@ -72,6 +82,66 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load FluctuationRates with entries and exits Failure',
+    });
+  });
+
+  test('loadFluctuationRatesChartData', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadFluctuationRatesChartData({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load FluctuationRatesChartData',
+    });
+  });
+
+  test('loadFluctuationRatesChartDataSuccess', () => {
+    const data = {} as FluctuationRatesChartData;
+    const action = loadFluctuationRatesChartDataSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load FluctuationRatesChartData Success',
+    });
+  });
+
+  test('loadFluctuationRatesChartDataFailure', () => {
+    const action = loadFluctuationRatesChartDataFailure({ errorMessage });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load FluctuationRatesChartData Failure',
+    });
+  });
+
+  test('loadUnforcedFluctuationRatesChartData', () => {
+    const request = {} as unknown as EmployeesRequest;
+    const action = loadUnforcedFluctuationRatesChartData({ request });
+
+    expect(action).toEqual({
+      request,
+      type: '[Overview] Load UnforcedFluctuationRatesChartData',
+    });
+  });
+
+  test('loadUnforcedFluctuationRatesChartDataSuccess', () => {
+    const data = {} as FluctuationRatesChartData;
+    const action = loadUnforcedFluctuationRatesChartDataSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load UnforcedFluctuationRatesChartData Success',
+    });
+  });
+
+  test('loadUnforcedFluctuationRatesChartDataFailure', () => {
+    const action = loadUnforcedFluctuationRatesChartDataFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load UnforcedFluctuationRatesChartData Failure',
     });
   });
 });

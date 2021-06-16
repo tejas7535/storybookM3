@@ -3,8 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
+import { EChartsOption } from 'echarts';
 
-import { Event, TerminatedEmployee } from '../shared/models';
+import { AttritionSeries, Event } from '../shared/models';
 import { Employee } from '../shared/models/employee.model';
 import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
 import { OverviewState } from './store';
@@ -12,12 +13,16 @@ import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
+  getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingFluctuationRatesForChart,
+  getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
+  getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
 @Component({
@@ -25,14 +30,14 @@ import {
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
+  public fluctuationChartData$: Observable<EChartsOption>;
+  public isFluctuationChartLoading$: Observable<boolean>;
+  public unforcedFluctuationChartData$: Observable<EChartsOption>;
+  public isUnforcedFluctuationChartLoading$: Observable<boolean>;
+
   public attritionQuotaloading$: Observable<boolean>;
   public events$: Observable<Event[]>;
-  public attritionData$: Observable<{
-    [seriesName: string]: {
-      employees: TerminatedEmployee[][];
-      attrition: number[];
-    };
-  }>;
+  public attritionData$: Observable<AttritionSeries>;
   public entriesDoughnutConfig: DoughnutConfig;
   public exitsDoughnutConfig$: Observable<DoughnutConfig>;
   public entriesDoughnutConfig$: Observable<DoughnutConfig>;
@@ -44,6 +49,16 @@ export class OverviewComponent implements OnInit {
   constructor(private readonly store: Store<OverviewState>) {}
 
   public ngOnInit(): void {
+    this.fluctuationChartData$ = this.store.select(getFluctuationRatesForChart);
+    this.unforcedFluctuationChartData$ = this.store.select(
+      getUnforcedFluctuationRatesForChart
+    );
+    this.isFluctuationChartLoading$ = this.store.select(
+      getIsLoadingFluctuationRatesForChart
+    );
+    this.isUnforcedFluctuationChartLoading$ = this.store.select(
+      getIsLoadingUnforcedFluctuationRatesForChart
+    );
     this.attritionQuotaloading$ = this.store.select(
       getIsLoadingAttritionOverTimeOverview
     );

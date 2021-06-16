@@ -10,6 +10,7 @@ import { DataService, ENV_CONFIG } from '@schaeffler/http';
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FluctuationRatesChartData,
   InitialFiltersResponse,
   OrgChartResponse,
   ParentEmployeeResponse,
@@ -130,8 +131,41 @@ describe('EmployeesService', () => {
       const employee = { exitDate: undefined } as unknown as Employee;
 
       const result = EmployeeService.employeeLeftInTimeRange(employee, range);
-
       expect(result).toBeFalsy();
+    });
+  });
+
+  describe('getFluctuationRateChartData', () => {
+    test('should call rest service', () => {
+      const request = {} as unknown as EmployeesRequest;
+
+      const response = {} as FluctuationRatesChartData;
+
+      service.getFluctuationRateChartData(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne('/fluctuation-rates-chart');
+      expect(req.request.method).toBe('POST');
+      req.flush(request);
+    });
+  });
+
+  describe('getUnforcedFluctuationRateChartData', () => {
+    test('should call rest service', () => {
+      const request = {} as unknown as EmployeesRequest;
+
+      const response = {} as FluctuationRatesChartData;
+
+      service
+        .getUnforcedFluctuationRateChartData(request)
+        .subscribe((result) => {
+          expect(result).toEqual(response);
+        });
+
+      const req = httpMock.expectOne('/unforced-fluctuation-rates-chart');
+      expect(req.request.method).toBe('POST');
+      req.flush(request);
     });
   });
 

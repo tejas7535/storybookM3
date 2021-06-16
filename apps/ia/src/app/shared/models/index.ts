@@ -12,3 +12,4 @@ export * from './world-map-response.model';
 export * from './parent-employee-response.model';
 export * from './attrition-over-time.model';
 export * from './lost-job-profile.model';
+export * from './fluctuation-rates-chart-data';

@@ -2,9 +2,19 @@
   <div class="bg-white flex flex-row gap-4 p-4 flex-wrap lg:flex-nowrap">
     <div class="shadow p-4 w-full lg:w-[25%]">
       <h5>{{ t('fluctuationRate') }}</h5>
+      <ia-line-chart
+        [config]="fluctuationChartData$ | ngrxPush"
+        [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
+        [title]="t('chartTitle')"
+      ></ia-line-chart>
     </div>
     <div class="shadow p-4 w-full lg:w-[25%]">
       <h5>{{ t('unforcedFluctuationRate') }}</h5>
+      <ia-line-chart
+        [config]="unforcedFluctuationChartData$ | ngrxPush"
+        [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"
+        [title]="t('chartTitle')"
+      ></ia-line-chart>
     </div>
     <div class="shadow p-4 w-full lg:flex-grow lg:max-w-[30%]">
       <ia-entries-exits

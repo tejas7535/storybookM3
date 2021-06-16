@@ -10,7 +10,7 @@ import {
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
 import { OverviewState } from '..';
 import {
@@ -22,6 +22,7 @@ import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FluctuationRatesChartData,
   TimePeriod,
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
@@ -30,22 +31,32 @@ import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesChartData,
+  loadFluctuationRatesChartDataFailure,
+  loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataFailure,
+  loadUnforcedFluctuationRatesChartDataSuccess,
 } from '../actions/overview.action';
 
+/* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
+/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 @Injectable()
 export class OverviewEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected, triggerLoad),
-      withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
+      withLatestFrom(this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
         loadAttritionOverTimeOverview({ request }),
         loadFluctuationRatesOverview({ request }),
+        loadFluctuationRatesChartData({ request }),
+        loadUnforcedFluctuationRatesChartData({ request }),
       ])
     )
   );
@@ -85,6 +96,48 @@ export class OverviewEffects implements OnInitEffects {
           catchError((error) =>
             of(
               loadFluctuationRatesOverviewFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadFluctuationRatesChartData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadFluctuationRatesChartData),
+      map((action) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getFluctuationRateChartData(request).pipe(
+          map((data: FluctuationRatesChartData) =>
+            loadFluctuationRatesChartDataSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadFluctuationRatesChartDataFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadUnforcedFluctuationRatesChartData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUnforcedFluctuationRatesChartData),
+      map((action) => action.request),
+      mergeMap((request: EmployeesRequest) =>
+        this.employeeService.getUnforcedFluctuationRateChartData(request).pipe(
+          map((data: FluctuationRatesChartData) =>
+            loadUnforcedFluctuationRatesChartDataSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadUnforcedFluctuationRatesChartDataFailure({
                 errorMessage: error.message,
               })
             )

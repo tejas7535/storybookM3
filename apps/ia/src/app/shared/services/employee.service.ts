@@ -10,6 +10,7 @@ import { CountryData } from '../../organizational-view/world-map/models/country-
 import {
   AttritionOverTime,
   EmployeesRequest,
+  FluctuationRatesChartData,
   InitialFiltersResponse,
   LostJobProfile,
   OrgChartResponse,
@@ -31,6 +32,9 @@ export class EmployeeService {
   private readonly EMPLOYEE = 'parent-employee';
   private readonly ATTRITION_OVER_TIME = 'attrition-over-time';
   private readonly LOST_JOB_PROFILES = 'lost-job-profiles';
+  private readonly FLUCTUATION_RATES_CHART = 'fluctuation-rates-chart';
+  private readonly UNFORCED_FLUCTUATION_RATES_CHART =
+    'unforced-fluctuation-rates-chart';
 
   private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
@@ -128,6 +132,24 @@ export class EmployeeService {
   ): Observable<LostJobProfile[]> {
     return this.dataService.post<LostJobProfile[]>(
       this.LOST_JOB_PROFILES,
+      employeesRequest
+    );
+  }
+
+  public getFluctuationRateChartData(
+    employeesRequest: EmployeesRequest
+  ): Observable<FluctuationRatesChartData> {
+    return this.dataService.post<FluctuationRatesChartData>(
+      this.FLUCTUATION_RATES_CHART,
+      employeesRequest
+    );
+  }
+
+  public getUnforcedFluctuationRateChartData(
+    employeesRequest: EmployeesRequest
+  ): Observable<FluctuationRatesChartData> {
+    return this.dataService.post<FluctuationRatesChartData>(
+      this.UNFORCED_FLUCTUATION_RATES_CHART,
       employeesRequest
     );
   }

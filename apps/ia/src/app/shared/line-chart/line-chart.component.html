@@ -1,8 +1,6 @@
-<div
-  *transloco="let t; read: 'organizationalView.attritionDialog'"
-  class="flex flex-col"
->
+<div *transloco="let t" class="flex flex-col">
   <h6
+    *ngIf="title"
     class="
       text-light text-overline
       font-medium
@@ -14,13 +12,10 @@
       ml-1
     "
   >
-    {{ t('chartTitle') }} ({{ currentYear }})
+    {{ t(title) }} ({{ currentYear }})
   </h6>
-  <div
-    echarts
-    [options]="options$ | ngrxPush"
-    *ngIf="!(attritionQuotaLoading$ | ngrxPush); else loading"
-  ></div>
+  <div echarts [options]="options" *ngIf="!isDataLoading; else loading"></div>
+
   <ng-template #loading>
     <schaeffler-loading-spinner></schaeffler-loading-spinner>
   </ng-template>

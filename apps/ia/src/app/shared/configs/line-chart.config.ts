@@ -31,3 +31,8 @@ export const LINE_SERIES_BASE_OPTIONS = {
   },
   type: 'line',
 };
+
+export const SMOOTH_LINE_SERIES_OPTIONS = {
+  ...LINE_SERIES_BASE_OPTIONS,
+  smooth: true,
+};
