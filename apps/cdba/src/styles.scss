@@ -54,3 +54,7 @@ button {
   flex: none;
   height: 30px;
 }
+
+.mat-tooltip {
+  @apply text-body-2 text-white;
+}

@@ -2,6 +2,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -24,7 +25,7 @@ describe('DetailComponent', () => {
       RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
       MaterialNumberModule,
-      TabsHeaderModule,
+      MockModule(TabsHeaderModule),
     ],
     providers: [
       provideMockStore({

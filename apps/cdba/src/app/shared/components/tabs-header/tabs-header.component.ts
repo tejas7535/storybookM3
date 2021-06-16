@@ -5,7 +5,6 @@ import { Tab } from './tab.model';
 @Component({
   selector: 'cdba-tabs-header',
   templateUrl: './tabs-header.component.html',
-  styleUrls: ['./tabs-header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TabsHeaderComponent {
