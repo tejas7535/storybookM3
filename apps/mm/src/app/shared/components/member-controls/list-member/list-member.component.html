@@ -8,19 +8,10 @@
   <ng-template #dropdown>
     <ng-container
       *ngIf="
-        !meta.listValuesLoading$ || !(meta.listValuesLoading$ | async);
+        !meta.listValuesLoading$ || !(meta.listValuesLoading$ | ngrxPush);
         else loading
       "
     >
-      <!-- <select
-      *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList"
-      [formControl]="control"
-    >
-      <option [value]="null">Bitte wählen</option>
-      <option *ngFor="let option of options$ | ngrxPush" [value]="option.id">
-        {{ option.caption }}
-      </option>
-    </select> -->
       <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
         <schaeffler-dropdown-input
           *ngIf="
@@ -38,10 +29,7 @@
           [placeholder]="t('select', { fieldname: meta.member.text })"
         ></schaeffler-dropdown-input>
         <ng-template #select>
-          <mm-select-member
-            [member]="meta.member"
-            [options]="options$ | ngrxPush"
-          ></mm-select-member>
+          <mm-select-member [options]="options$ | ngrxPush"></mm-select-member>
         </ng-template>
       </ng-container>
     </ng-container>

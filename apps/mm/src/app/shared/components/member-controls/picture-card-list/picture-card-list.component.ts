@@ -11,6 +11,7 @@ interface PictureCardListOption {
   id: string;
   caption: string;
   imageUrl: string;
+  value: string;
 }
 @Component({
   selector: 'mm-picture-card-list',

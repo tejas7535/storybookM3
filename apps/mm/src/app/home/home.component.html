@@ -70,7 +70,7 @@
               <button
                 mat-raised-button
                 *ngIf="stepper.hasNext"
-                [disabled]="!(pagedMeta.valid$ | async)"
+                [disabled]="!(pagedMeta.valid$ | ngrxPush)"
                 (click)="
                   next(pagedMeta.page.id, pagedMetas, stepper);
                   stepper.hasResultNext && resultPage.send(form)
