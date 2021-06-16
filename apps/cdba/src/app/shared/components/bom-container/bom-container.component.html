@@ -71,8 +71,12 @@
             </div>
           </div>
           <div class="bom-overlay">
-            <button mat-button (click)="additionalInformation.open()">
-              <mat-icon>insert_chart_outlined</mat-icon>
+            <button
+              class="!text-button"
+              mat-raised-button
+              (click)="additionalInformation.open()"
+            >
+              <mat-icon>bar_chart</mat-icon>
               {{ t('additionalInformation.title') }}
             </button>
           </div>

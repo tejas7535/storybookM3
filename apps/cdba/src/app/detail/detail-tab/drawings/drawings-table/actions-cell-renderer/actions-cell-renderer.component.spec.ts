@@ -48,9 +48,11 @@ describe('ActionsCellRendererComponent', () => {
       const aiService = spectator.inject(ApplicationInsightsService);
       component.downloadUrl = 'foo/bar';
 
-      component.download();
+      component.download(component.downloadUrl);
 
-      expect(aiService.logMetric).toHaveBeenCalledWith('Download Drawing', 1);
+      expect(aiService.logEvent).toHaveBeenCalledWith('Download Drawing', {
+        downloadUrl: component.downloadUrl,
+      });
     });
   });
 });

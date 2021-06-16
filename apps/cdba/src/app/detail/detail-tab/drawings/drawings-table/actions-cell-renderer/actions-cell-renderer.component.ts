@@ -10,7 +10,7 @@ import { ApplicationInsightsService } from '@schaeffler/application-insights';
   styleUrls: ['./actions-cell-renderer.component.scss'],
 })
 export class ActionsCellRendererComponent {
-  private readonly METRIC_DOWNLOAD_DRAWING = 'Download Drawing';
+  private readonly DOWNLOAD_DRAWING_EVENT = 'Download Drawing';
 
   public downloadUrl: string;
 
@@ -22,7 +22,9 @@ export class ActionsCellRendererComponent {
     this.downloadUrl = params.value;
   }
 
-  download(): void {
-    this.applicationInsightsService.logMetric(this.METRIC_DOWNLOAD_DRAWING, 1);
+  download(downloadUrl: string): void {
+    this.applicationInsightsService.logEvent(this.DOWNLOAD_DRAWING_EVENT, {
+      downloadUrl,
+    });
   }
 }

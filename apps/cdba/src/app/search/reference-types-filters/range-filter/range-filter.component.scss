@@ -20,10 +20,6 @@ mat-form-field {
   }
 }
 
-::ng-deep .disabled-filter-tooltip-hint {
-  @apply text-body-2 text-white;
-}
-
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
   -webkit-appearance: none;

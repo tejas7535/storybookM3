@@ -3,6 +3,12 @@
     "blockUi": {
       "inProgress": "Ihre Anfrage wird bearbeitet!"
     },
+    "shareUrl": {
+      "button": "Teilen",
+      "tooltipMessage": "Teile die Seite mit deinen Kolleg:innen. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
+      "toastSuccessMessage": "Link in Zwischenablage kopiert. Stelle sicher, dass deine Kolleg:innen die richtigen Zugriffsrechte besitzen.",
+      "toastConfirmMessage": "ok"
+    },
     "statusBar": {
       "detail": "Details anzeigen",
       "compare": "Details vergleichen",

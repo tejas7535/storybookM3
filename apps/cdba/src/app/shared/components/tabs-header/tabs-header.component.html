@@ -1,12 +1,23 @@
-<div fxLayout="column" class="tabs-container">
-  <div fxLayout="row" fxLayoutAlign="start center" class="tabs-header">
-    <mat-icon
-      fontSet="schaeffler-icons"
-      fontIcon="icon-arrow-west"
-      color="secondary"
-      cdbaBackButton
-    ></mat-icon>
-    <ng-content></ng-content>
+<div class="flex flex-col pt-5 h-full">
+  <div class="flex flex-row items-center gap-4 pl-4 pr-4">
+    <mat-icon class="flex-none cursor-pointer" color="secondary" cdbaBackButton
+      ><span class="material-icons-outlined"> arrow_back </span></mat-icon
+    >
+
+    <div class="flex-auto">
+      <ng-content></ng-content>
+    </div>
+    <ng-container *transloco="let t; read: 'shared.shareUrl'">
+      <button
+        class="flex-none self-end text-button"
+        mat-raised-button
+        cdbaShareButton
+        matTooltip="{{ t('tooltipMessage') }}"
+      >
+        <mat-icon class="text-[20px]">group</mat-icon>
+        {{ t('button') | uppercase }}
+      </button>
+    </ng-container>
   </div>
   <nav mat-tab-nav-bar mat-stretch-tabs *transloco="let t">
     <a
@@ -21,9 +32,7 @@
       >{{ t(tab.label$) | uppercase }}
     </a>
   </nav>
-  <div class="tab-content">
-    <div class="w-full">
-      <router-outlet></router-outlet>
-    </div>
+  <div class="flex-grow w-full p-4 bg-lightBg">
+    <router-outlet></router-outlet>
   </div>
 </div>

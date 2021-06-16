@@ -1,11 +1,13 @@
 import { NgModule } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BackButtonModule } from '../../directives';
+import { BackButtonModule, ShareButtonModule } from '../../directives';
 import { SharedModule } from '../../shared.module';
 import { TabsHeaderComponent } from './tabs-header.component';
 
@@ -14,10 +16,13 @@ import { TabsHeaderComponent } from './tabs-header.component';
   imports: [
     SharedModule,
     MatIconModule,
+    MatButtonModule,
+    MatTooltipModule,
     MatTabsModule,
     SharedTranslocoModule,
     RouterModule,
     BackButtonModule,
+    ShareButtonModule,
   ],
   exports: [TabsHeaderComponent],
 })
