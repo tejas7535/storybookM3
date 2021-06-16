@@ -12,7 +12,7 @@ import { ResultPageService } from './result-page.service';
   providers: [ResultPageService],
 })
 export class ResultPageComponent {
-  @Input() public active?: false;
+  @Input() public active? = false;
 
   public result$: Observable<Result>;
 

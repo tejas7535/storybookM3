@@ -4,13 +4,11 @@ import { MatSidenav } from '@angular/material/sidenav';
 
 import { Subscription } from 'rxjs';
 
-import { AvailableLangs } from '@ngneat/transloco';
-
 import { locales, MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
 
-interface AvailableSeparators {
+interface AvailableOption {
   id: string;
   label: string;
 }
@@ -25,20 +23,21 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   private readonly subscription = new Subscription();
 
-  private readonly languageSelectControl: FormControl = new FormControl('');
-  private readonly separatorSelectControl: FormControl = new FormControl('');
+  public languageSelectControl: FormControl = new FormControl('');
+  public separatorSelectControl: FormControl = new FormControl('');
 
-  public availableSeparators: AvailableSeparators[] = [
+  public availableSeparators: AvailableOption[] = [
     { id: ',', label: 'decimalSeparatorComma' },
     { id: '.', label: 'decimalSeparatorPoint' },
   ];
 
-  public availableLangs: AvailableLangs;
+  public availableLangs: AvailableOption[];
 
-  constructor(private readonly localeService: LocaleService) {}
+  public constructor(private readonly localeService: LocaleService) {}
 
-  ngOnInit(): void {
-    this.availableLangs = this.localeService.getAvailableLangs();
+  public ngOnInit(): void {
+    this.availableLangs =
+      this.localeService.getAvailableLangs() as AvailableOption[];
     this.subscription.add(
       this.localeService.language$.subscribe((language: MMLocales) => {
         this.languageSelectControl.setValue(language);
@@ -54,7 +53,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 

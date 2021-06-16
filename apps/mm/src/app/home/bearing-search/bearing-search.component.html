@@ -3,7 +3,7 @@
   [loading]="loading$ | ngrxPush"
   label="Choose an option"
   loadingMessage="Fetching data..."
-  minimumChars="2"
+  [minimumChars]="2"
   [formControl]="myControl"
   (selection)="handleSelection($event)"
 >

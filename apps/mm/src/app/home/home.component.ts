@@ -77,9 +77,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   public constructor(
     private readonly cdRef: ChangeDetectorRef,
     private readonly route: ActivatedRoute,
-    private readonly homeStore: HomeStore,
     private readonly localService: LocaleService,
-    private readonly restService: RestService
+    private readonly restService: RestService,
+    public homeStore: HomeStore
   ) {}
 
   public ngOnInit(): void {
