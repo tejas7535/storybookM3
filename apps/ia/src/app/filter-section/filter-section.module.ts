@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { AutocompleteInputModule } from '../shared/autocomplete-input/autocomplete-input.module';
@@ -19,6 +22,9 @@ import { FilterSectionComponent } from './filter-section.component';
     SelectInputModule,
     SharedTranslocoModule,
     ReactiveComponentModule,
+    IconsModule,
+    MatIconModule,
+    MatTooltipModule,
   ],
   exports: [FilterSectionComponent],
 })

@@ -4,7 +4,14 @@
     *transloco="let t; read: 'filters.organization'"
   >
     <div class="flex flex-col">
-      <h6 class="m-b-5">{{ t('title') }}</h6>
+      <h6 class="m-b-5">
+        {{ t('title') }}
+        <mat-icon
+          [matTooltip]="t('organizationTooltip')"
+          class="text-[20px] w-[20px] h-[20px]"
+          >info</mat-icon
+        >
+      </h6>
       <div class="flex gap-4">
         <ia-autocomplete-input
           [filter]="orgUnits$ | ngrxPush"

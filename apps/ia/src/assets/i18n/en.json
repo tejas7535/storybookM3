@@ -4,7 +4,8 @@
       "title": "Select an organization",
       "organization": "Organization",
       "organizationLabel": "Organization",
-      "organizationHint": "Select an organization"
+      "organizationHint": "Select an organization",
+      "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one."
     },
     "regionAndLocation": {
       "title": "Select a region and location",
