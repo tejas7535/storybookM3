@@ -1,11 +1,14 @@
 import { createSelector } from '@ngrx/store';
+import { EChartsOption, SeriesOption } from 'echarts';
 
 import { OverviewState, selectOverviewState } from '..';
 import {
   getSelectedOrgUnit,
   getSelectedTimeRange,
 } from '../../../core/store/selectors';
+import { SMOOTH_LINE_SERIES_OPTIONS } from '../../../shared/configs/line-chart.config';
 import { AttritionOverTime } from '../../../shared/models';
+import { FluctuationRate } from '../../../shared/models/fluctuation-rate';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
@@ -32,7 +35,7 @@ export const getAttritionOverTimeOverviewData = createSelector(
 
 export const getOverviewFluctuationRates = createSelector(
   selectOverviewState,
-  (state: OverviewState) => state.fluctuationRates?.data
+  (state: OverviewState) => state.entriesExits?.data
 );
 
 export const getOverviewFluctuationEntriesCount = createSelector(
@@ -130,6 +133,89 @@ function isDateInTimeRange(timeRange: string, dateToTest: string): boolean {
   const timeRangeEnd = new Date(Number(timeRangeArr[1]));
 
   return timeRangeStart <= dateToTestP && dateToTestP <= timeRangeEnd;
+}
+
+export const getFluctuationRatesForChart = createSelector(
+  selectOverviewState,
+  (state: OverviewState) =>
+    state.fluctuationRates.data
+      ? createFluctuationRateChartConfig(
+          state.fluctuationRates?.data.companyName,
+          state.fluctuationRates?.data.orgUnitName,
+          state.fluctuationRates?.data.fluctuationRates.map(
+            (rate: FluctuationRate) => getPercentageValue(rate.company)
+          ),
+          state.fluctuationRates?.data.fluctuationRates.map(
+            (rate: FluctuationRate) => getPercentageValue(rate.orgUnit)
+          )
+        )
+      : undefined
+);
+
+export const getUnforcedFluctuationRatesForChart = createSelector(
+  selectOverviewState,
+  (state: OverviewState) =>
+    state.unforcedFluctuationRates.data
+      ? createFluctuationRateChartConfig(
+          state.unforcedFluctuationRates?.data.companyName,
+          state.unforcedFluctuationRates?.data.orgUnitName,
+          state.unforcedFluctuationRates?.data.fluctuationRates.map(
+            (rate: FluctuationRate) => getPercentageValue(rate.company)
+          ),
+          state.unforcedFluctuationRates?.data.fluctuationRates.map(
+            (rate: FluctuationRate) => getPercentageValue(rate.orgUnit)
+          )
+        )
+      : undefined
+);
+
+export const getIsLoadingFluctuationRatesForChart = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.fluctuationRates?.loading
+);
+
+export const getIsLoadingUnforcedFluctuationRatesForChart = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.unforcedFluctuationRates?.loading
+);
+
+function getPercentageValue(rate: number): number {
+  return Number((rate * 100).toFixed(2));
+}
+
+function createFluctuationRateChartConfig(
+  name1: string,
+  name2: string,
+  data1: number[],
+  data2: number[]
+): EChartsOption {
+  return {
+    series: [
+      {
+        ...SMOOTH_LINE_SERIES_OPTIONS,
+        name: name1,
+        data: data1,
+      } as SeriesOption,
+      {
+        ...SMOOTH_LINE_SERIES_OPTIONS,
+        name: name2,
+        data: data2,
+      } as SeriesOption,
+    ],
+    yAxis: {
+      axisLabel: {
+        formatter: '{value}%',
+      },
+    },
+    tooltip: {
+      trigger: 'item',
+      axisPointer: {
+        type: 'cross',
+      },
+      formatter: (param: any) => `${param.data}%`,
+    },
+    displayMode: 'multipleByCoordSys',
+  };
 }
 
 function createDoughnutConfig(

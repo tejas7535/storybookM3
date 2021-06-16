@@ -1,6 +1,10 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { AttritionOverTime, EmployeesRequest } from '../../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  FluctuationRatesChartData,
+} from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 
 export const loadAttritionOverTimeOverview = createAction(
@@ -33,6 +37,36 @@ export const loadFluctuationRatesOverviewFailure = createAction(
   props<{ errorMessage: string }>()
 );
 
+export const loadFluctuationRatesChartData = createAction(
+  '[Overview] Load FluctuationRatesChartData',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadFluctuationRatesChartDataSuccess = createAction(
+  '[Overview] Load FluctuationRatesChartData Success',
+  props<{ data: FluctuationRatesChartData }>()
+);
+
+export const loadFluctuationRatesChartDataFailure = createAction(
+  '[Overview] Load FluctuationRatesChartData Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadUnforcedFluctuationRatesChartData = createAction(
+  '[Overview] Load UnforcedFluctuationRatesChartData',
+  props<{ request: EmployeesRequest }>()
+);
+
+export const loadUnforcedFluctuationRatesChartDataSuccess = createAction(
+  '[Overview] Load UnforcedFluctuationRatesChartData Success',
+  props<{ data: FluctuationRatesChartData }>()
+);
+
+export const loadUnforcedFluctuationRatesChartDataFailure = createAction(
+  '[Overview] Load UnforcedFluctuationRatesChartData Failure',
+  props<{ errorMessage: string }>()
+);
+
 const all = union({
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewSuccess,
@@ -40,6 +74,12 @@ const all = union({
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewSuccess,
   loadFluctuationRatesOverviewFailure,
+  loadFluctuationRatesChartData,
+  loadFluctuationRatesChartDataSuccess,
+  loadFluctuationRatesChartDataFailure,
+  loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataSuccess,
+  loadUnforcedFluctuationRatesChartDataFailure,
 });
 
 export type OverviewActions = typeof all;

@@ -104,9 +104,9 @@ describe('Organizational View Selector', () => {
     test('should return data', () => {
       const data = { data: {} } as unknown as AttritionOverTime;
 
-      expect(getAttritionOverTimeOrgChartData.projector(data)).toEqual(
-        data.data
-      );
+      expect(getAttritionOverTimeOrgChartData.projector(data)).toEqual({
+        series: [],
+      });
     });
   });
 

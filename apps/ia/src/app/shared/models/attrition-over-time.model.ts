@@ -9,12 +9,14 @@ export interface TerminatedEmployee {
   position: string;
 }
 
+export interface AttritionSeries {
+  [seriesName: string]: {
+    employees: TerminatedEmployee[][];
+    attrition: number[];
+  };
+}
+
 export interface AttritionOverTime {
   events: Event[];
-  data: {
-    [seriesName: string]: {
-      employees: TerminatedEmployee[][];
-      attrition: number[];
-    };
-  };
+  data: AttritionSeries;
 }

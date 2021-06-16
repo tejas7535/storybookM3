@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EChartsOption } from 'echarts';
+import { EChartsOption, SeriesOption } from 'echarts';
 
 import {
   createPieChartBaseOptions,
@@ -38,7 +38,7 @@ export class DoughnutChartComponent {
     };
   }
 
-  createSeriesOptions = (data: DoughnutConfig): any[] => {
+  createSeriesOptions = (data: DoughnutConfig): SeriesOption[] => {
     let radiusStart = 60;
     const radiusStep = 10;
     const radiusGap = 5;

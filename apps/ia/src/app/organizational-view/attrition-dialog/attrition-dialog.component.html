@@ -10,7 +10,11 @@
       <mat-divider class="h-full" [vertical]="true"></mat-divider>
     </div>
     <div class="flex-grow relative">
-      <ia-attrition-dialog-line-chart></ia-attrition-dialog-line-chart>
+      <ia-line-chart
+        [config]="data$ | ngrxPush"
+        [isDataLoading]="attritionQuotaLoading$ | ngrxPush"
+        [title]="chartTitle"
+      ></ia-line-chart>
     </div>
   </div>
 </mat-dialog-content>

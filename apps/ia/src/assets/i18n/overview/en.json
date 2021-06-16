@@ -15,6 +15,7 @@
   "fluctuationRate": "Fluctuation Rate",
   "companyName": "SCHAEFFLER",
   "unforcedFluctuationRate": "Unforced Fluctuation Rate",
+  "chartTitle": "Current Attrition Rates",
   "entriesExits": "Entries & Exits",
   "entries": "Entries",
   "exits": "Exits",

@@ -1,3 +1,5 @@
+import { SeriesOption } from 'echarts';
+
 import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { FilterKey } from '../../../shared/models';
@@ -8,13 +10,17 @@ import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
   getEntryEmployees,
+  getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingFluctuationRatesForChart,
+  getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationRates,
+  getUnforcedFluctuationRatesForChart,
 } from './overview.selector';
 
 describe('Overview Selector', () => {
@@ -81,7 +87,7 @@ describe('Overview Selector', () => {
         loading: true,
         errorMessage: undefined,
       },
-      fluctuationRates: {
+      entriesExits: {
         data: {
           allEmployees: [
             leaverIT1,
@@ -109,6 +115,30 @@ describe('Overview Selector', () => {
         },
         loading: true,
         errorMessage: undefined,
+      },
+      fluctuationRates: {
+        data: {
+          companyName: 'Schaeffler',
+          orgUnitName: 'Schaeffler_IT',
+          fluctuationRates: [
+            { company: 0.025, orgUnit: 0.018 },
+            { company: 0.035, orgUnit: 0.014 },
+          ],
+        },
+        errorMessage: undefined,
+        loading: false,
+      },
+      unforcedFluctuationRates: {
+        data: {
+          companyName: 'Schaeffler',
+          orgUnitName: 'Schaeffler_IT',
+          fluctuationRates: [
+            { company: 0.02, orgUnit: 0.013 },
+            { company: 0.04, orgUnit: 0.03 },
+          ],
+        },
+        errorMessage: undefined,
+        loading: false,
       },
     },
     filter: {
@@ -237,6 +267,44 @@ describe('Overview Selector', () => {
       expect(entryEmployees).toContain(entryEmployee1);
       expect(entryEmployees).toContain(entryEmployee2);
       expect(entryEmployees).toContain(internalEntryEmployee1);
+    });
+  });
+
+  describe('getFluctuationRatesForChart', () => {
+    it('should return config for chart', () => {
+      const result = getFluctuationRatesForChart(fakeState);
+      const series = result.series as SeriesOption[];
+      expect(series.length).toEqual(2);
+      expect(series[0].name).toEqual('Schaeffler');
+      expect(series[0].data).toEqual([2.5, 3.5]);
+      expect(series[1].name).toEqual('Schaeffler_IT');
+      expect(series[1].data).toEqual([1.8, 1.4]);
+    });
+  });
+
+  describe('getUnforcedFluctuationRatesForChart', () => {
+    it('should return config for chart', () => {
+      const result = getUnforcedFluctuationRatesForChart(fakeState);
+      const series = result.series as SeriesOption[];
+      expect(series.length).toEqual(2);
+      expect(series[0].name).toEqual('Schaeffler');
+      expect(series[0].data).toEqual([2, 4]);
+      expect(series[1].name).toEqual('Schaeffler_IT');
+      expect(series[1].data).toEqual([1.3, 3]);
+    });
+  });
+
+  describe('getIsLoadingFluctuationRatesForChart', () => {
+    it('should return isLoading value', () => {
+      expect(getIsLoadingFluctuationRatesForChart(fakeState)).toBeFalsy();
+    });
+  });
+
+  describe('getIsLoadingUnforcedFluctuationRatesForChart', () => {
+    it('should return isLoading value', () => {
+      expect(
+        getIsLoadingUnforcedFluctuationRatesForChart(fakeState)
+      ).toBeFalsy();
     });
   });
 });

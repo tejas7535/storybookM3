@@ -4,23 +4,17 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 
-import { NgxEchartsModule } from 'ngx-echarts';
-
 import { IconsModule } from '@schaeffler/icons';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared/shared.module';
-import { AttritionDialogLineChartComponent } from './attrition-dialog-line-chart/attrition-dialog-line-chart.component';
 import { AttritionDialogMetaComponent } from './attrition-dialog-meta/attrition-dialog-meta.component';
 import { AttritionDialogComponent } from './attrition-dialog.component';
+import { LineChartModule } from '../../shared/line-chart/line-chart.module';
 
 @NgModule({
-  declarations: [
-    AttritionDialogComponent,
-    AttritionDialogMetaComponent,
-    AttritionDialogLineChartComponent,
-  ],
+  declarations: [AttritionDialogComponent, AttritionDialogMetaComponent],
   entryComponents: [AttritionDialogComponent],
   imports: [
     SharedModule,
@@ -30,9 +24,7 @@ import { AttritionDialogComponent } from './attrition-dialog.component';
     IconsModule,
     MatIconModule,
     MatDividerModule,
-    NgxEchartsModule.forRoot({
-      echarts: () => import('echarts'),
-    }),
+    LineChartModule,
     LoadingSpinnerModule,
   ],
   exports: [AttritionDialogComponent],

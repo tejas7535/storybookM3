@@ -64,7 +64,7 @@ describe('Overview Reducer', () => {
       });
       const state = overviewReducer(initialState, action);
 
-      expect(state.fluctuationRates.loading).toBeTruthy();
+      expect(state.entriesExits.loading).toBeTruthy();
     });
   });
 
@@ -77,8 +77,8 @@ describe('Overview Reducer', () => {
 
       const state = overviewReducer(initialState, action);
 
-      expect(state.fluctuationRates.loading).toBeFalsy();
-      expect(state.fluctuationRates.data).toEqual(data);
+      expect(state.entriesExits.loading).toBeFalsy();
+      expect(state.entriesExits.data).toEqual(data);
     });
   });
 
@@ -87,16 +87,16 @@ describe('Overview Reducer', () => {
       const action = loadFluctuationRatesOverviewFailure({ errorMessage });
       const fakeState: OverviewState = {
         ...initialState,
-        fluctuationRates: {
-          ...initialState.fluctuationRates,
+        entriesExits: {
+          ...initialState.entriesExits,
           loading: true,
         },
       };
 
       const state = overviewReducer(fakeState, action);
 
-      expect(state.fluctuationRates.loading).toBeFalsy();
-      expect(state.fluctuationRates.errorMessage).toEqual(errorMessage);
+      expect(state.entriesExits.loading).toBeFalsy();
+      expect(state.entriesExits.errorMessage).toEqual(errorMessage);
     });
   });
 

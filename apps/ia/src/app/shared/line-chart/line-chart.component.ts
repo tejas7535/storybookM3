@@ -1,60 +1,50 @@
-import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnInit,
+} from '@angular/core';
 
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
-import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import {
-  LINE_CHART_BASE_OPTIONS,
-  LINE_SERIES_BASE_OPTIONS,
-} from '../../../shared/configs/line-chart.config';
-import { OrganizationalViewState } from '../../store';
-import {
-  getAttritionOverTimeOrgChartData,
-  getIsLoadingAttritionOverTimeOrgChart,
-} from '../../store/selectors/organizational-view.selector';
+import { LINE_CHART_BASE_OPTIONS } from '../configs/line-chart.config';
 
 @Component({
-  selector: 'ia-attrition-dialog-line-chart',
-  templateUrl: './attrition-dialog-line-chart.component.html',
+  selector: 'ia-line-chart',
+  templateUrl: './line-chart.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AttritionDialogLineChartComponent implements OnInit {
+export class LineChartComponent implements OnInit {
+  options: EChartsOption;
   currentYear: number;
-  options$: Observable<EChartsOption>;
-  attritionQuotaLoading$: Observable<boolean>;
 
-  constructor(private readonly store: Store<OrganizationalViewState>) {}
+  private _config: EChartsOption;
+
+  @Input() title: string;
+  @Input() isDataLoading: boolean;
+  @Input() get config(): EChartsOption {
+    return this._config;
+  }
+
+  set config(config: EChartsOption) {
+    this._config = config;
+    this.options = this.createEChartsOption();
+  }
 
   ngOnInit(): void {
     const date = new Date();
-
     this.currentYear = date.getFullYear();
-    this.attritionQuotaLoading$ = this.store.select(
-      getIsLoadingAttritionOverTimeOrgChart
-    );
-    this.options$ = this.store.select(getAttritionOverTimeOrgChartData).pipe(
-      map((data) => {
-        const series: any = data
-          ? Object.keys(data).map((name) => ({
-              ...LINE_SERIES_BASE_OPTIONS,
-              name,
-              data: data[name].attrition,
-            }))
-          : [];
+  }
 
-        return {
-          ...LINE_CHART_BASE_OPTIONS,
-          xAxis: {
-            ...LINE_CHART_BASE_OPTIONS.xAxis,
-            data: this.getXAxisData(),
-          },
-          series,
-        };
-      })
-    );
+  createEChartsOption(): EChartsOption {
+    return {
+      ...LINE_CHART_BASE_OPTIONS,
+      xAxis: {
+        ...LINE_CHART_BASE_OPTIONS.xAxis,
+        data: this.getXAxisData(),
+      },
+      ...this.config,
+    };
   }
 
   getXAxisData(): string[] {
@@ -94,7 +84,7 @@ export class AttritionDialogLineChartComponent implements OnInit {
   }
 
   getLastTwoDigitsOfYear(date: Date): string {
-    return date.getFullYear().toString().substr(-2);
+    return date.getFullYear().toString().slice(-2);
   }
 
   getHumanReadableMonth(date: Date): number {

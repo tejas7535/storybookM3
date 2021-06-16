@@ -5,14 +5,14 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { AttritionDialogLineChartComponent } from './attrition-dialog-line-chart.component';
+import { LineChartComponent } from './line-chart.component';
 
-describe('AttritionDialogLineChartComponent', () => {
-  let component: AttritionDialogLineChartComponent;
-  let spectator: Spectator<AttritionDialogLineChartComponent>;
+describe('LineChartComponent', () => {
+  let component: LineChartComponent;
+  let spectator: Spectator<LineChartComponent>;
 
   const createComponent = createComponentFactory({
-    component: AttritionDialogLineChartComponent,
+    component: LineChartComponent,
     imports: [
       provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
