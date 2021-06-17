@@ -4,6 +4,7 @@ export enum RoutePath {
   HardnessConverterPath = 'hardness-converter',
   AQMCalculatorPath = 'aqm-calculator',
   LifetimePredictorPath = 'lifetime-predictor',
+  MaterialsSupplierDatabasePath = 'materials-supplier-database',
   ForbiddenPath = 'forbidden',
 }
 
@@ -13,5 +14,6 @@ export enum RouteNames {
   HardnessConverter = 'Hardness Converter',
   AQMCalculator = 'AQM Calculator',
   LifetimePredictor = 'Lifetime Predictor',
+  MaterialsSupplierDatabase = 'Materials Supplier Database',
   Forbidden = 'forbidden',
 }
