@@ -28,12 +28,15 @@
     {
       "packageNames": [
         "@angular/animations",
+        "@angular/cdk",
         "@angular/common",
         "@angular/compiler-cli",
         "@angular/compiler",
         "@angular/core",
+        "@angular/flex-layout",
         "@angular/forms",
         "@angular/language-service",
+        "@angular/material",
         "@angular/platform-browser",
         "@angular/platform-browser-dynamic",
         "@angular/router",
@@ -56,17 +59,6 @@
         "ng-packagr"
       ],
       "groupName": "@angular/angular-cli",
-      "major": {
-        "enabled": false
-      }
-    },
-    {
-      "packageNames": [
-        "@angular/cdk",
-        "@angular/material",
-        "@angular/flex-layout"
-      ],
-      "groupName": "@angular/components",
       "major": {
         "enabled": false
       }
