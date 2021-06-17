@@ -49,6 +49,14 @@ export const appRoutePaths: Routes = [
     },
   },
   {
+    canLoad: [MsalGuard],
+    path: RoutePath.MaterialsSupplierDatabasePath,
+    loadChildren: () =>
+      import(
+        './feature/materials-supplier-database/materials-supplier-database.module'
+      ).then((m) => m.MaterialsSupplierDatabaseModule),
+  },
+  {
     path: 'forbidden',
     loadChildren: () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
