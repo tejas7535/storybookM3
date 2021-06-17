@@ -5,6 +5,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
@@ -16,7 +17,6 @@ import {
 import { AutocompleteInputModule } from '../../../shared/autocomplete-input/autocomplete-input.module';
 import { FilterNames } from '../../../shared/autocomplete-input/filter-names.enum';
 import { DialogHeaderModule } from '../../../shared/header/dialog-header/dialog-header.module';
-import { LoadingSpinnerModule } from '../../../shared/loading-spinner/loading-spinner.module';
 import { AutocompleteSearch, IdValue } from '../../../shared/models/search';
 import { ImportCaseComponent } from './import-case.component';
 

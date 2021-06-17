@@ -1,5 +1,5 @@
 import { Location } from '@angular/common';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Observable } from 'rxjs';
@@ -17,10 +17,6 @@ import { Customer } from '../../models/customer';
 })
 export class CaseHeaderComponent implements OnInit {
   @Input() showCustomerHeader: boolean;
-  @Input() showOfferSlider: boolean;
-
-  @Output()
-  readonly toggleOfferDrawer: EventEmitter<boolean> = new EventEmitter();
 
   public customer$: Observable<Customer>;
 
@@ -33,10 +29,6 @@ export class CaseHeaderComponent implements OnInit {
 
   public ngOnInit(): void {
     this.customer$ = this.store.pipe(select(getCustomer));
-  }
-
-  drawerToggle(): void {
-    this.toggleOfferDrawer.emit(true);
   }
 
   backClicked(): void {

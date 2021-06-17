@@ -10,7 +10,6 @@ import { IconsModule } from '@schaeffler/icons';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared';
-import { LoadingSpinnerModule } from '../../loading-spinner/loading-spinner.module';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { CustomerHeaderModule } from '../customer-header/customer-header.module';
 import { CaseHeaderComponent } from './case-header.component';
@@ -27,7 +26,6 @@ import { CaseHeaderComponent } from './case-header.component';
     SharedModule,
     SharedTranslocoModule,
     SharedPipesModule,
-    LoadingSpinnerModule,
     ReactiveComponentModule,
   ],
   exports: [CaseHeaderComponent],

@@ -14,10 +14,10 @@ import { AddMaterialDialogComponent } from '../../../process-case-view/add-mater
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
-  selector: 'gq-flat-buttons',
-  templateUrl: './flat-buttons.component.html',
+  selector: 'gq-delete-items-button',
+  templateUrl: './delete-items-button.component.html',
 })
-export class FlatButtonsComponent implements OnInit {
+export class DeleteItemsButtonComponent implements OnInit {
   selections: any[] = [];
 
   private params: IStatusPanelParams;

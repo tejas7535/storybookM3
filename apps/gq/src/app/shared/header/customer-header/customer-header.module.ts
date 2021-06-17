@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -14,6 +15,7 @@ import { CustomerHeaderComponent } from './customer-header.component';
     SharedModule,
     SharedTranslocoModule,
     MatCardModule,
+    MatIconModule,
     MatButtonModule,
     SharedPipesModule,
   ],

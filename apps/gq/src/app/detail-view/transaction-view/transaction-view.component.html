@@ -2,8 +2,8 @@
   class="flex flex-1 flex-col h-full bg-lightBg"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
-  <mat-card>
-    <gq-case-header [showOfferSlider]="false">
+  <mat-card class="!pt-0 !pb-0">
+    <gq-case-header>
       <gq-transaction-view-header-content
         [quotationDetail]="quotationDetail$ | ngrxPush"
         [currency]="currency$ | ngrxPush"
@@ -42,5 +42,5 @@
   </div>
 </div>
 <ng-template #loading>
-  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

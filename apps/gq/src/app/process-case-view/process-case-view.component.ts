@@ -6,7 +6,6 @@ import { select, Store } from '@ngrx/store';
 
 import { ProcessCaseState } from '../core/store/reducers/process-case/process-case.reducer';
 import {
-  getOffer,
   getQuotation,
   getUpdateLoading,
   isCustomerLoading,
@@ -21,7 +20,6 @@ import { Quotation } from '../shared/models';
 })
 export class ProcessCaseViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
-  public offer$: Observable<Quotation>;
   public isCustomerLoading$: Observable<boolean>;
   public isQuotationLoading$: Observable<boolean>;
   public isUpdateLoading$: Observable<boolean>;
@@ -33,9 +31,5 @@ export class ProcessCaseViewComponent implements OnInit {
     this.isCustomerLoading$ = this.store.pipe(select(isCustomerLoading));
     this.isQuotationLoading$ = this.store.pipe(select(isQuotationLoading));
     this.isUpdateLoading$ = this.store.pipe(select(getUpdateLoading));
-  }
-
-  getOffer(): void {
-    this.offer$ = this.store.pipe(select(getOffer));
   }
 }

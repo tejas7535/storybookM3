@@ -16,17 +16,17 @@ import {
   addToRemoveMaterials,
   removeMaterials,
 } from '../../../core/store/actions';
-import { FlatButtonsComponent } from './flat-buttons.component';
+import { DeleteItemsButtonComponent } from './delete-items-button.component';
 
-describe('FlatButtonsComponent', () => {
-  let component: FlatButtonsComponent;
-  let spectator: Spectator<FlatButtonsComponent>;
+describe('DeleteItemsButtonComponent', () => {
+  let component: DeleteItemsButtonComponent;
+  let spectator: Spectator<DeleteItemsButtonComponent>;
   let params: IStatusPanelParams;
   let store: MockStore;
 
   const createComponent = createComponentFactory({
-    component: FlatButtonsComponent,
-    declarations: [FlatButtonsComponent],
+    component: DeleteItemsButtonComponent,
+    declarations: [DeleteItemsButtonComponent],
     imports: [
       MatButtonModule,
       MatDialogModule,

@@ -8,10 +8,10 @@ import {
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
-import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { CreateCustomerCaseModule } from './case-creation/create-customer-case/create-customer-case.module';
 import { CreateManualCaseModule } from './case-creation/create-manual-case/create-manual-case.module';
 import { ImportCaseModule } from './case-creation/import-case/import-case.module';

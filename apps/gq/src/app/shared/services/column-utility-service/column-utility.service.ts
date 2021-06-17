@@ -13,16 +13,11 @@ import { ColumnFields } from './column-fields.enum';
   providedIn: 'root',
 })
 export class ColumnUtilityService {
-  static createColumnDefs(
-    roles: string[],
-    showAddedToOffer: boolean,
-    colDefs: ColDef[]
-  ): ColDef[] {
+  static createColumnDefs(roles: string[], colDefs: ColDef[]): ColDef[] {
     return colDefs.filter(
       (col: ColDef) =>
         ColumnUtilityService.filterGpc(col, roles) &&
-        ColumnUtilityService.filterSqv(col, roles) &&
-        ColumnUtilityService.filterAddedToOffer(col, showAddedToOffer)
+        ColumnUtilityService.filterSqv(col, roles)
     );
   }
   static filterGpc(col: ColDef, roles: string[]): boolean {
@@ -35,10 +30,6 @@ export class ColumnUtilityService {
     return col.field === ColumnFields.SQV || col.field === ColumnFields.GPM
       ? roles.includes(UserRoles.COST_SQV)
       : true;
-  }
-
-  static filterAddedToOffer(col: ColDef, addedToOffer: boolean): boolean {
-    return col.field === ColumnFields.ADDED_TO_OFFER ? addedToOffer : true;
   }
 
   static numberFormatter(data: ValueFormatterParams): string {

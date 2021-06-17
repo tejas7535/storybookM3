@@ -74,8 +74,17 @@ describe('FilterSelectionComponent', () => {
   describe('toggleAllSelection', () => {
     test('should toggle all selection', () => {
       component.emitSelection = jest.fn();
-
+      component.items = [{ value: 1 }] as any;
       component['allSelected'] = { selected: true } as any;
+      component.toggleAllSelection();
+
+      expect(component.emitSelection).toHaveBeenCalledTimes(1);
+      expect(component.emitSelection).toHaveBeenCalledWith([1]);
+    });
+    test('should toggle all selection with empty array', () => {
+      component.emitSelection = jest.fn();
+      component.items = [{ value: 1 }] as any;
+      component['allSelected'] = { selected: false } as any;
       component.toggleAllSelection();
 
       expect(component.emitSelection).toHaveBeenCalledTimes(1);

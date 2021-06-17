@@ -1,4 +1,5 @@
 import { Action } from '@ngrx/store';
+import { PriceSource } from 'apps/gq/src/app/shared/models/quotation-detail';
 
 import {
   CUSTOMER_MOCK,
@@ -34,9 +35,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
-  uploadOfferToSap,
-  uploadOfferToSapFailure,
-  uploadOfferToSapSuccess,
+  uploadSelectionToSap,
+  uploadSelectionToSapFailure,
+  uploadSelectionToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -167,13 +168,14 @@ describe('Quotation Reducer', () => {
     });
   });
 
-  describe('offer', () => {
-    describe('updateQuotationDetailsOffer', () => {
-      test('should add a quotationDetail to Offer', () => {
+  describe('updateQuotationDetails', () => {
+    describe('updateQuotationDetailsPrice', () => {
+      test('should update a quotation details price', () => {
         const updateQuotationDetailList = [
           {
             gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-            addedToOffer: true,
+            price: 20,
+            priceSource: PriceSource.MANUAL,
           },
         ];
 
@@ -188,7 +190,7 @@ describe('Quotation Reducer', () => {
     });
 
     describe('updateQuotationDetailsSuccess', () => {
-      test(' should update quotationDetails', () => {
+      test('should update quotationDetails', () => {
         const mockItem: Quotation = QUOTATION_MOCK;
         const quotationDetails = mockItem.quotationDetails;
 
@@ -524,23 +526,23 @@ describe('Quotation Reducer', () => {
     });
   });
   describe('sapUpload', () => {
-    describe('uploadOfferToSap', () => {
+    describe('uploadSelectionToSap', () => {
       test('should set loading true', () => {
-        const action = uploadOfferToSap();
+        const action = uploadSelectionToSap({ gqPositionIds: ['1'] });
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeTruthy();
       });
     });
-    describe('uploadOfferToSapSuccess', () => {
+    describe('uploadSelectionToSapSuccess', () => {
       test('should set loading false', () => {
-        const action = uploadOfferToSapSuccess();
+        const action = uploadSelectionToSapSuccess();
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
       });
     });
-    describe('uploadOfferToSapFailure', () => {
+    describe('uploadSelectionToSapFailure', () => {
       test('should set loading false', () => {
-        const action = uploadOfferToSapFailure({ errorMessage });
+        const action = uploadSelectionToSapFailure({ errorMessage });
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
         expect(state.quotation.updateLoading).toBeFalsy();
         expect(state.quotation.errorMessage).toEqual(errorMessage);
@@ -550,7 +552,7 @@ describe('Quotation Reducer', () => {
   describe('Reducer function', () => {
     test('should return searchReducer', () => {
       // prepare any action
-      const action: Action = uploadOfferToSap();
+      const action: Action = loadCustomer();
       expect(reducer(QUOTATION_STATE_MOCK, action)).toEqual(
         processCaseReducer(QUOTATION_STATE_MOCK, action)
       );

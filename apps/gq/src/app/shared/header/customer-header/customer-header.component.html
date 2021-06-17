@@ -1,32 +1,36 @@
-<mat-card class="mat-elevation-z0">
-  <div
-    class="mat-card-inner"
-    fxLayout="row"
-    *transloco="let t; read: 'shared.customerDetails'"
-  >
-    <div fxFlex="90" *ngIf="customer">
-      <div fxLayout="row">
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('name') }}:</div>
-          <div class="customer-detail" fxFlex="60">{{ customer.name }}</div>
+<mat-card
+  class="
+    mat-elevation-z0
+    border border-solid border-disabled
+    m-4
+    mt-0
+    text-body-2
+  "
+>
+  <div *transloco="let t; read: 'shared.customerDetails'" class="flex flex-row">
+    <div class="flex flex-col w-11/12" *ngIf="customer">
+      <div class="flex flex-row">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('name') }}:</div>
+          <div class="w-3/5 text-dark">{{ customer.name }}</div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('id') }}:</div>
-          <div class="customer-detail" fxFlex="60">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('id') }}:</div>
+          <div class="w-3/5 text-dark">
             {{ customer.identifier.customerId }}
           </div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('classification') }}:</div>
-          <div class="customer-detail" fxFlex="60">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('classification') }}:</div>
+          <div class="w-3/5 text-dark">
             {{ customer.abcClassification }}
           </div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">
             {{ t('netSalesLastYear') }} {{ lastYear }}:
           </div>
-          <div class="customer-detail" fxFlex="60">
+          <div class="w-3/5 text-dark">
             {{
               customer.marginDetail.netSalesLastYear
                 | numberCurrency: customer.currency
@@ -34,36 +38,45 @@
           </div>
         </div>
       </div>
-      <div fxLayout="row">
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('keyAccount') }}:</div>
-          <div class="customer-detail" fxFlex="60">
+      <div class="flex flex-row">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('keyAccount') }}:</div>
+          <div class="w-3/5 text-dark" fxFlex="60">
             {{ customer.keyAccount }}
           </div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('subKeyAccount') }}:</div>
-          <div class="customer-detail" fxFlex="60">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('subKeyAccount') }}:</div>
+          <div class="w-3/5 text-dark">
             {{ customer.subKeyAccount }}
           </div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">{{ t('sectorManagement') }}:</div>
-          <div class="customer-detail" fxFlex="60">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">{{ t('sectorManagement') }}:</div>
+          <div class="w-3/5 text-dark">
             {{ customer.sectorManagement }}
           </div>
         </div>
-        <div fxFlex="25">
-          <div fxFlex="40" class="label">
+        <div class="flex flex-row w-1/4">
+          <div class="w-2/5 text-light">
             {{ t('gpiLastYear') }} {{ lastYear }}:
           </div>
-          <div class="customer-detail" fxFlex="60">
+          <div class="w-3/5 text-dark">
             {{ customer.marginDetail.gpiLastYear | percentage }}
           </div>
         </div>
       </div>
     </div>
-    <button fxFlex="10" mat-flat-button (click)="openCustomer()">
+    <button
+      class="w-1/12 !text-primary text-button font-medium"
+      mat-flat-button
+      (click)="openCustomer()"
+    >
+      <mat-icon
+        class="text-h6"
+        fontSet="schaeffler-icons"
+        fontIcon="icon-arrow-east"
+      ></mat-icon>
       {{ t('details') | uppercase }}
     </button>
   </div>

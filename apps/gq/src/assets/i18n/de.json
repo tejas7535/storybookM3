@@ -11,7 +11,7 @@
       "materialDescription": "Materialbezeichnung",
       "materialNumber": "Material",
       "netValue": "Nettowert",
-      "offerPrice": "Nettopreis",
+      "price": "Nettopreis",
       "percentDifference": "Preisunterschied %",
       "gqRating": "GQ Rating",
       "priceUnit": "pro",
@@ -25,9 +25,6 @@
       "rlt": "WBZ",
       "sqv": "SAW",
       "uom": "Mengeneinheit"
-    },
-    "caseHeader": {
-      "seeOffer": "Auswahl anzeigen"
     },
     "caseMaterial": {
       "salesOrg": "VkOrg",
@@ -91,16 +88,13 @@
         "createManualCase": "Manuellen Case erstellen",
         "createCustomerCase": "Case auf Kundenbasis erstellen",
         "addMaterial": "hinzufügen",
-        "addToOffer": "Zur Auswahl hinzufügen",
         "exportToExcel": "als Excel Datei exportieren",
-        "finishOffer": "Auswahl abschließen",
         "addNewItem": "Neues Item hinzufügen",
         "deleteCase": "case löschen",
         "openDetail": "Details öffnen",
         "openCase": "case öffnen",
-        "removeFromOffer": "von Auswahl entfernen",
         "resetAll": "Zurücksetzen",
-        "uploadToSAP": "Update prices in SAP Quotation"
+        "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Ausgewählter gew. ø GPI%",
@@ -108,13 +102,7 @@
         "selectedNetValue": "Ausgewählter Nettowert",
         "totalAverageGPI": "Gesamt gew. ø GPI%",
         "totalAverageGPM": "Gesamt gew. ø GPM%",
-        "totalNetValue": "Gesamt Nettowert",
-        "offerAverageGPI": "Angebotener gew. ø GPI%",
-        "offerAverageGPM": "Angebotener gew. ø GPM%",
-        "offerNetValue": "Angebotener Nettowert"
-      },
-      "uploadToSAPButton": {
-        "uploadToSAP": "Nettopreise in SAP aktualisieren"
+        "totalNetValue": "Gesamt Nettowert"
       },
       "materialValidationStatus": {
         "invalid": "Invalide",
@@ -132,15 +120,6 @@
       "netSalesLastYear": "Umsatz",
       "gpiLastYear": "GPI"
     },
-    "offerDrawer": {
-      "title": "Aktuelle Auswahl"
-    },
-    "offerTable": {
-      "materialDescription": "Materialbezeichnung",
-      "netValue": "Nettowert",
-      "price": "Nettopreis",
-      "quantity": "Menge"
-    },
     "roleModal": {
       "menuTitle": "Rollen",
       "contactInformation": "Bei Fragen bezüglich den zugewiesenen Rollen kontaktieren Sie bitte: <a href='mailto:{mailAdress}?subject=Category: Assigned User Roles'>OR-SWE-Global-Pricing-Industry</a>"
@@ -148,10 +127,9 @@
     "snackBarMessages": {
       "materialAdded": "Material wurde hinzugefügt",
       "materialDeleted": "Material wurde entfernt",
-      "updateSelectedOffers": "Die Angebotsauswahl wurde gespeichert",
       "updateSelectedPrice": "Der Preis wurde gespeichert",
       "updateQuantity": "Die Mengenänderung wurde gespeichert",
-      "uploadOfferSuccess": "Die Angebotsauwahl wurde in SAP gespeichert",
+      "uploadSelectionSuccess": "Die Angebotsauwahl wurde in SAP gespeichert",
       "wrongPriceEditInput": "Bitte geben sie einen numerischen Preis ein"
     }
   }

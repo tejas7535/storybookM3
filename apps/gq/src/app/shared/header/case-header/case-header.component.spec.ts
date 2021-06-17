@@ -45,14 +45,6 @@ describe('CaseHeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('drawerToggle', () => {
-    test('toggle drawer', () => {
-      component['toggleOfferDrawer'].emit = jest.fn();
-
-      component.drawerToggle();
-      expect(component['toggleOfferDrawer'].emit).toHaveBeenCalledTimes(1);
-    });
-  });
   describe('backClicked', () => {
     test('backClicked', () => {
       component['location'].back = jest.fn();

@@ -1,38 +1,13 @@
-<mat-drawer-container
-  class="container"
-  fxFlex
-  fxLayout="column"
-  fxLayoutAlign="start center"
-  fxLayoutGap="20px"
->
-  <mat-drawer-content
-    fxLayout="column"
-    fxFlexFill
-    *ngIf="(isCustomerLoading$ | ngrxPush) === false; else loading"
-  >
-    <mat-card>
-      <gq-case-header (toggleOfferDrawer)="drawer.toggle()">
-        <span *ngIf="customer$ | ngrxPush as customer">{{
-          customer.name
-        }}</span>
-      </gq-case-header>
-    </mat-card>
-
-    <gq-customer-information
-      [customer]="customer$ | ngrxPush"
-    ></gq-customer-information>
-  </mat-drawer-content>
-  <mat-drawer #drawer position="end" (opened)="getOffer()">
-    <gq-offer-drawer
-      fxLayout="column"
-      fxFlexFill
-      *ngIf="offer$ | ngrxPush"
-      [quotation]="offer$ | ngrxPush"
-      (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-offer-drawer>
-  </mat-drawer>
-</mat-drawer-container>
-
+<div *ngIf="(isCustomerLoading$ | ngrxPush) === false; else loading">
+  <mat-card class="!p-0">
+    <gq-case-header>
+      <span *ngIf="customer$ | ngrxPush as customer">{{ customer.name }}</span>
+    </gq-case-header>
+  </mat-card>
+  <gq-customer-information
+    [customer]="customer$ | ngrxPush"
+  ></gq-customer-information>
+</div>
 <ng-template #loading>
-  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

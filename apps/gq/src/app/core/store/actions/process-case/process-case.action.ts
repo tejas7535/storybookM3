@@ -44,17 +44,17 @@ export const selectQuotation = createAction(
 );
 
 export const updateQuotationDetails = createAction(
-  '[Offer] Update QuotationDetails',
+  '[Process Case] Update QuotationDetails',
   props<{ updateQuotationDetailList: UpdateQuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsSuccess = createAction(
-  '[Offer] Update QuotationDetails Success',
+  '[Process Case] Update QuotationDetails Success',
   props<{ quotationDetails: QuotationDetail[] }>()
 );
 
 export const updateQuotationDetailsFailure = createAction(
-  '[Offer] Update QuotationDetails Failure',
+  '[Process Case] Update QuotationDetails Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -135,17 +135,18 @@ export const loadQuotationFromUrl = createAction(
   props<{ queryParams: any }>()
 );
 
-export const uploadOfferToSap = createAction(
-  '[Process Case] Upload offer to Sap'
+export const uploadSelectionToSap = createAction(
+  '[Process Case] Upload selection to Sap',
+  props<{ gqPositionIds: string[] }>()
 );
 
-export const uploadOfferToSapFailure = createAction(
-  '[Process Case] Upload offer to Sap Failure',
+export const uploadSelectionToSapFailure = createAction(
+  '[Process Case] Upload selection to Sap Failure',
   props<{ errorMessage: string }>()
 );
 
-export const uploadOfferToSapSuccess = createAction(
-  '[Process Case] Upload offer to Sap Success'
+export const uploadSelectionToSapSuccess = createAction(
+  '[Process Case] Upload selection to Sap Success'
 );
 
 const all = union({
@@ -170,9 +171,9 @@ const all = union({
   setSelectedQuotationDetail,
   loadSelectedQuotationDetailFromUrl,
   loadQuotationFromUrl,
-  uploadOfferToSap,
-  uploadOfferToSapSuccess,
-  uploadOfferToSapFailure,
+  uploadSelectionToSap,
+  uploadSelectionToSapSuccess,
+  uploadSelectionToSapFailure,
 });
 
 export type CaseActions = typeof all;

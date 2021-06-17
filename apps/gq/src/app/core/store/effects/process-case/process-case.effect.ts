@@ -52,9 +52,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
-  uploadOfferToSap,
-  uploadOfferToSapFailure,
-  uploadOfferToSapSuccess,
+  uploadSelectionToSap,
+  uploadSelectionToSapFailure,
+  uploadSelectionToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -67,7 +67,6 @@ import {
 import {
   getAddMaterialRowData,
   getAddQuotationDetailsRequest,
-  getGqId,
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
 } from '../../selectors';
@@ -145,8 +144,7 @@ export class ProcessCaseEffect {
         (routerState) =>
           routerState.url.indexOf(AppRoutePath.ProcessCaseViewPath) >= 0 ||
           routerState.url.indexOf(AppRoutePath.CustomerViewPath) >= 0 ||
-          routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0 ||
-          routerState.url.indexOf(AppRoutePath.OfferViewPath) >= 0
+          routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0
       ),
       mergeMap((routerState) => {
         if (routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0) {
@@ -313,23 +311,21 @@ export class ProcessCaseEffect {
     )
   );
 
-  uploadToSap$ = createEffect(() =>
+  uploadSelectionToSap$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(uploadOfferToSap.type),
-      withLatestFrom(this.store.pipe(select(getGqId))),
-      map(([_action, gqId]) => gqId),
-
-      mergeMap((gqId: number) =>
-        this.quotationService.uploadOfferToSap(gqId).pipe(
+      ofType(uploadSelectionToSap),
+      map((action) => action.gqPositionIds),
+      mergeMap((gqPositionIds: string[]) =>
+        this.quotationService.uploadSelectionToSap(gqPositionIds).pipe(
           tap(() => {
             const successMessage = translate(
-              'shared.snackBarMessages.uploadOfferSuccess'
+              'shared.snackBarMessages.uploadSelectionSuccess'
             );
             this.snackBarService.showSuccessMessage(successMessage);
           }),
-          map(uploadOfferToSapSuccess),
+          map(uploadSelectionToSapSuccess),
           catchError((errorMessage) =>
-            of(uploadOfferToSapFailure({ errorMessage }))
+            of(uploadSelectionToSapFailure({ errorMessage }))
           )
         )
       )
@@ -378,8 +374,6 @@ export class ProcessCaseEffect {
       translateString += 'updateSelectedPrice';
     } else if (update.orderQuantity) {
       translateString += 'updateQuantity';
-    } else {
-      translateString += 'updateSelectedOffers';
     }
     this.snackBarService.showSuccessMessage(translate(translateString));
   }

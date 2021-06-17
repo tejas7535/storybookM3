@@ -45,12 +45,6 @@ export const appRoutePaths: Routes = [
     canActivateChild: [RoleGuard],
   },
   {
-    path: AppRoutePath.OfferViewPath,
-    loadChildren: () =>
-      import('./offer-view/offer-view.module').then((m) => m.OfferViewModule),
-    canActivateChild: [RoleGuard],
-  },
-  {
     path: AppRoutePath.CustomerViewPath,
     loadChildren: () =>
       import('./customer-view/customer-view.module').then(

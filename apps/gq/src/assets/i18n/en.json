@@ -11,7 +11,7 @@
       "materialDescription": "Description",
       "materialNumber": "Material",
       "netValue": "Net Value",
-      "offerPrice": "Net Price",
+      "price": "Net Price",
       "percentDifference": "Price Diff %",
       "gqRating": "GQ Rating",
       "priceUnit": "per",
@@ -25,9 +25,6 @@
       "rlt": "RLT",
       "sqv": "SQV",
       "uom": "UoM"
-    },
-    "caseHeader": {
-      "seeOffer": "see offer"
     },
     "caseMaterial": {
       "salesOrg": "Sales Org",
@@ -91,16 +88,13 @@
         "createManualCase": "Create manual case",
         "createCustomerCase": "New case from customer",
         "addMaterial": "add",
-        "addToOffer": "add to offer",
         "exportToExcel": "Export to Excel File",
-        "finishOffer": "finish Offer",
         "addNewItem": "add new item",
         "deleteCase": "delete case",
         "openDetail": "open details",
         "openCase": "open case",
-        "removeFromOffer": "delete from offer",
         "resetAll": "Reset All",
-        "uploadToSAP": "Update prices in SAP Quotation"
+        "uploadSelectionToSap": "Update prices in SAP Quotation"
       },
       "quotationDetailsStatus": {
         "selectedAverageGPI": "Selected Weigh. Avg. GPI %",
@@ -108,10 +102,7 @@
         "selectedNetValue": "Selected Net Value",
         "totalAverageGPI": "Total Weigh. Avg. GPI %",
         "totalAverageGPM": "Total Weigh. Avg. GPM %",
-        "totalNetValue": "Total Net Value",
-        "offerAverageGPI": "Offered Weigh. Avg. GPI %",
-        "offerAverageGPM": "Offered Weigh. Avg. GPM %",
-        "offerNetValue": "Offered Net Value"
+        "totalNetValue": "Total Net Value"
       },
       "materialValidationStatus": {
         "invalid": "Invalid",
@@ -129,15 +120,6 @@
       "netSalesLastYear": "Net Sales",
       "gpiLastYear": "GPI"
     },
-    "offerDrawer": {
-      "title": "Current Offer"
-    },
-    "offerTable": {
-      "materialDescription": "Description",
-      "netValue": "Net Value",
-      "price": "Price",
-      "quantity": "Quantity"
-    },
     "roleModal": {
       "menuTitle": "User Roles",
       "contactInformation": "Please contact <a href='mailto:{mailAdress}?subject=Category: Assigned User Roles'>OR-SWE-Global-Pricing-Industry</a> if you have questions about your user roles or need access to additional user roles."
@@ -145,10 +127,9 @@
     "snackBarMessages": {
       "materialAdded": "Material(s) added to the case",
       "materialDeleted": "Material(s) deleted from the case",
-      "updateSelectedOffers": "Offer selection was saved",
       "updateSelectedPrice": "Price selection was saved",
       "updateQuantity": "Quantity change was saved",
-      "uploadOfferSuccess": "The offer selection was saved in SAP",
+      "uploadSelectionSuccess": "The item selection was saved in SAP",
       "wrongPriceEditInput": "Please enter a numeric price value"
     }
   }

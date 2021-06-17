@@ -8,7 +8,6 @@ import { HelperService } from '../../services/helper-service/helper-service.serv
 @Component({
   selector: 'gq-customer-header',
   templateUrl: './customer-header.component.html',
-  styleUrls: ['./customer-header.component.scss'],
 })
 export class CustomerHeaderComponent implements OnInit {
   @Input() customer: Customer;

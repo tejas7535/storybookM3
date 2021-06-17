@@ -47,16 +47,16 @@ describe('QuotationService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('uploadOfferToSap', () => {
+  describe('uploadSelectionToSap', () => {
     test('should call DataService POST', () => {
-      const gqId = 123;
+      const gqPositionIds = ['1', '2', '3'];
       service
-        .uploadOfferToSap(gqId)
+        .uploadSelectionToSap(gqPositionIds)
         .subscribe((res) => expect(res).toEqual([]));
 
-      const req = httpMock.expectOne(`/${service['PATH_UPLOAD_OFFER']}`);
+      const req = httpMock.expectOne(`/${service['PATH_UPLOAD_SELECTION']}`);
       expect(req.request.method).toBe(HttpMethod.POST);
-      req.flush(gqId);
+      req.flush(gqPositionIds);
     });
   });
 

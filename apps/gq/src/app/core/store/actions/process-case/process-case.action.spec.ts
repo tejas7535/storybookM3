@@ -20,9 +20,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
-  uploadOfferToSap,
-  uploadOfferToSapFailure,
-  uploadOfferToSapSuccess,
+  uploadSelectionToSap,
+  uploadSelectionToSapFailure,
+  uploadSelectionToSapSuccess,
 } from './process-case.action';
 
 describe('CaseActions', () => {
@@ -138,19 +138,19 @@ describe('CaseActions', () => {
     });
   });
 
-  describe('Offer Actions', () => {
+  describe('updateQuotationDetails Actions', () => {
     test('updateQuotationDetails', () => {
       const updateQuotationDetailList = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          addedToOffer: true,
+          price: 20,
         },
       ];
       action = updateQuotationDetails({ updateQuotationDetailList });
 
       expect(action).toEqual({
         updateQuotationDetailList,
-        type: '[Offer] Update QuotationDetails',
+        type: '[Process Case] Update QuotationDetails',
       });
     });
 
@@ -160,7 +160,7 @@ describe('CaseActions', () => {
 
       expect(action).toEqual({
         quotationDetails,
-        type: '[Offer] Update QuotationDetails Success',
+        type: '[Process Case] Update QuotationDetails Success',
       });
     });
 
@@ -169,39 +169,31 @@ describe('CaseActions', () => {
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Offer] Update QuotationDetails Failure',
+        type: '[Process Case] Update QuotationDetails Failure',
       });
     });
 
-    test('updateQuotationDetailsFailure', () => {
-      action = updateQuotationDetailsFailure({ errorMessage });
+    test('uploadSelectionToSap', () => {
+      action = uploadSelectionToSap({ gqPositionIds: ['1'] });
+
+      expect(action).toEqual({
+        gqPositionIds: ['1'],
+        type: '[Process Case] Upload selection to Sap',
+      });
+    });
+    test('uploadSelectionToSapFailure', () => {
+      action = uploadSelectionToSapFailure({ errorMessage });
 
       expect(action).toEqual({
         errorMessage,
-        type: '[Offer] Update QuotationDetails Failure',
+        type: '[Process Case] Upload selection to Sap Failure',
       });
     });
-
-    test('uploadOfferToSap', () => {
-      action = uploadOfferToSap();
-
-      expect(action).toEqual({
-        type: '[Process Case] Upload offer to Sap',
-      });
-    });
-    test('uploadOfferToSapFailure', () => {
-      action = uploadOfferToSapFailure({ errorMessage });
+    test('uploadSelectionToSapSuccess', () => {
+      action = uploadSelectionToSapSuccess();
 
       expect(action).toEqual({
-        errorMessage,
-        type: '[Process Case] Upload offer to Sap Failure',
-      });
-    });
-    test('uploadOfferToSapSuccess', () => {
-      action = uploadOfferToSapSuccess();
-
-      expect(action).toEqual({
-        type: '[Process Case] Upload offer to Sap Success',
+        type: '[Process Case] Upload selection to Sap Success',
       });
     });
   });
