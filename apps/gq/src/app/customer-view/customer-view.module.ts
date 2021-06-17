@@ -5,10 +5,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
-import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
-import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { CustomerInformationModule } from './customer-information/customer-information.module';
 import { CustomerViewRoutingModule } from './customer-view-routing.module';
 import { CustomerViewComponent } from './customer-view.component';
@@ -20,7 +20,6 @@ import { CustomerViewComponent } from './customer-view.component';
     CommonModule,
     CustomerInformationModule,
     CustomerViewRoutingModule,
-    OfferDrawerModule,
     MatCardModule,
     MatSidenavModule,
     SharedModule,

@@ -30,9 +30,9 @@ import {
   updateQuotationDetails,
   updateQuotationDetailsFailure,
   updateQuotationDetailsSuccess,
-  uploadOfferToSap,
-  uploadOfferToSapFailure,
-  uploadOfferToSapSuccess,
+  uploadSelectionToSap,
+  uploadSelectionToSapFailure,
+  uploadSelectionToSapSuccess,
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
@@ -341,22 +341,25 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(uploadOfferToSap, (state: ProcessCaseState) => ({
+  on(uploadSelectionToSap, (state: ProcessCaseState) => ({
     ...state,
     quotation: {
       ...state.quotation,
       updateLoading: true,
     },
   })),
-  on(uploadOfferToSapFailure, (state: ProcessCaseState, { errorMessage }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      errorMessage,
-      updateLoading: false,
-    },
-  })),
-  on(uploadOfferToSapSuccess, (state: ProcessCaseState) => ({
+  on(
+    uploadSelectionToSapFailure,
+    (state: ProcessCaseState, { errorMessage }) => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(uploadSelectionToSapSuccess, (state: ProcessCaseState) => ({
     ...state,
     quotation: {
       ...state.quotation,

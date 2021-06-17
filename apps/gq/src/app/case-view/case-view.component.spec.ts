@@ -3,10 +3,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
-import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewComponent } from './case-view.component';
 

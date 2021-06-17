@@ -1,40 +1,21 @@
-<mat-drawer-container
-  class="h-full !bg-white"
+<div
+  class="flex flex-col h-full"
   *ngIf="
     !(isCustomerLoading$ | ngrxPush) && !(isQuotationLoading$ | ngrxPush);
     else loading
   "
 >
-  <mat-drawer-content
-    *ngIf="quotation$ | ngrxPush as quotation"
-    class="!flex flex-col"
-  >
-    <gq-case-header
-      [showCustomerHeader]="true"
-      (toggleOfferDrawer)="drawer.toggle()"
-    >
-      <gq-header-content
-        [quotation]="quotation$ | ngrxPush"
-      ></gq-header-content>
-    </gq-case-header>
-    <gq-quotation-details-table
-      *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
-      [quotation]="quotation"
-    ></gq-quotation-details-table>
-    <ng-template #updateLoading>
-      <gq-loading-spinner [show]="true"></gq-loading-spinner>
-    </ng-template>
-  </mat-drawer-content>
-  <mat-drawer class="w-1/2" #drawer position="end" (opened)="getOffer()">
-    <gq-offer-drawer
-      class="flex flex-col"
-      *ngIf="offer$ | ngrxPush"
-      [quotation]="offer$ | ngrxPush"
-      (toggleOfferDrawer)="drawer.toggle()"
-    ></gq-offer-drawer>
-  </mat-drawer>
-</mat-drawer-container>
-
+  <gq-case-header [showCustomerHeader]="true">
+    <gq-header-content [quotation]="quotation$ | ngrxPush"></gq-header-content>
+  </gq-case-header>
+  <gq-quotation-details-table
+    *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
+    [quotation]="quotation$ | ngrxPush"
+  ></gq-quotation-details-table>
+  <ng-template #updateLoading>
+    <schaeffler-loading-spinner></schaeffler-loading-spinner>
+  </ng-template>
+</div>
 <ng-template #loading>
-  <gq-loading-spinner [show]="true"></gq-loading-spinner>
+  <schaeffler-loading-spinner></schaeffler-loading-spinner>
 </ng-template>

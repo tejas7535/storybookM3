@@ -1,26 +1,16 @@
 <div
-  fxLayout="row"
-  fxLayoutAlign="space-between"
-  class="details-page-header"
+  class="flex flex-row items-center pt-4 pb-4"
   *transloco="let t; read: 'shared.caseHeader'"
 >
-  <div fxLayout="row" fxLayoutAlign="start center">
-    <mat-icon
-      fontSet="schaeffler-icons"
-      fontIcon="icon-arrow-west"
-      (click)="backClicked()"
-      class="back-arrow-icon"
-    ></mat-icon>
-    <h1 fxLayout="row">
-      <ng-content></ng-content>
-    </h1>
-  </div>
-  <div *ngIf="!showOfferSlider">
-    <button mat-stroked-button color="primary" (click)="drawerToggle()">
-      <mat-icon fontSet="schaeffler-icons" fontIcon="icon-cart"></mat-icon>
-      {{ t('seeOffer') | uppercase }}
-    </button>
-  </div>
+  <mat-icon
+    fontSet="schaeffler-icons"
+    fontIcon="icon-arrow-west"
+    (click)="backClicked()"
+    class="cursor-pointer text-light text-h5 ml-4 mr-4"
+  ></mat-icon>
+  <h1>
+    <ng-content></ng-content>
+  </h1>
 </div>
 <div *ngIf="showCustomerHeader">
   <div *ngIf="customer$ | ngrxPush as customer">

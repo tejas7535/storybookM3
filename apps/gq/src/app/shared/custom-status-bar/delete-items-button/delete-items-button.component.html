@@ -13,14 +13,4 @@
   >
     <mat-icon>delete</mat-icon>
   </button>
-  <button
-    *ngIf="!selections.length && !sap"
-    class="!rounded-[32px] !pr-6 !pl-6 !w-[200px]"
-    mat-fab
-    color="primary"
-    (click)="showAddDialog()"
-  >
-    <mat-icon class="mr-3">add</mat-icon
-    ><span>{{ t('addNewItem') | uppercase }}</span>
-  </button>
 </div>

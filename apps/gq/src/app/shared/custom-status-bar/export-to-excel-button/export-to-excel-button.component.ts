@@ -14,7 +14,7 @@ import {
 } from '../../services/column-utility-service/column-fields.enum';
 
 @Component({
-  selector: 'gq-remove-from-offer',
+  selector: 'gq-export-excel-button',
   templateUrl: './export-to-excel-button.component.html',
 })
 export class ExportToExcelButtonComponent {

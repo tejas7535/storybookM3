@@ -11,22 +11,18 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import {
-  CUSTOMER_MOCK,
-  QUOTATION_DETAIL_MOCK,
-  QUOTATION_MOCK,
-} from '../../testing/mocks';
-import { getOffer } from '../core/store/selectors';
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../testing/mocks';
 import { SharedModule } from '../shared';
 import { AddEntryModule } from '../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../shared/case-material/input-table/input-table.module';
+import { AddItemsButtonComponent } from '../shared/custom-status-bar/add-items-button/add-items-button.component';
 import { CustomStatusBarModule } from '../shared/custom-status-bar/custom-status-bar.module';
-import { FlatButtonsComponent } from '../shared/custom-status-bar/flat-buttons/flat-buttons.component';
+import { DeleteItemsButtonComponent } from '../shared/custom-status-bar/delete-items-button/delete-items-button.component';
+import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
-import { LoadingSpinnerModule } from '../shared/loading-spinner/loading-spinner.module';
-import { OfferDrawerModule } from '../shared/offer-drawer/offer-drawer.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
@@ -47,7 +43,11 @@ describe('ProcessCaseViewComponent', () => {
     imports: [
       AddEntryModule,
       InputTableModule,
-      AgGridModule.withComponents([FlatButtonsComponent]),
+      AgGridModule.withComponents([
+        DeleteItemsButtonComponent,
+        UploadSelectionToSapButtonComponent,
+        AddItemsButtonComponent,
+      ]),
       BrowserAnimationsModule,
       CaseHeaderModule,
       CustomStatusBarModule,
@@ -55,7 +55,6 @@ describe('ProcessCaseViewComponent', () => {
       MatDialogModule,
       MatIconModule,
       MatSidenavModule,
-      OfferDrawerModule,
       ProcessCaseViewRoutingModule,
       QuotationDetailsTableModule,
       RouterTestingModule,
@@ -78,12 +77,6 @@ describe('ProcessCaseViewComponent', () => {
             },
           },
         },
-        selectors: [
-          {
-            selector: getOffer,
-            value: QUOTATION_DETAIL_MOCK,
-          },
-        ],
       }),
     ],
     entryComponents: [AddMaterialDialogComponent],
@@ -96,11 +89,5 @@ describe('ProcessCaseViewComponent', () => {
 
   test('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  test('should get offer', () => {
-    component.getOffer();
-
-    expect(component.offer$).toBeDefined();
   });
 });

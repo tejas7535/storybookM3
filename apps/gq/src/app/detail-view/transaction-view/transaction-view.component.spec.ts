@@ -4,10 +4,10 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { ComparableTransactionsModule } from './comparable-transactions/comparable-transactions.module';
 import { TransactionViewHeaderContentModule } from './transaction-view-header-content/transaction-view-header-content.module';
 import { TransactionViewComponent } from './transaction-view.component';

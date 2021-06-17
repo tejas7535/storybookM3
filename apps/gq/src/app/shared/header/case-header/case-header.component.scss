@@ -1,37 +1,4 @@
-@import 'libs/shared/ui/styles/src/lib/colors';
-
-:host {
-  margin-bottom: 0 !important;
-  width: 100%;
-
-  .details-page-header {
-    .back-arrow-icon {
-      color: $schaeffler-carbon-gray;
-      cursor: pointer;
-      font-size: 24px;
-      margin: 0 16px;
-    }
-
-    button {
-      font-weight: bold;
-      margin: 16px 16px 16px 0;
-
-      mat-icon {
-        vertical-align: initial;
-      }
-    }
-
-    h1 {
-      color: $schaeffler-black;
-      font-size: 34px;
-      font-weight: normal;
-      letter-spacing: 0.25px;
-      opacity: 0.87;
-    }
-  }
-}
-
 ::ng-deep .mat-menu-panel {
-  max-width: inherit !important;
-  padding: 10px;
+  @apply max-w-none;
+  @apply p-2;
 }

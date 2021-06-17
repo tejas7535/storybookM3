@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import {
-  getOffer,
   getQuotation,
   getSelectedQuotationDetail,
   isQuotationLoading,
@@ -22,18 +21,13 @@ import { QuotationDetail } from '../../shared/models/quotation-detail';
 export class DetailViewComponent implements OnInit {
   public quotation$: Observable<Quotation>;
   public quotationLoading$: Observable<boolean>;
-  public offer$: Observable<Quotation>;
   public quotationDetail$: Observable<QuotationDetail>;
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  public constructor(private readonly store: Store<ProcessCaseState>) {}
 
   public ngOnInit(): void {
     this.quotation$ = this.store.select(getQuotation);
     this.quotationLoading$ = this.store.select(isQuotationLoading);
     this.quotationDetail$ = this.store.select(getSelectedQuotationDetail);
-  }
-
-  getOffer(): void {
-    this.offer$ = this.store.select(getOffer);
   }
 }

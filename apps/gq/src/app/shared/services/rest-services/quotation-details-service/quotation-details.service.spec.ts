@@ -101,7 +101,7 @@ describe('QuotationDetailsService', (): void => {
       const quotationDetails: UpdateQuotationDetail[] = [
         {
           gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-          addedToOffer: true,
+          price: 20,
         },
       ];
 

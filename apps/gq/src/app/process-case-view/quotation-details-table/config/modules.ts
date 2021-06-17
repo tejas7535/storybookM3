@@ -1,6 +1,7 @@
 import { ClientSideRowModelModule } from '@ag-grid-community/all-modules';
 import {
   ColumnsToolPanelModule,
+  ExcelExportModule,
   FiltersToolPanelModule,
   MenuModule,
   RowGroupingModule,
@@ -14,4 +15,5 @@ export const MODULES: any[] = [
   MenuModule,
   RowGroupingModule,
   StatusBarModule,
+  ExcelExportModule,
 ];

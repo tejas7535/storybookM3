@@ -37,7 +37,6 @@ import { QuantityModalComponent } from './quantity/quantity-modal/quantity-modal
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,
-    LoadingSpinnerModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
     SharedPipesModule,

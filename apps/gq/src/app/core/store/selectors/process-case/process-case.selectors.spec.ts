@@ -76,30 +76,7 @@ describe('Process Case Selector', () => {
     });
   });
 
-  describe('getOffer', () => {
-    test('should return true if quotation is currently loading', () => {
-      expect(
-        quotationSelectors.getOffer.projector(fakeState.processCase)
-      ).toBeTruthy();
-    });
-    test('should return undefined if quotation is undefined', () => {
-      const mockState = {
-        ...fakeState,
-        processCase: {
-          ...fakeState.processCase,
-          quotation: {
-            ...fakeState.processCase.quotation,
-            item: undefined as any,
-          },
-        },
-      };
-      expect(
-        quotationSelectors.getOffer.projector(mockState.processCase)
-      ).toBeUndefined();
-    });
-  });
-
-  describe('getSapId ', () => {
+  describe('getSapId', () => {
     test('should return a sap id', () => {
       expect(
         quotationSelectors.getSapId.projector(fakeState.processCase)
@@ -114,7 +91,7 @@ describe('Process Case Selector', () => {
       );
     });
   });
-  describe('getAddMaterialRowData  ', () => {
+  describe('getAddMaterialRowData', () => {
     test('should return add addMaterial row data', () => {
       expect(
         quotationSelectors.getAddMaterialRowData.projector(
@@ -179,7 +156,7 @@ describe('Process Case Selector', () => {
     });
   });
 
-  describe('getRemoveQuotationDetailsRequest ', () => {
+  describe('getRemoveQuotationDetailsRequest', () => {
     test('should return a removeQuotationDetailsIds', () => {
       expect(
         quotationSelectors.getRemoveQuotationDetailsRequest.projector(
@@ -189,7 +166,7 @@ describe('Process Case Selector', () => {
     });
   });
 
-  describe('getAddMaterialRowDataValid ', () => {
+  describe('getAddMaterialRowDataValid', () => {
     test('should return false', () => {
       expect(
         quotationSelectors.getAddMaterialRowDataValid.projector(
@@ -277,14 +254,14 @@ describe('Process Case Selector', () => {
       ).toEqual(fakeState.processCase.quotation.errorMessage);
     });
   });
-  describe('getGqId ', () => {
+  describe('getGqId', () => {
     test('should return gqId', () => {
       expect(
         quotationSelectors.getGqId.projector(fakeState.processCase)
       ).toEqual(fakeState.processCase.quotationIdentifier.gqId);
     });
   });
-  describe('isManualCase ', () => {
+  describe('isManualCase', () => {
     test('should return if manual case', () => {
       expect(
         quotationSelectors.isManualCase.projector(fakeState.processCase)

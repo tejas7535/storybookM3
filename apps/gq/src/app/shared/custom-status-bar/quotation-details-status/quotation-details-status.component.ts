@@ -12,8 +12,6 @@ import {
   userHasSQVRole,
 } from '../../../core/store';
 import { QuotationDetail } from '../../models/quotation-detail';
-import { COLUMN_DEFS_SHORT } from '../../offer-table/config/column-defs';
-import { ColumnDefService } from '../../services/column-utility-service/column-def.service';
 import { PriceService } from '../../services/price-service/price.service';
 
 @Component({
@@ -30,14 +28,10 @@ export class QuotationDetailsStatusComponent implements OnInit {
   selectedNetValue = 0;
   selectedAverageGPI = 0;
   selectedAverageGPM = 0;
-  isOfferTable = false;
   selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
-  constructor(
-    private readonly store: Store<AppState>,
-    private readonly columnDefinitionService: ColumnDefService
-  ) {}
+  constructor(private readonly store: Store<AppState>) {}
 
   ngOnInit(): void {
     this.showGPI$ = this.store.select(userHasGPCRole);
@@ -48,7 +42,6 @@ export class QuotationDetailsStatusComponent implements OnInit {
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
-    this.params.api.addEventListener('gridReady', this.getTableSpec.bind(this));
     this.params.api.addEventListener(
       'selectionChanged',
       this.onSelectionChange.bind(this)
@@ -57,13 +50,6 @@ export class QuotationDetailsStatusComponent implements OnInit {
       'rowDataChanged',
       this.rowValueChanges.bind(this)
     );
-  }
-
-  getTableSpec(): void {
-    const colDefs = this.params.api.getColumnDefs();
-    this.isOfferTable =
-      colDefs.length === COLUMN_DEFS_SHORT.length ||
-      colDefs.length === this.columnDefinitionService.COLUMN_DEFS.length - 1;
   }
 
   rowValueChanges(): void {

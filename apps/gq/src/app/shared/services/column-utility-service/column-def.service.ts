@@ -19,14 +19,10 @@ export class ColumnDefService {
       headerCheckboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
-      cellRenderer: 'offerCartCellComponent',
       headerName: '',
-      field: ColumnFields.ADDED_TO_OFFER,
       pinned: 'left',
-      initialWidth: 120,
       suppressMenu: true,
       filter: false,
-      cellStyle: { textAlign: 'right' },
     },
     {
       headerName: translate('shared.quotationDetailsTable.item'),
@@ -57,7 +53,7 @@ export class ColumnDefService {
       },
     },
     {
-      headerName: translate('shared.quotationDetailsTable.offerPrice'),
+      headerName: translate('shared.quotationDetailsTable.price'),
       field: ColumnFields.PRICE,
       valueFormatter: ColumnUtilityService.numberCurrencyFormatter,
       cellRenderer: 'editPriceComponent',

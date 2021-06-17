@@ -29,11 +29,6 @@ describe('CreateColumnService', () => {
       const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
       expect(isNotFiltered).toBeTruthy();
     });
-    test('should return true', () => {
-      const col = { field: ColumnFields.ADDED_TO_OFFER };
-      const isNotFiltered = ColumnUtilityService.filterGpc(col, roles);
-      expect(isNotFiltered).toBeTruthy();
-    });
   });
   describe('filterSQV', () => {
     test('should return false', () => {
@@ -47,29 +42,17 @@ describe('CreateColumnService', () => {
       const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
       expect(isNotFiltered).toBeTruthy();
     });
-    test('should return true', () => {
-      const col = { field: ColumnFields.ADDED_TO_OFFER };
+    test('should return true on gpm', () => {
+      const col = { field: ColumnFields.GPM };
       const isNotFiltered = ColumnUtilityService.filterSqv(col, roles);
       expect(isNotFiltered).toBeTruthy();
     });
   });
-  describe('filterAddedToOffer', () => {
-    test('should return true', () => {
-      const col = { field: ColumnFields.ADDED_TO_OFFER };
-      const isNotFiltered = ColumnUtilityService.filterAddedToOffer(col, false);
-      expect(isNotFiltered).toBeFalsy();
-    });
-    test('should return true', () => {
-      const col = { field: ColumnFields.GPI };
-      const isNotFiltered = ColumnUtilityService.filterAddedToOffer(col, false);
-      expect(isNotFiltered).toBeTruthy();
-    });
-  });
+
   describe('createColumnDefs', () => {
     test('should return all cols', () => {
       ColumnUtilityService.filterGpc = jest.fn().mockReturnValue(true);
       ColumnUtilityService.filterSqv = jest.fn().mockReturnValue(true);
-      ColumnUtilityService.filterAddedToOffer = jest.fn().mockReturnValue(true);
       const allRoles = [
         UserRoles.BASIC,
         UserRoles.COST_GPC,
@@ -84,7 +67,6 @@ describe('CreateColumnService', () => {
 
       const columns = ColumnUtilityService.createColumnDefs(
         allRoles,
-        true,
         ColumnDefs
       );
 

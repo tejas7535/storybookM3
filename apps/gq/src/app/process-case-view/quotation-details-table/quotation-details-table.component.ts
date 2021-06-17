@@ -71,7 +71,6 @@ export class QuotationDetailsTableComponent implements OnInit {
       map((roles) =>
         ColumnUtilityService.createColumnDefs(
           roles,
-          true,
           this.columnDefinitionService.COLUMN_DEFS
         )
       )

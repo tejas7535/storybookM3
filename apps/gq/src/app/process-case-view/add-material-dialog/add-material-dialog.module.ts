@@ -5,12 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { ReactiveComponentModule } from '@ngrx/component';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 @NgModule({

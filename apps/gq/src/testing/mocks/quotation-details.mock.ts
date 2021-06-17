@@ -13,7 +13,6 @@ export const QUOTATION_DETAIL_MOCK: QuotationDetail = {
   gqCreatedByUser: 'user name',
   gqLastUpdatedByUserId: 'user name2',
   gqLastUpdatedByUser: 'userid2',
-  addedToOffer: false,
   gqPositionId: '5694232',
   quotationItemId: 1234,
   material: {

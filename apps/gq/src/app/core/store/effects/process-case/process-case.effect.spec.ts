@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -56,9 +55,9 @@ import {
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
-  uploadOfferToSap,
-  uploadOfferToSapFailure,
-  uploadOfferToSapSuccess,
+  uploadSelectionToSap,
+  uploadSelectionToSapFailure,
+  uploadSelectionToSapSuccess,
 } from '../../actions/process-case/process-case.action';
 import {
   QuotationIdentifier,
@@ -73,6 +72,7 @@ import {
 } from '../../selectors';
 import { ProcessCaseEffect } from './process-case.effect';
 
+/* eslint-disable max-lines */
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
@@ -289,42 +289,10 @@ describe('ProcessCaseEffect', () => {
     );
 
     test(
-      'should return loadQuotationFromUrl',
-      marbles((m) => {
-        const queryParams = {
-          gqId: 12334,
-          customerNumber: '3456',
-          salesOrg: '0267',
-          gqPositionId: '5678',
-        };
-
-        action = {
-          type: ROUTER_NAVIGATED,
-          payload: {
-            routerState: {
-              queryParams,
-              url: `/${AppRoutePath.OfferViewPath}`,
-            },
-          },
-        };
-
-        actions$ = m.hot('-a', { a: action });
-
-        const result = loadQuotationFromUrl({
-          queryParams,
-        });
-        const expected = m.cold('-b', { b: result });
-
-        m.expect(effects.loadFromUrl$).toBeObservable(expected);
-        m.flush();
-      })
-    );
-
-    test(
       'should return loadQuotationFromUrl and loadSelectedQuotationDetailFromUrl',
       marbles((m) => {
         const queryParams = {
-          gqId: 12334,
+          gqId: 12_334,
           customerNumber: '3456',
           salesOrg: '0267',
           gqPositionId: '5678',
@@ -619,7 +587,7 @@ describe('ProcessCaseEffect', () => {
     const updateQuotationDetailList: UpdateQuotationDetail[] = [
       {
         gqPositionId: QUOTATION_DETAIL_MOCK.gqPositionId,
-        addedToOffer: true,
+        price: 20,
       },
     ];
     const quotationDetails = QUOTATION_MOCK.quotationDetails;
@@ -671,45 +639,48 @@ describe('ProcessCaseEffect', () => {
     );
   });
 
-  describe('uploadToSap$', () => {
+  describe('uploadSelectionToSap$', () => {
     const gqId = 123;
     beforeEach(() => {
       store.overrideSelector(getGqId, gqId);
     });
 
     test(
-      'should return uploadOfferToSapSuccess when REST call is successful',
+      'should return uploadSelectionToSapSuccess when REST call is successful',
       marbles((m) => {
         snackBarService.showSuccessMessage = jest.fn();
 
-        action = uploadOfferToSap();
-        const result = uploadOfferToSapSuccess();
-        quotationService.uploadOfferToSap = jest.fn(() => response);
+        action = uploadSelectionToSap({ gqPositionIds: ['1'] });
+        const result = uploadSelectionToSapSuccess();
+        quotationService.uploadSelectionToSap = jest.fn(() => response);
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|');
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.uploadToSap$).toBeObservable(expected);
+        m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledTimes(1);
+        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledWith([
+          '1',
+        ]);
         expect(snackBarService.showSuccessMessage).toHaveBeenCalledTimes(1);
       })
     );
 
     test(
-      'should return uploadOfferToSapSuccess on REST error',
+      'should return uploadSelectionToSapSuccess on REST error',
       marbles((m) => {
-        quotationService.uploadOfferToSap = jest.fn(() => response);
-        const result = uploadOfferToSapFailure({ errorMessage });
+        quotationService.uploadSelectionToSap = jest.fn(() => response);
+        const result = uploadSelectionToSapFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.uploadToSap$).toBeObservable(expected);
+        m.expect(effects.uploadSelectionToSap$).toBeObservable(expected);
         m.flush();
-        expect(quotationService.uploadOfferToSap).toHaveBeenCalledTimes(1);
+        expect(quotationService.uploadSelectionToSap).toHaveBeenCalledTimes(1);
       })
     );
   });
@@ -803,16 +774,6 @@ describe('ProcessCaseEffect', () => {
       effects['snackBarService'].showSuccessMessage = jest.fn();
 
       effects['showUpdateQuotationDetailToast']({ orderQuantity: 20 } as any);
-      expect(
-        effects['snackBarService'].showSuccessMessage
-      ).toHaveBeenCalledWith(
-        translate(`shared.snackBarMessages.updateQuantity`)
-      );
-    });
-    test('should display updateSelectedOffers', () => {
-      effects['snackBarService'].showSuccessMessage = jest.fn();
-
-      effects['showUpdateQuotationDetailToast']({ addedToOffer: true } as any);
       expect(
         effects['snackBarService'].showSuccessMessage
       ).toHaveBeenCalledWith(

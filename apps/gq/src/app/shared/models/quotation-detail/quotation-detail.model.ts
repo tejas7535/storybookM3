@@ -9,7 +9,6 @@ export class QuotationDetail {
   public gqCreatedByUser: string;
   public gqLastUpdatedByUserId: string;
   public gqLastUpdatedByUser: string;
-  public addedToOffer: boolean;
   public gqPositionId: string;
   public quotationItemId: number;
   public material: MaterialDetails;

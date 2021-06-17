@@ -7,13 +7,13 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { AutocompleteInputModule } from '../../shared/autocomplete-input/autocomplete-input.module';
 import { AddEntryModule } from '../../shared/case-material/add-entry/add-entry.module';
 import { InputTableModule } from '../../shared/case-material/input-table/input-table.module';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 jest.mock('@ngneat/transloco', () => ({

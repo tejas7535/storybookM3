@@ -17,14 +17,16 @@ import { CreateCustomerCase } from '../search-service/models/create-customer-cas
   providedIn: 'root',
 })
 export class QuotationService {
-  private readonly PATH_UPLOAD_OFFER = 'upload-offer';
+  private readonly PATH_UPLOAD_SELECTION = 'upload-selection';
   private readonly PATH_QUOTATIONS = 'quotations';
   private readonly PATH_CUSTOMER_QUOTATION = 'customers/quotations';
 
   constructor(private readonly dataService: DataService) {}
 
-  public uploadOfferToSap(gqId: number): Observable<Quotation> {
-    return this.dataService.post(`${this.PATH_UPLOAD_OFFER}`, { gqId });
+  public uploadSelectionToSap(gqPositionIds: string[]): Observable<Quotation> {
+    return this.dataService.post(`${this.PATH_UPLOAD_SELECTION}`, {
+      gqPositionIds,
+    });
   }
 
   public deleteCases(gqId: string[]): Observable<any> {

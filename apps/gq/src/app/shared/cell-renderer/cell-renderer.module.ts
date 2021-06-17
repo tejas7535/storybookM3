@@ -15,7 +15,6 @@ import { EditingPriceComponent } from './editing-price/editing-price.component';
 import { EditingQuantityComponent } from './editing-quantity/editing-quantity.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
-import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +22,6 @@ import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.compon
     CreateCaseActionCellComponent,
     InfoCellComponent,
     GqRatingComponent,
-    OfferCartCellComponent,
     EditPriceComponent,
     EditingPriceComponent,
     EditQuantityComponent,
@@ -42,7 +40,6 @@ import { OfferCartCellComponent } from './offer-cart-cell/offer-cart-cell.compon
     CreateCaseActionCellComponent,
     InfoCellComponent,
     GqRatingComponent,
-    OfferCartCellComponent,
     EditPriceComponent,
     EditingPriceComponent,
     EditQuantityComponent,

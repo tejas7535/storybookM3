@@ -7,9 +7,9 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
+
 import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
-import { OfferDrawerModule } from '../../shared/offer-drawer/offer-drawer.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
 import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
@@ -31,7 +31,6 @@ describe('DetailViewComponent', () => {
       BrowserAnimationsModule,
       CaseHeaderModule,
       FilterPricingModule,
-      OfferDrawerModule,
       MatButtonModule,
       MatCardModule,
       MatSidenavModule,
@@ -66,12 +65,6 @@ describe('DetailViewComponent', () => {
       component.ngOnInit();
 
       expect(component.quotation$).toBeDefined();
-    });
-  });
-  describe('getOffer', () => {
-    test('set offer', () => {
-      component.getOffer();
-      expect(component.offer$).toBeDefined();
     });
   });
 });

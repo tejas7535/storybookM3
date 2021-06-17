@@ -3,21 +3,23 @@ import { EditQuantityComponent } from '../../../shared/cell-renderer/edit-quanti
 import { EditingPriceComponent } from '../../../shared/cell-renderer/editing-price/editing-price.component';
 import { EditingQuantityComponent } from '../../../shared/cell-renderer/editing-quantity/editing-quantity.component';
 import { GqRatingComponent } from '../../../shared/cell-renderer/gq-rating/gq-rating.component';
-import { OfferCartCellComponent } from '../../../shared/cell-renderer/offer-cart-cell/offer-cart-cell.component';
-import { AddToOfferButtonComponent } from '../../../shared/custom-status-bar/add-to-offer-button/add-to-offer-button.component';
+import { AddItemsButtonComponent } from '../../../shared/custom-status-bar/add-items-button/add-items-button.component';
+import { DeleteItemsButtonComponent } from '../../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
 import { DetailViewButtonComponent } from '../../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
-import { FlatButtonsComponent } from '../../../shared/custom-status-bar/flat-buttons/flat-buttons.component';
+import { ExportToExcelButtonComponent } from '../../../shared/custom-status-bar/export-to-excel-button/export-to-excel-button.component';
 import { QuotationDetailsStatusComponent } from '../../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
+import { UploadSelectionToSapButtonComponent } from '../../../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
 export const FRAMEWORK_COMPONENTS = {
   detailViewButtonComponent: DetailViewButtonComponent,
-  addToOfferButtonComponent: AddToOfferButtonComponent,
-  offerCartCellComponent: OfferCartCellComponent,
   quotationDetailsStatusComponent: QuotationDetailsStatusComponent,
-  flatButtonComponent: FlatButtonsComponent,
+  deleteItemsButtonComponent: DeleteItemsButtonComponent,
+  addItemsButtonComponent: AddItemsButtonComponent,
   gqRatingComponent: GqRatingComponent,
   editPriceComponent: EditPriceComponent,
   editingPriceComponent: EditingPriceComponent,
   editQuantityComponent: EditQuantityComponent,
   editingQuantityComponent: EditingQuantityComponent,
+  uploadSelectionToSapButtonComponent: UploadSelectionToSapButtonComponent,
+  exportToExcelButtonComponent: ExportToExcelButtonComponent,
 };
