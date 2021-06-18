@@ -98,13 +98,13 @@
   },
   "devDependencies": {
     "@angular-builders/custom-webpack": "12.1.0",
-    "@angular-devkit/build-angular": "12.0.4",
-    "@angular-devkit/core": "12.0.4",
-    "@angular-devkit/schematics": "12.0.4",
+    "@angular-devkit/build-angular": "12.0.5",
+    "@angular-devkit/core": "12.0.5",
+    "@angular-devkit/schematics": "12.0.5",
     "@angular-eslint/eslint-plugin": "12.1.0",
     "@angular-eslint/eslint-plugin-template": "12.1.0",
     "@angular-eslint/template-parser": "12.1.0",
-    "@angular/cli": "12.0.4",
+    "@angular/cli": "12.0.5",
     "@angular/compiler-cli": "12.0.5",
     "@angular/language-service": "12.0.5",
     "@babel/core": "7.14.6",
@@ -197,6 +197,6 @@
     ]
   },
   "resolutions": {
-    "@angular-devkit/schematics": "12.0.4"
+    "@angular-devkit/schematics": "12.0.5"
   }
 }
