@@ -13,7 +13,7 @@ import { I18N_CACHE_CHECKSUM } from './injection-tokens';
 
 @Injectable({ providedIn: 'root' })
 export class SharedHttpLoader implements TranslocoLoader {
-  constructor(
+  public constructor(
     private readonly http: HttpClient,
     @Inject(I18N_CACHE_CHECKSUM)
     private readonly cacheChecksum: any

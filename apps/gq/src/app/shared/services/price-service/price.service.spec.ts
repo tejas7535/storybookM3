@@ -20,7 +20,7 @@ describe('PriceService', () => {
   });
   describe('multiplyAndRoundValues', () => {
     test('should return multiplied rounded value', () => {
-      const result = PriceService.multiplyAndRoundValues(1.11111, 100);
+      const result = PriceService.multiplyAndRoundValues(1.111_11, 100);
       expect(result).toEqual(111.11);
     });
     test('should return undefined', () => {

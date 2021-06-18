@@ -49,16 +49,16 @@ const getDefaultConstants = {
     woehler: {
       snCurve: {
         '0': {
-          x: 460.9834219198255,
+          x: 460.983_421_919_825_5,
           y: 520,
         },
         '1': {
-          x: 1158691.4165629777,
-          y: 129.60351058284022,
+          x: 1_158_691.416_562_977_7,
+          y: 129.603_510_582_840_22,
         },
         '2': {
-          x: 10000000,
-          y: 129.60351058284022,
+          x: 10_000_000,
+          y: 129.603_510_582_840_22,
         },
       },
       appliedStress: {
@@ -68,10 +68,10 @@ const getDefaultConstants = {
         },
         '1': {
           x: 2022,
-          y: 103.68280846627218,
+          y: 103.682_808_466_272_18,
         },
         '2': {
-          x: 10000,
+          x: 10_000,
           y: 400,
         },
       },
@@ -84,11 +84,11 @@ const getDefaultConstants = {
       snCurve: {
         '0': {
           x: 0,
-          y: 129.60351058284022,
+          y: 129.603_510_582_840_22,
         },
         '1': {
-          x: 127.48671337634478,
-          y: 127.48671337634478,
+          x: 127.486_713_376_344_78,
+          y: 127.486_713_376_344_78,
         },
       },
       appliedStress: {
@@ -97,40 +97,40 @@ const getDefaultConstants = {
           y: 0,
         },
         '1': {
-          x: 229.60351058284022,
-          y: 229.60351058284022,
+          x: 229.603_510_582_840_22,
+          y: 229.603_510_582_840_22,
         },
       },
     },
     kpi: {
       fatigue: {
-        '0': 127.48671337634478,
-        '1': 129.60351058284022,
+        '0': 127.486_713_376_344_78,
+        '1': 129.603_510_582_840_22,
       },
-      slope: 5.635329994802062,
+      slope: 5.635_329_994_802_062,
     },
   } as unknown as PredictionResult,
 
   defaultPredictionResultParsedWoehler: {
     data: [
-      { x: 10000, y7: 671.4272431425106 },
-      { x: 1000000, y7: 267.29999999999995 },
-      { x: 10000000, y7: 267.29999999999995 },
-      { x: 10000, y8: 898.9817024538035 },
-      { x: 1000000, y8: 357.89106194324967 },
-      { x: 10000000, y8: 357.89106194324967 },
-      { x: 10000, y2: 301.21165055865265 },
-      { x: 1158691.4165629777, y2: 129.60351058284022 },
-      { x: 10000000, y2: 129.60351058284022 },
+      { x: 10_000, y7: 671.427_243_142_510_6 },
+      { x: 1_000_000, y7: 267.299_999_999_999_95 },
+      { x: 10_000_000, y7: 267.299_999_999_999_95 },
+      { x: 10_000, y8: 898.981_702_453_803_5 },
+      { x: 1_000_000, y8: 357.891_061_943_249_67 },
+      { x: 10_000_000, y8: 357.891_061_943_249_67 },
+      { x: 10_000, y2: 301.211_650_558_652_65 },
+      { x: 1_158_691.416_562_977_7, y2: 129.603_510_582_840_22 },
+      { x: 10_000_000, y2: 129.603_510_582_840_22 },
       { x: 1, y: 2 },
       { x: 3, y: 4 },
     ],
     kpi: undefined,
     limits: {
-      x_max: 10000000,
-      x_min: 10000,
-      y_max: 988.8798726991838,
-      y_min: 116.6431595245562,
+      x_max: 10_000_000,
+      x_min: 10_000,
+      y_max: 988.879_872_699_183_8,
+      y_min: 116.643_159_524_556_2,
     },
     lines: [
       {
@@ -288,20 +288,20 @@ const getDefaultConstants = {
 
   defaultPredictionResultParsedHaigh: {
     data: [
-      { x: 0, y3: 267.29999999999995 },
-      { x: 241.26726238830219, y3: 241.26726238830219 },
-      { x: 0, y4: 357.89106194324967 },
-      { x: 302.20353030591974, y4: 302.20353030591974 },
-      { x: 0, y2: 129.60351058284022 },
-      { x: 127.48671337634478, y2: 127.48671337634478 },
+      { x: 0, y3: 267.299_999_999_999_95 },
+      { x: 241.267_262_388_302_19, y3: 241.267_262_388_302_19 },
+      { x: 0, y4: 357.891_061_943_249_67 },
+      { x: 302.203_530_305_919_74, y4: 302.203_530_305_919_74 },
+      { x: 0, y2: 129.603_510_582_840_22 },
+      { x: 127.486_713_376_344_78, y2: 127.486_713_376_344_78 },
       { x: 0, y1: 0 },
-      { x: 393.68016813757464, y1: 393.68016813757464 },
+      { x: 393.680_168_137_574_64, y1: 393.680_168_137_574_64 },
     ],
     kpi: undefined,
     limits: {
-      x_max: 393.68016813757464,
+      x_max: 393.680_168_137_574_64,
       x_min: 0,
-      y_max: 393.68016813757464,
+      y_max: 393.680_168_137_574_64,
       y_min: 0,
     },
     lines: [],
@@ -417,25 +417,25 @@ describe('HelpersService', () => {
       { x: 0, y: 0 },
       { x: 0, y: 100 },
       { x: 0, y: 1000 },
-      { x: 0, y: 10000 },
+      { x: 0, y: 10_000 },
       { x: 100, y: 0 },
       { x: 100, y: 100 },
       { x: 100, y: 1000 },
-      { x: 100, y: 10000 },
+      { x: 100, y: 10_000 },
       { x: 1000, y: 0 },
       { x: 1000, y: 100 },
       { x: 1000, y: 1000 },
-      { x: 1000, y: 10000 },
-      { x: 10000, y: 0 },
-      { x: 10000, y: 100 },
-      { x: 10000, y: 1000 },
-      { x: 10000, y: 10000 },
+      { x: 1000, y: 10_000 },
+      { x: 10_000, y: 0 },
+      { x: 10_000, y: 100 },
+      { x: 10_000, y: 1000 },
+      { x: 10_000, y: 10_000 },
     ];
 
     let limits: Limits = {
-      x_max: 10000,
+      x_max: 10_000,
       x_min: 0,
-      y_max: 10000,
+      y_max: 10_000,
       y_min: 0,
     };
 
@@ -448,15 +448,15 @@ describe('HelpersService', () => {
       { x: 0, y: 0 },
       { x: 0, y: 100 },
       { x: 0, y: 1000 },
-      { x: 0, y: 10000 },
+      { x: 0, y: 10_000 },
       { x: 100, y: 0 },
       { x: 100, y: 100 },
       { x: 100, y: 1000 },
-      { x: 100, y: 10000 },
+      { x: 100, y: 10_000 },
       { x: 1000, y: 0 },
       { x: 1000, y: 100 },
       { x: 1000, y: 1000 },
-      { x: 1000, y: 10000 },
+      { x: 1000, y: 10_000 },
     ];
 
     filteredPoints = helpersService.relevantLoadPoints(points, limits);
@@ -528,10 +528,10 @@ describe('HelpersService', () => {
           },
           1: {
             x: 2022,
-            y: 103.68280846627218,
+            y: 103.682_808_466_272_18,
           },
           2: {
-            x: 10000,
+            x: 10_000,
             y: 400,
           },
         },
@@ -546,10 +546,10 @@ describe('HelpersService', () => {
       },
       kpi: {
         fatigue: {
-          0: 127.48671337634478,
-          1: 129.60351058284022,
+          0: 127.486_713_376_344_78,
+          1: 129.603_510_582_840_22,
         },
-        slope: 5.635329994802062,
+        slope: 5.635_329_994_802_062,
       },
     };
 
@@ -563,8 +563,8 @@ describe('HelpersService', () => {
     } as unknown as Display;
 
     let expectedKpis: KpiParsedWoehler = {
-      fatigue: 127.48671337634478,
-      slope: 5.635329994802062,
+      fatigue: 127.486_713_376_344_78,
+      slope: 5.635_329_994_802_062,
       count: 2022,
       mpa: 400,
     };
@@ -583,11 +583,11 @@ describe('HelpersService', () => {
             y: 400,
           },
           1: {
-            x: 100000000,
-            y: 103.68280846627218,
+            x: 100_000_000,
+            y: 103.682_808_466_272_18,
           },
           2: {
-            x: 10000,
+            x: 10_000,
             y: 400,
           },
         },
@@ -596,7 +596,7 @@ describe('HelpersService', () => {
 
     expectedKpis = {
       ...expectedKpis,
-      fatigue: 129.60351058284022,
+      fatigue: 129.603_510_582_840_22,
       count: -1,
     };
 
@@ -622,10 +622,10 @@ describe('HelpersService', () => {
       },
       kpi: {
         fatigue: {
-          0: 127.48671337634478,
-          1: 129.60351058284022,
+          0: 127.486_713_376_344_78,
+          1: 129.603_510_582_840_22,
         },
-        slope: 5.635329994802062,
+        slope: 5.635_329_994_802_062,
       },
     };
 
@@ -634,9 +634,9 @@ describe('HelpersService', () => {
     } as unknown as Display;
 
     const expectedKpis: KpiParsedHaigh = {
-      fatigue: 127.48671337634478,
-      fatigue1: 129.60351058284022,
-      meanStress: 0.016604061320857566,
+      fatigue: 127.486_713_376_344_78,
+      fatigue1: 129.603_510_582_840_22,
+      meanStress: 0.016_604_061_320_857_566,
     };
 
     const kpis = helpersService.prepareKpis(
@@ -705,18 +705,18 @@ describe('HelpersService', () => {
         y: 100,
       },
       1: {
-        x: 1000000,
+        x: 1_000_000,
         y: 50,
       },
       2: {
-        x: 10000000,
+        x: 10_000_000,
         y: 50,
       },
     };
 
     const calculatedGraph = helpersService.calculateStartPoint(graph, 5, -1);
     expect(calculatedGraph).not.toEqual(graph);
-    expect(calculatedGraph[0].x).toEqual(10000);
+    expect(calculatedGraph[0].x).toEqual(10_000);
   });
 
   it('should return empty graph for a graph without sn shape that only has points until x = 10000', () => {
@@ -726,11 +726,11 @@ describe('HelpersService', () => {
         y: 100,
       },
       1: {
-        x: 10000,
+        x: 10_000,
         y: 100,
       },
       2: {
-        x: 10000,
+        x: 10_000,
         y: 0,
       },
     };
@@ -742,15 +742,15 @@ describe('HelpersService', () => {
   it('should calculate correct graph for applied stress shape', () => {
     const graph = {
       0: {
-        x: 10000,
+        x: 10_000,
         y: 100,
       },
       1: {
-        x: 100000,
+        x: 100_000,
         y: 50,
       },
       2: {
-        x: 100000,
+        x: 100_000,
         y: 20,
       },
     };
@@ -803,19 +803,19 @@ describe('HelpersService', () => {
         y: 100,
       },
       1: {
-        x: 1000000,
+        x: 1_000_000,
         y: 50,
       },
       2: {
-        x: 10000000,
+        x: 10_000_000,
         y: 50,
       },
     };
 
     const expectedArray = [
       { x: 100, definitelyNotY: 100 },
-      { x: 1000000, definitelyNotY: 50 },
-      { x: 10000000, definitelyNotY: 50 },
+      { x: 1_000_000, definitelyNotY: 50 },
+      { x: 10_000_000, definitelyNotY: 50 },
     ];
     const transformedGraph = helpersService.transformGraph(
       graph,
@@ -831,19 +831,19 @@ describe('HelpersService', () => {
         y: 100,
       },
       1: {
-        x: 1000000,
+        x: 1_000_000,
         y: 50,
       },
       2: {
-        x: 10000000,
+        x: 10_000_000,
         y: 50,
       },
     };
 
     const expectedArray = [
       { x: 100, y: 100 },
-      { x: 1000000, y: 50 },
-      { x: 10000000, y: 50 },
+      { x: 1_000_000, y: 50 },
+      { x: 10_000_000, y: 50 },
     ];
     const transformedGraph = helpersService.graphToArray(graph);
     expect(transformedGraph).toEqual(expectedArray);
@@ -854,9 +854,9 @@ describe('HelpersService', () => {
     const sa = 100;
 
     const expectedGraph = {
-      0: { x: 10000, y: 1000 },
-      1: { x: 1000000, y: 100 },
-      2: { x: 10000000, y: 100 },
+      0: { x: 10_000, y: 1000 },
+      1: { x: 1_000_000, y: 100 },
+      2: { x: 10_000_000, y: 100 },
     };
     const sn = helpersService.createGraphObjectWoehler(start, sa, -1);
     expect(sn).toEqual(expectedGraph);
@@ -936,13 +936,13 @@ describe('HelpersService', () => {
     const points = [
       { x: 0, y: 100 },
       { x: 0, y: 1000 },
-      { x: 0, y: 10000 },
+      { x: 0, y: 10_000 },
     ];
 
     const expectedLimits: Limits = {
-      x_max: 10000000,
-      x_min: 10000,
-      y_max: 11000,
+      x_max: 10_000_000,
+      x_min: 10_000,
+      y_max: 11_000,
       y_min: 90,
     };
     const limits = helpersService.calculateLimitsWoehler(points);
@@ -953,16 +953,16 @@ describe('HelpersService', () => {
     const points = [
       { x: 0, y: 100 },
       { x: 0, y: 1000 },
-      { x: 0, y: 10000 },
+      { x: 0, y: 10_000 },
       { y: 0, x: 100 },
       { y: 0, x: 1000 },
-      { y: 0, x: 10000 },
+      { y: 0, x: 10_000 },
     ];
 
     const expectedLimits: Limits = {
-      x_max: 10000,
+      x_max: 10_000,
       x_min: 0,
-      y_max: 10000,
+      y_max: 10_000,
       y_min: 0,
     };
     const limits = helpersService.calculateLimitsHaigh(points);
@@ -1008,9 +1008,9 @@ describe('HelpersService', () => {
       data: [],
       kpi: undefined,
       limits: {
-        x_max: -Infinity,
+        x_max: Number.NEGATIVE_INFINITY,
         x_min: 0,
-        y_max: -Infinity,
+        y_max: Number.NEGATIVE_INFINITY,
         y_min: 0,
       },
       lines: [],

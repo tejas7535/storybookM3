@@ -76,8 +76,8 @@ describe('Search Effects', () => {
     });
 
     store.overrideSelector(getGreaseInterval, {
-      startDate: 1599651508,
-      endDate: 1599651509,
+      startDate: 1_599_651_508,
+      endDate: 1_599_651_509,
     });
   });
 
@@ -123,8 +123,8 @@ describe('Search Effects', () => {
       marbles((m) => {
         action = setGreaseInterval({
           interval: {
-            endDate: 1599651509,
-            startDate: 1599651508,
+            endDate: 1_599_651_509,
+            startDate: 1_599_651_508,
           },
         });
 
@@ -265,8 +265,8 @@ describe('Search Effects', () => {
         expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
         expect(restService.getGreaseStatus).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1599651508,
-          endDate: 1599651509,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
         });
       })
     );
@@ -281,22 +281,22 @@ describe('Search Effects', () => {
       'should return getLoadAverage action when REST call is successful',
       marbles((m) => {
         const mockAverage: LoadSense = {
-          lsp01Strain: 2666.925857162287,
-          lsp02Strain: 2862.7850295843746,
-          lsp03Strain: 1029.066039711919,
-          lsp04Strain: 1197.0452518575266,
-          lsp05Strain: 1764.0509199538271,
-          lsp06Strain: 1908.1549786913706,
-          lsp07Strain: 2768.88648856736,
-          lsp08Strain: 1786.153885813422,
-          lsp09Strain: 1454.445470021493,
-          lsp10Strain: 1301.790787653976,
-          lsp11Strain: 1769.612550842888,
-          lsp12Strain: 1569.480195591359,
-          lsp13Strain: 1096.408815157941,
-          lsp14Strain: 1427.2028369240074,
-          lsp15Strain: 1066.072787878487,
-          lsp16Strain: 1392.7892699377624,
+          lsp01Strain: 2666.925_857_162_287,
+          lsp02Strain: 2862.785_029_584_374_6,
+          lsp03Strain: 1029.066_039_711_919,
+          lsp04Strain: 1197.045_251_857_526_6,
+          lsp05Strain: 1764.050_919_953_827_1,
+          lsp06Strain: 1908.154_978_691_370_6,
+          lsp07Strain: 2768.886_488_567_36,
+          lsp08Strain: 1786.153_885_813_422,
+          lsp09Strain: 1454.445_470_021_493,
+          lsp10Strain: 1301.790_787_653_976,
+          lsp11Strain: 1769.612_550_842_888,
+          lsp12Strain: 1569.480_195_591_359,
+          lsp13Strain: 1096.408_815_157_941,
+          lsp14Strain: 1427.202_836_924_007_4,
+          lsp15Strain: 1066.072_787_878_487,
+          lsp16Strain: 1392.789_269_937_762_4,
           deviceId: 'edge-goldwind-qa-009',
           id: 'id-load-sense-average',
           timestamp: '2020-08-02T16:18:59Z',
@@ -321,8 +321,8 @@ describe('Search Effects', () => {
         expect(restService.getBearingLoadAverage).toHaveBeenCalledTimes(1);
         expect(restService.getBearingLoadAverage).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1599651508,
-          endDate: 1599651509,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
         });
       })
     );

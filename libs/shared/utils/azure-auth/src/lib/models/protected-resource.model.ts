@@ -1,3 +1,3 @@
 export class ProtectedResource {
-  constructor(public route: string, public scopes: string[]) {}
+  public constructor(public route: string, public scopes: string[]) {}
 }

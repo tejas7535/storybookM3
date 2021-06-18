@@ -230,6 +230,12 @@
         "@angular-eslint/no-lifecycle-calls": "off",
         "max-lines": "off"
       }
+    },
+    {
+      "files": ["**src/app/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/explicit-member-accessibility": "off"
+      }
     }
   ]
 }

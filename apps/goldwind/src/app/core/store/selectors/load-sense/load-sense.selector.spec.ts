@@ -236,9 +236,9 @@ describe('Load Sense Selector', () => {
         lsp05Strain: 5000,
         lsp07Strain: 7000,
         lsp09Strain: 9000,
-        lsp11Strain: 11000.11,
-        lsp13Strain: 13000.13,
-        lsp15Strain: 15000.15,
+        lsp11Strain: 11_000.11,
+        lsp13Strain: 13_000.13,
+        lsp15Strain: 15_000.15,
       } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
@@ -269,9 +269,9 @@ describe('Load Sense Selector', () => {
         lsp05Strain: 5000,
         lsp07Strain: 7000,
         lsp09Strain: 9000,
-        lsp11Strain: 11000.11,
-        lsp13Strain: 13000.13,
-        lsp15Strain: 15000.15,
+        lsp11Strain: 11_000.11,
+        lsp13Strain: 13_000.13,
+        lsp15Strain: 15_000.15,
       } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
@@ -301,10 +301,10 @@ describe('Load Sense Selector', () => {
         lsp04Strain: 4000,
         lsp06Strain: 6000,
         lsp08Strain: 8000,
-        lsp10Strain: 10000,
-        lsp12Strain: 12000.12,
-        lsp14Strain: 14000.14,
-        lsp16Strain: 16000.16,
+        lsp10Strain: 10_000,
+        lsp12Strain: 12_000.12,
+        lsp14Strain: 14_000.14,
+        lsp16Strain: 16_000.16,
       } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />
@@ -334,10 +334,10 @@ describe('Load Sense Selector', () => {
         lsp04Strain: 4000,
         lsp06Strain: 6000,
         lsp08Strain: 8000,
-        lsp10Strain: 10000,
-        lsp12Strain: 12000.12,
-        lsp14Strain: 14000.14,
-        lsp16Strain: 16000.16,
+        lsp10Strain: 10_000,
+        lsp12Strain: 12_000.12,
+        lsp14Strain: 14_000.14,
+        lsp16Strain: 16_000.16,
       } as unknown as LoadSense;
 
       const expectedTooltip = `${params[0].seriesName}<br />

@@ -25,6 +25,7 @@ import {
 } from '../constants';
 import { ChartType } from '../enums';
 import {
+  Display,
   LegendSquare,
   LoadOptions,
   LoadsRequest,
@@ -40,21 +41,21 @@ import { UploadModalComponent } from './upload-modal/upload-modal.component';
   styleUrls: ['./prediction.component.scss'],
 })
 export class PredictionComponent implements OnInit {
-  predictionResult: Observable<PredictionResultParsed>;
-  bannerIsOpen: Observable<boolean>;
+  public predictionResult: Observable<PredictionResultParsed>;
+  public bannerIsOpen: Observable<boolean>;
 
-  legendGraphs: LegendSquare[];
+  public legendGraphs: LegendSquare[];
 
-  chartSettings = CHART_SETTINGS_WOEHLER;
-  chartOptions: EChartsOption = CHART_OPTIONS_WOEHLER;
+  public chartSettings = CHART_SETTINGS_WOEHLER;
+  public chartOptions: EChartsOption = CHART_OPTIONS_WOEHLER;
 
-  mergeData$: Observable<EChartsOption>;
+  public mergeData$: Observable<EChartsOption>;
 
-  selectedChartType: ChartType = ChartType.Woehler;
+  public selectedChartType: ChartType = ChartType.Woehler;
 
-  breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
+  public breadcrumbs$ = this.breadcrumbsService.currentBreadcrumbs;
 
-  constructor(
+  public constructor(
     private readonly dialog: MatDialog,
     private readonly papa: Papa,
     private readonly store: Store<AppState>,
@@ -70,34 +71,36 @@ export class PredictionComponent implements OnInit {
       select(fromStore.getPredictionResult)
     );
     this.bannerIsOpen = this.store.pipe(select(getBannerOpen));
-    this.store.pipe(select(fromStore.getDisplay)).subscribe((display) => {
-      this.selectedChartType = display.chartType;
-      this.chartOptions =
-        display.chartType === ChartType.Woehler
-          ? CHART_OPTIONS_WOEHLER
-          : CHART_OPTIONS_HAIGH;
-      this.chartSettings =
-        display.chartType === ChartType.Woehler
-          ? CHART_SETTINGS_WOEHLER
-          : CHART_SETTINGS_HAIGH;
-      (this.chartOptions.xAxis as any).name = translate(
-        (this.chartOptions.xAxis as any).name
-      );
-      (this.chartOptions.yAxis as any).name = translate(
-        (this.chartOptions.yAxis as any).name
-      );
-      if (display.chartType === ChartType.Woehler) {
-        this.chartOptions = {
-          ...this.chartOptions,
-          tooltip: {
-            trigger: 'item',
-            show: true,
-            formatter: this.customizeTooltip,
-          },
-        };
-      }
-    });
-    this.predictionResult.subscribe((res) => {
+    this.store
+      .pipe(select(fromStore.getDisplay))
+      .subscribe((display: Display) => {
+        this.selectedChartType = display.chartType;
+        this.chartOptions =
+          display.chartType === ChartType.Woehler
+            ? CHART_OPTIONS_WOEHLER
+            : CHART_OPTIONS_HAIGH;
+        this.chartSettings =
+          display.chartType === ChartType.Woehler
+            ? CHART_SETTINGS_WOEHLER
+            : CHART_SETTINGS_HAIGH;
+        (this.chartOptions.xAxis as any).name = translate(
+          (this.chartOptions.xAxis as any).name
+        );
+        (this.chartOptions.yAxis as any).name = translate(
+          (this.chartOptions.yAxis as any).name
+        );
+        if (display.chartType === ChartType.Woehler) {
+          this.chartOptions = {
+            ...this.chartOptions,
+            tooltip: {
+              trigger: 'item',
+              show: true,
+              formatter: this.customizeTooltip,
+            },
+          };
+        }
+      });
+    this.predictionResult.subscribe((res: PredictionResultParsed) => {
       this.legendGraphs = this.chartSettings.sources
         .filter(
           (source) =>
@@ -111,23 +114,21 @@ export class PredictionComponent implements OnInit {
 
     this.mergeData$ = this.store.pipe(
       select(fromStore.getPredictionResultGraphData),
-      map((graphData) => {
-        return {
-          ...this.chartOptions,
-          xAxis: {
-            ...this.chartOptions.xAxis,
-            ...graphData.xAxis,
-          },
-          yAxis: {
-            ...this.chartOptions.yAxis,
-            ...graphData.yAxis,
-          },
-          dataset: {
-            ...(this.chartOptions as any).dataset,
-            ...(graphData as any).dataset,
-          },
-        };
-      })
+      map((graphData: EChartsOption) => ({
+        ...this.chartOptions,
+        xAxis: {
+          ...this.chartOptions.xAxis,
+          ...graphData.xAxis,
+        },
+        yAxis: {
+          ...this.chartOptions.yAxis,
+          ...graphData.yAxis,
+        },
+        dataset: {
+          ...(this.chartOptions as any).dataset,
+          ...(graphData as any).dataset,
+        },
+      }))
     );
 
     registerLocaleData(localeDe, 'de');
@@ -149,12 +150,12 @@ export class PredictionComponent implements OnInit {
   public customizeTooltip = (point: any): string => {
     if (
       point.value &&
-      !(point.value.x < 10000 || point.value.x > 10000000) &&
-      Object.keys(point.value).indexOf('y1') === -1
+      !(point.value.x < 10_000 || point.value.x > 10_000_000) &&
+      !Object.keys(point.value).includes('y1')
     ) {
-      const series = GRAPH_DEFINITIONS_WOEHLER.find((s) => {
-        return Object.keys(point.value).indexOf(s.value) > -1;
-      });
+      const series = GRAPH_DEFINITIONS_WOEHLER.find((s) =>
+        Object.keys(point.value).includes(s.value)
+      );
 
       const tooltip = `${translate('ltp.prediction.chart.tooltip', {
         value: Math.round(point.value[series.value]),
@@ -177,12 +178,11 @@ export class PredictionComponent implements OnInit {
    * Gets FileList object, extracts single file and calls parseLoadFile method
    */
   public handleFileInput(files: FileList): void {
-    console.log('handle file input');
     const loadCollective = files.item(0);
     this.parseLoadFile(loadCollective);
   }
 
-  handleDummyLoad(): void {
+  public handleDummyLoad(): void {
     const loadCollective = '/assets/loads/cca-sql-dump.txt';
     this.parseLoadFile(loadCollective, true);
   }
@@ -194,13 +194,10 @@ export class PredictionComponent implements OnInit {
     loadCollective: File | string,
     download = false
   ): Promise<void> {
-    console.log('loadfile input', loadCollective, download);
-
     return new Promise((resolve, reject) => {
       this.papa.parse(loadCollective, {
         download,
         complete: (result) => {
-          console.log('load complete', result);
           this.openDialog(result.data);
 
           resolve();
@@ -214,7 +211,7 @@ export class PredictionComponent implements OnInit {
     });
   }
 
-  openDialog(parsedFile: any[]): void {
+  public openDialog(parsedFile: any[]): void {
     const dialogRef = this.dialog.open(UploadModalComponent, {
       width: '600px',
       restoreFocus: false,
@@ -231,7 +228,7 @@ export class PredictionComponent implements OnInit {
    * handle first column and omit text values and dispatches load array to store
    */
   public dispatchLoad(parsedFile: any[], settings: LoadOptions): void {
-    const limit = 50000;
+    const limit = 50_000;
     const loadsRequest: LoadsRequest = {
       status: 1,
       data: undefined,
@@ -239,7 +236,7 @@ export class PredictionComponent implements OnInit {
     };
     loadsRequest.data = parsedFile.reduce((values, entry) => {
       const value = Number(entry[0]);
-      if (!isNaN(value)) {
+      if (!Number.isNaN(value)) {
         values.push(value);
       }
 
@@ -254,19 +251,17 @@ export class PredictionComponent implements OnInit {
   /**
    * Returns true if the entered value is contained in the keys of a given Object array
    */
-  public filterLegendGraphs(value: string, data: Object[] = []): boolean {
-    return (
-      data
-        .map((point) => {
-          const keys = Object.keys(point).filter((key) => key !== 'x');
-          if (keys.length === 1) {
-            return keys[0];
-          }
+  public filterLegendGraphs(value: string, data: any[] = []): boolean {
+    return data
+      .map((point) => {
+        const keys = Object.keys(point).filter((key) => key !== 'x');
+        if (keys.length === 1) {
+          return keys[0];
+        }
 
-          return undefined;
-        })
-        .indexOf(value) >= 0
-    );
+        return undefined;
+      })
+      .includes(value);
   }
 
   /**

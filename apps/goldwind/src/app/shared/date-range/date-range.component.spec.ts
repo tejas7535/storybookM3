@@ -37,8 +37,8 @@ describe('DateRangeComponent', () => {
       component['rangeChange'].emit = jest.fn();
 
       const mockInterval = {
-        startDate: new Date(1599651508000),
-        endDate: new Date(1599651509000),
+        startDate: new Date(1_599_651_508_000),
+        endDate: new Date(1_599_651_509_000),
       };
 
       component.rangeForm.markAsDirty();
@@ -49,8 +49,8 @@ describe('DateRangeComponent', () => {
 
       expect(component['rangeChange'].emit).toHaveBeenCalledTimes(1);
       expect(component['rangeChange'].emit).toHaveBeenCalledWith({
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       });
     }));
   });

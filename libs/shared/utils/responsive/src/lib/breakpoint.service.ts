@@ -1,6 +1,3 @@
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-
 import {
   BreakpointObserver,
   Breakpoints,
@@ -8,11 +5,14 @@ import {
 } from '@angular/cdk/layout';
 import { Injectable } from '@angular/core';
 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 @Injectable({
   providedIn: 'root',
 })
 export class BreakpointService {
-  constructor(private readonly breakpointObserver: BreakpointObserver) {}
+  public constructor(private readonly breakpointObserver: BreakpointObserver) {}
 
   /**
    * Returns an observable for mobile view

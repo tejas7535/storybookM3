@@ -14,7 +14,7 @@ import { SnackBarService } from '@schaeffler/snackbar';
 
 @Injectable()
 export class HttpErrorInterceptor implements HttpInterceptor {
-  constructor(private readonly snackBarService: SnackBarService) {}
+  public constructor(private readonly snackBarService: SnackBarService) {}
 
   public intercept(
     request: HttpRequest<any>,

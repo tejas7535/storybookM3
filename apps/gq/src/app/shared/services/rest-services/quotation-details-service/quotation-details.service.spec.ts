@@ -57,7 +57,7 @@ describe('QuotationDetailsService', (): void => {
   describe('addMaterial', () => {
     test('should call', () => {
       const tableData: AddQuotationDetailsRequest = {
-        gqId: 12345,
+        gqId: 12_345,
         items: [
           {
             materialId: '123456',

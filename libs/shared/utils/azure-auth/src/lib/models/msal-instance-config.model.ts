@@ -1,5 +1,5 @@
 export class MsalInstanceConfig {
-  constructor(
+  public constructor(
     public clientId: string,
     public tenantId: string,
     public loggingEnabled: boolean = false,

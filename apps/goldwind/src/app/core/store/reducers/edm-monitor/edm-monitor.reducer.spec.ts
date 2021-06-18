@@ -65,8 +65,8 @@ describe('Condition Monitoring Reducer', () => {
   describe('setEdmInterval', () => {
     it('should set interval', () => {
       const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
       const action = setEdmInterval({ interval: mockInterval });
 

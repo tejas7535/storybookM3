@@ -16,7 +16,7 @@ import { SnackBarComponent } from './snackbar.component';
   providedIn: 'root',
 })
 export class SnackBarService {
-  constructor(private readonly snackBar: MatSnackBar) {}
+  public constructor(private readonly snackBar: MatSnackBar) {}
 
   /**
    * Displays a Snackbar of type SUCCESS

@@ -39,9 +39,9 @@ describe('DataMonitor Actions', () => {
           type: 'Load',
           description: 'Radial Load y',
           abreviation: 'F_y',
-          actualValue: 1635.0,
-          minValue: 1700.0,
-          maxValue: 1900.0,
+          actualValue: 1635,
+          minValue: 1700,
+          maxValue: 1900,
         },
       ];
       const action = getDataSuccess({ result });
@@ -62,8 +62,8 @@ describe('DataMonitor Actions', () => {
 
     it('setDataInterval', () => {
       const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
       const action = setDataInterval({ interval: mockInterval });
 

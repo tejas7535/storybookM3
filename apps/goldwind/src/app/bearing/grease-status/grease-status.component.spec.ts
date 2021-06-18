@@ -36,8 +36,8 @@ describe('GreaseStatusComponent', () => {
     description:
       'Windturbing with qa-009 connected. Used for generating mock data',
     manufacturer: 'Schaeffler',
-    locationLatitude: 49.5631065,
-    locationLongitude: 10.8847362,
+    locationLatitude: 49.563_106_5,
+    locationLongitude: 10.884_736_2,
     edgeDevice: {
       description: 'Edge device test desc',
       id: 'id-edge-device',
@@ -92,8 +92,8 @@ describe('GreaseStatusComponent', () => {
               rsmShaftSpeed: true,
             },
             interval: {
-              startDate: 123456789,
-              endDate: 987654321,
+              startDate: 123_456_789,
+              endDate: 987_654_321,
             },
           },
           shaft: {
@@ -153,8 +153,8 @@ describe('GreaseStatusComponent', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       component.setInterval(mockInterval);
@@ -207,7 +207,7 @@ describe('GreaseStatusComponent', () => {
 
   describe('formatTooltip', () => {
     it('should return a translated texts with physical symbols and date', () => {
-      const mockDate = new Date(1466424490000);
+      const mockDate = new Date(1_466_424_490_000);
       jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
       const mockParams = [
         {

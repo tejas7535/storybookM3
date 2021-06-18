@@ -64,8 +64,8 @@ describe('Shaft Effects', () => {
     });
 
     store.overrideSelector(getGreaseInterval, {
-      startDate: 1599651508,
-      endDate: 1599651509,
+      startDate: 1_599_651_508,
+      endDate: 1_599_651_509,
     });
   });
 
@@ -274,8 +274,8 @@ describe('Shaft Effects', () => {
         expect(restService.getShaft).toHaveBeenCalledTimes(1);
         expect(restService.getShaft).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1599651508,
-          endDate: 1599651509,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
         });
       })
     );

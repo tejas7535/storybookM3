@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+
 import { translate } from '@ngneat/transloco';
 
 @Component({
@@ -7,6 +8,6 @@ import { translate } from '@ngneat/transloco';
   styleUrls: ['./under-construction.component.scss'],
 })
 export class UnderConstructionComponent {
-  @Input() title: string = translate('underConstruction');
-  @Input() message: string = translate('underConstructionMessage');
+  @Input() public title: string = translate('underConstruction');
+  @Input() public message: string = translate('underConstructionMessage');
 }

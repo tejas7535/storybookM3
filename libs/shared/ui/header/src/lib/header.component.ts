@@ -25,19 +25,17 @@ import { headerAnimations } from './header.animations';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  @Input() public toggleEnabled = false;
+  @Input() public platformTitle: string;
+  @Input() public link?: string;
+
+  @Output() public readonly toggle: EventEmitter<void> = new EventEmitter();
+
+  public isMobileViewPort: boolean;
+
   private readonly subscription: Subscription = new Subscription();
 
-  @Input() toggleEnabled = false;
-
-  @Input() platformTitle: string;
-
-  @Input() link?: string;
-
-  isMobileViewPort: boolean;
-
-  @Output() readonly toggle: EventEmitter<void> = new EventEmitter();
-
-  constructor(
+  public constructor(
     private readonly breakpointService: BreakpointService,
     private readonly store: Store
   ) {}
@@ -49,7 +47,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.breakpointService
         .isMobileViewPort()
-        .subscribe((isMobile) => (this.isMobileViewPort = isMobile))
+        .subscribe((isMobile: boolean) => (this.isMobileViewPort = isMobile))
     );
   }
 

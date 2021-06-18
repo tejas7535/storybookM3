@@ -119,7 +119,7 @@ export class PriceService {
   }
 
   static roundPercentageToTwoDecimals(number: number): number {
-    return Math.round(number * 10000) / 100;
+    return Math.round(number * 10_000) / 100;
   }
   static roundToTwoDecimals(number: number): number {
     return Math.round(number * 100) / 100;

@@ -12,22 +12,20 @@ import { ReportService } from './report.service';
   encapsulation: ViewEncapsulation.None,
 })
 export class ReportComponent implements OnInit {
-  @Input() title!: string;
-  @Input() subtitle?: string;
-  @Input() displayReport!: string;
-  @Input() downloadReport?: string;
+  @Input() public title!: string;
+  @Input() public subtitle?: string;
+  @Input() public displayReport!: string;
+  @Input() public downloadReport?: string;
 
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  result$: Observable<string>;
+  public result$!: Observable<string>;
 
-  constructor(private readonly reportService: ReportService) {}
+  public constructor(private readonly reportService: ReportService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getReport();
   }
 
-  getReport(): void {
+  public getReport(): void {
     this.result$ = this.reportService.getReport(this.displayReport);
   }
 }

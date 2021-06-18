@@ -6,12 +6,12 @@ import { MatStepper } from '@angular/material/stepper';
   selector: '[schaefflerSeparatedSteps]',
 })
 export class SeparatedStepsDirective implements AfterViewInit {
-  el!: ElementRef;
-  constructor(el: ElementRef, public stepper: MatStepper) {
+  public el!: ElementRef;
+  public constructor(el: ElementRef, public stepper: MatStepper) {
     this.el = el;
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.markActiveSeparator();
   }
 

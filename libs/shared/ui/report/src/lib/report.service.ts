@@ -12,12 +12,12 @@ interface Content {
 
 @Injectable()
 export class ReportService {
-  constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly http: HttpClient) {}
 
-  getReport(htmlReportUrl: string): Observable<any> {
+  public getReport(htmlReportUrl: string): Observable<any> {
     return this.http.get<{ data: string }>(htmlReportUrl).pipe(
-      map((response) => response.data),
-      map((report) => {
+      map((response: { data: string }) => response.data),
+      map((report: string) => {
         const parser = new DOMParser();
         const htmlDoc = parser.parseFromString(report, 'text/html');
         const bodyContent = htmlDoc.querySelector('body')?.children;
@@ -26,6 +26,7 @@ export class ReportService {
           bodyContent &&
           Array.from(bodyContent).reduce((acc: any, section: any) => {
             const content = section.querySelectorAll('[name^="anchor_"]');
+
             return section.localName === 'h1' &&
               content.length > 0 &&
               content[0].text

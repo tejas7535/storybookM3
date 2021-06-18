@@ -6,7 +6,7 @@ describe('InputSelectors', () => {
     expect(
       InputSelectors.getHeatTreatmentList.projector(mockedMaterials, 'Plastik')
     ).toEqual([
-      { name: 'Plastik', heatTreatment: 'volleHitze', hardness: 90001 },
+      { name: 'Plastik', heatTreatment: 'volleHitze', hardness: 90_001 },
       {
         name: 'Holz',
         heatTreatment: 'halbeHitze',
@@ -22,7 +22,7 @@ describe('InputSelectors', () => {
       {
         name: 'Plastik',
         heatTreatment: 'volleHitze',
-        hardness: 90001,
+        hardness: 90_001,
         disabled: true,
       },
     ]);

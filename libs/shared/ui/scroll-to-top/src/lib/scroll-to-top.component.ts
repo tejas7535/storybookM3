@@ -21,14 +21,14 @@ import { ScrollToTopDirective } from './scroll-to-top.directive';
 export class ScrollToTopComponent implements OnInit {
   public containerScrolled: boolean;
 
-  constructor(
+  public constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     @Optional()
     @Host()
     private readonly scrollToTopContainer: ScrollToTopDirective
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.scrollToTopContainer) {
       this.scrollToTopContainer.scrollEvent$.subscribe((container) => {
         if (container.scrollTop && container.scrollTop >= 100) {

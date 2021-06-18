@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { CHART_SETTINGS_HAIGH, CHART_SETTINGS_WOEHLER } from '../constants';
 import { ChartType } from '../enums';
 import {
@@ -77,7 +78,7 @@ export class HelpersService {
             ? predictionResult.kpi.slope
             : undefined,
         count:
-          predictionResult.woehler.appliedStress[1].x < 10000000
+          predictionResult.woehler.appliedStress[1].x < 10_000_000
             ? predictionResult.woehler.appliedStress[1].x
             : -1,
         mpa: request.mpa,
@@ -102,13 +103,13 @@ export class HelpersService {
     // woehler
     const saFKM = statisticalResult.woehler.analytical.sa_fkm;
     const saMurakami = statisticalResult.woehler.analytical.sa_murakami;
-    const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
+    const startFKM = Math.pow(1_000_000 / 10_000, 1 / 5) * saFKM;
     const fkmWoehler = this.createGraphObjectWoehler(
       startFKM,
       saFKM,
       predictionRequest.rrelation
     );
-    const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
+    const startMurakami = Math.pow(1_000_000 / 10_000, 1 / 5) * saMurakami;
     const murakamiWoehler = this.createGraphObjectWoehler(
       startMurakami,
       saMurakami,
@@ -172,7 +173,7 @@ export class HelpersService {
     if (display.chartType === ChartType.Woehler) {
       if (display.showFKM) {
         const saFKM = statisticalResult.woehler.analytical.sa_fkm;
-        const startFKM = Math.pow(1000000 / 10000, 1 / 5) * saFKM;
+        const startFKM = Math.pow(1_000_000 / 10_000, 1 / 5) * saFKM;
         const fkm = this.createGraphObjectWoehler(
           startFKM,
           saFKM,
@@ -190,7 +191,7 @@ export class HelpersService {
       }
       if (display.showMurakami) {
         const saMurakami = statisticalResult.woehler.analytical.sa_murakami;
-        const startMurakami = Math.pow(1000000 / 10000, 1 / 5) * saMurakami;
+        const startMurakami = Math.pow(1_000_000 / 10_000, 1 / 5) * saMurakami;
         const murakami = this.createGraphObjectWoehler(
           startMurakami,
           saMurakami,
@@ -241,7 +242,7 @@ export class HelpersService {
         ) {
           ignoredGraphs.push('appliedStress');
         }
-        if (ignoredGraphs.indexOf(source.identifier) === -1) {
+        if (!ignoredGraphs.includes(source.identifier)) {
           data = [
             ...data,
             ...this.transformGraph(
@@ -324,18 +325,16 @@ export class HelpersService {
         const source = CHART_SETTINGS_HAIGH.sources.find(
           (src: Series) => src.identifier === value[0]
         );
-        // TODO: see if that can be solved better...
-        if (source?.identifier === 'appliedStress') {
-          data = [
-            ...data,
-            ...this.transformGraph(
-              this.extendGraphHaigh(value[1], limits),
-              source.value
-            ),
-          ];
-        } else {
-          data = [...data, ...this.transformGraph(value[1], source?.value)];
-        }
+        data =
+          source?.identifier === 'appliedStress'
+            ? [
+                ...data,
+                ...this.transformGraph(
+                  this.extendGraphHaigh(value[1], limits),
+                  source.value
+                ),
+              ]
+            : [...data, ...this.transformGraph(value[1], source?.value)];
       });
       limits = this.calculateLimitsHaigh(data);
     }
@@ -355,8 +354,8 @@ export class HelpersService {
   }): { x: number; yLow: number; yHigh: number }[] {
     return snCurveLow &&
       snCurveHigh &&
-      Object.keys(snCurveLow).length !== 0 &&
-      Object.keys(snCurveHigh).length !== 0
+      Object.keys(snCurveLow).length > 0 &&
+      Object.keys(snCurveHigh).length > 0
       ? [
           {
             x: snCurveLow[2].x,
@@ -380,26 +379,26 @@ export class HelpersService {
     slope: number,
     rrelation: number
   ): Graph {
-    if (graph[0] && this.isSNShape(graph) && graph[0].x !== 10000) {
-      const newY = Math.pow(graph[0].x / 10000, 1 / slope) * graph[0].y;
+    if (graph[0] && this.isSNShape(graph) && graph[0].x !== 10_000) {
+      const newY = Math.pow(graph[0].x / 10_000, 1 / slope) * graph[0].y;
 
       return rrelation === -1 || rrelation === 0
         ? {
             ...graph,
             0: {
-              x: 10000,
+              x: 10_000,
               y: newY,
             },
           }
         : {
             0: graph[1],
-            1: graph[2] || { ...graph[1], x: 10000000 },
+            1: graph[2] || { ...graph[1], x: 10_000_000 },
           };
     }
 
     if (graph[0] && !this.isSNShape(graph) && graph[2]) {
       // if becomes unnecessary as soon as graphs which are out of range are projected correctly by the backend
-      if (graph[2].x === 10000) {
+      if (graph[2].x === 10_000) {
         return {} as unknown as Graph;
       }
 
@@ -431,16 +430,16 @@ export class HelpersService {
   /**
    * Transforms a graph object into an Array of Objects, each with the specified key for the y-value
    */
-  public transformGraph(graph: Graph, argumentKey: string): Object[] {
+  public transformGraph(graph: Graph, argumentKey: string): any[] {
     return argumentKey
-      ? Object.entries(graph).map((value: [string, Point]) => {
-          return value
+      ? Object.entries(graph).map((value: [string, Point]) =>
+          value
             ? {
                 x: value[1]?.x,
                 [argumentKey]: value[1]?.y,
               }
-            : undefined;
-        })
+            : undefined
+        )
       : [];
   }
 
@@ -461,13 +460,13 @@ export class HelpersService {
   ): Graph {
     return rrelation === -1 || rrelation === 0
       ? {
-          0: { x: 10000, y: start },
-          1: { x: 1000000, y: sa },
-          2: { x: 10000000, y: sa },
+          0: { x: 10_000, y: start },
+          1: { x: 1_000_000, y: sa },
+          2: { x: 10_000_000, y: sa },
         }
       : {
-          0: { x: 1000000, y: sa },
-          1: { x: 10000000, y: sa },
+          0: { x: 1_000_000, y: sa },
+          1: { x: 10_000_000, y: sa },
         };
   }
 
@@ -504,7 +503,7 @@ export class HelpersService {
   /**
    * Calculates the limits for the chart axis based on the displayed data points
    */
-  public calculateLimitsWoehler(points: Object[]): Limits {
+  public calculateLimitsWoehler(points: any[]): Limits {
     // TODO: remove any
     const yVals: number[] = points
       .map((p) => {
@@ -515,8 +514,8 @@ export class HelpersService {
       .filter((val) => val && val !== 0);
 
     return {
-      x_max: 10000000,
-      x_min: 10000,
+      x_max: 10_000_000,
+      x_min: 10_000,
       y_max: this.increase10Percent(Math.max(...yVals)),
       y_min: this.reduce10Percent(Math.min(...yVals)),
     };
@@ -525,7 +524,7 @@ export class HelpersService {
   /**
    * Calculates the limits for the chart axis based on the displayed data points
    */
-  public calculateLimitsHaigh(points: Object[]): Limits {
+  public calculateLimitsHaigh(points: any[]): Limits {
     // TODO: remove any
     const yVals: number[] = points.map((p) => {
       const pEntries: [string, any][] = Object.entries(p);

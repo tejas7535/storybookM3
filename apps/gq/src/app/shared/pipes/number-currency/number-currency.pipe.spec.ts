@@ -9,7 +9,7 @@ describe('MarginDetailPipe', () => {
   test('should transform number', () => {
     const pipe = new NumberCurrencyPipe();
     HelperService.transformMarginDetails = jest.fn();
-    pipe.transform(10000, 'EUR');
+    pipe.transform(10_000, 'EUR');
 
     expect(HelperService.transformMarginDetails).toHaveBeenCalledTimes(1);
   });

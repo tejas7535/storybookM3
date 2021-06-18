@@ -11,7 +11,7 @@ export class TruncatePipe implements PipeTransform {
    * @param completeWords A boolean indicating if words may be split
    * @param ellipsis      A string which will be used to indicate text is shortened
    */
-  transform(
+  public transform(
     value: string,
     limit: number,
     completeWords = false,

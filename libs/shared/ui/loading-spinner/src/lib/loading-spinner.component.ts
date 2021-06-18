@@ -7,6 +7,6 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoadingSpinnerComponent {
-  @Input() backgroundColor?: string;
-  @Input() relative?: boolean;
+  @Input() public backgroundColor?: string;
+  @Input() public relative?: boolean;
 }

@@ -17,7 +17,7 @@ import {
   providedIn: 'root',
 })
 export class ApplicationInsightsService {
-  constructor(
+  public constructor(
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
     private readonly router: Router

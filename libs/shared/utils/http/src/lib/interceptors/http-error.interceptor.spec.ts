@@ -23,7 +23,7 @@ const environment = {
 export class ExampleService {
   private readonly apiUrl = environment.baseUrl;
 
-  constructor(private readonly http: HttpClient) {}
+  public constructor(private readonly http: HttpClient) {}
 
   public getPosts(): Observable<String> {
     return this.http.get<String>(`${this.apiUrl}/test`);

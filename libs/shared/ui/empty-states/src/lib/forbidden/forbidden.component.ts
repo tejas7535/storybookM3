@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ForbiddenComponent {
   public action: string;
 
-  constructor(private readonly activatedRoute: ActivatedRoute) {
+  public constructor(private readonly activatedRoute: ActivatedRoute) {
     this.action = this.activatedRoute.snapshot.data.action;
   }
 }

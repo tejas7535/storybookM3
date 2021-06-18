@@ -37,49 +37,33 @@ import { SearchAutocompleteOption } from './search-autocomple-option.model';
 export class SearchAutocompleteComponent
   implements ControlValueAccessor, OnInit, OnChanges
 {
-  baseOptions$ = new BehaviorSubject<SearchAutocompleteOption[]>([]);
-  filteredOptions$!: Observable<SearchAutocompleteOption[]>;
-  showOptions$!: Observable<boolean>;
-  inputChange$!: Observable<string>;
-  valueSelected$!: Observable<boolean>;
-  control = new FormControl();
-  subscriptions: Subscription[] = [];
-  disabled = false;
+  public baseOptions$ = new BehaviorSubject<SearchAutocompleteOption[]>([]);
+  public filteredOptions$!: Observable<SearchAutocompleteOption[]>;
+  public showOptions$!: Observable<boolean>;
+  public inputChange$!: Observable<string>;
+  public valueSelected$!: Observable<boolean>;
+  public control = new FormControl();
+  public disabled = false;
 
-  @Input() label? = '';
+  @Input() public label? = '';
+  @Input() public options!: SearchAutocompleteOption[];
+  @Input() public loading? = false;
+  @Input() public loadingMessage? = '';
+  @Input() public minimumChars = 3;
+  @Input() public error? = false;
 
-  @Input() options!: SearchAutocompleteOption[];
+  @Output() public readonly searchString = new EventEmitter<string>();
+  @Output() public readonly selection = new EventEmitter<string | undefined>();
 
-  @Input() loading? = false;
+  private readonly subscriptions: Subscription[] = [];
 
-  @Input() loadingMessage? = '';
+  public constructor(private readonly cdRef: ChangeDetectorRef) {}
 
-  @Input() minimumChars = 3;
-
-  @Input() error? = false;
-
-  @Output() readonly searchString = new EventEmitter<string>();
-
-  @Output() readonly selection = new EventEmitter<string | undefined>();
-
-  private onChange: (value: string) => void = () => {};
-
-  onTouched: () => void = () => {};
-
-  trackByFn: TrackByFunction<SearchAutocompleteOption> = (
-    _index: number,
-    val: SearchAutocompleteOption
-  ): string => {
-    return val.id;
-  };
-
-  constructor(private readonly cdRef: ChangeDetectorRef) {}
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.inputChange$ = this.control.valueChanges.pipe(
-      filter((value: string | SearchAutocompleteOption) => {
-        return typeof value === 'string';
-      })
+      filter(
+        (value: string | SearchAutocompleteOption) => typeof value === 'string'
+      )
     ) as Observable<string>;
 
     const debouncedSearchInput = this.inputChange$.pipe(
@@ -88,9 +72,7 @@ export class SearchAutocompleteComponent
     );
 
     this.showOptions$ = this.inputChange$.pipe(
-      map((value: string) => {
-        return this.shouldStartSearching(value);
-      })
+      map((value: string) => this.shouldStartSearching(value))
     );
 
     this.filteredOptions$ = combineLatest([
@@ -119,11 +101,62 @@ export class SearchAutocompleteComponent
     }
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if ('options' in changes && this.options) {
       this.baseOptions$.next(this.options);
     }
   }
+
+  public writeValue(value: string): void {
+    this.control.setValue(value);
+    this.cdRef.markForCheck();
+  }
+
+  public registerOnChange(fn: any): void {
+    this.subscriptions.push(this.control.valueChanges.subscribe(fn));
+  }
+
+  public registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  public setValue(event: any): void {
+    this.select(event.option.value);
+    this.control.patchValue(event.option.value);
+    this.onChange(event.id);
+    this.onTouched();
+  }
+
+  public setDisabledState(isDisabled: boolean): void {
+    this.disabled = isDisabled;
+  }
+
+  public select(selection: SearchAutocompleteOption): void {
+    this.selection.emit(selection.id);
+  }
+
+  public clearSearchString(): void {
+    this.control.setValue('');
+  }
+
+  public get searchStringDeletable(): boolean {
+    return !!this.control.value;
+  }
+
+  public noResults(filteredList: SearchAutocompleteOption[] | null): boolean {
+    return !this.loading && !this.error && filteredList?.length === 0;
+  }
+
+  public optionTitle(option: SearchAutocompleteOption): string {
+    return option && option.title ? option.title : '';
+  }
+
+  public trackByFn: TrackByFunction<SearchAutocompleteOption> = (
+    _index: number,
+    val: SearchAutocompleteOption
+  ): string => {
+    return val.id;
+  };
 
   private filter(
     options: SearchAutocompleteOption[],
@@ -141,47 +174,7 @@ export class SearchAutocompleteComponent
     return val.length > this.minimumChars - 1;
   }
 
-  writeValue(value: string): void {
-    this.control.setValue(value);
-    this.cdRef.markForCheck();
-  }
+  public onChange: (value: string) => void = () => {};
 
-  registerOnChange(fn: any): void {
-    this.subscriptions.push(this.control.valueChanges.subscribe(fn));
-  }
-
-  registerOnTouched(fn: () => void): void {
-    this.onTouched = fn;
-  }
-
-  setValue(event: any): void {
-    this.select(event.option.value);
-    this.control.patchValue(event.option.value);
-    this.onChange(event.id);
-    this.onTouched();
-  }
-
-  setDisabledState(isDisabled: boolean): void {
-    this.disabled = isDisabled;
-  }
-
-  select(selection: SearchAutocompleteOption): void {
-    this.selection.emit(selection.id);
-  }
-
-  clearSearchString(): void {
-    this.control.setValue('');
-  }
-
-  get searchStringDeletable(): boolean {
-    return !!this.control.value;
-  }
-
-  noResults(filteredList: SearchAutocompleteOption[] | null): boolean {
-    return !this.loading && !this.error && filteredList?.length === 0;
-  }
-
-  optionTitle(option: SearchAutocompleteOption): string {
-    return option && option.title ? option.title : '';
-  }
+  public onTouched: () => void = () => {};
 }

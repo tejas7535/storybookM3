@@ -44,8 +44,8 @@ describe('DataViewComponent', () => {
             loading: false,
             result: undefined,
             interval: {
-              startDate: 123456789,
-              endDate: 987654321,
+              startDate: 123_456_789,
+              endDate: 987_654_321,
             },
           },
         },
@@ -69,8 +69,8 @@ describe('DataViewComponent', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       component.setInterval(mockInterval);

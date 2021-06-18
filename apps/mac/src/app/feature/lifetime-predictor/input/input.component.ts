@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -49,9 +50,9 @@ export class InputComponent implements OnInit {
   public quality: string;
   public material = false;
 
-  inputCategories: InputCategory[] = [];
+  public inputCategories: InputCategory[] = [];
 
-  constructor(private readonly store: Store<AppState>) {
+  public constructor(private readonly store: Store<AppState>) {
     this.predictionRequest = this.store.pipe(
       select(fromStore.getPredictionRequest)
     );
@@ -89,8 +90,10 @@ export class InputComponent implements OnInit {
       });
     });
 
-    this.predictionRequest.subscribe((request) => this.patchForm(request));
-    this.display.subscribe((request) => this.patchForm(request));
+    this.predictionRequest.subscribe((request: PredictionRequest) =>
+      this.patchForm(request)
+    );
+    this.display.subscribe((request: Display) => this.patchForm(request));
   }
 
   public ngOnInit(): void {
@@ -104,6 +107,7 @@ export class InputComponent implements OnInit {
         debounceTime(500),
         distinctUntilChanged((prev: any, curr: any) => {
           if (this.inputForm.valid && !this.inputForm.pristine) {
+            // eslint-disable-next-line unicorn/no-array-reduce
             const displayFormChange = displayFormControls.reduce(
               (earlier, control) => prev[control] !== curr[control] || earlier,
               false
@@ -125,7 +129,7 @@ export class InputComponent implements OnInit {
     const formControls = this.inputForm.controls;
     formControls['hv'].valueChanges
       .pipe(debounceTime(200))
-      .subscribe((selectedHV) => {
+      .subscribe((selectedHV: number) => {
         if (formControls['hv'].dirty) {
           this.adjustES(formControls['es'], selectedHV);
         }
@@ -309,11 +313,11 @@ export class InputComponent implements OnInit {
       new SliderControl({
         key: 'spreading',
         name: 'slog',
-        min: 0.0,
+        min: 0,
         max: 0.1,
         step: 0.005,
         disabled: this.predictionRequest.pipe(
-          map((req) => req.prediction !== 0)
+          map((req: PredictionRequest) => req.prediction !== 0)
         ),
         formControl: new FormControl(),
       }),
@@ -390,7 +394,7 @@ export class InputComponent implements OnInit {
         max: 1500,
         step: 1,
         disabled: this.predictionRequest.pipe(
-          map((req) => req.prediction !== 0)
+          map((req: PredictionRequest) => req.prediction !== 0)
         ),
         formControl: new FormControl(),
       }),
@@ -398,7 +402,7 @@ export class InputComponent implements OnInit {
         key: 'v90',
         name: 'v90',
         min: 1,
-        max: 10000,
+        max: 10_000,
         step: 1,
         logarithmic: true,
         disabled: false,
@@ -445,7 +449,7 @@ export class InputComponent implements OnInit {
         key: 'burdeningType',
         name: 'burdeningType',
         options: this.burdeningTypes.pipe(
-          map((burdeningTypes) => {
+          map((burdeningTypes: BurdeningType[]) => {
             const options: SelectControlOption[] = [];
             for (const burdeningType of burdeningTypes) {
               options.push(
@@ -461,5 +465,4 @@ export class InputComponent implements OnInit {
       }),
     ];
   }
-  // eslint-disable-next-line max-lines
 }

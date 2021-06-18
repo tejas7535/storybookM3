@@ -6,9 +6,9 @@ import { ApplicationInsightsService } from './application-insights.service';
   providedIn: 'root',
 })
 export class ApplicationInsightsErrorHandlerService implements ErrorHandler {
-  constructor(private readonly injector: Injector) {}
+  public constructor(private readonly injector: Injector) {}
 
-  handleError(error: Error): void {
+  public handleError(error: Error): void {
     this.injector
       .get<ApplicationInsightsService>(ApplicationInsightsService)
       .logException(error);

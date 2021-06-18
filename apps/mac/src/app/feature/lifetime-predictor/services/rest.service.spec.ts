@@ -3,7 +3,7 @@ import {
   HttpTestingController,
 } from '@angular/common/http/testing';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
+import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { ENV_CONFIG } from '@schaeffler/http';
@@ -77,22 +77,22 @@ describe('RestService', () => {
     };
 
     const mockedHaighPrediction = {
-      'fatigue_strength-1': 129.60351058284022,
-      fatigue_strength0: 127.48671337634478,
+      'fatigue_strength-1': 129.603_510_582_840_22,
+      fatigue_strength0: 127.486_713_376_344_78,
       plot1: [
         [0, 0],
-        [229.60351058284022, 229.60351058284022],
+        [229.603_510_582_840_22, 229.603_510_582_840_22],
       ],
       plot2: [
-        [0, 129.60351058284022],
-        [127.48671337634478, 127.48671337634478],
+        [0, 129.603_510_582_840_22],
+        [127.486_713_376_344_78, 127.486_713_376_344_78],
       ],
     };
 
     it('should return an Observable<PredictionResult>', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 1)
-        .subscribe((haighResult) => {
+        .subscribe((haighResult: any) => {
           expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(haighResult).toEqual(mockedHaighPrediction);
         });
@@ -107,7 +107,7 @@ describe('RestService', () => {
     it('should return PredictionResult for Woehler Chart', () => {
       myProvider
         .postPrediction(mockedPredictionRequest, 2)
-        .subscribe((woehlerResult) => {
+        .subscribe((woehlerResult: any) => {
           expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(woehlerResult).toEqual(undefined);
         });
@@ -135,10 +135,12 @@ describe('RestService', () => {
         woehler: {},
       };
 
-      myProvider.postLoadsData(mockedLoadsRequest).subscribe((loadsResult) => {
-        expect(applicationInsightsService.logEvent).toHaveBeenCalled();
-        expect(loadsResult).toEqual(mockedLoadsPrediction);
-      });
+      myProvider
+        .postLoadsData(mockedLoadsRequest)
+        .subscribe((loadsResult: any) => {
+          expect(applicationInsightsService.logEvent).toHaveBeenCalled();
+          expect(loadsResult).toEqual(mockedLoadsPrediction);
+        });
 
       const req = httpMock.expectOne(`/${myProvider.SERVER_URL_LOADS}/score`);
       expect(req.request.method).toBe('POST');
@@ -162,7 +164,7 @@ describe('RestService', () => {
 
       myProvider
         .postStatisticalService(mockedStatisticalRequest)
-        .subscribe((loadsResult) => {
+        .subscribe((loadsResult: any) => {
           expect(applicationInsightsService.logEvent).toHaveBeenCalled();
           expect(loadsResult).toEqual(statisticalResult);
         });

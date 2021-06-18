@@ -50,16 +50,16 @@ describe('ConditionMonitoringComponent', () => {
             loading: false,
             result: undefined,
             interval: {
-              startDate: 123456789,
-              endDate: 987654321,
+              startDate: 123_456_789,
+              endDate: 987_654_321,
             },
           },
           edmMonitor: {
             loading: false,
             measurements: undefined,
             interval: {
-              startDate: 123456789,
-              endDate: 987654321,
+              startDate: 123_456_789,
+              endDate: 987_654_321,
             },
           },
           greaseStatus: {

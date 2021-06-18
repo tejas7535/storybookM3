@@ -30,29 +30,19 @@ import { DropdownInputOption } from './dropdown-input-option.model';
   ],
 })
 export class DropdownInputComponent implements ControlValueAccessor {
-  @Output() updateSearch = new EventEmitter<string>();
+  @Input() public options: DropdownInputOption[] = [];
+  @Input() public placeholder = '';
+  @Input() public hint = '';
+  @Input() public label = '';
 
-  @Input() options: DropdownInputOption[] = [];
+  @Output() public updateSearch = new EventEmitter<string>();
 
-  @Input() placeholder = '';
+  public value?: string | number;
+  public disabled = false;
+  public selectionControl = new FormControl();
+  public selectedItem?: DropdownInputOption;
 
-  @Input() hint = '';
-
-  @Input() label = '';
-
-  value?: string | number;
-
-  disabled = false;
-
-  selectionControl = new FormControl();
-
-  selectedItem?: DropdownInputOption;
-
-  private onChange: (value: string | number) => void = () => {};
-
-  private onTouched: () => void = () => {};
-
-  constructor(private readonly cdRef: ChangeDetectorRef) {}
+  public constructor(private readonly cdRef: ChangeDetectorRef) {}
 
   public onOpenedChange(
     open: boolean,
@@ -71,26 +61,26 @@ export class DropdownInputComponent implements ControlValueAccessor {
     this.updateSearch.emit(query);
   }
 
-  writeValue(value: string): void {
+  public writeValue(value: string): void {
     const controlValue = this.options.find(({ id }) => id === value);
     this.selectedItem = controlValue as DropdownInputOption;
     this.value = value;
     this.cdRef.markForCheck();
   }
 
-  registerOnChange(fn: (value: string | number) => void): void {
+  public registerOnChange(fn: (value: string | number) => void): void {
     this.onChange = fn;
   }
 
-  registerOnTouched(fn: () => void): void {
+  public registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
 
-  setDisabledState(isDisabled: boolean): void {
+  public setDisabledState(isDisabled: boolean): void {
     this.disabled = isDisabled;
   }
 
-  setValue({ value, id }: DropdownInputOption): void {
+  public setValue({ value, id }: DropdownInputOption): void {
     this.selectionControl.patchValue(value);
     if (this.value !== id) {
       this.value = id;
@@ -98,4 +88,8 @@ export class DropdownInputComponent implements ControlValueAccessor {
       this.onTouched();
     }
   }
+
+  private onChange: (value: string | number) => void = () => {};
+
+  private onTouched: () => void = () => {};
 }

@@ -27,32 +27,33 @@ import { DropdownInputOption } from '../dropdown-input-option.model';
   styleUrls: ['./autocomplete-search.component.scss'],
 })
 export class AutocompleteSearchComponent implements OnInit {
-  @Input() options: DropdownInputOption[] = [];
-  @Input() hint!: string;
-  @Input() attachToCustomElement = false;
-  @Input() selectedItem?: DropdownInputOption;
+  @Input() public options: DropdownInputOption[] = [];
+  @Input() public hint!: string;
+  @Input() public attachToCustomElement = false;
+  @Input() public selectedItem?: DropdownInputOption;
 
-  @Output() optionSelected = new EventEmitter<DropdownInputOption>();
-  @Output() updateSearch = new EventEmitter<string>();
+  @Output() public optionSelected = new EventEmitter<DropdownInputOption>();
+  @Output() public updateSearch = new EventEmitter<string>();
 
-  @ViewChild('searchInput') searchInput!: ElementRef;
+  @ViewChild('searchInput') public searchInput!: ElementRef;
   @ViewChild(MatAutocompleteTrigger, { read: MatAutocompleteTrigger })
-  _autocompleteTriggerElement!: MatAutocompleteTrigger;
+  public _autocompleteTriggerElement!: MatAutocompleteTrigger;
 
-  filteredOptions$!: Observable<DropdownInputOption[]>;
-  searchControl = new FormControl('');
+  public filteredOptions$!: Observable<DropdownInputOption[]>;
+  public searchControl = new FormControl('');
 
-  constructor(
+  public constructor(
     @Host()
     @Optional()
     public readonly _autocompletePanelElement: MatAutocompleteOrigin
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.filteredOptions$ = this.searchControl.valueChanges.pipe(
       startWith<string>(''),
-      map((value) => {
+      map((value: string) => {
         this.updateSearch.emit(value);
+
         return this.filter(value);
       })
     );
@@ -69,8 +70,9 @@ export class AutocompleteSearchComponent implements OnInit {
 
   public filter(f: string): DropdownInputOption[] {
     const filterValue = f.toLowerCase();
-    return this.options.filter(
-      (option) => option.value.toLowerCase().indexOf(filterValue) >= 0
+
+    return this.options.filter((option) =>
+      option.value.toLowerCase().includes(filterValue)
     );
   }
 

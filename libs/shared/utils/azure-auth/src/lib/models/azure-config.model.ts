@@ -3,7 +3,7 @@ import { MsalInstanceConfig } from './msal-instance-config.model';
 import { MsalInterceptorConfig } from './msal-interceptor-config.model';
 
 export class AzureConfig {
-  constructor(
+  public constructor(
     public msalInstance: MsalInstanceConfig,
     public msalInterceptor: MsalInterceptorConfig,
     public msalGuard: MsalGuardConfig
