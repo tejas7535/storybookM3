@@ -18,13 +18,20 @@ import { getSidebarMode } from '../selectors/sidebar.selectors';
  */
 @Injectable()
 export class SidebarEffects {
-  setSidebarState$ = createEffect(() => {
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly sidebarService: SidebarService,
+    private readonly store: Store<SidebarState>,
+    private readonly router: Router
+  ) {}
+
+  public setSidebarState$ = createEffect(() => {
     return this.sidebarService
       .getSidebarMode()
       .pipe(map((mode: SidebarMode) => setSidebarMode({ sidebarMode: mode })));
   });
 
-  toggleSidebar$ = createEffect(() => {
+  public toggleSidebar$ = createEffect(() => {
     return this.actions$.pipe(
       ofType(toggleSidebar),
       withLatestFrom(
@@ -37,7 +44,7 @@ export class SidebarEffects {
     );
   });
 
-  closeSidebar$ = createEffect(() => {
+  public closeSidebar$ = createEffect(() => {
     return this.router.events.pipe(
       filter((event) => event instanceof ActivationEnd),
       withLatestFrom(this.sidebarService.getViewport()),
@@ -49,7 +56,7 @@ export class SidebarEffects {
     );
   });
 
-  defineSidebarMode = (
+  public defineSidebarMode = (
     currentMode: SidebarMode,
     viewport: Viewport
   ): SidebarMode => {
@@ -79,11 +86,4 @@ export class SidebarEffects {
       }
     }
   };
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly sidebarService: SidebarService,
-    private readonly store: Store<SidebarState>,
-    private readonly router: Router
-  ) {}
 }

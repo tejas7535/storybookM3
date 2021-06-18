@@ -1,3 +1,3 @@
 export class UserMenuEntry {
-  constructor(public key: string, public label: string) {}
+  public constructor(public key: string, public label: string) {}
 }

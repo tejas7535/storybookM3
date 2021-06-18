@@ -20,7 +20,7 @@ export class BannerComponent implements OnInit {
   public truncateSize$: Observable<number>;
   public showFullText$: Observable<boolean>;
 
-  constructor(private readonly store: Store<BannerState>) {}
+  public constructor(private readonly store: Store<BannerState>) {}
 
   public ngOnInit(): void {
     this.showBanner$ = this.store.pipe(select(bannerSelectors.getBannerOpen));

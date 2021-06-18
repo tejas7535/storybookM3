@@ -32,19 +32,20 @@ export class SettingsSidebarComponent implements OnInit, OnDestroy {
   @Output()
   private readonly openedChange: EventEmitter<boolean> = new EventEmitter();
 
-  constructor(private readonly breakpointService: BreakpointService) {}
+  public constructor(private readonly breakpointService: BreakpointService) {}
 
   public ngOnInit(): void {
     this.subscriptions.add(
       this.breakpointService
         .isMobileViewPort()
-        .subscribe((isMobile) => (this.isMobileViewPort = isMobile))
+        .subscribe((isMobile: boolean) => (this.isMobileViewPort = isMobile))
     );
     this.subscriptions.add(
       this.breakpointService
         .isLessThanMedium()
         .subscribe(
-          (isLessThanMedium) => (this.isLessThanMedium = isLessThanMedium)
+          (isLessThanMedium: boolean) =>
+            (this.isLessThanMedium = isLessThanMedium)
         )
     );
   }

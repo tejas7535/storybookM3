@@ -1,7 +1,7 @@
 import { InteractionType } from '@azure/msal-browser';
 
 export class MsalGuardConfig {
-  constructor(
+  public constructor(
     public loginFailedRoute: string,
     public scopes: string[],
     public interactionType:

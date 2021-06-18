@@ -31,8 +31,8 @@ describe('CenterLoadComponent', () => {
             loading: false,
             result: undefined,
             interval: {
-              startDate: 123456789,
-              endDate: 987654321,
+              startDate: 123_456_789,
+              endDate: 987_654_321,
             },
           },
         },
@@ -52,7 +52,7 @@ describe('CenterLoadComponent', () => {
 
   describe('formatDate', () => {
     it('should return a correctly formatted date string', () => {
-      const mockDate = new Date(1466424490000);
+      const mockDate = new Date(1_466_424_490_000);
       jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
 
       const mockCurrent = '2021-04-11T17:55:09Z';

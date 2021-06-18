@@ -3,7 +3,7 @@ import { CUSTOMER_MOCK } from './customer.mock';
 import { QUOTATION_DETAIL_MOCK } from './quotation-details.mock';
 
 export const QUOTATION_MOCK: Quotation = {
-  gqId: 12345,
+  gqId: 12_345,
   imported: true,
   sapId: '12345',
   gqCreated: '2020-12-17T09:29:34',

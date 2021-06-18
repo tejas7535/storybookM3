@@ -51,7 +51,7 @@ export const preLoad = {
   exports: [TranslocoModule],
 })
 export class SharedTranslocoModule {
-  static forRoot(
+  public static forRoot(
     prodMode: boolean,
     availableLangs: AvailableLangs,
     defaultLang: string,
@@ -90,7 +90,7 @@ export class SharedTranslocoModule {
       ],
     };
   }
-  static forChild(
+  public static forChild(
     scope: string,
     loader: any
   ): ModuleWithProviders<SharedTranslocoModule> {

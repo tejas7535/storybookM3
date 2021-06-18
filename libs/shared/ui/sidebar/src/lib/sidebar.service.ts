@@ -62,7 +62,7 @@ export class SidebarService {
     mapTo(SidebarMode.Open)
   );
 
-  constructor(private readonly breakpointObserver: BreakpointObserver) {}
+  public constructor(private readonly breakpointObserver: BreakpointObserver) {}
 
   /**
    * Returns sidebar mode as observable based on current breakpoint

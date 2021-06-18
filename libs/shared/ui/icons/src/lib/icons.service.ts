@@ -5,7 +5,7 @@ import { MatIconRegistry } from '@angular/material/icon';
   providedIn: 'root',
 })
 export class IconsService {
-  constructor(private readonly matIconRegistry: MatIconRegistry) {}
+  public constructor(private readonly matIconRegistry: MatIconRegistry) {}
 
   public registerFontClassAlias(): void {
     this.matIconRegistry.registerFontClassAlias('schaeffler-icons', 'icon');

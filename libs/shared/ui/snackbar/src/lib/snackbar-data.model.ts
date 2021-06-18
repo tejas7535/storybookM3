@@ -1,7 +1,7 @@
 import { SnackBarType } from './snackbar-type.enum';
 
 export class SnackBarData {
-  constructor(
+  public constructor(
     public message: string,
     public action: string,
     public type: SnackBarType

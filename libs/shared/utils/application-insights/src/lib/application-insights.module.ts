@@ -21,7 +21,7 @@ import { NGRX_IGNORE_PATTERN } from './ngrx-ignore-pattern';
   imports: [CommonModule],
 })
 export class ApplicationInsightsModule {
-  static forRoot(
+  public static forRoot(
     config: ApplicationInsightsModuleConfig
   ): ModuleWithProviders<ApplicationInsightsModule> {
     return {

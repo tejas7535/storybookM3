@@ -60,8 +60,8 @@ describe('LineChartComponent', () => {
 
   describe('getDateInMonths', () => {
     test('should return date in x months', () => {
-      const refDate = new Date(1620811183000); // 12.05.2021
-      const expected = new Date(1607761183000); // 12.12.2020
+      const refDate = new Date(1_620_811_183_000); // 12.05.2021
+      const expected = new Date(1_607_761_183_000); // 12.12.2020
 
       const result = component.getDateInMonths(refDate, -5);
 
@@ -72,7 +72,7 @@ describe('LineChartComponent', () => {
 
   describe('getLastTwoDigitsOfYear', () => {
     test('should return two last digits of year of provided date', () => {
-      const date = new Date(1620811183000); // 12.05.2021
+      const date = new Date(1_620_811_183_000); // 12.05.2021
 
       const result = component.getLastTwoDigitsOfYear(date);
 
@@ -82,7 +82,7 @@ describe('LineChartComponent', () => {
 
   describe('getHumanReadableMonth', () => {
     test('should return readable month non zero based', () => {
-      const date = new Date(1620811183000); // 12.05.2021
+      const date = new Date(1_620_811_183_000); // 12.05.2021
 
       const result = component.getHumanReadableMonth(date);
 

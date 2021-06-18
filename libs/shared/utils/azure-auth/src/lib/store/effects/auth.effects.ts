@@ -27,7 +27,13 @@ import {
 
 @Injectable()
 export class AuthEffects {
-  login$ = createEffect(
+  public constructor(
+    private readonly actions$: Actions,
+    private readonly authService: AzureAuthService,
+    private readonly msalBroadcastService: MsalBroadcastService
+  ) {}
+
+  public login$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(login),
@@ -36,7 +42,7 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  logout$ = createEffect(
+  public logout$ = createEffect(
     () =>
       this.actions$.pipe(
         ofType(logout),
@@ -45,7 +51,7 @@ export class AuthEffects {
     { dispatch: false }
   );
 
-  profileImage$ = createEffect(() =>
+  public profileImage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadProfileImage),
       mergeMap(() =>
@@ -67,7 +73,7 @@ export class AuthEffects {
     )
   );
 
-  inProgress$ = createEffect(() =>
+  public inProgress$ = createEffect(() =>
     this.msalBroadcastService.inProgress$.pipe(
       filter((status: InteractionStatus) => status === InteractionStatus.None),
       map(() => this.authService.handleAccount()),
@@ -84,10 +90,4 @@ export class AuthEffects {
       ])
     )
   );
-
-  constructor(
-    private readonly actions$: Actions,
-    private readonly authService: AzureAuthService,
-    private readonly msalBroadcastService: MsalBroadcastService
-  ) {}
 }

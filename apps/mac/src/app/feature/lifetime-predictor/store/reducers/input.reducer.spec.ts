@@ -40,7 +40,7 @@ describe('inputReducer', () => {
 
     it('should set state on setMaterialOptions', () => {
       const mockMaterial = [
-        { name: 'plastik', heatTreatment: 'volleHitze', hardness: 90001 },
+        { name: 'plastik', heatTreatment: 'volleHitze', hardness: 90_001 },
       ];
 
       const newState = inputReducer(

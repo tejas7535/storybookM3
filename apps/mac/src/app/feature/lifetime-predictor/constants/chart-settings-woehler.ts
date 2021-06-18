@@ -38,8 +38,8 @@ export const CHART_OPTIONS_WOEHLER: EChartsOption = {
     },
     nameLocation: CHART_SETTINGS_WOEHLER.argumentAxis.nameLocation,
     nameGap: 40,
-    min: 10000,
-    max: 10000000,
+    min: 10_000,
+    max: 10_000_000,
     axisLabel: {
       fontSize: 16,
       formatter: scientificFormatter,

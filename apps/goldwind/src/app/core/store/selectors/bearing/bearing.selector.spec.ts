@@ -18,8 +18,8 @@ describe('Bearing Selector', () => {
     description:
       'Windturbing with qa-009 connected. Used for generating mock data',
     manufacturer: 'Schaeffler',
-    locationLatitude: 49.5631065,
-    locationLongitude: 10.8847362,
+    locationLatitude: 49.563_106_5,
+    locationLongitude: 10.884_736_2,
     edgeDevice: {
       description: 'Edge device test desc',
       id: 'id-edge-device',

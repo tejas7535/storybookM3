@@ -20,7 +20,7 @@ export class SnackBarComponent {
 
   public icon = 'icon-toast-information';
 
-  constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {
+  public constructor(@Inject(MAT_SNACK_BAR_DATA) public data: SnackBarData) {
     this.icon = iconMap.get(data.type);
   }
 

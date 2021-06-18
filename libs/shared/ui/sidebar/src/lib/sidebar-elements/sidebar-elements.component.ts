@@ -14,11 +14,11 @@ import { getSidebarMode } from '../store/selectors/sidebar.selectors';
   styleUrls: ['./sidebar-elements.component.scss'],
 })
 export class SidebarElementsComponent implements OnInit {
-  @Input() elements: SidebarElement[];
+  @Input() public elements: SidebarElement[];
 
-  mode$: Observable<SidebarMode>;
+  public mode$: Observable<SidebarMode>;
 
-  constructor(private readonly store: Store<SidebarState>) {}
+  public constructor(private readonly store: Store<SidebarState>) {}
 
   public ngOnInit(): void {
     this.mode$ = this.store.pipe(select(getSidebarMode));

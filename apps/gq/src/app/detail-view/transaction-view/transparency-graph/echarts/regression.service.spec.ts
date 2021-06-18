@@ -38,7 +38,7 @@ describe('RegressionService', () => {
         coefficient2,
         quantity
       );
-      expect(res).toEqual(22.394103765508323);
+      expect(res).toEqual(22.394_103_765_508_323);
     });
   });
 });

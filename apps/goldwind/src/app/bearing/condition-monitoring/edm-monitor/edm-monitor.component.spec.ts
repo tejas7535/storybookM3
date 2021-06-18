@@ -56,8 +56,8 @@ describe('EdmMonitorComponent', () => {
       mockStore.dispatch = jest.fn();
 
       const mockInterval = {
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       component.setInterval(mockInterval);
@@ -116,7 +116,7 @@ describe('EdmMonitorComponent', () => {
 
     describe('formatTooltip', () => {
       it('should return a translated texts, antenna number and date', () => {
-        const mockDate = new Date(1466424490000);
+        const mockDate = new Date(1_466_424_490_000);
         jest.spyOn(global, 'Date').mockImplementation(() => mockDate as any);
         const mockParams = [
           {

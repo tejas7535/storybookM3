@@ -5,8 +5,8 @@ import { Component, Input } from '@angular/core';
   templateUrl: './picture-card-action.component.html',
 })
 export class PictureCardActionComponent {
-  @Input() text!: string;
-  @Input() disabled!: boolean;
-  @Input() click!: void;
-  @Input() toggleAction = false;
+  @Input() public text!: string;
+  @Input() public disabled!: boolean;
+  @Input() public click!: void;
+  @Input() public toggleAction = false;
 }

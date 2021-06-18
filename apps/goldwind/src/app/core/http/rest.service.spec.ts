@@ -55,8 +55,8 @@ describe('Rest Service', () => {
     it('should call DataService getAll with all edm params', () => {
       const mockEdmDevice = {
         id: 'ich1-bin2-top3',
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       service.getEdm(mockEdmDevice);
@@ -70,8 +70,8 @@ describe('Rest Service', () => {
     it('should call dataService getAll with all grease params', () => {
       const mockGreaseDevice = {
         id: 'du1-bist2-flop3',
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       service.getGreaseStatus(mockGreaseDevice);
@@ -114,8 +114,8 @@ describe('Rest Service', () => {
     it('should call dataService getLoad', () => {
       const mockLoadSenseParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
 
       service.getBearingLoad(mockLoadSenseParams);
@@ -159,17 +159,17 @@ describe('Rest Service', () => {
     it('should call GET for given path', () => {
       const mockDataParams = {
         id: 'du1-bist2-flop3',
-        startDate: 1599651508,
-        endDate: 1599651509,
+        startDate: 1_599_651_508,
+        endDate: 1_599_651_509,
       };
       const mockData = [
         {
           type: 'Load',
           description: 'Radial Load y',
           abreviation: 'F_y',
-          actualValue: 1635.0,
-          minValue: 1700.0,
-          maxValue: 1900.0,
+          actualValue: 1635,
+          minValue: 1700,
+          maxValue: 1900,
         },
       ];
 

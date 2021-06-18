@@ -26,14 +26,14 @@ const GRAPH_PROFILE_IMAGE_ENDPOINT =
   providedIn: 'root',
 })
 export class AzureAuthService {
-  constructor(
+  public constructor(
     @Inject(MSAL_GUARD_CONFIG)
     private readonly msalGuardConfig: MsalGuardConfiguration,
     private readonly authService: MsalService,
     private readonly http: HttpClient
   ) {}
 
-  static createImageFromBlob(image: Blob): Observable<string> {
+  public static createImageFromBlob(image: Blob): Observable<string> {
     const promise: Promise<string> = new Promise((resolve) => {
       const fileReader = new FileReader();
       fileReader.onload = (_e) => resolve(fileReader.result as string);
@@ -43,7 +43,7 @@ export class AzureAuthService {
     return from(promise);
   }
 
-  static extractDepartmentFromAzureAccountInfo(
+  public static extractDepartmentFromAzureAccountInfo(
     accountInfo: AzureAccountInfo
   ): string {
     if (accountInfo.name) {
@@ -57,7 +57,7 @@ export class AzureAuthService {
     return undefined;
   }
 
-  login(): void {
+  public login(): void {
     if (this.msalGuardConfig.interactionType === InteractionType.Popup) {
       if (this.msalGuardConfig.authRequest) {
         this.authService
@@ -85,11 +85,11 @@ export class AzureAuthService {
     }
   }
 
-  logout(): void {
+  public logout(): void {
     this.authService.logout();
   }
 
-  getProfileImage(): Observable<string> {
+  public getProfileImage(): Observable<string> {
     return this.http
       .get(GRAPH_PROFILE_IMAGE_ENDPOINT, { responseType: 'blob' })
       .pipe(
@@ -97,11 +97,11 @@ export class AzureAuthService {
       );
   }
 
-  setActiveAccount(acc: AzureAccountInfo): void {
+  public setActiveAccount(acc: AzureAccountInfo): void {
     this.authService.instance.setActiveAccount(acc);
   }
 
-  handleAccount(): AccountInfo {
+  public handleAccount(): AccountInfo {
     let activeAccount = this.authService.instance.getActiveAccount();
 
     // take first available account -> could be extended by some other logic

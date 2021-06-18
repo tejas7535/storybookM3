@@ -5,7 +5,7 @@ export class Authorization {
   private readonly keycloak: string;
   private readonly realm: string;
 
-  constructor() {
+  public constructor() {
     this.baseUrl = Cypress.config().baseUrl;
     this.keycloak = Cypress.env().keycloak;
     this.realm = Cypress.env().realm;

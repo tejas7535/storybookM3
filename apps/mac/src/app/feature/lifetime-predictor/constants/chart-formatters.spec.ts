@@ -14,13 +14,13 @@ describe('CHART_SETTINGS_WOEHLER', () => {
     });
 
     it('should return value with precision of 2', () => {
-      const result = lowPrecisionFormatter(100.5555555);
+      const result = lowPrecisionFormatter(100.555_555_5);
 
       expect(result).toEqual('100.56');
     });
 
     it('should return scientific notation for value', () => {
-      const result = scientificFormatter(10000);
+      const result = scientificFormatter(10_000);
 
       expect(result).toEqual('1.0E + 4');
     });

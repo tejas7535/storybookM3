@@ -170,12 +170,13 @@ describe('PredictionComponent', () => {
     });
 
     it('should print the error to console in error case', async () => {
+      // eslint-disable-next-line unicorn/no-useless-undefined
       await component.parseLoadFile(undefined).then(
         () => {
           expect(false).toBe(true);
         },
-        (reason) => {
-          expect(reason).toBeDefined();
+        (error) => {
+          expect(error).toBeDefined();
         }
       );
     });
@@ -197,7 +198,7 @@ describe('PredictionComponent', () => {
       item: (_index: number) => mockFile,
     };
 
-    spyOn(component, 'parseLoadFile');
+    jest.spyOn(component, 'parseLoadFile');
     component.handleFileInput(mockFileList);
     expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
   });
@@ -209,12 +210,12 @@ describe('PredictionComponent', () => {
       method: 'FKM',
     };
 
-    spyOn(component['dialog'], 'open').and.returnValue({
+    jest.spyOn(component['dialog'], 'open').mockReturnValue({
       afterClosed: () => of(mockSettings),
-    });
+    } as MatDialogRef<unknown, unknown>);
     const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
 
-    spyOn(component, 'dispatchLoad');
+    jest.spyOn(component, 'dispatchLoad');
     component.openDialog(mockArray);
     expect(component.dispatchLoad).toHaveBeenCalledWith(
       mockArray,
@@ -238,7 +239,7 @@ describe('PredictionComponent', () => {
       item: (_index: number) => mockFile,
     };
 
-    spyOn(component, 'parseLoadFile');
+    jest.spyOn(component, 'parseLoadFile');
     component.handleFileInput(mockFileList);
     expect(component.parseLoadFile).toHaveBeenCalledWith(mockFile);
   });
@@ -270,7 +271,7 @@ describe('PredictionComponent', () => {
       method: 'FKM',
     };
 
-    mockArray.reduce = jest.fn(() => Array(50001));
+    mockArray.reduce = jest.fn(() => [50_001]);
 
     component.dispatchLoad(mockArray, mockSettings);
     expect(store.dispatch).toHaveBeenCalled();
@@ -279,7 +280,7 @@ describe('PredictionComponent', () => {
   it('customize tooltip should add text if 10000 <= x <= 10000000', () => {
     const testObj: any = component.customizeTooltip({
       value: {
-        x: 10001,
+        x: 10_001,
         y2: 1,
       },
       axisValue: 5,
@@ -327,7 +328,7 @@ describe('PredictionComponent', () => {
 
   describe('handleDummyLoad', () => {
     it('should call parseLoadsFile', () => {
-      spyOn(component, 'parseLoadFile');
+      jest.spyOn(component, 'parseLoadFile');
       component.handleDummyLoad();
 
       expect(component.parseLoadFile).toHaveBeenCalledWith(

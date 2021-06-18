@@ -6,7 +6,7 @@ describe('GqQuotationPipe', () => {
     expect(pipe).toBeTruthy();
   });
   test('transform data', () => {
-    const gqId = 31002;
+    const gqId = 31_002;
 
     const pipe = new GqQuotationPipe();
     const result = pipe.transform(gqId);

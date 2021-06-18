@@ -57,8 +57,8 @@ describe('Grease Status Selector', () => {
         rsmShaftSpeed: true,
       },
       interval: {
-        startDate: 123456789,
-        endDate: 987654321,
+        startDate: 123_456_789,
+        endDate: 987_654_321,
       },
     },
     shaft: {

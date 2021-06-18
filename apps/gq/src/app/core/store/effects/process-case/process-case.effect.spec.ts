@@ -179,7 +179,7 @@ describe('ProcessCaseEffect', () => {
     let gqId: number;
 
     beforeEach(() => {
-      gqId = 123456;
+      gqId = 123_456;
       action = loadQuotation();
 
       const quotationIdentifier: QuotationIdentifier = {
@@ -260,7 +260,7 @@ describe('ProcessCaseEffect', () => {
       'should return loadQuotationFromUrl',
       marbles((m) => {
         const queryParams = {
-          gqId: 12334,
+          gqId: 12_334,
           customerNumber: '3456',
           salesOrg: '0267',
           gqPositionId: '5678',
@@ -736,7 +736,7 @@ describe('ProcessCaseEffect', () => {
       fromRoute = QUOTATION_IDENTIFIER_MOCK;
       current = {
         ...QUOTATION_IDENTIFIER_MOCK,
-        gqId: 62456,
+        gqId: 62_456,
       };
 
       result = ProcessCaseEffect['checkEqualityOfIdentifier'](

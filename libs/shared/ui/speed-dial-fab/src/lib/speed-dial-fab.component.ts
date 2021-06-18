@@ -21,7 +21,7 @@ import { speedDialFabAnimations } from './speed-dial-fab.animations';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SpeedDialFabComponent implements OnChanges {
-  @Input() primaryButton: SpeedDialFabItem = {
+  @Input() public primaryButton: SpeedDialFabItem = {
     key: 'add',
     icon: new Icon('icon-plus', false),
     color: 'primary',
@@ -41,7 +41,7 @@ export class SpeedDialFabComponent implements OnChanges {
   @Input() public open = false;
   @Input() public disabled: boolean[] = [];
 
-  @Output() readonly clicked: EventEmitter<string> = new EventEmitter();
+  @Output() public readonly clicked: EventEmitter<string> = new EventEmitter();
 
   public fabButtons: SpeedDialFabItem[] = [];
 

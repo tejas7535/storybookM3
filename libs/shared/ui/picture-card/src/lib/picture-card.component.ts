@@ -8,13 +8,13 @@ import { PictureCardAction } from './models/picture-card-action.model';
   styleUrls: ['./picture-card.component.scss'],
 })
 export class PictureCardComponent {
-  @Input() img!: string;
-  @Input() title!: string;
-  @Input() toggleEnabled = false;
-  @Input() hideActionsOnActive = false;
-  @Input() actions!: PictureCardAction[];
+  @Input() public img!: string;
+  @Input() public title!: string;
+  @Input() public toggleEnabled = false;
+  @Input() public hideActionsOnActive = false;
+  @Input() public actions!: PictureCardAction[];
 
-  active = false;
+  public active = false;
 
   public deactivate(): void {
     this.active = false;

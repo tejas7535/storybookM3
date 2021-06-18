@@ -8,13 +8,11 @@ import { UserMenuEntry } from './models/user-menu-entry.model';
   styleUrls: ['./user-menu.component.scss'],
 })
 export class UserMenuComponent {
-  @Input() user: string;
+  @Input() public user: string;
+  @Input() public profileImage: string;
+  @Input() public entries: UserMenuEntry[] = [];
 
-  @Input() profileImage: string;
-
-  @Input() entries: UserMenuEntry[] = [];
-
-  @Output() readonly clicked: EventEmitter<string> = new EventEmitter();
+  @Output() public readonly clicked: EventEmitter<string> = new EventEmitter();
 
   /**
    * Emits the clicked event

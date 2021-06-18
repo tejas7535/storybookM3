@@ -58,8 +58,8 @@ describe('Search Effects', () => {
     restService = spectator.inject(RestService);
 
     store.overrideSelector(getDataInterval, {
-      startDate: 1599651508,
-      endDate: 1599651509,
+      startDate: 1_599_651_508,
+      endDate: 1_599_651_509,
     });
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
@@ -100,8 +100,8 @@ describe('Search Effects', () => {
       'should return getDataId',
       marbles((m) => {
         const mockInterval = {
-          startDate: 1599651508,
-          endDate: 1599651509,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
         };
 
         action = setDataInterval({ interval: mockInterval });
@@ -149,9 +149,9 @@ describe('Search Effects', () => {
             type: 'Load',
             description: 'Radial Load y',
             abreviation: 'F_y',
-            actualValue: 1635.0,
-            minValue: 1700.0,
-            maxValue: 1900.0,
+            actualValue: 1635,
+            minValue: 1700,
+            maxValue: 1900,
           },
         ];
 
@@ -174,8 +174,8 @@ describe('Search Effects', () => {
         expect(restService.getData).toHaveBeenCalledTimes(1);
         expect(restService.getData).toHaveBeenCalledWith({
           id: deviceId,
-          startDate: 1599651508,
-          endDate: 1599651509,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
         });
       })
     );

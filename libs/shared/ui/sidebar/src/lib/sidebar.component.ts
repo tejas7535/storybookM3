@@ -21,15 +21,13 @@ import { getSidebarMode } from './store/selectors/sidebar.selectors';
   animations: [sidebarAnimation, contentAnimation],
 })
 export class SidebarComponent implements OnInit, OnDestroy {
-  private readonly subscriptions: Subscription = new Subscription();
-
-  @Input() width = 260;
-
+  @Input() public width = 260;
   public mode: SidebarMode;
-
   public isMobileViewPort: boolean;
 
-  constructor(
+  private readonly subscriptions: Subscription = new Subscription();
+
+  public constructor(
     private readonly breakpointService: BreakpointService,
     private readonly store: Store<SidebarState>
   ) {}
@@ -42,7 +40,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     this.subscriptions.add(
       this.breakpointService
         .isMobileViewPort()
-        .subscribe((isMobile) => (this.isMobileViewPort = isMobile))
+        .subscribe((isMobile: boolean) => (this.isMobileViewPort = isMobile))
     );
 
     this.subscriptions.add(

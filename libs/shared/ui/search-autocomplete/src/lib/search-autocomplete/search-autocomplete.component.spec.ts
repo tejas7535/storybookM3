@@ -1,19 +1,22 @@
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ReactiveComponentModule } from '@ngrx/component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { SearchAutocompleteComponent } from './search-autocomplete.component';
+import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { ReactiveComponentModule } from '@ngrx/component';
+
 import { SearchAutocompleteOption } from './search-autocomple-option.model';
+import { SearchAutocompleteComponent } from './search-autocomplete.component';
 
 describe('SearchAutocompleteComponent', () => {
   let component: SearchAutocompleteComponent;
   let spectator: Spectator<SearchAutocompleteComponent>;
+
+  const mockFn = () => {};
 
   const createComponent = createComponentFactory({
     component: SearchAutocompleteComponent,
@@ -144,18 +147,14 @@ describe('SearchAutocompleteComponent', () => {
     });
 
     it('should register supplied fn as onTouched method', () => {
-      const mockFn = () => {};
-
       component.registerOnTouched(mockFn);
-      expect(component.onTouched).toEqual(mockFn);
+      expect(component['onTouched']).toEqual(mockFn);
     });
 
     it('should add a subscription during onChange fn registration', () => {
-      const mockFn = () => {};
-
-      expect(component.subscriptions.length).toEqual(0);
+      expect(component['subscriptions'].length).toEqual(0);
       component.registerOnChange(mockFn);
-      expect(component.subscriptions.length).toEqual(1);
+      expect(component['subscriptions'].length).toEqual(1);
     });
 
     it('should set disabled state', () => {

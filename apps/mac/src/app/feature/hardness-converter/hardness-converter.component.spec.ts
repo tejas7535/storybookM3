@@ -161,10 +161,10 @@ describe('HardnessConverterComponent', () => {
 
   describe('getValue', () => {
     it('should round the number for HRc', () => {
-      const val1 = component.getValue({ unit: 'HRc', value: 50.35346 });
-      const val2 = component.getValue({ unit: 'HRc', value: 1.00000004 });
-      const val3 = component.getValue({ unit: 'HRc', value: 0.99999999 });
-      const val4 = component.getValue({ unit: 'HRc', value: 0.00000004 });
+      const val1 = component.getValue({ unit: 'HRc', value: 50.353_46 });
+      const val2 = component.getValue({ unit: 'HRc', value: 1.000_000_04 });
+      const val3 = component.getValue({ unit: 'HRc', value: 0.999_999_99 });
+      const val4 = component.getValue({ unit: 'HRc', value: 0.000_000_04 });
 
       expect(val1).toEqual((50.4).toLocaleString());
       expect(val2).toEqual((1).toLocaleString());
@@ -173,12 +173,12 @@ describe('HardnessConverterComponent', () => {
     });
 
     it('should return the value as an integer for other units', () => {
-      const val1 = component.getValue({ unit: 'MPa', value: 50.35346 });
-      const val2 = component.getValue({ unit: 'HV', value: 50.35346 });
-      const val3 = component.getValue({ unit: 'HB', value: 50.35346 });
+      const val1 = component.getValue({ unit: 'MPa', value: 50.353_46 });
+      const val2 = component.getValue({ unit: 'HV', value: 50.353_46 });
+      const val3 = component.getValue({ unit: 'HB', value: 50.353_46 });
       const val4 = component.getValue({
         unit: 'Literally anything else',
-        value: 50.35346,
+        value: 50.353_46,
       });
 
       expect(val1).toEqual((50).toLocaleString());

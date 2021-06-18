@@ -112,7 +112,7 @@ describe('SearchService', () => {
     test('should call', () => {
       const quotationIdentifier: QuotationIdentifier = {
         customerNumber: '1234',
-        gqId: 1147852,
+        gqId: 1_147_852,
         salesOrg: '0267',
       };
       const mock = {
