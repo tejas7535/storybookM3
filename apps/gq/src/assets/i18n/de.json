@@ -91,8 +91,6 @@
         "exportToExcel": "als Excel Datei exportieren",
         "addNewItem": "Neues Item hinzufügen",
         "deleteCase": "case löschen",
-        "openDetail": "Details öffnen",
-        "openCase": "case öffnen",
         "resetAll": "Zurücksetzen",
         "uploadSelectionToSap": "Update prices in SAP Quotation"
       },

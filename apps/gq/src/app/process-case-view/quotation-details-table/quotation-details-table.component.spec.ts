@@ -12,7 +12,6 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteItemsButtonComponent } from '../../shared/custom-status-bar/delete-items-button/delete-items-button.component';
-import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
@@ -31,7 +30,6 @@ describe('QuotationDetailsTableComponent', () => {
     detectChanges: false,
     imports: [
       AgGridModule.withComponents([
-        DetailViewButtonComponent,
         QuotationDetailsStatusComponent,
         DeleteItemsButtonComponent,
       ]),

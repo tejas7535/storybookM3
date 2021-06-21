@@ -19,10 +19,8 @@ import { CreateManualCaseButtonComponent } from './case-view/create-manual-case-
 import { ImportCaseButtonComponent } from './case-view/import-case-button/import-case-button.component';
 import { DeleteCaseButtonComponent } from './delete-case-button/delete-case-button.component';
 import { DeleteItemsButtonComponent } from './delete-items-button/delete-items-button.component';
-import { DetailViewButtonComponent } from './detail-view-button/detail-view-button.component';
 import { ExportToExcelButtonComponent } from './export-to-excel-button/export-to-excel-button.component';
 import { MaterialValidationStatusComponent } from './material-validation-status/material-validation-status.component';
-import { OpenCaseButtonComponent } from './open-case-button/open-case-button.component';
 import { QuotationDetailsStatusComponent } from './quotation-details-status/quotation-details-status.component';
 import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 
@@ -31,9 +29,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     AddMaterialButtonComponent,
     CreateCaseButtonComponent,
     DeleteCaseButtonComponent,
-    DetailViewButtonComponent,
     ExportToExcelButtonComponent,
-    OpenCaseButtonComponent,
     QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
     DeleteItemsButtonComponent,
@@ -58,9 +54,7 @@ import { UploadSelectionToSapButtonComponent } from './upload-selection-to-sap-b
     AddMaterialButtonComponent,
     CreateCaseButtonComponent,
     DeleteCaseButtonComponent,
-    DetailViewButtonComponent,
     ExportToExcelButtonComponent,
-    OpenCaseButtonComponent,
     QuotationDetailsStatusComponent,
     UploadSelectionToSapButtonComponent,
     DeleteItemsButtonComponent,
