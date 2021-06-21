@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.25.0](///compare/cdba-v1.25.0...cdba-v1.24.0) (2021-06-21)
+
+
+### 📈 Improvements
+
+* **cdba:** restore table selection after returning back (DSCDA-2450) ([0272659](///commit/02726598b298726b3a474df2896cb921b6020c7b))
+
+
+### 🎸 Features
+
+* **cdba:** add share button on detail and compare pages (DSCDA-2366) ([b2e03c3](///commit/b2e03c3fb77e1f29b375d41dee966ee5de15db79))
+* **cdba:** add tooltip if second level filters are disabled (DSCDA-2452) ([a1ce36f](///commit/a1ce36f6053b0a52eb925d838d640b0da5c5ad93))
+* **cdba:** display disabled second level filter as initial filter (DSCDA-2453) ([4376b3e](///commit/4376b3e8784433166ba7a0329bc34d3563ef96f6))
+* restore table filters after navigating back ([16efbfc](///commit/16efbfc859ea739940ce0db8b1015a3722e38abb))
+
+
+### 🐛 Bug Fixes
+
+* **cdba:** prevent layout break due to css class name overlapse (DSCDA-2460) ([bd7a99a](///commit/bd7a99a739e4c0ca661c213207116bddcba57dc4))
+* **cdba:** set debounce timer correctly ([5c6f283](///commit/5c6f2834521db14e245aae399bdd3b848afc9683))
+
 ## [1.24.0](///compare/cdba-v1.24.0...cdba-v1.23.0) (2021-06-09)
 
 
