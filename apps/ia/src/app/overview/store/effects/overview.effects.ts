@@ -43,7 +43,6 @@ import {
 } from '../actions/overview.action';
 
 /* eslint-disable ngrx/prefer-effect-callback-in-block-statement */
-/* eslint-disable @typescript-eslint/explicit-member-accessibility */
 @Injectable()
 export class OverviewEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>

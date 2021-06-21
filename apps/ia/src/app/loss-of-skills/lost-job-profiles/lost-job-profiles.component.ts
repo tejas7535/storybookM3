@@ -18,17 +18,16 @@ type CellType = 'workforce' | 'leavers';
   templateUrl: './lost-job-profiles.component.html',
 })
 export class LostJobProfilesComponent {
-  @Input() loading: boolean;
+  @Input() loading: boolean; // not used at the moment
   @Input() data: LostJobProfile[];
-  @Input() errorMessage: string;
 
-  public modules: any[] = [ClientSideRowModelModule];
+  modules: any[] = [ClientSideRowModelModule];
 
-  public frameworkComponents = {
+  frameworkComponents = {
     amountCellRenderer: AmountCellRendererComponent,
   };
 
-  public defaultColDef: ColDef = {
+  defaultColDef: ColDef = {
     sortable: true,
     filter: true,
     floatingFilter: true,
@@ -36,9 +35,10 @@ export class LostJobProfilesComponent {
     suppressMenu: true,
     width: 100,
     flex: 1,
+    headerClass: () => 'bg-lightBg',
   };
 
-  public columnDefs: ColDef[] = [
+  columnDefs: ColDef[] = [
     {
       field: 'job',
       headerName: translate('lossOfSkills.lostJobProfiles.table.job'),
@@ -72,6 +72,8 @@ export class LostJobProfilesComponent {
   ];
 
   constructor(private readonly dialog: MatDialog) {}
+
+  getRowClass = () => 'border-2 border-veryLight';
 
   private handleCellClick(params: any, key: CellType): void {
     const translationKey =

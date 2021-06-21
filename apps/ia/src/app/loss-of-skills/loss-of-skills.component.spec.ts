@@ -24,7 +24,6 @@ describe('LossOfSkillsComponent', () => {
       ReactiveComponentModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [LossOfSkillsComponent],
   });
 
   beforeEach(() => {

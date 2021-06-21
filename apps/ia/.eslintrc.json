@@ -28,7 +28,8 @@
             "style": "kebab-case"
           }
         ],
-        "import/no-extraneous-dependencies": "off"
+        "import/no-extraneous-dependencies": "off",
+        "@typescript-eslint/explicit-member-accessibility": "off"
       },
       "plugins": [
         "@angular-eslint/eslint-plugin",

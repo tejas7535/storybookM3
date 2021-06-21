@@ -20,9 +20,15 @@
   "entries": "Entries",
   "exits": "Exits",
   "openPositions": "Open positions",
-  "openForApplications": "Open for applications",
+  "openForApplications": "Open for application",
   "internalMatches": "Internal matches",
-  "resignationsReceived": "Resignations received",
-  "totalResignations": "Total resignations",
-  "regrettedLoss": "Regretted loss"
+  "resignationsReceived": {
+    "title": "Resignations received",
+    "totalResignations": "Total resignations",
+    "regrettedLoss": "Regretted loss",
+    "table": {
+      "date": "Date",
+      "name": "Name"
+    }
+  }
 }

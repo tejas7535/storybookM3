@@ -1,0 +1,26 @@
+<div
+  *transloco="let t; read: 'overview.resignationsReceived'"
+  class="flex flex-col h-full"
+>
+  <h5>{{ t('title') }}</h5>
+  <div class="pl-4">
+    <span class="flex flex-row text-body-2 mt-4">{{
+      t('totalResignations')
+    }}</span>
+    <h4 class="flex flex-row mb-4">{{ data.length }}</h4>
+  </div>
+  <ag-grid-angular
+    class="ag-theme-material h-full border-2 border-veryLight rounded-sm"
+    [rowData]="data || []"
+    [getRowClass]="getRowClass"
+    [defaultColDef]="defaultColDef"
+    [columnDefs]="columnDefs"
+    [modules]="modules"
+    [frameworkComponents]="frameworkComponents"
+    valueCache
+    animateRows
+    suppressCsvExport
+    suppressExcelExport
+  >
+  </ag-grid-angular>
+</div>
