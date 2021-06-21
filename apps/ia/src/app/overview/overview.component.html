@@ -1,38 +1,46 @@
 <div *transloco="let t; read: 'overview'">
-  <div class="bg-white flex flex-row gap-4 p-4 flex-wrap lg:flex-nowrap">
-    <div class="shadow p-4 w-full lg:w-[25%]">
-      <h5>{{ t('fluctuationRate') }}</h5>
-      <ia-line-chart
-        [config]="fluctuationChartData$ | ngrxPush"
-        [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
-        [title]="t('chartTitle')"
-      ></ia-line-chart>
+  <div class="bg-white flex gap-4 p-4 flex-wrap lg:flex-nowrap">
+    <div class="shadow p-4 w-full lg:w-[24%] flex flex-col">
+      <div class="flex-1">
+        <h5>{{ t('fluctuationRate') }}</h5>
+        <ia-line-chart
+          [config]="fluctuationChartData$ | ngrxPush"
+          [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
+          [title]="t('chartTitle')"
+        ></ia-line-chart>
+      </div>
     </div>
-    <div class="shadow p-4 w-full lg:w-[25%]">
-      <h5>{{ t('unforcedFluctuationRate') }}</h5>
-      <ia-line-chart
-        [config]="unforcedFluctuationChartData$ | ngrxPush"
-        [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"
-        [title]="t('chartTitle')"
-      ></ia-line-chart>
+    <div class="shadow p-4 w-full lg:w-[24%] flex flex-col">
+      <div class="flex-1">
+        <h5>{{ t('unforcedFluctuationRate') }}</h5>
+        <ia-line-chart
+          [config]="unforcedFluctuationChartData$ | ngrxPush"
+          [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"
+          [title]="t('chartTitle')"
+        ></ia-line-chart>
+      </div>
     </div>
-    <div class="shadow p-4 w-full lg:flex-grow lg:max-w-[30%]">
-      <ia-entries-exits
-        [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
-        [exitsDoughnutConfig]="exitsDoughnutConfig$ | ngrxPush"
-        [entriesCount]="entriesCount$ | ngrxPush"
-        [exitsCount]="exitsCount$ | ngrxPush"
-        [exitEmployees]="exitEmployees$ | ngrxPush"
-        [entryEmployees]="entryEmployees$ | ngrxPush"
-      ></ia-entries-exits>
+    <div class="shadow p-4 w-full lg:flex-grow lg:max-w-[29%] flex flex-col">
+      <div class="flex-1">
+        <ia-entries-exits
+          [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
+          [exitsDoughnutConfig]="exitsDoughnutConfig$ | ngrxPush"
+          [entriesCount]="entriesCount$ | ngrxPush"
+          [exitsCount]="exitsCount$ | ngrxPush"
+          [exitEmployees]="exitEmployees$ | ngrxPush"
+          [entryEmployees]="entryEmployees$ | ngrxPush"
+        ></ia-entries-exits>
+      </div>
     </div>
 
-    <div class="flex flex-col gap-4 w-full lg:w-[20%]">
-      <div class="shadow p-2">
-        <h5>{{ t('openPositions') }}</h5>
-      </div>
-      <div class="shadow p-2">
-        <h5>{{ t('resignationsReceived') }}</h5>
+    <div class="flex flex-col w-full lg:w-auto flex-grow">
+      <div class="flex-1 flex flex-col gap-4">
+        <div class="shadow p-2">
+          <h5>{{ t('openPositions') }}</h5>
+        </div>
+        <div class="shadow p-2 flex-grow">
+          <ia-resignations [data]="[]" [loading]="true"></ia-resignations>
+        </div>
       </div>
     </div>
   </div>

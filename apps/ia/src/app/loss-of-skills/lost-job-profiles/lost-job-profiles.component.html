@@ -1,6 +1,7 @@
 <ag-grid-angular
-  class="ag-theme-material h-full"
+  class="ag-theme-material h-full border-2 border-veryLight rounded-sm"
   [rowData]="data || []"
+  [getRowClass]="getRowClass"
   [defaultColDef]="defaultColDef"
   [columnDefs]="columnDefs"
   [modules]="modules"
