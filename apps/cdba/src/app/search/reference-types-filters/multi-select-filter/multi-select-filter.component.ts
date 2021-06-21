@@ -13,7 +13,7 @@ import {
 import { FormControl } from '@angular/forms';
 import { MatOptionSelectionChange } from '@angular/material/core/option';
 
-import { EMPTY, Subscription, timer } from 'rxjs';
+import { Subscription, timer } from 'rxjs';
 import { debounce, tap } from 'rxjs/operators';
 
 import {
@@ -67,14 +67,7 @@ export class MultiSelectFilterComponent
       this.searchForm.valueChanges
         .pipe(
           tap(() => (this.debounceIsActive = true)),
-          debounce(() =>
-            this.filter && this.filter.autocomplete
-              ? this.searchForm.value &&
-                this.searchForm.value.length > this.ONE_CHAR_LENGTH
-                ? timer(this.DEBOUNCE_TIME_DEFAULT)
-                : timer(this.DEBOUNCE_TIME_ONE_CHAR)
-              : EMPTY
-          )
+          debounce(() => this.getDebounceTimer())
         )
         .subscribe((val) => {
           this.searchFieldChange(val);
@@ -89,15 +82,12 @@ export class MultiSelectFilterComponent
       this.filterName = filterUpdate.name;
 
       // prevent overriding existing selections due to new autocomplete suggestions
-      if (filterUpdate.autocomplete) {
-        this.filterOptions =
-          this.searchUtilities.mergeOptionsWithSelectedOptions(
+      this.filterOptions = filterUpdate.autocomplete
+        ? this.searchUtilities.mergeOptionsWithSelectedOptions(
             filterUpdate.items,
             this.form.value || []
-          );
-      } else {
-        this.filterOptions = filterUpdate.items;
-      }
+          )
+        : filterUpdate.items;
 
       // consider current search string if local search
       if (!changes.filter.currentValue.autocomplete) {
@@ -279,5 +269,17 @@ export class MultiSelectFilterComponent
         return tmp;
       }),
     });
+  }
+  private getDebounceTimer(): any {
+    let debounceTime = 0;
+
+    if (this.filter?.autocomplete) {
+      debounceTime =
+        this.searchForm.value?.length > this.ONE_CHAR_LENGTH
+          ? this.DEBOUNCE_TIME_DEFAULT
+          : this.DEBOUNCE_TIME_ONE_CHAR;
+    }
+
+    return timer(debounceTime);
   }
 }
