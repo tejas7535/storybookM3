@@ -45,7 +45,7 @@ describe('SnackBarService', () => {
     let expectedConfig: MatSnackBarConfig;
 
     test('should call showMessage with correct config', () => {
-      const spy = spyOn<any>(snackBarService, 'showMessage');
+      snackBarService['showMessage'] = jest.fn();
 
       message = 'Success';
       expectedConfig = {
@@ -56,11 +56,13 @@ describe('SnackBarService', () => {
 
       snackBarService.showSuccessMessage(message);
 
-      expect(spy).toHaveBeenCalledWith(expectedConfig);
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
     });
 
     test('should set default success message', () => {
-      const spy = spyOn<any>(snackBarService, 'showMessage');
+      snackBarService['showMessage'] = jest.fn();
 
       expectedConfig = {
         panelClass: 'success-message',
@@ -74,7 +76,9 @@ describe('SnackBarService', () => {
 
       snackBarService.showSuccessMessage();
 
-      expect(spy).toHaveBeenCalledWith(expectedConfig);
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
     });
   });
 
@@ -83,7 +87,7 @@ describe('SnackBarService', () => {
     let expectedConfig: MatSnackBarConfig;
 
     test('should call showMessage with correct config', () => {
-      const spy = spyOn<any>(snackBarService, 'showMessage');
+      snackBarService['showMessage'] = jest.fn();
 
       message = 'Warning';
       expectedConfig = {
@@ -93,7 +97,9 @@ describe('SnackBarService', () => {
 
       snackBarService.showWarningMessage(message);
 
-      expect(spy).toHaveBeenCalledWith(expectedConfig);
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
     });
   });
 
@@ -102,7 +108,7 @@ describe('SnackBarService', () => {
     let expectedConfig: MatSnackBarConfig;
 
     test('should call showMessage with correct config', () => {
-      const spy = spyOn<any>(snackBarService, 'showMessage');
+      snackBarService['showMessage'] = jest.fn();
 
       message = 'Error';
       expectedConfig = {
@@ -112,7 +118,9 @@ describe('SnackBarService', () => {
 
       snackBarService.showErrorMessage(message);
 
-      expect(spy).toHaveBeenCalledWith(expectedConfig);
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
     });
   });
 
@@ -121,7 +129,7 @@ describe('SnackBarService', () => {
     let expectedConfig: MatSnackBarConfig;
 
     test('should call showMessage with correct config', () => {
-      const spy = spyOn<any>(snackBarService, 'showMessage');
+      snackBarService['showMessage'] = jest.fn();
 
       message = 'Info';
       expectedConfig = {
@@ -131,13 +139,15 @@ describe('SnackBarService', () => {
 
       snackBarService.showInfoMessage(message);
 
-      expect(spy).toHaveBeenCalledWith(expectedConfig);
+      expect(snackBarService['showMessage']).toHaveBeenCalledWith(
+        expectedConfig
+      );
     });
   });
 
   describe('#showMessage()', () => {
     test('should call openComponent with SnackBarComponent and given config', () => {
-      const spy = spyOn(snackBar, 'openFromComponent').and.callThrough();
+      const spy = jest.spyOn(snackBar, 'openFromComponent');
 
       const snackBarConfig: MatSnackBarConfig = {
         panelClass: 'info-message',
@@ -149,7 +159,7 @@ describe('SnackBarService', () => {
       expect(spy).toHaveBeenCalledWith(SnackBarComponent, snackBarConfig);
     });
 
-    xtest('should return dismissed as Observable after dismissed', (done) => {
+    test.skip('should return dismissed as Observable after dismissed', (done) => {
       const snackBarConfig: MatSnackBarConfig = {
         panelClass: 'success-message',
         data: new SnackBarData('message', 'action', SnackBarType.SUCCESS),

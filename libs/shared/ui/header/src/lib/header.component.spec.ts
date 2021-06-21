@@ -51,7 +51,7 @@ describe('HeaderComponent', () => {
 
   describe('ngOnDestroy', () => {
     it('should unsubscribe fromSubscription', () => {
-      const spy = spyOn<any>(component['subscription'], 'unsubscribe');
+      const spy = jest.spyOn(component['subscription'], 'unsubscribe');
 
       component.ngOnDestroy();
 

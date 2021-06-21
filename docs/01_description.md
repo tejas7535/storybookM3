@@ -5,17 +5,17 @@
 <!-- AUTO-GENERATED-CONTENT:END -->
 <!-- AUTO-GENERATED-CONTENT:START (DEPSBADGES:deps=@nrwl/workspace+typescript+@angular/core+@angular/cli+@angular/cdk+@angular/material+@ngrx/store+jest+cypress+prettier+tailwindcss) -->
 
-![@nrwl/workspace: 12.3.6](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.3.6-brightgreen)
+![@nrwl/workspace: 12.4.0](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.4.0-brightgreen)
 ![typescript: 4.2.4](https://img.shields.io/badge/typescript-4.2.4-brightgreen)
 ![@angular/core: 12.0.5](https://img.shields.io/badge/%40angular%2Fcore-12.0.5-brightgreen)
-![@angular/cli: 12.0.4](https://img.shields.io/badge/%40angular%2Fcli-12.0.4-brightgreen)
+![@angular/cli: 12.0.5](https://img.shields.io/badge/%40angular%2Fcli-12.0.5-brightgreen)
 ![@angular/cdk: 12.0.5](https://img.shields.io/badge/%40angular%2Fcdk-12.0.5-brightgreen)
 ![@angular/material: 12.0.5](https://img.shields.io/badge/%40angular%2Fmaterial-12.0.5-brightgreen)
 ![@ngrx/store: 12.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-12.1.0-brightgreen)
-![jest: 26.6.3](https://img.shields.io/badge/jest-26.6.3-brightgreen)
+![jest: 27.0.3](https://img.shields.io/badge/jest-27.0.3-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.3.1](https://img.shields.io/badge/prettier-2.3.1-brightgreen)
-![tailwindcss: 2.1.4](https://img.shields.io/badge/tailwindcss-2.1.4-brightgreen)
+![tailwindcss: 2.2.0](https://img.shields.io/badge/tailwindcss-2.2.0-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 

@@ -25,66 +25,66 @@
     "noImplicitReturns": true,
     "baseUrl": ".",
     "paths": {
-      "@schaeffler/shared/cypress-utils": [
-        "libs/shared/cypress-utils/src/index.ts"
+      "@cdba/*": ["apps/cdba/src/app/*"],
+      "@cdba/environments/*": ["apps/cdba/src/environments/*"],
+      "@cdba/testing/*": ["apps/cdba/src/testing/*"],
+      "@schaeffler/application-insights": [
+        "libs/shared/utils/application-insights/src/index.ts"
       ],
-      "jszip": ["node_modules/jszip/dist/jszip.min.js"],
-      "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
-      "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
-      "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
-      "@schaeffler/responsive": ["libs/shared/utils/responsive/src/index.ts"],
-      "@schaeffler/transloco": ["libs/shared/utils/transloco/src/index.ts"],
-      "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
-      "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
+      "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
+      "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
+      "@schaeffler/dropdown-input": [
+        "libs/shared/ui/dropdown-input/src/index.ts"
+      ],
+      "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
       "@schaeffler/file-drop": ["libs/shared/ui/file-drop/src/index.ts"],
+      "@schaeffler/footer": ["libs/shared/ui/footer/src/index.ts"],
+      "@schaeffler/footer-tailwind": [
+        "libs/shared/ui/footer-tailwind/src/index.ts"
+      ],
+      "@schaeffler/header": ["libs/shared/ui/header/src/index.ts"],
+      "@schaeffler/horizontal-separator": [
+        "libs/shared/ui/horizontal-separator/src/index.ts"
+      ],
+      "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
+      "@schaeffler/icons": ["libs/shared/ui/icons/src/index.ts"],
+      "@schaeffler/loading-spinner": [
+        "libs/shared/ui/loading-spinner/src/index.ts"
+      ],
+      "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
+      "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
+      "@schaeffler/responsive": ["libs/shared/utils/responsive/src/index.ts"],
       "@schaeffler/scroll-to-top": [
         "libs/shared/ui/scroll-to-top/src/index.ts"
       ],
-      "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
-      "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
-      "@schaeffler/speed-dial-fab": [
-        "libs/shared/ui/speed-dial-fab/src/index.ts"
+      "@schaeffler/search-autocomplete": [
+        "libs/shared/ui/search-autocomplete/src/index.ts"
       ],
       "@schaeffler/settings-sidebar": [
         "libs/shared/ui/settings-sidebar/src/index.ts"
       ],
-      "@schaeffler/shared/ui/storybook": [
-        "libs/shared/ui/storybook/src/index.ts"
+      "@schaeffler/shared/cypress-utils": [
+        "libs/shared/cypress-utils/src/index.ts"
       ],
-      "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
-      "@schaeffler/empty-states": ["libs/shared/ui/empty-states/src/index.ts"],
-      "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
-      "@cdba/environments/*": ["apps/cdba/src/environments/*"],
-      "@cdba/testing/*": ["apps/cdba/src/testing/*"],
-      "@cdba/*": ["apps/cdba/src/app/*"],
-      "@schaeffler/http": ["libs/shared/utils/http/src/index.ts"],
-      "@schaeffler/application-insights": [
-        "libs/shared/utils/application-insights/src/index.ts"
-      ],
-      "@schaeffler/footer-tailwind": [
-        "libs/shared/ui/footer-tailwind/src/index.ts"
-      ],
+      "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
       "@schaeffler/shared/ui/footer-tailwind": [
         "libs/shared/ui/footer-tailwind/src/index.ts"
       ],
-      "@schaeffler/picture-card": ["libs/shared/ui/picture-card/src/index.ts"],
-      "@schaeffler/report": ["libs/shared/ui/report/src/index.ts"],
-      "@schaeffler/dropdown-input": [
-        "libs/shared/ui/dropdown-input/src/index.ts"
+      "@schaeffler/shared/ui/storybook": [
+        "libs/shared/ui/storybook/src/index.ts"
       ],
       "@schaeffler/shared/utils/azure-auth": [
         "libs/shared/utils/azure-auth/src/index.ts"
       ],
+      "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
+      "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],
+      "@schaeffler/speed-dial-fab": [
+        "libs/shared/ui/speed-dial-fab/src/index.ts"
+      ],
       "@schaeffler/stepper": ["libs/shared/ui/stepper/src/index.ts"],
-      "@schaeffler/horizontal-separator": [
-        "libs/shared/ui/horizontal-separator/src/index.ts"
-      ],
-      "@schaeffler/loading-spinner": [
-        "libs/shared/ui/loading-spinner/src/index.ts"
-      ],
-      "@schaeffler/search-autocomplete": [
-        "libs/shared/ui/search-autocomplete/src/index.ts"
-      ]
+      "@schaeffler/styles": ["libs/shared/ui/styles/src/index.ts"],
+      "@schaeffler/transloco": ["libs/shared/utils/transloco/src/index.ts"],
+      "jszip": ["node_modules/jszip/dist/jszip.min.js"]
     },
     "resolveJsonModule": true,
     "esModuleInterop": true

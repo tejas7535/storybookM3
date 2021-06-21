@@ -60,7 +60,7 @@ describe('SnackBarComponent', () => {
 
     describe('#clickActionButton()', () => {
       test('should emit dismiss event', () => {
-        const spy = spyOn(component.action, 'emit');
+        const spy = jest.spyOn(component.action, 'emit');
 
         component.clickActionButton();
 

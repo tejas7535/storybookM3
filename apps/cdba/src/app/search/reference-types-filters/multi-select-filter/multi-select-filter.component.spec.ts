@@ -102,7 +102,6 @@ describe('MultiSelectFilterComponent', () => {
         expect(component.searchFieldChange).toHaveBeenCalledWith(testVal);
         expect(spy).toHaveBeenCalledWith(component.DEBOUNCE_TIME_ONE_CHAR);
         done();
-        done();
       }, component.DEBOUNCE_TIME_ONE_CHAR);
     });
   });
@@ -470,7 +469,7 @@ describe('MultiSelectFilterComponent', () => {
 
   describe('dropdownOpenedChange', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      jest.useFakeTimers('legacy');
     });
 
     afterEach(() => {

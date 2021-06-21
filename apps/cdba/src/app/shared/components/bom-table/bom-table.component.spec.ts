@@ -83,7 +83,7 @@ describe('BomTableComponent', () => {
 
   describe('ngOnChanges', () => {
     it('should showLoadingOverlay if grid loaded and isLoading active', () => {
-      spyOn(window, 'setTimeout');
+      jest.spyOn(window, 'setTimeout');
       component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
       } as unknown as GridApi;

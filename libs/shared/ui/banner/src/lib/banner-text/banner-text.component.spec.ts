@@ -69,7 +69,7 @@ describe('BannerTextComponent', () => {
 
   describe('clickButton', () => {
     it('should emit closeBanner event', () => {
-      spyOn(component.closeBanner, 'emit');
+      jest.spyOn(component.closeBanner, 'emit');
 
       component.clickButton();
 
@@ -79,7 +79,7 @@ describe('BannerTextComponent', () => {
 
   describe('toggleText', () => {
     it('should emit toggleFullText event', () => {
-      spyOn(component.toggleFullText, 'emit');
+      jest.spyOn(component.toggleFullText, 'emit');
 
       component.toggleText();
 

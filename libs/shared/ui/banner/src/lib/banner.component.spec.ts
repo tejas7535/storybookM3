@@ -78,7 +78,7 @@ describe('BannerComponent', () => {
 
     describe('closeBanner', () => {
       it('should dispatch action closeBanner', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
 
         component.closeBanner();
 
@@ -88,7 +88,7 @@ describe('BannerComponent', () => {
 
     describe('toggleFullText', () => {
       it('should dispatch action toggleFullText', () => {
-        spyOn(store, 'dispatch');
+        jest.spyOn(store, 'dispatch');
 
         component.toggleFullText();
 

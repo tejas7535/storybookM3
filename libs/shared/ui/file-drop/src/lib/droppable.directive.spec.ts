@@ -28,7 +28,7 @@ describe('DroppableDirective', () => {
     };
     beforeEach(() => {
       directive['checkFileTypeAcceptance'] = jest.fn().mockReturnValue(false);
-      spyOn(directive.dropped, 'emit');
+      jest.spyOn(directive.dropped, 'emit');
       event = undefined;
     });
 

@@ -1,6 +1,8 @@
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+
 import { InfoIconComponent } from './info-icon.component';
 
 describe('InfoIconComponent', () => {
@@ -22,7 +24,7 @@ describe('InfoIconComponent', () => {
   });
 
   describe('iconEnter', () => {
-    test('open menu ', () => {
+    test('open menu', () => {
       const menuTrigger: any = { openMenu: jest.fn() };
       component.iconEnter(menuTrigger);
       expect(menuTrigger.openMenu).toHaveBeenCalled();
@@ -31,7 +33,7 @@ describe('InfoIconComponent', () => {
 
   describe('iconLeave', () => {
     test('iconLeave', () => {
-      jest.useFakeTimers();
+      jest.useFakeTimers('legacy');
       const menuTrigger: any = { closeMenu: jest.fn() };
 
       component.iconLeave(menuTrigger);

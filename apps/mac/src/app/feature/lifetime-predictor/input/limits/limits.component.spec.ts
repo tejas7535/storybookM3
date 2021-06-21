@@ -98,7 +98,7 @@ describe('LimitsComponent', () => {
       hv_upper: 567,
     };
     expect(component.patchLimits).toBeDefined();
-    spyOn(component.adjust, 'emit');
+    jest.spyOn(component.adjust, 'emit');
 
     component.patchLimits(mockValue, mockType);
     // fixture.detectChanges();
@@ -106,7 +106,7 @@ describe('LimitsComponent', () => {
   });
 
   it('should have a patchInput method', () => {
-    spyOn(component, 'patchLimits');
+    jest.spyOn(component, 'patchLimits');
     expect(component.patchInput).toBeDefined();
     const mockSrcElement = {
       min: 100,

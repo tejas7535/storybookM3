@@ -332,7 +332,7 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('iconEnter', () => {
-    it('should open the menu ', () => {
+    it('should open the menu', () => {
       const menuTrigger: any = { openMenu: jest.fn() };
       component.iconEnter(menuTrigger);
       expect(menuTrigger.openMenu).toHaveBeenCalled();
@@ -340,8 +340,8 @@ describe('SalesRowDetailsComponent', () => {
   });
 
   describe('iconLeave', () => {
-    it('should close the mennu after the timeout', () => {
-      jest.useFakeTimers();
+    it('should close the menu after the timeout', () => {
+      jest.useFakeTimers('legacy');
       const menuTrigger: any = { closeMenu: jest.fn() };
 
       component.iconLeave(menuTrigger);
