@@ -69,7 +69,7 @@ describe('SettingsSidebarComponent', () => {
 
   describe('#onChangeState', () => {
     test('should emit openedChange when called', () => {
-      spyOn(component['openedChange'], 'emit');
+      jest.spyOn(component['openedChange'], 'emit');
 
       component.onChangeState(true);
 

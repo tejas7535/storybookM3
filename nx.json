@@ -41,20 +41,6 @@
     }
   },
   "projects": {
-    "shared-cypress-utils": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-assets": {
-      "tags": ["scope:shared", "type:assets"]
-    },
-    "helloworld-azure-e2e": {
-      "tags": [],
-      "implicitDependencies": ["helloworld-azure"]
-    },
-    "helloworld-azure": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
     "cdba": {
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
@@ -62,51 +48,6 @@
     "cdba-e2e": {
       "tags": [],
       "implicitDependencies": ["cdba"]
-    },
-    "shared-ui-header": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles", "shared-assets"]
-    },
-    "shared-utils-responsive": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-transloco": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-ui-sidebar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-icons": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-footer": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-file-drop": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-snackbar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-banner": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-scroll-to-top": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-speed-dial-fab": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "shared-ui-settings-sidebar": {
-      "tags": ["scope:shared", "type:ui"],
-      "implicitDependencies": ["shared-ui-styles"]
     },
     "goldwind": {
       "tags": [],
@@ -116,27 +57,6 @@
       "tags": [],
       "implicitDependencies": ["goldwind"]
     },
-    "shared-ui-storybook": {
-      "tags": []
-    },
-    "shared-ui-storybook-e2e": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-storybook"]
-    },
-    "sedo": {
-      "tags": [],
-      "implicitDependencies": ["shared-ui-styles"]
-    },
-    "sedo-e2e": {
-      "tags": [],
-      "implicitDependencies": ["sedo"]
-    },
-    "shared-ui-empty-states": {
-      "tags": ["scope:shared", "type:ui"]
-    },
-    "shared-ui-styles": {
-      "tags": ["scope:shared", "type:styles"]
-    },
     "gq": {
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
@@ -144,6 +64,14 @@
     "gq-e2e": {
       "tags": [],
       "implicitDependencies": ["gq"]
+    },
+    "helloworld-azure": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "helloworld-azure-e2e": {
+      "tags": [],
+      "implicitDependencies": ["helloworld-azure"]
     },
     "ia": {
       "tags": [],
@@ -161,12 +89,6 @@
       "tags": [],
       "implicitDependencies": ["mac"]
     },
-    "shared-utils-http": {
-      "tags": ["scope:shared", "type:utils"]
-    },
-    "shared-utils-application-insights": {
-      "tags": ["scope:shared", "type:utils"]
-    },
     "mm": {
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
@@ -175,9 +97,55 @@
       "tags": [],
       "implicitDependencies": ["mm"]
     },
+    "sedo": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "sedo-e2e": {
+      "tags": [],
+      "implicitDependencies": ["sedo"]
+    },
+    "shared-assets": {
+      "tags": ["scope:shared", "type:assets"]
+    },
+    "shared-cypress-utils": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-ui-banner": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-dropdown-input": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-empty-states": {
+      "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-file-drop": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-footer": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
     "shared-ui-footer-tailwind": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": []
+    },
+    "shared-ui-header": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles", "shared-assets"]
+    },
+    "shared-ui-horizontal-separator": {
+      "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-icons": {
+      "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-loading-spinner": {
+      "tags": ["scope:shared", "type:ui"]
     },
     "shared-ui-picture-card": {
       "tags": ["scope:shared", "type:ui"],
@@ -187,24 +155,56 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-ui-dropdown-input": {
+    "shared-ui-scroll-to-top": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
-    "shared-utils-azure-auth": {
-      "tags": ["scope:shared", "type:utils"]
+    "shared-ui-search-autocomplete": {
+      "tags": ["scope:shared", "type:ui"]
+    },
+    "shared-ui-settings-sidebar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-sidebar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-snackbar": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
+    },
+    "shared-ui-speed-dial-fab": {
+      "tags": ["scope:shared", "type:ui"],
+      "implicitDependencies": ["shared-ui-styles"]
     },
     "shared-ui-stepper": {
       "tags": ["scope:shared", "type:ui"]
     },
-    "shared-ui-horizontal-separator": {
-      "tags": ["scope:shared", "type:ui"]
+    "shared-ui-storybook": {
+      "tags": []
     },
-    "shared-ui-loading-spinner": {
-      "tags": ["scope:shared", "type:ui"]
+    "shared-ui-storybook-e2e": {
+      "tags": [],
+      "implicitDependencies": ["shared-ui-storybook"]
     },
-    "shared-ui-search-autocomplete": {
-      "tags": ["scope:shared", "type:ui"]
+    "shared-ui-styles": {
+      "tags": ["scope:shared", "type:styles"]
+    },
+    "shared-utils-application-insights": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-utils-azure-auth": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-utils-http": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-utils-responsive": {
+      "tags": ["scope:shared", "type:utils"]
+    },
+    "shared-utils-transloco": {
+      "tags": ["scope:shared", "type:utils"]
     }
   }
 }

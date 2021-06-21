@@ -27,7 +27,7 @@ describe('UserMenuComponent', () => {
   describe('clickItem', () => {
     it('should emit the clicked key', () => {
       const key = 'key';
-      const spy = spyOn(component.clicked, 'emit');
+      const spy = jest.spyOn(component.clicked, 'emit');
 
       component.clickItem(key);
 

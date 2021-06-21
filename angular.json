@@ -24,226 +24,6 @@
     }
   },
   "projects": {
-    "shared-cypress-utils": {
-      "projectType": "library",
-      "root": "libs/shared/cypress-utils",
-      "sourceRoot": "libs/shared/cypress-utils/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/cypress-utils/src/**/*.ts",
-              "libs/shared/cypress-utils/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/cypress-utils"
-          }
-        }
-      },
-      "schematics": {}
-    },
-    "shared-assets": {
-      "projectType": "library",
-      "root": "libs/shared/assets",
-      "sourceRoot": "libs/shared/assets/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/assets"
-          }
-        }
-      },
-      "schematics": {}
-    },
-    "helloworld-azure": {
-      "projectType": "application",
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "apps/helloworld-azure",
-      "sourceRoot": "apps/helloworld-azure/src",
-      "prefix": "helloworld-azure",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/apps/helloworld-azure",
-            "index": "apps/helloworld-azure/src/index.html",
-            "main": "apps/helloworld-azure/src/main.ts",
-            "polyfills": "apps/helloworld-azure/src/polyfills.ts",
-            "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": [
-              "apps/helloworld-azure/src/favicon.ico",
-              "apps/helloworld-azure/src/assets"
-            ],
-            "styles": [
-              "apps/helloworld-azure/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
-            ],
-            "scripts": [],
-            "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/ui/styles/src"]
-            },
-            "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb",
-                "maximumError": "20kb"
-              }
-            ]
-          },
-          "configurations": {
-            "local": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "dev": {
-              "statsJson": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
-                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
-                }
-              ]
-            },
-            "qa": {
-              "statsJson": true,
-              "fileReplacements": [
-                {
-                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
-                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
-                }
-              ]
-            },
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
-                  "with": "apps/helloworld-azure/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "helloworld-azure:build"
-          },
-          "configurations": {
-            "local": {
-              "browserTarget": "helloworld-azure:build:local"
-            },
-            "dev": { "browserTarget": "helloworld-azure:build:dev" },
-            "qa": { "browserTarget": "helloworld-azure:build:qa" },
-            "production": {
-              "browserTarget": "helloworld-azure:build:production"
-            }
-          },
-          "defaultConfiguration": "local"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/helloworld-azure/src/**/*.ts",
-              "apps/helloworld-azure/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/helloworld-azure/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/apps/helloworld-azure"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "apps/helloworld-azure"
-          }
-        }
-      }
-    },
-    "helloworld-azure-e2e": {
-      "root": "apps/helloworld-azure-e2e",
-      "sourceRoot": "apps/helloworld-azure-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/helloworld-azure-e2e/cypress.json",
-            "tsConfig": "apps/helloworld-azure-e2e/tsconfig.e2e.json",
-            "devServerTarget": "helloworld-azure:serve"
-          },
-          "configurations": {
-            "local": {
-              "devServerTarget": "helloworld-azure:serve:local"
-            },
-            "production": {
-              "devServerTarget": "helloworld-azure:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/helloworld-azure-e2e/**/*.{js,ts}"]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml",
-              "force": true
-            }
-          }
-        }
-      }
-    },
     "cdba": {
       "projectType": "application",
       "schematics": {
@@ -342,8 +122,12 @@
             "local": {
               "browserTarget": "cdba:build:local"
             },
-            "dev": { "browserTarget": "cdba:build:dev" },
-            "qa": { "browserTarget": "cdba:build:qa" },
+            "dev": {
+              "browserTarget": "cdba:build:dev"
+            },
+            "qa": {
+              "browserTarget": "cdba:build:qa"
+            },
             "production": {
               "browserTarget": "cdba:build:production"
             }
@@ -416,810 +200,6 @@
               "force": true
             }
           }
-        }
-      }
-    },
-    "shared-ui-header": {
-      "projectType": "library",
-      "root": "libs/shared/ui/header",
-      "sourceRoot": "libs/shared/ui/header/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/header/tsconfig.lib.json",
-            "project": "libs/shared/ui/header/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/header/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/header/src/**/*.ts",
-              "libs/shared/ui/header/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/header/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/header/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/header"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/header"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/header --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-utils-responsive": {
-      "projectType": "library",
-      "root": "libs/shared/utils/responsive",
-      "sourceRoot": "libs/shared/utils/responsive/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.json",
-            "project": "libs/shared/utils/responsive/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/utils/responsive/src/**/*.ts",
-              "libs/shared/utils/responsive/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/responsive/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/utils/responsive/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/utils/responsive"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/utils/responsive"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/utils/responsive --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-utils-transloco": {
-      "projectType": "library",
-      "root": "libs/shared/utils/transloco",
-      "sourceRoot": "libs/shared/utils/transloco/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
-            "project": "libs/shared/utils/transloco/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/utils/transloco/src/**/*.ts",
-              "libs/shared/utils/transloco/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/transloco/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/utils/transloco/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/utils/transloco"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/utils/transloco"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/utils/transloco --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-sidebar": {
-      "projectType": "library",
-      "root": "libs/shared/ui/sidebar",
-      "sourceRoot": "libs/shared/ui/sidebar/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/sidebar/tsconfig.lib.json",
-            "project": "libs/shared/ui/sidebar/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/sidebar/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/sidebar/src/**/*.ts",
-              "libs/shared/ui/sidebar/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/sidebar/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/sidebar/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/sidebar"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/sidebar"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/sidebar --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-icons": {
-      "projectType": "library",
-      "root": "libs/shared/ui/icons",
-      "sourceRoot": "libs/shared/ui/icons/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/icons/tsconfig.lib.json",
-            "project": "libs/shared/ui/icons/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/icons/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/icons/src/**/*.ts",
-              "libs/shared/ui/icons/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/icons/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/icons/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/icons"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/icons"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/icons --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-footer": {
-      "projectType": "library",
-      "root": "libs/shared/ui/footer",
-      "sourceRoot": "libs/shared/ui/footer/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/footer/tsconfig.lib.json",
-            "project": "libs/shared/ui/footer/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/footer/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/footer/src/**/*.ts",
-              "libs/shared/ui/footer/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/footer/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/footer/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/footer"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/footer"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/footer --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-file-drop": {
-      "projectType": "library",
-      "root": "libs/shared/ui/file-drop",
-      "sourceRoot": "libs/shared/ui/file-drop/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/file-drop/tsconfig.lib.json",
-            "project": "libs/shared/ui/file-drop/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/file-drop/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/file-drop/src/**/*.ts",
-              "libs/shared/ui/file-drop/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/file-drop/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/file-drop/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/file-drop"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/file-drop"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/file-drop --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-snackbar": {
-      "projectType": "library",
-      "root": "libs/shared/ui/snackbar",
-      "sourceRoot": "libs/shared/ui/snackbar/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.json",
-            "project": "libs/shared/ui/snackbar/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/snackbar/src/**/*.ts",
-              "libs/shared/ui/snackbar/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/snackbar/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/snackbar/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/snackbar"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/snackbar"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/snackbar --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-scroll-to-top": {
-      "projectType": "library",
-      "root": "libs/shared/ui/scroll-to-top",
-      "sourceRoot": "libs/shared/ui/scroll-to-top/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/scroll-to-top/tsconfig.lib.json",
-            "project": "libs/shared/ui/scroll-to-top/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/scroll-to-top/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/scroll-to-top/src/**/*.ts",
-              "libs/shared/ui/scroll-to-top/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/scroll-to-top/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/scroll-to-top/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/scroll-to-top"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/scroll-to-top"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/scroll-to-top --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-speed-dial-fab": {
-      "projectType": "library",
-      "root": "libs/shared/ui/speed-dial-fab",
-      "sourceRoot": "libs/shared/ui/speed-dial-fab/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/speed-dial-fab/tsconfig.lib.json",
-            "project": "libs/shared/ui/speed-dial-fab/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/speed-dial-fab/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/speed-dial-fab/src/**/*.ts",
-              "libs/shared/ui/speed-dial-fab/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/speed-dial-fab/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/speed-dial-fab/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/speed-dial-fab"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/speed-dial-fab"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/speed-dial-fab --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-banner": {
-      "projectType": "library",
-      "root": "libs/shared/ui/banner",
-      "sourceRoot": "libs/shared/ui/banner/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/banner/tsconfig.lib.json",
-            "project": "libs/shared/ui/banner/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/banner/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/banner/src/**/*.ts",
-              "libs/shared/ui/banner/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/banner/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/banner/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/banner"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/banner"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/banner --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-settings-sidebar": {
-      "projectType": "library",
-      "root": "libs/shared/ui/settings-sidebar",
-      "sourceRoot": "libs/shared/ui/settings-sidebar/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.json",
-            "project": "libs/shared/ui/settings-sidebar/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/settings-sidebar/src/**/*.ts",
-              "libs/shared/ui/settings-sidebar/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/settings-sidebar/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/settings-sidebar/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/ui/settings-sidebar"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/settings-sidebar"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/settings-sidebar --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
         }
       }
     },
@@ -1402,395 +382,6 @@
         }
       }
     },
-    "shared-ui-storybook": {
-      "root": "libs/shared/ui/storybook",
-      "sourceRoot": "libs/shared/ui/storybook/src",
-      "projectType": "library",
-      "schematics": {},
-      "architect": {
-        "storybook": {
-          "builder": "@nrwl/storybook:storybook",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "port": 4400,
-            "config": {
-              "configFolder": "libs/shared/ui/storybook/.storybook"
-            },
-            "projectBuildConfig": "mm"
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          }
-        },
-        "build-storybook": {
-          "builder": "@nrwl/storybook:build",
-          "options": {
-            "uiFramework": "@storybook/angular",
-            "outputPath": "dist/storybook/shared-ui-storybook",
-            "config": {
-              "configFolder": "libs/shared/ui/storybook/.storybook"
-            }
-          },
-          "configurations": {
-            "ci": {
-              "quiet": true
-            }
-          },
-          "outputs": ["{options.outputPath}"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/storybook"
-          }
-        }
-      }
-    },
-    "shared-ui-storybook-e2e": {
-      "root": "apps/shared-ui-storybook-e2e",
-      "sourceRoot": "apps/shared-ui-storybook-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/shared-ui-storybook-e2e/cypress.json",
-            "tsConfig": "apps/shared-ui-storybook-e2e/tsconfig.e2e.json",
-            "devServerTarget": "shared-ui-storybook:storybook"
-          },
-          "configurations": {
-            "ci": {
-              "devServerTarget": "shared-ui-storybook:storybook:ci"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/shared-ui-storybook-e2e/src/**/*.ts",
-              "apps/shared-ui-storybook-e2e/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml",
-              "force": true
-            }
-          }
-        }
-      }
-    },
-    "sedo": {
-      "projectType": "application",
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      },
-      "root": "apps/sedo",
-      "sourceRoot": "apps/sedo/src",
-      "prefix": "sedo",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-angular:browser",
-          "options": {
-            "outputPath": "dist/apps/sedo",
-            "index": "apps/sedo/src/index.html",
-            "main": "apps/sedo/src/main.ts",
-            "polyfills": "apps/sedo/src/polyfills.ts",
-            "tsConfig": "apps/sedo/tsconfig.app.json",
-            "inlineStyleLanguage": "scss",
-            "assets": ["apps/sedo/src/favicon.ico", "apps/sedo/src/assets"],
-            "styles": [
-              "apps/sedo/src/styles.scss",
-              "node_modules/schaeffler-icons/style.css"
-            ],
-            "scripts": [],
-            "stylePreprocessorOptions": {
-              "includePaths": ["libs/shared/ui/styles/src"]
-            },
-            "budgets": [
-              {
-                "type": "initial",
-                "maximumWarning": "2mb",
-                "maximumError": "5mb"
-              },
-              {
-                "type": "anyComponentStyle",
-                "maximumWarning": "6kb",
-                "maximumError": "20kb"
-              }
-            ]
-          },
-          "configurations": {
-            "local": {
-              "buildOptimizer": false,
-              "optimization": false,
-              "vendorChunk": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true
-            },
-            "dev": {
-              "statsJson": true,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "namedChunks": true,
-              "fileReplacements": [
-                {
-                  "replace": "apps/sedo/src/environments/environment.ts",
-                  "with": "apps/sedo/src/environments/environment.dev.ts"
-                }
-              ]
-            },
-            "qa": {
-              "statsJson": true,
-              "fileReplacements": [
-                {
-                  "replace": "apps/sedo/src/environments/environment.ts",
-                  "with": "apps/sedo/src/environments/environment.qa.ts"
-                }
-              ]
-            },
-            "production": {
-              "fileReplacements": [
-                {
-                  "replace": "apps/sedo/src/environments/environment.ts",
-                  "with": "apps/sedo/src/environments/environment.prod.ts"
-                }
-              ]
-            }
-          },
-          "defaultConfiguration": "production"
-        },
-        "serve": {
-          "builder": "@angular-devkit/build-angular:dev-server",
-          "options": {
-            "browserTarget": "sedo:build"
-          },
-          "configurations": {
-            "local": {
-              "browserTarget": "sedo:build:local"
-            },
-            "dev": {
-              "browserTarget": "sedo:build:dev"
-            },
-            "qa": {
-              "browserTarget": "sedo:build:qa"
-            },
-            "production": {
-              "browserTarget": "sedo:build:production"
-            }
-          },
-          "defaultConfiguration": "local"
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "apps/sedo/src/**/*.ts",
-              "apps/sedo/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/apps/sedo/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "apps/sedo/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/apps/sedo"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "apps/sedo"
-          }
-        }
-      }
-    },
-    "sedo-e2e": {
-      "root": "apps/sedo-e2e",
-      "sourceRoot": "apps/sedo-e2e/src",
-      "projectType": "application",
-      "architect": {
-        "e2e": {
-          "builder": "@nrwl/cypress:cypress",
-          "options": {
-            "cypressConfig": "apps/sedo-e2e/cypress.json",
-            "tsConfig": "apps/sedo-e2e/tsconfig.e2e.json",
-            "devServerTarget": "sedo:serve"
-          },
-          "configurations": {
-            "local": {
-              "devServerTarget": "sedo:serve:local"
-            },
-            "production": {
-              "devServerTarget": "sedo:serve:production"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["apps/sedo-e2e/**/*.{js,ts}"]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/apps/sedo-e2e/checkstyle.xml",
-              "force": true
-            }
-          }
-        }
-      }
-    },
-    "shared-ui-empty-states": {
-      "projectType": "library",
-      "root": "libs/shared/ui/empty-states",
-      "sourceRoot": "libs/shared/ui/empty-states/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.json",
-            "project": "libs/shared/ui/empty-states/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/empty-states/src/**/*.ts",
-              "libs/shared/ui/empty-states/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/empty-states/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/empty-states/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/ui/empty-states/src/test-setup.ts"
-          },
-          "outputs": ["coverage/libs/shared/ui/empty-states"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/empty-states"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/empty-states --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-ui-styles": {
-      "projectType": "library",
-      "root": "libs/shared/ui/styles",
-      "sourceRoot": "libs/shared/ui/styles/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
-            "project": "libs/shared/ui/styles/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/styles/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": ["libs/shared/ui/styles/src/**/*.ts"]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/styles/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/ui/styles/jest.config.js",
-            "passWithNoTests": true,
-            "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
-          },
-          "outputs": ["coverage/libs/shared/ui/styles"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/styles"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/styles --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@nrwl/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
     "gq": {
       "projectType": "application",
       "schematics": {
@@ -1962,6 +553,182 @@
             "ci": {
               "format": "checkstyle",
               "outputFile": "checkstyle/apps/gq-e2e/checkstyle.xml",
+              "force": true
+            }
+          }
+        }
+      }
+    },
+    "helloworld-azure": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/helloworld-azure",
+      "sourceRoot": "apps/helloworld-azure/src",
+      "prefix": "helloworld-azure",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/helloworld-azure",
+            "index": "apps/helloworld-azure/src/index.html",
+            "main": "apps/helloworld-azure/src/main.ts",
+            "polyfills": "apps/helloworld-azure/src/polyfills.ts",
+            "tsConfig": "apps/helloworld-azure/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "apps/helloworld-azure/src/favicon.ico",
+              "apps/helloworld-azure/src/assets"
+            ],
+            "styles": [
+              "apps/helloworld-azure/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src"]
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
+          },
+          "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "dev": {
+              "statsJson": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/helloworld-azure/src/environments/environment.ts",
+                  "with": "apps/helloworld-azure/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "helloworld-azure:build"
+          },
+          "configurations": {
+            "local": {
+              "browserTarget": "helloworld-azure:build:local"
+            },
+            "dev": {
+              "browserTarget": "helloworld-azure:build:dev"
+            },
+            "qa": {
+              "browserTarget": "helloworld-azure:build:qa"
+            },
+            "production": {
+              "browserTarget": "helloworld-azure:build:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/helloworld-azure/src/**/*.ts",
+              "apps/helloworld-azure/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/helloworld-azure/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/helloworld-azure/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/apps/helloworld-azure"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "apps/helloworld-azure"
+          }
+        }
+      }
+    },
+    "helloworld-azure-e2e": {
+      "root": "apps/helloworld-azure-e2e",
+      "sourceRoot": "apps/helloworld-azure-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/helloworld-azure-e2e/cypress.json",
+            "tsConfig": "apps/helloworld-azure-e2e/tsconfig.e2e.json",
+            "devServerTarget": "helloworld-azure:serve"
+          },
+          "configurations": {
+            "local": {
+              "devServerTarget": "helloworld-azure:serve:local"
+            },
+            "production": {
+              "devServerTarget": "helloworld-azure:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/helloworld-azure-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/helloworld-azure-e2e/checkstyle.xml",
               "force": true
             }
           }
@@ -2314,136 +1081,6 @@
         }
       }
     },
-    "shared-utils-http": {
-      "projectType": "library",
-      "root": "libs/shared/utils/http",
-      "sourceRoot": "libs/shared/utils/http/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/utils/http/tsconfig.lib.json",
-            "project": "libs/shared/utils/http/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/utils/http/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/utils/http/src/**/*.ts",
-              "libs/shared/utils/http/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/utils/http/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/utils/http"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/utils/http"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/utils/http --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {
-        "@schematics/angular:component": {
-          "style": "scss"
-        }
-      }
-    },
-    "shared-utils-application-insights": {
-      "projectType": "library",
-      "root": "libs/shared/utils/application-insights",
-      "sourceRoot": "libs/shared/utils/application-insights/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:package",
-          "options": {
-            "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.json",
-            "project": "libs/shared/utils/application-insights/ng-package.json",
-            "buildableProjectDepsInPackageJsonType": "dependencies"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/utils/application-insights/src/**/*.ts",
-              "libs/shared/utils/application-insights/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/utils/application-insights/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "options": {
-            "jestConfig": "libs/shared/utils/application-insights/jest.config.js",
-            "passWithNoTests": true
-          },
-          "outputs": ["coverage/libs/shared/utils/application-insights"]
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/utils/application-insights"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/utils/application-insights --tag latest"
-              }
-            ]
-          }
-        }
-      },
-      "schematics": {}
-    },
     "mm": {
       "projectType": "application",
       "root": "apps/mm",
@@ -2612,6 +1249,557 @@
         }
       }
     },
+    "sedo": {
+      "projectType": "application",
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      },
+      "root": "apps/sedo",
+      "sourceRoot": "apps/sedo/src",
+      "prefix": "sedo",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/sedo",
+            "index": "apps/sedo/src/index.html",
+            "main": "apps/sedo/src/main.ts",
+            "polyfills": "apps/sedo/src/polyfills.ts",
+            "tsConfig": "apps/sedo/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/sedo/src/favicon.ico", "apps/sedo/src/assets"],
+            "styles": [
+              "apps/sedo/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css"
+            ],
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": ["libs/shared/ui/styles/src"]
+            },
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
+          },
+          "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "dev": {
+              "statsJson": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/sedo/src/environments/environment.ts",
+                  "with": "apps/sedo/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "qa": {
+              "statsJson": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/sedo/src/environments/environment.ts",
+                  "with": "apps/sedo/src/environments/environment.qa.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/sedo/src/environments/environment.ts",
+                  "with": "apps/sedo/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "sedo:build"
+          },
+          "configurations": {
+            "local": {
+              "browserTarget": "sedo:build:local"
+            },
+            "dev": {
+              "browserTarget": "sedo:build:dev"
+            },
+            "qa": {
+              "browserTarget": "sedo:build:qa"
+            },
+            "production": {
+              "browserTarget": "sedo:build:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/sedo/src/**/*.ts",
+              "apps/sedo/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/sedo/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "apps/sedo/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/apps/sedo"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "apps/sedo"
+          }
+        }
+      }
+    },
+    "sedo-e2e": {
+      "root": "apps/sedo-e2e",
+      "sourceRoot": "apps/sedo-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/sedo-e2e/cypress.json",
+            "tsConfig": "apps/sedo-e2e/tsconfig.e2e.json",
+            "devServerTarget": "sedo:serve"
+          },
+          "configurations": {
+            "local": {
+              "devServerTarget": "sedo:serve:local"
+            },
+            "production": {
+              "devServerTarget": "sedo:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/sedo-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/sedo-e2e/checkstyle.xml",
+              "force": true
+            }
+          }
+        }
+      }
+    },
+    "shared-assets": {
+      "projectType": "library",
+      "root": "libs/shared/assets",
+      "sourceRoot": "libs/shared/assets/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/assets"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "shared-cypress-utils": {
+      "projectType": "library",
+      "root": "libs/shared/cypress-utils",
+      "sourceRoot": "libs/shared/cypress-utils/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/cypress-utils/src/**/*.ts",
+              "libs/shared/cypress-utils/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/cypress-utils/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/cypress-utils"
+          }
+        }
+      },
+      "schematics": {}
+    },
+    "shared-ui-banner": {
+      "projectType": "library",
+      "root": "libs/shared/ui/banner",
+      "sourceRoot": "libs/shared/ui/banner/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/banner/tsconfig.lib.json",
+            "project": "libs/shared/ui/banner/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/banner/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/banner/src/**/*.ts",
+              "libs/shared/ui/banner/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/banner/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/banner/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/banner"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/banner"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/banner --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-dropdown-input": {
+      "projectType": "library",
+      "root": "libs/shared/ui/dropdown-input",
+      "sourceRoot": "libs/shared/ui/dropdown-input/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/dropdown-input/tsconfig.lib.json",
+            "project": "libs/shared/ui/dropdown-input/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/dropdown-input/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/dropdown-input/src/**/*.ts",
+              "libs/shared/ui/dropdown-input/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/dropdown-input/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/dropdown-input"],
+          "options": {
+            "jestConfig": "libs/shared/ui/dropdown-input/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/dropdown-input"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/dropdown-input --tag latest"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-empty-states": {
+      "projectType": "library",
+      "root": "libs/shared/ui/empty-states",
+      "sourceRoot": "libs/shared/ui/empty-states/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.json",
+            "project": "libs/shared/ui/empty-states/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/empty-states/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/empty-states/src/**/*.ts",
+              "libs/shared/ui/empty-states/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/empty-states/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/empty-states/jest.config.js",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/empty-states/src/test-setup.ts"
+          },
+          "outputs": ["coverage/libs/shared/ui/empty-states"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/empty-states"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/empty-states --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-file-drop": {
+      "projectType": "library",
+      "root": "libs/shared/ui/file-drop",
+      "sourceRoot": "libs/shared/ui/file-drop/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/file-drop/tsconfig.lib.json",
+            "project": "libs/shared/ui/file-drop/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/file-drop/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/file-drop/src/**/*.ts",
+              "libs/shared/ui/file-drop/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/file-drop/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/file-drop/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/file-drop"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/file-drop"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/file-drop --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-footer": {
+      "projectType": "library",
+      "root": "libs/shared/ui/footer",
+      "sourceRoot": "libs/shared/ui/footer/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/footer/tsconfig.lib.json",
+            "project": "libs/shared/ui/footer/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/footer/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/footer/src/**/*.ts",
+              "libs/shared/ui/footer/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/footer/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/footer/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/footer"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/footer"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/footer --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
     "shared-ui-footer-tailwind": {
       "projectType": "library",
       "root": "libs/shared/ui/footer-tailwind",
@@ -2652,6 +1840,262 @@
           "options": {
             "jestConfig": "libs/shared/ui/footer-tailwind/jest.config.js",
             "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "shared-ui-header": {
+      "projectType": "library",
+      "root": "libs/shared/ui/header",
+      "sourceRoot": "libs/shared/ui/header/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/header/tsconfig.lib.json",
+            "project": "libs/shared/ui/header/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/header/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/header/src/**/*.ts",
+              "libs/shared/ui/header/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/header/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/header/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/header"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/header"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/header --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-horizontal-separator": {
+      "projectType": "library",
+      "root": "libs/shared/ui/horizontal-separator",
+      "sourceRoot": "libs/shared/ui/horizontal-separator/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:ng-packagr-lite",
+          "options": {
+            "tsConfig": "libs/shared/ui/horizontal-separator/tsconfig.lib.json",
+            "project": "libs/shared/ui/horizontal-separator/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/horizontal-separator/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/horizontal-separator/src/**/*.ts",
+              "libs/shared/ui/horizontal-separator/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/horizontal-separator"],
+          "options": {
+            "jestConfig": "libs/shared/ui/horizontal-separator/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/horizontal-separator"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/horizontal-separator --tag latest"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-icons": {
+      "projectType": "library",
+      "root": "libs/shared/ui/icons",
+      "sourceRoot": "libs/shared/ui/icons/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/icons/tsconfig.lib.json",
+            "project": "libs/shared/ui/icons/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/icons/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/icons/src/**/*.ts",
+              "libs/shared/ui/icons/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/icons/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/icons/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/icons"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/icons"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/icons --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-loading-spinner": {
+      "projectType": "library",
+      "root": "libs/shared/ui/loading-spinner",
+      "sourceRoot": "libs/shared/ui/loading-spinner/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
+            "project": "libs/shared/ui/loading-spinner/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/loading-spinner/src/**/*.ts",
+              "libs/shared/ui/loading-spinner/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/loading-spinner"],
+          "options": {
+            "jestConfig": "libs/shared/ui/loading-spinner/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/loading-spinner"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/loading-spinner --tag latest"
+              }
+            ]
           }
         }
       }
@@ -2778,21 +2222,22 @@
         }
       }
     },
-    "shared-ui-dropdown-input": {
+    "shared-ui-scroll-to-top": {
       "projectType": "library",
-      "root": "libs/shared/ui/dropdown-input",
-      "sourceRoot": "libs/shared/ui/dropdown-input/src",
+      "root": "libs/shared/ui/scroll-to-top",
+      "sourceRoot": "libs/shared/ui/scroll-to-top/src",
       "prefix": "schaeffler",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "tsConfig": "libs/shared/ui/dropdown-input/tsconfig.lib.json",
-            "project": "libs/shared/ui/dropdown-input/ng-package.json"
+            "tsConfig": "libs/shared/ui/scroll-to-top/tsconfig.lib.json",
+            "project": "libs/shared/ui/scroll-to-top/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/shared/ui/dropdown-input/tsconfig.lib.prod.json"
+              "tsConfig": "libs/shared/ui/scroll-to-top/tsconfig.lib.prod.json"
             }
           }
         },
@@ -2800,31 +2245,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared/ui/dropdown-input/src/**/*.ts",
-              "libs/shared/ui/dropdown-input/src/**/*.html"
+              "libs/shared/ui/scroll-to-top/src/**/*.ts",
+              "libs/shared/ui/scroll-to-top/src/**/*.html"
             ]
           },
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/dropdown-input/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/ui/scroll-to-top/checkstyle.xml",
               "force": true
             }
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/dropdown-input"],
           "options": {
-            "jestConfig": "libs/shared/ui/dropdown-input/jest.config.js",
+            "jestConfig": "libs/shared/ui/scroll-to-top/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/ui/scroll-to-top"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/dropdown-input"
+            "cwd": "libs/shared/ui/scroll-to-top"
           }
         },
         "publish": {
@@ -2832,12 +2277,618 @@
           "options": {
             "commands": [
               {
-                "command": "npm publish dist/libs/shared/ui/dropdown-input --tag latest"
+                "command": "npm publish dist/libs/shared/ui/scroll-to-top --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-search-autocomplete": {
+      "projectType": "library",
+      "root": "libs/shared/ui/search-autocomplete",
+      "sourceRoot": "libs/shared/ui/search-autocomplete/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.json",
+            "project": "libs/shared/ui/search-autocomplete/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/search-autocomplete/src/**/*.ts",
+              "libs/shared/ui/search-autocomplete/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/search-autocomplete/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/search-autocomplete"],
+          "options": {
+            "jestConfig": "libs/shared/ui/search-autocomplete/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/search-autocomplete"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/search-autocomplete --tag latest"
               }
             ]
           }
         }
       }
+    },
+    "shared-ui-settings-sidebar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/settings-sidebar",
+      "sourceRoot": "libs/shared/ui/settings-sidebar/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.json",
+            "project": "libs/shared/ui/settings-sidebar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/settings-sidebar/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/settings-sidebar/src/**/*.ts",
+              "libs/shared/ui/settings-sidebar/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/settings-sidebar/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/settings-sidebar/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/settings-sidebar"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/settings-sidebar"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/settings-sidebar --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-sidebar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/sidebar",
+      "sourceRoot": "libs/shared/ui/sidebar/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/sidebar/tsconfig.lib.json",
+            "project": "libs/shared/ui/sidebar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/sidebar/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/sidebar/src/**/*.ts",
+              "libs/shared/ui/sidebar/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/sidebar/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/sidebar/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/sidebar"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/sidebar"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/sidebar --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-snackbar": {
+      "projectType": "library",
+      "root": "libs/shared/ui/snackbar",
+      "sourceRoot": "libs/shared/ui/snackbar/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.json",
+            "project": "libs/shared/ui/snackbar/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/snackbar/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/snackbar/src/**/*.ts",
+              "libs/shared/ui/snackbar/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/snackbar/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/snackbar/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/snackbar"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/snackbar"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/snackbar --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-speed-dial-fab": {
+      "projectType": "library",
+      "root": "libs/shared/ui/speed-dial-fab",
+      "sourceRoot": "libs/shared/ui/speed-dial-fab/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/speed-dial-fab/tsconfig.lib.json",
+            "project": "libs/shared/ui/speed-dial-fab/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/speed-dial-fab/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/speed-dial-fab/src/**/*.ts",
+              "libs/shared/ui/speed-dial-fab/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/speed-dial-fab/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/speed-dial-fab/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/ui/speed-dial-fab"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/speed-dial-fab"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/speed-dial-fab --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-ui-stepper": {
+      "projectType": "library",
+      "root": "libs/shared/ui/stepper",
+      "sourceRoot": "libs/shared/ui/stepper/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.json",
+            "project": "libs/shared/ui/stepper/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/ui/stepper/src/**/*.ts",
+              "libs/shared/ui/stepper/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/libs/shared/ui/stepper"],
+          "options": {
+            "jestConfig": "libs/shared/ui/stepper/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/stepper"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/stepper --tag latest"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "shared-ui-storybook": {
+      "root": "libs/shared/ui/storybook",
+      "sourceRoot": "libs/shared/ui/storybook/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "storybook": {
+          "builder": "@nrwl/storybook:storybook",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "port": 4400,
+            "config": {
+              "configFolder": "libs/shared/ui/storybook/.storybook"
+            },
+            "projectBuildConfig": "mm"
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          }
+        },
+        "build-storybook": {
+          "builder": "@nrwl/storybook:build",
+          "options": {
+            "uiFramework": "@storybook/angular",
+            "outputPath": "dist/storybook/shared-ui-storybook",
+            "config": {
+              "configFolder": "libs/shared/ui/storybook/.storybook"
+            }
+          },
+          "configurations": {
+            "ci": {
+              "quiet": true
+            }
+          },
+          "outputs": ["{options.outputPath}"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/storybook"
+          }
+        }
+      }
+    },
+    "shared-ui-storybook-e2e": {
+      "root": "apps/shared-ui-storybook-e2e",
+      "sourceRoot": "apps/shared-ui-storybook-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/shared-ui-storybook-e2e/cypress.json",
+            "tsConfig": "apps/shared-ui-storybook-e2e/tsconfig.e2e.json",
+            "devServerTarget": "shared-ui-storybook:storybook"
+          },
+          "configurations": {
+            "ci": {
+              "devServerTarget": "shared-ui-storybook:storybook:ci"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/shared-ui-storybook-e2e/src/**/*.ts",
+              "apps/shared-ui-storybook-e2e/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/shared-ui-storybook-e2e/checkstyle.xml",
+              "force": true
+            }
+          }
+        }
+      }
+    },
+    "shared-ui-styles": {
+      "projectType": "library",
+      "root": "libs/shared/ui/styles",
+      "sourceRoot": "libs/shared/ui/styles/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/ui/styles/tsconfig.lib.json",
+            "project": "libs/shared/ui/styles/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/ui/styles/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["libs/shared/ui/styles/src/**/*.ts"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/ui/styles/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/ui/styles/jest.config.js",
+            "passWithNoTests": true,
+            "setupFile": "libs/shared/ui/styles/src/test-setup.ts"
+          },
+          "outputs": ["coverage/libs/shared/ui/styles"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/ui/styles"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/ui/styles --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
+      }
+    },
+    "shared-utils-application-insights": {
+      "projectType": "library",
+      "root": "libs/shared/utils/application-insights",
+      "sourceRoot": "libs/shared/utils/application-insights/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/angular:package",
+          "options": {
+            "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.json",
+            "project": "libs/shared/utils/application-insights/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "libs/shared/utils/application-insights/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/shared/utils/application-insights/src/**/*.ts",
+              "libs/shared/utils/application-insights/src/**/*.html"
+            ]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/libs/shared/utils/application-insights/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "libs/shared/utils/application-insights/jest.config.js",
+            "passWithNoTests": true
+          },
+          "outputs": ["coverage/libs/shared/utils/application-insights"]
+        },
+        "standard-version": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "npx standard-version --no-verify {args.params}",
+            "cwd": "libs/shared/utils/application-insights"
+          }
+        },
+        "publish": {
+          "builder": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              {
+                "command": "npm publish dist/libs/shared/utils/application-insights --tag latest"
+              }
+            ]
+          }
+        }
+      },
+      "schematics": {}
     },
     "shared-utils-azure-auth": {
       "projectType": "library",
@@ -2902,21 +2953,22 @@
       },
       "schematics": {}
     },
-    "shared-ui-stepper": {
+    "shared-utils-http": {
       "projectType": "library",
-      "root": "libs/shared/ui/stepper",
-      "sourceRoot": "libs/shared/ui/stepper/src",
+      "root": "libs/shared/utils/http",
+      "sourceRoot": "libs/shared/utils/http/src",
       "prefix": "schaeffler",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.json",
-            "project": "libs/shared/ui/stepper/ng-package.json"
+            "tsConfig": "libs/shared/utils/http/tsconfig.lib.json",
+            "project": "libs/shared/utils/http/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/shared/ui/stepper/tsconfig.lib.prod.json"
+              "tsConfig": "libs/shared/utils/http/tsconfig.lib.prod.json"
             }
           }
         },
@@ -2924,31 +2976,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared/ui/stepper/src/**/*.ts",
-              "libs/shared/ui/stepper/src/**/*.html"
+              "libs/shared/utils/http/src/**/*.ts",
+              "libs/shared/utils/http/src/**/*.html"
             ]
           },
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/stepper/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/utils/http/checkstyle.xml",
               "force": true
             }
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/stepper"],
           "options": {
-            "jestConfig": "libs/shared/ui/stepper/jest.config.js",
+            "jestConfig": "libs/shared/utils/http/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/http"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/stepper"
+            "cwd": "libs/shared/utils/http"
           }
         },
         "publish": {
@@ -2956,89 +3008,34 @@
           "options": {
             "commands": [
               {
-                "command": "npm publish dist/libs/shared/ui/stepper --tag latest"
+                "command": "npm publish dist/libs/shared/utils/http --tag latest"
               }
             ]
           }
         }
-      }
-    },
-    "shared-ui-horizontal-separator": {
-      "projectType": "library",
-      "root": "libs/shared/ui/horizontal-separator",
-      "sourceRoot": "libs/shared/ui/horizontal-separator/src",
-      "prefix": "schaeffler",
-      "architect": {
-        "build": {
-          "builder": "@nrwl/angular:ng-packagr-lite",
-          "options": {
-            "tsConfig": "libs/shared/ui/horizontal-separator/tsconfig.lib.json",
-            "project": "libs/shared/ui/horizontal-separator/ng-package.json"
-          },
-          "configurations": {
-            "production": {
-              "tsConfig": "libs/shared/ui/horizontal-separator/tsconfig.lib.prod.json"
-            }
-          }
-        },
-        "lint": {
-          "builder": "@nrwl/linter:eslint",
-          "options": {
-            "lintFilePatterns": [
-              "libs/shared/ui/horizontal-separator/src/**/*.ts",
-              "libs/shared/ui/horizontal-separator/src/**/*.html"
-            ]
-          },
-          "configurations": {
-            "ci": {
-              "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
-              "force": true
-            }
-          }
-        },
-        "test": {
-          "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/horizontal-separator"],
-          "options": {
-            "jestConfig": "libs/shared/ui/horizontal-separator/jest.config.js",
-            "passWithNoTests": true
-          }
-        },
-        "standard-version": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/horizontal-separator"
-          }
-        },
-        "publish": {
-          "builder": "@nrwl/workspace:run-commands",
-          "options": {
-            "commands": [
-              {
-                "command": "npm publish dist/libs/shared/ui/horizontal-separator --tag latest"
-              }
-            ]
-          }
+      },
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
         }
       }
     },
-    "shared-ui-loading-spinner": {
+    "shared-utils-responsive": {
       "projectType": "library",
-      "root": "libs/shared/ui/loading-spinner",
-      "sourceRoot": "libs/shared/ui/loading-spinner/src",
+      "root": "libs/shared/utils/responsive",
+      "sourceRoot": "libs/shared/utils/responsive/src",
       "prefix": "schaeffler",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
-            "project": "libs/shared/ui/loading-spinner/ng-package.json"
+            "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.json",
+            "project": "libs/shared/utils/responsive/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.prod.json"
+              "tsConfig": "libs/shared/utils/responsive/tsconfig.lib.prod.json"
             }
           }
         },
@@ -3046,31 +3043,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared/ui/loading-spinner/src/**/*.ts",
-              "libs/shared/ui/loading-spinner/src/**/*.html"
+              "libs/shared/utils/responsive/src/**/*.ts",
+              "libs/shared/utils/responsive/src/**/*.html"
             ]
           },
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/utils/responsive/checkstyle.xml",
               "force": true
             }
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/loading-spinner"],
           "options": {
-            "jestConfig": "libs/shared/ui/loading-spinner/jest.config.js",
+            "jestConfig": "libs/shared/utils/responsive/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/responsive"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/loading-spinner"
+            "cwd": "libs/shared/utils/responsive"
           }
         },
         "publish": {
@@ -3078,28 +3075,34 @@
           "options": {
             "commands": [
               {
-                "command": "npm publish dist/libs/shared/ui/loading-spinner --tag latest"
+                "command": "npm publish dist/libs/shared/utils/responsive --tag latest"
               }
             ]
           }
         }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
+        }
       }
     },
-    "shared-ui-search-autocomplete": {
+    "shared-utils-transloco": {
       "projectType": "library",
-      "root": "libs/shared/ui/search-autocomplete",
-      "sourceRoot": "libs/shared/ui/search-autocomplete/src",
+      "root": "libs/shared/utils/transloco",
+      "sourceRoot": "libs/shared/utils/transloco/src",
       "prefix": "schaeffler",
       "architect": {
         "build": {
           "builder": "@nrwl/angular:package",
           "options": {
-            "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.json",
-            "project": "libs/shared/ui/search-autocomplete/ng-package.json"
+            "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.json",
+            "project": "libs/shared/utils/transloco/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
-              "tsConfig": "libs/shared/ui/search-autocomplete/tsconfig.lib.prod.json"
+              "tsConfig": "libs/shared/utils/transloco/tsconfig.lib.prod.json"
             }
           }
         },
@@ -3107,31 +3110,31 @@
           "builder": "@nrwl/linter:eslint",
           "options": {
             "lintFilePatterns": [
-              "libs/shared/ui/search-autocomplete/src/**/*.ts",
-              "libs/shared/ui/search-autocomplete/src/**/*.html"
+              "libs/shared/utils/transloco/src/**/*.ts",
+              "libs/shared/utils/transloco/src/**/*.html"
             ]
           },
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/search-autocomplete/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/utils/transloco/checkstyle.xml",
               "force": true
             }
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/libs/shared/ui/search-autocomplete"],
           "options": {
-            "jestConfig": "libs/shared/ui/search-autocomplete/jest.config.js",
+            "jestConfig": "libs/shared/utils/transloco/jest.config.js",
             "passWithNoTests": true
-          }
+          },
+          "outputs": ["coverage/libs/shared/utils/transloco"]
         },
         "standard-version": {
           "builder": "@nrwl/workspace:run-commands",
           "options": {
             "command": "npx standard-version --no-verify {args.params}",
-            "cwd": "libs/shared/ui/search-autocomplete"
+            "cwd": "libs/shared/utils/transloco"
           }
         },
         "publish": {
@@ -3139,10 +3142,15 @@
           "options": {
             "commands": [
               {
-                "command": "npm publish dist/libs/shared/ui/search-autocomplete --tag latest"
+                "command": "npm publish dist/libs/shared/utils/transloco --tag latest"
               }
             ]
           }
+        }
+      },
+      "schematics": {
+        "@nrwl/angular:component": {
+          "style": "scss"
         }
       }
     }

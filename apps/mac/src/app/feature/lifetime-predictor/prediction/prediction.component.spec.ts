@@ -210,9 +210,13 @@ describe('PredictionComponent', () => {
       method: 'FKM',
     };
 
-    jest.spyOn(component['dialog'], 'open').mockReturnValue({
-      afterClosed: () => of(mockSettings),
-    } as MatDialogRef<unknown, unknown>);
+    jest
+      .spyOn(component['dialog'], 'open')
+      .mockReturnValue({ afterClosed: () => of(mockSettings) } as MatDialogRef<
+        unknown,
+        unknown
+      >);
+
     const mockArray = [['powerapps'], ['1'], [2, 4], [3]];
 
     jest.spyOn(component, 'dispatchLoad');

@@ -68,7 +68,7 @@ describe('SliderComponent', () => {
   }));
 
   it('higher input as the max value should lead to correction', () => {
-    spyOn(component, 'validate').and.callThrough();
+    jest.spyOn(component, 'validate');
     const input = spectator.query('input', { read: ElementRef }).nativeElement;
 
     input.value = 9999;
@@ -79,7 +79,7 @@ describe('SliderComponent', () => {
   });
 
   it('lower input as the min value should lead to correction', () => {
-    spyOn(component, 'validate').and.callThrough();
+    jest.spyOn(component, 'validate');
     const input = spectator.query('input', { read: ElementRef }).nativeElement;
 
     input.value = -9999;
@@ -90,7 +90,7 @@ describe('SliderComponent', () => {
   });
 
   it('should not change the value if a valid input was entered', () => {
-    spyOn(component, 'validate').and.callThrough();
+    jest.spyOn(component, 'validate');
     const input = spectator.query('input', { read: ElementRef }).nativeElement;
     component.control.step = 1;
 

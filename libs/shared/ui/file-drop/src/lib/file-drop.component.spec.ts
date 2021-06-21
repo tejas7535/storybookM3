@@ -54,7 +54,7 @@ describe('FileDropComponent', () => {
 
     describe('onDragOver', () => {
       beforeEach(() => {
-        spyOn(component.fileOver, 'emit');
+        jest.spyOn(component.fileOver, 'emit');
       });
 
       it('should prevent default event', () => {
@@ -101,7 +101,7 @@ describe('FileDropComponent', () => {
 
     describe('onDragLeave', () => {
       beforeEach(() => {
-        spyOn(component.fileLeave, 'emit');
+        jest.spyOn(component.fileLeave, 'emit');
       });
 
       it('should prevent default event', () => {
@@ -172,7 +172,7 @@ describe('FileDropComponent', () => {
 
     describe('dropFiles', () => {
       beforeEach(() => {
-        spyOn(component.filesAdded, 'emit');
+        jest.spyOn(component.filesAdded, 'emit');
         event = undefined;
       });
 
@@ -198,7 +198,7 @@ describe('FileDropComponent', () => {
 
     describe('addFile', () => {
       beforeEach(() => {
-        spyOn(component.filesAdded, 'emit');
+        jest.spyOn(component.filesAdded, 'emit');
         event = undefined;
       });
 
