@@ -12,7 +12,6 @@ import { CreateManualCaseButtonComponent } from '../../shared/custom-status-bar/
 import { ImportCaseButtonComponent } from '../../shared/custom-status-bar/case-view/import-case-button/import-case-button.component';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
 import { DeleteCaseButtonComponent } from '../../shared/custom-status-bar/delete-case-button/delete-case-button.component';
-import { OpenCaseButtonComponent } from '../../shared/custom-status-bar/open-case-button/open-case-button.component';
 import { CaseTableComponent } from './case-table.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -28,7 +27,6 @@ describe('CaseTableComponent', () => {
     component: CaseTableComponent,
     imports: [
       AgGridModule.withComponents({
-        OpenCaseButtonComponent,
         DeleteCaseButtonComponent,
         ImportCaseButtonComponent,
         CreateManualCaseButtonComponent,

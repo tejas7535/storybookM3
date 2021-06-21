@@ -7,7 +7,6 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../shared';
 import { CustomStatusBarModule } from '../../shared/custom-status-bar/custom-status-bar.module';
-import { DetailViewButtonComponent } from '../../shared/custom-status-bar/detail-view-button/detail-view-button.component';
 import { QuotationDetailsStatusComponent } from '../../shared/custom-status-bar/quotation-details-status/quotation-details-status.component';
 import { QuotationDetailsTableComponent } from './quotation-details-table.component';
 
@@ -15,10 +14,7 @@ import { QuotationDetailsTableComponent } from './quotation-details-table.compon
   declarations: [QuotationDetailsTableComponent],
   imports: [
     SharedModule,
-    AgGridModule.withComponents([
-      DetailViewButtonComponent,
-      QuotationDetailsStatusComponent,
-    ]),
+    AgGridModule.withComponents([QuotationDetailsStatusComponent]),
     ReactiveComponentModule,
     SharedTranslocoModule,
     CustomStatusBarModule,

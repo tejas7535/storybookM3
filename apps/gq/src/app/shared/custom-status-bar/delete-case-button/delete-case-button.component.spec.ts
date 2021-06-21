@@ -1,5 +1,6 @@
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 import { of } from 'rxjs';
 
@@ -22,6 +23,7 @@ describe('DeleteCaseButtonComponent', () => {
       MatButtonModule,
       provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,
+      MatIconModule,
     ],
     providers: [provideMockStore({})],
     declarations: [DeleteCaseButtonComponent],

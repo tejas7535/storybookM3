@@ -13,8 +13,10 @@ import { EditPriceComponent } from './edit-price/edit-price.component';
 import { EditQuantityComponent } from './edit-quantity/edit-quantity.component';
 import { EditingPriceComponent } from './editing-price/editing-price.component';
 import { EditingQuantityComponent } from './editing-quantity/editing-quantity.component';
+import { GqIdComponent } from './gq-id/gq-id.component';
 import { GqRatingComponent } from './gq-rating/gq-rating.component';
 import { InfoCellComponent } from './info-cell/info-cell.component';
+import { PositionIdComponent } from './position-id/position-id.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +28,8 @@ import { InfoCellComponent } from './info-cell/info-cell.component';
     EditingPriceComponent,
     EditQuantityComponent,
     EditingQuantityComponent,
+    PositionIdComponent,
+    GqIdComponent,
   ],
   imports: [
     CommonModule,
@@ -44,6 +48,8 @@ import { InfoCellComponent } from './info-cell/info-cell.component';
     EditingPriceComponent,
     EditQuantityComponent,
     EditingQuantityComponent,
+    PositionIdComponent,
+    GqIdComponent,
   ],
 })
 export class CellRendererModule {}

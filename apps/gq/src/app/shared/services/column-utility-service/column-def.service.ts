@@ -19,15 +19,11 @@ export class ColumnDefService {
       headerCheckboxSelection: true,
       headerCheckboxSelectionFilteredOnly: true,
       checkboxSelection: true,
-      headerName: '',
-      pinned: 'left',
-      suppressMenu: true,
-      filter: false,
-    },
-    {
       headerName: translate('shared.quotationDetailsTable.item'),
       field: 'quotationItemId',
+      cellRenderer: 'positionIdComponent',
       sort: 'asc',
+      pinned: 'left',
     },
     {
       headerName: translate('shared.quotationDetailsTable.materialNumber'),

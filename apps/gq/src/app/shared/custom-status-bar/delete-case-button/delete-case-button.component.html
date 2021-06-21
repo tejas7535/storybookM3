@@ -1,10 +1,13 @@
-<button
-  mat-stroked-button
-  class="!font-bold !m-4 !ml-0 w-[200px]"
-  color="primary"
+<div
+  class="bottom-36 fixed right-8"
   *transloco="let t; read: 'shared.customStatusBar.buttons'"
-  [disabled]="selections.length === 0"
-  (click)="deleteCase()"
 >
-  {{ t('deleteCase') | uppercase }}
-</button>
+  <button
+    *ngIf="selections.length > 0"
+    mat-fab
+    color="primary"
+    (click)="deleteCase()"
+  >
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>

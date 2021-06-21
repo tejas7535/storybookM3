@@ -37,17 +37,11 @@ export class ColumnDefService {
   COLUMN_DEFS: ColDef[] = [
     {
       checkboxSelection: true,
-      pinned: 'left',
-      minWidth: 60,
-      width: 30,
-      filter: false,
-      resizable: false,
-      suppressMenu: true,
-    },
-    {
       headerName: translate('caseView.caseTable.gqId'),
       field: 'gqId',
       valueFormatter: ColumnUtilityService.idFormatter,
+      pinned: 'left',
+      cellRenderer: 'gqIdComponent',
     },
     {
       headerName: translate('caseView.caseTable.creationDate'),
