@@ -15,7 +15,7 @@
 ![jest: 27.0.3](https://img.shields.io/badge/jest-27.0.3-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.3.1](https://img.shields.io/badge/prettier-2.3.1-brightgreen)
-![tailwindcss: 2.2.0](https://img.shields.io/badge/tailwindcss-2.2.0-brightgreen)
+![tailwindcss: 2.2.2](https://img.shields.io/badge/tailwindcss-2.2.2-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
