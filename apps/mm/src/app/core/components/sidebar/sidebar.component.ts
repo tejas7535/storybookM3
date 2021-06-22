@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSidenav } from '@angular/material/sidenav';
 
@@ -20,6 +20,7 @@ interface AvailableOption {
 })
 export class SidebarComponent implements OnInit, OnDestroy {
   @ViewChild('sidenav') private readonly sidenav: MatSidenav;
+  @Input() public embedded = false;
 
   private readonly subscription = new Subscription();
 
