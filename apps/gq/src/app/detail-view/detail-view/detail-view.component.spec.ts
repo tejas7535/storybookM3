@@ -9,6 +9,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 
+import { CUSTOMER_MOCK, QUOTATION_MOCK } from '../../../testing/mocks';
 import { CaseHeaderModule } from '../../shared/header/case-header/case-header.module';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { DetailViewComponent } from './detail-view.component';
@@ -45,6 +46,14 @@ describe('DetailViewComponent', () => {
           detailCase: {
             detailCase: {},
           },
+          processCase: {
+            customer: {
+              item: CUSTOMER_MOCK,
+            },
+            quotation: {
+              item: QUOTATION_MOCK,
+            },
+          },
         },
       }),
     ],
@@ -65,6 +74,25 @@ describe('DetailViewComponent', () => {
       component.ngOnInit();
 
       expect(component.quotation$).toBeDefined();
+    });
+    test('should add subscriptions', () => {
+      component['subscription'].add = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnInit();
+
+      expect(component['subscription'].add).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('ngOnDestroy', () => {
+    test('should unsubscribe subscription', () => {
+      component['subscription'].unsubscribe = jest.fn();
+
+      // tslint:disable-next-line: no-lifecycle-call
+      component.ngOnDestroy();
+
+      expect(component['subscription'].unsubscribe).toHaveBeenCalledTimes(1);
     });
   });
 });

@@ -1,6 +1,11 @@
-<div *ngIf="(isCustomerLoading$ | ngrxPush) === false; else loading">
+<div
+  *ngIf="
+    !(isCustomerLoading$ | ngrxPush) && !(quotationLoading$ | ngrxPush);
+    else loading
+  "
+>
   <mat-card class="!p-0">
-    <gq-case-header>
+    <gq-case-header [breadcrumbs]="breadcrumbs">
       <span *ngIf="customer$ | ngrxPush as customer">{{ customer.name }}</span>
     </gq-case-header>
   </mat-card>

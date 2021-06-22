@@ -10,6 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { CustomerHeaderModule } from '../customer-header/customer-header.module';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 import { CaseHeaderComponent } from './case-header.component';
 
 jest.mock('@ngneat/transloco', () => ({
@@ -33,6 +34,7 @@ describe('CaseHeaderComponent', () => {
       SharedPipesModule,
       ReactiveComponentModule,
     ],
+    declarations: [BreadcrumbsComponent],
     providers: [provideMockStore({})],
   });
 

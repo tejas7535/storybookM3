@@ -9,7 +9,6 @@ import {
   isDeleteLoading,
   isQuotationsLoading,
 } from '../core/store';
-import { ViewCasesState } from '../core/store/reducers/view-cases/view-cases.reducer';
 import { ViewQuotation } from './models/view-quotation.model';
 
 @Component({
@@ -22,7 +21,7 @@ export class CaseViewComponent implements OnInit {
   public quotationsLoading$: Observable<boolean>;
   public deleteLoading$: Observable<boolean>;
 
-  constructor(private readonly store: Store<ViewCasesState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.quotations$ = this.store.select(getQuotations);

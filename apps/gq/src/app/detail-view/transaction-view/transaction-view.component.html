@@ -2,8 +2,8 @@
   class="flex flex-1 flex-col h-full bg-lightBg"
   *ngIf="!(quotationLoading$ | ngrxPush); else loading"
 >
-  <mat-card class="!pt-0 !pb-0">
-    <gq-case-header>
+  <mat-card class="!p-0">
+    <gq-case-header [breadcrumbs]="breadcrumbs">
       <gq-transaction-view-header-content
         [quotationDetail]="quotationDetail$ | ngrxPush"
         [currency]="currency$ | ngrxPush"
