@@ -1,4 +1,4 @@
-<ng-container *transloco="let t; read: 'form'">
+<ng-container *transloco="let t">
   <input
     *ngIf="isBoolean; else dropdown"
     type="checkbox"
@@ -26,7 +26,9 @@
           "
           [options]="options$ | ngrxPush"
           [formControl]="control"
-          [placeholder]="t('select', { fieldname: meta.member.text })"
+          [placeholder]="
+            t('form.select', { fieldname: meta.member.text | transloco })
+          "
         ></schaeffler-dropdown-input>
         <ng-template #select>
           <mm-select-member [options]="options$ | ngrxPush"></mm-select-member>

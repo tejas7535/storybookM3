@@ -1,8 +1,10 @@
 <schaeffler-search-autocomplete
+  *transloco="let t"
   [options]="options$ | ngrxPush"
   [loading]="loading$ | ngrxPush"
-  label="Choose an option"
-  loadingMessage="Fetching data..."
+  [label]="t('form.chooseOption')"
+  [loadingMessage]="t('form.searchLoading')"
+  [noResultsText]="t('form.searchNoResults')"
   [minimumChars]="2"
   [formControl]="myControl"
   (selection)="handleSelection($event)"

@@ -5,5 +5,69 @@
     "decimalSeparatorComma": "逗號",
     "decimalSeparatorPoint": "觀點"
   },
+  "form": {
+    "select": "Select {{fieldname}} zh",
+    "calculateResults": "Calculate Results zh",
+    "searchManually": "or configure manually zh"
+  },
+  "dialog": {
+    "bearing": "Bearing zh",
+    "bearingType": "Bearing type zh",
+    "bearingTypeListValues": {
+      "sphericalBallBearing": "Spherical Ball Bearing zh",
+      "barrelRollerBearing": "Barrel Roller Bearing zh",
+      "sphericalRollerBearing": "Spherical Roller Bearing zh",
+      "radialRollerBearing": "Radial Roller Bearing zh"
+    },
+    "bearingSeries": "Bearing series zh",
+    "bearingSeat": "Bearing seat zh",
+    "measuringAndMounting": "Measuring & mounting zh",
+    "measuringMethod": "Measuring method zh",
+    "mounting": "Mounting zh",
+    "mountingMethod": "Mounting Method zh",
+    "calculationOptions": "Calculation options zh",
+    "hydraulicNutType": "Hydraulic nut type zh",
+    "previousMountings": "Number of previous mountings zh",
+    "previousMountingsListValues": {
+      "zeroToOne": "0-1 zh",
+      "two": "2 zh",
+      "three": "3 zh",
+      "four": "4 zh",
+      "five": "5 zh",
+      "sixPlus": "6+ zh"
+    },
+    "mountingOptions": "Mounting options zh",
+    "mountingOptionsListValues": {
+      "radialClearanceReduction": "Radial clearance reduction zh",
+      "innerRingExpansion": "Inner ring expansion zh"
+    },
+    "innerRingExpansion": "Inner ring expansion zh",
+    "radialClearanceReduction": "Radial clearance reduction zh",
+    "shaftData": "Shaft data zh",
+    "innerShaftDiameter": "Inner shaft diameter zh",
+    "shaftMaterial": "Shaft material zh",
+    "shaftMaterialListValues": {
+      "steel": "Steel zh",
+      "100Cr6": "100Cr6 zh",
+      "C45": "C45 zh",
+      "16MnCr5": "16MnCr5 zh",
+      "castIronGG14": "Cast iron GG14 zh",
+      "castIronGG26": "Cast iron GG26 zh",
+      "castIronGGG": "Cast iron GGG zh",
+      "brass": "Brass zh",
+      "bronze": "Bronze zh",
+      "alloyAluminium": "Alloy Aluminium zh",
+      "userDefinedMaterial": "User defined Material zh"
+    },
+    "modulusOfElasticity": "Modulus of Elasticity zh",
+    "poissonRatio": "Poisson ratio zh",
+    "report": "report zh"
+  },
+  "result": {
+    "title": "Report zh",
+    "downloadReport": "Download Report zh",
+    "startNewCalculation": "Start new Calculation zh"
+  },
+  "settings": "Settings zh",
   "test": "test zh"
 }

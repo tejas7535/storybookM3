@@ -1,4 +1,4 @@
-<mm-magnetic-slider>
+<mm-magnetic-slider *transloco="let t">
   <div *ngFor="let option of options" class="snap-center">
     <div class="w-[calc(100vw-8rem)] m-4 sm:w-auto">
       <schaeffler-picture-card
@@ -8,7 +8,7 @@
       >
         <ng-container card-actions>
           <schaeffler-picture-card-action
-            [text]="'select'"
+            [text]="t('form.select')"
             [disabled]="disabled || option.id === value"
             (click)="setValue(option.id)"
           ></schaeffler-picture-card-action>

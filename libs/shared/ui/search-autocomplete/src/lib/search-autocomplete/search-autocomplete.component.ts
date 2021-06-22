@@ -51,6 +51,7 @@ export class SearchAutocompleteComponent
   @Input() public loadingMessage? = '';
   @Input() public minimumChars = 3;
   @Input() public error? = false;
+  @Input() public noResultsText? = 'No Results';
 
   @Output() public readonly searchString = new EventEmitter<string>();
   @Output() public readonly selection = new EventEmitter<string | undefined>();

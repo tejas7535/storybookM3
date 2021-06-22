@@ -33,7 +33,7 @@
       <mat-option
         *ngIf="noResults(filteredOptions$ | async)"
         class="h-20 flex items-center justify-center pointer-events-none"
-        >No results</mat-option
+        >{{ noResultsText }}</mat-option
       >
       <mat-option
         *ngIf="error"
