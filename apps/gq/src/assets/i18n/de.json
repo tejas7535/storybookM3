@@ -26,6 +26,12 @@
       "sqv": "SAW",
       "uom": "Mengeneinheit"
     },
+    "breadcrumbs": {
+      "caseView": "Case Übersicht",
+      "transactionView": "GQ Preis Details",
+      "customerView": "Kunde",
+      "position": "Pos."
+    },
     "caseMaterial": {
       "salesOrg": "VkOrg",
       "addEntry": {

@@ -5,7 +5,7 @@
     else loading
   "
 >
-  <gq-case-header [showCustomerHeader]="true">
+  <gq-case-header [breadcrumbs]="breadcrumbs" [showCustomerHeader]="true">
     <gq-header-content [quotation]="quotation$ | ngrxPush"></gq-header-content>
   </gq-case-header>
   <gq-quotation-details-table

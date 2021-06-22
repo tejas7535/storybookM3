@@ -1,5 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
+import { DetailViewQueryParams } from '../../../../app-routing.module';
 import { Quotation } from '../../../../shared/models';
 import { Customer } from '../../../../shared/models/customer';
 import {
@@ -173,4 +174,31 @@ export const getCoefficients = createSelector(
     coefficient1: detail.coefficient1,
     coefficient2: detail.coefficient2,
   })
+);
+
+export const getDetailViewQueryParams = createSelector(
+  getProcessCaseState,
+  (
+    state: ProcessCaseState
+  ): { queryParams: DetailViewQueryParams; id: number } => ({
+    queryParams: {
+      customer_number: state.customer.item?.identifier.customerId,
+      sales_org: state.customer.item?.identifier.salesOrg,
+      quotation_number: state.quotation.item?.gqId,
+      gqPositionId: state.quotation.selectedQuotationDetail,
+    },
+    id: state.quotation.item?.quotationDetails.find(
+      (detail) =>
+        detail.gqPositionId === state.quotation.selectedQuotationDetail
+    )?.quotationItemId,
+  })
+);
+
+export const getSelectedQuotationDetailItemId = createSelector(
+  getProcessCaseState,
+  (state: ProcessCaseState): number =>
+    state.quotation.item?.quotationDetails.find(
+      (detail) =>
+        detail.gqPositionId === state.quotation.selectedQuotationDetail
+    )?.quotationItemId
 );

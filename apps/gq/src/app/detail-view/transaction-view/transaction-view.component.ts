@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { TranslocoService } from '@ngneat/transloco';
@@ -9,6 +9,7 @@ import { Store } from '@ngrx/store';
 import {
   getCoefficients,
   getCustomerCurrency,
+  getDetailViewQueryParams,
   getGraphTransactions,
   getSelectedQuotationDetail,
   getTransactions,
@@ -16,17 +17,19 @@ import {
   isQuotationLoading,
 } from '../../core/store';
 import { Transaction } from '../../core/store/reducers/transactions/models/transaction.model';
+import { Breadcrumb } from '../../shared/header/case-header/breadcrumbs/breadcrumb.model';
 import {
   Coefficients,
   QuotationDetail,
 } from '../../shared/models/quotation-detail';
+import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/breadcrumbs.service';
 
 @Component({
   selector: 'gq-transaction-view',
   templateUrl: './transaction-view.component.html',
   styleUrls: ['./transaction-view.component.scss'],
 })
-export class TransactionViewComponent implements OnInit {
+export class TransactionViewComponent implements OnInit, OnDestroy {
   quotationDetail$: Observable<QuotationDetail>;
   quotationLoading$: Observable<boolean>;
   currency$: Observable<string>;
@@ -36,9 +39,13 @@ export class TransactionViewComponent implements OnInit {
   graphTransactions$: Observable<Transaction[]>;
   coefficients$: Observable<Coefficients>;
 
+  public breadcrumbs: Breadcrumb[];
+  private readonly subscription: Subscription = new Subscription();
+
   constructor(
     private readonly store: Store,
-    private readonly translocoService: TranslocoService
+    private readonly translocoService: TranslocoService,
+    private readonly breadCrumbsService: BreadcrumbsService
   ) {}
 
   ngOnInit(): void {
@@ -52,5 +59,21 @@ export class TransactionViewComponent implements OnInit {
     this.transactionsLoading$ = this.store.select(getTransactionsLoading);
     this.graphTransactions$ = this.store.select(getGraphTransactions);
     this.coefficients$ = this.store.select(getCoefficients);
+
+    this.subscription.add(
+      this.store
+        .select(getDetailViewQueryParams)
+        .subscribe(
+          (result) =>
+            (this.breadcrumbs =
+              this.breadCrumbsService.getTransactionViewBreadcrumbs(
+                result.id,
+                result.queryParams
+              ))
+        )
+    );
+  }
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

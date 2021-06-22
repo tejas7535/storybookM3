@@ -4,11 +4,12 @@ import { MatMenuTrigger } from '@angular/material/menu';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../../core/store/selectors';
 import { Customer } from '../../models/customer';
+import { Breadcrumb } from './breadcrumbs/breadcrumb.model';
 
 @Component({
   selector: 'gq-case-header',
@@ -17,6 +18,7 @@ import { Customer } from '../../models/customer';
 })
 export class CaseHeaderComponent implements OnInit {
   @Input() showCustomerHeader: boolean;
+  @Input() breadcrumbs: Breadcrumb[];
 
   public customer$: Observable<Customer>;
 
@@ -28,7 +30,7 @@ export class CaseHeaderComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.customer$ = this.store.pipe(select(getCustomer));
+    this.customer$ = this.store.select(getCustomer);
   }
 
   backClicked(): void {

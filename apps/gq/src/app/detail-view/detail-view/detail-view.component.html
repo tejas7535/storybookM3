@@ -2,6 +2,7 @@
   <mat-card class="!p-0 !pb-2">
     <gq-case-header
       [showCustomerHeader]="true"
+      [breadcrumbs]="breadcrumbs"
       *ngIf="quotation$ | ngrxPush as quotation"
     >
       <span>{{ quotation.gqId | gqQuotation }} </span>

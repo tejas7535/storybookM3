@@ -9,7 +9,7 @@ export const environment = {
   appScope: 'api://acea7ac1-13bb-44b3-be1e-76fc729472be/gqapi',
   devToolsEnabled: true,
   baseUrl: 'http://localhost:8080/api/v1', // using local server
-  // baseUrl: 'https://guided-quoting-d.dev.dp.schaeffler/api/v1' // using dev env,
+  // baseUrl: 'https://guided-quoting-d.dev.dp.schaeffler/api/v1', // using dev env,
   envName: 'https://guided-quoting-d.dev.dp.schaeffler (dev)',
   applicationInsights: {
     applicationInsightsConfig: {

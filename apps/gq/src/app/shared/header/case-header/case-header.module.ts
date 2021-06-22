@@ -13,9 +13,10 @@ import { SharedModule } from '../../../shared';
 import { SharedPipesModule } from '../../pipes/shared-pipes.module';
 import { CustomerHeaderModule } from '../customer-header/customer-header.module';
 import { CaseHeaderComponent } from './case-header.component';
+import { BreadcrumbsComponent } from './breadcrumbs/breadcrumbs.component';
 
 @NgModule({
-  declarations: [CaseHeaderComponent],
+  declarations: [CaseHeaderComponent, BreadcrumbsComponent],
   imports: [
     CustomerHeaderModule,
     IconsModule,
