@@ -5,5 +5,72 @@
     "decimalSeparatorComma": "Запятая",
     "decimalSeparatorPoint": "Точка"
   },
+  "form": {
+    "select": "Select {{fieldname}} ru",
+    "calculateResults": "Calculate Results ru",
+    "searchManually": "or configure manually ru",
+    "chooseOption": "Choose an option ru",
+    "searchLoading": "Fetching data... ru",
+    "searchNoResults": "No Results ru"
+  },
+  "dialog": {
+    "bearing": "Bearing ru",
+    "bearingType": "Bearing type ru",
+    "bearingTypeListValues": {
+      "sphericalBallBearing": "Spherical Ball Bearing ru",
+      "barrelRollerBearing": "Barrel Roller Bearing ru",
+      "sphericalRollerBearing": "Spherical Roller Bearing ru",
+      "radialRollerBearing": "Radial Roller Bearing ru"
+    },
+    "bearingSeries": "Bearing series ru",
+    "bearingSeat": "Bearing seat ru",
+    "measuringAndMounting": "Measuring & mounting ru",
+    "measuringMethod": "Measuring method ru",
+    "mounting": "Mounting ru",
+    "mountingMethod": "Mounting Method ru",
+    "calculationOptions": "Calculation options ru",
+    "hydraulicNutType": "Hydraulic nut type ru",
+    "previousMountings": "Number of previous mountings ru",
+    "previousMountingsListValues": {
+      "zeroToOne": "0-1 ru",
+      "two": "2 ru",
+      "three": "3 ru",
+      "four": "4 ru",
+      "five": "5 ru",
+      "sixPlus": "6+ ru"
+    },
+    "mountingOptions": "Mounting options ru",
+    "mountingOptionsListValues": {
+      "radialClearanceReduction": "Radial clearance reduction ru",
+      "innerRingExpansion": "Inner ring expansion ru"
+    },
+    "innerRingExpansion": "Inner ring expansion ru",
+    "radialClearanceReduction": "Radial clearance reduction ru",
+    "shaftData": "Shaft data ru",
+    "innerShaftDiameter": "Inner shaft diameter ru",
+    "shaftMaterial": "Shaft material ru",
+    "shaftMaterialListValues": {
+      "steel": "Steel ru",
+      "100Cr6": "100Cr6 ru",
+      "C45": "C45 ru",
+      "16MnCr5": "16MnCr5 ru",
+      "castIronGG14": "Cast iron GG14 ru",
+      "castIronGG26": "Cast iron GG26 ru",
+      "castIronGGG": "Cast iron GGG ru",
+      "brass": "Brass ru",
+      "bronze": "Bronze ru",
+      "alloyAluminium": "Alloy Aluminium ru",
+      "userDefinedMaterial": "User defined Material ru"
+    },
+    "modulusOfElasticity": "Modulus of Elasticity ru",
+    "poissonRatio": "Poisson ratio ru",
+    "report": "report ru"
+  },
+  "result": {
+    "title": "Report ru",
+    "downloadReport": "Download Report ru",
+    "startNewCalculation": "Start new Calculation ru"
+  },
+  "settings": "Settings ru",
   "test": "test ru"
 }

@@ -21,6 +21,7 @@ import {
   CONTROL_META,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
+import { translate } from '@ngneat/transloco';
 
 import {
   MemberTypes,
@@ -34,10 +35,6 @@ import { forcedSelectsList } from '../../../constants/forced-selects-list';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ListMemberComponent implements OnInit, OnDestroy {
-  public constructor(
-    @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
-  ) {}
-
   public PROPERTY_PAGE_MOUNTING = PROPERTY_PAGE_MOUNTING;
   public PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
     PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
@@ -52,6 +49,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   private readonly destroy$ = new Subject<void>();
 
+  public constructor(
+    @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta
+  ) {}
+
   public ngOnInit(): void {
     if (this.meta.member.type === MemberTypes.Boolean) {
       this.isBoolean = true;
@@ -62,7 +63,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     const listValues$ = this.meta.listValues$ ?? of([]);
 
     this.isPictureList$ = listValues$.pipe(
-      map((options) => options.some((option) => option.imageUrl))
+      map((options: any[]) => options.some((option: any) => option.imageUrl))
     );
 
     this.setupOptions(listValues$);
@@ -84,12 +85,19 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     );
   }
 
+  private translationRequired(type: string, id: string): boolean {
+    return (
+      (!this.isDropdownInput(type, id) && !(type === MemberTypes.LazyList)) ||
+      type === MemberTypes.List
+    );
+  }
+
   private connectRuntime(): void {
     const runtime = this.meta.runtime;
     if (runtime) {
       this.control.valueChanges
         .pipe(takeUntil(this.destroy$))
-        .subscribe((value) => {
+        .subscribe((value: any) => {
           runtime(value);
         });
     }
@@ -97,10 +105,15 @@ export class ListMemberComponent implements OnInit, OnDestroy {
 
   private setupOptions(listValues$: Observable<BearinxListValue[]>): void {
     this.options$ = listValues$.pipe(
-      map((listValues) =>
-        listValues.map((listValue) => ({
+      map((listValues: any[]) =>
+        listValues.map((listValue: any) => ({
           ...listValue,
-          value: listValue.text,
+          value: this.translationRequired(
+            this.meta.member.type,
+            this.meta.member.id
+          )
+            ? translate(listValue.text)
+            : listValue.text,
         }))
       )
     );
@@ -112,10 +125,10 @@ export class ListMemberComponent implements OnInit, OnDestroy {
         startWith(this.control.value),
         withLatestFrom(this.options$),
         filter(([value, options]) =>
-          options.every((option) => option.id !== value)
+          options.every((option: any) => option.id !== value)
         )
       )
-      .subscribe(([_, options]) => {
+      .subscribe(([_, options]: [any, any[]]) => {
         const { defaultValue } = this.meta.member;
         if (options.some(({ id }) => id === defaultValue)) {
           this.control.setValue(defaultValue);

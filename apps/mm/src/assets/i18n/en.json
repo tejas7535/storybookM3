@@ -2,7 +2,10 @@
   "form": {
     "select": "Select {{fieldname}}",
     "calculateResults": "Calculate Results",
-    "searchManually": "or configure manually"
+    "searchManually": "or configure manually",
+    "chooseOption": "Choose an option",
+    "searchLoading": "Fetching data...",
+    "searchNoResults": "No Results"
   },
   "sidebar": {
     "languageSelectLabel": "Language",
@@ -10,13 +13,66 @@
     "decimalSeparatorComma": "Comma",
     "decimalSeparatorPoint": "Point"
   },
+  "dialog": {
+    "bearing": "Bearing",
+    "bearingType": "Bearing type",
+    "bearingTypeListValues": {
+      "sphericalBallBearing": "Spherical Ball Bearing",
+      "barrelRollerBearing": "Barrel Roller Bearing",
+      "sphericalRollerBearing": "Spherical Roller Bearing",
+      "radialRollerBearing": "Radial Roller Bearing"
+    },
+    "bearingSeries": "Bearing series",
+    "bearingSeat": "Bearing seat",
+    "measuringAndMounting": "Measuring & mounting",
+    "measuringMethod": "Measuring method",
+    "mounting": "Mounting",
+    "mountingMethod": "Mounting Method",
+    "calculationOptions": "Calculation options",
+    "hydraulicNutType": "Hydraulic nut type",
+    "previousMountings": "Number of previous mountings",
+    "previousMountingsListValues": {
+      "zeroToOne": "0-1",
+      "two": "2",
+      "three": "3",
+      "four": "4",
+      "five": "5",
+      "sixPlus": "6+"
+    },
+    "mountingOptions": "Mounting options",
+    "mountingOptionsListValues": {
+      "radialClearanceReduction": "Radial clearance reduction",
+      "innerRingExpansion": "Inner ring expansion"
+    },
+    "innerRingExpansion": "Inner ring expansion",
+    "radialClearanceReduction": "Radial clearance reduction",
+    "shaftData": "Shaft data",
+    "innerShaftDiameter": "Inner shaft diameter",
+    "shaftMaterial": "Shaft material",
+    "shaftMaterialListValues": {
+      "steel": "Steel",
+      "100Cr6": "100Cr6",
+      "C45": "C45",
+      "16MnCr5": "16MnCr5",
+      "castIronGG14": "Cast iron GG14",
+      "castIronGG26": "Cast iron GG26",
+      "castIronGGG": "Cast iron GGG",
+      "brass": "Brass",
+      "bronze": "Bronze",
+      "alloyAluminium": "Alloy Aluminium",
+      "userDefinedMaterial": "User defined Material"
+    },
+    "modulusOfElasticity": "Modulus of Elasticity",
+    "poissonRatio": "Poisson ratio",
+    "report": "Report"
+  },
   "result": {
     "title": "Report",
     "downloadReport": "Download Report",
     "startNewCalculation": "Start new Calculation"
   },
-  "test": "test en",
   "settings": "Settings",
+  "test": "test en",
   "legal": {
     "goToHome": "Back to Home",
     "imprint": "Imprint",

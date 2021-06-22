@@ -3,7 +3,7 @@
     {
       "id": "RSY_PAGE_BEARING_TYPE",
       "title": "RSY_BEARING_TYPE",
-      "text": "Lager",
+      "text": "dialog.bearing",
       "visible": {
         "value": true,
         "dataType": "boolean",
@@ -17,7 +17,7 @@
           "members": [
             {
               "id": "RSY_BEARING_TYPE",
-              "text": "Lager-Art",
+              "text": "dialog.bearingType",
               "type": "list",
               "defaultValue": null,
               "abbreviation": "",
@@ -35,22 +35,22 @@
               "listValues": [
                 {
                   "id": 1,
-                  "text": "Pendelkugellager",
+                  "text": "dialog.bearingTypeListValues.sphericalBallBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/peku_unknown.bmp"
                 },
                 {
                   "id": 2,
-                  "text": "Tonnenrollenlager",
+                  "text": "dialog.bearingTypeListValues.barrelRollerBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/toro_unknown.bmp"
                 },
                 {
                   "id": 3,
-                  "text": "Pendelrollenlager",
+                  "text": "dialog.bearingTypeListValues.sphericalRollerBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
                 },
                 {
                   "id": 4,
-                  "text": "Radialrollenlager",
+                  "text": "dialog.bearingTypeListValues.radialRollerBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/zyro_unknown.bmp"
                 }
               ]
@@ -62,7 +62,7 @@
         {
           "id": "RSY_PAGE_BEARING_SERIES",
           "title": "RSY_BEARING_SERIES",
-          "text": "Lager",
+          "text": "dialog.bearing",
           "visible": {
             "operator": "NOT_EQUAL",
             "left": {
@@ -83,7 +83,7 @@
               "members": [
                 {
                   "id": "RSY_BEARING_SERIES",
-                  "text": "Lager-Baureihe",
+                  "text": "dialog.bearingSeries",
                   "type": "lazy-list",
                   "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series",
                   "sources": [
@@ -116,7 +116,7 @@
         {
           "id": "RSY_PAGE_BEARING",
           "title": "RSY_BEARING",
-          "text": "Lager",
+          "text": "dialog.bearing",
           "visible": {
             "operator": "AND",
             "left": {
@@ -156,7 +156,7 @@
               "members": [
                 {
                   "id": "RSY_BEARING",
-                  "text": "Lager",
+                  "text": "dialog.bearing",
                   "type": "lazy-list",
                   "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings",
                   "sources": [
@@ -197,7 +197,7 @@
     {
       "id": "PAGE_MOUNTING_MANAGER_SEAT",
       "title": "IDMM_BEARING_SEAT",
-      "text": "Lagersitz",
+      "text": "dialog.bearingSeat",
       "visible": {
         "value": true,
         "dataType": "boolean",
@@ -211,7 +211,7 @@
           "members": [
             {
               "id": "IDMM_BEARING_SEAT",
-              "text": "Lagersitz",
+              "text": "dialog.bearingSeat",
               "type": "lazy-list",
               "defaultValue": null,
               "sources": [
@@ -256,7 +256,7 @@
     {
       "id": "PAGE_MOUNTING_MANAGER_MEASURING_MOUTING_METHODS",
       "title": "IDMM_MEASSURING_METHOD",
-      "text": "Messen & Montage",
+      "text": "dialog.measuringAndMounting",
       "visible": {
         "value": true,
         "dataType": "boolean",
@@ -270,7 +270,7 @@
           "members": [
             {
               "id": "IDMM_MEASSURING_METHOD",
-              "text": "Messmethode",
+              "text": "dialog.measuringMethod",
               "type": "lazy-list",
               "defaultValue": null,
               "sources": [
@@ -320,7 +320,7 @@
         {
           "id": "PAGE_MOUNTING_MANAGER_MOUTING_METHODS",
           "title": "IDMM_MOUNTING_METHOD",
-          "text": "Montage",
+          "text": "dialog.mounting",
           "visible": {
             "operator": "NOT_EQUAL",
             "left": {
@@ -341,7 +341,7 @@
               "members": [
                 {
                   "id": "IDMM_MOUNTING_METHOD",
-                  "text": "Montagemethode",
+                  "text": "dialog.mountingMethod",
                   "type": "lazy-list",
                   "optionsUrl": "https://mountingmanager-cae.schaeffler.com/api/v1/bearing-types/<RSY_BEARING_TYPE>/series/<RSY_BEARING_SERIES>/bearings/<RSY_BEARING>/seats/<IDMM_BEARING_SEAT>/measuringMethods/<IDMM_MEASSURING_METHOD>/mountingMethods",
                   "sources": [
@@ -466,7 +466,7 @@
     {
       "id": "PROPERTY_PAGE_MOUNTING_SITUATION",
       "title": "PROPERTY_PAGE_TITLE_MOUNTING_SITUATION",
-      "text": "Berechnungsoptionen",
+      "text": "dialog.calculationOptions",
       "visible": {
         "value": false,
         "dataType": null,
@@ -489,7 +489,7 @@
         {
           "id": "PROPERTY_PAGE_MOUNTING",
           "title": "STRING_OUTP_MOUNTING",
-          "text": "Montage",
+          "text": "dialog.mounting",
           "visible": {
             "value": true,
             "dataType": "boolean",
@@ -503,7 +503,7 @@
               "members": [
                 {
                   "id": "IDMM_HYDRAULIC_NUT_TYPE",
-                  "text": "Typ der Hydraulikmutter",
+                  "text": "dialog.hydraulicNutType",
                   "type": "lazy-list",
                   "unit": "",
                   "precision": null,
@@ -550,7 +550,7 @@
                 },
                 {
                   "id": "IDMM_NUMBER_OF_PREVIOUS_MOUNTINGS",
-                  "text": "Anzahl vorheriger Montagen",
+                  "text": "dialog.previousMountings",
                   "type": "list",
                   "unit": "",
                   "precision": null,
@@ -574,33 +574,33 @@
                   "listValues": [
                     {
                       "id": "LB_ZERO_TO_ONE",
-                      "text": "0-1"
+                      "text": "dialog.previousMountingsListValues.zeroToOne"
                     },
                     {
                       "id": "LB_TWO",
-                      "text": "2"
+                      "text": "dialog.previousMountingsListValues.two"
                     },
                     {
                       "id": "LB_THREE",
-                      "text": "3"
+                      "text": "dialog.previousMountingsListValues.three"
                     },
                     {
                       "id": "LB_FOUR",
-                      "text": "4"
+                      "text": "dialog.previousMountingsListValues.four"
                     },
                     {
                       "id": "LB_FIVE",
-                      "text": "5"
+                      "text": "dialog.previousMountingsListValues.five"
                     },
                     {
                       "id": "LB_SIX_PLUS",
-                      "text": "6+"
+                      "text": "dialog.previousMountingsListValues.sixPlus"
                     }
                   ]
                 },
                 {
                   "id": "IDMM_CLEARANCE_REDUCTION_INPUT",
-                  "text": "Vorgabe für Montage",
+                  "text": "dialog.mountingOptions",
                   "type": "list",
                   "unit": "",
                   "precision": null,
@@ -624,17 +624,17 @@
                   "listValues": [
                     {
                       "id": "LB_RADIAL_CLEARANCE_REDUCTION",
-                      "text": "Radialluftminderung"
+                      "text": "dialog.mountingOptionsListValues.radialClearanceReduction"
                     },
                     {
                       "id": "LB_INNER_RING_EXPANSION",
-                      "text": "Innenlaufbahndehnung"
+                      "text": "dialog.mountingOptionsListValues.innerRingExpansion"
                     }
                   ]
                 },
                 {
                   "id": "IDMM_INNER_RING_EXPANSION",
-                  "text": "Innenlaufbahndehnung",
+                  "text": "dialog.innerRingExpansion",
                   "type": "number",
                   "unit": "‰",
                   "precision": 3,
@@ -665,7 +665,7 @@
                 },
                 {
                   "id": "IDMM_RADIAL_CLEARANCE_REDUCTION",
-                  "text": "Radialluftminderung",
+                  "text": "dialog.radialClearanceReduction",
                   "type": "number",
                   "unit": "µm",
                   "precision": 1,
@@ -703,7 +703,7 @@
         {
           "id": "PROPERTY_PAGE_MOUNTING_SITUATION_SUB",
           "title": "STRING_OUTP_SHAFT_DATA",
-          "text": "Wellendaten",
+          "text": "dialog.shaftData",
           "visible": {
             "value": true,
             "dataType": "boolean",
@@ -717,7 +717,7 @@
               "members": [
                 {
                   "id": "IDMM_INNER_SHAFT_DIAMETER",
-                  "text": "Welleninnendurchmesser",
+                  "text": "dialog.innerShaftDiameter",
                   "type": "number",
                   "unit": "mm",
                   "precision": 3,
@@ -742,7 +742,7 @@
                 },
                 {
                   "id": "IDMM_SHAFT_MATERIAL",
-                  "text": "Wellenwerkstoff",
+                  "text": "dialog.shaftMaterial",
                   "type": "list",
                   "unit": "",
                   "precision": null,
@@ -766,51 +766,47 @@
                   "listValues": [
                     {
                       "id": "STEEL_20_DEGREE",
-                      "text": "Stahl"
+                      "text": "dialog.shaftMaterialListValues.steel"
                     },
                     {
                       "id": "STEEL_100_CR_6",
-                      "text": "100Cr6"
+                      "text": "dialog.shaftMaterialListValues.100Cr6"
                     },
                     {
                       "id": "STEEL_C_45",
-                      "text": "C45"
+                      "text": "dialog.shaftMaterialListValues.C45"
                     },
                     {
                       "id": "STEEL_16_MN_CR_5",
-                      "text": "16MnCr5"
-                    },
-                    {
-                      "id": "STEEL_16_MN_CR_5",
-                      "text": "16MnCr5"
+                      "text": "dialog.shaftMaterialListValues.16MnCr5"
                     },
                     {
                       "id": "CAST_IRON_GG14",
-                      "text": "Gusseisen GG14"
+                      "text": "dialog.shaftMaterialListValues.castIronGG14"
                     },
                     {
                       "id": "CAST_IRON_GG26",
-                      "text": "Gusseisen GG26"
+                      "text": "dialog.shaftMaterialListValues.castIronGG26"
                     },
                     {
                       "id": "CAST_IRON_GGG",
-                      "text": "Gusseisen GGG"
+                      "text": "dialog.shaftMaterialListValues.castIronGGG"
                     },
                     {
                       "id": "BRASS",
-                      "text": "Messing"
+                      "text": "dialog.shaftMaterialListValues.brass"
                     },
                     {
                       "id": "BRONZE",
-                      "text": "Bronze"
+                      "text": "dialog.shaftMaterialListValues.bronze"
                     },
                     {
                       "id": "ALLOY_ALUMINIUM",
-                      "text": "Aluminium Legierung"
+                      "text": "dialog.shaftMaterialListValues.alloyAluminium"
                     },
                     {
                       "id": "USER_DEFINED_MATERIAL",
-                      "text": "benutzerdefiniert"
+                      "text": "dialog.shaftMaterialListValues.userDefinedMaterial"
                     }
                   ],
                   "runtimeDescription": {
@@ -862,7 +858,7 @@
                 },
                 {
                   "id": "IDMM_MODULUS_OF_ELASTICITY",
-                  "text": "E-Modul",
+                  "text": "dialog.modulusOfElasticity",
                   "type": "number",
                   "unit": "N/mm²",
                   "precision": 0,
@@ -894,7 +890,7 @@
                 },
                 {
                   "id": "IDMM_POISSON_RATIO",
-                  "text": "Querkontraktionszahl",
+                  "text": "dialog.poissonRatio",
                   "type": "number",
                   "unit": "",
                   "precision": 2,
@@ -934,7 +930,7 @@
     {
       "id": "PAGE_RESULT",
       "title": "IDMM_RESULT",
-      "text": "Bericht",
+      "text": "dialog.report",
       "visible": {
         "value": false
       },
