@@ -13,11 +13,6 @@ import { EmptyGraphModule } from '../../../shared/empty-graph/empty-graph.module
 import { SensorModule } from '../../../shared/sensor/sensor.module';
 import { EdmMonitorComponent } from './edm-monitor.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('EdmMonitorComponent', () => {
   let component: EdmMonitorComponent;
   let spectator: Spectator<EdmMonitorComponent>;
@@ -99,14 +94,16 @@ describe('EdmMonitorComponent', () => {
     });
 
     describe('formatLegend', () => {
-      it('should return a translated text with physical symbold ', () => {
+      it('should return a translated text with physical symbol', () => {
         const mockLabelName = 'edmValue1CounterMax';
-        const formattedMockLabel = 'translate it (translate it 1)';
+        const formattedMockLabel =
+          'conditionMonitoring.edmMonitor.peakValues (sensor.antenna 1)';
 
         expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
 
         const mockLabelName2 = 'edmValue2Counter';
-        const formattedMockLabel2 = 'translate it (translate it 2)';
+        const formattedMockLabel2 =
+          'conditionMonitoring.edmMonitor.relativeAmountOfEvents (sensor.antenna 2)';
 
         expect(component.formatLegend(mockLabelName2)).toBe(
           formattedMockLabel2
@@ -126,7 +123,7 @@ describe('EdmMonitorComponent', () => {
             },
           },
         ];
-        const formattedMockTooltip = `translate it (translate it 1): 123<br>${mockDate.toLocaleString(
+        const formattedMockTooltip = `conditionMonitoring.edmMonitor.peakValues (sensor.antenna 1): 123<br>${mockDate.toLocaleString(
           DATE_FORMAT.local,
           DATE_FORMAT.options
         )}`;
@@ -138,7 +135,7 @@ describe('EdmMonitorComponent', () => {
     describe('getAntennaLabel', () => {
       it('should return a translated antenna text and number', () => {
         const mockAntennaName = 'edmValue1CounterMax';
-        const formattedMockAntennaName = 'translate it 1';
+        const formattedMockAntennaName = 'sensor.antenna 1';
 
         expect(component.getAntennaLabel(mockAntennaName)).toBe(
           formattedMockAntennaName

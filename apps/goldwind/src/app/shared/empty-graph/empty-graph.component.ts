@@ -14,7 +14,7 @@ export class EmptyGraphComponent {
     return (
       this.graphData?.legend.data.length !== 0 &&
       (this.graphData?.series as any)?.filter(
-        (series: any) => series.data.length > 0
+        (series: any) => series?.data?.length > 0
       ).length === 0
     );
   }

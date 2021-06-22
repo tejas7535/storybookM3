@@ -1,10 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import {
-  GcmProcessed,
-  GcmStatus,
-  GreaseDisplay,
-} from '../../reducers/grease-status/models';
+import { GcmStatus, GreaseDisplay } from '../../reducers/grease-status/models';
 import { Interval } from '../../reducers/shared/models';
 
 export const getGreaseStatusId = createAction(
@@ -19,7 +15,7 @@ export const getGreaseStatus = createAction(
 
 export const getGreaseStatusSuccess = createAction(
   '[Grease Status] Load Grease Status Success',
-  props<{ gcmStatus: GcmStatus }>()
+  props<{ gcmStatus: GcmStatus[] }>()
 );
 
 export const getGreaseStatusFailure = createAction(
@@ -37,7 +33,7 @@ export const stopGetGreaseStatusLatest = createAction(
 
 export const getGreaseStatusLatestSuccess = createAction(
   '[Grease Status] Load Latest Grease Status Success',
-  props<{ greaseStatusLatest: GcmProcessed }>()
+  props<{ greaseStatusLatest: GcmStatus }>()
 );
 
 export const getGreaseStatusLatestFailure = createAction(

@@ -8,6 +8,7 @@ import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { DISPLAY } from '../../../testing/mocks';
 import {
   setGreaseDisplay,
   setGreaseInterval,
@@ -18,11 +19,6 @@ import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
 import { GreaseStatusComponent } from './grease-status.component';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('GreaseStatusComponent', () => {
   let component: GreaseStatusComponent;
@@ -82,15 +78,7 @@ describe('GreaseStatusComponent', () => {
           greaseStatus: {
             loading: false,
             result: undefined,
-            display: {
-              waterContent_1: true,
-              deterioration_1: true,
-              temperatureOptics_1: true,
-              waterContent_2: true,
-              deterioration_2: true,
-              temperatureOptics_2: true,
-              rsmShaftSpeed: true,
-            },
+            display: DISPLAY,
             interval: {
               startDate: 123_456_789,
               endDate: 987_654_321,
@@ -126,16 +114,6 @@ describe('GreaseStatusComponent', () => {
 
   describe('Display Form', () => {
     it('should dispatch setGreaseAction on valueChanges', () => {
-      const mockGreaseDisplay = {
-        waterContent_1: true,
-        deterioration_1: true,
-        temperatureOptics_1: true,
-        waterContent_2: true,
-        deterioration_2: true,
-        temperatureOptics_2: true,
-        rsmShaftSpeed: true,
-      };
-
       mockStore.dispatch = jest.fn();
 
       component.displayForm.markAsDirty();
@@ -143,7 +121,7 @@ describe('GreaseStatusComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        setGreaseDisplay({ greaseDisplay: mockGreaseDisplay })
+        setGreaseDisplay({ greaseDisplay: DISPLAY })
       );
     });
   });
@@ -199,9 +177,47 @@ describe('GreaseStatusComponent', () => {
   describe('formatLegend', () => {
     it('should return a translated text with physical symbol', () => {
       const mockLabelName = 'waterContent_1';
-      const formattedMockLabel = 'translate it (%)';
+      const formattedMockLabel = 'greaseStatus.waterContent_1 (%)';
 
       expect(component.formatLegend(mockLabelName)).toBe(formattedMockLabel);
+    });
+  });
+
+  describe('checkChannels', () => {
+    it('should do sth with the channels', () => {
+      component.displayForm.setValue(DISPLAY);
+
+      component.checkChannels();
+
+      component.dataSource.data[1].formControl.markAsDirty();
+      component.dataSource.data[1].formControl.patchValue(false);
+
+      expect(component.displayForm.value).toEqual({
+        waterContent_1: true,
+        deterioration_1: true,
+        temperatureOptics_1: true,
+        waterContent_2: true,
+        deterioration_2: true,
+        temperatureOptics_2: true,
+        rsmShaftSpeed: true,
+        // centerLoad: false,
+        lsp01Strain: false,
+        lsp02Strain: false,
+        lsp03Strain: false,
+        lsp04Strain: false,
+        lsp05Strain: false,
+        lsp06Strain: false,
+        lsp07Strain: false,
+        lsp08Strain: false,
+        lsp09Strain: false,
+        lsp10Strain: false,
+        lsp11Strain: false,
+        lsp12Strain: false,
+        lsp13Strain: false,
+        lsp14Strain: false,
+        lsp15Strain: false,
+        lsp16Strain: false,
+      });
     });
   });
 
@@ -217,38 +233,13 @@ describe('GreaseStatusComponent', () => {
           },
         },
       ];
-      const formattedMockTooltip = `translate it: 123 %<br>${mockDate.toLocaleString(
+      const formattedMockTooltip = `greaseStatus.waterContent_1: 123 %<br>${mockDate.toLocaleString(
         DATE_FORMAT.local,
         DATE_FORMAT.options
       )} ${mockDate.toLocaleTimeString(DATE_FORMAT.local)}`;
 
       expect(component.formatTooltip(mockParams)).toBe(formattedMockTooltip);
-    });
-  });
-
-  describe('checkChanels', () => {
-    it('should do sth with the cahnnels', () => {
-      const mockGreaseDisplay = {
-        waterContent_1: true,
-        deterioration_1: true,
-        temperatureOptics_1: true,
-        waterContent_2: true,
-        deterioration_2: true,
-        temperatureOptics_2: true,
-        rsmShaftSpeed: true,
-      };
-
-      component.displayForm.setValue(mockGreaseDisplay);
-
-      component.checkChannels();
-
-      component.dataSource.data[1].formControl.markAsDirty();
-      component.dataSource.data[1].formControl.patchValue(false);
-
-      expect(component.displayForm.value).toEqual({
-        ...mockGreaseDisplay,
-        rsmShaftSpeed: false,
-      });
+      jest.resetAllMocks();
     });
   });
 });

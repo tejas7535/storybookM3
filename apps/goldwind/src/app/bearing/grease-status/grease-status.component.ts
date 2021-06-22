@@ -54,12 +54,12 @@ const TREE_DATA: SensorNode[] = [
     formControl: new FormControl(''),
     indeterminate: false,
   },
-  // {
-  //   name: 'loadMonitor',
-  //   children: GREASE_CONTROLS.filter((control) => control.type === Type.load),
-  //   formControl: new FormControl(''),
-  //   indeterminate: false,
-  // },
+  {
+    name: 'loadMonitor',
+    children: GREASE_CONTROLS.filter((control) => control.type === Type.load),
+    formControl: new FormControl(''),
+    indeterminate: false,
+  },
   // {
   //   name: 'edmMonitor',
   //   children: GREASE_CONTROLS.filter((control) => control.type === Type.edm),
@@ -101,6 +101,23 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
     deterioration_2: new FormControl(''),
     temperatureOptics_2: new FormControl(''),
     rsmShaftSpeed: new FormControl(''),
+    // centerLoad: new FormControl(''),
+    lsp01Strain: new FormControl(''),
+    lsp02Strain: new FormControl(''),
+    lsp03Strain: new FormControl(''),
+    lsp04Strain: new FormControl(''),
+    lsp05Strain: new FormControl(''),
+    lsp06Strain: new FormControl(''),
+    lsp07Strain: new FormControl(''),
+    lsp08Strain: new FormControl(''),
+    lsp09Strain: new FormControl(''),
+    lsp10Strain: new FormControl(''),
+    lsp11Strain: new FormControl(''),
+    lsp12Strain: new FormControl(''),
+    lsp13Strain: new FormControl(''),
+    lsp14Strain: new FormControl(''),
+    lsp15Strain: new FormControl(''),
+    lsp16Strain: new FormControl(''),
   });
 
   chartOptions: EChartsOption = {

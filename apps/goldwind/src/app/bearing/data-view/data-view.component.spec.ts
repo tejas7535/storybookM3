@@ -16,11 +16,6 @@ import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { DataViewComponent } from './data-view.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('DataViewComponent', () => {
   let component: DataViewComponent;
   let spectator: Spectator<DataViewComponent>;

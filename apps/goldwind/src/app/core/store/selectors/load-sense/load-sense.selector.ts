@@ -4,29 +4,34 @@ import { createSelector } from '@ngrx/store';
 import { GaugeColors } from '../../../../shared/chart/chart';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { getBearingLoadState } from '../../reducers';
-import { BearingLoadLatestState } from '../../reducers/load-sense/load-sense.reducer';
+import { BearingLoadState } from '../../reducers/load-sense/load-sense.reducer';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { GraphData } from '../../reducers/shared/models';
 
 // Will at some point only return true if last result is not too old
-export const getLoadSenseLoading = createSelector(
+export const getLoadLatestLoading = createSelector(
   getBearingLoadState,
-  (state: BearingLoadLatestState) => state.loading
+  (state: BearingLoadState) => state.status.loading
 );
 
 export const getLoadAverageLoading = createSelector(
   getBearingLoadState,
-  (state: BearingLoadLatestState) => state.averageResult.loading
+  (state: BearingLoadState) => state.averageResult.loading
+);
+
+export const getBearingLoadResult = createSelector(
+  getBearingLoadState,
+  (state: BearingLoadState) => state.result
 );
 
 export const getBearingLoadLatestResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadLatestState): LoadSense => state.result
+  (state: BearingLoadState) => state.status.result
 );
 
 export const getLoadAverageResult = createSelector(
   getBearingLoadState,
-  (state: BearingLoadLatestState): LoadSense => state.averageResult.result
+  (state: BearingLoadState) => state.averageResult.result
 );
 
 export const getBearingLoadLatestTimeStamp = createSelector(

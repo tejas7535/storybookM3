@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 
+import { DISPLAY } from '../../../../../testing/mocks';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
@@ -10,33 +11,15 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
-import { ShaftStatus } from '../shaft/models';
 import {
   greaseStatusReducer,
   initialState,
   reducer,
 } from './grease-status.reducer';
+import { GcmStatus } from './models';
 
-describe('Grease Status Reducer', () => {
-  describe('getGreaseStatus', () => {
-    it('should set loading', () => {
-      const action = getGreaseStatus({ deviceId: 'deviceId' });
-      const state = greaseStatusReducer(initialState, action);
-
-      expect(state.loading).toBeTruthy();
-    });
-  });
-
-  describe('getGreaseStatusLatest', () => {
-    it('should set latest status loading', () => {
-      const action = getGreaseStatusLatest({ deviceId: 'deviceId' });
-      const state = greaseStatusReducer(initialState, action);
-
-      expect(state.status.loading).toBeTruthy();
-    });
-  });
-
-  const mockGcmProcessed = {
+const mockGcmStatus: GcmStatus[] = [
+  {
     deviceId: '1',
     gcm01TemperatureOptics: 99,
     gcm01TemperatureOpticsMax: 102,
@@ -57,21 +40,28 @@ describe('Grease Status Reducer', () => {
     gcm02WaterContentMin: 0,
     gcm02WaterContentMax: 0,
     timestamp: '2020-08-02T16:18:59Z',
-  };
+  },
+];
 
-  const mockShaftStatus: ShaftStatus[] = [
-    {
-      deviceId: '1',
-      rsm01ShaftSpeed: 13,
-      rsm01Shaftcountervalue: 3,
-      timestamp: '2020-08-02T16:18:59Z',
-    },
-  ];
+describe('Grease Status Reducer', () => {
+  describe('getGreaseStatus', () => {
+    it('should set loading', () => {
+      const action = getGreaseStatus({ deviceId: 'deviceId' });
+      const state = greaseStatusReducer(initialState, action);
 
-  const mockGcmStatus = {
-    GcmProcessed: [mockGcmProcessed],
-    RsmShafts: mockShaftStatus,
-  };
+      expect(state.loading).toBeTruthy();
+    });
+  });
+
+  describe('getGreaseStatusLatest', () => {
+    it('should set latest status loading', () => {
+      const action = getGreaseStatusLatest({ deviceId: 'deviceId' });
+      const state = greaseStatusReducer(initialState, action);
+
+      expect(state.status.loading).toBeTruthy();
+    });
+  });
+
   describe('getGreaseStatusSuccess', () => {
     it('should unset loading and set grease status', () => {
       const action = getGreaseStatusSuccess({ gcmStatus: mockGcmStatus });
@@ -91,7 +81,7 @@ describe('Grease Status Reducer', () => {
   describe('getGreaseStatusLatestSuccess', () => {
     it('should unset status loading and set latest grease status', () => {
       const action = getGreaseStatusLatestSuccess({
-        greaseStatusLatest: mockGcmProcessed,
+        greaseStatusLatest: mockGcmStatus[0],
       });
 
       const fakeState = {
@@ -105,7 +95,7 @@ describe('Grease Status Reducer', () => {
       const state = greaseStatusReducer(fakeState, action);
 
       expect(state.status.loading).toBeFalsy();
-      expect(state.status.result).toEqual(mockGcmProcessed);
+      expect(state.status.result).toEqual(mockGcmStatus[0]);
     });
   });
 
@@ -142,23 +132,14 @@ describe('Grease Status Reducer', () => {
 
   describe('setGreaseDisplay', () => {
     it('should set grease display', () => {
-      const mockGreaseDisplay = {
-        deterioration_1: false,
-        waterContent_1: false,
-        temperatureOptics_1: true,
-        deterioration_2: false,
-        waterContent_2: false,
-        temperatureOptics_2: true,
-        rsmShaftSpeed: true,
-      };
-      const action = setGreaseDisplay({ greaseDisplay: mockGreaseDisplay });
+      const action = setGreaseDisplay({ greaseDisplay: DISPLAY });
       const fakeState = {
         ...initialState,
       };
 
       const state = greaseStatusReducer(fakeState, action);
 
-      expect(state.display).toEqual(mockGreaseDisplay);
+      expect(state.display).toEqual(DISPLAY);
     });
   });
 

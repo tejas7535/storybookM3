@@ -1,19 +1,17 @@
 import { translate } from '@ngneat/transloco';
 
+import { LOAD_SENSE } from '../../../../../testing/mocks';
 import { GaugeColors } from '../../../../shared/chart/chart';
-import {
-  initialState,
-  LoadAverageState,
-} from '../../reducers/load-sense/load-sense.reducer';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { GraphData } from '../../reducers/shared/models';
 import {
   getAverageLoadGraphData,
   getBearingLoadLatestResult,
+  getBearingLoadResult,
   getLoadAverageLoading,
   getLoadAverageResult,
   getLoadGraphData,
-  getLoadSenseLoading,
+  getLoadLatestLoading,
   tooltipFormatter,
 } from './load-sense.selector';
 
@@ -23,66 +21,51 @@ jest.mock('@ngneat/transloco', () => ({
 }));
 
 describe('Load Sense Selector', () => {
-  const mockLoadSense: LoadSense = {
-    deviceId: 'string',
-    id: 'string',
-    lsp01Strain: 1,
-    lsp02Strain: 2,
-    lsp03Strain: 3,
-    lsp04Strain: 4,
-    lsp05Strain: 5,
-    lsp06Strain: 6,
-    lsp07Strain: 7,
-    lsp08Strain: 8,
-    lsp09Strain: 9,
-    lsp10Strain: 10,
-    lsp11Strain: 11,
-    lsp12Strain: 12,
-    lsp13Strain: 13,
-    lsp14Strain: 14,
-    lsp15Strain: 15,
-    lsp16Strain: 16,
-    timestamp: '2020-11-04T09:39:19.499Z',
-  };
-
-  const mockLoadAverageState: LoadAverageState = {
-    loading: false,
-    result: mockLoadSense,
-  };
-
-  const mockBearingLoadState: any = {
+  const mockState = {
     loadSense: {
-      ...initialState,
       loading: false,
-      result: mockLoadSense,
-      averageResult: mockLoadAverageState,
+      result: [LOAD_SENSE],
+      status: {
+        loading: false,
+        result: LOAD_SENSE,
+      },
+      averageResult: {
+        loading: false,
+        result: LOAD_SENSE,
+      },
     },
   };
 
-  describe('getLoadSenseLoading', () => {
-    it('should return loading status', () => {
-      expect(getLoadSenseLoading(mockBearingLoadState)).toBeFalsy();
+  describe('getLoadLatestLoading', () => {
+    it('should return loading latest status', () => {
+      expect(getLoadLatestLoading(mockState)).toBeFalsy();
     });
   });
 
   describe('getLoadAverageLoading', () => {
     it('should return loading status', () => {
-      expect(getLoadAverageLoading(mockBearingLoadState)).toBeFalsy();
+      expect(getLoadAverageLoading(mockState)).toBeFalsy();
     });
   });
 
   describe('getLoadSenseResult', () => {
     it('should return the load sense result', () => {
-      expect(getBearingLoadLatestResult(mockBearingLoadState)).toEqual(
-        mockLoadSense
+      expect(getBearingLoadLatestResult(mockState)).toEqual(LOAD_SENSE);
+    });
+  });
+
+  describe('getBearingLoadResult', () => {
+    it('should return the load sense result', () => {
+      expect(getBearingLoadResult(mockState)).toEqual(
+        mockState.loadSense.result
       );
     });
   });
 
   describe('getLoadAverageResult', () => {
     it('should return the load average result', () => {
-      expect(getLoadAverageResult(mockBearingLoadState)).toEqual(
-        mockLoadAverageState.result
+      expect(getLoadAverageResult(mockState)).toEqual(
+        mockState.loadSense.averageResult.result
       );
     });
   });
@@ -147,7 +130,7 @@ describe('Load Sense Selector', () => {
           },
         ],
       };
-      expect(JSON.stringify(getLoadGraphData(mockBearingLoadState))).toEqual(
+      expect(JSON.stringify(getLoadGraphData(mockState))).toEqual(
         JSON.stringify(expectedResult)
       );
     });
@@ -216,9 +199,9 @@ describe('Load Sense Selector', () => {
           },
         ],
       };
-      expect(
-        JSON.stringify(getAverageLoadGraphData(mockBearingLoadState))
-      ).toEqual(JSON.stringify(expectedResult));
+      expect(JSON.stringify(getAverageLoadGraphData(mockState))).toEqual(
+        JSON.stringify(expectedResult)
+      );
     });
   });
 

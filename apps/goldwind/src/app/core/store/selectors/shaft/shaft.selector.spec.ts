@@ -10,10 +10,6 @@ import {
   getShaftResult,
 } from './shaft.selector';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 describe('Shaft Selector', () => {
   const fakeShaftState: ShaftState = {
     ...initialState,

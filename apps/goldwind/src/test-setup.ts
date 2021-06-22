@@ -9,6 +9,11 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+jest.mock('@ngneat/transloco', () => ({
+  ...jest.requireActual('@ngneat/transloco'),
+  translate: jest.fn((key) => key),
+}));
+
 defineGlobalsInjections({
   imports: [provideTranslocoTestingModule({ en: {} }), ReactiveComponentModule],
 });

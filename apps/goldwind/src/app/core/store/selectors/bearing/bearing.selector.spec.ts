@@ -6,10 +6,6 @@ import {
   getDeviceId,
 } from './bearing.selector';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 describe('Bearing Selector', () => {
   const bearingMetaData: BearingMetadata = {
     id: 'bbc9a782-f0fc-4a5a-976e-b28cfe187b19',

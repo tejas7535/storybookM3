@@ -120,7 +120,7 @@ describe('Rest Service', () => {
 
       service.getBearingLoad(mockLoadSenseParams);
       expect(dataService.getAll).toHaveBeenCalledWith(
-        `things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry?start=${mockLoadSenseParams.startDate}&end=${mockLoadSenseParams.endDate}`
+        `things/${mockLoadSenseParams.id}/sensors/bearing-load/telemetry?start=${mockLoadSenseParams.startDate}&end=${mockLoadSenseParams.endDate}&timebucketSeconds=3600&aggregation=AVG`
       );
     });
   });

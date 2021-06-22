@@ -18,11 +18,6 @@ import * as fromRouter from '../../reducers';
 import { getDataInterval } from '../../selectors/data-view/data-view.selector';
 import { DataViewEffects } from './data-view.effects';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('Search Effects', () => {
   let spectator: SpectatorService<DataViewEffects>;
   let actions$: any;

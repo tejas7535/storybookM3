@@ -1,11 +1,12 @@
 import { Action } from '@ngrx/store';
 
+import { getBearingLoadLatest } from '../..';
 import {
+  getBearingLoad,
   getBearingLoadFailure,
-  getBearingLoadLatest,
+  getBearingLoadLatestFailure,
+  getBearingLoadLatestSuccess,
   getBearingLoadSuccess,
-} from '../..';
-import {
   getLoadAverage,
   getLoadAverageFailure,
   getLoadAverageSuccess,
@@ -16,10 +17,19 @@ import { LoadSense } from './models';
 describe('Load Sense Reducer', () => {
   describe('getLoad', () => {
     it('should set loading', () => {
-      const action = getBearingLoadLatest({ deviceId: '123' });
+      const action = getBearingLoad({ deviceId: '123' });
       const state = loadSenseReducer(initialState, action);
 
       expect(state.loading).toBeTruthy();
+    });
+  });
+
+  describe('getLoadLatest', () => {
+    it('should set loading', () => {
+      const action = getBearingLoadLatest({ deviceId: '123' });
+      const state = loadSenseReducer(initialState, action);
+
+      expect(state.status.loading).toBeTruthy();
     });
   });
 
@@ -74,6 +84,63 @@ describe('Load Sense Reducer', () => {
 
   describe('getLoadSuccess', () => {
     it('should unset loading and set bearing', () => {
+      const mockResult: LoadSense[] = [
+        {
+          deviceId: 'string',
+          id: 'string',
+          lsp01Strain: 0,
+          lsp02Strain: 0,
+          lsp03Strain: 0,
+          lsp04Strain: 0,
+          lsp05Strain: 0,
+          lsp06Strain: 0,
+          lsp07Strain: 0,
+          lsp08Strain: 0,
+          lsp09Strain: 0,
+          lsp10Strain: 0,
+          lsp11Strain: 0,
+          lsp12Strain: 0,
+          lsp13Strain: 0,
+          lsp14Strain: 0,
+          lsp15Strain: 0,
+          lsp16Strain: 0,
+          timestamp: '2020-11-04T09:39:19.499Z',
+        },
+      ];
+      const action = getBearingLoadSuccess({
+        bearingLoad: mockResult,
+      });
+
+      const fakeState = {
+        ...initialState,
+
+        loading: true,
+      };
+
+      const state = loadSenseReducer(fakeState, action);
+
+      expect(state.loading).toBeFalsy();
+
+      expect(state.result).toEqual(mockResult);
+    });
+  });
+
+  describe('getLoadFailure', () => {
+    it('should unset loading', () => {
+      const action = getBearingLoadFailure();
+      const fakeState = {
+        ...initialState,
+        loading: true,
+      };
+
+      const state = loadSenseReducer(fakeState, action);
+
+      expect(state.loading).toBeFalsy();
+    });
+  });
+
+  describe('getLoadLatestSuccess', () => {
+    it('should unset loading and set bearing', () => {
       const mockResult: LoadSense = {
         deviceId: 'string',
         id: 'string',
@@ -95,27 +162,35 @@ describe('Load Sense Reducer', () => {
         lsp16Strain: 0,
         timestamp: '2020-11-04T09:39:19.499Z',
       };
-      const action = getBearingLoadSuccess({ bearingLoadLatest: mockResult });
+      const action = getBearingLoadLatestSuccess({
+        bearingLoadLatest: mockResult,
+      });
 
       const fakeState = {
         ...initialState,
-        loading: true,
+        status: {
+          ...initialState.status,
+          loading: true,
+        },
       };
 
       const state = loadSenseReducer(fakeState, action);
 
-      expect(state.loading).toBeFalsy();
+      expect(state.status.loading).toBeFalsy();
 
-      expect(state.result).toEqual(mockResult);
+      expect(state.status.result).toEqual(mockResult);
     });
   });
 
-  describe('getLoadFailure', () => {
+  describe('getLoadLatestFailure', () => {
     it('should unset loading', () => {
-      const action = getBearingLoadFailure();
+      const action = getBearingLoadLatestFailure();
       const fakeState = {
         ...initialState,
-        loading: true,
+        status: {
+          ...initialState.status,
+          loading: true,
+        },
       };
 
       const state = loadSenseReducer(fakeState, action);
@@ -143,7 +218,7 @@ describe('Load Sense Reducer', () => {
   describe('Reducer function', () => {
     it('should return loadSenseReducer', () => {
       // prepare any action
-      const action: Action = getBearingLoadFailure();
+      const action: Action = getBearingLoadLatestFailure();
       expect(reducer(initialState, action)).toEqual(
         loadSenseReducer(initialState, action)
       );

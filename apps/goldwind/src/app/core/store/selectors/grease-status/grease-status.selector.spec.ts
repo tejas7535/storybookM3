@@ -1,4 +1,4 @@
-import { GREASE_STATUS_MOCK } from '../../../../../testing/mocks';
+import { GREASE_STATUS_MOCK, LOAD_SENSE } from '../../../../../testing/mocks';
 import { DATE_FORMAT } from '../../../../shared/constants';
 import { initialState } from '../../reducers/bearing/bearing.reducer';
 import { GreaseSensorName } from '../../reducers/grease-status/models';
@@ -13,11 +13,6 @@ import {
   getGreaseStatusResult,
   getGreaseTimeStamp,
 } from './grease-status.selector';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('Grease Status Selector', () => {
   const fakeState = {
@@ -55,6 +50,8 @@ describe('Grease Status Selector', () => {
         waterContent_2: true,
         temperatureOptics_2: true,
         rsmShaftSpeed: true,
+        centerLoad: false,
+        lsp01Strain: true,
       },
       interval: {
         startDate: 123_456_789,
@@ -80,6 +77,18 @@ describe('Grease Status Selector', () => {
           rsm01Shaftcountervalue: 666,
         },
         loading: false,
+      },
+    },
+    loadSense: {
+      loading: false,
+      result: [LOAD_SENSE],
+      status: {
+        loading: false,
+        result: LOAD_SENSE,
+      },
+      averageResult: {
+        loading: false,
+        result: LOAD_SENSE,
       },
     },
   };
@@ -130,7 +139,7 @@ describe('Grease Status Selector', () => {
     });
   });
 
-  describe('getGreaseStatusGraphData', () => {
+  describe('getAnalysisGraphData', () => {
     it('should return grease status series data value tupels', () => {
       const expectedResult = {
         legend: {
@@ -142,6 +151,7 @@ describe('Grease Status Selector', () => {
             'waterContent_2',
             'temperatureOptics_2',
             'rsmShaftSpeed',
+            'lsp01Strain',
           ],
         },
         series: [
@@ -205,6 +215,20 @@ describe('Grease Status Selector', () => {
             data: [
               {
                 value: [new Date('2020-11-12T18:31:56.954Z'), '3.00'],
+              },
+            ],
+          },
+          {
+            name: 'centerLoad',
+            type: 'line',
+            data: [],
+          },
+          {
+            name: 'lsp01Strain',
+            type: 'line',
+            data: [
+              {
+                value: [new Date('2020-11-04T09:39:19.499Z'), '1.00'],
               },
             ],
           },
