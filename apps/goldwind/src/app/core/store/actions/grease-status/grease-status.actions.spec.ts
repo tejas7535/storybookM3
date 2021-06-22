@@ -40,10 +40,7 @@ describe('GreaseStatus Actions', () => {
     });
 
     it('getGreaseStatusSuccess', () => {
-      const gcmStatus: GcmStatus = {
-        GcmProcessed: [],
-        RsmShafts: [],
-      };
+      const gcmStatus = [{} as GcmStatus];
       const action = getGreaseStatusSuccess({ gcmStatus });
 
       expect(action).toEqual({

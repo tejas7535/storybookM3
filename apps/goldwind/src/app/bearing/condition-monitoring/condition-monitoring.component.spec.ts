@@ -16,11 +16,6 @@ import { EdmMonitorModule } from './edm-monitor/edm-monitor.module';
 import { GreaseMonitorModule } from './grease-monitor/grease-monitor.module';
 import { ShaftModule } from './shaft/shaft.module';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('ConditionMonitoringComponent', () => {
   let component: ConditionMonitoringComponent;
   let spectator: Spectator<ConditionMonitoringComponent>;

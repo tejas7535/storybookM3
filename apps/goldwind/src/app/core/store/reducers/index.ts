@@ -43,7 +43,7 @@ export const getBearingState =
   createFeatureSelector<fromBearing.BearingState>('bearing');
 
 export const getBearingLoadState =
-  createFeatureSelector<fromLoadSense.BearingLoadLatestState>('loadSense');
+  createFeatureSelector<fromLoadSense.BearingLoadState>('loadSense');
 
 export const getDataViewState =
   createFeatureSelector<fromDataView.DataViewState>('dataView');

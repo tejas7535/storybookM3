@@ -1,6 +1,4 @@
-import { ShaftStatus } from '../../shaft/models';
-
-export interface GcmProcessed {
+export interface GcmStatus {
   deviceId: string;
   gcm01TemperatureOptics: number;
   gcm01TemperatureOpticsMax: number;
@@ -21,9 +19,4 @@ export interface GcmProcessed {
   gcm02WaterContentMax: number;
   gcm02WaterContentMin: number;
   timestamp: string;
-}
-
-export interface GcmStatus {
-  GcmProcessed: GcmProcessed[];
-  RsmShafts: ShaftStatus[];
 }

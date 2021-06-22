@@ -6,6 +6,7 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
 import { Store } from '@ngrx/store';
 import { provideMockStore } from '@ngrx/store/testing';
+import { LOAD_SENSE } from 'apps/goldwind/src/testing/mocks';
 
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
@@ -20,21 +21,18 @@ import {
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
 import {
+  getBearingLoad,
+  getBearingLoadSuccess,
   getLoadAverage,
   getLoadAverageSuccess,
 } from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
+import { GcmStatus } from '../../reducers/grease-status/models';
 import { LoadSense } from '../../reducers/load-sense/models';
-import { ShaftStatus } from '../../reducers/shaft/models';
 import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { GreaseStatusEffects } from './grease-status.effects';
 
 /* eslint-disable max-lines */
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('Search Effects', () => {
   let spectator: SpectatorService<GreaseStatusEffects>;
   let actions$: any;
@@ -58,6 +56,7 @@ describe('Search Effects', () => {
         useValue: {
           getGreaseStatus: jest.fn(),
           getGreaseStatusLatest: jest.fn(),
+          getBearingLoad: jest.fn(),
         },
       },
     ],
@@ -172,6 +171,12 @@ describe('Search Effects', () => {
         expect(store.dispatch).toHaveBeenCalledWith(
           getLoadAverage({ deviceId })
         );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          getGreaseStatus({ deviceId })
+        );
+        expect(store.dispatch).toHaveBeenCalledWith(
+          getBearingLoad({ deviceId })
+        );
       })
     );
 
@@ -209,42 +214,30 @@ describe('Search Effects', () => {
     it(
       'should return getGreaseStatusSuccess action when REST call is successful',
       marbles((m) => {
-        const mockGcmProcessed = {
-          deviceId: '1',
-          gcm01TemperatureOptics: 500,
-          gcm01TemperatureOpticsMin: 1,
-          gcm01TemperatureOpticsMax: 1000,
-          gcm01Deterioration: 19,
-          gcm01DeteriorationMin: 22,
-          gcm01DeteriorationMax: 33,
-          gcm01WaterContent: 0,
-          gcm01WaterContentMin: 0,
-          gcm01WaterContentMax: 1,
-          gcm02TemperatureOptics: 0,
-          gcm02TemperatureOpticsMin: 0,
-          gcm02TemperatureOpticsMax: 0,
-          gcm02Deterioration: 0,
-          gcm02DeteriorationMin: 0,
-          gcm02DeteriorationMax: 0,
-          gcm02WaterContent: 0,
-          gcm02WaterContentMin: 0,
-          gcm02WaterContentMax: 0,
-          timestamp: '2020-08-02T16:18:59Z',
-        };
-
-        const mockShaftStatus: ShaftStatus[] = [
+        const mockGcmStatus: GcmStatus[] = [
           {
             deviceId: '1',
-            rsm01ShaftSpeed: 13,
-            rsm01Shaftcountervalue: 3,
+            gcm01TemperatureOptics: 500,
+            gcm01TemperatureOpticsMin: 1,
+            gcm01TemperatureOpticsMax: 1000,
+            gcm01Deterioration: 19,
+            gcm01DeteriorationMin: 22,
+            gcm01DeteriorationMax: 33,
+            gcm01WaterContent: 0,
+            gcm01WaterContentMin: 0,
+            gcm01WaterContentMax: 1,
+            gcm02TemperatureOptics: 0,
+            gcm02TemperatureOpticsMin: 0,
+            gcm02TemperatureOpticsMax: 0,
+            gcm02Deterioration: 0,
+            gcm02DeteriorationMin: 0,
+            gcm02DeteriorationMax: 0,
+            gcm02WaterContent: 0,
+            gcm02WaterContentMin: 0,
+            gcm02WaterContentMax: 0,
             timestamp: '2020-08-02T16:18:59Z',
           },
         ];
-
-        const mockGcmStatus = {
-          GcmProcessed: [mockGcmProcessed],
-          RsmShafts: mockShaftStatus,
-        };
 
         const result = getGreaseStatusSuccess({
           gcmStatus: mockGcmStatus,
@@ -264,6 +257,42 @@ describe('Search Effects', () => {
 
         expect(restService.getGreaseStatus).toHaveBeenCalledTimes(1);
         expect(restService.getGreaseStatus).toHaveBeenCalledWith({
+          id: deviceId,
+          startDate: 1_599_651_508,
+          endDate: 1_599_651_509,
+        });
+      })
+    );
+  });
+
+  describe('load$', () => {
+    beforeEach(() => {
+      action = getBearingLoad({ deviceId });
+    });
+
+    it(
+      'should return getBearingLoadSuccess action when REST call is successful',
+      marbles((m) => {
+        const mockBearingLoad: LoadSense[] = [LOAD_SENSE];
+
+        const result = getBearingLoadSuccess({
+          bearingLoad: mockBearingLoad,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: mockBearingLoad,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        restService.getBearingLoad = jest.fn(() => response);
+
+        m.expect(effects.load$).toBeObservable(expected);
+        m.flush();
+
+        expect(restService.getBearingLoad).toHaveBeenCalledTimes(1);
+        expect(restService.getBearingLoad).toHaveBeenCalledWith({
           id: deviceId,
           startDate: 1_599_651_508,
           endDate: 1_599_651_509,

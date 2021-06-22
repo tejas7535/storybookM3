@@ -20,9 +20,9 @@ import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants/update-settings';
 import { RestService } from '../../../http/rest.service';
 import {
-  getBearingLoadFailure,
   getBearingLoadLatest,
-  getBearingLoadSuccess,
+  getBearingLoadLatestFailure,
+  getBearingLoadLatestSuccess,
   getLoadId,
   stopGetLoad,
 } from '../../actions';
@@ -76,7 +76,7 @@ export class BearingLoadEffects {
    */
   continueLoadId$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(getBearingLoadSuccess, getBearingLoadFailure),
+      ofType(getBearingLoadLatestSuccess, getBearingLoadLatestFailure),
       delay(UPDATE_SETTINGS.bearingLoad.refresh * 1000),
       filter(() => this.isPollingActive),
       withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
@@ -101,7 +101,7 @@ export class BearingLoadEffects {
   );
 
   /**
-   * Load Load
+   * Load Load Latest
    */
   bearingLoadLatest$ = createEffect(() =>
     this.actions$.pipe(
@@ -110,9 +110,9 @@ export class BearingLoadEffects {
       mergeMap((deviceId) =>
         this.restService.getBearingLoadLatest(deviceId).pipe(
           map(([bearingLoadLatest]) =>
-            getBearingLoadSuccess({ bearingLoadLatest })
+            getBearingLoadLatestSuccess({ bearingLoadLatest })
           ),
-          catchError((_e) => of(getBearingLoadFailure()))
+          catchError((_e) => of(getBearingLoadLatestFailure()))
         )
       )
     )

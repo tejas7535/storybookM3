@@ -10,20 +10,15 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
-  getBearingLoadFailure,
   getBearingLoadLatest,
-  getBearingLoadSuccess,
+  getBearingLoadLatestFailure,
+  getBearingLoadLatestSuccess,
   getLoadId,
   stopGetLoad,
 } from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { BearingLoadEffects } from './load-sense.effects';
-
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
 
 describe('Search Effects', () => {
   let spectator: SpectatorService<BearingLoadEffects>;
@@ -161,7 +156,7 @@ describe('Search Effects', () => {
       'should return getBearingLoadLatest',
       marbles((m) => {
         effects['isPollingActive'] = true;
-        action = getBearingLoadFailure();
+        action = getBearingLoadLatestFailure();
 
         actions$ = m.hot('-a', { a: action });
 
@@ -182,7 +177,7 @@ describe('Search Effects', () => {
     });
 
     it(
-      'should return getBearingLoadSuccess action when REST call is successful',
+      'should return getBearingLoadLatestSuccess action when REST call is successful',
       marbles((m) => {
         const mockLoadSense: LoadSense = {
           deviceId: 'string',
@@ -205,7 +200,7 @@ describe('Search Effects', () => {
           lsp16Strain: 0,
           timestamp: '2020-11-04T09:39:19.499Z',
         };
-        const result = getBearingLoadSuccess({
+        const result = getBearingLoadLatestSuccess({
           bearingLoadLatest: mockLoadSense,
         });
 

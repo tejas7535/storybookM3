@@ -10,14 +10,14 @@ import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
-import { GcmProcessed, GcmStatus, GreaseDisplay } from './models';
+import { GcmStatus, GreaseDisplay } from './models';
 
 export interface GreaseStatusState {
   loading: boolean;
-  result: GcmStatus;
+  result: GcmStatus[];
   status: {
     loading: boolean;
-    result: GcmProcessed;
+    result: GcmStatus;
   };
   display: GreaseDisplay;
   interval: {
@@ -41,6 +41,23 @@ export const initialState: GreaseStatusState = {
     waterContent_2: true,
     temperatureOptics_2: true,
     rsmShaftSpeed: true,
+    // centerLoad: true,
+    lsp01Strain: true,
+    lsp02Strain: true,
+    lsp03Strain: true,
+    lsp04Strain: true,
+    lsp05Strain: true,
+    lsp06Strain: true,
+    lsp07Strain: true,
+    lsp08Strain: true,
+    lsp09Strain: true,
+    lsp10Strain: true,
+    lsp11Strain: true,
+    lsp12Strain: true,
+    lsp13Strain: true,
+    lsp14Strain: true,
+    lsp15Strain: true,
+    lsp16Strain: true,
   },
   interval: {
     startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),

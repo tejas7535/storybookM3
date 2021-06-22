@@ -7,11 +7,6 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { ShaftComponent } from './shaft.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('ConditionMeasuringEquipmentComponent', () => {
   let component: ShaftComponent;
   let spectator: Spectator<ShaftComponent>;

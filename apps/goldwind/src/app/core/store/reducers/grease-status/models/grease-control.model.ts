@@ -2,6 +2,7 @@ export enum Unit {
   percent = '%',
   degree = '°C',
   rotationSpeed = 'rpm',
+  load = 'N',
 }
 
 export enum Type {

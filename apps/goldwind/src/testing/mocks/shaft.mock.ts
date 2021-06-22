@@ -34,12 +34,12 @@ export const SHAFT_LATEST_GRAPH_DATA = {
     axisLabel: {
       distance: 0,
     },
-    name: 'translate it',
+    name: 'conditionMonitoring.shaft.rotorRotationSpeed',
     max: 20,
     data: [
       {
         value: '3.00',
-        name: 'TRANSLATE IT',
+        name: 'CONDITIONMONITORING.SHAFT.ROTORROTATIONSPEED',
       },
     ],
   },

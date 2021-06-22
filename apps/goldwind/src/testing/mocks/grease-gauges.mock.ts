@@ -7,7 +7,7 @@ export const GREASE_STATUS_MOCK = {
       data: [
         {
           value: 12.55,
-          name: 'TRANSLATE IT',
+          name: 'GREASESTATUS.WATERCONTENT',
         },
       ],
       max: 100,
@@ -54,7 +54,7 @@ export const GREASE_STATUS_MOCK = {
       data: [
         {
           value: 55.55,
-          name: 'TRANSLATE IT',
+          name: 'GREASESTATUS.DETERIORATION',
         },
       ],
       max: 100,
@@ -100,7 +100,7 @@ export const GREASE_STATUS_MOCK = {
       type: 'gauge',
       data: [
         {
-          name: 'TRANSLATE IT',
+          name: 'GREASESTATUS.TEMPERATUREOPTICS',
           value: 99.99,
         },
       ],

@@ -2,18 +2,24 @@ import { translate } from '@ngneat/transloco';
 import { createSelector } from '@ngrx/store';
 
 import { GREASE_GAUGE_SERIES } from '../../../../shared/chart/chart';
-import { DATE_FORMAT, GREASE_DASHBOARD } from '../../../../shared/constants';
+import {
+  DATE_FORMAT,
+  GREASE_CONTROLS,
+  GREASE_DASHBOARD,
+} from '../../../../shared/constants';
 import { getGreaseStatusState } from '../../reducers';
 import { GreaseStatusState } from '../../reducers/grease-status/grease-status.reducer';
 import {
-  GcmProcessed,
   GcmStatus,
   GreaseControl,
   GreaseDisplay,
   GreaseSensor,
+  Type,
 } from '../../reducers/grease-status/models';
+import { LoadSense } from '../../reducers/load-sense/models';
 import { ShaftStatus } from '../../reducers/shaft/models';
 import { GraphData, Interval } from '../../reducers/shared/models';
+import { getBearingLoadResult } from '../load-sense/load-sense.selector';
 import { getShaftResult } from '../shaft/shaft.selector';
 
 type GreaseDisplayKeys = keyof GreaseDisplay;
@@ -21,6 +27,67 @@ type DisplayOption = [GreaseDisplayKeys, boolean];
 
 const isTempGauge = (formControl: string) =>
   formControl === 'temperatureOptics';
+
+const analysisGraphDataSeries = (
+  key: keyof GreaseDisplay,
+  value: boolean,
+  gcmStatus: GcmStatus[],
+  shaftStatus: ShaftStatus[],
+  bearingLoad: LoadSense[]
+) => {
+  let data: any[];
+
+  switch (value && GREASE_CONTROLS.find(({ label }) => label === key).type) {
+    case Type.grease:
+      data = gcmStatus?.map((measurement: GcmStatus) => {
+        let measurementValue: number;
+        if (key.endsWith('_1')) {
+          measurementValue = (measurement as any)[
+            `gcm01${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
+          ];
+        } else if (key.endsWith('_2')) {
+          measurementValue = (measurement as any)[
+            `gcm02${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
+          ];
+        }
+
+        return measurementValue
+          ? {
+              value: [
+                new Date(measurement.timestamp),
+                measurementValue.toFixed(2),
+              ],
+            }
+          : { value: [] };
+      });
+      break;
+    case Type.rsm:
+      data = shaftStatus?.map((measurement: ShaftStatus) => ({
+        value: [
+          new Date(measurement.timestamp),
+          measurement.rsm01ShaftSpeed.toFixed(2),
+        ],
+      }));
+      break;
+    case Type.load:
+      data = bearingLoad?.map((measurement: LoadSense) => ({
+        value: [
+          new Date(measurement.timestamp),
+          (measurement as any)[key].toFixed(2),
+        ],
+      }));
+      break;
+    default:
+      data = [];
+      break;
+  }
+
+  return {
+    name: key,
+    type: 'line',
+    data,
+  };
+};
 
 export const getGreaseStatusLoading = createSelector(
   getGreaseStatusState,
@@ -34,17 +101,17 @@ export const getGreaseStatusLatestLoading = createSelector(
 
 export const getGreaseStatusResult = createSelector(
   getGreaseStatusState,
-  (state: GreaseStatusState): GcmStatus => state.result
+  (state: GreaseStatusState) => state.result
 );
 
 export const getGreaseStatusLatestResult = createSelector(
   getGreaseStatusState,
-  (state: GreaseStatusState): GcmProcessed => state.status.result
+  (state: GreaseStatusState) => state.status.result
 );
 
 export const getGreaseTimeStamp = createSelector(
   getGreaseStatusLatestResult,
-  (state: GcmProcessed) =>
+  (state: GcmStatus) =>
     state &&
     new Date(state.timestamp).toLocaleTimeString(
       DATE_FORMAT.local,
@@ -60,10 +127,12 @@ export const getGreaseDisplay = createSelector(
 export const getAnalysisGraphData = createSelector(
   getGreaseStatusResult,
   getShaftResult,
+  getBearingLoadResult,
   getGreaseDisplay,
   (
-    gcmStatus: any,
+    gcmStatus: GcmStatus[],
     shaftStatus: ShaftStatus[],
+    bearingLoad: LoadSense[],
     display: GreaseDisplay
   ): GraphData => {
     const result = gcmStatus && {
@@ -75,44 +144,15 @@ export const getAnalysisGraphData = createSelector(
       },
       series: Object.entries(display)
         .map(([key, value]) => [key, value] as DisplayOption)
-        .map(([key, value]: DisplayOption) => ({
-          name: key,
-          type: 'line',
-          data:
-            (value &&
-              (key === 'rsmShaftSpeed'
-                ? shaftStatus &&
-                  shaftStatus.map((measurement: ShaftStatus) => ({
-                    value: [
-                      new Date(measurement.timestamp),
-                      measurement.rsm01ShaftSpeed.toFixed(2),
-                    ],
-                  }))
-                : gcmStatus.map((measurement: GcmProcessed) => {
-                    let measurementValue: number;
-                    if (key.endsWith('_1')) {
-                      measurementValue = (measurement as any)[
-                        `gcm01${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
-                      ];
-                    } else if (key.endsWith('_2')) {
-                      measurementValue = (measurement as any)[
-                        `gcm02${key.charAt(0).toUpperCase()}${key.slice(1, -2)}`
-                      ];
-                    }
-
-                    if (measurementValue) {
-                      return {
-                        value: [
-                          new Date(measurement.timestamp),
-                          measurementValue.toFixed(2),
-                        ],
-                      };
-                    }
-
-                    return { value: [] };
-                  }))) ||
-            [],
-        })),
+        .map(([key, value]: DisplayOption) =>
+          analysisGraphDataSeries(
+            key,
+            value,
+            gcmStatus,
+            shaftStatus,
+            bearingLoad
+          )
+        ),
     };
 
     return result;
@@ -121,7 +161,7 @@ export const getAnalysisGraphData = createSelector(
 
 export const getGreaseStatusLatestGraphData = createSelector(
   getGreaseStatusLatestResult,
-  (gcmProcessed: GcmProcessed, { sensorName }: GreaseSensor): GraphData => {
+  (gcmProcessed: GcmStatus, { sensorName }: GreaseSensor): GraphData => {
     const gaugePositions = {
       temperatureOptics: ['20%', '50%'],
       waterContent: ['50%', '50%'],

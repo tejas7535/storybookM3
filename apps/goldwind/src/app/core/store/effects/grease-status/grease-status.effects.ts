@@ -31,6 +31,9 @@ import {
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
 import {
+  getBearingLoad,
+  getBearingLoadFailure,
+  getBearingLoadSuccess,
   getLoadAverage,
   getLoadAverageFailure,
   getLoadAverageSuccess,
@@ -101,6 +104,7 @@ export class GreaseStatusEffects {
           } else {
             this.store.dispatch(getGreaseStatus({ deviceId }));
             this.store.dispatch(getLoadAverage({ deviceId }));
+            this.store.dispatch(getBearingLoad({ deviceId }));
           }
         })
       ),
@@ -122,6 +126,23 @@ export class GreaseStatusEffects {
         this.restService.getGreaseStatus(greaseParams).pipe(
           map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
           catchError((_e) => of(getGreaseStatusFailure()))
+        )
+      )
+    )
+  );
+
+  load$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getBearingLoad),
+      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      map(([action, interval]: [any, Interval]) => ({
+        id: action.deviceId,
+        ...interval,
+      })),
+      mergeMap((greaseParams) =>
+        this.restService.getBearingLoad(greaseParams).pipe(
+          map((bearingLoad) => getBearingLoadSuccess({ bearingLoad })),
+          catchError((_e) => of(getBearingLoadFailure()))
         )
       )
     )
