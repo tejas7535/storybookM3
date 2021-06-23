@@ -26,12 +26,6 @@ describe('Filter Effects', () => {
 
   const filters = {
     orgUnits: [new IdValue('Department1', 'Department1')],
-    regionsAndSubRegions: [
-      new IdValue('Europe', 'Europe'),
-      new IdValue('Americas', 'Americas'),
-    ],
-    countries: [new IdValue('germany', 'Germany'), new IdValue('usa', 'USA')],
-    hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
   };
 
   const error = {

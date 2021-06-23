@@ -14,9 +14,6 @@ import { filterAdapter, SelectedFilterState } from './selected-filter.entity';
 export const filterKey = 'filter';
 export interface FilterState {
   orgUnits: IdValue[];
-  regionsAndSubRegions: IdValue[]; // after PoC: needs to have dependencies to countries + locations
-  countries: IdValue[]; // after PoC: needs to be dependent on region
-  hrLocations: IdValue[]; // after PoC: needs to be dependent on country
   timePeriods: IdValue[];
   loading: boolean;
   errorMessage: string;
@@ -27,9 +24,6 @@ export interface FilterState {
 
 export const initialState: FilterState = {
   orgUnits: [],
-  regionsAndSubRegions: [],
-  countries: [],
-  hrLocations: [],
   timePeriods: [
     {
       id: TimePeriod.YEAR,

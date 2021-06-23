@@ -8,7 +8,7 @@ import { EChartsOption } from 'echarts';
 import { AttritionSeries, Event } from '../shared/models';
 import { Employee } from '../shared/models/employee.model';
 import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
-import { OverviewState } from './store';
+import { ResignedEmployee } from './models';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
@@ -16,12 +16,14 @@ import {
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingFluctuationRatesForChart,
+  getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
+  getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
@@ -30,25 +32,27 @@ import {
   templateUrl: './overview.component.html',
 })
 export class OverviewComponent implements OnInit {
-  public fluctuationChartData$: Observable<EChartsOption>;
-  public isFluctuationChartLoading$: Observable<boolean>;
-  public unforcedFluctuationChartData$: Observable<EChartsOption>;
-  public isUnforcedFluctuationChartLoading$: Observable<boolean>;
+  fluctuationChartData$: Observable<EChartsOption>;
+  isFluctuationChartLoading$: Observable<boolean>;
+  unforcedFluctuationChartData$: Observable<EChartsOption>;
+  isUnforcedFluctuationChartLoading$: Observable<boolean>;
 
-  public attritionQuotaloading$: Observable<boolean>;
-  public events$: Observable<Event[]>;
-  public attritionData$: Observable<AttritionSeries>;
-  public entriesDoughnutConfig: DoughnutConfig;
-  public exitsDoughnutConfig$: Observable<DoughnutConfig>;
-  public entriesDoughnutConfig$: Observable<DoughnutConfig>;
-  public entriesCount$: Observable<number>;
-  public exitsCount$: Observable<number>;
-  public exitEmployees$: Observable<Employee[]>;
-  public entryEmployees$: Observable<Employee[]>;
+  attritionQuotaloading$: Observable<boolean>;
+  events$: Observable<Event[]>;
+  attritionData$: Observable<AttritionSeries>;
+  entriesDoughnutConfig: DoughnutConfig;
+  exitsDoughnutConfig$: Observable<DoughnutConfig>;
+  entriesDoughnutConfig$: Observable<DoughnutConfig>;
+  entriesCount$: Observable<number>;
+  exitsCount$: Observable<number>;
+  exitEmployees$: Observable<Employee[]>;
+  entryEmployees$: Observable<Employee[]>;
+  resignedEmployees$: Observable<ResignedEmployee[]>;
+  resignedEmployeesLoading$: Observable<boolean>;
 
-  constructor(private readonly store: Store<OverviewState>) {}
+  constructor(private readonly store: Store) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.fluctuationChartData$ = this.store.select(getFluctuationRatesForChart);
     this.unforcedFluctuationChartData$ = this.store.select(
       getUnforcedFluctuationRatesForChart
@@ -77,5 +81,10 @@ export class OverviewComponent implements OnInit {
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
     this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
     this.entryEmployees$ = this.store.select(getEntryEmployees);
+
+    this.resignedEmployees$ = this.store.select(getResignedEmployees);
+    this.resignedEmployeesLoading$ = this.store.select(
+      getIsLoadingResignedEmployees
+    );
   }
 }

@@ -7,10 +7,10 @@
     <span class="flex flex-row text-body-2 mt-4">{{
       t('totalResignations')
     }}</span>
-    <h4 class="flex flex-row mb-4">{{ data.length }}</h4>
+    <h4 class="flex flex-row mb-4">{{ data?.length | defaultValue }}</h4>
   </div>
   <ag-grid-angular
-    class="ag-theme-material h-full border-2 border-veryLight rounded-sm"
+    class="ag-theme-material h-full w-full"
     [rowData]="data || []"
     [getRowClass]="getRowClass"
     [defaultColDef]="defaultColDef"
@@ -21,6 +21,7 @@
     animateRows
     suppressCsvExport
     suppressExcelExport
+    suppressCellSelection
   >
   </ag-grid-angular>
 </div>

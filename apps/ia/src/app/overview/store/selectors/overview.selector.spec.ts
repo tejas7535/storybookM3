@@ -13,6 +13,7 @@ import {
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
   getIsLoadingFluctuationRatesForChart,
+  getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
   getOverviewFluctuationEntriesCount,
@@ -20,6 +21,7 @@ import {
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationRates,
+  getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
 } from './overview.selector';
 
@@ -307,6 +309,22 @@ describe('Overview Selector', () => {
       ).toBeFalsy();
     });
   });
+
+  describe('getIsLoadingResignedEmployees', () => {
+    it('should return isLoading value', () => {
+      expect(
+        getIsLoadingResignedEmployees.projector(fakeState.overview)
+      ).toBeFalsy();
+    });
+  });
+
+  describe('getResignedEmployees', () => {
+    it('should return resigned employees', () => {
+      expect(
+        getResignedEmployees.projector(fakeState.overview)
+      ).toBeUndefined();
+    });
+  });
 });
 
 function createExternalEntryEmployee(id: string, entryDate: Date): Employee {
@@ -383,7 +401,6 @@ function createEmployee(
     entryDate ? entryDate.toJSON() : '2021-05-01',
     internalEntryDate ? internalEntryDate.toJSON() : undefined,
     internalExitDate ? internalExitDate.toJSON() : undefined,
-    '2019-04-01',
     'unforced',
     'big regret',
     4,

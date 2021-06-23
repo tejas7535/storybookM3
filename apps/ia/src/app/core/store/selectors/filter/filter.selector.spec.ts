@@ -2,13 +2,10 @@ import { FilterKey, IdValue, TimePeriod } from '../../../../shared/models';
 import { initialState } from '../../reducers/filter/filter.reducer';
 import {
   getAllSelectedFilters,
-  getCountries,
   getCurrentFiltersAndTime,
   getCurrentRoute,
-  getHrLocations,
   getInitialFiltersLoading,
   getOrgUnits,
-  getRegionsAndSubRegions,
   getSelectedFilters,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
@@ -21,12 +18,6 @@ describe('Filter Selector', () => {
     filter: {
       ...initialState,
       orgUnits: [new IdValue('dep1', 'Department 1')],
-      regionsAndSubRegions: [
-        new IdValue('ger', 'Germany'),
-        new IdValue('eu', 'Europe'),
-      ],
-      countries: [new IdValue('ger', 'Germany')],
-      hrLocations: [new IdValue('hero', 'Herzogenaurach')],
       selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
       selectedFilters: {
         ids: [FilterKey.ORG_UNIT],
@@ -54,28 +45,6 @@ describe('Filter Selector', () => {
   describe('getOrgUnits', () => {
     test('should return organizations', () => {
       expect(getOrgUnits(fakeState).options.length).toEqual(1);
-    });
-  });
-
-  describe('getRegionsAndSubRegions', () => {
-    test('should return regions and sub regions', () => {
-      expect(getRegionsAndSubRegions(fakeState).options.length).toEqual(2);
-    });
-  });
-
-  describe('getCountries', () => {
-    test('should return countries', () => {
-      expect(getCountries(fakeState).options.length).toEqual(1);
-      expect(getCountries(fakeState).options[0].value).toEqual('Germany');
-    });
-  });
-
-  describe('getHrLocations', () => {
-    test('should return hrLocations', () => {
-      expect(getHrLocations(fakeState).options.length).toEqual(1);
-      expect(getHrLocations(fakeState).options[0].value).toEqual(
-        'Herzogenaurach'
-      );
     });
   });
 

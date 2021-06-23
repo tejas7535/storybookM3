@@ -11,6 +11,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import { TeamMemberDialogComponent } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.component';
 import { TeamMemberDialogModule } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.module';
 import { FilterKey } from '../../shared/models';
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
 import { DoughnutChartModule } from './doughnut-chart/doughnut-chart.module';
@@ -60,6 +61,7 @@ describe('EntriesExitsComponent', () => {
       MatDialogModule,
       TeamMemberDialogModule,
       MatIconModule,
+      SharedPipesModule,
     ],
   });
 

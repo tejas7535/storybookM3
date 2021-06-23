@@ -39,7 +39,7 @@ describe('AutocompleteInputComponent', () => {
     ];
     spectator = createComponent({
       props: {
-        filter: new Filter(FilterKey.COUNTRY, options),
+        filter: new Filter(FilterKey.ORG_UNIT, options),
       },
     });
     component = spectator.debugElement.componentInstance;
@@ -171,7 +171,7 @@ describe('AutocompleteInputComponent', () => {
 
       expect(component.inputControl.setErrors).not.toHaveBeenCalled();
       expect(component.selected.emit).toHaveBeenCalledWith({
-        name: 'country',
+        name: 'orgUnit',
         value: '3',
       });
     }));

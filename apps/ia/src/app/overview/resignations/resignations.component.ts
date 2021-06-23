@@ -6,6 +6,8 @@ import {
 } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
 
+import { ResignedEmployee } from '../models';
+
 @Component({
   selector: 'ia-resignations',
   templateUrl: './resignations.component.html',
@@ -13,7 +15,7 @@ import { translate } from '@ngneat/transloco';
 })
 export class ResignationsComponent {
   @Input() loading: boolean; // not used at the moment
-  @Input() data: any[];
+  @Input() data: ResignedEmployee[];
 
   modules: any[] = [ClientSideRowModelModule];
 
@@ -23,18 +25,23 @@ export class ResignationsComponent {
     sortable: true,
     resizable: true,
     suppressMenu: true,
-    width: 100,
+    lockPinned: true,
+    suppressMovable: true,
     flex: 1,
     headerClass: () => 'bg-lightBg',
   };
 
   columnDefs: ColDef[] = [
     {
-      field: 'date',
+      field: 'exitDate',
       headerName: translate('overview.resignationsReceived.table.date'),
+      filter: 'agDateColumnFilter',
+      sort: 'desc',
+      valueFormatter: (data) =>
+        data.value ? new Date(+data.value).toLocaleDateString() : '',
     },
     {
-      field: 'name',
+      field: 'employeeName',
       headerName: translate('overview.resignationsReceived.table.name'),
     },
   ];

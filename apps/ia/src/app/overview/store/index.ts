@@ -3,8 +3,9 @@ import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import {
   AttritionOverTime,
   FluctuationRatesChartData,
+  OverviewFluctuationRates,
 } from '../../shared/models';
-import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates';
+import { ResignedEmployee } from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -15,7 +16,11 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadResignedEmployees,
+  loadResignedEmployeesFailure,
+  loadResignedEmployeesSuccess,
   loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataFailure,
   loadUnforcedFluctuationRatesChartDataSuccess,
 } from './actions/overview.action';
 
@@ -42,6 +47,11 @@ export interface OverviewState {
     loading: boolean;
     errorMessage: string;
   };
+  resignedEmployees: {
+    data: ResignedEmployee[];
+    loading: boolean;
+    errorMessage: string;
+  };
 }
 
 export const initialState: OverviewState = {
@@ -65,20 +75,28 @@ export const initialState: OverviewState = {
     loading: false,
     errorMessage: undefined,
   },
+  resignedEmployees: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
 };
 
 export const overviewReducer = createReducer(
   initialState,
-  on(loadAttritionOverTimeOverview, (state: OverviewState) => ({
-    ...state,
-    attritionOverTime: {
-      ...state.attritionOverTime,
-      loading: true,
-    },
-  })),
+  on(
+    loadAttritionOverTimeOverview,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadAttritionOverTimeOverviewSuccess,
-    (state: OverviewState, { data }) => ({
+    (state: OverviewState, { data }): OverviewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
@@ -89,7 +107,7 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadAttritionOverTimeOverviewFailure,
-    (state: OverviewState, { errorMessage }) => ({
+    (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
@@ -99,24 +117,30 @@ export const overviewReducer = createReducer(
       },
     })
   ),
-  on(loadFluctuationRatesOverview, (state: OverviewState) => ({
-    ...state,
-    entriesExits: {
-      ...state.entriesExits,
-      loading: true,
-    },
-  })),
-  on(loadFluctuationRatesOverviewSuccess, (state: OverviewState, { data }) => ({
-    ...state,
-    entriesExits: {
-      ...state.entriesExits,
-      data,
-      loading: false,
-    },
-  })),
+  on(
+    loadFluctuationRatesOverview,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      entriesExits: {
+        ...state.entriesExits,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadFluctuationRatesOverviewSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      entriesExits: {
+        ...state.entriesExits,
+        data,
+        loading: false,
+      },
+    })
+  ),
   on(
     loadFluctuationRatesOverviewFailure,
-    (state: OverviewState, { errorMessage }) => ({
+    (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
       entriesExits: {
         ...state.entriesExits,
@@ -126,16 +150,19 @@ export const overviewReducer = createReducer(
       },
     })
   ),
-  on(loadFluctuationRatesChartData, (state: OverviewState) => ({
-    ...state,
-    fluctuationRates: {
-      ...state.fluctuationRates,
-      loading: true,
-    },
-  })),
+  on(
+    loadFluctuationRatesChartData,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      fluctuationRates: {
+        ...state.fluctuationRates,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }) => ({
+    (state: OverviewState, { data }): OverviewState => ({
       ...state,
       fluctuationRates: {
         ...state.fluctuationRates,
@@ -146,7 +173,7 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadFluctuationRatesChartDataFailure,
-    (state: OverviewState, { errorMessage }) => ({
+    (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
       fluctuationRates: {
         ...state.fluctuationRates,
@@ -156,16 +183,19 @@ export const overviewReducer = createReducer(
       },
     })
   ),
-  on(loadFluctuationRatesChartData, (state: OverviewState) => ({
-    ...state,
-    fluctuationRates: {
-      ...state.fluctuationRates,
-      loading: true,
-    },
-  })),
+  on(
+    loadFluctuationRatesChartData,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      fluctuationRates: {
+        ...state.fluctuationRates,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }) => ({
+    (state: OverviewState, { data }): OverviewState => ({
       ...state,
       fluctuationRates: {
         ...state.fluctuationRates,
@@ -176,7 +206,7 @@ export const overviewReducer = createReducer(
   ),
   on(
     loadFluctuationRatesChartDataFailure,
-    (state: OverviewState, { errorMessage }) => ({
+    (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
       fluctuationRates: {
         ...state.fluctuationRates,
@@ -186,16 +216,19 @@ export const overviewReducer = createReducer(
       },
     })
   ),
-  on(loadUnforcedFluctuationRatesChartData, (state: OverviewState) => ({
-    ...state,
-    unforcedFluctuationRates: {
-      ...state.fluctuationRates,
-      loading: true,
-    },
-  })),
+  on(
+    loadUnforcedFluctuationRatesChartData,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      unforcedFluctuationRates: {
+        ...state.fluctuationRates,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadUnforcedFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }) => ({
+    (state: OverviewState, { data }): OverviewState => ({
       ...state,
       unforcedFluctuationRates: {
         ...state.unforcedFluctuationRates,
@@ -205,11 +238,43 @@ export const overviewReducer = createReducer(
     })
   ),
   on(
-    loadFluctuationRatesChartDataFailure,
-    (state: OverviewState, { errorMessage }) => ({
+    loadUnforcedFluctuationRatesChartDataFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
       ...state,
       unforcedFluctuationRates: {
         ...state.unforcedFluctuationRates,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadResignedEmployees,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      resignedEmployees: {
+        ...state.resignedEmployees,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadResignedEmployeesSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      resignedEmployees: {
+        ...state.resignedEmployees,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadResignedEmployeesFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      resignedEmployees: {
+        ...state.resignedEmployees,
         errorMessage,
         loading: false,
       },

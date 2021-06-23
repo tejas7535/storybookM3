@@ -78,30 +78,47 @@ export const initialState: OrganizationalViewState = {
 
 export const organizationalViewReducer = createReducer(
   initialState,
-  on(chartTypeSelected, (state: OrganizationalViewState, { chartType }) => ({
-    ...state,
-    selectedChart: chartType,
-  })),
-  on(loadOrgChart, (state: OrganizationalViewState) => ({
-    ...state,
-    orgChart: {
-      ...state.orgChart,
-      loading: true,
-    },
-  })),
-  on(loadOrgChartSuccess, (state: OrganizationalViewState, { employees }) => ({
-    ...state,
-    orgChart: {
-      ...state.orgChart,
-      data: employees,
-      loading: false,
-    },
-  })),
+  on(
+    chartTypeSelected,
+    (
+      state: OrganizationalViewState,
+      { chartType }
+    ): OrganizationalViewState => ({
+      ...state,
+      selectedChart: chartType,
+    })
+  ),
+  on(
+    loadOrgChart,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOrgChartSuccess,
+    (
+      state: OrganizationalViewState,
+      { employees }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        data: employees,
+        loading: false,
+      },
+    })
+  ),
   on(
     loadOrgChartFailure,
-    (state: OrganizationalViewState, { errorMessage }) => ({
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
       ...state,
-      errorMessage,
       orgChart: {
         ...state.orgChart,
         errorMessage,
@@ -110,24 +127,33 @@ export const organizationalViewReducer = createReducer(
       },
     })
   ),
-  on(loadWorldMap, (state: OrganizationalViewState) => ({
-    ...state,
-    worldMap: {
-      ...state.worldMap,
-      loading: true,
-    },
-  })),
-  on(loadWorldMapSuccess, (state: OrganizationalViewState, { data }) => ({
-    ...state,
-    worldMap: {
-      ...state.worldMap,
-      data,
-      loading: false,
-    },
-  })),
+  on(
+    loadWorldMap,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      worldMap: {
+        ...state.worldMap,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadWorldMapSuccess,
+    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
+      ...state,
+      worldMap: {
+        ...state.worldMap,
+        data,
+        loading: false,
+      },
+    })
+  ),
   on(
     loadWorldMapFailure,
-    (state: OrganizationalViewState, { errorMessage }) => ({
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
       ...state,
       worldMap: {
         ...state.worldMap,
@@ -137,36 +163,51 @@ export const organizationalViewReducer = createReducer(
       },
     })
   ),
-  on(loadParent, (state: OrganizationalViewState) => ({
-    ...state,
-    orgChart: {
-      ...state.orgChart,
-      loading: true,
-    },
-  })),
+  on(
+    loadParent,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        loading: true,
+      },
+    })
+  ),
   // result is not saved in store -> loading should not stop as the process of loading the new org chart is still ongoing
-  on(loadParentSuccess, (state: OrganizationalViewState) => ({
-    ...state,
-  })),
-  on(loadParentFailure, (state: OrganizationalViewState, { errorMessage }) => ({
-    ...state,
-    orgChart: {
-      ...state.orgChart,
-      errorMessage,
-      data: [],
-      loading: false,
-    },
-  })),
-  on(loadAttritionOverTimeOrgChart, (state: OrganizationalViewState) => ({
-    ...state,
-    attritionOverTime: {
-      ...state.attritionOverTime,
-      loading: true,
-    },
-  })),
+  on(
+    loadParentSuccess,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+    })
+  ),
+  on(
+    loadParentFailure,
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
+      ...state,
+      orgChart: {
+        ...state.orgChart,
+        errorMessage,
+        data: [],
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadAttritionOverTimeOrgChart,
+    (state: OrganizationalViewState): OrganizationalViewState => ({
+      ...state,
+      attritionOverTime: {
+        ...state.attritionOverTime,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadAttritionOverTimeOrgChartSuccess,
-    (state: OrganizationalViewState, { data }) => ({
+    (state: OrganizationalViewState, { data }): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
@@ -177,7 +218,10 @@ export const organizationalViewReducer = createReducer(
   ),
   on(
     loadAttritionOverTimeOrgChartFailure,
-    (state: OrganizationalViewState, { errorMessage }) => ({
+    (
+      state: OrganizationalViewState,
+      { errorMessage }
+    ): OrganizationalViewState => ({
       ...state,
       attritionOverTime: {
         ...state.attritionOverTime,
