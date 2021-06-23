@@ -29,27 +29,9 @@ export const getOrgUnits = createSelector(
   (state: FilterState) => new Filter(FilterKey.ORG_UNIT, state.orgUnits)
 );
 
-export const getRegionsAndSubRegions = createSelector(
-  selectFilterState,
-  (state: FilterState) =>
-    new Filter(FilterKey.REGION_OR_SUB_REGION, state.regionsAndSubRegions)
-);
-
-export const getCountries = createSelector(
-  selectFilterState,
-  (state: FilterState) => new Filter(FilterKey.COUNTRY, state.countries)
-);
-
-export const getHrLocations = createSelector(
-  selectFilterState,
-  (state: FilterState) => new Filter(FilterKey.HR_LOCATION, state.hrLocations)
-);
-
 export const getCurrentRoute = createSelector(
   selectRouterState,
-  (state: RouterReducerState<RouterStateUrl>) => {
-    return state?.state.url;
-  }
+  (state: RouterReducerState<RouterStateUrl>) => state?.state.url
 );
 
 export const getTimePeriods = createSelector(

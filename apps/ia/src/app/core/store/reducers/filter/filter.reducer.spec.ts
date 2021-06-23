@@ -27,15 +27,6 @@ describe('Filter Reducer', () => {
     test('should unset loading and set possible filters', () => {
       const filters = {
         orgUnits: [new IdValue('Department1', 'Department1')],
-        regionsAndSubRegions: [
-          new IdValue('Europe', 'Europe'),
-          new IdValue('Americas', 'Americas'),
-        ],
-        countries: [
-          new IdValue('germany', 'Germany'),
-          new IdValue('usa', 'USA'),
-        ],
-        hrLocations: [new IdValue('herzogenaurach', 'Herzogenaurach')],
       };
 
       const action = loadInitialFiltersSuccess({ filters });
@@ -44,9 +35,6 @@ describe('Filter Reducer', () => {
 
       expect(state.loading).toBeFalsy();
       expect(state.orgUnits).toEqual(filters.orgUnits);
-      expect(state.regionsAndSubRegions).toEqual(filters.regionsAndSubRegions);
-      expect(state.countries).toEqual(filters.countries);
-      expect(state.hrLocations).toEqual(filters.hrLocations);
     });
   });
 

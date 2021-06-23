@@ -20,6 +20,8 @@ import {
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { EmployeeService } from '../../../shared/services/employee.service';
+import { ResignedEmployee } from '../../models';
+import { OverviewService } from '../../overview.service';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -29,6 +31,9 @@ import {
   loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewSuccess,
+  loadResignedEmployees,
+  loadResignedEmployeesFailure,
+  loadResignedEmployeesSuccess,
   loadUnforcedFluctuationRatesChartData,
   loadUnforcedFluctuationRatesChartDataFailure,
   loadUnforcedFluctuationRatesChartDataSuccess,
@@ -39,6 +44,7 @@ describe('Overview Effects', () => {
   let spectator: SpectatorService<OverviewEffects>;
   let actions$: any;
   let employeesService: EmployeeService;
+  let overviewService: OverviewService;
   let action: any;
   let effects: OverviewEffects;
   let store: MockStore;
@@ -58,6 +64,12 @@ describe('Overview Effects', () => {
           getInitialFilters: jest.fn(),
         },
       },
+      {
+        provide: OverviewService,
+        useValue: {
+          getResignedEmployees: jest.fn(),
+        },
+      },
     ],
   });
 
@@ -66,6 +78,7 @@ describe('Overview Effects', () => {
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(OverviewEffects);
     employeesService = spectator.inject(EmployeeService);
+    overviewService = spectator.inject(OverviewService);
     store = spectator.inject(MockStore);
   });
 
@@ -84,13 +97,17 @@ describe('Overview Effects', () => {
         });
         const resultUnforcedFluctuationChartData =
           loadUnforcedFluctuationRatesChartData({ request });
+        const resultResignedEmployees = loadResignedEmployees({
+          orgUnit: request.orgUnit,
+        });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcde)', {
+        const expected = m.cold('-(bcdef)', {
           b: resultAttrition,
           c: resultFluctuation,
           d: resultFluctuationChartData,
           e: resultUnforcedFluctuationChartData,
+          f: resultResignedEmployees,
         });
 
         m.expect(effects.filterChange$).toBeObservable(expected);
@@ -112,13 +129,17 @@ describe('Overview Effects', () => {
         });
         const resultUnforcedFluctuationChartData =
           loadUnforcedFluctuationRatesChartData({ request });
+        const resultResignedEmployees = loadResignedEmployees({
+          orgUnit: request.orgUnit,
+        });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcde)', {
+        const expected = m.cold('-(bcdef)', {
           b: resultAttrition,
           c: resultFluctuation,
           d: resultFluctuationChartData,
           e: resultUnforcedFluctuationChartData,
+          f: resultResignedEmployees,
         });
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -376,6 +397,61 @@ describe('Overview Effects', () => {
         expect(
           employeesService.getUnforcedFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
+      })
+    );
+  });
+
+  describe('loadResignedEmployees', () => {
+    let orgUnit: string;
+
+    beforeEach(() => {
+      orgUnit = 'ABC123';
+      action = loadResignedEmployees({ orgUnit });
+    });
+    it(
+      'should load data',
+      marbles((m) => {
+        const data: ResignedEmployee[] = [];
+        const result = loadResignedEmployeesSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getResignedEmployees = jest.fn(() => response);
+
+        m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
+          orgUnit
+        );
+      })
+    );
+
+    test(
+      'should return loadResignedEmployeesFailure on REST error',
+      marbles((m) => {
+        const result = loadResignedEmployeesFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getResignedEmployees = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
+          orgUnit
+        );
       })
     );
   });

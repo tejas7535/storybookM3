@@ -38,9 +38,6 @@ describe('FilterSectionComponent', () => {
         initialState: {
           filter: {
             orgUnits: [],
-            regionsAndSubRegions: [],
-            hrLocations: [],
-            countries: [],
             timePeriods: [],
             selectedFilters: {
               ids: [],

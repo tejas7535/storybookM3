@@ -11,10 +11,7 @@ import {
   timeRangeSelected,
 } from '../core/store/actions';
 import {
-  getCountries,
-  getHrLocations,
   getOrgUnits,
-  getRegionsAndSubRegions,
   getSelectedOrgUnit,
   getSelectedTimePeriod,
   getTimePeriods,
@@ -28,14 +25,8 @@ import { Filter, IdValue, SelectedFilter, TimePeriod } from '../shared/models';
 export class FilterSectionComponent implements OnInit {
   orgUnits$: Observable<Filter>;
   selectedOrgUnit$: Observable<string>;
-  regionsAndSubRegions$: Observable<Filter>;
-  countries$: Observable<Filter>;
-  hrLocations$: Observable<Filter>;
   timePeriods$: Observable<IdValue[]>;
   selectedTimePeriod$: Observable<TimePeriod>;
-
-  // TODO: area filters (Region, Sub-Region, HR-Location) are switched off for PoC
-  showAreaFilters = false;
 
   timeRangeHintValue = 'time range';
   disabledTimeRangeFilter = true;
@@ -44,9 +35,6 @@ export class FilterSectionComponent implements OnInit {
 
   public ngOnInit(): void {
     this.orgUnits$ = this.store.select(getOrgUnits);
-    this.regionsAndSubRegions$ = this.store.select(getRegionsAndSubRegions);
-    this.countries$ = this.store.select(getCountries);
-    this.hrLocations$ = this.store.select(getHrLocations);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store
       .select(getSelectedTimePeriod)

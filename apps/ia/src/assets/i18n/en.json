@@ -7,15 +7,6 @@
       "organizationHint": "Select an organization",
       "organizationTooltip": "The shown figures and KPIs are based on ALL org units below and including the selected one."
     },
-    "regionAndLocation": {
-      "title": "Select a region and location",
-      "regionOrSubRegionLabel": "Region or sub-region",
-      "regionOrSubRegionHint": "Select a region or sub-region",
-      "countryLabel": "Country",
-      "countryHint": "Select a country",
-      "locationLabel": "Location",
-      "locationHint": "Select a location"
-    },
     "periodOfTime": {
       "title": "Select period of time",
       "last12Months": "Last 12 Months",

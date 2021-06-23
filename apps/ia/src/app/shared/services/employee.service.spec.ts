@@ -63,7 +63,6 @@ describe('EmployeesService', () => {
         directAttrition: 0,
         totalAttrition: 0,
         entryDate: '2010-10-10',
-        terminationDate: '2015-08-10',
       } as unknown as Employee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
@@ -77,7 +76,6 @@ describe('EmployeesService', () => {
         directAttrition: 0,
         totalAttrition: 0,
         entryDate: new Date('2010-10-10').toJSON(),
-        terminationDate: new Date('2015-08-10').toJSON(),
       } as unknown as Employee);
     });
 
@@ -91,7 +89,6 @@ describe('EmployeesService', () => {
         directAttrition: 0,
         totalAttrition: 0,
         entryDate: undefined,
-        terminationDate: undefined,
       } as unknown as Employee;
 
       const result = EmployeeService.fixIncomingEmployeeProps(elem);
@@ -105,7 +102,6 @@ describe('EmployeesService', () => {
         directAttrition: 0,
         totalAttrition: 0,
         entryDate: undefined,
-        terminationDate: undefined,
       } as unknown as Employee);
     });
   });

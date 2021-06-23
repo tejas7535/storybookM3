@@ -24,36 +24,6 @@
       </div>
     </div>
   </div>
-  <!-- AREA FILTERS -> TODO: Not relevant for PoC -->
-  <div class="w-full lg:w-auto" *ngIf="showAreaFilters">
-    <div
-      class="flex flex-col"
-      *transloco="let t; read: 'filters.regionAndLocation'"
-    >
-      <h6 class="m-b-5">{{ t('title') }}</h6>
-      <div class="flex flex-wrap gap-4">
-        <ia-autocomplete-input
-          [filter]="regionsAndSubRegions$ | ngrxPush"
-          [label]="t('regionOrSubRegionLabel')"
-          [hint]="t('regionOrSubRegionHint')"
-          (selected)="optionSelected($event)"
-        ></ia-autocomplete-input>
-        <ia-autocomplete-input
-          [filter]="countries$ | ngrxPush"
-          [label]="t('countryLabel')"
-          [hint]="t('countryHint')"
-          (selected)="optionSelected($event)"
-        ></ia-autocomplete-input>
-        <ia-autocomplete-input
-          [filter]="hrLocations$ | ngrxPush"
-          [label]="t('locationLabel')"
-          [hint]="t('locationHint')"
-          (selected)="optionSelected($event)"
-        ></ia-autocomplete-input>
-      </div>
-    </div>
-  </div>
-  <!-- End Area Filters -->
   <div
     class="w-full lg:w-auto"
     *transloco="let t; read: 'filters.periodOfTime'"

@@ -6,6 +6,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { DoughnutChartModule } from './doughnut-chart/doughnut-chart.module';
 import { EntriesExitsComponent } from './entries-exits.component';
@@ -20,6 +21,7 @@ import { EntriesExitsComponent } from './entries-exits.component';
     MatTooltipModule,
     MatDialogModule,
     LoadingSpinnerModule,
+    SharedPipesModule,
   ],
   exports: [EntriesExitsComponent],
 })

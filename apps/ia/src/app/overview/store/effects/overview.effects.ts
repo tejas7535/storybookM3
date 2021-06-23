@@ -12,7 +12,6 @@ import {
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
-import { OverviewState } from '..';
 import {
   filterSelected,
   timeRangeSelected,
@@ -27,6 +26,8 @@ import {
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
 import { EmployeeService } from '../../../shared/services/employee.service';
+import { ResignedEmployee } from '../../models';
+import { OverviewService } from '../../overview.service';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -37,6 +38,9 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadResignedEmployees,
+  loadResignedEmployeesFailure,
+  loadResignedEmployeesSuccess,
   loadUnforcedFluctuationRatesChartData,
   loadUnforcedFluctuationRatesChartDataFailure,
   loadUnforcedFluctuationRatesChartDataSuccess,
@@ -56,6 +60,7 @@ export class OverviewEffects implements OnInitEffects {
         loadFluctuationRatesOverview({ request }),
         loadFluctuationRatesChartData({ request }),
         loadUnforcedFluctuationRatesChartData({ request }),
+        loadResignedEmployees({ orgUnit: request.orgUnit }),
       ])
     )
   );
@@ -146,10 +151,32 @@ export class OverviewEffects implements OnInitEffects {
     )
   );
 
+  loadResignedEmployees$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadResignedEmployees),
+      map((action) => action.orgUnit),
+      mergeMap((orgUnit: string) =>
+        this.overviewService.getResignedEmployees(orgUnit).pipe(
+          map((data: ResignedEmployee[]) =>
+            loadResignedEmployeesSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadResignedEmployeesFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
   constructor(
     private readonly actions$: Actions,
     private readonly employeeService: EmployeeService,
-    private readonly store: Store<OverviewState>
+    private readonly overviewService: OverviewService,
+    private readonly store: Store
   ) {}
 
   ngrxOnInitEffects(): Action {

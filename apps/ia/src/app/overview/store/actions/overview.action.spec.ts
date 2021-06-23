@@ -4,6 +4,7 @@ import {
   FluctuationRatesChartData,
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
+import { ResignedEmployee } from '../../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -14,6 +15,9 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadResignedEmployees,
+  loadResignedEmployeesFailure,
+  loadResignedEmployeesSuccess,
   loadUnforcedFluctuationRatesChartData,
   loadUnforcedFluctuationRatesChartDataFailure,
   loadUnforcedFluctuationRatesChartDataSuccess,
@@ -142,6 +146,37 @@ describe('Overview Actions', () => {
     expect(action).toEqual({
       errorMessage,
       type: '[Overview] Load UnforcedFluctuationRatesChartData Failure',
+    });
+  });
+
+  test('loadResignedEmployees', () => {
+    const orgUnit = 'ABC123';
+    const action = loadResignedEmployees({ orgUnit });
+
+    expect(action).toEqual({
+      orgUnit,
+      type: '[Overview] Load Resigned Employees',
+    });
+  });
+
+  test('loadResignedEmployeesSuccess', () => {
+    const data: ResignedEmployee[] = [];
+    const action = loadResignedEmployeesSuccess({ data });
+
+    expect(action).toEqual({
+      data,
+      type: '[Overview] Load Resigned Employees Success',
+    });
+  });
+
+  test('loadResignedEmployeesFailure', () => {
+    const action = loadResignedEmployeesFailure({
+      errorMessage,
+    });
+
+    expect(action).toEqual({
+      errorMessage,
+      type: '[Overview] Load Resigned Employees Failure',
     });
   });
 });

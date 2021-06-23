@@ -1,15 +1,29 @@
 import { Action } from '@ngrx/store';
 
 import { initialState, overviewReducer, OverviewState, reducer } from '.';
-import { AttritionOverTime, EmployeesRequest } from '../../shared/models';
+import {
+  AttritionOverTime,
+  EmployeesRequest,
+  FluctuationRatesChartData,
+} from '../../shared/models';
 import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates';
+import { ResignedEmployee } from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
   loadAttritionOverTimeOverviewSuccess,
+  loadFluctuationRatesChartData,
+  loadFluctuationRatesChartDataFailure,
+  loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadResignedEmployees,
+  loadResignedEmployeesFailure,
+  loadResignedEmployeesSuccess,
+  loadUnforcedFluctuationRatesChartData,
+  loadUnforcedFluctuationRatesChartDataFailure,
+  loadUnforcedFluctuationRatesChartDataSuccess,
 } from './actions/overview.action';
 
 describe('Overview Reducer', () => {
@@ -57,6 +71,93 @@ describe('Overview Reducer', () => {
     });
   });
 
+  describe('loadFluctuationRatesChartData', () => {
+    test('should set loading', () => {
+      const action = loadFluctuationRatesChartData({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.fluctuationRates.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadFluctuationRatesChartDataSuccess', () => {
+    test('should unset loading and set fluctuation rates data', () => {
+      const data: FluctuationRatesChartData =
+        {} as unknown as FluctuationRatesChartData;
+
+      const action = loadFluctuationRatesChartDataSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.fluctuationRates.loading).toBeFalsy();
+      expect(state.fluctuationRates.data).toEqual(data);
+    });
+  });
+
+  describe('loadFluctuationRatesChartDataFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadFluctuationRatesChartDataFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        fluctuationRates: {
+          ...initialState.fluctuationRates,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.fluctuationRates.loading).toBeFalsy();
+      expect(state.fluctuationRates.errorMessage).toEqual(errorMessage);
+    });
+  });
+  describe('loadUnforcedFluctuationRatesChartData', () => {
+    test('should set loading', () => {
+      const action = loadUnforcedFluctuationRatesChartData({
+        request: {} as unknown as EmployeesRequest,
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.unforcedFluctuationRates.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadUnforcedFluctuationRatesChartDataSuccess', () => {
+    test('should unset loading and set fluctuation rates data', () => {
+      const data: FluctuationRatesChartData =
+        {} as unknown as FluctuationRatesChartData;
+
+      const action = loadUnforcedFluctuationRatesChartDataSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.unforcedFluctuationRates.loading).toBeFalsy();
+      expect(state.unforcedFluctuationRates.data).toEqual(data);
+    });
+  });
+
+  describe('loadUnforcedFluctuationRatesChartDataFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadUnforcedFluctuationRatesChartDataFailure({
+        errorMessage,
+      });
+      const fakeState: OverviewState = {
+        ...initialState,
+        unforcedFluctuationRates: {
+          ...initialState.unforcedFluctuationRates,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.unforcedFluctuationRates.loading).toBeFalsy();
+      expect(state.unforcedFluctuationRates.errorMessage).toEqual(errorMessage);
+    });
+  });
+
   describe('loadOverviewFluctuationRates', () => {
     test('should set loading', () => {
       const action = loadFluctuationRatesOverview({
@@ -97,6 +198,48 @@ describe('Overview Reducer', () => {
 
       expect(state.entriesExits.loading).toBeFalsy();
       expect(state.entriesExits.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadResignedEmployees', () => {
+    test('should set loading', () => {
+      const action = loadResignedEmployees({
+        orgUnit: 'ABC',
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.resignedEmployees.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadResignedEmployeesSuccess', () => {
+    test('should unset loading and set resigned employees', () => {
+      const data: ResignedEmployee[] = [];
+
+      const action = loadResignedEmployeesSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.resignedEmployees.loading).toBeFalsy();
+      expect(state.resignedEmployees.data).toEqual(data);
+    });
+  });
+
+  describe('loadResignedEmployeesFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadResignedEmployeesFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        resignedEmployees: {
+          ...initialState.resignedEmployees,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.resignedEmployees.loading).toBeFalsy();
+      expect(state.resignedEmployees.errorMessage).toEqual(errorMessage);
     });
   });
 

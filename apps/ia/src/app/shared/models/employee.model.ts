@@ -27,7 +27,6 @@ export class Employee {
     public entryDate: string,
     public internalEntryDate: string,
     public internalExitDate: string,
-    public terminationDate: string,
     public reasonForLeaving: string,
     public regrettedLoss: string,
     public level: number,

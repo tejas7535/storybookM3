@@ -64,14 +64,14 @@ export class AutocompleteInputComponent
 
   private lastEmittedValue = '';
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.filteredOptions = this.inputControl.valueChanges.pipe(
       startWith(''),
       map((value) => this.filterOptions(value))
     );
   }
 
-  public ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     this.subscription.add(
       fromEvent(this.matInput.nativeElement, 'blur')
         .pipe(debounceTime(200))
@@ -96,7 +96,7 @@ export class AutocompleteInputComponent
     );
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
@@ -108,18 +108,18 @@ export class AutocompleteInputComponent
     );
   }
 
-  public validateInput(event: any): void {
+  validateInput(event: any): void {
     const value = event.target.value;
     const option = this.filter.options.find((opt) => opt.id === value);
 
     this.invalidFormControl.emit(option === undefined);
   }
 
-  public optionSelected(_evt: any): void {
+  optionSelected(_evt: any): void {
     this.matInput.nativeElement.blur();
   }
 
-  public trackByFn(index: number, _item: IdValue): number {
+  trackByFn(index: number, _item: IdValue): number {
     return index;
   }
 }

@@ -22,11 +22,12 @@ export class DoughnutChartComponent {
 
   @Input() set data(data: DoughnutConfig) {
     const values = data.series.map((seriesObj) => seriesObj.value);
-    const total = values.length > 0 ? values.reduce((sum, x) => sum + x) : 0;
+    const total =
+      values.length > 0 ? values.reduce((sum, x) => sum + x).toString() : '-';
 
     const baseOptions = createPieChartBaseOptions(
       data.legend,
-      `${total}`,
+      total,
       data.name
     );
 

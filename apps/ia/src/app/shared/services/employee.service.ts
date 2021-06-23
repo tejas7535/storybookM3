@@ -32,13 +32,14 @@ export class EmployeeService {
   private readonly EMPLOYEE = 'parent-employee';
   private readonly ATTRITION_OVER_TIME = 'attrition-over-time';
   private readonly LOST_JOB_PROFILES = 'lost-job-profiles';
+
   private readonly FLUCTUATION_RATES_CHART = 'fluctuation-rates-chart';
   private readonly UNFORCED_FLUCTUATION_RATES_CHART =
     'unforced-fluctuation-rates-chart';
 
   private readonly PARAM_CHILD_EMPLOYEE_ID = 'child_employee_id';
 
-  public static employeeLeftInTimeRange(
+  static employeeLeftInTimeRange(
     employee: Employee,
     timeRange: string
   ): boolean {
@@ -51,12 +52,9 @@ export class EmployeeService {
     );
   }
 
-  public static fixIncomingEmployeeProps(employee: Employee): Employee {
+  static fixIncomingEmployeeProps(employee: Employee): Employee {
     employee.exitDate = employee.exitDate
       ? new Date(employee.exitDate).toJSON()
-      : undefined;
-    employee.terminationDate = employee.terminationDate
-      ? new Date(employee.terminationDate).toJSON()
       : undefined;
     employee.entryDate = employee.entryDate
       ? new Date(employee.entryDate).toJSON()
@@ -65,15 +63,15 @@ export class EmployeeService {
     return employee;
   }
 
-  public constructor(private readonly dataService: DataService) {}
+  constructor(private readonly dataService: DataService) {}
 
-  public getInitialFilters(): Observable<InitialFiltersResponse> {
+  getInitialFilters(): Observable<InitialFiltersResponse> {
     return this.dataService.getAll<InitialFiltersResponse>(
       this.INITIAL_FILTERS
     );
   }
 
-  public getOverviewFluctuationRates(
+  getOverviewFluctuationRates(
     employeesRequest: EmployeesRequest
   ): Observable<OverviewFluctuationRates> {
     return this.dataService.post<OverviewFluctuationRates>(
@@ -82,9 +80,7 @@ export class EmployeeService {
     );
   }
 
-  public getOrgChart(
-    employeesRequest: EmployeesRequest
-  ): Observable<Employee[]> {
+  getOrgChart(employeesRequest: EmployeesRequest): Observable<Employee[]> {
     return this.dataService
       .post<OrgChartResponse>(this.ORG_CHART, employeesRequest)
       .pipe(
@@ -94,15 +90,13 @@ export class EmployeeService {
       );
   }
 
-  public getWorldMap(
-    employeesRequest: EmployeesRequest
-  ): Observable<CountryData[]> {
+  getWorldMap(employeesRequest: EmployeesRequest): Observable<CountryData[]> {
     return this.dataService
       .post<WorldMapResponse>(this.WORLD_MAP, employeesRequest)
       .pipe(map((response) => response.data));
   }
 
-  public getParentEmployee(childEmployeeId: string): Observable<Employee> {
+  getParentEmployee(childEmployeeId: string): Observable<Employee> {
     const params = new HttpParams().set(
       this.PARAM_CHILD_EMPLOYEE_ID,
       childEmployeeId
@@ -117,7 +111,7 @@ export class EmployeeService {
       );
   }
 
-  public getAttritionOverTime(
+  getAttritionOverTime(
     employeesRequest: EmployeesRequest,
     timePeriod: TimePeriod
   ): Observable<AttritionOverTime> {
@@ -127,7 +121,7 @@ export class EmployeeService {
     );
   }
 
-  public getLostJobProfiles(
+  getLostJobProfiles(
     employeesRequest: EmployeesRequest
   ): Observable<LostJobProfile[]> {
     return this.dataService.post<LostJobProfile[]>(
@@ -136,7 +130,7 @@ export class EmployeeService {
     );
   }
 
-  public getFluctuationRateChartData(
+  getFluctuationRateChartData(
     employeesRequest: EmployeesRequest
   ): Observable<FluctuationRatesChartData> {
     return this.dataService.post<FluctuationRatesChartData>(
@@ -145,7 +139,7 @@ export class EmployeeService {
     );
   }
 
-  public getUnforcedFluctuationRateChartData(
+  getUnforcedFluctuationRateChartData(
     employeesRequest: EmployeesRequest
   ): Observable<FluctuationRatesChartData> {
     return this.dataService.post<FluctuationRatesChartData>(

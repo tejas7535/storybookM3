@@ -179,6 +179,16 @@ export const getIsLoadingUnforcedFluctuationRatesForChart = createSelector(
   (state: OverviewState) => state.unforcedFluctuationRates?.loading
 );
 
+export const getIsLoadingResignedEmployees = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.resignedEmployees.loading
+);
+
+export const getResignedEmployees = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.resignedEmployees.data
+);
+
 function getPercentageValue(rate: number): number {
   return Number((rate * 100).toFixed(2));
 }

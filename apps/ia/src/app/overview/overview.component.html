@@ -39,7 +39,10 @@
           <h5>{{ t('openPositions') }}</h5>
         </div>
         <div class="shadow p-2 flex-grow">
-          <ia-resignations [data]="[]" [loading]="true"></ia-resignations>
+          <ia-resignations
+            [data]="resignedEmployees$ | ngrxPush"
+            [loading]="resignedEmployeesLoading$ | ngrxPush"
+          ></ia-resignations>
         </div>
       </div>
     </div>
