@@ -2,11 +2,11 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
-import { DeleteAcceptComponent } from '../../../case-view/delete-accept/delete-accept.component';
 import { deleteCase } from '../../../core/store';
-import { ViewCasesState } from '../../../core/store/reducers/view-cases/view-cases.reducer';
+import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'gq-delete-case-button',
@@ -15,10 +15,7 @@ import { ViewCasesState } from '../../../core/store/reducers/view-cases/view-cas
 export class DeleteCaseButtonComponent {
   selections: any[] = [];
   private params: IStatusPanelParams;
-  constructor(
-    private readonly store: Store<ViewCasesState>,
-    public dialog: MatDialog
-  ) {}
+  constructor(private readonly store: Store, public dialog: MatDialog) {}
 
   agInit(params: IStatusPanelParams): void {
     this.params = params;
@@ -30,20 +27,29 @@ export class DeleteCaseButtonComponent {
   onSelectionChange(): void {
     this.selections = this.params.api.getSelectedRows();
   }
+
   deleteCase(): void {
-    const selectedInfo = this.selections.map((el) => ({
-      customer: el.customer.name,
-      gqId: el.gqId,
+    const list = this.selections.map((item) => ({
+      id: item.customer.name,
+      value: item.gqId,
     }));
-    const dialogRef = this.dialog.open(DeleteAcceptComponent, {
+    const displayText = translate('caseView.confirmDeleteCases.text', {
+      variable: list.length,
+    });
+
+    const confirmButton = translate('caseView.confirmDeleteCases.deleteButton');
+
+    const cancelButton = translate('caseView.confirmDeleteCases.cancelButton');
+
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
       width: '30%',
       height: '30%',
-      data: { selectedInfo },
+      data: { displayText, confirmButton, cancelButton, list },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        const gqIds = selectedInfo.map((el) => el.gqId);
+        const gqIds = list.map((el) => el.value);
         this.store.dispatch(deleteCase({ gqIds }));
       }
     });

@@ -7,5 +7,15 @@
     "sapCreated": "(SAP) Created on",
     "sapCreatedByUser": "(SAP) Created by",
     "sapLastUpdated": "(SAP) Updated on"
+  },
+  "confirmDeletePositions": {
+    "text": "Do you really want to delete these entries ({{variable}}) from this case ?",
+    "deleteButton": "delete",
+    "cancelButton": "cancel"
+  },
+  "confirmUploadPositions": {
+    "text": "Do you really want to upload these entries ({{variable}}) from this case ?",
+    "deleteButton": "upload",
+    "cancelButton": "cancel"
   }
 }

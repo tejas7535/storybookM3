@@ -6,7 +6,7 @@ import { of } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { provideMockStore } from '@ngrx/store/testing';
+import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -16,6 +16,7 @@ describe('DeleteCaseButtonComponent', () => {
   let component: DeleteCaseButtonComponent;
   let spectator: Spectator<DeleteCaseButtonComponent>;
   let params: IStatusPanelParams;
+  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: DeleteCaseButtonComponent,
@@ -32,6 +33,7 @@ describe('DeleteCaseButtonComponent', () => {
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.debugElement.componentInstance;
+    store = spectator.inject(MockStore);
     params = {
       api: {
         addEventListener: jest.fn(),
@@ -68,10 +70,13 @@ describe('DeleteCaseButtonComponent', () => {
   });
   describe('deleteCase', () => {
     test('should open dialog', () => {
+      store.dispatch = jest.fn();
+
       component.selections = [{ customer: { name: '1' }, gqId: '123' }];
       component.deleteCase();
 
       expect(component.dialog.open).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

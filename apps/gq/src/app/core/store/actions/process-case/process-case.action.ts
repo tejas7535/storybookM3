@@ -101,22 +101,18 @@ export const validateAddMaterialsSuccess = createAction(
   props<{ materialValidations: MaterialValidation[] }>()
 );
 
-export const addToRemoveMaterials = createAction(
-  '[Process Case] Add material to remove list',
+export const removePositions = createAction(
+  '[Process Case] Remove positions from Quotation',
   props<{ gqPositionIds: string[] }>()
 );
 
-export const removeMaterials = createAction(
-  '[Process Case] Remove material from Quotation'
-);
-
-export const removeMaterialsSuccess = createAction(
-  '[Process Case] Remove material from Quotation Success',
+export const removePositionsSuccess = createAction(
+  '[Process Case] Remove positions from Quotation Success',
   props<{ item: Quotation }>()
 );
 
-export const removeMaterialsFailure = createAction(
-  '[Process Case] Remove material from Quotation Failure',
+export const removePositionsFailure = createAction(
+  '[Process Case] Remove positions from Quotation Failure',
   props<{ errorMessage: string }>()
 );
 
@@ -159,9 +155,9 @@ const all = union({
   loadQuotation,
   loadQuotationFailure,
   loadQuotationSuccess,
-  removeMaterials,
-  removeMaterialsFailure,
-  removeMaterialsSuccess,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   selectQuotation,
   updateQuotationDetails,
   updateQuotationDetailsFailure,

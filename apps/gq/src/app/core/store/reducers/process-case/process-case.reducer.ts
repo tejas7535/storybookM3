@@ -12,7 +12,6 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
-  addToRemoveMaterials,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -22,9 +21,9 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
-  removeMaterials,
-  removeMaterialsFailure,
-  removeMaterialsSuccess,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
   updateQuotationDetails,
@@ -292,21 +291,18 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(addToRemoveMaterials, (state: ProcessCaseState, { gqPositionIds }) => ({
+  on(removePositions, (state: ProcessCaseState, { gqPositionIds }) => ({
     ...state,
     addMaterials: {
       ...state.addMaterials,
       removeQuotationDetailsIds: gqPositionIds,
     },
-  })),
-  on(removeMaterials, (state: ProcessCaseState) => ({
-    ...state,
     quotation: {
       ...state.quotation,
       updateLoading: true,
     },
   })),
-  on(removeMaterialsSuccess, (state: ProcessCaseState, { item }) => ({
+  on(removePositionsSuccess, (state: ProcessCaseState, { item }) => ({
     ...state,
     quotation: {
       ...state.quotation,
@@ -319,7 +315,7 @@ export const processCaseReducer = createReducer(
       removeQuotationDetailsIds: [],
     },
   })),
-  on(removeMaterialsFailure, (state: ProcessCaseState, { errorMessage }) => ({
+  on(removePositionsFailure, (state: ProcessCaseState, { errorMessage }) => ({
     ...state,
     quotation: {
       ...state.quotation,

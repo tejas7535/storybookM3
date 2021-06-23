@@ -7,5 +7,15 @@
     "sapCreated": "(SAP) Erstellt am",
     "sapCreatedByUser": "(SAP) Erstellt von",
     "sapLastUpdated": "(SAP) Aktualisiert am"
+  },
+  "confirmDeletePositions": {
+    "text": "Möchten sie wirklich diese Einträge ({{variable}}) vom Case löschen ?",
+    "deleteButton": "löschen",
+    "cancelButton": "zurück"
+  },
+  "confirmUploadPositions": {
+    "text": "Möchten sie wirklich diese Einträge ({{variable}}) nach SAP hochladen ?",
+    "deleteButton": "hochladen",
+    "cancelButton": "zurück"
   }
 }

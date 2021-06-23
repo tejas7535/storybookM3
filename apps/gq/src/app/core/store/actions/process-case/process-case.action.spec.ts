@@ -16,6 +16,9 @@ import {
   loadQuotationFromUrl,
   loadQuotationSuccess,
   loadSelectedQuotationDetailFromUrl,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   setSelectedQuotationDetail,
   updateQuotationDetails,
   updateQuotationDetailsFailure,
@@ -209,6 +212,41 @@ describe('CaseActions', () => {
         materialNumber,
         quantity,
         type: '[Process Case] Delete Item from Material Table',
+      });
+    });
+  });
+
+  describe('removePositions Actions', () => {
+    describe('removePositions', () => {
+      test('should removePositions', () => {
+        const gqPositionIds = ['1'];
+        action = removePositions({ gqPositionIds });
+
+        expect(action).toEqual({
+          gqPositionIds,
+          type: '[Process Case] Remove positions from Quotation',
+        });
+      });
+    });
+    describe('removePositionsSuccess', () => {
+      test('should removePositionsSuccess', () => {
+        const item = QUOTATION_MOCK;
+        action = removePositionsSuccess({ item });
+
+        expect(action).toEqual({
+          item,
+          type: '[Process Case] Remove positions from Quotation Success',
+        });
+      });
+    });
+    describe('removePositionsFailure', () => {
+      test('should removePositionsFailure', () => {
+        action = removePositionsFailure({ errorMessage });
+
+        expect(action).toEqual({
+          errorMessage,
+          type: '[Process Case] Remove positions from Quotation Failure',
+        });
       });
     });
   });
