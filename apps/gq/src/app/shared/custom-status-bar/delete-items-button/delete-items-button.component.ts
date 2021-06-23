@@ -2,15 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 import { select, Store } from '@ngrx/store';
 
-import {
-  addToRemoveMaterials,
-  removeMaterials,
-} from '../../../core/store/actions';
+import { removePositions } from '../../../core/store/actions';
 import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getSapId } from '../../../core/store/selectors';
-import { AddMaterialDialogComponent } from '../../../process-case-view/add-material-dialog/add-material-dialog.component';
+import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
@@ -52,21 +50,33 @@ export class DeleteItemsButtonComponent implements OnInit {
     this.selections = this.params.api.getSelectedRows();
   }
 
-  showAddDialog(): void {
-    this.dialog.open(AddMaterialDialogComponent, {
-      width: '70%',
-      height: '90%',
-    });
-  }
+  deletePositions(): void {
+    const gqPositionIds: string[] = this.selections.map(
+      (value: QuotationDetail) => value.gqPositionId
+    );
+    const displayText = translate(
+      'processCaseView.confirmDeletePositions.text',
+      { variable: gqPositionIds.length }
+    );
 
-  removeMaterials(): void {
-    const gqPositionIds: string[] = [];
-    this.selections.forEach((value: QuotationDetail) => {
-      gqPositionIds.push(value.gqPositionId);
-    });
+    const confirmButton = translate(
+      'processCaseView.confirmDeletePositions.deleteButton'
+    );
 
-    this.store.dispatch(addToRemoveMaterials({ gqPositionIds }));
-    this.store.dispatch(removeMaterials());
-    this.selections = [];
+    const cancelButton = translate(
+      'processCaseView.confirmDeletePositions.cancelButton'
+    );
+
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      width: '20%',
+      height: '20%',
+      data: { displayText, confirmButton, cancelButton },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.store.dispatch(removePositions({ gqPositionIds }));
+        this.selections = [];
+      }
+    });
   }
 }

@@ -44,9 +44,9 @@ import {
   loadQuotationSuccess,
   loadSelectedQuotationDetailFromUrl,
   pasteRowDataItemsToAddMaterial,
-  removeMaterials,
-  removeMaterialsFailure,
-  removeMaterialsSuccess,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
   updateQuotationDetails,
@@ -259,9 +259,9 @@ export class ProcessCaseEffect {
     )
   );
 
-  removeMaterials$ = createEffect(() =>
+  removePositions$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(removeMaterials.type),
+      ofType(removePositions.type),
       withLatestFrom(this.store.pipe(select(getRemoveQuotationDetailsRequest))),
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
@@ -275,9 +275,9 @@ export class ProcessCaseEffect {
           tap((item) =>
             PriceService.addCalculationsForDetails(item.quotationDetails)
           ),
-          map((item) => removeMaterialsSuccess({ item })),
+          map((item) => removePositionsSuccess({ item })),
           catchError((errorMessage) =>
-            of(removeMaterialsFailure({ errorMessage }))
+            of(removePositionsFailure({ errorMessage }))
           )
         )
       )

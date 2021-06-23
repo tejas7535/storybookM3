@@ -1,5 +1,8 @@
 import { MatButtonModule } from '@angular/material/button';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+
+import { of } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -22,6 +25,7 @@ describe('uploadSelectionToSapButtonComponent', () => {
     imports: [
       MatButtonModule,
       MatIconModule,
+      MatDialogModule,
       ReactiveComponentModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
@@ -76,8 +80,15 @@ describe('uploadSelectionToSapButtonComponent', () => {
     test('should upload to SAP', () => {
       store.dispatch = jest.fn();
       component.selections = [{ gqPositionId: '1' }];
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of(true),
+          } as any)
+      );
       component.uploadSelectionToSap();
 
+      expect(component['dialog'].open).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenCalledTimes(1);
       expect(store.dispatch).toHaveBeenLastCalledWith(
         uploadSelectionToSap({ gqPositionIds: ['1'] })

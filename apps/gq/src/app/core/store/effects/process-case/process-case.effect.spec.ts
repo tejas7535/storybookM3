@@ -41,9 +41,9 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
-  removeMaterials,
-  removeMaterialsFailure,
-  removeMaterialsSuccess,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   selectQuotation,
   updateQuotationDetailsSuccess,
   validateAddMaterialsFailure,
@@ -533,7 +533,7 @@ describe('ProcessCaseEffect', () => {
     );
   });
 
-  describe('removeMaterials$', () => {
+  describe('removePositions$', () => {
     const qgPositionIds = ['1234567'];
 
     beforeEach(() => {
@@ -541,14 +541,15 @@ describe('ProcessCaseEffect', () => {
     });
 
     test(
-      'should return removeMaterialsSuccess when REST call is successful',
+      'should return removePositionsSuccess when REST call is successful',
       marbles((m) => {
         snackBarService.showSuccessMessage = jest.fn();
-        action = removeMaterials();
+        const gqPositionIds = ['1'];
+        action = removePositions({ gqPositionIds });
 
         quotationDetailsService.removeMaterial = jest.fn(() => response);
         const item = QUOTATION_MOCK;
-        const result = removeMaterialsSuccess({ item });
+        const result = removePositionsSuccess({ item });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-a|', {
@@ -556,7 +557,7 @@ describe('ProcessCaseEffect', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.removeMaterials$).toBeObservable(expected);
+        m.expect(effects.removePositions$).toBeObservable(expected);
         m.flush();
         expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
         expect(quotationDetailsService.removeMaterial).toHaveBeenCalledWith(
@@ -567,16 +568,16 @@ describe('ProcessCaseEffect', () => {
     );
 
     test(
-      'should return removeMaterialsFailure on REST error',
+      'should return removePositionsFailure on REST error',
       marbles((m) => {
         quotationDetailsService.removeMaterial = jest.fn(() => response);
-        const result = removeMaterialsFailure({ errorMessage });
+        const result = removePositionsFailure({ errorMessage });
 
         actions$ = m.hot('-a', { a: action });
         const response = m.cold('-#|', undefined, errorMessage);
         const expected = m.cold('--b', { b: result });
 
-        m.expect(effects.removeMaterials$).toBeObservable(expected);
+        m.expect(effects.removePositions$).toBeObservable(expected);
         m.flush();
         expect(quotationDetailsService.removeMaterial).toHaveBeenCalledTimes(1);
       })
@@ -593,7 +594,7 @@ describe('ProcessCaseEffect', () => {
     const quotationDetails = QUOTATION_MOCK.quotationDetails;
 
     test(
-      'should return removeMaterialsSuccess when REST call is successful',
+      'should return removePositionsSuccess when REST call is successful',
       marbles((m) => {
         action = updateQuotationDetails({ updateQuotationDetailList });
         effects['showUpdateQuotationDetailToast'] = jest.fn();

@@ -2,6 +2,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 
+import { of } from 'rxjs';
+
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -12,10 +14,6 @@ import {
   QUOTATION_DETAIL_MOCK,
   QUOTATION_MOCK,
 } from '../../../../testing/mocks';
-import {
-  addToRemoveMaterials,
-  removeMaterials,
-} from '../../../core/store/actions';
 import { DeleteItemsButtonComponent } from './delete-items-button.component';
 
 describe('DeleteItemsButtonComponent', () => {
@@ -92,28 +90,22 @@ describe('DeleteItemsButtonComponent', () => {
     });
   });
 
-  describe('showAddDialog', () => {
-    test('should showAddDialog', () => {
-      component['dialog'].open = jest.fn();
-
-      component.showAddDialog();
-
-      expect(component['dialog'].open).toHaveBeenCalledTimes(1);
-    });
-  });
-  describe('removeMaterials', () => {
-    test('should call remove actions', () => {
+  describe('removePositions', () => {
+    test('should open dialog', () => {
       store.dispatch = jest.fn();
 
-      component.selections = [QUOTATION_DETAIL_MOCK];
-      component.removeMaterials();
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        addToRemoveMaterials({
-          gqPositionIds: [QUOTATION_DETAIL_MOCK.gqPositionId],
-        })
+      component['dialog'].open = jest.fn(
+        () =>
+          ({
+            afterClosed: () => of(true),
+          } as any)
       );
-      expect(store.dispatch).toHaveBeenCalledWith(removeMaterials());
+
+      component.selections = [QUOTATION_DETAIL_MOCK];
+      component.deletePositions();
+
+      expect(component['dialog'].open).toHaveBeenCalledTimes(1);
+      expect(store.dispatch).toHaveBeenCalledTimes(1);
     });
   });
 });

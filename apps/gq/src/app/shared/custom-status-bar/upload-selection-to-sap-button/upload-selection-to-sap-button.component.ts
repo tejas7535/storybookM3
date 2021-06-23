@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Observable } from 'rxjs';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
+import { translate } from '@ngneat/transloco';
 import { Store } from '@ngrx/store';
 
 import { getSapId, uploadSelectionToSap } from '../../../core/store';
+import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { QuotationDetail } from '../../models/quotation-detail';
 
 @Component({
@@ -34,7 +37,10 @@ export class UploadSelectionToSapButtonComponent {
     this.selections = this.params.api.getSelectedRows();
   }
 
-  constructor(private readonly store: Store) {
+  constructor(
+    private readonly store: Store,
+    private readonly dialog: MatDialog
+  ) {
     this.sapId$ = this.store.select(getSapId);
   }
 
@@ -42,7 +48,29 @@ export class UploadSelectionToSapButtonComponent {
     const gqPositionIds = this.selections.map(
       (val: QuotationDetail) => val.gqPositionId
     );
+    const displayText = translate(
+      'processCaseView.confirmUploadPositions.text',
+      { variable: gqPositionIds.length }
+    );
 
-    this.store.dispatch(uploadSelectionToSap({ gqPositionIds }));
+    const confirmButton = (
+      translate('processCaseView.confirmUploadPositions.deleteButton') as string
+    ).toUpperCase();
+
+    const cancelButton = (
+      translate('processCaseView.confirmUploadPositions.cancelButton') as string
+    ).toUpperCase();
+
+    const dialogRef = this.dialog.open(ConfirmationModalComponent, {
+      width: '20%',
+      height: '20%',
+      data: { displayText, confirmButton, cancelButton },
+    });
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.store.dispatch(uploadSelectionToSap({ gqPositionIds }));
+        this.selections = [];
+      }
+    });
   }
 }

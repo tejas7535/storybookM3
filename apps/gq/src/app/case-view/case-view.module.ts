@@ -12,16 +12,16 @@ import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared';
+import { ConfirmationModalModule } from '../shared/confirmation-modal/confirmation-modal.module';
 import { CreateCustomerCaseModule } from './case-creation/create-customer-case/create-customer-case.module';
 import { CreateManualCaseModule } from './case-creation/create-manual-case/create-manual-case.module';
 import { ImportCaseModule } from './case-creation/import-case/import-case.module';
 import { CaseTableModule } from './case-table/case-table.module';
 import { CaseViewRoutingModule } from './case-view-routing.module';
 import { CaseViewComponent } from './case-view.component';
-import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
 
 @NgModule({
-  declarations: [CaseViewComponent, DeleteAcceptComponent],
+  declarations: [CaseViewComponent],
   imports: [
     CaseTableModule,
     CaseViewRoutingModule,
@@ -34,6 +34,7 @@ import { DeleteAcceptComponent } from './delete-accept/delete-accept.component';
     ReactiveComponentModule,
     ImportCaseModule,
     CreateManualCaseModule,
+    ConfirmationModalModule,
   ],
   providers: [
     { provide: TRANSLOCO_SCOPE, useValue: 'case-view' },

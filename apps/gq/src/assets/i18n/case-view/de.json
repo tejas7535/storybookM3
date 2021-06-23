@@ -42,10 +42,10 @@
       }
     }
   },
-  "deleteAccept": {
-    "cancelButton": "abbrechen",
+  "confirmDeleteCases": {
+    "text": "Möchten Sie wirklich folgende Cases löschen ({{variable}})?",
     "deleteButton": "löschen",
-    "text": "Möchten Sie wirkliche folgende Cases löschen?"
+    "cancelButton": "abbrechen"
   },
   "snackBarMessages": {
     "createSuccess": "Case wurde erfolgreich erstellt",

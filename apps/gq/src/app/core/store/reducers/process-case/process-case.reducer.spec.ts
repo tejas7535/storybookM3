@@ -17,7 +17,6 @@ import {
   addMaterials,
   addMaterialsFailure,
   addMaterialsSuccess,
-  addToRemoveMaterials,
   clearProcessCaseRowData,
   deleteAddMaterialRowDataItem,
   loadCustomer,
@@ -27,9 +26,9 @@ import {
   loadQuotationFailure,
   loadQuotationSuccess,
   pasteRowDataItemsToAddMaterial,
-  removeMaterials,
-  removeMaterialsFailure,
-  removeMaterialsSuccess,
+  removePositions,
+  removePositionsFailure,
+  removePositionsSuccess,
   selectQuotation,
   setSelectedQuotationDetail,
   updateQuotationDetails,
@@ -433,10 +432,11 @@ describe('Quotation Reducer', () => {
       });
     });
 
-    describe('addToRemoveMaterials', () => {
-      test('should remove material', () => {
+    describe('removePositions', () => {
+      test('should set quotationLoading to true', () => {
         const gqPositionIds = ['12456'];
-        const action = addToRemoveMaterials({ gqPositionIds });
+
+        const action = removePositions({ gqPositionIds });
 
         const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
 
@@ -446,18 +446,6 @@ describe('Quotation Reducer', () => {
             ...QUOTATION_STATE_MOCK.addMaterials,
             removeQuotationDetailsIds: gqPositionIds,
           },
-        });
-      });
-    });
-
-    describe('removeMaterials', () => {
-      test('should set quotationLoading to true', () => {
-        const action = removeMaterials();
-
-        const state = processCaseReducer(QUOTATION_STATE_MOCK, action);
-
-        expect(state).toEqual({
-          ...QUOTATION_STATE_MOCK,
           quotation: {
             ...QUOTATION_STATE_MOCK.quotation,
             updateLoading: true,
@@ -466,7 +454,7 @@ describe('Quotation Reducer', () => {
       });
     });
 
-    describe('removeMaterialsSuccess', () => {
+    describe('removePositionsSuccess', () => {
       test('should remove material', () => {
         const item = QUOTATION_MOCK;
 
@@ -477,7 +465,7 @@ describe('Quotation Reducer', () => {
             item: QUOTATION_MOCK,
           },
         };
-        const action = removeMaterialsSuccess({ item });
+        const action = removePositionsSuccess({ item });
 
         const state = processCaseReducer(fakeState, action);
 
@@ -486,9 +474,9 @@ describe('Quotation Reducer', () => {
       });
     });
 
-    describe('removeMaterialsFailure', () => {
+    describe('removePositionsFailure', () => {
       test('should remove material', () => {
-        const action = removeMaterialsFailure({ errorMessage });
+        const action = removePositionsFailure({ errorMessage });
 
         const fakeState = {
           ...QUOTATION_STATE_MOCK,
