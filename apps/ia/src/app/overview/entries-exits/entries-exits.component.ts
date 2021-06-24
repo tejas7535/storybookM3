@@ -1,7 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 
-import { TeamMemberDialogComponent } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.component';
 import { Employee } from '../../shared/models/employee.model';
 import { DoughnutConfig } from './doughnut-chart/models/doughnut-config.model';
 
@@ -17,20 +15,4 @@ export class EntriesExitsComponent {
   @Input() exitsCount: number;
   @Input() exitEmployees: Employee[] = [];
   @Input() entryEmployees: Employee[] = [];
-
-  constructor(private readonly dialog: MatDialog) {}
-
-  openTeamMemberDialogForExits(): void {
-    this.openTeamMemberDialog(this.exitEmployees);
-  }
-
-  openTeamMemberDialogForEntries(): void {
-    this.openTeamMemberDialog(this.entryEmployees);
-  }
-
-  openTeamMemberDialog(employees: Employee[]): void {
-    this.dialog.open(TeamMemberDialogComponent, {
-      data: { directLeafChildren: employees },
-    });
-  }
 }

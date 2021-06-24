@@ -3,6 +3,21 @@
     <div class="shadow p-4 w-full lg:w-[24%] flex flex-col">
       <div class="flex-1">
         <h5>{{ t('fluctuationRate') }}</h5>
+        <div class="grid grid-cols-2 divide-x divide-solid divide-hover pb-4">
+          <div class="pl-4 mb-4">
+            <ia-kpi
+              [title]="t('companyName')"
+              [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.company"
+            ></ia-kpi>
+          </div>
+          <div class="pl-4 mb-4">
+            <ia-kpi
+              [title]="(fluctuationKpi$ | ngrxPush)?.orgUnitName"
+              [value]="(fluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
+              [employees]="(fluctuationKpi$ | ngrxPush)?.exitEmployees"
+            ></ia-kpi>
+          </div>
+        </div>
         <ia-line-chart
           [config]="fluctuationChartData$ | ngrxPush"
           [isDataLoading]="isFluctuationChartLoading$ | ngrxPush"
@@ -13,6 +28,21 @@
     <div class="shadow p-4 w-full lg:w-[24%] flex flex-col">
       <div class="flex-1">
         <h5>{{ t('unforcedFluctuationRate') }}</h5>
+        <div class="grid grid-cols-2 divide-x divide-solid divide-hover pb-4">
+          <div class="pl-4 mb-4">
+            <ia-kpi
+              [title]="t('companyName')"
+              [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.company"
+            ></ia-kpi>
+          </div>
+          <div class="pl-4 mb-4">
+            <ia-kpi
+              [title]="(unforcedFluctuationKpi$ | ngrxPush)?.orgUnitName"
+              [value]="(unforcedFluctuationKpi$ | ngrxPush)?.kpiRates.orgUnit"
+              [employees]="(unforcedFluctuationKpi$ | ngrxPush)?.exitEmployees"
+            ></ia-kpi>
+          </div>
+        </div>
         <ia-line-chart
           [config]="unforcedFluctuationChartData$ | ngrxPush"
           [isDataLoading]="isUnforcedFluctuationChartLoading$ | ngrxPush"

@@ -1,5 +1,5 @@
 import { Employee } from '../../shared/models/employee.model';
-import { FluctuationRate } from '../../shared/models/fluctuation-rate';
+import { FluctuationRate } from '../../shared/models/fluctuation-rate.model';
 
 export interface OverviewFluctuationRates {
   employees: Employee[];

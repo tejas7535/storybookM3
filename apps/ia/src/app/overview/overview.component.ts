@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { AttritionSeries, Event } from '../shared/models';
+import { AttritionSeries, Event, FluctuationKpi } from '../shared/models';
 import { Employee } from '../shared/models/employee.model';
 import { DoughnutConfig } from './entries-exits/doughnut-chart/models/doughnut-config.model';
 import { ResignedEmployee } from './models';
@@ -19,11 +19,13 @@ import {
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
+  getOveriviewUnforcedFluctuationKpi,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getResignedEmployees,
+  getOverviewFluctuationKpi,
   getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 
@@ -34,12 +36,16 @@ import {
 export class OverviewComponent implements OnInit {
   fluctuationChartData$: Observable<EChartsOption>;
   isFluctuationChartLoading$: Observable<boolean>;
+  fluctuationKpi$: Observable<FluctuationKpi>;
+
   unforcedFluctuationChartData$: Observable<EChartsOption>;
   isUnforcedFluctuationChartLoading$: Observable<boolean>;
+  unforcedFluctuationKpi$: Observable<FluctuationKpi>;
 
   attritionQuotaloading$: Observable<boolean>;
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
+
   entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig$: Observable<DoughnutConfig>;
   entriesDoughnutConfig$: Observable<DoughnutConfig>;
@@ -53,22 +59,33 @@ export class OverviewComponent implements OnInit {
   constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
+    this.loadFluctuationData();
+    this.loadUnforcedFluctuationData();
+    this.loadEntriesAndExitsData();
+    this.loadAttritionQuotaData();
+  }
+
+  private loadFluctuationData() {
     this.fluctuationChartData$ = this.store.select(getFluctuationRatesForChart);
-    this.unforcedFluctuationChartData$ = this.store.select(
-      getUnforcedFluctuationRatesForChart
-    );
     this.isFluctuationChartLoading$ = this.store.select(
       getIsLoadingFluctuationRatesForChart
+    );
+    this.fluctuationKpi$ = this.store.select(getOverviewFluctuationKpi);
+  }
+
+  private loadUnforcedFluctuationData() {
+    this.unforcedFluctuationChartData$ = this.store.select(
+      getUnforcedFluctuationRatesForChart
     );
     this.isUnforcedFluctuationChartLoading$ = this.store.select(
       getIsLoadingUnforcedFluctuationRatesForChart
     );
-    this.attritionQuotaloading$ = this.store.select(
-      getIsLoadingAttritionOverTimeOverview
+    this.unforcedFluctuationKpi$ = this.store.select(
+      getOveriviewUnforcedFluctuationKpi
     );
-    this.events$ = this.store.select(getAttritionOverTimeEvents);
-    this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
+  }
 
+  private loadEntriesAndExitsData() {
     this.entriesDoughnutConfig$ = this.store.select(
       getOverviewFluctuationEntriesDoughnutConfig
     );
@@ -86,5 +103,13 @@ export class OverviewComponent implements OnInit {
     this.resignedEmployeesLoading$ = this.store.select(
       getIsLoadingResignedEmployees
     );
+  }
+
+  private loadAttritionQuotaData() {
+    this.attritionQuotaloading$ = this.store.select(
+      getIsLoadingAttritionOverTimeOverview
+    );
+    this.events$ = this.store.select(getAttritionOverTimeEvents);
+    this.attritionData$ = this.store.select(getAttritionOverTimeOverviewData);
   }
 }

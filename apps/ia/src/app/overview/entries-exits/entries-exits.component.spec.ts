@@ -1,6 +1,4 @@
 import { ComponentFixture } from '@angular/core/testing';
-import { MatDialogModule } from '@angular/material/dialog';
-import { MatIconModule } from '@angular/material/icon';
 import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
@@ -8,8 +6,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { TeamMemberDialogComponent } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.component';
-import { TeamMemberDialogModule } from '../../organizational-view/org-chart/team-member-dialog/team-member-dialog.module';
+import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterKey } from '../../shared/models';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
@@ -58,9 +55,7 @@ describe('EntriesExitsComponent', () => {
       SharedModule,
       DoughnutChartModule,
       provideTranslocoTestingModule({ en: {} }),
-      MatDialogModule,
-      TeamMemberDialogModule,
-      MatIconModule,
+      KpiModule,
       SharedPipesModule,
     ],
   });
@@ -101,32 +96,5 @@ describe('EntriesExitsComponent', () => {
     expect(kpiValues).toContain(component.entriesCount.toString());
     expect(kpiValues).toContain(component.exitsCount.toString());
     expect(charts.length).toEqual(2);
-  });
-
-  describe('openTeamMemberDialogForExits', () => {
-    test('should open dialog with leavers data', () => {
-      component['dialog'].open = jest.fn();
-      const employee = { name: 'jason' } as any;
-      component.exitEmployees = [employee];
-
-      component.openTeamMemberDialogForExits();
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        TeamMemberDialogComponent,
-        { data: { directLeafChildren: [employee] } }
-      );
-    });
-  });
-  describe('openTeamMemberDialogForEntries', () => {
-    test('should open dialog with leavers data', () => {
-      component['dialog'].open = jest.fn();
-      const employee = { name: 'jason' } as any;
-      component.entryEmployees = [employee];
-
-      component.openTeamMemberDialogForEntries();
-      expect(component['dialog'].open).toHaveBeenCalledWith(
-        TeamMemberDialogComponent,
-        { data: { directLeafChildren: [employee] } }
-      );
-    });
   });
 });

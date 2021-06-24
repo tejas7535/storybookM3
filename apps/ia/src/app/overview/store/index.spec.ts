@@ -6,7 +6,7 @@ import {
   EmployeesRequest,
   FluctuationRatesChartData,
 } from '../../shared/models';
-import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates';
+import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates.model';
 import { ResignedEmployee } from '../models';
 import {
   loadAttritionOverTimeOverview,
