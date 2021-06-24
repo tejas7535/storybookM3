@@ -37,6 +37,9 @@ API of LoadingSpinnerComponent:
 ```typescript
 // Inputs:
 @Input() backgroundColor?: string; // css-readable string defining the color of spinner's background, in case you want to obscure whatever's meant to be displayed behind it.
+@Input() relative?: boolean // sets positioning of loading spinner
+@Input() diameter?: number // sets diameter of loading spinner
+@Input() strokeWidth?: number // set stroke width in percentage of loading spinner
 ```
 
 Use like:

@@ -3,5 +3,9 @@
   [ngStyle]="{ backgroundColor: backgroundColor }"
   [ngClass]="{ absolute: !relative }"
 >
-  <mat-spinner class="outline-none"></mat-spinner>
+  <mat-spinner
+    class="outline-none"
+    [diameter]="diameter"
+    [strokeWidth]="strokeWidth"
+  ></mat-spinner>
 </div>

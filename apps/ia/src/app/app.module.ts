@@ -3,8 +3,6 @@ import { NgModule } from '@angular/core';
 
 import { MsalRedirectComponent } from '@azure/msal-angular';
 
-import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -18,7 +16,6 @@ import { SharedModule } from './shared/shared.module';
     CoreModule,
     SharedModule,
     FilterSectionModule,
-    LoadingSpinnerModule,
   ],
   bootstrap: [AppComponent, MsalRedirectComponent],
 })

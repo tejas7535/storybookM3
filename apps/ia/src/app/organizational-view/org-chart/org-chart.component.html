@@ -4,7 +4,11 @@
   class="flex-grow overflow-hidden flex flex-col"
   *transloco="let t; read: 'organizationalView.orgChart'"
 >
-  <schaeffler-loading-spinner *ngIf="isLoading"></schaeffler-loading-spinner>
+  <schaeffler-loading-spinner
+    *ngIf="isLoading"
+    [diameter]="40"
+    [strokeWidth]="4"
+  ></schaeffler-loading-spinner>
   <div
     *ngIf="!chartData?.length"
     class="flex-grow flex justify-center items-center"
