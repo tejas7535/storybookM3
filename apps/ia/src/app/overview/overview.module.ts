@@ -6,6 +6,7 @@ import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
+import { KpiModule } from '../shared/kpi/kpi.module';
 import { LineChartModule } from '../shared/line-chart/line-chart.module';
 import { SharedModule } from '../shared/shared.module';
 import { EntriesExitsModule } from './entries-exits/entries-exits.module';
@@ -31,6 +32,7 @@ import { OverviewEffects } from './store/effects/overview.effects';
     EntriesExitsModule,
     LineChartModule,
     ResignationsModule,
+    KpiModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'overview' }],
 })

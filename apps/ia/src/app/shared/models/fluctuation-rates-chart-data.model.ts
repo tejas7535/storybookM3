@@ -1,4 +1,4 @@
-import { FluctuationRate } from './fluctuation-rate';
+import { FluctuationRate } from './fluctuation-rate.model';
 
 export interface FluctuationRatesChartData {
   companyName: string;

@@ -6,7 +6,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { ChartSeries } from '../../models/chart-series';
+import { ChartSeries } from '../../models/chart-series.model';
 
 @Component({
   selector: 'ia-overview-chart-legend',

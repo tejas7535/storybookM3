@@ -18,7 +18,7 @@ import {
   SelectedFilter,
   TimePeriod,
 } from '../../../shared/models';
-import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates';
+import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
 import { EmployeeService } from '../../../shared/services/employee.service';
 import { ResignedEmployee } from '../../models';
 import { OverviewService } from '../../overview.service';

@@ -1,5 +1,5 @@
 import { Employee } from './employee.model';
-import { FluctuationRate } from './fluctuation-rate';
+import { FluctuationRate } from './fluctuation-rate.model';
 
 export class OverviewFluctuationRates {
   allEmployees: Employee[];

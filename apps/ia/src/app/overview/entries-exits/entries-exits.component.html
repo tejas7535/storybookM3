@@ -3,34 +3,22 @@
   <div class="flex flex-row">
     <div class="flex flex-col flex-grow">
       <div class="pl-4">
-        <span class="flex flex-row text-body-2 mt-4">{{ t('entries') }}</span>
-        <h4 class="flex flex-row mb-4">{{ entriesCount | defaultValue }}</h4>
-        <button
-          mat-fab
-          color="primary"
-          class="flex mt-2"
-          (click)="openTeamMemberDialogForEntries()"
-          [disabled]="entriesCount === 0"
-        >
-          <mat-icon class="pl-2">people</mat-icon>
-        </button>
+        <ia-kpi
+          [title]="t('entries')"
+          [value]="entriesCount"
+          [employees]="entryEmployees"
+        ></ia-kpi>
       </div>
       <ia-doughnut-chart [data]="entriesDoughnutConfig"></ia-doughnut-chart>
     </div>
 
     <div class="flex flex-col flex-grow">
       <div class="pl-4">
-        <span class="flex flex-row text-body-2 mt-4">{{ t('exits') }}</span>
-        <h4 class="flex flex-row mb-4">{{ exitsCount | defaultValue }}</h4>
-        <button
-          mat-fab
-          color="primary"
-          class="flex mt-2"
-          (click)="openTeamMemberDialogForExits()"
-          [disabled]="exitsCount === 0"
-        >
-          <mat-icon class="pl-2">people</mat-icon>
-        </button>
+        <ia-kpi
+          [title]="t('exits')"
+          [value]="exitsCount"
+          [employees]="exitEmployees"
+        ></ia-kpi>
       </div>
       <ia-doughnut-chart [data]="exitsDoughnutConfig"></ia-doughnut-chart>
     </div>

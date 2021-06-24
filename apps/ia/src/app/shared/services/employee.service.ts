@@ -19,7 +19,7 @@ import {
   WorldMapResponse,
 } from '../models';
 import { Employee } from '../models/employee.model';
-import { OverviewFluctuationRates } from '../models/overview-fluctuation-rates';
+import { OverviewFluctuationRates } from '../models/overview-fluctuation-rates.model';
 
 @Injectable({
   providedIn: 'root',

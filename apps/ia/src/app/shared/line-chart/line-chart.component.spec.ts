@@ -3,8 +3,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 import { NgxEchartsModule } from 'ngx-echarts';
 
-import { provideTranslocoTestingModule } from '@schaeffler/transloco';
-
 import { LineChartComponent } from './line-chart.component';
 
 describe('LineChartComponent', () => {
@@ -14,7 +12,6 @@ describe('LineChartComponent', () => {
   const createComponent = createComponentFactory({
     component: LineChartComponent,
     imports: [
-      provideTranslocoTestingModule({ en: {} }),
       ReactiveComponentModule,
       NgxEchartsModule.forRoot({
         echarts: () => import('echarts'),

@@ -2,7 +2,7 @@ import { SeriesOption } from 'echarts';
 
 import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
-import { FilterKey } from '../../../shared/models';
+import { FilterKey, FluctuationKpi } from '../../../shared/models';
 import { Employee } from '../../../shared/models/employee.model';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
@@ -16,10 +16,12 @@ import {
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
+  getOveriviewUnforcedFluctuationKpi,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
+  getOverviewFluctuationKpi,
   getOverviewFluctuationRates,
   getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
@@ -310,6 +312,82 @@ describe('Overview Selector', () => {
     });
   });
 
+  describe('getOverviewFluctuationKpi', () => {
+    it('should return kpis', () => {
+      const expectedResult = {
+        kpiRates: {
+          company: '4.1%',
+          orgUnit: '2.3%',
+        },
+        orgUnitName: 'Schaeffler_IT',
+        exitEmployees: [leaverIT1, leaverIT2],
+      } as FluctuationKpi;
+      const x = getOverviewFluctuationKpi(fakeState);
+      expect(x).toEqual(expectedResult);
+    });
+
+    it('should return undefined when fluctuation rates not ready', () => {
+      const entriesExitsNotReady = {
+        overview: {
+          entriesExits: {},
+        },
+        filter: {
+          selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
+          selectedFilters: {
+            ids: [FilterKey.ORG_UNIT],
+            entities: {
+              orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+            },
+          },
+        } as unknown as FilterState,
+      };
+
+      expect(getOverviewFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
+    });
+  });
+
+  describe('getOveriviewUnforcedFluctuationKpi', () => {
+    it('should return kpis', () => {
+      const expectedResult = {
+        kpiRates: {
+          company: '8.1%',
+          orgUnit: '6.5%',
+        },
+        orgUnitName: 'Schaeffler_IT',
+        exitEmployees: [],
+      } as FluctuationKpi;
+      const x = getOveriviewUnforcedFluctuationKpi(fakeState);
+      expect(x).toEqual(expectedResult);
+    });
+
+    it('should return undefined when fluctuation rates not ready', () => {
+      const entriesExitsNotReady = {
+        overview: {
+          entriesExits: {},
+        },
+        filter: {
+          selectedTimeRange: '1577863715000|1609399715000', // 01.01.2020 - 31.12.2020
+          selectedFilters: {
+            ids: [FilterKey.ORG_UNIT],
+            entities: {
+              orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+            },
+          },
+        } as unknown as FilterState,
+      };
+
+      expect(
+        getOveriviewUnforcedFluctuationKpi(entriesExitsNotReady)
+      ).toBeUndefined();
+    });
+  });
+
+  it('should return undefined when filter not ready', () => {
+    const entriesExitsNotReady = getStateForFluctuationKpiTesting();
+
+    expect(getOverviewFluctuationKpi(entriesExitsNotReady)).toBeUndefined();
+  });
+
   describe('getIsLoadingResignedEmployees', () => {
     it('should return isLoading value', () => {
       expect(
@@ -326,6 +404,32 @@ describe('Overview Selector', () => {
     });
   });
 });
+
+function getStateForFluctuationKpiTesting() {
+  return {
+    overview: {
+      entriesExits: {
+        fluctuationRate: {
+          company: 0.041,
+          orgUnit: 0.023,
+        },
+        unforcedFluctuationRate: {
+          company: 0.041,
+          orgUnit: 0.023,
+        },
+      },
+    },
+    filter: {
+      selectedTimeRange: '1577863715000|1609399715000',
+      selectedFilters: {
+        ids: [FilterKey.ORG_UNIT],
+        entities: {
+          orgUnit: { name: FilterKey.ORG_UNIT, value: 'Schaeffler_IT' },
+        },
+      },
+    } as unknown as FilterState,
+  };
+}
 
 function createExternalEntryEmployee(id: string, entryDate: Date): Employee {
   return createEmployee(id, 'Schaeffler_IT', entryDate);

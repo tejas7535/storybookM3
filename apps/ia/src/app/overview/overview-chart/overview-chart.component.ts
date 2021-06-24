@@ -8,7 +8,7 @@ import {
   LINE_SERIES_BASE_OPTIONS,
 } from '../../shared/configs/line-chart.config';
 import { TerminatedEmployee } from '../../shared/models';
-import { ChartSeries } from '../models/chart-series';
+import { ChartSeries } from '../models/chart-series.model';
 import { TerminatedEmployeesDialogComponent } from './terminated-employees-dialog/terminated-employees-dialog.component';
 
 @Component({
