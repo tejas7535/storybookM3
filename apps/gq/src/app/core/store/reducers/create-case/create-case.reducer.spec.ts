@@ -230,6 +230,7 @@ describe('Create Case Reducer', () => {
           { ...fakeOptions[0], selected: false },
           fakeOptions[1],
         ]);
+        expect(state.customer.customerId).toEqual(undefined);
         expect(state.customer.salesOrgs).toEqual([]);
       });
       test('should unselect material options', () => {
@@ -237,11 +238,13 @@ describe('Create Case Reducer', () => {
           filter: FilterNames.MATERIAL,
         });
         const state = createCaseReducer(fakeState, action);
+        state.customer.customerId = '82563';
 
         expect(state.autocompleteItems[1].options).toEqual([
           { ...fakeOptions[0], selected: false },
           fakeOptions[1],
         ]);
+        expect(state.customer.customerId).toEqual('82563');
         expect(state.customer.salesOrgs).toEqual(fakeState.customer.salesOrgs);
       });
     });
