@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatMenuTrigger } from '@angular/material/menu';
 
 @Component({
@@ -6,6 +6,7 @@ import { MatMenuTrigger } from '@angular/material/menu';
   templateUrl: './info-icon.component.html',
 })
 export class InfoIconComponent {
+  @Input() showHelpIcon: boolean;
   timedOutCloser: number;
 
   iconEnter(trigger: MatMenuTrigger): void {

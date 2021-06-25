@@ -18,6 +18,7 @@ import {
 } from '../../../core/store';
 import { SharedModule } from '../../../shared';
 import { FilterNames } from '../../autocomplete-input/filter-names.enum';
+import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AutocompleteSearch, IdValue } from '../../models/search';
 import { MaterialTableItem, ValidationDescription } from '../../models/table';
 import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete-input.module';
@@ -41,6 +42,7 @@ describe('InputbarComponent', () => {
       MatButtonModule,
       MatCardModule,
       MatIconModule,
+      InfoIconModule,
       provideTranslocoTestingModule({ en: {} }),
       SharedModule,
       ReactiveFormsModule,

@@ -7,7 +7,7 @@
       <span class="text-h6 text-light font-body font-medium">
         {{ t('addItems') }}
       </span>
-      <span class="float-right">
+      <div class="float-right">
         <button
           class="!pl-4 !pr-4"
           mat-stroked-button
@@ -19,7 +19,16 @@
             {{ t('pasteFromClipboard') | uppercase }}
           </span>
         </button>
-      </span>
+        <span class="ml-2 align-bottom">
+          <gq-info-icon [showHelpIcon]="true">
+            <span
+              class="text-subtitle-2 font-body p-2"
+              [innerHTML]="t('pasteInfoText')"
+            >
+            </span>
+          </gq-info-icon>
+        </span>
+      </div>
     </div>
     <hr class="opacity-[12%] mt-4" />
   </div>
