@@ -7,15 +7,15 @@
 
 ![@nrwl/workspace: 12.4.0](https://img.shields.io/badge/%40nrwl%2Fworkspace-12.4.0-brightgreen)
 ![typescript: 4.2.4](https://img.shields.io/badge/typescript-4.2.4-brightgreen)
-![@angular/core: 12.0.5](https://img.shields.io/badge/%40angular%2Fcore-12.0.5-brightgreen)
-![@angular/cli: 12.0.5](https://img.shields.io/badge/%40angular%2Fcli-12.0.5-brightgreen)
-![@angular/cdk: 12.0.5](https://img.shields.io/badge/%40angular%2Fcdk-12.0.5-brightgreen)
-![@angular/material: 12.0.5](https://img.shields.io/badge/%40angular%2Fmaterial-12.0.5-brightgreen)
+![@angular/core: 12.1.0](https://img.shields.io/badge/%40angular%2Fcore-12.1.0-brightgreen)
+![@angular/cli: 12.1.0](https://img.shields.io/badge/%40angular%2Fcli-12.1.0-brightgreen)
+![@angular/cdk: 12.1.0](https://img.shields.io/badge/%40angular%2Fcdk-12.1.0-brightgreen)
+![@angular/material: 12.1.0](https://img.shields.io/badge/%40angular%2Fmaterial-12.1.0-brightgreen)
 ![@ngrx/store: 12.1.0](https://img.shields.io/badge/%40ngrx%2Fstore-12.1.0-brightgreen)
-![jest: 27.0.4](https://img.shields.io/badge/jest-27.0.4-brightgreen)
+![jest: 27.0.5](https://img.shields.io/badge/jest-27.0.5-brightgreen)
 ![cypress: 7.3.0](https://img.shields.io/badge/cypress-7.3.0-brightgreen)
 ![prettier: 2.3.1](https://img.shields.io/badge/prettier-2.3.1-brightgreen)
-![tailwindcss: 2.2.2](https://img.shields.io/badge/tailwindcss-2.2.2-brightgreen)
+![tailwindcss: 2.2.4](https://img.shields.io/badge/tailwindcss-2.2.4-brightgreen)
 
 <!-- AUTO-GENERATED-CONTENT:END -->
 
