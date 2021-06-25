@@ -5,7 +5,7 @@
     (mouseenter)="iconEnter(infoMenuTrigger)"
     (mouseleave)="iconLeave(infoMenuTrigger)"
   >
-    info
+    {{ showHelpIcon ? 'help_outline' : 'info' }}
   </mat-icon>
   <mat-menu
     #infoMenu="matMenu"

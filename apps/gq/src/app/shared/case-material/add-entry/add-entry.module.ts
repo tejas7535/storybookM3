@@ -11,6 +11,7 @@ import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared';
 import { AutocompleteInputModule } from '../../autocomplete-input/autocomplete-input.module';
+import { InfoIconModule } from '../../info-icon/info-icon.module';
 import { AddEntryComponent } from './add-entry.component';
 
 @NgModule({
@@ -25,6 +26,7 @@ import { AddEntryComponent } from './add-entry.component';
     SharedModule,
     ReactiveFormsModule,
     ReactiveComponentModule,
+    InfoIconModule,
   ],
   exports: [AddEntryComponent],
 })
