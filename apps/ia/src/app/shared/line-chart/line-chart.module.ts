@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { LineChartComponent } from './line-chart.component';
@@ -15,6 +16,7 @@ import { LineChartComponent } from './line-chart.component';
     NgxEchartsModule.forRoot({
       echarts: () => import('echarts'),
     }),
+    LoadingSpinnerModule,
   ],
   exports: [LineChartComponent],
 })

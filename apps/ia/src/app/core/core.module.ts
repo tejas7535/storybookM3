@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
@@ -18,6 +17,7 @@ import {
 } from '@schaeffler/azure-auth';
 import { HeaderModule } from '@schaeffler/header';
 import { HttpModule } from '@schaeffler/http';
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { environment } from '../../environments/environment';
@@ -63,7 +63,6 @@ const azureConfig = new AzureConfig(
 
     // Auth
     SharedAzureAuthModule.forRoot(azureConfig),
-    MatProgressSpinnerModule,
 
     // http
     HttpModule.forRoot({ environment }),
@@ -76,6 +75,9 @@ const azureConfig = new AzureConfig(
 
     // Monitoring
     ApplicationInsightsModule.forRoot(environment.applicationInsights),
+
+    // Loading Spinner
+    LoadingSpinnerModule,
   ],
   exports: [AppComponent],
 })
