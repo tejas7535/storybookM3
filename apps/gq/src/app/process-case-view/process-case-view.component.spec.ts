@@ -25,6 +25,7 @@ import { ExportToExcelButtonComponent } from '../shared/custom-status-bar/export
 import { UploadSelectionToSapButtonComponent } from '../shared/custom-status-bar/upload-selection-to-sap-button/upload-selection-to-sap-button.component';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';
 import { AddMaterialDialogComponent } from './add-material-dialog/add-material-dialog.component';
+import { CalculationInProgressComponent } from './calculation-in-progress/calculation-in-progress.component';
 import { HeaderContentModule } from './header-content/header-content.module';
 import { ProcessCaseViewRoutingModule } from './process-case-view-routing.module';
 import { ProcessCaseViewComponent } from './process-case-view.component';
@@ -67,6 +68,7 @@ describe('ProcessCaseViewComponent', () => {
       ReactiveComponentModule,
       MatSnackBarModule,
     ],
+    declarations: [CalculationInProgressComponent],
     providers: [
       provideMockStore({
         initialState: {

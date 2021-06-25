@@ -17,5 +17,11 @@
     "text": "Do you really want to upload these entries ({{variable}}) from this case ?",
     "deleteButton": "upload",
     "cancelButton": "cancel"
+  },
+  "calcInProgress": {
+    "header": "We are currently creating your case ({{variable}} positions)...",
+    "subtitle1": "It might take a bit longer to pull all the data and make the case become available.",
+    "subtitle2": "Please be aware that process time can vary depending on how many positions are included.",
+    "refreshText": "Please refresh the page to check if your case is available"
   }
 }

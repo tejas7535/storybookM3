@@ -1,0 +1,14 @@
+<div
+  class="flex flex-col items-center justify-center mt-6"
+  *transloco="let t; read: 'transactionView.savingInProgress'"
+>
+  <div class="cursor-pointer" (click)="reload()">
+    <img [src]="imagePath" />
+  </div>
+  <h4 class="mt-12">
+    {{ t('header') }}
+  </h4>
+  <div class="mt-6 text-center">
+    <span class="text-subtitle-1 block">{{ t('subtitle1') }}</span>
+  </div>
+</div>

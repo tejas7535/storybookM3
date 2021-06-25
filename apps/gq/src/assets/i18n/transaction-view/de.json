@@ -38,5 +38,9 @@
     },
     "x-axis": "Menge",
     "y-axis": "Marge %"
+  },
+  "savingInProgress": {
+    "header": "Die GQ-Preisdetails werden aktuell kalkuliert...",
+    "subtitle1": "Bitte aktualisieren Sie diese Seite, um zu prüfen, ob sie verfügbar sind."
   }
 }
