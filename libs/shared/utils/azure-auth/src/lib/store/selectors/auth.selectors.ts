@@ -32,6 +32,25 @@ export const getRoles = createSelector(
   (state) => (state.accountInfo?.idTokenClaims as any)?.roles || []
 );
 
+export const hasIdTokenRole = (role: string) =>
+  createSelector(getRoles, (idTokenRoles): boolean =>
+    idTokenRoles?.includes(role)
+  );
+
+export const hasIdTokenRoles = (roles: string[]) =>
+  createSelector(getRoles, (idTokenRoles): boolean =>
+    idTokenRoles && roles
+      ? !roles.map((role) => idTokenRoles.includes(role)).includes(false)
+      : false
+  );
+
+export const hasAnyIdTokenRole = (roles: string[]) =>
+  createSelector(getRoles, (idTokenRoles): boolean =>
+    idTokenRoles && roles
+      ? roles.map((role) => idTokenRoles.includes(role)).includes(true)
+      : false
+  );
+
 export const getProfileImage = createSelector(
   getAuthState,
   (state) => state.profileImage.url
