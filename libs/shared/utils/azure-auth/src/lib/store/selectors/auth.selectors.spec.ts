@@ -90,23 +90,161 @@ describe('Azure Auth selectors', () => {
     ).toBeFalsy();
   });
 
-  test('should return roles', () => {
-    const accountInfo = {
-      name: 'Test',
-      idTokenClaims: {
-        roles: ['User'],
-      },
-    } as unknown as AccountInfo;
+  describe('role selectors', () => {
+    let idTokenRoles: string[];
 
-    expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([
-      'User',
-    ]);
-  });
+    beforeEach(() => {
+      idTokenRoles = undefined;
+    });
+    describe('getRoles', () => {
+      test('should return roles', () => {
+        const accountInfo = {
+          name: 'Test',
+          idTokenClaims: {
+            roles: ['User'],
+          },
+        } as unknown as AccountInfo;
 
-  test('should return empty array if no roles are present', () => {
-    const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+        expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([
+          'User',
+        ]);
+      });
 
-    expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual([]);
+      test('should return empty array if no roles are present', () => {
+        const accountInfo = { name: 'Test' } as unknown as AccountInfo;
+
+        expect(fromAuthSelectors.getRoles.projector({ accountInfo })).toEqual(
+          []
+        );
+      });
+    });
+
+    describe('hasIdTokenRole', () => {
+      test('should return true if given role exists', () => {
+        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors.hasIdTokenRole('BaseAccess').projector(idTokenRoles)
+        ).toBeTruthy();
+      });
+
+      test('should return false if given role does not exists', () => {
+        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors.hasIdTokenRole('User').projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if given role is undefined', () => {
+        idTokenRoles = ['BaseAccess', 'Foo', 'Bar'];
+
+        expect(
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          fromAuthSelectors.hasIdTokenRole(undefined).projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if idTokenRoles are undefined', () => {
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        idTokenRoles = undefined;
+
+        expect(
+          fromAuthSelectors.hasIdTokenRole('User').projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+    });
+    describe('hasIdTokenRoles', () => {
+      test('should return true if given roles exists', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors
+            .hasIdTokenRoles(['BaseAccess', 'User'])
+            .projector(idTokenRoles)
+        ).toBeTruthy();
+      });
+
+      test('should return false if given roles do not exist', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors
+            .hasIdTokenRoles(['Admin', 'SuperUser'])
+            .projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if not all given roles exist', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors
+            .hasIdTokenRoles(['User', 'Admin'])
+            .projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if given roles array is undefined', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          fromAuthSelectors.hasIdTokenRoles(undefined).projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if idTokenRoles are undefined', () => {
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        idTokenRoles = undefined;
+
+        expect(
+          fromAuthSelectors.hasIdTokenRoles(['User']).projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+    });
+
+    describe('hasAnyIdTokenRole', () => {
+      test('should return true if any of given roles exists', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors
+            .hasAnyIdTokenRole(['BaseAccess', 'User'])
+            .projector(idTokenRoles)
+        ).toBeTruthy();
+      });
+
+      test('should return false if no of given roles exist', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          fromAuthSelectors
+            .hasAnyIdTokenRole(['Admin', 'SuperUser'])
+            .projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if given roles are undefined', () => {
+        idTokenRoles = ['BaseAccess', 'User', 'Foo', 'Bar'];
+
+        expect(
+          // eslint-disable-next-line unicorn/no-useless-undefined
+          fromAuthSelectors.hasAnyIdTokenRole(undefined).projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+
+      test('should return false if idTokenRoles are undefined', () => {
+        // eslint-disable-next-line unicorn/no-useless-undefined
+        idTokenRoles = undefined;
+
+        expect(
+          fromAuthSelectors
+            .hasAnyIdTokenRole(['User', 'Foo', 'Bar'])
+            .projector(idTokenRoles)
+        ).toBeFalsy();
+      });
+    });
   });
 
   test('should return profile image url', () => {
