@@ -20,4 +20,5 @@ export class Quotation {
   public division: string;
   public requestedDelDate: string;
   public validTo: string;
+  public calculationInProgress: boolean;
 }

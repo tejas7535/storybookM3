@@ -38,5 +38,9 @@
     },
     "x-axis": "Quantity",
     "y-axis": "GPI %"
+  },
+  "savingInProgress": {
+    "header": "The GQ Pricing Details are currently being calculated.",
+    "subtitle1": "Please refresh this page to check if they are available."
   }
 }

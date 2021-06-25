@@ -8,12 +8,23 @@
   <gq-case-header [breadcrumbs]="breadcrumbs" [showCustomerHeader]="true">
     <gq-header-content [quotation]="quotation$ | ngrxPush"></gq-header-content>
   </gq-case-header>
-  <gq-quotation-details-table
-    *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
-    [quotation]="quotation$ | ngrxPush"
-  ></gq-quotation-details-table>
-  <ng-template #updateLoading>
-    <schaeffler-loading-spinner></schaeffler-loading-spinner>
+  <div
+    class="h-full"
+    *ngIf="!(quotation$ | ngrxPush).calculationInProgress; else calcInProgress"
+  >
+    <gq-quotation-details-table
+      *ngIf="!(isUpdateLoading$ | ngrxPush); else updateLoading"
+      [quotation]="quotation$ | ngrxPush"
+    ></gq-quotation-details-table>
+    <ng-template #updateLoading>
+      <schaeffler-loading-spinner></schaeffler-loading-spinner>
+    </ng-template>
+  </div>
+  <ng-template #calcInProgress>
+    <gq-calculation-in-progress
+      [amountDetails]="(quotation$ | ngrxPush).quotationDetails.length"
+    >
+    </gq-calculation-in-progress>
   </ng-template>
 </div>
 <ng-template #loading>
