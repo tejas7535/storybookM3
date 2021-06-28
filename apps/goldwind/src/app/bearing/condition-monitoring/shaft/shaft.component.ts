@@ -3,10 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { ShaftState } from '../../../core/store/reducers/shaft/shaft.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getShaftLatestGraphData,
@@ -35,14 +34,12 @@ export class ShaftComponent implements OnInit {
     },
   };
 
-  public constructor(private readonly store: Store<ShaftState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.shaftLatestGraphData$ = this.store.pipe(
-      select(getShaftLatestGraphData)
-    );
+    this.shaftLatestGraphData$ = this.store.select(getShaftLatestGraphData);
 
-    this.shaftTimeStamp$ = this.store.pipe(select(getShaftLatestTimeStamp));
-    this.loading$ = this.store.pipe(select(getShaftLatestLoading), take(2));
+    this.shaftTimeStamp$ = this.store.select(getShaftLatestTimeStamp);
+    this.loading$ = this.store.select(getShaftLatestLoading).pipe(take(2));
   }
 }

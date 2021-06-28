@@ -14,7 +14,7 @@ import {
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
@@ -58,7 +58,6 @@ import {
   validateAddMaterialsFailure,
   validateAddMaterialsSuccess,
 } from '../../actions';
-import * as fromRouter from '../../reducers';
 import {
   AddQuotationDetailsRequest,
   QuotationIdentifier,
@@ -80,10 +79,10 @@ export class ProcessCaseEffect {
    * Get possible values for a form field
    *
    */
-  customerDetails$ = createEffect(() =>
-    this.actions$.pipe(
+  customerDetails$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadCustomer),
-      withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
+      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.searchService.getCustomer(quotationIdentifier).pipe(
@@ -97,17 +96,17 @@ export class ProcessCaseEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Get possible values for a form field
    *
    */
-  quotationDetails$ = createEffect(() =>
-    this.actions$.pipe(
+  quotationDetails$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadQuotation),
-      withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
+      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
       map(([_action, quotationIdentifier]) => quotationIdentifier),
       mergeMap((quotationIdentifier: QuotationIdentifier) =>
         this.quotationService.getQuotation(quotationIdentifier.gqId).pipe(
@@ -124,30 +123,30 @@ export class ProcessCaseEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  triggerDataLoad$ = createEffect(() =>
-    this.actions$.pipe(
+  triggerDataLoad$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(selectQuotation),
       mergeMap(() => {
         return [loadQuotation(), loadCustomer()];
       })
-    )
-  );
+    );
+  });
 
-  loadFromUrl$ = createEffect(() =>
-    this.actions$.pipe(
+  loadFromUrl$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
       filter(
         (routerState) =>
-          routerState.url.indexOf(AppRoutePath.ProcessCaseViewPath) >= 0 ||
-          routerState.url.indexOf(AppRoutePath.CustomerViewPath) >= 0 ||
-          routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0
+          routerState.url.includes(AppRoutePath.ProcessCaseViewPath) ||
+          routerState.url.includes(AppRoutePath.CustomerViewPath) ||
+          routerState.url.includes(AppRoutePath.DetailViewPath)
       ),
       mergeMap((routerState) => {
-        if (routerState.url.indexOf(AppRoutePath.DetailViewPath) >= 0) {
+        if (routerState.url.includes(AppRoutePath.DetailViewPath)) {
           return [
             loadSelectedQuotationDetailFromUrl({
               gqPositionId: routerState.queryParams['gqPositionId'],
@@ -158,11 +157,11 @@ export class ProcessCaseEffect {
 
         return [loadQuotationFromUrl({ queryParams: routerState.queryParams })];
       })
-    )
-  );
+    );
+  });
 
-  loadSelectedQuotationDetailFromUrl$ = createEffect(() =>
-    this.actions$.pipe(
+  loadSelectedQuotationDetailFromUrl$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadSelectedQuotationDetailFromUrl),
       map((action: any) => action.gqPositionId),
       filter((gqPositionId: string) => {
@@ -177,11 +176,11 @@ export class ProcessCaseEffect {
           gqPositionId,
         })
       )
-    )
-  );
+    );
+  });
 
-  loadQuotationFromUrl$ = createEffect(() =>
-    this.actions$.pipe(
+  loadQuotationFromUrl$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadQuotationFromUrl),
       map((action: any) => action.queryParams),
       map((queryParams) =>
@@ -194,7 +193,7 @@ export class ProcessCaseEffect {
 
         return quotationIdentifier !== undefined;
       }),
-      withLatestFrom(this.store.pipe(select(getSelectedQuotationIdentifier))),
+      withLatestFrom(this.store.select(getSelectedQuotationIdentifier)),
       filter(
         ([identifierFromRoute, identifierCurrent]) =>
           !ProcessCaseEffect.checkEqualityOfIdentifier(
@@ -206,16 +205,16 @@ export class ProcessCaseEffect {
       map((quotationIdentifier: QuotationIdentifier) =>
         selectQuotation({ quotationIdentifier })
       )
-    )
-  );
+    );
+  });
 
   /**
    * Get Validation for materialNumbers
    */
-  validate$ = createEffect(() =>
-    this.actions$.pipe(
+  validate$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(pasteRowDataItemsToAddMaterial.type),
-      withLatestFrom(this.store.pipe(select(getAddMaterialRowData))),
+      withLatestFrom(this.store.select(getAddMaterialRowData)),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
         this.materialService.validateMaterials(tableData).pipe(
@@ -227,13 +226,13 @@ export class ProcessCaseEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  addMaterials$ = createEffect(() =>
-    this.actions$.pipe(
+  addMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(addMaterials.type),
-      withLatestFrom(this.store.pipe(select(getAddQuotationDetailsRequest))),
+      withLatestFrom(this.store.select(getAddQuotationDetailsRequest)),
       map(
         ([_action, addQuotationDetailsRequest]) => addQuotationDetailsRequest
       ),
@@ -256,13 +255,13 @@ export class ProcessCaseEffect {
             )
           )
       )
-    )
-  );
+    );
+  });
 
-  removePositions$ = createEffect(() =>
-    this.actions$.pipe(
+  removePositions$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(removePositions.type),
-      withLatestFrom(this.store.pipe(select(getRemoveQuotationDetailsRequest))),
+      withLatestFrom(this.store.select(getRemoveQuotationDetailsRequest)),
       map(([_action, qgPositionIds]) => qgPositionIds),
       mergeMap((qgPositionIds: string[]) =>
         this.quotationDetailsService.removeMaterial(qgPositionIds).pipe(
@@ -281,11 +280,11 @@ export class ProcessCaseEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  updateMaterials$ = createEffect(() =>
-    this.actions$.pipe(
+  updateMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(updateQuotationDetails.type),
       map((action: any) => action.updateQuotationDetailList),
       mergeMap((updateQuotationDetailList: UpdateQuotationDetail[]) =>
@@ -308,11 +307,11 @@ export class ProcessCaseEffect {
             )
           )
       )
-    )
-  );
+    );
+  });
 
-  uploadSelectionToSap$ = createEffect(() =>
-    this.actions$.pipe(
+  uploadSelectionToSap$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(uploadSelectionToSap),
       map((action) => action.gqPositionIds),
       mergeMap((gqPositionIds: string[]) =>
@@ -329,15 +328,15 @@ export class ProcessCaseEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
     private readonly quotationDetailsService: QuotationDetailsService,
     private readonly quotationService: QuotationService,
-    private readonly store: Store<fromRouter.AppState>,
+    private readonly store: Store,
     private readonly router: Router,
     private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService

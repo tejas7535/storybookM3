@@ -10,9 +10,8 @@ import {
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { AppState } from '../../../core/store/reducers';
 import {
   BurdeningType,
   Display,
@@ -52,12 +51,10 @@ export class InputComponent implements OnInit {
 
   public inputCategories: InputCategory[] = [];
 
-  public constructor(private readonly store: Store<AppState>) {
-    this.predictionRequest = this.store.pipe(
-      select(fromStore.getPredictionRequest)
-    );
-    this.burdeningTypes = this.store.pipe(select(fromStore.getBurdeningTypes));
-    this.display = this.store.pipe(select(fromStore.getDisplay));
+  public constructor(private readonly store: Store) {
+    this.predictionRequest = this.store.select(fromStore.getPredictionRequest);
+    this.burdeningTypes = this.store.select(fromStore.getBurdeningTypes);
+    this.display = this.store.select(fromStore.getDisplay);
 
     this.createControls();
     this.inputCategories = [

@@ -8,7 +8,6 @@ import {
   addMaterials,
   getAddMaterialRowDataValid,
 } from '../../../../core/store';
-import { ProcessCaseState } from '../../../../core/store/reducers/process-case/process-case.reducer';
 
 @Component({
   selector: 'gq-create-case-button',
@@ -17,7 +16,7 @@ import { ProcessCaseState } from '../../../../core/store/reducers/process-case/p
 export class AddMaterialButtonComponent implements OnInit {
   createCaseEnabled$: Observable<boolean>;
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.createCaseEnabled$ = this.store.select(getAddMaterialRowDataValid);

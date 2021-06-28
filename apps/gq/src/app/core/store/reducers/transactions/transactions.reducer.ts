@@ -25,7 +25,7 @@ export const transactionsReducer = createReducer(
   initialState,
   on(
     loadComparableTransactions,
-    (state: TransactionsState, { gqPositionId }) => ({
+    (state: TransactionsState, { gqPositionId }): TransactionsState => ({
       ...state,
       gqPositionId,
       transactionsLoading: true,
@@ -33,7 +33,7 @@ export const transactionsReducer = createReducer(
   ),
   on(
     loadComparableTransactionsSuccess,
-    (state: TransactionsState, { transactions }) => ({
+    (state: TransactionsState, { transactions }): TransactionsState => ({
       ...state,
       transactions,
       errorMessage: undefined,
@@ -42,7 +42,7 @@ export const transactionsReducer = createReducer(
   ),
   on(
     loadComparableTransactionsFailure,
-    (state: TransactionsState, { errorMessage }) => ({
+    (state: TransactionsState, { errorMessage }): TransactionsState => ({
       ...state,
       errorMessage,
       transactions: [],

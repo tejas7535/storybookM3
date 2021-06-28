@@ -7,14 +7,13 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { translate, TranslocoService } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 import { Papa } from 'ngx-papaparse';
 
 import { getBannerOpen, openBanner } from '@schaeffler/banner';
 
 import { RouteNames } from '../../../app-routing.enum';
-import { AppState } from '../../../core/store/reducers';
 import { changeFavicon } from '../../../shared/change-favicon';
 import {
   CHART_OPTIONS_HAIGH,
@@ -58,7 +57,7 @@ export class PredictionComponent implements OnInit {
   public constructor(
     private readonly dialog: MatDialog,
     private readonly papa: Papa,
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly breadcrumbsService: BreadcrumbsService,
     private readonly decimalPipe: DecimalPipe,
     private readonly transloco: TranslocoService
@@ -67,39 +66,35 @@ export class PredictionComponent implements OnInit {
   public ngOnInit(): void {
     changeFavicon('assets/favicons/ltp.ico');
     this.breadcrumbsService.updateBreadcrumb(RouteNames.LifetimePredictor);
-    this.predictionResult = this.store.pipe(
-      select(fromStore.getPredictionResult)
-    );
-    this.bannerIsOpen = this.store.pipe(select(getBannerOpen));
-    this.store
-      .pipe(select(fromStore.getDisplay))
-      .subscribe((display: Display) => {
-        this.selectedChartType = display.chartType;
-        this.chartOptions =
-          display.chartType === ChartType.Woehler
-            ? CHART_OPTIONS_WOEHLER
-            : CHART_OPTIONS_HAIGH;
-        this.chartSettings =
-          display.chartType === ChartType.Woehler
-            ? CHART_SETTINGS_WOEHLER
-            : CHART_SETTINGS_HAIGH;
-        (this.chartOptions.xAxis as any).name = translate(
-          (this.chartOptions.xAxis as any).name
-        );
-        (this.chartOptions.yAxis as any).name = translate(
-          (this.chartOptions.yAxis as any).name
-        );
-        if (display.chartType === ChartType.Woehler) {
-          this.chartOptions = {
-            ...this.chartOptions,
-            tooltip: {
-              trigger: 'item',
-              show: true,
-              formatter: this.customizeTooltip,
-            },
-          };
-        }
-      });
+    this.predictionResult = this.store.select(fromStore.getPredictionResult);
+    this.bannerIsOpen = this.store.select(getBannerOpen);
+    this.store.select(fromStore.getDisplay).subscribe((display: Display) => {
+      this.selectedChartType = display.chartType;
+      this.chartOptions =
+        display.chartType === ChartType.Woehler
+          ? CHART_OPTIONS_WOEHLER
+          : CHART_OPTIONS_HAIGH;
+      this.chartSettings =
+        display.chartType === ChartType.Woehler
+          ? CHART_SETTINGS_WOEHLER
+          : CHART_SETTINGS_HAIGH;
+      (this.chartOptions.xAxis as any).name = translate(
+        (this.chartOptions.xAxis as any).name
+      );
+      (this.chartOptions.yAxis as any).name = translate(
+        (this.chartOptions.yAxis as any).name
+      );
+      if (display.chartType === ChartType.Woehler) {
+        this.chartOptions = {
+          ...this.chartOptions,
+          tooltip: {
+            trigger: 'item',
+            show: true,
+            formatter: this.customizeTooltip,
+          },
+        };
+      }
+    });
     this.predictionResult.subscribe((res: PredictionResultParsed) => {
       this.legendGraphs = this.chartSettings.sources
         .filter(
@@ -112,24 +107,25 @@ export class PredictionComponent implements OnInit {
       return res.data;
     });
 
-    this.mergeData$ = this.store.pipe(
-      select(fromStore.getPredictionResultGraphData),
-      map((graphData: EChartsOption) => ({
-        ...this.chartOptions,
-        xAxis: {
-          ...this.chartOptions.xAxis,
-          ...graphData.xAxis,
-        },
-        yAxis: {
-          ...this.chartOptions.yAxis,
-          ...graphData.yAxis,
-        },
-        dataset: {
-          ...(this.chartOptions as any).dataset,
-          ...(graphData as any).dataset,
-        },
-      }))
-    );
+    this.mergeData$ = this.store
+      .select(fromStore.getPredictionResultGraphData)
+      .pipe(
+        map((graphData: EChartsOption) => ({
+          ...this.chartOptions,
+          xAxis: {
+            ...this.chartOptions.xAxis,
+            ...graphData.xAxis,
+          },
+          yAxis: {
+            ...this.chartOptions.yAxis,
+            ...graphData.yAxis,
+          },
+          dataset: {
+            ...(this.chartOptions as any).dataset,
+            ...(graphData as any).dataset,
+          },
+        }))
+      );
 
     registerLocaleData(localeDe, 'de');
 

@@ -52,33 +52,51 @@ export const initialState: FilterState = {
 export const filterReducer = createReducer(
   initialState,
   // initial filters
-  on(loadInitialFilters, (state: FilterState) => ({
-    ...state,
-    loading: true,
-    errorMessage: initialState.errorMessage,
-  })),
-  on(loadInitialFiltersSuccess, (state: FilterState, { filters }) => ({
-    ...state,
-    ...filters,
-    loading: false,
-  })),
-  on(loadInitialFiltersFailure, (state: FilterState, { errorMessage }) => ({
-    ...state,
-    errorMessage,
-    loading: false,
-  })),
-  on(filterSelected, (state: FilterState, { filter }) => ({
-    ...state,
-    selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
-  })),
-  on(timeRangeSelected, (state: FilterState, { timeRange }) => ({
-    ...state,
-    selectedTimeRange: timeRange,
-  })),
-  on(timePeriodSelected, (state: FilterState, { timePeriod }) => ({
-    ...state,
-    selectedTimePeriod: timePeriod,
-  }))
+  on(
+    loadInitialFilters,
+    (state: FilterState): FilterState => ({
+      ...state,
+      loading: true,
+      errorMessage: initialState.errorMessage,
+    })
+  ),
+  on(
+    loadInitialFiltersSuccess,
+    (state: FilterState, { filters }): FilterState => ({
+      ...state,
+      ...filters,
+      loading: false,
+    })
+  ),
+  on(
+    loadInitialFiltersFailure,
+    (state: FilterState, { errorMessage }): FilterState => ({
+      ...state,
+      errorMessage,
+      loading: false,
+    })
+  ),
+  on(
+    filterSelected,
+    (state: FilterState, { filter }): FilterState => ({
+      ...state,
+      selectedFilters: filterAdapter.upsertOne(filter, state.selectedFilters),
+    })
+  ),
+  on(
+    timeRangeSelected,
+    (state: FilterState, { timeRange }): FilterState => ({
+      ...state,
+      selectedTimeRange: timeRange,
+    })
+  ),
+  on(
+    timePeriodSelected,
+    (state: FilterState, { timePeriod }): FilterState => ({
+      ...state,
+      selectedTimePeriod: timePeriod,
+    })
+  )
 );
 
 const { selectAll } = filterAdapter.getSelectors();

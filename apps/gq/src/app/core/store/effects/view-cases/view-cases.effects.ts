@@ -29,22 +29,22 @@ export class ViewCasesEffect {
   /**
    * Load Cases if case view patch
    */
-  getCases$ = createEffect(() =>
-    this.actions$.pipe(
+  getCases$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
-      filter(
-        (routerState) => routerState.url.indexOf(AppRoutePath.CaseViewPath) >= 0
+      filter((routerState) =>
+        routerState.url.includes(AppRoutePath.CaseViewPath)
       ),
       map(loadCases)
-    )
-  );
+    );
+  });
 
   /**
    * Get all cases for the authenticated user
    */
-  loadCases$ = createEffect(() =>
-    this.actions$.pipe(
+  loadCases$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadCases.type, deleteCasesSuccess.type),
       mergeMap(() =>
         this.quotationService.getCases().pipe(
@@ -54,14 +54,14 @@ export class ViewCasesEffect {
           catchError((errorMessage) => of(loadCasesFailure({ errorMessage })))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Delete selected case for the authenticated user
    */
-  deleteCase$ = createEffect(() =>
-    this.actions$.pipe(
+  deleteCase$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(deleteCase.type),
       mergeMap((action: any) =>
         this.quotationService.deleteCases(action.gqIds).pipe(
@@ -75,8 +75,8 @@ export class ViewCasesEffect {
           catchError((errorMessage) => of(deleteCasesFailure({ errorMessage })))
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,

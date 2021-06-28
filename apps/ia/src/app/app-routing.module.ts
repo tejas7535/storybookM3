@@ -14,19 +14,19 @@ export const appRoutePaths: Routes = [
       },
       {
         path: AppRoutePath.OverviewPath,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./overview/overview.module').then((m) => m.OverviewModule),
       },
       {
         path: AppRoutePath.OrganizationalView,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./organizational-view/organizational-view.module').then(
             (m) => m.OrganizationalViewModule
           ),
       },
       {
         path: AppRoutePath.LossOfSkillPath,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./loss-of-skills/loss-of-skills.module').then(
             (m) => m.LossOfSkillsModule
           ),
@@ -35,12 +35,12 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.Forbidden,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

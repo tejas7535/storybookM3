@@ -3,9 +3,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { AppState } from '../../../../core/store';
 import { Material } from '../../models';
 import {
   getHeatTreatmentList,
@@ -28,17 +27,21 @@ export class MaterialComponent implements OnInit, OnDestroy {
   public materialOptions: Observable<string[]>;
   public heatTreatmentOptions: Observable<Material[]>;
 
-  constructor(private readonly store: Store<AppState>) {
-    this.materialOptions = this.store.pipe(select(getMaterialList));
-    this.heatTreatmentOptions = this.store.pipe(select(getHeatTreatmentList));
+  constructor(private readonly store: Store) {
+    this.materialOptions = this.store.select(getMaterialList);
+    this.heatTreatmentOptions = this.store.select(getHeatTreatmentList);
 
     this.heatTreatmentOptions.subscribe((heatTreatmentOptions) => {
       const materialFormControls = this.materialForm.controls;
-      heatTreatmentOptions.filter(
+
+      const heatTreatmentOptionsEnabled = heatTreatmentOptions.filter(
         (heatTreatmentOption) => !heatTreatmentOption.disabled
-      ).length > 0
-        ? materialFormControls.heatTreatmentControl.enable()
-        : materialFormControls.heatTreatmentControl.disable();
+      );
+      if (heatTreatmentOptionsEnabled.length > 0) {
+        materialFormControls.heatTreatmentControl.enable();
+      } else {
+        materialFormControls.heatTreatmentControl.disable();
+      }
     });
   }
 

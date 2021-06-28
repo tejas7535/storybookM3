@@ -26,34 +26,52 @@ export const initialState: ViewCasesState = {
 
 export const viewCasesReducer = createReducer(
   initialState,
-  on(loadCases, (state: ViewCasesState) => ({
-    ...state,
-    quotationsLoading: true,
-  })),
-  on(loadCasesFailure, (state: ViewCasesState, { errorMessage }) => ({
-    ...state,
-    errorMessage,
-    quotationsLoading: false,
-  })),
-  on(loadCasesSuccess, (state: ViewCasesState, { quotations }) => ({
-    ...state,
-    quotations,
-    quotationsLoading: false,
-  })),
-  on(deleteCase, (state: ViewCasesState) => ({
-    ...state,
-    deleteLoading: true,
-  })),
-  on(deleteCasesSuccess, (state: ViewCasesState) => ({
-    ...state,
-    deleteLoading: false,
-    quotationsLoading: true,
-  })),
-  on(deleteCasesFailure, (state: ViewCasesState, { errorMessage }) => ({
-    ...state,
-    errorMessage,
-    deleteLoading: false,
-  }))
+  on(
+    loadCases,
+    (state: ViewCasesState): ViewCasesState => ({
+      ...state,
+      quotationsLoading: true,
+    })
+  ),
+  on(
+    loadCasesFailure,
+    (state: ViewCasesState, { errorMessage }): ViewCasesState => ({
+      ...state,
+      errorMessage,
+      quotationsLoading: false,
+    })
+  ),
+  on(
+    loadCasesSuccess,
+    (state: ViewCasesState, { quotations }): ViewCasesState => ({
+      ...state,
+      quotations,
+      quotationsLoading: false,
+    })
+  ),
+  on(
+    deleteCase,
+    (state: ViewCasesState): ViewCasesState => ({
+      ...state,
+      deleteLoading: true,
+    })
+  ),
+  on(
+    deleteCasesSuccess,
+    (state: ViewCasesState): ViewCasesState => ({
+      ...state,
+      deleteLoading: false,
+      quotationsLoading: true,
+    })
+  ),
+  on(
+    deleteCasesFailure,
+    (state: ViewCasesState, { errorMessage }): ViewCasesState => ({
+      ...state,
+      errorMessage,
+      deleteLoading: false,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

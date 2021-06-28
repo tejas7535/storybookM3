@@ -17,14 +17,13 @@ import { Observable, Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
 import {
   setGreaseDisplay,
   setGreaseInterval,
 } from '../../core/store/actions/grease-status/grease-status.actions';
-import { GreaseStatusState } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import {
   GreaseControl,
   GreaseDisplay,
@@ -161,18 +160,18 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
   dataSource = new MatTreeFlatDataSource(this.treeControl, this.treeFlattener);
   /* eslint-enable @typescript-eslint/member-ordering */
 
-  public constructor(private readonly store: Store<GreaseStatusState>) {
+  public constructor(private readonly store: Store) {
     this.dataSource.data = TREE_DATA;
   }
 
   ngOnInit(): void {
-    this.greaseStatusGraphData$ = this.store.pipe(select(getAnalysisGraphData));
-    this.interval$ = this.store.pipe(select(getGreaseInterval));
-    this.loading$ = this.store.pipe(select(getGreaseStatusLoading));
+    this.greaseStatusGraphData$ = this.store.select(getAnalysisGraphData);
+    this.interval$ = this.store.select(getGreaseInterval);
+    this.loading$ = this.store.select(getGreaseStatusLoading);
 
     this.subscription.add(
       this.store
-        .pipe(select(getGreaseDisplay))
+        .select(getGreaseDisplay)
         .subscribe((greaseDisplay: GreaseDisplay) => {
           this.displayForm.markAsPristine();
           this.displayForm.setValue(greaseDisplay);

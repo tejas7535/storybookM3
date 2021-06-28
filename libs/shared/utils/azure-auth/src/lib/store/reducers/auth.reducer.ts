@@ -29,34 +29,46 @@ export const initialState: AuthState = {
 
 export const authReducer = createReducer(
   initialState,
-  on(logout, () => initialState),
-  on(loginSuccess, (state, { accountInfo }) => ({
-    ...state,
-    accountInfo,
-  })),
-  on(loadProfileImage, (state) => ({
-    ...state,
-    profileImage: {
-      ...state.profileImage,
-      loading: true,
-    },
-  })),
-  on(loadProfileImageSuccess, (state, { url }) => ({
-    ...state,
-    profileImage: {
-      ...state.profileImage,
-      url,
-      loading: false,
-    },
-  })),
-  on(loadProfileImageFailure, (state, { errorMessage }) => ({
-    ...state,
-    profileImage: {
-      ...state.profileImage,
-      errorMessage,
-      loading: false,
-    },
-  }))
+  on(logout, (): AuthState => initialState),
+  on(
+    loginSuccess,
+    (state, { accountInfo }): AuthState => ({
+      ...state,
+      accountInfo,
+    })
+  ),
+  on(
+    loadProfileImage,
+    (state): AuthState => ({
+      ...state,
+      profileImage: {
+        ...state.profileImage,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadProfileImageSuccess,
+    (state, { url }): AuthState => ({
+      ...state,
+      profileImage: {
+        ...state.profileImage,
+        url,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadProfileImageFailure,
+    (state, { errorMessage }): AuthState => ({
+      ...state,
+      profileImage: {
+        ...state.profileImage,
+        errorMessage,
+        loading: false,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

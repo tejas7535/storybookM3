@@ -224,12 +224,12 @@
                   [value]="
                     !(predictionResult | ngrxPush).kpi?.slope
                       ? t('countNA')
-                      : (predictionResult | ngrxPush).kpi?.count == -1
+                      : (predictionResult | ngrxPush).kpi?.count === -1
                       ? '∞'
                       : (predictionResult | ngrxPush).kpi?.count
                   "
                   [description]="
-                    (predictionResult | ngrxPush).kpi?.count == -1
+                    (predictionResult | ngrxPush).kpi?.count === -1
                       ? 'prediction.kpi.survivor'
                       : 'prediction.kpi.count'
                   "

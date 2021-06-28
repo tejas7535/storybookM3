@@ -21,7 +21,7 @@ import {
   loadCasesFailure,
   loadCasesSuccess,
 } from '../../actions';
-import { ViewCasesEffect } from './view-cases.effect';
+import { ViewCasesEffect } from './view-cases.effects';
 
 jest.mock('@ngneat/transloco', () => ({
   ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),

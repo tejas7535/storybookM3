@@ -10,9 +10,8 @@ import {
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
-import { LossOfSkillsState } from '..';
 import {
   filterSelected,
   timeRangeSelected,
@@ -32,23 +31,23 @@ export class LossOfSkillsEffects implements OnInitEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly employeeService: EmployeeService,
-    private readonly store: Store<LossOfSkillsState>
+    private readonly store: Store
   ) {}
 
-  filterChange$ = createEffect(() =>
-    this.actions$.pipe(
+  filterChange$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected, triggerLoad),
-      withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
+      withLatestFrom(this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
         loadLostJobProfiles({ request }),
       ])
-    )
-  );
+    );
+  });
 
-  loadLostJobProfiles$ = createEffect(() =>
-    this.actions$.pipe(
+  loadLostJobProfiles$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadLostJobProfiles),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
@@ -61,8 +60,8 @@ export class LossOfSkillsEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   ngrxOnInitEffects(): Action {
     return triggerLoad();

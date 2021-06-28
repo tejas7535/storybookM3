@@ -2,9 +2,8 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { BearingState } from '../core/store/reducers/bearing/bearing.reducer';
 import { BearingMetadata } from '../core/store/reducers/bearing/models';
 import {
   getBearingLoading,
@@ -25,7 +24,7 @@ export class BearingComponent implements OnInit {
   bearing$: Observable<BearingMetadata>;
   loading$: Observable<boolean>;
 
-  public constructor(private readonly store: Store<BearingState>) {}
+  public constructor(private readonly store: Store) {}
 
   tabLinks: TabLinks[] = [
     {
@@ -43,8 +42,8 @@ export class BearingComponent implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.bearing$ = this.store.pipe(select(getBearingResult));
-    this.loading$ = this.store.pipe(select(getBearingLoading));
+    this.bearing$ = this.store.select(getBearingResult);
+    this.loading$ = this.store.select(getBearingLoading);
   }
 
   public trackByFn(index: number, _item: any): number {

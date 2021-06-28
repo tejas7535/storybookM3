@@ -24,7 +24,7 @@ export const bannerReducer = createReducer(
   initialState,
   on(
     BannerActions.openBanner,
-    (state, { text, buttonText, icon, truncateSize }) => ({
+    (state, { text, buttonText, icon, truncateSize }): BannerState => ({
       ...state,
       text,
       buttonText,
@@ -34,11 +34,14 @@ export const bannerReducer = createReducer(
       open: true,
     })
   ),
-  on(BannerActions.closeBanner, () => initialState),
-  on(BannerActions.toggleFullText, (state) => ({
-    ...state,
-    showFullText: !state.showFullText,
-  }))
+  on(BannerActions.closeBanner, (): BannerState => initialState),
+  on(
+    BannerActions.toggleFullText,
+    (state): BannerState => ({
+      ...state,
+      showFullText: !state.showFullText,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

@@ -10,12 +10,13 @@ export enum RoutePath {
 export const appRoutePaths: Routes = [
   {
     path: RoutePath.LegalPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./legal/legal.module').then((m) => m.LegalModule),
   },
   {
     path: `${RoutePath.HomePath}/:step/:id/:language/:separator/:head/:iframe`,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: async () =>
+      import('./home/home.module').then((m) => m.HomeModule),
   },
   {
     path: RoutePath.BasePath,
@@ -24,12 +25,13 @@ export const appRoutePaths: Routes = [
   },
   {
     path: RoutePath.HomePath,
-    loadChildren: () => import('./home/home.module').then((m) => m.HomeModule),
+    loadChildren: async () =>
+      import('./home/home.module').then((m) => m.HomeModule),
   },
 
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

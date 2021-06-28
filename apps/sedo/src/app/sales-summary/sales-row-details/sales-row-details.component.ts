@@ -6,12 +6,11 @@ import { Subscription } from 'rxjs';
 
 import { RowNode } from '@ag-grid-community/all-modules';
 import { ICellRendererAngularComp } from '@ag-grid-community/angular';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getUserUniqueIdentifier } from '@schaeffler/azure-auth';
 import { SnackBarService } from '@schaeffler/snackbar';
 
-import { AppState } from '../../core/store';
 import { DataService } from '../../shared/data.service';
 import { UpdateDatesParams } from '../../shared/models/dates-update.model';
 import { SalesSummary } from '../../shared/models/sales-summary.model';
@@ -36,7 +35,7 @@ export class SalesRowDetailsComponent
   readonly subscription: Subscription = new Subscription();
 
   constructor(
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly dataService: DataService,
     private readonly snackBarService: SnackBarService
   ) {}
@@ -118,11 +117,9 @@ export class SalesRowDetailsComponent
 
   private setSubscription(): void {
     this.subscription.add(
-      this.store
-        .pipe(select(getUserUniqueIdentifier))
-        .subscribe((userId: string) => {
-          this.handleUserAccess(userId);
-        })
+      this.store.select(getUserUniqueIdentifier).subscribe((userId: string) => {
+        this.handleUserAccess(userId);
+      })
     );
   }
 

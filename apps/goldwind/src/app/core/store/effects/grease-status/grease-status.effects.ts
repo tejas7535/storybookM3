@@ -13,7 +13,7 @@ import {
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
@@ -47,8 +47,8 @@ export class GreaseStatusEffects {
   private isPollingActive = false;
 
   router$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
@@ -68,31 +68,32 @@ export class GreaseStatusEffects {
             this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
           }
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Set Interval
    */
-  interval$ = createEffect(() =>
-    this.actions$.pipe(
+  interval$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(setGreaseInterval),
       map(() =>
         getGreaseStatusId({ source: BearingRoutePath.GreaseStatusPath })
       )
-    )
-  );
+    );
+  });
 
   /**
    * Load Grease Status ID
    */
   greaseStatusId$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(getGreaseStatusId),
         filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+        withLatestFrom(this.store.select(fromRouter.getRouterState)),
         map(([action, routerState]) => ({
           deviceId: routerState.state.params.id,
           source: action.source,
@@ -107,17 +108,18 @@ export class GreaseStatusEffects {
             this.store.dispatch(getBearingLoad({ deviceId }));
           }
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Load Grease Status
    */
-  greaseStatus$ = createEffect(() =>
-    this.actions$.pipe(
+  greaseStatus$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getGreaseStatus),
-      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      withLatestFrom(this.store.select(getGreaseInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
         ...interval,
@@ -128,13 +130,13 @@ export class GreaseStatusEffects {
           catchError((_e) => of(getGreaseStatusFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
-  load$ = createEffect(() =>
-    this.actions$.pipe(
+  load$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getBearingLoad),
-      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      withLatestFrom(this.store.select(getGreaseInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
         ...interval,
@@ -145,13 +147,13 @@ export class GreaseStatusEffects {
           catchError((_e) => of(getBearingLoadFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
-  loadAverage$ = createEffect(() =>
-    this.actions$.pipe(
+  loadAverage$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getLoadAverage),
-      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      withLatestFrom(this.store.select(getGreaseInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
         ...interval,
@@ -162,43 +164,44 @@ export class GreaseStatusEffects {
           catchError((_e) => of(getLoadAverageFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Continue Load Latest Grease Status
    */
-  continueGraseId$ = createEffect(() =>
-    this.actions$.pipe(
+  continueGraseId$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getGreaseStatusLatestSuccess, getGreaseStatusLatestFailure),
       delay(UPDATE_SETTINGS.grease.refresh * 1000),
       filter(() => this.isPollingActive),
-      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([_action, routerState]) =>
         getGreaseStatusLatest({ deviceId: routerState.state.params.id })
       )
-    )
-  );
+    );
+  });
 
   /**
    * Stop Load Latest Grease Status
    */
   stopGrease$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(stopGetGreaseStatusLatest),
         map(() => {
           this.isPollingActive = false;
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Load Latest Grease Status
    */
-  greaseStatusLatest$ = createEffect(() =>
-    this.actions$.pipe(
+  greaseStatusLatest$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getGreaseStatusLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
@@ -209,12 +212,12 @@ export class GreaseStatusEffects {
           catchError((_e) => of(getGreaseStatusLatestFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store<fromRouter.AppState>
+    private readonly store: Store
   ) {}
 }

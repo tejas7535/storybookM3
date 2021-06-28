@@ -4,9 +4,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { AppState, getAllRoles } from '../../core/store';
+import { getAllRoles } from '../../core/store';
 import { mailAdress } from '../constants';
 import { RoleGroup } from './models/role-group.model';
 
@@ -17,16 +17,16 @@ import { RoleGroup } from './models/role-group.model';
 })
 export class RoleModalComponent implements OnInit {
   public allRoles$: Observable<RoleGroup[]>;
-  public contactInfo: String;
+  public contactInfo: string;
 
   constructor(
     private readonly dialogRef: MatDialogRef<RoleModalComponent>,
-    private readonly store: Store<AppState>
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
-    this.allRoles$ = this.store.pipe(select(getAllRoles));
-    const translationString: String = translate(
+    this.allRoles$ = this.store.select(getAllRoles);
+    const translationString: string = translate(
       'shared.roleModal.contactInformation'
     );
     this.contactInfo = translationString.replace('{mailAdress}', mailAdress);

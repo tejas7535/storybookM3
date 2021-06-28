@@ -16,28 +16,28 @@ export const appRoutes: Routes = [
   },
   {
     path: AppRoutePath.SearchPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./search/search.module').then((m) => m.SearchModule),
     canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.DetailPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./detail/detail.module').then((m) => m.DetailModule),
     canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.ComparePath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./compare/compare.module').then((m) => m.CompareModule),
     canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],
   },
   {
     path: AppRoutePath.ForbiddenPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     data: {
       action: encodeURI(FORBIDDEN_ACTION),
@@ -46,7 +46,7 @@ export const appRoutes: Routes = [
   },
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

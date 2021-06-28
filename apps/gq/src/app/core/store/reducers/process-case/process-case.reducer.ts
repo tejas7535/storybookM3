@@ -1,3 +1,4 @@
+/* eslint-disable max-lines */
 import { Action, createReducer, on } from '@ngrx/store';
 
 import { Quotation } from '../../../../shared/models';
@@ -83,72 +84,96 @@ export const initialState: ProcessCaseState = {
 
 export const processCaseReducer = createReducer(
   initialState,
-  on(selectQuotation, (state: ProcessCaseState, { quotationIdentifier }) => ({
-    ...state,
-    quotationIdentifier,
-  })),
-  on(loadCustomer, (state: ProcessCaseState) => ({
-    ...state,
-    customer: {
-      ...state.customer,
-      customerLoading: true,
-      item: initialState.customer.item,
-      errorMessage: initialState.customer.errorMessage,
-    },
-  })),
-  on(loadCustomerSuccess, (state: ProcessCaseState, { item }) => ({
-    ...state,
-    customer: {
-      ...state.customer,
-      item,
-      customerLoading: false,
-    },
-  })),
-  on(loadCustomerFailure, (state: ProcessCaseState, { errorMessage }) => ({
-    ...state,
-    customer: {
-      ...state.customer,
-      errorMessage,
-      customerLoading: false,
-    },
-  })),
-  on(loadQuotation, (state: ProcessCaseState) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      item: initialState.quotation.item,
-      quotationLoading: true,
-      errorMessage: initialState.quotation.errorMessage,
-      updateLoading: false,
-    },
-  })),
-  on(loadQuotationSuccess, (state: ProcessCaseState, { item }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      item,
-      quotationLoading: false,
-      errorMessage: undefined,
-    },
-  })),
-  on(loadQuotationFailure, (state: ProcessCaseState, { errorMessage }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      errorMessage,
-      quotationLoading: false,
-    },
-  })),
-  on(updateQuotationDetails, (state: ProcessCaseState) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      updateLoading: true,
-    },
-  })),
+  on(
+    selectQuotation,
+    (state: ProcessCaseState, { quotationIdentifier }): ProcessCaseState => ({
+      ...state,
+      quotationIdentifier,
+    })
+  ),
+  on(
+    loadCustomer,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        customerLoading: true,
+        item: initialState.customer.item,
+        errorMessage: initialState.customer.errorMessage,
+      },
+    })
+  ),
+  on(
+    loadCustomerSuccess,
+    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        item,
+        customerLoading: false,
+      },
+    })
+  ),
+  on(
+    loadCustomerFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        errorMessage,
+        customerLoading: false,
+      },
+    })
+  ),
+  on(
+    loadQuotation,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item: initialState.quotation.item,
+        quotationLoading: true,
+        errorMessage: initialState.quotation.errorMessage,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(
+    loadQuotationSuccess,
+    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item,
+        quotationLoading: false,
+        errorMessage: undefined,
+      },
+    })
+  ),
+  on(
+    loadQuotationFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
+        quotationLoading: false,
+      },
+    })
+  ),
+  on(
+    updateQuotationDetails,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        updateLoading: true,
+      },
+    })
+  ),
   on(
     updateQuotationDetailsSuccess,
-    (state: ProcessCaseState, { quotationDetails }) => ({
+    (state: ProcessCaseState, { quotationDetails }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
@@ -171,7 +196,7 @@ export const processCaseReducer = createReducer(
   ),
   on(
     updateQuotationDetailsFailure,
-    (state: ProcessCaseState, { errorMessage }) => ({
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
@@ -180,68 +205,89 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(clearProcessCaseRowData, (state: ProcessCaseState) => ({
-    ...state,
-    addMaterials: {
-      ...state.addMaterials,
-      addMaterialRowData: initialState.addMaterials.addMaterialRowData,
-    },
-  })),
-  on(addMaterials, (state: ProcessCaseState) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      updateLoading: true,
-      errorMessage: initialState.quotation.errorMessage,
-    },
-    addMaterials: {
-      ...state.addMaterials,
-    },
-  })),
-  on(addMaterialsSuccess, (state: ProcessCaseState, { item }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      item,
-      updateLoading: false,
-      errorMessage: undefined,
-    },
-    addMaterials: {
-      ...state.addMaterials,
-      addMaterialRowData: initialState.addMaterials.addMaterialRowData,
-    },
-  })),
-  on(addMaterialsFailure, (state: ProcessCaseState, { errorMessage }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      errorMessage,
-      updateLoading: false,
-    },
-  })),
-  on(addMaterialRowDataItem, (state: ProcessCaseState, { items }) => ({
-    ...state,
-    addMaterials: {
-      ...state.addMaterials,
-      addMaterialRowData: [
-        ...state.addMaterials.addMaterialRowData,
-        ...TableService.removeDashesFromTableItems(items),
-      ],
-    },
-  })),
-  on(pasteRowDataItemsToAddMaterial, (state: ProcessCaseState, { items }) => ({
-    ...state,
-    addMaterials: {
-      ...state.addMaterials,
-      addMaterialRowData: TableService.pasteItems(items, [
-        ...state.addMaterials.addMaterialRowData,
-      ]),
-      validationLoading: true,
-    },
-  })),
+  on(
+    clearProcessCaseRowData,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: initialState.addMaterials.addMaterialRowData,
+      },
+    })
+  ),
+  on(
+    addMaterials,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        updateLoading: true,
+        errorMessage: initialState.quotation.errorMessage,
+      },
+      addMaterials: {
+        ...state.addMaterials,
+      },
+    })
+  ),
+  on(
+    addMaterialsSuccess,
+    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item,
+        updateLoading: false,
+        errorMessage: undefined,
+      },
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: initialState.addMaterials.addMaterialRowData,
+      },
+    })
+  ),
+  on(
+    addMaterialsFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
+        updateLoading: false,
+      },
+    })
+  ),
+  on(
+    addMaterialRowDataItem,
+    (state: ProcessCaseState, { items }): ProcessCaseState => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: [
+          ...state.addMaterials.addMaterialRowData,
+          ...TableService.removeDashesFromTableItems(items),
+        ],
+      },
+    })
+  ),
+  on(
+    pasteRowDataItemsToAddMaterial,
+    (state: ProcessCaseState, { items }): ProcessCaseState => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        addMaterialRowData: TableService.pasteItems(items, [
+          ...state.addMaterials.addMaterialRowData,
+        ]),
+        validationLoading: true,
+      },
+    })
+  ),
   on(
     deleteAddMaterialRowDataItem,
-    (state: ProcessCaseState, { materialNumber, quantity }) => ({
+    (
+      state: ProcessCaseState,
+      { materialNumber, quantity }
+    ): ProcessCaseState => ({
       ...state,
       addMaterials: {
         ...state.addMaterials,
@@ -253,7 +299,7 @@ export const processCaseReducer = createReducer(
   ),
   on(
     validateAddMaterialsSuccess,
-    (state: ProcessCaseState, { materialValidations }) => ({
+    (state: ProcessCaseState, { materialValidations }): ProcessCaseState => ({
       ...state,
       addMaterials: {
         ...state.addMaterials,
@@ -267,7 +313,7 @@ export const processCaseReducer = createReducer(
   ),
   on(
     validateAddMaterialsFailure,
-    (state: ProcessCaseState, { errorMessage }) => ({
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
       ...state,
       addMaterials: {
         ...state.addMaterials,
@@ -291,45 +337,54 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(removePositions, (state: ProcessCaseState, { gqPositionIds }) => ({
-    ...state,
-    addMaterials: {
-      ...state.addMaterials,
-      removeQuotationDetailsIds: gqPositionIds,
-    },
-    quotation: {
-      ...state.quotation,
-      updateLoading: true,
-    },
-  })),
-  on(removePositionsSuccess, (state: ProcessCaseState, { item }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      item,
-      updateLoading: false,
-      errorMessage: undefined,
-    },
-    addMaterials: {
-      ...state.addMaterials,
-      removeQuotationDetailsIds: [],
-    },
-  })),
-  on(removePositionsFailure, (state: ProcessCaseState, { errorMessage }) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      errorMessage,
-      updateLoading: false,
-    },
-    addMaterials: {
-      ...state.addMaterials,
-      removeQuotationDetailsIds: [],
-    },
-  })),
+  on(
+    removePositions,
+    (state: ProcessCaseState, { gqPositionIds }): ProcessCaseState => ({
+      ...state,
+      addMaterials: {
+        ...state.addMaterials,
+        removeQuotationDetailsIds: gqPositionIds,
+      },
+      quotation: {
+        ...state.quotation,
+        updateLoading: true,
+      },
+    })
+  ),
+  on(
+    removePositionsSuccess,
+    (state: ProcessCaseState, { item }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        item,
+        updateLoading: false,
+        errorMessage: undefined,
+      },
+      addMaterials: {
+        ...state.addMaterials,
+        removeQuotationDetailsIds: [],
+      },
+    })
+  ),
+  on(
+    removePositionsFailure,
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        errorMessage,
+        updateLoading: false,
+      },
+      addMaterials: {
+        ...state.addMaterials,
+        removeQuotationDetailsIds: [],
+      },
+    })
+  ),
   on(
     setSelectedQuotationDetail,
-    (state: ProcessCaseState, { gqPositionId }) => ({
+    (state: ProcessCaseState, { gqPositionId }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
@@ -337,16 +392,19 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(uploadSelectionToSap, (state: ProcessCaseState) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      updateLoading: true,
-    },
-  })),
+  on(
+    uploadSelectionToSap,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        updateLoading: true,
+      },
+    })
+  ),
   on(
     uploadSelectionToSapFailure,
-    (state: ProcessCaseState, { errorMessage }) => ({
+    (state: ProcessCaseState, { errorMessage }): ProcessCaseState => ({
       ...state,
       quotation: {
         ...state.quotation,
@@ -355,13 +413,16 @@ export const processCaseReducer = createReducer(
       },
     })
   ),
-  on(uploadSelectionToSapSuccess, (state: ProcessCaseState) => ({
-    ...state,
-    quotation: {
-      ...state.quotation,
-      updateLoading: false,
-    },
-  }))
+  on(
+    uploadSelectionToSapSuccess,
+    (state: ProcessCaseState): ProcessCaseState => ({
+      ...state,
+      quotation: {
+        ...state.quotation,
+        updateLoading: false,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
@@ -371,4 +432,3 @@ export function reducer(
 ): ProcessCaseState {
   return processCaseReducer(state, action);
 }
-// eslint-disable-next-line max-lines

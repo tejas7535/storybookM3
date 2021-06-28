@@ -5,12 +5,11 @@ import { ActivationEnd, Router } from '@angular/router';
 import { filter, map, withLatestFrom } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { SidebarMode, Viewport } from '../../models';
 import { SidebarService } from '../../sidebar.service';
 import { setSidebarMode, toggleSidebar } from '../actions/sidebar.actions';
-import { SidebarState } from '../reducers/sidebar.reducer';
 import { getSidebarMode } from '../selectors/sidebar.selectors';
 
 /**
@@ -21,7 +20,7 @@ export class SidebarEffects {
   public constructor(
     private readonly actions$: Actions,
     private readonly sidebarService: SidebarService,
-    private readonly store: Store<SidebarState>,
+    private readonly store: Store,
     private readonly router: Router
   ) {}
 
@@ -35,7 +34,7 @@ export class SidebarEffects {
     return this.actions$.pipe(
       ofType(toggleSidebar),
       withLatestFrom(
-        this.store.pipe(select(getSidebarMode)),
+        this.store.select(getSidebarMode),
         this.sidebarService.getViewport()
       ),
       map(([_action, mode, viewport]) =>

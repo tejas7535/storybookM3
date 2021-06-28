@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 import { Subscription } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { BreakpointService } from '@schaeffler/responsive';
 
@@ -11,7 +11,6 @@ import {
   sidebarAnimation,
 } from './animations/sidebar-animations';
 import { SidebarAnimationStyle, SidebarMode } from './models';
-import { SidebarState } from './store/reducers/sidebar.reducer';
 import { getSidebarMode } from './store/selectors/sidebar.selectors';
 
 @Component({
@@ -29,7 +28,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly breakpointService: BreakpointService,
-    private readonly store: Store<SidebarState>
+    private readonly store: Store
   ) {}
 
   /**
@@ -44,9 +43,7 @@ export class SidebarComponent implements OnInit, OnDestroy {
     );
 
     this.subscriptions.add(
-      this.store
-        .pipe(select(getSidebarMode))
-        .subscribe((mode) => (this.mode = mode))
+      this.store.select(getSidebarMode).subscribe((mode) => (this.mode = mode))
     );
   }
 

@@ -19,19 +19,28 @@ export const initialState: DevicesState = {
 
 export const devicesReducer = createReducer(
   initialState,
-  on(getDevices, (state: DevicesState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getDevicesSuccess, (state: DevicesState, { devices }) => ({
-    ...state,
-    result: devices,
-    loading: false,
-  })),
-  on(getDevicesFailure, (state: DevicesState) => ({
-    ...state,
-    loading: false,
-  }))
+  on(
+    getDevices,
+    (state: DevicesState): DevicesState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    getDevicesSuccess,
+    (state: DevicesState, { devices }): DevicesState => ({
+      ...state,
+      result: devices,
+      loading: false,
+    })
+  ),
+  on(
+    getDevicesFailure,
+    (state: DevicesState): DevicesState => ({
+      ...state,
+      loading: false,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

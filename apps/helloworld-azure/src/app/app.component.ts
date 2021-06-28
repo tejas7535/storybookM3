@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 
-import { AppState } from './core/store/reducers/reducer';
-
 @Component({
-  selector: 'schaeffler-root',
+  selector: 'helloworld-azure-root',
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
@@ -18,10 +16,10 @@ export class AppComponent implements OnInit {
   public username$: Observable<string>;
   public profileImage$: Observable<string>;
 
-  public constructor(private readonly store: Store<AppState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.username$ = this.store.pipe(select(getUsername));
-    this.profileImage$ = this.store.pipe(select(getProfileImage));
+    this.username$ = this.store.select(getUsername);
+    this.profileImage$ = this.store.select(getProfileImage);
   }
 }

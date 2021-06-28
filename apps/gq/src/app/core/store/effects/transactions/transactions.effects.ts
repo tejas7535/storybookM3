@@ -11,19 +11,19 @@ import {
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
-import { PriceService } from '../../../../shared/services/price-service/price.service';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { Transaction } from '../../../../core/store/reducers/transactions/models/transaction.model';
 import { DetailRoutePath } from '../../../../detail-view/detail-route-path.enum';
+import { PriceService } from '../../../../shared/services/price-service/price.service';
 import { QuotationDetailsService } from '../../../../shared/services/rest-services/quotation-details-service/quotation-details.service';
 import {
   loadComparableTransactions,
   loadComparableTransactionsFailure,
   loadComparableTransactionsSuccess,
 } from '../../actions';
-import { AppState, RouterStateUrl } from '../../reducers';
+import { RouterStateUrl } from '../../reducers';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
 
 @Injectable()
@@ -31,34 +31,33 @@ export class TransactionsEffect {
   /**
    * trigger loadTransactions for quotationDetail
    */
-  triggerLoadTransactions$ = createEffect(() =>
-    this.actions$.pipe(
+  triggerLoadTransactions$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(ROUTER_NAVIGATED),
       map((action: any) => action.payload.routerState),
-      filter(
-        (routerState: RouterStateUrl) =>
-          routerState.url.indexOf(
-            `${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`
-          ) >= 0
+      filter((routerState: RouterStateUrl) =>
+        routerState.url.includes(
+          `${AppRoutePath.DetailViewPath}/${DetailRoutePath.TransactionsPath}`
+        )
       ),
       map((routerState) =>
         loadComparableTransactions({
           gqPositionId: routerState.queryParams['gqPositionId'],
         })
       )
-    )
-  );
+    );
+  });
   /**
    * loadTransactions for quotationDetail
    */
-  loadTransactions$ = createEffect(() =>
-    this.actions$.pipe(
+  loadTransactions$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadComparableTransactions.type),
       map((action: any) => action.gqPositionId),
       mergeMap((gqPositionId: string) =>
         this.quotationDetailsService.getTransactions(gqPositionId).pipe(
           withLatestFrom(
-            this.store.pipe(select(getPriceUnitOfSelectedQuotationDetail))
+            this.store.select(getPriceUnitOfSelectedQuotationDetail)
           ),
           map(([transactions, priceUnit]: [Transaction[], number]) => ({
             transactions,
@@ -78,11 +77,11 @@ export class TransactionsEffect {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly actions$: Actions,
     private readonly quotationDetailsService: QuotationDetailsService
   ) {}

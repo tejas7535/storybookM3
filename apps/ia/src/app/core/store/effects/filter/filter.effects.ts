@@ -18,8 +18,8 @@ import {
 
 @Injectable()
 export class FilterEffects {
-  loadInitialFilters$ = createEffect(() =>
-    this.actions$.pipe(
+  loadInitialFilters$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadInitialFilters),
       mergeMap(() =>
         this.employeeService.getInitialFilters().pipe(
@@ -31,11 +31,11 @@ export class FilterEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  setInitialFilters$ = createEffect(() =>
-    this.actions$.pipe(
+  setInitialFilters$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadInitialFiltersSuccess),
       mergeMap(() =>
         this.employeeService.getInitialFilters().pipe(
@@ -49,16 +49,16 @@ export class FilterEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  loginSuccessful$ = createEffect(() =>
-    this.actions$.pipe(
+  loginSuccessful$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loginSuccess.type),
       take(1),
       map(loadInitialFilters)
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,

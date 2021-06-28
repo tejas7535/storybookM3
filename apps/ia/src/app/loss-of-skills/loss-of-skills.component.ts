@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { LostJobProfile } from '../shared/models';
-import { LossOfSkillsState } from './store';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,
@@ -19,12 +18,10 @@ export class LossOfSkillsComponent implements OnInit {
   public lostJobProfilesLoading$: Observable<boolean>;
   public lostJobProfilesData$: Observable<LostJobProfile[]>;
 
-  constructor(private readonly store: Store<LossOfSkillsState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.lostJobProfilesLoading$ = this.store.pipe(
-      select(getLostJobProfilesLoading)
-    );
-    this.lostJobProfilesData$ = this.store.pipe(select(getLostJobProfilesData));
+    this.lostJobProfilesLoading$ = this.store.select(getLostJobProfilesLoading);
+    this.lostJobProfilesData$ = this.store.select(getLostJobProfilesData);
   }
 }

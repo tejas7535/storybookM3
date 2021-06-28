@@ -33,27 +33,42 @@ export const initialState: DataViewState = {
 
 export const dataViewReducer = createReducer(
   initialState,
-  on(getData, (state: DataViewState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getDataSuccess, (state: DataViewState, { result }) => ({
-    ...state,
-    result,
-    loading: false,
-  })),
-  on(getDataFailure, (state: DataViewState) => ({
-    ...state,
-    loading: false,
-  })),
-  on(setDataInterval, (state: DataViewState, { interval }) => ({
-    ...state,
-    interval,
-  })),
-  on(setFrequency, (state: DataViewState, { frequency }) => ({
-    ...state,
-    frequency,
-  }))
+  on(
+    getData,
+    (state: DataViewState): DataViewState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    getDataSuccess,
+    (state: DataViewState, { result }): DataViewState => ({
+      ...state,
+      result,
+      loading: false,
+    })
+  ),
+  on(
+    getDataFailure,
+    (state: DataViewState): DataViewState => ({
+      ...state,
+      loading: false,
+    })
+  ),
+  on(
+    setDataInterval,
+    (state: DataViewState, { interval }): DataViewState => ({
+      ...state,
+      interval,
+    })
+  ),
+  on(
+    setFrequency,
+    (state: DataViewState, { frequency }): DataViewState => ({
+      ...state,
+      frequency,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

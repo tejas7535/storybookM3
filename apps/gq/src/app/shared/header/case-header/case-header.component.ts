@@ -6,7 +6,6 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getCustomer } from '../../../core/store/selectors';
 import { Customer } from '../../models/customer';
 import { Breadcrumb } from './breadcrumbs/breadcrumb.model';
@@ -25,7 +24,7 @@ export class CaseHeaderComponent implements OnInit {
   timedOutCloser: number;
 
   constructor(
-    private readonly store: Store<ProcessCaseState>,
+    private readonly store: Store,
     private readonly location: Location
   ) {}
 

@@ -21,7 +21,7 @@ import {
 } from '../../actions';
 import { Transaction } from '../../reducers/transactions/models/transaction.model';
 import { getPriceUnitOfSelectedQuotationDetail } from '../../selectors';
-import { TransactionsEffect } from './transactions.effect';
+import { TransactionsEffect } from './transactions.effects';
 
 describe('TransactionsEffect', () => {
   let spectator: SpectatorService<TransactionsEffect>;

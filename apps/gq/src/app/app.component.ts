@@ -4,14 +4,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getProfileImage, getUsername } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer';
 import { UserMenuEntry } from '@schaeffler/header';
 
 import packageJson from '../../package.json';
-import { AppState } from './core/store';
 import { RoleModalComponent } from './shared/role-modal/role-modal.component';
 
 @Component({
@@ -38,12 +37,12 @@ export class AppComponent implements OnInit {
 
   public constructor(
     private readonly dialog: MatDialog,
-    private readonly store: Store<AppState>
+    private readonly store: Store
   ) {}
 
   public ngOnInit(): void {
-    this.username$ = this.store.pipe(select(getUsername));
-    this.profileImage$ = this.store.pipe(select(getProfileImage));
+    this.username$ = this.store.select(getUsername);
+    this.profileImage$ = this.store.select(getProfileImage);
   }
 
   public userMenuClicked(): void {

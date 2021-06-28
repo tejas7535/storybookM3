@@ -8,10 +8,9 @@ import {
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getBearingLoading } from '../../../core/store';
-import { BearingState } from '../../../core/store/reducers/bearing/bearing.reducer';
 import { BearingMetadata } from '../../../core/store/reducers/bearing/models';
 
 interface BearingProperties {
@@ -43,12 +42,12 @@ export class CmEquipmentComponent implements OnInit {
   loading$: Observable<boolean>;
 
   public constructor(
-    private readonly store: Store<BearingState>,
-    private change: ChangeDetectorRef
+    private readonly store: Store,
+    private readonly change: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
-    this.loading$ = this.store.pipe(select(getBearingLoading));
+    this.loading$ = this.store.select(getBearingLoading);
   }
 
   handleSelectedTabChange(event: number): void {

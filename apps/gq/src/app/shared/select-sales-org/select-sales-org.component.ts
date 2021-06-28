@@ -10,7 +10,6 @@ import {
   getSelectedSalesOrg,
   selectSalesOrg,
 } from '../../core/store';
-import { CaseState } from '../../core/store/reducers/create-case/create-case.reducer';
 import { SalesOrg } from '../../core/store/reducers/create-case/models';
 
 @Component({
@@ -21,7 +20,7 @@ export class SelectSalesOrgComponent implements OnInit {
   salesOrgs$: Observable<SalesOrg[]>;
   selectedSalesOrg$: Observable<SalesOrg>;
 
-  constructor(private readonly store: Store<CaseState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.salesOrgs$ = this.store.select(getSalesOrgs);

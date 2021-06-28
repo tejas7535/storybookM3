@@ -15,7 +15,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.ForbiddenPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
     data: {
       action: encodeURI(FORBIDDEN_ACTION),
@@ -23,14 +23,14 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.CaseViewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./case-view/case-view.module').then((m) => m.CaseViewModule),
     canActivateChild: [RoleGuard],
     canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.ProcessCaseViewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./process-case-view/process-case-view.module').then(
         (m) => m.ProcessCaseViewModule
       ),
@@ -38,7 +38,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.DetailViewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./detail-view/detail-view.module').then(
         (m) => m.DetailViewModule
       ),
@@ -46,7 +46,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.CustomerViewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./customer-view/customer-view.module').then(
         (m) => m.CustomerViewModule
       ),
@@ -54,7 +54,7 @@ export const appRoutePaths: Routes = [
   },
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

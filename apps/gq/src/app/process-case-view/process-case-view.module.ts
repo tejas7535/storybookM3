@@ -10,7 +10,7 @@ import { StoreModule } from '@ngrx/store';
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effect';
+import { ProcessCaseEffect } from '../core/store/effects/process-case/process-case.effects';
 import { processCaseReducer } from '../core/store/reducers/process-case/process-case.reducer';
 import { SharedModule } from '../shared';
 import { CaseHeaderModule } from '../shared/header/case-header/case-header.module';

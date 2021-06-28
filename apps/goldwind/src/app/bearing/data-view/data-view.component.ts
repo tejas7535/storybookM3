@@ -5,13 +5,12 @@ import { Observable } from 'rxjs';
 import { ClientSideRowModelModule } from '@ag-grid-community/all-modules';
 import { RowGroupingModule } from '@ag-grid-enterprise/all-modules';
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   setDataInterval,
   setFrequency,
 } from '../../core/store/actions/data-view/data-view.actions';
-import { DataViewState } from '../../core/store/reducers/data-view/data-view.reducer';
 import { SensorData } from '../../core/store/reducers/data-view/models';
 import { Interval } from '../../core/store/reducers/shared/models';
 import {
@@ -117,12 +116,12 @@ export class DataViewComponent implements OnInit {
     { value: 1000, viewValue: '1000 Hz' },
   ];
 
-  public constructor(private readonly store: Store<DataViewState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.data$ = this.store.pipe(select(getDataResult));
-    this.interval$ = this.store.pipe(select(getDataInterval));
-    this.frequency$ = this.store.pipe(select(getFrequency));
+    this.data$ = this.store.select(getDataResult);
+    this.interval$ = this.store.select(getDataInterval);
+    this.frequency$ = this.store.select(getFrequency);
   }
 
   onGridReady(params: any): void {

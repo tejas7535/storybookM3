@@ -81,12 +81,10 @@ export class AqmCalculatorComponent implements OnInit, OnDestroy {
   private createForm(compositionLimits: AQMCompositionLimits): void {
     const controls: any = {};
     Object.entries(compositionLimits)
-      .map((item) => {
-        return {
-          key: item[0],
-          limits: item[1] as AQMLimit,
-        };
-      })
+      .map((item) => ({
+        key: item[0],
+        limits: item[1] as AQMLimit,
+      }))
       .map((item) => {
         controls[item.key] = new FormControl('', [
           Validators.required,

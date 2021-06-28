@@ -24,8 +24,8 @@ import {
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
-  getResignedEmployees,
   getOverviewFluctuationKpi,
+  getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
 

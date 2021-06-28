@@ -14,13 +14,12 @@ import {
   getDevicesFailure,
   getDevicesSuccess,
 } from '../../actions';
-import * as fromRouter from '../../reducers';
 
 @Injectable()
 export class DevicesEffects {
   router$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
@@ -33,15 +32,16 @@ export class DevicesEffects {
             currentRoute && currentRoute === AppRoutePath.OverviewPath
         ),
         tap(() => this.store.dispatch(getDevices()))
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Load Devices
    */
-  devices$ = createEffect(() =>
-    this.actions$.pipe(
+  devices$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getDevices),
       mergeMap(() =>
         this.restService.getDevices().pipe(
@@ -49,12 +49,12 @@ export class DevicesEffects {
           catchError((_e) => of(getDevicesFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store<fromRouter.AppState>
+    private readonly store: Store
   ) {}
 }

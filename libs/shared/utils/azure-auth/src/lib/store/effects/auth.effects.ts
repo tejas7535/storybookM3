@@ -34,25 +34,27 @@ export class AuthEffects {
   ) {}
 
   public login$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(login),
         tap(() => this.authService.login())
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   public logout$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(logout),
         tap(() => this.authService.logout())
-      ),
+      );
+    },
     { dispatch: false }
   );
 
-  public profileImage$ = createEffect(() =>
-    this.actions$.pipe(
+  public profileImage$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadProfileImage),
       mergeMap(() =>
         this.authService.getProfileImage().pipe(
@@ -70,11 +72,11 @@ export class AuthEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  public inProgress$ = createEffect(() =>
-    this.msalBroadcastService.inProgress$.pipe(
+  public inProgress$ = createEffect(() => {
+    return this.msalBroadcastService.inProgress$.pipe(
       filter((status: InteractionStatus) => status === InteractionStatus.None),
       map(() => this.authService.handleAccount()),
       filter((accountInfo: AccountInfo) => accountInfo !== undefined),
@@ -88,6 +90,6 @@ export class AuthEffects {
         loginSuccess({ accountInfo }),
         loadProfileImage(),
       ])
-    )
-  );
+    );
+  });
 }

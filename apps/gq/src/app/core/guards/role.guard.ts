@@ -9,7 +9,7 @@ import {
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
@@ -26,8 +26,7 @@ export class RoleGuard implements CanActivateChild {
     _childRoute: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot
   ): Observable<boolean> {
-    return this.store.pipe(
-      select(getRoles),
+    return this.store.select(getRoles).pipe(
       map((roles) => {
         if (!roles.includes(UserRoles.BASIC)) {
           this.router.navigate([AppRoutePath.ForbiddenPath]);

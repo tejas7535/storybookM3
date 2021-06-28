@@ -13,7 +13,7 @@ import {
 
 import { translate } from '@ngneat/transloco';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { SnackBarService } from '@schaeffler/snackbar';
 
@@ -52,7 +52,6 @@ import {
   validateFailure,
   validateSuccess,
 } from '../../actions';
-import { CaseState } from '../../reducers/create-case/create-case.reducer';
 import {
   CreateCase,
   CreateCaseResponse,
@@ -74,8 +73,8 @@ export class CreateCaseEffects {
    * Get possible values for a form field
    *
    */
-  autocomplete$ = createEffect(() =>
-    this.actions$.pipe(
+  autocomplete$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(autocomplete.type),
       mergeMap((action: any) =>
         this.searchService.autocomplete(action.autocompleteSearch).pipe(
@@ -88,15 +87,15 @@ export class CreateCaseEffects {
           catchError((_e) => of(autocompleteFailure()))
         )
       )
-    )
-  );
+    );
+  });
   /**
    * Get Validation for materialnumbers
    */
-  validate$ = createEffect(() =>
-    this.actions$.pipe(
+  validate$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(pasteRowDataItems.type),
-      withLatestFrom(this.store.pipe(select(getCaseRowData))),
+      withLatestFrom(this.store.select(getCaseRowData)),
       map(([_action, tableData]) => tableData),
       mergeMap((tableData: MaterialTableItem[]) =>
         this.materialService.validateMaterials(tableData).pipe(
@@ -106,16 +105,16 @@ export class CreateCaseEffects {
           catchError((_e) => of(validateFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Create Case
    */
-  createCase$ = createEffect(() =>
-    this.actions$.pipe(
+  createCase$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(createCase.type),
-      withLatestFrom(this.store.pipe(select(getCreateCaseData))),
+      withLatestFrom(this.store.select(getCreateCaseData)),
       map(([_action, createCaseData]) => createCaseData),
       mergeMap((createCaseData: CreateCase) =>
         this.quotationService.createCase(createCaseData).pipe(
@@ -132,16 +131,16 @@ export class CreateCaseEffects {
           catchError((errorMessage) => of(createCaseFailure({ errorMessage })))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Import Case from SAP
    */
-  importCase$ = createEffect(() =>
-    this.actions$.pipe(
+  importCase$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(importCase.type),
-      withLatestFrom(this.store.pipe(select(getSelectedQuotation))),
+      withLatestFrom(this.store.select(getSelectedQuotation)),
       map(([_action, idValue]) => idValue),
       mergeMap((importedCase: IdValue) =>
         this.quotationService.importCase(importedCase.id).pipe(
@@ -158,14 +157,14 @@ export class CreateCaseEffects {
           catchError((errorMessage) => of(importCaseFailure({ errorMessage })))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Get Sales Orgs for customer
    */
-  getSalesOrgs$ = createEffect(() =>
-    this.actions$.pipe(
+  getSalesOrgs$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(selectAutocompleteOption.type),
       filter((action: any) => action.filter === FilterNames.CUSTOMER),
       mergeMap((action: any) =>
@@ -176,14 +175,14 @@ export class CreateCaseEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /*
    * Get Product lines and Series
    */
-  getPLsAndSeries$ = createEffect(() =>
-    this.actions$.pipe(
+  getPLsAndSeries$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getPLsAndSeries),
       mergeMap((action) =>
         this.searchService.getPlsAndSeries(action.customerFilters).pipe(
@@ -196,14 +195,14 @@ export class CreateCaseEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   /*
    * Create Customer Case
    */
-  createCustomerCase$ = createEffect(() =>
-    this.actions$.pipe(
+  createCustomerCase$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(createCustomerCase),
       withLatestFrom(this.store.select(getCreateCustomerCasePayload)),
       map(([_action, requestPayload]) => requestPayload),
@@ -222,15 +221,15 @@ export class CreateCaseEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
     private readonly quotationService: QuotationService,
     private readonly router: Router,
-    private readonly store: Store<CaseState>,
+    private readonly store: Store,
     private readonly materialService: MaterialService,
     private readonly snackBarService: SnackBarService
   ) {}

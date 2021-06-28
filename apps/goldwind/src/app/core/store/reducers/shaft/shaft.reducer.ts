@@ -30,40 +30,58 @@ export const initialState: ShaftState = {
 
 export const shaftReducer = createReducer(
   initialState,
-  on(getShaft, (state: ShaftState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getShaftSuccess, (state: ShaftState, { shaft }) => ({
-    ...state,
-    result: shaft,
-    loading: false,
-  })),
-  on(getShaftFailure, (state: ShaftState) => ({
-    ...state,
-    loading: false,
-  })),
-  on(getShaftLatest, (state: ShaftState) => ({
-    ...state,
-    status: {
-      ...state.status,
+  on(
+    getShaft,
+    (state: ShaftState): ShaftState => ({
+      ...state,
       loading: true,
-    },
-  })),
-  on(getShaftLatestSuccess, (state: ShaftState, { shaft }) => ({
-    ...state,
-    status: {
+    })
+  ),
+  on(
+    getShaftSuccess,
+    (state: ShaftState, { shaft }): ShaftState => ({
+      ...state,
       result: shaft,
       loading: false,
-    },
-  })),
-  on(getShaftLatestFailure, (state: ShaftState) => ({
-    ...state,
-    status: {
-      ...state.status,
+    })
+  ),
+  on(
+    getShaftFailure,
+    (state: ShaftState): ShaftState => ({
+      ...state,
       loading: false,
-    },
-  }))
+    })
+  ),
+  on(
+    getShaftLatest,
+    (state: ShaftState): ShaftState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    getShaftLatestSuccess,
+    (state: ShaftState, { shaft }): ShaftState => ({
+      ...state,
+      status: {
+        result: shaft,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    getShaftLatestFailure,
+    (state: ShaftState): ShaftState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: false,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

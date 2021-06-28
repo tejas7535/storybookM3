@@ -4,9 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
-import { ProcessCaseState } from '../../core/store/reducers/process-case/process-case.reducer';
 import {
   getAddMaterialRowData,
   getQuotationErrorMessage,
@@ -24,7 +23,7 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
   updateLoading$: Observable<boolean>;
 
   constructor(
-    private readonly store: Store<ProcessCaseState>,
+    private readonly store: Store,
     private readonly dialogRef: MatDialogRef<AddMaterialDialogComponent>
   ) {}
 
@@ -34,11 +33,11 @@ export class AddMaterialDialogComponent implements OnInit, OnDestroy {
 
     const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 
-    const loadingStopped$ = this.store.pipe(
-      select(getUpdateLoading),
+    const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
       pairwise(),
       map(([preVal, curVal]) => preVal && !curVal)
     );
+
     this.subscription.add(
       combineLatest([isErrorMessage$, loadingStopped$]).subscribe(
         ([isErrorMessage, loadingStopped]) => {

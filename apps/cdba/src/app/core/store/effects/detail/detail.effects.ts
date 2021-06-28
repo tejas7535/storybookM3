@@ -11,7 +11,6 @@ import {
   mergeMap,
   switchMap,
   tap,
-  withLatestFrom,
 } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
@@ -58,7 +57,9 @@ export class DetailEffects {
   loadReferenceType$ = createEffect(() =>
     this.actions$.pipe(
       ofType(loadReferenceType),
-      withLatestFrom(this.store.select(getSelectedReferenceTypeIdentifier)),
+      concatLatestFrom(() =>
+        this.store.select(getSelectedReferenceTypeIdentifier)
+      ),
       map(([_action, refTypeIdentifier]) => refTypeIdentifier),
       mergeMap((refTypeIdentifier: ReferenceTypeIdentifier) =>
         this.detailService.getDetails(refTypeIdentifier).pipe(
@@ -119,7 +120,9 @@ export class DetailEffects {
   triggerBomLoad$ = createEffect(() =>
     this.actions$.pipe(
       ofType(selectCalculation, loadCalculationsSuccess),
-      withLatestFrom(this.store.select(getBomIdentifierForSelectedCalculation)),
+      concatLatestFrom(() =>
+        this.store.select(getBomIdentifierForSelectedCalculation)
+      ),
       map(([_action, bomIdentifier]) => bomIdentifier),
       filter((bomIdentifier) => bomIdentifier !== undefined),
       map((bomIdentifier) => loadBom({ bomIdentifier }))
@@ -163,7 +166,9 @@ export class DetailEffects {
 
         return referenceTypeIdentifier !== undefined;
       }),
-      withLatestFrom(this.store.select(getSelectedReferenceTypeIdentifier)),
+      concatLatestFrom(() =>
+        this.store.select(getSelectedReferenceTypeIdentifier)
+      ),
       filter(
         ([identifierFromRoute, identifierCurrent]) =>
           !DetailEffects.checkEqualityOfIdentifier(
