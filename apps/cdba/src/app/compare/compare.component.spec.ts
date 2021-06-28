@@ -6,7 +6,11 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { TabsHeaderModule } from '@cdba/shared/components';
+import {
+  PageHeaderModule,
+  ShareButtonModule,
+  TabsHeaderModule,
+} from '@cdba/shared/components';
 import { COMPARE_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { CompareComponent } from './compare.component';
@@ -21,6 +25,8 @@ describe('CompareComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       MockModule(TabsHeaderModule),
+      MockModule(PageHeaderModule),
+      MockModule(ShareButtonModule),
     ],
     providers: [
       provideMockStore({ initialState: { compare: COMPARE_STATE_MOCK } }),

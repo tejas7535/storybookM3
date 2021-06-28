@@ -1,66 +1,42 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { marbles } from 'rxjs-marbles/jest';
+
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockStore, provideMockStore } from '@ngrx/store/testing';
-import { MockModule } from 'ng-mocks';
+import { provideMockStore } from '@ngrx/store/testing';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { BlockUiModule } from '@cdba/shared/components';
+import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
-import {
-  getReferenceTypes,
-  getSearchSuccessful,
-  selectReferenceTypes,
-} from '../core/store';
 import { SharedModule } from '../shared/shared.module';
-import { FilterPanelModule } from './filter-panel/filter-panel.module';
-import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
-import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
 import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
   let component: SearchComponent;
   let spectator: Spectator<SearchComponent>;
-  let store: MockStore;
 
   const createComponent = createComponentFactory({
     component: SearchComponent,
     imports: [
       SharedModule,
       provideTranslocoTestingModule({ en: {} }),
-      MockModule(FilterPanelModule),
-      MockModule(ReferenceTypesFiltersModule),
-      MockModule(ReferenceTypesTableModule),
       RouterTestingModule,
       BlockUiModule,
     ],
     providers: [
       provideMockStore({
         initialState: {
-          search: {},
+          search: SEARCH_STATE_MOCK,
         },
-        selectors: [
-          {
-            selector: getSearchSuccessful,
-            value: true,
-          },
-          {
-            selector: getReferenceTypes,
-            value: [],
-          },
-        ],
       }),
     ],
-    disableAnimations: true,
-    detectChanges: false,
   });
 
   beforeEach(() => {
     spectator = createComponent();
     component = spectator.component;
-
-    store = spectator.inject(MockStore);
   });
 
   it('should create', () => {
@@ -68,24 +44,19 @@ describe('SearchComponent', () => {
   });
 
   describe('ngOnInit', () => {
-    test('should initialize observables', () => {
-      component.ngOnInit();
+    test(
+      'should initialize observables',
+      marbles((m) => {
+        m.expect(component.loading$).toBeObservable(m.cold('a', { a: false }));
 
-      expect(component.searchSuccessful$).toBeDefined();
-    });
-  });
+        m.expect(component.tooManyResults$).toBeObservable(
+          m.cold('a', { a: false })
+        );
 
-  describe('selectReferenceTypes', () => {
-    test('should dispatch selectReferenceTypes Action', () => {
-      store.dispatch = jest.fn();
-
-      const nodeIds = ['1'];
-
-      component.selectReferenceTypes(nodeIds);
-
-      expect(store.dispatch).toHaveBeenCalledWith(
-        selectReferenceTypes({ nodeIds })
-      );
-    });
+        m.expect(component.noResultsFound$).toBeObservable(
+          m.cold('a', { a: false })
+        );
+      })
+    );
   });
 });

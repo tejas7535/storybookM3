@@ -12,8 +12,6 @@ import { Store } from '@ngrx/store';
 
 import {
   autocomplete,
-  getSearchSuccessful,
-  getTooManyResults,
   resetFilters,
   search,
   updateFilter,
@@ -45,8 +43,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
 
   // can be used for all filters for now since only one filter can be opened anyway
   autocompleteLoading$: Observable<boolean>;
-  tooManyResults$: Observable<boolean>;
-  searchSuccessful$: Observable<boolean>;
   showResetButton$: Observable<boolean>;
 
   filterType = FilterItemType;
@@ -61,8 +57,6 @@ export class ReferenceTypesFiltersComponent implements OnInit {
   public ngOnInit(): void {
     this.filters$ = this.store.select(getFilters);
     this.autocompleteLoading$ = this.store.select(getAutocompleteLoading);
-    this.searchSuccessful$ = this.store.select(getSearchSuccessful);
-    this.tooManyResults$ = this.store.select(getTooManyResults);
     this.showResetButton$ = this.store.select(getIsDirty);
   }
 

@@ -1,3 +1,5 @@
+import { ReferenceType } from '@cdba/shared/models';
+
 import { REFERENCE_TYPE_MOCK } from '../../../../../../src/testing/mocks';
 import {
   FilterItemIdValue,
@@ -12,10 +14,10 @@ import {
   getFilters,
   getInitialFiltersLoading,
   getIsDirty,
+  getNoResultsFound,
   getReferenceTypes,
   getReferenceTypesLoading,
   getResultCount,
-  getSearchSuccessful,
   getSearchText,
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
@@ -170,9 +172,26 @@ describe('Search Selector', () => {
     });
   });
 
-  describe('getSearchSuccessful', () => {
-    test('should return false if search has not been triggered yet', () => {
-      expect(getSearchSuccessful({ search: initialState })).toBeFalsy();
+  describe('getNoResultsFound', () => {
+    test('should return true if result count 0 and items are not undefined', () => {
+      const items: ReferenceType[] = [];
+      const mockState = {
+        ...fakeState,
+        search: {
+          ...fakeState.search,
+          referenceTypes: {
+            ...fakeState.search.referenceTypes,
+            items,
+            resultCount: 0,
+          },
+        },
+      };
+
+      expect(getNoResultsFound(mockState)).toBeTruthy();
+    });
+
+    test('should return false when reftype items are defined', () => {
+      expect(getNoResultsFound(fakeState)).toBeFalsy();
     });
   });
 

@@ -1,46 +1,37 @@
-<ng-container *ngIf="searchSuccessful$ | ngrxPush; else showStartPage">
-  <div
-    class="search-container"
-    fxLayout="column"
-    fxLayoutAlign="start center"
-    fxLayoutGap="20px"
-  >
-    <cdba-filter-panel [resultCount]="resultCount$ | ngrxPush">
-      <cdba-reference-types-filters
-        *ngIf="!(loading$ | ngrxPush); else blockUi"
-      ></cdba-reference-types-filters>
-    </cdba-filter-panel>
-    <cdba-reference-types-table
-      [rowData]="referenceTypesData$ | ngrxPush"
-      [selectedNodeIds]="selectedReferenceTypeIds$ | ngrxPush"
-      (selectionChange)="selectReferenceTypes($event)"
-    ></cdba-reference-types-table>
-  </div>
-</ng-container>
+<div class="h-full flex flex-col items-center justify-center gap-12">
+  <img src="/assets/images/logo.png" alt="Logo" class="w-[124px] h-[50px]" />
+  <ng-container *ngIf="tooManyResults$ | ngrxPush">
+    <div
+      class="flex flex-col items-center justify-center"
+      *transloco="let t; read: 'search.tooManyResults'"
+    >
+      <h4 class="font-body">
+        {{ t('message') }}
+      </h4>
+      <h6 class="text-light font-body whitespace-pre-line text-center">
+        {{ t('hint') }}
+      </h6>
+    </div>
+  </ng-container>
 
-<ng-template #showStartPage>
-  <div
-    class="search-container"
-    fxLayout="column"
-    fxLayoutAlign="center center"
-    fxLayoutGap="20px"
-  >
-    <img src="/assets/images/logo.png" alt="Logo" />
-    <ng-container *ngIf="tooManyResults$ | ngrxPush">
-      <div class="too-many-results-group">
-        <h4 class="too-many-results" *transloco="let t; read: 'search'">
-          {{ t('tooManyResults') }}
-        </h4>
-        <h6 class="we-found-too-many-en" *transloco="let t; read: 'search'">
-          {{ t('useFilter') }}
-        </h6>
-      </div>
-    </ng-container>
-    <cdba-reference-types-filters
-      *ngIf="!(loading$ | ngrxPush); else blockUi"
-    ></cdba-reference-types-filters>
-  </div>
-</ng-template>
+  <ng-container *ngIf="noResultsFound$ | ngrxPush">
+    <div
+      class="flex flex-col items-center justify-center"
+      *transloco="let t; read: 'search.noResults'"
+    >
+      <h4 class="font-body">
+        {{ t('message') }}
+      </h4>
+      <h6 class="text-light font-body whitespace-pre-line text-center">
+        {{ t('hint') }}
+      </h6>
+    </div>
+  </ng-container>
+
+  <cdba-reference-types-filters
+    *ngIf="!(loading$ | ngrxPush); else blockUi"
+  ></cdba-reference-types-filters>
+</div>
 
 <ng-template #blockUi>
   <cdba-block-ui></cdba-block-ui>

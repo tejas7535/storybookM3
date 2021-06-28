@@ -1,12 +1,17 @@
-<cdba-tabs-header [tabs]="tabs">
-  <h4 *ngIf="referenceType$ | ngrxPush as referenceType; else error">
-    {{ referenceType?.materialDesignation }} |
-    {{ referenceType?.materialNumber | materialNumber }}
-  </h4>
-</cdba-tabs-header>
-
-<ng-template #error>
-  <h4 *transloco="let t; read: 'detail'">
-    {{ t('errorTitle') }}
-  </h4>
-</ng-template>
+<ng-container *ngrxLet="referenceType$ as referenceType">
+  <cdba-page-header
+    *transloco="let t; read: 'detail'"
+    [title]="
+      referenceType
+        ? referenceType.materialDesignation +
+          ' | ' +
+          (referenceType.materialNumber | materialNumber)
+        : t('errorTitle')
+    "
+  >
+    <cdba-share-button header></cdba-share-button>
+    <div content class="h-full">
+      <cdba-tabs-header [tabs]="tabs"> </cdba-tabs-header>
+    </div>
+  </cdba-page-header>
+</ng-container>

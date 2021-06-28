@@ -1,6 +1,12 @@
+import { Router } from '@angular/router';
+
 import { marbles } from 'rxjs-marbles/jest';
 
-import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import {
+  createServiceFactory,
+  mockProvider,
+  SpectatorService,
+} from '@ngneat/spectator/jest';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { Store } from '@ngrx/store';
@@ -54,13 +60,11 @@ describe('Search Effects', () => {
     providers: [
       provideMockActions(() => actions$),
       provideMockStore(),
+      mockProvider(SearchService),
       {
-        provide: SearchService,
+        provide: Router,
         useValue: {
-          getInitialFilters: jest.fn(),
-          search: jest.fn(),
-          autocomplete: jest.fn(),
-          textSearch: jest.fn(),
+          navigateByUrl: jest.fn(),
         },
       },
     ],
@@ -135,7 +139,7 @@ describe('Search Effects', () => {
     });
 
     test(
-      'should return searchSuccess action when REST call is successful',
+      'should return searchSuccess action and navigate to results when REST call is successful',
       marbles((m) => {
         const filterItemIdVal = new FilterItemIdValue(
           'plant',
@@ -174,6 +178,52 @@ describe('Search Effects', () => {
         m.flush();
         expect(searchService.search).toHaveBeenCalled();
         expect(searchService.search).toHaveBeenCalledWith([]);
+        expect(effects['router'].navigateByUrl).toHaveBeenCalledWith('results');
+      })
+    );
+
+    test(
+      'should return searchSuccess action when REST call is successful',
+      marbles((m) => {
+        jest.resetAllMocks();
+        const filterItemIdVal = new FilterItemIdValue(
+          'plant',
+          [new IdValue('23', 'Best plant', false)],
+          false
+        );
+        const filterItemRange = new FilterItemRange(
+          'length',
+          0,
+          200,
+          0,
+          200,
+          'kg'
+        );
+
+        const ref = REFERENCE_TYPE_MOCK;
+        const searchResult = new SearchResult(
+          [filterItemIdVal, filterItemRange],
+          [ref],
+          750
+        );
+        const result = searchSuccess({
+          searchResult,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+
+        const response = m.cold('-a|', {
+          a: searchResult,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        searchService.search = jest.fn(() => response);
+
+        m.expect(effects.search$).toBeObservable(expected);
+        m.flush();
+        expect(searchService.search).toHaveBeenCalled();
+        expect(searchService.search).toHaveBeenCalledWith([]);
+        expect(effects['router'].navigateByUrl).not.toHaveBeenCalled();
       })
     );
 

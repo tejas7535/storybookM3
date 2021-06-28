@@ -1,6 +1,5 @@
 import { MatButtonModule } from '@angular/material/button';
 import { Router } from '@angular/router';
-import { RouterTestingModule } from '@angular/router/testing';
 
 import { IStatusPanelParams } from '@ag-grid-enterprise/all-modules';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -34,7 +33,6 @@ describe('DetailViewButtonComponent', () => {
     imports: [
       SharedModule,
       MatButtonModule,
-      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -47,6 +45,12 @@ describe('DetailViewButtonComponent', () => {
           },
         },
       }),
+      {
+        provide: Router,
+        useValue: {
+          navigate: jest.fn(),
+        },
+      },
     ],
   });
 

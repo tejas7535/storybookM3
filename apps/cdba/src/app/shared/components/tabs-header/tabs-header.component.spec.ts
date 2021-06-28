@@ -5,11 +5,10 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { BackButtonModule, ShareButtonModule } from '@cdba/shared/directives';
+import { BackButtonModule } from '@cdba/shared/directives';
 
 import { TabsHeaderComponent } from './tabs-header.component';
 
@@ -26,7 +25,6 @@ describe('TabsHeaderComponent', () => {
       MatTooltipModule,
       RouterTestingModule,
       BackButtonModule,
-      MockModule(ShareButtonModule),
       provideTranslocoTestingModule({ en: {} }),
     ],
     declarations: [TabsHeaderComponent],

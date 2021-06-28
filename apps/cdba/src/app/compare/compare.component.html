@@ -1,3 +1,6 @@
-<cdba-tabs-header [tabs]="tabs" *transloco="let t; read: 'compare'">
-  <h4>{{ t('title') }}</h4>
-</cdba-tabs-header>
+<cdba-page-header *transloco="let t; read: 'compare'" [title]="t('title')">
+  <cdba-share-button header></cdba-share-button>
+  <div content class="h-full">
+    <cdba-tabs-header [tabs]="tabs"> </cdba-tabs-header>
+  </div>
+</cdba-page-header>

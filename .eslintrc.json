@@ -172,6 +172,11 @@
         "@typescript-eslint/no-invalid-this": "error",
         "@typescript-eslint/no-useless-constructor": "error",
 
+        "@angular-eslint/component-max-inline-declarations": [
+          "error",
+          { "animations": 15, "styles": 8, "template": 12 }
+        ],
+
         "unicorn/no-array-for-each": "off",
         "unicorn/prevent-abbreviations": "off",
         "unicorn/import-style": "off",

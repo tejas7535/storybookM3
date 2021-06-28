@@ -23,10 +23,12 @@ export interface RouterStateUrl {
 
 export interface AppState {
   router: fromRouter.RouterReducerState<RouterStateUrl>;
+  search: fromSearch.SearchState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
   router: fromRouter.routerReducer,
+  search: fromSearch.searchReducer,
 };
 
 export const metaReducers: MetaReducer<AppState>[] = !environment.production

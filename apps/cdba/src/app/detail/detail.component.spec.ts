@@ -6,7 +6,11 @@ import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { TabsHeaderModule } from '@cdba/shared/components';
+import {
+  PageHeaderModule,
+  ShareButtonModule,
+  TabsHeaderModule,
+} from '@cdba/shared/components';
 
 import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
@@ -26,6 +30,8 @@ describe('DetailComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MaterialNumberModule,
       MockModule(TabsHeaderModule),
+      MockModule(PageHeaderModule),
+      MockModule(ShareButtonModule),
     ],
     providers: [
       provideMockStore({

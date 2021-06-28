@@ -1,7 +1,8 @@
 export enum AppRoutePath {
   BasePath = '',
-  DetailPath = 'detail',
   SearchPath = 'search',
+  ResultsPath = 'results',
+  DetailPath = 'detail',
   ComparePath = 'compare',
   ForbiddenPath = 'forbidden',
 }
