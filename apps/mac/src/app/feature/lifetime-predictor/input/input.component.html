@@ -22,7 +22,7 @@
           </div>
         </mat-expansion-panel-header>
         <mat-slide-toggle
-          *ngIf="controlGroup.name == 'HV'"
+          *ngIf="controlGroup.name === 'HV'"
           color="primary"
           [checked]="material"
           (change)="material = $event.source.checked"

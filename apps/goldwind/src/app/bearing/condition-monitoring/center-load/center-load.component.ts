@@ -3,10 +3,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { BearingLoadState } from '../../../core/store/reducers/load-sense/load-sense.reducer';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
   getAverageLoadGraphData,
@@ -33,19 +32,17 @@ export class CenterLoadComponent implements OnInit {
 
   chartOptions: EChartsOption = polarChartOptions;
 
-  public constructor(private readonly store: Store<BearingLoadState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.timeStamp$ = this.store.pipe(select(getBearingLoadLatestTimeStamp));
+    this.timeStamp$ = this.store.select(getBearingLoadLatestTimeStamp);
 
     if (this.averageLoad) {
-      this.loadSenseGraphData$ = this.store.pipe(
-        select(getAverageLoadGraphData)
-      );
-      this.loading$ = this.store.pipe(select(getLoadAverageLoading));
+      this.loadSenseGraphData$ = this.store.select(getAverageLoadGraphData);
+      this.loading$ = this.store.select(getLoadAverageLoading);
     } else {
-      this.loadSenseGraphData$ = this.store.pipe(select(getLoadGraphData));
-      this.loading$ = this.store.pipe(select(getLoadLatestLoading), take(2));
+      this.loadSenseGraphData$ = this.store.select(getLoadGraphData);
+      this.loading$ = this.store.select(getLoadLatestLoading).pipe(take(2));
     }
   }
 

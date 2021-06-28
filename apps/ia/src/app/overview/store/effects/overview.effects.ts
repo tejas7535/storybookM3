@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core';
 
 import { of } from 'rxjs';
-import {
-  catchError,
-  filter,
-  map,
-  mergeMap,
-  withLatestFrom,
-} from 'rxjs/operators';
+import { catchError, filter, map, mergeMap } from 'rxjs/operators';
 
-import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
+import {
+  Actions,
+  concatLatestFrom,
+  createEffect,
+  ofType,
+  OnInitEffects,
+} from '@ngrx/effects';
 import { Action, Store } from '@ngrx/store';
 
 import {
@@ -52,7 +52,7 @@ export class OverviewEffects implements OnInitEffects {
   filterChange$ = createEffect(() =>
     this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected, triggerLoad),
-      withLatestFrom(this.store.select(getCurrentFiltersAndTime)),
+      concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [

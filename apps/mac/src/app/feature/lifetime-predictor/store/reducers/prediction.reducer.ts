@@ -62,16 +62,19 @@ export const initialState: PredictionState = {
 
 export const predictionReducer = createReducer(
   initialState,
-  on(PredictionActions.setMLRequest, (state, { predictionRequest }) => ({
-    ...state,
-    predictionRequest: {
-      ...state.predictionRequest,
-      ...predictionRequest,
-    },
-  })),
+  on(
+    PredictionActions.setMLRequest,
+    (state, { predictionRequest }): PredictionState => ({
+      ...state,
+      predictionRequest: {
+        ...state.predictionRequest,
+        ...predictionRequest,
+      },
+    })
+  ),
   on(
     PredictionActions.setStatisticalRequest,
-    (state, { statisticalRequest }) => ({
+    (state, { statisticalRequest }): PredictionState => ({
       ...state,
       statisticalRequest: {
         ...state.statisticalRequest,
@@ -79,52 +82,73 @@ export const predictionReducer = createReducer(
       },
     })
   ),
-  on(PredictionActions.unsetPredictionRequest, (state) => ({
-    ...state,
-    predictionRequest: initialState.predictionRequest,
-  })),
-  on(PredictionActions.unsetStatisticalRequest, (state) => ({
-    ...state,
-    statisticalRequest: initialState.statisticalRequest,
-  })),
-  on(PredictionActions.setPredictionType, (state, { prediction }) => ({
-    ...state,
-    predictionRequest: {
-      ...state.predictionRequest,
-      prediction,
-    },
-  })),
-  on(PredictionActions.setPredictionResult, (state, { predictionResult }) => ({
-    ...state,
-    predictionResult,
-  })),
+  on(
+    PredictionActions.unsetPredictionRequest,
+    (state): PredictionState => ({
+      ...state,
+      predictionRequest: initialState.predictionRequest,
+    })
+  ),
+  on(
+    PredictionActions.unsetStatisticalRequest,
+    (state): PredictionState => ({
+      ...state,
+      statisticalRequest: initialState.statisticalRequest,
+    })
+  ),
+  on(
+    PredictionActions.setPredictionType,
+    (state, { prediction }): PredictionState => ({
+      ...state,
+      predictionRequest: {
+        ...state.predictionRequest,
+        prediction,
+      },
+    })
+  ),
+  on(
+    PredictionActions.setPredictionResult,
+    (state, { predictionResult }): PredictionState => ({
+      ...state,
+      predictionResult,
+    })
+  ),
   on(
     PredictionActions.setStatisticalResult,
-    (state, { statisticalResult }) => ({
+    (state, { statisticalResult }): PredictionState => ({
       ...state,
       statisticalResult,
     })
   ),
-  on(PredictionActions.setLoadsRequest, (state, { loadsRequest }) => ({
-    ...state,
-    loadsRequest,
-  })),
-  on(PredictionActions.setLoadsResult, (state, { loads, status, error }) => ({
-    ...state,
-    loads: loads.loads,
-    loadsRequest: {
-      ...state.loadsRequest,
-      status,
-      error,
-    },
-  })),
-  on(PredictionActions.setHardness, (state, { selectedHardness }) => ({
-    ...state,
-    predictionRequest: {
-      ...state.predictionRequest,
-      hv: selectedHardness,
-    },
-  }))
+  on(
+    PredictionActions.setLoadsRequest,
+    (state, { loadsRequest }): PredictionState => ({
+      ...state,
+      loadsRequest,
+    })
+  ),
+  on(
+    PredictionActions.setLoadsResult,
+    (state, { loads, status, error }): PredictionState => ({
+      ...state,
+      loads: loads.loads,
+      loadsRequest: {
+        ...state.loadsRequest,
+        status,
+        error,
+      },
+    })
+  ),
+  on(
+    PredictionActions.setHardness,
+    (state, { selectedHardness }): PredictionState => ({
+      ...state,
+      predictionRequest: {
+        ...state.predictionRequest,
+        hv: selectedHardness,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

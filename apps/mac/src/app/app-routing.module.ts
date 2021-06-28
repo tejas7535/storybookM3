@@ -15,7 +15,7 @@ export const appRoutePaths: Routes = [
   {
     canActivate: [MsalGuard],
     path: RoutePath.OverviewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./feature/overview/overview.module').then(
         (m) => m.OverviewModule
       ),
@@ -23,7 +23,7 @@ export const appRoutePaths: Routes = [
   {
     canLoad: [MsalGuard],
     path: RoutePath.HardnessConverterPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./feature/hardness-converter/hardness-converter.module').then(
         (m) => m.HardnessConverterModule
       ),
@@ -31,7 +31,7 @@ export const appRoutePaths: Routes = [
   {
     canLoad: [MsalGuard],
     path: RoutePath.AQMCalculatorPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./feature/aqm-calculator/aqm-calculator.module').then(
         (m) => m.AqmCalculatorModule
       ),
@@ -40,7 +40,7 @@ export const appRoutePaths: Routes = [
     canLoad: [MsalGuard],
     canActivateChild: [RoleGuard],
     path: RoutePath.LifetimePredictorPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./feature/lifetime-predictor/lifetime-predictor.module').then(
         (m) => m.LifetimePredictorModule
       ),
@@ -51,19 +51,19 @@ export const appRoutePaths: Routes = [
   {
     canLoad: [MsalGuard],
     path: RoutePath.MaterialsSupplierDatabasePath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import(
         './feature/materials-supplier-database/materials-supplier-database.module'
       ).then((m) => m.MaterialsSupplierDatabaseModule),
   },
   {
     path: 'forbidden',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

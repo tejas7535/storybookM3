@@ -4,11 +4,10 @@ import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
 import { setEdmInterval } from '../../../core/store/actions/edm-monitor/edm-monitor.actions';
-import { EdmMonitorState } from '../../../core/store/reducers/edm-monitor/edm-monitor.reducer';
 import { AntennaName } from '../../../core/store/reducers/edm-monitor/models';
 import {
   GraphData,
@@ -50,20 +49,20 @@ export class EdmMonitorComponent implements OnInit {
     },
   };
 
-  public constructor(private readonly store: Store<EdmMonitorState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.getEdmGraphData({ sensor: this.sensor });
-    this.interval$ = this.store.pipe(select(getEdmInterval));
-    this.loading$ = this.store.pipe(select(getEdmLoading), take(2));
+    this.interval$ = this.store.select(getEdmInterval);
+    this.loading$ = this.store.select(getEdmLoading).pipe(take(2));
   }
 
   getEdmGraphData({ sensor }: { sensor: boolean }): void {
     const antenna = sensor ? AntennaName.Antenna2 : AntennaName.Antenna1;
 
-    this.edmGraphData$ = this.store.pipe(
-      select(getEdmGraphData, { sensorName: antenna })
-    );
+    this.edmGraphData$ = this.store.select(getEdmGraphData, {
+      sensorName: antenna,
+    });
   }
 
   setInterval(interval: Interval): void {

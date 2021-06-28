@@ -28,27 +28,42 @@ export const initialState: InputState = {
 
 export const inputReducer = createReducer(
   initialState,
-  on(InputActions.setPredictionOptions, (state, { predictions }) => ({
-    ...state,
-    predictions,
-  })),
-  on(InputActions.setBurdeningTypeOptions, (state, { burdeningTypes }) => ({
-    ...state,
-    burdeningTypes,
-  })),
-  on(InputActions.setMaterialOptions, (state, { materials }) => ({
-    ...state,
-    materials,
-  })),
-  on(InputActions.setMaterial, (state, { selectedMaterial }) => ({
-    ...state,
-    selectedMaterial,
-  })),
-  on(InputActions.unsetMaterial, (state) => ({
-    ...state,
-    selectedMaterial: undefined,
-  })),
-  on(InputActions.setDisplay, (state, { display }) => {
+  on(
+    InputActions.setPredictionOptions,
+    (state, { predictions }): InputState => ({
+      ...state,
+      predictions,
+    })
+  ),
+  on(
+    InputActions.setBurdeningTypeOptions,
+    (state, { burdeningTypes }): InputState => ({
+      ...state,
+      burdeningTypes,
+    })
+  ),
+  on(
+    InputActions.setMaterialOptions,
+    (state, { materials }): InputState => ({
+      ...state,
+      materials,
+    })
+  ),
+  on(
+    InputActions.setMaterial,
+    (state, { selectedMaterial }): InputState => ({
+      ...state,
+      selectedMaterial,
+    })
+  ),
+  on(
+    InputActions.unsetMaterial,
+    (state): InputState => ({
+      ...state,
+      selectedMaterial: undefined,
+    })
+  ),
+  on(InputActions.setDisplay, (state, { display }): InputState => {
     const { showMurakami, showFKM, showStatistical } = display;
 
     return {
@@ -61,18 +76,27 @@ export const inputReducer = createReducer(
       },
     };
   }),
-  on(InputActions.setChartType, (state, { chartType }) => ({
-    ...state,
-    display: { ...state.display, chartType },
-  })),
-  on(InputActions.unsetDisplay, (state) => ({
-    ...state,
-    display: initialState.display,
-  })),
-  on(InputActions.setBannerVisible, (state, { bannerOpen }) => ({
-    ...state,
-    display: { ...state.display, bannerOpen },
-  }))
+  on(
+    InputActions.setChartType,
+    (state, { chartType }): InputState => ({
+      ...state,
+      display: { ...state.display, chartType },
+    })
+  ),
+  on(
+    InputActions.unsetDisplay,
+    (state): InputState => ({
+      ...state,
+      display: initialState.display,
+    })
+  ),
+  on(
+    InputActions.setBannerVisible,
+    (state, { bannerOpen }): InputState => ({
+      ...state,
+      display: { ...state.display, bannerOpen },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

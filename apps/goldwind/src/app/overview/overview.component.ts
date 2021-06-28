@@ -2,11 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { BreakpointService } from '@schaeffler/responsive';
 
-import { DevicesState } from '../core/store/reducers/devices/devices.reducer';
 import { Device } from '../core/store/reducers/devices/models';
 import { getDevicesResult } from '../core/store/selectors/devices/devices.selector';
 
@@ -23,11 +22,11 @@ export class OverviewComponent implements OnInit, OnDestroy {
 
   public constructor(
     private readonly breakpointService: BreakpointService,
-    private readonly store: Store<DevicesState>
+    private readonly store: Store
   ) {}
 
   ngOnInit(): void {
-    this.devices$ = this.store.pipe(select(getDevicesResult));
+    this.devices$ = this.store.select(getDevicesResult);
     this.subscriptions.add(
       this.breakpointService
         .isLessThanMedium()

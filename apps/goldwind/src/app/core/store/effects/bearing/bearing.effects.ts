@@ -14,7 +14,7 @@ import {
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { RestService } from '../../../http/rest.service';
@@ -29,8 +29,8 @@ import * as fromRouter from '../../reducers';
 @Injectable()
 export class BearingEffects {
   router$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
@@ -43,30 +43,31 @@ export class BearingEffects {
             currentRoute && currentRoute === AppRoutePath.BearingPath
         ),
         tap(() => this.store.dispatch(getBearingId()))
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Load Bearing ID
    */
-  bearingId$ = createEffect(() =>
-    this.actions$.pipe(
+  bearingId$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getBearingId),
-      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([_action, routerState]) => routerState.state.params.id),
       startWith('0'),
       pairwise(),
       filter(([prevId, currentId]) => prevId !== currentId),
       map(([_prevId, currentId]) => getBearing({ bearingId: currentId }))
-    )
-  );
+    );
+  });
 
   /**
    * Load Bearing
    */
-  bearing$ = createEffect(() =>
-    this.actions$.pipe(
+  bearing$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getBearing),
       map((action: any) => action.bearingId),
       mergeMap((bearingId) =>
@@ -75,12 +76,12 @@ export class BearingEffects {
           catchError((_e) => of(getBearingFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store<fromRouter.AppState>
+    private readonly store: Store
   ) {}
 }

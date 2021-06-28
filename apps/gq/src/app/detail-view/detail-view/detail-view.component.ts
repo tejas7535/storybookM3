@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Observable, Subscription } from 'rxjs';
 
@@ -20,7 +20,7 @@ import { BreadcrumbsService } from '../../shared/services/breadcrumbs-service/br
   templateUrl: './detail-view.component.html',
   styleUrls: ['./detail-view.component.scss'],
 })
-export class DetailViewComponent implements OnInit {
+export class DetailViewComponent implements OnInit, OnDestroy {
   public quotation$: Observable<Quotation>;
   public quotationLoading$: Observable<boolean>;
   public quotationDetail$: Observable<QuotationDetail>;

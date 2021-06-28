@@ -2,10 +2,9 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import * as bannerActions from './store/actions/banner.actions';
-import { BannerState } from './store/reducers/banner.reducer';
 import * as bannerSelectors from './store/selectors/banner.selectors';
 
 @Component({
@@ -20,20 +19,20 @@ export class BannerComponent implements OnInit {
   public truncateSize$: Observable<number>;
   public showFullText$: Observable<boolean>;
 
-  public constructor(private readonly store: Store<BannerState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.showBanner$ = this.store.pipe(select(bannerSelectors.getBannerOpen));
-    this.bannerText$ = this.store.pipe(select(bannerSelectors.getBannerText));
-    this.bannerButtonText$ = this.store.pipe(
-      select(bannerSelectors.getBannerButtonText)
+    this.showBanner$ = this.store.select(bannerSelectors.getBannerOpen);
+    this.bannerText$ = this.store.select(bannerSelectors.getBannerText);
+    this.bannerButtonText$ = this.store.select(
+      bannerSelectors.getBannerButtonText
     );
-    this.bannerIcon$ = this.store.pipe(select(bannerSelectors.getBannerIcon));
-    this.truncateSize$ = this.store.pipe(
-      select(bannerSelectors.getBannerTruncateSize)
+    this.bannerIcon$ = this.store.select(bannerSelectors.getBannerIcon);
+    this.truncateSize$ = this.store.select(
+      bannerSelectors.getBannerTruncateSize
     );
-    this.showFullText$ = this.store.pipe(
-      select(bannerSelectors.getBannerIsFullTextShown)
+    this.showFullText$ = this.store.select(
+      bannerSelectors.getBannerIsFullTextShown
     );
   }
 

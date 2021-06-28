@@ -67,29 +67,41 @@ export const initialState: GreaseStatusState = {
 
 export const greaseStatusReducer = createReducer(
   initialState,
-  on(getGreaseStatus, (state: GreaseStatusState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getGreaseStatusSuccess, (state: GreaseStatusState, { gcmStatus }) => ({
-    ...state,
-    result: gcmStatus,
-    loading: false,
-  })),
-  on(getGreaseStatusFailure, (state: GreaseStatusState) => ({
-    ...state,
-    loading: false,
-  })),
-  on(getGreaseStatusLatest, (state: GreaseStatusState) => ({
-    ...state,
-    status: {
-      ...state.status,
+  on(
+    getGreaseStatus,
+    (state: GreaseStatusState): GreaseStatusState => ({
+      ...state,
       loading: true,
-    },
-  })),
+    })
+  ),
+  on(
+    getGreaseStatusSuccess,
+    (state: GreaseStatusState, { gcmStatus }): GreaseStatusState => ({
+      ...state,
+      result: gcmStatus,
+      loading: false,
+    })
+  ),
+  on(
+    getGreaseStatusFailure,
+    (state: GreaseStatusState): GreaseStatusState => ({
+      ...state,
+      loading: false,
+    })
+  ),
+  on(
+    getGreaseStatusLatest,
+    (state: GreaseStatusState): GreaseStatusState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: true,
+      },
+    })
+  ),
   on(
     getGreaseStatusLatestSuccess,
-    (state: GreaseStatusState, { greaseStatusLatest }) => ({
+    (state: GreaseStatusState, { greaseStatusLatest }): GreaseStatusState => ({
       ...state,
       status: {
         result: greaseStatusLatest,
@@ -97,21 +109,30 @@ export const greaseStatusReducer = createReducer(
       },
     })
   ),
-  on(getGreaseStatusLatestFailure, (state: GreaseStatusState) => ({
-    ...state,
-    status: {
-      ...state.status,
-      loading: false,
-    },
-  })),
-  on(setGreaseDisplay, (state: GreaseStatusState, { greaseDisplay }) => ({
-    ...state,
-    display: greaseDisplay,
-  })),
-  on(setGreaseInterval, (state: GreaseStatusState, { interval }) => ({
-    ...state,
-    interval,
-  }))
+  on(
+    getGreaseStatusLatestFailure,
+    (state: GreaseStatusState): GreaseStatusState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    setGreaseDisplay,
+    (state: GreaseStatusState, { greaseDisplay }): GreaseStatusState => ({
+      ...state,
+      display: greaseDisplay,
+    })
+  ),
+  on(
+    setGreaseInterval,
+    (state: GreaseStatusState, { interval }): GreaseStatusState => ({
+      ...state,
+      interval,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

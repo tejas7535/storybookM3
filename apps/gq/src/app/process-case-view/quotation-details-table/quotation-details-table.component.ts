@@ -12,11 +12,10 @@ import {
   IStatusPanelParams,
   StatusPanelDef,
 } from '@ag-grid-community/all-modules';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getRoles } from '@schaeffler/azure-auth';
 
-import { AppState } from '../../core/store';
 import { Quotation } from '../../shared/models';
 import { QuotationDetail } from '../../shared/models/quotation-detail';
 import { AgGridStateService } from '../../shared/services/ag-grid-state.service/ag-grid-state.service';
@@ -60,21 +59,22 @@ export class QuotationDetailsTableComponent implements OnInit {
   public rowSelection = 'multiple';
 
   constructor(
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly agGridStateService: AgGridStateService,
     private readonly columnDefinitionService: ColumnDefService
   ) {}
 
   ngOnInit(): void {
-    this.columnDefs$ = this.store.pipe(
-      select(getRoles),
-      map((roles) =>
-        ColumnUtilityService.createColumnDefs(
-          roles,
-          this.columnDefinitionService.COLUMN_DEFS
+    this.columnDefs$ = this.store
+      .select(getRoles)
+      .pipe(
+        map((roles) =>
+          ColumnUtilityService.createColumnDefs(
+            roles,
+            this.columnDefinitionService.COLUMN_DEFS
+          )
         )
-      )
-    );
+      );
   }
 
   public onColumnChange(event: ColumnEvent): void {

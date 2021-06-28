@@ -27,16 +27,19 @@ export const initialState: LossOfSkillsState = {
 
 export const lossOfSkillsReducer = createReducer(
   initialState,
-  on(loadLostJobProfiles, (state: LossOfSkillsState) => ({
-    ...state,
-    lostJobProfiles: {
-      ...state.lostJobProfiles,
-      loading: true,
-    },
-  })),
+  on(
+    loadLostJobProfiles,
+    (state: LossOfSkillsState): LossOfSkillsState => ({
+      ...state,
+      lostJobProfiles: {
+        ...state.lostJobProfiles,
+        loading: true,
+      },
+    })
+  ),
   on(
     loadLostJobProfilesSuccess,
-    (state: LossOfSkillsState, { lostJobProfiles }) => ({
+    (state: LossOfSkillsState, { lostJobProfiles }): LossOfSkillsState => ({
       ...state,
       lostJobProfiles: {
         data: lostJobProfiles,
@@ -47,7 +50,7 @@ export const lossOfSkillsReducer = createReducer(
   ),
   on(
     loadLostJobProfilesFailure,
-    (state: LossOfSkillsState, { errorMessage }) => ({
+    (state: LossOfSkillsState, { errorMessage }): LossOfSkillsState => ({
       ...state,
       lostJobProfiles: {
         errorMessage,

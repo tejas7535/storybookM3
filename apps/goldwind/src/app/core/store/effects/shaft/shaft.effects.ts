@@ -13,7 +13,7 @@ import {
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { AppRoutePath } from '../../../../app-route-path.enum';
 import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
@@ -38,8 +38,8 @@ export class ShaftEffects {
   private isPollingActive = false;
 
   router$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map(
@@ -60,7 +60,8 @@ export class ShaftEffects {
             this.store.dispatch(getShaftId({ source: currentRoute }));
           }
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
@@ -68,11 +69,11 @@ export class ShaftEffects {
    * Load Shaft Device ID
    */
   shaftId$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(getShaftId),
         filter((_) => !this.isPollingActive),
-        withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+        withLatestFrom(this.store.select(fromRouter.getRouterState)),
         map(([action, routerState]) => ({
           deviceId: routerState.state.params.id,
           source: action.source,
@@ -85,44 +86,46 @@ export class ShaftEffects {
             this.store.dispatch(getShaft({ deviceId }));
           }
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Continue Load Shaft Device ID
    */
-  continueShaftId$ = createEffect(() =>
-    this.actions$.pipe(
+  continueShaftId$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getShaftLatestSuccess, getShaftLatestFailure),
       delay(UPDATE_SETTINGS.shaft.refresh * 1000),
       filter(() => this.isPollingActive),
-      withLatestFrom(this.store.pipe(select(fromRouter.getRouterState))),
+      withLatestFrom(this.store.select(fromRouter.getRouterState)),
       map(([_action, routerState]) =>
         getShaftLatest({ deviceId: routerState.state.params.id })
       )
-    )
-  );
+    );
+  });
 
   /**
    * Stop Load Shaft Latest
    */
   stopGetShaftLatest$ = createEffect(
-    () =>
-      this.actions$.pipe(
+    () => {
+      return this.actions$.pipe(
         ofType(stopGetShaftLatest),
         map(() => {
           this.isPollingActive = false;
         })
-      ),
+      );
+    },
     { dispatch: false }
   );
 
   /**
    * Load Shaft Latest
    */
-  shaftLatest$ = createEffect(() =>
-    this.actions$.pipe(
+  shaftLatest$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getShaftLatest),
       map((action: any) => action.deviceId),
       mergeMap((deviceId) =>
@@ -131,16 +134,16 @@ export class ShaftEffects {
           catchError((_e) => of(getShaftLatestFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   /**
    * Load Shaft
    */
-  shaft$ = createEffect(() =>
-    this.actions$.pipe(
+  shaft$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(getShaft),
-      withLatestFrom(this.store.pipe(select(getGreaseInterval))),
+      withLatestFrom(this.store.select(getGreaseInterval)),
       map(([action, interval]: [any, Interval]) => ({
         id: action.deviceId,
         ...interval,
@@ -151,12 +154,12 @@ export class ShaftEffects {
           catchError((_e) => of(getShaftFailure()))
         )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store<fromRouter.AppState>
+    private readonly store: Store
   ) {}
 }

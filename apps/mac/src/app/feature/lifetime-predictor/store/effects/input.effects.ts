@@ -16,18 +16,18 @@ import * as InputActions from '../actions/input.actions';
 export class InputEffects {
   constructor(private readonly actions$: Actions) {}
 
-  public getPredictions$ = createEffect(() =>
-    this.actions$.pipe(
+  public getPredictions$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(InputActions.getFormOptions),
       mergeMap(async () =>
         InputActions.setPredictionOptions({ predictions: PREDICTION_TYPES })
       ),
       catchError(() => of(InputActions.getPredictionsFailure()))
-    )
-  );
+    );
+  });
 
-  public getBurdeningTypes$ = createEffect(() =>
-    this.actions$.pipe(
+  public getBurdeningTypes$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(InputActions.getFormOptions),
       mergeMap(async () =>
         InputActions.setBurdeningTypeOptions({
@@ -35,16 +35,16 @@ export class InputEffects {
         })
       ),
       catchError(() => of(InputActions.getBurdeningTypesFailure()))
-    )
-  );
+    );
+  });
 
-  public getMaterials$ = createEffect(() =>
-    this.actions$.pipe(
+  public getMaterials$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(InputActions.getFormOptions),
       mergeMap(async () =>
         InputActions.setMaterialOptions({ materials: MATERIAL_TYPES })
       ),
       catchError(() => of(InputActions.getMaterialsFailure()))
-    )
-  );
+    );
+  });
 }

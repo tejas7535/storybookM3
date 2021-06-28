@@ -184,39 +184,6 @@ export const overviewReducer = createReducer(
     })
   ),
   on(
-    loadFluctuationRatesChartData,
-    (state: OverviewState): OverviewState => ({
-      ...state,
-      fluctuationRates: {
-        ...state.fluctuationRates,
-        loading: true,
-      },
-    })
-  ),
-  on(
-    loadFluctuationRatesChartDataSuccess,
-    (state: OverviewState, { data }): OverviewState => ({
-      ...state,
-      fluctuationRates: {
-        ...state.fluctuationRates,
-        data,
-        loading: false,
-      },
-    })
-  ),
-  on(
-    loadFluctuationRatesChartDataFailure,
-    (state: OverviewState, { errorMessage }): OverviewState => ({
-      ...state,
-      fluctuationRates: {
-        ...state.fluctuationRates,
-        errorMessage,
-        data: undefined,
-        loading: false,
-      },
-    })
-  ),
-  on(
     loadUnforcedFluctuationRatesChartData,
     (state: OverviewState): OverviewState => ({
       ...state,

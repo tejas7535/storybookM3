@@ -10,9 +10,8 @@ import {
 } from 'rxjs/operators';
 
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
-import { Action, select, Store } from '@ngrx/store';
+import { Action, Store } from '@ngrx/store';
 
-import { OrganizationalViewState } from '..';
 import {
   filterSelected,
   timeRangeSelected,
@@ -46,10 +45,10 @@ import {
 
 @Injectable()
 export class OrganizationalViewEffects implements OnInitEffects {
-  filterChange$ = createEffect(() =>
-    this.actions$.pipe(
+  filterChange$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(filterSelected, timeRangeSelected, triggerLoad),
-      withLatestFrom(this.store.pipe(select(getCurrentFiltersAndTime))),
+      withLatestFrom(this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
       filter((request) => request.orgUnit),
       mergeMap((request: EmployeesRequest) => [
@@ -57,11 +56,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
         loadWorldMap({ request }),
         loadAttritionOverTimeOrgChart({ request }),
       ])
-    )
-  );
+    );
+  });
 
-  loadOrgChart$ = createEffect(() =>
-    this.actions$.pipe(
+  loadOrgChart$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadOrgChart),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
@@ -72,11 +71,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  loadWorldMap$ = createEffect(() =>
-    this.actions$.pipe(
+  loadWorldMap$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadWorldMap),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
@@ -87,11 +86,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  loadParent$ = createEffect(() =>
-    this.actions$.pipe(
+  loadParent$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadParent),
       map((action) => action.employee.employeeId),
       mergeMap((childEmployeeId: string) =>
@@ -102,11 +101,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 
-  loadParentSuccess$ = createEffect(() =>
-    this.actions$.pipe(
+  loadParentSuccess$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadParentSuccess),
       map((action) => ({
         name: FilterKey.ORG_UNIT,
@@ -115,11 +114,11 @@ export class OrganizationalViewEffects implements OnInitEffects {
       map((selectedFilter: SelectedFilter) =>
         filterSelected({ filter: selectedFilter })
       )
-    )
-  );
+    );
+  });
 
-  loadAttritionOverTimeOrgChart$ = createEffect(() =>
-    this.actions$.pipe(
+  loadAttritionOverTimeOrgChart$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(loadAttritionOverTimeOrgChart),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
@@ -138,13 +137,13 @@ export class OrganizationalViewEffects implements OnInitEffects {
             )
           )
       )
-    )
-  );
+    );
+  });
 
   constructor(
     private readonly actions$: Actions,
     private readonly employeeService: EmployeeService,
-    private readonly store: Store<OrganizationalViewState>
+    private readonly store: Store
   ) {}
 
   ngrxOnInitEffects(): Action {

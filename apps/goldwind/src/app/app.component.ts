@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { getIsLoggedIn, getUsername } from '@schaeffler/azure-auth';
 import { FooterLink } from '@schaeffler/footer-tailwind';
@@ -11,7 +11,6 @@ import { UserMenuEntry } from '@schaeffler/header';
 
 import packageJson from '../../package.json';
 import { AppRoutePath } from './app-route-path.enum';
-import { AppState } from './core/store';
 import { LegalPath } from './legal/legal-route-path.enum';
 
 @Component({
@@ -46,10 +45,10 @@ export class AppComponent implements OnInit {
   userMenuEntries: UserMenuEntry[] = [];
   isLoggedIn$: Observable<boolean>;
 
-  public constructor(private readonly store: Store<AppState>) {}
+  public constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
-    this.username$ = this.store.pipe(select(getUsername));
-    this.isLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+    this.username$ = this.store.select(getUsername);
+    this.isLoggedIn$ = this.store.select(getIsLoggedIn);
   }
 }

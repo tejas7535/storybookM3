@@ -116,76 +116,90 @@ export const initialState: CaseState = {
 
 export const createCaseReducer = createReducer(
   initialState,
-  on(autocomplete, (state: CaseState, { autocompleteSearch }) => ({
-    ...state,
-    autocompleteLoading: autocompleteSearch.filter,
-  })),
-  on(autocompleteFailure, (state: CaseState) => ({
-    ...state,
-    autocompleteLoading: initialState.autocompleteLoading,
-  })),
-  on(autocompleteSuccess, (state: CaseState, { options, filter }) => ({
-    ...state,
-    autocompleteLoading: initialState.autocompleteLoading,
-    autocompleteItems: [...state.autocompleteItems].map((it) => {
-      const tmp = { ...it };
-      let itemOptions = [...options];
-      if (tmp.filter === filter) {
-        const mergedOptions: IdValue[] = [];
+  on(
+    autocomplete,
+    (state: CaseState, { autocompleteSearch }): CaseState => ({
+      ...state,
+      autocompleteLoading: autocompleteSearch.filter,
+    })
+  ),
+  on(
+    autocompleteFailure,
+    (state: CaseState): CaseState => ({
+      ...state,
+      autocompleteLoading: initialState.autocompleteLoading,
+    })
+  ),
+  on(
+    autocompleteSuccess,
+    (state: CaseState, { options, filter }): CaseState => ({
+      ...state,
+      autocompleteLoading: initialState.autocompleteLoading,
+      autocompleteItems: [...state.autocompleteItems].map((it) => {
+        const tmp = { ...it };
+        let itemOptions = [...options];
+        if (tmp.filter === filter) {
+          const mergedOptions: IdValue[] = [];
 
-        const materialPipe = new MaterialTransformPipe();
-        if (tmp.filter === FilterNames.MATERIAL) {
-          itemOptions = itemOptions.map((opt) => ({
-            ...opt,
-            id: materialPipe.transform(opt.id),
-          }));
-        } else if (tmp.filter === FilterNames.MATERIAL_DESCRIPTION) {
-          itemOptions = itemOptions.map((opt) => ({
-            ...opt,
-            value: materialPipe.transform(opt.value),
-          }));
+          const materialPipe = new MaterialTransformPipe();
+          if (tmp.filter === FilterNames.MATERIAL) {
+            itemOptions = itemOptions.map((opt) => ({
+              ...opt,
+              id: materialPipe.transform(opt.id),
+            }));
+          } else if (tmp.filter === FilterNames.MATERIAL_DESCRIPTION) {
+            itemOptions = itemOptions.map((opt) => ({
+              ...opt,
+              value: materialPipe.transform(opt.value),
+            }));
+          }
+
+          tmp.options.forEach((oldOption) => {
+            const idxInNewOptions = itemOptions.findIndex(
+              (newOpt) => newOpt.id === oldOption.id
+            );
+
+            // only consider selected options in old options
+            if (idxInNewOptions === -1 && oldOption.selected) {
+              // keep old option if it has been selected but is not part of received options
+              mergedOptions.push(oldOption);
+            } else if (idxInNewOptions > -1 && oldOption.selected) {
+              // update received options with selected info
+              itemOptions[idxInNewOptions] = {
+                ...itemOptions[idxInNewOptions],
+                selected: true,
+              };
+            }
+          });
+          tmp.options = [...mergedOptions, ...itemOptions];
         }
 
-        tmp.options.forEach((oldOption) => {
-          const idxInNewOptions = itemOptions.findIndex(
-            (newOpt) => newOpt.id === oldOption.id
-          );
+        return tmp;
+      }),
+    })
+  ),
+  on(
+    selectAutocompleteOption,
+    (state: CaseState, { option, filter }): CaseState => ({
+      ...state,
+      autocompleteItems: [...state.autocompleteItems].map((it) => {
+        const temp = { ...it };
+        if (temp.filter === filter) {
+          return { ...temp, options: selectOption(temp.options, option) };
+        }
 
-          // only consider selected options in old options
-          if (idxInNewOptions === -1 && oldOption.selected) {
-            // keep old option if it has been selected but is not part of received options
-            mergedOptions.push(oldOption);
-          } else if (idxInNewOptions > -1 && oldOption.selected) {
-            // update received options with selected info
-            itemOptions[idxInNewOptions] = {
-              ...itemOptions[idxInNewOptions],
-              selected: true,
-            };
-          }
-        });
-        tmp.options = [...mergedOptions, ...itemOptions];
-      }
-
-      return tmp;
-    }),
-  })),
-  on(selectAutocompleteOption, (state: CaseState, { option, filter }) => ({
-    ...state,
-    autocompleteItems: [...state.autocompleteItems].map((it) => {
-      const temp = { ...it };
-      if (temp.filter === filter) {
-        return { ...temp, options: selectOption(temp.options, option) };
-      }
-
-      return temp;
-    }),
-    customer: {
-      ...state.customer,
-      salesOrgsLoading: filter === FilterNames.CUSTOMER,
-      customerId:
-        filter === FilterNames.CUSTOMER ? option.id : state.customer.customerId,
-    },
-  })),
+        return temp;
+      }),
+      customer: {
+        ...state.customer,
+        salesOrgsLoading: filter === FilterNames.CUSTOMER,
+        customerId:
+          filter === FilterNames.CUSTOMER
+            ? option.id
+            : state.customer.customerId,
+      },
+    })
+  ),
   on(
     setSelectedAutocompleteOption,
     (state: CaseState, { filter, option }): CaseState => ({
@@ -214,27 +228,32 @@ export const createCaseReducer = createReducer(
       }),
     })
   ),
-  on(unselectAutocompleteOptions, (state: CaseState, { filter }) => ({
-    ...state,
-    autocompleteItems: [...state.autocompleteItems].map((it) => {
-      const temp = { ...it };
-      if (temp.filter === filter) {
-        temp.options = temp.options.map((opt) => ({
-          ...opt,
-          selected: false,
-        }));
-      }
+  on(
+    unselectAutocompleteOptions,
+    (state: CaseState, { filter }): CaseState => ({
+      ...state,
+      autocompleteItems: [...state.autocompleteItems].map((it) => {
+        const temp = { ...it };
+        if (temp.filter === filter) {
+          temp.options = temp.options.map((opt) => ({
+            ...opt,
+            selected: false,
+          }));
+        }
 
-      return temp;
-    }),
-    customer: {
-      ...state.customer,
-      customerId:
-        filter === FilterNames.CUSTOMER ? undefined : state.customer.customerId,
-      salesOrgs:
-        filter === FilterNames.CUSTOMER ? [] : state.customer.salesOrgs,
-    },
-  })),
+        return temp;
+      }),
+      customer: {
+        ...state.customer,
+        customerId:
+          filter === FilterNames.CUSTOMER
+            ? undefined
+            : state.customer.customerId,
+        salesOrgs:
+          filter === FilterNames.CUSTOMER ? [] : state.customer.salesOrgs,
+      },
+    })
+  ),
   on(addRowDataItem, (state: CaseState, { items }) => ({
     ...state,
     rowData: [
@@ -247,10 +266,13 @@ export const createCaseReducer = createReducer(
     rowData: TableService.pasteItems(items, [...state.rowData]),
     validationLoading: true,
   })),
-  on(clearCreateCaseRowData, (state: CaseState) => ({
-    ...state,
-    rowData: initialState.rowData,
-  })),
+  on(
+    clearCreateCaseRowData,
+    (state: CaseState): CaseState => ({
+      ...state,
+      rowData: initialState.rowData,
+    })
+  ),
   on(deleteRowDataItem, (state: CaseState, { materialNumber, quantity }) => ({
     ...state,
     rowData: TableService.deleteItem(materialNumber, quantity, [
@@ -281,122 +303,167 @@ export const createCaseReducer = createReducer(
     }),
     validationLoading: false,
   })),
-  on(createCase, (state: CaseState) => ({
-    ...state,
-    createCaseLoading: true,
-  })),
-  on(createCaseSuccess, (state: CaseState, { createdCase }) => ({
-    ...state,
-    createdCase,
-    createCaseLoading: false,
-    autocompleteItems: initialState.autocompleteItems,
-    customer: initialState.customer,
-    rowData: initialState.rowData,
-  })),
-  on(createCaseFailure, (state: CaseState, { errorMessage }) => ({
-    ...state,
-    errorMessage,
-    createCaseLoading: false,
-  })),
-  on(importCase, (state: CaseState) => ({
-    ...state,
-    createCaseLoading: true,
-    errorMessage: initialState.errorMessage,
-  })),
-  on(importCaseSuccess, (state: CaseState) => ({
-    ...state,
-    createCaseLoading: false,
-    autocompleteItems: initialState.autocompleteItems,
-  })),
-  on(importCaseFailure, (state: CaseState, { errorMessage }) => ({
-    ...state,
-    errorMessage,
-    createCaseLoading: false,
-  })),
-  on(getSalesOrgsSuccess, (state: CaseState, { salesOrgs }) => ({
-    ...state,
-    customer: {
-      ...state.customer,
-      salesOrgs,
-      salesOrgsLoading: false,
-    },
-  })),
-  on(getSalesOrgsFailure, (state: CaseState, { errorMessage }) => ({
-    ...state,
-    customer: {
-      ...state.customer,
+  on(
+    createCase,
+    (state: CaseState): CaseState => ({
+      ...state,
+      createCaseLoading: true,
+    })
+  ),
+  on(
+    createCaseSuccess,
+    (state: CaseState, { createdCase }): CaseState => ({
+      ...state,
+      createdCase,
+      createCaseLoading: false,
+      autocompleteItems: initialState.autocompleteItems,
+      customer: initialState.customer,
+      rowData: initialState.rowData,
+    })
+  ),
+  on(
+    createCaseFailure,
+    (state: CaseState, { errorMessage }): CaseState => ({
+      ...state,
       errorMessage,
-      salesOrgsLoading: false,
-    },
-  })),
-  on(selectSalesOrg, (state: CaseState, { salesOrgId }) => ({
-    ...state,
-    customer: {
-      ...state.customer,
-      salesOrgs: [...state.customer.salesOrgs].map((el) => ({
-        ...el,
-        selected: el.id === salesOrgId,
-      })),
-    },
-  })),
-  on(getPLsAndSeries, (state: CaseState, { customerFilters }) => ({
-    ...state,
-    plSeries: {
-      errorMessage: initialState.plSeries.errorMessage,
-      plsAndSeries: initialState.plSeries.plsAndSeries,
-      loading: true,
-      materialSelection: {
-        includeQuotationHistory: customerFilters.includeQuotationHistory,
-        salesIndications: customerFilters.salesIndications,
+      createCaseLoading: false,
+    })
+  ),
+  on(
+    importCase,
+    (state: CaseState): CaseState => ({
+      ...state,
+      createCaseLoading: true,
+      errorMessage: initialState.errorMessage,
+    })
+  ),
+  on(
+    importCaseSuccess,
+    (state: CaseState): CaseState => ({
+      ...state,
+      createCaseLoading: false,
+      autocompleteItems: initialState.autocompleteItems,
+    })
+  ),
+  on(
+    importCaseFailure,
+    (state: CaseState, { errorMessage }): CaseState => ({
+      ...state,
+      errorMessage,
+      createCaseLoading: false,
+    })
+  ),
+  on(
+    getSalesOrgsSuccess,
+    (state: CaseState, { salesOrgs }): CaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        salesOrgs,
+        salesOrgsLoading: false,
       },
-    },
-  })),
-  on(getPLsAndSeriesSuccess, (state: CaseState, { plsAndSeries }) => ({
-    ...state,
-    plSeries: {
-      ...state.plSeries,
-      plsAndSeries,
-      loading: false,
-    },
-  })),
-  on(getPLsAndSeriesFailure, (state: CaseState, { errorMessage }) => ({
-    ...state,
-    plSeries: {
-      ...state.plSeries,
-      errorMessage,
-      loading: false,
-    },
-  })),
-  on(setSelectedProductLines, (state: CaseState, { selectedProductLines }) => ({
-    ...state,
-    plSeries: {
-      ...state.plSeries,
-      plsAndSeries: {
-        ...state.plSeries.plsAndSeries,
-        pls: state.plSeries.plsAndSeries.pls.map((pl) => ({
-          ...pl,
-          selected: selectedProductLines.includes(pl.value),
+    })
+  ),
+  on(
+    getSalesOrgsFailure,
+    (state: CaseState, { errorMessage }): CaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        errorMessage,
+        salesOrgsLoading: false,
+      },
+    })
+  ),
+  on(
+    selectSalesOrg,
+    (state: CaseState, { salesOrgId }): CaseState => ({
+      ...state,
+      customer: {
+        ...state.customer,
+        salesOrgs: [...state.customer.salesOrgs].map((el) => ({
+          ...el,
+          selected: el.id === salesOrgId,
         })),
       },
-    },
-  })),
-  on(setSelectedSeries, (state: CaseState, { selectedSeries }) => ({
-    ...state,
-    plSeries: {
-      ...state.plSeries,
-      plsAndSeries: {
-        ...state.plSeries.plsAndSeries,
-        series: state.plSeries.plsAndSeries.series.map((series) => ({
-          ...series,
-          selected: selectedSeries.includes(series.value),
-        })),
+    })
+  ),
+  on(
+    getPLsAndSeries,
+    (state: CaseState, { customerFilters }): CaseState => ({
+      ...state,
+      plSeries: {
+        errorMessage: initialState.plSeries.errorMessage,
+        plsAndSeries: initialState.plSeries.plsAndSeries,
+        loading: true,
+        materialSelection: {
+          includeQuotationHistory: customerFilters.includeQuotationHistory,
+          salesIndications: customerFilters.salesIndications,
+        },
       },
-    },
-  })),
-  on(resetProductLineAndSeries, (state: CaseState) => ({
-    ...state,
-    plSeries: initialState.plSeries,
-  })),
+    })
+  ),
+  on(
+    getPLsAndSeriesSuccess,
+    (state: CaseState, { plsAndSeries }): CaseState => ({
+      ...state,
+      plSeries: {
+        ...state.plSeries,
+        plsAndSeries,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    getPLsAndSeriesFailure,
+    (state: CaseState, { errorMessage }): CaseState => ({
+      ...state,
+      plSeries: {
+        ...state.plSeries,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    setSelectedProductLines,
+    (state: CaseState, { selectedProductLines }): CaseState => ({
+      ...state,
+      plSeries: {
+        ...state.plSeries,
+        plsAndSeries: {
+          ...state.plSeries.plsAndSeries,
+          pls: state.plSeries.plsAndSeries.pls.map((pl) => ({
+            ...pl,
+            selected: selectedProductLines.includes(pl.value),
+          })),
+        },
+      },
+    })
+  ),
+  on(
+    setSelectedSeries,
+    (state: CaseState, { selectedSeries }): CaseState => ({
+      ...state,
+      plSeries: {
+        ...state.plSeries,
+        plsAndSeries: {
+          ...state.plSeries.plsAndSeries,
+          series: state.plSeries.plsAndSeries.series.map((series) => ({
+            ...series,
+            selected: selectedSeries.includes(series.value),
+          })),
+        },
+      },
+    })
+  ),
+  on(
+    resetProductLineAndSeries,
+    (state: CaseState): CaseState => ({
+      ...state,
+      plSeries: initialState.plSeries,
+    })
+  ),
   on(
     createCustomerCase,
     (state: CaseState): CaseState => ({

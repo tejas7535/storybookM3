@@ -4,7 +4,6 @@ import { CellClassParams } from '@ag-grid-community/core';
 import { Store } from '@ngrx/store';
 
 import { deleteAddMaterialRowDataItem } from '../../../../core/store/actions';
-import { CaseState } from '../../../../core/store/reducers/create-case/create-case.reducer';
 
 @Component({
   selector: 'gq-prcoess-case-action-cell',
@@ -13,7 +12,7 @@ import { CaseState } from '../../../../core/store/reducers/create-case/create-ca
 export class ProcessCaseActionCellComponent {
   public params: CellClassParams;
 
-  constructor(private readonly store: Store<CaseState>) {}
+  constructor(private readonly store: Store) {}
 
   agInit(params: CellClassParams): void {
     this.params = params;

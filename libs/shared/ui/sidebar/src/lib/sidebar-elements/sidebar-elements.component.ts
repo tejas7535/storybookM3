@@ -2,10 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { SidebarElement, SidebarMode } from '../models';
-import { SidebarState } from '../store/reducers/sidebar.reducer';
 import { getSidebarMode } from '../store/selectors/sidebar.selectors';
 
 @Component({
@@ -18,10 +17,10 @@ export class SidebarElementsComponent implements OnInit {
 
   public mode$: Observable<SidebarMode>;
 
-  public constructor(private readonly store: Store<SidebarState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.mode$ = this.store.pipe(select(getSidebarMode));
+    this.mode$ = this.store.select(getSidebarMode);
   }
 
   public trackByFn(index: number, _item: any): number {

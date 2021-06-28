@@ -3,10 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
-import { AppState } from '../../../core/store/reducers';
 import { GreaseSensorName } from '../../../core/store/reducers/grease-status/models';
 import { GraphData } from '../../../core/store/reducers/shared/models';
 import {
@@ -36,14 +35,13 @@ export class GreaseMonitorComponent implements OnInit {
     },
   };
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.getGreaseStatusLatestGraphData({ sensor: this.sensor });
-    this.loading$ = this.store.pipe(
-      select(getGreaseStatusLatestLoading),
-      take(2)
-    );
+    this.loading$ = this.store
+      .select(getGreaseStatusLatestLoading)
+      .pipe(take(2));
   }
 
   getGreaseStatusLatestGraphData({ sensor }: { sensor: boolean }): void {
@@ -51,10 +49,11 @@ export class GreaseMonitorComponent implements OnInit {
       ? GreaseSensorName.GCM02
       : GreaseSensorName.GCM01;
 
-    this.greaseStatusLatestGraphData$ = this.store.pipe(
-      select(getGreaseStatusLatestGraphData, { sensorName: greaseSensor })
+    this.greaseStatusLatestGraphData$ = this.store.select(
+      getGreaseStatusLatestGraphData,
+      { sensorName: greaseSensor }
     );
 
-    this.greaseTimeStamp$ = this.store.pipe(select(getGreaseTimeStamp));
+    this.greaseTimeStamp$ = this.store.select(getGreaseTimeStamp);
   }
 }

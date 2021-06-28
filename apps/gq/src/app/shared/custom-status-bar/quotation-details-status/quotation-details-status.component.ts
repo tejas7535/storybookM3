@@ -6,7 +6,6 @@ import { IStatusPanelParams, RowNode } from '@ag-grid-community/all-modules';
 import { Store } from '@ngrx/store';
 
 import {
-  AppState,
   getCustomerCurrency,
   userHasGPCRole,
   userHasSQVRole,
@@ -31,7 +30,7 @@ export class QuotationDetailsStatusComponent implements OnInit {
   selections: QuotationDetail[] = [];
   private params: IStatusPanelParams;
 
-  constructor(private readonly store: Store<AppState>) {}
+  constructor(private readonly store: Store) {}
 
   ngOnInit(): void {
     this.showGPI$ = this.store.select(userHasGPCRole);

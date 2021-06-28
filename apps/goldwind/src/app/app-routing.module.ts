@@ -13,29 +13,29 @@ export const appRoutePaths: Routes = [
   },
   {
     path: AppRoutePath.OverviewPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./overview/overview.module').then((m) => m.OverviewModule),
     canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.BearingPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./bearing/bearing.module').then((m) => m.BearingModule),
     canActivate: [MsalGuard],
   },
   {
     path: AppRoutePath.LegalPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./legal/legal.module').then((m) => m.LegalModule),
   },
   {
     path: AppRoutePath.ForbiddenPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.ForbiddenModule),
   },
   {
     path: '**',
-    loadChildren: () =>
+    loadChildren: async () =>
       import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
   },
 ];

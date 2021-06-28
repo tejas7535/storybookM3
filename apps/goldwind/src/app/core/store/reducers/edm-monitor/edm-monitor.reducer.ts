@@ -30,23 +30,35 @@ export const initialState: EdmMonitorState = {
 
 export const edmMonitorReducer = createReducer(
   initialState,
-  on(getEdm, (state: EdmMonitorState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getEdmSuccess, (state: EdmMonitorState, { measurements }) => ({
-    ...state,
-    measurements,
-    loading: false,
-  })),
-  on(getEdmFailure, (state: EdmMonitorState) => ({
-    ...state,
-    loading: false,
-  })),
-  on(setEdmInterval, (state: EdmMonitorState, { interval }) => ({
-    ...state,
-    interval,
-  }))
+  on(
+    getEdm,
+    (state: EdmMonitorState): EdmMonitorState => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    getEdmSuccess,
+    (state: EdmMonitorState, { measurements }): EdmMonitorState => ({
+      ...state,
+      measurements,
+      loading: false,
+    })
+  ),
+  on(
+    getEdmFailure,
+    (state: EdmMonitorState): EdmMonitorState => ({
+      ...state,
+      loading: false,
+    })
+  ),
+  on(
+    setEdmInterval,
+    (state: EdmMonitorState, { interval }): EdmMonitorState => ({
+      ...state,
+      interval,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

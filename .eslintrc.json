@@ -210,7 +210,16 @@
             "newlines-between": "always",
             "alphabetize": { "order": "asc", "caseInsensitive": true }
           }
-        ]
+        ],
+
+        "ngrx/avoid-dispatching-multiple-actions-sequentially": "off"
+      }
+    },
+    {
+      "files": ["*.effects.ts"],
+      "rules": {
+        "arrow-body-style": "off",
+        "ngrx/no-multiple-actions-in-effects": "off"
       }
     },
     {
@@ -218,7 +227,9 @@
       "plugins": ["jest"],
       "extends": ["plugin:jest/recommended"],
       "rules": {
+        "@angular-eslint/no-lifecycle-calls": "off",
         "@typescript-eslint/unbound-method": "off",
+
         "jest/unbound-method": "error",
         "jest/no-disabled-tests": "off",
         "jest/expect-expect": [
@@ -227,7 +238,8 @@
             "assertFunctionNames": ["expect", "m.expect"]
           }
         ],
-        "@angular-eslint/no-lifecycle-calls": "off",
+        "jest/no-done-callback": "off",
+
         "max-lines": "off"
       }
     },

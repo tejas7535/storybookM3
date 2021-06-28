@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
 
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getIsLoggedIn,
@@ -10,8 +10,6 @@ import {
   getUsername,
 } from '@schaeffler/azure-auth';
 import { UserMenuEntry } from '@schaeffler/header';
-
-import { AppState } from './core/store/reducers';
 
 @Component({
   selector: 'sedo-root',
@@ -26,11 +24,11 @@ export class AppComponent implements OnInit {
   getIsLoggedIn$: Observable<boolean>;
   userMenuEntries: UserMenuEntry[] = [];
 
-  public constructor(private readonly store: Store<AppState>) {}
+  public constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
-    this.username$ = this.store.pipe(select(getUsername));
-    this.profileImage$ = this.store.pipe(select(getProfileImage));
-    this.getIsLoggedIn$ = this.store.pipe(select(getIsLoggedIn));
+    this.username$ = this.store.select(getUsername);
+    this.profileImage$ = this.store.select(getProfileImage);
+    this.getIsLoggedIn$ = this.store.select(getIsLoggedIn);
   }
 }

@@ -6,6 +6,5 @@ export const lowPrecisionFormatter = (value: number): string => {
   return `${value}`;
 };
 
-export const scientificFormatter = (value: number): string => {
-  return `1.0E + ${Math.log10(value)}`;
-};
+export const scientificFormatter = (value: number): string =>
+  `1.0E + ${Math.log10(value)}`;

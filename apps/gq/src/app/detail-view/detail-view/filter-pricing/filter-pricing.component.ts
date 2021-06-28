@@ -13,7 +13,6 @@ import {
   userHasSQVRole,
 } from '../../../core/store';
 import { UpdateQuotationDetail } from '../../../core/store/reducers/process-case/models';
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import {
   QuotationDetail,
   UpdatePrice,
@@ -32,7 +31,7 @@ export class FilterPricingComponent implements OnInit {
 
   @Input() quotationDetail: QuotationDetail;
 
-  constructor(private readonly store: Store<ProcessCaseState>) {}
+  constructor(private readonly store: Store) {}
 
   public ngOnInit(): void {
     this.customerCurrency$ = this.store.select(getCustomerCurrency);

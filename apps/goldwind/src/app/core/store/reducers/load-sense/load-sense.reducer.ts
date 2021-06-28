@@ -34,58 +34,82 @@ export const initialState: BearingLoadState = {
 
 export const loadSenseReducer = createReducer(
   initialState,
-  on(getBearingLoad, (state: BearingLoadState) => ({
-    ...state,
-    loading: true,
-  })),
-  on(getBearingLoadSuccess, (state: BearingLoadState, { bearingLoad }) => ({
-    ...state,
-    loading: false,
-    result: bearingLoad,
-  })),
-  on(getBearingLoadFailure, (state: BearingLoadState) => ({
-    ...state,
-    loading: false,
-  })),
-  on(getBearingLoadLatest, (state: BearingLoadState) => ({
-    ...state,
-    status: {
-      ...state.status,
+  on(
+    getBearingLoad,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
       loading: true,
-    },
-  })),
+    })
+  ),
+  on(
+    getBearingLoadSuccess,
+    (state: BearingLoadState, { bearingLoad }): BearingLoadState => ({
+      ...state,
+      loading: false,
+      result: bearingLoad,
+    })
+  ),
+  on(
+    getBearingLoadFailure,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
+      loading: false,
+    })
+  ),
+  on(
+    getBearingLoadLatest,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: true,
+      },
+    })
+  ),
   on(
     getBearingLoadLatestSuccess,
-    (state: BearingLoadState, { bearingLoadLatest }) => ({
+    (state: BearingLoadState, { bearingLoadLatest }): BearingLoadState => ({
       ...state,
       status: { loading: false, result: bearingLoadLatest },
     })
   ),
-  on(getBearingLoadLatestFailure, (state: BearingLoadState) => ({
-    ...state,
-    status: {
-      ...state.status,
-      loading: false,
-    },
-  })),
-  on(getLoadAverage, (state: BearingLoadState) => ({
-    ...state,
-    averageResult: {
-      ...state.averageResult,
-      loading: true,
-    },
-  })),
-  on(getLoadAverageSuccess, (state: BearingLoadState, { loadAverage }) => ({
-    ...state,
-    averageResult: { loading: false, result: loadAverage },
-  })),
-  on(getLoadAverageFailure, (state: BearingLoadState) => ({
-    ...state,
-    averageResult: {
-      ...state.averageResult,
-      loading: false,
-    },
-  }))
+  on(
+    getBearingLoadLatestFailure,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
+      status: {
+        ...state.status,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    getLoadAverage,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
+      averageResult: {
+        ...state.averageResult,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    getLoadAverageSuccess,
+    (state: BearingLoadState, { loadAverage }): BearingLoadState => ({
+      ...state,
+      averageResult: { loading: false, result: loadAverage },
+    })
+  ),
+  on(
+    getLoadAverageFailure,
+    (state: BearingLoadState): BearingLoadState => ({
+      ...state,
+      averageResult: {
+        ...state.averageResult,
+        loading: false,
+      },
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

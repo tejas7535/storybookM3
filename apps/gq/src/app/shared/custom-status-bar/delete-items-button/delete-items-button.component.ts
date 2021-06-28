@@ -3,10 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { IStatusPanelParams } from '@ag-grid-community/all-modules';
 import { translate } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import { removePositions } from '../../../core/store/actions';
-import { ProcessCaseState } from '../../../core/store/reducers/process-case/process-case.reducer';
 import { getSapId } from '../../../core/store/selectors';
 import { ConfirmationModalComponent } from '../../confirmation-modal/confirmation-modal.component';
 import { QuotationDetail } from '../../models/quotation-detail';
@@ -22,12 +21,12 @@ export class DeleteItemsButtonComponent implements OnInit {
   sap: boolean;
 
   public constructor(
-    private readonly store: Store<ProcessCaseState>,
+    private readonly store: Store,
     private readonly dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
-    this.store.pipe(select(getSapId)).subscribe((value) => {
+    this.store.select(getSapId).subscribe((value) => {
       this.sap = !!value;
     });
   }

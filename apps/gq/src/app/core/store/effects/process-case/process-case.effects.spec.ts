@@ -70,7 +70,7 @@ import {
   getRemoveQuotationDetailsRequest,
   getSelectedQuotationIdentifier,
 } from '../../selectors';
-import { ProcessCaseEffect } from './process-case.effect';
+import { ProcessCaseEffect } from './process-case.effects';
 
 /* eslint-disable max-lines */
 jest.mock('@ngneat/transloco', () => ({

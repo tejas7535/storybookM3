@@ -13,10 +13,13 @@ export const initialState: SidebarState = {
 
 export const sidebarReducer = createReducer(
   initialState,
-  on(setSidebarMode, (state, { sidebarMode }) => ({
-    ...state,
-    mode: sidebarMode,
-  }))
+  on(
+    setSidebarMode,
+    (state, { sidebarMode }): SidebarState => ({
+      ...state,
+      mode: sidebarMode,
+    })
+  )
 );
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions

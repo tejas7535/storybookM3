@@ -6,7 +6,7 @@ import { combineLatest, Observable, Subscription } from 'rxjs';
 import { map, pairwise } from 'rxjs/operators';
 
 import { TranslocoService } from '@ngneat/transloco';
-import { select, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 
 import {
   getQuotationErrorMessage,
@@ -56,11 +56,11 @@ export class QuantityModalComponent implements OnInit, OnDestroy {
   addSubscriptions(): void {
     const isErrorMessage$ = this.store.select(getQuotationErrorMessage);
 
-    const loadingStopped$ = this.store.pipe(
-      select(getUpdateLoading),
+    const loadingStopped$ = this.store.select(getUpdateLoading).pipe(
       pairwise(),
       map(([preVal, curVal]) => preVal && !curVal)
     );
+
     this.subscription.add(
       this.quantityFormControl.valueChanges.subscribe((val) => {
         this.confirmDisabled = val === null || val === this.quantity;

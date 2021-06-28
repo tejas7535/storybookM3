@@ -16,7 +16,6 @@ import { Store } from '@ngrx/store';
 import { Loads, PredictionResult, StatisticalPrediction } from '../../models';
 import { RestService } from '../../services/rest.service';
 import * as PredictionActions from '../actions/prediction.actions';
-import { LTPState } from '../reducers';
 import {
   getLoadsRequest,
   getPredictionRequest,
@@ -28,11 +27,11 @@ export class PredictionEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly restService: RestService,
-    private readonly store: Store<LTPState>
+    private readonly store: Store
   ) {}
 
-  public setPredictionRequest$ = createEffect(() =>
-    this.actions$.pipe(
+  public setPredictionRequest$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(PredictionActions.setPredictionRequest),
       switchMap((requests) => {
         return [
@@ -44,18 +43,18 @@ export class PredictionEffects {
           }),
         ];
       })
-    )
-  );
+    );
+  });
 
-  public postPrediction$ = createEffect(() =>
-    this.actions$.pipe(
+  public postPrediction$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(PredictionActions.setHardness),
       map(() => PredictionActions.postPrediction())
-    )
-  );
+    );
+  });
 
-  public postMLPrediction$ = createEffect(() =>
-    this.actions$.pipe(
+  public postMLPrediction$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(PredictionActions.postPrediction, PredictionActions.setMLRequest),
       concatMap((action) =>
         of(action).pipe(withLatestFrom(this.store.select(getPredictionRequest)))
@@ -68,11 +67,11 @@ export class PredictionEffects {
           catchError(() => EMPTY)
         )
       )
-    )
-  );
+    );
+  });
 
-  public postStatisticalPrediction$ = createEffect(() =>
-    this.actions$.pipe(
+  public postStatisticalPrediction$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(
         PredictionActions.postPrediction,
         PredictionActions.setStatisticalRequest
@@ -90,18 +89,18 @@ export class PredictionEffects {
           catchError(() => EMPTY)
         )
       )
-    )
-  );
+    );
+  });
 
-  public setLoadsRequest$ = createEffect(() =>
-    this.actions$.pipe(
+  public setLoadsRequest$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(PredictionActions.setLoadsRequest),
       map(() => PredictionActions.postLoadsData())
-    )
-  );
+    );
+  });
 
-  public postLoadsData$ = createEffect(() =>
-    this.actions$.pipe(
+  public postLoadsData$ = createEffect(() => {
+    return this.actions$.pipe(
       ofType(PredictionActions.postLoadsData, PredictionActions.postPrediction),
       withLatestFrom(this.store.select(getLoadsRequest)),
       filter(([_action, loadsRequest]) => loadsRequest !== undefined),
@@ -125,6 +124,6 @@ export class PredictionEffects {
           )
         )
       )
-    )
-  );
+    );
+  });
 }

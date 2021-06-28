@@ -7,7 +7,6 @@ import { Store } from '@ngrx/store';
 import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { BreakpointService } from '@schaeffler/responsive';
 
-import { AppState } from '../../core/store/reducers';
 import * as fromStore from './store';
 
 @Component({
@@ -19,7 +18,7 @@ export class LifetimePredictorComponent implements OnInit {
   public isLessThanMediumViewPort$: Observable<boolean>;
 
   public constructor(
-    private readonly store: Store<AppState>,
+    private readonly store: Store,
     private readonly breakpointService: BreakpointService,
     private readonly applicationInsightService: ApplicationInsightsService
   ) {}
