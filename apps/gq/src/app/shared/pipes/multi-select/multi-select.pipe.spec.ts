@@ -1,7 +1,9 @@
+import { TranslocoModule } from '@ngneat/transloco';
+
 import { MultiSelectPipe } from './multi-select.pipe';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'other'),
 }));
 describe('MultiSelectPipe', () => {

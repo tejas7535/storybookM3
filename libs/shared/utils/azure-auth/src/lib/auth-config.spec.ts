@@ -1,5 +1,9 @@
 import { MsalGuardAuthRequest } from '@azure/msal-angular';
-import { InteractionType, LogLevel } from '@azure/msal-browser';
+import {
+  InteractionType,
+  LogLevel,
+  PublicClientApplication,
+} from '@azure/msal-browser';
 
 import {
   getMsalGuardConfig,
@@ -15,7 +19,7 @@ import {
 import { MsalInstanceConfig } from './models/msal-instance-config.model';
 
 jest.mock('@azure/msal-browser', () => ({
-  ...jest.requireActual('@azure/msal-browser'),
+  ...jest.requireActual<PublicClientApplication>('@azure/msal-browser'),
   PublicClientApplication: jest.fn(),
 }));
 

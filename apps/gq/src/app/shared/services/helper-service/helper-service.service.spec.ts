@@ -1,5 +1,6 @@
 import { KeyName } from '@ag-grid-community/all-modules';
 import { ColDef } from '@ag-grid-community/core';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { PLsAndSeries } from '../../../core/store/reducers/create-case/models/pls-and-series.model';
 import {
@@ -11,7 +12,7 @@ import { PLsSeriesResponse } from '../rest-services/search-service/models/pls-se
 import { HelperService } from './helper-service.service';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

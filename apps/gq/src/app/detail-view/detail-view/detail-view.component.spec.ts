@@ -4,6 +4,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -17,7 +18,7 @@ import { FilterPricingModule } from './filter-pricing/filter-pricing.module';
 import { PricingDetailsModule } from './pricing-details/pricing-details.module';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

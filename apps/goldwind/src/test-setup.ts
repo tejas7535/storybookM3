@@ -5,12 +5,13 @@ import 'jest-preset-angular/setup-jest';
 
 import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 import { defineGlobalsInjections } from '@ngneat/spectator';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn((key) => key),
 }));
 

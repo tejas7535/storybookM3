@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 
@@ -25,7 +26,7 @@ import { AutocompleteInputModule } from './../../autocomplete-input/autocomplete
 import { AddEntryComponent } from './add-entry.component';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

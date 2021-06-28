@@ -2,12 +2,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ValidationDescription } from '../../models/table';
 import { InfoCellComponent } from './info-cell.component';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

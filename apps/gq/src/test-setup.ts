@@ -3,9 +3,10 @@ import { LicenseManager } from '@ag-grid-enterprise/all-modules';
 
 import '../../../global-mocks';
 import 'jest-preset-angular/setup-jest';
+import { TranslocoModule } from '@ngneat/transloco';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

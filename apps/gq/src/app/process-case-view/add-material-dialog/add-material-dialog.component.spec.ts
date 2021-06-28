@@ -4,6 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
@@ -17,7 +18,7 @@ import { InputTableModule } from '../../shared/case-material/input-table/input-t
 import { AddMaterialDialogComponent } from './add-material-dialog.component';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

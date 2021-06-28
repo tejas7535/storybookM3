@@ -5,7 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { ROUTER_NAVIGATED } from '@ngrx/router-store';
@@ -74,7 +74,7 @@ import { ProcessCaseEffect } from './process-case.effect';
 
 /* eslint-disable max-lines */
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 describe('ProcessCaseEffect', () => {

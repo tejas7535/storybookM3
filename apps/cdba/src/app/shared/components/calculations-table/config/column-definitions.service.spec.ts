@@ -4,7 +4,7 @@ import * as utils from '../../table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
 
 jest.mock('../../table/column-utils', () => ({
-  ...jest.requireActual('../../table/column-utils'),
+  ...jest.requireActual<any>('../../table/column-utils'),
   valueGetterDate: jest.fn(),
   valueGetterArray: jest.fn(),
 }));
