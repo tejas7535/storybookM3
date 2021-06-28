@@ -161,7 +161,7 @@ describe('Detail Selector', () => {
     });
   });
 
-  describe('getProductionDetails', () => {
+  describe('getCalculationsLoading', () => {
     test('should return production details', () => {
       expect(getCalculationsLoading(fakeState)).toBeTruthy();
     });

@@ -1,19 +1,13 @@
 import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
-import { EffectsModule } from '@ngrx/effects';
-import { StoreModule } from '@ngrx/store';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { BlockUiModule } from '@cdba/shared/components';
 
-import { SearchEffects } from '../core/store/effects';
-import { searchReducer } from '../core/store/reducers/search/search.reducer';
 import { SharedModule } from '../shared/shared.module';
-import { FilterPanelModule } from './filter-panel/filter-panel.module';
 import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
-import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
 import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
 
@@ -22,11 +16,7 @@ import { SearchComponent } from './search.component';
   imports: [
     SharedModule,
     SearchRoutingModule,
-    FilterPanelModule,
     ReferenceTypesFiltersModule,
-    ReferenceTypesTableModule,
-    StoreModule.forFeature('search', searchReducer),
-    EffectsModule.forFeature([SearchEffects]),
     BlockUiModule,
     SharedTranslocoModule,
   ],

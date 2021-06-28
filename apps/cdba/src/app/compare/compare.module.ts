@@ -7,7 +7,11 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
-import { TabsHeaderModule } from '@cdba/shared/components';
+import {
+  PageHeaderModule,
+  ShareButtonModule,
+  TabsHeaderModule,
+} from '@cdba/shared/components';
 
 import { CompareRoutingModule } from './compare-routing.module';
 import { CompareComponent } from './compare.component';
@@ -20,9 +24,11 @@ import { compareReducer } from './store/reducers/compare.reducer';
     SharedModule,
     CompareRoutingModule,
     SharedTranslocoModule,
-    TabsHeaderModule,
     StoreModule.forFeature('compare', compareReducer),
     EffectsModule.forFeature([CompareEffects]),
+    PageHeaderModule,
+    TabsHeaderModule,
+    ShareButtonModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'compare' }],
 })

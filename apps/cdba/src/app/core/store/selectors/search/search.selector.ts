@@ -76,13 +76,12 @@ const getSelectedOptionsByName = (
 ) => {
   const filter = filterItemEntities[props.name];
 
-  const options = filter
-    ? filter.type === FilterItemType.ID_VALUE
+  const options =
+    filter?.type === FilterItemType.ID_VALUE
       ? (filter as FilterItemIdValue).items.filter(
           (item: IdValue) => item.selected
         )
-      : []
-    : [];
+      : [];
 
   return options;
 };
@@ -119,14 +118,11 @@ export const getTooManyResults = createSelector(
   (state: SearchState) => state.referenceTypes.tooManyResults
 );
 
-export const getSearchSuccessful = createSelector(
+export const getNoResultsFound = createSelector(
   getSearchState,
-  (state: SearchState) => {
-    return (
-      !state.referenceTypes.tooManyResults &&
-      state.referenceTypes.items?.length >= 0
-    );
-  }
+  (state: SearchState) =>
+    state.referenceTypes.items !== undefined &&
+    state.referenceTypes.resultCount === 0
 );
 
 export const getAutocompleteLoading = createSelector(

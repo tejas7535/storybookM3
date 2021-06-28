@@ -25,7 +25,6 @@ import {
   getAutocompleteLoading,
   getFilters,
   getIsDirty,
-  getSearchSuccessful,
   getTooManyResults,
 } from '../../core/store/selectors/search/search.selector';
 import { MultiSelectFilterComponent } from './multi-select-filter/multi-select-filter.component';
@@ -79,7 +78,6 @@ describe('ReferenceTypesFiltersComponent', () => {
         selectors: [
           { selector: getFilters, value: filters },
           { selector: getAutocompleteLoading, value: true },
-          { selector: getSearchSuccessful, value: false },
           { selector: getTooManyResults, value: false },
           { selector: getIsDirty, value: true },
         ],

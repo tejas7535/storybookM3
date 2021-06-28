@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { BackButtonModule, ShareButtonModule } from '../../directives';
+import { BackButtonModule } from '../../directives';
 import { SharedModule } from '../../shared.module';
 import { TabsHeaderComponent } from './tabs-header.component';
 
@@ -22,7 +22,6 @@ import { TabsHeaderComponent } from './tabs-header.component';
     SharedTranslocoModule,
     RouterModule,
     BackButtonModule,
-    ShareButtonModule,
   ],
   exports: [TabsHeaderComponent],
 })

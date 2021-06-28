@@ -34,7 +34,7 @@ export class CompareViewButtonComponent implements OnInit {
 
   public ngOnInit(): void {
     this.selectedNodeIds$ = this.router.routerState.snapshot.url.includes(
-      AppRoutePath.SearchPath
+      AppRoutePath.ResultsPath
     )
       ? this.store.select(getSelectedRefTypeNodeIds)
       : this.store.select(getSelectedCalculationNodeIds);

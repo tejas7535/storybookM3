@@ -21,7 +21,7 @@ const baseColors = {
 const greys = {
   inputFieldAltBg: '#f6f7f8',
   hover: '#ebeef0',
-  background: '#dde3e6',
+  background: '#f5f5f5',
   border: '#ced5da',
   labels: '#9ca2a5',
   toastBg: '#414546',
@@ -78,12 +78,6 @@ module.exports = {
   mode: 'jit',
   darkMode: false, // or 'media' or 'class'
   theme: {
-    borderColor: (theme) => ({
-      ...theme('colors'),
-      dark: 'rgba(0,0,0,0.87)',
-      light: 'rgba(0,0,0,0.60)',
-      veryLight: 'rgba(0,0,0,0.38)',
-    }),
     colors: {
       ...baseColors,
       ...greys,
@@ -91,6 +85,12 @@ module.exports = {
       white: '#fff',
       transparent: 'rgba(0,0,0,0)',
     },
+    borderColor: (theme) => ({
+      ...theme('colors'),
+      dark: 'rgba(0,0,0,0.87)',
+      light: 'rgba(0,0,0,0.60)',
+      veryLight: 'rgba(0,0,0,0.38)',
+    }),
     fontSize: {
       h1: ['96px', { letterSpacing: '-1.5px' }],
       h2: [

@@ -1,5 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { of } from 'rxjs';
 import {
@@ -23,6 +24,8 @@ import { Action, Store } from '@ngrx/store';
 
 import { getIsLoggedIn } from '@schaeffler/azure-auth';
 
+import { AppRoutePath } from '@cdba/app-route-path.enum';
+
 import { SearchService } from '../../../../search/services/search.service';
 import {
   applyTextSearch,
@@ -40,6 +43,7 @@ import {
   searchSuccess,
 } from '../../actions';
 import { FilterItem } from '../../reducers/search/models';
+import { TOO_MANY_RESULTS_THRESHOLD } from '../../reducers/search/search.reducer';
 import {
   getSelectedFilterIdValueOptionsByFilterName,
   getSelectedFilters,
@@ -77,6 +81,14 @@ export class SearchEffects implements OnInitEffects {
       map(([_action, items]) => items),
       mergeMap((items) =>
         this.searchService.search(items).pipe(
+          tap((searchResult) => {
+            if (
+              searchResult.resultCount > 0 &&
+              searchResult.resultCount <= TOO_MANY_RESULTS_THRESHOLD
+            ) {
+              this.router.navigateByUrl(AppRoutePath.ResultsPath);
+            }
+          }),
           map((searchResult) => searchSuccess({ searchResult })),
           catchError((errorMessage) => of(searchFailure({ errorMessage })))
         )
@@ -138,7 +150,8 @@ export class SearchEffects implements OnInitEffects {
   constructor(
     private readonly actions$: Actions,
     private readonly searchService: SearchService,
-    private readonly store: Store
+    private readonly store: Store,
+    private readonly router: Router
   ) {}
 
   /**

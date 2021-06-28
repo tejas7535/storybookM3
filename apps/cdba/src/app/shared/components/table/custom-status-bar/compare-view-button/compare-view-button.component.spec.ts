@@ -35,7 +35,7 @@ describe('CompareViewButtonComponent', () => {
     imports: [
       SharedModule,
       MatButtonModule,
-      RouterTestingModule.withRoutes([]),
+      RouterTestingModule,
       provideTranslocoTestingModule({ en: {} }),
     ],
     providers: [
@@ -57,6 +57,8 @@ describe('CompareViewButtonComponent', () => {
     component = spectator.component;
 
     router = spectator.inject(Router);
+
+    router.navigate = jest.fn();
   });
 
   it('should create', () => {
@@ -67,7 +69,7 @@ describe('CompareViewButtonComponent', () => {
     it(
       'should init with search selector',
       marbles((m) => {
-        router.routerState.snapshot.url = '/search';
+        router.routerState.snapshot.url = '/results';
 
         component.ngOnInit();
 

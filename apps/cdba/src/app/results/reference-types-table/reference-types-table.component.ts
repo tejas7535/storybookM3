@@ -55,7 +55,6 @@ import { TableStore } from './table.store';
 @Component({
   selector: 'cdba-reference-types-table',
   templateUrl: './reference-types-table.component.html',
-  styleUrls: ['./reference-types-table.component.scss'],
 })
 export class ReferenceTypesTableComponent implements OnInit, OnChanges {
   private static readonly TABLE_KEY = 'referenceTypes';
@@ -94,7 +93,7 @@ export class ReferenceTypesTableComponent implements OnInit, OnChanges {
 
   public noRowsOverlayComponent = 'customNoRowsOverlay';
   public noRowsOverlayComponentParams: NoRowsParams = {
-    getMessage: () => translate('search.referenceTypesTable.noRowsMessage'),
+    getMessage: () => translate('results.referenceTypesTable.noRowsMessage'),
   };
 
   public statusBar: {

@@ -8,7 +8,11 @@ import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { MaterialNumberModule } from '@cdba/shared';
-import { TabsHeaderModule } from '@cdba/shared/components';
+import {
+  PageHeaderModule,
+  ShareButtonModule,
+  TabsHeaderModule,
+} from '@cdba/shared/components';
 
 import { DetailEffects } from '../core/store/effects/detail/detail.effects';
 import { detailReducer } from '../core/store/reducers/detail/detail.reducer';
@@ -26,7 +30,9 @@ import { DetailComponent } from './detail.component';
     EffectsModule.forFeature([DetailEffects]),
     MaterialNumberModule,
     SnackBarModule,
+    PageHeaderModule,
     TabsHeaderModule,
+    ShareButtonModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],
 })

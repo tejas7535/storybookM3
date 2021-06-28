@@ -25,6 +25,7 @@ import {
 } from './filter-item.entity';
 import { FilterItem, FilterItemIdValue, FilterItemType } from './models';
 
+export const TOO_MANY_RESULTS_THRESHOLD = 500;
 export interface SearchState {
   filters: {
     dirty: boolean;
@@ -156,7 +157,7 @@ export const searchReducer = createReducer(
         ...state.referenceTypes,
         items: searchResult.result,
         loading: false,
-        tooManyResults: searchResult.resultCount > 500,
+        tooManyResults: searchResult.resultCount > TOO_MANY_RESULTS_THRESHOLD,
         resultCount: searchResult.resultCount,
       },
     })

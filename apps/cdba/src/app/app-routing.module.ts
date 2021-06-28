@@ -22,6 +22,13 @@ export const appRoutes: Routes = [
     canActivateChild: [RoleGuard],
   },
   {
+    path: AppRoutePath.ResultsPath,
+    loadChildren: () =>
+      import('./results/results.module').then((m) => m.ResultsModule),
+    canActivate: [MsalGuard],
+    canActivateChild: [RoleGuard],
+  },
+  {
     path: AppRoutePath.DetailPath,
     loadChildren: async () =>
       import('./detail/detail.module').then((m) => m.DetailModule),
