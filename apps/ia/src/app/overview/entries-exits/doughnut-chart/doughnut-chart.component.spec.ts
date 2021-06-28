@@ -10,7 +10,7 @@ import { DoughnutConfig } from './models/doughnut-config.model';
 import { DoughnutSeriesConfig } from './models/doughnut-series-config.model';
 
 jest.mock('./doughnut-chart.config', () => ({
-  ...jest.requireActual('./doughnut-chart.config'),
+  ...(jest.requireActual('./doughnut-chart.config') as any),
   createPieChartBaseOptions: jest.fn(() => ({})),
   createPieChartSeries: jest.fn(() => ({})),
 }));

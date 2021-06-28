@@ -8,11 +8,6 @@ import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/e
 import { EmployeeListDialogModule } from '../../shared/employee-list-dialog/employee-list-dialog.module';
 import { LostJobProfilesComponent } from './lost-job-profiles.component';
 
-jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
-  translate: jest.fn(() => 'translate it'),
-}));
-
 describe('LostJobProfilesComponent', () => {
   let component: LostJobProfilesComponent;
   let spectator: Spectator<LostJobProfilesComponent>;

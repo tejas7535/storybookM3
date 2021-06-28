@@ -1,4 +1,4 @@
-import { translate } from '@ngneat/transloco';
+import { translate, TranslocoModule } from '@ngneat/transloco';
 
 import { LOAD_SENSE } from '../../../../../testing/mocks';
 import { GaugeColors } from '../../../../shared/chart/chart';
@@ -16,7 +16,7 @@ import {
 } from './load-sense.selector';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn((key) => key),
 }));
 

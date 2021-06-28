@@ -6,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 import { Actions } from '@ngrx/effects';
 import { provideMockActions } from '@ngrx/effects/testing';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
@@ -67,7 +68,7 @@ import {
 import { CreateCaseEffects } from './create-case.effects';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 describe('Create Case Effects', () => {

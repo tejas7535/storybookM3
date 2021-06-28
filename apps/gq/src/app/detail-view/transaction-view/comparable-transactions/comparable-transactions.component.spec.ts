@@ -1,5 +1,6 @@
 import { AgGridModule } from '@ag-grid-community/angular';
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -7,7 +8,7 @@ import { InfoIconModule } from '../../../shared/info-icon/info-icon.module';
 import { ComparableTransactionsComponent } from './comparable-transactions.component';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
   replace: jest.fn(),
 }));

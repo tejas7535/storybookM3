@@ -1,4 +1,5 @@
 import { ValueFormatterParams } from '@ag-grid-community/all-modules';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ValidationDescription } from '../../models/table';
 import { GqQuotationPipe } from '../../pipes/gq-quotation/gq-quotation.pipe';
@@ -7,7 +8,7 @@ import { ColumnFields } from './column-fields.enum';
 import { ColumnUtilityService } from './column-utility.service';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 

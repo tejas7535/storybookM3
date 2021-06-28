@@ -1,9 +1,10 @@
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
+import { TranslocoModule } from '@ngneat/transloco';
 
 import { ColumnDefService } from './column-def.service';
 
 jest.mock('@ngneat/transloco', () => ({
-  ...jest.requireActual('@ngneat/transloco'),
+  ...jest.requireActual<TranslocoModule>('@ngneat/transloco'),
   translate: jest.fn(() => 'translate it'),
 }));
 
