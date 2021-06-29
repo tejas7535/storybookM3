@@ -7,6 +7,7 @@ import {
   LeavingType,
   PercentageFluctuationRate,
 } from '../../../shared/models';
+import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { FluctuationRate } from '../../../shared/models/fluctuation-rate.model';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
@@ -113,19 +114,25 @@ export function createFluctuationRateChartConfig(
 }
 
 export function createDoughnutConfig(
-  internalValue: number,
-  externalValue: number,
+  internal: Employee[],
+  external: Employee[],
   name: string
 ) {
   const labelInternal = 'internal';
   const labelExternal = 'external';
 
-  return new DoughnutConfig(
-    name,
-    [
-      new DoughnutSeriesConfig(internalValue, labelInternal),
-      new DoughnutSeriesConfig(externalValue, labelExternal),
-    ],
-    [labelInternal, labelExternal]
-  );
+  return internal && external
+    ? new DoughnutConfig(name, [
+        new DoughnutSeriesConfig(
+          internal.length,
+          labelInternal,
+          Color.LIGHT_GREEN
+        ),
+        new DoughnutSeriesConfig(
+          external.length,
+          labelExternal,
+          Color.LIGHT_BLUE
+        ),
+      ])
+    : undefined;
 }

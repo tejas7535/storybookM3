@@ -3,6 +3,7 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
+import { Color } from '../../../shared/models/color.enum';
 import { SharedModule } from '../../../shared/shared.module';
 import { DoughnutChartComponent } from './doughnut-chart.component';
 import * as doughnutChartConfig from './doughnut-chart.config';
@@ -39,31 +40,32 @@ describe('DoughnutChartComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('set data', () => {
-    test('should set correct config', () => {
-      const data = new DoughnutConfig(
-        'Demo',
-        [new DoughnutSeriesConfig(99, 'demo data 1')],
-        ['demo data 1']
+  describe('set initialConfig', () => {
+    test('should set correct initial config', () => {
+      const series = [
+        new DoughnutSeriesConfig(99, 'demo data 1', Color.LIGHT_GREEN),
+      ];
+
+      component.createSeriesOptions = jest.fn(() => series);
+
+      component.initialConfig = series;
+
+      expect(component.options).toEqual({
+        series,
+      });
+      expect(component.createSeriesOptions).toHaveBeenCalledWith(
+        new DoughnutConfig('', series)
       );
-
-      component.createSeriesOptions = jest.fn(() => []);
-
-      component.data = data;
-
-      expect(component.options).toEqual({ series: [] });
-      expect(component.createSeriesOptions).toHaveBeenCalledWith(data);
       expect(doughnutChartConfig.createPieChartBaseOptions).toHaveBeenCalled();
     });
   });
 
   describe('createSeriesOptions', () => {
     test('should map correct series', () => {
-      const data = new DoughnutConfig(
-        'Demo',
-        [new DoughnutSeriesConfig(99, 'demo data 1')],
-        ['demo data 1']
-      );
+      const color = Color.LIGHT_GREEN;
+      const data = new DoughnutConfig('Demo', [
+        new DoughnutSeriesConfig(99, 'demo data 1', color),
+      ]);
 
       const result = component.createSeriesOptions(data);
 
@@ -71,7 +73,7 @@ describe('DoughnutChartComponent', () => {
         ['60%', '70%'],
         data.series[0].value,
         data.series[0].value,
-        component['seriesColors'][0],
+        color,
         data.name,
         data.series[0].name
       );

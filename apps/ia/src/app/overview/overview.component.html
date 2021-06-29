@@ -64,6 +64,7 @@
       <div class="flex-1">
         <ia-entries-exits
           [entriesDoughnutConfig]="entriesDoughnutConfig$ | ngrxPush"
+          [isDataLoading]="isLoadingDoughnutsConfig$ | ngrxPush"
           [exitsDoughnutConfig]="exitsDoughnutConfig$ | ngrxPush"
           [entriesCount]="entriesCount$ | ngrxPush"
           [exitsCount]="exitsCount$ | ngrxPush"

@@ -10,6 +10,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 import * as en from '../../../assets/i18n/en.json';
 import worldJson from '../../../assets/world.json';
 import { IdValue } from '../../shared/models';
+import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { HeatType } from '../models/heat-type.enum';
@@ -223,30 +224,30 @@ describe('WorldMapComponent', () => {
   describe('getAreaColorFromHeatType', () => {
     test('should return green for green heat', () => {
       expect(component.getAreaColorFromHeatType(HeatType.GREEN_HEAT)).toEqual(
-        component['schaefflerGreen1']
+        Color.LIGHT_GREEN
       );
     });
     test('should return yellow for orange heat', () => {
       expect(component.getAreaColorFromHeatType(HeatType.ORANGE_HEAT)).toEqual(
-        component['schaefflerYellow']
+        Color.YELLOW
       );
     });
     test('should return red for red heat', () => {
       expect(component.getAreaColorFromHeatType(HeatType.RED_HEAT)).toEqual(
-        component['schaefflerRed']
+        Color.RED
       );
     });
     test('should return gray on default', () => {
       expect(
         component.getAreaColorFromHeatType('test' as unknown as HeatType)
-      ).toEqual(component['schaefflerGrey2']);
+      ).toEqual(Color.GREY);
     });
   });
 
   describe('createAreaDataObj', () => {
     test('should return data obj', () => {
       const name = 'Uganda';
-      const areaColor = '#f0f';
+      const areaColor = Color.RED;
 
       component.createAreaItemStyle = jest.fn();
 
@@ -259,12 +260,12 @@ describe('WorldMapComponent', () => {
 
   describe('createAreaItemStyle', () => {
     test('should return area item style', () => {
-      const areaColor = '#fff';
+      const areaColor = Color.WHITE;
       const result = component.createAreaItemStyle(areaColor);
 
       expect(result).toEqual({
         areaColor,
-        shadowColor: 'rgba(0, 0, 0, 0.2)',
+        shadowColor: Color.SHADOW_GREY,
         shadowBlur: 2,
       });
     });

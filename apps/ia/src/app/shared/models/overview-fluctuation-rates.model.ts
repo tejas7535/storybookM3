@@ -6,6 +6,4 @@ export class OverviewFluctuationRates {
   exitEmployees: Employee[];
   fluctuationRate: FluctuationRate;
   unforcedFluctuationRate: FluctuationRate;
-  entries: number;
-  exits: number;
 }

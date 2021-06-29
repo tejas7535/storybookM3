@@ -14,6 +14,7 @@ import {
   getEntryEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
@@ -94,6 +95,20 @@ describe('OverviewComponent', () => {
         store.overrideSelector(getAttritionOverTimeEvents, result);
         component.ngOnInit();
         m.expect(component.events$).toBeObservable(
+          m.cold('a', {
+            a: result,
+          })
+        );
+      })
+    );
+
+    test(
+      'should set isLoadingDoughnutsConfig$',
+      marbles((m) => {
+        const result = true;
+        store.overrideSelector(getIsLoadingDoughnutsConfig, result);
+        component.ngOnInit();
+        m.expect(component.isLoadingDoughnutsConfig$).toBeObservable(
           m.cold('a', {
             a: result,
           })

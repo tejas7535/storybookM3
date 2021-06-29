@@ -7,6 +7,7 @@ import {
   LeavingType,
   PercentageFluctuationRate,
 } from '../../../shared/models';
+import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { FluctuationRate } from '../../../shared/models/fluctuation-rate.model';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
@@ -183,27 +184,27 @@ describe('OverviewSelectorUtils', () => {
 
   describe('createDoughnutConfig', () => {
     test('should create doughnut config', () => {
-      const internalValue = 130;
-      const externalValue = 150;
+      const internals = [{} as Employee];
+      const externals = [{} as Employee, {} as Employee];
       const name = selectedOrgUnit;
 
-      const result = utils.createDoughnutConfig(
-        internalValue,
-        externalValue,
-        name
-      );
+      const result = utils.createDoughnutConfig(internals, externals, name);
 
       const internalLabel = 'internal';
       const externalLabel = 'external';
       expect(result).toEqual(
-        new DoughnutConfig(
-          name,
-          [
-            new DoughnutSeriesConfig(internalValue, internalLabel),
-            new DoughnutSeriesConfig(externalValue, externalLabel),
-          ],
-          [internalLabel, externalLabel]
-        )
+        new DoughnutConfig(name, [
+          new DoughnutSeriesConfig(
+            internals.length,
+            internalLabel,
+            Color.LIGHT_GREEN
+          ),
+          new DoughnutSeriesConfig(
+            externals.length,
+            externalLabel,
+            Color.LIGHT_BLUE
+          ),
+        ])
       );
     });
   });

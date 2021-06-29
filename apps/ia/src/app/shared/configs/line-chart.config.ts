@@ -1,5 +1,7 @@
 import { EChartsOption } from 'echarts';
 
+import { Color } from '../models/color.enum';
+
 export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
   xAxis: {
     type: 'category',
@@ -9,7 +11,7 @@ export const LINE_CHART_BASE_OPTIONS: EChartsOption = {
     type: 'value',
     minInterval: 1,
   },
-  color: ['#6E9B34', '#1D9BB2', '#c9cdc8'],
+  color: [Color.GREEN, Color.BLUE],
   backgroundColor: 'white',
   legend: {
     show: true,

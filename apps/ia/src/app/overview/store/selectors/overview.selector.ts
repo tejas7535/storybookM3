@@ -7,6 +7,7 @@ import {
 } from '../../../core/store/selectors';
 import { AttritionOverTime } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
+import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
 import * as utils from './overview-selector-utils';
 
 export const getIsLoadingAttritionOverTimeOverview = createSelector(
@@ -32,18 +33,6 @@ export const getAttritionOverTimeOverviewData = createSelector(
 export const getOverviewFluctuationRates = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.entriesExits?.data
-);
-
-export const getOverviewFluctuationEntriesCount = createSelector(
-  getOverviewFluctuationRates,
-  (overviewFluctuationRates: OverviewFluctuationRates) =>
-    overviewFluctuationRates?.entries
-);
-
-export const getOverviewFluctuationExitsCount = createSelector(
-  getOverviewFluctuationRates,
-  (overviewFluctuationRates: OverviewFluctuationRates) =>
-    overviewFluctuationRates?.exits
 );
 
 export const getLeaversDataForSelectedOrgUnit = createSelector(
@@ -98,6 +87,11 @@ export const getOveriviewUnforcedFluctuationKpi = createSelector(
       : undefined
 );
 
+export const getIsLoadingDoughnutsConfig = createSelector(
+  selectOverviewState,
+  (overviewState: OverviewState) => overviewState.entriesExits?.loading
+);
+
 export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
   getOverviewFluctuationRates,
   getSelectedTimeRange,
@@ -114,9 +108,7 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
         utils.isDateInTimeRange(selectedTimeRange, employee.entryDate)
     );
 
-    return internal && external
-      ? utils.createDoughnutConfig(internal.length, external.length, 'Entries')
-      : utils.createDoughnutConfig(0, 0, 'Entries');
+    return utils.createDoughnutConfig(internal, external, 'Entries');
   }
 );
 
@@ -131,19 +123,33 @@ export const getOverviewFluctuationExitsDoughnutConfig = createSelector(
   ) => {
     const internal = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit.toString()) === 0 &&
+        employee.orgUnit.indexOf(selectedOrgUnit) === 0 &&
         utils.isDateInTimeRange(selectedTimeRange, employee.internalExitDate)
     );
     const external = overviewFluctuationRates?.exitEmployees?.filter(
       (employee) =>
-        employee.orgUnit.indexOf(selectedOrgUnit.toString()) === 0 &&
+        employee.orgUnit.indexOf(selectedOrgUnit) === 0 &&
         utils.isDateInTimeRange(selectedTimeRange, employee.exitDate)
     );
 
-    return internal && external
-      ? utils.createDoughnutConfig(internal.length, external.length, 'Exits')
-      : utils.createDoughnutConfig(0, 0, 'Exits');
+    return utils.createDoughnutConfig(internal, external, 'Exits');
   }
+);
+
+export const getOverviewFluctuationEntriesCount = createSelector(
+  getOverviewFluctuationEntriesDoughnutConfig,
+  (doughnutConfig: DoughnutConfig) =>
+    doughnutConfig?.series
+      .map((config) => config.value)
+      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
+);
+
+export const getOverviewFluctuationExitsCount = createSelector(
+  getOverviewFluctuationExitsDoughnutConfig,
+  (doughnutConfig: DoughnutConfig) =>
+    doughnutConfig?.series
+      .map((config) => config.value)
+      .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
 );
 
 export const getEntryEmployees = createSelector(

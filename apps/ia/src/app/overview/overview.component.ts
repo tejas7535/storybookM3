@@ -15,6 +15,7 @@ import {
   getEntryEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
@@ -46,13 +47,14 @@ export class OverviewComponent implements OnInit {
   events$: Observable<Event[]>;
   attritionData$: Observable<AttritionSeries>;
 
-  entriesDoughnutConfig: DoughnutConfig;
   exitsDoughnutConfig$: Observable<DoughnutConfig>;
   entriesDoughnutConfig$: Observable<DoughnutConfig>;
+  isLoadingDoughnutsConfig$: Observable<boolean>;
   entriesCount$: Observable<number>;
   exitsCount$: Observable<number>;
   exitEmployees$: Observable<Employee[]>;
   entryEmployees$: Observable<Employee[]>;
+
   resignedEmployees$: Observable<ResignedEmployee[]>;
   resignedEmployeesLoading$: Observable<boolean>;
 
@@ -62,6 +64,7 @@ export class OverviewComponent implements OnInit {
     this.loadFluctuationData();
     this.loadUnforcedFluctuationData();
     this.loadEntriesAndExitsData();
+    this.loadResignedEmployeesData();
     this.loadAttritionQuotaData();
   }
 
@@ -89,6 +92,9 @@ export class OverviewComponent implements OnInit {
     this.entriesDoughnutConfig$ = this.store.select(
       getOverviewFluctuationEntriesDoughnutConfig
     );
+    this.isLoadingDoughnutsConfig$ = this.store.select(
+      getIsLoadingDoughnutsConfig
+    );
 
     this.exitsDoughnutConfig$ = this.store.select(
       getOverviewFluctuationExitsDoughnutConfig
@@ -98,7 +104,9 @@ export class OverviewComponent implements OnInit {
     this.exitsCount$ = this.store.select(getOverviewFluctuationExitsCount);
     this.exitEmployees$ = this.store.select(getLeaversDataForSelectedOrgUnit);
     this.entryEmployees$ = this.store.select(getEntryEmployees);
+  }
 
+  private loadResignedEmployeesData() {
     this.resignedEmployees$ = this.store.select(getResignedEmployees);
     this.resignedEmployeesLoading$ = this.store.select(
       getIsLoadingResignedEmployees

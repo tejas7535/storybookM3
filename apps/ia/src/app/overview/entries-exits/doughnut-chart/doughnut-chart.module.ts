@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
+import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../../../shared/shared.module';
@@ -15,6 +16,7 @@ import { DoughnutChartComponent } from './doughnut-chart.component';
       echarts: () => import('echarts'),
     }),
     SharedTranslocoModule,
+    LoadingSpinnerModule,
   ],
   exports: [DoughnutChartComponent],
 })
