@@ -34,8 +34,8 @@
     "resetFilter": "Filter zurücksetzen"
   },
   "tooManyResults": {
-    "message": "Zu viele Ergebnisse",
-    "hint": "Bitte verwenden Sie Filter, um die Anzahl der Ergebnisse auf Maximal 500 zu reduzieren."
+    "message": "Zu viele Ergebnisse ({{resultCount}})",
+    "hint": "Ihre Suchanfrage liefert zu viele Ergebnisse.\nBitte verwenden Sie Filter, um die Anzahl der Ergebnisse auf maximal {{tooManyResultsThreshold}} zu reduzieren."
   },
   "noResults": {
     "message": "Keine Ergebnisse gefunden",

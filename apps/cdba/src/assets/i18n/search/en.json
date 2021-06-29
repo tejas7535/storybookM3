@@ -34,8 +34,8 @@
     "resetFilter": "Reset Filters"
   },
   "tooManyResults": {
-    "message": "Too many results",
-    "hint": "Please use filters to reduce the number of results to a maximum of 500."
+    "message": "Too many results ({{resultCount}})",
+    "hint": "We found too many entries in our database.\nPlease use filters to reduce the number of results to a maximum of {{tooManyResultsThreshold}}."
   },
   "noResults": {
     "message": "No results found",

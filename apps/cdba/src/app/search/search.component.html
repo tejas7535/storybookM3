@@ -6,10 +6,10 @@
       *transloco="let t; read: 'search.tooManyResults'"
     >
       <h4 class="font-body">
-        {{ t('message') }}
+        {{ t('message', { resultCount: resultCount$ | ngrxPush }) }}
       </h4>
       <h6 class="text-light font-body whitespace-pre-line text-center">
-        {{ t('hint') }}
+        {{ t('hint', { tooManyResultsThreshold: tooManyResultsThreshold }) }}
       </h6>
     </div>
   </ng-container>
