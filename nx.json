@@ -206,5 +206,13 @@
     "shared-utils-transloco": {
       "tags": ["scope:shared", "type:utils"]
     }
+  },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
   }
 }
