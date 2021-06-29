@@ -9,3 +9,19 @@ export interface PagedMeta extends NestedPropertyMeta {
   controls: FormControl[];
   valid$: Observable<boolean>;
 }
+
+export interface Value {
+  key: number;
+  pageId: string | number;
+}
+
+export interface Params {
+  name: string;
+  value: string | number;
+}
+
+export interface BearingParams {
+  id: number;
+  url: string;
+  params: Params | Params[];
+}

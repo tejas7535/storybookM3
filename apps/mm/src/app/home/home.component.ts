@@ -63,14 +63,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   public object = this.model.rootObject;
 
   public readonly pagedMetas$ = this.homeStore.pagedMetas$;
-
   public readonly activePageId$ = this.homeStore.activePageId$;
-
   public readonly activePageName$ = this.homeStore.activePageName$;
-
   public readonly maxPageId$ = this.homeStore.maxPageId$;
-
   public readonly inactivePageId$ = this.homeStore.inactivePageId$;
+  public readonly activeBearing$ = this.homeStore.activeBearing$;
+  public readonly bearingParams$ = this.homeStore.bearingParams$;
 
   private readonly destroy$ = new Subject<void>();
 
@@ -79,7 +77,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private readonly localService: LocaleService,
     private readonly restService: RestService,
-    public homeStore: HomeStore
+    private readonly homeStore: HomeStore
   ) {}
 
   public ngOnInit(): void {
@@ -148,7 +146,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.restService
       .getBearingRelations(id)
       .pipe(
-        map((response) => response.data),
+        map((response: any) => response.data),
         tap((data: any) => {
           const model: Model = {
             rootObject: {
@@ -178,5 +176,13 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe();
+  }
+
+  public handleActivePageIdChange(id: string) {
+    this.homeStore.setActivePageId(id);
+
+    if (id !== RSY_PAGE_BEARING_TYPE) {
+      this.homeStore.getBearing(this.bearingParams$);
+    }
   }
 }

@@ -17,10 +17,15 @@
         [maxPageId]="maxPageId$ | ngrxPush"
         [activePageId]="activePageId$ | ngrxPush"
         [inactivePageId]="inactivePageId$ | ngrxPush"
-        (activePageIdChange)="homeStore.setActivePageId($event)"
+        (activePageIdChange)="handleActivePageIdChange($event)"
       >
       </mm-pages-stepper>
-
+      <span
+        *ngIf="activeBearing$ | ngrxPush as activeBearing"
+        class="text-subtitle-1"
+      >
+        {{ activeBearing }}
+      </span>
       <div class="w-full">
         <ng-container
           *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"

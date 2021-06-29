@@ -174,7 +174,7 @@ describe('HomeComponent', () => {
     );
   });
 
-  describe('#next', () => {
+  describe('next', () => {
     it('should call stepper next method', () => {
       const mockStepper = { next: () => {} } as PagesStepperComponent;
       const mockPagedMeta = [
@@ -194,6 +194,18 @@ describe('HomeComponent', () => {
       component.next('mockId1', mockPagedMeta, mockStepper);
 
       expect(spy).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe('handleActivePageIdChange', () => {
+    it('should set activePageId', () => {
+      Object.defineProperty(component['homeStore'], 'getBearing', {
+        value: jest.fn(),
+      });
+
+      component.handleActivePageIdChange('mockId1');
+
+      expect(component['homeStore'].getBearing).toHaveBeenCalledTimes(1);
     });
   });
 });

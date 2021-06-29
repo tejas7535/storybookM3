@@ -27,7 +27,9 @@ const isComplex = (
 const isSimple = (response: MMResponseVariants): response is MMSimpleResponse =>
   !isComplex(response) && 'data' in response.data[0];
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class LazyListLoaderService implements LazyListLoader {
   public constructor(private readonly restService: RestService) {}
 
