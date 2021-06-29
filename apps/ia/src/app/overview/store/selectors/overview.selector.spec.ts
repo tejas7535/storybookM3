@@ -3,6 +3,7 @@ import { SeriesOption } from 'echarts';
 import { initialState, OverviewState } from '..';
 import { FilterState } from '../../../core/store/reducers/filter/filter.reducer';
 import { FilterKey, FluctuationKpi } from '../../../shared/models';
+import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
@@ -12,6 +13,7 @@ import {
   getEntryEmployees,
   getFluctuationRatesForChart,
   getIsLoadingAttritionOverTimeOverview,
+  getIsLoadingDoughnutsConfig,
   getIsLoadingFluctuationRatesForChart,
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
@@ -106,8 +108,6 @@ describe('Overview Selector', () => {
             leaverHR,
           ],
           exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
-          entries: 23,
-          exits: 34,
           fluctuationRate: {
             company: 0.041,
             orgUnit: 0.023,
@@ -197,8 +197,6 @@ describe('Overview Selector', () => {
           leaverHR,
         ],
         exitEmployees: [leaverIT1, leaverIT2, leaverHR, internalLeaver1],
-        entries: 23,
-        exits: 34,
         fluctuationRate: {
           company: 0.041,
           orgUnit: 0.023,
@@ -211,17 +209,19 @@ describe('Overview Selector', () => {
     });
   });
 
+  describe('getIsLoadingDoughnutsConfig', () => {
+    it('should return true when doughnuts config loading', () => {
+      expect(getIsLoadingDoughnutsConfig(fakeState)).toBeTruthy();
+    });
+  });
+
   describe('getOverviewFluctuationEntriesDoughnutConfig', () => {
     it('should return config for doughnut chart with entries', () => {
       expect(getOverviewFluctuationEntriesDoughnutConfig(fakeState)).toEqual(
-        new DoughnutConfig(
-          'Entries',
-          [
-            new DoughnutSeriesConfig(1, 'internal'),
-            new DoughnutSeriesConfig(2, 'external'),
-          ],
-          ['internal', 'external']
-        )
+        new DoughnutConfig('Entries', [
+          new DoughnutSeriesConfig(1, 'internal', Color.LIGHT_GREEN),
+          new DoughnutSeriesConfig(2, 'external', Color.LIGHT_BLUE),
+        ])
       );
     });
   });
@@ -229,26 +229,22 @@ describe('Overview Selector', () => {
   describe('getOverviewFluctuationExitsDoughnutConfig', () => {
     it('should return config for doughnut chart with exits', () => {
       expect(getOverviewFluctuationExitsDoughnutConfig(fakeState)).toEqual(
-        new DoughnutConfig(
-          'Exits',
-          [
-            new DoughnutSeriesConfig(1, 'internal'),
-            new DoughnutSeriesConfig(2, 'external'),
-          ],
-          ['internal', 'external']
-        )
+        new DoughnutConfig('Exits', [
+          new DoughnutSeriesConfig(1, 'internal', Color.LIGHT_GREEN),
+          new DoughnutSeriesConfig(2, 'external', Color.LIGHT_BLUE),
+        ])
       );
     });
   });
 
   describe('getOverviewFluctuationEntriesCount', () => {
     it('should return actual entries number', () => {
-      expect(getOverviewFluctuationEntriesCount(fakeState)).toEqual(23);
+      expect(getOverviewFluctuationEntriesCount(fakeState)).toEqual(3);
     });
   });
   describe('getOverviewFluctuationExitsCount', () => {
     it('should return actual exits number', () => {
-      expect(getOverviewFluctuationExitsCount(fakeState)).toEqual(34);
+      expect(getOverviewFluctuationExitsCount(fakeState)).toEqual(3);
     });
   });
 

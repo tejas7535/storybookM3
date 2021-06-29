@@ -19,6 +19,8 @@
   "entriesExits": "Entries & Exits",
   "entries": "Entries",
   "exits": "Exits",
+  "internal": "internal",
+  "external": "external",
   "openPositions": "Open positions",
   "openForApplications": "Open for application",
   "internalMatches": "Internal matches",

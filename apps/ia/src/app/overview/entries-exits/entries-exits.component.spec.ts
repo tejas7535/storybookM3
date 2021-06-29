@@ -8,6 +8,7 @@ import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { KpiModule } from '../../shared/kpi/kpi.module';
 import { FilterKey } from '../../shared/models';
+import { Color } from '../../shared/models/color.enum';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
@@ -71,16 +72,12 @@ describe('EntriesExitsComponent', () => {
   });
 
   it('should set data', () => {
-    component.entriesDoughnutConfig = new DoughnutConfig(
-      'Demo Entries',
-      [new DoughnutSeriesConfig(23, 'entries')],
-      ['time [s]']
-    );
-    component.exitsDoughnutConfig = new DoughnutConfig(
-      'Demo Exits',
-      [new DoughnutSeriesConfig(23, 'exits')],
-      ['time [s]']
-    );
+    component.entriesDoughnutConfig = new DoughnutConfig('Demo Entries', [
+      new DoughnutSeriesConfig(23, 'entries', Color.WHITE),
+    ]);
+    component.exitsDoughnutConfig = new DoughnutConfig('Demo Exits', [
+      new DoughnutSeriesConfig(23, 'exits', Color.BLACK),
+    ]);
     component.entriesCount = 65;
     component.exitsCount = 72;
     component.exitEmployees = [];

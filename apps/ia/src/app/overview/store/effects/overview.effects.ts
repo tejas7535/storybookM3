@@ -54,7 +54,7 @@ export class OverviewEffects implements OnInitEffects {
       ofType(filterSelected, timeRangeSelected, triggerLoad),
       concatLatestFrom(() => this.store.select(getCurrentFiltersAndTime)),
       map(([_action, request]) => request),
-      filter((request) => request.orgUnit),
+      filter((request) => request.orgUnit && request.timeRange),
       mergeMap((request: EmployeesRequest) => [
         loadAttritionOverTimeOverview({ request }),
         loadFluctuationRatesOverview({ request }),

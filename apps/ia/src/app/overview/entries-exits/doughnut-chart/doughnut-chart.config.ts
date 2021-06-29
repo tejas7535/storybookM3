@@ -1,5 +1,7 @@
 import { EChartsOption } from 'echarts';
 
+import { Color } from '../../../shared/models/color.enum';
+
 export const createPieChartBaseOptions = (
   legend: string[],
   text: string,
@@ -21,13 +23,13 @@ export const createPieChartBaseOptions = (
     left: 'center',
     top: 'center',
     textStyle: {
-      color: '#000',
+      color: Color.BLACK,
       fontSize: 20,
       lineHeight: 30,
     },
     subtext,
     subtextStyle: {
-      color: '#000',
+      color: Color.BLACK,
       fontSize: 12,
       lineHeight: 20,
     },
@@ -71,11 +73,11 @@ export const createPieChartSeries = (
         value: counterValue,
         name: 'invis',
         itemStyle: {
-          color: '#EBEEF0',
+          color: Color.GREY,
         },
         emphasis: {
           itemStyle: {
-            color: '#EBEEF0',
+            color: Color.GREY,
           },
         },
       },

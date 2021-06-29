@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
 import { EChartsOption, SeriesOption } from 'echarts';
 
+import { Color } from '../../../shared/models/color.enum';
 import {
   createPieChartBaseOptions,
   createPieChartSeries,
@@ -16,27 +17,48 @@ import { DoughnutSeriesConfig } from './models/doughnut-series-config.model';
 })
 export class DoughnutChartComponent {
   options: EChartsOption;
+  mergeOptions: EChartsOption;
 
-  // only two series supported by now
-  private readonly seriesColors = ['#A1C861', '#78909C'];
+  @Input() isLoading: boolean;
 
-  @Input() set data(data: DoughnutConfig) {
-    const values = data.series.map((seriesObj) => seriesObj.value);
-    const total =
-      values.length > 0 ? values.reduce((sum, x) => sum + x).toString() : '-';
-
+  @Input() set initialConfig(configs: DoughnutSeriesConfig[]) {
     const baseOptions = createPieChartBaseOptions(
-      data.legend,
-      total,
-      data.name
+      configs.map((serie) => serie.name) ?? [],
+      '-',
+      ''
     );
 
-    const series = this.createSeriesOptions(data);
+    const seriesConfigs = configs.map(
+      (serie) => new DoughnutSeriesConfig(serie.value, serie.name, serie.color)
+    );
+
+    const series = this.createSeriesOptions(
+      new DoughnutConfig('', seriesConfigs)
+    );
 
     this.options = {
-      series,
       ...baseOptions,
+      series,
     };
+  }
+
+  @Input() set data(config: DoughnutConfig) {
+    if (config && config.series) {
+      const series = this.createSeriesOptions(config);
+      const totalValue = config.series
+        .map((serie) => serie.value)
+        .reduce((x1, x2) => x1 + x2)
+        .toString();
+
+      this.mergeOptions = {
+        title: {
+          ...this.options?.title,
+          text: totalValue,
+          subtext: config.name,
+        },
+        series,
+      };
+    }
   }
 
   createSeriesOptions = (data: DoughnutConfig): SeriesOption[] => {
@@ -44,25 +66,23 @@ export class DoughnutChartComponent {
     const radiusStep = 10;
     const radiusGap = 5;
 
-    const series: any[] = data.series.map(
-      (seriesObj: DoughnutSeriesConfig, idx: number) => {
-        const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
-        const pieChartSeries = createPieChartSeries(
-          radius,
-          seriesObj.value,
-          data.series
-            .map((element) => element.value)
-            .reduce((value1, value2) => value1 + value2),
-          this.seriesColors[idx] ?? '#000',
-          data.name,
-          seriesObj.name
-        );
+    const series: any[] = data.series.map((seriesObj: DoughnutSeriesConfig) => {
+      const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
+      const pieChartSeries = createPieChartSeries(
+        radius,
+        seriesObj.value,
+        data.series
+          .map((element) => element.value)
+          .reduce((value1, value2) => value1 + value2),
+        seriesObj.color ?? Color.BLACK,
+        data.name,
+        seriesObj.name
+      );
 
-        radiusStart += radiusStep + radiusGap;
+      radiusStart += radiusStep + radiusGap;
 
-        return pieChartSeries;
-      }
-    );
+      return pieChartSeries;
+    });
 
     return series;
   };

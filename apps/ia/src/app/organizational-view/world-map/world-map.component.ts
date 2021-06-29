@@ -10,6 +10,7 @@ import * as echarts from 'echarts';
 
 import worldJson from '../../../assets/world.json';
 import { IdValue } from '../../shared/models';
+import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
 import { HeatType } from '../models/heat-type.enum';
@@ -23,11 +24,6 @@ import { CountryData } from './models/country-data.model';
 })
 export class WorldMapComponent implements OnInit {
   private _data: CountryData[];
-
-  private readonly schaefflerGreen1 = '#00893d';
-  private readonly schaefflerYellow = '#fccf46';
-  private readonly schaefflerRed = '#e62c27';
-  private readonly schaefflerGrey2 = '#ebeef0';
 
   @Input() isLoading: boolean;
 
@@ -104,11 +100,11 @@ export class WorldMapComponent implements OnInit {
           mapType: 'world',
           roam: true,
           itemStyle: {
-            areaColor: this.schaefflerGrey2,
+            areaColor: Color.GREY,
           },
           emphasis: {
             itemStyle: {
-              areaColor: this.schaefflerGrey2,
+              areaColor: Color.GREY,
             },
             label: {
               show: false,
@@ -165,13 +161,13 @@ export class WorldMapComponent implements OnInit {
   getAreaColorFromHeatType(heatType: HeatType): string {
     switch (heatType) {
       case HeatType.GREEN_HEAT:
-        return this.schaefflerGreen1;
+        return Color.LIGHT_GREEN;
       case HeatType.ORANGE_HEAT:
-        return this.schaefflerYellow;
+        return Color.YELLOW;
       case HeatType.RED_HEAT:
-        return this.schaefflerRed;
+        return Color.RED;
       default:
-        return this.schaefflerGrey2;
+        return Color.GREY;
     }
   }
 
@@ -208,7 +204,7 @@ export class WorldMapComponent implements OnInit {
   createAreaItemStyle(areaColor: string): any {
     return {
       areaColor,
-      shadowColor: 'rgba(0, 0, 0, 0.2)',
+      shadowColor: Color.SHADOW_GREY,
       shadowBlur: 2,
     };
   }

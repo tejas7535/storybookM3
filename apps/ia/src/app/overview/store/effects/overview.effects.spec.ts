@@ -84,41 +84,13 @@ describe('Overview Effects', () => {
 
   describe('filterChange$', () => {
     test(
-      'filterSelected - should trigger loadAtrritionOverTime + loadOrgChart + loadWorldMap if orgUnit is set',
-      marbles((m) => {
-        const filter = new SelectedFilter('orgUnit', 'best');
-        const request = { orgUnit: {} } as unknown as EmployeesRequest;
-        action = filterSelected({ filter });
-        store.overrideSelector(getCurrentFiltersAndTime, request);
-        const resultAttrition = loadAttritionOverTimeOverview({ request });
-        const resultFluctuation = loadFluctuationRatesOverview({ request });
-        const resultFluctuationChartData = loadFluctuationRatesChartData({
-          request,
-        });
-        const resultUnforcedFluctuationChartData =
-          loadUnforcedFluctuationRatesChartData({ request });
-        const resultResignedEmployees = loadResignedEmployees({
-          orgUnit: request.orgUnit,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdef)', {
-          b: resultAttrition,
-          c: resultFluctuation,
-          d: resultFluctuationChartData,
-          e: resultUnforcedFluctuationChartData,
-          f: resultResignedEmployees,
-        });
-
-        m.expect(effects.filterChange$).toBeObservable(expected);
-      })
-    );
-
-    test(
-      'timeRangeSelected - should trigger loadAtrritionOverTime if orgUnit is set',
+      'timeRangeSelected - should trigger load actions if orgUnit and time range are set',
       marbles((m) => {
         const timeRange = '123|456';
-        const request = { orgUnit: {} } as unknown as EmployeesRequest;
+        const request = {
+          orgUnit: 'orgUnit',
+          timeRange,
+        } as unknown as EmployeesRequest;
         action = timeRangeSelected({ timeRange });
         store.overrideSelector(getCurrentFiltersAndTime, request);
 
@@ -255,8 +227,6 @@ describe('Overview Effects', () => {
           exitEmployees: [],
           fluctuationRate: { company: 0, orgUnit: 0 },
           unforcedFluctuationRate: { company: 0, orgUnit: 0 },
-          entries: 0,
-          exits: 0,
         };
         const result = loadFluctuationRatesOverviewSuccess({
           data,
