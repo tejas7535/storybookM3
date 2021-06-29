@@ -1,6 +1,5 @@
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { BehaviorSubject } from 'rxjs';
@@ -8,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { AvailableLangs, TranslocoTestingModule } from '@ngneat/transloco';
 
+import { MaterialModule } from '../../../shared/material.module';
 import { MMLocales } from '../../services/locale/locale.enum';
 import { LocaleService } from '../../services/locale/locale.service';
 import { MMSeparator } from '../../services/locale/separator.enum';
@@ -28,14 +28,18 @@ describe('SidebarComponent', () => {
 
   let localeService: LocaleService;
 
+  const dialogClose = new BehaviorSubject<boolean>(undefined);
+  const mockDialogRef = {
+    afterClosed: () => dialogClose,
+  };
+
   const createComponent = createComponentFactory({
     component: SidebarComponent,
     imports: [
       NoopAnimationsModule,
       TranslocoTestingModule,
       ReactiveFormsModule,
-      MatSidenavModule,
-      MatSelectModule,
+      MaterialModule,
     ],
     providers: [
       {
@@ -48,6 +52,12 @@ describe('SidebarComponent', () => {
           setLocale: jest.fn(),
         },
       },
+      {
+        provide: MatDialog,
+        useValue: {
+          open: jest.fn(() => mockDialogRef),
+        },
+      },
     ],
     declarations: [SidebarComponent],
   });
@@ -58,35 +68,72 @@ describe('SidebarComponent', () => {
     localeService = spectator.inject(LocaleService);
   });
 
-  test('should create the app', () => {
+  it('should create the app', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should set the separator', () => {
-    component.setSeparator(MMSeparator.Point);
+  describe('#setSeperator', () => {
+    it('should set the separator', () => {
+      component.setSeparator(MMSeparator.Point);
 
-    expect(localeService.setSeparator).toHaveBeenCalledWith(MMSeparator.Point);
+      expect(localeService.setSeparator).toHaveBeenCalledWith(
+        MMSeparator.Point
+      );
+    });
   });
 
-  it('should set the language', () => {
-    component.setLanguage('en');
+  describe('#setLanguage', () => {
+    it('should open the language dialog', () => {
+      component.setLanguage('en');
 
-    expect(localeService.setLocale).toHaveBeenCalledWith('en' as MMLocales);
+      expect(component['dialog'].open).toHaveBeenCalled();
+    });
+    it('should setLocale and close sidenav on confirmation', () => {
+      component['sidenav'].close = jest.fn();
+      component.setLanguage('en');
+
+      dialogClose.next(true);
+
+      expect(localeService.setLocale).toHaveBeenCalledWith('en' as MMLocales);
+      expect(component['sidenav'].close).toHaveBeenCalled();
+    });
+    it('should setValue on cancel', () => {
+      component['sidenav'].close = jest.fn();
+      component.languageSelectControl.setValue = jest.fn();
+      component.setLanguage('en');
+
+      dialogClose.next(false);
+
+      expect(component.languageSelectControl.setValue).toHaveBeenCalled();
+    });
   });
 
-  it('should unsubscribe on destroy', () => {
-    component['subscription'].unsubscribe = jest.fn();
+  describe('#ngOnDestroy', () => {
+    it('should unsubscribe on destroy', () => {
+      component['subscription'].unsubscribe = jest.fn();
 
-    component.ngOnDestroy();
+      component.ngOnDestroy();
 
-    expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+      expect(component['subscription'].unsubscribe).toHaveBeenCalled();
+    });
   });
 
-  it('should call toggle the sidebar', () => {
-    component['sidenav'].toggle = jest.fn();
+  describe('#trackByFn', () => {
+    it('should return index', () => {
+      const index = 5;
+      const result = component.trackByFn(index);
 
-    component.toggle();
+      expect(result).toBe(index);
+    });
+  });
 
-    expect(component['sidenav'].toggle).toHaveBeenCalled();
+  describe('#toggle', () => {
+    it('should call toggle the sidebar', () => {
+      component['sidenav'].toggle = jest.fn();
+
+      component.toggle();
+
+      expect(component['sidenav'].toggle).toHaveBeenCalled();
+    });
   });
 });

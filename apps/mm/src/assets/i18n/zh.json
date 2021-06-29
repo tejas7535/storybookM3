@@ -10,6 +10,11 @@
     "calculateResults": "Calculate Results zh",
     "searchManually": "or configure manually zh"
   },
+  "languageDialog": {
+    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input. zh",
+    "confirm": "confirm zh",
+    "cancel": "cancel zh"
+  },
   "dialog": {
     "bearing": "Bearing zh",
     "bearingType": "Bearing type zh",

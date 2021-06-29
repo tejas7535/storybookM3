@@ -18,6 +18,7 @@ import {
 } from './components/member-controls';
 import { MaterialModule } from './material.module';
 import { MmNumberPipe } from './pipes/mm-number.pipe';
+import { LanguageConfirmationDialogComponent } from './components/language-confirmation-dialog/language-confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -47,6 +48,7 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     LoadingSpinnerModule,
     MaterialModule,
     SharedTranslocoModule,
+    LanguageConfirmationDialogComponent,
   ],
   declarations: [
     MmNumberPipe,
@@ -55,6 +57,7 @@ import { MmNumberPipe } from './pipes/mm-number.pipe';
     StringNumberMemberComponent,
     MagneticSliderComponent,
     PictureCardListComponent,
+    LanguageConfirmationDialogComponent,
   ],
 })
 export class SharedModule {}

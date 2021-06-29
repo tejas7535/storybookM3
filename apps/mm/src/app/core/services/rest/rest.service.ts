@@ -20,7 +20,13 @@ import {
   providedIn: 'root',
 })
 export class RestService {
+  private currentLanguage: string;
+
   public constructor(private readonly dataService: DataService) {}
+
+  public setCurrentLanguage(language: string): void {
+    this.currentLanguage = language;
+  }
 
   public getBearingSearch(searchQuery: string): Observable<SearchResult> {
     return this.dataService.getAll<SearchResult>(
@@ -60,7 +66,7 @@ export class RestService {
   ): Observable<MMBearingsMaterialResponse> {
     return this.dataService.getAll<MMBearingsMaterialResponse>(
       `${environment.materialsPath}${idmmShaftMaterial}`,
-      { context: withCache() }
+      { context: withCache({ version: this.currentLanguage }) }
     );
   }
 
@@ -69,7 +75,7 @@ export class RestService {
     const path = requestUrl.replace(replaceValue, '');
 
     return this.dataService.getAll<MMResponseVariants>(path, {
-      context: withCache(),
+      context: withCache({ version: this.currentLanguage }),
     });
   }
 }

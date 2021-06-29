@@ -41,6 +41,7 @@
     <mm-picture-card-list
       [options]="options$ | ngrxPush"
       [formControl]="control"
+      [translationRequired]="meta.member.type === 'list'"
     ></mm-picture-card-list>
   </ng-template>
 

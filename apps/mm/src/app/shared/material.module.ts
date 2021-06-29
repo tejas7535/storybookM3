@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -22,6 +23,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatSidenavModule,
     MatExpansionModule,
     MatIconModule,
+    MatDialogModule,
   ],
   exports: [
     CommonModule,
@@ -34,6 +36,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatSidenavModule,
     MatExpansionModule,
     MatIconModule,
+    MatDialogModule,
   ],
 })
 export class MaterialModule {}
