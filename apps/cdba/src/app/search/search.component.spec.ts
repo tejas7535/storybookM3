@@ -56,6 +56,8 @@ describe('SearchComponent', () => {
         m.expect(component.noResultsFound$).toBeObservable(
           m.cold('a', { a: false })
         );
+
+        m.expect(component.resultCount$).toBeObservable(m.cold('a', { a: 10 }));
       })
     );
   });
