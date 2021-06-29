@@ -1,31 +1,40 @@
 import { Injectable } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, pairwise, startWith, switchMap } from 'rxjs/operators';
 
-import { ComponentStore } from '@ngrx/component-store';
-
-import { RSY_PAGE_BEARING_TYPE } from '../shared/constants/dialog-constant';
-import { PagedMeta } from './home.model';
 import { NestedPropertyMeta } from '@caeonline/dynamic-forms';
+import { ComponentStore, tapResponse } from '@ngrx/component-store';
+
+import { LazyListLoaderService } from '../core/services/lazy-list-loader';
+import { RSY_PAGE_BEARING_TYPE } from '../shared/constants/dialog-constant';
+import { BearingParams, PagedMeta } from './home.model';
 import { HomeService } from './home.service';
 
 export interface HomeState {
   pagedMetas: PagedMeta[];
   activePageId: string;
   inactivePageId: string;
+  bearing: string;
 }
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class HomeStore extends ComponentStore<HomeState> {
-  public constructor(private readonly homeService: HomeService) {
+  public constructor(
+    private readonly lazyListLoaderService: LazyListLoaderService,
+    private readonly homeService: HomeService
+  ) {
     super({
       pagedMetas: [],
       activePageId: RSY_PAGE_BEARING_TYPE,
       inactivePageId: undefined,
+      bearing: undefined,
     });
   }
 
+  // Read
   public readonly pagedMetas$: Observable<PagedMeta[]> = this.select(
     (state) => state.pagedMetas
   );
@@ -39,6 +48,14 @@ export class HomeStore extends ComponentStore<HomeState> {
       state.pagedMetas.find(
         (pagedMeta) => pagedMeta.page.id === state.activePageId
       )?.page.page.text
+  );
+
+  public readonly bearingParams$: Observable<BearingParams> = this.select(
+    (state) => this.homeService.getBearingParams(state.pagedMetas)
+  );
+
+  public readonly activeBearing$: Observable<string> = this.select(
+    (state) => state.activePageId !== RSY_PAGE_BEARING_TYPE && state.bearing
   );
 
   public readonly inactivePageId$: Observable<string> = this.select(
@@ -75,6 +92,7 @@ export class HomeStore extends ComponentStore<HomeState> {
     return result;
   });
 
+  // Write
   public readonly setPageMetas = this.updater(
     (state, nestedMetas: NestedPropertyMeta[]) => ({
       ...state,
@@ -94,5 +112,35 @@ export class HomeStore extends ComponentStore<HomeState> {
       ...state,
       inactivePageId,
     })
+  );
+
+  public readonly setBearing = this.updater((state, bearing: string) => ({
+    ...state,
+    bearing,
+  }));
+
+  // Effects;
+  readonly getBearing = this.effect(
+    (bearingParams$: Observable<BearingParams>) =>
+      bearingParams$.pipe(
+        startWith({ id: undefined, url: undefined, params: undefined }),
+        pairwise(),
+        filter(
+          ([prevParams, currentParams]) => prevParams?.id !== currentParams.id
+        ),
+        switchMap(([_prevParams, { url, params, id }]) =>
+          this.lazyListLoaderService.loadOptions(url, params).pipe(
+            tapResponse(
+              (bearings) => {
+                const bearing = bearings.find(
+                  (bearing) => bearing.id === id
+                ).text;
+                this.setBearing(bearing);
+              },
+              (error) => console.log(error)
+            )
+          )
+        )
+      )
   );
 }

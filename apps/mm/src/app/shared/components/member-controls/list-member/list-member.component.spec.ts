@@ -17,7 +17,12 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 
 import { DropdownInputModule } from '@schaeffler/dropdown-input';
+import {
+  PictureCardActionComponent,
+  PictureCardComponent,
+} from '@schaeffler/picture-card';
 
+import { MagneticSliderComponent } from '../../magnetic-slider/magnetic-slider.component';
 import { MemberTypes } from './../../../constants/dialog-constant';
 import { MaterialModule } from './../../../material.module';
 import { PictureCardListComponent } from './../picture-card-list/picture-card-list.component';
@@ -40,7 +45,10 @@ describe('ListMemberComponent', () => {
     declarations: [
       ListMemberComponent,
       SelectMemberComponent,
+      PictureCardComponent,
       PictureCardListComponent,
+      PictureCardActionComponent,
+      MagneticSliderComponent,
     ],
     providers: [
       {

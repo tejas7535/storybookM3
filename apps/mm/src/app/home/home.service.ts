@@ -1,12 +1,21 @@
 import { Injectable } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+
+import { combineLatest, defer, merge, of } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 import {
   NestedPropertyMeta,
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
-import { combineLatest, merge, defer, of } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { PagedMeta } from './home.model';
+
+import {
+  RSY_BEARING_SERIES,
+  RSY_BEARING_TYPE,
+  RSY_PAGE_BEARING,
+  RSY_PAGE_BEARING_TYPE,
+} from '../shared/constants/dialog-constant';
+import { BearingParams, PagedMeta, Value } from './home.model';
 
 @Injectable({
   providedIn: 'root',
@@ -54,6 +63,59 @@ export class HomeService {
       });
 
     return pagedMetas;
+  }
+
+  public getBearingParams(pagedMetas: PagedMeta[]): BearingParams {
+    const idValue = pagedMetas
+      .find((pagedMeta) => pagedMeta.page.id === RSY_PAGE_BEARING_TYPE)
+      ?.metas.map((meta, index) => ({
+        key: index,
+        pageId: (meta.member as any).id,
+      }))
+      .find((value: Value) => value.pageId === 'RSY_BEARING')?.key;
+
+    const id = pagedMetas
+      .find((pagedMeta) => pagedMeta.page.id === RSY_PAGE_BEARING_TYPE)
+      ?.controls.find(
+        (control, index) => idValue === index && control.status === 'VALID'
+      )?.value;
+
+    const values = pagedMetas
+      .find((pagedMeta) => pagedMeta.page.id === RSY_PAGE_BEARING_TYPE)
+      ?.metas.map((meta, index) => ({
+        key: index, // this index is potentially wrong
+        pageId: (meta.member as any).id,
+      }))
+      .filter(
+        (value: Value) =>
+          value.pageId === RSY_BEARING_TYPE ||
+          value.pageId === RSY_BEARING_SERIES
+      );
+
+    const params = pagedMetas
+      .find((pagedMeta) => pagedMeta.page.id === RSY_PAGE_BEARING_TYPE)
+      ?.controls.filter(
+        (control, index) =>
+          values.find((value) => value.key === index) &&
+          control.status === 'VALID'
+      )
+      .map((control, index) => ({
+        name: values.find((value) => value.key === index).pageId,
+        value: control.value,
+      }));
+
+    const url = (
+      pagedMetas
+        .find((pagedMeta) => pagedMeta.page.id === RSY_PAGE_BEARING_TYPE)
+        ?.children.find((child) => child.page.id === RSY_PAGE_BEARING)?.metas[0]
+        .member as any
+    )?.optionsUrl;
+
+    return {
+      id,
+      url,
+      params,
+    };
   }
 
   private extractMembers(
