@@ -74,6 +74,12 @@ export class PagesStepperComponent implements OnChanges {
   public next(): void {
     this.navigatePage(1);
   }
+
+  public reset(): void {
+    const visiblePages = this.getVisiblePages();
+    this.activePageIdChange.emit(visiblePages[0].id);
+  }
+
   private navigatePage(direction: -1 | 1): void {
     const visiblePages = this.getVisiblePages();
     const currentPageIndex = visiblePages.findIndex(

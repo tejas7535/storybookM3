@@ -7,6 +7,11 @@
     "searchLoading": "Fetching data...",
     "searchNoResults": "No Results"
   },
+  "languageDialog": {
+    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input.",
+    "confirm": "confirm",
+    "cancel": "cancel"
+  },
   "sidebar": {
     "languageSelectLabel": "Language",
     "decimalSeparatorSelectLabel": "Decimal separator",

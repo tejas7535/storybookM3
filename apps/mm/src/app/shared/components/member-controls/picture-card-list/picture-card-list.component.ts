@@ -27,6 +27,7 @@ interface PictureCardListOption {
 })
 export class PictureCardListComponent implements ControlValueAccessor {
   @Input() public options: PictureCardListOption[] = [];
+  @Input() public translationRequired = false;
 
   public value: string;
   public disabled = false;

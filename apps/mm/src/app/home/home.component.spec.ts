@@ -1,4 +1,5 @@
 import { DecimalPipe } from '@angular/common';
+import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
@@ -17,7 +18,7 @@ import { ReactiveComponentModule } from '@ngrx/component';
 
 import { PagesStepperComponent } from '../core/components/pages-stepper/pages-stepper.component';
 import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
-import { RestService } from '../core/services';
+import { MMLocales, RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
 import { SharedModule } from '../shared/shared.module';
 import { BearingSearchModule } from './bearing-search/bearing-search.module';
@@ -36,6 +37,8 @@ describe('HomeComponent', () => {
     separator: 'point',
     language: 'de',
   });
+
+  const language$ = new BehaviorSubject<MMLocales>(MMLocales.de);
 
   const mockBearingRelationsResponse: any = {
     data: {
@@ -88,12 +91,14 @@ describe('HomeComponent', () => {
         useValue: {
           setSeparator: jest.fn(),
           setLocale: jest.fn(),
+          language$,
         },
       },
       {
         provide: RestService,
         useValue: {
           getBearingRelations: jest.fn(() => of(mockBearingRelationsResponse)),
+          setCurrentLanguage: jest.fn(() => {}),
         },
       },
     ],
@@ -111,6 +116,30 @@ describe('HomeComponent', () => {
     // eslint-disable-next-line no-console
     console.log = jest.fn();
     expect(component).toBeTruthy();
+  });
+
+  describe('#ngOnInit', () => {
+    it('should be subscribed to language switches', () => {
+      component.resetForm = jest.fn();
+      component['form'] = undefined;
+      language$.next(MMLocales.en);
+
+      expect(component['restService'].setCurrentLanguage).toHaveBeenCalledWith(
+        'en'
+      );
+      expect(component.resetForm).not.toHaveBeenCalled();
+    });
+
+    it('should reset form on languageSwitch', () => {
+      component.resetForm = jest.fn();
+      component['form'] = new FormGroup({});
+
+      language$.next(MMLocales.en);
+      expect(component['restService'].setCurrentLanguage).toHaveBeenCalledWith(
+        'en'
+      );
+      expect(component.resetForm).toHaveBeenCalled();
+    });
   });
 
   describe('#routeParams', () => {
@@ -166,6 +195,9 @@ describe('HomeComponent', () => {
     ] as NestedPropertyMeta[];
     const mockedDynamicTemplate = {
       nestedMetas: mockNestedMeta,
+      form: {
+        value: 'yes',
+      },
     } as DynamicFormTemplateContext;
     component.dynamicFormLoaded(mockedDynamicTemplate);
 
@@ -206,6 +238,17 @@ describe('HomeComponent', () => {
       component.handleActivePageIdChange('mockId1');
 
       expect(component['homeStore'].getBearing).toHaveBeenCalledTimes(1);
+    });
+  });
+  describe('#resetForm', () => {
+    it('should reset the form', () => {
+      component['form'].reset = jest.fn();
+      component.dynamicFormLoaded = jest.fn();
+
+      component.resetForm();
+
+      expect(component['form'].reset).toHaveBeenCalled();
+      expect(component.dynamicFormLoaded).toHaveBeenCalled();
     });
   });
 });

@@ -13,6 +13,11 @@
     "searchLoading": "Fetching data... ru",
     "searchNoResults": "No Results ru"
   },
+  "languageDialog": {
+    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input. ru",
+    "confirm": "confirm ru",
+    "cancel": "cancel ru"
+  },
   "dialog": {
     "bearing": "Bearing ru",
     "bearingType": "Bearing type ru",

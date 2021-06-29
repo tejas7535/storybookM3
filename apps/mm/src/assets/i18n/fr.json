@@ -13,6 +13,11 @@
     "searchLoading": "Fetching data... fr",
     "searchNoResults": "No Results fr"
   },
+  "languageDialog": {
+    "content": "Please note that changing the language will cause a refresh of the page and you will lose all of your input. fr",
+    "confirm": "confirm fr",
+    "cancel": "cancel fr"
+  },
   "dialog": {
     "bearing": "Bearing fr",
     "bearingType": "Bearing type fr",

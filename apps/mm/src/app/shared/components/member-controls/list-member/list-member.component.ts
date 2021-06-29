@@ -85,7 +85,7 @@ export class ListMemberComponent implements OnInit, OnDestroy {
     );
   }
 
-  private translationRequired(type: string, id: string): boolean {
+  public translationRequired(type: string, id: string): boolean {
     return (
       (!this.isDropdownInput(type, id) && !(type === MemberTypes.LazyList)) ||
       type === MemberTypes.List
@@ -108,12 +108,14 @@ export class ListMemberComponent implements OnInit, OnDestroy {
       map((listValues: any[]) =>
         listValues.map((listValue: any) => ({
           ...listValue,
-          value: this.translationRequired(
-            this.meta.member.type,
-            this.meta.member.id
-          )
-            ? translate(listValue.text)
-            : listValue.text,
+          value:
+            this.translationRequired(
+              this.meta.member.type,
+              this.meta.member.id
+            ) &&
+            !(this.meta.member.type === MemberTypes.List && listValue.imageUrl)
+              ? translate(listValue.text)
+              : listValue.text,
         }))
       )
     );

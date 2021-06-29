@@ -13,6 +13,11 @@
     "decimalSeparatorComma": "Komma",
     "decimalSeparatorPoint": "Punkt"
   },
+  "languageDialog": {
+    "content": "Bitte beachten Sie, dass die Seite bei einem Sprachwechsel neu geladen wird und Änderungen verloren gehen.",
+    "confirm": "bestätigen",
+    "cancel": "abbrechen"
+  },
   "dialog": {
     "bearing": "Lager",
     "bearingType": "Lager-Art",
