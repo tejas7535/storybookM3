@@ -18,8 +18,10 @@ export class TableStore extends ComponentStore<TableState> {
     (state) => state.filters
   );
 
-  public readonly setFilters = this.updater((state, filters: any) => ({
-    ...state,
-    filters,
-  }));
+  public readonly setFilters = this.updater(
+    (state, filters: any): TableState => ({
+      ...state,
+      filters,
+    })
+  );
 }

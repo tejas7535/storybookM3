@@ -21,7 +21,7 @@ export class NoResultsFoundPipe implements PipeTransform {
       filterOptions.filter(
         (it: IdValue) =>
           (selectedOptions && selectedOptions.find((sel) => sel === it)) ||
-          (searchStr && it.value.toLowerCase().indexOf(searchStr) === -1)
+          (searchStr && !it.value.toLowerCase().includes(searchStr))
       ).length === filterOptions.length;
 
     return (

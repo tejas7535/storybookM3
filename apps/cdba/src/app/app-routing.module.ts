@@ -23,7 +23,7 @@ export const appRoutes: Routes = [
   },
   {
     path: AppRoutePath.ResultsPath,
-    loadChildren: () =>
+    loadChildren: async () =>
       import('./results/results.module').then((m) => m.ResultsModule),
     canActivate: [MsalGuard],
     canActivateChild: [RoleGuard],

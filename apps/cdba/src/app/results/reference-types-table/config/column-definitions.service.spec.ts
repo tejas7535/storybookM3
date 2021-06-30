@@ -6,6 +6,7 @@ import * as utils from '../../../shared/components/table/column-utils';
 import { ColumnDefinitionService } from './column-definitions.service';
 
 jest.mock('../../../shared/components/table/column-utils', () => ({
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
   ...jest.requireActual<any>('../../../shared/components/table/column-utils'),
   valueGetterDate: jest.fn(),
   valueGetterArray: jest.fn(),

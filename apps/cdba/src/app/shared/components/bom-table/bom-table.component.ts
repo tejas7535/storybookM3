@@ -225,7 +225,7 @@ export class BomTableComponent implements OnChanges {
     }
 
     // third or more level row
-    if (this.nonLevel2Children.indexOf(params.node.id) !== -1) {
+    if (this.nonLevel2Children.includes(params.node.id)) {
       let tmpNode = params.node;
 
       while (tmpNode.parent.id !== this.currentSelectedRow.node.id) {

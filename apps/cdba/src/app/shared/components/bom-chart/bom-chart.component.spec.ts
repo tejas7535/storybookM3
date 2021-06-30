@@ -28,7 +28,7 @@ describe('BomChartComponent', () => {
     imports: [
       SharedModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
       provideTranslocoTestingModule({ en: {} }),
       MatIconModule,

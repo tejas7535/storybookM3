@@ -11,19 +11,19 @@ const routes: Routes = [
     children: [
       {
         path: DetailRoutePath.DetailsPath,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./detail-tab/detail-tab.module').then(
             (m) => m.DetailTabModule
           ),
       },
       {
         path: DetailRoutePath.BomPath,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./bom-tab/bom-tab.module').then((m) => m.BomTabModule),
       },
       {
         path: DetailRoutePath.CalculationsPath,
-        loadChildren: () =>
+        loadChildren: async () =>
           import('./calculations-tab/calculations-tab.module').then(
             (m) => m.CalculationsTabModule
           ),
@@ -42,7 +42,7 @@ const routes: Routes = [
       },
       {
         path: '**',
-        loadChildren: () =>
+        loadChildren: async () =>
           import('@schaeffler/empty-states').then((m) => m.PageNotFoundModule),
       },
     ],

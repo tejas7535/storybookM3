@@ -98,18 +98,6 @@ describe('BomTableComponent', () => {
       expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), 10);
     });
 
-    it('should do nothing when gridApi is not loaded', () => {
-      component['gridApi'] = undefined;
-
-      component.ngOnChanges({
-        isLoading: {
-          currentValue: true,
-        } as unknown as SimpleChange,
-      });
-
-      // should just succeed - otherwise this test should throw an error
-    });
-
     it('should hide loading spinner and show NoRowsOverlay when loading is done', () => {
       component['gridApi'] = {
         showLoadingOverlay: jest.fn(),
