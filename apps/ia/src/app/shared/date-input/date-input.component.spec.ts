@@ -1,12 +1,12 @@
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
 import {
-  MatDatepicker,
   MatDatepickerInputEvent,
   MatDatepickerModule,
+  MatDateRangePicker,
 } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInput, MatInputModule } from '@angular/material/input';
+import { MatInputModule } from '@angular/material/input';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 
@@ -162,7 +162,7 @@ describe('DateInputComponent', () => {
       const date = new Date();
       const datepicker = {
         close: jest.fn(),
-      } as unknown as MatDatepicker<Date>;
+      } as unknown as MatDateRangePicker<any>;
 
       component.chosenYearHandler(date, datepicker);
 
@@ -176,7 +176,7 @@ describe('DateInputComponent', () => {
       const date = new Date();
       const datepicker = {
         close: jest.fn(),
-      } as unknown as MatDatepicker<Date>;
+      } as unknown as MatDateRangePicker<any>;
 
       component.chosenYearHandler(date, datepicker);
 
@@ -191,7 +191,7 @@ describe('DateInputComponent', () => {
       const date = new Date();
       const datepicker = {
         close: jest.fn(),
-      } as unknown as MatDatepicker<Date>;
+      } as unknown as MatDateRangePicker<any>;
 
       component.chosenMonthHandler(date, datepicker);
 
@@ -205,7 +205,7 @@ describe('DateInputComponent', () => {
       const date = new Date();
       const datepicker = {
         close: jest.fn(),
-      } as unknown as MatDatepicker<Date>;
+      } as unknown as MatDateRangePicker<any>;
 
       component.chosenMonthHandler(date, datepicker);
 
@@ -214,18 +214,18 @@ describe('DateInputComponent', () => {
   });
 
   describe('startDateChanged', () => {
-    let datepicker: MatDatepicker<Date>;
-    let endDateInput: MatInput;
+    let datepicker: MatDateRangePicker<any>;
+    let endDateInput: HTMLInputElement;
     let evt: MatDatepickerInputEvent<any>;
 
     beforeEach(() => {
       component.updateStartEndDates = jest.fn();
       datepicker = {
         close: jest.fn(),
-      } as unknown as MatDatepicker<Date>;
+      } as unknown as MatDateRangePicker<any>;
       endDateInput = {
         focus: jest.fn(),
-      } as unknown as MatInput;
+      } as unknown as HTMLInputElement;
       evt = {
         value: new Date(),
       } as unknown as MatDatepickerInputEvent<any>;

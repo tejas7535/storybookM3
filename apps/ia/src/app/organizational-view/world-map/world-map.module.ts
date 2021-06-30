@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { NgxEchartsModule } from 'ngx-echarts';
 
@@ -23,6 +24,7 @@ import { WorldMapComponent } from './world-map.component';
     SharedTranslocoModule,
     AttritionDialogModule,
     ChartLegendModule,
+    MatTooltipModule,
   ],
   exports: [WorldMapComponent],
 })

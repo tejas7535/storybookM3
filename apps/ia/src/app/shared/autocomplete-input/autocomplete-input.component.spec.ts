@@ -179,9 +179,7 @@ describe('AutocompleteInputComponent', () => {
 
   describe('trackByFn', () => {
     test('should return index', () => {
-      const idValue = new IdValue('001', 'Bam');
-
-      const result = component.trackByFn(0, idValue);
+      const result = component.trackByFn(0);
 
       expect(result).toEqual(0);
     });

@@ -119,7 +119,7 @@ export class AutocompleteInputComponent
     this.matInput.nativeElement.blur();
   }
 
-  trackByFn(index: number, _item: IdValue): number {
+  trackByFn(index: number): number {
     return index;
   }
 }
