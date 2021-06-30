@@ -7,10 +7,9 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
-  MatDatepicker,
   MatDatepickerInputEvent,
+  MatDateRangePicker,
 } from '@angular/material/datepicker';
-import { MatInput } from '@angular/material/input';
 
 import { TimePeriod } from '../models';
 
@@ -52,7 +51,7 @@ export class DateInputComponent {
     start: new FormControl({ value: '', disabled: true }),
     end: new FormControl({ value: '', disabled: true }),
   });
-  startView = '';
+  startView: 'multi-year' | 'month' | 'year' = 'multi-year';
   minDate = new Date('2019-01-01 00:00:00');
   maxDate = new Date('2020-12-31 00:00:00');
 
@@ -111,7 +110,7 @@ export class DateInputComponent {
 
   public chosenMonthHandler(
     month: Date,
-    datepicker: MatDatepicker<Date>
+    datepicker: MatDateRangePicker<any>
   ): void {
     if (this.timePeriod === TimePeriod.MONTH) {
       this.updateStartEndDates(month);
@@ -119,7 +118,10 @@ export class DateInputComponent {
     }
   }
 
-  public chosenYearHandler(year: Date, datepicker: MatDatepicker<Date>): void {
+  public chosenYearHandler(
+    year: Date,
+    datepicker: MatDateRangePicker<any>
+  ): void {
     if (this.timePeriod === TimePeriod.YEAR) {
       this.updateStartEndDates(year);
       datepicker.close();
@@ -128,8 +130,8 @@ export class DateInputComponent {
 
   public startDateChanged(
     evt: MatDatepickerInputEvent<any>,
-    datepicker: MatDatepicker<Date>,
-    endDateInput: MatInput
+    datepicker: MatDateRangePicker<any>,
+    endDateInput: HTMLInputElement
   ): void {
     if (
       (this.timePeriod === TimePeriod.YEAR ||

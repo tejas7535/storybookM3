@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 
-import { EmployeeAttritionMeta } from '../../../shared/models';
+import { AttritionDialogMeta } from '../models/attrition-dialog-meta.model';
 
 @Component({
   selector: 'ia-attrition-dialog-meta',
@@ -8,5 +8,5 @@ import { EmployeeAttritionMeta } from '../../../shared/models';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AttritionDialogMetaComponent {
-  @Input() meta: EmployeeAttritionMeta;
+  @Input() meta: AttritionDialogMeta;
 }
