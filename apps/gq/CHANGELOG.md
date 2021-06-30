@@ -3,6 +3,35 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.16.0](///compare/gq-v1.16.0...gq-v1.15.1) (2021-06-30)
+
+
+### 🐛 Bug Fixes
+
+* **gq:** displayed gpm on detail view ([1bb62c4](///commit/1bb62c4e292df1246eb4b49995b97c6b8fe0ef8d))
+* **gq:** fixed gpm calculation issue ([b0c569a](///commit/b0c569a1516c032b7527d5131efdd1bfc856dac5))
+* **gq:** fixed unselect customer bug ([348c722](///commit/348c7228c58dc8f19028d80c211bf0cdfeeaecde))
+
+
+### 🎸 Features
+
+* **gq:** added breadcrumbs (GQUOTE-631) ([539eb0d](///commit/539eb0d5e533baaca21c406e93ac4aeeba9ee400))
+* **gq:** added buttons and migrated to tailwind (GQUOTE-681) ([d3d77da](///commit/d3d77da1a41c2074b2b628e25826b72f96b75d89))
+* **gq:** added clickable links (GQUOTE-632) ([4061dc3](///commit/4061dc350fd8aaeb176d875298d474149c26aeef))
+* **gq:** added confirmation pop ups (GQUOTE-698) ([8cde5a1](///commit/8cde5a11140b0e83abc08fbe7d1a52bf7b7eb152))
+* **gq:** added create-customer-case ui (GQUOTE-659) ([3e7d8c9](///commit/3e7d8c90f2e50df0ac75712c2eae3dca232ae480))
+* **gq:** added dropdowns for pl and series (GQUOTE-657) ([1b0c262](///commit/1b0c262d1134bd6c0a1c2adc19b45ca5bb79ba2e))
+* **gq:** added icon to paste from clipboard (GQUOTE-725) ([086a10c](///commit/086a10c00b210fde395cc2d849cec89f6f0243ab))
+* **gq:** added modal for changing quantity (GQUOTE-652) ([017f6cf](///commit/017f6cf8f5cec31c5c867350790bfc6c9d7be5a5))
+* **gq:** added progress text on calculation progress (GQUOTE-744) ([887b516](///commit/887b516bf10780464724aa268240b60abb1d6dea))
+* **gq:** added rest call to create case button (GQUOTE-658) ([34c07f1](///commit/34c07f1c71a249cdc2c4aade11f7eeb763365ca4))
+* **gq:** added strict template check (UFTABI-4624) ([dd0c1da](///commit/dd0c1da564de63af26e0950c9658ef0a1df41fa3))
+* **gq:** migrated to new footer (GQUOTE-711) ([a9c6dbd](///commit/a9c6dbdcdcf08751fc4cd62fbd9ff418cfa17fec))
+* **gq:** removed addedToOffer (GQUOTE-569) ([1eba424](///commit/1eba424736251c8799c159e48321ab6b5fa9c956))
+* **gq:** reworked manual case modal (GQUOTE-572) ([640eb40](///commit/640eb40ca044153b25be4e3a3905248dd92e40d1))
+* **gq:** splitted case creation into two pop ups (GQUOTE-682) ([4d2ec31](///commit/4d2ec31fa6ef6275ec815844594b24b81e8d8954))
+* **workspace:** fix accessibility and numerical separator issues (UFTABI-4728) ([699fb97](///commit/699fb97a63a9069d847dfa489386da561028e5ea))
+
 ### [1.15.1](///compare/gq-v1.15.1...gq-v1.15.0) (2021-05-20)
 
 ## [1.15.0](///compare/gq-v1.15.0...gq-v1.14.1) (2021-05-19)
