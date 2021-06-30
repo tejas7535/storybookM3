@@ -22,7 +22,6 @@ export class RangeFilterValuePipe implements PipeTransform {
 
     let value: string;
 
-    // eslint-disable-next-line
     const filterValueIsASum = filter.name === 'budget_quantity';
 
     if (filter.minSelected && !filter.maxSelected) {

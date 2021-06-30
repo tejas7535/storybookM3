@@ -40,7 +40,7 @@
       fxFill
       fxLayout="column"
       fxLayoutAlign="center center"
-      *ngIf="(drawings$ | ngrxPush)?.length == 0 && !(loading$ | ngrxPush)"
+      *ngIf="(drawings$ | ngrxPush)?.length === 0 && !(loading$ | ngrxPush)"
     >
       <div fxLayout="row">
         <div fxFlex="70" fxFlexOffset="15">
