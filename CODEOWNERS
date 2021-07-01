@@ -39,6 +39,10 @@ apps/ia-e2e @herpisef
 apps/mm @juskibry @birketho @krausrbe @berndcri
 apps/mm-e2e @juskibry @birketho @krausrbe @berndcri
 
+# GA
+apps/ga @juskibry @krausrbe @berndcri
+apps/ga-e2e @juskibry @krausrbe @berndcri
+
 ############
 ### Libs ###
 ############

@@ -49,6 +49,13 @@
       "tags": [],
       "implicitDependencies": ["cdba"]
     },
+    "ga": {
+      "tags": []
+    },
+    "ga-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ga"]
+    },
     "goldwind": {
       "tags": [],
       "implicitDependencies": ["shared-ui-styles"]
