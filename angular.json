@@ -205,6 +205,161 @@
         }
       }
     },
+    "ga": {
+      "projectType": "application",
+      "root": "apps/ga",
+      "sourceRoot": "apps/ga/src",
+      "prefix": "schaeffler",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/ga",
+            "index": "apps/ga/src/index.html",
+            "main": "apps/ga/src/main.ts",
+            "polyfills": "apps/ga/src/polyfills.ts",
+            "tsConfig": "apps/ga/tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": ["apps/ga/src/favicon.ico", "apps/ga/src/assets"],
+            "styles": [
+              "apps/ga/src/styles.scss",
+              "node_modules/schaeffler-icons/style.css",
+              "node_modules/@fontsource/roboto/300.css",
+              "node_modules/@fontsource/roboto/400.css",
+              "node_modules/@fontsource/roboto/500.css"
+            ],
+            "scripts": [],
+            "budgets": [
+              {
+                "type": "initial",
+                "maximumWarning": "2mb",
+                "maximumError": "5mb"
+              },
+              {
+                "type": "anyComponentStyle",
+                "maximumWarning": "6kb",
+                "maximumError": "20kb"
+              }
+            ]
+          },
+          "configurations": {
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            },
+            "dev": {
+              "statsJson": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "fileReplacements": [
+                {
+                  "replace": "apps/ga/src/environments/environment.ts",
+                  "with": "apps/ga/src/environments/environment.dev.ts"
+                }
+              ]
+            },
+            "qa": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ga/src/environments/environment.ts",
+                  "with": "apps/ga/src/environments/environment.qa.ts"
+                }
+              ]
+            },
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/ga/src/environments/environment.ts",
+                  "with": "apps/ga/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "local": {
+              "browserTarget": "ga:build:local"
+            },
+            "dev": {
+              "browserTarget": "ga:build:dev"
+            },
+            "qa": {
+              "browserTarget": "ga:build:qa"
+            },
+            "production": {
+              "browserTarget": "ga:build:production"
+            }
+          },
+          "defaultConfiguration": "local"
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ga/src/**/*.ts", "apps/ga/src/**/*.html"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/ga/checkstyle.xml",
+              "force": true
+            }
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/ga"],
+          "options": {
+            "jestConfig": "apps/ga/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "ga-e2e": {
+      "root": "apps/ga-e2e",
+      "sourceRoot": "apps/ga-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/ga-e2e/cypress.json",
+            "tsConfig": "apps/ga-e2e/tsconfig.e2e.json",
+            "devServerTarget": "ga:serve:development"
+          },
+          "configurations": {
+            "local": {
+              "devServerTarget": "ga:serve:local"
+            },
+            "production": {
+              "devServerTarget": "ga:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/ga-e2e/**/*.{js,ts}"]
+          },
+          "configurations": {
+            "ci": {
+              "format": "checkstyle",
+              "outputFile": "checkstyle/apps/ga-e2e/checkstyle.xml",
+              "force": true
+            }
+          }
+        }
+      }
+    },
     "goldwind": {
       "projectType": "application",
       "schematics": {
