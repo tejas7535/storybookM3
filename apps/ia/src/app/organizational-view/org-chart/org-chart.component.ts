@@ -16,6 +16,7 @@ import d3OrgChart from 'd3-org-chart';
 import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
 import { AttritionDialogMeta } from '../attrition-dialog/models/attrition-dialog-meta.model';
+import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartService } from './org-chart.service';
 import { TeamMemberDialogComponent } from './team-member-dialog/team-member-dialog.component';
 
@@ -60,11 +61,11 @@ export class OrgChartComponent implements AfterViewInit {
     const employeeId = node.getAttribute('data-id');
     const employee = this.data.find((elem) => elem.employeeId === employeeId);
 
-    if (node.classList.contains('employee-node-people')) {
+    if (node.classList.contains(OrgChartConfig.BUTTON_CSS.people)) {
       this.dialog.open(TeamMemberDialogComponent, {
         data: employee,
       });
-    } else if (node.classList.contains('employee-node-attrition')) {
+    } else if (node.classList.contains(OrgChartConfig.BUTTON_CSS.attrition)) {
       const attritionMeta = employee?.attritionMeta;
       const data = new AttritionDialogMeta(
         attritionMeta,
@@ -75,7 +76,7 @@ export class OrgChartComponent implements AfterViewInit {
         width: '90%',
         maxWidth: '750px',
       });
-    } else if (node.classList.contains('show-parent')) {
+    } else if (node.classList.contains(OrgChartConfig.BUTTON_CSS.showUpArrow)) {
       this.showParent.emit(employee);
     }
   }

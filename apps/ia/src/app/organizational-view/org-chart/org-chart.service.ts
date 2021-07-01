@@ -4,6 +4,7 @@ import { translate } from '@ngneat/transloco';
 
 import { Employee } from '../../shared/models/employee.model';
 import { HeatType } from '../models/heat-type.enum';
+import * as OrgChartConfig from './models/org-chart-config';
 import { OrgChartNode } from './models/org-chart-node.model';
 
 @Injectable({
@@ -36,15 +37,15 @@ export class OrgChartService {
 
       const heatMapClass =
         elem.attritionMeta?.heatType === HeatType.GREEN_HEAT
-          ? 'green-heat'
+          ? OrgChartConfig.HEAT_TYPE_CSS.green
           : elem.attritionMeta?.heatType === HeatType.ORANGE_HEAT
-          ? 'orange-heat'
+          ? OrgChartConfig.HEAT_TYPE_CSS.orage
           : elem.attritionMeta?.heatType === HeatType.RED_HEAT
-          ? 'red-heat'
+          ? OrgChartConfig.HEAT_TYPE_CSS.red
           : '';
 
       // TODO: determination of root elem needs be done otherwise after PoC
-      const rootOfAllEmployees = 'Schaeffler_IT';
+      const rootOfAllEmployees = OrgChartConfig.COMPANY_ROOT;
       let showUpperParentBtn = false;
 
       // if root and there is a possibility to load upper parent
