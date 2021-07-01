@@ -265,6 +265,7 @@
               ]
             },
             "qa": {
+              "statsJson": true,
               "fileReplacements": [
                 {
                   "replace": "apps/ga/src/environments/environment.ts",
