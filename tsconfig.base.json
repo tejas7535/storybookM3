@@ -33,6 +33,7 @@
       ],
       "@schaeffler/azure-auth": ["libs/shared/utils/azure-auth/src/index.ts"],
       "@schaeffler/banner": ["libs/shared/ui/banner/src/index.ts"],
+      "@schaeffler/breadcrumbs": ["libs/shared/ui/breadcrumbs/src/index.ts"],
       "@schaeffler/dropdown-input": [
         "libs/shared/ui/dropdown-input/src/index.ts"
       ],
@@ -66,15 +67,9 @@
       "@schaeffler/shared/cypress-utils": [
         "libs/shared/cypress-utils/src/index.ts"
       ],
-      "@schaeffler/shared/icons": ["libs/shared/icons/src/index.ts"],
-      "@schaeffler/shared/ui/footer-tailwind": [
-        "libs/shared/ui/footer-tailwind/src/index.ts"
-      ],
+
       "@schaeffler/shared/ui/storybook": [
         "libs/shared/ui/storybook/src/index.ts"
-      ],
-      "@schaeffler/shared/utils/azure-auth": [
-        "libs/shared/utils/azure-auth/src/index.ts"
       ],
       "@schaeffler/sidebar": ["libs/shared/ui/sidebar/src/index.ts"],
       "@schaeffler/snackbar": ["libs/shared/ui/snackbar/src/index.ts"],

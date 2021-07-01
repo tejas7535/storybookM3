@@ -115,6 +115,9 @@
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
     },
+    "shared-ui-breadcrumbs": {
+      "tags": ["scope:shared", "type:ui"]
+    },
     "shared-ui-dropdown-input": {
       "tags": ["scope:shared", "type:ui"],
       "implicitDependencies": ["shared-ui-styles"]
