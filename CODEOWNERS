@@ -16,8 +16,8 @@ apps/cdba @kauppfbi @herpisef @rieckpil_ext
 apps/cdba-e2e @kauppfbi @herpisef @rieckpil_ext
 
 # GOLDWIND
-apps/goldwind @krausrbe @gerlitm
-apps/goldwind-e2e @krausrbe @gerlitm
+apps/goldwind @krausrbe @gerlitm @geissbnj
+apps/goldwind-e2e @krausrbe @gerlitm @geissbnj
 
 # SEDO
 apps/sedo @birketho @soehnpsc @pelzesen
