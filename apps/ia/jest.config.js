@@ -9,8 +9,6 @@ module.exports = {
     },
   },
   coverageDirectory: '../../coverage/apps/ia',
-
-  coveragePathIgnorePatterns: ['.model.ts', '.enum.ts'],
   snapshotSerializers: [
     'jest-preset-angular/build/serializers/no-ng-attributes',
     'jest-preset-angular/build/serializers/ng-snapshot',
