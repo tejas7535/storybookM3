@@ -4,8 +4,11 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { Tab } from '@cdba/shared/components';
 import { ReferenceType } from '@cdba/shared/models';
+import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { getReferenceType } from '../core/store/selectors';
 import { DetailRoutePath } from './detail-route-path.enum';
@@ -16,6 +19,7 @@ import { DetailRoutePath } from './detail-route-path.enum';
   styleUrls: ['./detail.component.scss'],
 })
 export class DetailComponent implements OnInit {
+  public breadcrumbs$: Observable<Breadcrumb[]>;
   public referenceType$: Observable<ReferenceType>;
   public tabs: Tab[] = [
     {
@@ -33,10 +37,15 @@ export class DetailComponent implements OnInit {
     // { label: this.translateKey('tabs.drawings'), link: DetailRoutePath.DrawingsPath },
   ];
 
-  public constructor(private readonly store: Store) {}
+  public constructor(
+    private readonly store: Store,
+    private readonly breadcrumbsService: BreadcrumbsService
+  ) {}
 
   public ngOnInit(): void {
     this.referenceType$ = this.store.select(getReferenceType);
+
+    this.breadcrumbs$ = this.breadcrumbsService.breadcrumbs$;
   }
 
   /**

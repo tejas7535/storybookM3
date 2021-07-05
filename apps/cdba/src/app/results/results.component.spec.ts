@@ -2,15 +2,21 @@ import { Router } from '@angular/router';
 
 import { marbles } from 'rxjs-marbles/jest';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import { getReferenceTypes, selectReferenceTypes } from '@cdba/core/store';
 import { SharedModule } from '@cdba/shared';
 import { PageHeaderModule } from '@cdba/shared/components';
+import { BreadcrumbsService } from '@cdba/shared/services';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { ReferenceTypesTableModule } from './reference-types-table/reference-types-table.module';
@@ -28,8 +34,10 @@ describe('ResultsComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       MockModule(PageHeaderModule),
       MockModule(ReferenceTypesTableModule),
+      MockModule(BreadcrumbsModule),
     ],
     providers: [
+      mockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {
           search: SEARCH_STATE_MOCK,

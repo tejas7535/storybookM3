@@ -4,6 +4,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
@@ -29,6 +30,7 @@ import { compareReducer } from './store/reducers/compare.reducer';
     PageHeaderModule,
     TabsHeaderModule,
     ShareButtonModule,
+    BreadcrumbsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'compare' }],
 })

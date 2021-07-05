@@ -24,7 +24,7 @@ import {
   SharedTranslocoModule,
 } from '@schaeffler/transloco';
 
-import { AgGridStateService } from '../../services/ag-grid-state.service';
+import { AgGridStateService } from '../../services/ag-grid-state/ag-grid-state.service';
 import { SharedModule } from '../../shared.module';
 import { CustomOverlayModule } from '../table/custom-overlay/custom-overlay.module';
 import { CustomStatusBarModule } from '../table/custom-status-bar/custom-status-bar.module';
