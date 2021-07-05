@@ -4,6 +4,7 @@ import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SnackBarModule } from '@schaeffler/snackbar';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
@@ -33,6 +34,7 @@ import { DetailComponent } from './detail.component';
     PageHeaderModule,
     TabsHeaderModule,
     ShareButtonModule,
+    BreadcrumbsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'detail' }],
 })

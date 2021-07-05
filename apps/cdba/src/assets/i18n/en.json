@@ -3,6 +3,12 @@
     "blockUi": {
       "inProgress": "Your request is being processed!"
     },
+    "breadcrumbs": {
+      "search": "Search",
+      "results": "Results",
+      "detail": "Details",
+      "compare": "Compare"
+    },
     "shareUrl": {
       "button": "Share",
       "tooltipMessage": "Share the page link with your colleagues. Be aware, that your colleague needs the correct access rights to see the page.",

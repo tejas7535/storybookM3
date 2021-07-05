@@ -36,7 +36,7 @@ export const getReferenceTypeErrorMessage = createSelector(
 
 export const getMaterialDesignation = createSelector(
   getDetailState,
-  (state: DetailState) => state.detail.referenceType?.materialDesignation
+  (state: DetailState) => state?.detail.referenceType?.materialDesignation
 );
 
 export const getSalesDetails = createSelector(

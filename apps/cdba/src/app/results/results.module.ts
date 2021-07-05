@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 
 import { TRANSLOCO_SCOPE } from '@ngneat/transloco';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '@cdba/shared';
@@ -19,6 +20,7 @@ import { ResultsComponent } from './results.component';
     ResultsRoutingModule,
     PageHeaderModule,
     ReferenceTypesTableModule,
+    BreadcrumbsModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'results' }],
 })

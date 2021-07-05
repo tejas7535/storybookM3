@@ -4,6 +4,7 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockModule } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -11,6 +12,7 @@ import { BlockUiModule } from '@cdba/shared/components';
 import { SEARCH_STATE_MOCK } from '@cdba/testing/mocks';
 
 import { SharedModule } from '../shared/shared.module';
+import { ReferenceTypesFiltersModule } from './reference-types-filters/reference-types-filters.module';
 import { SearchComponent } from './search.component';
 
 describe('SearchComponent', () => {
@@ -24,6 +26,7 @@ describe('SearchComponent', () => {
       provideTranslocoTestingModule({ en: {} }),
       RouterTestingModule,
       BlockUiModule,
+      MockModule(ReferenceTypesFiltersModule),
     ],
     providers: [
       provideMockStore({

@@ -1,5 +1,5 @@
 /* eslint-disable import/order */
-import { LicenseManager } from '@ag-grid-enterprise/all-modules';
+import { LicenseManager } from '@ag-grid-enterprise/core';
 import { TranslocoModule } from '@ngneat/transloco';
 
 import '../../../global-mocks';

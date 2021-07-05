@@ -1,9 +1,14 @@
 import { RouterTestingModule } from '@angular/router/testing';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  mockProvider,
+  Spectator,
+} from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
+import { BreadcrumbsModule } from '@schaeffler/breadcrumbs';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import {
@@ -11,6 +16,7 @@ import {
   ShareButtonModule,
   TabsHeaderModule,
 } from '@cdba/shared/components';
+import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { REFERENCE_TYPE_MOCK } from '../../testing/mocks';
 import { getReferenceType } from '../core/store/selectors/details/detail.selector';
@@ -32,8 +38,10 @@ describe('DetailComponent', () => {
       MockModule(TabsHeaderModule),
       MockModule(PageHeaderModule),
       MockModule(ShareButtonModule),
+      MockModule(BreadcrumbsModule),
     ],
     providers: [
+      mockProvider(BreadcrumbsService),
       provideMockStore({
         initialState: {
           detail: {},

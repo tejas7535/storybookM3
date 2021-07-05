@@ -14,6 +14,7 @@ import {
   getFilters,
   getInitialFiltersLoading,
   getIsDirty,
+  getMaterialDesignationOfSelectedRefType,
   getNoResultsFound,
   getReferenceTypes,
   getReferenceTypesLoading,
@@ -210,6 +211,35 @@ describe('Search Selector', () => {
   describe('getSelectedRefTypeNodeIds', () => {
     test('should return string array', () => {
       expect(getSelectedRefTypeNodeIds(fakeState)).toEqual(['2', '3']);
+    });
+  });
+
+  describe('getMaterialDesignationOfSelectedRefType', () => {
+    test('should return undefined, if no ref type is selected', () => {
+      expect(
+        getMaterialDesignationOfSelectedRefType.projector(
+          fakeState.search.referenceTypes.items,
+          undefined
+        )
+      ).toBeUndefined();
+    });
+
+    test('should return undefined, if multiple ref types are selected', () => {
+      expect(
+        getMaterialDesignationOfSelectedRefType.projector(
+          fakeState.search.referenceTypes.items,
+          ['1', '2']
+        )
+      ).toBeUndefined();
+    });
+
+    test('should return materialdesignation of selected reftype', () => {
+      expect(
+        getMaterialDesignationOfSelectedRefType.projector(
+          fakeState.search.referenceTypes.items,
+          ['0']
+        )
+      ).toEqual('F-446509.SLH');
     });
   });
 });

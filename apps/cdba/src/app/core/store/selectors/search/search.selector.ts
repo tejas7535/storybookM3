@@ -1,6 +1,8 @@
 import { Dictionary } from '@ngrx/entity';
 import { createSelector } from '@ngrx/store';
 
+import { ReferenceType } from '@cdba/shared/models';
+
 import { getSearchState } from '../../reducers';
 import { filterItemAdapter } from '../../reducers/search/filter-item.entity';
 import {
@@ -138,4 +140,13 @@ export const getIsDirty = createSelector(
 export const getSelectedRefTypeNodeIds = createSelector(
   getSearchState,
   (state: SearchState): string[] => state.referenceTypes.selectedNodeIds
+);
+
+export const getMaterialDesignationOfSelectedRefType = createSelector(
+  getReferenceTypes,
+  getSelectedRefTypeNodeIds,
+  (referenceTypes: ReferenceType[], nodeIds: string[]): string =>
+    nodeIds?.length === 1
+      ? referenceTypes[+nodeIds[0]]?.materialDesignation
+      : undefined
 );

@@ -12,7 +12,7 @@ describe('arrayEquals', () => {
 
     result = undefined;
   });
-  it('should return false when arrays have different lenghts', () => {
+  it('should return false when arrays have different lengths', () => {
     array1 = ['foo', 'bar'];
     array2 = ['foo'];
 

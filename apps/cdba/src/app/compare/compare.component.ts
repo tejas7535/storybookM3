@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Observable } from 'rxjs';
+
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { Tab } from '@cdba/shared/components';
+import { BreadcrumbsService } from '@cdba/shared/services';
 
 import { CompareRoutePath } from './compare-route-path.enum';
 import { getIsCompareDetailsDisabled } from './store';
@@ -13,6 +18,7 @@ import { getIsCompareDetailsDisabled } from './store';
   styleUrls: ['./compare.component.scss'],
 })
 export class CompareComponent implements OnInit {
+  public breadcrumbs$: Observable<Breadcrumb[]>;
   public tabs: Tab[] = [
     {
       label$: 'compare.tabs.details',
@@ -24,10 +30,15 @@ export class CompareComponent implements OnInit {
     },
   ];
 
-  constructor(private readonly store: Store) {}
+  constructor(
+    private readonly store: Store,
+    private readonly breadcrumbService: BreadcrumbsService
+  ) {}
 
   ngOnInit(): void {
     this.tabs[0].disabled$ = this.store.select(getIsCompareDetailsDisabled);
+
+    this.breadcrumbs$ = this.breadcrumbService.breadcrumbs$;
   }
   /**
    * Improves performance of ngFor.

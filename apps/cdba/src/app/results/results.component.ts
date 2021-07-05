@@ -6,6 +6,8 @@ import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
+import { Breadcrumb } from '@schaeffler/breadcrumbs';
+
 import { AppRoutePath } from '@cdba/app-route-path.enum';
 import {
   getReferenceTypes,
@@ -14,6 +16,7 @@ import {
   selectReferenceTypes,
 } from '@cdba/core/store';
 import { ReferenceType } from '@cdba/shared/models';
+import { BreadcrumbsService } from '@cdba/shared/services';
 
 @Component({
   selector: 'cdba-results',
@@ -30,10 +33,12 @@ export class ResultsComponent implements OnInit {
   referenceTypesData$: Observable<ReferenceType[]>;
   selectedReferenceTypeIds$: Observable<string[]>;
   resultCount$: Observable<number>;
+  breadcrumbs$: Observable<Breadcrumb[]>;
 
   public constructor(
     private readonly store: Store,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly breadcrumbsService: BreadcrumbsService
   ) {}
 
   ngOnInit(): void {
@@ -48,6 +53,8 @@ export class ResultsComponent implements OnInit {
       getSelectedRefTypeNodeIds
     );
     this.resultCount$ = this.store.select(getResultCount);
+
+    this.breadcrumbs$ = this.breadcrumbsService.breadcrumbs$;
   }
 
   selectReferenceTypes(nodeIds: string[]): void {
