@@ -16,6 +16,7 @@ import { BomTableModule } from '../bom-table/bom-table.module';
 import { CalculationsTableModule } from '../calculations-table/calculations-table.module';
 import { LoadingSpinnerModule } from '../loading-spinner/loading-spinner.module';
 import { BomContainerComponent } from './bom-container.component';
+import { MatMenuModule } from '@angular/material/menu';
 
 @NgModule({
   declarations: [BomContainerComponent],
@@ -26,6 +27,7 @@ import { BomContainerComponent } from './bom-container.component';
     MatIconModule,
     IconsModule,
     MatButtonModule,
+    MatMenuModule,
     MatSidenavModule,
     BomTableModule,
     CalculationsTableModule,

@@ -12,6 +12,7 @@ import {
   ClientSideRowModelModule,
   ColDef,
   ColumnApi,
+  ExcelExportModule,
   GridApi,
   IStatusPanelParams,
   RowClickedEvent,
@@ -21,7 +22,7 @@ import {
 import { translate } from '@ngneat/transloco';
 
 import { BomItem } from '../../models';
-import { formatMaterialNumber, formatNumber } from '../table';
+import { formatMaterialNumberFromString, formatNumber } from '../table';
 import { CustomLoadingOverlayComponent } from '../table/custom-overlay/custom-loading-overlay/custom-loading-overlay.component';
 import {
   CustomNoRowsOverlayComponent,
@@ -40,11 +41,14 @@ export class BomTableComponent implements OnChanges {
   @Input() errorMessage: string;
 
   @Output() readonly rowSelected: EventEmitter<BomItem> = new EventEmitter();
+  @Output() readonly gridReady: EventEmitter<GridApi> = new EventEmitter();
+
+  defaultCellClass = 'line-height-30';
 
   defaultColDef: ColDef = {
     sortable: true,
     resizable: true,
-    cellClass: 'line-height-30',
+    cellClass: this.defaultCellClass,
   };
 
   // select first row initially for coloring
@@ -62,15 +66,38 @@ export class BomTableComponent implements OnChanges {
     cellRendererParams: {
       suppressCount: true,
     },
+    cellClassRules: {
+      'indent-0': (params: any) => params.data.level === 1,
+      'indent-1': (params: any) => params.data.level === 2,
+      'indent-2': (params: any) => params.data.level === 3,
+      'indent-3': (params: any) => params.data.level === 4,
+      'indent-4': (params: any) => params.data.level === 5,
+      'indent-5': (params: any) => params.data.level === 6,
+      'indent-6': (params: any) => params.data.level === 7,
+      'indent-7': (params: any) => params.data.level === 8,
+      'indent-8': (params: any) => params.data.level === 9,
+      'indent-9': (params: any) => params.data.level === 10,
+      'indent-10': (params: any) => params.data.level === 11,
+      'indent-11': (params: any) => params.data.level === 12,
+      'indent-12': (params: any) => params.data.level === 13,
+      'indent-13': (params: any) => params.data.level === 14,
+      'indent-14': (params: any) => params.data.level === 15,
+    },
   };
 
   groupDefaultExpanded = 1;
 
   columnDefs: ColDef[] = [
     {
+      field: 'level',
+      headerName: translate('shared.bom.headers.level'),
+      hide: true,
+    },
+    {
       field: 'totalPricePerPc',
       headerName: translate('shared.bom.headers.totalPricePerPc'),
       valueFormatter: (params) => formatNumber(params, '1.5-5'),
+      cellClass: ['floatingNumberType', this.defaultCellClass],
     },
     {
       field: 'currency',
@@ -79,7 +106,9 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'materialNumber',
       headerName: translate('shared.bom.headers.materialNumber'),
-      valueFormatter: formatMaterialNumber,
+      valueGetter: (params) =>
+        formatMaterialNumberFromString(params.data.materialNumber),
+      cellClass: ['stringType', this.defaultCellClass],
     },
     {
       field: 'plant',
@@ -93,10 +122,12 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'setupTime',
       headerName: translate('shared.bom.headers.setupTime'),
+      cellClass: ['floatingNumberType', this.defaultCellClass],
     },
     {
       field: 'cycleTime',
       headerName: translate('shared.bom.headers.cycleTime'),
+      cellClass: ['floatingNumberType', this.defaultCellClass],
     },
     {
       field: 'toolingFactor',
@@ -105,6 +136,7 @@ export class BomTableComponent implements OnChanges {
     {
       field: 'quantityPerParent',
       headerName: translate('shared.bom.headers.quantityPerParent'),
+      cellClass: ['floatingNumberType', this.defaultCellClass],
     },
     {
       field: 'unitOfMeasure',
@@ -116,7 +148,52 @@ export class BomTableComponent implements OnChanges {
     },
   ];
 
-  modules = [ClientSideRowModelModule, RowGroupingModule];
+  modules = [ClientSideRowModelModule, RowGroupingModule, ExcelExportModule];
+
+  excelStyles = [
+    ...this.createIndentExcelStyles(),
+    {
+      id: 'header',
+      alignment: { vertical: 'Center' },
+      interior: {
+        color: '#AEAAAA',
+        pattern: 'Solid',
+      },
+      borders: {
+        borderBottom: {
+          color: '#000',
+          lineStyle: 'Continuous',
+          weight: 1,
+        },
+        borderTop: {
+          color: '#000',
+          lineStyle: 'Continuous',
+          weight: 1,
+        },
+      },
+    },
+    {
+      id: 'prependedMetadata',
+      interior: {
+        color: '#D9D9D9',
+        pattern: 'Solid',
+      },
+    },
+    {
+      id: 'stringType',
+      dataType: 'String',
+      alignment: {
+        horizontal: 'Right',
+      },
+    },
+    {
+      id: 'floatingNumberType',
+      numberFormat: {
+        // https://customformats.com/
+        format: '0.0####;-0.0####;0',
+      },
+    },
+  ];
 
   rowClassRules = {
     'padding-left-40': (params: any) => params.data.level === 2,
@@ -127,6 +204,12 @@ export class BomTableComponent implements OnChanges {
     'padding-left-240': (params: any) => params.data.level === 7,
     'padding-left-280': (params: any) => params.data.level === 8,
     'padding-left-320': (params: any) => params.data.level === 9,
+    'padding-left-360': (params: any) => params.data.level === 10,
+    'padding-left-400': (params: any) => params.data.level === 11,
+    'padding-left-440': (params: any) => params.data.level === 12,
+    'padding-left-480': (params: any) => params.data.level === 13,
+    'padding-left-520': (params: any) => params.data.level === 14,
+    'padding-left-560': (params: any) => params.data.level === 15,
   };
 
   frameworkComponents = {
@@ -175,6 +258,8 @@ export class BomTableComponent implements OnChanges {
     if (!this.isLoading) {
       this.gridApi.showNoRowsOverlay();
     }
+
+    this.gridReady.emit(this.gridApi);
   }
 
   onFirstDataRendered(params: IStatusPanelParams): void {
@@ -247,5 +332,21 @@ export class BomTableComponent implements OnChanges {
     };
     this.nonLevel2Children = [];
     this.gridApi.redrawRows();
+  }
+
+  createIndentExcelStyles(): any[] {
+    const result = [];
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < 15; i++) {
+      result.push({
+        id: `indent-${i}`,
+        alignment: {
+          indent: i + 1,
+        },
+        dataType: 'string',
+      });
+    }
+
+    return result;
   }
 }

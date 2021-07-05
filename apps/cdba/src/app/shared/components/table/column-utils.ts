@@ -25,7 +25,10 @@ export const formatDate = (params: ValueFormatterParams) =>
   datePipe.transform(params.value);
 
 export const formatMaterialNumber = (params: ValueFormatterParams) =>
-  materialNumberPipe.transform(params.value);
+  formatMaterialNumberFromString(params.value);
+
+export const formatMaterialNumberFromString = (value: string) =>
+  materialNumberPipe.transform(value);
 
 export const formatLongValue = (
   params: ValueFormatterParams,
@@ -113,8 +116,7 @@ export const getMainMenuItems = (
     },
   };
 
-  menuItems.push(resetFilter);
-  menuItems.push(resetTable);
+  menuItems.push(resetFilter, resetTable);
 
   return menuItems;
 };

@@ -13,6 +13,7 @@ import {
   formatDate,
   formatLongValue,
   formatMaterialNumber,
+  formatMaterialNumberFromString,
   formatNumber,
   getMainMenuItems,
   valueGetterArray,
@@ -68,6 +69,14 @@ describe('ColumnUtils', () => {
       } as unknown as ValueFormatterParams;
 
       const result = formatMaterialNumber(params);
+
+      expect(result).toEqual('111111111-2222');
+    });
+  });
+
+  describe('formatMaterialNumberFromString', () => {
+    it('should transform to a material number format', () => {
+      const result = formatMaterialNumberFromString('1111111112222');
 
       expect(result).toEqual('111111111-2222');
     });

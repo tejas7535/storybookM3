@@ -16,11 +16,11 @@
   [suppressNoRowsOverlay]="rowData === undefined || isLoading"
   [noRowsOverlayComponent]="noRowsOverlayComponent"
   [noRowsOverlayComponentParams]="noRowsOverlayComponentParams"
+  [excelStyles]="excelStyles"
   rowHeight="30"
   rowSelection="single"
   suppressCellSelection
   suppressCsvExport
-  suppressExcelExport
   (rowClicked)="onRowClicked($event)"
   (gridReady)="onGridReady($event)"
   (rowClicked)="onRowClicked($event)"
