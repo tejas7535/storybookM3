@@ -2,11 +2,11 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "../../dist/out-tsc",
-    "types": []
+    "types": [],
+    "allowSyntheticDefaultImports": true,
+    "resolveJsonModule": true
   },
   "files": ["src/main.ts", "src/polyfills.ts"],
-  "angularCompilerOptions": {
-    "enableIvy": true
-  },
-  "include": ["**/*.d.ts"]
+  "include": ["**/*.d.ts"],
+  "exclude": ["src/test-setup.ts", "**/*.spec.ts"]
 }

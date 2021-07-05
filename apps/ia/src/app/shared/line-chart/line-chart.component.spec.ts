@@ -14,7 +14,7 @@ describe('LineChartComponent', () => {
     imports: [
       ReactiveComponentModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
     ],
     providers: [provideMockStore({})],

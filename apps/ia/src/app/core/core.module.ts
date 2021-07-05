@@ -24,7 +24,7 @@ import { environment } from '../../environments/environment';
 import { AppRoutePath } from '../app-route-path.enum';
 import { AppComponent } from '../app.component';
 import { FilterSectionModule } from '../filter-section/filter-section.module';
-import { StoreModule } from './store/store.module';
+import { StoreModule } from './store';
 
 const azureConfig = new AzureConfig(
   new MsalInstanceConfig(

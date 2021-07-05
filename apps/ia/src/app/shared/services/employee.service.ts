@@ -52,6 +52,7 @@ export class EmployeeService {
     );
   }
 
+  // TODO: do not send date objects to frontend
   static fixIncomingEmployeeProps(employee: Employee): Employee {
     employee.exitDate = employee.exitDate
       ? new Date(employee.exitDate).toJSON()
@@ -85,7 +86,9 @@ export class EmployeeService {
       .post<OrgChartResponse>(this.ORG_CHART, employeesRequest)
       .pipe(
         map((response) => [
-          ...response.employees.map(EmployeeService.fixIncomingEmployeeProps),
+          ...response.employees.map((employee) =>
+            EmployeeService.fixIncomingEmployeeProps(employee)
+          ),
         ])
       );
   }

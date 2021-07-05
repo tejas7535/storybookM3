@@ -3,6 +3,7 @@ import { By } from '@angular/platform-browser';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator';
 import { provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -12,7 +13,7 @@ import { Color } from '../../shared/models/color.enum';
 import { SharedPipesModule } from '../../shared/pipes/shared-pipes.module';
 import { SharedModule } from '../../shared/shared.module';
 import { initialState } from '../store';
-import { DoughnutChartModule } from './doughnut-chart/doughnut-chart.module';
+import { DoughnutChartComponent } from './doughnut-chart/doughnut-chart.component';
 import { DoughnutConfig } from './doughnut-chart/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from './doughnut-chart/models/doughnut-series-config.model';
 import { EntriesExitsComponent } from './entries-exits.component';
@@ -54,11 +55,11 @@ describe('EntriesExitsComponent', () => {
     ],
     imports: [
       SharedModule,
-      DoughnutChartModule,
       provideTranslocoTestingModule({ en: {} }),
       KpiModule,
       SharedPipesModule,
     ],
+    declarations: [MockComponent(DoughnutChartComponent)],
   });
 
   beforeEach(() => {

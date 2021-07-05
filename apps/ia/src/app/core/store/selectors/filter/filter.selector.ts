@@ -81,6 +81,7 @@ export const getCurrentFiltersAndTime = createSelector(
   getSelectedTimeRange,
   getAllSelectedFilters,
   (timeRange: string, filters: SelectedFilter[]) =>
+    // eslint-disable-next-line unicorn/no-array-reduce
     filters.reduce(
       (map: any, filter) => {
         map[filter.name] = filter.value;

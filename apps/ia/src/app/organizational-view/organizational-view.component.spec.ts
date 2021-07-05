@@ -4,14 +4,12 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Employee } from '../shared/models/employee.model';
 import { SharedModule } from '../shared/shared.module';
 import { ChartType } from './models/chart-type.enum';
-import { OrgChartModule } from './org-chart/org-chart.module';
 import { OrganizationalViewComponent } from './organizational-view.component';
 import {
   chartTypeSelected,
   loadParent,
 } from './store/actions/organizational-view.action';
 import { ToggleChartsModule } from './toggle-charts/toggle-charts.module';
-import { WorldMapModule } from './world-map/world-map.module';
 
 describe('OrganizationalViewComponent', () => {
   let component: OrganizationalViewComponent;
@@ -20,9 +18,8 @@ describe('OrganizationalViewComponent', () => {
   const createComponent = createComponentFactory({
     component: OrganizationalViewComponent,
     detectChanges: false,
-    imports: [SharedModule, OrgChartModule, ToggleChartsModule, WorldMapModule],
+    imports: [SharedModule, ToggleChartsModule],
     providers: [provideMockStore({})],
-    declarations: [OrganizationalViewComponent],
   });
 
   beforeEach(() => {

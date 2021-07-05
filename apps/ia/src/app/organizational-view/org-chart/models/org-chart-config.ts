@@ -2,7 +2,7 @@ export const COMPANY_ROOT = 'Schaeffler';
 
 export const HEAT_TYPE_CSS = {
   green: 'green-heat',
-  orage: 'orange-heat',
+  orange: 'orange-heat',
   red: 'red-heat',
 };
 

@@ -11,7 +11,7 @@ import { OrgChartNode } from './models/org-chart-node.model';
   providedIn: 'root',
 })
 export class OrgChartService {
-  public mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
+  mapEmployeesToNodes(data: Employee[]): OrgChartNode[] {
     return data.map((elem: Employee) => {
       const nodeId = elem.employeeId;
       const parentNodeId = elem.parentEmployeeId;
@@ -35,14 +35,21 @@ export class OrgChartService {
         'organizationalView.orgChart.table.rowAttrition'
       );
 
-      const heatMapClass =
-        elem.attritionMeta?.heatType === HeatType.GREEN_HEAT
-          ? OrgChartConfig.HEAT_TYPE_CSS.green
-          : elem.attritionMeta?.heatType === HeatType.ORANGE_HEAT
-          ? OrgChartConfig.HEAT_TYPE_CSS.orage
-          : elem.attritionMeta?.heatType === HeatType.RED_HEAT
-          ? OrgChartConfig.HEAT_TYPE_CSS.red
-          : '';
+      let heatMapClass = '';
+
+      switch (elem.attritionMeta?.heatType) {
+        case HeatType.GREEN_HEAT:
+          heatMapClass = OrgChartConfig.HEAT_TYPE_CSS.green;
+          break;
+        case HeatType.ORANGE_HEAT:
+          heatMapClass = OrgChartConfig.HEAT_TYPE_CSS.orange;
+          break;
+        case HeatType.RED_HEAT:
+          heatMapClass = OrgChartConfig.HEAT_TYPE_CSS.red;
+          break;
+        default:
+          heatMapClass = '';
+      }
 
       // TODO: determination of root elem needs be done otherwise after PoC
       const rootOfAllEmployees = OrgChartConfig.COMPANY_ROOT;

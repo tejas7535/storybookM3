@@ -90,7 +90,7 @@ export class OrgChartComponent implements AfterViewInit {
   }
 
   public updateChart(): void {
-    if (!this.chart || !this.chartData || !this.chartData.length) {
+    if (!this.chart || !this.chartData || this.chartData.length === 0) {
       return;
     }
 

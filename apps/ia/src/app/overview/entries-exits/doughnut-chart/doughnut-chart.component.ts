@@ -45,15 +45,16 @@ export class DoughnutChartComponent {
   @Input() set data(config: DoughnutConfig) {
     if (config && config.series) {
       const series = this.createSeriesOptions(config);
-      const totalValue = config.series
-        .map((serie) => serie.value)
-        .reduce((x1, x2) => x1 + x2)
-        .toString();
+      let totalValue = 0;
+
+      for (const serie of config.series) {
+        totalValue += serie.value;
+      }
 
       this.mergeOptions = {
         title: {
           ...this.options?.title,
-          text: totalValue,
+          text: totalValue.toString(),
           subtext: config.name,
         },
         series,
@@ -68,12 +69,15 @@ export class DoughnutChartComponent {
 
     const series: any[] = data.series.map((seriesObj: DoughnutSeriesConfig) => {
       const radius = [`${radiusStart}%`, `${radiusStart + radiusStep}%`];
+      let totalValue = 0;
+      for (const serie of data.series) {
+        totalValue += serie.value;
+      }
+
       const pieChartSeries = createPieChartSeries(
         radius,
         seriesObj.value,
-        data.series
-          .map((element) => element.value)
-          .reduce((value1, value2) => value1 + value2),
+        totalValue,
         seriesObj.color ?? Color.BLACK,
         data.name,
         seriesObj.name

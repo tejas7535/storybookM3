@@ -37,7 +37,9 @@ export class FilterSelectionComponent implements OnInit, OnChanges {
   }
   ngOnChanges(): void {
     if (this.form) {
-      if (this.items.length === 0) this.form.controls.items.disable();
+      if (this.items.length === 0) {
+        this.form.controls.items.disable();
+      }
 
       this.selectList();
     }
