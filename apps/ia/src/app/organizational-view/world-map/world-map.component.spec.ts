@@ -1,23 +1,20 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
-import * as echarts from 'echarts';
 import { NgxEchartsModule } from 'ngx-echarts';
 
 import { LoadingSpinnerModule } from '@schaeffler/loading-spinner';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
 import * as en from '../../../assets/i18n/en.json';
-import worldJson from '../../../assets/world.json';
 import { IdValue } from '../../shared/models';
 import { Color } from '../../shared/models/color.enum';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { HeatType } from '../models/heat-type.enum';
 import { CountryData } from './models/country-data.model';
 import { WorldMapComponent } from './world-map.component';
 
-/* eslint-disable */
 jest.mock('echarts', () => ({
   registerMap: jest.fn(),
 }));
@@ -31,15 +28,13 @@ describe('WorldMapComponent', () => {
     detectChanges: false,
     imports: [
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
       LoadingSpinnerModule,
       provideTranslocoTestingModule({ en }),
       MatTooltipModule,
-      AttritionDialogModule,
+      MatDialogModule,
     ],
-    providers: [],
-    declarations: [WorldMapComponent],
   });
 
   beforeEach(() => {
@@ -125,7 +120,6 @@ describe('WorldMapComponent', () => {
     test('should register map and set options', () => {
       component.ngOnInit();
 
-      expect(echarts.registerMap).toHaveBeenCalledWith('world', worldJson);
       expect(component.initOpts.height).toEqual(970);
       expect(component.options.series.length).toEqual(1);
     });

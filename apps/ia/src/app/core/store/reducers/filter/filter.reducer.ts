@@ -1,6 +1,7 @@
+import { EntityState } from '@ngrx/entity';
 import { Action, createReducer, on } from '@ngrx/store';
 
-import { IdValue, TimePeriod } from '../../../../shared/models';
+import { IdValue, SelectedFilter, TimePeriod } from '../../../../shared/models';
 import {
   filterSelected,
   loadInitialFilters,
@@ -9,7 +10,7 @@ import {
   timePeriodSelected,
   timeRangeSelected,
 } from '../../actions/filter/filter.action';
-import { filterAdapter, SelectedFilterState } from './selected-filter.entity';
+import { filterAdapter } from './selected-filter.entity';
 
 export const filterKey = 'filter';
 export interface FilterState {
@@ -17,7 +18,7 @@ export interface FilterState {
   timePeriods: IdValue[];
   loading: boolean;
   errorMessage: string;
-  selectedFilters: SelectedFilterState; // currently selected filters
+  selectedFilters: EntityState<SelectedFilter>; // currently selected filters
   selectedTimePeriod: TimePeriod;
   selectedTimeRange: string;
 }

@@ -141,6 +141,7 @@ export const getOverviewFluctuationEntriesCount = createSelector(
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
       .map((config) => config.value)
+      // eslint-disable-next-line unicorn/no-array-reduce
       .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
 );
 
@@ -149,6 +150,7 @@ export const getOverviewFluctuationExitsCount = createSelector(
   (doughnutConfig: DoughnutConfig) =>
     doughnutConfig?.series
       .map((config) => config.value)
+      // eslint-disable-next-line unicorn/no-array-reduce
       .reduce((valuePrev, valueCurrent) => valuePrev + valueCurrent)
 );
 

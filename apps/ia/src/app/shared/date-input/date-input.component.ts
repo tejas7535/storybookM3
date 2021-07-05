@@ -31,6 +31,10 @@ export class DateInputComponent {
     this.updateStartEndDates(date);
     this.setStartView();
   }
+  get timePeriod(): TimePeriod {
+    return this._timePeriod;
+  }
+
   @Input() set disabled(disable: boolean) {
     if (disable) {
       this.rangeInput.controls.start.disable();
@@ -39,10 +43,6 @@ export class DateInputComponent {
       this.rangeInput.controls.start.enable();
       this.rangeInput.controls.end.enable();
     }
-  }
-
-  get timePeriod(): TimePeriod {
-    return this._timePeriod;
   }
 
   @Output() readonly selected: EventEmitter<string> = new EventEmitter();
@@ -55,7 +55,7 @@ export class DateInputComponent {
   minDate = new Date('2019-01-01 00:00:00');
   maxDate = new Date('2020-12-31 00:00:00');
 
-  public updateStartEndDates(refDate: Date): void {
+  updateStartEndDates(refDate: Date): void {
     switch (this.timePeriod) {
       case TimePeriod.MONTH: {
         this.rangeInput.controls.start.setValue(
@@ -99,13 +99,14 @@ export class DateInputComponent {
     }, 50);
   }
 
-  public setStartView(): void {
-    this.startView =
-      this.timePeriod === TimePeriod.YEAR
-        ? 'multi-year'
-        : this.timePeriod === TimePeriod.MONTH
-        ? 'year'
-        : 'month';
+  setStartView(): void {
+    if (this.timePeriod === TimePeriod.YEAR) {
+      this.startView = 'multi-year';
+    } else if (this.timePeriod === TimePeriod.MONTH) {
+      this.startView = 'year';
+    } else {
+      this.startView = 'month';
+    }
   }
 
   public chosenMonthHandler(
@@ -128,7 +129,7 @@ export class DateInputComponent {
     }
   }
 
-  public startDateChanged(
+  startDateChanged(
     evt: MatDatepickerInputEvent<any>,
     datepicker: MatDateRangePicker<any>,
     endDateInput: HTMLInputElement
@@ -146,13 +147,13 @@ export class DateInputComponent {
     }
   }
 
-  public endDateChanged(evt: MatDatepickerInputEvent<any>): void {
+  endDateChanged(evt: MatDatepickerInputEvent<any>): void {
     if (this.timePeriod === TimePeriod.CUSTOM && evt.value) {
       this.emitChange();
     }
   }
 
-  public emitChange(): void {
+  emitChange(): void {
     // emit from|to dates
     this.selected.emit(
       `${this.rangeInput.controls.start.value.getTime()}|${this.rangeInput.controls.end.value.getTime()}`

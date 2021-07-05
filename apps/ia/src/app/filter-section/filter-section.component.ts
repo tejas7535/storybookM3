@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { Observable } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 
 import { Store } from '@ngrx/store';
 
@@ -31,46 +31,56 @@ export class FilterSectionComponent implements OnInit {
   timeRangeHintValue = 'time range';
   disabledTimeRangeFilter = true;
 
-  public constructor(private readonly store: Store) {}
+  constructor(private readonly store: Store) {}
 
-  public ngOnInit(): void {
+  ngOnInit(): void {
     this.orgUnits$ = this.store.select(getOrgUnits);
     this.timePeriods$ = this.store.select(getTimePeriods);
     this.selectedTimePeriod$ = this.store
       .select(getSelectedTimePeriod)
       .pipe(tap((timePeriod) => this.setTimeRangeHint(timePeriod)));
-    this.selectedOrgUnit$ = this.store.select(getSelectedOrgUnit).pipe(
-      map((value: string | number) => value?.toLocaleString()),
-      tap((value) => (this.disabledTimeRangeFilter = !value))
-    );
+    this.selectedOrgUnit$ = this.store
+      .select(getSelectedOrgUnit)
+      .pipe(
+        tap((value) => (this.disabledTimeRangeFilter = value === undefined))
+      );
   }
 
-  public optionSelected(filter: SelectedFilter): void {
+  optionSelected(filter: SelectedFilter): void {
     this.store.dispatch(filterSelected({ filter }));
   }
 
-  public setTimeRangeHint(timePeriod: TimePeriod): void {
-    this.timeRangeHintValue =
-      timePeriod === TimePeriod.YEAR
-        ? 'year'
-        : timePeriod === TimePeriod.MONTH
-        ? 'month'
-        : timePeriod === TimePeriod.LAST_12_MONTHS
-        ? 'reference date'
-        : 'time range';
+  setTimeRangeHint(timePeriod: TimePeriod): void {
+    switch (timePeriod) {
+      case TimePeriod.YEAR: {
+        this.timeRangeHintValue = 'year';
+        break;
+      }
+      case TimePeriod.MONTH: {
+        this.timeRangeHintValue = 'month';
+        break;
+      }
+      case TimePeriod.LAST_12_MONTHS: {
+        this.timeRangeHintValue = 'reference date';
+        break;
+      }
+      default: {
+        this.timeRangeHintValue = 'time range';
+      }
+    }
   }
 
-  public timePeriodSelected(idValue: IdValue): void {
+  timePeriodSelected(idValue: IdValue): void {
     this.store.dispatch(
       timePeriodSelected({ timePeriod: idValue.id as unknown as TimePeriod })
     );
   }
 
-  public orgUnitInvalid(orgUnitIsInvalid: boolean): void {
+  orgUnitInvalid(orgUnitIsInvalid: boolean): void {
     this.disabledTimeRangeFilter = orgUnitIsInvalid;
   }
 
-  public timeRangeSelected(timeRange: string): void {
+  timeRangeSelected(timeRange: string): void {
     this.store.dispatch(
       timeRangeSelected({
         timeRange,

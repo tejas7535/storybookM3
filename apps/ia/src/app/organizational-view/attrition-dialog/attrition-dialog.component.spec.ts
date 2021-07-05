@@ -7,11 +7,12 @@ import { marbles } from 'rxjs-marbles/jest';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
+import { MockComponent } from 'ng-mocks';
 
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
-import { LineChartModule } from '../../shared/line-chart/line-chart.module';
+import { LineChartComponent } from '../../shared/line-chart/line-chart.component';
 import { SharedModule } from '../../shared/shared.module';
 import {
   getAttritionOverTimeOrgChartData,
@@ -27,14 +28,16 @@ describe('AttritionDialogComponent', () => {
 
   const createComponent = createComponentFactory({
     component: AttritionDialogComponent,
-    declarations: [AttritionDialogMetaComponent],
+    declarations: [
+      MockComponent(LineChartComponent),
+      AttritionDialogMetaComponent,
+    ],
     imports: [
       MatDialogModule,
       MatButtonModule,
       IconsModule,
       MatIconModule,
       MatDividerModule,
-      LineChartModule,
       provideTranslocoTestingModule({ en: {} }),
       SharedModule,
     ],

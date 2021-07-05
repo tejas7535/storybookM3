@@ -28,7 +28,7 @@ describe('OverviewChartComponent', () => {
       SharedModule,
       MatCheckboxModule,
       NgxEchartsModule.forRoot({
-        echarts: () => import('echarts'),
+        echarts: async () => import('echarts'),
       }),
       provideTranslocoTestingModule({ en: {} }),
       MatDialogModule,

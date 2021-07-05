@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
@@ -11,7 +12,6 @@ import * as en from '../../../assets/i18n/en.json';
 import { EmployeeAttritionMeta } from '../../shared/models';
 import { Employee } from '../../shared/models/employee.model';
 import { AttritionDialogComponent } from '../attrition-dialog/attrition-dialog.component';
-import { AttritionDialogModule } from '../attrition-dialog/attrition-dialog.module';
 import { OrgChartComponent } from './org-chart.component';
 import { TeamMemberDialogModule } from './team-member-dialog/team-member-dialog.module';
 
@@ -24,13 +24,12 @@ describe('OrgChartComponent', () => {
     detectChanges: false,
     imports: [
       MatProgressSpinnerModule,
-      AttritionDialogModule,
       TeamMemberDialogModule,
       provideTranslocoTestingModule({ en }),
       LoadingSpinnerModule,
+      MatDialogModule,
     ],
     providers: [provideMockStore({})],
-    declarations: [OrgChartComponent],
   });
 
   beforeEach(() => {

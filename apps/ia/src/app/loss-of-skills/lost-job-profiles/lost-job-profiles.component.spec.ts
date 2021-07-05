@@ -20,7 +20,6 @@ describe('LostJobProfilesComponent', () => {
       EmployeeListDialogModule,
       AgGridModule.withComponents([EmployeeListDialogComponent]),
     ],
-    declarations: [LostJobProfilesComponent],
   });
 
   beforeEach(() => {
