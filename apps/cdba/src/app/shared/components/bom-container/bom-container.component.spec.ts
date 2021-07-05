@@ -2,13 +2,21 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatMenuModule } from '@angular/material/menu';
 
 import { marbles } from 'rxjs-marbles';
 
-import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
+import {
+  createComponentFactory,
+  Spectator,
+  mockProvider,
+} from '@ngneat/spectator/jest';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { MockModule } from 'ng-mocks';
 
+import { GridApi } from '@ag-grid-enterprise/all-modules';
+
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 import { IconsModule } from '@schaeffler/icons';
 import { provideTranslocoTestingModule } from '@schaeffler/transloco';
 
@@ -44,6 +52,7 @@ describe('BomContainerComponent', () => {
       SharedModule,
       MatCardModule,
       MatIconModule,
+      MatMenuModule,
       IconsModule,
       MatButtonModule,
       MatSidenavModule,
@@ -61,6 +70,7 @@ describe('BomContainerComponent', () => {
           compare: COMPARE_STATE_MOCK,
         },
       }),
+      mockProvider(ApplicationInsightsService),
     ],
   });
 
@@ -274,6 +284,58 @@ describe('BomContainerComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(
         compareActions.selectBomItem({ item, index })
+      );
+    });
+  });
+
+  describe('onGridReady', () => {
+    test('should initialize passed gridApi', () => {
+      const gridApi = {
+        exportDataAsExcel: jest.fn(),
+        getColumnDefs: jest.fn(() => [{}, {}]),
+      } as unknown as GridApi;
+
+      component.onGridReady(gridApi);
+
+      expect(component['gridApi']).toEqual(gridApi);
+    });
+  });
+
+  describe('exportBomAsExcelFile', () => {
+    beforeEach(() => {
+      component['gridApi'] = {
+        exportDataAsExcel: jest.fn(),
+        getColumnDefs: jest.fn(() => [{}, {}]),
+      } as unknown as GridApi;
+
+      component.materialDesignation = 'F-577462.07.SLHS';
+      component.selectedCalculation = {
+        materialNumber: '087027550000012',
+        costType: 'GPCB',
+        calculationDate: '2021-06-01T00:00:00',
+      } as unknown as Calculation;
+    });
+
+    test('should delegate excel export to Grid API and include correct metadata', () => {
+      component.exportBomAsExcelFile();
+
+      expect(component['gridApi'].exportDataAsExcel).toHaveBeenCalledWith({
+        author: 'CDBA (Cost Database Analytics)',
+        fileName: 'CDBA-Bill-Of-Materials-F-577462.07.SLHS.xlsx',
+        sheetName: 'F-577462.07.SLHS',
+        allColumns: true,
+        prependContent: expect.anything(),
+      });
+    });
+
+    test('should log export event to ai', () => {
+      component.exportBomAsExcelFile();
+
+      expect(component['applicationInsights'].logEvent).toHaveBeenCalledWith(
+        'BoM Excel Export',
+        {
+          materialDesignation: 'F-577462.07.SLHS',
+        }
       );
     });
   });

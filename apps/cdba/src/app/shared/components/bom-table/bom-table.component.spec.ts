@@ -116,6 +116,10 @@ describe('BomTableComponent', () => {
   });
 
   describe('onGridReady', () => {
+    beforeEach(() => {
+      component.gridReady.emit = jest.fn();
+    });
+
     it('should set api and event listener', () => {
       const params: IStatusPanelParams = {
         api: {
@@ -146,6 +150,20 @@ describe('BomTableComponent', () => {
       component.onGridReady(params);
 
       expect(component['gridApi'].showNoRowsOverlay).toHaveBeenCalled();
+    });
+
+    it('should emit event to expose GridApi', () => {
+      const params = {
+        api: {
+          addEventListener: jest.fn(),
+          showNoRowsOverlay: jest.fn(),
+        },
+      } as unknown as IStatusPanelParams;
+      component.isLoading = false;
+
+      component.onGridReady(params);
+
+      expect(component.gridReady.emit).toHaveBeenCalledWith(params.api);
     });
   });
 
@@ -393,6 +411,30 @@ describe('BomTableComponent', () => {
       component['resetTable']();
 
       expect(component['gridApi'].redrawRows).toHaveBeenCalled();
+    });
+  });
+
+  describe('createIndentExcelStyles', () => {
+    it('should create fifteen excel styles for all indent levels', () => {
+      const result = component.createIndentExcelStyles();
+
+      expect(result.length).toBe(15);
+    });
+
+    it('should use string as datatype for all excel styles', () => {
+      const result = component.createIndentExcelStyles();
+
+      result.forEach((excelStyle: any) => {
+        expect(excelStyle.dataType).toBe('string');
+      });
+    });
+
+    it('should indent child elements based on their level', () => {
+      const result = component.createIndentExcelStyles();
+
+      result.forEach((excelStyle: any, index: number) => {
+        expect(excelStyle.alignment.indent).toBe(index + 1);
+      });
     });
   });
 });

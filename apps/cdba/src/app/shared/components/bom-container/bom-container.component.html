@@ -56,13 +56,16 @@
               *ngrxLet="selectedCalculation$ as calculation"
             >
               <label>{{ t('costType') }}:&nbsp;</label>
-              <div class="w-10" [class.ghost-line]="!calculation?.costType">
+              <div
+                class="w-10"
+                [class.ghost-line]="calculationsLoading$ | ngrxPush"
+              >
                 {{ calculation?.costType }}
               </div>
               <label>{{ t('calculationDate') }}:&nbsp;</label>
               <div
-                [class.ghost-line]="!calculation?.calculationDate"
-                [class.w-20]="!calculation?.calculationDate"
+                [class.ghost-line]="calculationsLoading$ | ngrxPush"
+                [class.w-20]="calculationsLoading$ | ngrxPush"
               >
                 {{
                   calculation?.calculationDate | date: 'shortDate':'':'de-DE'
@@ -79,6 +82,25 @@
               <mat-icon>bar_chart</mat-icon>
               {{ t('additionalInformation.title') }}
             </button>
+            <button
+              mat-icon-button
+              [matMenuTriggerFor]="additionalFunctionality"
+            >
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #additionalFunctionality="matMenu">
+              <button
+                mat-menu-item
+                [disabled]="
+                  (bomLoading$ | ngrxPush) ||
+                  (bomErrorMessage$ | ngrxPush) !== undefined
+                "
+                (click)="exportBomAsExcelFile()"
+              >
+                <mat-icon>file_download</mat-icon>
+                <span>{{ t('additionalFunctionality.excelExport') }}</span>
+              </button>
+            </mat-menu>
           </div>
         </div>
         <div class="table-container">
@@ -87,6 +109,7 @@
             [isLoading]="bomLoading$ | ngrxPush"
             [errorMessage]="bomErrorMessage$ | ngrxPush"
             (rowSelected)="selectBomItem($event)"
+            (gridReady)="onGridReady($event)"
           ></cdba-bom-table>
         </div>
       </div>

@@ -35,6 +35,9 @@
         "selectionStatus": "Sie haben eine Komponente / Arbeitsgang ohne Folgeelemente ausgewählt.",
         "selectionHint": "Bitte wählen Sie eine Baugruppe mit mindestens einem Folgeelement für die Diagrammdarstellung aus."
       },
+      "additionalFunctionality": {
+        "excelExport": "Excel Datei exportieren"
+      },
       "costType": "Kostentyp",
       "calculationDate": "Kalkulationsdatum",
       "headers": {
@@ -48,7 +51,8 @@
         "toolingFactor": "Tooling Factor",
         "quantityPerParent": "Quantity Per Parent",
         "unitOfMeasure": "Einheit",
-        "workCenter": "Arbeitsplatz"
+        "workCenter": "Arbeitsplatz",
+        "level": "Level"
       }
     },
     "calculations": {

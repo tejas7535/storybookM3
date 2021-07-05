@@ -35,6 +35,9 @@
         "selectionStatus": "You selected a component / workstep without any subelements.",
         "selectionHint": "Please choose a assembly with at least one subelement to display the chart."
       },
+      "additionalFunctionality": {
+        "excelExport": "Export to Excel"
+      },
       "costType": "Cost Type",
       "calculationDate": "Calculation Date",
       "headers": {
@@ -48,7 +51,8 @@
         "toolingFactor": "Tooling Factor",
         "quantityPerParent": "Quantity Per Parent",
         "unitOfMeasure": "Unit",
-        "workCenter": "Work Center"
+        "workCenter": "Work Center",
+        "level": "Level"
       }
     },
     "calculations": {

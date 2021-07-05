@@ -13,6 +13,11 @@ import * as fromCompare from '@cdba/compare/store';
 import * as fromDetail from '@cdba/core/store';
 
 import { BomItem, Calculation } from '../../models';
+import { ExcelCell, GridApi } from '@ag-grid-enterprise/all-modules';
+import { tap } from 'rxjs/operators';
+import { formatDate } from '@angular/common';
+import { MaterialNumberPipe } from '@cdba/shared/pipes';
+import { ApplicationInsightsService } from '@schaeffler/application-insights';
 
 @Component({
   selector: 'cdba-bom-container',
@@ -24,6 +29,7 @@ export class BomContainerComponent implements OnInit {
   @Input() index: number;
 
   materialDesignation$: Observable<string>;
+  materialDesignation: string;
 
   // Calculation Variables
   calculations$: Observable<Calculation[]>;
@@ -32,13 +38,20 @@ export class BomContainerComponent implements OnInit {
   calculationsLoading$: Observable<boolean>;
   calculationsErrorMessage$: Observable<string>;
 
+  selectedCalculation: Calculation;
+
   // Bom Variables
   bomLoading$: Observable<boolean>;
   bomErrorMessage$: Observable<string>;
   childrenOfSelectedBomItem$: Observable<BomItem[]>;
   bomItems$: Observable<BomItem[]>;
 
-  public constructor(private readonly store: Store) {}
+  private gridApi: GridApi;
+
+  public constructor(
+    private readonly store: Store,
+    private readonly applicationInsights: ApplicationInsightsService
+  ) {}
 
   public ngOnInit(): void {
     if (this.index !== undefined) {
@@ -62,6 +75,7 @@ export class BomContainerComponent implements OnInit {
       this.store.dispatch(fromDetail.selectCalculation(event[0]));
     }
   }
+
   public selectBomItem(item: BomItem): void {
     if (this.index !== undefined) {
       this.store.dispatch(
@@ -73,10 +87,14 @@ export class BomContainerComponent implements OnInit {
   }
 
   private initializeWithCompareSelectors(): void {
-    this.materialDesignation$ = this.store.select(
-      fromCompare.getMaterialDesignation,
-      this.index
-    );
+    this.materialDesignation$ = this.store
+      .select(fromCompare.getMaterialDesignation, this.index)
+      .pipe(
+        tap(
+          (materialDesignation) =>
+            (this.materialDesignation = materialDesignation)
+        )
+      );
 
     this.calculations$ = this.store.select(
       fromCompare.getCalculations,
@@ -86,10 +104,14 @@ export class BomContainerComponent implements OnInit {
       fromCompare.getSelectedCalculationNodeId,
       this.index
     );
-    this.selectedCalculation$ = this.store.select(
-      fromCompare.getSelectedCalculation,
-      this.index
-    );
+    this.selectedCalculation$ = this.store
+      .select(fromCompare.getSelectedCalculation, this.index)
+      .pipe(
+        tap(
+          (selectedCalculation) =>
+            (this.selectedCalculation = selectedCalculation)
+        )
+      );
     this.calculationsLoading$ = this.store.select(
       fromCompare.getCalculationsLoading,
       this.index
@@ -112,17 +134,27 @@ export class BomContainerComponent implements OnInit {
   }
 
   private initializeWithDetailSelectors(): void {
-    this.materialDesignation$ = this.store.select(
-      fromDetail.getMaterialDesignation
-    );
+    this.materialDesignation$ = this.store
+      .select(fromDetail.getMaterialDesignation)
+      .pipe(
+        tap(
+          (materialDesignation) =>
+            (this.materialDesignation = materialDesignation)
+        )
+      );
 
     this.calculations$ = this.store.select(fromDetail.getCalculations);
     this.selectedCalculationNodeId$ = this.store.select(
       fromDetail.getSelectedCalculationNodeId
     );
-    this.selectedCalculation$ = this.store.select(
-      fromDetail.getSelectedCalculation
-    );
+    this.selectedCalculation$ = this.store
+      .select(fromDetail.getSelectedCalculation)
+      .pipe(
+        tap(
+          (selectedCalculation) =>
+            (this.selectedCalculation = selectedCalculation)
+        )
+      );
     this.calculationsLoading$ = this.store.select(
       fromDetail.getCalculationsLoading
     );
@@ -136,5 +168,85 @@ export class BomContainerComponent implements OnInit {
     this.childrenOfSelectedBomItem$ = this.store.select(
       fromDetail.getChildrenOfSelectedBomItem
     );
+  }
+
+  onGridReady(gridApi: GridApi): void {
+    this.gridApi = gridApi;
+  }
+
+  public exportBomAsExcelFile(): void {
+    this.gridApi.exportDataAsExcel({
+      author: 'CDBA (Cost Database Analytics)',
+      fileName: `CDBA-Bill-Of-Materials-${this.materialDesignation}.xlsx`,
+      sheetName: this.materialDesignation,
+      allColumns: true,
+      prependContent: this.getBomMetadata(this.gridApi.getColumnDefs().length),
+    });
+
+    this.applicationInsights.logEvent('BoM Excel Export', {
+      materialDesignation: this.materialDesignation,
+    });
+  }
+
+  private getBomMetadata(numberOfColumns: number): ExcelCell[][] {
+    const styleId = 'prependedMetadata';
+
+    const emptyCell = {
+      data: { value: ' ', type: 'String' },
+      styleId,
+    } as ExcelCell;
+
+    const prependedMetadata = [[]] as ExcelCell[][];
+
+    const emptyAndStyledExcelCells = [];
+
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i <= numberOfColumns; i++) {
+      emptyAndStyledExcelCells.push(emptyCell);
+    }
+
+    prependedMetadata[0] = [...emptyAndStyledExcelCells];
+    prependedMetadata[1] = [...emptyAndStyledExcelCells];
+    prependedMetadata[2] = [...emptyAndStyledExcelCells];
+
+    prependedMetadata[0][1] = {
+      data: {
+        value: this.materialDesignation,
+        type: 'String',
+      },
+      styleId,
+    };
+
+    prependedMetadata[0][2] = {
+      data: {
+        value: new MaterialNumberPipe().transform(
+          this.selectedCalculation.materialNumber
+        ),
+        type: 'String',
+      },
+      styleId,
+    };
+
+    prependedMetadata[1][1] = {
+      data: {
+        value: `Cost Type: ${this.selectedCalculation.costType}`,
+        type: 'String',
+      },
+      styleId,
+    };
+
+    prependedMetadata[1][2] = {
+      data: {
+        value: `Calculation Date: ${formatDate(
+          this.selectedCalculation.calculationDate,
+          'shortDate',
+          'de-DE'
+        )}`,
+        type: 'String',
+      },
+      styleId,
+    };
+
+    return prependedMetadata;
   }
 }
