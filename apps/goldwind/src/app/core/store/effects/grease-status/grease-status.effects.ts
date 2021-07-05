@@ -20,27 +20,13 @@ import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
-  getGreaseStatus,
-  getGreaseStatusFailure,
   getGreaseStatusId,
   getGreaseStatusLatest,
   getGreaseStatusLatestFailure,
   getGreaseStatusLatestSuccess,
-  getGreaseStatusSuccess,
-  setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '../../actions/grease-status/grease-status.actions';
-import {
-  getBearingLoad,
-  getBearingLoadFailure,
-  getBearingLoadSuccess,
-  getLoadAverage,
-  getLoadAverageFailure,
-  getLoadAverageSuccess,
-} from '../../actions/load-sense/load-sense.actions';
 import * as fromRouter from '../../reducers';
-import { Interval } from '../../reducers/shared/models';
-import { getGreaseInterval } from '../../selectors';
 
 @Injectable()
 export class GreaseStatusEffects {
@@ -52,38 +38,22 @@ export class GreaseStatusEffects {
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
-          Object.values({ ...BearingRoutePath, ...AppRoutePath })
-            .filter((route: string) => route !== '' && url.includes(route))
-            .shift()
+          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+            (route: string) => route !== '' && url.includes(route)
+          )
         ),
         tap((currentRoute) => {
+          if (currentRoute === BearingRoutePath.ConditionMonitoringPath) {
+            this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
+          }
           if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
             this.store.dispatch(stopGetGreaseStatusLatest());
-          }
-
-          if (
-            currentRoute === BearingRoutePath.GreaseStatusPath ||
-            currentRoute === BearingRoutePath.ConditionMonitoringPath
-          ) {
-            this.store.dispatch(getGreaseStatusId({ source: currentRoute }));
           }
         })
       );
     },
     { dispatch: false }
   );
-
-  /**
-   * Set Interval
-   */
-  interval$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(setGreaseInterval),
-      map(() =>
-        getGreaseStatusId({ source: BearingRoutePath.GreaseStatusPath })
-      )
-    );
-  });
 
   /**
    * Load Grease Status ID
@@ -102,70 +72,12 @@ export class GreaseStatusEffects {
           if (source === BearingRoutePath.ConditionMonitoringPath) {
             this.isPollingActive = true;
             this.store.dispatch(getGreaseStatusLatest({ deviceId }));
-          } else {
-            this.store.dispatch(getGreaseStatus({ deviceId }));
-            this.store.dispatch(getLoadAverage({ deviceId }));
-            this.store.dispatch(getBearingLoad({ deviceId }));
           }
         })
       );
     },
     { dispatch: false }
   );
-
-  /**
-   * Load Grease Status
-   */
-  greaseStatus$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getGreaseStatus),
-      withLatestFrom(this.store.select(getGreaseInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
-      mergeMap((greaseParams) =>
-        this.restService.getGreaseStatus(greaseParams).pipe(
-          map((gcmStatus) => getGreaseStatusSuccess({ gcmStatus })),
-          catchError((_e) => of(getGreaseStatusFailure()))
-        )
-      )
-    );
-  });
-
-  load$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getBearingLoad),
-      withLatestFrom(this.store.select(getGreaseInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
-      mergeMap((greaseParams) =>
-        this.restService.getBearingLoad(greaseParams).pipe(
-          map((bearingLoad) => getBearingLoadSuccess({ bearingLoad })),
-          catchError((_e) => of(getBearingLoadFailure()))
-        )
-      )
-    );
-  });
-
-  loadAverage$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getLoadAverage),
-      withLatestFrom(this.store.select(getGreaseInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
-      mergeMap((greaseParams) =>
-        this.restService.getBearingLoadAverage(greaseParams).pipe(
-          map(([loadAverage]) => getLoadAverageSuccess({ loadAverage })),
-          catchError((_e) => of(getLoadAverageFailure()))
-        )
-      )
-    );
-  });
 
   /**
    * Continue Load Latest Grease Status

@@ -21,27 +21,23 @@ import { Store } from '@ngrx/store';
 import { EChartsOption } from 'echarts';
 
 import {
-  setGreaseDisplay,
-  setGreaseInterval,
-} from '../../core/store/actions/grease-status/grease-status.actions';
-import {
-  GreaseControl,
-  GreaseDisplay,
-  Type,
-} from '../../core/store/reducers/grease-status/models';
+  setLoadAssessmentDisplay,
+  setLoadAssessmentInterval,
+} from '../../core/store/actions/load-assessment/load-assessment.actions';
+import { LoadAssessmentDisplay } from '../../core/store/reducers/load-assessment/models';
 import { GraphData, Interval } from '../../core/store/reducers/shared/models';
 import {
   getAnalysisGraphData,
-  getGreaseDisplay,
-  getGreaseInterval,
-  getGreaseStatusLoading,
+  getLoadAssessmentDisplay,
+  getLoadAssessmentInterval,
 } from '../../core/store/selectors';
 import { axisChartOptions } from '../../shared/chart/chart';
-import { DATE_FORMAT, GREASE_CONTROLS } from '../../shared/constants';
+import { DATE_FORMAT, LOAD_ASSESSMENT_CONTROLS } from '../../shared/constants';
+import { Control, Type } from '../../shared/models';
 
 interface SensorNode {
   name?: string;
-  children?: GreaseControl[];
+  children?: Control[];
   formControl?: any;
   indeterminate?: boolean;
 }
@@ -49,25 +45,31 @@ interface SensorNode {
 const TREE_DATA: SensorNode[] = [
   {
     name: 'greaseMonitor',
-    children: GREASE_CONTROLS.filter((control) => control.type === Type.grease),
+    children: LOAD_ASSESSMENT_CONTROLS.filter(
+      (control) => control.type === Type.grease
+    ),
     formControl: new FormControl(''),
     indeterminate: false,
   },
   {
     name: 'loadMonitor',
-    children: GREASE_CONTROLS.filter((control) => control.type === Type.load),
+    children: LOAD_ASSESSMENT_CONTROLS.filter(
+      (control) => control.type === Type.load
+    ),
     formControl: new FormControl(''),
     indeterminate: false,
   },
   // {
   //   name: 'edmMonitor',
-  //   children: GREASE_CONTROLS.filter((control) => control.type === Type.edm),
+  //   children: LOAD_ASSESSMENT_CONTROLS.filter((control) => control.type === Type.edm),
   //   formControl: new FormControl(''),
   //   indeterminate: false,
   // },
   {
     name: 'rotorRotationSpeedMonitor',
-    children: GREASE_CONTROLS.filter((control) => control.type === Type.rsm),
+    children: LOAD_ASSESSMENT_CONTROLS.filter(
+      (control) => control.type === Type.rsm
+    ),
     formControl: new FormControl(''),
     indeterminate: false,
   },
@@ -80,17 +82,19 @@ interface ExampleFlatNode {
 }
 
 @Component({
-  selector: 'goldwind-grease-status-monitoring',
-  templateUrl: './grease-status.component.html',
-  styleUrls: ['./grease-status.component.scss'],
+  selector: 'goldwind-load-assessment',
+  templateUrl: './load-assessment.component.html',
+  styleUrls: ['./load-assessment.component.scss'],
 })
-export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
+export class LoadAssessmentComponent
+  implements OnInit, OnDestroy, AfterViewInit
+{
   @ViewChild('tree') tree: MatTree<any>;
 
   greaseStatusGraphData$: Observable<GraphData>;
   interval$: Observable<Interval>;
   loading$: Observable<boolean>;
-  checkBoxes = GREASE_CONTROLS;
+  checkBoxes = LOAD_ASSESSMENT_CONTROLS;
 
   displayForm = new FormGroup({
     waterContent_1: new FormControl(''),
@@ -166,15 +170,14 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.greaseStatusGraphData$ = this.store.select(getAnalysisGraphData);
-    this.interval$ = this.store.select(getGreaseInterval);
-    this.loading$ = this.store.select(getGreaseStatusLoading);
+    this.interval$ = this.store.select(getLoadAssessmentInterval);
 
     this.subscription.add(
       this.store
-        .select(getGreaseDisplay)
-        .subscribe((greaseDisplay: GreaseDisplay) => {
+        .select(getLoadAssessmentDisplay)
+        .subscribe((loadAssessmentDisplay: LoadAssessmentDisplay) => {
           this.displayForm.markAsPristine();
-          this.displayForm.setValue(greaseDisplay);
+          this.displayForm.setValue(loadAssessmentDisplay);
 
           this.dataSource.data.forEach(
             (sensorNode: SensorNode, index: number) => {
@@ -195,8 +198,8 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
 
     this.displayForm.valueChanges
       .pipe(filter(() => this.displayForm.dirty))
-      .subscribe((greaseDisplay: GreaseDisplay) =>
-        this.store.dispatch(setGreaseDisplay({ greaseDisplay }))
+      .subscribe((loadAssessmentDisplay: LoadAssessmentDisplay) =>
+        this.store.dispatch(setLoadAssessmentDisplay({ loadAssessmentDisplay }))
       );
 
     this.checkChannels();
@@ -218,7 +221,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
     )?.indeterminate;
 
   setInterval(interval: Interval): void {
-    this.store.dispatch(setGreaseInterval({ interval }));
+    this.store.dispatch(setLoadAssessmentInterval({ interval }));
   }
 
   checkChannels(): void {
@@ -238,7 +241,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   formatLegend(name: string): string {
-    const { label, unit } = GREASE_CONTROLS.find(
+    const { label, unit } = LOAD_ASSESSMENT_CONTROLS.find(
       ({ formControl }) => formControl === name
     );
 
@@ -249,7 +252,7 @@ export class GreaseStatusComponent implements OnInit, OnDestroy, AfterViewInit {
     return (
       Array.isArray(params) &&
       params.reduce((acc, param, index) => {
-        const { label, unit } = GREASE_CONTROLS.find(
+        const { label, unit } = LOAD_ASSESSMENT_CONTROLS.find(
           ({ formControl }) => formControl === param.seriesName
         );
 

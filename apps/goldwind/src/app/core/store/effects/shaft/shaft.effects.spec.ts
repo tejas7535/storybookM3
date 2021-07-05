@@ -10,17 +10,14 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
-  getShaft,
   getShaftId,
   getShaftLatest,
   getShaftLatestFailure,
   getShaftLatestSuccess,
-  getShaftSuccess,
   stopGetShaftLatest,
 } from '../../actions/shaft/shaft.actions';
 import * as fromRouter from '../../reducers';
 import { ShaftStatus } from '../../reducers/shaft/models';
-import { getGreaseInterval } from '../../selectors/grease-status/grease-status.selector';
 import { ShaftEffects } from './shaft.effects';
 
 describe('Shaft Effects', () => {
@@ -44,7 +41,6 @@ describe('Shaft Effects', () => {
       {
         provide: RestService,
         useValue: {
-          getShaft: jest.fn(),
           getShaftLatest: jest.fn(),
         },
       },
@@ -61,11 +57,6 @@ describe('Shaft Effects', () => {
 
     store.overrideSelector(fromRouter.getRouterState, {
       state: { params: { id: deviceId } },
-    });
-
-    store.overrideSelector(getGreaseInterval, {
-      startDate: 1_599_651_508,
-      endDate: 1_599_651_509,
     });
   });
 
@@ -133,7 +124,7 @@ describe('Shaft Effects', () => {
     });
 
     it(
-      'should return getShaft',
+      'should return getShaftLatest',
       marbles((m) => {
         store.dispatch = jest.fn();
         action = getShaftId({ source: 'condition-monitoring' });
@@ -143,7 +134,6 @@ describe('Shaft Effects', () => {
         const expected = m.cold('-b', {
           b: {
             deviceId,
-            source: 'condition-monitoring',
           },
         });
 
@@ -160,7 +150,7 @@ describe('Shaft Effects', () => {
 
   describe('continueShaftId$', () => {
     it(
-      'should return getShaft',
+      'should return getShaftLatest',
       marbles((m) => {
         effects['isPollingActive'] = true;
         action = getShaftLatestFailure();
@@ -234,49 +224,6 @@ describe('Shaft Effects', () => {
 
         expect(restService.getShaftLatest).toHaveBeenCalledTimes(1);
         expect(restService.getShaftLatest).toHaveBeenCalledWith(deviceId);
-      })
-    );
-  });
-
-  describe('shaft$', () => {
-    beforeEach(() => {
-      action = getShaft({ deviceId });
-    });
-
-    it(
-      'should return getShaftSuccess action when REST call is successful',
-      marbles((m) => {
-        const SHAFT_MOCK: ShaftStatus[] = [
-          {
-            deviceId: 'fakedeviceid',
-            timestamp: '2020-11-12T18:31:56.954003Z',
-            rsm01ShaftSpeed: 3,
-            rsm01Shaftcountervalue: 666,
-          },
-        ];
-
-        const result = getShaftSuccess({
-          shaft: SHAFT_MOCK,
-        });
-
-        actions$ = m.hot('-a', { a: action });
-
-        const response = m.cold('-a|', {
-          a: SHAFT_MOCK,
-        });
-        const expected = m.cold('--b', { b: result });
-
-        restService.getShaft = jest.fn(() => response);
-
-        m.expect(effects.shaft$).toBeObservable(expected);
-        m.flush();
-
-        expect(restService.getShaft).toHaveBeenCalledTimes(1);
-        expect(restService.getShaft).toHaveBeenCalledWith({
-          id: deviceId,
-          startDate: 1_599_651_508,
-          endDate: 1_599_651_509,
-        });
       })
     );
   });

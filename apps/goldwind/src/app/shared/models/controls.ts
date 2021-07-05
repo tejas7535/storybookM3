@@ -12,7 +12,7 @@ export enum Type {
   rsm,
 }
 
-export interface GreaseControl {
+export interface Control {
   label: string;
   formControl: string;
   unit: Unit;

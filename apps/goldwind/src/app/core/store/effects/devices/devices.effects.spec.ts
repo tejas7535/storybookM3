@@ -15,7 +15,7 @@ import {
 } from '../../actions/devices/devices.actions';
 import { DevicesEffects } from './devices.effects';
 
-describe('Search Effects', () => {
+describe('Devices Effects', () => {
   let spectator: SpectatorService<DevicesEffects>;
   let actions$: any;
   let action: any;

@@ -14,20 +14,20 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
-import { GreaseStatusEffects } from '../../core/store/effects/grease-status/grease-status.effects';
-import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
+import { LoadAssessmentEffects } from '../../core/store';
+import { loadAssessmentReducer } from '../../core/store/reducers/load-assessment/load-assessment.reducer';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
-import { GreaseStatusRoutingModule } from './grease-status-routing.module';
-import { GreaseStatusComponent } from './grease-status.component';
+import { LoadAssessmentRoutingModule } from './load-assessment-routing.module';
+import { LoadAssessmentComponent } from './load-assessment.component';
 
 @NgModule({
-  declarations: [GreaseStatusComponent],
+  declarations: [LoadAssessmentComponent],
   imports: [
     CommonModule,
-    GreaseStatusRoutingModule,
+    LoadAssessmentRoutingModule,
     ReactiveFormsModule,
     SharedModule,
     DateRangeModule,
@@ -48,9 +48,9 @@ import { GreaseStatusComponent } from './grease-status.component';
     SharedTranslocoModule,
 
     // Store
-    EffectsModule.forFeature([GreaseStatusEffects]),
-    StoreModule.forFeature('greaseStatus', greaseStatusReducer),
+    EffectsModule.forFeature([LoadAssessmentEffects]),
+    StoreModule.forFeature('loadAssessment', loadAssessmentReducer),
     ReactiveComponentModule,
   ],
 })
-export class GreaseStatusModule {}
+export class LoadAssessmentModule {}

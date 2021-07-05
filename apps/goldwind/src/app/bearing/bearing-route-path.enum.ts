@@ -1,6 +1,6 @@
 export enum BearingRoutePath {
   BasePath = '',
   ConditionMonitoringPath = 'condition-monitoring',
-  GreaseStatusPath = 'grease-status',
+  LoadAssessmentPath = 'load-assessment',
   DataViewPath = 'data-view',
 }

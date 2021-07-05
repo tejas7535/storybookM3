@@ -10,19 +10,19 @@ import { NgxEchartsModule } from 'ngx-echarts';
 
 import { DISPLAY } from '../../../testing/mocks';
 import {
-  setGreaseDisplay,
-  setGreaseInterval,
-} from '../../core/store/actions/grease-status/grease-status.actions';
+  setLoadAssessmentDisplay,
+  setLoadAssessmentInterval,
+} from '../../core/store/actions/load-assessment/load-assessment.actions';
 import { BearingMetadata } from '../../core/store/reducers/bearing/models';
 import { DATE_FORMAT } from '../../shared/constants';
 import { DateRangeModule } from '../../shared/date-range/date-range.module';
 import { EmptyGraphModule } from '../../shared/empty-graph/empty-graph.module';
 import { CenterLoadModule } from '../condition-monitoring/center-load/center-load.module';
-import { GreaseStatusComponent } from './grease-status.component';
+import { LoadAssessmentComponent } from './load-assessment.component';
 
-describe('GreaseStatusComponent', () => {
-  let component: GreaseStatusComponent;
-  let spectator: Spectator<GreaseStatusComponent>;
+describe('LoadAssessmentComponent', () => {
+  let component: LoadAssessmentComponent;
+  let spectator: Spectator<LoadAssessmentComponent>;
   let mockStore: MockStore;
 
   const bearingMetaData: BearingMetadata = {
@@ -54,7 +54,7 @@ describe('GreaseStatusComponent', () => {
   };
 
   const createComponent = createComponentFactory({
-    component: GreaseStatusComponent,
+    component: LoadAssessmentComponent,
     imports: [
       ReactiveFormsModule,
       DateRangeModule,
@@ -78,11 +78,6 @@ describe('GreaseStatusComponent', () => {
           greaseStatus: {
             loading: false,
             result: undefined,
-            display: DISPLAY,
-            interval: {
-              startDate: 123_456_789,
-              endDate: 987_654_321,
-            },
           },
           shaft: {
             loading: false,
@@ -96,10 +91,17 @@ describe('GreaseStatusComponent', () => {
             loading: false,
             result: bearingMetaData,
           },
+          loadAssessment: {
+            display: DISPLAY,
+            interval: {
+              startDate: 123_456_789,
+              endDate: 987_654_321,
+            },
+          },
         },
       }),
     ],
-    declarations: [GreaseStatusComponent],
+    declarations: [LoadAssessmentComponent],
   });
 
   beforeEach(() => {
@@ -113,7 +115,7 @@ describe('GreaseStatusComponent', () => {
   });
 
   describe('Display Form', () => {
-    it('should dispatch setGreaseAction on valueChanges', () => {
+    it('should dispatch setLoadAssessmentDisplay on valueChanges', () => {
       mockStore.dispatch = jest.fn();
 
       component.displayForm.markAsDirty();
@@ -121,12 +123,12 @@ describe('GreaseStatusComponent', () => {
 
       expect(mockStore.dispatch).toHaveBeenCalledTimes(1);
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        setGreaseDisplay({ greaseDisplay: DISPLAY })
+        setLoadAssessmentDisplay({ loadAssessmentDisplay: DISPLAY })
       );
     });
   });
 
-  describe('setGreaseInterval', () => {
+  describe('setLoadAssessmentInterval', () => {
     it('should dispatch the setEdmInterval action', () => {
       mockStore.dispatch = jest.fn();
 
@@ -138,7 +140,7 @@ describe('GreaseStatusComponent', () => {
       component.setInterval(mockInterval);
 
       expect(mockStore.dispatch).toHaveBeenCalledWith(
-        setGreaseInterval({ interval: mockInterval })
+        setLoadAssessmentInterval({ interval: mockInterval })
       );
     });
   });

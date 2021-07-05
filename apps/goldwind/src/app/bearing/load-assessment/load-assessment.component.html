@@ -61,13 +61,18 @@
           </mat-tree>
         </div>
 
-        <ng-container *ngIf="!(loading$ | ngrxPush); else loading">
+        <ng-container
+          *ngIf="
+            greaseStatusGraphData$ | ngrxPush as greaseStatusGraphData;
+            else loading
+          "
+        >
           <div
             class="chart"
             fxFlex
             echarts
             [options]="chartOptions"
-            [merge]="greaseStatusGraphData$ | ngrxPush"
+            [merge]="greaseStatusGraphData"
           ></div>
         </ng-container>
         <ng-template #loading>

@@ -3,7 +3,7 @@ import '../../../global-mocks';
 import 'jest-canvas-mock';
 import 'jest-preset-angular/setup-jest';
 
-import { LicenseManager } from '@ag-grid-enterprise/all-modules';
+import { LicenseManager } from '@ag-grid-enterprise/core';
 import { defineGlobalsInjections } from '@ngneat/spectator';
 import { TranslocoModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';

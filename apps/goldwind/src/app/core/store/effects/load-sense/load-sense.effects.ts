@@ -37,11 +37,10 @@ export class BearingLoadEffects {
       return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
-        map(
-          (url: string) =>
-            Object.values({ ...BearingRoutePath, ...AppRoutePath })
-              .filter((route: string) => route !== '' && url.includes(route))
-              .shift() // only passes routes that are part of the route enums
+        map((url: string) =>
+          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+            (route: string) => route !== '' && url.includes(route)
+          )
         ),
         tap((currentRoute) => {
           if (
