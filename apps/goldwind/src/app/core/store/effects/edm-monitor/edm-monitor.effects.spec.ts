@@ -18,7 +18,7 @@ import * as fromRouter from '../../reducers';
 import { getEdmInterval } from '../../selectors/edm-monitor/edm-monitor.selector';
 import { EdmMonitorEffects } from './edm-monitor.effects';
 
-describe('Search Effects', () => {
+describe('Edm Monitor Effects', () => {
   let spectator: SpectatorService<EdmMonitorEffects>;
   let actions$: any;
   let action: any;

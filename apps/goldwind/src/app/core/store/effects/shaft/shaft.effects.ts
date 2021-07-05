@@ -20,18 +20,13 @@ import { BearingRoutePath } from '../../../../bearing/bearing-route-path.enum';
 import { UPDATE_SETTINGS } from '../../../../shared/constants';
 import { RestService } from '../../../http/rest.service';
 import {
-  getShaft,
-  getShaftFailure,
   getShaftId,
   getShaftLatest,
   getShaftLatestFailure,
   getShaftLatestSuccess,
-  getShaftSuccess,
   stopGetShaftLatest,
 } from '../../actions';
 import * as fromRouter from '../../reducers';
-import { Interval } from '../../reducers/shared/models';
-import { getGreaseInterval } from '../../selectors';
 
 @Injectable()
 export class ShaftEffects {
@@ -42,21 +37,17 @@ export class ShaftEffects {
       return this.actions$.pipe(
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
-        map(
-          (url: string) =>
-            Object.values({ ...BearingRoutePath, ...AppRoutePath })
-              .filter((route: string) => route !== '' && url.includes(route))
-              .shift() // only passes routes that are part of the route enums
+        map((url: string) =>
+          Object.values({ ...BearingRoutePath, ...AppRoutePath }).find(
+            (route: string) => route !== '' && url.includes(route)
+          )
         ),
         tap((currentRoute) => {
           if (currentRoute !== BearingRoutePath.ConditionMonitoringPath) {
             this.store.dispatch(stopGetShaftLatest());
           }
 
-          if (
-            currentRoute === BearingRoutePath.GreaseStatusPath ||
-            currentRoute === BearingRoutePath.ConditionMonitoringPath
-          ) {
+          if (currentRoute === BearingRoutePath.ConditionMonitoringPath) {
             this.store.dispatch(getShaftId({ source: currentRoute }));
           }
         })
@@ -74,17 +65,12 @@ export class ShaftEffects {
         ofType(getShaftId),
         filter((_) => !this.isPollingActive),
         withLatestFrom(this.store.select(fromRouter.getRouterState)),
-        map(([action, routerState]) => ({
+        map(([_action, routerState]) => ({
           deviceId: routerState.state.params.id,
-          source: action.source,
         })),
-        tap(({ deviceId, source }) => {
-          if (source === BearingRoutePath.ConditionMonitoringPath) {
-            this.isPollingActive = true;
-            this.store.dispatch(getShaftLatest({ deviceId }));
-          } else {
-            this.store.dispatch(getShaft({ deviceId }));
-          }
+        tap(({ deviceId }) => {
+          this.isPollingActive = true;
+          this.store.dispatch(getShaftLatest({ deviceId }));
         })
       );
     },
@@ -132,26 +118,6 @@ export class ShaftEffects {
         this.restService.getShaftLatest(deviceId).pipe(
           map(([shaft]) => getShaftLatestSuccess({ shaft })),
           catchError((_e) => of(getShaftLatestFailure()))
-        )
-      )
-    );
-  });
-
-  /**
-   * Load Shaft
-   */
-  shaft$ = createEffect(() => {
-    return this.actions$.pipe(
-      ofType(getShaft),
-      withLatestFrom(this.store.select(getGreaseInterval)),
-      map(([action, interval]: [any, Interval]) => ({
-        id: action.deviceId,
-        ...interval,
-      })),
-      mergeMap((deviceId) =>
-        this.restService.getShaft(deviceId).pipe(
-          map((shaft) => getShaftSuccess({ shaft })),
-          catchError((_e) => of(getShaftFailure()))
         )
       )
     );

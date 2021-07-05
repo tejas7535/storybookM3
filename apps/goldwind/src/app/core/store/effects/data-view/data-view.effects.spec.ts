@@ -18,7 +18,7 @@ import * as fromRouter from '../../reducers';
 import { getDataInterval } from '../../selectors/data-view/data-view.selector';
 import { DataViewEffects } from './data-view.effects';
 
-describe('Search Effects', () => {
+describe('Data View Effects', () => {
   let spectator: SpectatorService<DataViewEffects>;
   let actions$: any;
   let action: any;

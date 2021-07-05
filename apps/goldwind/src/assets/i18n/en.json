@@ -11,7 +11,7 @@
   },
   "bearing": {
     "overview": "Dashboard",
-    "dataAnalysis": "Detailed Analysis",
+    "loadAssessment": "Load Assessment",
     "dataView": "Download Manager",
     "live": "Live",
     "offline": "Offline",

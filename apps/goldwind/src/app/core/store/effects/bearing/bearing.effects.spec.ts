@@ -17,7 +17,7 @@ import {
 import * as fromRouter from '../../reducers';
 import { BearingEffects } from './bearing.effects';
 
-describe('Search Effects', () => {
+describe('Bearing Effects', () => {
   let spectator: SpectatorService<BearingEffects>;
   let actions$: any;
   let action: any;

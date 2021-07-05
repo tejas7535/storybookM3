@@ -35,9 +35,9 @@ export class DataViewEffects {
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
-          Object.values(BearingRoutePath)
-            .filter((route: string) => route !== '' && url.includes(route))
-            .shift()
+          Object.values(BearingRoutePath).find(
+            (route: string) => route !== '' && url.includes(route)
+          )
         ),
         filter(
           (currentRoute: string) =>

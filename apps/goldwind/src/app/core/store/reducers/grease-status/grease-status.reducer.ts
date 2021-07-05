@@ -7,10 +7,8 @@ import {
   getGreaseStatusLatestFailure,
   getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
-  setGreaseDisplay,
-  setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
-import { GcmStatus, GreaseDisplay } from './models';
+import { GcmStatus } from './models';
 
 export interface GreaseStatusState {
   loading: boolean;
@@ -18,11 +16,6 @@ export interface GreaseStatusState {
   status: {
     loading: boolean;
     result: GcmStatus;
-  };
-  display: GreaseDisplay;
-  interval: {
-    startDate: number;
-    endDate: number;
   };
 }
 
@@ -32,36 +25,6 @@ export const initialState: GreaseStatusState = {
   status: {
     loading: false,
     result: undefined,
-  },
-  display: {
-    deterioration_1: true,
-    waterContent_1: true,
-    temperatureOptics_1: true,
-    deterioration_2: true,
-    waterContent_2: true,
-    temperatureOptics_2: true,
-    rsmShaftSpeed: true,
-    // centerLoad: true,
-    lsp01Strain: true,
-    lsp02Strain: true,
-    lsp03Strain: true,
-    lsp04Strain: true,
-    lsp05Strain: true,
-    lsp06Strain: true,
-    lsp07Strain: true,
-    lsp08Strain: true,
-    lsp09Strain: true,
-    lsp10Strain: true,
-    lsp11Strain: true,
-    lsp12Strain: true,
-    lsp13Strain: true,
-    lsp14Strain: true,
-    lsp15Strain: true,
-    lsp16Strain: true,
-  },
-  interval: {
-    startDate: Math.floor(+new Date().setDate(new Date().getDate() - 1) / 1000),
-    endDate: Math.floor(+new Date() / 1000),
   },
 };
 
@@ -117,20 +80,6 @@ export const greaseStatusReducer = createReducer(
         ...state.status,
         loading: false,
       },
-    })
-  ),
-  on(
-    setGreaseDisplay,
-    (state: GreaseStatusState, { greaseDisplay }): GreaseStatusState => ({
-      ...state,
-      display: greaseDisplay,
-    })
-  ),
-  on(
-    setGreaseInterval,
-    (state: GreaseStatusState, { interval }): GreaseStatusState => ({
-      ...state,
-      interval,
     })
   )
 );

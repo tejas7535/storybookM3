@@ -1,0 +1,148 @@
+import { Control, Type, Unit } from '../models';
+
+export const LOAD_ASSESSMENT_CONTROLS: Control[] = [
+  {
+    label: 'waterContent_1',
+    formControl: 'waterContent_1',
+    unit: Unit.percent,
+    type: Type.grease,
+  },
+  {
+    label: 'deterioration_1',
+    formControl: 'deterioration_1',
+    unit: Unit.percent,
+    type: Type.grease,
+  },
+  {
+    label: 'temperatureOptics_1',
+    formControl: 'temperatureOptics_1',
+    unit: Unit.degree,
+    type: Type.grease,
+  },
+  {
+    label: 'waterContent_2',
+    formControl: 'waterContent_2',
+    unit: Unit.percent,
+    type: Type.grease,
+  },
+  {
+    label: 'deterioration_2',
+    formControl: 'deterioration_2',
+    unit: Unit.percent,
+    type: Type.grease,
+  },
+  {
+    label: 'temperatureOptics_2',
+    formControl: 'temperatureOptics_2',
+    unit: Unit.degree,
+    type: Type.grease,
+  },
+  {
+    label: 'rsmShaftSpeed',
+    formControl: 'rsmShaftSpeed',
+    unit: Unit.rotationSpeed,
+    type: Type.rsm,
+  },
+  // {
+  //   label: 'centerLoad',
+  //   formControl: 'centerLoad',
+  //   unit: Unit.load,
+  //   type: Type.load,
+  // },
+  {
+    label: 'lsp01Strain',
+    formControl: 'lsp01Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp03Strain',
+    formControl: 'lsp03Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp05Strain',
+    formControl: 'lsp05Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp07Strain',
+    formControl: 'lsp07Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp09Strain',
+    formControl: 'lsp09Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp11Strain',
+    formControl: 'lsp11Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp13Strain',
+    formControl: 'lsp13Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp15Strain',
+    formControl: 'lsp15Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp02Strain',
+    formControl: 'lsp02Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp04Strain',
+    formControl: 'lsp04Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp06Strain',
+    formControl: 'lsp06Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp08Strain',
+    formControl: 'lsp08Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp10Strain',
+    formControl: 'lsp10Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp12Strain',
+    formControl: 'lsp12Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp14Strain',
+    formControl: 'lsp14Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+  {
+    label: 'lsp16Strain',
+    formControl: 'lsp16Strain',
+    unit: Unit.load,
+    type: Type.load,
+  },
+];

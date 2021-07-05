@@ -1,4 +1,4 @@
-export interface GreaseDisplay {
+export interface LoadAssessmentDisplay {
   waterContent_1: boolean;
   deterioration_1: boolean;
   temperatureOptics_1: boolean;

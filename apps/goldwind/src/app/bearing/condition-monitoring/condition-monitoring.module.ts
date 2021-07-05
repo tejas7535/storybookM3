@@ -9,7 +9,6 @@ import { ReactiveComponentModule } from '@ngrx/component';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import {
@@ -22,7 +21,6 @@ import { edmMonitorReducer } from '../../core/store/reducers/edm-monitor/edm-mon
 import { greaseStatusReducer } from '../../core/store/reducers/grease-status/grease-status.reducer';
 import { loadSenseReducer } from '../../core/store/reducers/load-sense/load-sense.reducer';
 import { shaftReducer } from '../../core/store/reducers/shaft/shaft.reducer';
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { SharedModule } from '../../shared/shared.module';
 import { CenterLoadModule } from './center-load/center-load.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
@@ -37,8 +35,6 @@ import { ShaftModule } from './shaft/shaft.module';
   imports: [
     CommonModule,
     ConditionMonitoringRoutingModule,
-    UnderConstructionModule,
-    LoadingSpinnerModule,
     EdmMonitorModule,
     GreaseMonitorModule,
     CenterLoadModule,

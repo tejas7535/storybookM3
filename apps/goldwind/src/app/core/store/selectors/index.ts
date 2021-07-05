@@ -4,4 +4,5 @@ export * from './data-view/data-view.selector';
 export * from './devices/devices.selector';
 export * from './edm-monitor/edm-monitor.selector';
 export * from './grease-status/grease-status.selector';
+export * from './load-assessment/load-assessment.selector';
 export * from './shaft/shaft.selector';

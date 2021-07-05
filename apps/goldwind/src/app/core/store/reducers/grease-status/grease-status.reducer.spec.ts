@@ -1,6 +1,5 @@
 import { Action } from '@ngrx/store';
 
-import { DISPLAY } from '../../../../../testing/mocks';
 import {
   getGreaseStatus,
   getGreaseStatusFailure,
@@ -8,8 +7,6 @@ import {
   getGreaseStatusLatestFailure,
   getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
-  setGreaseDisplay,
-  setGreaseInterval,
 } from '../../actions/grease-status/grease-status.actions';
 import {
   greaseStatusReducer,
@@ -127,38 +124,6 @@ describe('Grease Status Reducer', () => {
       const state = greaseStatusReducer(fakeState, action);
 
       expect(state.status.loading).toBeFalsy();
-    });
-  });
-
-  describe('setGreaseDisplay', () => {
-    it('should set grease display', () => {
-      const action = setGreaseDisplay({ greaseDisplay: DISPLAY });
-      const fakeState = {
-        ...initialState,
-      };
-
-      const state = greaseStatusReducer(fakeState, action);
-
-      expect(state.display).toEqual(DISPLAY);
-    });
-  });
-
-  describe('setEdmInterval', () => {
-    it('should set interval', () => {
-      const mockInterval = {
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
-      };
-      const action = setGreaseInterval({ interval: mockInterval });
-
-      const fakeState = {
-        ...initialState,
-        interval: mockInterval,
-      };
-
-      const state = greaseStatusReducer(fakeState, action);
-
-      expect(state.interval).toBe(mockInterval);
     });
   });
 

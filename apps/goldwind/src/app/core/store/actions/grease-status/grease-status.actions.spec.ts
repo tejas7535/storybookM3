@@ -6,8 +6,6 @@ import {
   getGreaseStatusLatestFailure,
   getGreaseStatusLatestSuccess,
   getGreaseStatusSuccess,
-  setGreaseDisplay,
-  setGreaseInterval,
   stopGetGreaseStatusLatest,
 } from '..';
 import { GcmStatus } from '../../reducers/grease-status/models';
@@ -89,29 +87,6 @@ describe('GreaseStatus Actions', () => {
 
       expect(action).toEqual({
         type: '[Grease Status] Load Latest Grease Status Failure',
-      });
-    });
-
-    it('setGreaseDisplay', () => {
-      const greaseDisplay: any = {};
-      const action = setGreaseDisplay({ greaseDisplay });
-
-      expect(action).toEqual({
-        greaseDisplay,
-        type: '[Grease Status] Set Grease Display',
-      });
-    });
-
-    it('setGreaseInterval', () => {
-      const mockInterval = {
-        startDate: 1_599_651_508,
-        endDate: 1_599_651_509,
-      };
-      const action = setGreaseInterval({ interval: mockInterval });
-
-      expect(action).toEqual({
-        interval: mockInterval,
-        type: '[Grease Status] Set Interval',
       });
     });
   });

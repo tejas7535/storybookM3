@@ -24,10 +24,10 @@ const routes: Routes = [
               ),
           },
           {
-            path: BearingRoutePath.GreaseStatusPath,
+            path: BearingRoutePath.LoadAssessmentPath,
             loadChildren: () =>
-              import('./grease-status/grease-status.module').then(
-                (m) => m.GreaseStatusModule
+              import('./load-assessment/load-assessment.module').then(
+                (m) => m.LoadAssessmentModule
               ),
           },
           {

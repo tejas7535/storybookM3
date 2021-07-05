@@ -23,9 +23,9 @@ export class DevicesEffects {
         ofType(ROUTER_NAVIGATED),
         map((action: any) => action.payload.routerState.url),
         map((url: string) =>
-          Object.values(AppRoutePath)
-            .filter((route: string) => route !== '' && url.includes(route))
-            .shift()
+          Object.values(AppRoutePath).find(
+            (route: string) => route !== '' && url.includes(route)
+          )
         ),
         filter(
           (currentRoute: string) =>

@@ -13,6 +13,7 @@ import * as fromDataView from './data-view/data-view.reducer';
 import * as fromDevices from './devices/devices.reducer';
 import * as fromEdmMonitor from './edm-monitor/edm-monitor.reducer';
 import * as fromGreaseStatus from './grease-status/grease-status.reducer';
+import * as fromLoadAssement from './load-assessment/load-assessment.reducer';
 import * as fromLoadSense from './load-sense/load-sense.reducer';
 import * as fromShaft from './shaft/shaft.reducer';
 
@@ -56,6 +57,9 @@ export const getEdmMonitorState =
 
 export const getGreaseStatusState =
   createFeatureSelector<fromGreaseStatus.GreaseStatusState>('greaseStatus');
+
+export const getLoadAssessmentState =
+  createFeatureSelector<fromLoadAssement.LoadAssessmentState>('loadAssessment');
 
 export const getShaftState =
   createFeatureSelector<fromShaft.ShaftState>('shaft');

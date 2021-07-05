@@ -6,9 +6,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { createComponentFactory, Spectator } from '@ngneat/spectator/jest';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { UnderConstructionModule } from '@schaeffler/empty-states';
-
-import { LoadingSpinnerModule } from '../../shared/loading-spinner/loading-spinner.module';
 import { CenterLoadModule } from './center-load/center-load.module';
 import { CmEquipmentComponent } from './cm-equipment/cm-equipment.component';
 import { ConditionMonitoringComponent } from './condition-monitoring.component';
@@ -24,8 +21,6 @@ describe('ConditionMonitoringComponent', () => {
     component: ConditionMonitoringComponent,
     imports: [
       RouterTestingModule,
-      UnderConstructionModule,
-      LoadingSpinnerModule,
       EdmMonitorModule,
       GreaseMonitorModule,
       CenterLoadModule,

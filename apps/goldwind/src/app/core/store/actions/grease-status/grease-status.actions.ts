@@ -1,7 +1,6 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { GcmStatus, GreaseDisplay } from '../../reducers/grease-status/models';
-import { Interval } from '../../reducers/shared/models';
+import { GcmStatus } from '../../reducers/grease-status/models';
 
 export const getGreaseStatusId = createAction(
   '[Grease Status] Load Grease Sensor ID',
@@ -40,23 +39,11 @@ export const getGreaseStatusLatestFailure = createAction(
   '[Grease Status] Load Latest Grease Status Failure'
 );
 
-export const setGreaseDisplay = createAction(
-  '[Grease Status] Set Grease Display',
-  props<{ greaseDisplay: GreaseDisplay }>()
-);
-
-export const setGreaseInterval = createAction(
-  '[Grease Status] Set Interval',
-  props<{ interval: Interval }>()
-);
-
 const all = union({
   getGreaseStatusId,
   getGreaseStatus,
   getGreaseStatusSuccess,
   getGreaseStatusFailure,
-  setGreaseDisplay,
-  setGreaseInterval,
   stopGetGreaseStatusLatest,
 });
 

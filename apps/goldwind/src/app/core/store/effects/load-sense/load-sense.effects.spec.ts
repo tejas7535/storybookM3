@@ -20,7 +20,7 @@ import * as fromRouter from '../../reducers';
 import { LoadSense } from '../../reducers/load-sense/models';
 import { BearingLoadEffects } from './load-sense.effects';
 
-describe('Search Effects', () => {
+describe('Load Sense Effects', () => {
   let spectator: SpectatorService<BearingLoadEffects>;
   let actions$: any;
   let action: any;

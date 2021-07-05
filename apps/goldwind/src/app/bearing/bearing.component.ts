@@ -32,8 +32,8 @@ export class BearingComponent implements OnInit {
       link: BearingRoutePath.ConditionMonitoringPath,
     },
     {
-      name: 'dataAnalysis',
-      link: BearingRoutePath.GreaseStatusPath,
+      name: 'loadAssessment',
+      link: BearingRoutePath.LoadAssessmentPath,
     },
     {
       name: 'dataView',
