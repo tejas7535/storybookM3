@@ -21,9 +21,13 @@
   "exits": "Exits",
   "internal": "internal",
   "external": "external",
-  "openPositions": "Open positions",
   "openForApplications": "Open for application",
   "internalMatches": "Internal matches",
+  "openPositions": {
+    "title": "Open positions",
+    "openForApplications": "Open for applications",
+    "internalMatches": "Internal matches"
+  },
   "resignationsReceived": {
     "title": "Resignations received",
     "totalResignations": "Total resignations",

@@ -1,0 +1,43 @@
+<h6
+  class="mb-3.5"
+  (click)="$event.stopPropagation()"
+  *transloco="let t; read: 'overview.openPositions'"
+>
+  {{ t('title') }}
+</h6>
+<p
+  class="uppercase opacity-60 mb-4"
+  *transloco="let t; read: 'overview.openPositions'"
+>
+  {{ t('openForApplications') }}
+</p>
+<mat-list (click)="$event.stopPropagation()">
+  <mat-list-item
+    *ngFor="let application of openApplications; trackBy: trackByFn"
+  >
+    <div
+      matBadgePosition="before"
+      [matBadge]="application.count"
+      matBadgeOverlap="false"
+      matBadgeColor="primary"
+      class="flex flex-row w-full"
+    >
+      <span class="ml-1 mr-2 flex self-center">
+        {{ application.name }}
+      </span>
+      <mat-chip-list class="mr-8">
+        <mat-chip
+          *ngFor="let recruitmentSource of application.recruitmentSources"
+          selected="true"
+          color="accent"
+        >
+          {{ recruitmentSource }}
+        </mat-chip>
+      </mat-chip-list>
+      <span class="flex self-center justify-end ml-auto">
+        {{ application.approvalDate | date: 'dd.MM.yyyy' }}
+      </span>
+    </div>
+    <mat-divider></mat-divider>
+  </mat-list-item>
+</mat-list>

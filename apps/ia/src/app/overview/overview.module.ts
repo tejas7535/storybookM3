@@ -16,6 +16,7 @@ import { OverviewComponent } from './overview.component';
 import { ResignationsModule } from './resignations/resignations.module';
 import * as fromOverview from './store';
 import { OverviewEffects } from './store/effects/overview.effects';
+import { OpenPositionsModule } from './open-positions/open-positions.module';
 
 @NgModule({
   declarations: [OverviewComponent],
@@ -32,6 +33,7 @@ import { OverviewEffects } from './store/effects/overview.effects';
     EntriesExitsModule,
     LineChartModule,
     ResignationsModule,
+    OpenPositionsModule,
     KpiModule,
   ],
   providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'overview' }],
