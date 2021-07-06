@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.26.0](///compare/cdba-v1.26.0...cdba-v1.25.0) (2021-07-06)
+
+
+### 🎸 Features
+
+* **cdba:** display result count if there are too many results ([b2b7694](///commit/b2b76949b47d26af09bab5d1c87c9649293a6c38))
+* **cdba:** excel export for bill of materials (DSCDA-2389) ([933d407](///commit/933d40731b347b156c0c21e1057002bfc8934102))
+* **cdba:** integrate breadcrumbs for simpler navigation (DSCDA-2129) ([097934b](///commit/097934bc6d3c988ed1c97b64b7ee8b7efeded14f))
+* **cdba:** separate search and result (DSCDA-2500) ([f9ee76e](///commit/f9ee76e4ad6ce93ad886ed16e11dacbdf6876185))
+
 ## [1.25.0](///compare/cdba-v1.25.0...cdba-v1.24.0) (2021-06-21)
 
 
