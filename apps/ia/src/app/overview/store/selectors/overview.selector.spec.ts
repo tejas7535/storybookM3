@@ -18,13 +18,13 @@ import {
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
-  getOveriviewUnforcedFluctuationKpi,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationKpi,
   getOverviewFluctuationRates,
+  getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
 } from './overview.selector';
@@ -95,7 +95,7 @@ describe('Overview Selector', () => {
       },
       entriesExits: {
         data: {
-          allEmployees: [
+          entryEmployees: [
             leaverIT1,
             entryEmployee2,
             entryEmployeeAfterTimeRange,
@@ -184,7 +184,7 @@ describe('Overview Selector', () => {
   describe('getOverviewFluctuationRates', () => {
     it('should return actual fluctuation data', () => {
       expect(getOverviewFluctuationRates(fakeState)).toEqual({
-        allEmployees: [
+        entryEmployees: [
           leaverIT1,
           entryEmployee2,
           entryEmployeeAfterTimeRange,
@@ -352,7 +352,7 @@ describe('Overview Selector', () => {
         orgUnitName: 'Schaeffler_IT',
         exitEmployees: [],
       } as FluctuationKpi;
-      const x = getOveriviewUnforcedFluctuationKpi(fakeState);
+      const x = getOverviewUnforcedFluctuationKpi(fakeState);
       expect(x).toEqual(expectedResult);
     });
 
@@ -373,7 +373,7 @@ describe('Overview Selector', () => {
       };
 
       expect(
-        getOveriviewUnforcedFluctuationKpi(entriesExitsNotReady)
+        getOverviewUnforcedFluctuationKpi(entriesExitsNotReady)
       ).toBeUndefined();
     });
   });

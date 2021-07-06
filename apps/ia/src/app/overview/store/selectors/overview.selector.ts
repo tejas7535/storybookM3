@@ -67,7 +67,7 @@ export const getOverviewFluctuationKpi = createSelector(
       : undefined
 );
 
-export const getOveriviewUnforcedFluctuationKpi = createSelector(
+export const getOverviewUnforcedFluctuationKpi = createSelector(
   getOverviewFluctuationRates,
   getSelectedOrgUnit,
   (
@@ -99,11 +99,11 @@ export const getOverviewFluctuationEntriesDoughnutConfig = createSelector(
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedTimeRange: string
   ) => {
-    const internal = overviewFluctuationRates?.allEmployees?.filter(
+    const internal = overviewFluctuationRates?.entryEmployees?.filter(
       (employee) =>
         utils.isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)
     );
-    const external = overviewFluctuationRates?.allEmployees?.filter(
+    const external = overviewFluctuationRates?.entryEmployees?.filter(
       (employee) =>
         utils.isDateInTimeRange(selectedTimeRange, employee.entryDate)
     );
@@ -161,7 +161,7 @@ export const getEntryEmployees = createSelector(
     overviewFluctuationRates: OverviewFluctuationRates,
     selectedTimeRange: string
   ) =>
-    overviewFluctuationRates?.allEmployees.filter(
+    overviewFluctuationRates?.entryEmployees.filter(
       (employee) =>
         utils.isDateInTimeRange(selectedTimeRange, employee.entryDate) ||
         utils.isDateInTimeRange(selectedTimeRange, employee.internalEntryDate)

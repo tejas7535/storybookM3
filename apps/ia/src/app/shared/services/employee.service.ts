@@ -6,13 +6,16 @@ import { map } from 'rxjs/operators';
 
 import { DataService } from '@schaeffler/http';
 
+import {
+  LostJobProfile,
+  LostJobProfilesResponse,
+} from '../../loss-of-skills/models';
 import { CountryData } from '../../organizational-view/world-map/models/country-data.model';
 import {
   AttritionOverTime,
   EmployeesRequest,
   FluctuationRatesChartData,
   InitialFiltersResponse,
-  LostJobProfile,
   OrgChartResponse,
   ParentEmployeeResponse,
   TimePeriod,
@@ -127,10 +130,9 @@ export class EmployeeService {
   getLostJobProfiles(
     employeesRequest: EmployeesRequest
   ): Observable<LostJobProfile[]> {
-    return this.dataService.post<LostJobProfile[]>(
-      this.LOST_JOB_PROFILES,
-      employeesRequest
-    );
+    return this.dataService
+      .post<LostJobProfilesResponse>(this.LOST_JOB_PROFILES, employeesRequest)
+      .pipe(map((response) => response.lostJobProfiles));
   }
 
   getFluctuationRateChartData(

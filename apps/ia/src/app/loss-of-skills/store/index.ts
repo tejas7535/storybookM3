@@ -1,6 +1,6 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
 
-import { LostJobProfile } from '../../shared/models';
+import { LostJobProfile } from '../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,

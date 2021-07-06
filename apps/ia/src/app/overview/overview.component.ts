@@ -20,12 +20,12 @@ import {
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
-  getOveriviewUnforcedFluctuationKpi,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
   getOverviewFluctuationExitsDoughnutConfig,
   getOverviewFluctuationKpi,
+  getOverviewUnforcedFluctuationKpi,
   getResignedEmployees,
   getUnforcedFluctuationRatesForChart,
 } from './store/selectors/overview.selector';
@@ -84,7 +84,7 @@ export class OverviewComponent implements OnInit {
       getIsLoadingUnforcedFluctuationRatesForChart
     );
     this.unforcedFluctuationKpi$ = this.store.select(
-      getOveriviewUnforcedFluctuationKpi
+      getOverviewUnforcedFluctuationKpi
     );
   }
 

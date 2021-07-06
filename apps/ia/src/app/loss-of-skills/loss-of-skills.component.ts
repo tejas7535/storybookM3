@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { Store } from '@ngrx/store';
 
-import { LostJobProfile } from '../shared/models';
+import { LostJobProfile } from './models';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,
