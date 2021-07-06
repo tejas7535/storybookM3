@@ -150,7 +150,7 @@
     "eslint-plugin-ngrx": "1.26.0",
     "eslint-plugin-prefer-arrow": "1.2.3",
     "eslint-plugin-prettier": "3.4.0",
-    "eslint-plugin-unicorn": "33.0.1",
+    "eslint-plugin-unicorn": "34.0.1",
     "htmlhint": "0.15.1",
     "husky": "7.0.1",
     "jest": "27.0.6",
