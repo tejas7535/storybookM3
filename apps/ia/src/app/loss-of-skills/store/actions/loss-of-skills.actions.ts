@@ -1,6 +1,7 @@
 import { createAction, props, union } from '@ngrx/store';
 
-import { EmployeesRequest, LostJobProfile } from '../../../shared/models';
+import { EmployeesRequest } from '../../../shared/models';
+import { LostJobProfile } from '../../models';
 
 export const loadLostJobProfiles = createAction(
   '[Loss of Skills] Load Lost Job Profiles',

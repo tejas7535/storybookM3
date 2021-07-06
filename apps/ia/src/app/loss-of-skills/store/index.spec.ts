@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { initialState, lossOfSkillsReducer, reducer } from '.';
-import { EmployeesRequest, LostJobProfile } from '../../shared/models';
+import { EmployeesRequest } from '../../shared/models';
+import { LostJobProfile } from '../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,

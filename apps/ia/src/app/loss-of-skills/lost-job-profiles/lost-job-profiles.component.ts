@@ -8,7 +8,7 @@ import {
 import { translate } from '@ngneat/transloco';
 
 import { EmployeeListDialogComponent } from '../../shared/employee-list-dialog/employee-list-dialog.component';
-import { LostJobProfile } from '../../shared/models';
+import { LostJobProfile } from '../models';
 import { AmountCellRendererComponent } from './amount-cell-renderer/amount-cell-renderer.component';
 
 type CellType = 'workforce' | 'leavers';

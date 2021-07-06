@@ -11,12 +11,9 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
-import {
-  EmployeesRequest,
-  LostJobProfile,
-  SelectedFilter,
-} from '../../../shared/models';
+import { EmployeesRequest, SelectedFilter } from '../../../shared/models';
 import { EmployeeService } from '../../../shared/services/employee.service';
+import { LostJobProfile } from '../../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
