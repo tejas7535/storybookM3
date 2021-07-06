@@ -17,7 +17,7 @@ export class InfoIconComponent {
   }
 
   iconLeave(trigger: MatMenuTrigger): void {
-    this.timedOutCloser = setTimeout(() => {
+    this.timedOutCloser = window.setTimeout(() => {
       trigger.closeMenu();
     }, 1500);
   }

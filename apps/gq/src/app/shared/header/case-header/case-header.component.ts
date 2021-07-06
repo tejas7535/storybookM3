@@ -44,7 +44,7 @@ export class CaseHeaderComponent implements OnInit {
   }
 
   iconLeave(trigger: MatMenuTrigger): void {
-    this.timedOutCloser = setTimeout(() => {
+    this.timedOutCloser = window.setTimeout(() => {
       trigger.closeMenu();
     }, 1500);
   }
