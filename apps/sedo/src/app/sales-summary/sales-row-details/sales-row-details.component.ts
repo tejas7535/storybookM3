@@ -140,7 +140,7 @@ export class SalesRowDetailsComponent
   }
 
   public iconLeave(trigger: MatMenuTrigger): void {
-    this.timedOutCloser = setTimeout(() => {
+    this.timedOutCloser = window.setTimeout(() => {
       trigger.closeMenu();
     }, 1500);
   }
