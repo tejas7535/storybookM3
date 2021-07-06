@@ -152,7 +152,7 @@
     "eslint-plugin-prettier": "3.4.0",
     "eslint-plugin-unicorn": "33.0.1",
     "htmlhint": "0.15.1",
-    "husky": "6.0.0",
+    "husky": "7.0.1",
     "jest": "27.0.6",
     "jest-canvas-mock": "2.3.1",
     "jest-junit": "12.2.0",
