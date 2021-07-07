@@ -20,7 +20,7 @@ import {
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { ResignedEmployee } from '../../models';
+import { OpenApplication, ResignedEmployee } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
   loadAttritionOverTimeOverview,
@@ -31,6 +31,9 @@ import {
   loadFluctuationRatesChartDataSuccess,
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewSuccess,
+  loadOpenApplications,
+  loadOpenApplicationsFailure,
+  loadOpenApplicationsSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -104,14 +107,18 @@ describe('Overview Effects', () => {
         const resultResignedEmployees = loadResignedEmployees({
           orgUnit: request.orgUnit,
         });
+        const resultOpenApplications = loadOpenApplications({
+          orgUnit: request.orgUnit,
+        });
 
         actions$ = m.hot('-a', { a: action });
-        const expected = m.cold('-(bcdef)', {
+        const expected = m.cold('-(bcdefg)', {
           b: resultAttrition,
           c: resultFluctuation,
           d: resultFluctuationChartData,
           e: resultUnforcedFluctuationChartData,
           f: resultResignedEmployees,
+          g: resultOpenApplications,
         });
         m.expect(effects.filterChange$).toBeObservable(expected);
       })
@@ -420,6 +427,61 @@ describe('Overview Effects', () => {
         m.expect(effects.loadResignedEmployees$).toBeObservable(expected);
         m.flush();
         expect(overviewService.getResignedEmployees).toHaveBeenCalledWith(
+          orgUnit
+        );
+      })
+    );
+  });
+
+  describe('loadOpenApplications', () => {
+    let orgUnit: string;
+
+    beforeEach(() => {
+      orgUnit = 'ABC123';
+      action = loadOpenApplications({ orgUnit });
+    });
+    it(
+      'should load data',
+      marbles((m) => {
+        const data: OpenApplication[] = [];
+        const result = loadOpenApplicationsSuccess({
+          data,
+        });
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-a|', {
+          a: data,
+        });
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOpenApplications = jest.fn(() => response);
+
+        m.expect(effects.loadOpenApplications$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOpenApplications).toHaveBeenCalledWith(
+          orgUnit
+        );
+      })
+    );
+
+    test(
+      'should return loadOpenApplicationsFailure on REST error',
+      marbles((m) => {
+        const result = loadOpenApplicationsFailure({
+          errorMessage: error.message,
+        }) as any;
+
+        actions$ = m.hot('-a', { a: action });
+        const response = m.cold('-#|', undefined, error);
+        const expected = m.cold('--b', { b: result });
+
+        overviewService.getOpenApplications = jest
+          .fn()
+          .mockImplementation(() => response);
+
+        m.expect(effects.loadOpenApplications$).toBeObservable(expected);
+        m.flush();
+        expect(overviewService.getOpenApplications).toHaveBeenCalledWith(
           orgUnit
         );
       })

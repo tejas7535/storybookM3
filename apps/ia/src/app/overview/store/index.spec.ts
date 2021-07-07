@@ -7,7 +7,7 @@ import {
   FluctuationRatesChartData,
 } from '../../shared/models';
 import { OverviewFluctuationRates } from '../../shared/models/overview-fluctuation-rates.model';
-import { ResignedEmployee } from '../models';
+import { OpenApplication, ResignedEmployee } from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -18,6 +18,9 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadOpenApplications,
+  loadOpenApplicationsFailure,
+  loadOpenApplicationsSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -240,6 +243,48 @@ describe('Overview Reducer', () => {
 
       expect(state.resignedEmployees.loading).toBeFalsy();
       expect(state.resignedEmployees.errorMessage).toEqual(errorMessage);
+    });
+  });
+
+  describe('loadOpenApplications', () => {
+    test('should set loading', () => {
+      const action = loadOpenApplications({
+        orgUnit: 'ABC',
+      });
+      const state = overviewReducer(initialState, action);
+
+      expect(state.openApplications.loading).toBeTruthy();
+    });
+  });
+
+  describe('loadOpenApplicationsSuccess', () => {
+    test('should unset loading and set open applications', () => {
+      const data: OpenApplication[] = [];
+
+      const action = loadOpenApplicationsSuccess({ data });
+
+      const state = overviewReducer(initialState, action);
+
+      expect(state.openApplications.loading).toBeFalsy();
+      expect(state.openApplications.data).toEqual(data);
+    });
+  });
+
+  describe('loadOpenApplicationsFailure', () => {
+    test('should unset loading / set error message', () => {
+      const action = loadOpenApplicationsFailure({ errorMessage });
+      const fakeState: OverviewState = {
+        ...initialState,
+        openApplications: {
+          ...initialState.openApplications,
+          loading: true,
+        },
+      };
+
+      const state = overviewReducer(fakeState, action);
+
+      expect(state.openApplications.loading).toBeFalsy();
+      expect(state.openApplications.errorMessage).toEqual(errorMessage);
     });
   });
 

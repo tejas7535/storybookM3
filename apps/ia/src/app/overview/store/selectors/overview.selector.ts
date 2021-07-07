@@ -205,3 +205,13 @@ export const getResignedEmployees = createSelector(
   selectOverviewState,
   (state: OverviewState) => state.resignedEmployees.data
 );
+
+export const getOpenApplications = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.openApplications.data
+);
+
+export const getIsLoadingOpenApplications = createSelector(
+  selectOverviewState,
+  (state: OverviewState) => state.openApplications.loading
+);

@@ -6,7 +6,7 @@ import {
   FluctuationRatesChartData,
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { ResignedEmployee } from '../../models';
+import { OpenApplication, ResignedEmployee } from '../../models';
 
 export const loadAttritionOverTimeOverview = createAction(
   '[Overview] Load AttritionOverTime for last three years',
@@ -80,6 +80,21 @@ export const loadResignedEmployeesSuccess = createAction(
 
 export const loadResignedEmployeesFailure = createAction(
   '[Overview] Load Resigned Employees Failure',
+  props<{ errorMessage: string }>()
+);
+
+export const loadOpenApplications = createAction(
+  '[Overview] Load Open Applications',
+  props<{ orgUnit: string }>()
+);
+
+export const loadOpenApplicationsSuccess = createAction(
+  '[Overview] Load Open Applications Success',
+  props<{ data: OpenApplication[] }>()
+);
+
+export const loadOpenApplicationsFailure = createAction(
+  '[Overview] Load Open Applications Failure',
   props<{ errorMessage: string }>()
 );
 

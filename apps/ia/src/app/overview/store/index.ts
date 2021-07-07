@@ -5,7 +5,7 @@ import {
   FluctuationRatesChartData,
   OverviewFluctuationRates,
 } from '../../shared/models';
-import { ResignedEmployee } from '../models';
+import { OpenApplication, ResignedEmployee } from '../models';
 import {
   loadAttritionOverTimeOverview,
   loadAttritionOverTimeOverviewFailure,
@@ -16,6 +16,9 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadOpenApplications,
+  loadOpenApplicationsFailure,
+  loadOpenApplicationsSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -52,6 +55,11 @@ export interface OverviewState {
     loading: boolean;
     errorMessage: string;
   };
+  openApplications: {
+    data: OpenApplication[];
+    loading: boolean;
+    errorMessage: string;
+  };
 }
 
 export const initialState: OverviewState = {
@@ -76,6 +84,11 @@ export const initialState: OverviewState = {
     errorMessage: undefined,
   },
   resignedEmployees: {
+    data: undefined,
+    loading: false,
+    errorMessage: undefined,
+  },
+  openApplications: {
     data: undefined,
     loading: false,
     errorMessage: undefined,
@@ -242,6 +255,38 @@ export const overviewReducer = createReducer(
       ...state,
       resignedEmployees: {
         ...state.resignedEmployees,
+        errorMessage,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOpenApplications,
+    (state: OverviewState): OverviewState => ({
+      ...state,
+      openApplications: {
+        ...state.openApplications,
+        loading: true,
+      },
+    })
+  ),
+  on(
+    loadOpenApplicationsSuccess,
+    (state: OverviewState, { data }): OverviewState => ({
+      ...state,
+      openApplications: {
+        ...state.openApplications,
+        data,
+        loading: false,
+      },
+    })
+  ),
+  on(
+    loadOpenApplicationsFailure,
+    (state: OverviewState, { errorMessage }): OverviewState => ({
+      ...state,
+      openApplications: {
+        ...state.openApplications,
         errorMessage,
         loading: false,
       },
