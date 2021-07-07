@@ -2,10 +2,10 @@
   "helloworld-azure": "/hello-world/hw-frontend-deployment/master/",
   "cdba": "/cdba/cdba-fe-deployment/master/",
   "goldwind": "/goldwind/gw/master/",
-  "sedo": "/sedo/sedo-frontend/master",
+  "sedo": "/CDAI2/sedo/sedo-frontend/master",
   "gq": "/guidedquoting/gq-fe-deployment/master",
   "ia": "/insight-attrition/ia-fe-deployment/master",
-  "mac": "/material_app_center/MAC-Frontend-Deployment/master",
-  "mm": "/bearinx-frontend/mounting-manager/frontend-deployment/master",
-  "ga": "/bearinx-frontend/grease-app/frontend-deployment/master"
+  "mac": "/CDAI2/material_app_center/MAC-Frontend-Deployment/master",
+  "mm": "/CDAI2/bearinx-frontend/mounting-manager/frontend-deployment/master",
+  "ga": "/CDAI2/bearinx-frontend/grease-app/frontend-deployment/master"
 }
