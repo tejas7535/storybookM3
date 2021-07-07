@@ -22,20 +22,24 @@
       </mm-pages-stepper>
       <span
         *ngIf="activeBearing$ | ngrxPush as activeBearing"
-        class="text-subtitle-1"
+        class="text-subtitle-1 ml-6"
       >
         {{ activeBearing }}
       </span>
-      <div class="w-full">
+      <div class="w-full sm:px-6">
         <ng-container
           *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"
         >
-          <mm-bearing-search
-            (bearing)="selectBearing($event)"
-          ></mm-bearing-search>
-          <schaeffler-horizontal-separator
-            [text]="t('form.searchManually')"
-          ></schaeffler-horizontal-separator>
+          <div class="mt-2 sm:mb-8 mb-4">
+            <mm-bearing-search
+              (bearing)="selectBearing($event)"
+            ></mm-bearing-search>
+          </div>
+          <div class="mb-4">
+            <schaeffler-horizontal-separator
+              [text]="t('form.searchManually')"
+            ></schaeffler-horizontal-separator>
+          </div>
         </ng-container>
 
         <ng-container
@@ -53,6 +57,8 @@
                 <h6
                   *ngIf="
                     meta.member.text &&
+                    meta.member.id !== RSY_BEARING_TYPE &&
+                    meta.page.id !== PAGE_MOUNTING_MANAGER_SEAT &&
                     meta.page.id !== PROPERTY_PAGE_MOUNTING_SITUATION_SUB &&
                     meta.page.id !== PROPERTY_PAGE_MOUNTING
                   "
@@ -74,7 +80,7 @@
             <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
               <button
                 mat-raised-button
-                *ngIf="stepper.hasNext"
+                *ngIf="stepper.hasNext && (pagedMeta.valid$ | ngrxPush)"
                 [disabled]="!(pagedMeta.valid$ | ngrxPush)"
                 (click)="
                   next(pagedMeta.page.id, pagedMetas, stepper);

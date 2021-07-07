@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="h-full">
   <img mat-card-image [src]="img" class="max-w-none" />
   <div class="absolute right-0 top-0">
     <button
@@ -14,7 +14,13 @@
   <mat-card-content>
     <ng-content select="[card-content]" *ngIf="active"></ng-content>
   </mat-card-content>
+  <div
+    [ngClass]="
+      !hideActionsOnActive || (hideActionsOnActive && !active) ? 'mb-12' : ''
+    "
+  ></div>
   <mat-card-actions
+    class="absolute bottom-4"
     *ngIf="!hideActionsOnActive || (hideActionsOnActive && !active)"
   >
     <ng-content select="[card-actions]"></ng-content>

@@ -13,26 +13,30 @@
       "
     >
       <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
-        <schaeffler-dropdown-input
-          *ngIf="
-            isDropdownInput(meta.member?.type, meta.member?.id);
-            else select
-          "
-          [label]="
-            meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
-            meta.page.id === PROPERTY_PAGE_MOUNTING
-              ? meta.member.text
-              : undefined
-          "
-          [options]="options$ | ngrxPush"
-          [formControl]="control"
-          [placeholder]="
-            t('form.select', { fieldname: meta.member.text | transloco })
-          "
-        ></schaeffler-dropdown-input>
-        <ng-template #select>
-          <mm-select-member [options]="options$ | ngrxPush"></mm-select-member>
-        </ng-template>
+        <div class="max-w-sm">
+          <schaeffler-dropdown-input
+            *ngIf="
+              isDropdownInput(meta.member?.type, meta.member?.id);
+              else select
+            "
+            [label]="
+              meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
+              meta.page.id === PROPERTY_PAGE_MOUNTING
+                ? meta.member.text
+                : undefined
+            "
+            [options]="options$ | ngrxPush"
+            [formControl]="control"
+            [placeholder]="
+              t('form.select', { fieldname: meta.member.text | transloco })
+            "
+          ></schaeffler-dropdown-input>
+          <ng-template #select>
+            <mm-select-member
+              [options]="options$ | ngrxPush"
+            ></mm-select-member>
+          </ng-template>
+        </div>
       </ng-container>
     </ng-container>
   </ng-template>

@@ -3,3 +3,9 @@
 ::ng-deep .mat-step-header[aria-labelledby='disabled'] {
   @apply cursor-not-allowed pointer-events-none opacity-60;
 }
+
+::ng-deep
+  .mat-step-label.mat-step-label-active.mat-step-label-selected
+  .mat-step-text-label {
+  @apply text-primary;
+}
