@@ -2271,7 +2271,8 @@
           "builder": "@nrwl/angular:package",
           "options": {
             "tsConfig": "libs/shared/ui/loading-spinner/tsconfig.lib.json",
-            "project": "libs/shared/ui/loading-spinner/ng-package.json"
+            "project": "libs/shared/ui/loading-spinner/ng-package.json",
+            "buildableProjectDepsInPackageJsonType": "dependencies"
           },
           "configurations": {
             "production": {
@@ -2290,7 +2291,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/horizontal-separator/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/ui/loading-spinner/checkstyle.xml",
               "force": true
             }
           }
@@ -2351,7 +2352,7 @@
           "configurations": {
             "ci": {
               "format": "checkstyle",
-              "outputFile": "checkstyle/libs/shared/ui/pircture-card/checkstyle.xml",
+              "outputFile": "checkstyle/libs/shared/ui/picture-card/checkstyle.xml",
               "force": true
             }
           }

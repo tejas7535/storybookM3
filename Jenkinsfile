@@ -8,9 +8,11 @@ import java.text.SimpleDateFormat
 
 // Variables
 def builds
-def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
-def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deploy', 'Deploy:Apps', 'Deploy:Docs', 'Trigger Deployments']
+def featureBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
+def bugfixBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
+def masterBuilds = ['Preparation', 'Install', 'Quality', 'Format:Check', 'Lint:TS', 'Lint:HTML', 'Lint:SCSS', 'Test:Unit', 'Build', 'Build:Projects', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
+def appReleaseBuilds = ['Preparation', 'Install', 'Pre-Release', 'Build', 'Build:Projects', 'Release ', 'Deliver', 'Deliver:Apps', 'Trigger Deployments']
+def libReleaseBuilds = ['Preparation', 'Install', 'Pre-Release', 'Build', 'Build:Projects', 'Release ', 'Deliver', 'Deliver:Packages']
 def nightlyBuilds = ['Preparation', 'Install', 'Nightly', 'OWASP', 'Renovate', 'Audit']
 
 def artifactoryBasePath = 'generic-local/schaeffler-frontend'
@@ -24,12 +26,6 @@ def affectedApps
 
 @Field
 def affectedLibs
-
-@Field
-def excludedProjects = []
-
-@Field
-def excludedAppsAndLibsPaths = []
 
 @Field
 def skipBuild = false
@@ -85,7 +81,7 @@ def getLatestGitTag(app) {
     def tag
 
     tag = sh (
-        script: "git tag --sort=committerdate -l '${app}-v*' | tail -1",
+        script: "git tag --sort=taggerdate -l '${app}-v*' | tail -1",
         returnStdout: true
     ).trim()
 
@@ -94,7 +90,7 @@ def getLatestGitTag(app) {
         println('Using last workspace git tag instead ...')
 
         tag = sh (
-            script: "git tag --sort=committerdate -l 'v*' | tail -1",
+            script: "git tag --sort=taggerdate -l 'v*' | tail -1",
             returnStdout: true
         ).trim()
     }
@@ -133,11 +129,6 @@ def defineAffectedAppsAndLibs() {
         }
 
         affectedProjects = affectedApps.clone() + affectedE2EApps + affectedLibs.clone()
-
-        excludedProjects = affectedProjects
-        excludedProjects -= env.RELEASE_SCOPE
-    } else if (isLibsRelease()) {
-        excludedProjects = affectedApps.clone()
     }
 }
 
@@ -205,14 +196,6 @@ def getBuildTriggerUser() {
     return userId
 }
 
-def setExcludedAppsAndLibsPaths() {
-    excludedAppsAndLibsPaths = []
-
-    for (project in excludedProjects) {
-        excludedAppsAndLibsPaths.add('**/' + project + '/**')
-    }
-}
-
 def getAgentLabel() {
     def label = '(docker && linux && extratools)'
 
@@ -258,9 +241,10 @@ if (isMaster()) {
 
     if (isNightly()) {
         builds = nightlyBuilds
-    } else if (params.APP_RELEASE || params.LIBS_RELEASE) {
-        builds.add('Pre-Release')
-        builds.add('Release')
+    } else if (params.APP_RELEASE ) {
+        builds = appReleaseBuilds
+    } else if (params.LIBS_RELEASE){
+        builds = libReleaseBuilds
     }
 } else if (isBugfix()) {
     builds = bugfixBuilds
@@ -377,7 +361,6 @@ pipeline {
 
                     defineBuildBase()
                     defineAffectedAppsAndLibs()
-                    setExcludedAppsAndLibsPaths()
                     setGitUser()
                 }
             }
@@ -421,77 +404,7 @@ pipeline {
                             echo 'Run NPM Audit'
 
                             script {
-                                try {
-                                    sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html" --fatal-exit-code'
-                                } catch (error) {
-                                    // Get jq binary --> temporary workaround until we have an image with jq preinstalled
-                                    sh 'mkdir ~/jq-bin'
-                                    sh 'curl -L https://github.com/stedolan/jq/releases/download/jq-1.5/jq-linux64 --output ~/jq-bin/jq'
-                                    sh 'chmod +x ~/jq-bin/jq'
-                                    env.PATH = "${PATH}:/home/jnkp1usr/jq-bin"
-
-                                    sshagent(['GITLAB_USER_SSH_KEY']) {
-                                        // check if there is already a hotfix/security-patch branch
-                                        // wc (word count) returns the number of words of an input. The -l flag lets it return the number of lines.
-                                        branchExists = sh (
-                                            script: "git ls-remote --heads ${GIT_URL} hotfix/security-patch | wc -l",
-                                            returnStdout: true
-                                        )
-
-                                        if (branchExists.toInteger() > 0) {
-                                            sh 'git push origin --delete hotfix/security-patch'
-                                        }
-
-                                        // create hotfix branch
-                                        sh 'git checkout -b hotfix/security-patch'
-
-                                        // try to fix vulnerabilities
-                                        sh 'npm audit fix'
-
-                                        // check if something was auto fixed and commit
-                                        changesDone = sh (
-                                            script: "git status --porcelain --untracked-files='no' | wc -l",
-                                            returnStdout: true
-                                        )
-                                        if (changesDone.toInteger() > 0) {
-                                            sh 'git add -u'
-                                            sh "git commit -m 'chore(deps): fix security vulnerabilities'"
-                                        }
-
-                                        // find vulnerabilities which could not be auto fixed
-                                        openFixesStr = sh (
-                                            script: "npm audit --json | jq '.advisories' | jq '.[].findings' | jq '.[].paths' | jq '.[]'",
-                                            returnStdout: true
-                                        )
-                                        def description
-                                        if (openFixesStr) {
-                                            openFixes = "${openFixesStr}".replaceAll('"\n', '\n').replaceAll('"', '* ').replaceAll('>', ' -- ')
-
-                                            for (line in openFixes.split('\n')) {
-                                                sh "sed -i '/@@FIXES@@/i ${line}' ./gitlab-templates/security-patch-description-template.md"
-                                            }
-
-                                            sh 'sed -i s#@@FIXES@@##g ./gitlab-templates/security-patch-description-template.md'
-                                            description = sh (
-                                                script: 'cat ./gitlab-templates/security-patch-description-template.md',
-                                                returnStdout: true
-                                            )
-                                            description = "${description}".replaceAll('\n', '<br>')
-                                        } else {
-                                            description = 'You had vulnerabilities in your project. It was a pleasure to fix them. For more information, see <a href="${JOB_URL}NPM_20Vulnerabilities/">NPM Audit Report</a>'
-                                        }
-
-                                        // create merge request
-                                        sh """
-                                            git push -u origin hotfix/security-patch \
-                                            -o merge_request.create \
-                                            -o merge_request.target=master \
-                                            -o merge_request.title='WIP: chore(deps): fix security vulnerabilities' \
-                                            -o merge_request.description="${description}" \
-                                            -o merge_request.label='hotfix' \
-                                            -o merge_request.remove_source_branch=true""".stripIndent()
-                                    }
-                                }
+                                sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html"'
                             }
                         }
                     }
@@ -549,7 +462,7 @@ pipeline {
         stage('Quality') {
             when {
                 expression {
-                    return !skipBuild && !isNightly()
+                    return !skipBuild && !isNightly() && !isLibsRelease() && !isAppRelease()
                 }
             }
             failFast true
@@ -560,11 +473,7 @@ pipeline {
                             echo 'Run Format Check with prettier'
 
                             script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run format:check -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
-                                } else {
-                                    sh "npm run format:check -- --base=${buildBase}"
-                                }
+                                sh "npm run format:check -- --base=${buildBase}"
                             }
                         }
                     }
@@ -576,11 +485,7 @@ pipeline {
                             echo 'Run TS Lint'
 
                             script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run affected:lint -- --base=${buildBase} --exclude=${excludedProjects.join(',')} --configuration=ci"
-                                } else {
-                                    sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
-                                }
+                                sh "npm run affected:lint -- --base=${buildBase} --parallel --configuration=ci ${getNxRunnerConfig()}"
                             }
                         }
                     }
@@ -597,13 +502,8 @@ pipeline {
                             echo 'Run HTML Lint'
 
                             // no checkstyle output
-                            script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run lint:html-apps -- --ignore ${excludedAppsAndLibsPaths.join(',')}"
-                                    sh "npm run lint:html-libs -- --ignore ${excludedAppsAndLibsPaths.join(',')}"
-                                } else {
-                                    sh 'npm run lint:html'
-                                }
+                            script { 
+                                sh 'npm run lint:html'
                             }
                         }
                     }
@@ -616,18 +516,7 @@ pipeline {
 
                             // no checkstyle output
                             script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    def ignorePattern = '"-- '
-                                    for (project in excludedAppsAndLibsPaths) {
-                                        ignorePattern += "--ip '${project}' "
-                                    }
-                                    ignorePattern +='"'
-
-                                    sh "npm run lint:scss-apps ${ignorePattern}"
-                                    sh "npm run lint:scss-libs ${ignorePattern}"
-                                } else {
-                                    sh 'npm run lint:scss'
-                                }
+                                sh 'npm run lint:scss'
                             }
                         }
                     }
@@ -639,11 +528,7 @@ pipeline {
                             echo 'Run Unit Tests'
 
                             script {
-                                if (isAppRelease() || isLibsRelease()) {
-                                    sh "npm run affected:test -- --base=${buildBase} --exclude=${excludedProjects.join(',')}"
-                                } else {
-                                    sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
-                                }
+                                sh "npm run affected:test -- --base=${buildBase} --parallel --max-parallel=2 ${getNxRunnerConfig()}"
                             }
                         }
                     }
@@ -669,11 +554,7 @@ pipeline {
                                 echo 'Run E2E Tests'
 
                                 script {
-                                    if (isAppRelease() || isLibsRelease()) {
-                                        sh "npm run affected:e2e:headless -- --base=${buildBase} --exclude=\"${excludedProjects.join(',')}\""
-                                    } else {
-                                        sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
-                                    }
+                                    sh "npm run affected:e2e:headless -- --base=${buildBase} ${getNxRunnerConfig()}"
                                 }
                             }
                         }
@@ -733,7 +614,7 @@ pipeline {
 
                                 sh standardVersionCommand
                             } else if (isLibsRelease()) {
-                                sh "npx nx affected --base=${buildBase} --target=standard-version --exclude=${excludedProjects.join(',')}"
+                                sh "npx nx run-many --target=standard-version --projects=${affectedLibs.join(',')}"
                             }
 
                             sh 'npm run release' // only bump the workspace version
@@ -777,19 +658,19 @@ pipeline {
                             script {
                                 lock(resource: "lock-build-${env.NODE_NAME}", quantity: 2) {
                                     if (isAppRelease()) {
-                                        sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production --with-deps"
+                                        sh "npx nx build ${env.RELEASE_SCOPE} --configuration=production"
                                         try {
                                             sh "npm run transloco:optimize -- dist/apps/${env.RELEASE_SCOPE}/assets/i18n"
                                         } catch (error) {
                                             echo "No translations found to optimize in app ${env.RELEASE_SCOPE}"
                                         }
                                     } else if (isLibsRelease()) {
-                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --with-deps --prod"
+                                        sh "npx nx run-many --target=build --projects=${affectedLibs.join(',')} --prod"
                                     } else {
                                         if (isMaster()) {
-                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=qa ${getNxRunnerConfig()} --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --configuration=qa ${getNxRunnerConfig()} --parallel"
                                         } else {
-                                            sh "npx nx affected --base=${buildBase} --target=build --with-deps --configuration=dev ${getNxRunnerConfig()} --parallel"
+                                            sh "npx nx affected --base=${buildBase} --target=build --configuration=dev ${getNxRunnerConfig()} --parallel"
                                         }
 
                                         for (app in affectedApps) {
@@ -834,7 +715,7 @@ pipeline {
             }
         }
 
-        stage('Deploy') {
+        stage('Deliver') {
             when {
                 expression {
                     return !skipBuild && !isNightly()
@@ -842,7 +723,7 @@ pipeline {
             }
             failFast true
             parallel {
-                stage('Deploy:Apps') {
+                stage('Deliver:Apps') {
                     when {
                         expression {
                             return !isLibsRelease()
@@ -850,7 +731,7 @@ pipeline {
                     }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Deploy Apps to Artifactory'
+                            echo 'Deliver Apps to Artifactory'
 
                             script {
                                 sh 'mkdir -p dist/zips'
@@ -892,7 +773,7 @@ pipeline {
                     }
                 }
 
-                stage('Deploy:Packages') {
+                stage('Deliver:Packages') {
                     when {
                         expression {
                             return isLibsRelease()
@@ -900,7 +781,7 @@ pipeline {
                     }
                     steps {
                         gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Deploy Libraries as npm packages to Artifactory'
+                            echo 'Deliver Libraries as npm packages to Artifactory'
 
                             script {
                                 withCredentials([usernamePassword(credentialsId: 'ARTIFACTORY_USER', passwordVariable: 'API_KEY', usernameVariable: 'USERNAME')]) {
@@ -910,14 +791,6 @@ pipeline {
                                     sh "npx nx affected --base=${buildBase} --target=publish"
                                 }
                             }
-                        }
-                    }
-                }
-
-                stage('Deploy:Docs') {
-                    steps {
-                        gitlabCommitStatus(name: STAGE_NAME) {
-                            echo 'Deploy Static Content for Documentation'
                         }
                     }
                 }
