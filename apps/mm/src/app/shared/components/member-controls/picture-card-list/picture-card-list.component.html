@@ -1,6 +1,15 @@
 <mm-magnetic-slider *transloco="let t">
   <div *ngFor="let option of options" class="snap-center">
-    <div class="w-[calc(100vw-8rem)] m-4 sm:w-auto">
+    <div
+      class="
+        w-[calc(100vw-8rem)]
+        max-w-[320px]
+        h-[calc(100%)]
+        py-4
+        sm:w-auto
+        px-0.5
+      "
+    >
       <schaeffler-picture-card
         [title]="translationRequired ? t(option.value) : option.value"
         [img]="option.imageUrl"

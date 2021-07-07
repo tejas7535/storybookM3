@@ -48,8 +48,9 @@ import { PagedMeta } from './home.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   public readonly PROPERTY_PAGE_MOUNTING = PROPERTY_PAGE_MOUNTING;
-
+  public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
+  public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
 
   public readonly PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
     PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
