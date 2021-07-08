@@ -4,5 +4,5 @@ export interface OpenApplication {
   count: number;
   name: string;
   recruitmentSources: RecruitmentSource[];
-  approvalDate: Date;
+  approvalDate: string;
 }

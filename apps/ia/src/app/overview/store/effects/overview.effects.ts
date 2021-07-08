@@ -26,7 +26,7 @@ import {
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
 import { EmployeeService } from '../../../shared/services/employee.service';
-import { ResignedEmployee } from '../../models';
+import { OpenApplication, ResignedEmployee } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
   loadAttritionOverTimeOverview,
@@ -38,6 +38,9 @@ import {
   loadFluctuationRatesOverview,
   loadFluctuationRatesOverviewFailure,
   loadFluctuationRatesOverviewSuccess,
+  loadOpenApplications,
+  loadOpenApplicationsFailure,
+  loadOpenApplicationsSuccess,
   loadResignedEmployees,
   loadResignedEmployeesFailure,
   loadResignedEmployeesSuccess,
@@ -61,6 +64,7 @@ export class OverviewEffects implements OnInitEffects {
         loadFluctuationRatesChartData({ request }),
         loadUnforcedFluctuationRatesChartData({ request }),
         loadResignedEmployees({ orgUnit: request.orgUnit }),
+        loadOpenApplications({ orgUnit: request.orgUnit }),
       ])
     )
   );
@@ -163,6 +167,27 @@ export class OverviewEffects implements OnInitEffects {
           catchError((error) =>
             of(
               loadResignedEmployeesFailure({
+                errorMessage: error.message,
+              })
+            )
+          )
+        )
+      )
+    )
+  );
+
+  loadOpenApplications$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadOpenApplications),
+      map((action) => action.orgUnit),
+      mergeMap((orgUnit: string) =>
+        this.overviewService.getOpenApplications(orgUnit).pipe(
+          map((data: OpenApplication[]) =>
+            loadOpenApplicationsSuccess({ data })
+          ),
+          catchError((error) =>
+            of(
+              loadOpenApplicationsFailure({
                 errorMessage: error.message,
               })
             )

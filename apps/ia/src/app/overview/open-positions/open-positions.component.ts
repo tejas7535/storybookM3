@@ -9,6 +9,7 @@ import { OpenApplication } from '../models/open-application.model';
 })
 export class OpenPositionsComponent {
   @Input() openApplications: OpenApplication[];
+  @Input() loading: boolean; // not used at the moment
 
   trackByFn(index: number): number {
     return index;

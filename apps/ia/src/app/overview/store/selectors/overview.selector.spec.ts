@@ -7,6 +7,7 @@ import { Color } from '../../../shared/models/color.enum';
 import { Employee } from '../../../shared/models/employee.model';
 import { DoughnutConfig } from '../../entries-exits/doughnut-chart/models/doughnut-config.model';
 import { DoughnutSeriesConfig } from '../../entries-exits/doughnut-chart/models/doughnut-series-config.model';
+import { OpenApplication, ResignedEmployee } from '../../models';
 import {
   getAttritionOverTimeEvents,
   getAttritionOverTimeOverviewData,
@@ -18,6 +19,7 @@ import {
   getIsLoadingResignedEmployees,
   getIsLoadingUnforcedFluctuationRatesForChart,
   getLeaversDataForSelectedOrgUnit,
+  getOpenApplications,
   getOverviewFluctuationEntriesCount,
   getOverviewFluctuationEntriesDoughnutConfig,
   getOverviewFluctuationExitsCount,
@@ -143,6 +145,16 @@ describe('Overview Selector', () => {
         },
         errorMessage: undefined,
         loading: false,
+      },
+      resignedEmployees: {
+        data: [{ employeeName: 'Bastian' } as ResignedEmployee],
+        loading: false,
+        errorMessage: undefined,
+      },
+      openApplications: {
+        data: [{ name: 'UI Designer' } as OpenApplication],
+        loading: false,
+        errorMessage: undefined,
       },
     },
     filter: {
@@ -394,9 +406,17 @@ describe('Overview Selector', () => {
 
   describe('getResignedEmployees', () => {
     it('should return resigned employees', () => {
-      expect(
-        getResignedEmployees.projector(fakeState.overview)
-      ).toBeUndefined();
+      expect(getResignedEmployees.projector(fakeState.overview)).toEqual([
+        { employeeName: 'Bastian' },
+      ]);
+    });
+  });
+
+  describe('getOpenApplications', () => {
+    it('should return open applications', () => {
+      expect(getOpenApplications.projector(fakeState.overview)).toEqual([
+        { name: 'UI Designer' },
+      ]);
     });
   });
 });
