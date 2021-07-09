@@ -11,11 +11,20 @@
 }
 
 ::ng-deep .select-panel {
-  border-bottom-left-radius: 0 !important;
-  border-bottom-right-radius: 0 !important;
   min-width: calc(100% + 24px) !important;
   @apply mt-9;
   @apply mx-1;
+  @apply overflow-hidden;
+
+  &::-webkit-scrollbar {
+    background-color: $schaeffler-gray-0;
+    width: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: $schaeffler-gray-7;
+    border-radius: 20px;
+  }
 }
 
 .dummy-option {
@@ -25,10 +34,6 @@
 ::ng-deep
   .mat-form-field-appearance-outline:hover
   .mat-form-field-outline-thick {
-  color: $schaeffler-green-1;
-}
-
-::ng-deep .mat-select-value {
   color: $schaeffler-green-1;
 }
 
@@ -55,4 +60,8 @@
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-label {
   @apply mt-0;
+}
+
+::ng-deep .custom-scrollbar .mat-option {
+  @apply border-none border-0;
 }

@@ -9,3 +9,11 @@
   .mat-step-text-label {
   @apply text-primary;
 }
+
+::ng-deep mat-horizontal-stepper .mat-horizontal-content-container {
+  @apply pb-0;
+}
+
+::ng-deep .mat-stepper-horizontal {
+  @apply bg-transparent;
+}

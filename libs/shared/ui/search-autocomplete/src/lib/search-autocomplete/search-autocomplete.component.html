@@ -1,11 +1,11 @@
 <mat-form-field floatLabel="never" class="max-w-full">
-  <mat-label>{{ label }}</mat-label>
+  <mat-label class="ml-2">{{ label }}</mat-label>
   <input
     type="text"
     [matAutocomplete]="auto"
     matInput
     [formControl]="control"
-    class="autocomplete-input text-dark"
+    class="autocomplete-input text-dark ml-2"
     [class.text-dark]="(valueSelected$ | ngrxPush) === false"
     [class.text-primary]="valueSelected$ | ngrxPush"
     (blur)="onTouched()"
@@ -60,7 +60,7 @@
       autocomplete-icon
       h-full
       absolute
-      right-1
+      right-3
       top-4
       flex
       items-center

@@ -1,8 +1,20 @@
-<mat-form-field appearance="outline" *transloco="let t">
-  <mat-label *ngIf="meta.member.text !== ''">{{
-    t(meta.member.text)
-  }}</mat-label>
-  <mat-select [formControl]="control">
+<mat-form-field
+  class="w-full"
+  appearance="outline"
+  *transloco="let t"
+  #selectField
+>
+  <mat-label
+    *ngIf="meta.member.text !== '' && meta.member.id !== IDMM_MEASSURING_METHOD"
+    >{{ t(meta.member.text) }}</mat-label
+  >
+  <mat-select
+    [formControl]="control"
+    [placeholder]="placeholder"
+    (selectionChange)="
+      selectField._elementRef.nativeElement.classList.remove('mat-focused')
+    "
+  >
     <mat-option *ngFor="let option of options" [value]="option.id">{{
       option.value
     }}</mat-option>

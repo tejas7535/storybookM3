@@ -81,10 +81,6 @@ export class AutocompleteSearchComponent implements OnInit {
     this.searchInput.nativeElement.focus();
   }
 
-  public openAutocompletePanel(): void {
-    this._autocompleteTriggerElement.openPanel();
-  }
-
   public onOptionSelect(selectionEvent: MatOptionSelectionChange): void {
     selectionEvent.source._getHostElement().click();
   }

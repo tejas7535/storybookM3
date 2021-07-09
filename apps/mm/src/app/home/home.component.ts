@@ -27,6 +27,8 @@ import {
   RestService,
 } from '../core/services';
 import {
+  IDMM_MEASSURING_METHOD,
+  IDMM_MOUNTING_METHOD,
   PAGE_MOUNTING_MANAGER_SEAT,
   PROPERTY_PAGE_MOUNTING,
   PROPERTY_PAGE_MOUNTING_SITUATION,
@@ -51,6 +53,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   public readonly PAGE_MOUNTING_MANAGER_SEAT = PAGE_MOUNTING_MANAGER_SEAT;
   public readonly RSY_PAGE_BEARING_TYPE = RSY_PAGE_BEARING_TYPE;
   public readonly RSY_BEARING_TYPE = RSY_BEARING_TYPE;
+  public readonly IDMM_MEASSURING_METHOD = IDMM_MEASSURING_METHOD;
+  public readonly IDMM_MOUNTING_METHOD = IDMM_MOUNTING_METHOD;
 
   public readonly PROPERTY_PAGE_MOUNTING_SITUATION_SUB =
     PROPERTY_PAGE_MOUNTING_SITUATION_SUB;
@@ -215,5 +219,20 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (id !== RSY_PAGE_BEARING_TYPE) {
       this.homeStore.getBearing(this.bearingParams$);
     }
+  }
+
+  public hasHeadline(pageId: string, memberId: string): boolean {
+    const noHeadlineIds = new Set([
+      RSY_BEARING_TYPE,
+      IDMM_MOUNTING_METHOD,
+      PAGE_MOUNTING_MANAGER_SEAT,
+      PROPERTY_PAGE_MOUNTING_SITUATION_SUB,
+      PROPERTY_PAGE_MOUNTING,
+    ]);
+    if (noHeadlineIds.has(pageId) || noHeadlineIds.has(memberId)) {
+      return false;
+    }
+
+    return true;
   }
 }
