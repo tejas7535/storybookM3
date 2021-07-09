@@ -7,6 +7,9 @@ export {
   getProfileImage,
   getAccountInfo,
   getUserUniqueIdentifier,
+  hasIdTokenRole,
+  hasIdTokenRoles,
+  hasAnyIdTokenRole,
 } from './lib/store/selectors/auth.selectors';
 export {
   AccountInfo,
