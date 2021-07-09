@@ -88,17 +88,26 @@ export class SalesRowDetailsComponent
               'edoDate',
               this.datesFormGroup.get('edoDateControl').value
             );
-            this.snackBarService
-              .showSuccessMessage('Update successful')
-              .subscribe();
+            this.snackBarService.showSuccessMessage('Update successful');
 
             resolve();
           })
           .catch(() => {
-            this.snackBarService.showErrorMessage('Update failed').subscribe();
+            this.snackBarService.showErrorMessage('Update failed');
 
             resolve();
           });
+      } else {
+        if (!this.datesFormGroup.get('eopDateControl').valid) {
+          this.snackBarService.showWarningMessage(
+            'Cannot update with invalid or empty EOP Date field'
+          );
+        } else if (!this.datesFormGroup.get('edoDateControl').valid) {
+          this.snackBarService.showWarningMessage(
+            'Cannot update with invalid or empty EDO Date field'
+          );
+        }
+        resolve();
       }
     });
   }

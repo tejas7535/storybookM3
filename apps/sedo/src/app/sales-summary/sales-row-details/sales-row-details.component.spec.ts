@@ -207,6 +207,7 @@ describe('SalesRowDetailsComponent', () => {
         dataService.updateDates = jest.fn().mockResolvedValue({});
         snackBarService.showSuccessMessage = jest.fn().mockReturnValue(of());
         snackBarService.showErrorMessage = jest.fn();
+        snackBarService.showWarningMessage = jest.fn();
 
         component.rowData = {
           combinedKey: salesSummaryMock.combinedKey,
@@ -257,6 +258,7 @@ describe('SalesRowDetailsComponent', () => {
           );
 
           expect(snackBarService.showErrorMessage).toHaveBeenCalledTimes(0);
+          expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(0);
         });
       })
     );
@@ -311,24 +313,51 @@ describe('SalesRowDetailsComponent', () => {
       })
     );
 
-    it(
-      'should do nothing if datesFormGroup is not valid',
-      waitForAsync(() => {
-        dataService.updateDates = jest.fn().mockRejectedValue({});
+    it('should do nothing if datesFormGroup is not valid and show warning for EOP field', async () => {
+      snackBarService.showWarningMessage = jest.fn();
+      dataService.updateDates = jest.fn();
 
-        SalesRowDetailsComponent['convertToIsoDateString'] = jest.fn();
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest.fn();
 
-        component.datesFormGroup
-          .get('eopDateControl')
-          .setErrors({ incorrect: true });
+      component.datesFormGroup
+        .get('eopDateControl')
+        .setErrors({ incorrect: true });
 
-        component.sendUpdatedDates();
-        expect(dataService.updateDates).toHaveBeenCalledTimes(0);
-        expect(
-          SalesRowDetailsComponent['convertToIsoDateString']
-        ).toHaveBeenCalledTimes(0);
-      })
-    );
+      await component.sendUpdatedDates();
+      expect(dataService.updateDates).toHaveBeenCalledTimes(0);
+      expect(
+        SalesRowDetailsComponent['convertToIsoDateString']
+      ).toHaveBeenCalledTimes(0);
+
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
+        'Cannot update with invalid or empty EOP Date field'
+      );
+    });
+
+    it('should do nothing if datesFormGroup is not valid and show warning for EDO field', async () => {
+      snackBarService.showWarningMessage = jest.fn();
+      dataService.updateDates = jest.fn();
+
+      SalesRowDetailsComponent['convertToIsoDateString'] = jest.fn();
+
+      component.datesFormGroup.get('eopDateControl').setValue('07/15/2021');
+
+      component.datesFormGroup
+        .get('edoDateControl')
+        .setErrors({ incorrect: true });
+
+      await component.sendUpdatedDates();
+      expect(dataService.updateDates).toHaveBeenCalledTimes(0);
+      expect(
+        SalesRowDetailsComponent['convertToIsoDateString']
+      ).toHaveBeenCalledTimes(0);
+
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledTimes(1);
+      expect(snackBarService.showWarningMessage).toHaveBeenCalledWith(
+        'Cannot update with invalid or empty EDO Date field'
+      );
+    });
   });
 
   describe('iconEnter', () => {
