@@ -14,6 +14,12 @@
   @apply pb-0;
 }
 
+::ng-deep
+  .mat-horizontal-stepper-header-container
+  .mat-stepper-horizontal-line {
+  @apply max-w-none;
+}
+
 ::ng-deep .mat-stepper-horizontal {
   @apply bg-transparent;
 }

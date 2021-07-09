@@ -14,11 +14,13 @@
         [title]="translationRequired ? t(option.value) : option.value"
         [img]="option.imageUrl"
         [toggleEnabled]="false"
+        [selected]="option.id === value"
       >
         <ng-container card-actions>
           <schaeffler-picture-card-action
             [text]="t('form.select')"
             [disabled]="disabled || option.id === value"
+            [selectAction]="true"
             (click)="setValue(option.id)"
           ></schaeffler-picture-card-action>
         </ng-container>

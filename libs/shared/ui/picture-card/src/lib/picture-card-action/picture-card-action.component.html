@@ -1,9 +1,20 @@
 <button
-  mat-button
-  (click)="(click)"
-  [disabled]="disabled"
+  *ngIf="selectAction && disabled; else defaultButton"
+  mat-raised-button
+  disabled="true"
   color="primary"
   class="focus:outline-none"
 >
   {{ text }}
 </button>
+<ng-template #defaultButton>
+  <button
+    mat-button
+    (click)="(click)"
+    [disabled]="disabled"
+    color="primary"
+    class="focus:outline-none"
+  >
+    {{ text }}
+  </button>
+</ng-template>

@@ -17,13 +17,11 @@
   @apply overflow-hidden;
 
   &::-webkit-scrollbar {
-    background-color: $schaeffler-gray-0;
-    width: 6px;
+    @apply bg-hover w-1.5;
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: $schaeffler-gray-7;
-    border-radius: 20px;
+    @apply bg-labels rounded;
   }
 }
 
@@ -34,28 +32,24 @@
 ::ng-deep
   .mat-form-field-appearance-outline:hover
   .mat-form-field-outline-thick {
-  color: $schaeffler-green-1;
+  @apply border-primary;
 }
 
 ::ng-deep .mat-form-field-infix {
-  border-top: 0.4em solid transparent;
+  @apply border-t-4;
 }
 
 ::ng-deep .mat-select-arrow-wrapper {
   transform: rotate(0deg) !important;
-  transition-duration: 0.2s;
+  @apply duration-200;
 }
 
 ::ng-deep .select-active {
   .mat-select-arrow-wrapper {
     transform: rotate(180deg) !important;
-    transition-duration: 0.2s;
     vertical-align: unset !important;
+    @apply duration-200;
   }
-}
-
-::ng-deep .select-overlay {
-  z-index: 1001;
 }
 
 ::ng-deep .mat-form-field-appearance-outline .mat-form-field-label {

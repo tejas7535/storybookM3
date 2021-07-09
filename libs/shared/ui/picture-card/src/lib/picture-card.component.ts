@@ -11,6 +11,7 @@ export class PictureCardComponent {
   @Input() public img!: string;
   @Input() public title!: string;
   @Input() public toggleEnabled = false;
+  @Input() public selected = false;
   @Input() public hideActionsOnActive = false;
   @Input() public actions!: PictureCardAction[];
 
@@ -24,8 +25,9 @@ export class PictureCardComponent {
     this.active = true;
   }
 
-  public toggle(): void {
-    this.active = !this.active;
+  public toggle(active: boolean, selected: boolean): void {
+    this.active = active;
+    this.selected = selected;
   }
 
   public trackByFn(index: number): number {

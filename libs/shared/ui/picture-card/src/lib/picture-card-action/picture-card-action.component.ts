@@ -9,4 +9,5 @@ export class PictureCardActionComponent {
   @Input() public disabled!: boolean;
   @Input() public click!: void;
   @Input() public toggleAction = false;
+  @Input() public selectAction = false;
 }
