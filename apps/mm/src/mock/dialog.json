@@ -42,16 +42,6 @@
                   "id": 2,
                   "text": "dialog.bearingTypeListValues.barrelRollerBearing",
                   "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/toro_unknown.bmp"
-                },
-                {
-                  "id": 3,
-                  "text": "dialog.bearingTypeListValues.sphericalRollerBearing",
-                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/pero_unknown.bmp"
-                },
-                {
-                  "id": 4,
-                  "text": "dialog.bearingTypeListValues.radialRollerBearing",
-                  "imageUrl": "https://mountingmanager-cae.schaeffler.com/api/Images/zyro_unknown.bmp"
                 }
               ]
             }

@@ -6,19 +6,21 @@ export const environment = {
   production: false,
   devToolsEnabled: true,
   baseUrl: 'https://mountingmanager-cae.schaeffler.com/api/v1',
+  oneTrustId: '8305e043-6459-42a3-8eae-82173d4456d6-test',
   preflightPath: 'bearing-preflight',
   materialsPath: 'materialdata/id/',
   bearingRelationsPath: 'bearing-relations/',
   bearingCalculationPath: 'bearing-calculation',
   applicationInsights: {
     applicationInsightsConfig: {
-      instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172', // same as dev
-      disableCookiesUsage: false,
+      instrumentationKey: '1c13d904-fb90-4598-82b4-ebba31a8e172',
+      disableCookiesUsage: true,
       autoTrackPageVisitTime: true,
     },
     enableGlobalErrorHandler: true,
     enableNgrxMetaReducer: true,
     ngrxIgnorePattern: ['@ngrx/*'],
+    consent: true,
   },
 };
 

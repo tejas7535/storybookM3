@@ -1,7 +1,13 @@
 import { Inject, Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, ResolveEnd, Router } from '@angular/router';
+import {
+  ActivatedRoute,
+  ActivatedRouteSnapshot,
+  ResolveEnd,
+  Router,
+} from '@angular/router';
 
-import { filter, map, tap } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { filter, map, takeUntil, tap } from 'rxjs/operators';
 
 import {
   ApplicationInsights,
@@ -20,22 +26,47 @@ export class ApplicationInsightsService {
   public constructor(
     @Inject(APPLICATION_INSIGHTS_CONFIG)
     private readonly moduleConfig: ApplicationInsightsModuleConfig,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.appInsights = new ApplicationInsights({
       config: this.moduleConfig.applicationInsightsConfig,
     });
 
-    this.appInsights.loadAppInsights();
-
-    this.createRouterSubscription();
+    if (!this.moduleConfig.consent) {
+      this.startTracking(false);
+    }
   }
-  private readonly appInsights: ApplicationInsights;
+
+  private appInsights: ApplicationInsights;
+  private readonly destroy$ = new Subject<void>();
+  private initial = true;
 
   private static getActivatedComponent(snapshot: ActivatedRouteSnapshot): any {
     return snapshot.firstChild !== null && snapshot.firstChild !== undefined
       ? ApplicationInsightsService.getActivatedComponent(snapshot.firstChild)
       : snapshot.component;
+  }
+
+  public startTracking(cookieEnabled: boolean): void {
+    this.appInsights = new ApplicationInsights({
+      config: {
+        ...this.moduleConfig.applicationInsightsConfig,
+        disableCookiesUsage: !cookieEnabled,
+      },
+    });
+
+    this.appInsights.loadAppInsights();
+
+    // track visitor before consent but only once
+    if (!!this.moduleConfig.consent && this.initial) {
+      this.initial = false;
+      this.trackInitalPageView();
+    }
+
+    // make sure to not subscribe to router twice if consent changes
+    this.destroy$.next();
+    this.createRouterSubscription();
   }
 
   public addCustomPropertyToTelemetryData(tag: string, value: string): void {
@@ -72,16 +103,26 @@ export class ApplicationInsightsService {
   private createRouterSubscription(): void {
     this.router.events
       .pipe(
+        takeUntil(this.destroy$),
         filter((event) => event instanceof ResolveEnd),
         map((event) => event as ResolveEnd),
-        tap((event: ResolveEnd) => {
-          const activatedComponent =
-            ApplicationInsightsService.getActivatedComponent(event.state.root);
-          if (activatedComponent) {
-            this.logPageView(activatedComponent.name, event.urlAfterRedirects);
-          }
-        })
+        tap((event: ResolveEnd) =>
+          this.trackPageView(event.state.root, event.urlAfterRedirects)
+        )
       )
       .subscribe();
+  }
+
+  private trackInitalPageView(): void {
+    this.trackPageView(this.route.snapshot, this.router.url);
+  }
+
+  private trackPageView(snapshot: ActivatedRouteSnapshot, uri?: string) {
+    const activatedComponent =
+      ApplicationInsightsService.getActivatedComponent(snapshot);
+
+    if (activatedComponent) {
+      this.logPageView(activatedComponent.name, uri);
+    }
   }
 }

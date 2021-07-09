@@ -1,6 +1,9 @@
 import { Injector } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 
+import { of } from 'rxjs';
+
+import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 import { META_REDUCERS, Store, StoreModule } from '@ngrx/store';
 
@@ -25,6 +28,12 @@ describe('ApplicationInsightsMetaReducerFactory', () => {
     ],
     providers: [
       ApplicationInsightsService,
+      {
+        provide: OneTrustService,
+        useValue: {
+          consentChanged$: () => of(new Map()),
+        },
+      },
       {
         provide: APPLICATION_INSIGHTS_CONFIG,
         useValue: {

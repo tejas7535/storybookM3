@@ -7,6 +7,7 @@ export interface ApplicationInsightsModuleConfig {
   enableGlobalErrorHandler?: boolean;
   enableNgrxMetaReducer?: boolean;
   ngrxIgnorePattern?: string[];
+  consent?: boolean;
 }
 
 export const APPLICATION_INSIGHTS_CONFIG =
