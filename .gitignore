@@ -42,5 +42,8 @@ Thumbs.db
 # lint outputs
 /checkstyle
 
+# reports (npm audit)
+/reports
+
 # i18n checksum files
 **/i18n-checksums.json
