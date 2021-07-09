@@ -405,6 +405,7 @@ pipeline {
 
                             script {
                                 sh 'npm audit --json | npx npm-audit-html --output "./reports/npm-audit.html"'
+                                sh 'npm audit --json | node ./tools/npm-scripts/transform-audit.js > ./reports/npm-audit.json'
                             }
                         }
                     }
@@ -412,6 +413,7 @@ pipeline {
                     post {
                         always {
                             publishHTML([allowMissing: true, alwaysLinkToLastBuild: false, keepAll: true, reportDir: './reports', reportFiles: 'npm-audit.html', reportName: 'npm vulnerability report', reportTitles: 'vulnerability report'])
+                            recordIssues(tool: issues(name: 'NPM Audit', pattern:'**/reports/npm-audit.json'))
                         }
                     }
                 }
