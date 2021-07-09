@@ -1,5 +1,6 @@
 import { waitForAsync } from '@angular/core/testing';
 import {
+  ActivatedRoute,
   ActivatedRouteSnapshot,
   ResolveEnd,
   Router,
@@ -7,8 +8,9 @@ import {
   RouterStateSnapshot,
 } from '@angular/router';
 
-import { ReplaySubject } from 'rxjs';
+import { of, ReplaySubject } from 'rxjs';
 
+import { OneTrustService } from '@altack/ngx-onetrust';
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
 
 import { APPLICATION_INSIGHTS_CONFIG } from './application-insights-module-config';
@@ -31,11 +33,27 @@ describe('ApplicationInsightService', () => {
     providers: [
       { provide: Router, useValue: routerMock },
       {
+        provide: ActivatedRoute,
+        useValue: {
+          snapshot: {
+            url: '/legal',
+            component: { name: 'MockComponent' },
+            firstChild: undefined,
+          },
+        },
+      },
+      {
         provide: APPLICATION_INSIGHTS_CONFIG,
         useValue: {
           applicationInsightsConfig: {
             instrumentationKey: 'key',
           },
+        },
+      },
+      {
+        provide: OneTrustService,
+        useValue: {
+          consentChanged$: () => of(new Map()),
         },
       },
     ],
@@ -94,6 +112,19 @@ describe('ApplicationInsightService', () => {
       service.addCustomPropertyToTelemetryData('foo', 'bar');
 
       expect(service['appInsights'].addTelemetryInitializer).toHaveBeenCalled();
+    });
+  });
+
+  describe('startTracking', () => {
+    it('should call trackInitalPageView', () => {
+      service['trackInitalPageView'] = jest.fn();
+      service['initial'] = true;
+      service['moduleConfig'].consent = true;
+
+      service.startTracking(false);
+
+      expect(service['trackInitalPageView']).toHaveBeenCalled();
+      expect(service['initial']).toBeFalsy();
     });
   });
 
@@ -238,5 +269,45 @@ describe('ApplicationInsightService', () => {
         expect(service.logPageView).not.toHaveBeenCalled();
       })
     );
+  });
+
+  describe('trackInitalPageView', () => {
+    beforeEach(() => {
+      service['trackPageView'] = jest.fn();
+    });
+    it('should call logPageView', () => {
+      const snapshot = {
+        url: '/legal',
+        component: { name: 'MockComponent' },
+        firstChild: undefined,
+      } as unknown as ActivatedRouteSnapshot;
+
+      service['trackInitalPageView']();
+
+      expect(service['trackPageView']).toHaveBeenCalledWith(
+        snapshot,
+        '/foo/bar'
+      );
+    });
+  });
+
+  describe('trackPageView', () => {
+    beforeEach(() => {
+      service.logPageView = jest.fn();
+    });
+    it('should call logPageView', () => {
+      const snapshot = {
+        url: '/legal',
+        component: { name: 'MockComponent' },
+        firstChild: undefined,
+      } as unknown as ActivatedRouteSnapshot;
+
+      service['trackPageView'](snapshot, '/foo/bar');
+
+      expect(service.logPageView).toHaveBeenCalledWith(
+        'MockComponent',
+        '/foo/bar'
+      );
+    });
   });
 });
