@@ -1,6 +1,6 @@
 <div
   *transloco="let t; read: 'overview.resignationsReceived'"
-  class="flex flex-col h-full"
+  class="flex flex-col h-full w-full"
 >
   <h5>{{ t('title') }}</h5>
   <div class="pl-4">
@@ -10,9 +10,8 @@
     <h4 class="flex flex-row mb-4">{{ data?.length | defaultValue }}</h4>
   </div>
   <ag-grid-angular
-    class="ag-theme-material h-full w-full"
-    [rowData]="data || []"
-    [getRowClass]="getRowClass"
+    class="ag-theme-material h-full"
+    [rowData]="data"
     [defaultColDef]="defaultColDef"
     [columnDefs]="columnDefs"
     [modules]="modules"
