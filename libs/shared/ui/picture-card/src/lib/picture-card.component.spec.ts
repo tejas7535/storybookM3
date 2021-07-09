@@ -47,9 +47,11 @@ describe('PictureCardComponent', () => {
       expect(component.active).toBe(true);
     });
     it('should change active on toggle', () => {
-      const original = component.active;
-      component.toggle();
-      expect(original).toBe(!component.active);
+      const originalActive = component.active;
+      const originalSelected = component.selected;
+      component.toggle(!component.active, !component.selected);
+      expect(originalActive).toBe(!component.active);
+      expect(originalSelected).toBe(!component.selected);
     });
   });
 

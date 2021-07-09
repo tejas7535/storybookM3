@@ -26,6 +26,7 @@ const greys = {
   labels: '#9ca2a5',
   toastBg: '#414546',
   lightBg: 'rgba(0,0,0,0.11)',
+  disabledOverlay: 'rgba(129,129,129,0.12)',
 };
 
 const emphasis = {

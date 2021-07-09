@@ -3,4 +3,5 @@ export interface PictureCardAction {
   disabled: boolean;
   click?(): void;
   toggleAction?: boolean;
+  selectAction?: boolean;
 }
