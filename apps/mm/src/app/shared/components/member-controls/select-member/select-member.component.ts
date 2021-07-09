@@ -12,6 +12,8 @@ import {
   VariablePropertyMeta,
 } from '@caeonline/dynamic-forms';
 
+import { IDMM_MEASSURING_METHOD } from './../../../constants/dialog-constant';
+
 @Component({
   selector: 'mm-select-member',
   templateUrl: './select-member.component.html',
@@ -19,6 +21,9 @@ import {
 })
 export class SelectMemberComponent {
   @Input() public options: (BearinxListValue & { value: string })[];
+  @Input() public placeholder: string;
+
+  public readonly IDMM_MEASSURING_METHOD = IDMM_MEASSURING_METHOD;
 
   public constructor(
     @Inject(CONTROL_META) public readonly meta: VariablePropertyMeta

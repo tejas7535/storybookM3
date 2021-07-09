@@ -99,18 +99,6 @@ describe('AutocompleteSearchComponent', () => {
     });
   });
 
-  describe('openAutocompletePanel', () => {
-    it('should call openPanel of autocomplete trigger', () => {
-      component['_autocompleteTriggerElement'].openPanel = jest.fn();
-
-      component.openAutocompletePanel();
-
-      expect(
-        component['_autocompleteTriggerElement'].openPanel
-      ).toHaveBeenCalled();
-    });
-  });
-
   describe('onOptionSelect', () => {
     it('should click the host matOption element', () => {
       const clickMock = jest.fn();

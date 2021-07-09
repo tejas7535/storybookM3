@@ -13,7 +13,14 @@
       "
     >
       <ng-container *ngIf="!(isPictureList$ | ngrxPush); else pictureCardList">
-        <div class="max-w-sm">
+        <div
+          [ngClass]="
+            meta.page.id !== PROPERTY_PAGE_MOUNTING &&
+            meta.page.id !== PROPERTY_PAGE_MOUNTING_SITUATION_SUB
+              ? 'max-w-sm'
+              : ''
+          "
+        >
           <schaeffler-dropdown-input
             *ngIf="
               isDropdownInput(meta.member?.type, meta.member?.id);
@@ -33,6 +40,13 @@
           ></schaeffler-dropdown-input>
           <ng-template #select>
             <mm-select-member
+              [placeholder]="
+                meta.member.id === 'IDMM_MEASSURING_METHOD'
+                  ? t('form.select', {
+                      fieldname: meta.member.text | transloco
+                    })
+                  : ''
+              "
               [options]="options$ | ngrxPush"
             ></mm-select-member>
           </ng-template>

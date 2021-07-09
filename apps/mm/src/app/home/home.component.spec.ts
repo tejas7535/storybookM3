@@ -251,4 +251,28 @@ describe('HomeComponent', () => {
       expect(component.dynamicFormLoaded).toHaveBeenCalled();
     });
   });
+
+  describe('#hasHeadline', () => {
+    it('should return false if id in noHeadlineIds', () => {
+      const pageId = 'RSY_BEARING_TYPE';
+      const memberId = 'IDMM_MOUNTING_METHOD';
+
+      const result1 = component.hasHeadline(pageId, undefined);
+      const result2 = component.hasHeadline(undefined, memberId);
+
+      expect(result1).toBe(false);
+      expect(result2).toBe(false);
+    });
+
+    it('should return true if id not in noHeadlineIds', () => {
+      const pageId = 'some id with headline';
+      const memberId = 'some id with headline';
+
+      const result1 = component.hasHeadline(pageId, undefined);
+      const result2 = component.hasHeadline(undefined, memberId);
+
+      expect(result1).toBe(true);
+      expect(result2).toBe(true);
+    });
+  });
 });

@@ -1,4 +1,4 @@
-<div class="flex flex-row">
+<div class="flex flex-row overflow-hidden border-b border-border">
   <mat-form-field
     matAutocompleteOrigin
     #origin="matAutocompleteOrigin"
@@ -9,29 +9,11 @@
       *ngIf="!attachToCustomElement; else attachedPanelInput"
       type="text"
       matInput
-      [matAutocomplete]="auto"
       [formControl]="searchControl"
-      (keydown.Tab)="
-        $event.preventDefault();
-        $event.stopPropagation();
-        openAutocompletePanel()
-      "
       #searchInput
     />
     <ng-template #attachedPanelInput>
-      <input
-        type="text"
-        matInput
-        [matAutocomplete]="auto"
-        [matAutocompleteConnectedTo]="_autocompletePanelElement"
-        [formControl]="searchControl"
-        (keydown.Tab)="
-          $event.preventDefault();
-          $event.stopPropagation();
-          openAutocompletePanel()
-        "
-        #searchInput
-      />
+      <input type="text" matInput [formControl]="searchControl" #searchInput />
     </ng-template>
     <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
   </mat-form-field>
@@ -50,14 +32,16 @@
     </ng-template>
   </div>
 </div>
-<mat-autocomplete #auto="matAutocomplete" class="custom-scrollbar">
+<div class="custom-scrollbar max-h-48 overflow-auto">
   <mat-option
     *ngFor="let option of filteredOptions$ | ngrxPush"
     [value]="option.value"
     (click)="select(option)"
     (onSelectionChange)="onOptionSelect($event)"
-    [ngClass]="{ 'active-option': option === selectedItem }"
+    [ngClass]="{
+      'mat-selected': option === selectedItem
+    }"
   >
     {{ option.value }}
   </mat-option>
-</mat-autocomplete>
+</div>

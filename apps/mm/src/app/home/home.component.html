@@ -11,26 +11,27 @@
       *caeLayout="let metaArray; let pages = pages; let form = form"
       class="content"
     >
-      <mm-pages-stepper
-        #stepper
-        [pages]="pages"
-        [maxPageId]="maxPageId$ | ngrxPush"
-        [activePageId]="activePageId$ | ngrxPush"
-        [inactivePageId]="inactivePageId$ | ngrxPush"
-        (activePageIdChange)="handleActivePageIdChange($event)"
-      >
-      </mm-pages-stepper>
-      <span
-        *ngIf="activeBearing$ | ngrxPush as activeBearing"
-        class="text-subtitle-1 ml-6"
-      >
-        {{ activeBearing }}
-      </span>
-      <div class="w-full sm:px-6">
+      <div class="-mx-6">
+        <mm-pages-stepper
+          #stepper
+          [pages]="pages"
+          [maxPageId]="maxPageId$ | ngrxPush"
+          [activePageId]="activePageId$ | ngrxPush"
+          [inactivePageId]="inactivePageId$ | ngrxPush"
+          (activePageIdChange)="handleActivePageIdChange($event)"
+        >
+        </mm-pages-stepper>
+      </div>
+      <div *ngIf="activeBearing$ | ngrxPush as activeBearing" class="mb-4">
+        <span class="text-subtitle-1">
+          {{ activeBearing }}
+        </span>
+      </div>
+      <div class="w-full">
         <ng-container
           *ngIf="(activePageId$ | ngrxPush) === RSY_PAGE_BEARING_TYPE"
         >
-          <div class="mt-2 sm:mb-8 mb-4">
+          <div class="mt-8 sm:mb-8 mb-4 max-w-sm">
             <mm-bearing-search
               (bearing)="selectBearing($event)"
             ></mm-bearing-search>
@@ -54,49 +55,85 @@
                   meta.page.visible && !isCalculationOptions(pagedMeta.page.id)
                 "
               >
-                <h6
-                  *ngIf="
-                    meta.member.text &&
-                    meta.member.id !== RSY_BEARING_TYPE &&
-                    meta.page.id !== PAGE_MOUNTING_MANAGER_SEAT &&
-                    meta.page.id !== PROPERTY_PAGE_MOUNTING_SITUATION_SUB &&
-                    meta.page.id !== PROPERTY_PAGE_MOUNTING
+                <div
+                  [ngClass]="
+                    meta.member.id === IDMM_MEASSURING_METHOD
+                      ? 'max-w-md sm:w-[26rem] border p-4 border-border rounded mt-8'
+                      : ''
                   "
                 >
-                  {{ t(meta.member.text) }}
-                </h6>
-                <cae-member-control
-                  [class.wide]="!meta.member.text"
-                  [meta]="meta"
-                ></cae-member-control>
+                  <h6
+                    *ngIf="
+                      meta.member.text &&
+                      hasHeadline(meta.page.id, meta.member.id)
+                    "
+                  >
+                    {{ t(meta.member.text) }}
+                  </h6>
+                  <div
+                    [ngClass]="
+                      meta.member.id === IDMM_MEASSURING_METHOD
+                        ? '-mb-5 mt-4'
+                        : ''
+                    "
+                  >
+                    <div
+                      *ngIf="meta.member.id === IDMM_MOUNTING_METHOD"
+                      class="mt-4"
+                    >
+                      <schaeffler-horizontal-separator
+                        [text]="
+                          t('form.select', {
+                            fieldname: meta.member.text | transloco
+                          })
+                        "
+                      ></schaeffler-horizontal-separator>
+                    </div>
+                    <cae-member-control
+                      [class.wide]="!meta.member.text"
+                      [meta]="meta"
+                    ></cae-member-control>
+                  </div>
+                </div>
               </div>
             </ng-container>
 
-            <mm-calculation-options
-              *ngIf="isCalculationOptions(pagedMeta.page.id)"
-              [pageMeta]="pagedMeta"
-            ></mm-calculation-options>
+            <div
+              [ngClass]="
+                isCalculationOptions(pagedMeta.page.id)
+                  ? 'w-full border border-border p-4 rounded mt-8'
+                  : ''
+              "
+            >
+              <div class="mb-4">
+                <mm-calculation-options
+                  *ngIf="isCalculationOptions(pagedMeta.page.id)"
+                  [pageMeta]="pagedMeta"
+                ></mm-calculation-options>
+              </div>
 
-            <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
-              <button
-                mat-raised-button
-                *ngIf="stepper.hasNext && (pagedMeta.valid$ | ngrxPush)"
-                [disabled]="!(pagedMeta.valid$ | ngrxPush)"
-                (click)="
-                  next(pagedMeta.page.id, pagedMetas, stepper);
-                  stepper.hasResultNext && resultPage.send(form)
-                "
-                class="text-button uppercase w-full md:w-auto"
-              >
-                {{
-                  stepper.hasResultNext
-                    ? t('form.calculateResults')
-                    : t('form.select', {
-                        fieldname: activePageName$ | ngrxPush | transloco
-                      })
-                }}
-              </button>
-            </ng-container>
+              <ng-container *ngrxLet="pagedMetas$ as pagedMetas">
+                <button
+                  mat-raised-button
+                  *ngIf="stepper.hasNext && (pagedMeta.valid$ | ngrxPush)"
+                  [disabled]="!(pagedMeta.valid$ | ngrxPush)"
+                  color="primary"
+                  (click)="
+                    next(pagedMeta.page.id, pagedMetas, stepper);
+                    stepper.hasResultNext && resultPage.send(form)
+                  "
+                  class="text-button uppercase w-full md:max-w-xs"
+                >
+                  {{
+                    stepper.hasResultNext
+                      ? t('form.calculateResults')
+                      : t('form.select', {
+                          fieldname: activePageName$ | ngrxPush | transloco
+                        })
+                  }}
+                </button>
+              </ng-container>
+            </div>
           </ng-container>
         </ng-container>
 
