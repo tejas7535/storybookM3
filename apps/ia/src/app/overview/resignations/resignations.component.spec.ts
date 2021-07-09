@@ -26,12 +26,6 @@ describe('ResignationsComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('getRowClass', () => {
-    test('should return correct css classes', () => {
-      expect(component.getRowClass()).toEqual('border-2 border-veryLight');
-    });
-  });
-
   describe('defaultColDef', () => {
     test('should set options', () => {
       const getHeaderClass: any = component.defaultColDef

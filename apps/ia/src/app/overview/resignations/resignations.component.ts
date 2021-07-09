@@ -27,8 +27,8 @@ export class ResignationsComponent {
     suppressMenu: true,
     lockPinned: true,
     suppressMovable: true,
-    flex: 1,
     headerClass: () => 'bg-lightBg',
+    flex: 1,
   };
 
   columnDefs: ColDef[] = [
@@ -45,6 +45,4 @@ export class ResignationsComponent {
       headerName: translate('overview.resignationsReceived.table.name'),
     },
   ];
-
-  getRowClass = () => 'border-2 border-veryLight';
 }

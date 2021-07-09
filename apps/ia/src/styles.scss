@@ -32,6 +32,11 @@ button {
   }
 }
 
+// needed to prevent unnecessary horizontal scrollbars from being shown due to the custom scrollbar size defined below
+.ag-center-cols-viewport::-webkit-scrollbar {
+  height: 0;
+}
+
 // Custom Scrollbar for AG Grid
 .ag-root ::-webkit-scrollbar-track {
   background-color: transparent;
