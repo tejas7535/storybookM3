@@ -37,11 +37,12 @@ import { DropdownInputModule } from '@schaeffler/dropdown-input';
 API of DropdownInput Component:
 
 ```typescript
-  @Output() optionSelected = new EventEmitter<DropdownInputOption>();
-  @Output() updateSearch = new EventEmitter<string>();
+
+  @Output() updateSearch = new EventEmitter<string>();  
   @Input() options: DropdownInputOption[] = [];
   @Input() placeholder = '';
   @Input() hint = '';
+  @Input() label = '';
 ```
 
 Interface of DropdownInputOption:
@@ -59,10 +60,11 @@ Use like:
 <!-- comp-xy.component.html -->
 
 <schaeffler-dropdown-input
+  [formControl]="formControl"
   [options]="options"
   [placeholder]="placeholder"
   [hint]="hint"
-  (optionSelected)="onOptionSelected($event)"
+  [label]="label"
   (updateSearch)="onUpdateSearch($event)"
 ></schaeffler-dropdown-input>
 ```
@@ -72,6 +74,7 @@ Use like:
 
 import { DropdownInputOption } from '@schaeffler/dropdown-input';
 
+public formControl: FormControl = new FormControl("")
 public options: DropdownInputOption[] = [
   { id: 0, value: 'option0' },
   { id: 1, value: 'option1' },
@@ -79,10 +82,7 @@ public options: DropdownInputOption[] = [
 ];
 public placeholder = 'Select an option';
 public hint = 'Search for options to filter';
-
-public onOptionSelected(selectedItem: DropdownInputOption): void {
-  console.log('selectedItem', selectedItem);
-}
+public label = 'Option Select';
 
 public onUpdateSearch(query: string): void {
   console.log('searchQuery', query);
