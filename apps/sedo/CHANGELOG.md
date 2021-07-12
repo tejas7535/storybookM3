@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 **Note:** Dependency updates, refactored code & style/test/performance changes are not shown within this changelog. Thus, releases without any entries may occur.
 
+## [1.12.0](///compare/sedo-v1.12.0...sedo-v1.11.1) (2021-07-12)
+
+
+### 🎸 Features
+
+* **sedo:** activate strictTemplates ([3ec4710](///commit/3ec471045013ab373bbc634e88f5e68ab6c78673))
+* **sedo:** improve user input feedback ([b4dbaae](///commit/b4dbaae92d6d19842eb296f4344d651b3ea7f110))
+
 ### [1.11.1](///compare/sedo-v1.11.1...sedo-v1.11.0) (2021-06-02)
 
 
