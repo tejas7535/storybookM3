@@ -38,7 +38,7 @@ API of DropdownInput Component:
 
 ```typescript
 
-  @Output() updateSearch = new EventEmitter<string>();  
+  @Output() updateSearch = new EventEmitter<string>();
   @Input() options: DropdownInputOption[] = [];
   @Input() placeholder = '';
   @Input() hint = '';
