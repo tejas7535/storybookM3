@@ -1,4 +1,3 @@
-/* eslint-disable max-lines */
 import { marbles } from 'rxjs-marbles/jest';
 
 import { createServiceFactory, SpectatorService } from '@ngneat/spectator/jest';
@@ -20,7 +19,7 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { Employee } from '../../../shared/models/employee.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
+import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   loadAttritionOverTimeOrgChart,
@@ -41,7 +40,7 @@ import { OrganizationalViewEffects } from './organizational-view.effects';
 describe('Organizational View Effects', () => {
   let spectator: SpectatorService<OrganizationalViewEffects>;
   let actions$: any;
-  let employeesService: EmployeeService;
+  let organizationalViewService: OrganizationalViewService;
   let action: any;
   let effects: OrganizationalViewEffects;
   let store: MockStore;
@@ -56,7 +55,7 @@ describe('Organizational View Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore({}),
       {
-        provide: EmployeeService,
+        provide: OrganizationalViewService,
         useValue: {
           getInitialFilters: jest.fn(),
         },
@@ -68,7 +67,7 @@ describe('Organizational View Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(OrganizationalViewEffects);
-    employeesService = spectator.inject(EmployeeService);
+    organizationalViewService = spectator.inject(OrganizationalViewService);
     store = spectator.inject(MockStore);
   });
 
@@ -172,13 +171,15 @@ describe('Organizational View Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getOrgChart = jest
+        organizationalViewService.getOrgChart = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadOrgChart$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
+        expect(organizationalViewService.getOrgChart).toHaveBeenCalledWith(
+          request
+        );
       })
     );
 
@@ -193,13 +194,15 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getOrgChart = jest
+        organizationalViewService.getOrgChart = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadOrgChart$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getOrgChart).toHaveBeenCalledWith(request);
+        expect(organizationalViewService.getOrgChart).toHaveBeenCalledWith(
+          request
+        );
       })
     );
   });
@@ -230,13 +233,15 @@ describe('Organizational View Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getWorldMap = jest
+        organizationalViewService.getWorldMap = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadWorldMap$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+        expect(organizationalViewService.getWorldMap).toHaveBeenCalledWith(
+          request
+        );
       })
     );
 
@@ -251,13 +256,15 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getWorldMap = jest
+        organizationalViewService.getWorldMap = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadWorldMap$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getWorldMap).toHaveBeenCalledWith(request);
+        expect(organizationalViewService.getWorldMap).toHaveBeenCalledWith(
+          request
+        );
       })
     );
   });
@@ -282,7 +289,7 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-a|', {
           a: resultEmployee,
         });
-        employeesService.getParentEmployee = jest
+        organizationalViewService.getParentEmployee = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -293,9 +300,9 @@ describe('Organizational View Effects', () => {
 
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
-          childEmployeeId
-        );
+        expect(
+          organizationalViewService.getParentEmployee
+        ).toHaveBeenCalledWith(childEmployeeId);
       })
     );
 
@@ -310,15 +317,15 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getParentEmployee = jest
+        organizationalViewService.getParentEmployee = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadParent$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getParentEmployee).toHaveBeenCalledWith(
-          childEmployeeId
-        );
+        expect(
+          organizationalViewService.getParentEmployee
+        ).toHaveBeenCalledWith(childEmployeeId);
       })
     );
   });
@@ -371,7 +378,7 @@ describe('Organizational View Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getAttritionOverTime = jest
+        organizationalViewService.getAttritionOverTime = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -379,10 +386,9 @@ describe('Organizational View Effects', () => {
           expected
         );
         m.flush();
-        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-          request,
-          TimePeriod.PLUS_MINUS_THREE_MONTHS
-        );
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(request, TimePeriod.PLUS_MINUS_THREE_MONTHS);
       })
     );
 
@@ -397,7 +403,7 @@ describe('Organizational View Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getAttritionOverTime = jest
+        organizationalViewService.getAttritionOverTime = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -405,10 +411,9 @@ describe('Organizational View Effects', () => {
           expected
         );
         m.flush();
-        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-          request,
-          TimePeriod.PLUS_MINUS_THREE_MONTHS
-        );
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(request, TimePeriod.PLUS_MINUS_THREE_MONTHS);
       })
     );
   });

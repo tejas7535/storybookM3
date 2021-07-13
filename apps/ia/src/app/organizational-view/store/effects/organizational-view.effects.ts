@@ -26,7 +26,7 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { Employee } from '../../../shared/models/employee.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
+import { OrganizationalViewService } from '../../organizational-view.service';
 import { CountryData } from '../../world-map/models/country-data.model';
 import {
   loadAttritionOverTimeOrgChart,
@@ -64,7 +64,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadOrgChart),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getOrgChart(request).pipe(
+        this.organizationalViewService.getOrgChart(request).pipe(
           map((employees: Employee[]) => loadOrgChartSuccess({ employees })),
           catchError((error) =>
             of(loadOrgChartFailure({ errorMessage: error.message }))
@@ -79,7 +79,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadWorldMap),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getWorldMap(request).pipe(
+        this.organizationalViewService.getWorldMap(request).pipe(
           map((data: CountryData[]) => loadWorldMapSuccess({ data })),
           catchError((error) =>
             of(loadWorldMapFailure({ errorMessage: error.message }))
@@ -94,7 +94,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadParent),
       map((action) => action.employee.employeeId),
       mergeMap((childEmployeeId: string) =>
-        this.employeeService.getParentEmployee(childEmployeeId).pipe(
+        this.organizationalViewService.getParentEmployee(childEmployeeId).pipe(
           map((employee: Employee) => loadParentSuccess({ employee })),
           catchError((error) =>
             of(loadParentFailure({ errorMessage: error.message }))
@@ -122,7 +122,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
       ofType(loadAttritionOverTimeOrgChart),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService
+        this.organizationalViewService
           .getAttritionOverTime(request, TimePeriod.PLUS_MINUS_THREE_MONTHS)
           .pipe(
             map((data: AttritionOverTime) =>
@@ -142,7 +142,7 @@ export class OrganizationalViewEffects implements OnInitEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly employeeService: EmployeeService,
+    private readonly organizationalViewService: OrganizationalViewService,
     private readonly store: Store
   ) {}
 

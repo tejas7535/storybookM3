@@ -7,8 +7,8 @@ import { provideMockStore } from '@ngrx/store/testing';
 
 import { AccountInfo, loginSuccess } from '@schaeffler/azure-auth';
 
+import { FilterService } from '../../../../filter-section/filter-service.service';
 import { FilterKey, IdValue } from '../../../../shared/models';
-import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
   filterSelected,
   loadInitialFilters,
@@ -20,7 +20,7 @@ import { FilterEffects } from './filter.effects';
 describe('Filter Effects', () => {
   let spectator: SpectatorService<FilterEffects>;
   let actions$: any;
-  let employeesService: EmployeeService;
+  let filterService: FilterService;
   let action: any;
   let effects: FilterEffects;
 
@@ -38,7 +38,7 @@ describe('Filter Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore({}),
       {
-        provide: EmployeeService,
+        provide: FilterService,
         useValue: {
           getInitialFilters: jest.fn(),
         },
@@ -50,7 +50,7 @@ describe('Filter Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(FilterEffects);
-    employeesService = spectator.inject(EmployeeService);
+    filterService = spectator.inject(FilterService);
   });
 
   describe('loadInitialFilters$', () => {
@@ -71,13 +71,13 @@ describe('Filter Effects', () => {
 
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getInitialFilters = jest
+        filterService.getInitialFilters = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadInitialFilters$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
+        expect(filterService.getInitialFilters).toHaveBeenCalledTimes(1);
       })
     );
 
@@ -92,13 +92,13 @@ describe('Filter Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getInitialFilters = jest
+        filterService.getInitialFilters = jest
           .fn()
           .mockImplementation(() => response);
 
         m.expect(effects.loadInitialFilters$).toBeObservable(expected);
         m.flush();
-        expect(employeesService.getInitialFilters).toHaveBeenCalledTimes(1);
+        expect(filterService.getInitialFilters).toHaveBeenCalledTimes(1);
       })
     );
   });
@@ -117,7 +117,7 @@ describe('Filter Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getInitialFilters = jest.fn(() => response);
+        filterService.getInitialFilters = jest.fn(() => response);
 
         m.expect(effects.setInitialFilters$).toBeObservable(expected);
       })

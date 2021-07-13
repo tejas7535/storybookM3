@@ -18,14 +18,14 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
+import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
   EmployeesRequest,
   FluctuationRatesChartData,
+  OverviewFluctuationRates,
   TimePeriod,
 } from '../../../shared/models';
-import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
 import { OpenApplication, ResignedEmployee } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
@@ -74,7 +74,7 @@ export class OverviewEffects implements OnInitEffects {
       ofType(loadAttritionOverTimeOverview),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService
+        this.organizationalViewService
           .getAttritionOverTime(request, TimePeriod.LAST_THREE_YEARS)
           .pipe(
             map((data: AttritionOverTime) =>
@@ -97,7 +97,7 @@ export class OverviewEffects implements OnInitEffects {
       ofType(loadFluctuationRatesOverview),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getOverviewFluctuationRates(request).pipe(
+        this.overviewService.getOverviewFluctuationRates(request).pipe(
           map((data: OverviewFluctuationRates) =>
             loadFluctuationRatesOverviewSuccess({ data })
           ),
@@ -118,7 +118,7 @@ export class OverviewEffects implements OnInitEffects {
       ofType(loadFluctuationRatesChartData),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getFluctuationRateChartData(request).pipe(
+        this.overviewService.getFluctuationRateChartData(request).pipe(
           map((data: FluctuationRatesChartData) =>
             loadFluctuationRatesChartDataSuccess({ data })
           ),
@@ -139,7 +139,7 @@ export class OverviewEffects implements OnInitEffects {
       ofType(loadUnforcedFluctuationRatesChartData),
       map((action) => action.request),
       mergeMap((request: EmployeesRequest) =>
-        this.employeeService.getUnforcedFluctuationRateChartData(request).pipe(
+        this.overviewService.getUnforcedFluctuationRateChartData(request).pipe(
           map((data: FluctuationRatesChartData) =>
             loadUnforcedFluctuationRatesChartDataSuccess({ data })
           ),
@@ -199,8 +199,8 @@ export class OverviewEffects implements OnInitEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly employeeService: EmployeeService,
     private readonly overviewService: OverviewService,
+    private readonly organizationalViewService: OrganizationalViewService,
     private readonly store: Store
   ) {}
 

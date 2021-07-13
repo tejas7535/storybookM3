@@ -8,11 +8,13 @@ import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { FilterSectionModule } from './filter-section/filter-section.module';
 import { SharedModule } from './shared/shared.module';
+import { HttpCacheInterceptorModule } from '@ngneat/cashew';
 
 @NgModule({
   imports: [
     AppRoutingModule,
     HttpClientModule,
+    HttpCacheInterceptorModule.forRoot(),
     CoreModule,
     SharedModule,
     FilterSectionModule,

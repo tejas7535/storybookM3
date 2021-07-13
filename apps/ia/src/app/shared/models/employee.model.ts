@@ -1,40 +1,38 @@
 import { EmployeeAttritionMeta } from './employee-attrition-meta.model';
 
-export class Employee {
-  public constructor(
-    public employeeId: string,
-    public employeeName: string,
-    public subRegion: string,
-    public hrLocation: string,
-    public country: string,
-    public orgUnit: string,
-    public businessUnit: string,
-    public division: string,
-    public jobFamily: string,
-    public jobFamilyDescription: string,
-    public positionDescription: string,
-    public age: number,
-    public tenureInYears: number,
-    public gender: string,
-    public nationality: string,
-    public foreigner: string,
-    public organizationalLevel: string,
-    public parentEmployeeId: string,
-    public fte: number,
-    public headcount: number,
-    public fulltimeParttime: string,
-    public exitDate: string,
-    public entryDate: string,
-    public internalEntryDate: string,
-    public internalExitDate: string,
-    public reasonForLeaving: string,
-    public regrettedLoss: string,
-    public level: number,
-    public directSubordinates: number,
-    public totalSubordinates: number,
-    public directAttrition: number,
-    public totalAttrition: number,
-    public attritionMeta: EmployeeAttritionMeta,
-    public directLeafChildren: Employee[]
-  ) {}
+export interface Employee {
+  employeeId: string;
+  employeeName: string;
+  subRegion: string;
+  hrLocation: string;
+  country: string;
+  orgUnit: string;
+  businessUnit: string;
+  division: string;
+  jobFamily: string;
+  jobFamilyDescription: string;
+  positionDescription: string;
+  age: number;
+  tenureInYears: number;
+  gender: string;
+  nationality: string;
+  foreigner: string;
+  organizationalLevel: string;
+  parentEmployeeId: string;
+  fte: number;
+  headcount: number;
+  fulltimeParttime: string;
+  exitDate: string;
+  entryDate: string;
+  internalEntryDate: string;
+  internalExitDate: string;
+  reasonForLeaving: string;
+  regrettedLoss: string;
+  level: number;
+  directSubordinates: number;
+  totalSubordinates: number;
+  directAttrition: number;
+  totalAttrition: number;
+  attritionMeta: EmployeeAttritionMeta;
+  directLeafChildren: Employee[];
 }

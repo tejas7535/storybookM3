@@ -36,47 +36,47 @@ describe('Overview Selector', () => {
   const leaverIT1 = createExternalLeaver(
     '1',
     selectedOrgUnit,
-    new Date(2020, 3, 15)
+    new Date(2020, 3, 15).valueOf().toString()
   );
   const leaverIT2 = createExternalLeaver(
     '2',
     `${selectedOrgUnit}_1`,
-    new Date(2020, 3, 15)
+    new Date(2020, 3, 15).valueOf().toString()
   );
   const leaverHR = createExternalLeaver(
     '3',
     'Schaeffler_HR',
-    new Date(2020, 3, 15)
+    new Date(2020, 3, 15).valueOf().toString()
   );
   const internalLeaver1 = createInternalLeaver(
     '4',
     selectedOrgUnit,
-    new Date(2020, 4, 30)
+    new Date(2020, 4, 30).valueOf().toString()
   );
 
   const entryEmployee1 = createExternalEntryEmployee(
     '5',
-    new Date(2020, 3, 14)
+    new Date(2020, 3, 14).valueOf().toString()
   );
   const entryEmployee2 = createExternalEntryEmployee(
     '6',
-    new Date(2020, 8, 19)
+    new Date(2020, 8, 19).valueOf().toString()
   );
   const internalEntryEmployee1 = createInternalEntryEmployee(
     '7',
-    new Date(2020, 8, 19)
+    new Date(2020, 8, 19).valueOf().toString()
   );
   const internalEntryEmployeeBeforeTimeRange = createInternalEntryEmployee(
     '8',
-    new Date(2018, 9, 19)
+    new Date(2018, 9, 19).valueOf().toString()
   );
   const entryEmployeeBeforeTimeRange = createExternalEntryEmployee(
     '9',
-    new Date(2018, 2, 1)
+    new Date(2018, 2, 1).valueOf().toString()
   );
   const entryEmployeeAfterTimeRange = createExternalEntryEmployee(
     '10',
-    new Date(2021, 2, 1)
+    new Date(2021, 2, 1).valueOf().toString()
   );
 
   const fakeState: { overview: OverviewState; filter: FilterState } = {
@@ -84,7 +84,12 @@ describe('Overview Selector', () => {
       ...initialState,
       attritionOverTime: {
         data: {
-          events: [{ date: new Date('01-01-2021'), name: 'Monkeys' }],
+          events: [
+            {
+              date: new Date('01-01-2021').valueOf().toString(),
+              name: 'Monkeys',
+            },
+          ],
           data: {
             2019: {
               employees: [],
@@ -177,7 +182,7 @@ describe('Overview Selector', () => {
   describe('getAttritionOverTimeEvents', () => {
     it('should return list of events', () => {
       expect(getAttritionOverTimeEvents(fakeState)).toEqual([
-        { date: new Date('01-01-2021'), name: 'Monkeys' },
+        { date: new Date('01-01-2021').valueOf().toString(), name: 'Monkeys' },
       ]);
     });
   });
@@ -447,13 +452,13 @@ function getStateForFluctuationKpiTesting() {
   };
 }
 
-function createExternalEntryEmployee(id: string, entryDate: Date): Employee {
+function createExternalEntryEmployee(id: string, entryDate: string): Employee {
   return createEmployee(id, 'Schaeffler_IT', entryDate);
 }
 
 function createInternalEntryEmployee(
   id: string,
-  internalEntryDate: Date
+  internalEntryDate: string
 ): Employee {
   return createEmployee(
     id,
@@ -467,7 +472,7 @@ function createInternalEntryEmployee(
 function createExternalLeaver(
   id: string,
   orgUnit: string,
-  exitDate: Date
+  exitDate: string
 ): Employee {
   return createEmployee(id, orgUnit, undefined, exitDate);
 }
@@ -475,7 +480,7 @@ function createExternalLeaver(
 function createInternalLeaver(
   id: string,
   orgUnit: string,
-  internalExitDate: Date
+  internalExitDate: string
 ) {
   return createEmployee(
     id,
@@ -490,45 +495,47 @@ function createInternalLeaver(
 function createEmployee(
   id: string,
   orgUnit: string,
-  entryDate?: Date,
-  exitDate?: Date,
-  internalEntryDate?: Date,
-  internalExitDate?: Date
+  entryDate?: string,
+  exitDate?: string,
+  internalEntryDate?: string,
+  internalExitDate?: string
 ): Employee {
-  return new Employee(
-    id,
-    'John Walker',
-    'DE',
-    'DEHAM',
-    'DE',
+  return {
+    employeeId: id,
+    employeeName: 'John Walker',
+    subRegion: 'DE',
+    hrLocation: 'DEHAM',
+    country: 'DE',
     orgUnit,
-    'DDZ',
-    'MP',
-    '321',
-    'IT',
-    'IT worker',
-    24,
-    20,
-    'Male',
-    'DE',
-    'false',
-    'Second',
-    '10',
-    20,
-    1,
-    'FT',
-    exitDate ? exitDate.toJSON() : undefined,
-    entryDate ? entryDate.toJSON() : '2021-05-01',
-    internalEntryDate ? internalEntryDate.toJSON() : undefined,
-    internalExitDate ? internalExitDate.toJSON() : undefined,
-    'unforced',
-    'big regret',
-    4,
-    2,
-    1,
-    0,
-    1,
-    undefined,
-    []
-  );
+    businessUnit: 'DDZ',
+    division: 'MP',
+    jobFamily: '321',
+    jobFamilyDescription: 'IT',
+    positionDescription: 'IT worker',
+    age: 24,
+    tenureInYears: 20,
+    gender: 'Male',
+    nationality: 'DE',
+    foreigner: 'false',
+    organizationalLevel: 'Second',
+    parentEmployeeId: '10',
+    fte: 20,
+    headcount: 1,
+    fulltimeParttime: 'FT',
+    exitDate,
+    entryDate: entryDate
+      ? entryDate
+      : new Date(2021, 5, 1).valueOf().toString(),
+    internalEntryDate,
+    internalExitDate,
+    reasonForLeaving: 'unforced',
+    regrettedLoss: 'big regret',
+    level: 4,
+    directSubordinates: 2,
+    totalSubordinates: 1,
+    directAttrition: 0,
+    totalAttrition: 1,
+    attritionMeta: undefined,
+    directLeafChildren: [],
+  } as Employee;
 }

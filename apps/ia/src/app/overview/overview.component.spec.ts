@@ -82,7 +82,7 @@ describe('OverviewComponent', () => {
       marbles((m) => {
         const result = [
           {
-            date: new Date(2020, 1, 1),
+            date: new Date(2020, 1, 1).valueOf().toString(),
             name: 'blur',
           },
         ];

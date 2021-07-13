@@ -7,8 +7,8 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 
 import { loginSuccess } from '@schaeffler/azure-auth';
 
+import { FilterService } from '../../../../filter-section/filter-service.service';
 import { FilterKey, InitialFiltersResponse } from '../../../../shared/models';
-import { EmployeeService } from '../../../../shared/services/employee.service';
 import {
   filterSelected,
   loadInitialFilters,
@@ -22,7 +22,7 @@ export class FilterEffects {
     return this.actions$.pipe(
       ofType(loadInitialFilters),
       mergeMap(() =>
-        this.employeeService.getInitialFilters().pipe(
+        this.filterService.getInitialFilters().pipe(
           map((filters: InitialFiltersResponse) =>
             loadInitialFiltersSuccess({ filters })
           ),
@@ -38,7 +38,7 @@ export class FilterEffects {
     return this.actions$.pipe(
       ofType(loadInitialFiltersSuccess),
       mergeMap(() =>
-        this.employeeService.getInitialFilters().pipe(
+        this.filterService.getInitialFilters().pipe(
           map((filters) =>
             filterSelected({
               filter: {
@@ -63,6 +63,6 @@ export class FilterEffects {
 
   constructor(
     private readonly actions$: Actions,
-    private readonly employeeService: EmployeeService
+    private readonly filterService: FilterService
   ) {}
 }
