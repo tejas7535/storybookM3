@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { object, text } from '@storybook/addon-knobs';
@@ -23,12 +24,15 @@ const baseComponent = {
   component: DropdownInputComponent,
   template: `<div style="width: 300px">
         <schaeffler-dropdown-input
+            [formControl]="formControl"
             [options]="options"
             [placeholder]="placeholder"
             [hint]="hint"
+            [label]="label"
         ></schaeffler-dropdown-input>
     </div>`,
   props: {
+    formControl: object('formControl', new FormControl('')),
     options: object('options', [
       { id: 0, value: 'option0' },
       { id: 1, value: 'option1' },
@@ -43,6 +47,7 @@ const baseComponent = {
     ]),
     placeholder: text('placeholder', 'Select an option'),
     hint: text('hint', 'optional hint'),
+    label: text('label', 'Option Selection'),
   },
 };
 
