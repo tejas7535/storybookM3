@@ -5,11 +5,11 @@ import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
   loadLostJobProfilesSuccess,
-} from './actions/loss-of-skills.actions';
+} from './actions/loss-of-skill.actions';
 
-export const lossOfSkillsFeatureKey = 'lossOfSkills';
+export const lossOfSkillFeatureKey = 'lossOfSkill';
 
-export interface LossOfSkillsState {
+export interface LossOfSkillState {
   lostJobProfiles: {
     loading: boolean;
     data: LostJobProfile[];
@@ -17,7 +17,7 @@ export interface LossOfSkillsState {
   };
 }
 
-export const initialState: LossOfSkillsState = {
+export const initialState: LossOfSkillState = {
   lostJobProfiles: {
     loading: false,
     data: undefined,
@@ -25,11 +25,11 @@ export const initialState: LossOfSkillsState = {
   },
 };
 
-export const lossOfSkillsReducer = createReducer(
+export const lossOfSkillReducer = createReducer(
   initialState,
   on(
     loadLostJobProfiles,
-    (state: LossOfSkillsState): LossOfSkillsState => ({
+    (state: LossOfSkillState): LossOfSkillState => ({
       ...state,
       lostJobProfiles: {
         ...state.lostJobProfiles,
@@ -39,7 +39,7 @@ export const lossOfSkillsReducer = createReducer(
   ),
   on(
     loadLostJobProfilesSuccess,
-    (state: LossOfSkillsState, { lostJobProfiles }): LossOfSkillsState => ({
+    (state: LossOfSkillState, { lostJobProfiles }): LossOfSkillState => ({
       ...state,
       lostJobProfiles: {
         data: lostJobProfiles,
@@ -50,7 +50,7 @@ export const lossOfSkillsReducer = createReducer(
   ),
   on(
     loadLostJobProfilesFailure,
-    (state: LossOfSkillsState, { errorMessage }): LossOfSkillsState => ({
+    (state: LossOfSkillState, { errorMessage }): LossOfSkillState => ({
       ...state,
       lostJobProfiles: {
         errorMessage,
@@ -63,12 +63,12 @@ export const lossOfSkillsReducer = createReducer(
 
 // eslint-disable-next-line prefer-arrow/prefer-arrow-functions
 export function reducer(
-  state: LossOfSkillsState,
+  state: LossOfSkillState,
   action: Action
-): LossOfSkillsState {
-  return lossOfSkillsReducer(state, action);
+): LossOfSkillState {
+  return lossOfSkillReducer(state, action);
 }
 
-export const selectLossOfSkillsState = createFeatureSelector<LossOfSkillsState>(
-  lossOfSkillsFeatureKey
+export const selectLossOfSkillState = createFeatureSelector<LossOfSkillState>(
+  lossOfSkillFeatureKey
 );

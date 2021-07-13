@@ -1,10 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { LossOfSkillsState, selectLossOfSkillsState } from '..';
+import { LossOfSkillState, selectLossOfSkillState } from '..';
 
 const getLostJobProfilesState = createSelector(
-  selectLossOfSkillsState,
-  (state: LossOfSkillsState) => state.lostJobProfiles
+  selectLossOfSkillState,
+  (state: LossOfSkillState) => state.lostJobProfiles
 );
 
 export const getLostJobProfilesLoading = createSelector(

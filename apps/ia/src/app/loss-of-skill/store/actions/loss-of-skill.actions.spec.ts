@@ -4,9 +4,9 @@ import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
   loadLostJobProfilesSuccess,
-} from './loss-of-skills.actions';
+} from './loss-of-skill.actions';
 
-describe('LossOfSkills Actions', () => {
+describe('LossOfSkill Actions', () => {
   const errorMessage = 'An error occured';
 
   test('loadLostJobProfiles', () => {
@@ -15,7 +15,7 @@ describe('LossOfSkills Actions', () => {
 
     expect(action).toEqual({
       request,
-      type: '[Loss of Skills] Load Lost Job Profiles',
+      type: '[Loss of Skill] Load Lost Job Profiles',
     });
   });
 
@@ -26,7 +26,7 @@ describe('LossOfSkills Actions', () => {
 
     expect(action).toEqual({
       lostJobProfiles,
-      type: '[Loss of Skills] Load Lost Job Profiles Success',
+      type: '[Loss of Skill] Load Lost Job Profiles Success',
     });
   });
 
@@ -35,7 +35,7 @@ describe('LossOfSkills Actions', () => {
 
     expect(action).toEqual({
       errorMessage,
-      type: '[Loss of Skills] Load Lost Job Profiles Failure',
+      type: '[Loss of Skill] Load Lost Job Profiles Failure',
     });
   });
 });

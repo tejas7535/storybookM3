@@ -5,16 +5,16 @@ import { TranslocoTestingModule } from '@ngneat/transloco';
 import { ReactiveComponentModule } from '@ngrx/component';
 import { provideMockStore } from '@ngrx/store/testing';
 
-import { LossOfSkillsComponent } from './loss-of-skills.component';
+import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
 import { RiskOfLeavingModule } from './risk-of-leaving/risk-of-leaving.module';
 
-describe('LossOfSkillsComponent', () => {
-  let component: LossOfSkillsComponent;
-  let spectator: Spectator<LossOfSkillsComponent>;
+describe('LossOfSkillComponent', () => {
+  let component: LossOfSkillComponent;
+  let spectator: Spectator<LossOfSkillComponent>;
 
   const createComponent = createComponentFactory({
-    component: LossOfSkillsComponent,
+    component: LossOfSkillComponent,
     detectChanges: false,
     imports: [
       LostJobProfilesModule,

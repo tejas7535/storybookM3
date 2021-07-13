@@ -8,13 +8,13 @@ import { LostJobProfile } from './models';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,
-} from './store/selectors/loss-of-skills.selector';
+} from './store/selectors/loss-of-skill.selector';
 
 @Component({
-  selector: 'ia-loss-of-skills',
-  templateUrl: './loss-of-skills.component.html',
+  selector: 'ia-loss-of-skill',
+  templateUrl: './loss-of-skill.component.html',
 })
-export class LossOfSkillsComponent implements OnInit {
+export class LossOfSkillComponent implements OnInit {
   public lostJobProfilesLoading$: Observable<boolean>;
   public lostJobProfilesData$: Observable<LostJobProfile[]>;
 

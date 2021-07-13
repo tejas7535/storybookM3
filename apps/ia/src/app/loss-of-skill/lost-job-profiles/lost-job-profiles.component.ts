@@ -41,12 +41,12 @@ export class LostJobProfilesComponent {
   columnDefs: ColDef[] = [
     {
       field: 'job',
-      headerName: translate('lossOfSkills.lostJobProfiles.table.job'),
+      headerName: translate('lossOfSkill.lostJobProfiles.table.job'),
       flex: 2,
     },
     {
       field: 'amountOfEmployees',
-      headerName: translate('lossOfSkills.lostJobProfiles.table.workforce'),
+      headerName: translate('lossOfSkill.lostJobProfiles.table.workforce'),
       filter: 'agNumberColumnFilter',
       flex: 1,
       cellClass: 'amount-cell',
@@ -55,7 +55,7 @@ export class LostJobProfilesComponent {
     },
     {
       field: 'amountOfLeavers',
-      headerName: translate('lossOfSkills.lostJobProfiles.table.leavers'),
+      headerName: translate('lossOfSkill.lostJobProfiles.table.leavers'),
       filter: 'agNumberColumnFilter',
       sort: 'desc',
       flex: 1,
@@ -65,7 +65,7 @@ export class LostJobProfilesComponent {
     },
     {
       field: 'openPositions',
-      headerName: translate('lossOfSkills.lostJobProfiles.table.openPositions'),
+      headerName: translate('lossOfSkill.lostJobProfiles.table.openPositions'),
       filter: 'agNumberColumnFilter',
       flex: 1,
     },
@@ -79,7 +79,7 @@ export class LostJobProfilesComponent {
     const translationKey =
       key === 'workforce' ? 'titleWorkforce' : 'titleLeavers';
     const title = translate(
-      `lossOfSkills.lostJobProfiles.popup.${translationKey}`
+      `lossOfSkill.lostJobProfiles.popup.${translationKey}`
     );
     const total = params.value;
     const employees: string[] =

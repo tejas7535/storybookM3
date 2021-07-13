@@ -8,19 +8,19 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
 import { EmployeesRequest } from '../shared/models';
-import { LossOfSkillsService } from './loss-of-skills.service';
+import { LossOfSkillService } from './loss-of-skill.service';
 import { LostJobProfile } from './models';
 
-describe('LossOfSkillsService', () => {
+describe('LossOfSkillService', () => {
   let httpMock: HttpTestingController;
-  let service: LossOfSkillsService;
-  let spectator: SpectatorService<LossOfSkillsService>;
+  let service: LossOfSkillService;
+  let spectator: SpectatorService<LossOfSkillService>;
 
   const createService = createServiceFactory({
-    service: LossOfSkillsService,
+    service: LossOfSkillService,
     imports: [HttpClientTestingModule],
     providers: [
-      LossOfSkillsService,
+      LossOfSkillService,
       DataService,
       {
         provide: ENV_CONFIG,

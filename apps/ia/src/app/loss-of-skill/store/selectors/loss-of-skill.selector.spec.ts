@@ -1,14 +1,14 @@
-import { LossOfSkillsState } from '..';
+import { LossOfSkillState } from '..';
 import {
   getLostJobProfilesData,
   getLostJobProfilesLoading,
-} from './loss-of-skills.selector';
+} from './loss-of-skill.selector';
 
-describe('LossOfSkills Selector', () => {
+describe('LossOfSkill Selector', () => {
   const fakeState: {
-    lossOfSkills: LossOfSkillsState;
+    lossOfSkill: LossOfSkillState;
   } = {
-    lossOfSkills: {
+    lossOfSkill: {
       lostJobProfiles: {
         loading: true,
         data: [
@@ -35,7 +35,7 @@ describe('LossOfSkills Selector', () => {
   describe('getLostJobProfilesData', () => {
     it('should return the array of lost job profiles', () => {
       expect(getLostJobProfilesData(fakeState)).toEqual(
-        fakeState.lossOfSkills.lostJobProfiles.data
+        fakeState.lossOfSkill.lostJobProfiles.data
       );
     });
   });

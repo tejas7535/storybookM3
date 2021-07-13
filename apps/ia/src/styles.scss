@@ -38,16 +38,19 @@ button {
 }
 
 // Custom Scrollbar for AG Grid
-.ag-root ::-webkit-scrollbar-track {
+.ag-root ::-webkit-scrollbar-track,
+.mat-dialog-content ::-webkit-scrollbar-track {
   background-color: transparent;
 }
 
-.ag-root ::-webkit-scrollbar {
+.ag-root ::-webkit-scrollbar,
+.mat-dialog-content ::-webkit-scrollbar {
   background: transparent;
   width: 8px;
 }
 
-.ag-root ::-webkit-scrollbar-thumb {
+.ag-root ::-webkit-scrollbar-thumb,
+.mat-dialog-content ::-webkit-scrollbar-thumb {
   background-clip: content-box;
   background-color: rgba(0, 0, 0, 0.38);
   border: 0 solid transparent;

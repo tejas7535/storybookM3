@@ -1,15 +1,15 @@
 import { Action } from '@ngrx/store';
 
-import { initialState, lossOfSkillsReducer, reducer } from '.';
+import { initialState, lossOfSkillReducer, reducer } from '.';
 import { EmployeesRequest } from '../../shared/models';
 import { LostJobProfile } from '../models';
 import {
   loadLostJobProfiles,
   loadLostJobProfilesFailure,
   loadLostJobProfilesSuccess,
-} from './actions/loss-of-skills.actions';
+} from './actions/loss-of-skill.actions';
 
-describe('LossOfSkills Reducer', () => {
+describe('LossOfSkill Reducer', () => {
   const errorMessage = 'An error occured';
 
   describe('loadLostJobProfiles', () => {
@@ -17,7 +17,7 @@ describe('LossOfSkills Reducer', () => {
       const action = loadLostJobProfiles({
         request: {} as unknown as EmployeesRequest,
       });
-      const state = lossOfSkillsReducer(initialState, action);
+      const state = lossOfSkillReducer(initialState, action);
 
       expect(state.lostJobProfiles.loading).toBeTruthy();
     });
@@ -38,7 +38,7 @@ describe('LossOfSkills Reducer', () => {
 
       const action = loadLostJobProfilesSuccess({ lostJobProfiles });
 
-      const state = lossOfSkillsReducer(initialState, action);
+      const state = lossOfSkillReducer(initialState, action);
 
       expect(state.lostJobProfiles.loading).toBeFalsy();
       expect(state.lostJobProfiles.data).toEqual(lostJobProfiles);
@@ -54,7 +54,7 @@ describe('LossOfSkills Reducer', () => {
         data: [{ workforce: 10, leavers: 3, job: 'Foo Bar' }],
       };
 
-      const state = lossOfSkillsReducer(fakeState, action);
+      const state = lossOfSkillReducer(fakeState, action);
 
       expect(state.lostJobProfiles.data).toBeUndefined();
       expect(state.lostJobProfiles.loading).toBeFalsy();
@@ -63,11 +63,11 @@ describe('LossOfSkills Reducer', () => {
   });
 
   describe('Reducer function', () => {
-    test('should return lossOfSkillsReducer', () => {
+    test('should return lossOfSkillReducer', () => {
       // prepare any action
       const action: Action = { type: 'Test' };
       expect(reducer(initialState, action)).toEqual(
-        lossOfSkillsReducer(initialState, action)
+        lossOfSkillReducer(initialState, action)
       );
     });
   });

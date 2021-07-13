@@ -9,29 +9,29 @@ import { StoreModule } from '@ngrx/store';
 import { SharedTranslocoModule } from '@schaeffler/transloco';
 
 import { SharedModule } from '../shared/shared.module';
-import { LossOfSkillsRoutingModule } from './loss-of-skills-routing.module';
-import { LossOfSkillsComponent } from './loss-of-skills.component';
+import { LossOfSkillRoutingModule } from './loss-of-skill-routing.module';
+import { LossOfSkillComponent } from './loss-of-skill.component';
 import { LostJobProfilesModule } from './lost-job-profiles/lost-job-profiles.module';
 import { RiskOfLeavingModule } from './risk-of-leaving/risk-of-leaving.module';
-import * as fromLossOfSkills from './store';
-import { LossOfSkillsEffects } from './store/effects/loss-of-skills.effects';
+import * as fromLossOfSkill from './store';
+import { LossOfSkillEffects } from './store/effects/loss-of-skill.effects';
 
 @NgModule({
-  declarations: [LossOfSkillsComponent],
+  declarations: [LossOfSkillComponent],
   imports: [
     SharedModule,
-    LossOfSkillsRoutingModule,
+    LossOfSkillRoutingModule,
     SharedTranslocoModule,
     StoreModule.forFeature(
-      fromLossOfSkills.lossOfSkillsFeatureKey,
-      fromLossOfSkills.reducer
+      fromLossOfSkill.lossOfSkillFeatureKey,
+      fromLossOfSkill.reducer
     ),
-    EffectsModule.forFeature([LossOfSkillsEffects]),
+    EffectsModule.forFeature([LossOfSkillEffects]),
     LostJobProfilesModule,
     RiskOfLeavingModule,
     MatCardModule,
     ReactiveComponentModule,
   ],
-  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'loss-of-skills' }],
+  providers: [{ provide: TRANSLOCO_SCOPE, useValue: 'loss-of-skill' }],
 })
-export class LossOfSkillsModule {}
+export class LossOfSkillModule {}

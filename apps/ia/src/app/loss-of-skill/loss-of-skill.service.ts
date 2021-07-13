@@ -14,7 +14,7 @@ import { LostJobProfile, LostJobProfilesResponse } from './models';
 @Injectable({
   providedIn: 'root',
 })
-export class LossOfSkillsService {
+export class LossOfSkillService {
   readonly LOST_JOB_PROFILES = 'lost-job-profiles';
 
   constructor(
