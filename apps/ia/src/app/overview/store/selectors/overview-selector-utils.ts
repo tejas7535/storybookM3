@@ -56,7 +56,7 @@ export function isDateInTimeRange(
   if (!dateToTest || !timeRange) {
     return false;
   }
-  const dateToTestP = new Date(dateToTest);
+  const dateToTestP = new Date(+dateToTest);
   const timeRangeArr = timeRange.split('|');
   const timeRangeStart = new Date(Number(timeRangeArr[0]));
   const timeRangeEnd = new Date(Number(timeRangeArr[1]));

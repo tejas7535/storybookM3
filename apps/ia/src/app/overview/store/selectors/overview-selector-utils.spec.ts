@@ -20,7 +20,7 @@ describe('OverviewSelectorUtils', () => {
     {
       employeeId: '1',
       orgUnit: 'Schaeffler_IT',
-      internalExitDate: new Date(2020, 5, 1),
+      internalExitDate: new Date(2020, 5, 1).valueOf().toString(),
     },
     { employeeId: '2', orgUnit: 'Schaeffler_HR' },
     {
@@ -101,7 +101,7 @@ describe('OverviewSelectorUtils', () => {
     const timeRange = '1577863715000|1609399715000'; // 01.01.2020 - 31.12.2020
 
     test('should return true when data in range', () => {
-      const date = '2020-05-15';
+      const date = new Date(2020, 5, 5).valueOf().toString();
 
       const result = utils.isDateInTimeRange(timeRange, date);
 
@@ -109,7 +109,7 @@ describe('OverviewSelectorUtils', () => {
     });
 
     test('should return false when data out of range', () => {
-      const date = '2021-05-15';
+      const date = new Date(2021, 5, 15).valueOf().toString();
 
       const result = utils.isDateInTimeRange(timeRange, date);
 

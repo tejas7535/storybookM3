@@ -11,6 +11,7 @@ import {
   triggerLoad,
 } from '../../../core/store/actions';
 import { getCurrentFiltersAndTime } from '../../../core/store/selectors';
+import { OrganizationalViewService } from '../../../organizational-view/organizational-view.service';
 import {
   AttritionOverTime,
   EmployeesRequest,
@@ -19,7 +20,6 @@ import {
   TimePeriod,
 } from '../../../shared/models';
 import { OverviewFluctuationRates } from '../../../shared/models/overview-fluctuation-rates.model';
-import { EmployeeService } from '../../../shared/services/employee.service';
 import { OpenApplication, ResignedEmployee } from '../../models';
 import { OverviewService } from '../../overview.service';
 import {
@@ -46,8 +46,8 @@ import { OverviewEffects } from './overview.effects';
 describe('Overview Effects', () => {
   let spectator: SpectatorService<OverviewEffects>;
   let actions$: any;
-  let employeesService: EmployeeService;
   let overviewService: OverviewService;
+  let organizationalViewService: OrganizationalViewService;
   let action: any;
   let effects: OverviewEffects;
   let store: MockStore;
@@ -62,13 +62,13 @@ describe('Overview Effects', () => {
       provideMockActions(() => actions$),
       provideMockStore({}),
       {
-        provide: EmployeeService,
+        provide: OverviewService,
         useValue: {
-          getInitialFilters: jest.fn(),
+          getResignedEmployees: jest.fn(),
         },
       },
       {
-        provide: OverviewService,
+        provide: OrganizationalViewService,
         useValue: {
           getResignedEmployees: jest.fn(),
         },
@@ -80,8 +80,8 @@ describe('Overview Effects', () => {
     spectator = createService();
     actions$ = spectator.inject(Actions);
     effects = spectator.inject(OverviewEffects);
-    employeesService = spectator.inject(EmployeeService);
     overviewService = spectator.inject(OverviewService);
+    organizationalViewService = spectator.inject(OrganizationalViewService);
     store = spectator.inject(MockStore);
   });
 
@@ -176,7 +176,7 @@ describe('Overview Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getAttritionOverTime = jest
+        organizationalViewService.getAttritionOverTime = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -184,10 +184,9 @@ describe('Overview Effects', () => {
           expected
         );
         m.flush();
-        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-          request,
-          TimePeriod.LAST_THREE_YEARS
-        );
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(request, TimePeriod.LAST_THREE_YEARS);
       })
     );
 
@@ -202,7 +201,7 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getAttritionOverTime = jest
+        organizationalViewService.getAttritionOverTime = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -210,10 +209,9 @@ describe('Overview Effects', () => {
           expected
         );
         m.flush();
-        expect(employeesService.getAttritionOverTime).toHaveBeenCalledWith(
-          request,
-          TimePeriod.LAST_THREE_YEARS
-        );
+        expect(
+          organizationalViewService.getAttritionOverTime
+        ).toHaveBeenCalledWith(request, TimePeriod.LAST_THREE_YEARS);
       })
     );
   });
@@ -245,14 +243,14 @@ describe('Overview Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getOverviewFluctuationRates = jest.fn(() => response);
+        overviewService.getOverviewFluctuationRates = jest.fn(() => response);
 
         m.expect(effects.loadOverviewFluctuationRates$).toBeObservable(
           expected
         );
         m.flush();
         expect(
-          employeesService.getOverviewFluctuationRates
+          overviewService.getOverviewFluctuationRates
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -279,14 +277,14 @@ describe('Overview Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getFluctuationRateChartData = jest.fn(() => response);
+        overviewService.getFluctuationRateChartData = jest.fn(() => response);
 
         m.expect(effects.loadFluctuationRatesChartData$).toBeObservable(
           expected
         );
         m.flush();
         expect(
-          employeesService.getFluctuationRateChartData
+          overviewService.getFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -302,7 +300,7 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getFluctuationRateChartData = jest
+        overviewService.getFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -311,7 +309,7 @@ describe('Overview Effects', () => {
         );
         m.flush();
         expect(
-          employeesService.getFluctuationRateChartData
+          overviewService.getFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -338,7 +336,7 @@ describe('Overview Effects', () => {
         });
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getUnforcedFluctuationRateChartData = jest.fn(
+        overviewService.getUnforcedFluctuationRateChartData = jest.fn(
           () => response
         );
 
@@ -347,7 +345,7 @@ describe('Overview Effects', () => {
         );
         m.flush();
         expect(
-          employeesService.getUnforcedFluctuationRateChartData
+          overviewService.getUnforcedFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );
@@ -363,7 +361,7 @@ describe('Overview Effects', () => {
         const response = m.cold('-#|', undefined, error);
         const expected = m.cold('--b', { b: result });
 
-        employeesService.getUnforcedFluctuationRateChartData = jest
+        overviewService.getUnforcedFluctuationRateChartData = jest
           .fn()
           .mockImplementation(() => response);
 
@@ -372,7 +370,7 @@ describe('Overview Effects', () => {
         );
         m.flush();
         expect(
-          employeesService.getUnforcedFluctuationRateChartData
+          overviewService.getUnforcedFluctuationRateChartData
         ).toHaveBeenCalledWith(request);
       })
     );

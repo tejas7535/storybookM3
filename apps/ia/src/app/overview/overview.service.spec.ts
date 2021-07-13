@@ -7,6 +7,7 @@ import { createServiceFactory, SpectatorService } from '@ngneat/spectator';
 
 import { DataService, ENV_CONFIG } from '@schaeffler/http';
 
+import { EmployeesRequest, FluctuationRatesChartData } from '../shared/models';
 import { OpenApplication, ResignedEmployeesResponse } from './models';
 import { RecruitmentSource } from './models/recruitment-source.enum';
 import { OverviewService } from './overview.service';
@@ -40,6 +41,46 @@ describe('OverviewService', () => {
 
   afterEach(() => {
     httpMock.verify();
+  });
+
+  describe('getFluctuationRateChartData', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const request = { orgUnit } as unknown as EmployeesRequest;
+
+      const response = {} as FluctuationRatesChartData;
+
+      service.getFluctuationRateChartData(request).subscribe((result) => {
+        expect(result).toEqual(response);
+      });
+
+      const req = httpMock.expectOne(
+        `/fluctuation-rates-chart?org_unit=${orgUnit}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
+  });
+
+  describe('getUnforcedFluctuationRateChartData', () => {
+    test('should call rest service', () => {
+      const orgUnit = 'Schaeffler12';
+      const request = { orgUnit } as unknown as EmployeesRequest;
+
+      const response = {} as FluctuationRatesChartData;
+
+      service
+        .getUnforcedFluctuationRateChartData(request)
+        .subscribe((result) => {
+          expect(result).toEqual(response);
+        });
+
+      const req = httpMock.expectOne(
+        `/unforced-fluctuation-rates-chart?org_unit=${orgUnit}`
+      );
+      expect(req.request.method).toBe('GET');
+      req.flush(request);
+    });
   });
 
   describe('getResignedEmployees', () => {
