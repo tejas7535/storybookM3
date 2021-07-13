@@ -9,7 +9,7 @@ import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Params } from '@angular/router';
 
 import { Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
+import { map, pairwise, startWith, takeUntil, tap } from 'rxjs/operators';
 
 import {
   DynamicFormTemplateContext,
@@ -38,6 +38,10 @@ import {
   RSY_BEARING_TYPE,
   RSY_PAGE_BEARING_TYPE,
 } from '../shared/constants/dialog-constant';
+import {
+  FormValue,
+  FormValueProperty,
+} from './../shared/models/home/form-value.model';
 import { HomeStore } from './home.component.store';
 import { PagedMeta } from './home.model';
 
@@ -84,7 +88,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private initialNestedMetas: NestedPropertyMeta[];
 
-  private initialFormValue: any;
+  private initialFormValue: FormValue;
   private initialPageId: string = RSY_PAGE_BEARING_TYPE;
   private form: FormGroup;
 
@@ -119,6 +123,16 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.initialNestedMetas = nestedMetas;
     this.form = form;
     this.initialFormValue = form.value;
+    this.form.valueChanges
+      .pipe(startWith(false), pairwise())
+      .subscribe(([prev, next]: [FormValue, FormValue]) => {
+        if (!prev || !next) {
+          return;
+        }
+        const actualNext = this.getResetedFormValue(prev, next);
+        this.form.reset(actualNext, { onlySelf: true, emitEvent: false });
+      });
+
     this.homeStore.setPageMetas(nestedMetas);
   }
 
@@ -152,6 +166,36 @@ export class HomeComponent implements OnInit, OnDestroy {
       form: this.form,
     } as DynamicFormTemplateContext);
     this.homeStore.setActivePageId(this.initialPageId);
+  }
+
+  private getResetedFormValue(prev: FormValue, next: FormValue): FormValue {
+    const prevProperties = prev.objects[0].properties;
+    const nextProperties = next.objects[0].properties;
+    const startIndex = nextProperties.findIndex(
+      (property: FormValueProperty, index: number) =>
+        property.value !== prevProperties[index].value
+    );
+
+    if (startIndex > -1 && startIndex < nextProperties.length) {
+      const actualNextProperties = nextProperties.map(
+        (property: FormValueProperty, index: number) =>
+          index > startIndex
+            ? this.initialFormValue.objects[0].properties[index]
+            : property
+      );
+
+      return {
+        ...next,
+        objects: [
+          {
+            ...next.objects[0],
+            properties: [...actualNextProperties],
+          },
+        ],
+      };
+    }
+
+    return next;
   }
 
   private handleRouteParams(): void {
@@ -234,5 +278,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     return true;
+  }
+
+  public measuringMethodSet(): boolean {
+    const currentValue: FormValue = this.form.value;
+    const measuringMethodProperty = currentValue.objects[0].properties.find(
+      (property: FormValueProperty) => property.name === IDMM_MEASSURING_METHOD
+    );
+
+    return measuringMethodProperty.value ? true : false;
   }
 }

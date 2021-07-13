@@ -20,6 +20,7 @@ import { PagesStepperComponent } from '../core/components/pages-stepper/pages-st
 import { PagesStepperModule } from '../core/components/pages-stepper/pages-stepper.module';
 import { MMLocales, RestService } from '../core/services';
 import { LocaleService } from '../core/services/locale/locale.service';
+import { FormValue, FormValueProperty } from '../shared/models';
 import { SharedModule } from '../shared/shared.module';
 import { BearingSearchModule } from './bearing-search/bearing-search.module';
 import { HomeComponent } from './home.component';
@@ -183,27 +184,47 @@ describe('HomeComponent', () => {
     });
   });
 
-  it('dynamicFormLoaded should call store', () => {
-    Object.defineProperty(component['homeStore'], 'setPageMetas', {
-      value: jest.fn(),
-    });
-    const mockNestedMeta = [
-      {
-        metas: [],
-        children: [],
-      },
-    ] as NestedPropertyMeta[];
-    const mockedDynamicTemplate = {
-      nestedMetas: mockNestedMeta,
-      form: {
-        value: 'yes',
-      },
-    } as DynamicFormTemplateContext;
-    component.dynamicFormLoaded(mockedDynamicTemplate);
+  describe('#dynamicFormLoaded', () => {
+    it('dynamicFormLoaded should call store', () => {
+      Object.defineProperty(component['homeStore'], 'setPageMetas', {
+        value: jest.fn(),
+      });
+      const mockNestedMeta = [
+        {
+          metas: [],
+          children: [],
+        },
+      ] as NestedPropertyMeta[];
+      const mockedDynamicTemplate = {
+        nestedMetas: mockNestedMeta,
+        form: {
+          value: 'yes',
+          valueChanges: of({
+            objects: [
+              {
+                properties: [
+                  {
+                    name: 'test control',
+                    value: undefined,
+                    initialValue: undefined,
+                  } as FormValueProperty,
+                  {
+                    name: 'test control 2',
+                    value: 'some value',
+                    initialValue: undefined,
+                  } as FormValueProperty,
+                ],
+              },
+            ],
+          } as FormValue),
+        },
+      } as DynamicFormTemplateContext;
+      component.dynamicFormLoaded(mockedDynamicTemplate);
 
-    expect(component['homeStore'].setPageMetas).toHaveBeenCalledWith(
-      mockNestedMeta
-    );
+      expect(component['homeStore'].setPageMetas).toHaveBeenCalledWith(
+        mockNestedMeta
+      );
+    });
   });
 
   describe('next', () => {
@@ -252,6 +273,78 @@ describe('HomeComponent', () => {
     });
   });
 
+  describe('#getResetedFormValue', () => {
+    const control1: FormValueProperty = {
+      name: 'control1',
+      value: 'value1',
+      initialValue: 'initValue1',
+      dimension1: undefined,
+    };
+    const control2: FormValueProperty = {
+      name: 'control2',
+      value: 'value2',
+      initialValue: 'initValue2',
+      dimension1: undefined,
+    };
+    beforeEach(() => {
+      component['initialFormValue'] = {
+        objects: [
+          {
+            properties: [
+              { ...control1, value: control1.initialValue },
+              { ...control2, value: control2.initialValue },
+            ],
+          },
+        ],
+      };
+    });
+    it('should reset all following controls', () => {
+      const prev: FormValue = {
+        objects: [
+          {
+            properties: [control1, control2],
+          },
+        ],
+      };
+
+      const next: FormValue = {
+        objects: [
+          {
+            properties: [{ ...control1, value: 'new value' }, control2],
+          },
+        ],
+      };
+
+      const resetedFormValue = component['getResetedFormValue'](prev, next);
+
+      expect(resetedFormValue.objects[0].properties[0].value).toEqual(
+        'new value'
+      );
+      expect(resetedFormValue.objects[0].properties[1].value).toEqual(
+        'initValue2'
+      );
+    });
+
+    it('should return next if nothing has changed', () => {
+      const next: FormValue = {
+        objects: [
+          {
+            properties: [control1, control2],
+          },
+        ],
+      };
+
+      const resetedFormValue = component['getResetedFormValue'](next, next);
+
+      expect(resetedFormValue.objects[0].properties[0].value).toEqual(
+        control1.value
+      );
+      expect(resetedFormValue.objects[0].properties[1].value).toEqual(
+        control2.value
+      );
+    });
+  });
+
   describe('#hasHeadline', () => {
     it('should return false if id in noHeadlineIds', () => {
       const pageId = 'RSY_BEARING_TYPE';
@@ -273,6 +366,54 @@ describe('HomeComponent', () => {
 
       expect(result1).toBe(true);
       expect(result2).toBe(true);
+    });
+  });
+
+  describe('#measuringMethodSet', () => {
+    it('should return true if measuring method has a value', () => {
+      component['form'] = {
+        value: {
+          objects: [
+            {
+              properties: [
+                {
+                  name: 'IDMM_MEASSURING_METHOD',
+                  value: 'value is here',
+                  initialValue: undefined,
+                  dimension1: undefined,
+                },
+              ],
+            },
+          ],
+        },
+      } as FormGroup;
+
+      const result = component.measuringMethodSet();
+
+      expect(result).toBe(true);
+    });
+
+    it('should return false if measuring method has no value', () => {
+      component['form'] = {
+        value: {
+          objects: [
+            {
+              properties: [
+                {
+                  name: 'IDMM_MEASSURING_METHOD',
+                  value: undefined,
+                  initialValue: undefined,
+                  dimension1: undefined,
+                },
+              ],
+            },
+          ],
+        },
+      } as FormGroup;
+
+      const result = component.measuringMethodSet();
+
+      expect(result).toBe(false);
     });
   });
 });

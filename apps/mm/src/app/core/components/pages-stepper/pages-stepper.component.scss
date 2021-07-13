@@ -11,7 +11,7 @@
 }
 
 ::ng-deep mat-horizontal-stepper .mat-horizontal-content-container {
-  @apply pb-0;
+  @apply pb-0 pl-4;
 }
 
 ::ng-deep
@@ -22,4 +22,18 @@
 
 ::ng-deep .mat-stepper-horizontal {
   @apply bg-transparent;
+}
+
+::ng-deep .mat-horizontal-stepper-header-container {
+  :first-child {
+    @apply pl-4;
+
+    mat-icon {
+      @apply pl-0;
+    }
+  }
+
+  :last-child {
+    @apply pr-4;
+  }
 }
