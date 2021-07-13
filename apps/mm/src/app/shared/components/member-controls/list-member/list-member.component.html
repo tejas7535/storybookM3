@@ -21,46 +21,50 @@
               : ''
           "
         >
-          <schaeffler-dropdown-input
-            *ngIf="
-              isDropdownInput(meta.member?.type, meta.member?.id);
-              else select
-            "
-            [label]="
-              meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
-              meta.page.id === PROPERTY_PAGE_MOUNTING
-                ? meta.member.text
-                : undefined
-            "
-            [options]="options$ | ngrxPush"
-            [formControl]="control"
-            [placeholder]="
-              t('form.select', { fieldname: meta.member.text | transloco })
-            "
-          ></schaeffler-dropdown-input>
-          <ng-template #select>
-            <mm-select-member
-              [placeholder]="
-                meta.member.id === 'IDMM_MEASSURING_METHOD'
-                  ? t('form.select', {
-                      fieldname: meta.member.text | transloco
-                    })
-                  : ''
+          <ng-container *ngIf="(options$ | ngrxPush).length > 0">
+            <schaeffler-dropdown-input
+              *ngIf="
+                isDropdownInput(meta.member?.type, meta.member?.id);
+                else select
+              "
+              [label]="
+                meta.page.id === PROPERTY_PAGE_MOUNTING_SITUATION_SUB ||
+                meta.page.id === PROPERTY_PAGE_MOUNTING
+                  ? meta.member.text
+                  : undefined
               "
               [options]="options$ | ngrxPush"
-            ></mm-select-member>
-          </ng-template>
+              [formControl]="control"
+              [placeholder]="
+                t('form.select', { fieldname: meta.member.text | transloco })
+              "
+            ></schaeffler-dropdown-input>
+            <ng-template #select>
+              <mm-select-member
+                [placeholder]="
+                  meta.member.id === 'IDMM_MEASSURING_METHOD'
+                    ? t('form.select', {
+                        fieldname: meta.member.text | transloco
+                      })
+                    : ''
+                "
+                [options]="options$ | ngrxPush"
+              ></mm-select-member>
+            </ng-template>
+          </ng-container>
         </div>
       </ng-container>
     </ng-container>
   </ng-template>
 
   <ng-template #pictureCardList>
-    <mm-picture-card-list
-      [options]="options$ | ngrxPush"
-      [formControl]="control"
-      [translationRequired]="meta.member.type === 'list'"
-    ></mm-picture-card-list>
+    <ng-container *ngIf="(options$ | ngrxPush).length > 0">
+      <mm-picture-card-list
+        [options]="options$ | ngrxPush"
+        [formControl]="control"
+        [translationRequired]="meta.member.type === 'list'"
+      ></mm-picture-card-list>
+    </ng-container>
   </ng-template>
 
   <ng-template #loading>

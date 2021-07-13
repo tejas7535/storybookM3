@@ -11,7 +11,7 @@
       *caeLayout="let metaArray; let pages = pages; let form = form"
       class="content"
     >
-      <div class="-mx-6">
+      <div class="-mx-4">
         <mm-pages-stepper
           #stepper
           [pages]="pages"
@@ -82,6 +82,7 @@
                       class="mt-4"
                     >
                       <schaeffler-horizontal-separator
+                        *ngIf="measuringMethodSet()"
                         [text]="
                           t('form.select', {
                             fieldname: meta.member.text | transloco
